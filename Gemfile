@@ -28,23 +28,23 @@ group :assets do
 end
 
 group :development, :test do
-##  gem 'rspec'
-##  gem 'rspec-rails'
-##  gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
-##  gem 'database_cleaner'
-##  gem 'webrat'
-##  gem 'guard-rspec'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
+  gem 'database_cleaner'
+  gem 'webrat'
+  gem 'guard-rspec'
 end
 
 group :test do
-##  gem 'capybara'
+  gem 'capybara'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
-##  gem 'rb-inotify'
-##  gem 'libnotify'
+  gem 'rb-inotify'
+  gem 'libnotify'
   # Spork support
-##  gem 'guard-spork', '0.3.2'
-##  gem 'spork', '0.9.0'
+  gem 'guard-spork', '0.3.2'
+  gem 'spork', '0.9.0'
 end
 
 gem 'jquery-rails'
