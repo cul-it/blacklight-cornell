@@ -6,6 +6,7 @@ gem 'rails', '3.2.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'mysql', '~>2.8.1'
 
 gem 'blacklight','~> 4.0.0'
 gem 'blacklight_range_limit'

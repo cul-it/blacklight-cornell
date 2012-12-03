@@ -2,21 +2,149 @@
 require 'blacklight/catalog'
 
 class CatalogController < ApplicationController
- # include BlacklightGoogleAnalytics::ControllerExtraHead
-  
+  #include BlacklightGoogleAnalytics::ControllerExtraHead
 
   include Blacklight::Catalog
-#  include BlacklightHighlight::ControllerExtension
-  include BlacklightAdvancedSearch::ParseBasicQ
 #  include BlacklightUnapi::ControllerExtension
-
+  include BlacklightAdvancedSearch::ParseBasicQ
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
 
     config.default_solr_params = { 
       :qt => 'search',
-      :rows => 20 
+      :rows => 20,
+      :fl => '*,score'
+    }
+
+    ## list of display fields with icon
+    config.display_icon = {
+        'format' => 1
+    }
+
+    ## list of clickable display fields mapped to target index field
+    ## target index field should be defined in add_search_field later this file
+    ## target index field is searched when this link is clicked
+    config.display_clickable = {
+        'author_display' => 'author/creator',
+        'author_addl_display' => 'author/creator',
+        'subject_display' => {
+            :search_field => 'subject',
+            :sep => '|',
+            :sep_index => ' ',
+            :sep_display => ' > ',
+            :hierarchical => true
+        },
+        'title_uniform_display' => 'title',
+        'title_series_display'  => 'title',
+        'continues_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'continues_in_part_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'supersedes_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'absorbed_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'absorbed_in_part_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'continued_by_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'continued_in_part_by_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'superseded_by_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'absorbed_by_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'absorbed_in_part_by_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'split_into_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'merger_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'translation_of_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'has_translation_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'other_edition_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'has_supplement_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'supplement_to_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'other_form_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        },
+        'issued_with_display' => {
+            :search_field => 'title',
+            :sep => '|',
+            :key_value => true
+        }
+    }
+
+    config.display_link = {
+        'url_access_display' => { :label => 'Access content' },
+        'url_toc_display'    => { :label => 'Access table of contents' },
+        'url_other_display'  => { :label => 'Access content' }
+    }
+
+    ## custom multi-valued fields separator
+    config.multiline_display_fields = {
+        'pub_info_display' => '<br/>',
+        'edition_display' => '<br/>',
+        'subject_display' => '<br/>'
     }
 
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or 
@@ -64,11 +192,17 @@ class CatalogController < ApplicationController
   :assumed_boundaries => [1300, Time.now.year + 2],
   :segments => true    
 }, :show => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20 
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => 10 #, :show => true
+#    config.add_facet_field 'pub_date_sort', :label => 'Publication Year', :range => {
+#  :num_segments => 6,
+#  :assumed_boundaries => [1300, Time.now.year + 2],
+#  :segments => true    
+#}, :show => true
+    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 5 
+    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 3 
-    config.add_facet_field 'subject_geo_facet', :label => 'Region' 
-    config.add_facet_field 'subject_era_facet', :label => 'Era'  
+    config.add_facet_field 'subject_geo_facet', :label => 'Region', :limit => 5
+    config.add_facet_field 'subject_era_facet', :label => 'Era', :limit => 5  
+    config.add_facet_field 'location_facet', :label => 'Location', :limit => 5  
 
 
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
@@ -96,10 +230,12 @@ class CatalogController < ApplicationController
     config.add_index_field 'author_vern_display', :label => 'Author:' 
     config.add_index_field 'format', :label => 'Format:' 
     config.add_index_field 'language_facet', :label => 'Language:'
-    config.add_index_field 'published_display', :label => 'Published:'
+    #config.add_index_field 'published_display', :label => 'Published:'
     config.add_index_field 'published_vern_display', :label => 'Published:'
     config.add_index_field 'lc_callnum_display', :label => 'Call number:'
-    config.add_index_field 'pub_date', :label => 'Publication Date:'
+    #config.add_index_field 'pub_date', :label => 'Publication Date:'
+    config.add_index_field 'pub_info_display', :label => 'Publication:'
+    config.add_index_field 'edition_display', :label => 'Edition:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
@@ -107,17 +243,49 @@ class CatalogController < ApplicationController
     config.add_show_field 'title_vern_display', :label => 'Title:' 
     config.add_show_field 'subtitle_display', :label => 'Subtitle:' 
     config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:' 
+    config.add_show_field 'title_uniform_display', :label => 'Uniform Title:'
+    config.add_show_field 'title_series_display', :label => 'Series Title:'
+    config.add_show_field 'continues_display', :label => 'Continues:'
+    config.add_show_field 'continues_in_part_display', :label => 'Continues in Part:'
+    config.add_show_field 'supersedes_display', :label => 'Supersedes:'
+    config.add_show_field 'absorbed_display', :label => 'Absorbed:'
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in Part:'
+    config.add_show_field 'continued_by_display', :label => 'Continued by:'
+    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in Part by:'
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by:'
+    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by:'
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in Part by:'
+    config.add_show_field 'split_into_display', :label => 'Split into:'
+    config.add_show_field 'merger_display', :label => 'Merger:'
+    config.add_show_field 'translation_of_display', :label => 'Translation of:'
+    config.add_show_field 'has_translation_display', :label => 'Has Translation:'
+    config.add_show_field 'other_edition_display', :label => 'Other Edition:'
+    config.add_show_field 'has_supplement_display', :label => 'Has Supplement:'
+    config.add_show_field 'supplement_to_display', :label => 'Supplement to:'
+    config.add_show_field 'other_form_display', :label => 'Other Form:'
+    config.add_show_field 'issued_with_display', :label => 'Issued With'
     config.add_show_field 'author_display', :label => 'Author:' 
-    config.add_show_field 'author_vern_display', :label => 'Author:' 
+    config.add_show_field 'author_vern_display', :label => 'Author:'
+    config.add_show_field 'author_addl_display', :label => 'Other Author:'
     config.add_show_field 'format', :label => 'Format:' 
     config.add_show_field 'url_fulltext_display', :label => 'URL:'
     config.add_show_field 'url_suppl_display', :label => 'More Information:'
     config.add_show_field 'language_facet', :label => 'Language:'
-    config.add_show_field 'published_display', :label => 'Published:'
+    #config.add_show_field 'published_display', :label => 'Published:'
     config.add_show_field 'published_vern_display', :label => 'Published:'
     config.add_show_field 'lc_callnum_display', :label => 'Call number:'
+    config.add_show_field 'description_display', :label => 'Description:'
     config.add_show_field 'isbn_t', :label => 'ISBN:'
-    config.add_show_field 'pub_date', :label => 'Publication Date'
+    #config.add_show_field 'pub_date', :label => 'Publication Date'
+    config.add_show_field 'pub_info_display', :label => 'Publication:'
+    config.add_show_field 'edition_display', :label => 'Edition:'
+    config.add_show_field 'notes_display', :label => 'Notes:'
+    config.add_show_field 'contents_display', :label => 'Table of Contents:'
+    config.add_show_field 'partial_contents_display', :label => 'Partial Table of Contents:'
+    config.add_show_field 'subject_display', :label => 'Subject: '
+     config.add_show_field 'url_access_display', :label => 'Content Link:'
+     config.add_show_field 'url_toc_display', :label => 'Table of Contents Link:'
+     config.add_show_field 'url_other_display', :label => 'Content Link:'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -157,6 +325,21 @@ class CatalogController < ApplicationController
         :pf => '$title_pf'
       }
     end
+
+    # config.add_search_field('title abbreviation', :qt => 'standard') do |field|  
+    #   # solr_parameters hash are sent to Solr as ordinary url query params.   
+    #   field.solr_parameters = {  
+    #     :'spellcheck.dictionary' => 'title_ngram'  
+    #   }  
+  
+    #   # :solr_local_parameters will be sent using Solr LocalParams  
+    #   # syntax, as eg {! qf=$title_qf }. This is neccesary to use  
+    #   # Solr parameter de-referencing like $title_qf.  
+    #   # See: http://wiki.apache.org/solr/LocalParams  
+    #   field.cornell_solr_parameters = {  
+    #     :query_field => 'title_ngram'  
+    #   }  
+    # end
     
     #config.add_search_field(
     #    :value => 'author/creator',

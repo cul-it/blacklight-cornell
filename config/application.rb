@@ -8,8 +8,8 @@ if defined?(Bundler)
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
-
-module Monblacklight4
+require File.expand_path('../../lib/james_monkeys', __FILE__)
+module BlacklightCornell
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
