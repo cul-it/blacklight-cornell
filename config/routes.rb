@@ -1,9 +1,21 @@
 BlacklightCornell::Application.routes.draw do
+
+  match 'request/hold/:netid/:id' => 'request#hold', :as =>'request_hold' , :constraints => { :id => /.+/}
+
+  match 'request/recall/:netid/:id' => 'request#recall', :as =>'request_recall'
+
+  match 'request/callslip/:netid/:id' =>'request#callslip', :as =>'request_callslip'
+
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
 
   devise_for :users
+
+  match 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
+  match 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
+  match 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
+  match 'backend/feedback_mail', :to => "backend#feedback_mail"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

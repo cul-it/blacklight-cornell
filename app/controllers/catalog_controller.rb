@@ -5,7 +5,7 @@ class CatalogController < ApplicationController
   #include BlacklightGoogleAnalytics::ControllerExtraHead
 
   include Blacklight::Catalog
-#  include BlacklightUnapi::ControllerExtension
+  include BlacklightUnapi::ControllerExtension
   include BlacklightAdvancedSearch::ParseBasicQ
 
   configure_blacklight do |config|

@@ -1,0 +1,78 @@
+- ho = 'http://'+request.env['HTTP_HOST']
+- dx = request.env['HTTP_HOST']
+- cop = dx.index(':')
+- dx = dx[0..cop-1] unless (cop.nil?)
+- dx = 'http://' + dx
+%h1 Request#hold
+%h2
+  Request this item: 
+  %b=@ti
+  %br
+  By
+  %br
+  %b=@netid
+  %br
+  %form{:id => 'req', :method => 'post', :action => "#{dx}:8950/holdings/hold/#{@netid}/#{@id}"}
+    :javascript 
+      $(function() {
+      $('#req').submit( function(e) {
+      return false;
+      });
+      $('#sumbit').click(function(e) {
+        var hu = $('#req').attr('action') + '/' + $('#PICK').val();
+        $('#result').html("Working....");
+        $.ajax({
+             type: 'POST',
+             url:hu,
+             dataType: 'json',
+             success: function(data) {
+               var st=data.status;
+               var desc= (st == 'success') ? 'succeeded' : 'failed';
+               $('#result').html("Your request for hold has "+desc);
+             }
+         });
+         return false; // should block the submit
+      });
+      });
+    %input(type="hidden" name="bid" value="#{@id}")
+    Pick up at this Library:
+    %select( id="PICK")
+      %option(value="149") Africana Circulation
+      %option(value="151") Annex Circulation
+      %option(value="224") Faculty Department Office 
+      %option(value="160") Fine Arts Circulation 
+      %option(value="162") Geneva Circulation
+      %option(value="167") ILR Circulation
+      %option(value="162") Geneva Circulation
+      %option(value="171") Law Circulation
+      %option(value="241") Management Circulation
+      %option(value="172") Mann Circulation
+      %option(value="176") Math Circulation
+      %option(value="179") Music Circulation
+      %option(value="228") NYC-AAP Remote Program
+      %option(value="181") Olin Circulation
+      %option(value="219") Ornithology Circulation
+      %option(value="186") RMC Circulation
+      %option(value="188") Uris Circulation
+      %option(value="189") Vet Circulation
+    %br
+    %input(type="radio" name="copy") Any Copy
+    -count=0
+    -@h.each do |full|
+      -full.each do |loc|
+        -if (count > 0 ) then
+          -loc.each do |lib|
+            %br
+            %input(value="#{lib['holding_id'][0]}" type="radio" name="copy")
+            =lib['location_name'] + ' ' + lib['call_number']
+        -count+=1
+    %br
+    Comments:
+    %br
+    %textarea
+    %br
+    %input(type="submit" id="sumbit" value="Submit request for hold")
+    %input(type="reset" id="reest" value="Clear form")
+    %br
+    %div(id="result" name="result" value="")
+%p Find me in app/views/request/hold.html.haml
