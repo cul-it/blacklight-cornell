@@ -144,7 +144,8 @@ class CatalogController < ApplicationController
     config.multiline_display_fields = {
         'pub_info_display' => '<br/>',
         'edition_display' => '<br/>',
-        'subject_display' => '<br/>'
+        'subject_display' => '<br/>',
+        'notes_display' => '<br/>'
     }
 
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or 
