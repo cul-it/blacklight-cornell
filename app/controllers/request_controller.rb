@@ -13,8 +13,9 @@ class RequestController < ApplicationController
     logger.debug  "info : #{@document}" 
     logger.debug  @document.to_s 
     logger.debug  @document.inspect 
-    logger.debug  @document._source['title_display']
-    @ti =  @document._source['title_display']
+    #logger.debug  @document._source
+    logger.debug  @document[:title_display]
+    @ti =  @document[:title_display]
     @netid =  params[:netid]
     @id =  params[:id]
     if (!@hd.nil?) 
