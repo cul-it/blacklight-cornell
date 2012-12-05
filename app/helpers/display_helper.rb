@@ -14,6 +14,10 @@ module DisplayHelper
 
   end
 
+  def field_value_separator
+    '<br/>'
+  end
+
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     link = args[:value]

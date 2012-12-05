@@ -3,15 +3,10 @@
 - cop = dx.index(':')
 - dx = dx[0..cop-1] unless (cop.nil?)
 - dx = 'http://' + dx
-%h1 Request#recall
-%h2
-  Recall this item: 
+%p
+  Request that this item be recalled for you: 
+  %br
   %b=@ti
-  %br
-  By
-  %br
-  %b=@netid
-  %br
   %form{:id => 'req', :method => 'post', :action => "#{dx}:8950/holdings/recall/#{@netid}/#{@id}"}
     :javascript 
       $(function() {         
@@ -23,6 +18,7 @@
         $('#result').html("Working....");
         $.ajax({
              type: 'POST', 
+             data:{"reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val() },
              url:hu,
              dataType: 'json',
              success: function(data) {
