@@ -21,6 +21,9 @@ test: &test
 #  url: <%= "http://culsearchdev.library.cornell.edu:8984/solr" %>
   url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
 #  url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
+
+production:
+  url: http://bdc34-dev.library.cornell.edu:8080/solr/core1
 cucumber:
   <<: *test
 
