@@ -18,11 +18,16 @@ class RequestController < ApplicationController
     logger.debug  "getting info for #{params[:id]}" 
     logger.debug  "getting info for #{params[:netid]}" 
     @resp,@document = get_solr_response_for_doc_id(params[:id]) 
-    logger.debug  "info : #{@document}" 
+    logger.debug  "document info : #{@document}" 
     logger.debug  @document.to_s 
     logger.debug  @document.inspect 
-    #logger.debug  @document._source
     logger.debug  @document[:title_display]
+    logger.debug  "holding info : #{@h}" 
+    logger.debug  @h.to_s 
+    logger.debug  @h.inspect 
+    logger.debug  "holding detail info : #{@hd}" 
+    logger.debug  @hd.to_s 
+    logger.debug  @hd.inspect 
     @ti =  @document[:title_display]
     @netid =  params[:netid]
     @id =  params[:id]
@@ -33,8 +38,10 @@ class RequestController < ApplicationController
       logger.debug  "holding id = #{hol['holding_id']}";
       logger.debug  "item status = #{hol['item_status'].inspect}";
       idl =   hol['item_status']['itemdata'];
-      idl.each do | id |
-        logger.debug  "item = #{id['itemid']} #{id['location']} #{id['callNumber']} #{id['copy']} #{id['enumeration']}";
+      if (!idl.nil?) 
+        idl.each do | id |
+          logger.debug  "item = #{id['itemid']} #{id['location']} #{id['callNumber']} #{id['copy']} #{id['enumeration']}";
+        end
       end
     end
     end # 1==0
@@ -45,7 +52,7 @@ class RequestController < ApplicationController
   logger.debug  "getting info for #{params[:id]}" 
   logger.debug  "getting info for #{params[:netid]}" 
   @resp,@document = get_solr_response_for_doc_id(params[:id]) 
-  logger.debug  "info : #{@document}" 
+  logger.debug  "document info : #{@document}" 
   logger.debug  @document.to_s 
   logger.debug  @document.inspect 
   logger.debug  @document[:title_display]

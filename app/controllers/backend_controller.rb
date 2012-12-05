@@ -10,7 +10,7 @@ class BackendController < ApplicationController
   def holdings
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
-    #@holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
+    @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/fetch/#{params[:id]}"))[params[:id]]
     #@holdings = JSON.parse(HTTPClient.get_content("http://rossini.cul.columbia.edu/voyager_backend/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @id = params[:id]
@@ -19,7 +19,7 @@ class BackendController < ApplicationController
     logger.debug @holdings 
     logger.debug session.inspect
     session[:holdings] = @holdings
-    #session[:holdings_detail] = @holdings_detail
+    session[:holdings_detail] = @holdings_detail
     logger.debug session.inspect
     #render :text => @txt.to_s  + @t.to_s
     render "backend/holdings", :layout => false
