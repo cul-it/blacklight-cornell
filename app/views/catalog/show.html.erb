@@ -31,6 +31,9 @@
 <div class="holdings">
     <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
 </div>
+<div class="requests">
+  <a href="#">Request</a>
+</div>
 
   <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
     <!-- 
