@@ -1,0 +1,97 @@
+have_func: checking for mysql_ssl_set()... -------------------- yes
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘mysql_ssl_set’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))mysql_ssl_set; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘mysql_ssl_set’
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { mysql_ssl_set(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_str_set_len()... -------------------- yes
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_str_set_len; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_thread_start_timer()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘rb_thread_start_timer’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_thread_start_timer; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -rdynamic -L/usr/lib64/mysql -lmysqlclient -lz -lcrypt -lnsl -lm -L/usr/lib64 -lssl -lcrypto  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘rb_thread_start_timer’
+/tmp/ccBK0tqs.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/mysql-2.8.1/ext/mysql_api/conftest.c:5: undefined reference to `rb_thread_start_timer'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { rb_thread_start_timer(); return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for mysql.h... -------------------- yes
+
+"gcc -E -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include    -I/usr/include/mysql  -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fwrapv  -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <mysql.h>
+/* end */
+
+--------------------
+

@@ -1,0 +1,331 @@
+find_header: checking for sqlite3.h... -------------------- yes
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -E -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sqlite3.h>
+/* end */
+
+--------------------
+
+find_library: checking for sqlite3_libversion_number() in -lsqlite3... -------------------- yes
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_libversion_number’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_libversion_number; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_libversion_number’
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_libversion_number(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_proc_arity()... -------------------- yes
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_proc_arity; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_initialize()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_initialize’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_initialize; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_initialize’
+/tmp/cc0KLOfE.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_initialize'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_initialize(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_backup_init()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_backup_init’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_backup_init; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_backup_init’
+/tmp/cc07UOHV.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_backup_init'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_backup_init(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_column_database_name()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_column_database_name’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_column_database_name; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_column_database_name’
+/tmp/cciilWH8.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_column_database_name'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_column_database_name(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_enable_load_extension()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_enable_load_extension’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_enable_load_extension; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_enable_load_extension’
+/tmp/ccUO1tWk.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_enable_load_extension'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_enable_load_extension(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_load_extension()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_load_extension’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_load_extension; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_load_extension’
+/tmp/ccEkre8g.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_load_extension'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_load_extension(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_open_v2()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_open_v2’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_open_v2; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_open_v2’
+/tmp/cc4a4uMr.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_open_v2'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_open_v2(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for sqlite3_prepare_v2()... -------------------- no
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: error: ‘sqlite3_prepare_v2’ undeclared (first use in this function)
+conftest.c:5: error: (Each undeclared identifier is reported only once
+conftest.c:5: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_prepare_v2; return 0; }
+/* end */
+
+"gcc -o conftest -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC conftest.c  -L. -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -Wl,-R/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib -L.  -rdynamic -Wl,-export-dynamic    -lsqlite3  -Wl,-R -Wl,/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -L/users/jac244/.rvm/rubies/ruby-1.9.3-p194/lib -lruby -lsqlite3  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5: warning: implicit declaration of function ‘sqlite3_prepare_v2’
+/tmp/cciFSkQG.o: In function `t':
+/users/jac244/workspace/blacklight-cornell/shared/bundle/ruby/1.9.1/gems/sqlite3-1.3.6/ext/sqlite3/conftest.c:5: undefined reference to `sqlite3_prepare_v2'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { sqlite3_prepare_v2(); return 0; }
+/* end */
+
+--------------------
+
+have_type: checking for sqlite3_int64 in sqlite3.h... -------------------- no
+
+"gcc -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC   -c conftest.c"
+conftest.c:6: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘conftest_type’
+conftest.c:7: error: ‘conftest_type’ undeclared here (not in a function)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sqlite3.h>
+4: 
+5: /*top*/
+6: typedef sqlite3_int64 conftest_type;
+7: int conftestval[sizeof(conftest_type)?1:-1];
+/* end */
+
+--------------------
+
+have_type: checking for sqlite3_uint64 in sqlite3.h... -------------------- no
+
+"gcc -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/x86_64-linux -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/ruby/backward -I/users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1 -I. -I/users/jac244/.rvm/usr/include     -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  -fPIC   -c conftest.c"
+conftest.c:6: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘conftest_type’
+conftest.c:7: error: ‘conftest_type’ undeclared here (not in a function)
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sqlite3.h>
+4: 
+5: /*top*/
+6: typedef sqlite3_uint64 conftest_type;
+7: int conftestval[sizeof(conftest_type)?1:-1];
+/* end */
+
+--------------------
+
