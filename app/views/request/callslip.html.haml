@@ -3,15 +3,10 @@
 - cop = dx.index(':')
 - dx = dx[0..cop-1] unless (cop.nil?)
 - dx = 'http://' + dx
-%h1 Request#callslip
-%h2
-  Request this item for delivery: 
+%p
+  Request this item be delivered for you: 
+  %br
   %b=@ti
-  %br
-  for 
-  %br
-  %b=@netid
-  %br
   %form{:id => 'req', :method => 'post', :action => "#{dx}:8950/holdings/callslip/#{@netid}/#{@id}"}
     :javascript
       $(function() {
@@ -23,6 +18,7 @@
          $('#result').html("Working....");
          $.ajax({
              type: 'POST',
+             data:{"reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val() },
              url:hu,
              dataType: 'json',
              success: function(data) {

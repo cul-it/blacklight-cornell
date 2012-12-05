@@ -4,6 +4,14 @@ class RequestController < ApplicationController
   include  Blacklight::Solr
   include Blacklight::SolrHelper
 
+# Blacklight uses #search_action_url to figure out the right URL for
+#   # the global search box
+  def search_action_url
+         catalog_index_url
+  end
+  helper_method :search_action_url
+
+
   def hold
     @h = session[:holdings]
     @hd = session[:holdings_detail]
@@ -40,8 +48,8 @@ class RequestController < ApplicationController
   logger.debug  "info : #{@document}" 
   logger.debug  @document.to_s 
   logger.debug  @document.inspect 
-  logger.debug  @document._source['title_display']
-  @ti =  @document._source['title_display']
+  logger.debug  @document[:title_display]
+  @ti =  @document[:title_display]
   @netid =  params[:netid]
   @id =  params[:id]
   logger.debug   "details: #{@hd.inspect}"
@@ -62,8 +70,8 @@ class RequestController < ApplicationController
   logger.debug  "info : #{@document}" 
   logger.debug  @document.to_s 
   logger.debug  @document.inspect 
-  logger.debug  @document._source['title_display']
-  @ti =  @document._source['title_display']
+  logger.debug  @document[:title_display]
+  @ti =  @document[:title_display]
   @netid =  params[:netid]
   @id =  params[:id]
   logger.debug   "details: #{@hd.inspect}"
