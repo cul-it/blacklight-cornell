@@ -1,5 +1,11 @@
 class BackendController < ApplicationController
   L2L = 'l2l'
+  BD = 'db'
+  HOLD = 'hold'
+  RECALL = 'recall'
+  PURCHASE = 'purchase'
+  ILL = 'ill'
+  ASK = 'ask'
 
   def holdings
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/retrieve/#{params[:id]}"))[params[:id]]
@@ -124,25 +130,76 @@ class BackendController < ApplicationController
 
     holdings.each do |holding|
       if holding['status'] == 'available' || holding['status'] == 'some_available'
-        holding_index = 0
-        holding['copies'].each do |copy|
-          if copy['items']['Available']['status'] == 'available'
-            logger.debug('holding_id: ' + holding['holding_id'][holding_index].to_s)
-            logger.debug('service: ' + L2L)
-            logger.debug('location: ' + holding['location_name'].to_s)
-            return {
-              :holding_id => holding['holding_id'][holding_index],
-              :service => L2L,
-              :location => holding['location_name']
-            }
-          end
-          holding_index = holding_index + 1
+        if item_type != 'minute'
+          return _handle_l2l bibid, holding, netid
+        else
+          return _handle_ask bibid, holdings, netid
         end
       elsif holding['status'] == 'charged'
+        if item_type == 'regular'
+          if patron_type == 'cornell'
+            return _handle_bd bibid, holdings, netid
+          else
+            ## guest
+            return _handle_hold bibid, holdings, netid
+          end
+        elsif item_type == 'day'
+          return _handle_hold bibid, holdings, netid
+        else
+          ## minute
+          return _handle_ask bibid, holdings, netid
+        end
       else
         ## missing?
+        if patron_type == 'cornell'
+          return _handle_bd bibid, holdings, netid
+        else
+          ## guest
+          return _handle_ask bibid, holdings, netid
+        end
       end
     end
+  end
+
+  def _handle_l2l bibid, holding, netid
+    holding_index = 0
+    holding['copies'].each do |copy|
+      if copy['items']['Available']['status'] == 'available' || copy['items']['Available']['status'] == 'some_available'
+        logger.debug('holding_id: ' + holding['holding_id'][holding_index].to_s)
+        logger.debug('service: ' + L2L)
+        logger.debug('location: ' + holding['location_name'].to_s)
+        return {
+          :holding_id => holding['holding_id'][holding_index],
+          :service => L2L,
+          :location => holding['location_name']
+        }
+      end
+      holding_index = holding_index + 1
+    end
+  end
+
+  def _handle_bd bibid, holdings, netid
+    return { :service => BD }
+  end
+
+  def _handle_hold bibid, holdings, netid
+    return { :service => HOLD }
+  end
+
+  def _handle_recall bibid, holdings, netid
+    return { :service => RECALL }
+  end
+
+  def _handle_purchase bibid, holdings, netid
+    return { :service => PURCHASE }
+  end
+
+  def _handle_ill bibid, holdings, netid
+    return { :service => ILL }
+  end
+
+  def _handle_ask bibid, holdings, netid
+    return { :service => ASK }
   end
 
 end
