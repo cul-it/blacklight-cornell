@@ -2,9 +2,10 @@
 
 body {
   padding-top: 0;
-	font-size: 100%;
-	background: $dark-gray;
-	}
+  font-family: $baseFontFamily;
+  font-size: 100%;
+  background: $dark-gray;
+}
 
 .main-content {
 	padding: 0.5em 0;
