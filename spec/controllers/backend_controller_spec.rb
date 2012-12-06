@@ -95,7 +95,7 @@ module Blacklight
 					@bc = BackendController.new
 					@bc.stub(:get_patron_type => 'cornell')
 					@bc.stub(:get_item_type   => 'regular')
-					puts holdings_json_helper
+					@bc.stub(:get_holdings    => holdings_json_helper)
 				}
 
 				it "returns L2L for service" do
