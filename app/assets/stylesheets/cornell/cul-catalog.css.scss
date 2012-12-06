@@ -1,14 +1,14 @@
-// Bootstrap variables
-// @import 'lib-bootstrap/variables';
+//**********************************
+// Cornell Library Catalog Styles
+//
+// v1.0 Discovery & Access 2012
+//**********************************
 
 // Override necessary Bootstrap variables
-@import 'cornell/variables';
+@import 'variables';
 
-// Bootstrap foundation
-// @import 'lib-bootstrap/bootstrap';
-// @import 'lib-bootstrap/responsive';
-
-// @import 'base';
+// Load partials
+@import 'base';
 @import 'cornell-brand';
 @import 'header';
 @import 'facets';
