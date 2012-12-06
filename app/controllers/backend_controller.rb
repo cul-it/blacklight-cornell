@@ -105,7 +105,7 @@ class BackendController < ApplicationController
   def get_patron_type netid
     ## Student / faculty => Cornell
     ## guest
-    'Cornell'
+    'cornell'
   end
 
   def get_item_type holdings
@@ -113,11 +113,11 @@ class BackendController < ApplicationController
     ## regular
     ## day
     ## minute
-    'Regular'
+    'regular'
   end
 
   def request_item
-    @request_solution = _request_item params[:id], 'sk274'
+    @request_solution = _request_item params[:id], 'gid-silterrae'
     render "backend/request_item", :layout => false
   end
 
@@ -127,39 +127,65 @@ class BackendController < ApplicationController
     item_type = get_item_type holdings
     patron_type = get_patron_type netid
     @request_solution = ''
+    l2l_list = []
+    bd_list = []
+    hold_list = []
+    recall_list = []
+    ill_list = []
+    ask_list = []
 
+    ## sk274 - not the most efficient way to handle this
+    ##         optimize once we get all the functionality working
     holdings.each do |holding|
       if holding['status'] == 'available' || holding['status'] == 'some_available'
         if item_type != 'minute'
-          return _handle_l2l bibid, holding, netid
+          l2l_list.push( _handle_l2l bibid, holding, netid )
         else
-          return _handle_ask bibid, holdings, netid
+          ask_list.push( _handle_ask bibid, holdings, netid )
         end
       elsif holding['status'] == 'charged'
         if item_type == 'regular'
           if patron_type == 'cornell'
-            return _handle_bd bibid, holdings, netid
+            bd_list.push( _handle_bd bibid, holdings, netid )
           else
             ## guest
-            return _handle_hold bibid, holdings, netid
+            hold_list.push( _handle_hold bibid, holdings, netid )
           end
         elsif item_type == 'day'
-          return _handle_hold bibid, holdings, netid
+          hold_list.push( _handle_hold bibid, holdings, netid )
         else
           ## minute
-          return _handle_ask bibid, holdings, netid
+          ask_list.push( _handle_ask bibid, holdings, netid )
         end
       else
         ## missing?
         if patron_type == 'cornell'
-          return _handle_bd bibid, holdings, netid
+          bd_list.push( _handle_bd bibid, holdings, netid )
         else
           ## guest
-          return _handle_ask bibid, holdings, netid
+          ask_list.push( _handle_ask bibid, holdings, netid )
         end
       end
     end
+
+    ## sk274 - online resource first?
+    if l2l_list.present?
+      return l2l_list.first
+    elsif bd_list.present?
+      return bd_list.first
+    elsif hold_list.present?
+      return hold_list.first
+    elsif recall_list.present?
+      return recall_list.first
+    elsif ill_list.presnet?
+      return ill_list.first
+    elsif ask_list.present?
+      return ask_list.first
+    else
+      ## what to do?
+    end
   end
+
 
   def _handle_l2l bibid, holding, netid
     holding_index = 0
