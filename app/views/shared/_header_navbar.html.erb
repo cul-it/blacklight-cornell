@@ -24,15 +24,9 @@
   <div class="container">
     <div class="row">
       <div class="span3">
-        <h2><a href="#">Library Catalog</a></h2>
+        <h2><a href="<%=root_path%>">Library Catalog</a></h2>
       </div>
-      <div class="span4 offset5">
-        <ul class="login">
-          <li><a href="#">Log in</a></li>
-          <li><a href="#">Selected items (0)</a></li>
-          <li><a href="#">Search history</a></li>
-        </ul>
-      </div>
+      <%= render :partial=>'/user_util_links' %>
     </div>
   </div>
 </header>
