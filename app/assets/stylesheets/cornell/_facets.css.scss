@@ -1,0 +1,50 @@
+.facets {
+	margin-top: 30px;
+	h3 {
+		padding: 10px 5px;
+		line-height: 1.2em;
+		color: $cornell-primary;
+		font-size: 0.875em;
+		margin: 0 30px 0 0;
+		font-weight: normal;
+		cursor: pointer;
+	}
+	h3:hover {
+		color: $dark-gray;
+		text-decoration: underline;
+		}
+	ul {
+		margin: 0 30px 0 10px;
+		padding: 0 10px 10px 10px;
+		list-style: none;
+	}
+	li {
+		font-size: 0.75em;
+		color: $light-gray;
+	}
+	p { font-weight: bold; }
+	i { padding-right: .25em; }
+}
+
+// SELECTED FACETS
+
+.selected-facets {
+	.btn-info i {
+		margin: .1em 0 0 .5em;
+	}
+}
+
+.selected-facet {
+	padding: 0 10px;
+	background: $cornell-blue;
+	border: 1px solid $cornell-blue-border;
+	font-size: 0.875em;
+	margin: 0 .5em .5em 0;
+	color: #fff;
+	display: inline-block;
+	-webkit-border-radius: 20px;
+	-moz-border-tradius: 20px;
+	border-radius: 20px;
+}
+
+.btn-start-over { float: right; }

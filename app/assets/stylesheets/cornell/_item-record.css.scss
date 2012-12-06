@@ -1,0 +1,77 @@
+h3.subtitle {
+	font-size: 1em;
+	font-weight: normal;
+	font-style: italic;
+	line-height: 1.2em;
+	color: $medium-gray;
+	margin-bottom: 1em;
+}
+
+.cover {
+	margin: 0 15px 0 0;
+	float: left;
+	width: 20%;
+	}
+
+.item-metadata {
+	float: left;
+	width: 70%;
+}
+
+// override bootstrap dl-horizontal
+dl.dl-horizontal {
+	margin-top: 0;
+	dt {
+		clear: none;
+		width: 25%;
+		display: inline;
+		font-size: 0.875em;
+		color: $light-gray;
+		margin-right: 10px;
+		font-weight: normal;
+		}
+	dd {
+		font-size: 0.875em;
+		margin-left: 30%;
+		ul {
+			list-style: none;
+			margin: 0;
+		}
+	}
+}
+
+.item-tools {
+	float: right;
+	ul {
+		list-style: none;
+	}
+	li {
+		font-size: 0.75em;
+    	float: left;
+    	margin-left: 15px;
+	}
+	label { font-size: 1em; }
+}
+
+// note: may need to add more specificity to this element so the following rule doesn't effect all .btn-danger uses
+.btn-danger { margin-bottom: 10px; }
+
+.availability {
+	margin-top: 20px;
+	p { font-size: 0.875em;
+	}
+}
+
+// temporarily add a height to the shelf browser to convey estimated content size
+.shelf-browser {
+	height: 500px;
+}
+
+.item-request {
+	text-align: center;
+	button { margin-bottom: 10px; }
+}
+
+.google-books-link { margin-top: 20px; }
+
+.request-submit .btn { margin-top: 10px; }
