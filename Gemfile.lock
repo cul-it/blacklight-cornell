@@ -53,6 +53,14 @@ GEM
     blankslate (2.1.2.4)
     bootstrap-sass (2.1.1.0)
     builder (3.0.4)
+    capistrano (2.13.5)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
+    capistrano-ext (1.2.1)
+      capistrano (>= 1.0.0)
     capybara (2.0.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -92,6 +100,9 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     ffi (1.2.0)
+    font-awesome-sass-rails (2.0.0.0)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     gherkin (2.11.5)
       json (>= 1.4.6)
     guard (1.5.4)
@@ -111,6 +122,7 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (~> 3.1)
       railties (>= 3.1, < 4.1)
+    highline (1.6.15)
     hike (1.2.1)
     httpclient (2.3.0.1)
     i18n (0.6.1)
@@ -139,6 +151,13 @@ GEM
     mime-types (1.19)
     multi_json (1.4.0)
     mysql (2.8.2)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.6.2)
+    net-ssh-gateway (1.1.0)
+      net-ssh (>= 1.99.1)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     parslet (1.4.0)
@@ -194,12 +213,14 @@ GEM
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
     rubyzip (0.9.9)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     sass (3.2.3)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.26.0)
+    selenium-webdriver (2.27.0)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
@@ -243,12 +264,15 @@ DEPENDENCIES
   blacklight_range_limit
   blacklight_unapi
   bootstrap-sass
+  capistrano
+  capistrano-ext
   capybara
   coffee-rails (~> 3.2.1)
   cucumber-rails
   database_cleaner
   devise
   devise-guests (~> 0.3)
+  font-awesome-sass-rails
   guard-rspec
   guard-spork (= 0.3.2)
   haml
@@ -264,10 +288,11 @@ DEPENDENCIES
   rb-readline
   rspec
   rspec-rails
+  rvm-capistrano
   sass-rails (~> 3.2.3)
   spork (= 0.9.0)
   sqlite3
-  therubyracer
+  therubyracer (~> 0.10.2)
   uglifier (>= 1.0.3)
   unicode
   webrat
