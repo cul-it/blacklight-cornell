@@ -1,22 +1,33 @@
 .facets {
 	margin-top: 30px;
-	h3 {
-		padding: 10px 5px;
+	h5 {
+		padding: 10px 6px;
 		line-height: 1.2em;
-		color: $cornell-primary;
 		font-size: 0.875em;
-		margin: 0 30px 0 0;
-		font-weight: normal;
+		margin: 0 30px 5px 0;
 		cursor: pointer;
+		background: $light-tan;
+		border: 1px solid $tan;
+		// @include border-radius($baseBorderRadius);
+		i {
+			float: right;
+			color: $light-gray; }
 	}
-	h3:hover {
+	h5:hover {
 		color: $dark-gray;
 		text-decoration: underline;
 		}
+	h5.twiddle-open {
+		border-bottom: none;
+		margin-bottom: 0;
+	}
 	ul {
-		margin: 0 30px 0 10px;
+		margin: 0 30px 5px 10px;
 		padding: 0 10px 10px 10px;
 		list-style: none;
+		background: $light-tan; 
+		border: 1px solid $tan;
+		border-top: none;
 	}
 	li {
 		font-size: 0.75em;
@@ -24,6 +35,17 @@
 	}
 	p { font-weight: bold; }
 	i { padding-right: .25em; }
+}
+// OVERRIDE #FACETS
+#facets {
+	ul {
+		margin-left: 0;
+		padding-top: 0;
+	}
+	li {
+		margin-right: 0;
+		padding-bottom: 0;
+	}
 }
 
 // SELECTED FACETS
