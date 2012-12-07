@@ -8,7 +8,7 @@ gem 'rails', '3.2.9'
 gem 'sqlite3'
 gem 'mysql', '~>2.8.1'
 
-gem 'blacklight','~> 4.0.0'
+gem 'blacklight', :git => 'git://github.com/projectblacklight/blacklight.git'
 gem 'blacklight_range_limit'
 gem 'blacklight_advanced_search'
 gem 'blacklight_unapi'
