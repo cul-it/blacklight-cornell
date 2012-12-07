@@ -123,9 +123,6 @@ class BackendController < ApplicationController
 
   def _request_item bibid, netid
     holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
-    #holdings = get_holdings bibid
-    logger.debug holdings
-    #holdings = holdings['condensed_holdings_full']
     item_type = get_item_type holdings
     patron_type = get_patron_type netid
     @request_solution = ''
@@ -139,7 +136,9 @@ class BackendController < ApplicationController
     ## sk274 - not the most efficient way to handle this
     ##         optimize once we get all the functionality working
     holdings.each do |holding|
-      if holding['status'] == 'available' || holding['status'] == 'some_available'
+      if holding['location_name'] == '*Networked Resource'
+        next
+      elsif holding['status'] == 'available' || holding['status'] == 'some_available'
         if item_type != 'minute'
           l2l_list.push( _handle_l2l bibid, holding, netid )
         else
@@ -179,7 +178,7 @@ class BackendController < ApplicationController
       return hold_list.first
     elsif recall_list.present?
       return recall_list.first
-    elsif ill_list.presnet?
+    elsif ill_list.present?
       return ill_list.first
     elsif ask_list.present?
       return ask_list.first
@@ -196,9 +195,6 @@ class BackendController < ApplicationController
     holding_index = 0
     holding['copies'].each do |copy|
       if copy['items']['Available']['status'] == 'available' || copy['items']['Available']['status'] == 'some_available'
-        logger.debug('holding_id: ' + holding['holding_id'][holding_index].to_s)
-        logger.debug('service: ' + L2L)
-        logger.debug('location: ' + holding['location_name'].to_s)
         return {
           :holding_id => holding['holding_id'][holding_index],
           :service => L2L,

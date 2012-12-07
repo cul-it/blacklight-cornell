@@ -5,11 +5,12 @@ module Blacklight
 
 	describe BackendController, "requesting an item" do
 
-		def holdings_json_helper
+		def holdings_json_helper status
 
 			holdings_hash = Hash.new
 
-			holdings_hash = {
+			if status == 'available'
+ 				holdings_hash = {
   "1419" =>  {
     "condensed_holdings_full" => [ {
       "location_name" =>  "*Networked Resource", "call_number" =>  "No call number", "status" =>  "none", "holding_id" => [ "6181953"], "copies" => [ {
@@ -57,6 +58,37 @@ module Blacklight
     }]
   }
 }
+      elsif status == 'charged'
+      	holdings_hash = {
+  "1419" =>  {
+    "condensed_holdings_full" => [ {
+      "location_name" =>  "Olin", "call_number" =>  "qx1", "status" =>  "charged", "holding_id" => [ "6181953"], "copies" => [ {
+        "items" =>  {
+          "Charged" =>  {
+            "status" =>  "charged", "count" =>  1
+          }
+        },
+        "notes" =>  "Notes: For holdings, check resource."
+      }], "services" => []
+    }]
+  }
+}
+     	elsif status == 'missing'
+     		holdings_hash = {
+  "1419" =>  {
+    "condensed_holdings_full" => [ {
+      "location_name" =>  "Olin", "call_number" =>  "qx1", "status" =>  "missing", "holding_id" => [ "6181953"], "copies" => [ {
+        "items" =>  {
+          "Missing" =>  {
+            "status" =>  "missing", "count" =>  1
+          }
+        },
+        "notes" =>  "Notes: For holdings, check resource."
+      }], "services" => []
+    }]
+  }
+}
+			end
 			holdings_hash
 		end
 
@@ -67,10 +99,10 @@ module Blacklight
 				before {
 					@bc = BackendController.new
 					@bc.stub(:get_patron_type => 'cornell')
-					@bc.stub(:get_holdings    => holdings_json_helper)
+					@bc.stub(:get_holdings).and_return(holdings_json_helper 'available')
 				}
 
-				describe "loan type is regular" do
+				context "loan type is regular" do
 					before {
 						@bc.stub(:get_item_type   => 'regular')
 						@result = @bc._request_item('1419', 'gid-silterrae')
@@ -89,7 +121,7 @@ module Blacklight
 				  end
 				end
 
-				describe "loan type is day" do
+				context "loan type is day" do
 					before {
 						@bc.stub(:get_item_type   => 'day')
 						@result = @bc._request_item('1419', 'gid-silterrae')
@@ -108,9 +140,95 @@ module Blacklight
 				  end
 				end
 
-				describe "loan type is minute" do
+				context "loan type is minute" do
 					before {
 						@bc.stub(:get_item_type   => 'minute')
+						@result = @bc._request_item('1419', 'gid-silterrae')
+					}
+
+					it "returns ask for service" do
+						@result[:service].should eq('ask')
+					end
+				end
+			end
+
+			context "item status is charged" do
+				before {
+					@bc = BackendController.new
+					@bc.stub(:get_holdings).and_return(holdings_json_helper 'charged')
+				}
+
+				context "item type is regular" do
+					before {
+						@bc.stub(:get_item_type   => 'regular')
+					}
+
+					context "patron type is student/faculty" do
+						before {
+							@bc.stub(:get_patron_type   => 'cornell')
+							@result = @bc._request_item('1419', 'gid-silterrae')
+						}
+
+						it "returns bd for service" do
+	  					@result[:service].should eq('bd')
+  					end
+					end
+
+					context "patron type is guest" do
+						before {
+							@bc.stub(:get_patron_type   => 'guest')
+							@result = @bc._request_item('1419', 'gid-silterrae')
+						}
+
+						it "returns hold for service" do
+	  					@result[:service].should eq('hold')
+  					end
+					end
+				end
+
+				context "item type is day" do
+					before {
+						@bc.stub(:get_item_type   => 'day')
+						@result = @bc._request_item('1419', 'gid-silterrae')
+					}
+
+					it "returns hold for service" do
+						@result[:service].should eq('hold')
+					end
+				end
+
+				context "item type is minute" do
+					before {
+						@bc.stub(:get_item_type   => 'minute')
+						@result = @bc._request_item('1419', 'gid-silterrae')
+					}
+
+					it "returns ask for service" do
+						@result[:service].should eq('ask')
+					end
+				end
+			end
+
+			context "item status is missing/lost" do
+				before {
+					@bc = BackendController.new
+					@bc.stub(:get_holdings).and_return(holdings_json_helper 'missing')
+				}
+
+				context "patron type is student/faculty" do
+					before {
+						@bc.stub(:get_patron_type   => 'cornell')
+						@result = @bc._request_item('1419', 'gid-silterrae')
+					}
+
+					it "returns BD for service" do
+						@result[:service].should eq('bd')
+					end
+				end
+
+				context "patron type is guest" do
+					before {
+						@bc.stub(:get_patron_type => 'guest')
 						@result = @bc._request_item('1419', 'gid-silterrae')
 					}
 
@@ -122,7 +240,6 @@ module Blacklight
 			end
 
 		end
-			
 
 	end
 end
