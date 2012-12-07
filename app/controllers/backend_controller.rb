@@ -1,6 +1,6 @@
 class BackendController < ApplicationController
   L2L = 'l2l'
-  BD = 'db'
+  BD = 'bd'
   HOLD = 'hold'
   RECALL = 'recall'
   PURCHASE = 'purchase'
@@ -122,7 +122,9 @@ class BackendController < ApplicationController
   end
 
   def _request_item bibid, netid
-    holdings = get_holdings bibid
+    holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
+    #holdings = get_holdings bibid
+    logger.debug holdings
     #holdings = holdings['condensed_holdings_full']
     item_type = get_item_type holdings
     patron_type = get_patron_type netid
@@ -187,7 +189,7 @@ class BackendController < ApplicationController
   end
 
   def get_holdings bibid
-    return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]['condensed_holdings_full']
+    return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))
   end
 
   def _handle_l2l bibid, holding, netid
