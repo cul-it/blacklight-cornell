@@ -139,6 +139,7 @@ GEM
     mime-types (1.19)
     multi_json (1.4.0)
     mysql (2.8.2)
+    net-ldap (0.3.1)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     parslet (1.4.0)
@@ -259,6 +260,7 @@ DEPENDENCIES
   libnotify
   marc
   mysql (~> 2.8.1)
+  net-ldap
   rails (= 3.2.9)
   rb-inotify
   rb-readline
