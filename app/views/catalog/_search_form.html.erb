@@ -9,7 +9,7 @@
     <% unless search_fields.empty? %>
       <div id="select-group-0" class="btn-group">
         <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
-        <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>" ") %>
+        <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"btn dropdown-toggle") %>
         <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
       </div>
       <% end %>
