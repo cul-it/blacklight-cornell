@@ -136,6 +136,7 @@ class BackendController < ApplicationController
     ## sk274 - not the most efficient way to handle this
     ##         optimize once we get all the functionality working
     holdings.each do |holding|
+      holding[:bibid] = bibid
       if holding['location_name'] == '*Networked Resource'
         next
       elsif holding['status'] == 'available' || holding['status'] == 'some_available'
@@ -198,7 +199,8 @@ class BackendController < ApplicationController
         return {
           :holding_id => holding['holding_id'][holding_index],
           :service => L2L,
-          :location => holding['location_name']
+          :location => holding['location_name'],
+          :bibid => bibid
         }
       end
       holding_index = holding_index + 1
@@ -206,27 +208,27 @@ class BackendController < ApplicationController
   end
 
   def _handle_bd bibid, holdings, netid
-    return { :service => BD }
+    return { :service => BD, :bibid => bibid }
   end
 
   def _handle_hold bibid, holdings, netid
-    return { :service => HOLD }
+    return { :service => HOLD, :bibid => bibid }
   end
 
   def _handle_recall bibid, holdings, netid
-    return { :service => RECALL }
+    return { :service => RECALL, :bibid => bibid }
   end
 
   def _handle_purchase bibid, holdings, netid
-    return { :service => PURCHASE }
+    return { :service => PURCHASE, :bibid => bibid }
   end
 
   def _handle_ill bibid, holdings, netid
-    return { :service => ILL }
+    return { :service => ILL, :bibid => bibid }
   end
 
   def _handle_ask bibid, holdings, netid
-    return { :service => ASK }
+    return { :service => ASK, :bibid => bibid }
   end
 
 end
