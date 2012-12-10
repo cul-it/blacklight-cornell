@@ -16,6 +16,8 @@
 
       <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
+      <%= render :partial => 'search_form.html.erb' %>
+
       <%= render :partial => 'did_you_mean' %>
 
       <%= render :partial => 'constraints' %>
