@@ -1,29 +1,67 @@
 .facets {
 	margin-top: 30px;
-	h3 {
-		padding: 10px 5px;
+	h5 {
+		padding: 10px 6px 10px 10px;
 		line-height: 1.2em;
-		color: $cornell-primary;
 		font-size: 0.875em;
-		margin: 0 30px 0 0;
-		font-weight: normal;
+		margin: 0 10px 5px 0;
 		cursor: pointer;
+		background: $light-tan;
+		border: 1px solid $tan;
+		@include border-radius($baseBorderRadius);
+		i {
+			float: right;
+			color: $light-gray; }
 	}
-	h3:hover {
+	h5:hover {
 		color: $dark-gray;
-		text-decoration: underline;
+		background: $tan;
 		}
+	h5.twiddle-open {
+		border-bottom: none;
+		margin-bottom: 0;
+		@include border-bottom-left-radius(0);
+		@include border-bottom-right-radius(0);
+	}
+	h5.twiddle-open:hover {
+		background: $light-tan;
+	}
 	ul {
-		margin: 0 30px 0 10px;
-		padding: 0 10px 10px 10px;
+		margin: 0 10px 5px 10px;
+		padding: 0 10px;
 		list-style: none;
+		background: $light-tan; 
+		border: 1px solid $tan;
+		border-top: none;
+		@include border-bottom-left-radius($baseBorderRadius);
+		@include border-bottom-right-radius($baseBorderRadius);
 	}
 	li {
 		font-size: 0.75em;
 		color: $light-gray;
 	}
 	p { font-weight: bold; }
-	i { padding-right: .25em; }
+	i { padding-right: .25em; } // this is supposed to be for formats, but h5 icon
+}
+// OVERRIDE #FACETS
+#facets {
+	ul {
+		margin-left: 0;
+		padding-top: 0;
+		padding-bottom: .5em;
+	}
+	li {
+		margin-right: 0;
+		padding-bottom: 0;
+	}
+	li.more_facets_link {
+		float: none; 
+		margin-right: -50px; }
+	span.selected {
+		font-weight: bold;
+		color: $dark-gray;
+	}
+	h5 + div { padding-bottom: .5em; }
 }
 
 // SELECTED FACETS
@@ -33,7 +71,6 @@
 		margin: .1em 0 0 .5em;
 	}
 }
-
 .selected-facet {
 	padding: 0 10px;
 	background: $cornell-blue;
@@ -46,5 +83,4 @@
 	-moz-border-tradius: 20px;
 	border-radius: 20px;
 }
-
 .btn-start-over { float: right; }

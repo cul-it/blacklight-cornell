@@ -1,17 +1,9 @@
 header {
 	background: $cornell-primary;
-	background: -moz-linear-gradient(top,  $cornell-primary 0%, $cornell-primary 50%, $cornell-primary-hover 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$cornell-primary), color-stop(50%,$cornell-primary), color-stop(100%,$cornell-primary-hover));
-	background: -webkit-linear-gradient(top,  $cornell-primary 0%,$cornell-primary 50%,$cornell-primary-hover 100%);
-	background: -o-linear-gradient(top,  $cornell-primary 0%,$cornell-primary 50%,$cornell-primary-hover 100%);
-	background: -ms-linear-gradient(top,  $cornell-primary 0%,$cornell-primary 50%,$cornell-primary-hover 100%);
-	background: linear-gradient(to bottom,  $cornell-primary 0%,$cornell-primary 50%,$cornell-primary-hover 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$cornell-primary', endColorstr='$cornell-primary-hover',GradientType=0 );
+  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
 	.container {
 		background: $dark-gray; padding: 10px 0;
-		-webkit-border-radius: 6px 6px 0 0;
-		-moz-border-radius: 6px 6px 0 0;
-		border-radius: 6px 6px 0 0;
+    @include border-radius(6px 6px 0 0);
  	}
  	h2 {
     margin: 0 1em;
@@ -42,8 +34,6 @@ ul.login {
     	text-decoration: none;
     	background: $medium-gray;
       color: $white;
-      -webkit-border-radius: 6px;
-      -moz-border-radius: 6px;
-      border-radius: 6px;
+      @include border-radius(6px);
     }
 }
