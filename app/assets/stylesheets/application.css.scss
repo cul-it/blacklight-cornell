@@ -17,6 +17,11 @@
  *= require 'blacklight_advanced_search'
 
 */
+// Boostrap variables
+@import 'bootstrap/variables';
+
+// Cornell catalog variables & overrides
+@import 'cornell/variables';
 
 @import 'blacklight';
 @import 'cornell/cul-catalog';
