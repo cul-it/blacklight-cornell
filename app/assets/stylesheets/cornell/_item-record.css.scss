@@ -44,6 +44,7 @@ dl.dl-horizontal {
 	float: right;
 	ul {
 		list-style: none;
+		float: right;
 	}
 	li {
 		font-size: 0.75em;
@@ -53,6 +54,8 @@ dl.dl-horizontal {
 	label { font-size: 1em; }
 	form {margin: 0;}
 }
+
+.item-pagination { font-size: 0.875em; }
 
 // note: may need to add more specificity to this element so the following rule doesn't effect all .btn-danger uses
 .btn-danger { margin-bottom: 10px; }

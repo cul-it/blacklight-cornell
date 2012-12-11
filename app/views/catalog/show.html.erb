@@ -14,13 +14,15 @@
     <%= render 'constraints', :localized_params=>session[:search] %>
   </div>
 
-  <div class="pageEntriesInfo">
-    <%= render 'previous_next_doc' %>  
-  </div>
-  <div class="item-tools">
-    <ul>
-      <%= render :partial => 'show_tools_links' %>
-    </ul>
+  <div class="row">
+      <div class="item-pagination span4">
+      <%= render 'previous_next_doc' %>  
+    </div>
+    <div class="item-tools span8">
+      <ul>
+        <%= render :partial => 'show_tools_links' %>
+      </ul>
+    </div>
   </div>
 
   <div class="row">
