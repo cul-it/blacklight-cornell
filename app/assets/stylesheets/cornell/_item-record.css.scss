@@ -53,6 +53,8 @@ dl.dl-horizontal {
 	}
 	label { font-size: 1em; }
 	form {margin: 0;}
+	.form-inline .checkbox,
+	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
 }
 
 .item-pagination { font-size: 0.875em; }
@@ -87,3 +89,4 @@ dl.dl-horizontal {
 	padding-bottom: 0;
 }
 #document { margin-top: 0; }
+label.toggle_bookmark { min-width: auto; }
