@@ -59,6 +59,11 @@ dl.dl-horizontal {
 
 .item-pagination { font-size: 0.875em; }
 
+.librarian-view {
+	text-align: right;
+	font-size: 0.875em;
+}
+
 // note: may need to add more specificity to this element so the following rule doesn't effect all .btn-danger uses
 .btn-danger { margin-bottom: 10px; }
 
