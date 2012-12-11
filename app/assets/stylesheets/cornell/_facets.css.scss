@@ -17,7 +17,7 @@
 	h5:hover {
 		color: $dark-gray;
 		// background: $tan;
-		border-bottom: solid 5px $tan;
+		//border-bottom: solid 5px $tan;
 		}
 	h5.twiddle-open {
 		border-bottom: none;
@@ -33,7 +33,7 @@
 		margin: 0 0 5px 10px;
 		padding: 0 10px;
 		list-style: none;
-		border-bottom: solid 5px $tan;
+		border-bottom: solid 5px $light-tan;
 		//background: $light-tan; 
 		//border: 1px solid $tan;
 		//border-top: none;
@@ -68,10 +68,17 @@
 	h5 + div { padding-bottom: .5em; }
 }
 
+// ONLINE ONLY
+.blacklight-online {
+	border-bottom: solid 5px $light-tan;
+	form { margin-bottom: 0; }
+}
+
 // PUBLICATION YEAR
 .limit_content {
-	background: $light-tan;
+	// background: $light-tan;
 	margin-right: 10px;
+	border-bottom: solid 5px $light-tan;
 }
 
 // SELECTED FACETS
