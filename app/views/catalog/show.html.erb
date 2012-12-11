@@ -8,28 +8,29 @@
   <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
   <% extra_head_content << render_link_rel_alternates %>
   <% sidebar_items << render_document_sidebar_partial %>
-  <%= render :partial => 'show_tools_links' %>
+  
 
   <div class="show">
     <%= render 'constraints', :localized_params=>session[:search] %>
   </div>
 
   <div class="pageEntriesInfo">
-    <%= item_page_entry_info %>
-    <%=link_to t('blacklight.search.start_over'), catalog_index_path, :id=>"startOverLink" %><%= render 'previous_next_doc' %>
+    <%= render 'previous_next_doc' %>
 
   </div>
-  <br>
+  <div class="item-tools">
+    <ul>
+      <%= render :partial => 'show_tools_links' %>
+    </ul>
+  </div>
 
   <div class="row">
     <%= render :partial => 'show_metadata.html.erb' %>
     <div class="span4">
       <div class="well availability">
-        <div class="holdings">
-            <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
-        </div>
-        <div class="requests">
-          <a href="#">Request</a>
+        <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+        <div class="item-request">
+          <a href="#" class="btn btn-large btn-danger">Request this item</a>
         </div>
       </div>
     </div>

@@ -51,6 +51,7 @@ dl.dl-horizontal {
     	margin-left: 15px;
 	}
 	label { font-size: 1em; }
+	form {margin: 0;}
 }
 
 // note: may need to add more specificity to this element so the following rule doesn't effect all .btn-danger uses
@@ -82,3 +83,4 @@ dl.dl-horizontal {
 	clear: none;
 	padding-bottom: 0;
 }
+#document { margin-top: 0; }
