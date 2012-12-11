@@ -23,7 +23,7 @@ dl.dl-horizontal {
 	margin-top: 0;
 	dt {
 		clear: none;
-		width: 25%;
+		width: 28%;
 		display: inline;
 		font-size: 0.875em;
 		color: $light-gray;
@@ -51,6 +51,7 @@ dl.dl-horizontal {
     	margin-left: 15px;
 	}
 	label { font-size: 1em; }
+	form {margin: 0;}
 }
 
 // note: may need to add more specificity to this element so the following rule doesn't effect all .btn-danger uses
@@ -75,3 +76,11 @@ dl.dl-horizontal {
 .google-books-link { margin-top: 20px; }
 
 .request-submit .btn { margin-top: 10px; }
+
+// OVERRIDE CORE STYLES
+.document {
+	border-bottom: none;
+	clear: none;
+	padding-bottom: 0;
+}
+#document { margin-top: 0; }

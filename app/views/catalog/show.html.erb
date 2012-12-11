@@ -1,38 +1,40 @@
-<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
-<% extra_head_content << render_link_rel_alternates %>
-<% sidebar_items << render_document_sidebar_partial %>
-<%= link_back_to_catalog %> <%= render :partial => 'show_tools_links' %>
+<div class="span12 main-content">
 
-<div class="show">
-  <%= render 'constraints', :localized_params=>session[:search] %>
-</div>
+  <!-- this is what the markup for the back to search link should be, but need new helper function first:
+  <a class="btn btn-small btn-danger" href="index.html"><i class="icon-arrow-left icon-white"></i> Return to search</a>-->
+  <%= link_back_to_catalog %>
 
-<div class="pageEntriesInfo">
-  <%= item_page_entry_info %>
-  <%=link_to t('blacklight.search.start_over'), catalog_index_path, :id=>"startOverLink" %><%= render 'previous_next_doc' %>
+  <%= render :partial => 'search_form.html.erb' %>
+  <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
+  <% extra_head_content << render_link_rel_alternates %>
+  <% sidebar_items << render_document_sidebar_partial %>
+  
 
-</div>
-<br>
-<%# this should be in a partial -%>
-<div id="document" class="<%= render_document_class %>">
-  <div id="doc_<%= @document.id.to_s.parameterize %>">
-
-    <% # bookmark/folder functions -%>
-    <%= render_show_doc_actions @document %>        
-    <%= render_document_heading.html_safe %>
-    <div class="document">
-      <%= render_document_partial @document, :show %>
-
-
-    </div>
-
+  <div class="show">
+    <%= render 'constraints', :localized_params=>session[:search] %>
   </div>
-</div>
-<div class="holdings">
-    <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
-</div>
-<div class="requests">
-  <a href="#">Request</a>
+
+  <div class="pageEntriesInfo">
+    <%= render 'previous_next_doc' %>  
+  </div>
+  <div class="item-tools">
+    <ul>
+      <%= render :partial => 'show_tools_links' %>
+    </ul>
+  </div>
+
+  <div class="row">
+    <%= render :partial => 'show_metadata.html.erb' %>
+    <div class="span4">
+      <div class="well availability">
+        <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+        <div class="item-request">
+          <a href="#" class="btn btn-large btn-danger">Request this item</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
   <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>

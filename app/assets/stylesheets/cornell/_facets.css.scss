@@ -64,6 +64,12 @@
 	h5 + div { padding-bottom: .5em; }
 }
 
+// PUBLICATION YEAR
+.limit_content {
+	background: $light-tan;
+	margin-right: 10px;
+}
+
 // SELECTED FACETS
 
 .selected-facets {
@@ -84,3 +90,9 @@
 	border-radius: 20px;
 }
 .btn-start-over { float: right; }
+
+// MODAL WINDOW
+.modal {
+	background: $pale-gray;
+	padding: 10px;
+}
