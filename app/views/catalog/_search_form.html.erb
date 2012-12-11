@@ -8,7 +8,7 @@
 <%= link_to 'advanced search', params.merge(:controller=>"advanced", :action=>"index") , :class=>"advanced-search-link span4"%>
     <% unless search_fields.empty? %>
         <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
-        <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"") %>
+        <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search_field input-small") %>
         <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
       <% end %>
       
@@ -20,7 +20,8 @@
 
   <% end %>
 
-  
+       <%= render :partial => "constraints.html.erb" %>
+
 
 </div>
 </div>
