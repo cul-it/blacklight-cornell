@@ -26,4 +26,16 @@
     <%- if @document.respond_to?( :to_sms_text ) -%>
       <li><%= link_to t('blacklight.tools.sms'), sms_catalog_path(:id => @document), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %></li>
     <%- end -%>
-    
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Atlas <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a href="atlas.html">Sample panel</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Browse category</a></li>
+        <li class="divider"></li>
+        <li class="nav-header">Resources</li>
+        <li><a href="#">Articles</a></li>
+        <li><a href="#">Video</a></li>
+        <li><a href="#">Etc.</a></li>
+      </ul>
+    </li>
