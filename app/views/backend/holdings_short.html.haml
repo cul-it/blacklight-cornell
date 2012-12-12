@@ -1,0 +1,25 @@
+- @holdings_detail.each do| bib, entry|
+  - locations = entry['summary']['locnumber'] > 1 ? 'Multiple locations' : ''  
+  - locations = entry['summary']['locnumber'] == 1 ? '': locations  
+  - available = entry['summary']['avail_at'].size > 0 ? '' : ''  
+  - if entry['summary']['avail_at'].size > 1 
+    - available_addon = ' and others' 
+    - else
+    - available_addon = '' 
+  - if entry['summary']['not_avail_at'].size > 1 
+    - not_available_addon = ' and others' 
+    - else
+    - not_available_addon = '' 
+  - if entry['summary']['avail_at'].size > 0
+    - available_at =  entry['summary']['avail_at'].keys()[0] + ' ' + entry['summary']['avail_at'][entry['summary']['avail_at'].keys()[0]] + available_addon  
+    - img = image_tag("icons/available.png", :class => :availability)
+    - else
+    - available_at = ''
+  - if entry['summary']['not_avail_at'].size > 0 && entry['summary']['avail_at'].size < 1
+    - not_available_at =  entry['summary']['not_avail_at'].keys()[0] + ' ' + entry['summary']['not_avail_at'][entry['summary']['not_avail_at'].keys()[0]] + not_available_addon  
+    - img = image_tag("icons/unavailable.png", :class => :availability)
+  .summary 
+    %span= img 
+    %span{:class=>"locations"}= "#{locations}"
+    %span{:class=>"available"}= "#{available} #{available_at}"
+    %span{:class=>"notavailable"}= "#{not_available_at}"

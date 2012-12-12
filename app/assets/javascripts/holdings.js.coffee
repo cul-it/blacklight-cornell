@@ -70,6 +70,14 @@ root.load_clio_holdings = (id) ->
         #$("#holding_spinner").hide()
         $('#clio_holdings .holdings_error').show()
 
+root.load_short_holdings = (id) -> 
+  $.ajax
+    url: '/backend/holdings_shorth/' + id
+    success: (data) ->
+        $('#blacklight-avail-'+id).html(data)
+    error: (data) ->
+        $('#blacklight-avail-'+id).html("Error")
+
 root.retrieve_fedora_resources = (fedora_ids) ->
   url = 'http://rossini.cul.columbia.edu/voyager_backend/fedora/resources/' + fedora_ids.join('/');
 
