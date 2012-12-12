@@ -16,9 +16,16 @@
           <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
         </button>
 
+          <% if query_has_constraints? %>
+            
+            <span class="start-over"> or &nbsp; <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
+            </a>
+          </span>
+          <% end %>
        
 
   <% end %>
+
 
         <%= render :partial => 'did_you_mean' %>
 
