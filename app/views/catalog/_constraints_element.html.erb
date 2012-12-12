@@ -9,9 +9,8 @@
     options[:escape_value] = true unless options.has_key?(:escape_value)
 -%>
 
-<div class="selected-facets appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">      
+<div class=" appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">      
 
-  <span style="btn btn-info btn-small">
 
       <%- unless label.blank? -%>
         <span class=""><%= options[:escape_label] ? h(label) : raw(label) %></span> 
@@ -32,5 +31,4 @@
           :class=>'btnRemove imgReplace'
         ) %>
       <%- end -%>
-     </span> 
 </div>
