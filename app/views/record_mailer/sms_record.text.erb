@@ -1,0 +1,5 @@
+<% @documents.each do |document| %>
+<%= document.to_sms_text %>
+<%= t('blacklight.sms.text.callnumber', :callnumber => @callnumber) %>
+<%= t('blacklight.sms.text.location', :location => @location) %>
+<% end %>
