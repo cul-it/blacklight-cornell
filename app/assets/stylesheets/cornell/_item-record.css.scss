@@ -52,10 +52,17 @@ dl.dl-horizontal {
     	margin-left: 15px;
 	}
 	label { font-size: 1em; }
-	form {margin: 0;}
+	form { margin: 0; }
 	.form-inline .checkbox,
 	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
+	.dropdown-menu {
+		min-width: auto;
+		li { 
+			font-size: 1em;
+			margin-left: 0; }
+	}
 }
+
 
 .item-pagination { font-size: 0.875em; }
 
@@ -64,8 +71,8 @@ dl.dl-horizontal {
 	font-size: 0.875em;
 }
 
-// note: may need to add more specificity to this element so the following rule doesn't effect all .btn-danger uses
-.btn-danger { margin-bottom: 10px; }
+.item-request {
+	margin: 10px 0; }
 
 .availability {
 	margin-top: 20px;
@@ -83,7 +90,7 @@ dl.dl-horizontal {
 	button { margin-bottom: 10px; }
 }
 
-.google-books-link { margin-top: 20px; }
+.google-books-link { margin-top: 10px; }
 
 .request-submit .btn { margin-top: 10px; }
 

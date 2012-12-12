@@ -14,16 +14,31 @@
       <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
          <li><%= link_to t('blacklight.tools.cite'), citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %></i></li>
       <% end %>
-      <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
-        <li><%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %></li>      
-     <% end %>
-     <% if @document.export_formats.keys.include?( :endnote ) %>
-       <li><%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %></li>
-    <% end %>
-    <% if @document.respond_to?( :to_email_text ) %>
-      <li><%= link_to t('blacklight.tools.email'), email_catalog_path(:id => @document), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %></li>
-    <%- end -%>
-    <%- if @document.respond_to?( :to_sms_text ) -%>
-      <li><%= link_to t('blacklight.tools.sms'), sms_catalog_path(:id => @document), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %></li>
-    <%- end -%>
-    
+
+      <% if (@document.export_formats.keys.include?(:refworks_marc_txt) || @document.export_formats.keys.include?(:endnote)) %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
+              <li><%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %></li>      
+            <% end %>
+            <% if @document.export_formats.keys.include?( :endnote ) %>
+              <li><%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% if @document.respond_to?( :to_email_text ) || @document.respond_to?( :to_sms_text ) %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <% if @document.respond_to?( :to_email_text ) %>
+              <li><%= link_to t('blacklight.tools.email'), email_catalog_path(:id => @document), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %></li>
+            <%- end -%>
+            <%- if @document.respond_to?( :to_sms_text ) -%>
+              <li><%= link_to t('blacklight.tools.sms'), sms_catalog_path(:id => @document), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %></li>
+            <%- end -%>
+          </ul>
+        </li>
+      <% end %>

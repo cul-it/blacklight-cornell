@@ -1,8 +1,6 @@
 <div class="span12 main-content">
 
-  <!-- this is what the markup for the back to search link should be, but need new helper function first:
-  <a class="btn btn-small btn-danger" href="index.html"><i class="icon-arrow-left icon-white"></i> Return to search</a>-->
-  <%= link_back_to_catalog %>
+  <a class="btn btn-small btn-danger" href="<%= link_back_to_catalog %>"><i class="icon-arrow-left icon-white"></i> Return to search</a>
 
   <%= render :partial => 'search_form.html.erb' %>
   <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
@@ -31,7 +29,9 @@
       <div class="well availability">
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
         <div class="item-request">
-          <a href="#" class="btn btn-large btn-danger">Request this item</a>
+          <a href="#" class="btn btn-info">Access online</a>
+          <a href="#" class="btn btn-danger">Request this item</a>
+          <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p>
         </div>
       </div>
       <div class="well shelf-browser">
