@@ -9,10 +9,10 @@
     options[:escape_value] = true unless options.has_key?(:escape_value)
 -%>
 
-<button class="btn btn-info btn-small">
-  <%- unless options[:remove].blank? -%>
-    <a href="<%= options[:remove] %>" title="Remove">
-  <%- end -%>
+<%- unless options[:remove].blank? -%>
+  <a href="<%= options[:remove] %>" title="Remove">
+<%- end -%>
+  <button class="btn btn-info btn-small">
     <%- unless label.blank? -%>
       <%= options[:escape_label] ? h(label) : raw(label) %>:
     <%- end -%>
@@ -20,7 +20,7 @@
       <%= options[:escape_value] ? h(value) : raw(value) %>
     <%- end -%>
     <i class="icon-remove icon-white"></i></button>
-  <%- unless options[:remove].blank? -%>
-    </a>
-  <%- end -%>
-</button>
+  </button>
+<%- unless options[:remove].blank? -%>
+  </a>
+<%- end -%>
