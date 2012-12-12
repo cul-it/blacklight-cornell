@@ -31,16 +31,15 @@
     <section class="main-content">
       <div class="container">
         <div class="row">
-          <div class="span10">
-            <div id="main-flashes">
-              <%= render :partial=>'/flash_msg' %>
-            </div>
+          <div class="span12">
+              <div id="main-flashes">
+                <%= render :partial=>'/flash_msg' %>
+              </div>
+              <%= yield %>
           </div>
         </div>
 
-        <div class="row">
-          <%= yield %>
-        </div>
+        
       </div>
     </section>
 
