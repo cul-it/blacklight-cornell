@@ -1,6 +1,6 @@
 <div class="span12 main-content">
 
-  <a class="btn btn-small btn-danger" href="<%= link_back_to_catalog %>"><i class="icon-arrow-left icon-white"></i> Return to search</a>
+  <a class="btn btn-small btn-danger return-link" href="<%= link_back_to_catalog %>"><i class="icon-arrow-left icon-white"></i> Return to search</a>
 
   <%= render :partial => 'search_form.html.erb' %>
   <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
