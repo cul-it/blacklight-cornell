@@ -34,7 +34,7 @@
 		padding: 0 10px;
 		list-style: none;
 		border-bottom: solid 5px $light-tan;
-		//background: $light-tan; 
+		//background: $light-tan;
 		//border: 1px solid $tan;
 		//border-top: none;
 		//@include border-bottom-left-radius($baseBorderRadius);
@@ -59,7 +59,7 @@
 		padding-bottom: 0;
 	}
 	li.more_facets_link {
-		float: none; 
+		float: none;
 		margin-right: -50px; }
 	span.selected {
 		font-weight: bold;
@@ -86,6 +86,12 @@
 .selected-facets {
 	.btn-info i {
 		margin: .1em 0 0 .5em;
+	}
+	a {
+		color: $white;
+	}
+	a:hover {
+		text-decoration: none;
 	}
 }
 .selected-facet {
