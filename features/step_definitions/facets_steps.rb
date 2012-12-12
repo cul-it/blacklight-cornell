@@ -1,5 +1,5 @@
 Then /^I should see a facet called '(.*?)'$/ do |facet|
-  within('div.facets') do 
+  within('div.facets') do
 	page.should have_content(facet)
   end
 end
@@ -12,20 +12,20 @@ Then /^the '(.*?)' facet (should|should not) be open$/ do |facet, yesno|
 
   	if (facet == 'blacklight-pub_date')
   	  if (yesno == 'should')
-	   	page.should have_css("div.#{facet} div.#{facet} div.limit_content", :visible => true)
+	   	page.should have_css("div.#{facet} div.limit_content", :visible => true)
 	  else
-	 	page.should have_css("div.#{facet} div.#{facet} div.limit_content", :visible => false)  	  	
+	 	page.should have_css("div.#{facet} div.limit_content", :visible => false)
   	  end
 
   	else
   	  if (yesno == 'should')
-	   	page.should have_css("div.#{facet} div.#{facet} ul", :visible => true)
+	   	page.should have_css("div.#{facet} ul", :visible => true)
 	  else
-	 	page.should have_css("div.#{facet} div.#{facet} ul", :visible => false)
+	 	page.should have_css("div.#{facet} ul", :visible => false)
 	  end
 	end
   end
-  # within('div.facets') do 
+  # within('div.facets') do
 
   # end
 end
