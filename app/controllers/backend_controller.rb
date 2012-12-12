@@ -40,6 +40,21 @@ class BackendController < ApplicationController
     #render "backend/holdings", :layout => false
   end
 
+  def holdings_shorth
+    @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
+    @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
+    @id = params[:id]
+    logger.debug  "getting info for #{params[:id]} from" 
+    logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
+    logger.debug @holdings 
+    logger.debug session.inspect
+    session[:holdings] = @holdings
+    session[:holdings_detail] = @holdings_detail
+    logger.debug session.inspect
+    #render :json => @holdings_detail  
+    render "backend/holdings_short", :layout => false
+  end
+
   def holdings_mail
 
     @holdings = JSON.parse(HTTPClient.get_content("http://rossini.cul.columbia.edu/voyager_backend/holdings/retrieve/#{params[:id]}"))[params[:id]]
