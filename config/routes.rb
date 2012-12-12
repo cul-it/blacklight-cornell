@@ -13,6 +13,8 @@ BlacklightCornell::Application.routes.draw do
   devise_for :users
 
   match 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
+  match 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
+  match 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
   match 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
   match 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
   match 'backend/feedback_mail', :to => "backend#feedback_mail"
