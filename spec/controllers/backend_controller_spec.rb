@@ -249,5 +249,28 @@ module Blacklight
 
 		end
 
+		describe "patron lookup" do
+
+			before {
+				@bc = BackendController.new
+			}
+
+			it "returns nil when passed a nil parameter" do
+				result = @bc.get_patron_type nil
+				result. should eq(nil)
+			end
+
+			it "returns 'cornell' when patron class is faculty/staff/student" do
+				result = @bc.get_patron_type 'mjc12'
+				result.should eq('cornell')
+			end
+
+			it "returns 'guest' when patron class is guest" do
+				result = @bc.get_patron_type 'gid-silterrae'
+				result.should eq('guest')
+			end
+
+		end
+
 	end
 end
