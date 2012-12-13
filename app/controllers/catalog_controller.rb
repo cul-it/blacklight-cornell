@@ -242,7 +242,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_show_field 'title_display', :label => 'Title:'
     config.add_show_field 'title_vern_display', :label => 'Title:'
-    config.add_show_field 'subtitle_display', :label => 'Subtitle:'
+#    config.add_show_field 'subtitle_display', :label => 'Subtitle:'
     config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:'
     config.add_show_field 'title_uniform_display', :label => 'Uniform Title:'
     config.add_show_field 'title_series_display', :label => 'Series Title:'
@@ -284,7 +284,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'contents_display', :label => 'Table of Contents:'
     config.add_show_field 'partial_contents_display', :label => 'Partial Table of Contents:'
     config.add_show_field 'subject_display', :label => 'Subject: '
-     config.add_show_field 'url_access_display', :label => 'Content Link:'
+#     config.add_show_field 'url_access_display', :label => 'Content Link:'
      config.add_show_field 'url_toc_display', :label => 'Table of Contents Link:'
      config.add_show_field 'url_other_display', :label => 'Content Link:'
 
