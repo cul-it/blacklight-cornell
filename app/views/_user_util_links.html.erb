@@ -8,7 +8,7 @@
       <% end %>
     <% end %>
     <% if current_or_guest_user %>
-      <li><a href="<%= bookmarks_path %>">Selected items (0)</a></li>
+      <li><a href="<%= bookmarks_path %>">Selected items</a></li>
     <% end %>
     <% if has_user_authentication_provider? and current_user %>
       <li><a href="<%= saved_searches_path %>">Saved searches</a></li>
