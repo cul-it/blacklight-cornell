@@ -1,4 +1,4 @@
-.item {
+body.blacklight-catalog-index .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
 	padding: 20px 0;
@@ -10,7 +10,7 @@
 	}
 }
 
-.item-data {
+.document-data {
 	float: left;
 	width: 90%;
 	span {
@@ -37,25 +37,21 @@
 	}
 }
 
-h2.item-title {
+h2.document-title {
 	margin: 0;
 	font-weight: normal;
 	line-height: 1.2em;
 	font-size: 1.1em;
 }
 
-.item-block { display: block; }
-
 .uniform-title { font-style: italic; }
 
 .status-online {
+	margin-right: 5px;
 	padding: 2px 4px;
 	background: $available;
 	color: #fff;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	margin-right: 5px;
+	@include border-radius(3px)
 	}
 
 .status-online:hover {
