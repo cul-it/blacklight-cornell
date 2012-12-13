@@ -145,9 +145,10 @@ en:
         submit: 'Send'
       text:
         title: '%{value}'
+        author: ''
         url: 'Link: %{url}'
-        callnumber: 'Call Number: %{callnumber}'
-        location: 'Location: %{location}'
+        callnumber: '%{callnumber}'
+        location: '%{location}'
       errors:
         to:
           invalid: 'You must enter a valid 10 digit phone number'
