@@ -29,7 +29,7 @@
       <div class="well availability">
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
         <div class="item-holdings">
-          <a href="#" class="btn btn-info">Access online</a>
+          <a href="<%= render_document_show_field_value :document => @document, :field => 'url_access_display' %>" class="btn btn-info">Access online</a>
           <a href="#" class="btn btn-danger">Request this item</a>
           <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p>
         </div>
