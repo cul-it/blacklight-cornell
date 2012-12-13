@@ -147,15 +147,13 @@ module DisplayHelper
     "Unknown" => "unknown"
   }
 
-
-  def formats_with_icons(document)
-    document['format'].listify.collect do |format|
-      if (icon = FORMAT_MAPPINGS[format]) && @add_row_style != :text
-        image_tag("icons/#{icon}.png", :size => "16x16") + " #{format}"
-      else
-        format.to_s
-      end
-    end.join(", ").html_safe
+  def formats_icon_mapping(document)
+    format = document['format'];
+    if (icon_mapping = FORMAT_MAPPINGS[format])
+      icon_mapping
+    else
+      'default'
+    end
   end
 
   def render_documents(documents, options)
