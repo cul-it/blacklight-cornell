@@ -1,39 +1,54 @@
-<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
-<% extra_head_content << render_link_rel_alternates %>
-<% sidebar_items << render_document_sidebar_partial %>
-<%= link_back_to_catalog %> <%= render :partial => 'show_tools_links' %>
-
-<div class="show">
-  <%= render 'constraints', :localized_params=>session[:search] %>
-</div>
-
-<div class="pageEntriesInfo">
-  <%= item_page_entry_info %>
-  <%=link_to t('blacklight.search.start_over'), catalog_index_path, :id=>"startOverLink" %><%= render 'previous_next_doc' %>
-
-</div>
-<br>
-<%# this should be in a partial -%>
-<div id="document" class="<%= render_document_class %>">
-  <div id="doc_<%= @document.id.to_s.parameterize %>">
-
-    <% # bookmark/folder functions -%>
-    <%= render_show_doc_actions @document %>        
-    <%= render_document_heading.html_safe %>
-    <div class="document">
-      <%= render_document_partial @document, :show %>
 
 
-    </div>
+  <a class="btn btn-small btn-danger return-link" href="<%= link_back_to_catalog %>"><i class="icon-arrow-left icon-white"></i> Return to search</a>
 
+  <%= render :partial => 'search_form.html.erb' %>
+  <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
+  <% extra_head_content << render_link_rel_alternates %>
+  <% sidebar_items << render_document_sidebar_partial %>
+  
+
+  <div class="show">
+    <%= render 'constraints', :localized_params=>session[:search] %>
   </div>
-</div>
-<div class="holdings">
-    <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
-</div>
-<div class="requests">
-  <a href="#">Request</a>
-</div>
+
+  <div class="row">
+      <div class="item-pagination span4">
+      <%= render 'previous_next_doc' %>  
+    </div>
+    <div class="item-tools span8">
+      <ul>
+        <%= render :partial => 'show_tools_links' %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <%= render :partial => 'show_metadata.html.erb' %>
+    <div class="span4">
+      <div class="well availability">
+        <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+        <div class="item-holdings">
+          <a href="#" class="btn btn-info">Access online</a>
+          <a href="#" class="btn btn-danger">Request this item</a>
+          <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p>
+        </div>
+      </div>
+      <div class="well shelf-browser">
+        <h4>Browse by call number:<br>
+          <span class="call-number">[call number]</span></h4>
+        <p>Shelf browser goes here</p>
+      </div>
+      <% if @document.respond_to?(:to_marc) %>
+        <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %></div>
+      <% end %>
+    </div>
+    
+  </div>
+
+
+
+
 
   <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
     <!-- 

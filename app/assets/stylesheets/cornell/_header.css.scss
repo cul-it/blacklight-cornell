@@ -1,0 +1,39 @@
+header {
+	background: $cornell-primary;
+  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+	.container {
+		background: $dark-gray; padding: 10px 0;
+    @include border-radius(6px 6px 0 0);
+ 	}
+ 	h2 {
+    margin: 0 1em;
+    font-weight: normal;
+    line-height: 1em;
+  	a { color: $white; }
+    a:hover {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+}
+
+ul.login {
+  	font-size: 0.75em;
+  	margin: 0 20px 0 0;
+  	list-style: none;
+    float: right;
+  	li {
+    float: left;
+    }
+  	a {
+    	display: block;
+    	padding: 5px 10px;
+    	color: $pale-gray;
+    }
+   	a:hover {
+    	text-decoration: none;
+    	background: $medium-gray;
+      color: $white;
+      @include border-radius(6px);
+    }
+}

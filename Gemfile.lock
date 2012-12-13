@@ -31,8 +31,8 @@ GEM
     addressable (2.3.2)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
-    blacklight (4.0.0)
-      bootstrap-sass (~> 2.1.0)
+    blacklight (4.0.1)
+      bootstrap-sass (~> 2.2.0)
       kaminari (~> 0.13)
       marc (>= 0.4.3, < 1.1)
       nokogiri (~> 1.5)
@@ -51,7 +51,8 @@ GEM
       blacklight (> 3.2)
       rails (~> 3.0)
     blankslate (2.1.2.4)
-    bootstrap-sass (2.1.1.0)
+    bootstrap-sass (2.2.1.1)
+      sass (~> 3.2)
     builder (3.0.4)
     capistrano (2.13.5)
       highline
@@ -100,6 +101,9 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     ffi (1.2.0)
+    font-awesome-sass-rails (2.0.0.0)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     gherkin (2.11.5)
       json (>= 1.4.6)
     guard (1.5.4)
@@ -146,7 +150,7 @@ GEM
     marc (0.5.0)
     method_source (0.8.1)
     mime-types (1.19)
-    multi_json (1.4.0)
+    multi_json (1.5.0)
     mysql (2.8.2)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -256,7 +260,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  blacklight (~> 4.0.0)
+  blacklight (~> 4.0.1)
   blacklight_advanced_search
   blacklight_range_limit
   blacklight_unapi
@@ -269,6 +273,7 @@ DEPENDENCIES
   database_cleaner
   devise
   devise-guests (~> 0.3)
+  font-awesome-sass-rails
   guard-rspec
   guard-spork (= 0.3.2)
   haml

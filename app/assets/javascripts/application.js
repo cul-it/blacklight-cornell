@@ -25,3 +25,13 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require_tree .
+
+//= require bootstrap
+
+// jQuery plugins for availability status
+// Rick copied these over from Clio code -- need to determine which (if any)
+// are needed once we clean up that JS
+//= require jquery.colorbox-min
+//= require jquery.contactable.min
+//= require jquery.dropmenu
+//= require jquery.observe_field

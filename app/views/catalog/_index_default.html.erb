@@ -1,16 +1,26 @@
  <%# default partial to display solr document fields in catalog index view -%>
  <%# This file is needed to display icon images in results display -%>
 
-<dl class="defList">
-  <div class="blacklight-title_display"><%= render_index_field_value :document => document, :field => 'title_display' %></div>  
-  <div class="blacklight-author_display"><%= render_index_field_value :document => document, :field => 'author_display' %></div>  
-  <div class="blacklight-fpl">  
-    <span class="blacklight-format"><%= formats_with_icons(document) %></span>&nbsp;&nbsp;&nbsp;  
+  <div class="data-block">
+    <span class="date"><%= render_index_field_value :document => document, :field => 'pub_date' %>.</span>
+    <span class="uniform-title"><%= render_index_field_value :document => document, :field => 'title_uniform_display' %></span>
+  </div>
+
+  <div class="data-block">
+    <span class="author"><%= render_index_field_value :document => document, :field => 'author_display' %></span>
+    <span class="pub-location"><%= render_index_field_value :document => document, :field => 'pub_info_display' %></span>
+    <span class="language"><%= render_index_field_value :document => document, :field => 'language_facet'%> <%= render_index_field_value :document => document, :field => 'edition_display' %></span>
+  </div>
+
+  <div class="data-block">
+    <span class="format"><i class="icon-<%= formats_icon_mapping(document) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></span>
+    <span class="status">$availability</span>
+  </div>
+
+  <div class="blacklight-fpl">
     <span class="blacklight-avail"  id="blacklight-avail-<%=document.id%>"> <script = availability for <%= document.id %> <script  type="text/javascript">load_short_holdings(<%=document.id%>)</script></span>&nbsp;&nbsp;&nbsp;
-  	<span class="blacklight-pub_info_display"><%= render_index_field_value :document => document, :field => 'pub_info_display' %></span>  
-  	<span class="blacklight-language_facet"><%= render_index_field_value :document => document, :field => 'language_facet'%></span>  
-  </div>  
-  <div class="blacklight-edition_display">  
-  	<%= render_index_field_value :document => document, :field => 'edition_display' %>  
-  </div> 
-</dl> 
+  </div>
+
+  <div class="blacklight-edition_display">
+
+  </div>

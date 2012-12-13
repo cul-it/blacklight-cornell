@@ -1,0 +1,21 @@
+//**********************************
+// Cornell Library Catalog Styles
+//
+// v1.0 Discovery & Access 2012
+//**********************************
+
+// Override necessary Bootstrap variables
+@import 'variables';
+
+// Font Awesome
+@import 'font-awesome';
+
+// Load partials
+@import 'base';
+@import 'cornell-brand';
+@import 'header';
+@import 'facets';
+@import 'search-form';
+@import 'search-results';
+@import 'item-record';
+@import 'footer';

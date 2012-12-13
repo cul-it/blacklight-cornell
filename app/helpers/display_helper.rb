@@ -4,12 +4,12 @@ module DisplayHelper
     partials.each do |partial|
       begin
         return render(:partial => partial, :locals => options)
-      rescue ActionView::MissingTemplate 
+      rescue ActionView::MissingTemplate
         next
       end
     end
 
-    raise "No partials found from #{partials.inspect}" 
+    raise "No partials found from #{partials.inspect}"
 
 
   end
@@ -24,7 +24,7 @@ module DisplayHelper
     link ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
 
     # Next clause restricts display to a single URL. TODO: is this okay?
-    if link.kind_of?(Array) 
+    if link.kind_of?(Array)
       link = link[0]
     end
 
@@ -43,7 +43,7 @@ module DisplayHelper
     value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x}
     return value.map { |v| render_clickable_item(args, v) }.join(args[:sep]).html_safe
   end
-  
+
   def render_clickable_item args, value
     clickable_setting = blacklight_config.display_clickable[args[:field]]
     case clickable_setting
@@ -147,15 +147,13 @@ module DisplayHelper
     "Unknown" => "unknown"
   }
 
-
-  def formats_with_icons(document)
-    document['format'].listify.collect do |format|
-      if (icon = FORMAT_MAPPINGS[format]) && @add_row_style != :text
-        image_tag("icons/#{icon}.png", :size => "16x16") + " #{format}"
-      else
-        format.to_s
-      end
-    end.join(", ").html_safe
+  def formats_icon_mapping(document)
+    format = document['format'];
+    if (icon_mapping = FORMAT_MAPPINGS[format])
+      icon_mapping
+    else
+      'default'
+    end
   end
 
   def render_documents(documents, options)
@@ -174,7 +172,7 @@ module DisplayHelper
     @add_row_style = nil
 
     return view
-  end 
+  end
 
   SOLR_FORMAT_LIST = {
     "Music - Recording" => "music_recording",
@@ -202,11 +200,11 @@ module DisplayHelper
 
   def format_location_results(locations)
     locations.collect do |location|
-    
+
       loc_display, hold_id = location.split('|DELIM|')
-      
+
       holdings_id = "holding_" + hold_id.to_s
-      
+
       image_tag("icons/unknown.png", :class => "availability " + holdings_id) + process_holdings_location(loc_display)
     end
   end
@@ -218,7 +216,7 @@ module DisplayHelper
     case document
     when SolrDocument
       formats << "clio"
-      
+
       document["format"].listify.each do |format|
         formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
       end
@@ -238,16 +236,16 @@ module DisplayHelper
   DELIM = "|DELIM|"
 
   def generate_value_links(values, category)
-    
+
     # display_value DELIM search_value [DELIM t880_flag]
 
     out = []
 
     values.listify.each do |v|
 #    values.listify.select { |v| v.respond_to?(:split)}.each do |v|
-      
+
       s = v.split(DELIM)
-      
+
       unless s.length >= 2
         out << v
         next
@@ -258,7 +256,7 @@ module DisplayHelper
       if @add_row_style == :text
         out << s[0]
       else
-      
+
         case category
         when :all
           q = '"' + s[1] + '"'
@@ -289,18 +287,18 @@ module DisplayHelper
   end
 
   # def generate_value_links_subject(values)
-  # 
+  #
   #   # search value the same as the display value
   #   # quote first term of the search string and remove ' - '
-  # 
+  #
   #   values.listify.collect do |v|
-  #     
+  #
   #     sub = v.split(" - ")
   #     out = '"' + sub.shift + '"'
   #     out += ' ' + sub.join(" ") unless sub.empty?
-  #     
+  #
   #     link_to(v, url_for(:controller => "catalog", :action => "index", :q => out, :search_field => "subject", :commit => "search"))
-  # 
+  #
   #   end
   # end
 
@@ -316,16 +314,16 @@ module DisplayHelper
 
     values.listify.collect do |value|
 #    values.listify.select { |x| x.respond_to?(:split)}.collect do |value|
-      
+
       searches = []
       subheads = value.split(" - ")
       first = subheads.shift
       display = first
       search = first
       title = first
-      
+
       searches << build_subject_url(display, search, title)
-      
+
       unless subheads.empty?
         subheads.each do |subhead|
           display = subhead
@@ -334,13 +332,13 @@ module DisplayHelper
           searches << build_subject_url(display, search, title)
         end
       end
-                                            
+
       if @add_row_style == :text
         searches.join(' - ')
       else
         searches.join(' > ')
       end
-                                            
+
     end
   end
 
@@ -348,10 +346,10 @@ module DisplayHelper
     if @add_row_style == :text
       display
     else
-      link_to(display, url_for(:controller => "catalog", 
-                              :action => "index", 
-                              :q => '"' + search + '"', 
-                              :search_field => "subject", 
+      link_to(display, url_for(:controller => "catalog",
+                              :action => "index",
+                              :q => '"' + search + '"',
+                              :search_field => "subject",
                               :commit => "search"),
                               :title => title)
     end
@@ -392,13 +390,13 @@ module DisplayHelper
   end
 
   def convert_values_to_text(value, options = {})
-    
+
     values = value.listify
 
     values = values.collect { |txt| txt.to_s.abbreviate(options[:abbreviate]) } if options[:abbreviate]
 
     values = values.collect(&:html_safe) if options[:html_safe]
-    values = if options[:display_only_first] 
+    values = if options[:display_only_first]
       values.first.to_s.listify
     elsif options[:join]
       values.join(options[:join]).to_s.listify.reject { |item| item.to_s.empty? }
@@ -421,12 +419,24 @@ module DisplayHelper
         ]
 
       end
-      
+
       pre_values.join('')
     end
 
     value_txt = value_txt.html_safe if options[:html_safe]
 
     value_txt
-  end  
+  end
+
+  # link_back_to_catalog()
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
+  def link_back_to_catalog()
+    query_params = session[:search] ? session[:search].dup : {}
+    query_params.delete :counter
+    query_params.delete :total
+    link_url = url_for(query_params)
+
+    link_url
+  end
 end

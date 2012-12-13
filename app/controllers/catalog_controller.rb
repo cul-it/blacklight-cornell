@@ -11,7 +11,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
 
-    config.default_solr_params = { 
+    config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
       :fl => '*,score'
@@ -148,7 +148,7 @@ class CatalogController < ApplicationController
         'notes_display' => '<br/>'
     }
 
-    ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or 
+    ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
     #config.default_document_solr_params = {
@@ -156,7 +156,7 @@ class CatalogController < ApplicationController
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # :fl => '*',
     #  # :rows => 1
-    #  # :q => '{!raw f=id v=$id}' 
+    #  # :q => '{!raw f=id v=$id}'
     #}
 
     # solr field configuration for search results/index views
@@ -175,35 +175,35 @@ class CatalogController < ApplicationController
     # * If left unset, then all facet values returned by solr will be displayed.
     # * If set to an integer, then "f.somefield.facet.limit" will be added to
     # solr request, with actual solr request being +1 your configured limit --
-    # you configure the number of items you actually want _displayed_ in a page.    
+    # you configure the number of items you actually want _displayed_ in a page.
     # * If set to 'true', then no additional parameters will be sent to solr,
     # but any 'sniffed' request limit parameters will be used for paging, with
-    # paging at requested limit -1. Can sniff from facet.limit or 
+    # paging at requested limit -1. Can sniff from facet.limit or
     # f.specific_field.facet.limit solr request params. This 'true' config
     # can be used if you set limits in :default_solr_params, or as defaults
     # on the solr side in the request handler itself. Request handler defaults
     # sniffing requires solr requests to be made with "echoParams=all", for
-    # app code to actually have it echo'd back to see it.  
+    # app code to actually have it echo'd back to see it.
     #
-    # :show may be set to false if you don't want the facet to be drawn in the 
+    # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
     config.add_facet_field 'format', :label => 'Format', :limit => 3
     config.add_facet_field 'pub_date', :label => 'Publication Year', :range => {
   :num_segments => 6,
   :assumed_boundaries => [1300, Time.now.year + 2],
-  :segments => true    
+  :segments => true
 }, :show => true
 #    config.add_facet_field 'pub_date_sort', :label => 'Publication Year', :range => {
 #  :num_segments => 6,
 #  :assumed_boundaries => [1300, Time.now.year + 2],
-#  :segments => true    
+#  :segments => true
 #}, :show => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 5 
+    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 5
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 3 
+    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 3
     config.add_facet_field 'subject_geo_facet', :label => 'Region', :limit => 5
-    config.add_facet_field 'subject_era_facet', :label => 'Era', :limit => 5  
-    config.add_facet_field 'location_facet', :label => 'Location', :limit => 5  
+    config.add_facet_field 'subject_era_facet', :label => 'Era', :limit => 5
+    config.add_facet_field 'location_facet', :label => 'Location', :limit => 5
 
 
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
@@ -224,26 +224,26 @@ class CatalogController < ApplicationController
 
 
     # solr fields to be displayed in the index (search results) view
-    #   The ordering of the field names is the order of the display 
-    config.add_index_field 'title_display', :label => 'Title:' 
-    config.add_index_field 'title_vern_display', :label => 'Title:' 
-    config.add_index_field 'author_display', :label => 'Author:' 
-    config.add_index_field 'author_vern_display', :label => 'Author:' 
-    config.add_index_field 'format', :label => 'Format:' 
+    #   The ordering of the field names is the order of the display
+    config.add_index_field 'title_display', :label => 'Title:'
+    config.add_index_field 'title_vern_display', :label => 'Title:'
+    config.add_index_field 'author_display', :label => 'Author:'
+    config.add_index_field 'author_vern_display', :label => 'Author:'
+    config.add_index_field 'format', :label => 'Format:'
     config.add_index_field 'language_facet', :label => 'Language:'
     #config.add_index_field 'published_display', :label => 'Published:'
     config.add_index_field 'published_vern_display', :label => 'Published:'
     config.add_index_field 'lc_callnum_display', :label => 'Call number:'
-    #config.add_index_field 'pub_date', :label => 'Publication Date:'
+    config.add_index_field 'pub_date', :label => 'Publication Date:'
     config.add_index_field 'pub_info_display', :label => 'Publication:'
     config.add_index_field 'edition_display', :label => 'Edition:'
 
     # solr fields to be displayed in the show (single result) view
-    #   The ordering of the field names is the order of the display 
-    config.add_show_field 'title_display', :label => 'Title:' 
-    config.add_show_field 'title_vern_display', :label => 'Title:' 
-    config.add_show_field 'subtitle_display', :label => 'Subtitle:' 
-    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:' 
+    #   The ordering of the field names is the order of the display
+    config.add_show_field 'title_display', :label => 'Title:'
+    config.add_show_field 'title_vern_display', :label => 'Title:'
+    config.add_show_field 'subtitle_display', :label => 'Subtitle:'
+    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:'
     config.add_show_field 'title_uniform_display', :label => 'Uniform Title:'
     config.add_show_field 'title_series_display', :label => 'Series Title:'
     config.add_show_field 'continues_display', :label => 'Continues:'
@@ -265,10 +265,10 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to:'
     config.add_show_field 'other_form_display', :label => 'Other Form:'
     config.add_show_field 'issued_with_display', :label => 'Issued With'
-    config.add_show_field 'author_display', :label => 'Author:' 
+    config.add_show_field 'author_display', :label => 'Author:'
     config.add_show_field 'author_vern_display', :label => 'Author:'
     config.add_show_field 'author_addl_display', :label => 'Other Author:'
-    config.add_show_field 'format', :label => 'Format:' 
+    config.add_show_field 'format', :label => 'Format:'
     config.add_show_field 'url_fulltext_display', :label => 'URL:'
     config.add_show_field 'url_suppl_display', :label => 'More Information:'
     config.add_show_field 'language_facet', :label => 'Language:'
@@ -300,86 +300,86 @@ class CatalogController < ApplicationController
     # The :key is what will be used to identify this BL search field internally,
     # as well as in URLs -- so changing it after deployment may break bookmarked
     # urls.  A display label will be automatically calculated from the :key,
-    # or can be specified manually to be different. 
+    # or can be specified manually to be different.
 
     # This one uses all the defaults set by the solr request handler. Which
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
-    # since we aren't specifying it otherwise. 
-    
+    # since we aren't specifying it otherwise.
+
     config.add_search_field 'all_fields', :label => 'All Fields'
-    
+
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
-    # of Solr search fields. 
-    
+    # of Solr search fields.
+
     config.add_search_field('title') do |field|
-      # solr_parameters hash are sent to Solr as ordinary url query params. 
+      # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
       # :solr_local_parameters will be sent using Solr LocalParams
       # syntax, as eg {! qf=$title_qf }. This is neccesary to use
       # Solr parameter de-referencing like $title_qf.
       # See: http://wiki.apache.org/solr/LocalParams
-      field.solr_local_parameters = { 
+      field.solr_local_parameters = {
         :qf => '$title_qf',
         :pf => '$title_pf'
       }
     end
 
-    # config.add_search_field('title abbreviation', :qt => 'standard') do |field|  
-    #   # solr_parameters hash are sent to Solr as ordinary url query params.   
-    #   field.solr_parameters = {  
-    #     :'spellcheck.dictionary' => 'title_ngram'  
-    #   }  
-  
-    #   # :solr_local_parameters will be sent using Solr LocalParams  
-    #   # syntax, as eg {! qf=$title_qf }. This is neccesary to use  
-    #   # Solr parameter de-referencing like $title_qf.  
-    #   # See: http://wiki.apache.org/solr/LocalParams  
-    #   field.cornell_solr_parameters = {  
-    #     :query_field => 'title_ngram'  
-    #   }  
+    # config.add_search_field('title abbreviation', :qt => 'standard') do |field|
+    #   # solr_parameters hash are sent to Solr as ordinary url query params.
+    #   field.solr_parameters = {
+    #     :'spellcheck.dictionary' => 'title_ngram'
+    #   }
+
+    #   # :solr_local_parameters will be sent using Solr LocalParams
+    #   # syntax, as eg {! qf=$title_qf }. This is neccesary to use
+    #   # Solr parameter de-referencing like $title_qf.
+    #   # See: http://wiki.apache.org/solr/LocalParams
+    #   field.cornell_solr_parameters = {
+    #     :query_field => 'title_ngram'
+    #   }
     # end
-    
+
     #config.add_search_field(
     #    :value => 'author/creator',
     #    :key => 'author',
     #    :solr_parameters => { :'spellcheck.dictionary' => 'author' },
-    #    :solr_local_parameters => { 
+    #    :solr_local_parameters => {
     #      :qf => '$author_qf',
     #      :pf => '$author_pf'
     #    }
     #)
     config.add_search_field('author/creator') do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = { 
+      field.solr_local_parameters = {
         :qf => '$author_qf',
         :pf => '$author_pf'
       }
     end
     config.add_search_field('call number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
-      field.solr_local_parameters = { 
+      field.solr_local_parameters = {
         :qf => '$lc_callnum_qf',
         :pf => '$lc_callnum_pf'
       }
     end
     config.add_search_field('publisher') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
-      field.solr_local_parameters = { 
+      field.solr_local_parameters = {
         :qf => '$publisher_qf',
         :pf => '$publisher_pf'
       }
     end
-    
+
     # Specifying a :qt only to show it's possible, and so our internal automated
-    # tests can test it. In this case it's the same as 
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary. 
+    # tests can test it. In this case it's the same as
+    # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject') do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
-      field.solr_local_parameters = { 
+      field.solr_local_parameters = {
         :qf => '$subject_qf',
         :pf => '$subject_pf'
       }
@@ -397,11 +397,11 @@ class CatalogController < ApplicationController
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z'
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
 
-    # If there are more than this many search results, no spelling ("did you 
+    # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
     config.spell_max = 5
   end
 
 
 
-end 
+end

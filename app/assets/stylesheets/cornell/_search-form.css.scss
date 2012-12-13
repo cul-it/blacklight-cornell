@@ -1,0 +1,45 @@
+.advanced-search-link {
+  display: block;
+  position: absolute;
+  margin-left: 0;
+  text-align: right;
+  font-size: .8em;
+}
+.start-over {
+  margin-left: .3em;
+  font-size: .8em;
+}
+
+.search-tools { float: left; }
+
+.results-info {
+  margin: 0;
+  padding-bottom: .2em;
+  border-bottom: solid 5px $light-tan;
+}
+.results-per-page-form {
+  margin: 0;
+  label {
+    display: inline;
+    margin-left: .5em;
+  }
+}
+.results-count {
+  font-size: .8em;
+  font-weight: bold;
+}
+.results-pagination {
+  margin: .1em 0 0 1em;
+}
+.results-sortby-form,
+.results-view {
+  float: right;
+}
+.results-sortby-form {
+  margin: 0 1em 0 0;
+}
+
+select.search_field {margin-bottom:0;}
+
+p.suggest {font-size:.8em}
+
