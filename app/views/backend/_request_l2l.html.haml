@@ -6,8 +6,8 @@
     %select#locations
       - [ 'Olin', 'Uris', 'Mann' ].each do |i|
         %option{ :value => i }=i
-  %input{ :type => 'hidden', :name => 'bibid', :value => @request_solution[:bibid] }
-  %input{ :type => 'hidden', :name => 'holding_id', :value => @request_solution[:holding_id] }
+  %input{ :type => 'hidden', :name => 'bibid', :value => @request_solution['bibid'] }
+  %input{ :type => 'hidden', :name => 'holding_id', :value => @request_solution['holding_id'] }
   %div
     Notes:
     %textarea{ :name => 'notes', :row => '5', :column => '10' }

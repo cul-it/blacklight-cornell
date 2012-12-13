@@ -1,14 +1,15 @@
+= @request_solution.inspect
 - if @request_solution[:service] == 'l2l'
   = render 'request_l2l', :request_solution => @request_solution
-- elsif @request_solution[:service] == 'bd'
+- elsif @request_solution[:service]  == 'bd'
   = render 'request_bd', :request_solution => @request_solution
 - elsif @request_solution[:service] == 'hold'
   = render 'request_hold', :request_solution => @request_solution
-- elsif @request_solution[:service] == 'recall'
+- elsif @request_solution[:service]  == 'recall'
   = render 'request_recall', :request_solution => @request_solution
-- elsif @request_solution[:service] == 'purchase'
+- elsif @request_solution[:service]  == 'purchase'
   = render 'request_purchase', :request_solution => @request_solution
-- elsif @request_solution[:service] == 'ill'
+- elsif @request_solution[:service]  == 'ill'
   = render 'request_ill', :request_solution => @request_solution
 - else
-  = render 'request_ask', :request_solution => @request_solution
+  = render 'request_ask', :request_solution => @request_solution	

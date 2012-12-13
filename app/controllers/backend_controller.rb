@@ -121,7 +121,6 @@ class BackendController < ApplicationController
     else
       return nil
     end
-
   end
 
   # Return our requests-specific patron type by looking at
@@ -179,7 +178,6 @@ class BackendController < ApplicationController
     ldap.search(search_params) do |entry|
       return entry.dn
     end
-
   end
 
   def get_item_type holdings
@@ -191,13 +189,16 @@ class BackendController < ApplicationController
   end
 
   def request_item
-    @request_solution = _request_item params[:id], 'gid-silterrae'
+    service = _request_item params[:id], request.env['REMOTE_USER']
+    @request_solution = service 
+    #@request_solution = {:service => 'bd'}
     render "backend/request_item", :layout => false
   end
 
   def _request_item bibid, netid
     holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
     item_type = get_item_type holdings
+    netid = 'gid-silterrae'
     patron_type = get_patron_type netid
     @request_solution = ''
     l2l_list = []
@@ -208,9 +209,9 @@ class BackendController < ApplicationController
     ask_list = []
 
     ## sk274 - not the most efficient way to handle this
-    ##         optimize once we get all the functionality working
+    ##         TODO: optimize once we get all the functionality working
     holdings.each do |holding|
-      holding[:bibid] = bibid
+      logger.debug 'status: ' + holding['status']
       if holding['location_name'] == '*Networked Resource'
         next
       elsif holding['status'] == 'available' || holding['status'] == 'some_available'
@@ -219,7 +220,7 @@ class BackendController < ApplicationController
         else
           ask_list.push( _handle_ask bibid, holdings, netid )
         end
-      elsif holding['status'] == 'charged'
+      elsif holding['status'] == 'not_available'
         if item_type == 'regular'
           if patron_type == 'cornell'
             bd_list.push( _handle_bd bibid, holdings, netid )
@@ -273,8 +274,7 @@ class BackendController < ApplicationController
         return {
           :holding_id => holding['holding_id'][holding_index],
           :service => L2L,
-          :location => holding['location_name'],
-          :bibid => bibid
+          :location => holding['location_name']
         }
       end
       holding_index = holding_index + 1
@@ -282,27 +282,27 @@ class BackendController < ApplicationController
   end
 
   def _handle_bd bibid, holdings, netid
-    return { :service => BD, :bibid => bibid }
+    return { :service => BD }
   end
 
   def _handle_hold bibid, holdings, netid
-    return { :service => HOLD, :bibid => bibid }
+    return { :service => HOLD }
   end
 
   def _handle_recall bibid, holdings, netid
-    return { :service => RECALL, :bibid => bibid }
+    return { :service => RECALL }
   end
 
   def _handle_purchase bibid, holdings, netid
-    return { :service => PURCHASE, :bibid => bibid }
+    return { :service => PURCHASE }
   end
 
   def _handle_ill bibid, holdings, netid
-    return { :service => ILL, :bibid => bibid }
+    return { :service => ILL }
   end
 
   def _handle_ask bibid, holdings, netid
-    return { :service => ASK, :bibid => bibid }
+    return { :service => ASK }
   end
 
 end

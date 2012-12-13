@@ -66,18 +66,18 @@ module Blacklight
     }]
   }
 }
-      elsif status == 'charged'
+      elsif status == 'not_available'
       	holdings_hash = {
   "1419" =>  {
     "condensed_holdings_full" => [ {
-      "location_name" =>  "Olin", "call_number" =>  "qx1", "status" =>  "charged", "holding_id" => [ "6181953"], "copies" => [ {
+      "location_name" =>  "Olin", "call_number" =>  "qx1", "status" =>  "not_available", "holding_id" => [ "6181953"], "copies" => [ {
         "items" =>  {
-          "Charged" =>  {
-            "status" =>  "charged", "count" =>  1
+          "Checked out, due 2012-10-26" =>  {
+            "status" =>  "not_available", "count" =>  1
           }
         },
         "notes" =>  "Notes: For holdings, check resource."
-      }], "services" => []
+      }], "services" => ['recall_hold', 'borrow_direct', 'ill']
     }]
   }
 }
@@ -163,7 +163,7 @@ module Blacklight
 			context "item status is charged" do
 				before {
 					@bc = BackendController.new
-					@bc.stub(:get_holdings).and_return(holdings_json_helper 'charged')
+					@bc.stub(:get_holdings).and_return(holdings_json_helper 'not_available')
 				}
 
 				context "item type is regular" do
@@ -178,8 +178,8 @@ module Blacklight
 						}
 
 						it "returns bd for service" do
-	  					@result[:service].should eq('bd')
-  					end
+	  						@result[:service].should eq('bd')
+  						end
 					end
 
 					context "patron type is guest" do
@@ -189,8 +189,8 @@ module Blacklight
 						}
 
 						it "returns hold for service" do
-	  					@result[:service].should eq('hold')
-  					end
+	  						@result[:service].should eq('hold')
+  						end
 					end
 				end
 
