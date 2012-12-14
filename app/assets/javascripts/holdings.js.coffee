@@ -1,7 +1,15 @@
 $(document).ready ->
-  $('.document').each ->
+  # Using body class as selector is only a quick fix for demo
+  # Remove this hack and refactor this into separate file that's
+  # included only for search results page
+  $('body.blacklight-catalog-index .document').each ->
     bibId = $(this).attr('id').split('-')[1]
     load_short_holdings(bibId)
+
+  $('body.blacklight-catalog-show .clio_holdings').each ->
+    bibId = $(this).attr('id').split('-')[1]
+    # $("#holding_spinner").show();
+    load_clio_holdings(bibId);
 
   $('#contact').contactable( subject: 'A Feedback Message')
   attach_location_colorboxes()
@@ -60,19 +68,19 @@ attach_location_colorboxes = ->
 root = exports ? this
 root.load_clio_holdings = (id) ->
   $("holding_spinner").show()
-  $("#clio_holdings .holdings_error").hide()
+  $(".clio_holdings .holdings_error").hide()
 
   $.ajax
     url: '/backend/holdings/' + id
 
     success: (data) ->
         $("#holding_spinner").hide()
-        $('#clio_holdings').html(data)
+        $('.clio_holdings').html(data)
         attach_location_colorboxes()
 
     error: (data) ->
         #$("#holding_spinner").hide()
-        $('#clio_holdings .holdings_error').show()
+        $('.clio_holdings .holdings_error').show()
 
 root.load_short_holdings = (id) ->
   $.ajax
