@@ -190,7 +190,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'format', :label => 'Format', :limit => 3
     config.add_facet_field 'pub_date', :label => 'Publication Year', :range => {
   :num_segments => 6,
-  :assumed_boundaries => [1300, Time.now.year + 2],
+  :assumed_boundaries => [1300, Time.now.year + 5],
   :segments => true
 }, :show => true
 #    config.add_facet_field 'pub_date_sort', :label => 'Publication Year', :range => {
@@ -204,6 +204,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_geo_facet', :label => 'Region', :limit => 5
     config.add_facet_field 'subject_era_facet', :label => 'Era', :limit => 5
     config.add_facet_field 'location_facet', :label => 'Location', :limit => 5
+    config.add_facet_field 'subject_content_facet', :label => 'Content', :limit => 5
 
 
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
@@ -225,18 +226,18 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'title_display', :label => 'Title:'
-    config.add_index_field 'title_vern_display', :label => 'Title:'
-    config.add_index_field 'author_display', :label => 'Author:'
-    config.add_index_field 'author_vern_display', :label => 'Author:'
-    config.add_index_field 'format', :label => 'Format:'
-    config.add_index_field 'language_facet', :label => 'Language:'
+    config.add_index_field 'title_display', :label => 'Title'
+    config.add_index_field 'title_vern_display', :label => 'Title'
+    config.add_index_field 'author_display', :label => 'Author'
+    config.add_index_field 'author_vern_display', :label => 'Author'
+    config.add_index_field 'format', :label => 'Format'
+    config.add_index_field 'language_facet', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published:'
-    config.add_index_field 'published_vern_display', :label => 'Published:'
-    config.add_index_field 'lc_callnum_display', :label => 'Call number:'
-    config.add_index_field 'pub_date', :label => 'Publication Date:'
-    config.add_index_field 'pub_info_display', :label => 'Publication:'
-    config.add_index_field 'edition_display', :label => 'Edition:'
+    config.add_index_field 'published_vern_display', :label => 'Published'
+    config.add_index_field 'lc_callnum_display', :label => 'Call number'
+    config.add_index_field 'pub_date', :label => 'Publication Date'
+    config.add_index_field 'pub_info_display', :label => 'Publication'
+    config.add_index_field 'edition_display', :label => 'Edition'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
