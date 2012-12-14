@@ -21,7 +21,7 @@ body.blacklight-catalog-index .document {
 	span.format {
 		float: left;
 		margin-top: .25em;
-		line-height: 1.75em;
+		line-height: 1.55em;
 		color: $medium-gray;
 	}
 	span.status {
@@ -29,8 +29,11 @@ body.blacklight-catalog-index .document {
 		display: inline-block;
 		float: left;
 		margin-top: .25em;
-		line-height: 1.75em;
+		font-size: 1em;
 		color: $medium-gray;
+		// icon {
+		// 	font-size: 1.1em;
+		// }
 	}
 	span.callnumber {
 		font-size: inherit;
