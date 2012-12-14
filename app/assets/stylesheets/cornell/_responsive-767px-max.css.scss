@@ -38,7 +38,20 @@
 	ul.login { float: none; }
 	.document-data { width: 70%; }
 
+	.advanced-search-link {
+  display: block;
+  position: relative;
+  margin-left: 0;
+  text-align: left;
+  font-size: .8em;
 }
+	.catalog_startOverLink {
+	padding-top:0.3em;
+	float:none;}
+
+}
+
+
 
 
 // ORIGINAL MEDIA QUERIES FROM PROTOTYPE, NOT BROUGHT INTO TEMPLATES YET
