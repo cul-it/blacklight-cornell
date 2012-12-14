@@ -33,22 +33,12 @@
  		}
  		.btn-navbar:active,
  		.btn-navbar.active { background-color: #080808 \9; }
+ 		.nav-collapse { margin: 5px 10px; }
 	}
-}
+	ul.login { float: none; }
+	.document-data { width: 70%; }
 
-// #facets .btn-navbar:hover,
-//  #facets .btn-navbar:active,
-//  #facets .btn-navbar.active,
-//  #facets .btn-navbar.disabled,
-//  #facets .btn-navbar[disabled] {
-//    color: #ffffff;
-//    background-color: #222222;
-//    *background-color: #151515;
-//  }
-//  #facets {
-//    .btn-navbar:active, .btn-navbar.active {
-//        background-color: #080808 \9; }
-//   }
+}
 
 
 // ORIGINAL MEDIA QUERIES FROM PROTOTYPE, NOT BROUGHT INTO TEMPLATES YET
