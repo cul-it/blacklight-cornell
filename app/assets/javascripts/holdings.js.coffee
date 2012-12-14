@@ -1,4 +1,8 @@
 $(document).ready ->
+  $('.document').each ->
+    bibId = $(this).attr('id').split('-')[1]
+    load_short_holdings(bibId)
+
   $('#contact').contactable( subject: 'A Feedback Message')
   attach_location_colorboxes()
   $(".dropmenu").dropmenu()
@@ -7,7 +11,7 @@ $(document).ready ->
     -> $(this).removeClass('hover')
   )
 
-  $("#datasource_expand").click -> 
+  $("#datasource_expand").click ->
     $(this).hide()
     $("#expanded_datasources").slideDown()
 
@@ -16,17 +20,17 @@ $(document).ready ->
       100
       -> $("#datasource_expand").show()
     )
-  
+
 
   $(".datasource_link").click ->
     change_datasource($(this).attr('source'))
 
 
-  $("#top_search_box .q").observe_field(.25, -> 
+  $("#top_search_box .q").observe_field(.25, ->
       if $(this).is(":visible")
         value = $(this).val()
         $("#top_search_box .q:hidden").val(value)
-    
+
   )
 
   $(".expander").click ->
@@ -42,7 +46,7 @@ change_datasource = (source) ->
   landing_selector = ".landing_page." + source
   $('.landing_page').hide()
   $(landing_selector).show()
-  
+
   search_box_select = "#top_search_box .search_box." + source
   $('#top_search_box .search_box.multi').hide()
   $(search_box_select).show()
@@ -54,7 +58,7 @@ attach_location_colorboxes = ->
 
 
 root = exports ? this
-root.load_clio_holdings = (id) -> 
+root.load_clio_holdings = (id) ->
   $("holding_spinner").show()
   $("#clio_holdings .holdings_error").hide()
 
@@ -70,7 +74,7 @@ root.load_clio_holdings = (id) ->
         #$("#holding_spinner").hide()
         $('#clio_holdings .holdings_error').show()
 
-root.load_short_holdings = (id) -> 
+root.load_short_holdings = (id) ->
   $.ajax
     url: '/backend/holdings_shorth/' + id
     success: (data) ->
@@ -104,9 +108,9 @@ root.retrieve_fedora_resources = (fedora_ids) ->
 
 root.retrieve_holdings = (bibids) ->
   url = 'http://es287-dev.library.cornell.edu:8950/holdings/retrieve/' + bibids.join('/');
-  
 
-  $.getJSON url, (data) -> 
+
+  $.getJSON url, (data) ->
     for bib, holdings of data
       for i, holding of data[bib].condensed_holdings_full
         for j, holding_id of holding.holding_id
