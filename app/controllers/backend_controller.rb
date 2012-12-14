@@ -300,7 +300,8 @@ class BackendController < ApplicationController
   def _handle_l2l bibid, holding, netid
     holding_index = 0
     holding['copies'].each do |copy|
-      if copy['items']['Available']['status'] == 'available' || copy['items']['Available']['status'] == 'some_available'
+      item = copy['items']['Not Charged'] || copy['items']['Available']
+      if item && (item['status'] == 'available' || item['status'] == 'some_available')
         return {
           :holding_id => holding['holding_id'][holding_index],
           :service => L2L,
