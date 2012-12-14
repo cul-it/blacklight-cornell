@@ -30,7 +30,12 @@
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
         <div class="item-holdings">
           <a href="<%= render_document_show_field_value :document => @document, :field => 'url_access_display' %>" class="btn btn-info">Access online</a>
-          <a href="#" class="btn btn-danger">Request this item</a>
+          <a href="#" id="requests_button" class="btn btn-danger">Request this item</a>
+          <p>
+            <div id="requests_container">
+              <div id="delivery_option"></div>
+            </div>
+          </p>
           <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p>
         </div>
       </div>
@@ -45,10 +50,6 @@
     </div>
 
   </div>
-
-
-
-
 
   <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
     <!--
