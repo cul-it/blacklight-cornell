@@ -20,7 +20,7 @@ en:
       next: 'Next &raquo;'
 
   blacklight:
-    application_name: 'Blacklight'
+    application_name: 'Cornell University Library Catalog'
 
     header_links:
       login: 'Login'

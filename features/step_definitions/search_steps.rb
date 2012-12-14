@@ -13,7 +13,7 @@ end
 # end
 
 Then /^I should see a "([^\"]*)" button$/ do |label|
-  page.should have_selector("input[type='submit'][value='#{label}']")
+  page.should have_selector('button#search')
 end
 
 Given /^I select '(.*?)' from the '(.*?)' drop\-down$/ do |option, menu|

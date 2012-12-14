@@ -3,7 +3,7 @@ Feature: Search
   In order to find documents
   As a user
   I want to enter terms, select fields, and select number of results per page
-  
+
   Scenario: Search Page
     When I go to the catalog page
     Then I should see a search field
@@ -13,7 +13,7 @@ Feature: Search
     # And I should see "Welcome!"
     And the page title should be "Cornell University Library Catalog"
     And I should see a stylesheet
-  
+
   Scenario: Search Page search types
     When I am on the home page
     Then the 'search_field' drop-down should have an option for 'All Fields'

@@ -9,14 +9,14 @@ Then /^I should see a stylesheet/ do
   page.should have_selector("link[rel=stylesheet]")
 end
 
-Then /^the page title should be "([^"]*)"$/i do |title|
-  page.should have_selector("title", :content => title)
+Then /^the page title should be "(.*?)"$/ do |title|
+  # Capybara 2 ignores invisible text
+  # https://github.com/jnicklas/capybara/issues/863
+  first('title').native.text == title
 end
 
 Then /^the '(.*?)' drop\-down should have an option for '(.*?)'$/ do |menu, option|
-  # n.b. The documentation makes it seem like this should use :with_options instead
-  # of :options, but that doesn't work!
-  page.has_select?(menu, :options => [option]).should == true
+  page.has_select?(menu, :with_options => [option]).should == true
 end
 
 Then /^I should see the text '(.*?)'$/i do |text|
@@ -45,7 +45,7 @@ end
 #     when "exactly"
 #       actual_num.should == expected_num.to_i
 #   end
-# end          
+# end
 
 # Then /^I (should not|should) see an? "([^\"]*)" element with an? "([^\"]*)" attribute of "([^\"]*)"$/ do |bool,elem,attribute,value|
 #   if bool == "should not"
