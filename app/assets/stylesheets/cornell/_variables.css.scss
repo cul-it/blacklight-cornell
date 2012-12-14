@@ -47,3 +47,8 @@ url(http://fonts.googleapis.com/css?family=Oxygen);
 // -------------------------
 $btnInfoBackground:                 $teal;
 $btnInfoBackgroundHighlight:        $dark-teal;
+
+// Navbar
+// -------------------------
+$navbarCollapseWidth:             767px !default;
+$navbarCollapseDesktopWidth:      $navbarCollapseWidth + 1;
