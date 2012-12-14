@@ -24,7 +24,7 @@ module Blacklight
     }, {
       "location_name" =>  "Law Library (Myron Taylor Hall)", "call_number" =>  "KF4627 .S43 1962", "status" =>  "available", "holding_id" => [ "5777", "5778"], "copies" => [ {
         "items" =>  {
-          "Available" =>  {
+          "Not Charged" =>  {
             "status" =>  "available", "count" =>  1
           }
         },
@@ -32,7 +32,7 @@ module Blacklight
       },
       {
         "items" =>  {
-          "Available" =>  {
+          "Not Charged" =>  {
             "status" =>  "available", "count" =>  1
           }
         },
@@ -41,7 +41,7 @@ module Blacklight
     }, {
       "location_name" =>  "Library Annex", "call_number" =>  "QB281 .S39", "status" =>  "available", "holding_id" => [ "5779"], "copies" => [ {
         "items" =>  {
-          "Available" =>  {
+          "Not Charged" =>  {
             "status" =>  "available", "count" =>  1
           }
         },
@@ -50,14 +50,14 @@ module Blacklight
     }, {
       "location_name" =>  "Olin Library", "call_number" =>  "Oversize HD205 1962 .S52 +", "status" =>  "available", "holding_id" => [ "5248430", "5248433"], "copies" => [ {
         "items" =>  {
-          "Available" =>  {
+          "Not Charged" =>  {
             "status" =>  "available", "count" =>  1
           }
         },
         "summary_holdings" =>  "Library has: v.1-2"
       }, {
         "items" =>  {
-          "Available" =>  {
+          "Not Charged" =>  {
             "status" =>  "available", "count" =>  1
           }
         },
