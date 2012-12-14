@@ -15,9 +15,5 @@
 
   <div class="data-block">
     <span class="format"><i class="icon-<%= formats_icon_mapping(document) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></span>
-    <span id="blacklight-avail-<%=document.id%>" class="status">$availability</span>
+    <span id="blacklight-avail-<%=document.id%>" class="status"></span>
   </div>
-
-<!--   <div class="blacklight-fpl">
-    <span class="blacklight-avail"  id="blacklight-avail-<%=document.id%>"> <script = availability for <%= document.id %> <script  type="text/javascript">load_short_holdings(<%=document.id%>)</script></span>&nbsp;&nbsp;&nbsp;
-  </div> -->
