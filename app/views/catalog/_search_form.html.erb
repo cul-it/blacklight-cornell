@@ -12,9 +12,8 @@
         <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
       <% end %>
 
-        <button type="submit" class="btn btn-inverse" id="search">
+        <input type="submit" class="btn btn-inverse" id="search" value="Search">
           <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
-        </button>
 
           <% if query_has_constraints? %>
 
