@@ -12,7 +12,7 @@ Feature: Item view
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) English. Summi pontificatus (20 Oct. 1939)"
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) English. Summi pontificatus (20 Oct. 1939)"
-    
+
   # DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 4696
@@ -22,13 +22,13 @@ Feature: Item view
     Given I request the item view for 4696
     And click on link "19th century"
     Then it should contain filter "Subject" with value "English poetry 19th century"
-    
+
   # DISCOVERYACCESS-138
   Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
     Given I request the item view for 4442
     And click on link "Peabody, William Bourn Oliver, 1799-1847"
     Then it should contain "title" with value "Lives of Alexander Wilson and Captain John Smith."
-    
+
   # DISCOVERYACCESS-142
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I request the item view for 3749
@@ -55,7 +55,7 @@ Feature: Item view
   Examples:
     | bibid  | link | filter | value |
     # test continues_display
-    | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention proceedings of the International Printing & Graphic Communications Union" | 
+    | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention proceedings of the International Printing & Graphic Communications Union" |
     # test continues_in_part_display
     | 115235 | "Journal of the Institute of Mathematics and its Applications" | "Title" | "Journal of the Institute of Mathematics and its Applications" |
     # test supersedes_display
@@ -98,12 +98,12 @@ Feature: Item view
   Scenario Outline: Link to special content when available
     Given I request the item view for <bibid>
     Then I <yesno> see the label <label>
-    
+
   Examples:
     | bibid | yesno      | label |
     # Test for links to full content and TOC
-    | 607   | should     | 'Access content' |
-    | 608   | should not | 'Access content' |
+    | 607   | should     | 'Access online' |
+    | 608   | should not | 'Access online' |
     | 24669 | should     | 'Access table of contents' |
     | 608   | should not | 'Access table of contents' |
     # TODO: still need third case of content, as seen in 115628, but that record not available yet
@@ -127,7 +127,7 @@ Feature: Item view
   # DISCOVERYACCESS-?
 
 
-    
+
 
   # TODO: need bibids that match these cases
 
