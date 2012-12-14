@@ -71,4 +71,6 @@ BlacklightCornell::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   # URL of service which returns JSON holding info.
   config.voyager_holdings = "http://culsearchdev.library.cornell.edu:8950" 
+  config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
+  
 end
