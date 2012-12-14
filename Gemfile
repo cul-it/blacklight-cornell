@@ -19,6 +19,8 @@ gem 'haml-rails'
 gem 'marc'
 gem 'rb-readline'
 gem 'font-awesome-sass-rails'
+gem 'net-ldap'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

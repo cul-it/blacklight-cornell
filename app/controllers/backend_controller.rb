@@ -1,6 +1,6 @@
 class BackendController < ApplicationController
   L2L = 'l2l'
-  BD = 'db'
+  BD = 'bd'
   HOLD = 'hold'
   RECALL = 'recall'
   PURCHASE = 'purchase'
@@ -132,10 +132,82 @@ class BackendController < ApplicationController
     end
   end
 
+  # Authenticate and bind to Cornell's Active Directory LDAP service
+  # Returns an ldap object that can be used for searches (or nil on failure)
+  def bind_ldap
+
+    # Login credentials (provided by Desktop Services)
+    holding_id_dn = 'CN=LIB-BlacklightDev-hid,OU=DS support areas,OU=HoldingIDs,OU=IDs,OU=LIBRARY,OU=DelegatedObjects,DC=cornell,DC=edu'
+    holding_pw = 'callufr@x13'
+
+    # Set up LDAP connection
+    ldap = Net::LDAP.new
+    ldap.host = 'query.ad.cornell.edu'
+    ldap.port = 389
+    ldap.auth holding_id_dn, holding_pw
+
+    if ldap.bind
+      return ldap
+    else
+      return nil
+    end
+  end
+
+  # Return our requests-specific patron type by looking at
+  # the LDAP entry's reference groups.
+  # Our basic assumption: a person is student/faculty/staff if he/she belongs to
+  #  one of the following reference groups:
+  #    rg.cuniv.employee, rg.cuniv.student
+  # Reference Groups reference page is http://www.it.cornell.edu/services/group/about/reference.cfm
   def get_patron_type netid
-    ## Student / faculty => Cornell
-    ## guest
-    'Cornell'
+
+    unless netid.nil?
+      patron_dn = get_ldap_dn netid
+      return nil if patron_dn.nil?
+
+      ldap = bind_ldap
+      return unless ldap
+
+      # Do our search
+      search_params = { :base =>   patron_dn, 
+                        :scope =>  Net::LDAP::SearchScope_BaseObject,
+                        :attrs =>  ['tokenGroups'] }
+      ldap.search(search_params) do |entry|
+
+        # This is a brute-force approach because I can't make sense of LDAP
+        # Just match all the attributes of the form 'CN=rg.whatever'
+        reference_groups = entry.to_ldif.scan(/CN=(rg.*?),/).flatten
+        if reference_groups.include? "rg.cuniv.employee" or reference_groups.include? "rg.cuniv.student"
+          return "cornell"
+        else
+          return "guest"
+        end
+      end
+
+    end
+  end
+
+  # Return a user's distinguished name (dn) from an LDAP lookup
+  # TODO: This function seems pontentially reusable. Figure out where to put it so that
+  # more controllers (and models?) can access it
+  # This is based heavily on sample Perl code from ss488, CIT, at 
+  #    https://confluence.cornell.edu/download/attachments/118767666/tokengroups.pl
+  def get_ldap_dn netid
+
+    # Login credentials (provided by Desktop Services)
+    holding_id_dn = 'CN=LIB-BlacklightDev-hid,OU=DS support areas,OU=HoldingIDs,OU=IDs,OU=LIBRARY,OU=DelegatedObjects,DC=cornell,DC=edu'
+    holding_pw = 'callufr@x13'
+
+    ldap = bind_ldap
+    return unless ldap
+
+    # Do our search
+    search_params = { :base => 'DC=cornell,DC=edu', 
+                      :filter => Net::LDAP::Filter.eq('sAMAccountName', netid), 
+                      :attrs => ['distinguishedName'] }
+    ldap.search(search_params) do |entry|
+      return entry.dn
+    end
   end
 
   def get_item_type holdings
@@ -143,61 +215,93 @@ class BackendController < ApplicationController
     ## regular
     ## day
     ## minute
-    'Regular'
+    'regular'
   end
 
   def request_item
-    @request_solution = _request_item params[:id], 'sk274'
+    service = _request_item params[:id], request.env['REMOTE_USER']
+    @request_solution = service 
+    #@request_solution = {:service => 'bd'}
     render "backend/request_item", :layout => false
   end
 
   def _request_item bibid, netid
-    holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]['condensed_holdings_full']
-    #holdings = holdings['condensed_holdings_full']
+    holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
     item_type = get_item_type holdings
+    netid = 'gid-silterrae'
     patron_type = get_patron_type netid
     @request_solution = ''
+    l2l_list = []
+    bd_list = []
+    hold_list = []
+    recall_list = []
+    ill_list = []
+    ask_list = []
 
+    ## sk274 - not the most efficient way to handle this
+    ##         TODO: optimize once we get all the functionality working
     holdings.each do |holding|
-      if holding['status'] == 'available' || holding['status'] == 'some_available'
+      logger.debug 'status: ' + holding['status']
+      if holding['location_name'] == '*Networked Resource'
+        next
+      elsif holding['status'] == 'available' || holding['status'] == 'some_available'
         if item_type != 'minute'
-          return _handle_l2l bibid, holding, netid
+          l2l_list.push( _handle_l2l bibid, holding, netid )
         else
-          return _handle_ask bibid, holdings, netid
+          ask_list.push( _handle_ask bibid, holdings, netid )
         end
-      elsif holding['status'] == 'charged'
+      elsif holding['status'] == 'not_available'
         if item_type == 'regular'
           if patron_type == 'cornell'
-            return _handle_bd bibid, holdings, netid
+            bd_list.push( _handle_bd bibid, holdings, netid )
           else
             ## guest
-            return _handle_hold bibid, holdings, netid
+            hold_list.push( _handle_hold bibid, holdings, netid )
           end
         elsif item_type == 'day'
-          return _handle_hold bibid, holdings, netid
+          hold_list.push( _handle_hold bibid, holdings, netid )
         else
           ## minute
-          return _handle_ask bibid, holdings, netid
+          ask_list.push( _handle_ask bibid, holdings, netid )
         end
       else
         ## missing?
         if patron_type == 'cornell'
-          return _handle_bd bibid, holdings, netid
+          bd_list.push( _handle_bd bibid, holdings, netid )
         else
           ## guest
-          return _handle_ask bibid, holdings, netid
+          ask_list.push( _handle_ask bibid, holdings, netid )
         end
       end
     end
+
+    ## sk274 - online resource first?
+    if l2l_list.present?
+      return l2l_list.first
+    elsif bd_list.present?
+      return bd_list.first
+    elsif hold_list.present?
+      return hold_list.first
+    elsif recall_list.present?
+      return recall_list.first
+    elsif ill_list.present?
+      return ill_list.first
+    elsif ask_list.present?
+      return ask_list.first
+    else
+      ## what to do?
+    end
+  end
+
+  def get_holdings bibid
+    return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))
   end
 
   def _handle_l2l bibid, holding, netid
     holding_index = 0
     holding['copies'].each do |copy|
-      if copy['items']['Available']['status'] == 'available' || copy['items']['Available']['status'] == 'some_available'
-        logger.debug('holding_id: ' + holding['holding_id'][holding_index].to_s)
-        logger.debug('service: ' + L2L)
-        logger.debug('location: ' + holding['location_name'].to_s)
+      item = copy['items']['Not Charged'] || copy['items']['Available']
+      if item && (item['status'] == 'available' || item['status'] == 'some_available')
         return {
           :holding_id => holding['holding_id'][holding_index],
           :service => L2L,

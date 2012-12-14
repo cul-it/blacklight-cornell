@@ -34,8 +34,6 @@
     </div> 
     
     <% @documents.each do |doc| %>
-        <%= text_field_tag :callnumber, doc.get(:lc_callnum_display) %>
-        <%= text_field_tag :location, doc.get(:id) %>
        <%=hidden_field_tag "id[]", doc.get(:id) %>
        <%=hidden_field_tag "callnumber", doc.get(:lc_callnum_display) %> 
        <%=hidden_field_tag "location", doc.get(:id) %>    

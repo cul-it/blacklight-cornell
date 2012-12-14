@@ -3,6 +3,9 @@
 
 require 'active_support/core_ext'
 
+
+
+
 guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')
@@ -16,7 +19,7 @@ guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
 end
 
 
-guard 'rspec', :version => 2, :all_after_pass => false, :cli => '--drb' do
+guard 'rspec', :version => 2, :all_after_pass => false, :cli => '--drb --color --format nested' do
 
   watch(%r{^app/controllers/(.+)_(controller)\.rb$})  do |m|
     ["spec/routing/#{m[1]}_routing_spec.rb",

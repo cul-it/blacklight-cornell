@@ -152,6 +152,7 @@ GEM
     mime-types (1.19)
     multi_json (1.5.0)
     mysql (2.8.2)
+    net-ldap (0.3.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -284,6 +285,7 @@ DEPENDENCIES
   libnotify
   marc
   mysql (~> 2.8.1)
+  net-ldap
   rails (= 3.2.9)
   rb-inotify
   rb-readline
