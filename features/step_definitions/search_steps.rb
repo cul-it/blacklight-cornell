@@ -66,11 +66,11 @@ end
 #   end
 # end
 
-Then /^I should get results$/ do 
-  page.should have_selector("div.documentHeader")
+Then /^I should get results$/ do
+  page.should have_selector("div.document")
 end
 
-Then /^I should not get results$/ do 
+Then /^I should not get results$/ do
   page.should_not have_selector("div.document")
 end
 

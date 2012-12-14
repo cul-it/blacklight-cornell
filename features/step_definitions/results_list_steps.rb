@@ -23,25 +23,29 @@ Then /^I should not see a list of search results$/ do
   page.has_selector?('div#documents')
 end
 
-Then /^I should see the per_page drop\-down$/ do
-  page.has_select?('per_page').should == true
+Then /^I should see the per_page select list$/ do
+  page.should have_selector('#per_page-dropdown')
 end
 
-Then /^the '(.*?)' drop\-down should default to '(.*?)'$/ do |menu, option|
-  page.has_select?(menu, :selected => option).should == true
+Then /^the '(.*?)' select list should default to '(.*?)'$/ do |list, option|
+  page.find('#' + list + '-dropdown ul.css-dropdown li.btn > a').text.should == option
+end
+
+Then /^the '(.*?)' select list should have an option for '(.*?)'$/ do |list, option|
+  page.all('#' + list + '-dropdown ul.css-dropdown li.btn li', :text => option)
 end
 
 Then /^I should see each item format$/ do
   within('#documents') do
-  	page.should have_css('div.blacklight-title_display')
-  	page.should have_css('div.blacklight-author_display')
+  	page.should have_css('.blacklight-title_display')
+  	page.should have_css('.blacklight-author_display')
   	page.should have_css('div.blacklight-fpl')
   end
 end
 
 Then /^results should have a select checkbox$/ do
   within('#documents') do
-  	page.should have_css('input.folder_submit')
+  	page.should have_selector('form.bookmark_toggle')
   end
 end
 

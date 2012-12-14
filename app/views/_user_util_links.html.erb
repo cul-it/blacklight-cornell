@@ -4,15 +4,15 @@
       <% if current_user %>
         <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path %> <%= "[#{ link_to current_user, edit_user_registration_path }]".html_safe unless current_user.to_s.blank? %>
       <% else %>
-        <li><a href="<%= new_user_session_path %>">Log in</a></li>
+        <li><a href="<%= new_user_session_path %>">Log In</a></li>
       <% end %>
     <% end %>
     <% if current_or_guest_user %>
-      <li><a href="<%= bookmarks_path %>">Selected items</a></li>
+      <li><a href="<%= bookmarks_path %>">Selected Items</a></li>
     <% end %>
     <% if has_user_authentication_provider? and current_user %>
       <li><a href="<%= saved_searches_path %>">Saved searches</a></li>
     <% end %>
-    <li><a href="<%= search_history_path %>">Search history</a></li>
+    <li><a href="<%= search_history_path %>">Search History</a></li>
   </ul>
 </div>

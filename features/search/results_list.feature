@@ -2,12 +2,12 @@ Feature: Results list
 
 	In order to find items that I search for
 	As a user
-	I want to view a list of search results with various options. 
+	I want to view a list of search results with various options.
 
-	Background: 
+	Background:
 
 	Scenario: Empty search
-		Given I am on the home page	
+		Given I am on the home page
 		And I press 'search'
 
 		# Tests copied from Blacklight gem code
@@ -19,11 +19,11 @@ Feature: Results list
 		And I should see the text 'Search History'
 
 		# DISCOVERYACCESS-? Select # of items per page
-		Then I should see the per_page drop-down
-		And the 'per_page' drop-down should default to '20'
-		And the 'per_page' drop-down should have an option for '10'
-		And the 'per_page' drop-down should have an option for '50'
-		And the 'per_page' drop-down should have an option for '100'
+		Then I should see the per_page select list
+		And the 'per_page' select list should default to '20 per page'
+		And the 'per_page' select list should have an option for '10 per page'
+		And the 'per_page' select list should have an option for '50 per page'
+		And the 'per_page' select list should have an option for '100 per page'
 
 	Scenario: Search with no results
 		Given I am on the home page
@@ -40,25 +40,25 @@ Feature: Results list
 		#Then there should be at least 1 search result
 
 		# DISCOVERYACCESS-7
-	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'	
+	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
 
 		# DISCOVERYACCESS-13 (tests for text description of format but not icon)
 		And I should see each item format
 
 		# DISCOVERYACCESS-8
 		# TODO: this should test behavior, not just presence of search options
-		And the 'sort' drop-down should have an option for 'relevance'
-		And the 'sort' drop-down should have an option for 'year ascending'
-		And the 'sort' drop-down should have an option for 'year descending'
-		And the 'sort' drop-down should have an option for 'title A-Z'
-		And the 'sort' drop-down should have an option for 'title Z-A'
-		And the 'sort' drop-down should have an option for 'author A-Z'
-		And the 'sort' drop-down should have an option for 'author Z-A'
+		And the 'sort' select list should have an option for 'relevance'
+		And the 'sort' select list should have an option for 'year ascending'
+		And the 'sort' select list should have an option for 'year descending'
+		And the 'sort' select list should have an option for 'title A-Z'
+		And the 'sort' select list should have an option for 'title Z-A'
+		And the 'sort' select list should have an option for 'author A-Z'
+		And the 'sort' select list should have an option for 'author Z-A'
 
 		# Users should be able to select items from the list. But see select_and_export.feature
 		# for more details.
 		And results should have a select checkbox
-		And results should have a title field	
+		And results should have a title field
 
   # DISCOVERYACCESS-?
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
@@ -104,7 +104,7 @@ Feature: Results list
   #   And I fill in "q" with "history"
   #   When I press "search"
   #   Then I should see select list "select#sort" with field labels "relevance, year, author, title"
-  
+
   # Scenario: Can clear a search
   #   When I am on the home page
   #   And I fill in "q" with "history"
@@ -118,7 +118,7 @@ Feature: Results list
   #   Then I should be on "the catalog page"
   #   And I should see "Welcome!"
   #   And the "q" field should not contain "history"
-    
+
   # DISCOVERYACCESS-134
   Scenario: As a user, I can see publication date, publisher and location in one line in items on the query results list.
     Given I am on the home page

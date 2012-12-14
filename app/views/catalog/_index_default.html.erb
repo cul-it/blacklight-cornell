@@ -8,8 +8,9 @@
 
   <div class="data-block">
     <span class="blacklight-author_display"><%= render_index_field_value :document => document, :field => 'author_display' %></span>
-    <span class="pub-location"><%= render_index_field_value :document => document, :field => 'pub_info_display' %></span>
-    <span class="language"><%= render_index_field_value :document => document, :field => 'language_facet'%> <%= render_index_field_value :document => document, :field => 'edition_display' %></span>
+    <span class="blacklight-pub_info_display"><%= render_index_field_value :document => document, :field => 'pub_info_display' %></span>
+    <span class="language"><%= render_index_field_value :document => document, :field => 'language_facet'%></span>
+    <span class="blacklight-edition_display"><%= render_index_field_value :document => document, :field => 'edition_display' %></span>
   </div>
 
   <div class="data-block">
@@ -19,8 +20,4 @@
 
   <div class="blacklight-fpl">
     <span class="blacklight-avail"  id="blacklight-avail-<%=document.id%>"> <script = availability for <%= document.id %> <script  type="text/javascript">load_short_holdings(<%=document.id%>)</script></span>&nbsp;&nbsp;&nbsp;
-  </div>
-
-  <div class="blacklight-edition_display">
-
   </div>
