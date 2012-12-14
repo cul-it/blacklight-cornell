@@ -287,7 +287,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'subject_display', :label => 'Subject: '
 #     config.add_show_field 'url_access_display', :label => 'Content Link:'
      config.add_show_field 'url_toc_display', :label => 'Table of Contents Link:'
-     config.add_show_field 'url_other_display', :label => 'Content Link:'
+#     config.add_show_field 'url_other_display', :label => 'Content Link:'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
