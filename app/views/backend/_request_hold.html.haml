@@ -1,0 +1,15 @@
+%div Hold
+You can request that this item be held for you once it is returned. The delivery time is approximately 3 months.
+%form{ :controller => 'backend', :action => '/backend/deliver_item', :method => 'post' }
+  - @locations = ['Olin','Uris','Mann'] 
+  %div
+    Locations:
+    %select#locations
+      - [ 'Olin', 'Uris', 'Mann' ].each do |i|
+        %option{ :value => i }=i
+  %input{ :type => 'hidden', :name => 'bibid', :value => @request_solution['bibid'] }
+  %input{ :type => 'hidden', :name => 'holding_id', :value => @request_solution['holding_id'] }
+  %div
+    Notes:
+    %textarea{ :name => 'notes', :row => '5', :column => '10' }
+  %input{ :type => "submit", :name => "submit", :value => "Request" }

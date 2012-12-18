@@ -1,0 +1,54 @@
+$cornell-primary: #b31b1b;
+$cornell-primary-hover: #990f26;
+$cornell-font: verdana, sans-serif;
+$cornell-blue: #6eb4cd;
+$cornell-blue-border: #4892ac;
+
+$link-primary: #b31b1b;
+
+$dark-gray: #222;
+$medium-gray: #666;
+$light-gray: #999;
+$pale-gray: #f3f3f3;
+
+$tan: #d8d2c9;
+$dark-tan: #b3ab9e;
+$light-tan: #edebe7;
+
+$teal: #2aa198;
+$dark-teal: #1f7972;
+
+$yellow: #e8bc0f;
+
+$blue: #0093D0;
+
+$bright-red: #eb2020;
+
+$available: $teal;
+$unavailable: $bright-red;
+$info: $blue;
+
+
+
+// -------------------
+// Boostrap overrides
+// -------------------
+
+// Wells
+// -------------------------
+$wellBackground: $light-tan;
+
+// Fonts
+// -------------------------
+$baseFontFamily:        Oxygen;        @import
+url(http://fonts.googleapis.com/css?family=Oxygen);
+
+// Buttons
+// -------------------------
+$btnInfoBackground:                 $teal;
+$btnInfoBackgroundHighlight:        $dark-teal;
+
+// Navbar
+// -------------------------
+$navbarCollapseWidth:             767px !default;
+$navbarCollapseDesktopWidth:      $navbarCollapseWidth + 1;

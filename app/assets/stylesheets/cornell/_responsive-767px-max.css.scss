@@ -1,0 +1,119 @@
+//
+// Responsive: Landscape phone to desktop/tablet
+// --------------------------------------------------
+
+
+@media (max-width: 767px) {
+	#facets {
+		.btn-navbar {
+		    display: inline-block; float: none;
+		    color: #ffffff;
+		    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+		    background-color: #363636;
+		    background-image: -moz-linear-gradient(top, #444444, #222222);
+		    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
+		    background-image: -webkit-linear-gradient(top, #444444, #222222);
+		    background-image: -o-linear-gradient(top, #444444, #222222);
+		    background-image: linear-gradient(to bottom, #444444, #222222);
+		    background-repeat: repeat-x;
+		    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
+		    border-color: #222222 #222222 #000000;
+		    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+		    *background-color: #222222;
+		    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	 	}
+	 	.btn-navbar:hover,
+	 	.btn-navbar:active,
+	 	.btn-navbar.active,
+	 	.btn-navbar.disabled,
+	 	.btn-navbar[disabled] {
+    		color: #ffffff;
+		    background-color: #222222;
+		    *background-color: #151515;
+ 		}
+ 		.btn-navbar:active,
+ 		.btn-navbar.active { background-color: #080808 \9; }
+ 		.nav-collapse { margin: 5px 10px; }
+	}
+	ul.login { float: none; }
+	.document-data { width: 70%; }
+
+	.advanced-search-link {
+  display: block;
+  position: relative;
+  margin-left: 0;
+  text-align: left;
+  font-size: .8em;
+}
+	.catalog_startOverLink {
+	padding-top:0.3em;
+	float:none;}
+
+}
+
+
+
+
+// ORIGINAL MEDIA QUERIES FROM PROTOTYPE, NOT BROUGHT INTO TEMPLATES YET
+// --------------------------------------------------------------------------
+// @media (max-width: 480px) {
+
+//  header .container { margin: 0 10px; }
+
+//  .main-content {padding: 0;}
+
+//  .nav-collapse,
+//  .nav-collapse.collapse {
+//    overflow: hidden;
+//    height: 0;
+//  }
+
+//  #facets .btn-navbar {
+//    display: inline-block; float: none;
+//    color: #ffffff;
+//    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+//    background-color: #363636;
+//    background-image: -moz-linear-gradient(top, #444444, #222222);
+//    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
+//    background-image: -webkit-linear-gradient(top, #444444, #222222);
+//    background-image: -o-linear-gradient(top, #444444, #222222);
+//    background-image: linear-gradient(to bottom, #444444, #222222);
+//    background-repeat: repeat-x;
+//    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
+//    border-color: #222222 #222222 #000000;
+//    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+//    *background-color: #222222;
+//    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+//  }
+//  #facets .btn-navbar:hover,
+//  #facets .btn-navbar:active,
+//  #facets .btn-navbar.active,
+//  #facets .btn-navbar.disabled,
+//  #facets .btn-navbar[disabled] {
+//    color: #ffffff;
+//    background-color: #222222;
+//    *background-color: #151515;
+//  }
+//  #facets {
+//    .btn-navbar:active, .btn-navbar.active {
+//        background-color: #080808 \9; }
+//   }
+
+
+//  .input-xlarge {width: 75%;}
+//  .main-content .container {padding: 0 10px;}
+//  .facets p {display: inline; float: left;}
+//  .item-data {width: 70%;}
+//  .item-data span.format {float: none; display: block;}
+//  .item-data span.status {float: none; margin-left: 0;}
+//  .blacklight-pub_info_display {display: block; margin-top: .5em;}
+//  .item-data span {line-height: 1em;}
+//  .selected-facets {float: none;}
+//  .selected-facet {padding: 0 5px 0 10px;}
+//  .selected-facet .close {float: none; padding: 0 5px 5px 5px;}
+//  .btn-start-over {margin-top: 1em;}
+// }
+
+// @media (min-width: 768px) and (max-width: 979px) {
+//  .item-data {width: 80%;}
+// }

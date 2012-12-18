@@ -1,0 +1,49 @@
+- ho = 'http://'+request.env['HTTP_HOST']
+- dx = request.env['HTTP_HOST']
+- cop = dx.index(':')
+- dx = dx[0..cop-1] unless (cop.nil?)
+- dx = 'http://' + dx
+%p
+  Request this item be delivered for you: 
+  %br
+  %b=@ti
+  %form{:id => 'req', :method => 'post', :action => "#{dx}:8950/holdings/callslip/#{@netid}/#{@id}"}
+    :javascript
+      $(function() {
+      $('#req').submit( function(e) {
+      return false;
+      });
+      $('#sumbit').click(function(e) {
+        var hu = $('#req').attr('action') + '/' + $('#PICK').val();
+         $('#result').html("Working....");
+         $.ajax({
+             type: 'POST',
+             data:{"reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val() },
+             url:hu,
+             dataType: 'json',
+             success: function(data) {
+               var st=data.status;
+               var desc= (st == 'success') ? 'succeeded' : 'failed';  
+               $('#result').html("Your request for delivery has "+desc);
+             }
+         });
+         return false; // should block the submit
+      });
+      });
+    %input(type="hidden" name="bid" value="#{@id}")
+    %br
+    = render :partial => 'shared/reqpu'
+    %br
+    = render :partial => 'shared/reqco'
+    %br
+    Comments:
+    %br
+    %textarea
+    %br
+    = render :partial => 'shared/reqdate'
+    %br
+    %input(type="submit" id="sumbit" value="Submit request for delivery")
+    %input(type="reset" id="reest" value="Clear form")
+    %br
+    %div(id="result" name="result" value="")
+%p Find me in app/views/request/callslip.html.haml

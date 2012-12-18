@@ -1,4 +1,4 @@
-Monblacklight4::Application.configure do
+BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -14,7 +14,13 @@ Monblacklight4::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.smtp_settings = {
+    :address => 'localhost',
+    :domain => 'cornell.edu',
+    :user_name => 'culsearch@cornell.edu'
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -34,4 +40,8 @@ Monblacklight4::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  # URL of service which returns JSON holding info.
+  config.voyager_holdings = "http://culsearchdev.library.cornell.edu:8950" 
+  config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
+  
 end

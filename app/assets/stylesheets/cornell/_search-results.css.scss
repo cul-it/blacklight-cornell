@@ -1,0 +1,68 @@
+body.blacklight-catalog-index .document {
+	clear: both;
+	border-bottom: 1px solid $light-tan;
+	padding: 20px 0;
+	img {
+		float: left;
+		margin-right: 1em;
+		width: 50px;
+		height: 75px;
+	}
+}
+
+.document-data {
+	float: left;
+	width: 90%;
+	span {
+		font-size: 0.75em;
+		color: $light-gray;
+		line-height: 0.875em;
+	}
+	span.format {
+		float: left;
+		margin-top: .25em;
+		line-height: 1.55em;
+		color: $medium-gray;
+	}
+	span.status {
+		margin-left: 20px;
+		display: inline-block;
+		float: left;
+		margin-top: .25em;
+		font-size: 1em;
+		color: $medium-gray;
+		// icon {
+		// 	font-size: 1.1em;
+		// }
+	}
+	span.callnumber {
+		font-size: inherit;
+	}
+}
+
+h2.blacklight-title_display {
+	margin: 0;
+	font-weight: normal;
+	line-height: 1.2em;
+	font-size: 1.1em;
+}
+
+.uniform-title { font-style: italic; }
+
+.status-online {
+	margin-right: 5px;
+	padding: 2px 4px;
+	background: $available;
+	color: #fff;
+	@include border-radius(3px)
+	}
+
+.status-online:hover {
+	text-decoration: none;
+	background: $dark-gray;
+	color: $white;
+	}
+
+.icon-ok { color: $available; }
+.icon-time { color: $unavailable; }
+.icon-info-sign { color: $blue; }

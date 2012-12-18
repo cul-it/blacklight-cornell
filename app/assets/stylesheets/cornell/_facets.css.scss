@@ -1,0 +1,115 @@
+.facets {
+	margin-top: 30px;
+	h5 {
+		padding: 10px 6px 10px 0;
+		line-height: 1.2em;
+		font-size: 0.875em;
+		margin: 0 0 5px 0;
+		cursor: pointer;
+		border-bottom: solid 5px $light-tan;
+		//background: $light-tan;
+		//border: 1px solid $tan;
+		// @include border-radius($baseBorderRadius);
+		i {
+			float: right;
+			color: $light-gray; }
+	}
+	h5:hover {
+		color: $dark-gray;
+		// background: $tan;
+		//border-bottom: solid 5px $tan;
+		}
+	h5.twiddle-open {
+		border-bottom: none;
+		margin-bottom: 0;
+		color: $dark-gray;
+		// @include border-bottom-left-radius(0);
+		// @include border-bottom-right-radius(0);
+	}
+	h5.twiddle-open:hover {
+		//background: $light-tan;
+	}
+	ul {
+		margin: 0 0 5px 10px;
+		padding: 0 10px;
+		list-style: none;
+		border-bottom: solid 5px $light-tan;
+		//background: $light-tan;
+		//border: 1px solid $tan;
+		//border-top: none;
+		//@include border-bottom-left-radius($baseBorderRadius);
+		//@include border-bottom-right-radius($baseBorderRadius);
+	}
+	li {
+		font-size: 0.75em;
+		color: $light-gray;
+	}
+	p { font-weight: bold; }
+	i { padding-right: .25em; } // this is supposed to be for formats, but h5 icon
+}
+// OVERRIDE #FACETS
+#facets {
+	ul {
+		margin-left: 0;
+		padding-top: 0;
+		padding-bottom: .5em;
+	}
+	li {
+		margin-right: 0;
+		padding-bottom: 0;
+	}
+	li.more_facets_link {
+		float: none;
+		margin-right: -50px; }
+	span.selected {
+		font-weight: bold;
+		color: $dark-gray;
+	}
+	h5 + div { padding-bottom: .5em; }
+}
+
+// ONLINE ONLY
+.blacklight-online {
+	border-bottom: solid 5px $light-tan;
+	form { margin-bottom: 0; }
+}
+
+// PUBLICATION YEAR
+.limit_content {
+	// background: $light-tan;
+	margin-right: 10px;
+	border-bottom: solid 5px $light-tan;
+}
+
+// SELECTED FACETS
+
+.selected-facets {
+	.btn-info i {
+		margin: .1em 0 0 .5em;
+	}
+	a {
+		color: $white;
+	}
+	a:hover {
+		text-decoration: none;
+	}
+}
+.selected-facet {
+	padding: 0 10px;
+	background: $cornell-blue;
+	border: 1px solid $cornell-blue-border;
+	font-size: 0.875em;
+	margin: 0 .5em .5em 0;
+	color: #fff;
+	display: inline-block;
+	-webkit-border-radius: 20px;
+	-moz-border-tradius: 20px;
+	border-radius: 20px;
+}
+.btn-start-over { float: right; }
+
+// MODAL WINDOW
+.modal {
+	background: $pale-gray;
+	padding: 10px;
+}

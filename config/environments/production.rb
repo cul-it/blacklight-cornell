@@ -1,4 +1,4 @@
-Monblacklight4::Application.configure do
+BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
@@ -9,7 +9,7 @@ Monblacklight4::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -18,7 +18,7 @@ Monblacklight4::Application.configure do
   config.assets.compile = false
 
   # Generate digests for assets URLs
-  config.assets.digest = true
+  config.assets.digest = false
 
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
@@ -46,11 +46,16 @@ Monblacklight4::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( search.js )
+  #config.assets.precompile += %w( search.js )
 
   # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
-
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.smtp_settings = {
+    :address => 'localhost',
+    :domain => 'cornell.edu',
+    :user_name => 'culsearch@cornell.edu'
+  }
   # Enable threaded mode
   # config.threadsafe!
 
@@ -64,4 +69,8 @@ Monblacklight4::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  # URL of service which returns JSON holding info.
+  config.voyager_holdings = "http://culsearchdev.library.cornell.edu:8950" 
+  config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
+  
 end

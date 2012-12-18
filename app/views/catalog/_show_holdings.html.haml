@@ -1,0 +1,18 @@
+/ - content_for :jstemplates do
+/   :javascript
+/     $(document).ready ( function () {
+/       $("#holding_spinner").show();
+/       load_clio_holdings(#{@document.id.to_s});
+/     })
+
+/ = yield(:jstemplates)
+
+%h4 Availability
+#holding_spinner=image_tag ("ajax-indicator.gif")
+.clio_holdings{:id => 'document-' + @document.id.to_s}
+  .holdings_display
+  .holdings_check
+  .holdings_error
+    Unable to load.
+  = link_to "Retry?", "#", :onclick => "javascript:load_clio_holdings(#{@document.id.to_s});"
+

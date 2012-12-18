@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Monblacklight4::Application.load_tasks
+BlacklightCornell::Application.load_tasks

@@ -1,4 +1,4 @@
-Monblacklight4::Application.configure do
+BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
@@ -34,4 +34,6 @@ Monblacklight4::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  # URL of service which returns JSON holding info.
+  config.voyager_holdings = "http://culsearchdev.library.cornell.edu:8950" 
 end

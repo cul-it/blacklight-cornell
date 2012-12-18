@@ -1,0 +1,11 @@
+<% # container for a single doc -%>
+<div id="document-<%= document.id %>" class="document <%= render_document_class document %> clearfix">
+  <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
+
+  <div class="document-data">
+    <%= render :partial => 'document_header', :locals => { :document => document, :document_counter => document_counter } %>
+
+    <% # main container for doc partial view -%>
+    <%= render_document_partial document, :index %>
+  </div>
+</div>
