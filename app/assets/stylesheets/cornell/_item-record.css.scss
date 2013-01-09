@@ -1,6 +1,4 @@
-#document {
-	h2 { line-height: 32px; }
-}
+.return-link { margin-bottom: 10px; }
 
 h3.subtitle {
 	font-size: 1em;
@@ -23,7 +21,17 @@ h3.subtitle {
 	margin-bottom: 20px;
 }
 
-// override bootstrap dl-horizontal
+// OVERRIDE CORE STYLES
+.document {
+	border-bottom: none;
+	clear: none;
+	padding-bottom: 0;
+}
+#document {
+	 margin-top: 0;
+	 h2 { line-height: 32px; }
+}
+label.toggle_bookmark { min-width: auto; }
 dl.dl-horizontal {
 	margin-top: 0;
 	dt {
@@ -53,8 +61,8 @@ dl.dl-horizontal {
 	}
 	li {
 		font-size: 0.75em;
-    	float: left;
-    	margin-left: 15px;
+  	float: left;
+  	margin-left: 15px;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
@@ -64,30 +72,12 @@ dl.dl-horizontal {
 		min-width: auto;
 		li {
 			font-size: 1em;
-			margin-left: 0; }
+			margin-left: 0;
+		}
 	}
 }
 
 .item-pagination { font-size: 0.875em; }
-
-.librarian-view {
-	text-align: right;
-	font-size: 0.875em;
-}
-
-// temporarily add a height to the shelf browser to convey estimated content size
-.shelf-browser {
-	height: 500px;
-}
-
-// OVERRIDE CORE STYLES
-.document {
-	border-bottom: none;
-	clear: none;
-	padding-bottom: 0;
-}
-#document { margin-top: 0; }
-label.toggle_bookmark { min-width: auto; }
 
 // AVAILABILITY
 .holding {
@@ -111,9 +101,14 @@ label.toggle_bookmark { min-width: auto; }
 	padding-bottom: 1.4em;
 	border-bottom: solid 2px $tan;
 }
-
 .google-books-link { margin-bottom: 0; }
 
-.request-submit .btn { margin-top: 10px; }
+// temporarily add a height to the shelf browser to convey estimated content size
+.shelf-browser {
+	height: 500px;
+}
 
-.return-link { margin-bottom: 10px; }
+.librarian-view {
+	text-align: right;
+	font-size: 0.875em;
+}
