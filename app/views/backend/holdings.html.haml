@@ -4,7 +4,11 @@
     .location_box
       -# Only display a real location
       - if entry['location_name'] != '*Networked Resource'
-        %h5.location= entry['location_name']
+        %h5.location
+          = entry['location_name']
+          %span.map-it
+            -# @TODO: create a hash for mapping locations
+            %a{:href=>'#', :title=>'Not yet ready for prime time'}map
     .hours= entry['hours']
 
     -# Only display a real call number
@@ -13,7 +17,6 @@
 
     - entry['copies'].each do |copy|
       .group
-
         - unless copy['temp_locations'].nil?
           - copy['temp_locations'].each do |t|
             .message= t
