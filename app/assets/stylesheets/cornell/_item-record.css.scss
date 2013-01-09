@@ -68,7 +68,6 @@ dl.dl-horizontal {
 	}
 }
 
-
 .item-pagination { font-size: 0.875em; }
 
 .librarian-view {
@@ -76,30 +75,10 @@ dl.dl-horizontal {
 	font-size: 0.875em;
 }
 
-.item-holdings {
-	margin: 10px 0; }
-
-.availability {
-	margin-top: 20px;
-	p { font-size: 0.875em;
-	}
-}
-
 // temporarily add a height to the shelf browser to convey estimated content size
 .shelf-browser {
 	height: 500px;
 }
-
-.item-holdings {
-	text-align: center;
-	button { margin-bottom: 10px; }
-}
-
-.google-books-link { margin-top: 10px; }
-
-.request-submit .btn { margin-top: 10px; }
-
-.return-link { margin-bottom: 10px; }
 
 // OVERRIDE CORE STYLES
 .document {
@@ -110,7 +89,7 @@ dl.dl-horizontal {
 #document { margin-top: 0; }
 label.toggle_bookmark { min-width: auto; }
 
-// HOLDINGS
+// AVAILABILITY
 .holding {
 	margin-bottom: 1em;
 	font-size: 0.875em;
@@ -123,3 +102,18 @@ label.toggle_bookmark { min-width: auto; }
 	font-size: .9em;
 	color: $light-gray;
 }
+.availability {
+	margin-top: 20px;
+	p { font-size: 0.875em; }
+}
+.item-requests {
+	margin: .5em 0;
+	padding-bottom: 1.4em;
+	border-bottom: solid 2px $tan;
+}
+
+.google-books-link { margin-bottom: 0; }
+
+.request-submit .btn { margin-top: 10px; }
+
+.return-link { margin-bottom: 10px; }
