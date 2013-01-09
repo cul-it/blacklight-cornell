@@ -4,7 +4,7 @@
     .location_box
       -# Only display a real location
       - if entry['location_name'] != '*Networked Resource'
-        .location= entry['location_name']
+        %h5.location= entry['location_name']
     .hours= entry['hours']
 
     -# Only display a real call number
@@ -19,19 +19,18 @@
             .message= t
         - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
           - unless copy[type].nil?
-            -# Notes provide no value for networked resources
-            - if entry['location_name'] != '*Networked Resource'
-              .message= copy[type]
+            .message= copy[type]
         - copy['items'].each do |item|
           .status
             - message, details = item
             - if details['status'] == 'available'
               %i.icon-ok
             - else
-              -if entry['location_name'] == '*Networked Resource'
-                %i.icon-ok
-                %a.btn.btn-info Online
-                %i (need URL from above)
+              -# Handling online link in _show_holdings.html.haml for now
+              -#if entry['location_name'] == '*Networked Resource'
+                -#%i.icon-ok
+                -#%a.btn.btn-info Online
+                -#%i (need URL from above)
               - else
                 %i.icon-time
             = message unless message.to_str == 'Status unknown'

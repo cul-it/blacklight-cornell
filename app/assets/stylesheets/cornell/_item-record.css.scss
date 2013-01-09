@@ -62,7 +62,7 @@ dl.dl-horizontal {
 	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
 	.dropdown-menu {
 		min-width: auto;
-		li { 
+		li {
 			font-size: 1em;
 			margin-left: 0; }
 	}
@@ -112,7 +112,14 @@ label.toggle_bookmark { min-width: auto; }
 
 // HOLDINGS
 .holding {
-	margin: 10px 0;
+	margin-bottom: 1em;
 	font-size: 0.875em;
 }
-.location {font-weight: bold;}
+.location {
+	margin-bottom: 0;
+	font-size: 1.1em;
+}
+.message {
+	font-size: .9em;
+	color: $light-gray;
+}
