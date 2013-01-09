@@ -6,7 +6,8 @@
 		font-size: 0.875em;
 		margin: 0 0 5px 0;
 		cursor: pointer;
-		border-bottom: solid 5px $light-tan;
+		border-bottom: dotted 1px $dark-tan;
+		color: $dark-gray;
 		//background: $light-tan;
 		//border: 1px solid $tan;
 		// @include border-radius($baseBorderRadius);
@@ -22,7 +23,7 @@
 	h5.twiddle-open {
 		border-bottom: none;
 		margin-bottom: 0;
-		color: $dark-gray;
+		// color: $dark-gray;
 		// @include border-bottom-left-radius(0);
 		// @include border-bottom-right-radius(0);
 	}
@@ -31,9 +32,9 @@
 	}
 	ul {
 		margin: 0 0 5px 10px;
-		padding: 0 10px;
+		padding: 0 10px 0 0;
 		list-style: none;
-		border-bottom: solid 5px $light-tan;
+		border-bottom: dotted 1px $dark-tan;
 		//background: $light-tan;
 		//border: 1px solid $tan;
 		//border-top: none;
@@ -62,7 +63,7 @@
 		float: none;
 		margin-right: -50px; }
 	span.selected {
-		font-weight: bold;
+		// font-weight: bold;
 		color: $dark-gray;
 	}
 	h5 + div { padding-bottom: .5em; }
@@ -70,7 +71,7 @@
 
 // ONLINE ONLY
 .blacklight-online {
-	border-bottom: solid 5px $light-tan;
+	border-bottom: dotted 1px $dark-tan;
 	form { margin-bottom: 0; }
 }
 
@@ -78,7 +79,7 @@
 .limit_content {
 	// background: $light-tan;
 	margin-right: 10px;
-	border-bottom: solid 5px $light-tan;
+	border-bottom: dotted 1px $dark-tan;
 }
 
 // SELECTED FACETS
