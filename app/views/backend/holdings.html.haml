@@ -12,10 +12,14 @@ Place request:
 
   .holding{:class => alternating_line}
     .location_box
-      .location= entry['location_name']
+      -# Only display a real location
+      - if entry['location_name'] != '*Networked Resource'
+        .location= entry['location_name']
     .hours= entry['hours']
 
-    .call_number= entry['call_number']
+    -# Only display a real call number
+    - if entry['call_number'] != 'No call number'
+      .call_number= entry['call_number']
 
     - entry['copies'].each do |copy|
       .group
@@ -25,14 +29,21 @@ Place request:
             .message= t
         - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
           - unless copy[type].nil?
-            .message= copy[type]
+            -# Notes provide no value for networked resources
+            - if entry['location_name'] != '*Networked Resource'
+              .message= copy[type]
         - copy['items'].each do |item|
           .status
             - message, details = item
             - if details['status'] == 'available'
               %i.icon-ok
             - else
-              %i.icon-time
+              -if entry['location_name'] == '*Networked Resource'
+                %i.icon-ok
+                %a.btn.btn-info Online
+                %i (need URL from above)
+              - else
+                %i.icon-time
             = message unless message.to_str == 'Status unknown'
             - if details['count'] >1
               (#{details['count']} copies)

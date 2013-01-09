@@ -8,6 +8,9 @@
 / = yield(:jstemplates)
 
 %h4 Availability
+-# Temporarily expose online access URL
+-# -- we need this returned by the availability service
+= @document['url_access_display']
 #holding_spinner=image_tag ("ajax-indicator.gif")
 .clio_holdings{:id => 'document-' + @document.id.to_s}
   .holdings_display
