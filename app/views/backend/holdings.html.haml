@@ -1,13 +1,3 @@
-Place request:
-- ho = 'http://'+request.env['HTTP_HOST']
-- dx = request.env['HTTP_HOST']
-- cop = dx.index(':')
-- dx = dx[0..cop-1] unless (cop.nil?)
-- dx = 'http://' + dx
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/hold/xxxx/'+"/"+@id}Hold
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/recall/xxxx/'+"/"+@id} Recall
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/callslip/xxxx/'+"/"+@id} Deliver
-
 - add_display_elements(@holdings['condensed_holdings_full']).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
 
   .holding{:class => alternating_line}
@@ -52,3 +42,13 @@ Place request:
         .label= "Request: "
         - svc_links.each do |link|
           .service= link
+
+Place request:
+- ho = 'http://'+request.env['HTTP_HOST']
+- dx = request.env['HTTP_HOST']
+- cop = dx.index(':')
+- dx = dx[0..cop-1] unless (cop.nil?)
+- dx = 'http://' + dx
+%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/hold/xxxx/'+"/"+@id}Hold
+%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/recall/xxxx/'+"/"+@id} Recall
+%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/callslip/xxxx/'+"/"+@id} Deliver
