@@ -68,3 +68,11 @@ body.blacklight-catalog-index .document {
 .icon-ok { color: $available; }
 .icon-time { color: $unavailable; }
 .icon-info-sign { color: $blue; }
+
+#sort-dropdown,
+#per_page-dropdown {
+	font-size: .8em;
+	.btn {
+		font-size: inherit;
+	}
+}
