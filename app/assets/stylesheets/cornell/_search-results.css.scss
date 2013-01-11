@@ -14,9 +14,12 @@ body.blacklight-catalog-index .document {
 	float: left;
 	width: 90%;
 	span {
-		font-size: 0.75em;
+		font-size: .75em;
 		color: $light-gray;
-		line-height: 0.875em;
+	}
+	span.blacklight-pub_date_display {
+		margin-left: .2em;
+		color: $dark-gray;
 	}
 	span.format {
 		float: left;
@@ -31,23 +34,22 @@ body.blacklight-catalog-index .document {
 		margin-top: .25em;
 		font-size: 1em;
 		color: $medium-gray;
-		// icon {
-		// 	font-size: 1.1em;
-		// }
 	}
 	span.callnumber {
 		font-size: inherit;
 	}
 }
 
-h2.blacklight-title_display {
+.blacklight-title_display {
 	margin: 0;
 	font-weight: normal;
 	line-height: 1.2em;
 	font-size: 1.1em;
 }
-
+.data-block { line-height: 1em; }
 .uniform-title { font-style: italic; }
+
+.blacklight-author_display { display: block; }
 
 .status-online {
 	margin-right: 5px;
@@ -55,14 +57,22 @@ h2.blacklight-title_display {
 	background: $available;
 	color: #fff;
 	@include border-radius(3px)
-	}
+}
 
 .status-online:hover {
 	text-decoration: none;
 	background: $dark-gray;
 	color: $white;
-	}
+}
 
 .icon-ok { color: $available; }
 .icon-time { color: $unavailable; }
 .icon-info-sign { color: $blue; }
+
+#sort-dropdown,
+#per_page-dropdown {
+	font-size: .8em;
+	.btn {
+		font-size: inherit;
+	}
+}

@@ -1,52 +1,37 @@
 .facets {
-	margin-top: 30px;
+	margin-top: 0.5em;
+	padding: 10px;
+	width: 250px;
+	background: white;
+	@include border-radius($borderRadiusLarge);
 	h5 {
 		padding: 10px 6px 10px 0;
 		line-height: 1.2em;
 		font-size: 0.875em;
 		margin: 0 0 5px 0;
 		cursor: pointer;
-		border-bottom: dotted 1px $dark-tan;
 		color: $dark-gray;
-		//background: $light-tan;
-		//border: 1px solid $tan;
-		// @include border-radius($baseBorderRadius);
 		i {
 			float: right;
 			color: $light-gray; }
 	}
-	h5:hover {
-		color: $dark-gray;
-		// background: $tan;
-		//border-bottom: solid 5px $tan;
-		}
 	h5.twiddle-open {
 		border-bottom: none;
 		margin-bottom: 0;
-		// color: $dark-gray;
-		// @include border-bottom-left-radius(0);
-		// @include border-bottom-right-radius(0);
-	}
-	h5.twiddle-open:hover {
-		//background: $light-tan;
 	}
 	ul {
 		margin: 0 0 5px 10px;
 		padding: 0 10px 0 0;
 		list-style: none;
-		border-bottom: dotted 1px $dark-tan;
-		//background: $light-tan;
-		//border: 1px solid $tan;
-		//border-top: none;
-		//@include border-bottom-left-radius($baseBorderRadius);
-		//@include border-bottom-right-radius($baseBorderRadius);
 	}
 	li {
 		font-size: 0.75em;
 		color: $light-gray;
 	}
 	p { font-weight: bold; }
-	i { padding-right: .25em; } // this is supposed to be for formats, but h5 icon
+	i { padding-right: .25em; }
+	.navbar { margin-bottom: 0; }
+	a:hover { background: white; }
 }
 // OVERRIDE #FACETS
 #facets {
@@ -63,7 +48,6 @@
 		float: none;
 		margin-right: -50px; }
 	span.selected {
-		// font-weight: bold;
 		color: $dark-gray;
 	}
 	h5 + div { padding-bottom: .5em; }
@@ -72,14 +56,13 @@
 // ONLINE ONLY
 .blacklight-online {
 	border-bottom: dotted 1px $dark-tan;
+	margin-bottom: 10px; 
 	form { margin-bottom: 0; }
 }
 
 // PUBLICATION YEAR
 .limit_content {
-	// background: $light-tan;
 	margin-right: 10px;
-	border-bottom: dotted 1px $dark-tan;
 }
 
 // SELECTED FACETS
@@ -114,3 +97,8 @@
 	background: $pale-gray;
 	padding: 10px;
 }
+
+.twiddle-open .icon-plus-sign {
+    @extend .icon-minus-sign;
+    opacity: 1;
+  }
