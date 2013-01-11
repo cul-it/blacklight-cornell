@@ -8,4 +8,26 @@ $(document).ready(function() {
       $("#delivery_option").html(data);
     });
   });
+
+  $('#req').submit( function(e) {
+    return false;
+  });
+  $('#request_sumbit').click(function(e) {
+    var hu = $('#req').attr('action') + '/' + $('#PICK').val();
+    $('#result').html("Working....");
+    $.ajax({
+      type: 'POST',
+      data: {
+        "reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val()
+      },
+      url:hu,
+      dataType: 'json',
+      success: function(data) {
+        var st=data.status;
+        var desc= (st == 'success') ? 'succeeded' : 'failed';  
+        $('#result').html("Your request for delivery has "+desc);
+      }
+    });
+    return false; // should block the submit
+  });
 });

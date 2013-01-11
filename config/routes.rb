@@ -6,6 +6,8 @@ BlacklightCornell::Application.routes.draw do
 
   match 'request/callslip/:netid/:id' =>'request#callslip', :as =>'request_callslip'
 
+  match 'request/l2l/:id' =>'request#l2l', :as =>'request_l2l'
+
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
@@ -19,6 +21,7 @@ BlacklightCornell::Application.routes.draw do
   match 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
   match 'backend/feedback_mail', :to => "backend#feedback_mail"
   match 'backend/request_item/:id' => 'backend#request_item', :as => 'request_item'
+  match 'request_item/:id' => 'backend#request_item_redirect', :as => 'request_item_redirect'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
