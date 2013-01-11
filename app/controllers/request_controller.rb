@@ -86,7 +86,7 @@ class RequestController < ApplicationController
   if (!@hd.nil?) 
     @hd['records'].each do | hol |
       logger.debug  "holding id = #{hol['holding_id']}";
-     logger.debug  "item status = #{hol['item_status'].inspect}";
+      logger.debug  "item status = #{hol['item_status'].inspect}";
     end
   end
   end
@@ -111,6 +111,21 @@ class RequestController < ApplicationController
         logger.debug  "item status = #{hol['item_status'].inspect}";
       end
     end
+  end
+
+  def bd
+  end
+
+  def ill
+  end
+
+  def purchase
+  end
+
+  def ask
+  end
+
+  def make_request
     @voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
     if @voyager_request_handler_url.blank?
       @voyager_request_handler_url = request.env['HTTP_HOST']
@@ -122,7 +137,20 @@ class RequestController < ApplicationController
       @voyager_request_handler_url = @voyager_request_handler_url + ":" + Rails.configuration.voyager_request_handler_port.to_s
     end
 
-  end
+    @bid = params[:bid]
+    @holding_id = params[:holding_id]
+    @library_id = params[:library_id]
+    @netid = request.env['HTTP_REMOTE_USER']
+    #logger.debug params.inspect
 
+    @voyager_request_handler_url = "#{@voyager_request_handler_url}/holdings/callslip/#{@netid}/#{@bid}/#{@library_id}/#{@holding_id}"
+    #logger.debug "posting request to: #{@voyager_request_handler_url}"
+
+    @voyager_response = JSON.parse(HTTPClient.get_content @voyager_request_handler_url)
+    #logger.debug @voyager_response
+
+    #render "request/make_request", :layout => false
+    render :json => @voyager_response, :layout => false
+  end
 
 end
