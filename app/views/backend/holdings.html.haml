@@ -53,4 +53,4 @@ Place request:
 - dx = 'http://' + dx
 %a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/hold/xxxx/'+"/"+@id}Hold
 %a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/recall/xxxx/'+"/"+@id} Recall
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/callslip/xxxx/'+"/"+@id} Deliver
+%a{:href=>"/request_item/l2l/#{@id}"} Deliver

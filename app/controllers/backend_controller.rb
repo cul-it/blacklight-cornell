@@ -225,6 +225,13 @@ class BackendController < ApplicationController
     render "backend/request_item", :layout => false
   end
 
+  def request_item_redirect
+    service = _request_item params[:id], request.env['REMOTE_USER']
+    @request_solution = service 
+    #@request_solution = {:service => 'bd'}
+    redirect_to "/request/#{@request_solution[:service]}/#{params[:id]}"
+  end
+
   def _request_item bibid, netid
     holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
     item_type = get_item_type holdings

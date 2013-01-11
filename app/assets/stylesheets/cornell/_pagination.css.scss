@@ -1,0 +1,19 @@
+.pagination {
+  margin: 0;
+  padding-top: .25em;
+  background: $dark-gray;
+  @include opacity(90);
+}
+.pagination ul > li > a,
+.pagination ul > li > span {
+  margin: 0 .5em;
+  color: $white;
+  background-color: transparent;
+  border: none;
+}
+.pagination ul > li > a:hover,
+.pagination ul > .active > a,
+.pagination ul > .active > span {
+  color: $cornell-primary;
+  @include border-radius(2px);
+}
