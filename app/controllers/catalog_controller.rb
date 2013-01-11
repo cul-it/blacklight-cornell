@@ -191,7 +191,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'pub_date', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
-      :segments => true
+      :segments => false
     }, :show => true
 #    config.add_facet_field 'pub_date_sort', :label => 'Publication Year', :range => {
 #  :num_segments => 6,
