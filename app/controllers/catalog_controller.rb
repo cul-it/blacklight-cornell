@@ -187,7 +187,7 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    config.add_facet_field 'format', :label => 'Format', :limit => 3
+    config.add_facet_field 'format', :label => 'Format', :limit => 5
     config.add_facet_field 'pub_date', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
@@ -198,15 +198,14 @@ class CatalogController < ApplicationController
 #  :assumed_boundaries => [1300, Time.now.year + 2],
 #  :segments => true
 #}, :show => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 5
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 3
-    config.add_facet_field 'subject_geo_facet', :label => 'Region', :limit => 5
-    config.add_facet_field 'subject_era_facet', :label => 'Era', :limit => 5
-    config.add_facet_field 'location_facet', :label => 'Location', :limit => 5
+    config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
+    config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
+    config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
     config.add_facet_field 'subject_content_facet', :label => 'Content', :limit => 5
-
-
+    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 5
+    config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
+    
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
 #    config.add_facet_field 'facet', :multiple => true
 #    config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']

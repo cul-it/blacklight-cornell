@@ -17,7 +17,7 @@ header {
   }
 }
 
-ul.login {
+ul.blacklight-nav {
   	font-size: 0.75em;
   	margin: 0 20px 0 0;
   	list-style: none;
@@ -30,10 +30,33 @@ ul.login {
     	padding: 5px 10px;
     	color: $pale-gray;
     }
+    a.user-email,
+    a.logout {
+      padding: 5px 0;
+      display: inline-block;
+    }
+    a.user-email {
+      margin-right: .5em;
+    }
+    a.logout {
+      font-size: .9em;
+      color: $light-gray;
+    }
    	a:hover {
     	text-decoration: none;
     	background: $medium-gray;
       color: $white;
       @include border-radius(6px);
     }
+    a.user-email:hover,
+    a.logout:hover {
+      background: none;
+      color: $cornell-primary;
+    }
+}
+
+.current-user {
+  float: left;
+  margin-right: 1em;
+  color: $light-gray;
 }

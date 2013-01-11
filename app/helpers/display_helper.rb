@@ -128,23 +128,26 @@ module DisplayHelper
   FORMAT_MAPPINGS = {
     "Book" => "book",
     "Online" =>"link",
-    "Computer File" => "computer-file",
-    "Non-musical Recording" => "non-musical-recording",
+    "Computer File" => 'save',
+    "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
-    "Musical Recording" => "musical-recording",
+    "Musical Recording" => "music",
     "Thesis" => "thesis",
-    "Microform" => "microform",
-    "Serial" => "journal",
-    "Journal/Periodical" => "journal",
-    "Journal" => "journal",
+    "Microform" => "th",
+    "Serial" => "copy",
+    "Journal/Periodical" => "copy",
+    "Journal" => "copy",
     "Conference Proceedings" => "conference",
-    "Video" => "video",
-    "Map or Globe" => "map-or-globe",
+    "Video" => "film",
+    "Map or Globe" => "globe",
     "Manuscript/Archive" => "manuscript",
     "Newspaper" => "newspaper",
-    "Database" => "database",
-    "Image" => "image",
-    "Unknown" => "unknown"
+    "Database" => "hdd",
+    "Image" => "picture",
+    "Unknown" => "question-sign",
+    "Kit" => "kit",
+    "Research Guide" => "research-guide",
+    "Course Guide" => "course-guide"
   }
 
   def formats_icon_mapping(document)
