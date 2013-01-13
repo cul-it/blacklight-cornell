@@ -50,12 +50,9 @@ body.blacklight-catalog-index .document {
 
 .data-block { line-height: 1em; }
 
-.status-online {
-	margin-right: 5px;
-	padding: 2px 4px;
+.label-online {
+	font-weight: normal;
 	background: $available;
-	color: #fff;
-	@include border-radius(3px)
 }
 
 .status-online:hover {

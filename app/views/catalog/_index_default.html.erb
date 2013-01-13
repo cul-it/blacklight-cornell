@@ -13,4 +13,17 @@
     <span class="blacklight-edition_display"><%= render_index_field_value :document => document, :field => 'edition_display' %></span>
   </div>
 
-  <div id="blacklight-avail-<%=document.id%>" class="status"></div>
+  <%# This really belongs in a helper %>
+  <% if (render_index_field_value :document => document, :field => 'url_access_display' ).present? %>
+    <% online_url = render_index_field_value :document => document, :field => 'url_access_display' %>
+  <% elsif (render_index_field_value :document => document, :field => 'url_other_display' ).present? %>
+    <% online_url = render_index_field_value :document => document, :field => 'url_other_display' %>
+  <% end %>
+
+  <% if online_url.present? %>
+    <div class="available-online">
+      <i class="icon-ok"></i> <a href="<%= online_url %>" class="label label-online">Online</a>
+    </div>
+  <% end %>
+
+  <div id="blacklight-avail-<%=document.id%>" class="status">  </div>
