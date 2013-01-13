@@ -10,6 +10,13 @@ body.blacklight-catalog-index .document {
 	}
 }
 
+.blacklight-title_display {
+	margin: 0;
+	font-weight: normal;
+	line-height: 1.2em;
+	font-size: 1.1em;
+}
+
 .document-data {
 	float: left;
 	width: 90%;
@@ -17,38 +24,31 @@ body.blacklight-catalog-index .document {
 		font-size: .75em;
 		color: $light-gray;
 	}
-	span.blacklight-pub_date_display {
+	.blacklight-pub_date_display {
 		margin-left: .2em;
 		color: $dark-gray;
 	}
-	span.format {
-		float: left;
-		margin-top: .25em;
-		line-height: 1.55em;
+	.blacklight-title_uniform_display {
+		display: block;
+		margin-top: -.3em;
+		font-style: italic;
 		color: $medium-gray;
 	}
-	span.status {
-		margin-left: 20px;
-		display: inline-block;
-		float: left;
-		margin-top: .13em;
+	.format {
+		margin-right: .5em;
+		color: $dark-gray;
+	}
+	.blacklight-pub_info_display {
+		margin-right: .5em;
+		color: $medium-gray;
+	}
+	.status {
 		font-size: 1em;
 	}
-	span.location {
-		color: $medium-gray;
-	}
+	.location { color: $medium-gray; }
 }
 
-.blacklight-title_display {
-	margin: 0;
-	font-weight: normal;
-	line-height: 1.2em;
-	font-size: 1.1em;
-}
 .data-block { line-height: 1em; }
-.uniform-title { font-style: italic; }
-
-.blacklight-author_display { display: block; }
 
 .status-online {
 	margin-right: 5px;
