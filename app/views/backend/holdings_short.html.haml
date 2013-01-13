@@ -1,26 +1,26 @@
 - @holdings_detail.each do| bib, entry|
-  - locations = entry['summary']['locnumber'] > 1 ? 'Multiple locations' : ''
-  - locations = entry['summary']['locnumber'] == 1 ? '': locations
-  - available = entry['summary']['avail_at'].size > 0 ? '' : ''
-  - if entry['summary']['avail_at'].size > 1
-    - available_addon = ' and others'
-    - else
-    - available_addon = ''
-  - if entry['summary']['not_avail_at'].size > 1
-    - not_available_addon = ' and others'
-    - else
-    - not_available_addon = ''
-  - if entry['summary']['avail_at'].size > 0
-    - available_at =  entry['summary']['avail_at'].keys()[0] + ' ' + entry['summary']['avail_at'][entry['summary']['avail_at'].keys()[0]] + available_addon
-    - icon_class = 'icon-ok'
-    -# icon = %icon.code.icon-ok
-    - else
-    - available_at = ''
-  - if entry['summary']['not_avail_at'].size > 0 && entry['summary']['avail_at'].size < 1
-    - not_available_at =  entry['summary']['not_avail_at'].keys()[0] + ' ' + entry['summary']['not_avail_at'][entry['summary']['not_avail_at'].keys()[0]] + not_available_addon
-    - icon_class = 'icon-time'
-    -# icon = %icon{:class => "icon-time"}
-  %icon{:class => icon_class}
-  #{locations}
-  %span{:class=>"available"}= "#{available} #{available_at}"
-  %span{:class=>"notavailable"}= "#{not_available_at}"
+  -## No point continuing if there are no item records for this holding
+  - if entry['records'].size > 0
+    -## locnumber was used initially, but we want to know whether there are
+    -## multiple available or unavailable and we can get that from avail_at
+    -## and not_avail_at, respectively
+    -# multiple_locations = entry['summary']['locnumber'] > 1 ? true : false
+    - available = entry['summary']['avail_at']
+    - unavailable = entry['summary']['not_avail_at']
+    - multiple_locations = 'Multiple locations'
+    - if available.size > 0
+      - if available.size === 1
+        - location = available.keys()[0]
+        - callnumber = available[location]
+      - else
+        - location = multiple_locations
+      %i.icon-ok
+    - elsif unavailable.size > 0
+      - if unavailable.size ===1
+        - location = unavailable.keys()[0]
+        - callnumber = unavailable[location]
+      - else
+        - location = multiple_locations
+      %i.icon-time
+    %span.location= location
+    %span.callnumber= callnumber

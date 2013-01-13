@@ -31,12 +31,11 @@ body.blacklight-catalog-index .document {
 		margin-left: 20px;
 		display: inline-block;
 		float: left;
-		margin-top: .25em;
+		margin-top: .13em;
 		font-size: 1em;
-		color: $medium-gray;
 	}
-	span.callnumber {
-		font-size: inherit;
+	span.location {
+		color: $medium-gray;
 	}
 }
 
