@@ -1,12 +1,14 @@
 BlacklightCornell::Application.routes.draw do
 
   match 'request/hold/:netid/:id' => 'request#hold', :as =>'request_hold' , :constraints => { :id => /.+/}
-
   match 'request/recall/:netid/:id' => 'request#recall', :as =>'request_recall'
-
   match 'request/callslip/:netid/:id' =>'request#callslip', :as =>'request_callslip'
-
   match 'request/l2l/:id' =>'request#l2l', :as =>'request_l2l'
+  match 'request/bd/:id' =>'request#bd', :as =>'request_bd'
+  match 'request/ill/:id' =>'request#ill', :as =>'request_ill'
+  match 'request/purchase/:id' =>'request#purchase', :as =>'request_purchase'
+  match 'request/ask/:id' =>'request#ask', :as =>'request_ask'
+  match 'make_request' => 'request#make_request', :as => 'request_make_request', :via => :post
 
   root :to => "catalog#index"
 

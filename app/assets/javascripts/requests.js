@@ -13,12 +13,15 @@ $(document).ready(function() {
     return false;
   });
   $('#request_sumbit').click(function(e) {
-    var hu = $('#req').attr('action') + '/' + $('#PICK').val();
+    var hu = $('#req').attr('action');// + '/' + $('#PICK').val();
     $('#result').html("Working....");
     $.ajax({
       type: 'POST',
       data: {
-        "reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val()
+        "reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val(),
+        "bid": $('#bid').val(),
+        "library_id": $('#PICK').val(),
+        "holding_id": $("#req input[type='radio']:checked").val()
       },
       url:hu,
       dataType: 'json',

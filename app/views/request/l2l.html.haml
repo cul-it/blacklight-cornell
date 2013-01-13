@@ -2,8 +2,8 @@
   Request this item be delivered for you: 
   %br
   %b=@ti
-  %form{:id => 'req', :method => 'post', :action => "#{@voyager_request_handler_url}/holdings/callslip/#{@netid}/#{@id}"}
-    %input(type="hidden" name="bid" value="#{@id}")
+  %form{:id => 'req', :method => 'post', :action => "/make_request"}
+    %input(type="hidden" name="bid" value="#{@id}" id="bid")
     %br
     = render :partial => 'shared/reqpu'
     %br
