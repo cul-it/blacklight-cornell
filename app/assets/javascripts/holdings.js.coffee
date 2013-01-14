@@ -88,7 +88,7 @@ root.load_short_holdings = (id) ->
     success: (data) ->
         $('#blacklight-avail-'+id).html(data)
     error: (data) ->
-        $('#blacklight-avail-'+id).html("Error")
+        $('#blacklight-avail-'+id).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
 
 root.retrieve_fedora_resources = (fedora_ids) ->
   url = 'http://rossini.cul.columbia.edu/voyager_backend/fedora/resources/' + fedora_ids.join('/');

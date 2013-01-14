@@ -63,7 +63,7 @@ body.blacklight-catalog-index .document {
 
 .icon-ok { color: $available; }
 .icon-time { color: $unavailable; }
-.icon-info-sign { color: $blue; }
+.icon-warning-sign {color: $yellow; }
 
 #sort-dropdown,
 #per_page-dropdown {
