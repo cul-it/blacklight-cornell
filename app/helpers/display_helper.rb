@@ -120,9 +120,16 @@ module DisplayHelper
     return get_clickable_setting(field) != nil
   end
 
-
   def display_link?(field)
     return blacklight_config.display_link[field] != nil
+  end
+
+  def online_url(document)
+    if document['url_access_display'].present?
+      render_index_field_value(:document => document, :field => 'url_access_display')
+    elsif document['url_other_display'].present?
+      render_index_field_value(:document => document, :field => 'url_other_display')
+    end
   end
 
   FORMAT_MAPPINGS = {
