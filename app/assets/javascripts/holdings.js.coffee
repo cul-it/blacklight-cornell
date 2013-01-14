@@ -1,15 +1,15 @@
 $(document).ready ->
-  # Using body class as selector is only a quick fix for demo
-  # Remove this hack and refactor this into separate file that's
-  # included only for search results page
+  # Using body class as selector to make these triggers page specific
+  # appears to be an acceptable approach (one of several) in Rails 3
+  # with Assets Pipeline. More info here:
+  # http://railsapps.github.com/rails-javascript-include-external.html
   $('body.blacklight-catalog-index .document').each ->
-    bibId = $(this).attr('id').split('-')[1]
-    load_short_holdings(bibId)
+    bibId = $(this).data('bibid')
+    load_holdings_short(bibId)
 
-  $('body.blacklight-catalog-show .clio_holdings').each ->
-    bibId = $(this).attr('id').split('-')[1]
-    # $("#holding_spinner").show();
-    load_clio_holdings(bibId);
+  $('body.blacklight-catalog-show .holdings').each ->
+    bibId = $(this).data('bibid')
+    load_holdings(bibId);
 
   $('#contact').contactable( subject: 'A Feedback Message')
   attach_location_colorboxes()
@@ -66,23 +66,23 @@ attach_location_colorboxes = ->
 
 
 root = exports ? this
-root.load_clio_holdings = (id) ->
+root.load_holdings = (id) ->
   $("holding_spinner").show()
-  $(".clio_holdings .holdings_error").hide()
+  $(".holdings .holdings_error").hide()
 
   $.ajax
     url: '/backend/holdings/' + id
 
     success: (data) ->
         $("#holding_spinner").hide()
-        $('.clio_holdings').html(data)
+        $('.holdings').html(data)
         attach_location_colorboxes()
 
     error: (data) ->
-        #$("#holding_spinner").hide()
-        $('.clio_holdings .holdings_error').show()
+        $("#holding_spinner").hide()
+        $('.holdings .holdings_error').show()
 
-root.load_short_holdings = (id) ->
+root.load_holdings_short = (id) ->
   $.ajax
     url: '/backend/holdings_shorth/' + id
     success: (data) ->
