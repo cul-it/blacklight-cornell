@@ -29,12 +29,12 @@
       <div class="well availability">
         <h4>Availability</h4>
 
-        <% if (render_document_show_field_value :document => @document, :field => 'url_access_display' ).present? %>
-          <i class="icon-ok"></i> <a href="<%= render_document_show_field_value :document => @document, :field => 'url_access_display' %>" class="btn btn-info">Online</a>
-        <% elsif (render_document_show_field_value :document => @document, :field => 'url_other_display' ).present?  %>
-          <i class="icon-ok"></i> <a href="<%= render_document_show_field_value :document => @document, :field => 'url_other_display' %>" class="btn btn-info">Online</a>
+        <% if online_url(@document) %>
+            <i class="icon-ok"></i> <a href="<%= online_url(@document) %>" class="btn btn-info">Online</a>
         <% end %>
+
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+
         <div class="item-requests">
           <!--
           <a href="#" id="requests_button" class="btn btn-danger">Request</a>
