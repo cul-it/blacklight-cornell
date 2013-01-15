@@ -31,7 +31,8 @@
             - message, details = item
             - if details['status'] == 'available'
               %i.icon-ok
-            - else
+            - elsif location != '*Networked Resource'
+              -# Handling online link in show.html.erb for now (for good?)
               %i.icon-time
             = message unless message.to_str == 'Status unknown'
             - if details['count'] >1
