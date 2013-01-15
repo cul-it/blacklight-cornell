@@ -32,13 +32,7 @@
             - if details['status'] == 'available'
               %i.icon-ok
             - else
-              -# Handling online link in show.html.erb for now (for good?)
-              -#if location == '*Networked Resource'
-                -#%i.icon-ok
-                -#%a.btn.btn-info Online
-                -#%i (need URL from above)
-              - else
-                %i.icon-time
+              %i.icon-time
             = message unless message.to_str == 'Status unknown'
             - if details['count'] >1
               (#{details['count']} copies)
