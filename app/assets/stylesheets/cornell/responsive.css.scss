@@ -26,7 +26,10 @@
 // ------------------
 
 // Large desktops
-// @import "responsive-1200px-min";
+// @import 'responsive-1200px-min';
+
+// Landscape tablets narrower facets
+@import 'responsive-980px-1199px';
 
 // Tablets to regular desktops
 @import 'responsive-768px-979px';

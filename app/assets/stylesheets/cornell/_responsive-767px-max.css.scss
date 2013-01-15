@@ -4,7 +4,23 @@
 
 
 @media (max-width: 767px) {
+	body {
+	padding: 0px;
+	margin: 0px
+	}
+
+.main-content { 
+	padding:0px 5px;
+	}
+
+.facets {
+	margin-top:5px;
+	}	
+
 	#facets {
+		.navbar {
+			margin-bottom:5px;
+		}
 		.btn-navbar {
 		    display: inline-block; float: none;
 		    color: #ffffff;
