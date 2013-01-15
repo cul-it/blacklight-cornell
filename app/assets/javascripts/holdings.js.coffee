@@ -3,7 +3,7 @@ $(document).ready ->
   # appears to be an acceptable approach (one of several) in Rails 3
   # with Assets Pipeline. More info here:
   # http://railsapps.github.com/rails-javascript-include-external.html
-  $('body.blacklight-catalog-index .document').each ->
+  $('body.blacklight-catalog-index .document, body.blacklight-bookmarks-index .document').each ->
     bibId = $(this).data('bibid')
     load_holdings_short(bibId)
 
