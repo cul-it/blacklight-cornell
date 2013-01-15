@@ -193,11 +193,6 @@ class CatalogController < ApplicationController
       :assumed_boundaries => [1300, Time.now.year + 1],
       :segments => false
     }, :show => true
-#    config.add_facet_field 'pub_date_sort', :label => 'Publication Year', :range => {
-#  :num_segments => 6,
-#  :assumed_boundaries => [1300, Time.now.year + 2],
-#  :segments => true
-#}, :show => true
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
     config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
@@ -213,7 +208,7 @@ class CatalogController < ApplicationController
 #    config.add_facet_field 'facet', :single => true
  #   config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
 
-   # config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+    config.default_solr_params[:'facet.field'] = config.facet_fields.keys
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request

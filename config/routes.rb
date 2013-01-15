@@ -1,7 +1,7 @@
 BlacklightCornell::Application.routes.draw do
 
-  match 'request/hold/:netid/:id' => 'request#hold', :as =>'request_hold' , :constraints => { :id => /.+/}
-  match 'request/recall/:netid/:id' => 'request#recall', :as =>'request_recall'
+  match 'request/hold/:id' => 'request#hold', :as =>'request_hold' , :constraints => { :id => /.+/}
+  match 'request/recall/:id' => 'request#recall', :as =>'request_recall'
   match 'request/callslip/:netid/:id' =>'request#callslip', :as =>'request_callslip'
   match 'request/l2l/:id' =>'request#l2l', :as =>'request_l2l'
   match 'request/bd/:id' =>'request#bd', :as =>'request_bd'
