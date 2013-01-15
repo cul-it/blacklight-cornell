@@ -39,7 +39,10 @@
   margin: 0 1em 0 0;
 }
 
-select.search_field {margin-bottom:0;}
+.search_field {
+  margin-bottom: 0;
+  width: auto;
+}
 
 p.suggest {font-size:.8em}
 
