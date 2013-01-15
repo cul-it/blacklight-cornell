@@ -25,9 +25,9 @@ en:
     header_links:
       login: 'Login'
       logout: 'Log Out'
-      bookmarks: 'Bookmarks'
+      bookmarks: 'Selected Items'
       saved_searches: 'Saved Searches'
-      search_history: 'History'
+      search_history: 'Search History'
 
     welcome: 'Welcome!'
     and: 'and'
@@ -36,27 +36,27 @@ en:
     bookmarks:
       collection:
         add:
-          button: 'Add to Bookmarks'
-      title: 'Bookmarks'
-      no_bookmarks: 'You have no bookmarks'
+          button: 'Add to selected items'
+      title: 'Selected Items'
+      no_bookmarks: 'You have no selected items'
       add:
-        button: 'Bookmark'
+        button: 'Select'
         success:
-          one: 'Successfully added bookmark.'
-          other: 'Successfully added bookmarks.'
-        failure:  'Sorry, there was a problem saving the bookmarks.'
+          one: 'Successfully selected.'
+          other: 'Successfully selected.'
+        failure:  'Sorry, there was a problem selecting this item.'
       remove:
-        button: 'Remove bookmark'
-        success: 'Successfully removed bookmark.'
-        failure: 'Sorry, there was a problem removing the bookmarks.'
-        action_confirm: 'Remove this bookmark?'
+        button: 'Deselect'
+        success: 'Successfully deselected.'
+        failure: 'Sorry, there was a problem deselecting this item.'
+        action_confirm: 'Deselect this item?'
       clear:
-        action_title: 'Clear Bookmarks'
-        action_confirm: 'Clear your bookmarks?'
-        success: 'Cleared your bookmarks.'
-        failure: 'Sorry, there was a problem clearing your bookmarks.'
-      need_login: 'Please log in to manage and view your bookmarks.'
-      list_title: 'Your Bookmarks'
+        action_title: 'Clear Selected Items'
+        action_confirm: 'Clear your selected items?'
+        success: 'Cleared your selected items.'
+        failure: 'Sorry, there was a problem clearing your selected items.'
+      need_login: 'Please log in to manage and view your selected items.'
+      list_title: 'Your Selected Items'
       delete: 'Remove'
 
     feedback:
