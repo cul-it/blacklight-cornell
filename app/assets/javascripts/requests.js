@@ -21,7 +21,8 @@ $(document).ready(function() {
         "reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val(),
         "bid": $('#bid').val(),
         "library_id": $('#PICK').val(),
-        "holding_id": $("#req input[type='radio']:checked").val()
+        "holding_id": $("#req input[type='radio']:checked").val(),
+        "request_action": $("#request_action").val()
       },
       url:hu,
       dataType: 'json',

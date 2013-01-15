@@ -15,8 +15,9 @@ class RequestController < ApplicationController
   def hold
     @h = session[:holdings]
     @hd = session[:holdings_detail]
+    @netid = request.env['HTTP_REMOTE_USER']
     logger.debug  "getting info for #{params[:id]}" 
-    logger.debug  "getting info for #{params[:netid]}" 
+    logger.debug  "getting info for #{@netid}" 
     @resp,@document = get_solr_response_for_doc_id(params[:id]) 
     logger.debug  "document info : #{@document}" 
     logger.debug  @document.to_s 
@@ -29,7 +30,6 @@ class RequestController < ApplicationController
     logger.debug  @hd.to_s 
     logger.debug  @hd.inspect 
     @ti =  @document[:title_display]
-    @netid =  params[:netid]
     @id =  params[:id]
     if (!@hd.nil?) 
     logger.debug   "details: #{@hd.inspect}"
@@ -49,15 +49,15 @@ class RequestController < ApplicationController
 
   def recall
   @h = session[:holdings]
+  @netid = request.env['HTTP_REMOTE_USER']
   logger.debug  "getting info for #{params[:id]}" 
-  logger.debug  "getting info for #{params[:netid]}" 
+  logger.debug  "getting info for #{@netid}" 
   @resp,@document = get_solr_response_for_doc_id(params[:id]) 
   logger.debug  "document info : #{@document}" 
   logger.debug  @document.to_s 
   logger.debug  @document.inspect 
   logger.debug  @document[:title_display]
   @ti =  @document[:title_display]
-  @netid =  params[:netid]
   @id =  params[:id]
   logger.debug   "details: #{@hd.inspect}"
   # the details offers an array of records, one element for each holding.
@@ -126,31 +126,45 @@ class RequestController < ApplicationController
   end
 
   def make_request
-    @voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
-    if @voyager_request_handler_url.blank?
-      @voyager_request_handler_url = request.env['HTTP_HOST']
+    voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
+    if voyager_request_handler_url.blank?
+      voyager_request_handler_url = request.env['HTTP_HOST']
     end
-    if !@voyager_request_handler_url.starts_with?('http')
-      @voyager_request_handler_url = "http://#{@voyager_request_handler_url}"
+    if !voyager_request_handler_url.starts_with?('http')
+      voyager_request_handler_url = "http://#{voyager_request_handler_url}"
     end
     if !Rails.configuration.voyager_request_handler_port.blank?
-      @voyager_request_handler_url = @voyager_request_handler_url + ":" + Rails.configuration.voyager_request_handler_port.to_s
+      voyager_request_handler_url = voyager_request_handler_url + ":" + Rails.configuration.voyager_request_handler_port.to_s
     end
 
-    @bid = params[:bid]
-    @holding_id = params[:holding_id]
-    @library_id = params[:library_id]
-    @netid = request.env['HTTP_REMOTE_USER']
-    #logger.debug params.inspect
+    bid = params[:bid]
+    netid = request.env['HTTP_REMOTE_USER']
+    library_id = params[:library_id]
+    request_action = params[:request_action]
 
-    @voyager_request_handler_url = "#{@voyager_request_handler_url}/holdings/callslip/#{@netid}/#{@bid}/#{@library_id}/#{@holding_id}"
-    #logger.debug "posting request to: #{@voyager_request_handler_url}"
+    if request_action == 'callslip'
+      holding_id = params[:holding_id]
+      voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}/#{holding_id}"
+    elsif request_action == 'bd'
+      # fill in borrow direct query
+    elsif request_action == 'hold'
+      voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}"
+    elsif request_action == 'ill'
+      # fill in ill request
+    elsif request_action == 'purchase'
+      # fill in purchase request
+    elsif request_action == 'recall'
+      voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}"
+    else
+    end
 
-    @voyager_response = JSON.parse(HTTPClient.get_content @voyager_request_handler_url)
-    #logger.debug @voyager_response
+    logger.debug "posting request to: #{voyager_request_handler_url}"
+
+    voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
+    logger.debug voyager_response
 
     #render "request/make_request", :layout => false
-    render :json => @voyager_response, :layout => false
+    render :json => voyager_response, :layout => false
   end
 
 end
