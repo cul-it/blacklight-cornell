@@ -247,7 +247,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
     config.add_show_field 'isbn_t', :label => 'ISBN'
-    config.add_show_field 'author_addl_display', :label => 'Other author'
+    config.add_show_field 'author_addl_display', :label => 'Other author/creator'
     config.add_show_field 'title_series_display', :label => 'Series'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
