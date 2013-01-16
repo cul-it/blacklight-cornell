@@ -226,10 +226,38 @@ class BackendController < ApplicationController
   end
 
   def request_item_redirect
-    service = _request_item params[:id], request.env['REMOTE_USER']
-    @request_solution = service 
-    #@request_solution = {:service => 'bd'}
-    redirect_to "/request/#{@request_solution[:service]}/#{params[:id]}"
+    netid = request.env['REMOTE_USER']
+    service = _request_item params[:id], netid
+    # redirect_to "/request/#{@request_solution[:service]}/#{params[:id]}"
+    # no cleaner one liner to generate path the "Rails 3 Way" for different actions...
+    begin
+      redirect_url = eval "request_#{service[:service]}_path( params[:id] )"
+    rescue
+      # got garbage response...
+      # log more info?
+      logger.debug "Could not determine best delivery option. #{params[:id]}, #{netid}"
+      redirect_url = ''
+    end
+    # if @request_solution[:service] == L2L
+    #   redirect_url = request_l2l_path( params[:id] )
+    # elsif @request_solution[:service] == BD
+    #   redirect_url = request_bd_path( params[:id] )
+    # elsif @request_solution[:service] == HOLD
+    #   redirect_url = request_hold_path( params[:id] )
+    # elsif @request_solution[:service] == RECALL
+    #   redirect_url = request_recall_path( params[:id] )
+    # elsif @request_solution[:service] ==  PURCHASE
+    #   redirect_url = request_purchase_path( params[:id] )
+    # elsif @request_solution[:service] == ILL
+    #   redirect_url = request_ill_path( params[:id] )
+    # elsif @request_solution[:service] == ASK
+    #   redirect_url = request_ask_path( params[:id] )
+    # else
+    #   # not supported
+    #   redirect_url = '/'
+    # end
+    redirect_to redirect_url
+    #redirect_to url_for :controller => 'request', :action => "#{@request_solution[:service]}/#{params[:id]}"
   end
 
   def _request_item bibid, netid
@@ -296,7 +324,7 @@ class BackendController < ApplicationController
     elsif ask_list.present?
       return ask_list.first
     else
-      ## what to do?
+      return ''
     end
   end
 
