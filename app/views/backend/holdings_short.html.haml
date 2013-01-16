@@ -14,13 +14,13 @@
         - callnumber = available[location]
       - else
         - location = multiple_locations
-      %i.icon-ok
+      %i.icon-ok{:title => 'Available'}
     - elsif unavailable.size > 0
       - if unavailable.size ===1
         - location = unavailable.keys()[0]
         - callnumber = unavailable[location]
       - else
         - location = multiple_locations
-      %i.icon-time
+      %i.icon-time{:title => 'Available by request'}
     %span.location= location
     %span.callnumber= callnumber

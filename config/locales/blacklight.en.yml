@@ -4,9 +4,9 @@ en:
       feedback: 'Feedback'
     attributes:
       feedback:
-        name: 'Your Name'
-        email: 'Your Email'
-        message: 'Your Message'
+        name: 'Your name'
+        email: 'Your email'
+        message: 'Your message'
   views:
     pagination:
       first: '&laquo; First'
@@ -23,11 +23,11 @@ en:
     application_name: 'Cornell University Library Catalog'
 
     header_links:
-      login: 'Login'
-      logout: 'Log Out'
-      bookmarks: 'Selected Items'
-      saved_searches: 'Saved Searches'
-      search_history: 'Search History'
+      login: 'Log in'
+      logout: 'Log out'
+      bookmarks: 'Selected items'
+      saved_searches: 'Saved searches'
+      search_history: 'Search history'
 
     welcome: 'Welcome!'
     and: 'and'
@@ -37,7 +37,7 @@ en:
       collection:
         add:
           button: 'Add to selected items'
-      title: 'Selected Items'
+      title: 'Selected items'
       no_bookmarks: 'You have no selected items'
       add:
         button: 'Select'
@@ -51,12 +51,12 @@ en:
         failure: 'Sorry, there was a problem deselecting this item.'
         action_confirm: 'Deselect this item?'
       clear:
-        action_title: 'Clear Selected Items'
+        action_title: 'Clear selected items'
         action_confirm: 'Clear your selected items?'
         success: 'Cleared your selected items.'
         failure: 'Sorry, there was a problem clearing your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
-      list_title: 'Your Selected Items'
+      list_title: 'Your selected items'
       delete: 'Remove'
 
     feedback:
@@ -77,11 +77,11 @@ en:
         success: 'Successfully removed that saved search.'
         failure: 'There was a problem removing your search.'
       clear:
-        action_title: 'Clear Saved Searches'
+        action_title: 'Clear saved searches'
         action_confirm: 'Clear your saved searches?'
         success: 'Cleared your saved searches.'
         failure: 'There was a problem clearing your searches.'
-      title: 'Saved Searches'
+      title: 'Saved searches'
       need_login: 'Please log in to manage and view your saved searches.'
       no_searches: 'You have no saved searches'
       list_title: 'Your saved searches'
@@ -89,11 +89,11 @@ en:
 
     search_history:
       clear:
-        action_title: 'Clear Search History'
+        action_title: 'Clear search history'
         action_confirm: 'Clear your search history?'
         success: 'Cleared your search history.'
         failure: 'There was a problem clearing your search history.'
-      title: 'Search History'
+      title: 'Search history'
       no_history: 'You have no search history'
       recent: 'Your recent searches'
       forget: 'forget'
@@ -105,8 +105,8 @@ en:
       endnote: 'Export to EndNote'
       refworks: 'Export to Refworks'
       email: 'Email'
-      sms: 'SMS This'
-      librarian_view: 'Librarian View'
+      sms: 'Text message'
+      librarian_view: 'Librarian view'
       clear: 'Clear'
 
     citation:
@@ -116,10 +116,10 @@ en:
 
     email:
       form:
-        title: 'Email This'
+        title: 'Email this'
         to: 'Email:'
         message: 'Message:'
-        callnumber: 'Callnumber:'
+        callnumber: 'Call number:'
         submit: 'Send'
       text:
         title: 'Title: %{value}'
@@ -127,19 +127,19 @@ en:
         language: 'Language: %{value}'
         location: 'Location(s): %{location}'
         subject:
-          one: 'Item Record: %{title}'
+          one: 'Item record: %{title}'
           other: 'Item records'
         url: 'URL: %{url}'
         message: 'Message: %{message}'
-        callnumber: 'Call Number(s): %{callnumber}'
+        callnumber: 'Call number(s): %{callnumber}'
       errors:
         to:
           invalid: 'You must enter a valid email address'
           blank: 'You must enter a recipient in order to send this message'
     sms:
       form:
-        title: 'SMS This'
-        to: 'Phone Number:'
+        title: 'Text this'
+        to: 'Phone number:'
         carrier: 'Carrier'
         carrier_prompt: 'Please select your carrier'
         submit: 'Send'
@@ -156,14 +156,14 @@ en:
         carrier:
           blank: 'You must select a carrier'
 
-    back_to_search: 'Back to Search'
-    back_to_bookmarks: 'Back to Bookmarks'
+    back_to_search: 'Back to search'
+    back_to_bookmarks: 'Back to selected items'
     btn: 'btn'
 
     search:
-      title: '%{application_name} Search Results'
+      title: 'Search Results | %{application_name}'
       search_results_header: 'Search'
-      search_results: 'Search Results'
+      search_results: 'Search results'
       errors:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
@@ -198,8 +198,8 @@ en:
       facets:
         title: 'Limit your search'
         sort:
-          count: 'Numerical Sort'
-          index: 'A-Z Sort'
+          count: 'Numerical sort'
+          index: 'A-Z sort'
         count: '%{number}'
         more: 'more »'
         selected:
@@ -211,9 +211,9 @@ en:
           value: 'Remove constraint %{value}'
           label_value: 'Remove constraint %{label}: %{value}'
       librarian_view:
-        title: 'Librarian View'
+        title: 'Librarian view'
         leader: 'LEADER %{leader}'
-      start_over: 'Start Over'
+      start_over: 'Start over'
       show:
         title: '%{document_title} - %{application_name}'
       rss_feed: 'RSS for results'
