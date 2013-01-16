@@ -10,14 +10,14 @@
     <%= render :partial=>'facet_pagination' %>
   </div>
 
-  <% solr_field = facet_field_labels[params[:id]] %>
+  <% solr_field = params[:id] %>
 
-  <h3><%= solr_field %></h3>
+  <h3><%= facet_field_labels[solr_field] %></h3>
 
   <ul class="facet_extended_list">
     <% @pagination.items.each do |item| %>
       <li>
-        <% if solr_field == "Format" %>
+        <% if solr_field == "format" %>
           <i class="icon-<%= formats_icon_mapping(item.value) %>"></i>
         <% end %>
         <% if facet_in_params?( params[:id], item.value ) %>
