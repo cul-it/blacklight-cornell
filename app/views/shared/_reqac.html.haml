@@ -1,0 +1,8 @@
+%br
+Would you like any available copy or a specific copy?
+%br
+%input(type="radio" value="" name="copy") Any Copy
+-@iis.each do |copyn, copyd|
+  %br
+  %input(value="#{copyn}" type="radio" name="copy")
+  =copyd
