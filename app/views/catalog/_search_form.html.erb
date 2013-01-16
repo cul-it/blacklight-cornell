@@ -15,7 +15,7 @@
         <input type="submit" class="btn btn-inverse" id="search" value="Search">
           <span class="submit-search-text hide-text"><%=t('blacklight.search.form.submit')%></span>
   <span class="advanced-search-link span4">
-<%= link_to 'advanced search', params.merge(:controller=>"advanced", :action=>"index") , :class=>""%>
+<%= link_to 'Advanced search', params.merge(:controller=>"advanced", :action=>"index") , :class=>""%>
           </span>
           <% if query_has_constraints? %>
 
