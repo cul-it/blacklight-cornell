@@ -2,7 +2,7 @@
   Request that this item be recalled for you: 
   %br
   %b=@ti
-  %form{:id => 'req', :method => 'post', :action => "/make_request"}
+  %form{:id => 'req', :method => 'post', :action => request_make_request_path}
     %input(type="hidden" name="bid" value="#{@id}" id="bid")
     %input(type="hidden" name="request_action" value="recall" id="request_action")
     %br

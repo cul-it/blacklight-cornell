@@ -36,10 +36,7 @@
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
 
         <div class="item-requests">
-          <!--
-          <a href="#" id="requests_button" class="btn btn-danger">Request</a>
-          -->
-          <a href="/request_item/<%= params[:id] %>" class="btn btn-danger">Request</a>
+          <%= link_to 'Request', request_item_redirect_path( params[:id] ), :class => 'btn btn-danger' %>
           <div id="requests_container">
             <div id="delivery_option"></div>
           </div>
