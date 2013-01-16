@@ -2,17 +2,19 @@
   Request this item to be held for you upon return: 
   %br
   %b=@ti
+  %b= "/"
+  %b=@au
   %form{:id => 'req', :method => 'post', :action => request_make_request_path}
     %input(type="hidden" name="bid" value="#{@id}" id="bid")
     %input(type="hidden" name="request_action" value="hold" id="request_action")
     %br
     = render :partial => 'shared/reqpu'
     %br
-    = render :partial => 'shared/reqco'
+    = render :partial => 'shared/reqac'
     %br
     Comments:
     %br
-    %textarea
+    %textarea(id="reqcomments")
     %br
     = render :partial => 'shared/reqdate'
     %br
