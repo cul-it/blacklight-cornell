@@ -1,0 +1,8 @@
+%br
+Please specify a copy to deliver:
+%br
+-print @iis.inspect
+-@iis.each do |copyn, copyd|
+  %br
+  %input(value="#{copyn}" type="radio" name="copy")
+  =copyd
