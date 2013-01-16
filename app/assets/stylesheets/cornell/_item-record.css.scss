@@ -103,10 +103,12 @@ dl.dl-horizontal {
 }
 .item-requests {
 	margin: .5em 0;
-	padding-bottom: 1.4em;
-	border-bottom: solid 2px $tan;
 }
-.google-books-link { margin-bottom: 0; }
+.google-books-link {
+	margin: 1.5em 0 0;
+	padding-top: 1em;
+	border-top: solid 2px #d8d2c9;
+}
 
 // temporarily add a height to the shelf browser to convey estimated content size
 .shelf-browser {

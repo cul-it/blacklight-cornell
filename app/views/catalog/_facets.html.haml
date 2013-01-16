@@ -1,4 +1,4 @@
-//  main container for facets/limits menu 
+//  main container for facets/limits menu
 // jac244 Delete original lines 11 and 12 to remove 'more' link in Call Number facet display
 // Original lines 12 and 13 follow
 //      - when "lc_1letter_facet"
@@ -13,7 +13,7 @@
       -
       %div{:class => "blacklight-#{solr_fname.parameterize}"}
         - case solr_fname
-        - when "format"
+        - when "format", "online"
           = fix_catalog_links(render_facet_partials([solr_fname], :partial => "facet_limit_selected"))
         - when "lc_2letter_facet", "title_first_facet"
         - else
