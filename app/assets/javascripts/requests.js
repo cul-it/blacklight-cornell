@@ -15,10 +15,16 @@ $(document).ready(function() {
   $('#request_sumbit').click(function(e) {
     var hu = $('#req').attr('action');// + '/' + $('#PICK').val();
     $('#result').html("Working....");
+    var reqnna = '';
+    reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    if (reqnna  == 'undefined-undefined-undefined') {
+      reqnna = '';
+    }
     $.ajax({
       type: 'POST',
       data: {
-        "reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val(),
+        "reqcomments": $('#reqcomments').val(),
+        "reqnna": reqnna,
         "bid": $('#bid').val(),
         "library_id": $('#PICK').val(),
         "holding_id": $("#req input[type='radio']:checked").val(),
@@ -29,7 +35,8 @@ $(document).ready(function() {
       success: function(data) {
         var st=data.status;
         var desc= (st == 'success') ? 'succeeded' : 'failed';  
-        $('#result').html("Your request for delivery has "+desc);
+        var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();
+        $('#result').html("Your request for " + act_desc + " has "+desc);
       }
     });
     return false; // should block the submit
