@@ -105,7 +105,7 @@ en:
       endnote: 'Export to EndNote'
       refworks: 'Export to Refworks'
       email: 'Email'
-      sms: 'SMS this'
+      sms: 'Text message'
       librarian_view: 'Librarian view'
       clear: 'Clear'
 
@@ -138,7 +138,7 @@ en:
           blank: 'You must enter a recipient in order to send this message'
     sms:
       form:
-        title: 'SMS this'
+        title: 'Text this'
         to: 'Phone number:'
         carrier: 'Carrier'
         carrier_prompt: 'Please select your carrier'
