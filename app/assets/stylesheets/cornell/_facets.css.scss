@@ -13,6 +13,7 @@
 		color: $dark-gray;
 		i {
 			float: right;
+			padding-right: .25em;
 			color: $light-gray; }
 	}
 	h5.twiddle-open {
@@ -29,7 +30,7 @@
 		color: $light-gray;
 	}
 	p { font-weight: bold; }
-	i { padding-right: .25em; }
+	i { color: $dark-gray; }
 	.navbar { margin-bottom: 0; }
 	a:hover { background: white; }
 }
@@ -61,8 +62,9 @@
 // SELECTED FACETS
 
 .selected-facets {
-	.btn-info i {
-		margin: .1em 0 0 .5em;
+	.btn-info {
+		margin-bottom: 3px;
+		i { margin: .1em 0 0 .5em; }
 	}
 	a {
 		color: $white;

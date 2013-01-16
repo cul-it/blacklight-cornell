@@ -1,14 +1,17 @@
 - add_display_elements(@holdings['condensed_holdings_full']).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
 
+  - location = entry['location_name']
+
   .holding{:class => alternating_line}
     .location_box
       -# Only display a real location
-      - if entry['location_name'] != '*Networked Resource'
+      - if location != '*Networked Resource'
         %h5.location
-          = entry['location_name']
+          = location
           %span.map-it
             -# @TODO: create a hash for mapping locations
-            %a{:href=>'#', :title=>'Not yet ready for prime time'}map
+            - if location != 'Library Annex'
+              %a{:href=>'#', :title=>'Not yet ready for prime time'}map
     .hours= entry['hours']
 
     -# Only display a real call number
@@ -28,22 +31,12 @@
             - message, details = item
             - if details['status'] == 'available'
               %i.icon-ok
-            - else
-              -# Handling online link in _show_holdings.html.haml for now
-              -#if entry['location_name'] == '*Networked Resource'
-                -#%i.icon-ok
-                -#%a.btn.btn-info Online
-                -#%i (need URL from above)
-              - else
-                %i.icon-time
+            - elsif location != '*Networked Resource'
+              -# Handling online link in show.html.erb for now (for good?)
+              %i.icon-time
             = message unless message.to_str == 'Status unknown'
             - if details['count'] >1
               (#{details['count']} copies)
-    - unless (svc_links = service_links(entry['services'], @id, :target => "_blank")).empty?
-      .services
-        .label= "Request: "
-        - svc_links.each do |link|
-          .service= link
 
 Place request:
 - ho = 'http://'+request.env['HTTP_HOST']
