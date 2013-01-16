@@ -34,9 +34,9 @@
     </div> 
     
     <% @documents.each do |doc| %>
-       <%=hidden_field_tag "id[]", doc.get(:id) %>
-       <%=hidden_field_tag "callnumber", doc.get(:lc_callnum_display) %> 
-       <%=hidden_field_tag "location", doc.get(:id) %>    
+       <%=hidden_field_tag "id[]", params[:id] %>
+       <%=hidden_field_tag "callnumber", params[:callnumber] %> 
+       <%=hidden_field_tag "location", params[:location] %>    
     <% end %>
 </div>
 <div class="modal-footer">
