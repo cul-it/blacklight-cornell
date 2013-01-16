@@ -239,7 +239,7 @@ class RequestController < ApplicationController
        add_item_id = "/#{holding_id}"
     end
     if request_action == 'callslip'
-      voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}/#{add_item_id}"
+      voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     elsif request_action == 'bd'
       # fill in borrow direct query
     elsif request_action == 'hold'

@@ -1,8 +1,12 @@
-%br
-Please specify a copy to deliver:
-%br
--print @iis.inspect
+-if (@iis.length > 1) 
+  Please specify a specific copy to deliver!
+-else
+  Please deliver this copy: 
 -@iis.each do |copyn, copyd|
-  %br
-  %input(value="#{copyn}" type="radio" name="copy")
+  -if (@iis.length == 1) 
+    %br
+    %input(value="#{copyn}" type="radio" name="copy" checked)
+  -else
+    %br
+    %input(value="#{copyn}" type="radio" name="copy")
   =copyd

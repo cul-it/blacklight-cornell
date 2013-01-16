@@ -1,8 +1,15 @@
-%br
-Would you like any available copy or a specific copy?
-%br
-%input(type="radio" value="" name="copy") Any Copy
--@iis.each do |copyn, copyd|
+-if (@iis.length > 1) 
+  Would you like any available copy or a specific copy?
+-else
+  This copy: 
+-if (@iis.length > 1) 
   %br
-  %input(value="#{copyn}" type="radio" name="copy")
+  %input(type="radio" value="" name="copy") Any Copy
+-@iis.each do |copyn, copyd|
+  -if (@iis.length == 1) 
+    %br
+    %input(value="#{copyn}" type="radio" name="copy" checked)
+  -else
+    %br
+    %input(value="#{copyn}" type="radio" name="copy")
   =copyd
