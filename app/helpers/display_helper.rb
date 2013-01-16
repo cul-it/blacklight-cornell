@@ -157,8 +157,7 @@ module DisplayHelper
     "Course Guide" => "course-guide"
   }
 
-  def formats_icon_mapping(document)
-    format = document['format'];
+  def formats_icon_mapping(format)
     if (icon_mapping = FORMAT_MAPPINGS[format])
       icon_mapping
     else

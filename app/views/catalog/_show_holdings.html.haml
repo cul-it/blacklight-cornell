@@ -1,5 +1,6 @@
-#holding_spinner=image_tag ("ajax-indicator.gif")
+#holding-spinner=image_tag ("ajax-indicator.gif")
 .holdings{:data => {:bibid => @document.id.to_s}}
-  .holdings_error
-    Unable to retrieve availability.
-  = link_to "Retry?", "#", :onclick => "javascript:load_holdings(#{@document.id.to_s});"
+  .holdings-error.status
+    %i.icon-warning-sign
+    Unable to retrieve availability
+    = link_to "Retry?", "#", :onclick => "javascript:load_holdings(#{@document.id.to_s});"

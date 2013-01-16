@@ -4,7 +4,7 @@
     <% if document.has? solr_fname  -%>
 	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label :field => solr_fname %></dt>
       <% if display_icon? solr_fname -%>
-        <dd class="blacklight-<%= solr_fname.parameterize %>"><i class="icon-<%= formats_icon_mapping(document) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></dd>
+        <dd class="blacklight-<%= solr_fname.parameterize %>"><i class="icon-<%= formats_icon_mapping(document['format']) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></dd>
 <% elsif display_link? solr_fname -%>
         <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_display_link :document => document, :field => solr_fname %></dd>
       <% elsif display_clickable? solr_fname -%>

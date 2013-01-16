@@ -13,19 +13,19 @@ $(document).ready ->
 
 root = exports ? this
 root.load_holdings = (id) ->
-  $("holding_spinner").show()
-  $(".holdings .holdings_error").hide()
+  $("holding-spinner").show()
+  $(".holdings .holdings-error").hide()
 
   $.ajax
     url: '/backend/holdings/' + id
 
     success: (data) ->
-        $("#holding_spinner").hide()
+        $("#holding-spinner").hide()
         $('.holdings').html(data)
 
     error: (data) ->
-        $("#holding_spinner").hide()
-        $('.holdings .holdings_error').show()
+        $("#holding-spinner").hide()
+        $('.holdings .holdings-error').show()
 
 root.load_holdings_short = (id) ->
   $.ajax
