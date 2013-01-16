@@ -236,7 +236,7 @@ class BackendController < ApplicationController
       # got garbage response...
       # log more info?
       logger.debug "Could not determine best delivery option. #{params[:id]}, #{netid}"
-      redirect_url = ''
+      redirect_url = request_ask_path( params[:id] )
     end
     # if @request_solution[:service] == L2L
     #   redirect_url = request_l2l_path( params[:id] )
@@ -263,7 +263,7 @@ class BackendController < ApplicationController
   def _request_item bibid, netid
     holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
     item_type = get_item_type holdings
-    netid = 'gid-silterrae'
+    netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
     @request_solution = ''
     l2l_list = []
@@ -273,8 +273,14 @@ class BackendController < ApplicationController
     ill_list = []
     ask_list = []
 
+    logger.debug "netid: #{netid}"
+    logger.debug holdings.inspect
+
     ## sk274 - not the most efficient way to handle this
     ##         TODO: optimize once we get all the functionality working
+    ## sk274 - We don't need all the details any more since all we do here is
+    ##         redirect and the details for form are provided somewhere else.
+    ##         Only thing coming out of _handle_xxx functions are :service.
     holdings.each do |holding|
       logger.debug 'status: ' + holding['status']
       if holding['location_name'] == '*Networked Resource'
@@ -332,19 +338,22 @@ class BackendController < ApplicationController
     return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))
   end
 
+  ## sk274 - only thing required now is the :service entry for all of _handle_xxx functions
+
   def _handle_l2l bibid, holding, netid
-    holding_index = 0
-    holding['copies'].each do |copy|
-      item = copy['items']['Not Charged'] || copy['items']['Available']
-      if item && (item['status'] == 'available' || item['status'] == 'some_available')
-        return {
-          :holding_id => holding['holding_id'][holding_index],
-          :service => L2L,
-          :location => holding['location_name']
-        }
-      end
-      holding_index = holding_index + 1
-    end
+    # holding_index = 0
+    # holding['copies'].each do |copy|
+    #   item = copy['items']['Not Charged'] || copy['items']['Available']
+    #   if item && (item['status'] == 'available' || item['status'] == 'some_available')
+    #     return {
+    #       :holding_id => holding['holding_id'][holding_index],
+    #       :service => L2L,
+    #       :location => holding['location_name']
+    #     }
+    #   end
+    #   holding_index = holding_index + 1
+    # end
+    return { :service => L2L }
   end
 
   def _handle_bd bibid, holdings, netid
