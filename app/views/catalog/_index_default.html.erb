@@ -5,7 +5,7 @@
 
   <div class="data-block">
     <span class="blacklight-author_display"><%= render_index_field_value :document => document, :field => 'author_display' %></span>
-    <span class="format"><i class="icon-<%= formats_icon_mapping(document) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></span>
+    <span class="format"><i class="icon-<%= formats_icon_mapping(document['format']) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></span>
     <span class="blacklight-pub_info_display"><%= render_index_field_value :document => document, :field => 'pub_info_display' %></span>
     <span class="blacklight-language_facet"><%= render_index_field_value :document => document, :field => 'language_facet' %></span>
     <span class="blacklight-edition_display"><%= render_index_field_value :document => document, :field => 'edition_display' %></span>
