@@ -8,10 +8,12 @@
       - if location != '*Networked Resource'
         %h5.location
           = location
-          %span.map-it
+          
+          %span.lightboxLink
             -# @TODO: create a hash for mapping locations
             - if location != 'Library Annex'
-              %a{:href=>'#', :title=>'Not yet ready for prime time'}map
+              %a{ :href=>'/catalog/email?id=' + params[:id] + '&location=' + entry['location_name'] + '&callnumber=' + entry['call_number'], :title=>'Email this record' } email
+              %a{ :href=>'/catalog/sms?id=' + params[:id] + '&location=' + entry['location_name'] + '&callnumber=' + entry['call_number'], :title=>'Text this record' } text
     .hours= entry['hours']
 
     -# Only display a real call number
