@@ -8,8 +8,7 @@ module Blacklight::Solr::Document::Email
     body = []
     body << I18n.t('blacklight.email.text.title', :value => semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.author', :value => semantics[:author].join(" ")) unless semantics[:author].blank?
-    body << I18n.t('blacklight.email.text.callnumber', :value => semantics[:lc_callnum_display].join(" ")) unless semantics[:lc_callnum_display].blank?
-    body << I18n.t('blacklight.email.text.location', :value => semantics[:id].join(" ")) unless semantics[:id].blank?
+#    body << I18n.t('blacklight.email.text.title', :value => semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.language', :value => semantics[:language].join(" ")) unless semantics[:language].blank?
     return body.join("\n") unless body.empty?
   end

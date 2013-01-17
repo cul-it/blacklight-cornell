@@ -187,8 +187,10 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
+    config.add_facet_field 'online', :label => 'Access', :limit => 2
     config.add_facet_field 'format', :label => 'Format', :limit => 5
-    config.add_facet_field 'pub_date', :label => 'Publication year', :range => {
+    config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
+    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
       :segments => false
@@ -200,7 +202,6 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_content_facet', :label => 'Content', :limit => 5
     config.add_facet_field 'lc_1letter_facet', :label => 'Call number', :limit => 5
     config.add_facet_field 'location_facet', :label => 'Library location', :limit => 5
-    
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
 #    config.add_facet_field 'facet', :multiple => true
 #    config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
@@ -273,18 +274,18 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to'
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
- 
+
 #    config.add_show_field 'title_display', :label => 'Title:'
 #    config.add_show_field 'title_vern_display', :label => 'Title:'
 #    config.add_show_field 'subtitle_display', :label => 'Subtitle:'
 #    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle'
 #    config.add_show_field 'url_fulltext_display', :label => 'URL'
-#    config.add_show_field 'url_suppl_display', :label => 'More Information' 
+#    config.add_show_field 'url_suppl_display', :label => 'More Information'
 #    config.add_show_field 'published_display', :label => 'Published:'
 #    config.add_show_field 'published_vern_display', :label => 'Published'
-#    config.add_show_field 'lc_callnum_display', :label => 'Call number' 
-#    config.add_show_field 'pub_date', :label => 'Publication Date'    
-#    config.add_show_field 'url_access_display', :label => 'Content Link:'  
+#    config.add_show_field 'lc_callnum_display', :label => 'Call number'
+#    config.add_show_field 'pub_date', :label => 'Publication Date'
+#    config.add_show_field 'url_access_display', :label => 'Content Link:'
 #    config.add_show_field 'url_other_display', :label => 'Content Link:'
 
     # "fielded" search configuration. Used by pulldown among other places.

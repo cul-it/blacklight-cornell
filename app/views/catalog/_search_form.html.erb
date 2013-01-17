@@ -19,9 +19,17 @@
           </span>
           <% if query_has_constraints? %>
 
-            <span class="start-over hidden-phone"> or &nbsp;<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
+            <span class="start-over"> or &nbsp;<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
+
             </a>
           </span>
+          <% end %>
+          <% if !query_has_constraints? %>
+            <% if !params[:range].blank? %>
+            <span class="start-over"> or &nbsp;<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
+            </a>
+          </span>
+            <%end %>
           <% end %>
 
 

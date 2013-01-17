@@ -1,0 +1,12 @@
+-if (@iis.length > 1) 
+  Please choose a specific copy to deliver!
+-else
+  Please deliver this copy: 
+-@iis.each do |copyn, copyd|
+  -if (@iis.length == 1) 
+    %br
+    %input(value="#{copyn}" type="radio" name="copy" checked)
+  -else
+    %br
+    %input(value="#{copyn}" type="radio" name="copy")
+  =copyd

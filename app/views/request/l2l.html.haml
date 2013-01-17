@@ -2,19 +2,19 @@
   Request this item be delivered for you: 
   %br
   %b=@ti
-  %form{:id => 'req', :method => 'post', :action => "/make_request"}
+  %b= "/"
+  %b=@au 
+  %form{:id => 'req', :method => 'post', :action => request_make_request_path}
     %input(type="hidden" name="bid" value="#{@id}" id="bid")
     %input(type="hidden" name="request_action" value="callslip" id="request_action")
     %br
     = render :partial => 'shared/reqpu'
     %br
-    = render :partial => 'shared/reqco'
+    = render :partial => 'shared/reqit'
     %br
     Comments:
     %br
-    %textarea
-    %br
-    = render :partial => 'shared/reqdate'
+    %textarea(id="reqcomments")
     %br
     %input(type="submit" id="request_sumbit" name="sumbit" value="Submit request for delivery")
     %input(type="reset" id="reest" value="Clear form")

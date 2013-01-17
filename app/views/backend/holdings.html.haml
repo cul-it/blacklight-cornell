@@ -8,10 +8,12 @@
       - if location != '*Networked Resource'
         %h5.location
           = location
-          %span.map-it
+          
+          %span.lightboxLink
             -# @TODO: create a hash for mapping locations
             - if location != 'Library Annex'
-              %a{:href=>'#', :title=>'Not yet ready for prime time'}map
+              %a{ :href=>'/catalog/email?id=' + params[:id] + '&location=' + entry['location_name'] + '&callnumber=' + entry['call_number'], :title=>'Email this record' } email
+              %a{ :href=>'/catalog/sms?id=' + params[:id] + '&location=' + entry['location_name'] + '&callnumber=' + entry['call_number'], :title=>'Text this record' } text
     .hours= entry['hours']
 
     -# Only display a real call number
@@ -38,12 +40,3 @@
             - if details['count'] >1
               (#{details['count']} copies)
 
-Place request:
-- ho = 'http://'+request.env['HTTP_HOST']
-- dx = request.env['HTTP_HOST']
-- cop = dx.index(':')
-- dx = dx[0..cop-1] unless (cop.nil?)
-- dx = 'http://' + dx
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/hold/xxxx/'+"/"+@id}Hold
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/recall/xxxx/'+"/"+@id} Recall
-%a{:href=>"/request_item/l2l/#{@id}"} Deliver
