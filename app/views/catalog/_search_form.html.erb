@@ -14,9 +14,9 @@
           <button id="search-btn" class="btn mobile-search-btn visible-phone btn-inverse" type="submit">
 <i class="icon-search icon-white"></i>
 </button>
-  <span class="advanced-search-link span4">
+<!--   <span class="advanced-search-link span4">
 <%= link_to 'Advanced search', params.merge(:controller=>"advanced", :action=>"index") , :class=>""%>
-          </span>
+          </span> -->
           <% if query_has_constraints? %>
 
             <span class="start-over"> or &nbsp;<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
