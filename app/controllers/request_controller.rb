@@ -183,19 +183,24 @@ class RequestController < ApplicationController
     logger.debug   "L2L details: #{@hd.inspect}"
     # the details offers an array of records, one element for each holding.
     if (!@hd.nil?)
-      logger.debug  "L2L holdings = #{@hd}";
+      logger.debug  "L2L holdings = #{@hd}"
       @hd['records'].each do | hol |
-        logger.debug  "L2L holding id = #{hol['holding_id']}";
-        logger.debug  "L2L item status = #{hol['item_status'].inspect}";
-        logger.debug  "L2L item status data = #{hol['item_status']['itemdata'].inspect}";
-        itemdata = hol["item_status"]["itemdata"];
-        logger.debug  "L2L hol = #{hol.inspect}";
-        logger.debug  "L2L item data = #{itemdata.inspect}";
+        logger.debug  "L2L holding id = #{hol['holding_id']}"
+        logger.debug  "L2L item status = #{hol['item_status'].inspect}"
+        logger.debug  "L2L item status data = #{hol['item_status']['itemdata'].inspect}"
+        itemdata = hol["item_status"]["itemdata"]
+        logger.debug  "L2L hol = #{hol.inspect}"
+        logger.debug  "L2L item data = #{itemdata.inspect}"
         if (!itemdata.nil?)
           itemdata.each do | iid |
-            logger.debug  "item data = #{iid['itemid']}";
-            logger.debug  "item caln = #{iid['callNumber']}";
-            @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration'];
+            logger.debug  "item data = #{iid['itemid']}"
+            logger.debug  "item caln = #{iid['callNumber']}"
+            logger.debug  "item loc = #{iid['location']}"
+            logger.debug  "item status = #{iid['itemStatus']}"
+            #itemStatus"=>"Not Charged", 
+            if ( (! iid['location'].match('Non-Circulating')) && (iid['itemStatus'].match('Not Charged')))
+              @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration'];
+            end
           end
         end
       end
