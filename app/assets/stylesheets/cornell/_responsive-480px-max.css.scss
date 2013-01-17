@@ -2,8 +2,11 @@
 
 {
 	body {
-	padding: 0px;
-	margin: 0px
+		padding: 0px;
+		margin: 0px
 	}
-
+	.return-link { margin-top: 10px; }
+	.blacklight-catalog-show {
+		.span4 { clear: both; }
+	}
 }	
