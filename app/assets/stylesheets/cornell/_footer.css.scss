@@ -3,4 +3,7 @@ footer {
   background: $dark-gray;
 	.container { padding: 20px 0; }
 	p { font-size: 0.875em; }
+	a { color: white; }
+	a:hover { color: $cornell-primary; }
 }
+.feedback-link { text-align: right; }
