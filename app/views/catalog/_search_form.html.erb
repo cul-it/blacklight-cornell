@@ -3,7 +3,7 @@
   <%= form_tag search_action_url, :method => :get, :class => 'search-form' do %>
     <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
         <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query span4", :id => "q"%>
+         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q"%>
     <% unless search_fields.empty? %>
         <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
         <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search_field") %>
@@ -19,7 +19,7 @@
           </span>
           <% if query_has_constraints? %>
 
-            <span class="start-over"> or &nbsp;<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
+            <span class="start-over hidden-phone"> or &nbsp;<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :class => "catalog_startOverLink", :id=>"startOverLink" %>
             </a>
           </span>
           <% end %>
