@@ -254,6 +254,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'url_toc_display', :label => 'Table of contents link'
     config.add_show_field 'title_other_display', :label => 'Other title'
+    config.add_show_field 'url_access_display', :label => 'Online access:'
 
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
@@ -285,7 +286,6 @@ class CatalogController < ApplicationController
 #    config.add_show_field 'published_vern_display', :label => 'Published'
 #    config.add_show_field 'lc_callnum_display', :label => 'Call number'
 #    config.add_show_field 'pub_date', :label => 'Publication Date'
-#    config.add_show_field 'url_access_display', :label => 'Content Link:'
 #    config.add_show_field 'url_other_display', :label => 'Content Link:'
 
     # "fielded" search configuration. Used by pulldown among other places.
