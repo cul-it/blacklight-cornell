@@ -29,16 +29,3 @@
         </li>
       <% end %>
 
-      <% if @document.respond_to?( :to_email_text ) || @document.respond_to?( :to_sms_text ) %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <% if @document.respond_to?( :to_email_text ) %>
-              <li><%= link_to t('blacklight.tools.email'), email_catalog_path(:id => @document), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %></li>
-            <%- end -%>
-            <%- if @document.respond_to?( :to_sms_text ) -%>
-              <li><%= link_to t('blacklight.tools.sms'), sms_catalog_path(:id => @document), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %></li>
-            <%- end -%>
-          </ul>
-        </li>
-      <% end %>

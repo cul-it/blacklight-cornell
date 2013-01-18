@@ -89,10 +89,13 @@ dl.dl-horizontal {
 	margin-bottom: 0;
 	font-size: 1.1em;
 }
+.share-it,
 .map-it {
+	margin-left: .2em;
 	font-size: .8em;
 	font-weight: normal;
 }
+.share-options { min-width: auto; }
 .message {
 	font-size: .9em;
 	color: $light-gray;

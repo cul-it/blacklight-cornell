@@ -22,6 +22,8 @@ root.load_holdings = (id) ->
     success: (data) ->
         $("#holding-spinner").hide()
         $('.holdings').html(data)
+        # Need to setup modal again for injected share links
+        Blacklight.setup_modal("a.lightboxLink", "#ajax-modal form.ajax_form", true);
 
     error: (data) ->
         $("#holding-spinner").hide()

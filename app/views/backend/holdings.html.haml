@@ -1,6 +1,7 @@
 - add_display_elements(@holdings['condensed_holdings_full']).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
 
   - location = entry['location_name']
+  - callnumber = entry['call_number']
 
   .holding{:class => alternating_line}
     .location_box
@@ -8,17 +9,28 @@
       - if location != '*Networked Resource'
         %h5.location
           = location
-          
-          %span.lightboxLink
+          %span.map-it
             -# @TODO: create a hash for mapping locations
             - if location != 'Library Annex'
-              %a{ :href=>'/catalog/email?id=' + params[:id] + '&location=' + entry['location_name'] + '&callnumber=' + entry['call_number'], :title=>'Email this record' } email
-              %a{ :href=>'/catalog/sms?id=' + params[:id] + '&location=' + entry['location_name'] + '&callnumber=' + entry['call_number'], :title=>'Text this record' } text
-    .hours= entry['hours']
+              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
 
     -# Only display a real call number
-    - if entry['call_number'] != 'No call number'
-      .call_number= entry['call_number']
+    - if callnumber != 'No call number'
+      .call-number
+        = callnumber
+        %span.dropdown.share-it
+          %a{:class => 'dropdown-toggle', :href => '#', :data => {:toggle => 'dropdown'}}
+            %i{:class => 'icon-share'}
+            Share
+          %ul.dropdown-menu.share-options
+            %li
+              = link_to email_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} do
+                %i.icon-envelope
+                = t('blacklight.tools.email')
+            %li
+              = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} do
+                %i.icon-mobile-phone
+                = t('blacklight.tools.sms')
 
     - entry['copies'].each do |copy|
       .group
@@ -39,4 +51,3 @@
             = message unless message.to_str == 'Status unknown'
             - if details['count'] >1
               (#{details['count']} copies)
-
