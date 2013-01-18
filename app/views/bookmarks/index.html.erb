@@ -8,9 +8,18 @@
 
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
-  <%= render 'sort_and_per_page' %>
- </div> 
-<div class="span9 pull-right">
+
+<div class="results-info span12 pull-right">
+  <span class="results-count">
+    <%= render :partial => "paginate_compact" %>
+  </span>
+
+  <%= render :partial => 'sort_widget' %>
+
+  <%= render :partial => 'per_page_widget' %>
+</div>
+
+<div class="span6 pull-right">
   <%= render 'tools' %>
 </div>  
   <%= render_document_index %>
