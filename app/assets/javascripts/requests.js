@@ -8,4 +8,37 @@ $(document).ready(function() {
       $("#delivery_option").html(data);
     });
   });
+
+  $('#req').submit( function(e) {
+    return false;
+  });
+  $('#request_sumbit').click(function(e) {
+    var hu = $('#req').attr('action');// + '/' + $('#PICK').val();
+    $('#result').html("Working....");
+    var reqnna = '';
+    reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    if (reqnna  == 'undefined-undefined-undefined') {
+      reqnna = '';
+    }
+    $.ajax({
+      type: 'POST',
+      data: {
+        "reqcomments": $('#reqcomments').val(),
+        "reqnna": reqnna,
+        "bid": $('#bid').val(),
+        "library_id": $('#PICK').val(),
+        "holding_id": $("#req input[type='radio']:checked").val(),
+        "request_action": $("#request_action").val()
+      },
+      url:hu,
+      dataType: 'json',
+      success: function(data) {
+        var st=data.status;
+        var desc= (st == 'success') ? 'succeeded' : 'failed';  
+        var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();
+        $('#result').html("Your request for " + act_desc + " has "+desc);
+      }
+    });
+    return false; // should block the submit
+  });
 });

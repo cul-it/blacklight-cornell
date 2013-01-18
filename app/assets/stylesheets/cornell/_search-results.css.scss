@@ -10,59 +10,71 @@ body.blacklight-catalog-index .document {
 	}
 }
 
-.document-data {
-	float: left;
-	width: 90%;
-	span {
-		font-size: 0.75em;
-		color: $light-gray;
-		line-height: 0.875em;
-	}
-	span.format {
-		float: left;
-		margin-top: .25em;
-		line-height: 1.55em;
-		color: $medium-gray;
-	}
-	span.status {
-		margin-left: 20px;
-		display: inline-block;
-		float: left;
-		margin-top: .25em;
-		font-size: 1em;
-		color: $medium-gray;
-		// icon {
-		// 	font-size: 1.1em;
-		// }
-	}
-	span.callnumber {
-		font-size: inherit;
-	}
-}
-
-h2.blacklight-title_display {
+.blacklight-title_display {
 	margin: 0;
 	font-weight: normal;
 	line-height: 1.2em;
 	font-size: 1.1em;
 }
 
-.uniform-title { font-style: italic; }
-
-.status-online {
-	margin-right: 5px;
-	padding: 2px 4px;
-	background: $available;
-	color: #fff;
-	@include border-radius(3px)
+.document-data {
+	float: left;
+	width: 90%;
+	span {
+		font-size: .75em;
+		color: $light-gray;
 	}
+	.blacklight-pub_date_display {
+		margin-left: .2em;
+		color: $dark-gray;
+	}
+	.blacklight-title_uniform_display {
+		display: block;
+		margin-top: -.2em;
+		font-style: italic;
+		color: $medium-gray;
+	}
+	.blacklight-author_display {
+		display: block;
+	}
+	.format {
+		margin-right: .5em;
+		color: $dark-gray;
+	}
+	.blacklight-pub_info_display {
+		margin-right: .5em;
+		color: $medium-gray;
+	}
+	.status {
+		font-size: 1em;
+	}
+	.location { color: $medium-gray; }
+}
+
+.data-block {
+	margin-top: .4em;
+	line-height: 1em;
+}
+
+.label-online {
+	font-weight: normal;
+	background: $available;
+}
 
 .status-online:hover {
 	text-decoration: none;
 	background: $dark-gray;
 	color: $white;
-	}
+}
 
 .icon-ok { color: $available; }
 .icon-time { color: $unavailable; }
-.icon-info-sign { color: $blue; }
+.icon-warning-sign {color: $yellow; }
+
+#sort-dropdown,
+#per_page-dropdown {
+	font-size: .8em;
+	.btn {
+		font-size: inherit;
+	}
+}

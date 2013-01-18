@@ -1,25 +1,39 @@
-Place request:
-- ho = 'http://'+request.env['HTTP_HOST']
-- dx = request.env['HTTP_HOST']
-- cop = dx.index(':')
-- dx = dx[0..cop-1] unless (cop.nil?)
-- dx = 'http://' + dx
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/hold/xxxx/'+"/"+@id}Hold
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/recall/xxxx/'+"/"+@id} Recall
-%a{:href=>dx+'/auth/redir.cgi?url='+ho+'/request/callslip/xxxx/'+"/"+@id} Deliver
-
 - add_display_elements(@holdings['condensed_holdings_full']).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
+
+  - location = entry['location_name']
+  - callnumber = entry['call_number']
 
   .holding{:class => alternating_line}
     .location_box
-      .location= entry['location_name']
-    .hours= entry['hours']
+      -# Only display a real location
+      - if location != '*Networked Resource'
+        %h5.location
+          = location
+          %span.map-it
+            -# @TODO: create a hash for mapping locations
+            - if location != 'Library Annex'
+              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
 
-    .call_number= entry['call_number']
+    -# Only display a real call number
+    - if callnumber != 'No call number'
+      .call-number
+        = callnumber
+        %span.dropdown.share-it
+          %a{:class => 'dropdown-toggle', :href => '#', :data => {:toggle => 'dropdown'}}
+            %i{:class => 'icon-share'}
+            Share
+          %ul.dropdown-menu.share-options
+            %li
+              = link_to email_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} do
+                %i.icon-envelope
+                = t('blacklight.tools.email')
+            %li
+              = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} do
+                %i.icon-mobile-phone
+                = t('blacklight.tools.sms')
 
     - entry['copies'].each do |copy|
       .group
-
         - unless copy['temp_locations'].nil?
           - copy['temp_locations'].each do |t|
             .message= t
@@ -31,13 +45,9 @@ Place request:
             - message, details = item
             - if details['status'] == 'available'
               %i.icon-ok
-            - else
+            - elsif location != '*Networked Resource'
+              -# Handling online link in show.html.erb for now (for good?)
               %i.icon-time
             = message unless message.to_str == 'Status unknown'
             - if details['count'] >1
               (#{details['count']} copies)
-    - unless (svc_links = service_links(entry['services'], @id, :target => "_blank")).empty?
-      .services
-        .label= "Request: "
-        - svc_links.each do |link|
-          .service= link

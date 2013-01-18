@@ -27,27 +27,29 @@
     <%= render :partial => 'show_metadata' %>
     <div class="span4">
       <div class="well availability">
+        <h4>Availability</h4>
+
+        <% if online_url(@document) %>
+            <i class="icon-ok"></i> <a href="<%= online_url(@document) %>" class="btn btn-info">Online</a>
+        <% end %>
+
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
-        <div class="item-holdings">
-          <% if (render_document_show_field_value :document => @document, :field => 'url_access_display' ).blank? %>
-          <a href="<%= render_document_show_field_value :document => @document, :field => 'url_other_display' %>" class="btn btn-info">Access online</a>
-          <% else %>
-          <a href="<%= render_document_show_field_value :document => @document, :field => 'url_access_display' %>" class="btn btn-info">Access online</a>
-          <% end %>
-          <a href="#" id="requests_button" class="btn btn-danger">Request this item</a>
-          <p>
-            <div id="requests_container">
-              <div id="delivery_option"></div>
-            </div>
-          </p>
-          <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p>
+
+        <div class="item-requests">
+          <%= link_to 'Request', request_item_redirect_path( params[:id] ), :class => 'btn btn-danger' %>
+          <div id="requests_container">
+            <div id="delivery_option"></div>
+          </div>
         </div>
+
+        <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
+        <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
       </div>
-      <div class="well shelf-browser">
+      <!-- <div class="well shelf-browser">
         <h4>Browse by call number:<br>
           <span class="call-number">[call number]</span></h4>
         <p>Shelf browser goes here</p>
-      </div>
+      </div> -->
       <% if @document.respond_to?(:to_marc) %>
         <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %></div>
       <% end %>

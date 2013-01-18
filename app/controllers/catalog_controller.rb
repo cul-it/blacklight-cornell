@@ -187,26 +187,21 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    config.add_facet_field 'format', :label => 'Format', :limit => 3
-    config.add_facet_field 'pub_date', :label => 'Publication Year', :range => {
+    config.add_facet_field 'online', :label => 'Access', :limit => 2
+    config.add_facet_field 'format', :label => 'Format', :limit => 5
+    config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
+    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
-      :segments => true
+      :segments => false
     }, :show => true
-#    config.add_facet_field 'pub_date_sort', :label => 'Publication Year', :range => {
-#  :num_segments => 6,
-#  :assumed_boundaries => [1300, Time.now.year + 2],
-#  :segments => true
-#}, :show => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 5
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 3
-    config.add_facet_field 'subject_geo_facet', :label => 'Region', :limit => 5
-    config.add_facet_field 'subject_era_facet', :label => 'Era', :limit => 5
-    config.add_facet_field 'location_facet', :label => 'Location', :limit => 5
+    config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
+    config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
+    config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
     config.add_facet_field 'subject_content_facet', :label => 'Content', :limit => 5
-
-
+    config.add_facet_field 'lc_1letter_facet', :label => 'Call number', :limit => 5
+    config.add_facet_field 'location_facet', :label => 'Library location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
 #    config.add_facet_field 'facet', :multiple => true
 #    config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
@@ -214,7 +209,7 @@ class CatalogController < ApplicationController
 #    config.add_facet_field 'facet', :single => true
  #   config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
 
-   # config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+    config.default_solr_params[:'facet.field'] = config.facet_fields.keys
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -233,61 +228,70 @@ class CatalogController < ApplicationController
     config.add_index_field 'format', :label => 'Format'
     config.add_index_field 'language_facet', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published:'
-    config.add_index_field 'published_vern_display', :label => 'Published'
+    #config.add_index_field 'published_vern_display', :label => 'Published'
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
-    config.add_index_field 'pub_date', :label => 'Publication Date'
+    config.add_index_field 'pub_date', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field 'title_display', :label => 'Title:'
-    config.add_show_field 'title_vern_display', :label => 'Title:'
+    config.add_show_field 'title_uniform_display', :label => 'Uniform title'
+    config.add_show_field 'author_display', :label => 'Author/Creator'
+    config.add_show_field 'author_vern_display', :label => 'Author/Creator'
+    config.add_show_field 'format', :label => 'Format'
+    config.add_show_field 'language_facet', :label => 'Language'
+    config.add_show_field 'pub_info_display', :label => 'Published'
+    config.add_show_field 'edition_display', :label => 'Edition'
+    config.add_show_field 'notes_display', :label => 'Notes'
+    config.add_show_field 'subject_display', :label => 'Subject'
+    config.add_show_field 'summary_display', :label => 'Summary'
+    config.add_show_field 'description_display', :label => 'Description'
+    config.add_show_field 'isbn_t', :label => 'ISBN'
+    config.add_show_field 'issn_display', :label => 'ISSN'
+    config.add_show_field 'isbn_display', :label => 'ISBN'
+    config.add_show_field 'frequency_display', :label => 'Frequency'
+    config.add_show_field 'author_addl_display', :label => 'Other author/creator'
+    config.add_show_field 'title_series_display', :label => 'Series'
+    config.add_show_field 'contents_display', :label => 'Table of contents'
+    config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
+    config.add_show_field 'url_toc_display', :label => 'Table of contents link'
+    config.add_show_field 'title_other_display', :label => 'Other title'
+
+    config.add_show_field 'continues_display', :label => 'Continues'
+    config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
+    config.add_show_field 'supersedes_display', :label => 'Supersedes'
+    config.add_show_field 'absorbed_display', :label => 'Absorbed'
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in Part'
+    config.add_show_field 'continued_by_display', :label => 'Continued by'
+    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by'
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by'
+    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by'
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by:'
+    config.add_show_field 'split_into_display', :label => 'Split into'
+    config.add_show_field 'merger_display', :label => 'Merger'
+    config.add_show_field 'translation_of_display', :label => 'Translation of'
+    config.add_show_field 'has_translation_display', :label => 'Has translation'
+    config.add_show_field 'other_edition_display', :label => 'Other edition'
+    config.add_show_field 'has_supplement_display', :label => 'Has supplement'
+    config.add_show_field 'supplement_to_display', :label => 'Supplement to'
+    config.add_show_field 'other_form_display', :label => 'Other form'
+    config.add_show_field 'issued_with_display', :label => 'Issued with'
+
+    config.add_show_field 'url_access_display', :label => 'Online access:'
+    config.add_show_field 'url_other_display', :label => 'Online access:'
+
+#    config.add_show_field 'title_display', :label => 'Title:'
+#    config.add_show_field 'title_vern_display', :label => 'Title:'
 #    config.add_show_field 'subtitle_display', :label => 'Subtitle:'
-    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:'
-    config.add_show_field 'title_uniform_display', :label => 'Uniform Title:'
-    config.add_show_field 'title_series_display', :label => 'Series Title:'
-    config.add_show_field 'continues_display', :label => 'Continues:'
-    config.add_show_field 'continues_in_part_display', :label => 'Continues in Part:'
-    config.add_show_field 'supersedes_display', :label => 'Supersedes:'
-    config.add_show_field 'absorbed_display', :label => 'Absorbed:'
-    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in Part:'
-    config.add_show_field 'continued_by_display', :label => 'Continued by:'
-    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in Part by:'
-    config.add_show_field 'superseded_by_display', :label => 'Superseded by:'
-    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by:'
-    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in Part by:'
-    config.add_show_field 'split_into_display', :label => 'Split into:'
-    config.add_show_field 'merger_display', :label => 'Merger:'
-    config.add_show_field 'translation_of_display', :label => 'Translation of:'
-    config.add_show_field 'has_translation_display', :label => 'Has Translation:'
-    config.add_show_field 'other_edition_display', :label => 'Other Edition:'
-    config.add_show_field 'has_supplement_display', :label => 'Has Supplement:'
-    config.add_show_field 'supplement_to_display', :label => 'Supplement to:'
-    config.add_show_field 'other_form_display', :label => 'Other Form:'
-    config.add_show_field 'issued_with_display', :label => 'Issued With'
-    config.add_show_field 'author_display', :label => 'Author:'
-    config.add_show_field 'author_vern_display', :label => 'Author:'
-    config.add_show_field 'author_addl_display', :label => 'Other Author:'
-    config.add_show_field 'format', :label => 'Format:'
-    config.add_show_field 'url_fulltext_display', :label => 'URL:'
-    config.add_show_field 'url_suppl_display', :label => 'More Information:'
-    config.add_show_field 'language_facet', :label => 'Language:'
-    #config.add_show_field 'published_display', :label => 'Published:'
-    config.add_show_field 'published_vern_display', :label => 'Published:'
-    config.add_show_field 'lc_callnum_display', :label => 'Call number:'
-    config.add_show_field 'description_display', :label => 'Description:'
-    config.add_show_field 'isbn_t', :label => 'ISBN:'
-    #config.add_show_field 'pub_date', :label => 'Publication Date'
-    config.add_show_field 'pub_info_display', :label => 'Publication:'
-    config.add_show_field 'edition_display', :label => 'Edition:'
-    config.add_show_field 'notes_display', :label => 'Notes:'
-    config.add_show_field 'contents_display', :label => 'Table of Contents:'
-    config.add_show_field 'partial_contents_display', :label => 'Partial Table of Contents:'
-    config.add_show_field 'subject_display', :label => 'Subject: '
-#     config.add_show_field 'url_access_display', :label => 'Content Link:'
-     config.add_show_field 'url_toc_display', :label => 'Table of Contents Link:'
-#     config.add_show_field 'url_other_display', :label => 'Content Link:'
+#    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle'
+#    config.add_show_field 'url_fulltext_display', :label => 'URL'
+#    config.add_show_field 'url_suppl_display', :label => 'More Information'
+#    config.add_show_field 'published_display', :label => 'Published:'
+#    config.add_show_field 'published_vern_display', :label => 'Published'
+#    config.add_show_field 'lc_callnum_display', :label => 'Call number'
+#    config.add_show_field 'pub_date', :label => 'Publication Date'
+#    config.add_show_field 'url_other_display', :label => 'Content Link:'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

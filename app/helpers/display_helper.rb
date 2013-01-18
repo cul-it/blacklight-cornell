@@ -20,18 +20,19 @@ module DisplayHelper
 
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
-    link = args[:value]
-    link ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    links = args[:value]
+    links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
 
-    # Next clause restricts display to a single URL. TODO: is this okay?
-    if link.kind_of?(Array)
-      link = link[0]
+    value = links.map do |link|
+      #Check to see whether there is metadata at the end of the link
+      url, *metadata = link.split('|')
+      if metadata.present?
+        label = metadata[0]
+      end
+      link_to(label, url.html_safe)
     end
 
-    # Check to see whether there is metadata at the end of the link
-    url, *metadata = link.split('|')
-    link_to(label, url.html_safe) + (metadata.empty? ? nil : " (#{metadata[0]})")
-
+    render_field_value value
   end
 
   def render_clickable_document_show_field_value args
@@ -55,12 +56,22 @@ module DisplayHelper
       if clickable_setting[:sep] != nil
         # separator defined
         value_array = value.split(clickable_setting[:sep])
-        sep_display = clickable_setting[:sep_display] || clickable_setting[:sep]
-        sep_index = clickable_setting[:sep_index] || clickable_setting[:sep]
+        sep_display = clickable_setting[:sep_display] || clickable_setting[:sep] # separator for display field as defined
+        sep_index = clickable_setting[:sep_index] || clickable_setting[:sep] #separator for search string as defined
         if clickable_setting[:key_value]
           # field has display value and search value separated by :sep
           displayv_searchv = value.split(clickable_setting[:sep])
-          link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+          if displayv_searchv.size > 2
+            # has optional link attributes
+            # e.g. uniform title is searched in conjunction with author for more targeted results
+            link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+          elsif displayv_searchv.size > 1
+            # default key value pair separated by :sep
+            link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+          else
+            # display only
+            content_tag('span', displayv_searchv[0])
+          end
         elsif clickable_setting[:hierarchical]
           # fields such as subject are hierarchical
           hierarchical_value = ''
@@ -73,6 +84,7 @@ module DisplayHelper
             link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'))
           end.join(sep_display).html_safe
         else
+          # default behavior to search the text displayed
           value_array.map do |v|
             link_to(v, add_search_params(args[:field], '"' + v + '"'))
           end.join(sep_display).html_safe
@@ -120,35 +132,44 @@ module DisplayHelper
     return get_clickable_setting(field) != nil
   end
 
-
   def display_link?(field)
     return blacklight_config.display_link[field] != nil
+  end
+
+  def online_url(document)
+    if document['url_access_display'].present?
+      render_index_field_value(:document => document, :field => 'url_access_display')
+    elsif document['url_other_display'].present?
+      render_index_field_value(:document => document, :field => 'url_other_display')
+    end
   end
 
   FORMAT_MAPPINGS = {
     "Book" => "book",
     "Online" =>"link",
-    "Computer File" => "computer-file",
-    "Non-musical Recording" => "non-musical-recording",
+    "Computer File" => 'save',
+    "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
-    "Musical Recording" => "musical-recording",
+    "Musical Recording" => "music",
     "Thesis" => "thesis",
-    "Microform" => "microform",
-    "Serial" => "journal",
-    "Journal/Periodical" => "journal",
-    "Journal" => "journal",
+    "Microform" => "th",
+    "Serial" => "copy",
+    "Journal/Periodical" => "copy",
+    "Journal" => "copy",
     "Conference Proceedings" => "conference",
-    "Video" => "video",
-    "Map or Globe" => "map-or-globe",
+    "Video" => "film",
+    "Map or Globe" => "globe",
     "Manuscript/Archive" => "manuscript",
     "Newspaper" => "newspaper",
-    "Database" => "database",
-    "Image" => "image",
-    "Unknown" => "unknown"
+    "Database" => "hdd",
+    "Image" => "picture",
+    "Unknown" => "question-sign",
+    "Kit" => "kit",
+    "Research Guide" => "research-guide",
+    "Course Guide" => "course-guide"
   }
 
-  def formats_icon_mapping(document)
-    format = document['format'];
+  def formats_icon_mapping(format)
     if (icon_mapping = FORMAT_MAPPINGS[format])
       icon_mapping
     else

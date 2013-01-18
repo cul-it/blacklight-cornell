@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.9'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -18,7 +18,7 @@ gem 'haml'
 gem 'haml-rails'
 gem 'marc'
 gem 'rb-readline'
-gem 'font-awesome-sass-rails'
+gem 'font-awesome-sass-rails', '~> 3.0.0.1'
 gem 'net-ldap'
 
 # Gems used only for assets and not required

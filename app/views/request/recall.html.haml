@@ -1,49 +1,28 @@
-- ho = 'http://'+request.env['HTTP_HOST']
-- dx = request.env['HTTP_HOST']
-- cop = dx.index(':')
-- dx = dx[0..cop-1] unless (cop.nil?)
-- dx = 'http://' + dx
-%p
-  Request that this item be recalled for you: 
-  %br
-  %b=@ti
-  %form{:id => 'req', :method => 'post', :action => "#{dx}:8950/holdings/recall/#{@netid}/#{@id}"}
-    :javascript 
-      $(function() {         
-      $('#req').submit( function(e) {
-      return false;
-      });
-      $('#sumbit').click(function(e) {
-        var hu = $('#req').attr('action') + '/' + $('#PICK').val();
-        $('#result').html("Working....");
-        $.ajax({
-             type: 'POST', 
-             data:{"reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val() },
-             url:hu,
-             dataType: 'json',
-             success: function(data) {
-               var st=data.status;
-               var desc= (st == 'success') ? 'succeeded' : 'failed';
-               $('#result').html("Your request for recall has "+desc);
-             }
-         }); 
-         return false; // should block the submit 
-      });
-      });
-    %input(type="hidden" name="bid" value="#{@id}")
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Return to item
+%h1.request-type Catalog request: recall 
+%h2.item-title-request.blacklight-title_display=@ti
+%div.request-author=@au 
+%div.request-form
+  %form{:id => 'req', :method => 'post', :action => request_make_request_path}
+    %input(type="hidden" name="bid" value="#{@id}" id="bid")
+    %input(type="hidden" name="request_action" value="recall" id="request_action")
     %br
     = render :partial => 'shared/reqpu'
     %br
-    = render :partial => 'shared/reqco'
-    %br
+    = render :partial => 'shared/reqac'
+    %p
     Comments:
     %br
-    %textarea
+    %textarea(id="reqcomments")
     %br
     = render :partial => 'shared/reqdate'
     %br
-    %input(type="submit" name="sumbit" id="sumbit" value="Submit request for recall")
-    %input(type="reset" id="reest" value="Clear form")
+    %input(type="submit" id="request_sumbit" name="sumbit" value="Submit recall request" class="btn btn-danger")
+    %input(type="reset" id="reest" value="Clear form" class="btn")
+    %p
+    or 
+    =link_to 'place a hold on this item.', request_hold_path( params[:id] )
     %br
     %div(id="result" name="result" value="")
-%p Find me in app/views/request/recall.html.haml

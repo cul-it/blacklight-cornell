@@ -1,6 +1,4 @@
-#document {
-	h2 { line-height: 32px; }
-}
+.return-link { margin-bottom: 10px; }
 
 h3.subtitle {
 	font-size: 1em;
@@ -20,9 +18,20 @@ h3.subtitle {
 .item-metadata {
 	float: left;
 	width: 70%;
+	margin-bottom: 20px;
 }
 
-// override bootstrap dl-horizontal
+// OVERRIDE CORE STYLES
+.document {
+	border-bottom: none;
+	clear: none;
+	padding-bottom: 0;
+}
+#document {
+	 margin-top: 0;
+	 h2 { line-height: 32px; }
+}
+label.toggle_bookmark { min-width: auto; }
 dl.dl-horizontal {
 	margin-top: 0;
 	dt {
@@ -45,15 +54,14 @@ dl.dl-horizontal {
 }
 
 .item-tools {
-	float: right;
 	ul {
 		list-style: none;
 		float: right;
 	}
 	li {
 		font-size: 0.75em;
-    	float: left;
-    	margin-left: 15px;
+  	float: left;
+  	margin-left: 15px;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
@@ -61,27 +69,47 @@ dl.dl-horizontal {
 	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
 	.dropdown-menu {
 		min-width: auto;
-		li { 
+		li {
 			font-size: 1em;
-			margin-left: 0; }
+			margin-left: 0;
+		}
 	}
 }
-
 
 .item-pagination { font-size: 0.875em; }
 
-.librarian-view {
-	text-align: right;
+// AVAILABILITY
+.holding,
+.holdings-error {
+	margin-bottom: 1em;
 	font-size: 0.875em;
 }
-
-.item-holdings {
-	margin: 10px 0; }
-
+.location {
+	margin-bottom: 0;
+	font-size: 1.1em;
+}
+.share-it,
+.map-it {
+	margin-left: .2em;
+	font-size: .8em;
+	font-weight: normal;
+}
+.share-options { min-width: auto; }
+.message {
+	font-size: .9em;
+	color: $light-gray;
+}
 .availability {
 	margin-top: 20px;
-	p { font-size: 0.875em;
-	}
+	p { font-size: 0.875em; }
+}
+.item-requests {
+	margin: .5em 0;
+}
+.google-books-link {
+	margin: 1.5em 0 0;
+	padding-top: 1em;
+	border-top: solid 2px #d8d2c9;
 }
 
 // temporarily add a height to the shelf browser to convey estimated content size
@@ -89,29 +117,7 @@ dl.dl-horizontal {
 	height: 500px;
 }
 
-.item-holdings {
-	text-align: center;
-	button { margin-bottom: 10px; }
-}
-
-.google-books-link { margin-top: 10px; }
-
-.request-submit .btn { margin-top: 10px; }
-
-.return-link { margin-bottom: 10px; }
-
-// OVERRIDE CORE STYLES
-.document {
-	border-bottom: none;
-	clear: none;
-	padding-bottom: 0;
-}
-#document { margin-top: 0; }
-label.toggle_bookmark { min-width: auto; }
-
-// HOLDINGS
-.holding {
-	margin: 10px 0;
+.librarian-view {
+	text-align: right;
 	font-size: 0.875em;
 }
-.location {font-weight: bold;}

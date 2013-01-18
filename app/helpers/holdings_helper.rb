@@ -1,29 +1,7 @@
 module HoldingsHelper
 
-  SERVICE_ORDER = %w{offsite precat recall_hold on_order borrow_direct borrow_direct ill in_process doc_delivery}
-  # parameters: title, link, whether to append clio_id to link
-  SERVICES = {
-    'offsite' => ["Offsite", "http://www.columbia.edu/cgi-bin/cul/offsite2?", true],
-    'precat' => ["Precataloging", "https://www1.columbia.edu/sec-cgi-bin/cul/forms/Sprecat?", true],
-    'recall_hold' => ["Recall/Hold", "http://clio.cul.columbia.edu:7018/vwebv/patronRequests?bibId=", true],
-    'on_order' => ["On Order", "https://www1.columbia.edu/sec-cgi-bin/cul/forms/Sinprocess?", true],
-    'borrow_direct' => ['Borrow Direct', "http://www.columbia.edu/cgi-bin/cul/borrowdirect?", true],
-    'ill' => ['ILL', "https://www1.columbia.edu/sec-cgi-bin/cul/forms/illiad?", true],
-    'in_process' => ['In Process', "https://www1.columbia.edu/sec-cgi-bin/cul/forms/Sinprocess?", true],
-    'doc_delivery' => ['Document Delivery', "http://www.columbia.edu/cgi-bin/cul/resolve?lweb0155", false]
-  } 
-
-  def service_links(services, clio_id, options = {})
-    services.select {|svc| SERVICE_ORDER.index(svc)}.sort_by { |svc| SERVICE_ORDER.index(svc) }.collect do |svc|
-      title, uri, add_clio_id = SERVICES[svc]
-      uri += clio_id.to_s if add_clio_id
-      link_to title, uri, options
-    end
-  end
-
-
   def process_online_title(title)
-    title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/,'\1\2')  
+    title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/,'\1\2')
   end
 
   def xadd_display_elements(entries)
@@ -31,7 +9,7 @@ module HoldingsHelper
   end
 
   def add_display_elements(entries)
-    
+
     entries.each do |entry|
 
       # location links
@@ -47,7 +25,7 @@ module HoldingsHelper
 
 #      if location && location.library && (hours = location.library.hours.find_by_date(Date.today))
 #        entry['hours'] = hours.to_opens_closes
-#      end        
+#      end
 
       # add status icons
       entry['copies'].each do |copy|
@@ -67,7 +45,7 @@ module HoldingsHelper
   ITEM_STATUS_RANKING = ['available', 'some_available', 'not_available', 'none', 'online']
 
   def sort_item_statuses(entries)
-    
+
     entries.each do |entry|
       entry['copies'].each do |copy|
         items = copy['items']
@@ -80,25 +58,25 @@ module HoldingsHelper
     #     to:
     #       [[message, {:status => , :count => , etc.}], ...]
     # in order to preserve the sort order.
-    
+
   end
 
   def extract_google_bibkeys(document)
-    
+
     bibkeys = []
-    
+
     unless document["isbn_t"].nil?
       bibkeys << document["isbn_t"]
     end
-    
+
     unless document["oclc_display"].nil?
       bibkeys << document["oclc_display"].collect { |oclc| "OCLC:" + oclc.gsub(/^oc[mn]/,"") }.uniq
     end
-    
+
     unless document["lccn_display"].nil?
       bibkeys << document["lccn_display"].collect { |lccn| "LCCN:" + lccn.gsub(/\s/,"").gsub(/\/.+$/,"") }
     end
-    
+
     bibkeys.flatten
 
   end
