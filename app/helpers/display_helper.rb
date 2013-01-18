@@ -56,12 +56,22 @@ module DisplayHelper
       if clickable_setting[:sep] != nil
         # separator defined
         value_array = value.split(clickable_setting[:sep])
-        sep_display = clickable_setting[:sep_display] || clickable_setting[:sep]
-        sep_index = clickable_setting[:sep_index] || clickable_setting[:sep]
+        sep_display = clickable_setting[:sep_display] || clickable_setting[:sep] # separator for display field as defined
+        sep_index = clickable_setting[:sep_index] || clickable_setting[:sep] #separator for search string as defined
         if clickable_setting[:key_value]
           # field has display value and search value separated by :sep
           displayv_searchv = value.split(clickable_setting[:sep])
-          link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+          if displayv_searchv.size > 2
+            # has optional link attributes
+            # e.g. uniform title is searched in conjunction with author for more targeted results
+            link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+          elsif displayv_searchv.size > 1
+            # default key value pair separated by :sep
+            link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+          else
+            # display only
+            content_tag('span', displayv_searchv[0])
+          end
         elsif clickable_setting[:hierarchical]
           # fields such as subject are hierarchical
           hierarchical_value = ''
@@ -74,6 +84,7 @@ module DisplayHelper
             link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'))
           end.join(sep_display).html_safe
         else
+          # default behavior to search the text displayed
           value_array.map do |v|
             link_to(v, add_search_params(args[:field], '"' + v + '"'))
           end.join(sep_display).html_safe
