@@ -22,4 +22,7 @@
     %input(type="submit" id="request_sumbit" name="sumbit" value="Submit hold request" class="btn btn-danger")
     %input(type="reset" id="reest" value="Clear form" class="btn")
     %br
+    %p
+    or 
+    =link_to 'recall this item.', request_recall_path( params[:id] )
     %div(id="result" name="result" value="")
