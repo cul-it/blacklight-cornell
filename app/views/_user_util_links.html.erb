@@ -1,28 +1,7 @@
 <div class="span6">
   <ul class="blacklight-nav">
-    <li>
-    <% if has_user_authentication_provider? %>
-      <% if current_user %>
-        <span class="current-user">
-          <% unless current_user.to_s.blank? %>
-            <%= link_to edit_user_registration_path, :class => 'user-email' do %>
-              <i class="icon-user"></i> <%= current_user %>
-            <% end %>
-          <% end %>
-          <%= link_to  destroy_user_session_path, :class => 'logout' do  %>
-            <i class="icon-signout"></i><%= t('blacklight.header_links.logout') %>
-          <% end %>
-        </span>
-      <% else %>
-        <a href="<%= new_user_session_path %>">Log In</a>
-      <% end %>
-    <% end %>
-    </li>
     <% if current_or_guest_user %>
       <li><%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %></li>
-    <% end %>
-    <% if has_user_authentication_provider? and current_user %>
-      <li><%= link_to t('blacklight.header_links.saved_searches'), saved_searches_path %></li>
     <% end %>
     <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
   </ul>
