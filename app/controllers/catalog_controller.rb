@@ -254,7 +254,6 @@ class CatalogController < ApplicationController
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'url_toc_display', :label => 'Table of contents link'
     config.add_show_field 'title_other_display', :label => 'Other title'
-    config.add_show_field 'url_access_display', :label => 'Online access:'
 
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
@@ -275,6 +274,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to'
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
+
+    config.add_show_field 'url_access_display', :label => 'Online access:'
 
 #    config.add_show_field 'title_display', :label => 'Title:'
 #    config.add_show_field 'title_vern_display', :label => 'Title:'
