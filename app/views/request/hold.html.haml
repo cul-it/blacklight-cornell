@@ -1,9 +1,7 @@
-%p
-  Request this item to be held for you upon return: 
-  %br
-  %b=@ti
-  %b= "/"
-  %b=@au
+%h1.request-type Catalog request: hold
+%h2.item-title-request.blacklight-title_display=@ti
+%div.request-author=@au 
+%div.request-form
   %form{:id => 'req', :method => 'post', :action => request_make_request_path}
     %input(type="hidden" name="bid" value="#{@id}" id="bid")
     %input(type="hidden" name="request_action" value="hold" id="request_action")
@@ -18,8 +16,7 @@
     %br
     = render :partial => 'shared/reqdate'
     %br
-    %input(type="submit" id="request_sumbit" name="sumbit" value="Submit request for hold")
-    %input(type="reset" id="reest" value="Clear form")
+    %input(type="submit" id="request_sumbit" name="sumbit" value="Submit hold request" class="btn btn-danger")
+    %input(type="reset" id="reest" value="Clear form" class="btn")
     %br
     %div(id="result" name="result" value="")
-%p Find me in app/views/request/hold.html.haml
