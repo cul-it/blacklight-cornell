@@ -125,13 +125,13 @@ en:
         title: 'Title: %{value}'
         author: 'Author: %{value}'
         language: 'Language: %{value}'
-        location: 'Location(s): %{location}'
+        location: 'Location: %{location}'
+        callnumber: 'Call number: %{callnumber}'
         subject:
           one: 'Item record: %{title}'
           other: 'Item records'
-        url: 'URL: %{url}'
+        url: '%{url}'
         message: 'Message: %{message}'
-        callnumber: 'Call number(s): %{callnumber}'
       errors:
         to:
           invalid: 'You must enter a valid email address'
