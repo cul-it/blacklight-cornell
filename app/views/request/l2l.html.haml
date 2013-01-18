@@ -1,6 +1,9 @@
 %h1.request-type Catalog request: library to library delivery
 %h2.blacklight-title_display.item-title-request=@ti
-%div.request-author=@au 
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Return to item
+%div.request-author=@au
 %div.request-form
   %form{:id => 'req', :method => 'post', :action => request_make_request_path}
     %input(type="hidden" name="bid" value="#{@id}" id="bid")
