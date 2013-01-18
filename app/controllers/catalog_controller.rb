@@ -276,6 +276,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'issued_with_display', :label => 'Issued with'
 
     config.add_show_field 'url_access_display', :label => 'Online access:'
+    config.add_show_field 'url_other_display', :label => 'Online access:'
 
 #    config.add_show_field 'title_display', :label => 'Title:'
 #    config.add_show_field 'title_vern_display', :label => 'Title:'
