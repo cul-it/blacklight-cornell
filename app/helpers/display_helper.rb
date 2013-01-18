@@ -20,18 +20,19 @@ module DisplayHelper
 
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
-    link = args[:value]
-    link ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    links = args[:value]
+    links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
 
-    # Next clause restricts display to a single URL. TODO: is this okay?
-    if link.kind_of?(Array)
-      link = link[0]
+    value = links.map do |link|
+      #Check to see whether there is metadata at the end of the link
+      url, *metadata = link.split('|')
+      if metadata.present?
+        label = metadata[0]
+      end
+      link_to(label, url.html_safe)
     end
 
-    # Check to see whether there is metadata at the end of the link
-    url, *metadata = link.split('|')
-    link_to(label, url.html_safe) + (metadata.empty? ? nil : " (#{metadata[0]})")
-
+    render_field_value value
   end
 
   def render_clickable_document_show_field_value args
