@@ -1,2 +1,25 @@
-h1.request-type {font-size:1.5em; font-weight:600}
-.item-title-request {font-size:1.25em; font-weight:600;}
+h1.request-type {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.item-title-request {
+  font-size:1.25em;
+  font-weight:600;
+}
+#req {
+  select {
+    width: auto;
+  }
+}
+.request-author { margin-bottom: 1em; }
+.radio-label {
+  display: inline-block;
+  margin-top: .5em;
+  vertical-align: middle;
+}
+.place-hold,
+.place-request { font-size: .8em; }
+.borrow-direct-notice {
+  float: none;
+  font-size: .9em;
+}

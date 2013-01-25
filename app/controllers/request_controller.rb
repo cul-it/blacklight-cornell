@@ -12,17 +12,17 @@ class RequestController < ApplicationController
   helper_method :search_action_url
 
 
-  def hold 
+  def hold
     @iis = {}
     #@h = session[:holdings]
     #@hd = session[:holdings_details]
     @hd = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
     @h = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @netid = request.env['HTTP_REMOTE_USER']
-    logger.debug  "HOLD getting info for #{@netid}" 
-    @resp,@document = get_solr_response_for_doc_id(params[:id]) 
+    logger.debug  "HOLD getting info for #{@netid}"
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
     logger.debug  @document[:title_display]
-    logger.debug  "HOLD getting info for #{params[:id]}" 
+    logger.debug  "HOLD getting info for #{params[:id]}"
     @ti =  @document[:title_display]
     @au =  @document[:author_display]
     @id =  params[:id]
@@ -55,13 +55,14 @@ class RequestController < ApplicationController
     @hd = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
     @h = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @netid = request.env['HTTP_REMOTE_USER']
-    logger.debug  "RECALL getting info for #{@netid}" 
-    @resp,@document = get_solr_response_for_doc_id(params[:id]) 
+    logger.debug  "RECALL getting info for #{@netid}"
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
     logger.debug  @document[:title_display]
-    logger.debug  "RECALL getting info for #{params[:id]}" 
+    logger.debug  "RECALL getting info for #{params[:id]}"
     @ti =  @document[:title_display]
     @au =  @document[:author_display]
     @id =  params[:id]
+    @isbn = @document[:isbn_display].present? ? @document[:isbn_display].first : false
     logger.debug   "RECALL details: #{@hd.inspect}"
     # the details offers an array of records, one element for each holding.
     if (!@hd.nil?)
@@ -88,30 +89,30 @@ class RequestController < ApplicationController
     @h = session[:holdings]
     @hd = session[:holdings_detail]
     @netid = request.env['HTTP_REMOTE_USER']
-    logger.debug  "getting info for #{params[:id]}" 
-    logger.debug  "getting info for #{@netid}" 
-    @resp,@document = get_solr_response_for_doc_id(params[:id]) 
-    logger.debug  "document info : #{@document}" 
-    logger.debug  @document.to_s 
-    logger.debug  @document.inspect 
+    logger.debug  "getting info for #{params[:id]}"
+    logger.debug  "getting info for #{@netid}"
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    logger.debug  "document info : #{@document}"
+    logger.debug  @document.to_s
+    logger.debug  @document.inspect
     logger.debug  @document[:title_display]
-    logger.debug  "holding info : #{@h}" 
-    logger.debug  @h.to_s 
-    logger.debug  @h.inspect 
-    logger.debug  "holding detail info : #{@hd}" 
-    logger.debug  @hd.to_s 
-    logger.debug  @hd.inspect 
+    logger.debug  "holding info : #{@h}"
+    logger.debug  @h.to_s
+    logger.debug  @h.inspect
+    logger.debug  "holding detail info : #{@hd}"
+    logger.debug  @hd.to_s
+    logger.debug  @hd.inspect
     @ti =  @document[:title_display]
     @au =  @document[:author_display]
     @id =  params[:id]
-    if (!@hd.nil?) 
+    if (!@hd.nil?)
     logger.debug   "details: #{@hd.inspect}"
     # the details offers an array of records, one element for each holding.
     @hd['records'].each do | hol |
       logger.debug  "holding id = #{hol['holding_id']}";
       logger.debug  "item status = #{hol['item_status'].inspect}";
       idl =   hol['item_status']['itemdata'];
-      if (!idl.nil?) 
+      if (!idl.nil?)
         idl.each do | id |
           logger.debug  "item = #{id['itemid']} #{id['location']} #{id['callNumber']} #{id['copy']} #{id['enumeration']}";
         end
@@ -123,19 +124,19 @@ class RequestController < ApplicationController
   def xrecall
   @h = session[:holdings]
   @netid = request.env['HTTP_REMOTE_USER']
-  logger.debug  "getting info for #{params[:id]}" 
-  logger.debug  "getting info for #{@netid}" 
-  @resp,@document = get_solr_response_for_doc_id(params[:id]) 
-  logger.debug  "document info : #{@document}" 
-  logger.debug  @document.to_s 
-  logger.debug  @document.inspect 
+  logger.debug  "getting info for #{params[:id]}"
+  logger.debug  "getting info for #{@netid}"
+  @resp,@document = get_solr_response_for_doc_id(params[:id])
+  logger.debug  "document info : #{@document}"
+  logger.debug  @document.to_s
+  logger.debug  @document.inspect
   logger.debug  @document[:title_display]
   @ti =  @document[:title_display]
   @au =  @document[:author_display]
   @id =  params[:id]
   logger.debug   "details: #{@hd.inspect}"
   # the details offers an array of records, one element for each holding.
-  if (!@hd.nil?) 
+  if (!@hd.nil?)
     @hd['records'].each do | hol |
       logger.debug  "holding id = #{hol['holding_id']}";
       logger.debug  "item status = #{hol['item_status'].inspect}";
@@ -145,12 +146,12 @@ class RequestController < ApplicationController
 
   def callslip
   @h = session[:holdings]
-  logger.debug  "getting info for #{params[:id]}" 
-  logger.debug  "getting info for #{params[:netid]}" 
-  @resp,@document = get_solr_response_for_doc_id(params[:id]) 
-  logger.debug  "info : #{@document}" 
-  logger.debug  @document.to_s 
-  logger.debug  @document.inspect 
+  logger.debug  "getting info for #{params[:id]}"
+  logger.debug  "getting info for #{params[:netid]}"
+  @resp,@document = get_solr_response_for_doc_id(params[:id])
+  logger.debug  "info : #{@document}"
+  logger.debug  @document.to_s
+  logger.debug  @document.inspect
   logger.debug  @document[:title_display]
   @ti =  @document[:title_display]
   @au =  @document[:author_display]
@@ -158,7 +159,7 @@ class RequestController < ApplicationController
   @id =  params[:id]
   logger.debug   "details: #{@hd.inspect}"
   # the details offers an array of records, one element for each holding.
-  if (!@hd.nil?) 
+  if (!@hd.nil?)
     @hd['records'].each do | hol |
       logger.debug  "holding id = #{hol['holding_id']}";
       logger.debug  "item status = #{hol['item_status'].inspect}";
@@ -173,10 +174,10 @@ class RequestController < ApplicationController
     @hd = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
     @h = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @netid = request.env['HTTP_REMOTE_USER']
-    logger.debug  "L2L getting info for #{@netid}" 
-    @resp,@document = get_solr_response_for_doc_id(params[:id]) 
+    logger.debug  "L2L getting info for #{@netid}"
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
     logger.debug  @document[:title_display]
-    logger.debug  "L2L getting info for #{params[:id]}" 
+    logger.debug  "L2L getting info for #{params[:id]}"
     @ti =  @document[:title_display]
     @au =  @document[:author_display]
     @id =  params[:id]
@@ -197,7 +198,7 @@ class RequestController < ApplicationController
             logger.debug  "item caln = #{iid['callNumber']}"
             logger.debug  "item loc = #{iid['location']}"
             logger.debug  "item status = #{iid['itemStatus']}"
-            #itemStatus"=>"Not Charged", 
+            #itemStatus"=>"Not Charged",
             if ( (! iid['location'].match('Non-Circulating')) && (iid['itemStatus'].match('Not Charged')))
               @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration'];
             end
@@ -208,6 +209,8 @@ class RequestController < ApplicationController
   end
 
   def bd
+    ## Temporarily redirect borrow direct to recall until BD can be properly integrated
+    redirect_to :action => "recall"
   end
 
   def ill
@@ -240,7 +243,7 @@ class RequestController < ApplicationController
     #holding id is actually the ITEM ID.
     holding_id = params[:holding_id]
     add_item_id = ''
-    if (holding_id) 
+    if (holding_id)
        add_item_id = "/#{holding_id}"
     end
     if request_action == 'callslip'
