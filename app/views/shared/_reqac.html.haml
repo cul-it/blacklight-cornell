@@ -8,10 +8,12 @@
         Select a copy:
       -elsif (@iis.length == 1)
         This copy:
-    .controls
-      -if (@iis.length > 1)
-        %input(type="radio" name="copy" value="") Any Copy
-      -@iis.each do |copyn, copyd|
+    -if (@iis.length > 1)
+      .controls
+        %input(type="radio" name="copy" value="")
+        %label.radio-label Any Copy
+    -@iis.each do |copyn, copyd|
+      .controls
         -if (@iis.length == 1)
           %input(type="radio" name="copy" value="#{copyn}" checked)
         -else
