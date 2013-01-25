@@ -1,3 +1,7 @@
+%div.alert-info.well.span4.pull-right
+  %p
+  Recalling this item will take up to two weeks, you may be able to get it faster from our Borrow Direct partners. Click to find your item in &nbsp; 
+  %a{:href => "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A#{@isbn}&req_id=info:rfa/oclc/institutions/3913"}> Borrow Direct.
 = link_to catalog_path(@id), {:title => @ti} do
   %i.icon-circle-arrow-left
   Return to item
@@ -25,8 +29,8 @@
     or 
     =link_to 'place a hold on this item.', request_hold_path( params[:id] )
     %br
-    or
-    %a{:href => "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A#{@isbn}&req_id=info:rfa/oclc/institutions/3913"}> Borrow Direct
+
+   
     %div(id="result" name="result" value="")
 
 
