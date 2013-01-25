@@ -4,6 +4,11 @@
 %h1.request-type Request a hold
 %h2.item-title-request.blacklight-title_display=@ti
 %div.request-author=@au
+- if @isbn
+  %p.alert.alert-info.borrow-direct-notice.span6
+    %strong Please Note:
+    Placing a hold on this item will take an indeterminable amount of time, you may be able to get it faster from our
+    = link_to("Borrow Direct partners", url_to_borrowdirect(@isbn)) + "."
 %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
   %input(type="hidden" name="bid" value="#{@id}" id="bid")
   %input(type="hidden" name="request_action" value="hold" id="request_action")
