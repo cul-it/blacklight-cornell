@@ -1,15 +1,19 @@
--if (@iis.length > 1) 
-  Would you like any available copy or a specific copy?
--else
-  This copy: 
--if (@iis.length > 1) 
-  %br
-  %input(type="radio" value="" name="copy") Any Copy
--@iis.each do |copyn, copyd|
-  -if (@iis.length == 1) 
-    %br
-    %input(value="#{copyn}" type="radio" name="copy" checked)
-  -else
-    %br
-    %input(value="#{copyn}" type="radio" name="copy")
-  =copyd
+-## Testing for @iis presence because callslip needs it
+-## but not sure if callslip is even sticking around (what's
+-## the difference between it and L2L?)
+-if (@iis.present? && @iis.length > 0)
+  .control-group
+    %label.control-label
+      -if (@iis.length > 1)
+        Select a copy:
+      -elsif (@iis.length == 1)
+        This copy:
+    .controls
+      -if (@iis.length > 1)
+        %input(type="radio" name="copy" value="") Any Copy
+      -@iis.each do |copyn, copyd|
+        -if (@iis.length == 1)
+          %input(type="radio" name="copy" value="#{copyn}" checked)
+        -else
+          %input(type="radio" name="copy" value="#{copyn}")
+        %label.radio-label=copyd

@@ -62,7 +62,7 @@ class RequestController < ApplicationController
     @ti =  @document[:title_display]
     @au =  @document[:author_display]
     @id =  params[:id]
-    @isbn = @document[:isbn_display].first
+    @isbn = @document[:isbn_display].present? ? @document[:isbn_display].first : false
     logger.debug   "RECALL details: #{@hd.inspect}"
     # the details offers an array of records, one element for each holding.
     if (!@hd.nil?)

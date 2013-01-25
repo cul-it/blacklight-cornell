@@ -460,4 +460,10 @@ module DisplayHelper
 
     link_url
   end
+
+  def url_to_borrowdirect(isbn)
+    link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
+
+    link_url
+  end
 end
