@@ -18,6 +18,11 @@ module DisplayHelper
     '<br/>'
   end
 
+  # :format arg specifies what should be returned
+  # * the raw array (url_access_display in availability on item page)
+  # * url only (search results)
+  # * link_to's with trailing <br>'s -- the default -- (url_other_display &
+  # url_toc_display in field listing on item page)
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
@@ -27,6 +32,9 @@ module DisplayHelper
     value = links.map do |link|
       #Check to see whether there is metadata at the end of the link
       url, *metadata = link.split('|')
+      if links.size == 1 && render_format == 'url'
+        return url.html_safe
+      end
       if metadata.present?
         label = metadata[0]
       end
@@ -143,7 +151,11 @@ module DisplayHelper
 
   def online_url(document)
     if document['url_access_display'].present?
-      render_index_field_value(:document => document, :field => 'url_access_display')
+      if document['url_access_display'].size > 1
+        catalog_path(document)
+      else
+        render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
+      end
     end
   end
 

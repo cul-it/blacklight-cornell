@@ -34,7 +34,7 @@
         <% if online_url(@document) %>
           <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
 
-          <ul class="unstyled">
+          <ul id="online-access" class="unstyled">
             <% online_links.each do |link| %>
               <li class="online-link"><i class="icon-ok"></i> <%= link %></li>
             <% end %>
