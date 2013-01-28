@@ -152,7 +152,7 @@ module DisplayHelper
   def online_url(document)
     if document['url_access_display'].present?
       if document['url_access_display'].size > 1
-        catalog_path(document)
+        catalog_path(document) + '/#online-access'
       else
         render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
       end
