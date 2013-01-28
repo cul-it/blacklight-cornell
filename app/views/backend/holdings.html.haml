@@ -1,56 +1,57 @@
 - holdings_condensed = @holdings['condensed_holdings_full']
-- first_item_in_holding = holdings_condensed.first
-- if first_item_in_holding['location_name'] == '*Networked Resource'
-  - holdings_condensed.shift
-  - holdings_condensed = holdings_condensed.push(first_item_in_holding)
-- add_display_elements(holdings_condensed).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
+- if holdings_condensed.size > 1
+  - first_item_in_holding = holdings_condensed.first
+  - if first_item_in_holding['location_name'] == '*Networked Resource'
+    - holdings_condensed.shift
+    - holdings_condensed = holdings_condensed.push(first_item_in_holding)
+  - add_display_elements(holdings_condensed).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
 
-  - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
-  - callnumber = entry['call_number']
+    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
+    - callnumber = entry['call_number']
 
-  .holding{:class => alternating_line}
-    .location_box
-      %h5.location
-        = location
-        -# @TODO: create a hash for mapping locations
-        - if location != 'Library Annex' && location != 'Online'
-          %span.map-it
-            = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
+    .holding{:class => alternating_line}
+      .location_box
+        %h5.location
+          = location
+          -# @TODO: create a hash for mapping locations
+          - if location != 'Library Annex' && location != 'Online'
+            %span.map-it
+              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
 
-    -# Only display a real call number
-    - if callnumber != 'No call number'
-      .call-number
-        = callnumber
-        %span.dropdown.share-it
-          %a{:class => 'dropdown-toggle', :href => '#', :data => {:toggle => 'dropdown'}}
-            %i{:class => 'icon-share'}
-            Share
-          %ul.dropdown-menu.share-options
-            %li
-              = link_to email_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} do
-                %i.icon-envelope
-                = t('blacklight.tools.email')
-            %li
-              = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} do
-                %i.icon-mobile-phone
-                = t('blacklight.tools.sms')
+      -# Only display a real call number
+      - if callnumber != 'No call number'
+        .call-number
+          = callnumber
+          %span.dropdown.share-it
+            %a{:class => 'dropdown-toggle', :href => '#', :data => {:toggle => 'dropdown'}}
+              %i{:class => 'icon-share'}
+              Share
+            %ul.dropdown-menu.share-options
+              %li
+                = link_to email_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} do
+                  %i.icon-envelope
+                  = t('blacklight.tools.email')
+              %li
+                = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} do
+                  %i.icon-mobile-phone
+                  = t('blacklight.tools.sms')
 
-    - entry['copies'].each do |copy|
-      .group
-        - unless copy['temp_locations'].nil?
-          - copy['temp_locations'].each do |t|
-            .message= t
-        - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
-          - unless copy[type].nil?
-            .message= copy[type]
-        - copy['items'].each do |item|
-          .status
-            - message, details = item
-            - if details['status'] == 'available'
-              %i.icon-ok
-            - elsif location != 'Online'
-              -# Handling online link in show.html.erb for now (for good?)
-              %i.icon-time
-            = message unless message.to_str == 'Status unknown'
-            - if details['count'] >1
-              (#{details['count']} copies)
+      - entry['copies'].each do |copy|
+        .group
+          - unless copy['temp_locations'].nil?
+            - copy['temp_locations'].each do |t|
+              .message= t
+          - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+            - unless copy[type].nil?
+              .message= copy[type]
+          - copy['items'].each do |item|
+            .status
+              - message, details = item
+              - if details['status'] == 'available'
+                %i.icon-ok
+              - elsif location != 'Online'
+                -# Handling online link in show.html.erb for now (for good?)
+                %i.icon-time
+              = message unless message.to_str == 'Status unknown'
+              - if details['count'] >1
+                (#{details['count']} copies)
