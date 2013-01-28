@@ -29,10 +29,6 @@
       <div class="well availability">
         <h4>Availability</h4>
 
-        <%# if online_url(@document) %>
-            <%#<i class="icon-ok"></i> <a href="<%= online_url(@document) %><%#{}" class="btn btn-info">Online</a>
-        <% end %>
-
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
 
         <% if online_url(@document) %>
