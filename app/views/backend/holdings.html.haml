@@ -1,18 +1,21 @@
-- add_display_elements(@holdings['condensed_holdings_full']).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
+- holdings_condensed = @holdings['condensed_holdings_full']
+- first_item_in_holding = holdings_condensed.first
+- if first_item_in_holding['location_name'] == '*Networked Resource'
+  - holdings_condensed.shift
+  - holdings_condensed = holdings_condensed.push(first_item_in_holding)
+- add_display_elements(holdings_condensed).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
 
-  - location = entry['location_name']
+  - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
   - callnumber = entry['call_number']
 
   .holding{:class => alternating_line}
     .location_box
-      -# Only display a real location
-      - if location != '*Networked Resource'
-        %h5.location
-          = location
+      %h5.location
+        = location
+        -# @TODO: create a hash for mapping locations
+        - if location != 'Library Annex' && location != 'Online'
           %span.map-it
-            -# @TODO: create a hash for mapping locations
-            - if location != 'Library Annex'
-              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
+            = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
 
     -# Only display a real call number
     - if callnumber != 'No call number'
@@ -45,7 +48,7 @@
             - message, details = item
             - if details['status'] == 'available'
               %i.icon-ok
-            - elsif location != '*Networked Resource'
+            - elsif location != 'Online'
               -# Handling online link in show.html.erb for now (for good?)
               %i.icon-time
             = message unless message.to_str == 'Status unknown'

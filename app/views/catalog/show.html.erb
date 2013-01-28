@@ -29,11 +29,23 @@
       <div class="well availability">
         <h4>Availability</h4>
 
-        <% if online_url(@document) %>
-            <i class="icon-ok"></i> <a href="<%= online_url(@document) %>" class="btn btn-info">Online</a>
+        <%# if online_url(@document) %>
+            <%#<i class="icon-ok"></i> <a href="<%= online_url(@document) %><%#{}" class="btn btn-info">Online</a>
         <% end %>
 
         <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+
+        <% if online_url(@document) %>
+          <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+
+          <ul class="unstyled">
+            <% online_links.each do |link| %>
+              <li class="online-link"><i class="icon-ok"></i> <%= link %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <span class="blacklight-url_access_display"></span>
 
         <div class="item-requests">
           <%= link_to 'Request', request_item_redirect_path( params[:id] ), :class => 'btn btn-danger' %>

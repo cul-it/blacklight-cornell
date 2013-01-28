@@ -84,6 +84,9 @@ dl.dl-horizontal {
 	margin-bottom: 1em;
 	font-size: 0.875em;
 }
+.holding:last-of-type {
+	margin-bottom: 0;
+}
 .location {
 	margin-bottom: 0;
 	font-size: 1.1em;
@@ -103,8 +106,13 @@ dl.dl-horizontal {
 	margin-top: 20px;
 	p { font-size: 0.875em; }
 }
+.online-link {
+	margin-bottom: .4em;
+	font-size: .9em;
+	line-height: 1em;
+}
 .item-requests {
-	margin: .5em 0;
+	margin-top: 1.5em;
 }
 .google-books-link {
 	margin: 1.5em 0 0;

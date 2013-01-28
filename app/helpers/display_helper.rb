@@ -22,6 +22,7 @@ module DisplayHelper
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
     links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
       #Check to see whether there is metadata at the end of the link
@@ -29,10 +30,14 @@ module DisplayHelper
       if metadata.present?
         label = metadata[0]
       end
-      link_to(label, url.html_safe)
+      link_to(label, url.html_safe, {:class => 'online-access'})
     end
 
-    render_field_value value
+    if render_format == 'raw'
+      return value
+    else
+      render_field_value value
+    end
   end
 
   def render_clickable_document_show_field_value args
@@ -139,8 +144,6 @@ module DisplayHelper
   def online_url(document)
     if document['url_access_display'].present?
       render_index_field_value(:document => document, :field => 'url_access_display')
-    elsif document['url_other_display'].present?
-      render_index_field_value(:document => document, :field => 'url_other_display')
     end
   end
 
