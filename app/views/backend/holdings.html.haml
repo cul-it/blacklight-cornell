@@ -1,5 +1,5 @@
 - holdings_condensed = @holdings['condensed_holdings_full']
-- if holdings_condensed.size > 1
+- if holdings_condensed.size > 0
   - first_item_in_holding = holdings_condensed.first
   - if first_item_in_holding['location_name'] == '*Networked Resource'
     - holdings_condensed.shift
