@@ -14,7 +14,7 @@
         %h5.location
           = location
           -# @TODO: create a hash for mapping locations
-          - if location != 'Library Annex' && location != 'Online'
+          - if location != 'Online'
             %span.map-it
               = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
 
