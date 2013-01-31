@@ -12,9 +12,7 @@
   </div>
 
   <% if online_url(document) %>
-    <div class="available-online">
-      <i class="icon-ok" title="Available"></i> <a href="<%= online_url(document) %>" class="label label-online">Online</a>
-    </div>
+    <i class="icon-ok" title="Available"></i> <a class="status-online" href="<%= online_url(document) %>">Online</a>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" class="status">  </div>

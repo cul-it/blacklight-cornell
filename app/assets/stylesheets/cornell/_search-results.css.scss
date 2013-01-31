@@ -47,6 +47,7 @@ body.blacklight-catalog-index .document {
 	}
 	.status {
 		font-size: 1em;
+		line-height: 1em;
 	}
 	.location { color: $medium-gray; }
 }
@@ -56,15 +57,8 @@ body.blacklight-catalog-index .document {
 	line-height: 1em;
 }
 
-.label-online {
-	font-weight: normal;
-	background: $available;
-}
-
-.status-online:hover {
-	text-decoration: none;
-	background: $dark-gray;
-	color: $white;
+.status-online {
+	font-size: .75em;
 }
 
 .icon-ok { color: $available; }
