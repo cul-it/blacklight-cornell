@@ -9,4 +9,26 @@
 	.blacklight-catalog-show {
 		.span4 { clear: both; }
 	}
+	.start-over { display: block; }
+	.document-data {
+		.pull-right {
+			form { margin-bottom: 5px; }
+		}
+	}
+	footer {
+		[class*="span"] {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	}
+	.feedback-link { text-align: left; }
+	.item-tools { 
+		text-align: left;
+		ul { 
+			float: none;
+			margin-left: 0; } 
+	}
+	dl.dl-horizontal {
+		dd { margin-left: 0; }
+	}
 }	

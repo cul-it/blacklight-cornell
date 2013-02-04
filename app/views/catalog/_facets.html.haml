@@ -7,7 +7,7 @@
 
 %p{:class => "hidden-phone"} Refine your results
 %div{:class => "navbar"}
-  %a{:class => "btn btn-navbar" , "data-toggle" => "collapse", "data-target" => ".nav-collapse"}Refine results
+  %a{:class => "btn btn-mini" , "data-toggle" => "collapse", "data-target" => ".nav-collapse"}Filters
   %div{:class => "nav-collapse collapse"}
     - facet_field_names.reject { |name| facet = @response.facet_by_field_name(name); facet.nil? || facet.items.empty? }.each do |solr_fname|
       -

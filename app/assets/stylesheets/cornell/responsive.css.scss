@@ -25,20 +25,20 @@
 // MEDIA QUERIES
 // ------------------
 
-// Large desktops
-// @import 'responsive-1200px-min';
-
-// Landscape tablets narrower facets
-@import 'responsive-980px-1199px';
-
-// Tablets to regular desktops
-@import 'responsive-768px-979px';
+// Mobile Portrait Size to Mobile Landscape Size
+@import 'responsive-480px-max';
 
 // Phones to portrait tablets and narrow desktops
 @import 'responsive-767px-max';
 
-// Mobile Portrait Size to Mobile Landscape Size
-@import 'responsive-480px-max';
+// Tablets to regular desktops
+@import 'responsive-768px-979px';
+
+// Landscape tablets narrower facets
+@import 'responsive-980px-1199px';
+
+// Large desktops
+// @import 'responsive-1200px-min';
 
 
 // RESPONSIVE NAVBAR
