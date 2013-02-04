@@ -12,12 +12,12 @@
 <li><%= render_show_doc_actions @document %></li>
 <!-- TODO: TRANSLATE -->
       <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
-         <li><%= link_to t('blacklight.tools.cite'), citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %></i></li>
+         <li><%= link_to t('blacklight.tools.cite'), citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %></li>
       <% end %>
 
       <% if (@document.export_formats.keys.include?(:refworks_marc_txt) || @document.export_formats.keys.include?(:endnote)) %>
         <li class="dropdown pull-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-share"></i>Export <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
               <li><%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %></li>

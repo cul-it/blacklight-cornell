@@ -22,20 +22,10 @@
       - if callnumber != 'No call number'
         .call-number
           = callnumber
-          %span.dropdown.share-it
-            %a{:class => 'dropdown-toggle', :href => '#', :data => {:toggle => 'dropdown'}}
-              %i{:class => 'icon-share'}
-              Share
-            %ul.dropdown-menu.share-options
-              %li
-                = link_to email_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} do
-                  %i.icon-envelope
-                  = t('blacklight.tools.email')
-              %li
-                = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} do
-                  %i.icon-mobile-phone
-                  = t('blacklight.tools.sms')
-
+          %span.share-it
+            = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
+              %i.icon-mobile-phone
+              = t('blacklight.tools.sms')
       - entry['copies'].each do |copy|
         .group
           - unless copy['temp_locations'].nil?
