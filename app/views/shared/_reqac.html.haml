@@ -10,12 +10,14 @@
         This copy:
     -if (@iis.length > 1)
       .controls
-        %input(type="radio" name="copy" value="")
-        %label.radio-label Any Copy
+        %input(type="radio" name="copy" value="" id="Any Copy")
+        %label.radio-label{ :for => "Any Copy"} Any Copy
     -@iis.each do |copyn, copyd|
       .controls
         -if (@iis.length == 1)
           %input(type="radio" name="copy" value="#{copyn}" checked)
         -else
-          %input(type="radio" name="copy" value="#{copyn}")
-        %label.radio-label=copyd
+          %input(type="radio" name="copy" value="#{copyn}" id="#{copyn}")
+        %label.radio-label{ :for => "#{copyn}"}=copyd
+
+
