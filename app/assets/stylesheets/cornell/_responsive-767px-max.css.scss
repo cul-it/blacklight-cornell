@@ -11,7 +11,7 @@
 	.facets {
 		margin-top:5px;
 	}	
-
+ 
 	#facets {
 		.navbar {
 			margin-bottom:5px;
@@ -66,4 +66,30 @@
 	}
 	.phone-search-query { width:60% }
 	.search-tools { width:90% }
+	.navbar {
+  		.icon-reorder { 
+  			color: $light-gray;
+  			margin-left: 3px; }
+  	}
+  	.return-link { margin-top: 10px; }
+  	.blacklight-catalog-show {
+		.span4 { clear: both; }
+	}
+	dl.dl-horizontal {
+		dd { margin-left: 0; }
+	}
+	.start-over { display: block; }
+	footer {
+		[class*="span"] {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	}
+	.feedback-link { text-align: left; }
+	.item-tools { 
+		text-align: left;
+		ul { 
+			float: none;
+			margin-left: 0; } 
+	}
 }
