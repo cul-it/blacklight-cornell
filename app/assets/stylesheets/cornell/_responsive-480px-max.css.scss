@@ -10,11 +10,6 @@
 		.span4 { clear: both; }
 	}
 	.start-over { display: block; }
-	.document-data {
-		.pull-right {
-			form { margin-bottom: 5px; }
-		}
-	}
 	footer {
 		[class*="span"] {
 			padding-left: 10px;
@@ -31,4 +26,5 @@
 	dl.dl-horizontal {
 		dd { margin-left: 0; }
 	}
+	.document-data { width: 70%; }
 }	
