@@ -1,6 +1,8 @@
-@media (max-width: 480px) 
+//
+// Responsive: Phone
+// --------------------------------------------------
 
-{
+@media (max-width: 480px) {
 	body {
 		padding: 0px;
 		margin: 0px
@@ -11,5 +13,14 @@
 			padding-left: 10px;
 			padding-right: 10px; }
 	}
-	.phone-search-query { width: 65%; }
-}	
+	.search-options { width: 50%; }
+	input.search-query { width: 92%; }
+	#search_field {
+		width: 68px;
+		margin-left: .7em;
+		display: inline-block;
+	}
+	.start-over {
+		float: right;
+	}
+}
