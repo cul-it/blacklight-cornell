@@ -5,16 +5,9 @@
   <div class="input_columns row">
   <div class="limit_column">
        
-        <div id="advanced_search_facets" class="limit_input facets">
-          <%= render 'advanced_search_facets' %>
-        </div>
-      </div>
       <div class="query_column span12">
-        <h4>Find items that match <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR'}.sort,'all'), :class => 'input-small') %> of the fields below:</h4>
-
-        <div id="advanced_search">
+        <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
           <%= render 'advanced/advanced_search_fields' %>
-        </div>
       </div>
          
   </div>
