@@ -34,7 +34,7 @@
 	<%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
 </div>
 <div class="pull-right">
-    <%= submit_tag 'Search', :class=>'btn btn-primary', :id=>'advanced_search' %>
+    <%= submit_tag 'Search', :class=>'btn btn-inverse', :id=>'advanced_search' %>
 	<%= link_to "Start over", {:controller => "advanced", :action => "index"}, :class =>"reset btn" %>
 </div>
   </div>
