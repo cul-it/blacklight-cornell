@@ -209,9 +209,7 @@ class RequestController < ApplicationController
     end
   end
 
-  def bd
-    ## Temporarily redirect borrow direct to recall until BD can be properly integrated
-    redirect_to :action => "recall"
+  def bd    
   end
 
   def ill

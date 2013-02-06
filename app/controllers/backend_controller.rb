@@ -227,7 +227,13 @@ class BackendController < ApplicationController
 
   def request_item_redirect
     netid = request.env['REMOTE_USER']
-    service = _request_item params[:id], netid
+    request_params = {
+      :netid => netid,
+      :bibid => params[:id],
+      :isbn => params[:isbn],
+      :title => params[:title]
+    }
+    service = _request_item request_params
     # redirect_to "/request/#{@request_solution[:service]}/#{params[:id]}"
     # no cleaner one liner to generate path the "Rails 3 Way" for different actions...
     begin
@@ -260,7 +266,9 @@ class BackendController < ApplicationController
     #redirect_to url_for :controller => 'request', :action => "#{@request_solution[:service]}/#{params[:id]}"
   end
 
-  def _request_item bibid, netid
+  def _request_item request_params
+    bibid = request_params[:bibid]
+    netid = request_params[:netid]
     holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
     item_type = get_item_type holdings
     netid = request.env['REMOTE_USER']
@@ -308,7 +316,10 @@ class BackendController < ApplicationController
       else
         ## missing?
         if patron_type == 'cornell'
-          bd_list.push( _handle_bd bibid, holdings, netid )
+          if borrowDirect_available? request_params
+            bd_list.push( _handle_bd bibid, holdings, netid )
+          else
+          end
         else
           ## guest
           ask_list.push( _handle_ask bibid, holdings, netid )
@@ -351,6 +362,9 @@ class BackendController < ApplicationController
       ## no valid params passed
       return false
     end
+
+    logger.info (params[:isbn]).class
+    logger.info params[:isbn].inspect
 
     ## initialize pazpar2 session
     request_url = borrow_direct_webservices_url + '/search.pz2?command=init'

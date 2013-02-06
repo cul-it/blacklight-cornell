@@ -44,10 +44,7 @@
         <span class="blacklight-url_access_display"></span>
 
         <div class="item-requests">
-          <%= link_to 'Request', request_item_redirect_path( params[:id] ), :class => 'btn btn-danger' %>
-          <div id="requests_container">
-            <div id="delivery_option"></div>
-          </div>
+          <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
         </div>
 
         <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
