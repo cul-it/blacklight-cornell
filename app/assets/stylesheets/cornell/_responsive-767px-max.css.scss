@@ -7,10 +7,19 @@
 	.main-content { 
 		padding: 0px 5px;
 	}
-
+	.span12 {
+		.main-content { padding: 0; }
+		// THIS IS FOR ATTEMPTING TO FLIP LOCATION OF FACETS AND SEARCH BOX:
+		// .well {
+		// 	margin-bottom: 80px;
+		// }
+	}
 	.facets {
 		margin-top:5px;
-	}	
+		// THIS IS FOR ATTEMPTING TO FLIP LOCATION OF FACETS AND SEARCH BOX:
+		// position: absolute;
+		// margin-top: 100px;
+	}
  
 	#facets {
 		.navbar {
@@ -64,7 +73,15 @@
 		padding-top:0.3em;
 		float:none;
 	}
-	.phone-search-query { width:60% }
+	.phone-search-query { 
+		// width:60%;
+		float: left;
+		margin-right: 5px;
+	}
+	.mobile-search-btn {
+		float: left;
+	}
+	.search_field { float: left; }
 	.search-tools { width:90% }
 	.navbar {
   		.icon-reorder { 
@@ -78,7 +95,9 @@
 	dl.dl-horizontal {
 		dd { margin-left: 0; }
 	}
-	.start-over { display: block; }
+	.start-over { 
+		display: block;
+		clear: both; }
 	footer {
 		[class*="span"] {
 			padding-left: 10px;
