@@ -3,13 +3,13 @@
   <%= search_as_hidden_fields(:params => advanced_search_context ) %>
 
   <div class="input_columns row">
-  <div class="limit_column span4">
+  <div class="limit_column">
        
         <div id="advanced_search_facets" class="limit_input facets">
           <%= render 'advanced_search_facets' %>
         </div>
       </div>
-      <div class="query_column span6">
+      <div class="query_column span12">
         <h4>Find items that match <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR'}.sort,'all'), :class => 'input-small') %> of the fields below:</h4>
 
         <div id="advanced_search">
