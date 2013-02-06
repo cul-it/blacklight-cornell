@@ -11,25 +11,25 @@
 # how to start up solr, generally for automated testing.
 
 development:
-#  url: http://raksha02.library.cornell.edu:8983/solr
-# url: http://culsearchdev.library.cornell.edu:8984/solr
-#  url: http://bdc34-dev.library.cornell.edu:8080/solr/jan21
-  url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
-#  url: http://bdc34-dev.library.cornell.edu:8080/solr/core1
-#      url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
+  # url: http://raksha02.library.cornell.edu:8983/solr
+  # url: http://culsearchdev.library.cornell.edu:8984/solr
+  url: http://bdc34-dev.library.cornell.edu:8080/solr/jan21
+  # url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
+  # url: http://bdc34-dev.library.cornell.edu:8080/solr/core1
+  # url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
 
 test: &test
-#  url: <%= "http://raksha02.library.cornell.edu:8983/solr" %>
-#  url: <%= "http://culsearchdev.library.cornell.edu:8984/solr" %>
-#  url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/jan21" %>
-  url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
-#  url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
-#  url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
+  # url: <%= "http://raksha02.library.cornell.edu:8983/solr" %>
+  # url: <%= "http://culsearchdev.library.cornell.edu:8984/solr" %>
+  url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/jan21" %>
+  # url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
+  # url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
+  # url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
 
 production:
-#  url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/jan21" %>
-#  url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
-url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
+  url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/jan21" %>
+  # url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
+  # url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
 
 cucumber:
   <<: *test
