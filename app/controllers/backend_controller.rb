@@ -334,6 +334,95 @@ class BackendController < ApplicationController
     end
   end
 
+  def borrowDirect_available? params
+    borrow_direct_webservices_url = Rails.configuration.borrow_direct_webservices_host
+    if borrow_direct_webservices_url.blank?
+      borrow_direct_webservices_url = request.env['HTTP_HOST']
+      #borrow_direct_webservices_url = "http://sk274-dev.library.cornell.edu"
+    end
+    if !borrow_direct_webservices_url.starts_with?('http')
+      borrow_direct_webservices_url = "http://#{borrow_direct_webservices_url}"
+    end
+    if !Rails.configuration.borrow_direct_webservices_port.blank?
+      borrow_direct_webservices_url = borrow_direct_webservices_url + ":" + Rails.configuration.borrow_direct_webservices_port.to_s
+    end
+
+    if params[:isbn].blank? && params[:title].blank?
+      ## no valid params passed
+      return false
+    end
+
+    ## initialize pazpar2 session
+    request_url = borrow_direct_webservices_url + '/search.pz2?command=init'
+    response = HTTPClient.get_content(request_url)
+    response_parsed = Hash.from_xml(response)
+    session_id = response_parsed['init']['session']
+    logger.info "session id: #{session_id}"
+
+    ## make pazpar2 search
+    if !params[:isbn].blank?
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{params[:isbn]}"
+    elsif !params[:title].blank?
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=ti%3D#{params[:title]}"
+    end
+    response = HTTPClient.get_content(request_url)
+    response_parsed = Hash.from_xml(response)
+    status = response_parsed['search']['status']
+    if status != 'OK'
+      ## invalid search
+      return false
+    end
+
+    ## get pazpar2 recid from show command to get record information
+    ## make stat request repeatedly to check if the search process finished
+    sleep(0.5)
+    i = 0
+    progress = '0.00'
+    request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=stat"
+    while (progress != '1.00' && i < 120)
+      response = HTTPClient.get_content(request_url)
+      response_parsed = Hash.from_xml(response)
+      progress = response_parsed['stat']['progress']
+      i = i + 1
+      sleep(1)
+    end
+    logger.info "finished search request in #{i} seconds"
+    ## make show request to get record id
+    request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=show&start=0&num=2&sort=title:1"
+    response = HTTPClient.get_content(request_url)
+    response_parsed = Hash.from_xml(response)
+    hits = response_parsed['show']['hit']
+    if hits.blank? || hits.class == String
+      return false
+    else
+      hits.each do |hit|
+        recid = hit['recid']
+        request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=record&id=#{recid}"
+        response = HTTPClient.get_content(URI::escape(request_url))
+        response_parsed = Hash.from_xml(response)
+        availabilities = response_parsed['record']['location']['md_available']
+        if availabilities.class == String
+          if availabilities.strip == 'Available'
+            return true
+          end
+        elsif availabilities.class == Array
+          availabilities.each do |availability|
+            if availability.strip == 'Available'
+              return true
+            end
+          end
+        else
+          ## what is this?
+          logger.info availabilities.inspect
+          return false
+        end
+      end
+    end
+
+    ## get record for each hit returned until we find first available item or there is no more
+    return false
+  end
+
   def get_holdings bibid
     return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))
   end
