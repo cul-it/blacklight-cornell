@@ -486,6 +486,13 @@ module DisplayHelper
     link
   end
 
+  # Overrides original method from blacklight_helper_behavior.rb
+  # -- needed to add .html_safe to avoid html encoding in <title> element
+  # Used in the show view for setting the main html document title
+  def document_show_html_title
+    render_field_value(@document[blacklight_config.show.html_title].html_safe)
+  end
+
   def url_to_borrowdirect(isbn)
     link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
 
