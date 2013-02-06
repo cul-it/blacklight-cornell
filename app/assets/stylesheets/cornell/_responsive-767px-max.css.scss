@@ -2,9 +2,8 @@
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
 
-
 @media (max-width: 767px) {
-	.main-content { 
+	.main-content {
 		padding: 0px 5px;
 	}
 	.span12 {
@@ -20,7 +19,7 @@
 		// position: absolute;
 		// margin-top: 100px;
 	}
- 
+
 	#facets {
 		.navbar {
 			margin-bottom:5px;
@@ -62,29 +61,18 @@
 			form { margin-bottom: 5px; }
 		}
 	}
-	.advanced-search-link {
-		display: block;
-		position: relative;
-		margin-left: 0;
-		text-align: left;
-		font-size: .8em;
-	}
-	.catalog_startOverLink {
-		padding-top:0.3em;
-		float:none;
-	}
-	.phone-search-query { 
-		// width:60%;
-		float: left;
-		margin-right: 5px;
-	}
-	.mobile-search-btn {
+	.search-options.span4 {
+		width: 50%;
 		float: left;
 	}
-	.search_field { float: left; }
-	.search-tools { width:90% }
+	#search_field {
+		width: 100px;
+		margin-left: .4em;
+	}
+	.mobile-search-btn { display: inline !important; }
+	.start-over { font-size: .7em; }
 	.navbar {
-  		.icon-reorder { 
+  		.icon-reorder {
   			color: $light-gray;
   			margin-left: 3px; }
   	}
@@ -95,9 +83,6 @@
 	dl.dl-horizontal {
 		dd { margin-left: 0; }
 	}
-	.start-over { 
-		display: block;
-		clear: both; }
 	footer {
 		[class*="span"] {
 			padding-left: 10px;
@@ -105,10 +90,10 @@
 		}
 	}
 	.feedback-link { text-align: left; }
-	.item-tools { 
+	.item-tools {
 		text-align: left;
-		ul { 
+		ul {
 			float: none;
-			margin-left: 0; } 
+			margin-left: 0; }
 	}
 }
