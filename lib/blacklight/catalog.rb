@@ -112,7 +112,7 @@ module Blacklight::Catalog
           url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
 
           if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-            email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber],:location => params[:location] }, url_gen_params)
+            email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :location=> params[:location] }, url_gen_params)
           else
             flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
           end

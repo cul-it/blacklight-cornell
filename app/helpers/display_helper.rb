@@ -467,13 +467,30 @@ module DisplayHelper
   # link_back_to_catalog()
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
-  def link_back_to_catalog()
+  def link_back_to_catalog(opts={:label=>nil})
     query_params = session[:search] ? session[:search].dup : {}
     query_params.delete :counter
     query_params.delete :total
     link_url = url_for(query_params)
 
-    link_url
+    if link_url =~ /bookmarks/
+      opts[:label] ||= t('blacklight.back_to_bookmarks')
+    end
+
+    opts[:label] ||= t('blacklight.back_to_search')
+
+    link = {}
+    link[:url] = link_url
+    link[:label] = opts[:label]
+
+    link
+  end
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # -- needed to add .html_safe to avoid html encoding in <title> element
+  # Used in the show view for setting the main html document title
+  def document_show_html_title
+    render_field_value(@document[blacklight_config.show.html_title].html_safe)
   end
 
   def url_to_borrowdirect(isbn)

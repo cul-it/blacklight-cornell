@@ -4,39 +4,5 @@
 
 
 @media (min-width: 980px) and (max-width: 1199px) {
-  .document-data { width: 70%; }
-.facets {
-    background: none repeat scroll 0 0 white;
-    border-radius: 3px 3px 3px 3px;
-    margin-top: 0.5em;
-    padding:1px;
-    width:160px;
-    font-size:.85em;
-
- i {padding-right:0px;}  
- 
-}
-
-
-
-#facets li a.remove {
-    color: #666666;
-    margin-left: 0;
-    padding: 0px 0px;
-}
-
-  .input-xlarge {width: 75%;}
-//  .main-content .container {padding: 0 10px;}
-//  .facets p {display: inline; float: left;}
-//  .item-data {width: 70%;}
-//  .item-data span.format {float: none; display: block;}
-//  .item-data span.status {float: none; margin-left: 0;}
-//  .blacklight-pub_info_display {display: block; margin-top: .5em;}
-//  .item-data span {line-height: 1em;}
-//  .selected-facets {float: none;}
-//  .selected-facet {padding: 0 5px 0 10px;}
-//  .selected-facet .close {float: none; padding: 0 5px 5px 5px;}
-//  .btn-start-over {margin-top: 1em;}
-// }
-
+    .document-data { width: 85%; }
 }

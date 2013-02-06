@@ -193,8 +193,9 @@ class CatalogController < ApplicationController
     config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
-      :segments => false
+      :segments => true
     }, :show => true
+    
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
     config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
@@ -238,7 +239,6 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_display', :label => 'Author/Creator'
-    config.add_show_field 'author_vern_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_facet', :label => 'Language'
     config.add_show_field 'pub_info_display', :label => 'Published'
@@ -284,6 +284,7 @@ class CatalogController < ApplicationController
 #    config.add_show_field 'title_vern_display', :label => 'Title:'
 #    config.add_show_field 'subtitle_display', :label => 'Subtitle:'
 #    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle'
+#    config.add_show_field 'author_vern_display', :label => 'Author/Creator'
 #    config.add_show_field 'url_fulltext_display', :label => 'URL'
 #    config.add_show_field 'url_suppl_display', :label => 'More Information'
 #    config.add_show_field 'published_display', :label => 'Published:'
