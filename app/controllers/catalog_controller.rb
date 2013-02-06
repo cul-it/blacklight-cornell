@@ -190,11 +190,12 @@ class CatalogController < ApplicationController
     config.add_facet_field 'online', :label => 'Access', :limit => 2
     config.add_facet_field 'format', :label => 'Format', :limit => 5
     config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
-    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
-      :num_segments => 6,
-      :assumed_boundaries => [1300, Time.now.year + 1],
-      :segments => true
-    }, :show => true
+#    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
+#      :num_segments => 6,
+#      :assumed_boundaries => [1300, Time.now.year + 1],
+#      :segments => true,
+#      :include_in_advanced_search => false
+#    }, :show => true, :include_in_advanced_search => false
     
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
@@ -311,7 +312,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'All Fields'
+    config.add_search_field 'all_fields', :label => 'All Fields', :include_in_advanced_search => true
 
 
     # Now we see how to over-ride Solr request handler defaults, in this
@@ -363,6 +364,13 @@ class CatalogController < ApplicationController
         :pf => '$author_pf'
       }
     end
+    config.add_search_field('journal title') do |field|
+ #     field.solr_parameters = { :'spellcheck.dictionary' => 'journal' }
+      field.solr_local_parameters = {
+        :qf => '$journal_qf',
+        :pf => '$journal_pf'
+      }
+    end
     config.add_search_field('call number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
       field.solr_local_parameters = {
@@ -389,14 +397,33 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
-
+config.add_search_field("series") do |field|
+   field.include_in_simple_select = false
+   field.solr_parameters = { :qf => "series_t" }        
+end
+config.add_search_field("notes") do |field|
+   field.include_in_simple_select = false
+   field.solr_parameters = { :qf => "notes_t" }        
+end
+config.add_search_field("place of publication") do |field|
+   field.include_in_simple_select = false
+   field.solr_parameters = { :qf => "published_t" }        
+end
+config.add_search_field("isbn/issn") do |field|
+   field.include_in_simple_select = false
+   field.solr_parameters = { :qf => "=isbn_t" }        
+end
+config.add_search_field("donor name") do |field|
+   field.include_in_simple_select = false
+   field.solr_parameters = { :qf => "donor_t" }        
+end
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
     config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', :label => 'relevance'
-    config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year descending'
-    config.add_sort_field 'pub_date_sort asc, title_sort asc', :label => 'year ascending'
+    config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year descending', :include_in_advanced_search => false
+    config.add_sort_field 'pub_date_sort asc, title_sort asc', :label => 'year ascending', :include_in_advanced_search => false
     config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author A-Z'
     config.add_sort_field 'author_sort desc, title_sort asc', :label => 'author Z-A'
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z'
