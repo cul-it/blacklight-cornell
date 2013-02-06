@@ -27,12 +27,12 @@
         <i class="icon-search icon-white"></i>
       </button>
 
-      <% if query_has_constraints? %>
+      <% if query_has_constraints? || params[:range].present? %>
         <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
       <% end %>
       <% if !query_has_constraints? %>
         <% if !params[:range].blank? %>
-          <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
+
         <%end %>
       <% end %>
     <% end %>
