@@ -6,6 +6,28 @@ class BackendController < ApplicationController
   PURCHASE = 'purchase'
   ILL = 'ill'
   ASK = 'ask'
+  ## day after 17, reserve
+  IRREGULAR_LOAN_TYPE = {
+    :DAY => {
+        '10' => 1,
+        '11' => 1,
+        '17' => 1,
+        '23' => 1,
+        '24' => 1,
+        '33' => 1
+      },
+    :MINUTE => {
+      '12' => 1,
+      '22' => 1,
+      '26' => 1,
+      '27' => 1,
+      '29' => 1,
+      '30' => 1,
+      '31' => 1,
+      '32' => 1,
+      '34' => 1
+    }
+  }
 
   def holdings
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/retrieve/#{params[:id]}"))[params[:id]]
@@ -14,13 +36,14 @@ class BackendController < ApplicationController
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/fetch/#{params[:id]}"))[params[:id]]
     #@holdings = JSON.parse(HTTPClient.get_content("http://rossini.cul.columbia.edu/voyager_backend/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @id = params[:id]
-    logger.debug  "getting info for #{params[:id]} from" 
-    logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-    logger.debug @holdings 
-    logger.debug session.inspect
+    # logger.debug  "getting info for #{params[:id]} from" 
+    # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
+#    logger.debug @holdings 
+    # logger.debug @holdings_detail
+    # logger.debug session.inspect
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
-    logger.debug session.inspect
+    # logger.debug session.inspect
     #render :text => @txt.to_s  + @t.to_s
     render "backend/holdings", :layout => false
   end
@@ -29,13 +52,13 @@ class BackendController < ApplicationController
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
     @id = params[:id]
-    logger.debug  "getting info for #{params[:id]} from" 
-    logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-    logger.debug @holdings 
-    logger.debug session.inspect
+    # logger.debug  "getting info for #{params[:id]} from" 
+    # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
+    # logger.debug @holdings 
+    # logger.debug session.inspect
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
-    logger.debug session.inspect
+    # logger.debug session.inspect
     render :json => @holdings_detail  
     #render "backend/holdings", :layout => false
   end
@@ -44,13 +67,13 @@ class BackendController < ApplicationController
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
     @id = params[:id]
-    logger.debug  "getting info for #{params[:id]} from" 
-    logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-    logger.debug @holdings 
-    logger.debug session.inspect
+    # logger.debug  "getting info for #{params[:id]} from" 
+    # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
+    # logger.debug @holdings 
+    # logger.debug session.inspect
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
-    logger.debug session.inspect
+    # logger.debug session.inspect
     #render :json => @holdings_detail  
     render "backend/holdings_short", :layout => false
   end
@@ -85,7 +108,7 @@ class BackendController < ApplicationController
       isbns.each do |isbn|
         unless results[isbn]
           query_url = 'http://books.google.com/books/feeds/volumes'
-          logger.info("retrieving #{query_url}?q=isbn:#{isbn}")
+          # logger.info("retrieving #{query_url}?q=isbn:#{isbn}")
           xml = Nokogiri::XML(hc.get_content(query_url, :q => "isbn:" + isbn))
           image_node = xml.at_css("feed>entry>link[@type^='image']")
           results[isbn] = image_node.attributes["href"].content.gsub(/zoom=./,"zoom=1") if image_node
@@ -96,40 +119,6 @@ class BackendController < ApplicationController
     end
     
     render :json => results
-  end
-
-  def get_status item
-    #item.keys.any? { |s| s.to_s.include?('Checked out') } && (items['status'] != 'available' && items['status'] != 'some_available')
-    ## Available
-    ## Chaged
-    ## Missing/lost
-    'Available' 
-  end
-
-  def get_item_availability holdings
-    availability = 'not availiable'
-    holdings['condensed_holdings_full'].each do |location|
-      if (location['status'] == 'available' || location['status'] == 'some_available') && location['location_name'].exclude?('(Non-Circulating)')
-        logger.debug location['location_name']
-        availability = 'available'
-        break
-      end
-    end
-    availability
-  end
-
-  def get_barcode_from_netid netid
-    user_info = JSON.parse(HTTPClient.get_content("http://catalog.library.cornell.edu/cgi-bin/netid7.cgi?netid=#{netid}"))
-    user_info['bc']
-  end
-
-  def get_borrow_direct_availability patron_barcode, isbn, title=nil
-    if isbn != nil
-      HTTPClient.get_content("https://borrow-direct.relaisd2d.com/service-proxy/?command=mkauth&LS=CORNELL&PI=#{patron_barcode}&query=isbn%3D#{isbn}")
-    elsif title != nil
-      HTTPClient.get_content("https://borrow-direct.relaisd2d.com/service-proxy/?command=mkauth&LS=CORNELL&PI=#{patron_barcode}&query=ti%3D#{title}")
-    else
-    end
   end
 
   # Authenticate and bind to Cornell's Active Directory LDAP service
@@ -210,12 +199,26 @@ class BackendController < ApplicationController
     end
   end
 
-  def get_item_type holdings
+  def get_item_type holdings_detail, bibid
     ## there are three types of loans
     ## regular
     ## day
     ## minute
-    'regular'
+    ## 'regular'
+    holdings_detail.each do |holding|
+      if holding['bibid'] == bibid
+        itemdata = holding['item_status']['itemdata']
+        itemdata.each do |data|
+          if IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+            return 'day'
+          elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
+            return 'minute'
+          end
+        end
+      end
+    end
+
+    return 'regular'
   end
 
   def request_item
@@ -269,8 +272,17 @@ class BackendController < ApplicationController
   def _request_item request_params
     bibid = request_params[:bibid]
     netid = request_params[:netid]
-    holdings = ( get_holdings bibid )[bibid]['condensed_holdings_full']
-    item_type = get_item_type holdings
+    holdings_param = {
+      :bibid => bibid
+    }
+    holdings = ( get_holdings holdings_param )[bibid]['condensed_holdings_full']
+    holdings_param[:type] = 'retrieve_detail_raw'
+    raw = get_holdings holdings_param
+    holdings_detail = raw[bibid]['records']
+    #holdings_detail = holdings_detail['records']['item_status']['itemdata']
+    item_type = get_item_type holdings_detail, bibid
+    # logger.info "item type: #{item_type}"
+
     netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
     @request_solution = ''
@@ -281,8 +293,8 @@ class BackendController < ApplicationController
     ill_list = []
     ask_list = []
 
-    logger.debug "netid: #{netid}"
-    logger.debug holdings.inspect
+    # logger.debug "netid: #{netid}"
+    # logger.debug holdings.inspect
 
     ## sk274 - not the most efficient way to handle this
     ##         TODO: optimize once we get all the functionality working
@@ -290,7 +302,7 @@ class BackendController < ApplicationController
     ##         redirect and the details for form are provided somewhere else.
     ##         Only thing coming out of _handle_xxx functions are :service.
     holdings.each do |holding|
-      logger.debug 'status: ' + holding['status']
+      # logger.debug 'status: ' + holding['status']
       if holding['location_name'] == '*Networked Resource'
         next
       elsif holding['status'] == 'available' || holding['status'] == 'some_available'
@@ -363,15 +375,15 @@ class BackendController < ApplicationController
       return false
     end
 
-    logger.info (params[:isbn]).class
-    logger.info params[:isbn].inspect
+    # logger.info (params[:isbn]).class
+    # logger.info params[:isbn].inspect
 
     ## initialize pazpar2 session
     request_url = borrow_direct_webservices_url + '/search.pz2?command=init'
     response = HTTPClient.get_content(request_url)
     response_parsed = Hash.from_xml(response)
     session_id = response_parsed['init']['session']
-    logger.info "session id: #{session_id}"
+    # logger.info "session id: #{session_id}"
 
     ## make pazpar2 search
     if !params[:isbn].blank?
@@ -400,7 +412,7 @@ class BackendController < ApplicationController
       i = i + 1
       sleep(1)
     end
-    logger.info "finished search request in #{i} seconds"
+    # logger.info "finished search request in #{i} seconds"
     ## make show request to get record id
     request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=show&start=0&num=2&sort=title:1"
     response = HTTPClient.get_content(request_url)
@@ -437,8 +449,11 @@ class BackendController < ApplicationController
     return false
   end
 
-  def get_holdings bibid
-    return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))
+  def get_holdings holdings_param
+    if holdings_param[:type].blank?
+      holdings_param[:type] = 'retrieve'
+    end
+    return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/#{holdings_param[:type]}/#{holdings_param[:bibid]}"))
   end
 
   ## sk274 - only thing required now is the :service entry for all of _handle_xxx functions
