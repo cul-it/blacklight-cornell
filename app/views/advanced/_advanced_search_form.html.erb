@@ -8,14 +8,13 @@
 
           <div class="input_row">
           <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-          <%= text_field_tag params[:search_field], params[:q], :placeholder => t('blacklight.search.form.q'), :class => " phone-search-query", :id => "q"%>
-          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
-<%- search_fields_for_advanced_search.each do |key, field_def| -%>
-      <% if label_tag_default_for(key) %> 
-      <%= select_tag(label_tag_default_for(key), options_for_select(search_fields_for_advanced_search, :selected => field_def )) %>
-      <%end%> 
-<%- end -%> 
-
+	          <%= text_field_tag params[:search_field], params[:q], :placeholder => t('blacklight.search.form.q'), :class => " phone-search-query", :id => "q"%>
+	          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
+			  <%- search_fields_for_advanced_search.each do |key, field_def| -%>
+	             <% if label_tag_default_for(key) %> 
+	               <%= select_tag(label_tag_default_for(key), options_for_select(search_fields_for_advanced_search, :selected => field_def )) %>
+	             <%end%> 
+	          <%- end -%> 
           </div>
 
           <div class="boolean_row">
@@ -24,9 +23,9 @@
 
           <div class="input_row">
           <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-          <%= text_field_tag params[:search_field], "", :placeholder => "", :class => " phone-search-query", :id => "q"%>
-          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
-      <%= select_tag("search_field", options_for_select(search_fields_for_advanced_search)) %>
+	          <%= text_field_tag params[:search_field], "", :placeholder => "", :class => " phone-search-query", :id => "q"%>
+	          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
+	          <%= select_tag("search_field", options_for_select(search_fields_for_advanced_search)) %>
           </div>
 
            <div class="boolean_row">
@@ -35,11 +34,10 @@
 
           <div class="input_row">
           <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-          <%= text_field_tag "search_field", "", :placeholder => "", :class => " phone-search-query", :id => "q"%>
-          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
-
-      <%= select_tag("search_field", options_for_select(search_fields_for_advanced_search )) %>
-            </div>
+	          <%= text_field_tag "search_field", "", :placeholder => "", :class => " phone-search-query", :id => "q"%>
+	          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
+	          <%= select_tag("search_field", options_for_select(search_fields_for_advanced_search )) %>
+          </div>
 
           <div class="add_row">
           <a href="#" class="small"><i class="icon-plus-sign"></i> Add a row.</a>
