@@ -190,12 +190,12 @@ class CatalogController < ApplicationController
     config.add_facet_field 'online', :label => 'Access', :limit => 2
     config.add_facet_field 'format', :label => 'Format', :limit => 5
     config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
-#    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
-#      :num_segments => 6,
-#      :assumed_boundaries => [1300, Time.now.year + 1],
-#      :segments => true,
-#      :include_in_advanced_search => false
-#    }, :show => true, :include_in_advanced_search => false
+    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
+      :num_segments => 6,
+      :assumed_boundaries => [1300, Time.now.year + 1],
+      :segments => true,
+      :include_in_advanced_search => false
+    }, :show => true, :include_in_advanced_search => false
     
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
