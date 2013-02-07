@@ -1,7 +1,5 @@
 .facets {
 	margin-top: 0.5em;
-	padding: 10px;
-	width: 250px;
 	background: white;
 	@include border-radius($borderRadiusLarge);
 	h5 {
@@ -29,9 +27,14 @@
 		font-size: 0.75em;
 		color: $light-gray;
 	}
-	p { font-weight: bold; }
+	p {
+		font-weight: bold;
+		padding: 10px;
+		margin: 0; }
 	i { color: $dark-gray; }
-	.navbar { margin-bottom: 0; }
+	.navbar {
+		margin-bottom: 0;
+		padding: 0 0 0 10px; }
 	a:hover { background: white; }
 }
 // OVERRIDE #FACETS
@@ -43,7 +46,7 @@
 	}
 	li {
 		margin-right: 0;
-		padding-bottom: 0;
+		line-height: 16px;
 	}
 	li.more_facets_link {
 		float: none;
@@ -62,6 +65,7 @@
 // SELECTED FACETS
 
 .selected-facets {
+	clear: both;
 	.btn-info {
 		margin-bottom: 3px;
 		i { margin: .1em 0 0 .5em; }

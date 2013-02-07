@@ -1,12 +1,26 @@
-@media (max-width: 480px) 
+//
+// Responsive: Phone
+// --------------------------------------------------
 
-{
+@media (max-width: 480px) {
 	body {
 		padding: 0px;
 		margin: 0px
 	}
-	.return-link { margin-top: 10px; }
-	.blacklight-catalog-show {
-		.span4 { clear: both; }
+	.document-data { width: 70%; }
+	.span9 {
+		.well {
+			padding-left: 10px;
+			padding-right: 10px; }
 	}
-}	
+	.search-options { width: 50%; }
+	input.search-query { width: 92%; }
+	#search_field {
+		width: 68px;
+		margin-left: .7em;
+		display: inline-block;
+	}
+	.start-over {
+		float: right;
+	}
+}

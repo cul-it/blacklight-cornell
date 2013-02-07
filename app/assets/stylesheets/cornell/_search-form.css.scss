@@ -1,7 +1,11 @@
+.search-form { margin: 0 0 .1em 0; }
+.search-options { margin-left: 0; }
+input.search-query {
+  width: 95%;
+  padding-right: 0;
+}
 .advanced-search-link {
   display: block;
-  position: absolute;
-  margin-left: 0;
   text-align: right;
   font-size: .8em;
 }
@@ -9,9 +13,6 @@
   margin-left: .3em;
   font-size: .8em;
 }
-
-.search-tools { float: left; }
-
 .results-info {
   margin: 0;
   padding-bottom: .2em;
@@ -38,16 +39,8 @@
 .results-sortby-form {
   margin: 0 1em 0 0;
 }
-
-.search_field {
-  margin-bottom: 0;
+#search_field {
+  margin: 0 0 0 .2em;
   width: auto;
 }
-
 p.suggest {font-size:.8em}
-
-.mobile-search-btn {
-
-  float:right;
-}
-
