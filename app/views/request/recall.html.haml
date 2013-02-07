@@ -13,14 +13,23 @@
     %label.control-label{:for => 'reqcomments'} Comments:
     .controls
       %textarea#reqcomments
-  = render :partial => 'shared/reqdate'
   .control-group
     .controls
       %input#request-submit.btn.btn-danger(type="submit" name="submit" value="Submit recall request")
       %input#reset.btn.btn-link(type="reset" value="Clear form")
     .controls
-      %span.place-hold
-        or
-        =link_to 'place a hold on this item', request_hold_path(params[:id])
+      %div.accordion#accordion2.span6
+        %div.accordion-group
+          %div.accordion-heading
+          =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+          %div#collapseOne.accordion-body.collapse
+            %div.accordion-inner          
+            = render :partial => 'shared/reqoptions'
+
+    
+
+
+
   -## Used to display working status and result of request via Ajax
   #result
+
