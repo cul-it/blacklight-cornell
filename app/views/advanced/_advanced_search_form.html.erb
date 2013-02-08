@@ -17,12 +17,16 @@
 
   <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add a row</a>
 
-  <% unless (search_context_str = render_search_to_s( advanced_search_context)).blank? %>
-    <div class="constraints">
-      <h4>Within search:</h4>
-      <%= search_context_str %>
-    </div>
-  <% end %>
+  <%# # Comment out the display of active constraints -- still need to be removed
+      # from the query before it's sent to Solr. John will handle this in the
+      # controller.
+  %>
+  <%# unless (search_context_str = render_search_to_s( advanced_search_context)).blank? %>
+    <%# <div class="constraints">
+      <h4>Within search:</h4> %>
+      <%#= search_context_str %>
+    <%# </div> %>
+  <%# end %>
 
   <div class="sort_submit_buttons clearfix">
     <%= label_tag(:sort, "Sort results by") %>
