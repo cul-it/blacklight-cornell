@@ -166,22 +166,22 @@ module DisplayHelper
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
     "Musical Recording" => "music",
-    "Thesis" => "thesis",
+    "Thesis" => "book-open",
     "Microform" => "th",
     "Serial" => "copy",
-    "Journal/Periodical" => "copy",
-    "Journal" => "copy",
-    "Conference Proceedings" => "conference",
+    "Journal/Periodical" => "popup",
+    "Journal" => "popup",
+    "Conference Proceedings" => "group",
     "Video" => "film",
     "Map or Globe" => "globe",
-    "Manuscript/Archive" => "manuscript",
+    "Manuscript/Archive" => "file",
     "Newspaper" => "newspaper",
-    "Database" => "hdd",
+    "Database" => "database",
     "Image" => "picture",
     "Unknown" => "question-sign",
-    "Kit" => "kit",
-    "Research Guide" => "research-guide",
-    "Course Guide" => "course-guide"
+    "Kit" => "suitcase",
+    "Research Guide" => "file-alt",
+    "Course Guide" => "graduation-cap"
   }
 
   def formats_icon_mapping(format)

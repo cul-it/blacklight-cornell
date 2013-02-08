@@ -210,17 +210,27 @@ class RequestController < ApplicationController
   end
 
   def bd
-    ## Temporarily redirect borrow direct to recall until BD can be properly integrated
-    redirect_to :action => "recall"
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    @ti =  @document[:title_display]
+    @au =  @document[:author_display]
+    @id =  params[:id]  
   end
 
   def ill
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    @ti =  @document[:title_display]
+    @au =  @document[:author_display]
+    @id =  params[:id]
   end
 
   def purchase
   end
 
   def ask
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    @ti =  @document[:title_display]
+    @au =  @document[:author_display]
+    @id =  params[:id]
   end
 
   def make_request

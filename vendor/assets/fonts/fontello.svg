@@ -1,0 +1,55 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>
+Created by FontForge 20100429 at Thu Feb  7 15:49:31 2013
+ By root
+Copyright (C) 2012 by original authors @ fontello.com
+</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="730" >
+  <font-face 
+    font-family="fontello"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1000"
+    panose-1="2 0 6 3 0 0 0 0 0 0"
+    ascent="850"
+    descent="-150"
+    bbox="15 -100 1015 801.846"
+    underline-thickness="50"
+    underline-position="-100"
+    unicode-range="U+E735-1F4F0"
+  />
+<missing-glyph horiz-adv-x="364" 
+d="M33 0v666h265v-666h-265zM66 33h199v600h-199v-600z" />
+    <glyph glyph-name=".notdef" horiz-adv-x="364" 
+d="M33 0v666h265v-666h-265zM66 33h199v600h-199v-600z" />
+    <glyph glyph-name=".null" horiz-adv-x="0" 
+ />
+    <glyph glyph-name="nonmarkingreturn" horiz-adv-x="333" 
+ />
+    <glyph glyph-name="uniE735" unicode="&#xe735;" horiz-adv-x="996" 
+d="M978 721v-631q0 -44 -33 -77.5t-73 -33.5h-717q-136 0 -136 159v461h132v122h827zM151 531h-65v-393q0 -86 32 -86q33 0 33 86v393zM910 654h-691v-516q0 -54 -19 -92h672q17 0 27.5 14.5t10.5 29.5v564zM485 202h-159v23h159v-23zM485 131h-159v23h159v-23zM548 439h266
+v-254h-266v254zM485 342h-159v23h159v-23zM485 271h-159v23h159v-23zM485 416h-159v23h159v-23zM350 511v44h416v-44h-416z" />
+    <glyph glyph-name="uniE74C" unicode="&#xe74c;" horiz-adv-x="885" 
+d="M118 -50q-40 0 -70 30t-30 70v450q0 40 30 70t70 30h450q39 0 69.5 -30t30.5 -70v-450q0 -40 -30.5 -70t-69.5 -30h-450zM568 50v450h-450v-450h450zM168 650v50q0 40 30 70t70 30h500q40 0 70 -30t30 -70v-500q0 -71 -50 -85q-45 -15 -100 -15v100h50v500h-500v-50h-100
+z" />
+    <glyph glyph-name="uniE754" unicode="&#xe754;" 
+d="M715 206v-100q0 -73 -104 -135q-103 -61 -246 -61q-141 0 -245 61q-105 61 -105 135v100q0 10 4.5 10.5t9.5 -8.5q34 -56 130.5 -88t205.5 -32t205 32t131 88q14 20 14 -2zM715 462v-116q0 -68 -102 -114q-101 -46 -248 -46q-145 0 -247 46q-103 46 -103 114v116
+q0 20 14 0q33 -50 130.5 -77t205.5 -27t205.5 26.5t132.5 77.5q7 16 12 0zM365 790q143 0 247 -39q103 -39 103 -93v-64q0 -59 -103 -99q-105 -41 -247 -41t-247 41q-103 40 -103 99v64q0 54 103 93q104 39 247 39z" />
+    <glyph glyph-name="u1F393" unicode="&#x1f393;" horiz-adv-x="1030" 
+d="M515 70l276 136q-1 -8 -4 -27.5t-5 -30.5t-6 -25t-10 -22q-17 -25 -69 -45q-24 -10 -75.5 -38.5t-67.5 -36.5q-24 -11 -39 -11q-17 0 -40 13q-10 5 -41 23l-57 32q-26 14 -46 22q-71 31 -103 69q-30 36 -47 109zM421 456q0 -26 29 -41t65 -15q27 0 36 4l292 -68
+l-268 -152q-60 -32 -120 0l-416 234q-24 14 -24 33t24 33l416 234q60 32 120 0l416 -234q24 -14 24 -33t-24 -33l-78 -44l-308 102q-23 36 -90 36q-36 0 -65 -15t-29 -41zM863 42q18 113 13 182q-4 64 -19 90l-14 22l70 38q5 -7 12 -28q7 -22 17 -101q11 -83 -7 -197
+q-5 -26 -22 -30q-15 -3 -33.5 4.5t-16.5 19.5z" />
+    <glyph glyph-name="u1F3B5" unicode="&#x1f3b5;" 
+d="M615 800q42 0 71 -29t29 -71v-700q0 -41 -29.5 -70.5t-70.5 -29.5h-500q-40 0 -70 30t-30 70v700q0 41 29.5 70.5t70.5 29.5h500zM505 324q32 44 23 92q-9 49 -33 80q-7 10 -49 66q-25 34 -25 54h-60v-368q-41 16 -90 -2q-36 -12 -62 -44t-14 -68q11 -31 52 -44.5t86 0.5
+q88 30 88 98v262q31 -5 52.5 -29t20.5 -55q-2 -26 -3 -42q-4 -10 2 -10q5 0 12 10z" />
+    <glyph glyph-name="u1F4D6" unicode="&#x1f4d6;" horiz-adv-x="930" 
+d="M355 238v-68l-200 80v68zM355 446v-68l-200 80v68zM465 -100q-1 0 -5 1t-5 1l-10 2l-398 160q-32 12 -32 46v640q0 30 22 42q22 16 46 6l382 -154l382 154q24 10 46 -6q22 -12 22 -42v-640q0 -34 -32 -46l-398 -160q-2 0 -5 -1q-4 -1 -5 -1t-5 -1t-5 -1zM415 4v560
+l-320 128v-560zM835 132v560l-320 -128v-560zM775 318v-68l-200 -80v68zM775 526v-68l-200 -80v68z" />
+    <glyph glyph-name="u1F4F0" unicode="&#x1f4f0;" horiz-adv-x="830" 
+d="M715 800q42 0 71 -29t29 -71v-700q0 -41 -29.5 -70.5t-70.5 -29.5h-600q-40 0 -70 30t-30 70v700q0 41 29.5 70.5t70.5 29.5h600zM715 700h-600v-700h600v700zM465 200h-250v50h250v-50zM615 400h-200v50h200v-50zM415 600h200v-100h-200v100zM365 400h-150v200h150v-200
+zM315 300h-100v50h100v-50zM365 350h250v-50h-250v50zM615 100h-400v50h400v-50zM515 200v50h100v-50h-100z" />
+  </font>
+</defs></svg>
