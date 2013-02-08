@@ -1,51 +1,21 @@
 <%= form_tag catalog_index_path, :class => 'advanced', :method => :get do  %>
-
   <%= search_as_hidden_fields(:params => advanced_search_context ) %>
 
-  <div class="input_columns row">
-       
-      <div class="query_column span12">
+  <div class="query_column span12">
+    <div class="input_row">
+      <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-          <div class="input_row">
-          <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-	          <%= text_field_tag params[:search_field], params[:q], :placeholder => t('blacklight.search.form.q'), :class => " phone-search-query", :id => "q"%>
-	          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
-			  <%- search_fields_for_advanced_search.each do |key, field_def| -%>
-	             <% if label_tag_default_for(key) %> 
-	               <%= select_tag(label_tag_default_for(key), options_for_select(search_fields_for_advanced_search, :selected => field_def )) %>
-	             <%end%> 
-	          <%- end -%> 
-          </div>
+      <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q" %>
 
-          <div class="boolean_row">
-             <label class="radio inline"><input type="radio" name="as_boolean" value="and">and</label> <label class="radio inline"><input type="radio" name="as_boolean" value="or">or</label> <label class="radio inline"><input type="radio" name="as_boolean" value="not">not</label>
-            </div>
+      <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in
 
-          <div class="input_row">
-          <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-	          <%= text_field_tag params[:search_field], "", :placeholder => "", :class => " phone-search-query", :id => "q"%>
-	          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
-	          <%= select_tag("search_field", options_for_select(search_fields_for_advanced_search)) %>
-          </div>
+      <%= select_tag(:search_field, options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}, :selected => params[:search_field]), :id => 'search_field_advanced', :class => 'advanced-search-field') %>
+    </div>
 
-           <div class="boolean_row">
-             <label class="radio inline"><input type="radio" name="as_boolean" value="and">and</label> <label class="radio inline"><input type="radio" name="as_boolean" value="or">or</label> <label class="radio inline"><input type="radio" name="as_boolean" value="not">not</label>
-            </div>
-
-          <div class="input_row">
-          <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-	          <%= text_field_tag "search_field", "", :placeholder => "", :class => " phone-search-query", :id => "q"%>
-	          <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in 
-	          <%= select_tag("search_field", options_for_select(search_fields_for_advanced_search )) %>
-          </div>
-
-          <div class="add_row">
-          <a href="#" class="small"><i class="icon-plus-sign"></i> Add a row.</a>
-          </div> 
-
-      </div>
-
+    <%= render :partial => 'advanced_search_rows' %>
   </div>
+
+  <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add a row</a>
 
   <% unless (search_context_str = render_search_to_s( advanced_search_context)).blank? %>
     <div class="constraints">
@@ -54,17 +24,14 @@
     </div>
   <% end %>
 
-
   <div class="sort_submit_buttons clearfix">
-    <div class=" ">
-	<%= label_tag(:sort, "Sort results by") %>
+    <%= label_tag(:sort, "Sort results by") %>
+
     <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort]))) %>
-	<%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
-</div>
-<div class=" ">
+
+    <%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
+
     <%= submit_tag 'Search', :class=>'btn btn-inverse', :id=>'advanced_search' %>
-	<%= link_to "Start over", {:controller => "advanced", :action => "index"}, :class =>"reset btn" %>
-</div>
   </div>
 <% end %>
 
