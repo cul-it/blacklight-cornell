@@ -26,5 +26,9 @@ h1.request-type {
 
 .align-bottom {vertical-align: bottom; margin-bottom: 10px}
 
-.add_row {font-size: .75em}
+.add_row {font-size: .85em}
 
+div.request-options div.accordion-group {border:none;}
+div.request-options div.accordion-inner {border:none; padding:9px 15px;}
+div.request-options{font-size: .75em;}
+div.accordion-inner .span4 {position:relative; left:-30px;}

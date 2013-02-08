@@ -18,13 +18,14 @@
       %input#request-submit.btn.btn-danger(type="submit" name="submit" value="Submit recall request")
       %input#reset.btn.btn-link(type="reset" value="Clear form")
     .controls
-      %div.accordion#accordion2.span6
+      %div.accordion#accordion2.request-options
         %div.accordion-group
           %div.accordion-heading
           =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
           %div#collapseOne.accordion-body.collapse
-            %div.accordion-inner          
-            = render :partial => 'shared/reqoptions'
+            %div.accordion-inner     
+              %div.span4     
+                = render :partial => 'shared/recall_options'
 
     
 
