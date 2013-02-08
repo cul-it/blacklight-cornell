@@ -1,6 +1,6 @@
-%form#req.form-horizontal{:method => 'post', :action => request_item_redirect_path}
+%form#request_form.form-horizontal{:method => 'post', :action => request_item_redirect_path}
   %input(type="hidden" name="bid" value="#{params[:id]}" id="bid")
   %input(type="hidden" name="isbn" value="#{document['isbn_display']}")
   %input(type="hidden" name="title" value="#{document['title_display']}")
-  %input#request-submit.btn.btn-danger(type="submit" name="request_submit" value="Request")
+  %input#request.btn.btn-danger(type="submit" name="request" value="Request")
   #result

@@ -406,10 +406,16 @@ class BackendController < ApplicationController
     # logger.info "session id: #{session_id}"
 
     ## make pazpar2 search
-    if !params[:isbn].blank?
-      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{params[:isbn]}"
+    isbn = params[:isbn].scan(/"([a-zA-Z0-9]+)[ "]/)
+    logger.info isbn.inspect
+    if isbn.length == 1
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{isbn[0][0]}"
+    elsif isbn.length > 0 && params[:title].blank?
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{isbn[0][0]}"
     elsif !params[:title].blank?
       request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=ti%3D#{params[:title]}"
+    else
+      return false
     end
     response = HTTPClient.get_content(request_url)
     response_parsed = Hash.from_xml(response)
@@ -437,36 +443,45 @@ class BackendController < ApplicationController
     request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=show&start=0&num=2&sort=title:1"
     response = HTTPClient.get_content(request_url)
     response_parsed = Hash.from_xml(response)
+    logger.info response_parsed.inspect
     hits = response_parsed['show']['hit']
     if hits.blank? || hits.class == String
       return false
-    else
+    elsif hits.class == Hash
+      return _determine_availablility? borrow_direct_webservices_url, session_id, hits
+    elsif hits.class == Array
       hits.each do |hit|
-        recid = hit['recid']
-        request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=record&id=#{recid}"
-        response = HTTPClient.get_content(URI::escape(request_url))
-        response_parsed = Hash.from_xml(response)
-        availabilities = response_parsed['record']['location']['md_available']
-        if availabilities.class == String
-          if availabilities.strip == 'Available'
-            return true
-          end
-        elsif availabilities.class == Array
-          availabilities.each do |availability|
-            if availability.strip == 'Available'
-              return true
-            end
-          end
-        else
-          ## what is this?
-          logger.info availabilities.inspect
-          return false
-        end
+        return true if _determine_availablility? borrow_direct_webservices_url, session_id, hit
       end
+    else
+      ## error?
     end
 
     ## get record for each hit returned until we find first available item or there is no more
     return false
+  end
+
+  def _determine_availablility? borrow_direct_webservices_url, session_id, hit
+    recid = hit['recid']
+    request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=record&id=#{recid}"
+    response = HTTPClient.get_content(URI::escape(request_url))
+    response_parsed = Hash.from_xml(response)
+    availabilities = response_parsed['record']['location']['md_available']
+    if availabilities.class == String
+      if availabilities.strip == 'Available'
+        return true
+      end
+    elsif availabilities.class == Array
+      availabilities.each do |availability|
+        if availability.strip == 'Available'
+          return true
+        end
+      end
+    else
+      ## what is this?
+      logger.info availabilities.inspect
+      return false
+    end
   end
 
   def get_holdings holdings_param
