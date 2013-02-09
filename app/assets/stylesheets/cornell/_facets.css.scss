@@ -93,6 +93,10 @@
 
 // MODAL WINDOW
 .modal { background: $pale-gray; }
+.close {
+	color: $medium-gray;
+	opacity: 1;
+}
 
 .twiddle-open .icon-plus-sign {
     @extend .icon-minus-sign;
