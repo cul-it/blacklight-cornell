@@ -92,10 +92,7 @@
 .btn-start-over { float: right; }
 
 // MODAL WINDOW
-.modal {
-	background: $pale-gray;
-	padding: 10px;
-}
+.modal { background: $pale-gray; }
 
 .twiddle-open .icon-plus-sign {
     @extend .icon-minus-sign;
