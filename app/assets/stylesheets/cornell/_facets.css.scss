@@ -92,9 +92,10 @@
 .btn-start-over { float: right; }
 
 // MODAL WINDOW
-.modal {
-	background: $pale-gray;
-	padding: 10px;
+.modal { background: $pale-gray; }
+.close {
+	color: $medium-gray;
+	opacity: 1;
 }
 
 .twiddle-open .icon-plus-sign {
