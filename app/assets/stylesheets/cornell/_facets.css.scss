@@ -48,6 +48,12 @@
 		margin-right: 0;
 		line-height: 16px;
 	}
+	a.remove { padding: 3px 5px; }
+	a.remove:hover {
+		text-decoration: none;
+		background: white;
+		i { color: $medium-gray; }
+	}
 	li.more_facets_link {
 		float: none;
 		margin-right: -50px; }
@@ -66,15 +72,23 @@
 	form {
 		margin: 0 0 10px;
 		text-align: center; }
-	.missing { font-size: 0.75em; }
 	.count {
 		text-align: right;
 		float: right;
 		color: $light-gray; }
-	// .distribution { margin-top: 5px; }
 	.tickLabel { font-size: 0.875em; }
-	span.selected {
+	.missing,
+	span.selected,
+	i {
 		font-size: 0.75em;}
+	.limit_content {
+		.count { font-size: 0.75em; }
+	}
+	.limit_content {
+		.missing {
+			.count { font-size: 1em; }
+		}
+	}
 }
 .navbar {
 	.blacklight-pub_date_facet {
@@ -82,12 +96,6 @@
 	}
 }
 .hover_legend { padding: 0; }
-.range_limit {
-	.count { 
-		font-size: 0.75em;
-		color: $dark-gray; }
-}
-	
 
 // SELECTED FACETS
 
