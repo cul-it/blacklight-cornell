@@ -15,9 +15,9 @@ BlacklightCornell::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :sendmail
   config.action_mailer.smtp_settings = {
-    :address => 'appsmtp.mail.cornell.edu',
+    :address => 'localhost',
     :domain => 'cornell.edu',
     :user_name => 'culsearch@cornell.edu'
   }
@@ -41,7 +41,7 @@ BlacklightCornell::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   # URL of service which returns JSON holding info.
-  config.voyager_holdings = "http://culsearchdev.library.cornell.edu:8950" 
+  config.voyager_holdings = "http://sk274-dev.library.cornell.edu:8950" 
   config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
 
   # URL of service which handles item requests
