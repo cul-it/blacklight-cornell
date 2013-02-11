@@ -5,7 +5,7 @@
     <div class="input_row">
       <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-      <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q" %>
+      <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q", :autocapitalize => "off" %>
 
       <%= select_tag(:op, options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in
 

@@ -14,7 +14,7 @@
 
     <label for="q_row<%= i %>" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-    <%= text_field_tag "q_row#{i}" %>
+    <%= text_field_tag "q_row#{i}", nil, :autocapitalize => "off" %>
 
     <%= select_tag("op_row#{i}", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in
 
