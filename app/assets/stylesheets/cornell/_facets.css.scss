@@ -60,7 +60,34 @@
 // PUBLICATION YEAR
 .limit_content {
 	margin-right: 10px;
+	.subsection { margin-top: .5em; }
 }
+.blacklight-pub_date_facet {
+	form {
+		margin: 0 0 10px;
+		text-align: center; }
+	.missing { font-size: 0.75em; }
+	.count {
+		text-align: right;
+		float: right;
+		color: $light-gray; }
+	// .distribution { margin-top: 5px; }
+	.tickLabel { font-size: 0.875em; }
+	span.selected {
+		font-size: 0.75em;}
+}
+.navbar {
+	.blacklight-pub_date_facet {
+		.btn, .btn-group { margin-top: 0; }
+	}
+}
+.hover_legend { padding: 0; }
+.range_limit {
+	.count { 
+		font-size: 0.75em;
+		color: $dark-gray; }
+}
+	
 
 // SELECTED FACETS
 
