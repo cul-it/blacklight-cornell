@@ -8,10 +8,7 @@
 
         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
 
-<!-- original code        <%= link_to 'Advanced search', params.merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> -->
-<!-- new code to keep facets from being sent to advanced_search -->
-        <%= link_to 'Advanced Search', params.except(:f).merge(:controller=>"advanced", :q => params[:q]), :class=>"advanced-search-link"%>
-
+        <%= link_to 'Advanced search', params.merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
       </div>
 
       <% unless search_fields.empty? %>
