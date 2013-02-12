@@ -53,6 +53,7 @@ class RequestController < ApplicationController
       '37' => 1
     }
   }
+  LIBRARY_ANNEX = 'Library Annex'
 
 # Blacklight uses #search_action_url to figure out the right URL for
 #   # the global search box
@@ -308,7 +309,7 @@ class RequestController < ApplicationController
     ##   and retrieve_detail_raw gives us item type.
     ## Make holdings consolidated view key off of holdings id so we can easily cross reference
     holdings = ( get_holdings holdings_param )[bibid]['condensed_holdings_full']
-    # logger.info holdings.inspect
+    logger.info holdings.inspect
     holdings_parsed = {}
     holdings.each do |holding|
       ## condensed_holdings_full groups holding_id's from same location together
@@ -328,13 +329,7 @@ class RequestController < ApplicationController
     netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
     @request_solution = ''
-    l2l_list = []
-    bd_list = []
-    hold_list = []
-    recall_list = []
-    ill_list = []
-    ask_list = []
-    purchase_list = []
+    request_options = []
 
     # logger.debug "netid: #{netid}"
     # logger.debug holdings.inspect
@@ -347,240 +342,211 @@ class RequestController < ApplicationController
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
       holdings_condensed_full_item = holdings_parsed[holding_id]
+      logger.info "status: #{holdings_condensed_full_item['status']}"
+      ## is requested treated same as charged?
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
         next
       elsif patron_type == 'cornell' && item_type == 'regular' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
         ## BD RECALL ILL HOLD
-        logger.info "branch 1"
-        bd_list.push( _handle_bd bibid, holding )
-        recall_list.push( _handle_recall bibid, holding )
-        ill_list.push( _handle_ill bibid, holding )
-        hold_list.push( _handle_hold bibid, holding )
+        logger.info "branch 1a"
+        request_options.push( _handle_bd bibid, holding )
+        request_options.push( _handle_recall bibid, holding )
+        request_options.push( _handle_ill bibid, holding )
+        request_options.push( _handle_hold bibid, holding )
+      elsif patron_type == 'cornell' && item_type == 'regular' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /Requested/
+        ## BD ILL HOLD
+        logger.info "branch 1b"
+        request_options.push( _handle_bd bibid, holding )
+        request_options.push( _handle_ill bibid, holding )
+        request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && holdings_condensed_full_item['status'] == 'available' || holdings_condensed_full_item['status'] == 'some_available'
         ## LTL
         logger.info "branch 2"
-        l2l_list.push( _handle_l2l bibid, holding )
+        item = _handle_l2l bibid, holding
+        logger.info item.inspect
+        request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && ( (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Missing') || (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Lost') )
         ## BD PURCHASE ILL
         logger.info "branch 3"
-        bd_list.push( _handle_bd bibid, holding )
-        purchase_list.push( _handle_purchase bibid, holding )
-        ill_list.push( _handle_ill bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'regular' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
+        request_options.push( _handle_bd bibid, holding )
+        request_options.push( _handle_purchase bibid, holding )
+        request_options.push( _handle_ill bibid, holding )
+      elsif patron_type == 'guest' && item_type == 'regular' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ || holding['item_status']['itemdata'][0]['itemStatus'] =~ /Requested/)
         ## HOLD
         logger.info "branch 4"
-        hold_list.push( _handle_hold bibid, holding )
+        request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && holdings_condensed_full_item['status'] == 'available' || holdings_condensed_full_item['status'] == 'some_available'
         ## LTL
         logger.info "branch 5"
-        l2l_list.push( _handle_l2l bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'minute' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
+        request_options.push( _handle_l2l bibid, holding )
+      elsif patron_type == 'cornell' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ || holding['item_status']['itemdata'][0]['itemStatus'] =~ /Requested/)
         ## HOLD BD
         logger.info "branch 6"
-        hold_list.push( _handle_hold bibid, holding )
-        bd_list.push( _handle_bd bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'day' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
+        request_options.push( _handle_hold bibid, holding )
+        request_options.push( _handle_bd bibid, holding )
+      elsif patron_type == 'cornell' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ || holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Requested/)
         ## BD ILL
         logger.info "branch 7"
-        bd_list.push( _handle_bd bibid, holding )
-        ill_list.push( _handle_ill bibid, holding )
+        request_options.push( _handle_bd bibid, holding )
+        request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && ( (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Missing') || (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Lost') )
         ## ASK
         logger.info "branch 8"
-      elsif patron_type == 'guest' && item_type == 'day' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
+      elsif patron_type == 'guest' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ ||  holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Requested/)
         ## HOLD
         logger.info "branch 9"
-        hold_list.push( _handle_hold bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'minute' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
+        request_options.push( _handle_hold bibid, holding )
+      elsif patron_type == 'guest' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ ||  holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Requested/)
         ## ASK
         logger.info "branch 10"
       elsif patron_type == 'cornell' && item_type == 'regular' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
         ## LTL
         logger.info "branch 11"
-        l2l_list.push( _handle_l2l bibid, holding )
+        request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
         ## LTL BD?
         logger.info "branch 12"
-        l2l_list.push( _handle_l2l bibid, holding )
-        bd_list.push( _handle_bd bibid, holding )
+        request_options.push( _handle_l2l bibid, holding )
+        request_options.push( _handle_bd bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
         ## BD? ILL?
         logger.info "branch 13"
-        bd_list.push( _handle_bd bibid, holding )
-        ill_list.push( _handle_ill bibid, holding )
+        request_options.push( _handle_bd bibid, holding )
+        request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
         ## LTL
         logger.info "branch 14"
-        l2l_list.push( _handle_l2l bibid, holding )
+        request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
         ## LTL
         logger.info "branch 15"
-        l2l_list.push( _handle_l2l bibid, holding )
+        request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
         ## ASK
         logger.info "branch 16"
       end
-      ask_list.push( _handle_ask bibid, holding )
+      # request_options.push( _handle_ask bibid, holding )
+    end
+
+    request_options.each do |a|
+      logger.info "#{a[:service]}: #{a[:estimate]}"
+    end
+
+    request_options = sort_request_options request_options
+
+    request_options.each do |a|
+      logger.info "#{a[:service]}: #{a[:estimate]}"
     end
 
     ## sk274 - online resource first?
     if !target.blank?
-      eval "#{target} l2l_list, bd_list, hold_list, recall_list, ill_list, ask_list"
-    elsif l2l_list.present?
-      #return l2l_list.first
-      _l2l l2l_list, bd_list, hold_list, recall_list, ill_list, ask_list
-    elsif bd_list.present?
-      #return bd_list.first
-      _bd
-    elsif hold_list.present?
-      #return hold_list.first
-      hold
-    elsif recall_list.present?
-      #return recall_list.first
-      recall
-    elsif ill_list.present?
-      #return ill_list.first
-      _ill
-    elsif ask_list.present?
-      #return ask_list.first
-      _ask
+      #eval "#{target} request_options"
+      _display request_options, target
     else
-      #return ''
-      _ask
+      best_option = request_options[0]
+      #eval "_#{best_option[:service]} request_options"
+      _display request_options, best_option[:service]
     end
+
+  end
+
+  def get_l2l_delivery_time itemdata
+    if itemdata['location'] == LIBRARY_ANNEX
+      return 1
+    else
+      return 2
+    end
+  end
+
+  def get_bd_delivery_time bd_list
+    return 6
+  end
+
+  def get_hold_delivery_time hold_list
+    return 180
+  end
+
+  def get_recall_delivery_time recall_list
+    return 30
+  end
+
+  def get_ill_delivery_time ill_list
+    return 14
+  end
+
+  def get_purchase_delivery_time purchase_list
+    return 10
+  end
+
+  def sort_request_options request_options
+    return request_options.sort_by { |option| option[:estimate] }
+  end
+
+  def _display request_options, service
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    @ti = @document[:title_display]
+    @au = @document[:author_display]
+    @id = params[:id]
+    @iis = {}
+    @alternate_request_options = []
+    seen = {}
+    request_options.each do |item|
+      if item[:service] == service
+        iids = item[:iid]
+        iids.each do |iid|
+          @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration']
+        end
+      else
+        ## get the lowest estimate from this item
+        estimate = 9999
+        iids = item[:iid]
+        iids.each do |iid|
+          if estimate > iid[:estimate]
+            estimate = iid[:estimate]
+          end
+        end
+        ## if we didn't see this request option before or this estimate is lower than previous one,
+        ## update seen hash with lowest estimate for this service
+        if ! seen[item[:service]] || seen[item[:service]] > estimate
+          seen[item[:service]] = estimate
+        end
+      end
+    end
+
+    seen.each do |service, estimate|
+      @alternate_request_options.push({ :option => service, :estimate => estimate})
+    end
+    @alternate_request_options = sort_request_options @alternate_request_options
+
+    render service
   end
 
   def l2l
-    return request_item '_l2l'
-  end
-
-  def _l2l l2l_list, bd_list, hold_list, recall_list, ill_list, ask_list
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]
-    @iis = {}
-    l2l_list.each do |l2litem|
-      iids = l2litem[:iid]
-      iids.each do |iid|
-        @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration']
-      end
-    end
-
-    @alternate_request_options = []
-    if bd_list.present?
-      bd_list.each do |bd_item|
-        @alternate_request_options.push 
-      end
-    end
-    if hold_list.present?
-    end
-    if recall_list.present?
-    end
-    if ill_list.present?
-    end
-    if ask_list.present?
-    end
-
-    render 'l2l'
+    return request_item L2L
   end
 
   def hold
-    return request_item '_hold'
-  end
-
-  def _hold l2l_list, bd_list, hold_list, recall_list, ill_list, ask_list
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]
-    @isbn = @document[:isbn_display].present? ? @document[:isbn_display].first : false
-    @iis = {}
-
-    logger.info "\n\nhold listing start"
-    logger.info hold_list.inspect
-    logger.info "hold listing end\n\n"
-
-    hold_list.each do |holditem|
-      iids = holditem[:iid]
-      iids.each do |iid|
-        @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration']
-      end
-    end
-
-    render 'hold'
+    return request_item HOLD
   end
 
   def recall
-    return request_item '_recall'
-  end
-
-  def _recall l2l_list, bd_list, hold_list, recall_list, ill_list, ask_list
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]
-    @iis = {}
-    recall_list.each do |recallitem|
-      iids = recallitem[:iid]
-      iids.each do |iid|
-        @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration']
-      end
-    end
-
-    render 'recall'
+    return request_item RECALL
   end
 
   def bd
-    return request_item '_bd'
-  end
-
-  def _bd
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]  
-
-    render 'bd'
+    return request_item BD
   end
 
   def ill
-    return request_item '_ill'
-  end
-
-  def _ill
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]
-
-    render 'ill'
+    return request_item ILL
   end
 
   def purchase
-    return request_item '_purchase'
-  end
-
-  def _purchase
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]
-
-    render 'purchase'
+    return request_item PURCHASE
   end
 
   def ask
-    return request_item '_ask'
-  end
-
-  def _ask
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
-    @ti = @document[:title_display]
-    @au = @document[:author_display]
-    @id = params[:id]
-
-    render 'ask'
+    return request_item ASK
   end
 
   def borrowDirect_available? params
@@ -699,71 +665,89 @@ class RequestController < ApplicationController
   def _handle_l2l bibid, holding
     itemdata = holding["item_status"]["itemdata"]
     iids = []
+    estimate = 9999
     if (!itemdata.nil?)
       itemdata.each do | iid |
         #itemStatus"=>"Not Charged",
         if ( (! iid['location'].match('Non-Circulating')) && (iid['itemStatus'].match('Not Charged')))
+          iid[:estimate] = get_l2l_delivery_time iid
           iids.push iid
+          if estimate > iid[:estimate]
+            estimate = iid[:estimate]
+          end
         end
       end
     end
-    return { :service => L2L, :iid => iids }
+    return { :service => L2L, :iid => iids, :estimate => estimate }
   end
 
   def _handle_bd bibid, holding
     itemdata = holding["item_status"]["itemdata"]
     iids = []
+    estimate = 9999
     if (!itemdata.nil?)
       itemdata.each do | iid |
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
+          iid[:estimate] = get_bd_delivery_time iid
           iids.push iid
+          if estimate > iid[:estimate]
+            estimate = iid[:estimate]
+          end
         end
       end
     end
-    return { :service => BD, :iid => iids }
+    return { :service => BD, :iid => iids, :estimate => estimate }
   end
 
   def _handle_hold bibid, holding
     itemdata = holding["item_status"]["itemdata"]
     iids = []
-    logger.info "_handle_hold called!"
+    estimate = 9999
     if (!itemdata.nil?)
       itemdata.each do | iid |
         logger.info itemdata.inspect
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
+          iid[:estimate] = get_hold_delivery_time iid
           iids.push iid
+          if estimate > iid[:estimate]
+            estimate = iid[:estimate]
+          end
         end
       end
     end
-    return { :service => HOLD, :iid => iids }
+    return { :service => HOLD, :iid => iids, :estimate => estimate }
   end
 
-  def _handle_recall bibid, holdings
+  def _handle_recall bibid, holding
     itemdata = holding["item_status"]["itemdata"]
     iids = []
     if (!itemdata.nil?)
       itemdata.each do | iid |
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
+          iid[:estimate] = get_recall_delivery_time iid
           iids.push iid
         end
       end
     end
-    return { :service => RECALL, :iid => iids }
+    return { :service => RECALL, :iid => iids, :estimate => get_recall_delivery_time(1) }
   end
 
-  def _handle_purchase bibid, holdings
-    return { :service => PURCHASE }
+  def _handle_purchase bibid, holding
+    iids = []
+    return { :service => PURCHASE, :iid => iids, :estimate => get_purchase_delivery_time(1) }
   end
 
-  def _handle_ill bibid, holdings
-    return { :service => ILL }
+  def _handle_ill bibid, holding
+    iids = []
+    return { :service => ILL, :iid => iids, :estimate => get_ill_delivery_time(1) }
   end
 
-  def _handle_ask bibid, holdings
-    return { :service => ASK }
+  def _handle_ask bibid, holding
+    iids = []
+    return { :service => ASK, :iid => iids, :estimate => 9999 }
   end
 
 end
