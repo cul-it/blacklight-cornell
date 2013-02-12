@@ -137,7 +137,8 @@ class CatalogController < ApplicationController
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
         'url_toc_display'    => { :label => 'Access table of contents' },
-        'url_other_display'  => { :label => 'Access content' }
+        'url_other_display'  => { :label => 'Access content' },
+        'url_bookplate_display'  => { :label => 'Bookplate' }
     }
 
     ## custom multi-valued fields separator
@@ -278,7 +279,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to'
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
-
+    config.add_show_field 'donor_display', :label => 'Donor'    
+    config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Online access'
 
 #    config.add_show_field 'title_display', :label => 'Title:'
