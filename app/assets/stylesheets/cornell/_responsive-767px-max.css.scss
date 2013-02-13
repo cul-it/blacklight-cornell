@@ -57,7 +57,10 @@
 	// ul.login { float: none; } -- can this be deleted?
 	.document-data {
 		width: 80%;
-		.pull-right {
+		.pull-right { // delete this if we keep new markup for select-item checkbox on results
+			form { margin-bottom: 5px; } 
+		}
+		.select-item { // revised rule for new markup for select-item checkbox on results
 			form { margin-bottom: 5px; }
 		}
 	}
@@ -96,4 +99,7 @@
 			float: none;
 			margin-left: 0; }
 	}
+	.select-item {
+		float: none;
+		margin-left: 0; }
 }
