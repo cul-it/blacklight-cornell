@@ -137,7 +137,8 @@ class CatalogController < ApplicationController
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
         'url_toc_display'    => { :label => 'Access table of contents' },
-        'url_other_display'  => { :label => 'Access content' }
+        'url_other_display'  => { :label => 'Access content' },
+        'url_bookplate_display'  => { :label => 'Bookplate' }
     }
 
     ## custom multi-valued fields separator
@@ -196,7 +197,7 @@ class CatalogController < ApplicationController
       :segments => true,
       :include_in_advanced_search => false
     }, :show => true, :include_in_advanced_search => false
-    
+
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
     config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
@@ -278,7 +279,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to'
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
-
+    config.add_show_field 'donor_display', :label => 'Donor'    
+    config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Online access'
 
 #    config.add_show_field 'title_display', :label => 'Title:'
@@ -397,26 +399,26 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
-config.add_search_field("series") do |field|
-   field.include_in_simple_select = false
-   field.solr_parameters = { :qf => "series_t" }        
-end
-config.add_search_field("notes") do |field|
-   field.include_in_simple_select = false
-   field.solr_parameters = { :qf => "notes_t" }        
-end
-config.add_search_field("place of publication") do |field|
-   field.include_in_simple_select = false
-   field.solr_parameters = { :qf => "published_t" }        
-end
-config.add_search_field("isbn/issn") do |field|
-   field.include_in_simple_select = false
-   field.solr_parameters = { :qf => "=isbn_t" }        
-end
-config.add_search_field("donor name") do |field|
-   field.include_in_simple_select = false
-   field.solr_parameters = { :qf => "donor_t" }        
-end
+    config.add_search_field('series') do |field|
+       field.include_in_simple_select = false
+       field.solr_parameters = { :qf => 'series_t' }
+    end
+    config.add_search_field('notes') do |field|
+       field.include_in_simple_select = false
+       field.solr_parameters = { :qf => 'notes_t' }
+    end
+    config.add_search_field('place of publication') do |field|
+       field.include_in_simple_select = false
+       field.solr_parameters = { :qf => 'published_t' }
+    end
+    config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
+       field.include_in_simple_select = false
+       field.solr_parameters = { :qf => '=isbn_t' }
+    end
+    config.add_search_field('donor name') do |field|
+       field.include_in_simple_select = false
+       field.solr_parameters = { :qf => 'donor_t' }
+    end
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
