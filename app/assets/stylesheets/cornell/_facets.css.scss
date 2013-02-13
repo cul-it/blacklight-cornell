@@ -78,9 +78,10 @@
 		color: $light-gray; }
 	.tickLabel { font-size: 0.875em; }
 	.missing,
-	span.selected,
-	i {
-		font-size: 0.75em;}
+	span.selected {font-size: 0.75em;}
+	.range_limit {
+		i { font-size: 0.75em; }
+	}
 	.limit_content {
 		.count { font-size: 0.75em; }
 	}
