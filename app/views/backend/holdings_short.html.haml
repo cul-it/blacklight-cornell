@@ -8,6 +8,9 @@
     - available = entry['summary']['avail_at']
     - unavailable = entry['summary']['not_avail_at']
     - multiple_locations = 'Multiple locations'
+    - onotes = ''
+    - if entry['summary']['onotes'].size > 0
+      - onotes = entry['summary']['onotes'][0]
     - if available.size > 0
       - if available.size === 1
         - location = available.keys()[0]
@@ -22,5 +25,12 @@
       - else
         - location = multiple_locations
       %i.icon-time{:title => 'Available by request'}
+    - else
+      - location = entry['summary']['holdinglocs'][0]
+      - callnumber = entry['records'][0]['call_number']
+      %i.icon-time{:title => 'Available by request'}
     %span.location= location
     %span.callnumber= callnumber
+    - if entry['summary']['onotes'].size > 0
+      %span.onotes= "Order Information:" + onotes 
+
