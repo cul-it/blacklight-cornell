@@ -5,6 +5,16 @@
 @media (min-width: 768px) and (max-width: 979px) {
 	.document-data { width: 85%; }
 	.facets { font-size: 90%; }
-  #search_field { margin-left: .5em; }
-  .start-over { font-size: .7em; }
+  	#search_field { margin-left: .5em; }
+  	.start-over { font-size: .7em; }
+  	form.range_limit {
+  		input.range_begin, 
+  		input.range_end { 
+  		width: 3em;
+  		padding: 2px; }
+  	}
+  	.navbar .blacklight-pub_date_facet .btn, 
+  	.navbar .blacklight-pub_date_facet .btn-group { 
+  		margin-top: 0;
+  		padding: 5px 6px; }
 }
