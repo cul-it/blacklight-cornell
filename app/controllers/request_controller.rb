@@ -309,7 +309,7 @@ class RequestController < ApplicationController
     ##   and retrieve_detail_raw gives us item type.
     ## Make holdings consolidated view key off of holdings id so we can easily cross reference
     holdings = ( get_holdings holdings_param )[bibid]['condensed_holdings_full']
-    logger.info holdings.inspect
+    #logger.info holdings.inspect
     holdings_parsed = {}
     holdings.each do |holding|
       ## condensed_holdings_full groups holding_id's from same location together
@@ -322,7 +322,7 @@ class RequestController < ApplicationController
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid]['records']
     # logger.info "\n\n"
-    # logger.info holdings_detail.inspect
+    logger.info holdings_detail.inspect
     item_type = get_item_type holdings_detail, bibid
     # logger.info "item type: #{item_type}"
 
@@ -334,96 +334,96 @@ class RequestController < ApplicationController
     # logger.debug "netid: #{netid}"
     # logger.debug holdings.inspect
 
-    ## sk274 - not the most efficient way to handle this
-    ##         TODO: optimize once we get all the functionality working
-    ## sk274 - We don't need all the details any more since all we do here is
-    ##         redirect and the details for form are provided somewhere else.
-    ##         Only thing coming out of _handle_xxx functions are :service.
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
       holdings_condensed_full_item = holdings_parsed[holding_id]
       logger.info "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
+      item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
+        logger.info "branch 0"
         next
-      elsif patron_type == 'cornell' && item_type == 'regular' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/
+      elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Charged'
         ## BD RECALL ILL HOLD
         logger.info "branch 1a"
         request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_recall bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'regular' && holding['item_status']['itemdata'][0]['itemStatus'] =~ /Requested/
+      elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Requested'
         ## BD ILL HOLD
         logger.info "branch 1b"
         request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'regular' && holdings_condensed_full_item['status'] == 'available' || holdings_condensed_full_item['status'] == 'some_available'
+      elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
         logger.info "branch 2"
         item = _handle_l2l bibid, holding
         logger.info item.inspect
         request_options.push( _handle_l2l bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'regular' && ( (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Missing') || (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Lost') )
+      elsif patron_type == 'cornell' && item_type == 'regular' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## BD PURCHASE ILL
         logger.info "branch 3"
         request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_purchase bibid, holding )
         request_options.push( _handle_ill bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'regular' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ || holding['item_status']['itemdata'][0]['itemStatus'] =~ /Requested/)
+      elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
         logger.info "branch 4"
         request_options.push( _handle_hold bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'regular' && holdings_condensed_full_item['status'] == 'available' || holdings_condensed_full_item['status'] == 'some_available'
+      elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
         logger.info "branch 5"
         request_options.push( _handle_l2l bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ || holding['item_status']['itemdata'][0]['itemStatus'] =~ /Requested/)
+      elsif patron_type == 'cornell' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD BD
         logger.info "branch 6"
         request_options.push( _handle_hold bibid, holding )
         request_options.push( _handle_bd bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ || holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Requested/)
+      elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## BD ILL
         logger.info "branch 7"
         request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_ill bibid, holding )
-      elsif patron_type == 'guest' && ( (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Missing') || (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Lost') )
+      elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## ASK
         logger.info "branch 8"
-      elsif patron_type == 'guest' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ ||  holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Requested/)
+      elsif patron_type == 'guest' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
         logger.info "branch 9"
         request_options.push( _handle_hold bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Charged/ ||  holding['item_status']['itemdata'][0]['itemStatus'] =~ /^Requested/)
+      elsif patron_type == 'guest' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## ASK
         logger.info "branch 10"
-      elsif patron_type == 'cornell' && item_type == 'regular' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
+      elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
         logger.info "branch 11"
         request_options.push( _handle_l2l bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
+      elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL BD?
         logger.info "branch 12"
         request_options.push( _handle_l2l bibid, holding )
         request_options.push( _handle_bd bibid, holding )
-      elsif patron_type == 'cornell' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
+      elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
         ## BD? ILL?
         logger.info "branch 13"
         request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_ill bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'regular' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
+      elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
         logger.info "branch 14"
         request_options.push( _handle_l2l bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'day' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
+      elsif patron_type == 'guest' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
         logger.info "branch 15"
         request_options.push( _handle_l2l bibid, holding )
-      elsif patron_type == 'guest' && item_type == 'minute' && (holding['item_status']['itemdata'][0]['itemStatus'].include? 'Not Charged')
+      elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
         ## ASK
         logger.info "branch 16"
+      else
+        ## ASK
+        logger.info "branch 17 - #{patron_type}, #{item_type}, #{holding['item_status']['itemdata'][0]['itemStatus']}"
       end
       # request_options.push( _handle_ask bibid, holding )
     end
@@ -442,12 +442,32 @@ class RequestController < ApplicationController
     if !target.blank?
       #eval "#{target} request_options"
       _display request_options, target
-    else
+    elsif request_options.present?
       best_option = request_options[0]
       #eval "_#{best_option[:service]} request_options"
       _display request_options, best_option[:service]
+    else
+      _display request_options, 'ask'
     end
 
+  end
+
+  def get_item_status item_status
+    if item_status.include? 'Not Charged'
+      return 'Not Charged'
+    elsif item_status =~ /^Charged/
+      return 'Charged'
+    elsif item_status =~ /Renewed/
+      return 'Charged'
+    elsif item_status.include? 'Requested'
+      return 'Requested'
+    elsif item_status.include? 'Missing'
+      return 'Missing'
+    elsif item_status.include? 'Lost'
+      return 'Lost'
+    else
+      return item_status
+    end
   end
 
   def get_l2l_delivery_time itemdata
@@ -486,6 +506,31 @@ class RequestController < ApplicationController
     @resp,@document = get_solr_response_for_doc_id(params[:id])
     @ti = @document[:title_display]
     @au = @document[:author_display]
+    @isbn = @document[:isbn_display]
+    @ill_link = 'https://cornell.hosts.atlas-sys.com/illiad/illiad.dll?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Flibrary.cornell.edu'
+    if @isbn.present?
+      isbns = @isbn.join(',')
+      @ill_link = @ill_link + "&rft.isbn=#{isbns}"
+      @ill_link = @ill_link + "&rft_id=urn%3AISBN%3A#{isbns}"
+    end
+    if !@ti.blank?
+      @ill_link = @ill_link + "&rft.btitle=#{@ti}"
+    end
+    if !@document[:author_display].blank?
+      @ill_link = @ill_link + "&rft.aulast=#{@document[:author_display]}"
+    end
+    if @document[:pub_info_display].present?
+      pub_info_display = @document[:pub_info_display][0]
+      @ill_link = @ill_link + "&rft.place=#{pub_info_display}"
+      @ill_link = @ill_link + "&rft.pub=#{pub_info_display}"
+      @ill_link = @ill_link + "&rft.date=#{pub_info_display}"
+    end
+    if !@document[:format].blank?
+      @ill_link = @ill_link + "&rft.genre=#{@document[:format]}"
+    end
+    if @document[:lc_callnum_display].present?
+      @ill_link = @ill_link + "&rft.identifier=#{@document[:lc_callnum_display][0]}"
+    end
     @id = params[:id]
     @iis = {}
     @alternate_request_options = []

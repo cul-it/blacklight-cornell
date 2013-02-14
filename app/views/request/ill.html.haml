@@ -1,2 +1,20 @@
-%p Inter-Library Loan
+%p Interlibrary Loan
+%p
+  To request this item through interlinrary loan, please follow this link.
+
+%a{:href => @ill_link}
+  Go to Interlibrary Loan
+
+%p &nbsp;
+
+.controls
+  %div.accordion#accordion2.request-options
+    %div.accordion-group
+      %div.accordion-heading
+      =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+      %div#collapseOne.accordion-body.collapse
+        %div.accordion-inner     
+          %div.span4     
+            = render :partial => 'shared/request_options'
+
 %p Find me in app/views/request/ill.html.haml
