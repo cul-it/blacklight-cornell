@@ -106,4 +106,15 @@
 	.cover {
 		width: 20%;
 	}
+	ul.blacklight-nav {
+		float: none;
+		margin: 10px 0 0 0;
+		a { 
+			display: inline;
+			padding: 3px 10px; }
+	}
+	header {
+		.container { border-radius: 0; }
+		h2 { margin-left: 10px; }
+	}
 }
