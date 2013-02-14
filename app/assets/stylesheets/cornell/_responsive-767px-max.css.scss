@@ -49,7 +49,7 @@
 	.document-data {
 		width: 80%;
 		.pull-right { // delete this if we keep new markup for select-item checkbox on results
-			form { margin-bottom: 5px; } 
+			form { margin-bottom: 5px; }
 		}
 		.select-item { // revised rule for new markup for select-item checkbox on results
 			form { margin-bottom: 5px; }
@@ -93,12 +93,6 @@
 	.select-item {
 		float: none;
 		margin-left: 0; }
-	.navbar {
-		.blacklight-pub_date_facet {
-			.btn, .btn-group { 
-				padding: 5px 6px; }
-		}
-	}
 	.cover {
 		width: 20%;
 	}

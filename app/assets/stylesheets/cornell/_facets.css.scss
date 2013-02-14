@@ -69,8 +69,7 @@
 	.subsection { margin-top: .5em; }
 }
 .blacklight-pub_date_facet {
-	form {
-		margin: 0 0 10px; }
+	form { margin-bottom: 1.2em; }
 	.count {
 		text-align: right;
 		float: right;
@@ -94,16 +93,17 @@ form.range_limit {
 	input.range_begin,
 	input.range_end {
 		font-size: 0.75em;
-		padding: 3px 4px;
+		padding: 1px 3px;
 		width: 3em;
 	}
 }
 .navbar {
 	.blacklight-pub_date_facet {
-		.btn, .btn-group { 
+		.btn, .btn-group {
 			margin-top: 0;
 			font-size: 0.75em;
-			padding: 3px 6px; }
+			padding: 1px 6px;
+		}
 	}
 }
 .hover_legend { padding: 0; }

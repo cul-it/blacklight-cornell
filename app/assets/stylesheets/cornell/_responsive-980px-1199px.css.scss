@@ -7,10 +7,11 @@
     .document-data { width: 85%; }
     .navbar {
 	.blacklight-pub_date_facet {
-		.btn, .btn-group { 
+		.btn, .btn-group {
 			margin-top: 0;
 			font-size: 0.75em;
-			padding: 5px 6px; }
+			// padding: 5px 6px;
+    }
 	}
 }
 }
