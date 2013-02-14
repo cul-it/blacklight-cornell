@@ -46,6 +46,7 @@
  		.nav-collapse { margin: 5px 10px; }
 	}
 	// ul.login { float: none; } -- can this be deleted?
+	#document { margin-top: 1em; }
 	.document-data {
 		width: 80%;
 		.pull-right { // delete this if we keep new markup for select-item checkbox on results
@@ -88,8 +89,11 @@
 		text-align: left;
 		ul {
 			float: none;
-			margin-left: 0; }
+			margin-left: 0;
+			margin-bottom: 0; }
+		li:first-child { margin-left: 0; }
 	}
+	.item-pagination { margin-bottom: 0.5em; }
 	.select-item {
 		float: none;
 		margin-left: 0; }
