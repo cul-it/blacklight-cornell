@@ -8,18 +8,9 @@
 	}
 	.span12 {
 		.main-content { padding: 0; }
-		// THIS IS FOR ATTEMPTING TO FLIP LOCATION OF FACETS AND SEARCH BOX:
-		// .well {
-		// 	margin-bottom: 80px;
-		// }
 	}
 	.facets {
-		margin-top:5px;
-		// THIS IS FOR ATTEMPTING TO FLIP LOCATION OF FACETS AND SEARCH BOX:
-		// position: absolute;
-		// margin-top: 100px;
-	}
-
+		margin-top: 5px; }
 	#facets {
 		.navbar {
 			margin-bottom:5px;
@@ -102,4 +93,10 @@
 	.select-item {
 		float: none;
 		margin-left: 0; }
+	.navbar {
+		.blacklight-pub_date_facet {
+			.btn, .btn-group { 
+				padding: 5px 6px; }
+		}
+	}
 }

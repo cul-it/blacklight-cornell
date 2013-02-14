@@ -7,8 +7,14 @@
 	.facets { font-size: 90%; }
   	#search_field { margin-left: .5em; }
   	.start-over { font-size: .7em; }
-  	form.range_limit input.range_begin, 
-  	form.range_limit input.range_end { width: 3em; }
+  	form.range_limit {
+  		input.range_begin, 
+  		input.range_end { 
+  		width: 3em;
+  		padding: 2px; }
+  	}
   	.navbar .blacklight-pub_date_facet .btn, 
-  	.navbar .blacklight-pub_date_facet .btn-group { margin-top: 5px; }
+  	.navbar .blacklight-pub_date_facet .btn-group { 
+  		margin-top: 0;
+  		padding: 5px 6px; }
 }

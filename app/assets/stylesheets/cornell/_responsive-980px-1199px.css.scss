@@ -5,6 +5,12 @@
 
 @media (min-width: 980px) and (max-width: 1199px) {
     .document-data { width: 85%; }
-    form.range_limit input.range_begin, 
-    form.range_limit input.range_end { width: 3em; }
+    .navbar {
+	.blacklight-pub_date_facet {
+		.btn, .btn-group { 
+			margin-top: 0;
+			font-size: 0.75em;
+			padding: 5px 6px; }
+	}
+}
 }
