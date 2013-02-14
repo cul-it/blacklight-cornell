@@ -131,6 +131,18 @@ class CatalogController < ApplicationController
             :search_field => 'title',
             :sep => '|',
             :key_value => true
+        },
+        'included_work_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
+        },
+        'related_work_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
         }
     }
 
@@ -260,6 +272,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'url_toc_display', :label => 'Table of contents link'
     config.add_show_field 'title_other_display', :label => 'Other title'
 
+    config.add_show_field 'included_work_display', :label => 'Included work'
+    config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
     config.add_show_field 'supersedes_display', :label => 'Supersedes'
