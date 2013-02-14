@@ -78,9 +78,10 @@
 		color: $light-gray; }
 	.tickLabel { font-size: 0.875em; }
 	.missing,
-	span.selected,
-	i {
-		font-size: 0.75em;}
+	span.selected {font-size: 0.75em;}
+	.range_limit {
+		i { font-size: 0.75em; }
+	}
 	.limit_content {
 		.count { font-size: 0.75em; }
 	}
@@ -90,9 +91,20 @@
 		}
 	}
 }
+form.range_limit {
+	input.range_begin,
+	input.range_end {
+		font-size: 0.75em;
+		padding: 3px 4px;
+		width: 3em;
+	}
+}
 .navbar {
 	.blacklight-pub_date_facet {
-		.btn, .btn-group { margin-top: 0; }
+		.btn, .btn-group { 
+			margin-top: 0;
+			font-size: 0.75em;
+			padding: 3px 6px; }
 	}
 }
 .hover_legend { padding: 0; }

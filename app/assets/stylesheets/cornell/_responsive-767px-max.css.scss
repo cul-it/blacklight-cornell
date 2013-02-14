@@ -8,18 +8,9 @@
 	}
 	.span12 {
 		.main-content { padding: 0; }
-		// THIS IS FOR ATTEMPTING TO FLIP LOCATION OF FACETS AND SEARCH BOX:
-		// .well {
-		// 	margin-bottom: 80px;
-		// }
 	}
 	.facets {
-		margin-top:5px;
-		// THIS IS FOR ATTEMPTING TO FLIP LOCATION OF FACETS AND SEARCH BOX:
-		// position: absolute;
-		// margin-top: 100px;
-	}
-
+		margin-top: 5px; }
 	#facets {
 		.navbar {
 			margin-bottom:5px;
@@ -57,7 +48,10 @@
 	// ul.login { float: none; } -- can this be deleted?
 	.document-data {
 		width: 80%;
-		.pull-right {
+		.pull-right { // delete this if we keep new markup for select-item checkbox on results
+			form { margin-bottom: 5px; } 
+		}
+		.select-item { // revised rule for new markup for select-item checkbox on results
 			form { margin-bottom: 5px; }
 		}
 	}
@@ -95,5 +89,14 @@
 		ul {
 			float: none;
 			margin-left: 0; }
+	}
+	.select-item {
+		float: none;
+		margin-left: 0; }
+	.navbar {
+		.blacklight-pub_date_facet {
+			.btn, .btn-group { 
+				padding: 5px 6px; }
+		}
 	}
 }

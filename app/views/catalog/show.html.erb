@@ -44,21 +44,20 @@
       <% end %>
 
       <span class="blacklight-url_access_display"></span>
-        <div class="item-requests">
-          <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
-        </div>
+
+      <div class="item-requests">
+        <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
       </div>
+    </div>
 
       <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
       <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
-    </div>
+  </div>
     <!-- <div class="well shelf-browser">
       <h4>Browse by call number:<br>
         <span class="call-number">[call number]</span></h4>
       <p>Shelf browser goes here</p>
     </div> -->
-
-  </div>
 
 </div>
 <div class="row">
