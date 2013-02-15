@@ -1,4 +1,9 @@
-%p Interlibrary Loan
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Interlibrary Loan
+%h2.item-title-request.blacklight-title_display=@ti
+%div.request-author=@au
 %p
   To request this item through interlinrary loan, please follow this link.
 
@@ -17,4 +22,3 @@
           %div.span4     
             = render :partial => 'shared/request_options'
 
-%p Find me in app/views/request/ill.html.haml
