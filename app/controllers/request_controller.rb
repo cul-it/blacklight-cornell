@@ -322,7 +322,7 @@ class RequestController < ApplicationController
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid]['records']
     # logger.info "\n\n"
-    logger.info holdings_detail.inspect
+    # logger.info holdings_detail.inspect
     item_type = get_item_type holdings_detail, bibid
     # logger.info "item type: #{item_type}"
 
@@ -346,26 +346,24 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Charged'
         ## BD RECALL ILL HOLD
         logger.info "branch 1a"
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_recall bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Requested'
         ## BD ILL HOLD
         logger.info "branch 1b"
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
         logger.info "branch 2"
-        item = _handle_l2l bibid, holding
-        logger.info item.inspect
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## BD PURCHASE ILL
         logger.info "branch 3"
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_purchase bibid, holding )
         request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
@@ -380,11 +378,11 @@ class RequestController < ApplicationController
         ## HOLD BD
         logger.info "branch 6"
         request_options.push( _handle_hold bibid, holding )
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## BD ILL
         logger.info "branch 7"
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## ASK
@@ -404,11 +402,11 @@ class RequestController < ApplicationController
         ## LTL BD?
         logger.info "branch 12"
         request_options.push( _handle_l2l bibid, holding )
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
         ## BD? ILL?
         logger.info "branch 13"
-        request_options.push( _handle_bd bibid, holding )
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
@@ -428,15 +426,7 @@ class RequestController < ApplicationController
        request_options.push( _handle_ask bibid, holding )
     end
 
-    request_options.each do |a|
-      logger.info "#{a[:service]}: #{a[:estimate]}"
-    end
-
     request_options = sort_request_options request_options
-
-    request_options.each do |a|
-      logger.info "#{a[:service]}: #{a[:estimate]}"
-    end
 
     ## sk274 - online resource first?
     if !target.blank?
@@ -479,22 +469,31 @@ class RequestController < ApplicationController
   end
 
   def get_bd_delivery_time bd_list
-    return 6
+    ## from DISCOVERYACCESS-250
+    ## 3-5... use 5
+    return 5
   end
 
   def get_hold_delivery_time hold_list
+    ## should be calculated dynamically from due date
     return 180
   end
 
   def get_recall_delivery_time recall_list
-    return 30
+    ## from DISCOVERYACCESS-250
+    ## up to 10 days.. use 10
+    return 10
   end
 
   def get_ill_delivery_time ill_list
+    ## from DISCOVERYACCESS-250
+    ## 7+ days... what to use?
+    ## should show after recall so use 14?
     return 14
   end
 
   def get_purchase_delivery_time purchase_list
+    ## what to use for this???
     return 10
   end
 
@@ -542,18 +541,10 @@ class RequestController < ApplicationController
           @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration']
         end
       else
-        ## get the lowest estimate from this item
-        estimate = 9999
-        iids = item[:iid]
-        iids.each do |iid|
-          if estimate > iid[:estimate]
-            estimate = iid[:estimate]
-          end
-        end
         ## if we didn't see this request option before or this estimate is lower than previous one,
         ## update seen hash with lowest estimate for this service
-        if ! seen[item[:service]] || seen[item[:service]] > estimate
-          seen[item[:service]] = estimate
+        if ! seen[item[:service]] || seen[item[:service]] > item[:estimate]
+          seen[item[:service]] = item[:estimate]
         end
       end
     end
@@ -626,11 +617,15 @@ class RequestController < ApplicationController
     isbn = params[:isbn].scan(/"([a-zA-Z0-9]+)[ "]/)
     # logger.info isbn.inspect
     if isbn.length == 1
-      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{isbn[0][0]}"
+      ## take all string before first space if present...
+      isbn_clean = (isbn[0][0]).split(' ')[0]
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{isbn_clean}"
     elsif isbn.length > 0 && params[:title].blank?
-      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{isbn[0][0]}"
+      ## take all string before first space if present...
+      isbn_clean = (isbn[0][0]).split(' ')[0]
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=isbn%3D#{isbn_clean}"
     elsif !params[:title].blank?
-      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=ti%3D#{params[:title]}"
+      request_url = borrow_direct_webservices_url + "/search.pz2?session=#{session_id}&command=search&query=ti%3D" + URI.escape(params[:title])
     else
       return false
     end
@@ -726,23 +721,27 @@ class RequestController < ApplicationController
     return { :service => L2L, :iid => iids, :estimate => estimate }
   end
 
-  def _handle_bd bibid, holding
-    itemdata = holding["item_status"]["itemdata"]
-    iids = []
-    estimate = 9999
-    if (!itemdata.nil?)
-      itemdata.each do | iid |
-        #itemStatus"=>"Not Charged",
-        if (! iid['itemStatus'].match('Not Charged') )
-          iid[:estimate] = get_bd_delivery_time iid
-          iids.push iid
-          if estimate > iid[:estimate]
-            estimate = iid[:estimate]
+  def _handle_bd bibid, holding, request_options, params
+    if borrowDirect_available? params
+      itemdata = holding["item_status"]["itemdata"]
+      iids = []
+      estimate = 9999
+      if (!itemdata.nil?)
+        itemdata.each do | iid |
+          #itemStatus"=>"Not Charged",
+          if (! iid['itemStatus'].match('Not Charged') )
+            iid[:estimate] = get_bd_delivery_time iid
+            iids.push iid
+            if estimate > iid[:estimate]
+              estimate = iid[:estimate]
+            end
           end
         end
       end
+      if estimate != 9999
+        request_options.push({ :service => BD, :iid => iids, :estimate => estimate })
+      end
     end
-    return { :service => BD, :iid => iids, :estimate => estimate }
   end
 
   def _handle_hold bibid, holding
@@ -751,7 +750,6 @@ class RequestController < ApplicationController
     estimate = 9999
     if (!itemdata.nil?)
       itemdata.each do | iid |
-        logger.info itemdata.inspect
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
           iid[:estimate] = get_hold_delivery_time iid
