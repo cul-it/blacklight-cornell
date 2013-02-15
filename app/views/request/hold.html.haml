@@ -13,7 +13,17 @@
     %label.control-label{:for => 'reqcomments'} Comments:
     .controls
       %textarea#reqcomments
-  = render :partial => 'shared/reqdate'
+  .control-group
+    %label.control-label{:for => 'latest-date'} Not needed after:
+    #latest-date.controls
+      %input(type="radio" name="latest-date" value="30" id="30 days")
+        %label.radio-label.inline{ :for => "30 days"}30 days
+      %input(type="radio" name="latest-date" value="90" id="90 days")
+        %label.radio-label.inline{ :for => "90 days"}90 days
+      %input(type="radio" name="latest-date" value="180" id="180 days" checked="checked")
+        %label.radio-label.inline{ :for => "180 days"}180 days  
+
+
   .control-group
     .controls
       %input#request-submit.btn.btn-danger(type="submit" name="submit" value="Submit hold request")

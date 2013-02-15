@@ -1,10 +1,11 @@
 %p Borrow Direct
 %p
   To request this item through our borrow direct partners, follow this link and search for your item using either ISBN or title.
-- @isbn.each do |entry|
-  %div
-    ISBN:
-    = entry
+- if @isbn.present?
+  - @isbn.each do |entry|
+    %div
+      ISBN:
+      = entry
 %div
   Title:
   = @ti
