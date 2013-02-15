@@ -61,19 +61,21 @@ module Blacklight::Catalog
           params[:f] = {}
         end
           params[:f] = {"format" => ["Journal"]}
+#          unless(!params[:q])
           params[:q] = params[:q]
           params[:search_field] = "journal title"
       end
       
       (@response, @document_list) = get_search_results
-      logger.debug("dagwood10 = #{@document_list}")
       if params.nil? || params[:f].nil?
         @filters = []
       else
         @filters = params[:f] || []
       end
-      
-#      params[:search_field] = ""
+
+      if params[:search_field] == "journal title"      
+        params[:search_field] = ""
+      end
              
       respond_to do |format|
         format.html { save_current_search_params }
