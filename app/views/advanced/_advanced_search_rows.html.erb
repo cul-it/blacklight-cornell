@@ -2,22 +2,22 @@
   <div class="input_row">
     <div class="boolean_row">
       <label class="radio inline">
-        <input type="radio" name="as_boolean_row<%= i %>" value="and"> and
+        <input type="radio" name="as_boolean_row<%= i %>" value="AND"> and
       </label>
       <label class="radio inline">
-        <input type="radio" name="as_boolean_row<%= i %>" value="or"> or
+        <input type="radio" name="as_boolean_row<%= i %>" value="OR"> or
       </label>
       <label class="radio inline">
-        <input type="radio" name="as_boolean_row<%= i %>" value="not"> not
+        <input type="radio" name="as_boolean_row<%= i %>" value="NOT"> not
       </label>
     </div>
 
     <label for="q_row<%= i %>" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-    <%= text_field_tag "q_row#{i}", nil, :autocapitalize => "off" %>
+    <%= text_field_tag "q_row[]", nil, :autocapitalize => "off" %>
 
-    <%= select_tag("op_row#{i}", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => ''}.sort,'all'), :class => 'input-small') %> in
+    <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase'}.sort,'all'), :class => 'input-small') %> in
 
-    <%= select_tag("search_field_row#{i}", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}), :class => 'advanced-search-field') %>
+    <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}), :class => 'advanced-search-field') %>
   </div>
 <% end %>
