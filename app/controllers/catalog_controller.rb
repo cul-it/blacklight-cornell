@@ -131,13 +131,24 @@ class CatalogController < ApplicationController
             :search_field => 'title',
             :sep => '|',
             :key_value => true
+        },
+        'included_work_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
+        },
+        'related_work_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
         }
     }
 
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
-        'url_toc_display'    => { :label => 'Access table of contents' },
-        'url_other_display'  => { :label => 'Access content' },
+        'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' }
     }
 
@@ -257,9 +268,10 @@ class CatalogController < ApplicationController
     config.add_show_field 'title_series_display', :label => 'Series'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
-    config.add_show_field 'url_toc_display', :label => 'Table of contents link'
     config.add_show_field 'title_other_display', :label => 'Other title'
 
+    config.add_show_field 'included_work_display', :label => 'Included work'
+    config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
     config.add_show_field 'supersedes_display', :label => 'Supersedes'
@@ -279,9 +291,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to'
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
-    config.add_show_field 'donor_display', :label => 'Donor'    
+    config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
-    config.add_show_field 'url_other_display', :label => 'Online access'
+    config.add_show_field 'url_other_display', :label => 'Other online content'
 
 #    config.add_show_field 'title_display', :label => 'Title:'
 #    config.add_show_field 'title_vern_display', :label => 'Title:'
@@ -294,7 +306,6 @@ class CatalogController < ApplicationController
 #    config.add_show_field 'published_vern_display', :label => 'Published'
 #    config.add_show_field 'lc_callnum_display', :label => 'Call number'
 #    config.add_show_field 'pub_date', :label => 'Publication Date'
-#    config.add_show_field 'url_other_display', :label => 'Content Link:'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
