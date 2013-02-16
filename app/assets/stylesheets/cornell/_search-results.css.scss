@@ -1,4 +1,5 @@
-body.blacklight-catalog-index .document {
+body.blacklight-catalog-index .document,
+body.blacklight-bookmarks-index .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
 	padding: 20px 0;

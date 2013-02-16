@@ -1,0 +1,10 @@
+ul.bookmarkTools {
+  display: inline-block;
+  margin-left: 2em;
+  .btn {
+    // Would have preferred to just use .btn-small but that would have required
+    // overriding catalog/_refworks_form.html.erb in our app
+    padding: 3px 8px;
+    font-size: .8em;
+  }
+}
