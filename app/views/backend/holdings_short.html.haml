@@ -7,19 +7,20 @@
     -# multiple_locations = entry['summary']['locnumber'] > 1 ? true : false
     - available = entry['summary']['avail_at']
     - unavailable = entry['summary']['not_avail_at']
+    - loc_count = entry['summary']['locnumber']
     - multiple_locations = 'Multiple locations'
     - onotes = ''
     - if entry['summary']['onotes'].size > 0
       - onotes = entry['summary']['onotes'][0]
     - if available.size > 0
-      - if available.size === 1
+      - if available.size === 1 && loc_count === 1
         - location = available.keys()[0]
         - callnumber = available[location]
       - else
         - location = multiple_locations
       %i.icon-ok{:title => 'Available'}
     - elsif unavailable.size > 0
-      - if unavailable.size ===1
+      - if unavailable.size === 1 && loc_count === 1
         - location = unavailable.keys()[0]
         - callnumber = unavailable[location]
       - else
@@ -32,5 +33,5 @@
     %span.location= location
     %span.callnumber= callnumber
     - if entry['summary']['onotes'].size > 0
-      %span.onotes= "Order Information:" + onotes 
+      %span.onotes= "Order Information:" + onotes
 
