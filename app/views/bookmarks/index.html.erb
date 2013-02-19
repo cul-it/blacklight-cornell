@@ -14,14 +14,16 @@
     <%= render :partial => "paginate_compact" %>
   </span>
 
+  <%= render 'tools' %>
+
   <%= render :partial => 'sort_widget' %>
 
   <%= render :partial => 'per_page_widget' %>
 </div>
 
 <div class="span6 pull-right">
-  <%= render 'tools' %>
-</div>  
+
+</div>
   <%= render_document_index %>
   <%= render 'results_pagination' %>
 <% end %>

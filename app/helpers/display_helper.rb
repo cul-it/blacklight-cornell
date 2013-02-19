@@ -18,21 +18,34 @@ module DisplayHelper
     '<br/>'
   end
 
+  # :format arg specifies what should be returned
+  # * the raw array (url_access_display in availability on item page)
+  # * url only (search results)
+  # * link_to's with trailing <br>'s -- the default -- (url_other_display &
+  # url_toc_display in field listing on item page)
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
     links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
       #Check to see whether there is metadata at the end of the link
       url, *metadata = link.split('|')
+      if links.size == 1 && render_format == 'url'
+        return url.html_safe
+      end
       if metadata.present?
         label = metadata[0]
       end
-      link_to(label, url.html_safe)
+      link_to(label, url.html_safe, {:class => 'online-access'})
     end
 
-    render_field_value value
+    if render_format == 'raw'
+      return value
+    else
+      render_field_value value
+    end
   end
 
   def render_clickable_document_show_field_value args
@@ -61,10 +74,17 @@ module DisplayHelper
         if clickable_setting[:key_value]
           # field has display value and search value separated by :sep
           displayv_searchv = value.split(clickable_setting[:sep])
+          logger.info clickable_setting.inspect
           if displayv_searchv.size > 2
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
-            link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+            if !clickable_setting[:related_search_field].blank?
+              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], '"' + displayv_searchv[1] + '"', clickable_setting[:related_search_field], '"' + displayv_searchv[2] + '"'))
+            else
+              # misconfiguration... no related search field defined
+              # ignore related search value
+              link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+            end
           elsif displayv_searchv.size > 1
             # default key value pair separated by :sep
             link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
@@ -101,9 +121,23 @@ module DisplayHelper
 
   def add_search_params(field, value)
     new_search_params = {
-    #  :utf8 => '✓',
+      #:utf8 => '✓',
       :q => value,
       :search_field => get_clickable_search_field(field),
+      :commit => 'search',
+      :action => 'index'
+    }
+  end
+
+  def add_advanced_search_params(primary_field, pval, related_search_field, rval)
+    logger.info "#{primary_field}, #{pval}, #{related_search_field}, #{rval}"
+    logger.info get_clickable_search_field(primary_field)
+    logger.info get_clickable_search_field(related_search_field)
+    new_search_params = {
+      #:utf8 => '✓',
+      (get_clickable_search_field(primary_field)).to_sym => pval,
+      related_search_field.to_sym => rval,
+      :search_field => 'advanced',
       :commit => 'search',
       :action => 'index'
     }
@@ -120,6 +154,7 @@ module DisplayHelper
       return clickable_setting[:search_field]
     end
   end
+
   def get_clickable_setting field
     return blacklight_config.display_clickable[field]
   end
@@ -138,9 +173,11 @@ module DisplayHelper
 
   def online_url(document)
     if document['url_access_display'].present?
-      render_index_field_value(:document => document, :field => 'url_access_display')
-    elsif document['url_other_display'].present?
-      render_index_field_value(:document => document, :field => 'url_other_display')
+      if document['url_access_display'].size > 1
+        catalog_path(document)
+      else
+        render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
+      end
     end
   end
 
@@ -151,22 +188,22 @@ module DisplayHelper
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
     "Musical Recording" => "music",
-    "Thesis" => "thesis",
+    "Thesis" => "book-open",
     "Microform" => "th",
     "Serial" => "copy",
-    "Journal/Periodical" => "copy",
-    "Journal" => "copy",
-    "Conference Proceedings" => "conference",
+    "Journal/Periodical" => "popup",
+    "Journal" => "popup",
+    "Conference Proceedings" => "group",
     "Video" => "film",
     "Map or Globe" => "globe",
-    "Manuscript/Archive" => "manuscript",
+    "Manuscript/Archive" => "file",
     "Newspaper" => "newspaper",
-    "Database" => "hdd",
+    "Database" => "database",
     "Image" => "picture",
     "Unknown" => "question-sign",
-    "Kit" => "kit",
-    "Research Guide" => "research-guide",
-    "Course Guide" => "course-guide"
+    "Kit" => "suitcase",
+    "Research Guide" => "file-alt",
+    "Course Guide" => "graduation-cap"
   }
 
   def formats_icon_mapping(format)
@@ -452,11 +489,35 @@ module DisplayHelper
   # link_back_to_catalog()
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
-  def link_back_to_catalog()
+  def link_back_to_catalog(opts={:label=>nil})
     query_params = session[:search] ? session[:search].dup : {}
     query_params.delete :counter
     query_params.delete :total
     link_url = url_for(query_params)
+    logger.info query_params.inspect
+
+    if link_url =~ /bookmarks/
+      opts[:label] ||= t('blacklight.back_to_bookmarks')
+    end
+
+    opts[:label] ||= t('blacklight.back_to_search')
+
+    link = {}
+    link[:url] = link_url
+    link[:label] = opts[:label]
+
+    link
+  end
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # -- needed to add .html_safe to avoid html encoding in <title> element
+  # Used in the show view for setting the main html document title
+  def document_show_html_title
+    render_field_value(@document[blacklight_config.show.html_title].html_safe)
+  end
+
+  def url_to_borrowdirect(isbn)
+    link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
 
     link_url
   end

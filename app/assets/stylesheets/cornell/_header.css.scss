@@ -4,6 +4,7 @@ header {
 	.container {
 		background: $dark-gray; padding: 10px 0;
     @include border-radius(6px 6px 0 0);
+    -webkit-background-clip: padding-box;
  	}
  	h2 {
     margin: 0 1em;

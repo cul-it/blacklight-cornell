@@ -1,4 +1,7 @@
-.return-link { margin-bottom: 10px; }
+.return-link {
+	display: block;
+	margin-bottom: .6em;
+}
 
 h3.subtitle {
 	font-size: 1em;
@@ -12,7 +15,7 @@ h3.subtitle {
 .cover {
 	margin: 0 15px 0 0;
 	float: left;
-	width: 20%;
+	width: 100%;
 	}
 
 .item-metadata {
@@ -29,7 +32,9 @@ h3.subtitle {
 }
 #document {
 	 margin-top: 0;
-	 h2 { line-height: 32px; }
+	 h2 { 
+	 	line-height: 32px;
+	 	margin-top: 0; }
 }
 label.toggle_bookmark { min-width: auto; }
 dl.dl-horizontal {
@@ -46,6 +51,7 @@ dl.dl-horizontal {
 	dd {
 		font-size: 0.875em;
 		margin-left: 30%;
+		width: 100%;
 		ul {
 			list-style: none;
 			margin: 0;
@@ -57,11 +63,12 @@ dl.dl-horizontal {
 	ul {
 		list-style: none;
 		float: right;
+		margin-bottom: 30px;
 	}
 	li {
 		font-size: 0.75em;
-  	float: left;
-  	margin-left: 15px;
+  		float: left;
+  		margin-left: 15px;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
@@ -72,6 +79,7 @@ dl.dl-horizontal {
 		li {
 			font-size: 1em;
 			margin-left: 0;
+			float: none;
 		}
 	}
 }
@@ -83,6 +91,9 @@ dl.dl-horizontal {
 .holdings-error {
 	margin-bottom: 1em;
 	font-size: 0.875em;
+}
+.holding:last-of-type {
+	margin-bottom: 0;
 }
 .location {
 	margin-bottom: 0;
@@ -100,11 +111,16 @@ dl.dl-horizontal {
 	color: $light-gray;
 }
 .availability {
-	margin-top: 20px;
+	// margin-top: 20px;
 	p { font-size: 0.875em; }
 }
+.online-link {
+	margin-bottom: .4em;
+	font-size: .9em;
+	line-height: 1.2em;
+}
 .item-requests {
-	margin: .5em 0;
+	margin-top: 1.5em;
 }
 .google-books-link {
 	margin: 1.5em 0 0;
@@ -113,11 +129,6 @@ dl.dl-horizontal {
 }
 
 // temporarily add a height to the shelf browser to convey estimated content size
-.shelf-browser {
-	height: 500px;
-}
+.shelf-browser { height: 500px; }
 
-.librarian-view {
-	text-align: right;
-	font-size: 0.875em;
-}
+.librarian-view { font-size: 0.75em; }

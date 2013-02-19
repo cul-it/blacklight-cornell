@@ -12,8 +12,8 @@ $(document).ready(function() {
   $('#req').submit( function(e) {
     return false;
   });
-  $('#request_sumbit').click(function(e) {
-    var hu = $('#req').attr('action');// + '/' + $('#PICK').val();
+  $('#request-submit').click(function(e) {
+    var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
     $('#result').html("Working....");
     var reqnna = '';
     reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
@@ -26,7 +26,7 @@ $(document).ready(function() {
         "reqcomments": $('#reqcomments').val(),
         "reqnna": reqnna,
         "bid": $('#bid').val(),
-        "library_id": $('#PICK').val(),
+        "library_id": $('#pickup-locations').val(),
         "holding_id": $("#req input[type='radio']:checked").val(),
         "request_action": $("#request_action").val()
       },
@@ -34,7 +34,7 @@ $(document).ready(function() {
       dataType: 'json',
       success: function(data) {
         var st=data.status;
-        var desc= (st == 'success') ? 'succeeded' : 'failed';  
+        var desc= (st == 'success') ? 'succeeded' : 'failed';
         var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();
         $('#result').html("Your request for " + act_desc + " has "+desc);
       }

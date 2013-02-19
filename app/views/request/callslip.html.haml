@@ -3,46 +3,49 @@
 - cop = dx.index(':')
 - dx = dx[0..cop-1] unless (cop.nil?)
 - dx = 'http://' + dx
-%p
-  Request this item be delivered for you: 
-  %br
-  %b=@ti
-  %form{:id => 'req', :method => 'post', :action => "#{dx}:8950/holdings/callslip/#{@netid}/#{@id}"}
-    :javascript
-      $(function() {
-      $('#req').submit( function(e) {
-      return false;
-      });
-      $('#sumbit').click(function(e) {
-        var hu = $('#req').attr('action') + '/' + $('#PICK').val();
-         $('#result').html("Working....");
-         $.ajax({
-             type: 'POST',
-             data:{"reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val() },
-             url:hu,
-             dataType: 'json',
-             success: function(data) {
-               var st=data.status;
-               var desc= (st == 'success') ? 'succeeded' : 'failed';  
-               $('#result').html("Your request for delivery has "+desc);
-             }
-         });
-         return false; // should block the submit
-      });
-      });
-    %input(type="hidden" name="bid" value="#{@id}")
-    %br
-    = render :partial => 'shared/reqpu'
-    %br
-    = render :partial => 'shared/reqit'
-    %br
-    Comments:
-    %br
-    %textarea
-    %br
-    = render :partial => 'shared/reqdate'
-    %br
-    %input(type="submit" id="sumbit" value="Submit request for delivery")
-    %input(type="reset" id="reest" value="Clear form")
-    %br
-    %div(id="result" name="result" value="")
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Return to item
+%h1.request-type Request delivery
+%h2.item-title-request.blacklight-title_display=@ti
+%div.request-author=@au
+-## Is this custom action and JS needed or can we just go
+-## with request_make_request_path like every other
+-## request form?
+%form#req.form-horizontal{:method => 'post', :action => "#{dx}:8950/holdings/callslip/#{@netid}/#{@id}"}
+  :javascript
+    $(function() {
+    $('#req').submit( function(e) {
+    return false;
+    });
+    $('#submit').click(function(e) {
+      var hu = $('#req').attr('action') + '/' + $('#pickup-locations').val();
+       $('#result').html("Working....");
+       $.ajax({
+           type: 'POST',
+           data:{"reqnna": $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val() },
+           url:hu,
+           dataType: 'json',
+           success: function(data) {
+             var st=data.status;
+             var desc= (st == 'success') ? 'succeeded' : 'failed';
+             $('#result').html("Your request for delivery has "+desc);
+           }
+       });
+       return false; // should block the submit
+    });
+    });
+  %input(type="hidden" name="bid" value="#{@id}")
+  = render :partial => 'shared/reqpu'
+  = render :partial => 'shared/reqac'
+  .control-group
+    %label.control-label{:for => 'reqcomments'} Comments:
+    .controls
+      %textarea#reqcomments
+  = render :partial => 'shared/reqdate'
+  .control-group
+    .controls
+      %input#request-submit.btn.btn-danger(type="submit" name="submit" value="Submit delivery request")
+      %input#reset.btn.btn-link(type="reset" value="Clear form")
+  -## Used to display working status and result of request via Ajax
+  #result

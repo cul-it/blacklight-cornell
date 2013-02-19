@@ -9,6 +9,7 @@ BlacklightCornell::Application.routes.draw do
   match 'request/purchase/:id' =>'request#purchase', :as =>'request_purchase'
   match 'request/ask/:id' =>'request#ask', :as =>'request_ask'
   match 'make_request' => 'request#make_request', :as => 'request_make_request', :via => :post
+  match 'request_item/:id' => 'request#request_item', :as => 'request_item_redirect'
 
   root :to => "catalog#index"
 
@@ -22,8 +23,6 @@ BlacklightCornell::Application.routes.draw do
   match 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
   match 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
   match 'backend/feedback_mail', :to => "backend#feedback_mail"
-  match 'backend/request_item/:id' => 'backend#request_item', :as => 'request_item'
-  match 'request_item/:id' => 'backend#request_item_redirect', :as => 'request_item_redirect'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -14,7 +14,7 @@
 <%- end -%>
   <button class="btn btn-info btn-small"> 
     <%- unless label.blank? -%>
-      <span class="filter-label"><%= options[:escape_label] ? h(label) : raw(label) %></span>
+      <span class="filter-label"><%= options[:escape_label] ? h(label) : raw(label) %></span>:
     <%- end -%>
     <%- unless value.blank? -%>
       <span class="filter-value"><%= options[:escape_value] ? h(value) : raw(value) %></span>

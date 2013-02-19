@@ -1,2 +1,24 @@
-%p Inter-Library Loan
-%p Find me in app/views/request/ill.html.haml
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Interlibrary Loan
+%h2.item-title-request.blacklight-title_display=@ti
+%div.request-author=@au
+%p
+  To request this item through interlibrary loan, please follow this link:
+
+%a{:href => @ill_link}
+  Go to Interlibrary Loan
+
+%p &nbsp;
+
+.controls
+  %div.accordion#accordion2.request-options
+    %div.accordion-group
+      %div.accordion-heading
+      =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+      %div#collapseOne.accordion-body.collapse
+        %div.accordion-inner     
+          %div.span4     
+            = render :partial => 'shared/request_options'
+

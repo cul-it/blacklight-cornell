@@ -6,7 +6,7 @@ gem 'rails', '3.2.11'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'mysql', '~>2.8.1'
+gem 'mysql', '2.8.1'
 
 gem 'blacklight', '~> 4.0.1'
 gem 'blacklight_range_limit'
@@ -53,7 +53,7 @@ group :test do
   gem 'spork', '0.9.0'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '2.1.4'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

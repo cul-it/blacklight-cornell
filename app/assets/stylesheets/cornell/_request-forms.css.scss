@@ -1,2 +1,35 @@
-h1.request-type {font-size:1.5em; font-weight:600}
-.item-title-request {font-size:1.25em; font-weight:600;}
+h1.request-type {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.item-title-request {
+  font-size:1.25em;
+  font-weight:600;
+}
+#req {
+  select {
+    width: auto;
+  }
+}
+.request-author { margin-bottom: 1em; }
+.radio-label {
+  display: inline-block;
+  margin-top: .5em;
+  vertical-align: middle;
+}
+.place-hold,
+.place-request { font-size: .8em; }
+.borrow-direct-notice {
+  float: none;
+  font-size: .9em;
+}
+
+.align-bottom {vertical-align: bottom; margin-bottom: 10px}
+
+
+div.request-options div.accordion-group {border:none;}
+div.request-options div.accordion-inner {border:none; padding:9px 15px; }
+div.request-options{font-size: .75em; position:relative; left:20px; top:5px;}
+div.request-options div.accordion-body .span4 {margin-left:0px; position:relative; left:-15px;}
+
+input#request-submit {float:left;}

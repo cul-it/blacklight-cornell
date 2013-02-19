@@ -1,66 +1,77 @@
+<% link_back = link_back_to_catalog %>
+
+<%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
+  <i class="icon-circle-arrow-left"></i> <%= link_back[:label] %>
+<% end %>
+
+<%= render :partial => 'search_form' %>
+<% @page_title = raw t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
+<% extra_head_content << render_link_rel_alternates %>
+<% sidebar_items << render_document_sidebar_partial %>
 
 
-  <a class="btn btn-small btn-danger return-link" href="<%= link_back_to_catalog %>"><i class="icon-arrow-left icon-white"></i> Return to search</a>
+<div class="show">
+  <%= render 'constraints', :localized_params=>session[:search] %>
+</div>
 
-  <%= render :partial => 'search_form' %>
-  <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
-  <% extra_head_content << render_link_rel_alternates %>
-  <% sidebar_items << render_document_sidebar_partial %>
-
-
-  <div class="show">
-    <%= render 'constraints', :localized_params=>session[:search] %>
+<div class="row">
+    <div class="item-pagination span4">
+    <%= render 'previous_next_doc' %>
   </div>
-
-  <div class="row">
-      <div class="item-pagination span4">
-      <%= render 'previous_next_doc' %>
-    </div>
-    <div class="item-tools span8">
-      <ul>
-        <%= render :partial => 'show_tools_links' %>
-      </ul>
-    </div>
+  <div class="item-tools span8">
+    <ul>
+      <%= render_document_sidebar_partial %>
+    </ul>
   </div>
+</div>
 
-  <div class="row">
-    <%= render :partial => 'show_metadata' %>
-    <div class="span4">
-      <div class="well availability">
-        <h4>Availability</h4>
+<div class="row">
+  <%= render :partial => 'show_metadata' %>
+  <div class="span4">
+    <div class="well availability">
+      <h4>Availability</h4>
 
-        <% if online_url(@document) %>
-            <i class="icon-ok"></i> <a href="<%= online_url(@document) %>" class="btn btn-info">Online</a>
-        <% end %>
+      <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
 
-        <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+      <% if online_url(@document) %>
+        <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
 
-        <div class="item-requests">
-          <%= link_to 'Request', request_item_redirect_path( params[:id] ), :class => 'btn btn-danger' %>
-          <div id="requests_container">
-            <div id="delivery_option"></div>
-          </div>
-        </div>
-
-        <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
-        <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
-      </div>
-      <!-- <div class="well shelf-browser">
-        <h4>Browse by call number:<br>
-          <span class="call-number">[call number]</span></h4>
-        <p>Shelf browser goes here</p>
-      </div> -->
-      <% if @document.respond_to?(:to_marc) %>
-        <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %></div>
+        <ul class="unstyled">
+          <% online_links.each do |link| %>
+            <li class="online-link"><i class="icon-ok"></i> <%= link %></li>
+          <% end %>
+        </ul>
       <% end %>
+
+      <span class="blacklight-url_access_display"></span>
+
+      <div class="item-requests">
+        <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
+      </div>
     </div>
 
+      <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
+      <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
   </div>
+    <!-- <div class="well shelf-browser">
+      <h4>Browse by call number:<br>
+        <span class="call-number">[call number]</span></h4>
+      <p>Shelf browser goes here</p>
+    </div> -->
 
-  <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
-    <!--
-         // COinS, for Zotero among others.
-         // This document_partial_name(@document) business is not quite right,
-         // but has been there for a while.
-    -->
-  <% end %>
+</div>
+<div class="row">
+  <div class="span12">
+    <% if @document.respond_to?(:to_marc) %>
+      <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %></div>
+    <% end %>
+  </div>
+</div>
+
+<% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
+  <!--
+       // COinS, for Zotero among others.
+       // This document_partial_name(@document) business is not quite right,
+       // but has been there for a while.
+  -->
+<% end %>
