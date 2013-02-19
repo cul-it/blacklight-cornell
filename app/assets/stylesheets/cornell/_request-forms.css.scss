@@ -26,9 +26,10 @@ h1.request-type {
 
 .align-bottom {vertical-align: bottom; margin-bottom: 10px}
 
-.add_row {font-size: .85em}
 
 div.request-options div.accordion-group {border:none;}
-div.request-options div.accordion-inner {border:none; padding:9px 15px;}
-div.request-options{font-size: .75em;}
-div.accordion-body {position:relative; left:-15px;}
+div.request-options div.accordion-inner {border:none; padding:9px 15px; }
+div.request-options{font-size: .75em; position:relative; left:20px; top:5px;}
+div.request-options div.accordion-body .span4 {margin-left:0px; position:relative; left:-15px;}
+
+input#request-submit {float:left;}
