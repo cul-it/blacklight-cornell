@@ -42,6 +42,6 @@
               - elsif location != 'Online'
                 -# Handling online link in show.html.erb for now (for good?)
                 %i.icon-time
-              = message unless message.to_str == 'Status unknown'
+                = message
               - if details['count'] >1
                 (#{details['count']} copies)
