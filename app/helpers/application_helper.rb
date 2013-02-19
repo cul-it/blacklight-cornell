@@ -34,13 +34,12 @@ module ApplicationHelper
             query_string << "&op=" << params["as_boolean_row#{i+2}"] << "&"
            end
           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
-           query_string << "'" << query_rowArray[i] << "')"
+           query_string << '"' << query_rowArray[i] << '")'
            if params["as_boolean_row#{i+2}"].nil?
             query_string << "&"
            else
             query_string << "&op=" << params["as_boolean_row#{i+2}"] << "&"
-           end
-            
+           end   
           else
            query_string  << query_rowArray[i] << ")"
            if params["as_boolean_row#{i+2}"].nil?
@@ -48,7 +47,7 @@ module ApplicationHelper
            else
             query_string << "&op=" << params["as_boolean_row#{i+2}"] << "&"
            end
-	        end
+	  end
          end
       end
       for i in query_rowArray.count - 1..query_rowArray.count - 1
@@ -63,10 +62,10 @@ module ApplicationHelper
            end
            query_string << query_rowSplitArray[query_rowSplitArray.count - 1]
          elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
-           query_string << "'" << query_rowArray[i] << "')"
+           query_string << '"' << query_rowArray[i] << '")'
          else
            query_string << query_rowArray[i] << ")"
-	       end
+	 end
        end
       end
     end
