@@ -35,7 +35,8 @@
 
   <div id="document" class="<%= render_document_class %> span11">
     <%= render_document_heading(:h2).html_safe %>
-    <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
+      <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
+      <div class="document item-metadata">
     <div class="availability span4">
       <div class="well">
         <h4>Availability</h4>
@@ -58,7 +59,7 @@
     </div>
     <div id="doc_<%= @document.id.to_s.parameterize %>">
       <% # bookmark/folder functions -%>
-      <div class="document item-metadata">
+      
         <%= render_document_partial @document, :show %>
       </div>
     </div>
