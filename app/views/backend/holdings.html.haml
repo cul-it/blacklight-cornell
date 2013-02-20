@@ -39,6 +39,7 @@
               - message, details = item
               - if details['status'] == 'available'
                 %i.icon-ok
+                = message
               - elsif location != 'Online'
                 -# Handling online link in show.html.erb for now (for good?)
                 %i.icon-time
