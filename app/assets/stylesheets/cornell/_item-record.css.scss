@@ -19,7 +19,7 @@ h3.subtitle {
 	}
 
 .item-metadata {
-	float: left;
+	// float: left;
 	width: 70%;
 	margin-bottom: 20px;
 }
@@ -41,16 +41,18 @@ dl.dl-horizontal {
 	margin-top: 0;
 	dt {
 		clear: none;
-		width: 28%;
+		width: 20%;
 		display: inline;
 		font-size: 0.875em;
 		color: $light-gray;
 		margin-right: 10px;
 		font-weight: normal;
+		text-overflow: inherit;
+		white-space: normal;
 		}
 	dd {
 		font-size: 0.875em;
-		margin-left: 30%;
+		margin-left: 21%;
 		width: 100%;
 		ul {
 			list-style: none;
@@ -112,6 +114,7 @@ dl.dl-horizontal {
 }
 .availability {
 	// margin-top: 20px;
+	float: right;
 	p { font-size: 0.875em; }
 }
 .online-link {
