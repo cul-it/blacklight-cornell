@@ -25,56 +25,14 @@
   </div>
 </div>
 
+<div class="row">
+  <%= render :partial => 'show_metadata' %>
 
-<div id="document" class="<%= render_document_class %> span12">
-  <%= render_document_heading(:h2).html_safe %>
-  <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
-  <div class="row">
-    <div class="span1">
-      <div class="cover">
-        <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
-      </div>
-    </div>
-    <div class="span11">
-      <div class="availability span4">
-        <div class="well">
-          <h4>Availability</h4>
-          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
-          <% if online_url(@document) %>
-            <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-            <ul class="unstyled">
-              <% online_links.each do |link| %>
-                <li class="online-link"><i class="icon-ok"></i> <%= link %></li>
-              <% end %>
-            </ul>
-          <% end %>
-          <span class="blacklight-url_access_display"></span>
-          <div class="item-requests">
-            <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
-          </div>
-        </div>
-        <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
-        <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
-      </div>
-      <div class="document item-metadata">
-        <div id="doc_<%= @document.id.to_s.parameterize %>">
-        <% # bookmark/folder functions -%>
-        <%= render_document_partial @document, :show %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-  
-    <!-- <div class="well shelf-browser">
-      <h4>Browse by call number:<br>
-        <span class="call-number">[call number]</span></h4>
-      <p>Shelf browser goes here</p>
-    </div> -->
-
+  <!-- <div class="well shelf-browser">
+    <h4>Browse by call number:<br>
+      <span class="call-number">[call number]</span></h4>
+    <p>Shelf browser goes here</p>
+  </div> -->
 </div>
 
 <div class="row">
