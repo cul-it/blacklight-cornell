@@ -38,7 +38,7 @@
 <div class="row">
   <div class="span12">
     <% if @document.respond_to?(:to_marc) %>
-      <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %> | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local">Classic catalog</a></div>
+      <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %> | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local">Classic catalog <i class="icon-adjust"></i></a></div>
     <% end %>
   </div>
 </div>
