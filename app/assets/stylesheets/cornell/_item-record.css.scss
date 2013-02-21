@@ -3,6 +3,11 @@
 	margin-bottom: .6em;
 }
 
+.document-header {
+	float: left;
+	margin-left: 0;
+}
+
 h3.subtitle {
 	font-size: 1em;
 	font-weight: normal;
@@ -38,6 +43,7 @@ h3.subtitle {
 }
 label.toggle_bookmark { min-width: auto; }
 dl.dl-horizontal {
+	clear: left;
 	margin-top: 0;
 	dt {
 		clear: none;
@@ -113,7 +119,6 @@ dl.dl-horizontal {
 	color: $light-gray;
 }
 .availability {
-	// margin-top: 20px;
 	float: right;
 	p { font-size: 0.875em; }
 }

@@ -2,17 +2,21 @@
   <div id="doc_<%= @document.id.to_s.parameterize %>">
     <% # bookmark/folder functions -%>
     <div class="row">
-      <div class="span1">
+      <div class="span2">
         <div class="cover">
           <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
         </div>
       </div>
-      <div class="span11">
-        <%= render_document_heading(:h2).html_safe %>
-        <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
+      <div class="span10">
         <div class="row">
-          <div class="document item-metadata span11">
-            <div class="well availability span4">
+          <div class="document item-metadata span10">
+            <div class="document-header span6">
+              <%= render_document_heading(:h2).html_safe %>
+
+              <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
+            </div>
+
+            <div class="well availability span3">
               <h4>Availability</h4>
 
               <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
