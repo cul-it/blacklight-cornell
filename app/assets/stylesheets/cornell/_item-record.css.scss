@@ -3,6 +3,11 @@
 	margin-bottom: .6em;
 }
 
+.document-header {
+	float: left;
+	margin-left: 0;
+}
+
 h3.subtitle {
 	font-size: 1em;
 	font-weight: normal;
@@ -13,9 +18,9 @@ h3.subtitle {
 }
 
 .cover {
-	margin: 0 15px 0 0;
+	// margin: 0 15px 0 0;
 	float: left;
-	width: 100%;
+	// width: 100%;
 	}
 
 .item-metadata {
@@ -38,6 +43,7 @@ h3.subtitle {
 }
 label.toggle_bookmark { min-width: auto; }
 dl.dl-horizontal {
+	clear: left;
 	margin-top: 0;
 	dt {
 		clear: none;
@@ -61,13 +67,16 @@ dl.dl-horizontal {
 
 .item-tools {
 	ul {
+		float: right;
 		list-style: none;
-		margin: 0 0 2.2em 0;
 	}
 	li {
 		font-size: 0.875em;
   		float: left;
-  		margin-right: 15px;
+  		margin-right: .8em;
+	}
+	li:last-child {
+		margin-right: 0;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
@@ -84,8 +93,8 @@ dl.dl-horizontal {
 }
 
 .item-pagination {
+	margin-bottom: 2.2em;
 	font-size: 0.875em;
-	text-align: right;
 }
 
 // AVAILABILITY
@@ -113,7 +122,6 @@ dl.dl-horizontal {
 	color: $light-gray;
 }
 .availability {
-	// margin-top: 20px;
 	float: right;
 	p { font-size: 0.875em; }
 }

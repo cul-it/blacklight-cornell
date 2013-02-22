@@ -2,44 +2,44 @@
   <div id="doc_<%= @document.id.to_s.parameterize %>">
     <% # bookmark/folder functions -%>
     <div class="row">
-      <div class="span1">
-        <div class="cover">
-          <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
-        </div>
+      <div class="cover span2">
+        <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
       </div>
-      <div class="span11">
-        <%= render_document_heading(:h2).html_safe %>
-        <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
-        <div class="row">
-          <div class="document item-metadata span11">
-            <div class="well availability span4">
-              <h4>Availability</h4>
 
-              <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+      <div class="document item-metadata span10">
+        <div class="document-header span6">
+          <%= render_document_heading(:h2).html_safe %>
 
-              <% if online_url(@document) %>
-                <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-
-                <ul class="unstyled">
-                  <% online_links.each do |link| %>
-                    <li class="online-link"><i class="icon-ok"></i> <%= link %></li>
-                  <% end %>
-                </ul>
-              <% end %>
-
-              <span class="blacklight-url_access_display"></span>
-
-              <div class="item-requests">
-                <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
-              </div>
-
-              <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
-              <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
-            </div>
-
-            <%= render_document_partial @document, :show %>
-          </div>
+          <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
         </div>
+
+        <div class="well availability span3">
+          <h4>Availability</h4>
+
+          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+
+          <% if online_url(@document) %>
+            <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+
+            <ul class="unstyled">
+              <% online_links.each do |link| %>
+                <li class="online-link"><i class="icon-ok"></i> <%= link %></li>
+              <% end %>
+            </ul>
+          <% end %>
+
+          <span class="blacklight-url_access_display"></span>
+
+          <div class="item-requests">
+            <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
+          </div>
+
+          <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
+          <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
+        </div>
+
+        <%= render_document_partial @document, :show %>
+      </div>
       </div>
     </div>
   </div>
