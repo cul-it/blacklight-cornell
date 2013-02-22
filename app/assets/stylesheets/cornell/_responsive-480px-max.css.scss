@@ -7,12 +7,18 @@
 		padding: 0px;
 		margin: 0px
 	}
+
+	//
+	// Search results
 	.document-data { width: 70%; }
 	.span9 {
 		.well {
 			padding-left: 10px;
 			padding-right: 10px; }
 	}
+
+	//
+	// Search form
 	.search-options { width: 50%; }
 	input.search-query { width: 92%; }
 	#search_field {
@@ -24,5 +30,19 @@
 		float: right;
 	}
 
+	//
+	// Item page
+	.item-pagination { width: 100%; }
+	.item-tools {
+		float: none;
+		margin-top: 1.6em;
+		width: 100%;
+		ul {
+			float: none;
+			margin-left: 0;
+			margin-bottom: 0;
+		}
+		li:first-child { margin-left: 0; }
+	}
 	input#request-submit {float:none;}
 }

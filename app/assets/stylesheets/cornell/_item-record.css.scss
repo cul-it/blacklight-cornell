@@ -18,9 +18,9 @@ h3.subtitle {
 }
 
 .cover {
-	margin: 0 15px 0 0;
+	// margin: 0 15px 0 0;
 	float: left;
-	width: 100%;
+	// width: 100%;
 	}
 
 .item-metadata {
@@ -73,7 +73,10 @@ dl.dl-horizontal {
 	li {
 		font-size: 0.875em;
   		float: left;
-  		margin-right: 15px;
+  		margin-right: .8em;
+	}
+	li:last-child {
+		margin-right: 0;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
