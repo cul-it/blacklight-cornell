@@ -77,3 +77,13 @@ body.blacklight-bookmarks-index .document {
 	float: right;
 	margin-left: 30px;
 }
+
+// Search history
+// ------------------------------------------
+.search_history {
+	.filterName { margin-right: 0.25em; }
+	.label {
+		display: inline;
+		color: white;
+		margin: 0 .5em; }
+}
