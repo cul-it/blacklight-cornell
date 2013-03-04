@@ -10,9 +10,8 @@
 -%>
 
 <%- unless options[:remove].blank? -%>
-  <a href="<%= url_for(options[:remove]) %>" title="Remove">
+  <a href="<%= url_for(options[:remove]) %>" class="btn btn-info btn-small" title="Remove">
 <%- end -%>
-  <button class="btn btn-info btn-small"> 
     <%- unless label.blank? -%>
       <span class="filter-label"><%= options[:escape_label] ? h(label) : raw(label) %></span>:
     <%- end -%>
@@ -20,7 +19,6 @@
       <span class="filter-value"><%= options[:escape_value] ? h(value) : raw(value) %></span>
     <%- end -%>
     <i class="icon-remove icon-white"></i>
-  </button>
 <%- unless options[:remove].blank? -%>
   </a>
 <%- end -%>
