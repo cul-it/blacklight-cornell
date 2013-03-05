@@ -10,7 +10,8 @@ class RequestController < ApplicationController
   RECALL = 'recall'
   PURCHASE = 'purchase' # Note: this is a *purchase request*, which is different from a patron-driven acquisition
   ILL = 'ill'
-  ASK = 'ask'
+  ASK_CIRCULATION = 'circ'
+  ASK_LIBRARIAN = 'ask'
   ## day after 17, reserve
   IRREGULAR_LOAN_TYPE = {
     :DAY => {
@@ -283,14 +284,16 @@ class RequestController < ApplicationController
         itemdata = holding['item_status']['itemdata']
         itemdata.each do |data|
           if IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+            logger.debug "Got day loan"
             return 'day'
           elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
+            logger.debug "Got minute loan"
             return 'minute'
           end
         end
       end
     end
-
+    logger.debug "Got regular loan"
     return 'regular'
   end
 
@@ -376,8 +379,9 @@ class RequestController < ApplicationController
         logger.debug "branch 5"
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
-        ##  BD
+        ##  BD ASK_CIRCULATION
         logger.debug "branch 6"
+        request_options.push( _handle_ask_circulation bibid, holding )
         _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## BD ILL HOLD
@@ -386,15 +390,16 @@ class RequestController < ApplicationController
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
-        ## ASK
+        ## ASK_LIBRARIAN
         logger.debug "branch 8"
       elsif patron_type == 'guest' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
         logger.debug "branch 9"
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
-        ## ASK
+        ## ASK_LIBRARIAN ASK_CIRCULATION
         logger.debug "branch 10"
+        request_options.push( _handle_ask_circulation bibid, holding )
       # Removed branch 11 - duplicate of branch 2
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL 
@@ -403,8 +408,9 @@ class RequestController < ApplicationController
         # TODO: revisit whether to offer BD once we have an API from relais
         # _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
-        ## BD
+        ## BD ASK_CIRCULATION
         logger.debug "branch 13"
+        request_options.push( _handle_ask_circulation bibid, holding )
         _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
@@ -415,13 +421,14 @@ class RequestController < ApplicationController
         logger.debug "branch 15"
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
-        ## ASK
+        ## ASK_LIBRARIAN ASK_CIRCULATION
+        request_options.push( _handle_ask_circulation bibid, holding )
         logger.debug "branch 16"
       else
-        ## ASK
+        ## ASK_LIBRARIAN
         logger.debug "branch 17 - #{patron_type}, #{item_type}, #{holding['item_status']['itemdata'][0]['itemStatus']}"
       end
-       request_options.push( _handle_ask bibid, holding )
+       request_options.push( _handle_ask_librarian bibid, holding )
     end
 
     request_options = sort_request_options request_options
@@ -580,7 +587,7 @@ class RequestController < ApplicationController
   end
 
   def ask
-    return request_item ASK
+    return request_item ASK_LIBRARIAN
   end
 
   def borrowDirect_available? params
@@ -787,9 +794,14 @@ class RequestController < ApplicationController
     return { :service => ILL, :iid => iids, :estimate => get_ill_delivery_time(1) }
   end
 
-  def _handle_ask bibid, holding
+  def _handle_ask_circulation bibid, holding
     iids = []
-    return { :service => ASK, :iid => iids, :estimate => 9999 }
+    return { :service => ASK_CIRCULATION, :iid => iids, :estimate => 9998 }
+  end
+
+  def _handle_ask_librarian bibid, holding
+    iids = []
+    return { :service => ASK_LIBRARIAN, :iid => iids, :estimate => 9999 }
   end
 
 end
