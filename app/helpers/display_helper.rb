@@ -74,10 +74,17 @@ module DisplayHelper
         if clickable_setting[:key_value]
           # field has display value and search value separated by :sep
           displayv_searchv = value.split(clickable_setting[:sep])
+          logger.info clickable_setting.inspect
           if displayv_searchv.size > 2
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
-            link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+            if !clickable_setting[:related_search_field].blank?
+              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], '"' + displayv_searchv[1] + '"', clickable_setting[:related_search_field], '"' + displayv_searchv[2] + '"'))
+            else
+              # misconfiguration... no related search field defined
+              # ignore related search value
+              link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
+            end
           elsif displayv_searchv.size > 1
             # default key value pair separated by :sep
             link_to(displayv_searchv[0], add_search_params(args[:field], '"' + displayv_searchv[1] + '"'))
@@ -114,9 +121,23 @@ module DisplayHelper
 
   def add_search_params(field, value)
     new_search_params = {
-    #  :utf8 => '✓',
+      #:utf8 => '✓',
       :q => value,
       :search_field => get_clickable_search_field(field),
+      :commit => 'search',
+      :action => 'index'
+    }
+  end
+
+  def add_advanced_search_params(primary_field, pval, related_search_field, rval)
+    logger.info "#{primary_field}, #{pval}, #{related_search_field}, #{rval}"
+    logger.info get_clickable_search_field(primary_field)
+    logger.info get_clickable_search_field(related_search_field)
+    new_search_params = {
+      #:utf8 => '✓',
+      (get_clickable_search_field(primary_field)).to_sym => pval,
+      related_search_field.to_sym => rval,
+      :search_field => 'advanced',
       :commit => 'search',
       :action => 'index'
     }
@@ -133,6 +154,7 @@ module DisplayHelper
       return clickable_setting[:search_field]
     end
   end
+
   def get_clickable_setting field
     return blacklight_config.display_clickable[field]
   end
@@ -472,6 +494,7 @@ module DisplayHelper
     query_params.delete :counter
     query_params.delete :total
     link_url = url_for(query_params)
+    logger.info query_params.inspect
 
     if link_url =~ /bookmarks/
       opts[:label] ||= t('blacklight.back_to_bookmarks')
@@ -497,5 +520,11 @@ module DisplayHelper
     link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
 
     link_url
+  end
+
+  # Overrides original method from facets_helper_behavior.rb
+  # Renders a count value for facet limits with comma delimeter
+  def render_facet_count(num)
+    content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   end
 end

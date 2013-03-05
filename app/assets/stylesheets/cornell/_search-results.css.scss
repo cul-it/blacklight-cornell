@@ -1,4 +1,5 @@
-body.blacklight-catalog-index .document {
+body.blacklight-catalog-index .document,
+body.blacklight-bookmarks-index .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
 	padding: 20px 0;
@@ -75,4 +76,14 @@ body.blacklight-catalog-index .document {
 .select-item {
 	float: right;
 	margin-left: 30px;
+}
+
+// Search history
+// ------------------------------------------
+.search_history {
+	.filterName { margin-right: 0.25em; }
+	.label {
+		display: inline;
+		color: white;
+		margin: 0 .5em; }
 }

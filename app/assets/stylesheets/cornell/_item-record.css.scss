@@ -15,7 +15,7 @@ h3.subtitle {
 .cover {
 	margin: 0 15px 0 0;
 	float: left;
-	width: 20%;
+	width: 100%;
 	}
 
 .item-metadata {
@@ -32,9 +32,11 @@ h3.subtitle {
 }
 #document {
 	 margin-top: 0;
-	 h2 { line-height: 32px; }
+	 h2 {
+	 	line-height: 32px;
+	 	margin-top: 0; }
 }
-label.toggle_bookmark { min-width: auto; }
+label.toggle_bookmark { min-width: 3.5em; }
 dl.dl-horizontal {
 	margin-top: 0;
 	dt {
@@ -49,6 +51,7 @@ dl.dl-horizontal {
 	dd {
 		font-size: 0.875em;
 		margin-left: 30%;
+		width: 100%;
 		ul {
 			list-style: none;
 			margin: 0;
@@ -60,11 +63,12 @@ dl.dl-horizontal {
 	ul {
 		list-style: none;
 		float: right;
+		margin-bottom: 30px;
 	}
 	li {
 		font-size: 0.75em;
-  	float: left;
-  	margin-left: 15px;
+  		float: left;
+  		margin-left: 15px;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
@@ -95,7 +99,7 @@ dl.dl-horizontal {
 	margin-bottom: 0;
 	font-size: 1.1em;
 }
-.share-it,
+.text-it,
 .map-it {
 	margin-left: .2em;
 	font-size: .8em;
@@ -107,7 +111,7 @@ dl.dl-horizontal {
 	color: $light-gray;
 }
 .availability {
-	margin-top: 20px;
+	// margin-top: 20px;
 	p { font-size: 0.875em; }
 }
 .online-link {

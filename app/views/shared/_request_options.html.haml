@@ -1,54 +1,77 @@
-- @alternate_request_options.each do |option|
-  - if option[:option] == 'l2l'
-    = link_to request_l2l_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Library to Library
-        Request your item for library deliver.
-        Available in about
-        = option[:estimate]
-        working day(s).>
-  - elsif option[:option] == 'bd'
-    = link_to request_bd_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Borrow Direct
-        Request your item from our Borrow Direct partners.
-        Available in about
-        = option[:estimate]
-        working days.
-  - elsif option[:option] == 'hold'
-    = link_to request_hold_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Hold
-        Request your item for hold.
-        Available in about
-        = option[:estimate]
-        working days.
-  - elsif option[:option] == 'recall'
-    = link_to request_recall_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Recall
-        Request your item for recall.
-        Available in about
-        = option[:estimate]
-        working days.
-  - elsif option[:option] == 'purchase'
-    = link_to request_purchase_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Purchase Request
-        Request your item for purchase.
-        Available in about
-        = option[:estimate]
-        working days.
-  - elsif option[:option] == 'ill'
-    = link_to request_ill_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Inter-Library Loan
-        Request your item from our inter-linbrary loan partners.
-        Available in about
-        = option[:estimate]
-        working days.
-  - else
-    = link_to request_ask_path(@id), {:title => @ti} do 
-      %h2.blacklight-title_display 
-        %i.icon-circle-arrow-right &nbsp;Ask Librarian
-        Please ask a librarian.
+%table.table.table-striped.table-bordered  
+  %thead
+    %tr
+      %th
+        Request Type
+      %th
+        Approximate availability    
+  - @alternate_request_options.each do |option|
+    - if option[:option] == 'l2l'
+      %tr
+        %td
+          = link_to request_l2l_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Library to Library
+        %td  
+          = option[:estimate]
+          working day(s).
+    - elsif option[:option] == 'bd'
+      %tr
+        %td
+          = link_to request_bd_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Borrow Direct
+        %td 
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'hold'
+      %tr
+        %td
+          = link_to request_hold_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Hold
+        %td
+          = option[:estimate]
+          working days       
+    - elsif option[:option] == 'recall'
+      %tr
+        %td
+          = link_to request_recall_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Recall
+        %td
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'purchase'
+      %tr
+        %td
+          = link_to request_purchase_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Purchase Request
+        %td
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'ill'
+      %tr
+        %td
+          = link_to request_ill_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Inter-Library Loan
+        %td
+          = option[:estimate]
+          working days
+    - else
+      %tr
+        %td
+          = link_to request_ask_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Ask a Librarian
+        %td
+          Please ask a librarian.

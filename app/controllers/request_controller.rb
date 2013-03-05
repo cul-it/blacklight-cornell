@@ -425,7 +425,7 @@ class RequestController < ApplicationController
         ## ASK
         logger.info "branch 17 - #{patron_type}, #{item_type}, #{holding['item_status']['itemdata'][0]['itemStatus']}"
       end
-      # request_options.push( _handle_ask bibid, holding )
+       request_options.push( _handle_ask bibid, holding )
     end
 
     request_options.each do |a|

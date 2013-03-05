@@ -4,6 +4,8 @@ module Blacklight::Catalog
 
   include Blacklight::Configurable
   include Blacklight::SolrHelper
+  include Blacklight::ApplicationHelper
+  
 
   SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -34,10 +36,47 @@ module Blacklight::Catalog
 
       extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+      
+      @bookmarks = current_or_guest_user.bookmarks
+      
+      if params[:q_row].present? 
+        query_string = massage_params(params)
+         holdparams = []
+         terms = []
+         
+         holdparams = query_string.split("&")
+         for i in 0..holdparams.count - 1
+            terms = holdparams[i].split("=")
+            params[terms[0]] = terms[1]
+         end
+         params["search_field"] = "advanced"
+         params["commit"] = "Search"
+         params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+         params["action"] = "index"
+         params["controller"] = "catalog"
+      end
 
+      if params[:search_field] == "journal title"
+        if params[:f].nil?
+          params[:f] = {}
+        end
+          params[:f] = {"format" => ["Journal"]}
+#          unless(!params[:q])
+          params[:q] = params[:q]
+          params[:search_field] = "journal title"
+      end
+      
       (@response, @document_list) = get_search_results
-      @filters = params[:f] || []
+      if params.nil? || params[:f].nil?
+        @filters = []
+      else
+        @filters = params[:f] || []
+      end
 
+      if params[:search_field] == "journal title"      
+        params[:search_field] = ""
+      end
+             
       respond_to do |format|
         format.html { save_current_search_params }
         format.rss  { render :layout => false }
@@ -73,7 +112,7 @@ module Blacklight::Catalog
     # displays values and pagination links for a single facet field
     def facet
       @pagination = get_facet_pagination(params[:id], params)
-
+ 
       respond_to do |format|
         format.html
         format.js { render :layout => false }

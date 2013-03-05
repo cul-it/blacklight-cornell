@@ -10,10 +10,20 @@
   = render :partial => 'shared/reqpu'
   = render :partial => 'shared/reqac'
   .control-group
-    %label.control-label{:for => 'reqcomments'} Comments:
+    %label.control-label{:for => 'reqcomments'} Notes to library staff:
     .controls
       %textarea#reqcomments
-  = render :partial => 'shared/reqdate'
+  .control-group
+    %label.control-label{:for => 'latest-date'} Not needed after:
+    #latest-date.controls
+      %input(type="radio" name="latest-date" value="30" id="30 days")
+        %label.radio-label.inline{ :for => "30 days"}30 days
+      %input(type="radio" name="latest-date" value="90" id="90 days")
+        %label.radio-label.inline{ :for => "90 days"}90 days
+      %input(type="radio" name="latest-date" value="180" id="180 days" checked="checked")
+        %label.radio-label.inline{ :for => "180 days"}180 days  
+
+
   .control-group
     .controls
       %input#request-submit.btn.btn-danger(type="submit" name="submit" value="Submit hold request")
@@ -21,7 +31,7 @@
       %div.accordion#accordion2.request-options
         %div.accordion-group
           %div.accordion-heading
-          =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+          =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
           %div#collapseOne.accordion-body.collapse
             %div.accordion-inner     
               %div.span4     

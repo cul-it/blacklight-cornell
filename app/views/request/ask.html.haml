@@ -1,4 +1,8 @@
 = link_to catalog_path(@id), {:title => @ti} do
   %i.icon-circle-arrow-left
-  Return to item
-%p Please ask a librarian for help.
+  Back to item
+%h1.request-type Ask a Librarian
+%p 
+  We are currently unable to place a request for this item. Please visit our
+  =link_to 'Ask a Librarian page','http://ask.library.cornell.edu'
+  for more help.
