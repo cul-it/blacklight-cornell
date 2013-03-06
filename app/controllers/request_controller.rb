@@ -15,28 +15,28 @@ class RequestController < ApplicationController
   ## day after 17, reserve
   IRREGULAR_LOAN_TYPE = {
     :DAY => {
-        '1'  => 1,
-        '5'  => 1,
-        '6'  => 1,
-        '7'  => 1,
-        '8'  => 1,
-        '9'  => 1,
-        '10' => 1,
-        '11' => 1,
-        '13' => 1,
-        '14' => 1,
-        '15' => 1,
-        '17' => 1,
-        '18' => 1,
-        '19' => 1,
-        '20' => 1,
-        '21' => 1,
-        '23' => 1,
-        '24' => 1,
-        '24' => 1,
-        '25' => 1,
-        '28' => 1,
-        '33' => 1
+      '1'  => 1,
+      '5'  => 1,
+      '6'  => 1,
+      '7'  => 1,
+      '8'  => 1,
+      '9'  => 1,
+      '10' => 1,
+      '11' => 1,
+      '13' => 1,
+      '14' => 1,
+      '15' => 1,
+      '17' => 1,
+      '18' => 1,
+      '19' => 1,
+      '20' => 1,
+      '21' => 1,
+      '23' => 1,
+      '24' => 1,
+      '24' => 1,
+      '25' => 1,
+      '28' => 1,
+      '33' => 1
       },
     :MINUTE => {
       '12' => 1,
@@ -52,6 +52,13 @@ class RequestController < ApplicationController
       '35' => 1,
       '36' => 1,
       '37' => 1
+    },
+    # day loan items with a loan period of 1-2 days cannot use L2L
+    :NO_L2L => {
+      '10' => 1,
+      '17' => 1,
+      '23' => 1,
+      '24' => 1
     }
   }
   LIBRARY_ANNEX = 'Library Annex'
@@ -339,6 +346,7 @@ class RequestController < ApplicationController
 
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
+      holding_type = holding['item_status']['itemdata'][0]['typeCode']
       holdings_condensed_full_item = holdings_parsed[holding_id]
       logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
@@ -404,7 +412,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL 
         logger.debug "branch 12"
-        request_options.push( _handle_l2l bibid, holding )
+        request_options.push( _handle_l2l bibid, holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
         # TODO: revisit whether to offer BD once we have an API from relais
         # _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
@@ -418,8 +426,8 @@ class RequestController < ApplicationController
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
-        logger.debug "branch 15"
-        request_options.push( _handle_l2l bibid, holding )
+        logger.debug "branch 15" 
+        request_options.push( _handle_l2l bibid, holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
         ## ASK_LIBRARIAN ASK_CIRCULATION
         request_options.push( _handle_ask_circulation bibid, holding )
