@@ -66,6 +66,14 @@
         %td
           = option[:estimate]
           working days
+    - elsif option[:option] == 'circ'
+      %tr
+        %td
+          = link_to request_circ_path(@id), {:title => @ti} do
+            %h2.blacklight-title_display
+              %i.icon-circle-arrow-right &nbsp;Check Circulation
+        %td
+          This item is a short-term loan. Please check at the circulation desk.
     - else
       %tr
         %td
