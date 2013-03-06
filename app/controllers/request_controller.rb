@@ -598,8 +598,6 @@ class RequestController < ApplicationController
   end
 
   def borrowDirect_available? params
-# MATT: REMOVE THIS ######################################################################################
-return true
     borrow_direct_webservices_url = Rails.configuration.borrow_direct_webservices_host
     if borrow_direct_webservices_url.blank?
       borrow_direct_webservices_url = request.env['HTTP_HOST']
