@@ -55,6 +55,7 @@ class RequestController < ApplicationController
     }
   }
   LIBRARY_ANNEX = 'Library Annex'
+  HOLD_PADDING_TIME = 3
 
 # Blacklight uses #search_action_url to figure out the right URL for
 #   # the global search box
@@ -325,7 +326,7 @@ class RequestController < ApplicationController
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid]['records']
     # logger.info "\n\n"
-    logger.info holdings_detail.inspect
+    # logger.debug holdings_detail.inspect
     item_type = get_item_type holdings_detail, bibid
     # logger.info "item type: #{item_type}"
 
@@ -340,7 +341,7 @@ class RequestController < ApplicationController
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
       holdings_condensed_full_item = holdings_parsed[holding_id]
-      logger.debug "status: #{holdings_condensed_full_item['status']}"
+      # logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
       item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
@@ -349,14 +350,14 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Charged'
         ## BD RECALL ILL HOLD
         logger.debug "branch 1a"
-        _handle_bd bibid, holding, request_options, params
+        request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_recall bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Requested'
         ## BD ILL HOLD RECALL
         logger.debug "branch 1b"
-        _handle_bd bibid, holding, request_options, params
+        request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_recall bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
@@ -367,7 +368,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'regular' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## BD PURCHASE ILL
         logger.debug "branch 3"
-        _handle_bd bibid, holding, request_options, params
+        request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_purchase bibid, holding )
         request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
@@ -386,7 +387,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## BD ILL HOLD
         logger.debug "branch 7"
-        _handle_bd bibid, holding, request_options, params
+        request_options.push( _handle_bd bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
@@ -431,15 +432,7 @@ class RequestController < ApplicationController
        request_options.push( _handle_ask_librarian bibid, holding )
     end
 
-    request_options.each do |a|
-      logger.info "#{a[:service]}: #{a[:estimate]}"
-    end
-
     request_options = sort_request_options request_options
-
-    request_options.each do |a|
-      logger.info "#{a[:service]}: #{a[:estimate]}"
-    end
 
     ## sk274 - online resource first?
     if !target.blank?
@@ -485,8 +478,23 @@ class RequestController < ApplicationController
     return 6
   end
 
-  def get_hold_delivery_time hold_list
-    return 180
+  def get_hold_delivery_time hold_iid
+    ## if it got to this point, it means it is not available and should have Due on xxxx-xx-xx
+    dueDate = /.*Due on (\d\d\d\d-\d\d-\d\d)/.match(hold_iid['itemStatus'])
+    if ! dueDate.nil?
+      estimate = (Date.parse(dueDate[1]) - Date.today).to_i
+      if (estimate < 0)
+        ## this item is overdue
+        ## use default value instead
+        estimate = 180
+      end
+      ## pad for extra days for processing time?
+      ## also padding would allow l2l to be always first option
+      return estimate.to_i + HOLD_PADDING_TIME
+    else
+      ## due date not found... use default
+      return 180
+    end
   end
 
   def get_recall_delivery_time recall_list
@@ -542,21 +550,28 @@ class RequestController < ApplicationController
       if item[:service] == service
         iids = item[:iid]
         iids.each do |iid|
-          @iis[iid['itemid']] = iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration']
+          @iis[iid['itemid']] = {
+            :label => iid['location']+' '+iid['callNumber']+' '+iid['copy']+' '+iid['enumeration'],
+            :location => iid['location'],
+            :location_id => iid['location_id'],
+            :call_number => iid['callNumber'],
+            :copy => iid['copy'],
+            :enumeration => iid['enumeration']
+          }
         end
       else
         ## get the lowest estimate from this item
-        estimate = 9999
-        iids = item[:iid]
-        iids.each do |iid|
-          if estimate > iid[:estimate]
-            estimate = iid[:estimate]
-          end
-        end
+        # estimate = 9999
+        # iids = item[:iid]
+        # iids.each do |iid|
+        #   if estimate > iid[:estimate]
+        #     estimate = iid[:estimate]
+        #   end
+        # end
         ## if we didn't see this request option before or this estimate is lower than previous one,
         ## update seen hash with lowest estimate for this service
-        if ! seen[item[:service]] || seen[item[:service]] > estimate
-          seen[item[:service]] = estimate
+        if ! seen[item[:service]] || seen[item[:service]] > item[:estimate]
+          seen[item[:service]] = item[:estimate]
         end
       end
     end
@@ -715,7 +730,8 @@ class RequestController < ApplicationController
     iids = []
     estimate = 9999
     if (!itemdata.nil?)
-      itemdata.each do | iid |
+      itemdata.each do | iid_ref |
+        iid = deep_copy(iid_ref)
         #itemStatus"=>"Not Charged",
         if ( (! iid['location'].match('Non-Circulating')) && (iid['itemStatus'].match('Not Charged')))
           iid[:estimate] = get_l2l_delivery_time iid
@@ -734,7 +750,8 @@ class RequestController < ApplicationController
     iids = []
     estimate = 9999
     if (!itemdata.nil?)
-      itemdata.each do | iid |
+      itemdata.each do | iid_ref |
+        iid = deep_copy(iid_ref)
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
           iid[:estimate] = get_bd_delivery_time iid
@@ -753,8 +770,9 @@ class RequestController < ApplicationController
     iids = []
     estimate = 9999
     if (!itemdata.nil?)
-      itemdata.each do | iid |
-        logger.info itemdata.inspect
+      itemdata.each do | iid_ref |
+        iid = deep_copy(iid_ref)
+        # logger.info itemdata.inspect
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
           iid[:estimate] = get_hold_delivery_time iid
@@ -772,7 +790,8 @@ class RequestController < ApplicationController
     itemdata = holding["item_status"]["itemdata"]
     iids = []
     if (!itemdata.nil?)
-      itemdata.each do | iid |
+      itemdata.each do | iid_ref |
+        iid = deep_copy(iid_ref)
         #itemStatus"=>"Not Charged",
         if (! iid['itemStatus'].match('Not Charged') )
           iid[:estimate] = get_recall_delivery_time iid
@@ -802,6 +821,10 @@ class RequestController < ApplicationController
   def _handle_ask_librarian bibid, holding
     iids = []
     return { :service => ASK_LIBRARIAN, :iid => iids, :estimate => 9999 }
+  end
+
+  def deep_copy(o)
+    Marshal.load(Marshal.dump(o))
   end
 
 end
