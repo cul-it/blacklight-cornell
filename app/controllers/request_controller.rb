@@ -15,28 +15,28 @@ class RequestController < ApplicationController
   ## day after 17, reserve
   IRREGULAR_LOAN_TYPE = {
     :DAY => {
-        '1'  => 1,
-        '5'  => 1,
-        '6'  => 1,
-        '7'  => 1,
-        '8'  => 1,
-        '9'  => 1,
-        '10' => 1,
-        '11' => 1,
-        '13' => 1,
-        '14' => 1,
-        '15' => 1,
-        '17' => 1,
-        '18' => 1,
-        '19' => 1,
-        '20' => 1,
-        '21' => 1,
-        '23' => 1,
-        '24' => 1,
-        '24' => 1,
-        '25' => 1,
-        '28' => 1,
-        '33' => 1
+      '1'  => 1,
+      '5'  => 1,
+      '6'  => 1,
+      '7'  => 1,
+      '8'  => 1,
+      '9'  => 1,
+      '10' => 1,
+      '11' => 1,
+      '13' => 1,
+      '14' => 1,
+      '15' => 1,
+      '17' => 1,
+      '18' => 1,
+      '19' => 1,
+      '20' => 1,
+      '21' => 1,
+      '23' => 1,
+      '24' => 1,
+      '24' => 1,
+      '25' => 1,
+      '28' => 1,
+      '33' => 1
       },
     :MINUTE => {
       '12' => 1,
@@ -52,6 +52,13 @@ class RequestController < ApplicationController
       '35' => 1,
       '36' => 1,
       '37' => 1
+    },
+    # day loan items with a loan period of 1-2 days cannot use L2L
+    :NO_L2L => {
+      '10' => 1,
+      '17' => 1,
+      '23' => 1,
+      '24' => 1
     }
   }
   LIBRARY_ANNEX = 'Library Annex'
@@ -178,18 +185,27 @@ class RequestController < ApplicationController
     elsif request_action == 'ill'
       # fill in ill request
     elsif request_action == 'purchase'
-      # fill in purchase request
+      # Handled below
     elsif request_action == 'recall'
       voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     else
     end
 
-    logger.debug "posting request to: #{voyager_request_handler_url}"
-    body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
-    res = HTTPClient.post(voyager_request_handler_url,body)
-    #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
-    voyager_response = JSON.parse(res.content)
-    logger.debug voyager_response
+    if request_action == 'purchase'
+      # Email the form contents to the purchase request staff
+     # ActionMailer::Base.mail(:from => "culsearch@cornell.edu", :to => "mjc12@cornell.edu", :subject => "test", :body => "test").deliver
+      RequestMailer.email_request(netid, params)
+      # TODO: check for mail errors, don't assume that things are working!
+      voyager_response = {'status' => 'success'}
+    else
+      # Send a request to Voyager
+      logger.debug "posting request to: #{voyager_request_handler_url}"
+      body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
+      res = HTTPClient.post(voyager_request_handler_url,body)
+      #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
+      voyager_response = JSON.parse(res.content)
+      logger.debug voyager_response
+    end
 
     #render "request/make_request", :layout => false
     render :json => voyager_response, :layout => false
@@ -339,6 +355,7 @@ class RequestController < ApplicationController
 
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
+      holding_type = holding['item_status']['itemdata'][0]['typeCode']
       holdings_condensed_full_item = holdings_parsed[holding_id]
       logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
@@ -404,7 +421,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL 
         logger.debug "branch 12"
-        request_options.push( _handle_l2l bibid, holding )
+        request_options.push( _handle_l2l bibid, holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
         # TODO: revisit whether to offer BD once we have an API from relais
         # _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
@@ -418,8 +435,8 @@ class RequestController < ApplicationController
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
-        logger.debug "branch 15"
-        request_options.push( _handle_l2l bibid, holding )
+        logger.debug "branch 15" 
+        request_options.push( _handle_l2l bibid, holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
         ## ASK_LIBRARIAN ASK_CIRCULATION
         request_options.push( _handle_ask_circulation bibid, holding )
@@ -524,6 +541,7 @@ class RequestController < ApplicationController
     end
     if @document[:pub_info_display].present?
       pub_info_display = @document[:pub_info_display][0]
+      @pub_info = pub_info_display
       @ill_link = @ill_link + "&rft.place=#{pub_info_display}"
       @ill_link = @ill_link + "&rft.pub=#{pub_info_display}"
       @ill_link = @ill_link + "&rft.date=#{pub_info_display}"
