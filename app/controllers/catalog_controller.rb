@@ -35,7 +35,12 @@ class CatalogController < ApplicationController
             :sep_display => ' > ',
             :hierarchical => true
         },
-        'title_uniform_display' => 'title',
+        'title_uniform_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
+        },
         'title_series_display'  => 'title',
         'continues_display' => {
             :search_field => 'title',
