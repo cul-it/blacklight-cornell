@@ -1,3 +1,6 @@
+-d30 = 30.day.from_now.strftime("%m-%d-%Y")
+-d60 = 60.day.from_now.strftime("%m-%d-%Y")
+-d180 = 180.day.from_now.strftime("%m-%d-%Y")
 = link_to catalog_path(@id), {:title => @ti} do
   %i.icon-circle-arrow-left
   Back to item
@@ -14,14 +17,17 @@
     .controls
       %textarea#reqcomments
   .control-group
-    %label.control-label{:for => 'latest-date'} Not needed after:
+    %label.control-label{:for => 'latest-date'} If item remains unavailable, cancel hold after:
     #latest-date.controls
-      %input(type="radio" name="latest-date" value="30" id="30 days")
-        %label.radio-label.inline{ :for => "30 days"}30 days
-      %input(type="radio" name="latest-date" value="90" id="90 days")
-        %label.radio-label.inline{ :for => "90 days"}90 days
-      %input(type="radio" name="latest-date" value="180" id="180 days" checked="checked")
-        %label.radio-label.inline{ :for => "180 days"}180 days  
+      %label.radio{ :for => "30 days"}
+        %input(type="radio" name="latest-date" value="#{d30}" id="30 days")
+        30 days (#{d30})
+      %label.radio{ :for => "60 days"}
+        %input(type="radio" name="latest-date" value="#{d60}" id="60 days")
+        60 days (#{d60})
+      %label.radio{ :for => "180 days"}
+        %input(type="radio" name="latest-date" value="#{d180}" id="180 days")
+        180 days (#{d180})
 
 
   .control-group
