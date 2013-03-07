@@ -46,9 +46,9 @@ dl.dl-horizontal {
 	clear: left;
 	margin-top: 0;
 	dt {
-		clear: none;
+		width: 115px;
 		display: inline;
-		font-size: 0.875em;
+		font-size: .875em;
 		color: $light-gray;
 		margin-right: 10px;
 		font-weight: normal;
@@ -57,10 +57,18 @@ dl.dl-horizontal {
 		white-space: normal;
 		}
 	dd {
-		font-size: 0.875em;
+		margin-left: 130px;
+		font-size: .875em;
 		ul {
 			list-style: none;
 			margin: 0;
+		}
+		// Fix to keep dd aligned with long dt that wraps
+		// -- can't use .clearfix because we only want to clear left
+		&:after {
+			display: table;
+			content: "";
+			clear: left;
 		}
 	}
 }
