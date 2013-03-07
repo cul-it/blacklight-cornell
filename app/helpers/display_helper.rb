@@ -521,4 +521,10 @@ module DisplayHelper
 
     link_url
   end
+
+  # Overrides original method from facets_helper_behavior.rb
+  # Renders a count value for facet limits with comma delimeter
+  def render_facet_count(num)
+    content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
+  end
 end

@@ -4,7 +4,7 @@
 
 <h2><%=t('blacklight.search_history.title')%></h2>
 <%- if @searches.blank? -%>
-  <h2><%=t('blacklight.search_history.no_history')%></h2>
+  <p><%=t('blacklight.search_history.no_history')%>.</p>
 <%- else -%>
     <p>
     <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') } %>

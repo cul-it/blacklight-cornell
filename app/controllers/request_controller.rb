@@ -8,9 +8,10 @@ class RequestController < ApplicationController
   BD = 'bd'
   HOLD = 'hold'
   RECALL = 'recall'
-  PURCHASE = 'purchase'
+  PURCHASE = 'purchase' # Note: this is a *purchase request*, which is different from a patron-driven acquisition
   ILL = 'ill'
-  ASK = 'ask'
+  ASK_CIRCULATION = 'circ'
+  ASK_LIBRARIAN = 'ask'
   ## day after 17, reserve
   IRREGULAR_LOAN_TYPE = {
     :DAY => {
@@ -283,14 +284,16 @@ class RequestController < ApplicationController
         itemdata = holding['item_status']['itemdata']
         itemdata.each do |data|
           if IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+            logger.debug "Got day loan"
             return 'day'
           elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
+            logger.debug "Got minute loan"
             return 'minute'
           end
         end
       end
     end
-
+    logger.debug "Got regular loan"
     return 'regular'
   end
 
@@ -337,95 +340,95 @@ class RequestController < ApplicationController
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
       holdings_condensed_full_item = holdings_parsed[holding_id]
-      logger.info "status: #{holdings_condensed_full_item['status']}"
+      logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
       item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
-        logger.info "branch 0"
+        logger.debug "branch 0"
         next
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Charged'
         ## BD RECALL ILL HOLD
-        logger.info "branch 1a"
-        request_options.push( _handle_bd bibid, holding )
+        logger.debug "branch 1a"
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_recall bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Requested'
-        ## BD ILL HOLD
-        logger.info "branch 1b"
-        request_options.push( _handle_bd bibid, holding )
+        ## BD ILL HOLD RECALL
+        logger.debug "branch 1b"
+        _handle_bd bibid, holding, request_options, params
+        request_options.push( _handle_recall bibid, holding )
         request_options.push( _handle_ill bibid, holding )
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
-        logger.info "branch 2"
-        item = _handle_l2l bibid, holding
-        logger.info item.inspect
+        logger.debug "branch 2"
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## BD PURCHASE ILL
-        logger.info "branch 3"
-        request_options.push( _handle_bd bibid, holding )
+        logger.debug "branch 3"
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_purchase bibid, holding )
         request_options.push( _handle_ill bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
-        logger.info "branch 4"
+        logger.debug "branch 4"
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
-        logger.info "branch 5"
+        logger.debug "branch 5"
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'cornell' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
-        ## HOLD BD
-        logger.info "branch 6"
-        request_options.push( _handle_hold bibid, holding )
-        request_options.push( _handle_bd bibid, holding )
+        ##  BD ASK_CIRCULATION
+        logger.debug "branch 6"
+        request_options.push( _handle_ask_circulation bibid, holding )
+        _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
-        ## BD ILL
-        logger.info "branch 7"
-        request_options.push( _handle_bd bibid, holding )
+        ## BD ILL HOLD
+        logger.debug "branch 7"
+        _handle_bd bibid, holding, request_options, params
         request_options.push( _handle_ill bibid, holding )
+        request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
-        ## ASK
-        logger.info "branch 8"
+        ## ASK_LIBRARIAN
+        logger.debug "branch 8"
       elsif patron_type == 'guest' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
-        logger.info "branch 9"
+        logger.debug "branch 9"
         request_options.push( _handle_hold bibid, holding )
       elsif patron_type == 'guest' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
-        ## ASK
-        logger.info "branch 10"
-      elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
-        ## LTL
-        logger.info "branch 11"
-        request_options.push( _handle_l2l bibid, holding )
+        ## ASK_LIBRARIAN ASK_CIRCULATION
+        logger.debug "branch 10"
+        request_options.push( _handle_ask_circulation bibid, holding )
+      # Removed branch 11 - duplicate of branch 2
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
-        ## LTL BD?
-        logger.info "branch 12"
+        ## LTL 
+        logger.debug "branch 12"
         request_options.push( _handle_l2l bibid, holding )
-        request_options.push( _handle_bd bibid, holding )
+        # TODO: revisit whether to offer BD once we have an API from relais
+        # _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
-        ## BD? ILL?
-        logger.info "branch 13"
-        request_options.push( _handle_bd bibid, holding )
-        request_options.push( _handle_ill bibid, holding )
+        ## BD ASK_CIRCULATION
+        logger.debug "branch 13"
+        request_options.push( _handle_ask_circulation bibid, holding )
+        _handle_bd bibid, holding, request_options, params
       elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
-        logger.info "branch 14"
+        logger.debug "branch 14"
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
-        logger.info "branch 15"
+        logger.debug "branch 15"
         request_options.push( _handle_l2l bibid, holding )
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
-        ## ASK
-        logger.info "branch 16"
+        ## ASK_LIBRARIAN ASK_CIRCULATION
+        request_options.push( _handle_ask_circulation bibid, holding )
+        logger.debug "branch 16"
       else
-        ## ASK
-        logger.info "branch 17 - #{patron_type}, #{item_type}, #{holding['item_status']['itemdata'][0]['itemStatus']}"
+        ## ASK_LIBRARIAN
+        logger.debug "branch 17 - #{patron_type}, #{item_type}, #{holding['item_status']['itemdata'][0]['itemStatus']}"
       end
-       request_options.push( _handle_ask bibid, holding )
+       request_options.push( _handle_ask_librarian bibid, holding )
     end
 
     request_options.each do |a|
@@ -591,7 +594,7 @@ class RequestController < ApplicationController
   end
 
   def ask
-    return request_item ASK
+    return request_item ASK_LIBRARIAN
   end
 
   def borrowDirect_available? params
@@ -695,7 +698,7 @@ class RequestController < ApplicationController
       end
     else
       ## what is this?
-      logger.info availabilities.inspect
+      logger.debug availabilities.inspect
       return false
     end
   end
@@ -780,6 +783,7 @@ class RequestController < ApplicationController
     return { :service => RECALL, :iid => iids, :estimate => get_recall_delivery_time(1) }
   end
 
+  # Note: this is a *purchase request*, which is different from a patron-driven acquisition
   def _handle_purchase bibid, holding
     iids = []
     return { :service => PURCHASE, :iid => iids, :estimate => get_purchase_delivery_time(1) }
@@ -790,9 +794,14 @@ class RequestController < ApplicationController
     return { :service => ILL, :iid => iids, :estimate => get_ill_delivery_time(1) }
   end
 
-  def _handle_ask bibid, holding
+  def _handle_ask_circulation bibid, holding
     iids = []
-    return { :service => ASK, :iid => iids, :estimate => 9999 }
+    return { :service => ASK_CIRCULATION, :iid => iids, :estimate => 9998 }
+  end
+
+  def _handle_ask_librarian bibid, holding
+    iids = []
+    return { :service => ASK_LIBRARIAN, :iid => iids, :estimate => 9999 }
   end
 
 end
