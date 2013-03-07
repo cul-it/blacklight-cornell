@@ -1,2 +1,74 @@
-%p Rush purchase order
-%p Find me in app/views/request/purchase.html.haml
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Purchase Request
+%h2.item-title-request.blacklight-title_display=@ti
+%div.request-author=@au
+%form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
+  %input(type="hidden" name="bid" value="#{@id}" id="bid")
+  %input(type="hidden" name="request_action" value="purchase" id="request_action")
+  .control-group
+    %label.control-label{:for => 'reqname'} Name:
+    .controls
+      %input#reqname{:type => 'text', :name => 'name'}
+  .control-group
+    %label.control-label{:for => 'reqemail'} Email address:
+    .controls
+      %input#reqemail{:type => 'text', :name => 'email'}
+  .control-group
+    %label.control-label{:for => 'reqstatus'} Status:
+    .controls
+      %select#reqstatus
+        %option{:name => 'reqstatus', :value => ''} - Select -
+        %option{:name => 'reqstatus', :value => 'undergrad'} Cornell Undergraduate Student 
+        %option{:name => 'reqstatus', :value => 'grad'} Cornell Graduate Student 
+        %option{:name => 'reqstatus', :value => 'faculty'} Cornell Faculty
+        %option{:name => 'reqstatus', :value => 'staff'} Cornell Staff
+        %option{:name => 'reqstatus', :value => 'alum'} Alumnus/Alumna
+        %option{:name => 'reqstatus', :value => 'other'} Other
+  .control-group
+    %label.control-label{:for => 'reqtitle'} Title:
+    .controls
+      %input#reqtitle{:type => 'text', :name => 'reqtitle', :value => @ti}
+  .control-group
+    %label.control-label{:for => 'reqauthor'} Author:
+    .controls
+      %input#reqauthor{:type => 'text', :name => 'reqauthor', :value => @au}
+  .control-group
+    %label.control-label{:for => 'reqseries'} Series:
+    .controls
+      %input#reqseries{:type => 'text', :name => 'reqseries', :value => @document[:title_series_display]}
+  .control-group
+    %label.control-label{:for => 'reqpublication'} Place, publisher, and year of publication:
+    .controls
+      %input#reqpublicaiton{:type => 'text', :name => 'reqpublication', :value => @document[:pub_info_display][0]}
+  .control-group
+    %label.control-label{:for => 'reqidentifier'} ISBN, ISSN, or URL:
+    .controls
+      %input#reqidentifier{:type => 'text', :name => 'reqidentifier', :value => @isbn[0]}
+  .control-group
+    %label.control-label{:for => 'reqcomments'} Source of information or comments concerning this request:
+    .controls
+      %textarea#reqcomments Bibliographic information provided by CUL catalog.
+  .control-group
+    %label.control-label{:for => 'reqnotify'} Would you like to be notified when this item is cataloged?:
+    .controls
+      %select#reqnotify
+        %option{:name => 'reqnotify', :value => 'yes', :selected => 'selected'} Yes
+        %option{:name => 'reqnotify', :value => 'no'} No
+
+  .control-group
+    .controls
+      %input#purch-request-submit.btn.btn-danger(type="submit" name="submit" value="Submit purchase request")
+    .controls
+      %div.accordion#accordion2.request-options
+        %div.accordion-group
+          %div.accordion-heading
+          =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+          %div#collapseOne.accordion-body.collapse
+            %div.accordion-inner     
+              %div.span4     
+                = render :partial => 'shared/request_options'
+  -## Used to display working status and result of request via Ajax
+  #result
+

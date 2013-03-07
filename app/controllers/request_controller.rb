@@ -185,18 +185,27 @@ class RequestController < ApplicationController
     elsif request_action == 'ill'
       # fill in ill request
     elsif request_action == 'purchase'
-      # fill in purchase request
+      # Handled below
     elsif request_action == 'recall'
       voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     else
     end
 
-    logger.debug "posting request to: #{voyager_request_handler_url}"
-    body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
-    res = HTTPClient.post(voyager_request_handler_url,body)
-    #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
-    voyager_response = JSON.parse(res.content)
-    logger.debug voyager_response
+    if request_action == 'purchase'
+      # Email the form contents to the purchase request staff
+     # ActionMailer::Base.mail(:from => "culsearch@cornell.edu", :to => "mjc12@cornell.edu", :subject => "test", :body => "test").deliver
+      RequestMailer.email_request(netid, params)
+      # TODO: check for mail errors, don't assume that things are working!
+      voyager_response = {'status' => 'success'}
+    else
+      # Send a request to Voyager
+      logger.debug "posting request to: #{voyager_request_handler_url}"
+      body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
+      res = HTTPClient.post(voyager_request_handler_url,body)
+      #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
+      voyager_response = JSON.parse(res.content)
+      logger.debug voyager_response
+    end
 
     #render "request/make_request", :layout => false
     render :json => voyager_response, :layout => false
@@ -532,6 +541,7 @@ class RequestController < ApplicationController
     end
     if @document[:pub_info_display].present?
       pub_info_display = @document[:pub_info_display][0]
+      @pub_info = pub_info_display
       @ill_link = @ill_link + "&rft.place=#{pub_info_display}"
       @ill_link = @ill_link + "&rft.pub=#{pub_info_display}"
       @ill_link = @ill_link + "&rft.date=#{pub_info_display}"
