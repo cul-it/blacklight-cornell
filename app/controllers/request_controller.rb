@@ -179,6 +179,8 @@ class RequestController < ApplicationController
        add_item_id = "/#{holding_id}"
     end
 
+    logger.debug "nna = #{reqnna}"
+
     if request_action == 'callslip'
       voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     elsif request_action == 'bd'
@@ -215,6 +217,8 @@ class RequestController < ApplicationController
       else
         # Send a request to Voyager
         logger.debug "posting request to: #{voyager_request_handler_url}"
+        reqnna = Date.strptime(reqnna, '%m-%d-%Y').strftime('%Y-%m-%d')
+            logger.debug "nna = #{reqnna}"
         body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
         res = HTTPClient.post(voyager_request_handler_url,body)
         #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
