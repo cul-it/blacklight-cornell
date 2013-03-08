@@ -153,6 +153,7 @@ class RequestController < ApplicationController
   end
   end
 
+  # Process submitted form data from hold/recall/callslip/purchase request forms and perform the appropriate call
   def make_request
     voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
     if voyager_request_handler_url.blank?
@@ -177,6 +178,7 @@ class RequestController < ApplicationController
     if (holding_id)
        add_item_id = "/#{holding_id}"
     end
+
     if request_action == 'callslip'
       voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     elsif request_action == 'bd'
@@ -193,19 +195,32 @@ class RequestController < ApplicationController
     end
 
     if request_action == 'purchase'
-      # Email the form contents to the purchase request staff
-     # ActionMailer::Base.mail(:from => "culsearch@cornell.edu", :to => "mjc12@cornell.edu", :subject => "test", :body => "test").deliver
-      RequestMailer.email_request(netid, params)
-      # TODO: check for mail errors, don't assume that things are working!
-      voyager_response = {'status' => 'success'}
+      # Validate the form submission
+      if params[:name].blank? or params[:email].blank? or params[:status].blank? or params[:title].blank?
+        logger.debug('validation error')
+        flash[:error] = I18n.t('Validation error')
+        voyager_response = {'sattus' => 'failure'}
+      else
+        # Email the form contents to the purchase request staff
+        RequestMailer.email_request(netid, params)
+        # TODO: check for mail errors, don't assume that things are working!
+        voyager_response = {'status' => 'success'}
+      end
     else
-      # Send a request to Voyager
-      logger.debug "posting request to: #{voyager_request_handler_url}"
-      body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
-      res = HTTPClient.post(voyager_request_handler_url,body)
-      #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
-      voyager_response = JSON.parse(res.content)
-      logger.debug voyager_response
+      # Validate the form submission
+      if params[:library_id].blank? or params[:holding_id].blank?
+        logger.debug('validation error')
+        flash[:error] = I18n.t('Validation error')  
+        voyager_response = {'status' => 'failure'}
+      else
+        # Send a request to Voyager
+        logger.debug "posting request to: #{voyager_request_handler_url}"
+        body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
+        res = HTTPClient.post(voyager_request_handler_url,body)
+        #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
+        voyager_response = JSON.parse(res.content)
+        logger.debug voyager_response
+      end
     end
 
     #render "request/make_request", :layout => false
