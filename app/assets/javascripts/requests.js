@@ -18,7 +18,8 @@ $(document).ready(function() {
     var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
     $('#result').html("Working....");
     var reqnna = '';
-    reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    //reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    reqnna = $('form [name="latest-date"]:radio:checked').val();
     if (reqnna  == 'undefined-undefined-undefined') {
       reqnna = '';
     }

@@ -8,7 +8,6 @@
 
   #Added Bootstrap class well and 'hidden-phone' for the tools-bar
 -%>
-<li><a class="pull-right" href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local"><span class="label label-info classic-catalog">View in classic catalog <i class="icon-circle-arrow-right"></i></span></a></li>
 <li><%= render_show_doc_actions @document %></li>
 <!-- TODO: TRANSLATE -->
       <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
