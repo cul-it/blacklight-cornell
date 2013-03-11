@@ -1,0 +1,18 @@
+Purchase request submitted by <%= @user %>.
+(This was submitted from the Blacklight catalog to replace a lost or missing item.)
+
+<h3>Requestor</h3>
+Patron name: <%= @params['name'] %>
+<br/>Patron email: <%= @params['email'] %>
+<br/>Patron status: <%= @params['status'] %>
+<hr/>
+<h3>Item</h3>
+Title: <%= @params['title'] %>
+<br/>Author: <%= @params['author'] %>
+<br/>Series: <%= @params['series'] %>
+<br/>Publication: <%= @params['publication'] %>
+<br/>Identifier: <%= @params['identifier'] %>
+<br/>Comments: <%= @params['comments'] %>
+<br/>Notify patron when item is cataloged?: <%= @params['notify'] %>
+
+<br/><br/>Thank you!

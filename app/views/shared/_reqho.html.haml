@@ -1,0 +1,51 @@
+- holdings_condensed = @xholdings['condensed_holdings_full']
+- if holdings_condensed.size > 0
+  - first_item_in_holding = holdings_condensed.first
+  - if first_item_in_holding['location_name'] == '*Networked Resource'
+    - holdings_condensed.shift
+    - holdings_condensed = holdings_condensed.push(first_item_in_holding)
+  - add_display_elements(holdings_condensed).listify.find_all { | x | Aeon.eligible?(x['location_code']) }.each do |entry|
+
+    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
+    - callnumber = entry['call_number']
+    - location_code = entry['location_code']
+
+    .holding{:class => alternating_line}
+      .location_box
+        %h5.location
+          = location
+          -# @TODO: create a hash for mapping locations
+          - if location != 'Online'
+            %span.map-it
+              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
+            %div.aeon
+              = link_to 'Request delivery to the RMC Reading Room', "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{location_code}"
+
+      -# Only display a real call number
+      - if callnumber != 'No call number' && callnumber != ''
+        .call-number
+          = callnumber
+          %span.text-it
+            = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
+              %i.icon-mobile-phone
+              = t('blacklight.tools.sms')
+      - entry['copies'].each do |copy|
+        .group
+          - unless copy['temp_locations'].nil?
+            - copy['temp_locations'].each do |t|
+              .message= t
+          - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+            - unless copy[type].nil?
+              .message= copy[type]
+          - copy['items'].each do |item|
+            .status
+              - message, details = item
+              - if details['status'] == 'available'
+                %i.icon-ok
+                = message
+              - elsif location != 'Online'
+                -# Handling online link in show.html.erb for now (for good?)
+                %i.icon-time
+                = message
+              - if details['count'] >1
+                (#{details['count']} copies)
