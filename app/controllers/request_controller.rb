@@ -923,6 +923,7 @@ class RequestController < ApplicationController
   AEON = 'aeon'
 
   def request_aeon target='aeon'
+    resp, document = get_solr_response_for_doc_id(params[:id])
     bibid = params[:id]
     @isbn  = params[:isbn]
     @title = params[:title]
@@ -973,12 +974,12 @@ class RequestController < ApplicationController
        redirect_to request_item_redirect_path 
        return;
      end
-    request_options.push( _handle_ask_librarian bibid, nil )
+    request_options.push( _handle_ask_librarian )
     logger.debug "\n\n request options \n\n"
     logger.debug request_options.inspect
     logger.debug "\n\n"
     logger.debug "***Going to display to see what happens target is :#{target} \n\n"
-    _display request_options, target 
+    _display request_options, target , document
   end
 
   def aeon
