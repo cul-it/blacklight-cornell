@@ -180,8 +180,6 @@ class RequestController < ApplicationController
        add_item_id = "/#{holding_id}"
     end
 
-    logger.debug "nna = #{reqnna}"
-
     if request_action == 'callslip'
       voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     elsif request_action == 'bd'
@@ -218,8 +216,6 @@ class RequestController < ApplicationController
       else
         # Send a request to Voyager
         logger.debug "posting request to: #{voyager_request_handler_url}"
-        reqnna = Date.strptime(reqnna, '%m-%d-%Y').strftime('%Y-%m-%d')
-            logger.debug "nna = #{reqnna}"
         body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
         res = HTTPClient.post(voyager_request_handler_url,body)
         #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
@@ -845,8 +841,9 @@ class RequestController < ApplicationController
             end
           end
         end
+        bdEntry = { :service => BD, :iid => iids, :estimate => estimate }
+        request_options.push bdEntry
       end
-      return { :service => BD, :iid => iids, :estimate => estimate }
     end
   end
 
@@ -921,76 +918,6 @@ class RequestController < ApplicationController
 
   def deep_copy(o)
     Marshal.load(Marshal.dump(o))
-  end
-
-  AEON = 'aeon'
-
-  def request_aeon target=''
-    bibid = params[:id]
-    logger.debug "Entering request_aeon #{bibid} \n\n"
-    holdings_param = {
-      :bibid => bibid
-    }
-    yholdings = get_holdings holdings_param 
-    @xholdings = (yholdings)[bibid] 
-    holdings = (yholdings) [bibid]['condensed_holdings_full']
-    logger.debug "holdings #{bibid} \n\n"
-    logger.debug holdings.inspect
-    logger.debug "\n\n"
-    holdings_parsed = {}
-    holdings.each do |holding|
-      holding['holding_id'].each do |holding_id|
-        holdings_parsed[holding_id] = holding
-      end
-    end
-    @h = holdings
-    holdings_param[:type] = 'retrieve_detail_raw'
-    raw = get_holdings holdings_param
-    holdings_detail = raw[bibid]['records']
-    logger.debug "\n\nholdings detail \n\n"
-    logger.debug holdings_detail.inspect
-    logger.debug "\n\n"
-    item_type = get_item_type holdings_detail, bibid
-    logger.debug "Item type is #{item_type}" 
-    logger.debug "\n\n"
-    @request_solution = ''
-    request_options = []
-    # If no items are suitable for aeon,
-    #   redirect to request_item 
-
-    holdings_detail.each do |holding|
-      holding_id = holding['holding_id']
-      holdings_condensed_full_item = holdings_parsed[holding_id]
-      logger.debug "status: #{holdings_condensed_full_item['status']}"
-      ## is requested treated same as charged?
-      item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
-      request_options.push( _handle_aeon bibid, holding )
-    end 
-    request_options.push( _handle_ask_librarian bibid, nil )
-    logger.debug "\n\n request options \n\n"
-    logger.debug request_options.inspect
-    logger.debug "\n\n"
-    _display request_options, target
-  end
-
-  def aeon
-    return request_aeon AEON 
-  end
-
-
-  def _handle_aeon bibid, holding
-    itemdata = holding["item_status"]["itemdata"]
-    iids = []
-    if (!itemdata.nil?)
-      itemdata.each do | iid |
-        #itemStatus"=>"Not Charged",
-        if (! iid['itemStatus'].match('Not Charged') )
-          iid[:estimate] = get_recall_delivery_time iid
-          iids.push iid
-        end
-      end
-    end
-    return { :service => AEON, :iid => iids, :estimate => 2 }
   end
 
 end
