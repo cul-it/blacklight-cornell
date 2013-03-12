@@ -392,7 +392,13 @@ class RequestController < ApplicationController
 
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
-      holding_type = holding['item_status']['itemdata'][0]['typeCode']
+      holding_type = holding['item_status']['itemdata']
+      if holding_type.count == 0
+        request_options.push( _handle_ask_librarian )
+        next
+      end
+
+      holding_type = holding_type[0]['typeCode']
       holdings_condensed_full_item = holdings_parsed[holding_id]
       # logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
@@ -970,14 +976,24 @@ class RequestController < ApplicationController
     logger.debug "Item types :" 
     logger.debug item_types.inspect 
     logger.debug "\n\n"
+
+
+
     @request_solution = ''
     request_options = []
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
+
+      holding_type = holding['item_status']['itemdata']
+      if holding_type.count == 0
+        next
+      end
+      holding_status = holding_type[0]['itemStatus']
+
       holdings_condensed_full_item = holdings_parsed[holding_id]
       logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
-      item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
+      item_status = get_item_status holding_status
       request_options.push( _handle_aeon bibid, holding )
     end 
     if (!item_types.include?('aeon'))  
