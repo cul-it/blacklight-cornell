@@ -19,8 +19,5 @@
               %div.span4     
                 = render :partial => 'shared/request_options'
 - if (@show_non_rare)
-  %form#request_form.form-horizontal{:method => 'post', :action => request_item_redirect_path}
-    %input(type="hidden" name="bid" value="#{@id}" id="bid")
-    %input(type="hidden" name="isbn" value="#{@isbn}")
-    %input(type="hidden" name="title" value="#{@title}")
-    %input#request.btn.btn-danger(type="submit" name="request" value="Request non-rare items")
+  %div.item-requests
+    =link_to 'Request non rare items', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
