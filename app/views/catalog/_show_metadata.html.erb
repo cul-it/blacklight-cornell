@@ -32,7 +32,7 @@
 
           <!-- Only show request button if there are physical holdings -->
           <% locs = @response.docs[0]['location_display'] %>
-          <% unless locs.length == 1 and locs[0] == '*Networked Resource' %>
+          <% if locs.blank? or !(locs.length == 1 and locs[0] == '*Networked Resource') %>
             <div class="item-requests">
               <%= link_to 'Request', aeon_request_path(params[:id]), {:title => 'Request', :class => 'btn btn-danger'} %>
             </div>
