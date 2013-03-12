@@ -874,7 +874,12 @@ class RequestController < ApplicationController
     logger.debug holdings.inspect
     logger.debug "\n\n"
     holdings_parsed = {}
+    @show_non_rare = false;
     holdings.each do |holding|
+      if (!Aeon.eligible?(holding['location_code']))
+         @show_non_rare = true
+        logger.debug "\n\nset show_non_rare to #{@show_non_rare} \n\n"
+      end
       holding['holding_id'].each do |holding_id|
         holdings_parsed[holding_id] = holding
       end
