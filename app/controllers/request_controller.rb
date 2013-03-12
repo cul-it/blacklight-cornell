@@ -711,7 +711,13 @@ class RequestController < ApplicationController
 
     ## initialize pazpar2 session
     request_url = borrow_direct_webservices_url + '/search.pz2?command=init'
-    response = HTTPClient.get_content(request_url)
+    response = ''
+    begin
+      response = HTTPClient.get_content(request_url)
+    rescue
+      logger.warn "Error connecting to pazpar2 server at #{request_url}"
+      return false
+    end
     response_parsed = Hash.from_xml(response)
     session_id = response_parsed['init']['session']
     # logger.info "session id: #{session_id}"
