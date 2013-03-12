@@ -920,4 +920,115 @@ class RequestController < ApplicationController
     Marshal.load(Marshal.dump(o))
   end
 
+  AEON = 'aeon'
+
+  def request_aeon target='aeon'
+    bibid = params[:id]
+    @isbn  = params[:isbn]
+    @title = params[:title]
+    logger.debug "Entering request_aeon #{bibid} \n\n"
+    holdings_param = {
+      :bibid => bibid
+    }
+    yholdings = get_holdings holdings_param 
+    @xholdings = (yholdings)[bibid] 
+    holdings = (yholdings) [bibid]['condensed_holdings_full']
+    logger.debug "holdings #{bibid} \n\n"
+    logger.debug holdings.inspect
+    logger.debug "\n\n"
+    holdings_parsed = {}
+    @show_non_rare = false;
+    holdings.each do |holding|
+      if (!Aeon.eligible?(holding['location_code']))
+         @show_non_rare = true
+        logger.debug "\n\nset show_non_rare to #{@show_non_rare} \n\n"
+      end
+      holding['holding_id'].each do |holding_id|
+        holdings_parsed[holding_id] = holding
+      end
+    end
+    @h = holdings
+    holdings_param[:type] = 'retrieve_detail_raw'
+    raw = get_holdings holdings_param
+    holdings_detail = raw[bibid]['records']
+    logger.debug "\n\nholdings detail \n\n"
+    logger.debug holdings_detail.inspect
+    logger.debug "\n\n"
+    item_types = get_item_types holdings_detail, bibid
+    logger.debug "Item types :" 
+    logger.debug item_types.inspect 
+    logger.debug "\n\n"
+    @request_solution = ''
+    request_options = []
+    holdings_detail.each do |holding|
+      holding_id = holding['holding_id']
+      holdings_condensed_full_item = holdings_parsed[holding_id]
+      logger.debug "status: #{holdings_condensed_full_item['status']}"
+      ## is requested treated same as charged?
+      item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
+      request_options.push( _handle_aeon bibid, holding )
+    end 
+    if (!item_types.include?('aeon'))  
+       logger.debug "***Redirecting to see what happens \n\n"
+       redirect_to request_item_redirect_path 
+       return;
+     end
+    request_options.push( _handle_ask_librarian bibid, nil )
+    logger.debug "\n\n request options \n\n"
+    logger.debug request_options.inspect
+    logger.debug "\n\n"
+    logger.debug "***Going to display to see what happens target is :#{target} \n\n"
+    _display request_options, target 
+  end
+
+  def aeon
+    return request_aeon AEON 
+  end
+
+
+  def _handle_aeon bibid, holding
+    itemdata = holding["item_status"]["itemdata"]
+    iids = []
+    if (!itemdata.nil?)
+      itemdata.each do | iid |
+        #itemStatus"=>"Not Charged",
+        if (! iid['itemStatus'].match('Not Charged') )
+          iid[:estimate] = get_recall_delivery_time iid
+          iids.push iid
+        end
+      end
+    end
+    return { :service => AEON, :iid => iids, :estimate => 2 }
+  end
+
+ def get_item_types holdings_detail, bibid
+    ## there are three types of loans
+    ## regular
+    ## day
+    ## minute
+    ## 'regular'
+    types = []
+    holdings_detail.each do |holding|
+      if holding['bibid'] == bibid
+        itemdata = holding['item_status']['itemdata']
+        itemdata.each do |data|
+          if (Aeon.eligible_id?(data['location_id']))
+            logger.debug "Got aeon loan"
+            types.push 'aeon'
+          elsif IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+            logger.debug "Got day loan"
+            types.push 'day'
+          elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
+            logger.debug "Got minute loan"
+            types.push 'minute'
+          else 
+            logger.debug "Got regular loan"
+            types.push 'minute'
+          end
+        end
+      end
+    end
+    return types
+  end
+
 end
