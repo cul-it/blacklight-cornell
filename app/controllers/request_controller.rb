@@ -689,6 +689,17 @@ class RequestController < ApplicationController
   end
 
   def borrowDirect_available? params
+    availability = false
+    begin
+      availability = _borrowDirect_available? params
+    rescue => e
+      logger.warn "Error checking borrow direct availability: exception #{e.class.name} : #{e.message}"
+      availability = false
+    end
+    return availability
+  end
+
+  def _borrowDirect_available? params
     borrow_direct_webservices_url = Rails.configuration.borrow_direct_webservices_host
     if borrow_direct_webservices_url.blank?
       borrow_direct_webservices_url = request.env['HTTP_HOST']
@@ -711,13 +722,7 @@ class RequestController < ApplicationController
 
     ## initialize pazpar2 session
     request_url = borrow_direct_webservices_url + '/search.pz2?command=init'
-    response = ''
-    begin
-      response = HTTPClient.get_content(request_url)
-    rescue
-      logger.warn "Error connecting to pazpar2 server at #{request_url}"
-      return false
-    end
+    response = HTTPClient.get_content(request_url)
     response_parsed = Hash.from_xml(response)
     session_id = response_parsed['init']['session']
     # logger.info "session id: #{session_id}"
