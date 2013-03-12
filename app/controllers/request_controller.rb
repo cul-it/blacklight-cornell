@@ -180,8 +180,6 @@ class RequestController < ApplicationController
        add_item_id = "/#{holding_id}"
     end
 
-    logger.debug "nna = #{reqnna}"
-
     if request_action == 'callslip'
       voyager_request_handler_url = "#{voyager_request_handler_url}/holdings/#{request_action}/#{netid}/#{bid}/#{library_id}#{add_item_id}"
     elsif request_action == 'bd'
@@ -218,8 +216,6 @@ class RequestController < ApplicationController
       else
         # Send a request to Voyager
         logger.debug "posting request to: #{voyager_request_handler_url}"
-        reqnna = Date.strptime(reqnna, '%m-%d-%Y').strftime('%Y-%m-%d')
-            logger.debug "nna = #{reqnna}"
         body = {"reqnna" => reqnna,"reqcomments"=>reqcomments}
         res = HTTPClient.post(voyager_request_handler_url,body)
         #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
@@ -693,6 +689,17 @@ class RequestController < ApplicationController
   end
 
   def borrowDirect_available? params
+    availability = false
+    begin
+      availability = _borrowDirect_available? params
+    rescue => e
+      logger.warn "Error checking borrow direct availability: exception #{e.class.name} : #{e.message}"
+      availability = false
+    end
+    return availability
+  end
+
+  def _borrowDirect_available? params
     borrow_direct_webservices_url = Rails.configuration.borrow_direct_webservices_host
     if borrow_direct_webservices_url.blank?
       borrow_direct_webservices_url = request.env['HTTP_HOST']
@@ -845,8 +852,9 @@ class RequestController < ApplicationController
             end
           end
         end
+        bdEntry = { :service => BD, :iid => iids, :estimate => estimate }
+        request_options.push bdEntry
       end
-      return { :service => BD, :iid => iids, :estimate => estimate }
     end
   end
 
@@ -925,8 +933,11 @@ class RequestController < ApplicationController
 
   AEON = 'aeon'
 
-  def request_aeon target=''
+  def request_aeon target='aeon'
+    resp, document = get_solr_response_for_doc_id(params[:id])
     bibid = params[:id]
+    @isbn  = params[:isbn]
+    @title = params[:title]
     logger.debug "Entering request_aeon #{bibid} \n\n"
     holdings_param = {
       :bibid => bibid
@@ -938,7 +949,12 @@ class RequestController < ApplicationController
     logger.debug holdings.inspect
     logger.debug "\n\n"
     holdings_parsed = {}
+    @show_non_rare = false;
     holdings.each do |holding|
+      if (!Aeon.eligible?(holding['location_code']))
+         @show_non_rare = true
+        logger.debug "\n\nset show_non_rare to #{@show_non_rare} \n\n"
+      end
       holding['holding_id'].each do |holding_id|
         holdings_parsed[holding_id] = holding
       end
@@ -950,14 +966,12 @@ class RequestController < ApplicationController
     logger.debug "\n\nholdings detail \n\n"
     logger.debug holdings_detail.inspect
     logger.debug "\n\n"
-    item_type = get_item_type holdings_detail, bibid
-    logger.debug "Item type is #{item_type}" 
+    item_types = get_item_types holdings_detail, bibid
+    logger.debug "Item types :" 
+    logger.debug item_types.inspect 
     logger.debug "\n\n"
     @request_solution = ''
     request_options = []
-    # If no items are suitable for aeon,
-    #   redirect to request_item 
-
     holdings_detail.each do |holding|
       holding_id = holding['holding_id']
       holdings_condensed_full_item = holdings_parsed[holding_id]
@@ -966,11 +980,17 @@ class RequestController < ApplicationController
       item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
       request_options.push( _handle_aeon bibid, holding )
     end 
-    request_options.push( _handle_ask_librarian bibid, nil )
+    if (!item_types.include?('aeon'))  
+       logger.debug "***Redirecting to see what happens \n\n"
+       redirect_to request_item_redirect_path 
+       return;
+     end
+    request_options.push( _handle_ask_librarian )
     logger.debug "\n\n request options \n\n"
     logger.debug request_options.inspect
     logger.debug "\n\n"
-    _display request_options, target
+    logger.debug "***Going to display to see what happens target is :#{target} \n\n"
+    _display request_options, target , document
   end
 
   def aeon
@@ -991,6 +1011,36 @@ class RequestController < ApplicationController
       end
     end
     return { :service => AEON, :iid => iids, :estimate => 2 }
+  end
+
+ def get_item_types holdings_detail, bibid
+    ## there are three types of loans
+    ## regular
+    ## day
+    ## minute
+    ## 'regular'
+    types = []
+    holdings_detail.each do |holding|
+      if holding['bibid'] == bibid
+        itemdata = holding['item_status']['itemdata']
+        itemdata.each do |data|
+          if (Aeon.eligible_id?(data['location_id']))
+            logger.debug "Got aeon loan"
+            types.push 'aeon'
+          elsif IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+            logger.debug "Got day loan"
+            types.push 'day'
+          elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
+            logger.debug "Got minute loan"
+            types.push 'minute'
+          else 
+            logger.debug "Got regular loan"
+            types.push 'minute'
+          end
+        end
+      end
+    end
+    return types
   end
 
 end

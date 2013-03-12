@@ -18,5 +18,6 @@
             %div.accordion-inner     
               %div.span4     
                 = render :partial => 'shared/request_options'
-  -## Used to display working status and result of request via Ajax
-  #result
+- if (@show_non_rare)
+  %div.item-requests
+    =link_to 'Request non rare items', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
