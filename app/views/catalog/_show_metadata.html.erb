@@ -34,7 +34,7 @@
           <% locs = @response.docs[0]['location_display'] %>
           <% unless locs.length == 1 and locs[0] == '*Networked Resource' %>
             <div class="item-requests">
-              <%= render :partial => 'show_request_form', :locals => {:document => @document} %>
+              <%= link_to 'Request', request_item_redirect_path(params[:id]), {:title => 'Request', :class => 'btn btn-danger'} %>
             </div>
           <% end %>
 
