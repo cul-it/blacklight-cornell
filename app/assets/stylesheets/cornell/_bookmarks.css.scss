@@ -1,10 +1,33 @@
-ul.bookmarkTools {
-  display: inline-block;
-  margin-left: 2em;
-  .btn {
-    // Would have preferred to just use .btn-small but that would have required
-    // overriding catalog/_refworks_form.html.erb in our app
-    padding: 3px 8px;
-    font-size: .8em;
-  }
+
+
+.bookmark-tools {
+	ul {
+		list-style: none;
+		margin-left:0;
+	}
+	li {
+		font-size: .85em;
+  		float: none;
+  		margin-right: 0px;
+	}
+	li.refworks {padding-left:20px;
+	}
+	label { font-size: 1em; }
+	form { margin: 0; }
+	.form-inline .checkbox,
+	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
+	.dropdown-menu {
+		min-width: auto;
+		li {
+			font-size: 1em;
+			margin-left: 0;
+			float: none;
+		}
+	}
+
 }
+
+
+
+
+.bookmark-tools > ul > li {margin-right: 15px;}

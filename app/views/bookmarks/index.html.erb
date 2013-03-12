@@ -1,5 +1,7 @@
 <h2><%= t('blacklight.bookmarks.title') %></h2>
 
+
+
 <%- if current_or_guest_user.blank? -%>
 
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
@@ -9,20 +11,19 @@
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
 
-<div class="results-info span12 pull-right">
+<div class="results-info span12">
   <span class="results-count">
     <%= render :partial => "paginate_compact" %>
   </span>
 
-  <%= render 'tools' %>
 
   <%= render :partial => 'sort_widget' %>
 
   <%= render :partial => 'per_page_widget' %>
 </div>
 
-<div class="span6 pull-right">
-
+<div class="bookmark-tools">
+  <%= render 'tools' %>
 </div>
   <%= render_document_index %>
   <%= render 'results_pagination' %>
