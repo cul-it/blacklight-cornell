@@ -39,7 +39,7 @@
             - if location != 'Online'
               .status
                 - message, details = item
-                - if details['status'] == 'available'
+                - if details['status'] == 'available' || details['status'] == 'some_available'
                   %i.icon-ok
                 - elsif details['status'] == 'none'
                   %i.icon-question-sign
