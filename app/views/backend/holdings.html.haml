@@ -35,14 +35,16 @@
             - unless copy[type].nil?
               .message= copy[type]
           - copy['items'].each do |item|
-            .status
-              - message, details = item
-              - if details['status'] == 'available'
-                %i.icon-ok
+            -# Handling online link in _show_metadata.html.erb
+            - if location != 'Online'
+              .status
+                - message, details = item
+                - if details['status'] == 'available'
+                  %i.icon-ok
+                - elsif details['status'] == 'none'
+                  %i.icon-question-sign
+                - else
+                  %i.icon-time
                 = message
-              - elsif location != 'Online'
-                -# Handling online link in show.html.erb for now (for good?)
-                %i.icon-time
-                = message
-              - if details['count'] >1
-                (#{details['count']} copies)
+                - if details['count'] >1
+                  (#{details['count']} copies)
