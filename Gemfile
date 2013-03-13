@@ -20,7 +20,7 @@ gem 'marc'
 gem 'rb-readline'
 gem 'font-awesome-sass-rails', '~> 3.0.0.1'
 gem 'net-ldap'
-
+gem 'newrelic_rpm'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
