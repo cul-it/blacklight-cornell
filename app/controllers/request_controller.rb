@@ -316,15 +316,27 @@ class RequestController < ApplicationController
       if holding['bibid'] == bibid
         itemdata = holding['item_status']['itemdata']
         itemdata.each do |data|
-          if IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
-            logger.debug "Got day loan"
-            return 'day'
-          elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
-            logger.debug "Got minute loan"
-            return 'minute'
-          end
+          itemType = _get_item_type data
+          return itemType unless itemType == 'regular'
         end
       end
+    end
+    # logger.debug "Got regular loan"
+    return 'regular'
+  end
+
+  def _get_item_type data
+    ## there are three types of loans
+    ## regular
+    ## day
+    ## minute
+    ## 'regular'
+    if IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+      logger.debug "Got day loan"
+      return 'day'
+    elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
+      logger.debug "Got minute loan"
+      return 'minute'
     end
     # logger.debug "Got regular loan"
     return 'regular'
@@ -358,7 +370,7 @@ class RequestController < ApplicationController
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid]['records']
     # logger.info "\n\n"
-    # logger.debug holdings_detail.inspect
+    logger.debug holdings_detail.inspect
 
     item_type = get_item_type holdings_detail, bibid
     # logger.info "item type: #{item_type}"
@@ -822,8 +834,11 @@ class RequestController < ApplicationController
     if (!itemdata.nil?)
       itemdata.each do | iid_ref |
         iid = deep_copy(iid_ref)
+        logger.info iid.inspect
+        logger.info "\n"
         #itemStatus"=>"Not Charged",
-        if ( (! iid['location'].match('Non-Circulating')) && (iid['itemStatus'].match('Not Charged')))
+        itemType = _get_item_type iid
+        if ( (! iid['location'].include?('Non-Circulating')) && (iid['itemStatus'].include?('Not Charged')) && itemType != 'minute' && IRREGULAR_LOAN_TYPE[:NO_L2L][iid['typeCode']] != 1)
           iid[:estimate] = get_l2l_delivery_time iid
           iids.push iid
           if estimate > iid[:estimate]
