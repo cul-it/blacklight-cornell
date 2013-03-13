@@ -156,6 +156,7 @@ GEM
     net-ssh (2.6.3)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    newrelic_rpm (3.5.8.72)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     parslet (1.5.0)
@@ -280,6 +281,7 @@ DEPENDENCIES
   marc
   mysql (= 2.8.1)
   net-ldap
+  newrelic_rpm
   rails (= 3.2.11)
   rb-inotify
   rb-readline

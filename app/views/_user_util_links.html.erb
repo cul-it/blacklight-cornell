@@ -2,6 +2,12 @@
   <ul class="blacklight-nav">
     <% if current_or_guest_user %>
       <li><%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %></li>
+      <% unless @bookmarks.nil? %>
+      <% @bookmarks.collect %>
+        <% unless @bookmarks.count < 1 %>
+        <li><font color="white">(<%= @bookmarks.count %> )</font></li>
+        <% end %>
+      <% end %>
     <% end %>
     <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
   </ul>
