@@ -60,6 +60,9 @@ class RequestController < ApplicationController
       '17' => 1,
       '23' => 1,
       '24' => 1
+    },
+    :NOCIRC => {
+      '9'  => 1
     }
   }
   LIBRARY_ANNEX = 'Library Annex'
@@ -331,7 +334,10 @@ class RequestController < ApplicationController
     ## day
     ## minute
     ## 'regular'
-    if IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
+    if IRREGULAR_LOAN_TYPE[:NOCIRC][data['typeCode']] == 1
+      logger.debug 'Got nocirc'
+      return 'nocirc'
+    elsif IRREGULAR_LOAN_TYPE[:DAY][data['typeCode']] == 1
       logger.debug "Got day loan"
       return 'day'
     elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
@@ -386,6 +392,29 @@ class RequestController < ApplicationController
     resp, document = get_solr_response_for_doc_id(params[:id])
     bdParams = { :isbn => document['isbn_display'], :title => URI::escape(document['title_display']) }
     # logger.info bdParams.inspect
+
+    if item_type == 'nocirc'
+      if patron_type == 'cornell'
+        ## BD, ILL, ASK
+        if borrowDirect_available? bdParams
+          request_options.push({ :service => BD, :iid => [], :estimate => get_bd_delivery_time })
+          if target.blank?
+            target = BD
+          end
+        end
+        request_options.push({ :service => ILL, :iid => [], :estimate => get_ill_delivery_time })
+        request_options.push( _handle_ask_librarian )
+        if target.blank?
+          target = ILL
+        end
+      else
+        ## ASK
+        request_options.push( _handle_ask_librarian )
+        target = ASK
+      end
+      _display request_options, target, document
+      return
+    end
 
     if patron_type == 'cornell' && !document['url_pda_display'].blank?
       logger.debug "pda"
