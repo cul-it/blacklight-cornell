@@ -78,4 +78,8 @@ BlacklightCornell::Application.configure do
   config.voyager_request_handler_host = ""
   config.voyager_request_handler_port = 8950
   
+  ## URL of metasearch service
+  config.borrow_direct_webservices_host = ""
+  config.borrow_direct_webservices_port = 9004
+  
 end
