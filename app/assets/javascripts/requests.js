@@ -12,11 +12,14 @@ $(document).ready(function() {
   $('#req').submit( function(e) {
     return false;
   });
+
+  // Form submit handler for most types of requests
   $('#request-submit').click(function(e) {
     var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
     $('#result').html("Working....");
     var reqnna = '';
-    reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    //reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    reqnna = $('form [name="latest-date"]:radio:checked').val();
     if (reqnna  == 'undefined-undefined-undefined') {
       reqnna = '';
     }
@@ -32,7 +35,42 @@ $(document).ready(function() {
       },
       url:hu,
       dataType: 'json',
-      success: function(data) {
+      success: function(data) { 
+        var st=data.status;
+        var desc= (st == 'success') ? 'succeeded' : 'failed';
+        var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();
+        $('#result').html("Your request for " + act_desc + " has "+desc);
+      }
+    });
+    return false; // should block the submit
+  });
+
+  // Form submit handler for purchase requests 
+  $('#purch-request-submit').click(function(e) {
+
+    var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
+    $('#result').html("Working....");
+    // var purchaseRequestForm = $('#req');
+    // var formData = JSON.stringify(purchaseRequestForm.serializeArray());
+    $.ajax({
+      type: 'POST',
+      data: {
+        'name':         $('#reqname').val(),
+        'email':        $('#reqemail').val(), 
+        'status':       $('#reqstatus').val(),     
+        'title':        $('#reqtitle').val(),  
+        'author':       $('#reqauthor').val(),
+        'series':       $('#reqseries').val(),
+        'publication':  $('#reqpublication').val(),
+        'identifier':   $('#reqidentifier').val(),
+        'comments':     $('#reqcomments').val(),
+        'notify':       $('#reqnotify').val(),
+
+        "request_action": $("#request_action").val()
+      },
+      url:hu,
+      dataType: 'json',
+      success: function(data) { 
         var st=data.status;
         var desc= (st == 'success') ? 'succeeded' : 'failed';
         var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();

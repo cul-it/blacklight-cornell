@@ -1,0 +1,17 @@
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Patron-Driven Aquisition
+%p
+  = link_to @iis['pda'][:url], {:title => 'Submit Purchase Request', :class => 'btn btn-danger'} do
+    Submit Purchase Request
+.control-group
+  .controls
+    %div.accordion#accordion2.request-options
+      %div.accordion-group
+        %div.accordion-heading
+        =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+        %div#collapseOne.accordion-body.collapse
+          %div.accordion-inner     
+            %div.span4     
+              = render :partial => 'shared/request_options'

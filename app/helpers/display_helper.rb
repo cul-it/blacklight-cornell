@@ -38,7 +38,7 @@ module DisplayHelper
       if metadata.present?
         label = metadata[0]
       end
-      link_to(label, url.html_safe, {:class => 'online-access'})
+      link_to(process_online_title(label), url.html_safe, {:class => 'online-access'})
     end
 
     if render_format == 'raw'

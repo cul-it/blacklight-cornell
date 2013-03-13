@@ -1,0 +1,23 @@
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Request delivery of Rare and Manuscript material RMC Reading Room 
+%h2.blacklight-title_display.item-title-request=@ti
+%div.request-author=@au
+%form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
+  %input(type="hidden" name="bid" value="#{@id}" id="bid")
+  %input(type="hidden" name="request_action" value="aeon" id="request_action")
+  = render :partial => 'shared/reqho'
+  .control-group
+    .controls
+      %div.accordion#accordion2.request-options
+        %div.accordion-group
+          %div.accordion-heading
+          =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+          %div#collapseOne.accordion-body.collapse
+            %div.accordion-inner     
+              %div.span4     
+                = render :partial => 'shared/request_options'
+- if (@show_non_rare)
+  %div.item-requests
+    =link_to 'Request non rare items', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}

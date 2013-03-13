@@ -9,12 +9,66 @@
 	.span12 {
 		.main-content { padding: 0; }
 	}
-	.facets {
-		margin-top: 5px; }
-	#facets {
-		.navbar {
-			margin-bottom:5px;
+	footer {
+		[class*="span"] {
+			padding-left: 10px;
+			padding-right: 10px;
 		}
+	}
+	.feedback-link { text-align: left; }
+	ul.blacklight-nav {
+		float: none;
+		margin: 10px 0 0 0;
+		a {
+			display: inline;
+			padding: 3px 10px;
+		}
+	}
+	header {
+		.container { border-radius: 0; }
+		h2 { margin-left: 10px; }
+	}
+
+//
+// Search form
+.search-options.span4 {
+		width: 50%;
+		float: left;
+	}
+	#search_field {
+		width: 100px;
+		margin-left: .4em;
+	}
+	.mobile-search-btn { display: inline !important; }
+	.start-over { font-size: .7em; }
+	.navbar {
+  		.icon-reorder {
+  			color: $light-gray;
+  			margin-left: 3px; }
+  	}
+  	.return-link { margin-top: 10px; }
+  	.blacklight-catalog-show {
+	}
+
+	//
+	// Search results
+	#document { margin-top: 1em; }
+	.document-data {
+		width: 80%;
+		.pull-right { // delete this if we keep new markup for select-item checkbox on results
+			form { margin-bottom: 5px; }
+		}
+		.select-item { // revised rule for new markup for select-item checkbox on results
+			form { margin-bottom: 5px; }
+		}
+	}
+	.select-item {
+		float: none;
+		margin-left: 0;
+	}
+	.facets { margin-top: 5px; }
+	#facets {
+		.navbar { margin-bottom:5px; }
 		.btn-navbar {
 		    display: inline-block; float: none;
 		    color: #ffffff;
@@ -45,70 +99,26 @@
  		.btn-navbar.active { background-color: #080808 \9; }
  		.nav-collapse { margin: 5px 10px; }
 	}
-	// ul.login { float: none; } -- can this be deleted?
-	#document { margin-top: 1em; }
-	.document-data {
-		width: 80%;
-		.pull-right { // delete this if we keep new markup for select-item checkbox on results
-			form { margin-bottom: 5px; }
-		}
-		.select-item { // revised rule for new markup for select-item checkbox on results
-			form { margin-bottom: 5px; }
-		}
-	}
-	.search-options.span4 {
-		width: 50%;
+
+	//
+	// Item page
+	.item-pagination {
 		float: left;
+		width: 50%;
+		margin-bottom: 0;
 	}
-	#search_field {
-		width: 100px;
-		margin-left: .4em;
-	}
-	.mobile-search-btn { display: inline !important; }
-	.start-over { font-size: .7em; }
-	.navbar {
-  		.icon-reorder {
-  			color: $light-gray;
-  			margin-left: 3px; }
-  	}
-  	.return-link { margin-top: 10px; }
-  	.blacklight-catalog-show {
-		.span4 { clear: both; }
-	}
-	dl.dl-horizontal {
-		dd { margin-left: 0; }
-	}
-	footer {
-		[class*="span"] {
-			padding-left: 10px;
-			padding-right: 10px;
-		}
-	}
-	.feedback-link { text-align: left; }
 	.item-tools {
-		text-align: left;
-		ul {
-			float: none;
-			margin-left: 0;
-			margin-bottom: 0; }
-		li:first-child { margin-left: 0; }
+		float: right;
+		clear: none;
+		width: 50%;
 	}
-	.item-pagination { margin-bottom: 0.5em; }
-	.select-item {
-		float: none;
-		margin-left: 0; }
-	.cover {
-		width: 20%;
+	.cover { width: 25%; }
+	.cover img {width: 75%; }
+	.item-metadata {
+		float: left;
+		width: 70%;
 	}
-	ul.blacklight-nav {
-		float: none;
-		margin: 10px 0 0 0;
-		a { 
-			display: inline;
-			padding: 3px 10px; }
-	}
-	header {
-		.container { border-radius: 0; }
-		h2 { margin-left: 10px; }
+	dl.dl-horizontal dd {
+		margin-left: 0;
 	}
 }

@@ -29,7 +29,7 @@
     - else
       - location = entry['summary']['holdinglocs'][0]
       - callnumber = entry['records'][0]['call_number']
-      %i.icon-time{:title => 'Available by request'}
+      %i.icon-question-sign{:title => 'Status unknown'}
     %span.location= location
     %span.callnumber= callnumber
     - if entry['summary']['onotes'].size > 0
