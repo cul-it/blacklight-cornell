@@ -133,15 +133,13 @@ module DisplayHelper
     logger.info "#{primary_field}, #{pval}, #{related_search_field}, #{rval}"
     logger.info get_clickable_search_field(primary_field)
     logger.info get_clickable_search_field(related_search_field)
-    op = 'op[]'
     new_search_params = {
       #:utf8 => '✓',
       (get_clickable_search_field(primary_field)).to_sym => pval,
       related_search_field.to_sym => rval,
       :search_field => 'advanced',
       :commit => 'search',
-      :action => 'index',
-      op.to_sym => 'AND'
+      :action => 'index'
     }
   end
 
