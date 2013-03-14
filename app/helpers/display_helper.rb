@@ -516,10 +516,31 @@ module DisplayHelper
     render_field_value(@document[blacklight_config.show.html_title].html_safe)
   end
 
-  def url_to_borrowdirect(isbn)
+  def borrowdirect_url_from_isbn(isbns)
+
+    # For now, just take the first isbn if there are more than one. BD seems to do fine with any.
+    if isbns.length > 0
+      isbn = isbns[0]
+    else
+      isbn = isbns
+    end
+
+    # Chop off any dangling text (e.g., 13409872342X (pbk))
+    isbn = isbn.scan(/[0-9xX]+/)[0]
+    return if isbn.nil?
+
     link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
 
     link_url
+  
+  end
+
+  def borrowdirect_url_from_title(title)
+
+    link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft.btitle=" + title + "&req_id=info:rfa/oclc/institutions/3913"
+
+    link_url
+
   end
 
   # Overrides original method from facets_helper_behavior.rb

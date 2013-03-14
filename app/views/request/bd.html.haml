@@ -2,17 +2,12 @@
 %h2.item-title-request.blacklight-title_display=@ti
 %div.request-author=@au
 %p
-  To request this item, go to 
-  =link_to 'Borrow Direct', 'http://resolver.library.cornell.edu/NET/parsebd?redirect=yes'
-  and search for your item using either ISBN or title:
+  To request this item through Borrow Direct, please use the following link:
 - if @isbn.present?
-  - @isbn.each do |entry|
-    %div
-      ISBN:
-      = entry
-%div
-  Title:
-  = @ti
+  = link_to 'Search Borrow Direct', borrowdirect_url_from_isbn(@isbn)
+- else
+  = link_to 'Search Borrow Direct', borrowdirect_url_from_title(@ti)
+
 
 .controls
   %div.accordion#accordion2.request-options
