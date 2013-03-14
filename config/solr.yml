@@ -17,7 +17,8 @@ development:
   # url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
   # url: http://bdc34-dev.library.cornell.edu:8080/solr/core1
   # url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
-  url: http://da-dev-solr.library.cornell.edu/solr/february12
+  # url: http://da-dev-solr.library.cornell.edu/solr/february12
+  url: http://da-dev-solr.library.cornell.edu/solr/March13
 
 test: &test
   # url: <%= "http://raksha02.library.cornell.edu:8983/solr" %>
@@ -26,13 +27,15 @@ test: &test
   # url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
   # url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
   # url: http://machete.cul.columbia.edu:8080/solr-3.5/spectrum_test35
-  url: http://da-dev-solr.library.cornell.edu/solr/february12
+  # url: http://da-dev-solr.library.cornell.edu/solr/february12
+  url: http://da-dev-solr.library.cornell.edu/solr/March13
 
 production:
   # url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/february12" %>
   # url: http://bdc34-dev.library.cornell.edu:8080/solr/test1
   # url: <%= "http://bdc34-dev.library.cornell.edu:8080/solr/core1" %>
-  url: http://da-dev-solr.library.cornell.edu/solr/february12
+  # url: http://da-dev-solr.library.cornell.edu/solr/february12
+  url: http://da-dev-solr.library.cornell.edu/solr/March13
 
 cucumber:
   <<: *test
