@@ -139,9 +139,10 @@ dl.dl-horizontal {
 	line-height: 1.2em;
 }
 .online-coverage {
-	font-size: .7em;
-	vertical-align: top;
-	background: $dark-tan;
+	display: block;
+	margin-left: 2em;
+	font-size: .8em;
+	color: $dark-gray;
 }
 .item-requests {
 	margin-top: 1.5em;
