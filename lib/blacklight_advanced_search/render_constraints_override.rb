@@ -22,9 +22,33 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
          Rails.logger.debug("keyword_queries_count_equals2 #{@advanced_query.keyword_queries}")
          params.delete("advanced_query")
          params.delete("as_boolean_row2")
-         params.delete("op_row")
+#         params.delete("op_row")
          Rails.logger.debug("keyword_queries_count_equals2 #{params}")
-         
+         for i in 0..1
+           query_text = ""
+           label = search_field_def_for_key(params["search_field_row"][i])[:label]
+           if i == 0
+             if params["op_row"][1] == "phrase"
+                query_text = '"' + params["q_row"][1] + '"'
+             else
+                query_text = params["q_row"][1]
+             end 
+             content << render_constraint_element(
+               label, params["q_row"][0],
+               :remove => "catalog?q=" + query_text + "&search_field=" + params["search_field_row"][1] + "&action=index&commit=Search"
+             )
+           else 
+             if params["op_row"][0] == "phrase"
+                query_text = '"' + params["q_row"][0] + '"'
+             else
+                query_text = params["q_row"][0]
+             end 
+             content << render_constraint_element(
+               label, params["q_row"][1],
+               :remove => "catalog?q=" + query_text + "&search_field=" + params["search_field_row"][0] + "&action=index&commit=Search"
+             )              
+           end  
+         end
       else
         @advanced_query.keyword_queries.each_pair do |field, query|
           my_params = deep_copy(params)
@@ -42,7 +66,6 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
           @advanced_query.keyword_queries.length > 1)
         content = '<span class="inclusive_or appliedFilter">' + '<span class="operator">Any of:</span>' + content + '</span>'
       end
-
       return content
     end
   end
