@@ -2,7 +2,9 @@
 %h2.item-title-request.blacklight-title_display=@ti
 %div.request-author=@au
 %p
-  To request this item through Borrow Direct, please use the following link:
+  To request this item through Borrow Direct, please use the following link. Approximate delivery time is 
+  = @delivery_time
+  days.
 - if @isbn.present?
   = link_to 'Search Borrow Direct', borrowdirect_url_from_isbn(@isbn)
 - else

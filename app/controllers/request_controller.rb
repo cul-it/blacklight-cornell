@@ -698,6 +698,10 @@ class RequestController < ApplicationController
     end
     @alternate_request_options = sort_request_options @alternate_request_options
 
+    # Pass through BD delivery time 
+    if service == BD
+      @delivery_time = get_bd_delivery_time
+    end
     # logger.info @iis.inspect
 
     render service
