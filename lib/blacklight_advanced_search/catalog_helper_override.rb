@@ -3,7 +3,7 @@ module BlacklightAdvancedSearch::CatalogHelperOverride
   def deep_copy(o)
     Marshal.load(Marshal.dump(o))
   end  
-   
+  
   def remove_advanced_keyword_query(field, my_params)
  #   my_params = deep_copy(params)
     my_params.delete(field)

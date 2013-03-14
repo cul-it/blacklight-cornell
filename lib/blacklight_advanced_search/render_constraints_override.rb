@@ -24,9 +24,7 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
          params.delete("as_boolean_row2")
          params.delete("op_row")
          Rails.logger.debug("keyword_queries_count_equals2 #{params}")
-         for i in 0..1
-         #   label = 
-         end
+         
       else
         @advanced_query.keyword_queries.each_pair do |field, query|
           my_params = deep_copy(params)
