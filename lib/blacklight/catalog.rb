@@ -69,7 +69,9 @@ module Blacklight::Catalog
              params["action"] = "index"
              params["controller"] = "catalog"
         else
+            params.delete("advanced_query")
             query_string = parse_single(params)
+            Rails.logger.debug(query_string)
             holdparams = query_string.split("&")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
