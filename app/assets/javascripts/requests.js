@@ -27,7 +27,7 @@ $(document).ready(function() {
       type: 'POST',
       data: $('#req').serialize(),
       url:hu,
-      success: function(data) {
+      success: function(data) { 
         // Make sure we're at the top of the page so the flash messge is visible
         $('html,body').animate({scrollTop:0},0);
         // Clear page on successful submission

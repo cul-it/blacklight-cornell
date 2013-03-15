@@ -48,7 +48,7 @@
     .control-group
       %label.control-label{:for => 'reqpublication'} Place, publisher, and year of publication:
       .controls
-        %input#reqpublicaiton.input-xxlarge{:type => 'text', :name => 'reqpublication', :value => @document[:pub_info_display][0]}
+        %input#reqpublication.input-xxlarge{:type => 'text', :name => 'reqpublication', :value => @document[:pub_info_display][0]}
     .control-group
       %label.control-label{:for => 'reqidentifier'} ISBN, ISSN, or URL:
       .controls
@@ -56,13 +56,13 @@
     .control-group
       %label.control-label{:for => 'reqcomments'} Source of information or comments concerning this request:
       .controls
-        %textarea#reqcomments Bibliographic information provided by CUL catalog.
+        %textarea#reqcomments{:name => 'reqcomments'} Bibliographic information provided by CUL catalog.
     .control-group
       %label.control-label{:for => 'reqnotify'} Would you like to be notified when this item is cataloged?:
       .controls
-        %select#reqnotify
-          %option{:name => 'reqnotify', :value => 'yes', :selected => 'selected'} Yes
-          %option{:name => 'reqnotify', :value => 'no'} No
+        %select#reqnotify{:name => 'reqnotify'}
+          %option{:value => 'yes', :selected => 'selected'} Yes
+          %option{:value => 'no'} No
 
     .control-group
       .controls.clearfix
