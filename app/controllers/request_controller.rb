@@ -201,8 +201,6 @@ class RequestController < ApplicationController
     if request_action == 'purchase'
       # Validate the form submission
       # logger.debug(params)
-      logger.debug(params[:reqtitle])
-      logger.debug(params[:reqstatus])
       if params[:name].blank?
         flash[:error] = I18n.t('blacklight.requests.errors.name.blank')
       elsif params[:reqstatus].blank?
