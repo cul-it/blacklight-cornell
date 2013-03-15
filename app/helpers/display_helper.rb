@@ -45,8 +45,6 @@ module DisplayHelper
       end
     end
 
-    logger.info "delimited value: #{newval.inspect}"
-
     render_field_value newval
   end
 
