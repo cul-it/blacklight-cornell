@@ -9,22 +9,24 @@
   %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
     %input(type="hidden" name="bid" value="#{@id}" id="bid")
     %input(type="hidden" name="request_action" value="aeon" id="request_action")
-    = render :partial => 'shared/reqho_short' 
+    = render :partial => 'shared/reqho' 
 
 
 - if (@show_non_rare)
+  %h1.request-type Request item delivery 
+  %h2.blacklight-title_display.item-title-request=@ti
+  %div.request-author=@au  
   %div.row
-    %div.span12
-      %h1.request-type Request item delivery 
-      %h2.blacklight-title_display.item-title-request=@ti
-      %div.request-author=@au
+    %div.span3.pull-left 
+      %h3 Circulating copies
+      %p Placeholder Location
+      %p Placeholder call number
       =link_to 'Request', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
-  %div.row
-    %div.span4.aeon-box.well.well-small
-      %h3 Request rare item
-      %p You may also request this item from our Rare and Manuscript Collection. These items may only be viewed in the RMC Reading Room. Items that are marked "request in advanced" are delivered to the   reading room from the Annex and must be requested two days in advance. 
-      %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
-      %input(type="hidden" name="bid" value="#{@id}" id="bid")
-      %input(type="hidden" name="request_action" value="aeon" id="request_action")
-      = render :partial => 'shared/reqho_short'
+    %div.span5.pull-left.aeon-circ
+      %h3 Rare items
+      %form#request_form.form-horizontal{:method => 'post', :action => request_make_request_path}
+        %input(type="hidden" name="bid" value="#{@id}" id="bid")
+        %input(type="hidden" name="request_action" value="aeon" id="request_action")
+        = render :partial => 'shared/reqho_short'
+      %p.message Items that are marked "request in advanced" are delivered to the   reading room from the Annex and must be requested two days in advance. 
 
