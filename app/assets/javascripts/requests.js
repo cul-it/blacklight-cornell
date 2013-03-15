@@ -16,7 +16,7 @@ $(document).ready(function() {
   // Form submit handler for most types of requests
   $('#request-submit').click(function(e) {
     var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
-    $('#result').html("Working....");
+    // $('#result').html("Working....");
     var reqnna = '';
     //reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
     reqnna = $('form [name="latest-date"]:radio:checked').val();
@@ -25,27 +25,22 @@ $(document).ready(function() {
     }
     $.ajax({
       type: 'POST',
-      data: {
-        "reqcomments": $('#reqcomments').val(),
-        "reqnna": reqnna,
-        "bid": $('#bid').val(),
-        "library_id": $('#pickup-locations').val(),
-        "holding_id": $("#req input[type='radio']:checked").val(),
-        "request_action": $("#request_action").val()
-      },
+      data: $('#req').serialize(),
       url:hu,
-      dataType: 'json',
-      success: function(data) { 
-        var st=data.status;
-        var desc= (st == 'success') ? 'succeeded' : 'failed';
-        var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();
-        $('#result').html("Your request for " + act_desc + " has "+desc);
+      success: function(data) {
+        // Make sure we're at the top of the page so the flash messge is visible
+        $('html,body').animate({scrollTop:0},0);
+        // Clear page on successful submission
+        if (data.indexOf('alert-success') !== -1) {
+          $('.request-type, .item-title-request, .request-author, #req').remove();
+        }
+        $('.flash_messages').replaceWith(data);
       }
     });
     return false; // should block the submit
   });
 
-  // Form submit handler for purchase requests 
+  // Form submit handler for purchase requests
   $('#purch-request-submit').click(function(e) {
 
     var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
@@ -56,9 +51,9 @@ $(document).ready(function() {
       type: 'POST',
       data: {
         'name':         $('#reqname').val(),
-        'email':        $('#reqemail').val(), 
-        'status':       $('#reqstatus').val(),     
-        'title':        $('#reqtitle').val(),  
+        'email':        $('#reqemail').val(),
+        'status':       $('#reqstatus').val(),
+        'title':        $('#reqtitle').val(),
         'author':       $('#reqauthor').val(),
         'series':       $('#reqseries').val(),
         'publication':  $('#reqpublication').val(),
@@ -70,7 +65,7 @@ $(document).ready(function() {
       },
       url:hu,
       dataType: 'json',
-      success: function(data) { 
+      success: function(data) {
         var st=data.status;
         var desc= (st == 'success') ? 'succeeded' : 'failed';
         var act_desc= ($("#request_action").val() == 'callslip') ?'delivery':$("#request_action").val();

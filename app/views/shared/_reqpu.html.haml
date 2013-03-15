@@ -1,7 +1,7 @@
 .control-group
   %label.control-label{:for => "pickup-locations"} Pick up at:
   .controls
-    %select#pickup-locations
+    %select#pickup-locations{:name => 'library_id'}
       %option(value='') -- Select a location --
       %option(value="149") Africana Circulation
       %option(value="224") Faculty Department Office

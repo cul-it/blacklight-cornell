@@ -200,22 +200,33 @@ class RequestController < ApplicationController
 
     if request_action == 'purchase'
       # Validate the form submission
-      if params[:name].blank? or params[:email].blank? or params[:status].blank? or params[:title].blank?
-        logger.debug('validation error')
-        flash[:error] = I18n.t('Validation error')
-        voyager_response = {'sattus' => 'failure'}
-      else
-        # Email the form contents to the purchase request staff
-        RequestMailer.email_request(netid, params)
-        # TODO: check for mail errors, don't assume that things are working!
-        voyager_response = {'status' => 'success'}
+      # logger.debug(params)
+      logger.debug(params[:reqtitle])
+      logger.debug(params[:reqstatus])
+      if params[:name].blank?
+        flash[:error] = I18n.t('blacklight.requests.errors.name.blank')
+      elsif params[:reqstatus].blank?
+        flash[:error] = I18n.t('blacklight.requests.errors.status.blank')
+      elsif params[:reqtitle].blank?
+        flash[:error] = I18n.t('blacklight.requests.errors.title.blank')
+      elsif params[:email].blank?
+        flash[:error] = I18n.t('blacklight.requests.errors.email.blank')
+      elsif params[:email].present?
+        if params[:email].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+          # Email the form contents to the purchase request staff
+          RequestMailer.email_request(netid, params)
+          # TODO: check for mail errors, don't assume that things are working!
+          flash[:success] = I18n.t('blacklight.requests.success')
+        else
+          flash[:error] = I18n.t('blacklight.requests.errors.email.invalid')
+        end
       end
     else
       # Validate the form submission
-      if params[:library_id].blank? or params[:holding_id].blank?
-        logger.debug('validation error')
-        flash[:error] = I18n.t('Validation error')  
-        voyager_response = {'status' => 'failure'}
+      if params[:holding_id].blank?
+        flash[:error] = I18n.t('blacklight.requests.errors.holding_id.blank')
+      elsif params[:library_id].blank?
+        flash[:error] = I18n.t('blacklight.requests.errors.library_id.blank')
       else
         # Send a request to Voyager
         logger.debug "posting request to: #{voyager_request_handler_url}"
@@ -224,11 +235,13 @@ class RequestController < ApplicationController
         #voyager_response = JSON.parse(HTTPClient.get_content voyager_request_handler_url)
         voyager_response = JSON.parse(res.content)
         logger.debug voyager_response
+        flash[:success] = I18n.t('blacklight.requests.success')
       end
     end
 
     #render "request/make_request", :layout => false
-    render :json => voyager_response, :layout => false
+    # render :json => voyager_response, :layout => false
+    render :partial => '/flash_msg', :layout => false
   end
 
   # Authenticate and bind to Cornell's Active Directory LDAP service
@@ -268,7 +281,7 @@ class RequestController < ApplicationController
       return unless ldap
 
       # Do our search
-      search_params = { :base =>   patron_dn, 
+      search_params = { :base =>   patron_dn,
                         :scope =>  Net::LDAP::SearchScope_BaseObject,
                         :attrs =>  ['tokenGroups'] }
       ldap.search(search_params) do |entry|
@@ -289,7 +302,7 @@ class RequestController < ApplicationController
   # Return a user's distinguished name (dn) from an LDAP lookup
   # TODO: This function seems pontentially reusable. Figure out where to put it so that
   # more controllers (and models?) can access it
-  # This is based heavily on sample Perl code from ss488, CIT, at 
+  # This is based heavily on sample Perl code from ss488, CIT, at
   #    https://confluence.cornell.edu/download/attachments/118767666/tokengroups.pl
   def get_ldap_dn netid
 
@@ -301,8 +314,8 @@ class RequestController < ApplicationController
     return unless ldap
 
     # Do our search
-    search_params = { :base => 'DC=cornell,DC=edu', 
-                      :filter => Net::LDAP::Filter.eq('sAMAccountName', netid), 
+    search_params = { :base => 'DC=cornell,DC=edu',
+                      :filter => Net::LDAP::Filter.eq('sAMAccountName', netid),
                       :attrs => ['distinguishedName'] }
     ldap.search(search_params) do |entry|
       return entry.dn
@@ -444,7 +457,7 @@ class RequestController < ApplicationController
       # logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
       item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
-      
+
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
         logger.debug "branch 0"
         next
@@ -504,7 +517,7 @@ class RequestController < ApplicationController
         request_options.push( _handle_ask_circulation holding )
       # Removed branch 11 - duplicate of branch 2
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
-        ## LTL 
+        ## LTL
         logger.debug "branch 12"
         request_options.push( _handle_l2l holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
         # TODO: revisit whether to offer BD once we have an API from relais
@@ -520,7 +533,7 @@ class RequestController < ApplicationController
         request_options.push( _handle_l2l holding )
       elsif patron_type == 'guest' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
-        logger.debug "branch 15" 
+        logger.debug "branch 15"
         request_options.push( _handle_l2l holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
         ## ASK_LIBRARIAN ASK_CIRCULATION
@@ -698,7 +711,7 @@ class RequestController < ApplicationController
     end
     @alternate_request_options = sort_request_options @alternate_request_options
 
-    # Pass through BD delivery time 
+    # Pass through BD delivery time
     if service == BD
       @delivery_time = get_bd_delivery_time
     end
@@ -996,8 +1009,8 @@ class RequestController < ApplicationController
     holdings_param = {
       :bibid => bibid
     }
-    yholdings = get_holdings holdings_param 
-    @xholdings = (yholdings)[bibid] 
+    yholdings = get_holdings holdings_param
+    @xholdings = (yholdings)[bibid]
     holdings = (yholdings) [bibid]['condensed_holdings_full']
     logger.debug "holdings #{bibid} \n\n"
     logger.debug holdings.inspect
@@ -1021,8 +1034,8 @@ class RequestController < ApplicationController
     logger.debug holdings_detail.inspect
     logger.debug "\n\n"
     item_types = get_item_types holdings_detail, bibid
-    logger.debug "Item types :" 
-    logger.debug item_types.inspect 
+    logger.debug "Item types :"
+    logger.debug item_types.inspect
     logger.debug "\n\n"
 
 
@@ -1043,10 +1056,10 @@ class RequestController < ApplicationController
       ## is requested treated same as charged?
       item_status = get_item_status holding_status
       request_options.push( _handle_aeon bibid, holding )
-    end 
-    if (!item_types.include?('aeon'))  
+    end
+    if (!item_types.include?('aeon'))
        logger.debug "***Redirecting to see what happens \n\n"
-       redirect_to request_item_redirect_path 
+       redirect_to request_item_redirect_path
        return;
      end
     request_options.push( _handle_ask_librarian )
@@ -1058,7 +1071,7 @@ class RequestController < ApplicationController
   end
 
   def aeon
-    return request_aeon AEON 
+    return request_aeon AEON
   end
 
 
@@ -1097,7 +1110,7 @@ class RequestController < ApplicationController
           elsif IRREGULAR_LOAN_TYPE[:MINUTE][data['typeCode']] == 1
             logger.debug "Got minute loan"
             types.push 'minute'
-          else 
+          else
             logger.debug "Got regular loan"
             types.push 'minute'
           end
