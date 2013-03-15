@@ -18,6 +18,38 @@ module DisplayHelper
     '<br/>'
   end
 
+  # for display of | delimited fields
+  # only displays the string before the first |
+  # otherwise, it does same as render_index_field_value
+  def render_delimited_index_field_value args
+    value = args[:value]
+
+    if args[:field] and blacklight_config.index_fields[args[:field]]
+      field_config = blacklight_config.index_fields[args[:field]]
+      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+    end
+
+    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+
+    newval = nil
+    unless value.nil?
+      if value.class == Array
+        newval = Array.new
+        value.each do |v|
+          newval.push (v.split('|'))[0] unless v.blank?
+        end
+      else
+        ## string?
+        newval = (value.split('|'))[0] unless value.blank?
+      end
+    end
+
+    logger.info "delimited value: #{newval.inspect}"
+
+    render_field_value newval
+  end
+
   # :format arg specifies what should be returned
   # * the raw array (url_access_display in availability on item page)
   # * url only (search results)
