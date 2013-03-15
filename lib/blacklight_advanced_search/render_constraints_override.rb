@@ -50,6 +50,14 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
            end  
          end
       else
+       if @advanced_query.keyword_queries.count < 2
+        Rails.logger.debug("gottacatchemall")
+        label = search_field_def_for_key(params["search_field_row"][0])          
+        content << render_constraint_element(
+           label, params["q"],
+           :remove => "?"
+        )
+       else
         @advanced_query.keyword_queries.each_pair do |field, query|
           my_params = deep_copy(params)
           Rails.logger.debug("queries to remove = #{params}")
@@ -60,12 +68,13 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
               catalog_index_path(remove_advanced_keyword_query(field,my_params))
           )
         end
+       end
       end  
-      Rails.logger.debug("AdvancedQueryKeywordOp = #{@advanced_query.keyword_op}")
-      if (@advanced_query.keyword_op == "OR" &&
-          @advanced_query.keyword_queries.length > 1)
-        content = '<span class="inclusive_or appliedFilter">' + '<span class="operator">Any of:</span>' + content + '</span>'
-      end
+        Rails.logger.debug("AdvancedQueryKeywordOp = #{@advanced_query.keyword_op}")
+      #  if (@advanced_query.keyword_op == "OR" &&
+      #      @advanced_query.keyword_queries.length > 1)
+      #    content = '<span class="inclusive_or appliedFilter">' + '<span class="operator">Any of:</span>' + content + '</span>'
+      #  end
       return content
     end
   end

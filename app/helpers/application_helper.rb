@@ -87,6 +87,7 @@ module ApplicationHelper
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
     search_field_rowArray = params[:search_field_row]
+    Rails.logger.debug("ashketchum= #{query_rowArray}")
     if query_rowArray.count > 1
 #first row
        if query_rowArray[0] != ""
@@ -127,6 +128,8 @@ module ApplicationHelper
        if bozocheck.count < 3
          query_string_two = "q=" + bozocheck[1] + "&search_field=" + bozocheck[0]
            logger.debug("Madisoncheese_two = #{query_string_two}")
+         params["search_field"] = bozocheck[0]
+         params.delete("advanced_query")
        end
     end
    return query_string_two
