@@ -174,7 +174,7 @@ class RequestController < ApplicationController
     netid = request.env['HTTP_REMOTE_USER']
     library_id = params[:library_id]
     request_action = params[:request_action]
-    reqnna = params[:reqnna]
+    reqnna = params['latest-date']
     reqcomments = params[:reqcomments]
     #holding id is actually the ITEM ID.
     holding_id = params[:holding_id]
