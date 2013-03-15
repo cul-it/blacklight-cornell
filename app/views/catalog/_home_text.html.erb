@@ -1,5 +1,21 @@
-<%# <h4><%= t('blacklight.welcome') %> <%# </h4> %>
     <%= render :partial => 'search_form' %>
+    <div class="row">
+    	<div class="span6 home-message">
+    		<h3><%= t('blacklight.welcome') %></h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula imperdiet condimentum. Sed sit amet tempor sapien. Praesent et erat lacus, bibendum gravida ante. Nam at nisi lorem, vel ornare ligula.</p>
+			<p>While using this beta application, please keep in mind these two factors that affect the accuracy and freshness of the data:</p>
+			<ol>
+				<li>The Voyager extract (Marc records) that we're using to build the index being searched is from February 17th. This extract is derived from the production Voyager instance.</li>
+				<li>The holdings service (what we use to determine availability and the best request option) is connected to the test Voyager instance.</li>
+			</ol>
+		</div>
+		<div class="span3">
+			<div class="well feedback">
+				<h4>Feedback?</h4>
+				<p>Please email us at <a href="mailto:cul-dafeedback-l@cornell.edu">cul-dafeedback-l@cornell.edu</a>.</p>
+			</div>
+		</div>
+	</div>
 
 <% #Creates a bit space in the page -%>
 

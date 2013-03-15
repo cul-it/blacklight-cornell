@@ -35,3 +35,18 @@ h3 { font-size: 1.25em; line-height: 1.5em;}
 
 .float-right { float: right; }
 .float-left { float: left; }
+
+// HOME PAGE TEXT
+
+.feedback { 
+	margin-top: 50px;
+	h4 { margin-top: 0; }
+}
+.home-message {
+	p { 
+		line-height: 1.5em;
+		margin-bottom: 15px; }
+	li {
+		line-height: 1.5em;
+		margin-bottom: .5em; }
+}
