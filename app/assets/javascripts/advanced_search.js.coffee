@@ -27,10 +27,16 @@ $(document).ready ->
       )
       $(this).attr('for', newFor)
 
-    # Clear any populated inputs
     newRow.find('input').each ->
-      $(this).val('')
-      $(this).prop('checked', false) #radio buttons
+      # Clear any populated text input
+      if $(this).attr('type') == 'text'
+        $(this).val('')
+      # we want between row operator to default to AND
+      if $(this).attr('type') == 'radio'
+        if $(this).val() != 'AND'
+          $(this).attr('checked', false)
+        else
+          $(this).attr('checked', true)
 
     newRow.appendTo('.query_column')
     return false

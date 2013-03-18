@@ -1,7 +1,9 @@
 module HoldingsHelper
 
   def process_online_title(title)
-    title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/,'\1\2')
+    # Trim leading and trailing text
+    # Reformat coverage dates to simply mm/yy (drop day) and wrap in span for display
+    title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{,7})/, ' <span class="online-coverage">(\2)</span>').html_safe
   end
 
   def xadd_display_elements(entries)

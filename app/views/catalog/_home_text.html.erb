@@ -1,5 +1,20 @@
-<%# <h4><%= t('blacklight.welcome') %> <%# </h4> %>
     <%= render :partial => 'search_form' %>
+    <div class="row">
+    	<div class="span6 home-message">
+			<p><strong>Welcome to the beta catalog for Cornell University Library.</strong> This version of the library catalog is still in development.  Try it and <a href="mailto:cul-dafeedback-l@cornell.edu">tell us what you think</a>.  See <a href="https://confluence.cornell.edu/display/disacc/Blacklight+Catalog+Release+Notes">what’s new</a> and see <a href="https://confluence.cornell.edu/display/disacc/Future+Development+Efforts+for+Blacklight+Catalog">what’s planned for future releases</a>.</p>
+			<p>While using this beta application, please keep in mind these two factors that affect the accuracy and freshness of the data:</p>
+			<ol>
+				<li>The Voyager extract (Marc records) that we're using to build the index being searched is from February 17th. This extract is derived from the production Voyager instance.</li>
+				<li>The holdings service (what we use to determine availability and the best request option) is connected to the test Voyager instance.</li>
+			</ol>
+		</div>
+		<div class="span3">
+			<div class="well feedback">
+				<h4>Feedback?</h4>
+				<p>Please email us at <a href="mailto:cul-dafeedback-l@cornell.edu">cul-dafeedback-l@cornell.edu</a>.</p>
+			</div>
+		</div>
+	</div>
 
 <% #Creates a bit space in the page -%>
 

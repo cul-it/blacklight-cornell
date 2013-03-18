@@ -1,4 +1,4 @@
-%form#request_form.form-horizontal{:method => 'post', :action => request_item_redirect_path}
+%form#request_form.form-horizontal{:method => 'post', :action => aeon_request_path}
   %input(type="hidden" name="bid" value="#{params[:id]}" id="bid")
   %input(type="hidden" name="isbn" value="#{document['isbn_display']}")
   %input(type="hidden" name="title" value="#{document['title_display']}")

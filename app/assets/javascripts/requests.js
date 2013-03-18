@@ -12,22 +12,55 @@ $(document).ready(function() {
   $('#req').submit( function(e) {
     return false;
   });
+
+  // Form submit handler for most types of requests
   $('#request-submit').click(function(e) {
     var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
-    $('#result').html("Working....");
+    // $('#result').html("Working....");
     var reqnna = '';
-    reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    //reqnna =  $('#year').val()+"-"+$('#mo').val()+"-"+$('#da').val();
+    reqnna = $('form [name="latest-date"]:radio:checked').val();
     if (reqnna  == 'undefined-undefined-undefined') {
       reqnna = '';
     }
     $.ajax({
       type: 'POST',
+      data: $('#req').serialize(),
+      url:hu,
+      success: function(data) { 
+        // Make sure we're at the top of the page so the flash messge is visible
+        $('html,body').animate({scrollTop:0},0);
+        // Clear page on successful submission
+        if (data.indexOf('alert-success') !== -1) {
+          $('.request-type, .item-title-request, .request-author, #req').remove();
+        }
+        $('.flash_messages').replaceWith(data);
+      }
+    });
+    return false; // should block the submit
+  });
+
+  // Form submit handler for purchase requests
+  $('#purch-request-submit').click(function(e) {
+
+    var hu = $('#req').attr('action');// + '/' + $('#pickup-locations').val();
+    $('#result').html("Working....");
+    // var purchaseRequestForm = $('#req');
+    // var formData = JSON.stringify(purchaseRequestForm.serializeArray());
+    $.ajax({
+      type: 'POST',
       data: {
-        "reqcomments": $('#reqcomments').val(),
-        "reqnna": reqnna,
-        "bid": $('#bid').val(),
-        "library_id": $('#pickup-locations').val(),
-        "holding_id": $("#req input[type='radio']:checked").val(),
+        'name':         $('#reqname').val(),
+        'email':        $('#reqemail').val(),
+        'status':       $('#reqstatus').val(),
+        'title':        $('#reqtitle').val(),
+        'author':       $('#reqauthor').val(),
+        'series':       $('#reqseries').val(),
+        'publication':  $('#reqpublication').val(),
+        'identifier':   $('#reqidentifier').val(),
+        'comments':     $('#reqcomments').val(),
+        'notify':       $('#reqnotify').val(),
+
         "request_action": $("#request_action").val()
       },
       url:hu,

@@ -8,8 +8,10 @@ BlacklightCornell::Application.routes.draw do
   match 'request/ill/:id' =>'request#ill', :as =>'request_ill'
   match 'request/purchase/:id' =>'request#purchase', :as =>'request_purchase'
   match 'request/ask/:id' =>'request#ask', :as =>'request_ask'
+  match 'aeon/request/:id' =>'request#request_aeon', :as =>'aeon_request'
   match 'make_request' => 'request#make_request', :as => 'request_make_request', :via => :post
   match 'request_item/:id' => 'request#request_item', :as => 'request_item_redirect'
+  #match 'request_item/:id/:isbn' => 'request#request_item', :as => 'request_item_redirect'
 
   root :to => "catalog#index"
 

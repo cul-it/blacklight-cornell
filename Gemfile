@@ -7,7 +7,7 @@ gem 'rails', '3.2.11'
 
 gem 'sqlite3'
 gem 'mysql', '2.8.1'
-
+gem 'yaml_db'
 gem 'blacklight', '~> 4.0.1'
 gem 'blacklight_range_limit'
 gem 'blacklight_advanced_search'
@@ -20,7 +20,8 @@ gem 'marc'
 gem 'rb-readline'
 gem 'font-awesome-sass-rails', '~> 3.0.0.1'
 gem 'net-ldap'
-
+gem 'newrelic_rpm'
+gem 'nokogiri'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

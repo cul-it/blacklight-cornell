@@ -3,6 +3,11 @@
 	margin-bottom: .6em;
 }
 
+.document-header {
+	float: left;
+	margin-left: 0;
+}
+
 h3.subtitle {
 	font-size: 1em;
 	font-weight: normal;
@@ -13,14 +18,14 @@ h3.subtitle {
 }
 
 .cover {
-	margin: 0 15px 0 0;
+	// margin: 0 15px 0 0;
 	float: left;
-	width: 100%;
+	// width: 100%;
 	}
 
 .item-metadata {
-	float: left;
-	width: 70%;
+	// float: left;
+	// width: 79%;
 	margin-bottom: 20px;
 }
 
@@ -32,43 +37,54 @@ h3.subtitle {
 }
 #document {
 	 margin-top: 0;
-	 h2 { 
+	 h2 {
 	 	line-height: 32px;
 	 	margin-top: 0; }
 }
-label.toggle_bookmark { min-width: auto; }
+label.toggle_bookmark { min-width: 3.5em; }
 dl.dl-horizontal {
+	clear: left;
 	margin-top: 0;
 	dt {
-		clear: none;
-		width: 28%;
+		width: 115px;
 		display: inline;
-		font-size: 0.875em;
+		font-size: .875em;
 		color: $light-gray;
 		margin-right: 10px;
 		font-weight: normal;
+		overflow: visible;
+		text-overflow: inherit;
+		white-space: normal;
 		}
 	dd {
-		font-size: 0.875em;
-		margin-left: 30%;
-		width: 100%;
+		margin-left: 130px;
+		font-size: .875em;
 		ul {
 			list-style: none;
 			margin: 0;
+		}
+		// Fix to keep dd aligned with long dt that wraps
+		// -- can't use .clearfix because we only want to clear left
+		&:after {
+			display: table;
+			content: "";
+			clear: left;
 		}
 	}
 }
 
 .item-tools {
 	ul {
-		list-style: none;
 		float: right;
-		margin-bottom: 30px;
+		list-style: none;
 	}
 	li {
-		font-size: 0.75em;
+		font-size: 0.875em;
   		float: left;
-  		margin-left: 15px;
+  		margin-right: .8em;
+	}
+	li:last-child {
+		margin-right: 0;
 	}
 	label { font-size: 1em; }
 	form { margin: 0; }
@@ -77,14 +93,17 @@ dl.dl-horizontal {
 	.dropdown-menu {
 		min-width: auto;
 		li {
-			font-size: 1em;
-			margin-left: 0;
 			float: none;
+			margin: 0;
+			font-size: 1em;
 		}
 	}
 }
 
-.item-pagination { font-size: 0.875em; }
+.item-pagination {
+	margin-bottom: 2.2em;
+	font-size: 0.875em;
+}
 
 // AVAILABILITY
 .holding,
@@ -99,7 +118,7 @@ dl.dl-horizontal {
 	margin-bottom: 0;
 	font-size: 1.1em;
 }
-.share-it,
+.text-it,
 .map-it {
 	margin-left: .2em;
 	font-size: .8em;
@@ -111,13 +130,19 @@ dl.dl-horizontal {
 	color: $light-gray;
 }
 .availability {
-	// margin-top: 20px;
+	float: right;
 	p { font-size: 0.875em; }
 }
 .online-link {
 	margin-bottom: .4em;
 	font-size: .9em;
 	line-height: 1.2em;
+}
+.online-coverage {
+	display: block;
+	margin-left: 2em;
+	font-size: .8em;
+	color: $dark-gray;
 }
 .item-requests {
 	margin-top: 1.5em;

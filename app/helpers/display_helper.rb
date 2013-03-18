@@ -18,6 +18,36 @@ module DisplayHelper
     '<br/>'
   end
 
+  # for display of | delimited fields
+  # only displays the string before the first |
+  # otherwise, it does same as render_index_field_value
+  def render_delimited_index_field_value args
+    value = args[:value]
+
+    if args[:field] and blacklight_config.index_fields[args[:field]]
+      field_config = blacklight_config.index_fields[args[:field]]
+      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+    end
+
+    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+
+    newval = nil
+    unless value.nil?
+      if value.class == Array
+        newval = Array.new
+        value.each do |v|
+          newval.push (v.split('|'))[0] unless v.blank?
+        end
+      else
+        ## string?
+        newval = (value.split('|'))[0] unless value.blank?
+      end
+    end
+
+    render_field_value newval
+  end
+
   # :format arg specifies what should be returned
   # * the raw array (url_access_display in availability on item page)
   # * url only (search results)
@@ -38,7 +68,7 @@ module DisplayHelper
       if metadata.present?
         label = metadata[0]
       end
-      link_to(label, url.html_safe, {:class => 'online-access'})
+      link_to(process_online_title(label), url.html_safe, {:class => 'online-access'})
     end
 
     if render_format == 'raw'
@@ -133,13 +163,15 @@ module DisplayHelper
     logger.info "#{primary_field}, #{pval}, #{related_search_field}, #{rval}"
     logger.info get_clickable_search_field(primary_field)
     logger.info get_clickable_search_field(related_search_field)
+    op = 'op[]'
     new_search_params = {
       #:utf8 => '✓',
       (get_clickable_search_field(primary_field)).to_sym => pval,
       related_search_field.to_sym => rval,
       :search_field => 'advanced',
       :commit => 'search',
-      :action => 'index'
+      :action => 'index',
+      op.to_sym => 'AND'
     }
   end
 
@@ -516,9 +548,36 @@ module DisplayHelper
     render_field_value(@document[blacklight_config.show.html_title].html_safe)
   end
 
-  def url_to_borrowdirect(isbn)
+  def borrowdirect_url_from_isbn(isbns)
+
+    # For now, just take the first isbn if there are more than one. BD seems to do fine with any.
+    if isbns.length > 0
+      isbn = isbns[0]
+    else
+      isbn = isbns
+    end
+
+    # Chop off any dangling text (e.g., 13409872342X (pbk))
+    isbn = isbn.scan(/[0-9xX]+/)[0]
+    return if isbn.nil?
+
     link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
 
     link_url
+  
+  end
+
+  def borrowdirect_url_from_title(title)
+
+    link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft.btitle=" + title + "&req_id=info:rfa/oclc/institutions/3913"
+
+    link_url
+
+  end
+
+  # Overrides original method from facets_helper_behavior.rb
+  # Renders a count value for facet limits with comma delimeter
+  def render_facet_count(num)
+    content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   end
 end

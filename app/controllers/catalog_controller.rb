@@ -35,7 +35,12 @@ class CatalogController < ApplicationController
             :sep_display => ' > ',
             :hierarchical => true
         },
-        'title_uniform_display' => 'title',
+        'title_uniform_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
+        },
         'title_series_display'  => 'title',
         'continues_display' => {
             :search_field => 'title',
@@ -157,7 +162,7 @@ class CatalogController < ApplicationController
         'pub_info_display' => '<br/>',
         'edition_display' => '<br/>',
         'subject_display' => '<br/>',
-        'notes_display' => '<br/>'
+        'notes' => '<br/>'
     }
 
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
@@ -261,7 +266,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'pub_manu_display', :label => 'Manufactured'
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
     config.add_show_field 'edition_display', :label => 'Edition'
-    config.add_show_field 'notes_display', :label => 'Notes'
+    config.add_show_field 'notes', :label => 'Notes'
     config.add_show_field 'subject_display', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'

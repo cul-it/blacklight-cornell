@@ -1,18 +1,20 @@
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
 %h1.request-type Borrow Direct Request
 %h2.item-title-request.blacklight-title_display=@ti
 %div.request-author=@au
 %p
-  To request this item, go to 
-  =link_to 'Borrow Direct', 'http://resolver.library.cornell.edu/NET/parsebd?redirect=yes'
-  and search for your item using either ISBN or title:
+  Click the button below to locate your item in the  Borrow Direct catalog and place a request. 
+%p
+  Approximate delivery time is 
+  = @delivery_time
+  days.
 - if @isbn.present?
-  - @isbn.each do |entry|
-    %div
-      ISBN:
-      = entry
-%div
-  Title:
-  = @ti
+  = link_to 'Search Borrow Direct', borrowdirect_url_from_isbn(@isbn), :class => 'btn btn-danger'
+- else
+  = link_to 'Search Borrow Direct', borrowdirect_url_from_title(@ti), :class => 'btn btn-danger'
+
 
 .controls
   %div.accordion#accordion2.request-options

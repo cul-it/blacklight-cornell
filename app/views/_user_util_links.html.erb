@@ -1,7 +1,17 @@
 <div class="span6">
   <ul class="blacklight-nav">
     <% if current_or_guest_user %>
-      <li><%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %></li>
+      <li>
+        <%= link_to bookmarks_path do %>
+          <%= t('blacklight.header_links.bookmarks') %>
+          <% unless @bookmarks.nil? %>
+            <% @bookmarks.collect %>
+            <% unless @bookmarks.count < 1 %>
+              (<%= @bookmarks.count %>)
+            <% end %>
+          <% end %>
+        <% end %>
+      </li>
     <% end %>
     <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
   </ul>

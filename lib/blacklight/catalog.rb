@@ -40,20 +40,48 @@ module Blacklight::Catalog
       @bookmarks = current_or_guest_user.bookmarks
       
       if params[:q_row].present? 
-        query_string = massage_params(params)
-         holdparams = []
-         terms = []
-         
-         holdparams = query_string.split("&")
-         for i in 0..holdparams.count - 1
-            terms = holdparams[i].split("=")
-            params[terms[0]] = terms[1]
-         end
-         params["search_field"] = "advanced"
-         params["commit"] = "Search"
-         params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-         params["action"] = "index"
-         params["controller"] = "catalog"
+         params["advanced_query"] = "yes"
+         counter = test_size_param_array(params[:q_row])
+        if counter > 1
+            query_string = massage_params(params)
+             holdparams = []
+             terms = []
+             ops = 0
+             params["op"] = []
+             holdparams = query_string.split("&")
+             for i in 0..holdparams.count - 1            
+                terms = holdparams[i].split("=")
+                if (terms[0] == "op[]")
+                  params["op"][ops] = terms[1]
+                  ops = ops + 1
+                else
+                  params[terms[0]] = terms[1]
+                end
+             end
+     Rails.logger.debug("catalog.rbParams = #{params['op']}")        
+      
+    #         params["op"] = ["AND", "OR"]
+             if holdparams.count > 2
+             params["search_field"] = "advanced"
+             end
+             params["commit"] = "Search"
+             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+             params["action"] = "index"
+             params["controller"] = "catalog"
+        else
+            params.delete("advanced_query")
+            query_string = parse_single(params)
+            Rails.logger.debug(query_string)
+            holdparams = query_string.split("&")
+            for i in 0..holdparams.count - 1
+              terms = holdparams[i].split("=")
+              params[terms[0]] = terms[1]
+            end
+             params["commit"] = "Search"
+             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+             params["action"] = "index"
+             params["controller"] = "catalog"
+         end                  
       end
 
       if params[:search_field] == "journal title"
@@ -65,18 +93,30 @@ module Blacklight::Catalog
           params[:q] = params[:q]
           params[:search_field] = "journal title"
       end
-      
+      Rails.logger.debug("catalogboogityParams = #{params}")     
       (@response, @document_list) = get_search_results
+      
       if params.nil? || params[:f].nil?
         @filters = []
       else
+        Rails.logger.debug("paramsFragged = #{params[:f]}")
         @filters = params[:f] || []
       end
 
       if params[:search_field] == "journal title"      
         params[:search_field] = ""
       end
-             
+
+      if params[:q_row].present?              
+#         params[:q_row] = ""
+#         params[:op_row] = ""
+#         params[:op] = ""
+#         params[:search_field_row] = ""
+         params[:q] = query_string
+#         params["advanced_query"] = ""
+#          params[:f] = {"format" => ["Journal"]}
+         
+      end
       respond_to do |format|
         format.html { save_current_search_params }
         format.rss  { render :layout => false }

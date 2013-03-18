@@ -64,6 +64,9 @@ body.blacklight-bookmarks-index .document {
 
 .icon-ok { color: $available; }
 .icon-time { color: $unavailable; }
+// extra specificity required for question-sign since it's also
+// used for the Unknown format
+.status .icon-question-sign,
 .icon-warning-sign {color: $yellow; }
 
 #sort-dropdown,
@@ -76,4 +79,14 @@ body.blacklight-bookmarks-index .document {
 .select-item {
 	float: right;
 	margin-left: 30px;
+}
+
+// Search history
+// ------------------------------------------
+.search_history {
+	.filterName { margin-right: 0.25em; }
+	.label {
+		display: inline;
+		color: white;
+		margin: 0 .5em; }
 }

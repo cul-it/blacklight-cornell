@@ -10,23 +10,23 @@
   = render :partial => 'shared/reqpu'
   = render :partial => 'shared/reqac'
   .control-group
-    %label.control-label{:for => 'reqcomments'} Comments:
+    %label.control-label{:for => 'reqcomments'} Notes to library staff:
     .controls
-      %textarea#reqcomments
+      %textarea#reqcomments{:name => 'reqcomments'}
   .control-group
-    .controls
-      %input#request-submit.btn.btn-danger(type="submit" name="submit" value="Submit recall request")
+    .controls.clearfix
+      %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit recall request")
+      %div.accordion-heading.request-options.pull-left
+        or
+        =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
     .controls
       %div.accordion#accordion2.request-options
-        %div.accordion-group
-          %div.accordion-heading
-          =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
-          %div#collapseOne.accordion-body.collapse
-            %div.accordion-inner     
-              %div.span4     
-                = render :partial => 'shared/request_options'
+        %div#collapseOne.accordion-body.collapse
+          %div.accordion-inner
+            %div.span4
+              = render :partial => 'shared/request_options'
 
-    
+
 
 
 

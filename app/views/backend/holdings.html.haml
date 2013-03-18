@@ -19,10 +19,10 @@
               = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
 
       -# Only display a real call number
-      - if callnumber != 'No call number'
+      - if callnumber != 'No call number' && callnumber != ''
         .call-number
           = callnumber
-          %span.share-it
+          %span.text-it
             = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
               %i.icon-mobile-phone
               = t('blacklight.tools.sms')
@@ -35,13 +35,16 @@
             - unless copy[type].nil?
               .message= copy[type]
           - copy['items'].each do |item|
-            .status
-              - message, details = item
-              - if details['status'] == 'available'
-                %i.icon-ok
-              - elsif location != 'Online'
-                -# Handling online link in show.html.erb for now (for good?)
-                %i.icon-time
-              = message unless message.to_str == 'Status unknown'
-              - if details['count'] >1
-                (#{details['count']} copies)
+            -# Handling online link in _show_metadata.html.erb
+            - if location != 'Online'
+              .status
+                - message, details = item
+                - if details['status'] == 'available' || details['status'] == 'some_available'
+                  %i.icon-ok
+                - elsif details['status'] == 'none'
+                  %i.icon-question-sign
+                - else
+                  %i.icon-time
+                = message
+                - if details['count'] >1
+                  (#{details['count']} copies)
