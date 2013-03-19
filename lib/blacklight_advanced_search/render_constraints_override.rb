@@ -67,7 +67,7 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
         Rails.logger.debug("gottacatchemall")
         label = search_field_def_for_key(params["search_field"])          
         content << render_constraint_element(
-           label, params["q"],
+           "Winnie the Pooh", params["q"],
            :remove => "?"
         )
        else
