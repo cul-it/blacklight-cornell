@@ -14,6 +14,8 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
   # otherwise call super. Existence of an @advanced_query instance variable
   # is our trigger that we're in advanced mode.
   def render_advanced_constraints_query(params)
+    labels = []
+    values = []
     if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
       return render_constraints(params)
     else      
@@ -22,37 +24,48 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
          Rails.logger.debug("keyword_queries_count_equals2 #{@advanced_query.keyword_queries}")
          params.delete("advanced_query")
          params.delete("as_boolean_row2")
-#         params.delete("op_row")
+#         splitParams = params["q"].split("&")
+#         deletebool[0] = splitParams[0]
+#         deletebool[1] = splitParams[1]
+         count = 0
+         @advanced_query.keyword_queries.each do | key, value|
+          labels[count] = key
+          values[count] = value
+          count = count + 1
+         end
+         #         params.delete("op_row")
          Rails.logger.debug("keyword_queries_count_equals2 #{params}")
          for i in 0..1
            query_text = ""
-           label = search_field_def_for_key(params["search_field_row"][i])[:label]
+           label = search_field_def_for_key(labels[i])[:label]
            if i == 0
-             if params["op_row"][1] == "phrase"
-                query_text = '"' + params["q_row"][1] + '"'
-             else
-                query_text = params["q_row"][1]
-             end 
+           #  if params["op_row"][1] == "phrase"
+           #     query_text = '"' + params["q_row"][1] + '"'
+           #  else
+           #     query_text = params["q_row"][1]
+           #  end
+             query_text = values[1] 
              content << render_constraint_element(
-               label, params["q_row"][0],
-               :remove => "catalog?q=" + query_text + "&search_field=" + params["search_field_row"][1] + "&action=index&commit=Search"
+               label, values[0],
+               :remove => "catalog?q=" + query_text + "&search_field=" + labels[1] + "&action=index&commit=Search"
              )
            else 
-             if params["op_row"][0] == "phrase"
-                query_text = '"' + params["q_row"][0] + '"'
-             else
-                query_text = params["q_row"][0]
-             end 
+       #      if params["op_row"][0] == "phrase"
+       #         query_text = '"' + params["q_row"][0] + '"'
+       #      else
+       #         query_text = params["q_row"][0]
+       #      end
+             query_text = values[0] 
              content << render_constraint_element(
-               label, params["q_row"][1],
-               :remove => "catalog?q=" + query_text + "&search_field=" + params["search_field_row"][0] + "&action=index&commit=Search"
+               label, values[1],
+               :remove => "catalog?q=" + query_text + "&search_field=" + labels[0] + "&action=index&commit=Search"
              )              
            end  
          end
       else
        if @advanced_query.keyword_queries.count < 2
         Rails.logger.debug("gottacatchemall")
-        label = search_field_def_for_key(params["search_field_row"][0])          
+        label = search_field_def_for_key(params["search_field"])          
         content << render_constraint_element(
            label, params["q"],
            :remove => "?"
