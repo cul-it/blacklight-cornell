@@ -8,6 +8,8 @@
 
       <div class="document item-metadata span10">
         <div class="document-header span6">
+          <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
+
           <%= render_document_heading(:h2).html_safe %>
 
           <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>

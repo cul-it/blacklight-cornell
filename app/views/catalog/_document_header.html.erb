@@ -2,4 +2,9 @@
 <%= render_index_doc_actions document, :wrapping_class => "select-item" %>
 
 <%# main title container for doc partial view -%>
-<h2 class="blacklight-title_display"><%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %><%= link_to_document document, :label=>document_show_link_field, :counter => (document_counter + 1 + @response.params[:start].to_i) %> <span class="blacklight-pub_date_display"><%= render_index_field_value :document => document, :field => 'pub_date_display' %></span></h2>
+<h2 class="blacklight-title_display">
+  <%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %>
+  <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(document) %>
+  <%= link_to_document document, :label=>document_show_link_field, :counter => (document_counter + 1 + @response.params[:start].to_i) %>
+  <span class="blacklight-pub_date_display"><%= render_index_field_value :document => document, :field => 'pub_date_display' %></span>
+</h2>
