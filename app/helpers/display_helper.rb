@@ -583,16 +583,18 @@ module DisplayHelper
 
   # Shadow record sniffer
   def is_shadow_record(document)
-    fields = document.to_marc.find_all{|f| ('948') === f.tag }
+    if defined? document.to_marc
+      fields = document.to_marc.find_all{|f| ('948') === f.tag }
 
-    fields.each do |field|
-      field.each do |sub|
-        if h(sub.code) === 'h' and h(sub.value) === 'PUBLIC SERVICES SHADOW RECORD'
-          return true
+      fields.each do |field|
+        field.each do |sub|
+          if h(sub.code) === 'h' and h(sub.value) === 'PUBLIC SERVICES SHADOW RECORD'
+            return true
+          end
         end
       end
-    end
 
-    return false
+      return false
+    end
   end
 end
