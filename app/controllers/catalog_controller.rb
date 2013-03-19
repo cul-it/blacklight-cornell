@@ -409,19 +409,19 @@ class CatalogController < ApplicationController
     end
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'series_t' }
+       field.solr_parameters = { :qf => 'title_series_t' }
     end
     config.add_search_field('notes') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'notes_t' }
+       field.solr_parameters = { :qf => 'notes' }
     end
     config.add_search_field('place of publication') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'published_t' }
+       field.solr_parameters = { :qf => 'pubplace_t' }
     end
     config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => '=isbn_t' }
+       field.solr_parameters = { :qf => 'isbnissn_s' }
     end
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
