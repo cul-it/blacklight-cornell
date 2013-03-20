@@ -118,6 +118,9 @@ module ApplicationHelper
        keywordscount = newArray.count / 2
        for i in 0..keywordscount -1
          if i < keywordscount - 1
+          if opArray[i].nil?
+            opArray[i] = 'AND'
+          end
           query_string_two << newArray[i*2] << "=(" << newArray[(i*2)+1] << ")&op[]=" << opArray[i] << "&"
          else
           query_string_two << newArray[i*2] << "=(" << newArray[(i*2)+1] << ")"
