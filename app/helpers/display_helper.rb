@@ -598,7 +598,7 @@ module DisplayHelper
       # subtitle = subtitle.is_a?(Array) ? subtitle.join(', ') : subtitle
       logger.debug "subtitle: #{subtitle}"
       if subtitle.present?
-        label ||= title + ': ' + subtitle
+        label ||= title + ' : ' + subtitle
       else
         label ||= title
       end
