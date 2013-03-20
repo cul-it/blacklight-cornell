@@ -595,7 +595,6 @@ module DisplayHelper
     if opts[:label].is_a?(Array)
       title = doc.get(opts[:label][0], :sep => nil)
       subtitle = doc.get(opts[:label][1], :sep => nil)
-      # subtitle = subtitle.is_a?(Array) ? subtitle.join(', ') : subtitle
       logger.debug "subtitle: #{subtitle}"
       if subtitle.present?
         label ||= title + ' : ' + subtitle
@@ -603,7 +602,7 @@ module DisplayHelper
         label ||= title
       end
     end
-    label ||= doc.get(opts[:label], :sep => nil) #if opts[:label].instance_of? Symbol
+    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
