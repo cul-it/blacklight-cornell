@@ -581,6 +581,35 @@ module DisplayHelper
     content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   end
 
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Used for creating a link to the document show action
+  # Updated to handle arrays (multiple fields specified in config)
+  def document_show_link_field
+    blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
+  end
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Renders label for link to document using 'title: subtitle' if subtitle exists
+  def render_document_index_label doc, opts
+    label = nil
+    if opts[:label].is_a?(Array)
+      title = doc.get(opts[:label][0], :sep => nil)
+      subtitle = doc.get(opts[:label][1], :sep => nil)
+      # subtitle = subtitle.is_a?(Array) ? subtitle.join(', ') : subtitle
+      logger.debug "subtitle: #{subtitle}"
+      if subtitle.present?
+        label ||= title + ': ' + subtitle
+      else
+        label ||= title
+      end
+    end
+    label ||= doc.get(opts[:label], :sep => nil) #if opts[:label].instance_of? Symbol
+    label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
+    label ||= opts[:label] if opts[:label].is_a? String
+    label ||= doc.id
+    render_field_value label
+  end
+
   # Shadow record sniffer
   def is_shadow_record(document)
     if defined? document.to_marc
