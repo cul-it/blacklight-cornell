@@ -113,6 +113,7 @@ module Blacklight::Catalog
 #         params[:op] = ""
 #         params[:search_field_row] = ""
          params[:q] = query_string
+         Rails.logger.debug("MGMT = #{query_string}")
 #         params["advanced_query"] = ""
 #          params[:f] = {"format" => ["Journal"]}
          
