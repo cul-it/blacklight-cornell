@@ -177,12 +177,12 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_display', 'subtitle_display' #display as 'title: subtitle'
+    config.index.show_link = 'title_display', 'subtitle_display' #display as 'title : subtitle'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
     config.show.html_title = 'title_display'
-    config.show.heading = 'title_display'
+    config.show.heading = 'title_display', 'subtitle_display' #display as 'title : subtitle'
     config.show.display_type = 'format'
 
     # solr fields that will be treated as facets by the blacklight application

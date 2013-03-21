@@ -609,6 +609,29 @@ module DisplayHelper
     render_field_value label
   end
 
+  # Overrides original methods from blacklight_helper_behavior.rb
+  # Used in the show view for displaying the main solr document heading
+  # Updated to follow same pattern of 'title : subtitle' used for index view (search results)
+  def document_heading
+    logger.debug "config.show_heading: #{blacklight_config.show.heading}"
+    if blacklight_config.show.heading.is_a?(Array)
+      title = @document[blacklight_config.show.heading[0]]
+      subtitle = @document[blacklight_config.show.heading[1]]
+      if subtitle.present?
+        heading = title + ' : ' + subtitle
+      else
+        heading = title
+      end
+    else
+      heading = @document[blacklight_config.show.heading] || @document.id
+    end
+  end
+
+  def render_document_heading(tag = :h4)
+    logger.debug "document heading: #{document_heading}"
+    content_tag(tag, render_field_value(document_heading))
+  end
+
   # Shadow record sniffer
   def is_shadow_record(document)
     if defined? document.to_marc
