@@ -7,12 +7,19 @@
   margin-bottom: .7em;
 }
 #sort { width: auto; }
-#advanced_search {
-  display: block;
-  margin-top: .7em;
+#advanced_search, .reset {
+     
 }
 
 .as-tips {position:relative;
 	top:-10px;
 	font-size: .85em;
+}
+
+.sort_submit_buttons label {display: inline-block;}
+
+.submit-reset {
+	position: relative;
+	top:-6px;
+	display: inline-block;
 }
