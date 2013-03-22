@@ -1,4 +1,3 @@
-.query_column { margin-left: 0; }
 .advanced-search-field {
   margin-left: .2em;
   width: auto;
@@ -11,4 +10,9 @@
 #advanced_search {
   display: block;
   margin-top: .7em;
+}
+
+.as-tips {position:relative;
+	top:-10px;
+	font-size: .85em;
 }

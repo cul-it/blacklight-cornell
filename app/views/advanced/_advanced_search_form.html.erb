@@ -1,6 +1,8 @@
 <%= form_tag catalog_index_path, :class => 'advanced', :method => :get do  %>
   <%#= search_as_hidden_fields(:params => advanced_search_context ) %>
-  <div class="query_column span12">
+  <div class="row">
+  <div class="span6 pull-left">
+    <div class="query_zone">
     <div class="input_row">
       <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
@@ -10,11 +12,12 @@
 
       <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}, :selected => params[:search_field]), :id => 'search_field_advanced', :class => 'advanced-search-field') %>
     </div>
+  
 
     <%= render :partial => 'advanced_search_rows' %>
   </div>
 
-  <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add a row</a>
+  <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add more search parameters</a>
 
   <%# # Comment out the display of active constraints -- still need to be removed
       # from the query before it's sent to Solr. John will handle this in the
@@ -36,6 +39,34 @@
 
     <%= submit_tag 'Search', :class=>'btn btn-inverse', :id=>'advanced_search' %>
   </div>
-<% end %>
+</div>
 
+<div class="span5 pull-left home-message as-tips">
+    <h3>Search Tips</h3>
+    <ul>
+      <li>
+        Select all from the dropdown list if you want all of your search terms to appear in the record.
+        e.g. politics history Canada (all) will find items containing the terms politics AND history AND Canada
+      </li>
+
+      <li>Select any from the dropdown list if you want any of your search terms to appear in the record.
+        e.g. youth adolescents children (any) will find items containing the terms youth OR adolescents OR children
+      </li>
+
+      <li>Select phrase from the dropdown list to limit search to an exact phrase.
+        e.g. united states (phrase) will search “united states”
+      </li>
+
+      <li>The All Fields option searches the full catalog record. Select specific fields (title, author, publisher, etc.) to limit your search terms to a particular field in the record.
+      </li>
+
+      <li>You can apply limits (date, language, format, etc.) after you search using the facets on the left side of your search results.
+      </li>
+
+      <li>Truncation and wildcards are not supported. Word stemming is done automatically. 
+      </li>
+    </ul>
+</div>
+</div>
+<% end %>
 
