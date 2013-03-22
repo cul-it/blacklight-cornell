@@ -4,7 +4,7 @@
 }
 #add-row {
   display: block;
-  margin-bottom: .7em;
+  margin: 0.7em 0;
 }
 #sort { width: auto; }
 #advanced_search, .reset {
@@ -16,10 +16,12 @@
 	font-size: .85em;
 }
 
-.sort_submit_buttons label {display: inline-block;}
-
-.submit-reset {
-	position: relative;
-	top:-6px;
-	display: inline-block;
+.sort_submit_buttons label {display: inline-block;
+	margin-top:0.7em;
 }
+
+.boolean_row {
+	margin-bottom: 0.2em;
+}
+
+
