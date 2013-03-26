@@ -1,7 +1,7 @@
 <%= form_tag catalog_index_path, :class => 'advanced', :method => :get do  %>
   <%#= search_as_hidden_fields(:params => advanced_search_context ) %>
   <div class="row">
-  <div class="span6 pull-left well">
+  <div class="span7 pull-left well">
     <div class="query_zone ">
     <div class="input_row">
       <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
@@ -17,7 +17,7 @@
     <%= render :partial => 'advanced_search_rows' %>
   </div>
 
-  <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add more search parameters</a>
+  <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add a row</a>
 
   <%# # Comment out the display of active constraints -- still need to be removed
       # from the query before it's sent to Solr. John will handle this in the
@@ -44,14 +44,17 @@
   </div>
 </div>
 
-<div class="span5 pull-left home-message as-tips">
+<div class="span4 pull-left home-message as-tips">
     <h3>Search Tips</h3>
     <ul>
       <li>
-        Select from the first dropdown menu whether  all your search terms, any of your search terms or an exact phrase should appear in the items you find.
+        Select from the first dropdown menu whether  <strong>all</strong> your search terms, <strong>any</strong> of your search terms or an exact <strong>phrase</strong> should appear in the items you find. 
+        <span class="as-examples">Examples: United States (all) will find items containing United AND States;
+  United States (any) will find items containing the terms United OR States;
+          United States (phrase) will search “United States”.</span>
       </li>
 
-      <li>You can facet your results by date, language, format, etc. after you search.
+      <li>You can filter your results by date, language, format, etc. after you search.
       </li>
 
       <li>Truncation and wildcards are not supported. Word stemming is done automatically. 
