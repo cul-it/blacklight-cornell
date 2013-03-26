@@ -118,7 +118,8 @@
 		float: left;
 		width: 70%;
 	}
-	dl.dl-horizontal dd {
+	dl.dl-horizontal dd,
+	body.blacklight-advanced-index dl.dl-horizontal dd {
 		margin-left: 0;
 	}
 }

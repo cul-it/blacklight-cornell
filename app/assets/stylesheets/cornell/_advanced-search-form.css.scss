@@ -8,7 +8,7 @@
 }
 #sort { width: auto; }
 #advanced_search, .reset {
-     
+
 }
 
 .as-tips {position:relative;
@@ -25,8 +25,11 @@
 }
 
 .as-examples {
-	color: #999999;
-    display: inline-block;
-    margin-left:1em;
+  margin-bottom: 0;
+  color: $light-gray;
+}
+body.blacklight-advanced-index dl.dl-horizontal {
+  dt { width: 50px; }
+  dd { margin-left: 65px; }
 }
 

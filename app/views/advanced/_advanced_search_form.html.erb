@@ -12,7 +12,7 @@
 
       <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}, :selected => params[:search_field]), :id => 'search_field_advanced', :class => 'advanced-search-field') %>
     </div>
-  
+
 
     <%= render :partial => 'advanced_search_rows' %>
   </div>
@@ -48,16 +48,21 @@
     <h3>Search Tips</h3>
     <ul>
       <li>
-        Select from the first dropdown menu whether  <strong>all</strong> your search terms, <strong>any</strong> of your search terms or an exact <strong>phrase</strong> should appear in the items you find. 
-        <span class="as-examples">Examples: United States (all) will find items containing United AND States;
-  United States (any) will find items containing the terms United OR States;
-          United States (phrase) will search “United States”.</span>
+        Using the first dropdown in each row, select how the entered terms should be used in the search:
+          <dl class="as-examples dl-horizontal">
+            <dt><strong>all</strong></dt>
+            <dd>United AND States</dd>
+            <dt><strong>any</strong></dt>
+            <dd>United OR States</dd>
+            <dt><strong>phrase</strong></dt>
+            <dd>"United States"</dd>
+          </dl>
       </li>
 
       <li>You can filter your results by date, language, format, etc. after you search.
       </li>
 
-      <li>Truncation and wildcards are not supported. Word stemming is done automatically. 
+      <li>Truncation and wildcards are not supported. Word stemming is done automatically.
       </li>
     </ul>
 </div>
