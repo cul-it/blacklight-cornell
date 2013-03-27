@@ -33,15 +33,15 @@ div.accordion-heading.request-options {
 }
 div.request-options div.accordion-group {border:none;}
 div.request-options div.accordion-inner {
-  border:none; 
-  padding:9px 15px; 
-}  
-div.request-options{font-size: .75em;}
+  border:none;
+  padding:9px 15px;
+}
 div.request-options div.accordion-body .span4 {
-  margin-left:0px; 
-  position:relative; 
+  margin-left:0px;
+  position:relative;
   left:-15px;
 }
+.form-alternative-action{font-size: .75em;}
 input#request-submit {float:left;}
 
 .help-inline.required {
@@ -50,6 +50,6 @@ input#request-submit {float:left;}
 }
 .aeon {font-size: .8em}
 
-.aeon-circ {border-left: solid 1px #EDEBE7; 
+.aeon-circ {border-left: solid 1px #EDEBE7;
   padding-left:50px;
   height: 100%}

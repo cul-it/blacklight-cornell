@@ -1,50 +1,52 @@
-<%= form_tag catalog_index_path, :class => 'advanced', :method => :get do  %>
-  <%#= search_as_hidden_fields(:params => advanced_search_context ) %>
-  <div class="row">
+<div class="row">
   <div class="span7 pull-left well">
-    <div class="query_zone ">
-    <div class="input_row">
-      <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
+    <%= form_tag catalog_index_path, :class => 'advanced', :method => :get do  %>
+      <%#= search_as_hidden_fields(:params => advanced_search_context ) %>
+      <div class="query_zone control-group">
+        <div class="input_row">
+          <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-      <%= text_field_tag "q_row[]", params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q", :autocapitalize => "off" %>
+          <%= text_field_tag "q_row[]", params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q", :autocapitalize => "off" %>
 
-      <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase'}.sort,'all'), :class => 'input-small') %> in
+          <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase'}.sort,'all'), :class => 'input-small') %> in
 
-      <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}, :selected => params[:search_field]), :id => 'search_field_advanced', :class => 'advanced-search-field') %>
-    </div>
+          <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}, :selected => params[:search_field]), :id => 'search_field_advanced', :class => 'advanced-search-field') %>
+        </div>
 
+        <%= render :partial => 'advanced_search_rows' %>
+      </div>
 
-    <%= render :partial => 'advanced_search_rows' %>
-  </div>
+      <div class="add-and-sort control-group">
+        <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add a row</a>
 
-  <a href="#" id="add-row"><i class="icon-plus-sign"></i> Add a row</a>
+        <%# # Comment out the display of active constraints -- still need to be removed
+            # from the query before it's sent to Solr. John will handle this in the
+            # controller.
+        %>
+        <%# unless (search_context_str = render_search_to_s( advanced_search_context)).blank? %>
+          <%# <div class="constraints">
+            <h4>Within search:</h4> %>
+            <%#= search_context_str %>
+          <%# </div> %>
+        <%# end %>
 
-  <%# # Comment out the display of active constraints -- still need to be removed
-      # from the query before it's sent to Solr. John will handle this in the
-      # controller.
-  %>
-  <%# unless (search_context_str = render_search_to_s( advanced_search_context)).blank? %>
-    <%# <div class="constraints">
-      <h4>Within search:</h4> %>
-      <%#= search_context_str %>
-    <%# </div> %>
-  <%# end %>
+        <%= label_tag(:sort, "Sort results by") %>
 
-  <div class="sort_submit_buttons">
-    <%= label_tag(:sort, "Sort results by") %>
+        <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort]))) %>
 
-    <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort]))) %>
+        <%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
+      </div>
 
-    <%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
-    <div class="submit-reset">
-    <%= submit_tag 'Search', :class=>'btn btn-inverse', :id=>'advanced_search' %>
-    or
-      <%= link_to "Reset", {:controller => "advanced", :action => "index"} %>
-    </div>
-  </div>
-</div>
+      <div class="submit-reset">
+        <%= submit_tag 'Search', :class=>'btn btn-inverse', :id=>'advanced_search' %>
+        <span class="form-alternative-action">
+          or <%= link_to "Reset", {:controller => "advanced", :action => "index"} %>
+        </span>
+      </div>
+    <% end %>
+  </div> <!-- .span7 -->
 
-<div class="span4 pull-left home-message as-tips">
+  <div class="span4 pull-left home-message as-tips">
     <h3>Search Tips</h3>
     <ul>
       <li>
@@ -65,7 +67,7 @@
       <li>Truncation and wildcards are not supported. Word stemming is done automatically.
       </li>
     </ul>
-</div>
-</div>
-<% end %>
+  </div> <!-- .span4 -->
+</div> <!-- .row -->
+
 

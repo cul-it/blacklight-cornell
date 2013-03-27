@@ -28,16 +28,14 @@
       %label.radio{ :for => "180 days"}
         %input(type="radio" name="latest-date" value="#{d180.strftime("%Y-%m-%d")}" id="180 days")
         180 days (#{d180.strftime("%m-%d-%Y")})
-
-
   .control-group
     .controls.clearfix
       %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit hold request")
-      %div.accordion-heading.request-options.pull-left
+      %div.accordion-heading.request-options.form-alternative-action.pull-left
         or
         =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
     .controls
-      %div.accordion#accordion2.request-options
+      %div.accordion#accordion2.request-options.form-alternative-action
         %div#collapseOne.accordion-body.collapse
           %div.accordion-inner
             %div.span4

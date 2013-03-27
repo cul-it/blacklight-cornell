@@ -9,15 +9,12 @@
 
 %a{:href => @ill_link, :class => 'btn btn-danger'}
   Go to Interlibrary Loan
-
-
 .controls
-  %div.accordion#accordion2.request-options
+  %div.accordion#accordion2.request-options.form-alternative-action
     %div.accordion-group
       %div.accordion-heading
-      =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+      =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
       %div#collapseOne.accordion-body.collapse
-        %div.accordion-inner     
-          %div.span4     
+        %div.accordion-inner
+          %div.span4
             = render :partial => 'shared/request_options'
-

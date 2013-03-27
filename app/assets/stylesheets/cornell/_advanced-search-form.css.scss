@@ -7,23 +7,17 @@
   margin: 0.7em 0;
 }
 #sort { width: auto; }
-#advanced_search, .reset {
-
-}
-
 .as-tips {position:relative;
 	top:-10px;
 	font-size: .85em;
 }
-
-.sort_submit_buttons label {display: inline-block;
-	margin-top:0.7em;
+.add-and-sort label {
+  display: inline-block;
+  vertical-align: middle;
 }
-
 .boolean_row {
 	margin-bottom: 0.2em;
 }
-
 .as-examples {
   margin-bottom: 0;
   color: $light-gray;
@@ -32,4 +26,3 @@ body.blacklight-advanced-index dl.dl-horizontal {
   dt { width: 50px; }
   dd { margin-left: 65px; }
 }
-
