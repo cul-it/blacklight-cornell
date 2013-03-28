@@ -44,8 +44,10 @@ $wellBackground: $light-tan;
 
 // Fonts
 // -------------------------
+// Protocol is intentionally absent from URL to allow browser to automatically
+// use either http or https as needed -- this is primarily to address Chrome bug
 $baseFontFamily:        Oxygen;        @import
-url(http://fonts.googleapis.com/css?family=Oxygen:400,700);
+url(//fonts.googleapis.com/css?family=Oxygen:400,700);
 
 // Buttons
 // -------------------------
