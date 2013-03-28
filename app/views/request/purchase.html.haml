@@ -63,15 +63,14 @@
         %select#reqnotify{:name => 'reqnotify'}
           %option{:value => 'yes', :selected => 'selected'} Yes
           %option{:value => 'no'} No
-
     .control-group
       .controls.clearfix
         %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit purchase request")
-        %div.accordion-heading.request-options.pull-left
+        %div.accordion-heading.request-options.form-alternative-action.pull-left
           or
           =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
       .controls
-        %div.accordion#accordion2.request-options
+        %div.accordion#accordion2.request-options.form-alternative-action
           %div#collapseOne.accordion-body.collapse
             %div.accordion-inner
               %div.span4

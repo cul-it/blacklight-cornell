@@ -1,14 +1,28 @@
-.query_column { margin-left: 0; }
 .advanced-search-field {
   margin-left: .2em;
   width: auto;
 }
 #add-row {
   display: block;
-  margin-bottom: .7em;
+  margin: 0.7em 0;
 }
 #sort { width: auto; }
-#advanced_search {
-  display: block;
-  margin-top: .7em;
+.as-tips {position:relative;
+	top:-10px;
+	font-size: .85em;
+}
+.add-and-sort label {
+  display: inline-block;
+  vertical-align: middle;
+}
+.boolean_row {
+	margin-bottom: 0.2em;
+}
+.as-examples {
+  margin-bottom: 0;
+  color: $light-gray;
+}
+body.blacklight-advanced-index dl.dl-horizontal {
+  dt { width: 50px; }
+  dd { margin-left: 65px; }
 }

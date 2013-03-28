@@ -25,6 +25,11 @@ body.blacklight-bookmarks-index .document {
 		font-size: .75em;
 		color: $light-gray;
 	}
+	.shadow-record {
+		margin-top: .15em;
+		vertical-align: top;
+		color: $white;
+	}
 	.blacklight-pub_date_display {
 		margin-left: .2em;
 		color: $dark-gray;

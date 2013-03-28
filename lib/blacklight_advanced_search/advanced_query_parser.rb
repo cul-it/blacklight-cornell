@@ -21,7 +21,7 @@ module BlacklightAdvancedSearch
     # Returns "AND" or "OR", how #keyword_queries will be combined
     def keyword_op
      Rails.logger.debug("keywordOps = #{@params['op']}")
-       @params["op"]  
+       @params["op"] # || @params["op[]"]  
  #      @params["op"] || "AND"
     end
     # returns advanced-type keyword queries, see also keyword_op
@@ -37,7 +37,7 @@ module BlacklightAdvancedSearch
           end
         end
       end
-      Rails.logger.debug("keywordQueries = #{@keyword_queries}")
+      Rails.logger.debug("keywordQueriesGoku = #{@keyword_queries}")
       return @keyword_queries
     end
     # returns just advanced-type filters

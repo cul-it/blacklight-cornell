@@ -65,7 +65,7 @@ module Blacklight::Catalog
              params["search_field"] = "advanced"
              end
              params["commit"] = "Search"
-             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
              params["action"] = "index"
              params["controller"] = "catalog"
         else
@@ -78,7 +78,7 @@ module Blacklight::Catalog
               params[terms[0]] = terms[1]
             end
              params["commit"] = "Search"
-             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
              params["action"] = "index"
              params["controller"] = "catalog"
          end                  
@@ -113,6 +113,7 @@ module Blacklight::Catalog
 #         params[:op] = ""
 #         params[:search_field_row] = ""
          params[:q] = query_string
+         Rails.logger.debug("MGMT = #{query_string}")
 #         params["advanced_query"] = ""
 #          params[:f] = {"format" => ["Journal"]}
          

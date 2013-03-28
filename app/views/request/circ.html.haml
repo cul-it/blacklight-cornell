@@ -2,14 +2,14 @@
   %i.icon-circle-arrow-left
   Back to item
 %h1.request-type Check at Circulation
-%p 
+%p
   This item has a short loan period and cannot be requested. Please check at the circulation desk to see if it is available.
 .controls
-  %div.accordion#accordion2.request-options
+  %div.accordion#accordion2.request-options.form-alternative-action
     %div.accordion-group
       %div.accordion-heading
-      =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}} 
+      =link_to 'other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
       %div#collapseOne.accordion-body.collapse
-        %div.accordion-inner     
-          %div.span4     
+        %div.accordion-inner
+          %div.span4
             = render :partial => 'shared/request_options'

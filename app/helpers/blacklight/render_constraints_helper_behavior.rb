@@ -14,7 +14,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # Render actual constraints, not including header or footer
   # info. 
   def render_constraints(localized_params = params)
-    Rails.logger.debug("whodafugrender_constraints = #{localized_params}")
+    Rails.logger.debug("spanky = #{localized_params}")
     (render_constraints_query(localized_params) + render_constraints_filters(localized_params)).html_safe
 #    render_constraints_queryeee
   end
@@ -24,47 +24,70 @@ module Blacklight::RenderConstraintsHelperBehavior
     # So simple don't need a view template, we can just do it here.
     Rails.logger.debug("whodafugrender_constraints_query = #{localized_params}")
     if(!localized_params[:advanced_query].blank?)
-#    Rails.logger.debug("whodafugrender_constraints_query = #{localized_params}")
+    Rails.logger.debug("whodafugrenderlocalized_constraints_query = #{localized_params}")
       render_advanced_constraints_query(localized_params)
     else
     if (!localized_params[:q].blank?)
+      Rails.logger.debug("JanisMCline #{params}")
+      localized_params[:search_field] = params["search_field"]
       label = 
-        if (localized_params[:search_field].blank? || (default_search_field && localized_params[:search_field] == default_search_field[:key] ) )
+        if (localized_params[:search_field].blank? )# || (default_search_field && localized_params[:search_field] == default_search_field[:key] ) )
           nil
         else
-          label_for_search_field(localized_params[:search_field] + localized_params[:q])
+          Rails.logger.debug("Ignatz = #{label_for_search_field(localized_params[:search_field])}")
+          label_for_search_field(localized_params[:search_field]) # + localized_params[:q])
+#          label_for_search_field(params["search_field"] + localized_params[:q])
+          
         end
-    
+      q_paramSplit = localized_params[:q].split("&")
+      if q_paramSplit.count > 1
+        leftSide = q_paramSplit[0].split("=")
+        fixed_query = leftSide[1]
+        localized_params.delete("q_row")
+        localized_params.delete("as_boolean_row2")
+        localized_params.delete("op_row")
+        localized_params.delete("search_field_row")
+        localized_params.delete("search_field")
+        localized_params.delete("sort")
+        localized_params.delete("commit")
       render_constraint_element(label,
-            localized_params[:q], 
+       #     localized_params[:q],
+            fixed_query, 
             :classes => ["query"], 
             :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+      else
+      render_constraint_element(label,
+            localized_params[:q],
+      #      query, 
+            :classes => ["query"], 
+            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+      end
     else
       "".html_safe
     end
     end
   end
 
-  def render_constraints_advanced_query(localized_params = params)
+#  def render_constraints_advanced_query(localized_params = params)
     # So simple don't need a view template, we can just do it here.
-    Rails.logger.debug("whodafugrender_constraints_advanced_query = #{localized_params}")
-    if (!localized_params[:advanced_query].blank?)
-      label = 
-        if (localized_params[:search_field_row].blank? || (default_search_field && localized_params[:search_field_row] == default_search_field[:key] ) )
-          nil
-        else
-          label_for_search_field(localized_params[:search_field_row])
-        end
+#    Rails.logger.debug("whodafugrender_constraints_advanced_query = #{localized_params}")
+#    if (!localized_params[:advanced_query].blank?)
+#      label = 
+#        if (localized_params[:search_field_row].blank? || (default_search_field && localized_params[:search_field_row] == default_search_field[:key] ) )
+#          nil
+#        else
+#          label_for_search_field(localized_params[:search_field_row])
+#        end
     
-      render_constraint_element(label,
+#      render_constraint_element(label,
 #            localized_params[:q],
-            localized_params[:search_field_row], 
-            :classes => ["query"], 
-            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
-    else
-      "pookie".html_safe
-    end
-  end
+#            localized_params[:search_field_row], 
+#            :classes => ["query"], 
+#            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+#    else
+#      "pookie".html_safe
+#    end
+#  end
 
 
   def render_constraints_filters(localized_params = params)

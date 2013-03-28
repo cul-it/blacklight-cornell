@@ -38,5 +38,5 @@ $(document).ready ->
         else
           $(this).attr('checked', true)
 
-    newRow.appendTo('.query_column')
+    newRow.appendTo('.query_zone')
     return false

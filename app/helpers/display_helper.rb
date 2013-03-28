@@ -564,7 +564,7 @@ module DisplayHelper
     link_url = "http://resolver.library.cornell.edu/net/parsebd/?&url_ver=Z39.88-2004&rft_id=urn%3AISBN%3A" + isbn + "&req_id=info:rfa/oclc/institutions/3913"
 
     link_url
-  
+
   end
 
   def borrowdirect_url_from_title(title)
@@ -579,5 +579,22 @@ module DisplayHelper
   # Renders a count value for facet limits with comma delimeter
   def render_facet_count(num)
     content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
+  end
+
+  # Shadow record sniffer
+  def is_shadow_record(document)
+    if defined? document.to_marc
+      fields = document.to_marc.find_all{|f| ('948') === f.tag }
+
+      fields.each do |field|
+        field.each do |sub|
+          if h(sub.code) === 'h' and h(sub.value) === 'PUBLIC SERVICES SHADOW RECORD'
+            return true
+          end
+        end
+      end
+
+      return false
+    end
   end
 end
