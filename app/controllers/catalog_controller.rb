@@ -304,6 +304,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+    # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

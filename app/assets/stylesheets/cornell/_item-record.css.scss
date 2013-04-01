@@ -144,6 +144,13 @@ dl.dl-horizontal {
 	font-size: .8em;
 	color: $dark-gray;
 }
+.access-restriction {
+	display: block;
+	margin-top: .4em;
+	font-size: .8em;
+	line-height: 1.2em;
+	color: $light-gray;
+}
 .item-requests {
 	margin-top: 1.5em;
 }
