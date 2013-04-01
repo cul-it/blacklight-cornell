@@ -545,7 +545,11 @@ module DisplayHelper
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
   def document_show_html_title
-    render_field_value(@document[blacklight_config.show.html_title].html_safe)
+    # Test to ensure that display_title is not missing
+    # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
+    if @document[blacklight_config.show.html_title].present?
+      render_field_value(@document[blacklight_config.show.html_title].html_safe)
+    end
   end
 
   def borrowdirect_url_from_isbn(isbns)
