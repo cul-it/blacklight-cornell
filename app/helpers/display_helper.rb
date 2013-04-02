@@ -585,6 +585,24 @@ module DisplayHelper
     content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   end
 
+  # Overrides original method from catalog_helper_behavior.rb
+  # -- All this just to add commas (via format_num) to total result count
+  # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
+  def render_pagination_info(response, options = {})
+      pagination_info = paginate_params(response)
+
+   # TODO: i18n the entry_name
+      entry_name = options[:entry_name]
+      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
+      entry_name ||= t('blacklight.entry_name.default')
+
+      case pagination_info.total_count
+        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => format_num(pagination_info.total_count), :count => pagination_info.num_pages).html_safe
+      end
+  end
+
   # Shadow record sniffer
   def is_shadow_record(document)
     if defined? document.to_marc
