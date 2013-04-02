@@ -267,6 +267,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'notes', :label => 'Notes'
+    config.add_show_field 'cite_as_display', :label => 'Cite as'
+    config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
+    config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_display', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
@@ -304,6 +307,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+    # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

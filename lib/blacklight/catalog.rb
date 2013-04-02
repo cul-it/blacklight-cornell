@@ -71,7 +71,7 @@ module Blacklight::Catalog
         else
             params.delete("advanced_query")
             query_string = parse_single(params)
-            Rails.logger.debug(query_string)
+            Rails.logger.debug("MichaelsProb = #{query_string}")
             holdparams = query_string.split("&")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
@@ -112,7 +112,9 @@ module Blacklight::Catalog
 #         params[:op_row] = ""
 #         params[:op] = ""
 #         params[:search_field_row] = ""
-         params[:q] = query_string
+         if params[:q].nil?
+          params[:q] = query_string
+         end
          Rails.logger.debug("MGMT = #{query_string}")
 #         params["advanced_query"] = ""
 #          params[:f] = {"format" => ["Journal"]}

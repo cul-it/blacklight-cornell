@@ -555,7 +555,11 @@ module DisplayHelper
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
   def document_show_html_title
-    render_field_value(@document[blacklight_config.show.html_title].html_safe)
+    # Test to ensure that display_title is not missing
+    # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
+    if @document[blacklight_config.show.html_title].present?
+      render_field_value(@document[blacklight_config.show.html_title].html_safe)
+    end
   end
 
   def borrowdirect_url_from_isbn(isbns)
@@ -589,6 +593,24 @@ module DisplayHelper
   # Renders a count value for facet limits with comma delimeter
   def render_facet_count(num)
     content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
+  end
+
+  # Overrides original method from catalog_helper_behavior.rb
+  # -- All this just to add commas (via format_num) to total result count
+  # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
+  def render_pagination_info(response, options = {})
+      pagination_info = paginate_params(response)
+
+   # TODO: i18n the entry_name
+      entry_name = options[:entry_name]
+      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
+      entry_name ||= t('blacklight.entry_name.default')
+
+      case pagination_info.total_count
+        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => format_num(pagination_info.total_count), :count => pagination_info.num_pages).html_safe
+      end
   end
 
   # Shadow record sniffer
