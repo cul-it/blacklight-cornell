@@ -109,7 +109,7 @@ module DisplayHelper
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
             if !clickable_setting[:related_search_field].blank?
-              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], '"' + displayv_searchv[1] + '"', clickable_setting[:related_search_field], '"' + displayv_searchv[2] + '"'))
+              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], displayv_searchv[1], clickable_setting[:related_search_field], displayv_searchv[2]))
             else
               # misconfiguration... no related search field defined
               # ignore related search value
@@ -164,14 +164,24 @@ module DisplayHelper
     logger.info get_clickable_search_field(primary_field)
     logger.info get_clickable_search_field(related_search_field)
     op = 'op[]'
+    q_row = 'q_row'
+    op_row = 'op_row'
+    search_field_row = 'search_field_row'
+    pf = get_clickable_search_field(primary_field)
+    rf = get_clickable_search_field(related_search_field)
+    rf = related_search_field if rf.nil?
+
     new_search_params = {
       #:utf8 => '✓',
-      (get_clickable_search_field(primary_field)).to_sym => pval,
-      related_search_field.to_sym => rval,
+      # :utf8 => '%E2%9C%93',
+      q_row.to_sym => [pval, rval],
+      op_row.to_sym => ['phrase', 'phrase'],
+      search_field_row.to_sym => [pf, rf],
+      :as_boolean_row2 => 'AND',
+      :sort => 'score desc, pub_date_sort desc, title_sort asc',
       :search_field => 'advanced',
-      :commit => 'search',
-      :action => 'index',
-      op.to_sym => 'AND'
+      :commit => 'Search',
+      :action => 'index'
     }
   end
 
