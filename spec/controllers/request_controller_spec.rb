@@ -1,28 +1,92 @@
 require 'spec_helper'
+require 'request_controller'
 
 describe RequestController do
 
+		before :all do
+			@rc = RequestController.new
+		end
+
 		describe "xhold" do
+
+			it "tests something" do
+				pending
+			end
 
 		end
 
 		describe "xrecall" do
 
+			it "tests something" do
+				pending
+			end
+
 		end		
 
 		describe "callslip" do
+
+			it "tests something" do
+				pending
+			end
 
 		end
 
 		describe "make_request" do
 
+			context "callslip request" do
+				it "tests something" do
+					pending
+				end
+			end
+
+			context "BD request" do
+				it "tests something" do
+					pending
+				end
+			end
+
+			context "hold request" do
+				it "tests something" do
+					pending
+				end
+			end
+
+			context "ILL request" do
+				it "tests something" do
+					pending
+				end
+			end
+
+			context "purchase request" do
+				it "tests something" do
+					pending
+				end
+			end
+
+			context "recall request" do
+				it "tests something" do
+					pending
+				end
+			end
+
+			context "invalid request" do 
+				it "tests something" do
+					pending
+				end
+			end
+
 		end
 
+		# TODO: why are there three 'item_type' functions?
 		describe "get_item_type" do
 
 		end
 
 		describe "_get_item_type" do
+
+		end
+
+		describe "get_item_types" do
 
 		end
 
@@ -114,10 +178,6 @@ describe RequestController do
 
 		end
 
-		describe "get_item_types" do
-
-		end
-
 		describe "LDAP services" do
 
 			describe "get_ldap_dn" do
@@ -125,10 +185,6 @@ describe RequestController do
 			end
 
 			describe "patron lookup" do
-
-				before {
-					@rc = RequestController.new
-				}
 
 				it "returns nil when passed a nil parameter" do
 					result = @rc.get_patron_type nil

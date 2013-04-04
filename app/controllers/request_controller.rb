@@ -81,7 +81,7 @@ class RequestController < ApplicationController
     @netid = request.env['HTTP_REMOTE_USER']
     logger.debug  "getting info for #{params[:id]}"
     logger.debug  "getting info for #{@netid}"
-    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    @resp, @document = get_solr_response_for_doc_id(params[:id])
     logger.debug  "document info : #{@document}"
     logger.debug  @document.to_s
     logger.debug  @document.inspect
@@ -135,28 +135,32 @@ class RequestController < ApplicationController
   end
 
   def callslip
-  @h = session[:holdings]
-  logger.debug  "getting info for #{params[:id]}"
-  logger.debug  "getting info for #{params[:netid]}"
-  @resp,@document = get_solr_response_for_doc_id(params[:id])
-  logger.debug  "info : #{@document}"
-  logger.debug  @document.to_s
-  logger.debug  @document.inspect
-  logger.debug  @document[:title_display]
-  @ti =  @document[:title_display]
-  @au =  @document[:author_display]
-  @netid =  params[:netid]
-  @id =  params[:id]
-  logger.debug   "details: #{@hd.inspect}"
-  # the details offers an array of records, one element for each holding.
-  if (!@hd.nil?)
-    @hd['records'].each do | hol |
-      logger.debug  "holding id = #{hol['holding_id']}";
-      logger.debug  "item status = #{hol['item_status'].inspect}";
+
+    @h = session[:holdings]
+    logger.debug  "getting info for #{params[:id]}"
+    logger.debug  "getting info for #{params[:netid]}"
+    @resp,@document = get_solr_response_for_doc_id(params[:id])
+    logger.debug  "info : #{@document}"
+    logger.debug  @document.to_s
+    logger.debug  @document.inspect
+    logger.debug  @document[:title_display]
+    @ti =  @document[:title_display]
+    @au =  @document[:author_display]
+    @netid =  params[:netid]
+    @id =  params[:id]
+    logger.debug   "details: #{@hd.inspect}"
+
+    # the details offers an array of records, one element for each holding.
+    if (!@hd.nil?)
+       @hd['records'].each do | hol |
+          logger.debug  "holding id = #{hol['holding_id']}";
+          logger.debug  "item status = #{hol['item_status'].inspect}";
+       end
     end
-  end
+
   end
 
+  # TODO: give this function a more descriptive name
   # Process submitted form data from hold/recall/callslip/purchase request forms and perform the appropriate call
   def make_request
     voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
@@ -320,12 +324,10 @@ class RequestController < ApplicationController
     end
   end
 
+  # Given a bibid and related holdings information, figure out the Voyager loan type
+  # Response defaults to 'regular', but can also be 'day' or 'minute'
   def get_item_type holdings_detail, bibid
-    ## there are three types of loans
-    ## regular
-    ## day
-    ## minute
-    ## 'regular'
+
     holdings_detail.each do |holding|
       if holding['bibid'] == bibid
         itemdata = holding['item_status']['itemdata']
@@ -335,16 +337,15 @@ class RequestController < ApplicationController
         end
       end
     end
-    # logger.debug "Got regular loan"
+
     return 'regular'
   end
 
+  # Given an item data hash (subset of holdings data), attempt to match the loan type
+  # code to one of the 'irregular' loan type arrays defined in IRREGULAR_LOAN_TYPE.
+  # Use this to return a normalized regular/day/minute loan type.
   def _get_item_type data
-    ## there are three types of loans
-    ## regular
-    ## day
-    ## minute
-    ## 'regular'
+
     if IRREGULAR_LOAN_TYPE[:NOCIRC][data['typeCode']] == 1
       logger.debug 'Got nocirc'
       return 'nocirc'
@@ -355,7 +356,7 @@ class RequestController < ApplicationController
       logger.debug "Got minute loan"
       return 'minute'
     end
-    # logger.debug "Got regular loan"
+
     return 'regular'
   end
 
