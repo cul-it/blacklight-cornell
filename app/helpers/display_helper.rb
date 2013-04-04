@@ -86,7 +86,7 @@ module DisplayHelper
     LOCATION_MAPPINGS.each do |key, value|
       if location_code.include?(key)
         matched_location = value
-        break # Break on first match to ensure Annex is properly identified
+        break # Break on first match to ensure RMC (followed by Annex) is properly identified
       end
     end
 
@@ -101,6 +101,7 @@ module DisplayHelper
   # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-306 (location codes)
   # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-408 (site param values)
   LOCATION_MAPPINGS = {
+    'rmc' => 'Rare',
     'anx' => 'ANNEX',
     'afr' => 'Africana',
     'engr' => 'ENGR',
@@ -110,7 +111,6 @@ module DisplayHelper
     'fine' => 'FA',
     'hote' => 'Hotel',
     'asia' => 'Kroch',
-    'rmc' => 'Rare',
     'law' => 'Law',
     'jgsm' => 'JGSM',
     'mann' => 'MANNLIB',
