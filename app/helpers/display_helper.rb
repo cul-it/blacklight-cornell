@@ -78,6 +78,50 @@ module DisplayHelper
     end
   end
 
+  # Build a link to the CUL libraryhours page for the library location in question
+  def render_location_link location_code
+    base_url = 'http://www.library.cornell.edu/libraryhours'
+    matched_location = nil
+    # Test for substring match of location hash key in location_code
+    LOCATION_MAPPINGS.each do |key, value|
+      if location_code.include?(key)
+        matched_location = value
+        break # Break on first match to ensure Annex is properly identified
+      end
+    end
+
+    location_url = matched_location.present? ? base_url + '?loc=' + matched_location : base_url
+
+    link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
+  end
+
+  # Hash map for substring of location codes from holding service => loc param
+  # values for CUL library hours page
+  # Built using lists from:
+  # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-306 (location codes)
+  # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-408 (site param values)
+  LOCATION_MAPPINGS = {
+    'anx' => 'ANNEX',
+    'afr' => 'Africana',
+    'engr' => 'ENGR',
+    'olin' => 'OLIN',
+    'gnva' => 'GENEVA',
+    'ilr' => 'ILR',
+    'fine' => 'FA',
+    'hote' => 'Hotel',
+    'asia' => 'Kroch',
+    'rmc' => 'Rare',
+    'law' => 'Law',
+    'jgsm' => 'JGSM',
+    'mann' => 'MANNLIB',
+    'math' => 'MATH',
+    'phys' => 'PHYSCI',
+    'uris' => 'Uris',
+    'vet' => 'Vet',
+    'orni' => 'Ornithology',
+    'mus' => 'Music'
+  }
+
   def render_clickable_document_show_field_value args
     value = args[:value]
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
