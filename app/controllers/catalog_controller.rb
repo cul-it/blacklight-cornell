@@ -256,6 +256,10 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
+    # These 3 title related fields called directly in _show_metadata partial
+    # -- title_display
+    # -- subtitle_display
+    # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
