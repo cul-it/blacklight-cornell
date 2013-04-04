@@ -157,7 +157,24 @@ dl.dl-horizontal {
 }
 
 dd.blacklight-notes {
-word-wrap: break-word;
+
+
+     /* Non standard for webkit */
+     word-wrap: break-word;
+     word-break:break-word;
+     overflow-wrap:break-word;
+
+-webkit-hyphens: auto;
+        hyphens: auto;
+        display: table;
+}
+
+dl.dl-horizontal dd:after {
+    clear: left;
+    content: "";
+    display: table;
+    table-layout: fixed;
+    width: auto;
 }
 .google-books-link {
 	margin: 1.5em 0 0;
