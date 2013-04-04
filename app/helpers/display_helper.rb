@@ -651,7 +651,7 @@ module DisplayHelper
   def render_document_index_label doc, opts
     label = nil
     if opts[:label].is_a?(Array)
-      title = remove_trailers(doc.get(opts[:label][0], :sep => nil))
+      title = doc.get(opts[:label][0], :sep => nil)
       subtitle = doc.get(opts[:label][1], :sep => nil)
       logger.debug "subtitle: #{subtitle}"
       if subtitle.present?
@@ -660,23 +660,11 @@ module DisplayHelper
         label ||= title
       end
     end
-    label ||= remove_trailers(doc.get(opts[:label], :sep => nil)) if opts[:label].instance_of? Symbol
+    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
     render_field_value label
-  end
-
-  # Overrides original method from blacklight_helper_behavior.rb
-  # -- Updated to add call for remove_trailers
-  # Used in the show view for displaying the main solr document heading
-  def document_heading
-    remove_trailers(@document[blacklight_config.show.heading]) || @document.id
-  end
-
-  # Trim trailing commas and semi-colons from item titles
-  def remove_trailers(str)
-    str.chomp(',').chomp(';') if str
   end
 
   # Overrides original method from catalog_helper_behavior.rb
