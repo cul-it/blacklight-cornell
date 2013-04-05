@@ -484,7 +484,7 @@ class RequestController < ApplicationController
         ## BD PURCHASE ILL
         logger.debug "branch 3"
         _handle_bd holding, request_options, bdParams
-        request_options.push( _handle_purchase holding )
+        request_options.push( _handle_purchase )
         request_options.push( _handle_ill holding )
       elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
@@ -970,9 +970,9 @@ class RequestController < ApplicationController
   end
 
   # Note: this is a *purchase request*, which is different from a patron-driven acquisition
-  def _handle_purchase holding
+  def _handle_purchase
     iids = []
-    return { :service => PURCHASE, :iid => iids, :estimate => get_purchase_delivery_time }
+    return { :service => PURCHASE, :iid => [], :estimate => get_purchase_delivery_time }
   end
 
   def _handle_pda pda_url
