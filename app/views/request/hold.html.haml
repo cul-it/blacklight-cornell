@@ -5,6 +5,10 @@
   %i.icon-circle-arrow-left
   Back to item
 %h1.request-type Request a hold
+%p
+  A hold is the fastest request method for this item. Approximately delivery time is
+  = @delivery_time
+  days.
 %h2.item-title-request.blacklight-title_display=@ti
 %div.request-author=@au
 %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
