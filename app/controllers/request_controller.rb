@@ -691,7 +691,8 @@ class RequestController < ApplicationController
             :call_number => iid['callNumber'],
             :copy => iid['copy'],
             :enumeration => iid['enumeration'],
-            :url => iid['url']
+            :url => iid['url'],
+            :chron => iid['chron']
           }
         end
       else
