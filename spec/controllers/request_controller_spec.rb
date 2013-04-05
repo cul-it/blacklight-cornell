@@ -3,14 +3,6 @@ require 'request_controller'
 
 describe RequestController do
 
-		describe "xhold" do
-			pending
-		end
-
-		describe "xrecall" do
-			pending
-		end		
-
 		describe "callslip" do
 			pending
 		end
