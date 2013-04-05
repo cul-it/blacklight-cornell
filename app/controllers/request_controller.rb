@@ -467,14 +467,14 @@ class RequestController < ApplicationController
         logger.debug "branch 1a"
         _handle_bd holding, request_options, bdParams
         request_options.push( _handle_recall holding )
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
         request_options.push( _handle_hold holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Requested'
         ## BD ILL HOLD RECALL
         logger.debug "branch 1b"
         _handle_bd holding, request_options, bdParams
         request_options.push( _handle_recall holding )
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
         request_options.push( _handle_hold holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
@@ -485,7 +485,7 @@ class RequestController < ApplicationController
         logger.debug "branch 3"
         _handle_bd holding, request_options, bdParams
         request_options.push( _handle_purchase )
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
       elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
         logger.debug "branch 4"
@@ -497,13 +497,13 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
         ##  BD ASK_CIRCULATION
         logger.debug "branch 6"
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
         _handle_bd holding, request_options, bdParams
       elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## BD ILL HOLD
         logger.debug "branch 7"
         _handle_bd holding, request_options, bdParams
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
         request_options.push( _handle_hold holding )
       elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## ASK_LIBRARIAN
@@ -515,7 +515,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'guest' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## ASK_LIBRARIAN ASK_CIRCULATION
         logger.debug "branch 10"
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
       # Removed branch 11 - duplicate of branch 2
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
@@ -526,7 +526,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
         ## BD ASK_CIRCULATION
         logger.debug "branch 13"
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
         _handle_bd holding, request_options, bdParams
       elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
@@ -538,7 +538,7 @@ class RequestController < ApplicationController
         request_options.push( _handle_l2l holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
         ## ASK_LIBRARIAN ASK_CIRCULATION
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
         logger.debug "branch 16"
       end
       logger.debug "branch 18 - default ask librarian"
@@ -971,7 +971,6 @@ class RequestController < ApplicationController
 
   # Note: this is a *purchase request*, which is different from a patron-driven acquisition
   def _handle_purchase
-    iids = []
     return { :service => PURCHASE, :iid => [], :estimate => get_purchase_delivery_time }
   end
 
@@ -982,19 +981,16 @@ class RequestController < ApplicationController
     return { :service => PDA, :iid => iids, :estimate => get_pda_delivery_time }
   end
 
-  def _handle_ill holding
-    iids = []
-    return { :service => ILL, :iid => iids, :estimate => get_ill_delivery_time }
+  def _handle_ill
+    return { :service => ILL, :iid => [], :estimate => get_ill_delivery_time }
   end
 
-  def _handle_ask_circulation holding
-    iids = []
-    return { :service => ASK_CIRCULATION, :iid => iids, :estimate => 9998 }
+  def _handle_ask_circulation
+    return { :service => ASK_CIRCULATION, :iid => [], :estimate => 9998 }
   end
 
   def _handle_ask_librarian
-    iids = []
-    return { :service => ASK_LIBRARIAN, :iid => iids, :estimate => 9999 }
+    return { :service => ASK_LIBRARIAN, :iid => [], :estimate => 9999 }
   end
 
   def deep_copy(o)
