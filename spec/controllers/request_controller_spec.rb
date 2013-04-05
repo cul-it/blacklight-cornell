@@ -265,29 +265,42 @@ describe RequestController do
 		end
 
 		describe "_handle_ill" do
-
+			it "returns a hash with a ILL service and delivery time" do
+				rc = RequestController.new
+				rc.stub(:get_ill_delivery_time).and_return(5)
+				result = rc._handle_ill
+				result.should == { :service => 'ill', :iid => [], :estimate => 5 }
+			end
 		end
 
 		describe "_handle_ask_circulation" do
-
+			it "returns a hash with an 'ask at circulation' service and delivery time" do
+				rc = RequestController.new
+				result = rc._handle_ask_circulation
+				result.should == { :service => 'circ', :iid => [], :estimate => 9998 }
+			end
 		end
 
 		describe "_handle_ask_librarian" do
-
+			it "returns a hash with an 'ask librarian' service and delivery time" do
+				rc = RequestController.new
+				result = rc._handle_ask_librarian
+				result.should == { :service => 'ask', :iid => [], :estimate => 9999 }
+			end
 		end
 
 		describe "request_aeon" do
-
+			pending
 		end
 
 		describe "handle_aeon" do
-
+			pending
 		end
 
 		describe "LDAP services" do
 
 			describe "get_ldap_dn" do
-
+				pending
 			end
 
 			describe "patron lookup" do
