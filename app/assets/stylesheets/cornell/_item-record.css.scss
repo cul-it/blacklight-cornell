@@ -70,6 +70,8 @@ dl.dl-horizontal {
 			display: table;
 			content: "";
 			clear: left;
+			table-layout: fixed;
+    		width: auto;
 		}
 	}
 }
@@ -170,11 +172,7 @@ dd.blacklight-notes {
 }
 
 dl.dl-horizontal dd:after {
-    clear: left;
-    content: "";
-    display: table;
-    table-layout: fixed;
-    width: auto;
+
 }
 .google-books-link {
 	margin: 1.5em 0 0;
