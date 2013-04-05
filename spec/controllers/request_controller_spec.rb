@@ -4,98 +4,60 @@ require 'request_controller'
 describe RequestController do
 
 		describe "xhold" do
-
-			it "tests something" do
-				pending
-			end
-
+			pending
 		end
 
 		describe "xrecall" do
-
-			it "tests something" do
-				pending
-			end
-
+			pending
 		end		
 
 		describe "callslip" do
-
-			it "tests something" do
-				pending
-			end
-
+			pending
 		end
 
 		describe "make_request" do
 
 			context "callslip request" do
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 			context "BD request" do
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 			context "hold request" do
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 			context "ILL request" do
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 			context "purchase request" do
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 			context "recall request" do
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 			context "invalid request" do 
-				it "tests something" do
-					pending
-				end
+				pending
 			end
 
 		end
 
 		# TODO: why are there three 'item_type' functions?
 		describe "get_item_type" do
-
-			it "tests something" do
-					pending
-			end
-
+			pending
 		end
 
 		describe "_get_item_type" do
-
-			it "tests something" do
-					pending
-			end
-
+			pending
 		end
 
 		describe "get_item_types" do
-
-			it "tests something" do
-					pending
-			end
-
+			pending
 		end
 
 		describe "request_item" do
@@ -254,48 +216,52 @@ describe RequestController do
 		end
 
 		describe "_display" do
-
 			pending
 		end
 
 		describe "borrowDirect_available?" do
-
+			pending
 		end
 
 		describe "_borrowDirect_available?" do
-
+			pending
 		end
 
 		describe "_determine_availability?" do
-
+			pending
 		end
 
 		describe "get_holdings" do
-
+			pending
 		end
 
 		describe "_handle_l2l" do
-
+			pending
 		end
 
 		describe "_handle_bd" do
-
+			pending
 		end
 
 		describe "_handle_hold" do
-
+			pending
 		end
 
 		describe "_handle_recall" do
-
+			pending
 		end
 
 		describe "_handle_purchase" do
-
+			it "returns a hash with a purchase request service and delivery time" do
+				rc = RequestController.new
+				rc.stub(:get_purchase_delivery_time).and_return(5)
+				result = rc._handle_purchase
+				result.should == { :service => 'purchase', :iid => [], :estimate => 5 }
+			end
 		end
 
 		describe "_handle_pda" do
-
+			pending
 		end
 
 		describe "_handle_ill" do
