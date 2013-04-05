@@ -177,7 +177,7 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_display'
+    config.index.show_link = 'title_display', 'subtitle_display' #display as 'title: subtitle'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
@@ -256,6 +256,10 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
+    # These 3 title related fields called directly in _show_metadata partial
+    # -- title_display
+    # -- subtitle_display
+    # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
@@ -267,6 +271,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'notes', :label => 'Notes'
+    config.add_show_field 'cite_as_display', :label => 'Cite as'
+    config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
+    config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_display', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
