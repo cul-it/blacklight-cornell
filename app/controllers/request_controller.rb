@@ -609,7 +609,7 @@ class RequestController < ApplicationController
       if (estimate < 0)
         ## this item is overdue
         ## use default value instead
-        estimate = 180
+        return 180
       end
       ## pad for extra days for processing time?
       ## also padding would allow l2l to be always first option
