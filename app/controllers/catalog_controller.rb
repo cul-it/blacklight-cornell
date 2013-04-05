@@ -368,13 +368,6 @@ class CatalogController < ApplicationController
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('author/creator') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = {
-        :qf => '$author_qf',
-        :pf => '$author_pf'
-      }
-    end
     config.add_search_field('journal title') do |field|
       # field.solr_parameters = { :'spellcheck.dictionary' => 'journal' }
       field.solr_local_parameters = {
@@ -382,21 +375,13 @@ class CatalogController < ApplicationController
         :pf => '$journal_pf'
       }
     end
-    config.add_search_field('call number') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+    config.add_search_field('author/creator') do |field|
+      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
-        :qf => '$lc_callnum_qf',
-        :pf => '$lc_callnum_pf'
+        :qf => '$author_qf',
+        :pf => '$author_pf'
       }
     end
-    config.add_search_field('publisher') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
-      field.solr_local_parameters = {
-        :qf => '$publisher_qf',
-        :pf => '$publisher_pf'
-      }
-    end
-
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
@@ -408,26 +393,66 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
+    config.add_search_field('call number') do |field|
+      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+      field.solr_local_parameters = {
+        :qf => '$lc_callnum_qf',
+        :pf => '$lc_callnum_pf'
+      }
+    end
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'title_series_t' }
+       field.solr_local_parameters = { 
+         :qf => '$series_qf',
+         :pf => '$series_pf'
+       }
     end
-    config.add_search_field('notes') do |field|
-       field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'notes' }
+    config.add_search_field('publisher') do |field|
+      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+      field.solr_local_parameters = {
+        :qf => '$publisher_qf',
+        :pf => '$publisher_pf'
+      }
     end
     config.add_search_field('place of publication') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'pubplace_t' }
+       field.solr_local_parameters = { 
+         :qf => '$pubplace_qf',
+         :pf => '$pubplace_pf' 
+       }
+    end
+    config.add_search_field('publisher number/other identifier') do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = { 
+         :qf => '$number_qf',
+         :pf => '$number_pf' 
+       }
     end
     config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'isbnissn_s' }
+       field.solr_local_parameters = { 
+         :qf => '$isbnissn_qf',
+         :pf => '$isbnissn_pf' 
+       }
+    end
+    config.add_search_field('notes') do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = { 
+         :qf => '$notes_qf',
+         :pf => '$notes_pf' 
+       }
     end
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'donor_t' }
-    end
+       field.solr_local_parameters = { 
+         :qf => '$donor_qf',
+         :pf => '$donor_pf' 
+       }
+    end    
+#    config.add_search_field('donor name') do |field|
+#       field.include_in_simple_select = false
+#       field.solr_parameters = { :qf => '$donor_t' }
+#    end
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
