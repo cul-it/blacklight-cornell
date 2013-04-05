@@ -392,7 +392,6 @@ class RequestController < ApplicationController
     item_type = get_item_type holdings_detail, bibid
     # logger.info "item type: #{item_type}"
 
-    netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
     @request_solution = ''
     request_options = []
@@ -683,6 +682,7 @@ class RequestController < ApplicationController
     seen = {}
     request_options.each do |item|
       if item[:service] == service
+        @estimate = item[:estimate]
         iids = item[:iid]
         iids.each do |iid|
           @iis[iid['itemid']] = {
