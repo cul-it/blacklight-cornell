@@ -360,6 +360,11 @@ class RequestController < ApplicationController
     return 'regular'
   end
 
+  ######### MAIN BRANCHING LOGIC ##########
+  # Use netid, bibid, holdings data, and borrow direct info (isbn and title)
+  # to determine which delivery options are available. Then call _display with
+  # an array of the available options sorted by delivery time; _display sets
+  # a bunch of display variables and then calls the templating system
   def request_item target=''
     netid = request.env['REMOTE_USER']
     bibid = params[:id]
@@ -375,8 +380,8 @@ class RequestController < ApplicationController
     ##   and retrieve_detail_raw gives us item type.
     ## Make holdings consolidated view key off of holdings id so we can easily cross reference
     holdings = ( get_holdings holdings_param )[bibid]['condensed_holdings_full']
-    #logger.info holdings.inspect
     holdings_parsed = {}
+
     holdings.each do |holding|
       ## condensed_holdings_full groups holding_id's from same location together
       ##   but retrieve_detail_raw lists each holding_id separately
@@ -384,26 +389,23 @@ class RequestController < ApplicationController
         holdings_parsed[holding_id] = holding
       end
     end
+
     holdings_param[:type] = 'retrieve_detail_raw'
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid]['records']
-    # logger.info "\n\n"
+
     logger.debug holdings_detail.inspect
 
     item_type = get_item_type holdings_detail, bibid
-    # logger.info "item type: #{item_type}"
 
     netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
+
     @request_solution = ''
     request_options = []
 
-    # logger.debug "netid: #{netid}"
-    # logger.debug holdings.inspect
-
     resp, document = get_solr_response_for_doc_id(params[:id])
     bdParams = { :isbn => document['isbn_display'], :title => URI::escape(document['title_display']) }
-    # logger.info bdParams.inspect
 
     if item_type == 'nocirc'
       if patron_type == 'cornell'
@@ -568,6 +570,7 @@ class RequestController < ApplicationController
   end
 
   def get_item_status item_status
+    logger.debug "item status: #{item_status}"
     if item_status.include? 'Not Charged'
       return 'Not Charged'
     elsif item_status =~ /^Charged/
@@ -600,6 +603,7 @@ class RequestController < ApplicationController
   def get_hold_delivery_time hold_iid
     ## if it got to this point, it means it is not available and should have Due on xxxx-xx-xx
     dueDate = /.*Due on (\d\d\d\d-\d\d-\d\d)/.match(hold_iid['itemStatus'])
+    print "dd = #{dueDate}"
     if ! dueDate.nil?
       estimate = (Date.parse(dueDate[1]) - Date.today).to_i
       if (estimate < 0)

@@ -41,8 +41,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
-  gem 'webmock'
-  gem 'vcr'
 end
 
 group :test do
@@ -54,6 +52,8 @@ group :test do
   # Spork support
   gem 'guard-spork', '0.3.2'
   gem 'spork', '0.9.0'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 gem 'jquery-rails', '2.1.4'
