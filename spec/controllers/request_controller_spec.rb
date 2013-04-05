@@ -239,10 +239,23 @@ describe RequestController do
 
 		describe "sort_request_options" do
 
+			it "sorts the request_options data by ascending delivery time" do
+				rc = RequestController.new
+				options = [ { :service => 'recall', :iid => "stuff", :estimate => 5 },
+							{ :service => 'hold', :iid => "detritus", :estimate => 2 },
+							{ :service => 'l2l', :iid => "oddment", :estimate => 14 } ]
+
+				sorted_options = [  { :service => 'hold', :iid => "detritus", :estimate => 2 },
+									{ :service => 'recall', :iid => "stuff", :estimate => 5 },
+								    { :service => 'l2l', :iid => "oddment", :estimate => 14 } ]
+				result = rc.sort_request_options options
+				result.should == sorted_options
+			end
 		end
 
 		describe "_display" do
 
+			pending
 		end
 
 		describe "borrowDirect_available?" do
