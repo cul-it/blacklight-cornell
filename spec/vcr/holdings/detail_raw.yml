@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://culsearchdev.library.cornell.edu:8950/holdings/retrieve_detail_raw/6665264
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: !binary |-
+        T0sg
+    headers:
+      !binary "QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2lu":
+      - !binary |-
+        Kg==
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        YXBwbGljYXRpb24vanNvbjsgY2hhcnNldD11dGYtOA==
+      !binary "WC1VYS1Db21wYXRpYmxl":
+      - !binary |-
+        SUU9RWRnZQ==
+      !binary "RXRhZw==":
+      - !binary |-
+        IjlhMGEzNmIzY2I2NTIxOGUyZWJkYmJiNTUzMzhlMWY5Ig==
+      !binary "Q2FjaGUtQ29udHJvbA==":
+      - !binary |-
+        bWF4LWFnZT0wLCBwcml2YXRlLCBtdXN0LXJldmFsaWRhdGU=
+      !binary "WC1SdW50aW1l":
+      - !binary |-
+        MC4xMjc3NTE=
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        MTY2Ng==
+      !binary "U2VydmVy":
+      - !binary |-
+        V0VCcmljay8xLjMuMSAoUnVieS8xLjkuMy8yMDEyLTA0LTIwKQ==
+      !binary "RGF0ZQ==":
+      - !binary |-
+        RnJpLCAwNSBBcHIgMjAxMyAyMDozODoxOCBHTVQ=
+      !binary "Q29ubmVjdGlvbg==":
+      - !binary |-
+        S2VlcC1BbGl2ZQ==
+    body:
+      encoding: US-ASCII
+      string: ! '{"6665264":{"records":[{"bibid":"6665264","holding_id":"7109768","location_name":"afr","call_number":"Sound
+        disc 24","shelving_title":"","summary_holdings":["1 sound disc"],"supplements":["1
+        DVD","1 booklet"],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":2,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog-test.library.cornell.edu:7074/vxws/record/6665264/items/8650519","itemid":"8650519","permLocation":"Africana
+        Library (Africana Center)","location_id":"2","tempLocation":"","location":"Africana
+        Library (Africana Center)","callNumber":"Sound disc 24","copy":"c. 1","itemBarcode":"31924110712761","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"11","typeDesc":"3dayloan","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"1","onReserve":"N"},{"href":"http://catalog-test.library.cornell.edu:7074/vxws/record/6665264/items/8687724","itemid":"8687724","permLocation":"Africana
+        Library (Africana Center)","location_id":"2","tempLocation":"","location":"Africana
+        Library (Africana Center)","callNumber":"Sound disc 24","copy":"c. 1","itemBarcode":"31924064067782","enumeration":"booklet
+        to sound disc 24","chron":"","year":"","caption":"","freeText":"","typeCode":"22","typeDesc":"1hrloan","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"1","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"},{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"2"},"services":[],"current_issues":[],"orders":[],"onotes":[]}]}}'
+    http_version: 
+  recorded_at: Fri, 05 Apr 2013 20:38:18 GMT
+recorded_with: VCR 2.4.0

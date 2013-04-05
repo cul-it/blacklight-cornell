@@ -224,7 +224,47 @@ describe RequestController do
 		end
 
 		describe "get_holdings" do
-			pending
+
+			let(:rc) { RequestController.new }
+
+			it "returns nil if no bibid is passed in" do
+				param = {}
+				result = rc.get_holdings param
+				result.should == nil
+			end
+
+			it "returns nil for an invalid bibid" do
+				param = { :bibid => 500000000 }
+				VCR.use_cassette 'holdings/invalid_bibid' do
+					result = rc.get_holdings param
+					result[param[:bibid].to_s]['condensed_holdings_full'].should == []
+				end
+			end
+
+			it "returns a condensed holdings record if type = 'retrieve'" do
+				param = { :bibid => '6665264', :type => 'retrieve' }
+				VCR.use_cassette 'holdings/condensed' do
+					result = rc.get_holdings param
+					result[param[:bibid].to_s]['condensed_holdings_full'].should_not == []
+				end
+			end
+
+			it "returns a condensed holdings record if no type is specified" do
+				param = { :bibid => '6665264' }
+				VCR.use_cassette 'holdings/condensed' do
+					result = rc.get_holdings param
+					result[param[:bibid].to_s]['condensed_holdings_full'].empty?.should_not == true
+				end
+			end
+
+			it "returns a verbose holdings record if type = 'retrieve_detail_raw" do
+				param = { :bibid => '6665264', :type => 'retrieve_detail_raw' }
+				VCR.use_cassette 'holdings/detail_raw' do
+					result = rc.get_holdings param
+					result[param[:bibid].to_s]['records'].empty?.should_not == true
+				end
+			end
+
 		end
 
 		describe "_handle_l2l" do
