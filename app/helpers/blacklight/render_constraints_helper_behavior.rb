@@ -60,7 +60,8 @@ module Blacklight::RenderConstraintsHelperBehavior
             localized_params[:q],
       #      query, 
             :classes => ["query"], 
-            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+#            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+            :remove => "?") # url_for(localized_params.merge(:q=>nil, :action=>'index')))
       end
     else
       "".html_safe
