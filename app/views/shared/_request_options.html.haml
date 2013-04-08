@@ -62,7 +62,7 @@
           = link_to request_ill_path(@id), {:title => @ti} do 
             %h2.blacklight-title_display 
               %i.icon-circle-arrow-right 
-              Inter-Library Loan
+              Interlibrary Loan
         %td
           = option[:estimate]
           working days
@@ -77,7 +77,7 @@
     - else
       %tr
         %td
-          = link_to request_ask_path(@id), {:title => @ti} do 
+          = link_to 'http://ask.library.cornell.edu', {:title => @ti} do 
             %h2.blacklight-title_display 
               %i.icon-circle-arrow-right 
               Ask a Librarian

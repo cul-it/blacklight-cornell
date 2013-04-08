@@ -103,8 +103,10 @@ module Blacklight::Catalog
         @filters = params[:f] || []
       end
 
-      if params[:search_field] == "journal title"      
-        params[:search_field] = ""
+      if params[:search_field] == "journal title" 
+         if params[:q].nil?     
+           params[:search_field] = ""
+         end
       end
 
       if params[:q_row].present?              
@@ -118,7 +120,10 @@ module Blacklight::Catalog
          Rails.logger.debug("MGMT = #{query_string}")
 #         params["advanced_query"] = ""
 #          params[:f] = {"format" => ["Journal"]}
-         
+      else
+          if params[:q].nil?
+            params[:q] = query_string
+          end   
       end
       respond_to do |format|
         format.html { save_current_search_params }
@@ -182,7 +187,7 @@ module Blacklight::Catalog
     def endnote
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
-        format.endnote :layout => false
+        format.endnote { render :layout => false }
       end
     end
 

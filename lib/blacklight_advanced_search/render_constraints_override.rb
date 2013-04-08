@@ -16,73 +16,123 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
   def render_advanced_constraints_query(params)
     labels = []
     values = []
+    q_string = params["q"]
+    q_parts = q_string.split('&')
     if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
       return render_constraints(params)
     else      
       content = ""
-      if (@advanced_query.keyword_queries.count == 2)
-         Rails.logger.debug("keyword_queries_count_equals2 #{@advanced_query.keyword_queries}")
+##      if (@advanced_query.keyword_queries.count == 2)
+      if (q_parts.count == 3)
+         
          params.delete("advanced_query")
-         params.delete("as_boolean_row2")
-#         splitParams = params["q"].split("&")
-#         deletebool[0] = splitParams[0]
-#         deletebool[1] = splitParams[1]
-         count = 0
-         @advanced_query.keyword_queries.each do | key, value|
-          labels[count] = key
-          values[count] = value
-          count = count + 1
-         end
-         #         params.delete("op_row")
-         Rails.logger.debug("keyword_queries_count_equals2 #{params}")
-         for i in 0..1
-           query_text = ""
-           label = search_field_def_for_key(labels[i])[:label]
-           if i == 0
-           #  if params["op_row"][1] == "phrase"
-           #     query_text = '"' + params["q_row"][1] + '"'
-           #  else
-           #     query_text = params["q_row"][1]
-           #  end
-             query_text = values[1] 
+         0.step(2, 2) do |x|
+           label = ""
+           parts = q_parts[x].split('=')
+           if x == 0
+             hold = q_parts[2].split('=')
+           else
+             hold = q_parts[0].split('=')
+           end
+           if x%2 == 0
+             if x - 1 > 0
+               opval = q_parts[x - 1].split('=')
+               label = opval[1] << " "            
+               label << search_field_def_for_key(parts[0])[:label]
+             else
+               label = search_field_def_for_key(parts[0])[:label]
+             end
              content << render_constraint_element(
-               label, values[0],
-               :remove => "catalog?q=" + query_text + "&search_field=" + labels[1] + "&action=index&commit=Search"
+               label, parts[1],
+               :remove => "catalog?q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
              )
-           else 
-       #      if params["op_row"][0] == "phrase"
-       #         query_text = '"' + params["q_row"][0] + '"'
-       #      else
-       #         query_text = params["q_row"][0]
-       #      end
-             query_text = values[0] 
-             content << render_constraint_element(
-               label, values[1],
-               :remove => "catalog?q=" + query_text + "&search_field=" + labels[0] + "&action=index&commit=Search"
-             )              
+           else
+             content << " " << parts[1] << " "
            end  
-         end
+         end       
       else
-       if @advanced_query.keyword_queries.count < 2
-        Rails.logger.debug("gottacatchemall")
-        label = search_field_def_for_key(params["search_field"])          
-        content << render_constraint_element(
-           "Winnie the Pooh", params["q"],
-           :remove => "?"
-        )
-       else
-        @advanced_query.keyword_queries.each_pair do |field, query|
-          my_params = deep_copy(params)
-          Rails.logger.debug("queries to remove = #{params}")
-          label = search_field_def_for_key(field)[:label]
-          content << render_constraint_element(
-            label, query,
-            :remove =>
-              catalog_index_path(remove_advanced_keyword_query(field,my_params))
-          )
-        end
-       end
-      end  
+          if (q_parts.count < 2)
+            label = search_field_def_for_key(params["search_field"])          
+            content << render_constraint_element(
+               "Should not be here", params["q"],
+               :remove => "?"
+            )
+          else          
+           0.step(q_parts.count - 1, 2) do |x|
+             label = ""
+             parts = q_parts[x].split('=')
+             if x <= q_parts.count - 1
+               hold = q_parts[x].split('=')
+             else
+               hold = q_parts[x].split('=')
+             end
+               Rails.logger.debug("Wookieparams = #{params}")
+             if x%2 == 0
+               if x - 1 > 0
+                 opval = q_parts[x - 1].split('=')
+                 label = opval[1] << " "            
+                 label << search_field_def_for_key(parts[0])[:label]
+               else
+                 label = search_field_def_for_key(parts[0])[:label]
+               end
+               remove_indexes = []
+               icount = 0
+               temp_search_field_row = []
+               temp_q_row = []
+               temp_op_row = []
+               temp_boolean_rows = deep_copy(params)
+               temp_boolean_row = []
+               for i in 2..temp_boolean_rows[:search_field_row].count
+                 temp_boolean_row << temp_boolean_rows["as_boolean_row#{i}"]
+               end 
+               deleted = 0
+               params[:search_field_row].each do |val, indx|
+                 if val == parts[0]
+                  remove_indexes << icount
+                  if icount <= 1
+                      temp_boolean_row.delete_at(0)
+                      deleted = deleted +1
+                  else
+                     if icount == params[:search_field_row].count - 1 
+                      temp_boolean_row.delete_at(temp_boolean_row.count - 1)
+                      deleted = deleted +1
+                     else
+                       temp_boolean_row.delete_at(icount - 1)
+                       deleted = deleted +1 
+                     end 
+                  end
+                 else
+                  temp_search_field_row << params[:search_field_row][icount]
+                  temp_q_row << params[:q_row][icount]
+                  temp_op_row << params[:op_row][icount]
+                 end
+                 icount = icount + 1
+               end               
+               autoparam = "" 
+               for i in 0..temp_q_row.count - 1
+                 autoparam << "q_row[]=" << temp_q_row[i] << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i] 
+                 if i < temp_q_row.count - 1
+                    autoparam << "&as_boolean_row#{i + 2}=" << temp_boolean_row[i] << "&"
+                 end 
+               end
+                              Rails.logger.debug("CONSTRAINTsPARAMS4 = #{autoparam}")
+
+               content << render_constraint_element(
+                 label, parts[1],
+                 :remove => "catalog?" + autoparam + "&action=index&commit=Search&advanced_query=yes"
+#                 :remove => "catalog?" + autoparam +"&q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
+#                 :remove => catalog_index_path(remove_advanced_keyword_query(parts[0],params))
+               )
+             else
+               content << " " << parts[1] << " "
+             end  
+         end       
+
+           
+           
+          end
+      end
+#      end  
         Rails.logger.debug("AdvancedQueryKeywordOp = #{@advanced_query.keyword_op}")
       #  if (@advanced_query.keyword_op == "OR" &&
       #      @advanced_query.keyword_queries.length > 1)

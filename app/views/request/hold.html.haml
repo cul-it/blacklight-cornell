@@ -5,13 +5,17 @@
   %i.icon-circle-arrow-left
   Back to item
 %h1.request-type Request a hold
+%p
+  A hold is the fastest request method for this item. Approximately delivery time is
+  = @delivery_time
+  days.
 %h2.item-title-request.blacklight-title_display=@ti
 %div.request-author=@au
 %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
   %input(type="hidden" name="bid" value="#{@id}" id="bid")
   %input(type="hidden" name="request_action" value="hold" id="request_action")
-  = render :partial => 'shared/reqpu'
   = render :partial => 'shared/reqac'
+  = render :partial => 'shared/reqpu'
   .control-group
     %label.control-label{:for => 'reqcomments'} Notes to library staff:
     .controls

@@ -78,6 +78,50 @@ module DisplayHelper
     end
   end
 
+  # Build a link to the CUL libraryhours page for the library location in question
+  def render_location_link location_code
+    base_url = 'http://www.library.cornell.edu/libraryhours'
+    matched_location = nil
+    # Test for substring match of location hash key in location_code
+    LOCATION_MAPPINGS.each do |key, value|
+      if location_code.include?(key)
+        matched_location = value
+        break # Break on first match to ensure RMC (followed by Annex) is properly identified
+      end
+    end
+
+    location_url = matched_location.present? ? base_url + '?loc=' + matched_location : base_url
+
+    link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
+  end
+
+  # Hash map for substring of location codes from holding service => loc param
+  # values for CUL library hours page
+  # Built using lists from:
+  # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-306 (location codes)
+  # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-408 (site param values)
+  LOCATION_MAPPINGS = {
+    'rmc' => 'Rare',
+    'anx' => 'ANNEX',
+    'afr' => 'Africana',
+    'engr' => 'ENGR',
+    'olin' => 'OLIN',
+    'gnva' => 'GENEVA',
+    'ilr' => 'ILR',
+    'fine' => 'FA',
+    'hote' => 'Hotel',
+    'asia' => 'Kroch',
+    'law' => 'Law',
+    'jgsm' => 'JGSM',
+    'mann' => 'MANNLIB',
+    'math' => 'MATH',
+    'phys' => 'PHYSCI',
+    'uris' => 'Uris',
+    'vet' => 'Vet',
+    'orni' => 'Ornithology',
+    'mus' => 'Music'
+  }
+
   def render_clickable_document_show_field_value args
     value = args[:value]
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
@@ -253,6 +297,17 @@ module DisplayHelper
       icon_mapping
     else
       'default'
+    end
+  end
+
+  # Renders the format field values with applicable format icons
+  def render_format_value args
+    format = args[:document][args[:field]]
+    # Convert format to array in case it's a string (it shouldn't be)
+    format = format.split unless format.is_a? Array
+    format.map do |f|
+      icon = '<i class="icon-' + formats_icon_mapping(f) + '"></i> '
+      f.prepend(icon).html_safe
     end
   end
 
@@ -607,7 +662,7 @@ module DisplayHelper
   def render_document_index_label doc, opts
     label = nil
     if opts[:label].is_a?(Array)
-      title = remove_trailers(doc.get(opts[:label][0], :sep => nil))
+      title = doc.get(opts[:label][0], :sep => nil)
       subtitle = doc.get(opts[:label][1], :sep => nil)
       logger.debug "subtitle: #{subtitle}"
       if subtitle.present?
@@ -616,23 +671,11 @@ module DisplayHelper
         label ||= title
       end
     end
-    label ||= remove_trailers(doc.get(opts[:label], :sep => nil)) if opts[:label].instance_of? Symbol
+    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
     render_field_value label
-  end
-
-  # Overrides original method from blacklight_helper_behavior.rb
-  # -- Updated to add call for remove_trailers
-  # Used in the show view for displaying the main solr document heading
-  def document_heading
-    remove_trailers(@document[blacklight_config.show.heading]) || @document.id
-  end
-
-  # Trim trailing commas and semi-colons from item titles
-  def remove_trailers(str)
-    str.chomp(',').chomp(';') if str
   end
 
   # Overrides original method from catalog_helper_behavior.rb

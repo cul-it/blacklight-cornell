@@ -6,7 +6,8 @@
       <div class="search-options span4">
         <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-        <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+        <%#= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+        <%= text_field_tag :q, "", :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
 
       </div>
       <% unless search_fields.empty? %>
@@ -25,7 +26,8 @@
         <i class="icon-search icon-white"></i>
       </button>
       <div class="search-options span4">
-        <%= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
+        <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
+        <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
       </div>
 
       <% if query_has_constraints? || params[:range].present? %>
