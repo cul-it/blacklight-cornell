@@ -11,6 +11,14 @@ h1.request-type {
     width: auto;
   }
 }
+.copy-callnumber { color: $light-gray; }
+.copy-chron {
+  margin-left: 1em;
+  font-weight: normal;
+  color: $medium-gray;
+  text-shadow: none;
+  background: #ddd;
+}
 .request-author { margin-bottom: 1em; }
 .radio-label {
   display: inline-block;

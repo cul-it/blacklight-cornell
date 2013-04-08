@@ -28,7 +28,7 @@ module BlacklightAdvancedSearch::CatalogHelperOverride
       my_params["q_row"].delete_at(my_index)
       my_params["op_row"].delete_at(my_index)
       my_params.delete("op")
-      my_params.delete("q")      
+ #     my_params.delete("q")      
     end
 #    if my_params["search_field_row"].count <= 2
 #       if(my_params["search_field_row"].count == 2)

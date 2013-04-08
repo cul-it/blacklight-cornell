@@ -13,10 +13,9 @@
       .location_box
         %h5.location
           = location
-          -# @TODO: create a hash for mapping locations
           - if location != 'Online'
             %span.map-it
-              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
+              = render_location_link entry['location_code']
 
       -# Only display a real call number
       - if callnumber != 'No call number' && callnumber != ''
