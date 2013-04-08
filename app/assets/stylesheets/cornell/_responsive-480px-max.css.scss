@@ -29,8 +29,18 @@
 	.start-over {
 		float: right;
 	}
-
-	//
+	// Facets modal
+	ul.facet_extended_list {
+		margin: 0;
+		li { font-size: 80%; }
+	}
+	.modal-footer {
+		text-align: center;
+		.prev_next_links { 
+			float: none;
+			margin-bottom: 10px; }
+		.sort_options { float: none; }
+	}
 	// Item page
 	.item-pagination { width: 100%; }
 	.item-tools {
