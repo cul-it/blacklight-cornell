@@ -187,7 +187,7 @@ module Blacklight::Catalog
     def endnote
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
-        format.endnote :layout => false
+        format.endnote { render :layout => false }
       end
     end
 
