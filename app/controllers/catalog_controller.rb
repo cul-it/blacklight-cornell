@@ -245,7 +245,7 @@ class CatalogController < ApplicationController
     config.add_index_field 'title_vern_display', :label => 'Title'
     config.add_index_field 'author_display', :label => 'Author'
     config.add_index_field 'author_vern_display', :label => 'Author'
-    config.add_index_field 'format', :label => 'Format'
+    config.add_index_field 'format', :label => 'Format', :helper_method => :render_format_value
     config.add_index_field 'language_facet', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published:'
     #config.add_index_field 'published_vern_display', :label => 'Published'
@@ -409,7 +409,7 @@ class CatalogController < ApplicationController
     end
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = { 
+       field.solr_local_parameters = {
          :qf => '$series_qf',
          :pf => '$series_pf'
        }
@@ -423,39 +423,39 @@ class CatalogController < ApplicationController
     end
     config.add_search_field('place of publication') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = { 
+       field.solr_local_parameters = {
          :qf => '$pubplace_qf',
-         :pf => '$pubplace_pf' 
+         :pf => '$pubplace_pf'
        }
     end
     config.add_search_field('publisher number/other identifier') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = { 
+       field.solr_local_parameters = {
          :qf => '$number_qf',
-         :pf => '$number_pf' 
+         :pf => '$number_pf'
        }
     end
     config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = { 
+       field.solr_local_parameters = {
          :qf => '$isbnissn_qf',
-         :pf => '$isbnissn_pf' 
+         :pf => '$isbnissn_pf'
        }
     end
     config.add_search_field('notes') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = { 
+       field.solr_local_parameters = {
          :qf => '$notes_qf',
-         :pf => '$notes_pf' 
+         :pf => '$notes_pf'
        }
     end
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = { 
+       field.solr_local_parameters = {
          :qf => '$donor_qf',
-         :pf => '$donor_pf' 
+         :pf => '$donor_pf'
        }
-    end    
+    end
 #    config.add_search_field('donor name') do |field|
 #       field.include_in_simple_select = false
 #       field.solr_parameters = { :qf => '$donor_t' }
