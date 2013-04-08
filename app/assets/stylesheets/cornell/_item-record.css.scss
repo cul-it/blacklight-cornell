@@ -74,6 +74,17 @@ dl.dl-horizontal {
 	}
 }
 
+dd.blacklight-notes {
+	/* Non standard for webkit */
+	word-wrap: break-word;
+	word-break:break-word;
+	overflow-wrap:break-word;
+
+	-webkit-hyphens: auto;
+  hyphens: auto;
+  display: table;
+}
+
 .item-tools {
 	ul {
 		float: right;
@@ -156,26 +167,6 @@ dl.dl-horizontal {
 	margin-top: 1.5em;
 }
 
-dd.blacklight-notes {
-
-
-     /* Non standard for webkit */
-     word-wrap: break-word;
-     word-break:break-word;
-     overflow-wrap:break-word;
-
--webkit-hyphens: auto;
-        hyphens: auto;
-        display: table;
-}
-
-dl.dl-horizontal dd:after {
-    clear: left;
-    content: "";
-    display: table;
-    table-layout: fixed;
-    width: auto;
-}
 .google-books-link {
 	margin: 1.5em 0 0;
 	padding-top: 1em;
