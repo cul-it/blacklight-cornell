@@ -21,7 +21,6 @@ class RequestController < ApplicationController
       '6'  => 1,
       '7'  => 1,
       '8'  => 1,
-      '9'  => 1,
       '10' => 1,
       '11' => 1,
       '13' => 1,
@@ -102,7 +101,8 @@ class RequestController < ApplicationController
   end
 
   # TODO: give this function a more descriptive name
-  # Process submitted form data from hold/recall/callslip/purchase request forms and perform the appropriate call
+  # Process the submitted form data from hold/recall/callslip/purchase request forms 
+  # and perform the appropriate call
   def make_request
     voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
     if voyager_request_handler_url.blank?
@@ -143,6 +143,7 @@ class RequestController < ApplicationController
     else
     end
 
+    # The purchase request form is a special case (not a voyager request)
     if request_action == 'purchase'
       # Validate the form submission
       # logger.debug(params)
@@ -164,6 +165,7 @@ class RequestController < ApplicationController
           flash[:error] = I18n.t('blacklight.requests.errors.email.invalid')
         end
       end
+    # Everything else is a voyager request
     else
       # Validate the form submission
       if params[:holding_id].blank?
@@ -267,6 +269,7 @@ class RequestController < ApplicationController
 
   # Given a bibid and related holdings information, figure out the Voyager loan type
   # Response defaults to 'regular', but can also be 'day' or 'minute'
+  # The holdings_detail parameter should be the sub-output from a retrieve_detail_raw call.
   def get_item_type holdings_detail, bibid
 
     holdings_detail.each do |holding|
