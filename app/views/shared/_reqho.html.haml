@@ -4,9 +4,9 @@
   - if first_item_in_holding['location_name'] == '*Networked Resource'
     - holdings_condensed.shift
     - holdings_condensed = holdings_condensed.push(first_item_in_holding)
-  - add_display_elements(holdings_condensed).listify.find_all { | x | Aeon.eligible?(x['location_code']) }.each do |entry|
+  - holdings_condensed.find_all { | x | Aeon.eligible?(x['location_code']) }.each do |entry|
 
-    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
+    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
     - callnumber = entry['call_number']
     - location_code = entry['location_code']
 

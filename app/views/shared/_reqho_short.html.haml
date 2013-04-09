@@ -4,8 +4,8 @@
   - if first_item_in_holding['location_name'] == '*Networked Resource'
     - holdings_condensed.shift
     - holdings_condensed = holdings_condensed.push(first_item_in_holding)
-  - add_display_elements(holdings_condensed).listify.find_all { | x | Aeon.eligible?(x['location_code']) }.each do |entry|
-    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
+  - holdings_condensed.find_all { | x | Aeon.eligible?(x['location_code']) }.each do |entry|
+    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
     - callnumber = entry['call_number']
     - location_code = entry['location_code']
 
@@ -14,7 +14,7 @@
         = location
         -# @TODO: create a hash for mapping locations
         - if location != 'Online'
-           
+
           %div.aeon
             = link_to 'Request delivery to the RMC Reading Room', "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{location_code}", {:class =>'btn btn-danger' }
 
@@ -22,7 +22,7 @@
       - if callnumber != 'No call number' && callnumber != ''
         .call-number
           = callnumber
-         
+
       - entry['copies'].each do |copy|
         .group
           - unless copy['temp_locations'].nil?
