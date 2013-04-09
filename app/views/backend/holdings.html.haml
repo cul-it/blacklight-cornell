@@ -8,14 +8,7 @@
   -# add_display_elements(holdings_condensed).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
   - # TODO: Ask Rick what's the deal with removing items where location_name == "Online"
   - filtered_holdings = holdings_condensed.reject { |x| x['location_name'].to_s.strip == "Online"}
-  - grouped_holdings = holdings_condensed.inject({}) do |grouped, holding|
-    - grouped['Circulating'] = [] if grouped['Circulating'].nil?
-    - grouped['Rare'] = [] if grouped['Rare'].nil?
-    - if holding['location_code'].include?('rmc')
-      - grouped['Rare'] << holding
-    - else
-      - grouped['Circulating'] << holding
-    - grouped
+  - grouped_holdings = group_holdings(filtered_holdings)
   - any_rare = grouped_holdings['Rare'].present?
   - grouped_holdings.each do |group, holdings|
     - if any_rare

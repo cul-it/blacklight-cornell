@@ -44,6 +44,19 @@ module HoldingsHelper
 
   end
 
+  def group_holdings holdings
+    holdings.inject({}) do |grouped, holding|
+      grouped['Circulating'] = [] if grouped['Circulating'].nil?
+      grouped['Rare'] = [] if grouped['Rare'].nil?
+      if holding['location_code'].include?('rmc')
+        grouped['Rare'] << holding
+      else
+        grouped['Circulating'] << holding
+      end
+      grouped
+    end
+  end
+
   ITEM_STATUS_RANKING = ['available', 'some_available', 'not_available', 'none', 'online']
 
   def sort_item_statuses(entries)
