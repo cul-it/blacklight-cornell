@@ -640,7 +640,8 @@ class RequestController < ApplicationController
             :copy => iid['copy'],
             :enumeration => iid['enumeration'],
             :url => iid['url'],
-            :chron => iid['chron']
+            :chron => iid['chron'],
+            :exclude_location_id => iid['exclude_location_id']
           }
         end
       else
