@@ -304,7 +304,7 @@ module DisplayHelper
   def render_format_value args
     format = args[:document][args[:field]]
     # Convert format to array in case it's a string (it shouldn't be)
-    format = format.split unless format.is_a? Array
+    format = [format] unless format.is_a? Array
     format.map do |f|
       icon = '<i class="icon-' + formats_icon_mapping(f) + '"></i> '
       f.prepend(icon).html_safe
