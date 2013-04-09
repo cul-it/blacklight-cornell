@@ -317,6 +317,21 @@ describe RequestController, :type => :controller do
 	end
 
 	describe "_handle_l2l" do
+
+		let(:rc) { RequestController.new }
+		let(:holding) { 
+			param = { :bibid => '6665264', :type => 'retrieve_detail_raw' }
+			result = nil
+			VCR.use_cassette 'holdings/detail_raw' do
+				result = rc.get_holdings param
+			end
+			print result[param[bibid]]
+			result[:bibid]['records'][0]
+		}
+
+		it "does sutff" do
+			rc._handle_l2l holding
+		end
 		pending
 	end
 

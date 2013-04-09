@@ -342,6 +342,7 @@ class RequestController < ApplicationController
 
     item_type = get_item_type holdings_detail, bibid
 
+    netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
 
     @request_solution = ''
@@ -512,8 +513,6 @@ class RequestController < ApplicationController
 
   end
 
-  ## for now, treat in transit, in transit discharged as not charged
-  ## should we add a few days for delivery date?
   def get_item_status item_status
     logger.debug "item status: #{item_status}"
     if item_status.include? 'Not Charged'
@@ -528,12 +527,6 @@ class RequestController < ApplicationController
       return 'Missing'
     elsif item_status.include? 'Lost'
       return 'Lost'
-    elsif item_status =~ /In transit to(.*)\./
-      return 'Charged'
-    elsif item_status =~ /In transit/
-      return 'Not Charged'
-    elsif item_status =~ /On hold/
-      return 'Charged'
     else
       return item_status
     end
@@ -630,7 +623,6 @@ class RequestController < ApplicationController
     seen = {}
     request_options.each do |item|
       if item[:service] == service
-        @estimate = item[:estimate]
         iids = item[:iid]
         iids.each do |iid|
           @iis[iid['itemid']] = {
@@ -639,8 +631,7 @@ class RequestController < ApplicationController
             :call_number => iid['callNumber'],
             :copy => iid['copy'],
             :enumeration => iid['enumeration'],
-            :url => iid['url'],
-            :chron => iid['chron']
+            :url => iid['url']
           }
         end
       else
@@ -850,6 +841,7 @@ class RequestController < ApplicationController
   end
 
   def _handle_l2l holding
+    print holding
     itemdata = holding["item_status"]["itemdata"]
     iids = []
     estimate = 9999
@@ -860,8 +852,7 @@ class RequestController < ApplicationController
         logger.info "\n"
         #itemStatus"=>"Not Charged",
         itemType = _get_item_type iid
-        item_status = get_item_status iid['itemStatus']
-        if ( (! iid['location'].include?('Non-Circulating')) && (item_status.include?('Not Charged')) && itemType != 'minute' && IRREGULAR_LOAN_TYPE[:NO_L2L][iid['typeCode']] != 1)
+        if ( (! iid['location'].include?('Non-Circulating')) && (iid['itemStatus'].include?('Not Charged')) && itemType != 'minute' && IRREGULAR_LOAN_TYPE[:NO_L2L][iid['typeCode']] != 1)
           iid[:estimate] = get_l2l_delivery_time iid
           iids.push iid
           if estimate > iid[:estimate]
@@ -882,8 +873,7 @@ class RequestController < ApplicationController
         itemdata.each do | iid_ref |
           iid = deep_copy(iid_ref)
           #itemStatus"=>"Not Charged",
-          item_status = get_item_status iid['itemStatus']
-          if (! item_status.match('Not Charged') )
+          if (! iid['itemStatus'].match('Not Charged') )
             iid[:estimate] = get_bd_delivery_time
             iids.push iid
             if estimate > iid[:estimate]
@@ -906,8 +896,7 @@ class RequestController < ApplicationController
         iid = deep_copy(iid_ref)
         # logger.info itemdata.inspect
         #itemStatus"=>"Not Charged",
-        item_status = get_item_status iid['itemStatus']
-        if (! item_status.match('Not Charged') )
+        if (! iid['itemStatus'].match('Not Charged') )
           iid[:estimate] = get_hold_delivery_time iid
           iids.push iid
           if estimate > iid[:estimate]
@@ -927,8 +916,7 @@ class RequestController < ApplicationController
       itemdata.each do | iid_ref |
         iid = deep_copy(iid_ref)
         #itemStatus"=>"Not Charged",
-        item_status = get_item_status iid['itemStatus']
-        if (! item_status.match('Not Charged') )
+        if (! iid['itemStatus'].match('Not Charged') )
           iid[:estimate] = get_recall_delivery_time iid
           iids.push iid
           if estimate > iid[:estimate]
