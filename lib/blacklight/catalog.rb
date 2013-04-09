@@ -38,8 +38,10 @@ module Blacklight::Catalog
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
       
       @bookmarks = current_or_guest_user.bookmarks
-      
-      if params[:q_row].present? 
+
+
+# secondary parsing of advanced search params.  Code will be moved to external functions for clarity      
+      if params[:q_row].present?
          params["advanced_query"] = "yes"
          counter = test_size_param_array(params[:q_row])
         if counter > 1
@@ -56,33 +58,37 @@ module Blacklight::Catalog
                   ops = ops + 1
                 else
                   params[terms[0]] = terms[1]
+                  search_session[terms[0]] = terms[1]
                 end
              end
-     Rails.logger.debug("catalog.rbParams = #{params['op']}")        
-      
-    #         params["op"] = ["AND", "OR"]
              if holdparams.count > 2
              params["search_field"] = "advanced"
              end
+             params[:q] = query_string
+             search_session[:q] = query_string
              params["commit"] = "Search"
 #             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
              params["action"] = "index"
              params["controller"] = "catalog"
+             Rails.logger.debug("Mollyparams = #{params}")
         else
             params.delete("advanced_query")
             query_string = parse_single(params)
-            Rails.logger.debug("MichaelsProb = #{query_string}")
             holdparams = query_string.split("&")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
               params[terms[0]] = terms[1]
+              search_session[terms[0]] = terms[1]
             end
+             params[:q] = query_string
              params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
              params["action"] = "index"
              params["controller"] = "catalog"
          end                  
       end
+# End of secondary parsing
+
+#  Journal title search hack.
 
       if params[:search_field] == "journal title"
         if params[:f].nil?
@@ -93,16 +99,20 @@ module Blacklight::Catalog
           params[:q] = params[:q]
           params[:search_field] = "journal title"
       end
-      Rails.logger.debug("catalogboogityParams = #{params}")     
+# end of Journal title search hack
+
+ 
       (@response, @document_list) = get_search_results
+      
       
       if params.nil? || params[:f].nil?
         @filters = []
       else
-        Rails.logger.debug("paramsFragged = #{params[:f]}")
         @filters = params[:f] || []
       end
-
+ 
+# clean up search_field and q params.  May be able to remove this
+ 
       if params[:search_field] == "journal title" 
          if params[:q].nil?     
            params[:search_field] = ""
@@ -110,21 +120,17 @@ module Blacklight::Catalog
       end
 
       if params[:q_row].present?              
-#         params[:q_row] = ""
-#         params[:op_row] = ""
-#         params[:op] = ""
-#         params[:search_field_row] = ""
          if params[:q].nil?
           params[:q] = query_string
          end
-         Rails.logger.debug("MGMT = #{query_string}")
-#         params["advanced_query"] = ""
-#          params[:f] = {"format" => ["Journal"]}
       else
           if params[:q].nil?
             params[:q] = query_string
           end   
       end
+
+# end of cleanup of search_field and q params      
+      
       respond_to do |format|
         format.html { save_current_search_params }
         format.rss  { render :layout => false }
@@ -184,14 +190,15 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     end
     # grabs a bunch of documents to export to endnote
-    def endnote
+    def endnote   
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
-        format.endnote { render :layout => false }
+        format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       end
     end
 
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+    # Added callnumber and location parameters to RecordMailer.email_record() call   jac244
     def email
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
