@@ -7,7 +7,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-share"></i>Export <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li>
-              <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@bookmarks} %>
+              <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@document_list} %>
             </li>
             <li>
               <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => ' '}%>
