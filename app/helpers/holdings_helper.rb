@@ -44,6 +44,7 @@ module HoldingsHelper
 
   end
 
+  # Group holding items into circulating and rare (sort rare last)
   def group_holdings holdings
     holdings.inject({}) do |grouped, holding|
       grouped['Circulating'] = [] if grouped['Circulating'].nil?
@@ -53,7 +54,10 @@ module HoldingsHelper
       else
         grouped['Circulating'] << holding
       end
-      grouped
+      # Remove empty groups (no holdings)
+      grouped.select! { |group, items| items.present? }
+      # Sort groups by key so rare is last
+      Hash[grouped.sort]
     end
   end
 

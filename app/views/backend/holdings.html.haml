@@ -9,9 +9,10 @@
   - # TODO: Ask Rick what's the deal with removing items where location_name == "Online"
   - filtered_holdings = holdings_condensed.reject { |x| x['location_name'].to_s.strip == "Online"}
   - grouped_holdings = group_holdings(filtered_holdings)
-  - any_rare = grouped_holdings['Rare'].present?
+  - multiple_groups = grouped_holdings.size > 1
   - grouped_holdings.each do |group, holdings|
-    - if any_rare
+    - # Render group headings only if we have multiple groups
+    - if multiple_groups
       %h5
         = group
     - holdings.each do |entry|
