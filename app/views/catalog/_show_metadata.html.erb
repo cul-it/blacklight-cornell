@@ -10,17 +10,9 @@
         <div class="document-header span6">
           <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
 
-          <!--<%= render_document_heading(:h2).html_safe %>-->
-
           <%
-            title = render_document_show_field_value :document => @document, :field => 'title_display'
-            title_vern = render_document_show_field_value :document => @document, :field => 'title_vern_display'
-            title = title_vern +  ' / ' + title unless title_vern.blank?
-
-            subtitle = render_document_show_field_value :document => @document, :field => 'subtitle_display'
-            subtitle_vern = render_document_show_field_value :document => @document, :field => 'subtitle_vern_display'
-            subtitle = subtitle_vern + ' / ' + subtitle unless subtitle_vern.blank?
-
+            title = the_vernaculator('title_display', 'title_vern_display')
+            subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
             responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
           %>
 
