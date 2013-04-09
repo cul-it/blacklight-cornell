@@ -15,26 +15,22 @@
           <%
             title = render_document_show_field_value :document => @document, :field => 'title_display'
             title_vern = render_document_show_field_value :document => @document, :field => 'title_vern_display'
+            title = title_vern +  ' / ' + title unless title_vern.blank?
+
             subtitle = render_document_show_field_value :document => @document, :field => 'subtitle_display'
             subtitle_vern = render_document_show_field_value :document => @document, :field => 'subtitle_vern_display'
+            subtitle = subtitle_vern + ' / ' + subtitle unless subtitle_vern.blank?
+
             responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
           %>
 
-          <% if title_vern.present? %>
-            <h2><%= title_vern %> / <%= title %></h2>
-          <% else %>
+          <% if title.present? %>
             <h2><%= title %></h2>
           <% end %>
 
-
-          <% if subtitle.present? && subtitle_vern.present? %>
-            <h3 class="subtitle"><%= subtitle_vern %> / <%= subtitle %></h3>
-          <% else %>
-            <% if subtitle.present? %>
-              <h3 class="subtitle"><%= subtitle %></h3>
-            <% end %>
+          <% if subtitle.present? %>
+            <h3 class="subtitle"><%= subtitle %></h3>
           <% end %>
-
 
           <% if responsibility.present? %>
             <h3 class="responsibility"><%= responsibility %></h3>
