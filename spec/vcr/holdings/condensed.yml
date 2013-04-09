@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://culsearchdev.library.cornell.edu:8950/holdings/retrieve/6665264
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: !binary |-
+        T0sg
+    headers:
+      !binary "QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2lu":
+      - !binary |-
+        Kg==
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        YXBwbGljYXRpb24vanNvbjsgY2hhcnNldD11dGYtOA==
+      !binary "WC1VYS1Db21wYXRpYmxl":
+      - !binary |-
+        SUU9RWRnZQ==
+      !binary "RXRhZw==":
+      - !binary |-
+        IjNlMTc5ZmNhZmZjZjc5OTEyOTNkZjRjNDJhNTFiYTIyIg==
+      !binary "Q2FjaGUtQ29udHJvbA==":
+      - !binary |-
+        bWF4LWFnZT0wLCBwcml2YXRlLCBtdXN0LXJldmFsaWRhdGU=
+      !binary "WC1SdW50aW1l":
+      - !binary |-
+        MC40OTk4ODk=
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        Mzgy
+      !binary "U2VydmVy":
+      - !binary |-
+        V0VCcmljay8xLjMuMSAoUnVieS8xLjkuMy8yMDEyLTA0LTIwKQ==
+      !binary "RGF0ZQ==":
+      - !binary |-
+        RnJpLCAwNSBBcHIgMjAxMyAyMDoxNToxMCBHTVQ=
+      !binary "Q29ubmVjdGlvbg==":
+      - !binary |-
+        S2VlcC1BbGl2ZQ==
+    body:
+      encoding: US-ASCII
+      string: ! '{"6665264":{"condensed_holdings_full":[{"location_name":"Africana
+        Library (Africana Center)","location_code":"afr","call_number":"Sound disc
+        24","status":"available","holding_id":["7109768"],"copies":[{"items":{"Available":{"status":"available","count":1}},"supplements":"Supplements:
+        1 DVD 1 booklet","summary_holdings":"Library has: 1 sound disc"}],"services":["doc_delivery"]}]}}'
+    http_version: 
+  recorded_at: Fri, 05 Apr 2013 20:15:10 GMT
+recorded_with: VCR 2.4.0

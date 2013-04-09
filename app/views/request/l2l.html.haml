@@ -7,8 +7,8 @@
 %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
   %input(type="hidden" name="bid" value="#{@id}" id="bid")
   %input(type="hidden" name="request_action" value="callslip" id="request_action")
-  = render :partial => 'shared/reqpu'
   = render :partial => 'shared/reqac'
+  = render :partial => 'shared/reqpu'
   .control-group
     %label.control-label{:for => 'reqcomments'} Notes to library staff:
     .controls
