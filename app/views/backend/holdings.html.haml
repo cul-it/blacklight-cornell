@@ -5,7 +5,6 @@
   - if first_item_in_holding['location_name'] == '*Networked Resource'
     - holdings_condensed.shift
     - holdings_condensed = holdings_condensed.push(first_item_in_holding)
-  -# add_display_elements(holdings_condensed).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
   - # TODO: Ask Rick what's the deal with removing items where location_name == "Online"
   - filtered_holdings = holdings_condensed.reject { |x| x['location_name'].to_s.strip == "Online"}
   - grouped_holdings = group_holdings(filtered_holdings)

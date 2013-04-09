@@ -6,44 +6,6 @@ module HoldingsHelper
     title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{,7})/, ' <span class="online-coverage">(\2)</span>').html_safe
   end
 
-  def xadd_display_elements(entries)
-  entries
-  end
-
-  def add_display_elements(entries)
-
-    entries.each do |entry|
-
-      # location links
-      # location = Location.match_location_text(entry['location_name'])
-      entry['location'] = entry['location_name']
-
-#      if location && location.category == "physical"
-#        check_at = DateTime.now
-#        entry['location_link'] = link_to(entry['location_name'], location_display_path(CGI.escape(entry['location_name'])), :class => :location_display)
-#      else
-#        entry['location_link'] = entry['location_name']
-#      end
-
-#      if location && location.library && (hours = location.library.hours.find_by_date(Date.today))
-#        entry['hours'] = hours.to_opens_closes
-#      end
-
-      # add status icons
-      entry['copies'].each do |copy|
-        copy['items'].each_pair do |message,details|
-          details['image_link'] = image_tag("icons/" + details['status'] + ".png")
-        end
-      end
-
-    end
-
-    sort_item_statuses(entries)
-
-    entries
-
-  end
-
   # Group holding items into circulating and rare (sort rare last)
   def group_holdings holdings
     holdings.inject({}) do |grouped, holding|
