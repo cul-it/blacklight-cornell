@@ -28,7 +28,6 @@ module Blacklight::RenderConstraintsHelperBehavior
       render_advanced_constraints_query(localized_params)
     else
     if (!localized_params[:q].blank?)
-      Rails.logger.debug("JanisMCline #{params}")
       localized_params[:search_field] = params["search_field"]
       label = 
         if (localized_params[:search_field].blank? )# || (default_search_field && localized_params[:search_field] == default_search_field[:key] ) )
@@ -68,28 +67,6 @@ module Blacklight::RenderConstraintsHelperBehavior
     end
     end
   end
-
-#  def render_constraints_advanced_query(localized_params = params)
-    # So simple don't need a view template, we can just do it here.
-#    Rails.logger.debug("whodafugrender_constraints_advanced_query = #{localized_params}")
-#    if (!localized_params[:advanced_query].blank?)
-#      label = 
-#        if (localized_params[:search_field_row].blank? || (default_search_field && localized_params[:search_field_row] == default_search_field[:key] ) )
-#          nil
-#        else
-#          label_for_search_field(localized_params[:search_field_row])
-#        end
-    
-#      render_constraint_element(label,
-#            localized_params[:q],
-#            localized_params[:search_field_row], 
-#            :classes => ["query"], 
-#            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
-#    else
-#      "pookie".html_safe
-#    end
-#  end
-
 
   def render_constraints_filters(localized_params = params)
      return "".html_safe unless localized_params[:f]
