@@ -718,5 +718,6 @@ module DisplayHelper
     display = render_document_show_field_value :document => @document, :field => engl
     vernacular = render_document_show_field_value :document => @document, :field => vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
+    return display
   end
 end
