@@ -44,6 +44,7 @@ module Blacklight::Catalog
       if params[:q_row].present?
          params["advanced_query"] = "yes"
          counter = test_size_param_array(params[:q_row])
+         Rails.logger.debug("CrappityMuncher = #{counter}")
         if counter > 1
             query_string = massage_params(params)
              holdparams = []
@@ -74,13 +75,15 @@ module Blacklight::Catalog
         else
             params.delete("advanced_query")
             query_string = parse_single(params)
+            Rails.logger.debug("CrappitySplit = #{query_string}")
             holdparams = query_string.split("&")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
               params[terms[0]] = terms[1]
               search_session[terms[0]] = terms[1]
             end
-             params[:q] = query_string
+           #  params[:q] = query_string
+             Rails.logger.debug("CrappityP = #{params}")
              params["commit"] = "Search"
              params["action"] = "index"
              params["controller"] = "catalog"
@@ -101,9 +104,8 @@ module Blacklight::Catalog
       end
 # end of Journal title search hack
 
- 
       (@response, @document_list) = get_search_results
-      
+ 
       
       if params.nil? || params[:f].nil?
         @filters = []
@@ -136,12 +138,14 @@ module Blacklight::Catalog
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
       end
+#    params.delete("q_row")
+      
     end
 
     # get single document from the solr index
     def show
       @response, @document = get_solr_response_for_doc_id
-
+      Rails.logger.debug("SHOWPARAMS = #{@keyword_queries}")
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
 
@@ -331,7 +335,7 @@ module Blacklight::Catalog
     def save_current_search_params
       # If it's got anything other than controller, action, total, we
       # consider it an actual search to be saved. Can't predict exactly
-      # what the keys for a search will be, due to possible extra plugins.
+      # what the keys for a search will be, due to possible extra plugins.      
       return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
       params_copy = search_session.clone # don't think we need a deep copy for this
       params_copy.delete(:page)

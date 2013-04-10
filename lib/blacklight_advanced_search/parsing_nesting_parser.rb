@@ -4,15 +4,14 @@ module BlacklightAdvancedSearch::ParsingNestingParser
   def process_query(params,config)
     queriesTemp = []
     queries = ""
-    Rails.logger.debug("parsingNesting = #{keyword_op}")
     keyword_queries.each do |field,query| 
       queriesTemp << ParsingNesting::Tree.parse(query).to_query( local_param_hash(field, config)  )            
     end
  #   queries.join( ' ' + keyword_op + ' ')
-    Rails.logger.debug("fargincount = #{queriesTemp.count}")
-    Rails.logger.debug("farginops = #{keyword_op}")
     for i in 0..queriesTemp.count - 2
-      queries << queriesTemp[i] + ' ' + keyword_op[i] + ' '
+      unless keyword_op.nil?
+         queries << queriesTemp[i] + ' ' + keyword_op[i] + ' '
+      end
     end
     if (queriesTemp.count - 1  > 0)
       queries << queriesTemp[queriesTemp.count - 1]
