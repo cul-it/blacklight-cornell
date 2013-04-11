@@ -10,14 +10,14 @@
         This copy:
     -if (@iis.length > 1)
       .controls
-        %input(type="radio" name="holding_id" value="" id="Any Copy")
+        %input(type="radio" name="holding_id" value="" class="copy-select" data-exclude-location="[]")
         %label.radio-label{ :for => "Any Copy"} Any Copy
     -@iis.each do |copyn, copyd|
       .controls
         -if (@iis.length == 1)
-          %input(type="radio" name="holding_id" value="#{copyn}" checked)
+          %input(type="radio" name="holding_id" value="#{copyn}" class="copy-select" data-exclude-location="#{copyd[:exclude_location_id]}" checked)
         -else
-          %input(type="radio" name="holding_id" value="#{copyn}" id="#{copyn}")
+          %input(type="radio" name="holding_id" value="#{copyn}" class="copy-select" data-exclude-location="#{copyd[:exclude_location_id]}")
         %label.radio-label{ :for => "#{copyn}"}
           = "#{copyd[:location]} #{copyd[:copy]} #{copyd[:enumeration]}"
           %span.copy-callnumber

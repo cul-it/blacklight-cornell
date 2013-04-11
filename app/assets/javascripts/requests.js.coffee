@@ -1,7 +1,11 @@
 requests =
   # Initial setup
   onLoad: () ->
+    this.originalPickupList
     this.bindEventListeners()
+
+  # Store original list of pickup locations for use later
+  originalPickupList:  $('#pickup-locations').html()
 
   # Event listeners. Called on page load
   bindEventListeners: () ->
@@ -23,6 +27,46 @@ requests =
       requests.submitPurchaseForm()
       return false
 
+    # Listener for copy selection
+    $('.copy-select').change ->
+      requests.clearValidation()
+      # Use JSON.parse to convert string to array
+      excludedPickups = JSON.parse($(this).attr('data-exclude-location'))
+      # Save the currently selected pickup location (if any)
+      selectedPickup = $('#pickup-locations option:selected').val()
+
+      $('#pickup-locations').html(requests.originalPickupList)
+      requests.suppressPickup(excludedPickups, selectedPickup)
+
+    # Listener for pickup location selection
+    $('#pickup-locations').change ->
+      requests.clearValidation()
+
+  # Suppress pickup location based on location of selected copy
+  suppressPickup: (excludedPickups, selectedPickup) ->
+    $.each excludedPickups, (i, location_id) ->
+      targetedPickup = '#pickup-locations option[value="' + location_id + '"]'
+      $(targetedPickup).remove()
+
+      # Track whether one of the excluded pickups was already selected
+      if location_id == parseInt(selectedPickup)
+        requests.notifyUser()
+    # Restore previous selection if it hasn't been excluded
+    if selectedPickup?
+      $('#pickup-locations').val(selectedPickup)
+
+  # Render flash message if user's selected pickup location was suppressed
+  notifyUser: () ->
+    requests.scrollToTop()
+    $('.flash_messages').html('
+      <div class="alert alert-error">Please select a new pickup location that does not match the copy location
+       <a class="close" data-dismiss="alert" href="#">×</a>
+      </div>')
+
+  # Clear flash message
+  clearValidation: () ->
+    $('.flash_messages').empty()
+
   # Get initial data for form
   formSetup: () ->
     pathComponents = window.location.pathname.split('/')
@@ -43,8 +87,7 @@ requests =
       data: $('#req').serialize(),
       url:hu,
       success: (data) ->
-        # Make sure we're at the top of the page so the flash messge is visible
-        $('html,body').animate({scrollTop:0},0)
+        requests.scrollToTop()
         # Clear page on successful submission
         if data.indexOf('alert-success') != -1
           $('.request-type, .item-title-request, .request-author, #req').remove()
@@ -77,6 +120,10 @@ requests =
         desc = (st == 'success') ? 'succeeded' : 'failed'
         act_desc = ($("#request_action").val() == 'callslip') ? 'delivery' : $("#request_action").val()
         $('#result').html("Your request for " + act_desc + " has " + desc)
+
+  scrollToTop: () ->
+    # Make sure we're at the top of the page so the flash messge is visible
+    $('html,body').animate({scrollTop:0},0)
 
 $(document).ready ->
   requests.onLoad()
