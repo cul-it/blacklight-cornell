@@ -68,7 +68,7 @@ requests =
   notifyUser: () ->
     requests.scrollToTop()
     $('.flash_messages').html('
-      <div class="alert alert-error">Please select a new pickup location that does not match the copy location
+      <div class="alert alert-error">Please select a new pickup location that does not match the copy location.
        <a class="close" data-dismiss="alert" href="#">×</a>
       </div>')
 
