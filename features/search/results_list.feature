@@ -134,3 +134,12 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And it should contain "edition" with value "[1st ed."
+
+  # DISCOVERYACCESS-344
+  Scenario: Remove spaces from call number queries in Blacklight
+    Given I am on the home page
+    When I fill in the search box with 'QB281 .S39'
+    And I select 'Call Number' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    And it should contain "title" with value "Shore and sea boundaries : with special reference to the interpretation and use of Coast and Geodetic Survey data."
