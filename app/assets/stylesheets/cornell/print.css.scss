@@ -1,4 +1,6 @@
 @media print {
-	body { font-family: arial; }
 	.search-tools { display: none; }
+	.cu-logo {
+		img { display: block; } 
+	}
 }
