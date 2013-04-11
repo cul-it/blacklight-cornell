@@ -135,21 +135,30 @@ module Blacklight::SolrHelper
 #       blacklight_config.search_fields.each do |key, value|
 #          Rails.logger.debug("Poppa_rock say values = #{value}")
 #       end
-       if !params["search_field_row"].nil?
+       if !user_params[:search_field_row].nil?
+         Rails.logger.debug("Jehova = #{user_params["search_field_row"]}")
          q_string = ""
 #        for i in 0..@advanced_query.keyword_queries.count - 1
+         rowArray = []
          shrink_rows = []
-         for i in 0..user_params['search_field_row'].count - 1
-           if shrink_rows.include?(user_params['search_field_row'][i])
+         opArray = []
+         for i in 0..user_params[:search_field_row].count - 1
+           if shrink_rows.include?(user_params[:search_field_row][i])
            else
-              shrink_rows << params['search_field_row'][i]
+              shrink_rows << user_params[:search_field_row][i]
+              rowArray << i 
+              if i > 0
+                opArray << user_params[:"as_boolean_row#{i + 1}"]
+              end
            end
          end
          
-         opArray = []
-         if !user_params["op"].nil?
-            opArray = user_params["op"]
-         end 
+#         opArray = []
+#         if !user_params[:op].nil?
+#            opArray = user_params[:op]
+#         else
+#            opArray = ["AND", "AND"] 
+#         end
          for i in 0..shrink_rows.count - 1
                returned_query = {}
                field_query = shrink_rows[i]
@@ -190,6 +199,7 @@ module Blacklight::SolrHelper
         #{:qt=>nil, :rows=>20, :fl=>"*,score", :"facet.field"=>["online", "format", "author_facet", "pub_date_facet", "language_facet", "subject_topic_facet", "subject_geo_facet", "subject_era_facet", "subject_content_facet", "lc_1letter_facet", "location_facet", "hierarchy_facet"], "spellcheck.q"=>nil, :"f.online.facet.limit"=>3, :"f.format.facet.limit"=>6, :"f.author_facet.facet.limit"=>6, :"f.language_facet.facet.limit"=>6, :"f.subject_topic_facet.facet.limit"=>6, :"f.subject_geo_facet.facet.limit"=>6, :"f.subject_era_facet.facet.limit"=>6, :"f.subject_content_facet.facet.limit"=>6, :"f.lc_1letter_facet.facet.limit"=>6, :"f.location_facet.facet.limit"=>6, :sort=>"score desc, pub_date_sort desc, title_sort asc", "stats"=>"true", "stats.field"=>["pub_date_facet"],
       #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
       solr_parameters[:q] = q_string
+      Rails.logger.debug("THEQUERY = #{solr_parameters}")
  #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
     end
    return solr_parameters
@@ -587,6 +597,7 @@ module Blacklight::SolrHelper
   # Pass in an index where 1 is the first document in the list, and
   # the Blacklight app-level request params that define the search. 
   def get_single_doc_via_search(index, request_params)
+    Rails.logger.debug("SESSION_SEARCH_GET_SINGLE = #{request_params}")
     solr_params = solr_search_params(request_params)
 
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.    
