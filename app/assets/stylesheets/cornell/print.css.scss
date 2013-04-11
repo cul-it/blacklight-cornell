@@ -1,6 +1,67 @@
 @media print {
-	.search-tools { display: none; }
+
+	// HEADER
+	// ----------------------------------------
 	.cu-logo {
 		img { display: block; } 
+	}
+	header {
+		.container { border: 0; }
+	}
+	.blacklight-nav { display: none; }
+
+	// SEARCH BOX
+	// ----------------------------------------
+	.search-tools {
+		form { display: none; }
+		.btn { 
+			display: block; 
+			padding: 0; 
+			border: 0;
+			text-align: left;
+			i { display: none; }
+		}
+	}
+
+	// FACETS
+	// ----------------------------------------
+	.facets { display: none; }
+
+	// PRINT URLS - OVERRIDE BOOTSTRAP SASS GEM
+	// ----------------------------------------
+	a[href]:after {
+    	content: ""; }
+  	abbr[title]:after {
+    	content: ""; }
+
+  	// BOOKMARK TOGGLE
+	// ----------------------------------------
+	.bookmark_toggle { display: none; }
+
+	// ITEM RECORD
+	// ----------------------------------------
+	.return-link,
+	.item-pagination,
+	.item-tools,
+	.item-requests,
+	.librarian-view {
+		display: none; }
+	.blacklight-catalog-show {
+		.span12 {
+			.well { display: none; }
+			.availability { display: block; }
+		}
+	}
+	dt {
+		font-size: 80%;
+		font-style: italic; }
+
+	// HOME PAGE
+	// ----------------------------------------
+	.blacklight-catalog-index {
+		.span9 {
+			.well { display: none; }
+			.feedback { display: block; }
+		}
 	}
 }
