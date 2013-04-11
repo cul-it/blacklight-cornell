@@ -349,7 +349,7 @@ class RequestController < ApplicationController
     request_options = []
 
     resp, document = get_solr_response_for_doc_id(params[:id])
-    bdParams = { :isbn => document['isbn_display'], :title => URI::escape(document['title_display']) }
+    bdParams = { :isbn => document['isbn_display'], :title => URI::escape(document['title_display']), :document => document }
 
     if item_type == 'nocirc'
       if patron_type == 'cornell'
@@ -402,6 +402,8 @@ class RequestController < ApplicationController
       # logger.debug "status: #{holdings_condensed_full_item['status']}"
       ## is requested treated same as charged?
       item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
+
+      # logger.info "sk274_log: ptype: #{patron_type}, itype: #{item_type}, status: #{item_status}"
 
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
         logger.debug "branch 0"
@@ -712,6 +714,10 @@ class RequestController < ApplicationController
   end
 
   def _borrowDirect_available? params
+    if params[:document]['format'] == 'Journal'
+      ## for now, treat all periodicals as not borrow directable
+      return false
+    end
     borrow_direct_webservices_url = Rails.configuration.borrow_direct_webservices_host
     if borrow_direct_webservices_url.blank?
       borrow_direct_webservices_url = request.env['HTTP_HOST']
