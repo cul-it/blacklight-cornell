@@ -3,6 +3,7 @@ requests =
   onLoad: () ->
     this.originalPickupList
     this.bindEventListeners()
+    this.checkForSingleCopy()
 
   # Store original list of pickup locations for use later
   originalPickupList:  $('#pickup-locations').html()
@@ -42,6 +43,14 @@ requests =
     $('#pickup-locations').change ->
       requests.clearValidation()
 
+  # When there's only a single copy of an item suppress the pickup location immediately
+  # -- don't wait for a change event on .copy-select because it will never happen
+  checkForSingleCopy: () ->
+    if $('.copy-select').length == 1
+      # Use JSON.parse to convert string to array
+      excludedPickups = JSON.parse($('.copy-select').attr('data-exclude-location'))
+      requests.suppressPickup(excludedPickups)
+
   # Suppress pickup location based on location of selected copy
   suppressPickup: (excludedPickups, selectedPickup) ->
     $.each excludedPickups, (i, location_id) ->
@@ -59,7 +68,7 @@ requests =
   notifyUser: () ->
     requests.scrollToTop()
     $('.flash_messages').html('
-      <div class="alert alert-error">Please select a new pickup location that does not match the copy location
+      <div class="alert alert-error">Please select a new pickup location that does not match the copy location.
        <a class="close" data-dismiss="alert" href="#">×</a>
       </div>')
 

@@ -32,13 +32,13 @@
             180 days (#{d180.strftime("%m-%d-%Y")})
       .control-group
         %label.control-label Delivery time:
-        .controls.delivery-estimate 
+        .controls.delivery-estimate
           Approximately
-          =@estimate 
+          =@estimate
           days
       .control-group
         .controls.clearfix
-          %input.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit hold request")
+          %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit hold request")
           %div.accordion-heading.request-options.form-alternative-action.pull-left
             or
             =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
