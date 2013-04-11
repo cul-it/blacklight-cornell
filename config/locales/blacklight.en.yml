@@ -227,19 +227,19 @@ en:
     did_you_mean: 'Did you mean to type: %{options}?'
 
     requests:
-      success: 'Your request was submitted successfully'
-      failure: 'Your request failed, please try again'
+      success: 'Your request was submitted successfully.'
+      failure: 'Your request failed, please try again.'
       errors:
         holding_id:
-          blank: 'Please select your desired copy'
+          blank: 'Please select your desired copy.'
         library_id:
-          blank: 'Please select your pickup location'
+          blank: 'Please select your pickup location.'
         name:
-          blank: 'Please enter your name'
+          blank: 'Please enter your name.'
         email:
-          invalid: 'Please enter a valid email address'
-          blank: 'Please enter your email address'
+          invalid: 'Please enter a valid email address.'
+          blank: 'Please enter your email address.'
         status:
-          blank: 'Please select your current status at Cornell'
+          blank: 'Please select your current status at Cornell.'
         title:
-          blank: 'Please enter the title of the item to be purchased'
+          blank: 'Please enter the title of the item to be purchased.'
