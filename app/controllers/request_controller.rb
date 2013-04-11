@@ -625,6 +625,7 @@ class RequestController < ApplicationController
     seen = {}
     request_options.each do |item|
       if item[:service] == service
+        @estimate = item[:estimate]
         iids = item[:iid]
         iids.each do |iid|
           @iis[iid['itemid']] = {
