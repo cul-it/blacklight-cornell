@@ -282,6 +282,13 @@ module Blacklight::SolrHelper
       # by actual search field config if present. We might want to remove
       # this legacy behavior at some point. It does not seem to be currently
       # rspec'd. 
+
+      # debugger
+
+      if user_parameters['search_field'] == 'call number'
+        user_parameters['q'].gsub!(/\s+/, '')
+      end
+
       solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
       
       search_field_def = search_field_def_for_key(user_parameters[:search_field])
