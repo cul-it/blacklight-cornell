@@ -6,7 +6,7 @@
   %div.span8.well
     %h2.blacklight-title_display.item-title-request=@ti
     %div.request-author=@au
-    %form#req.form-horizontal{:method => 'post', :action => request_make_request_path}
+    %form#req.l2l-request.form-horizontal{:method => 'post', :action => request_make_request_path}
       %input(type="hidden" name="bid" value="#{@id}" id="bid")
       %input(type="hidden" name="request_action" value="callslip" id="request_action")
       = render :partial => 'shared/reqac'
@@ -17,12 +17,12 @@
           %textarea#reqcomments
       .control-group
         %label.control-label Delivery time:
-        .controls.delivery-estimate 
+        .controls.delivery-estimate
           Approximately
-          =@estimate 
+          =@estimate
           days
       .control-group
-    
+
         .controls.clearfix
           %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit delivery request")
           %div.accordion-heading.request-options.form-alternative-action.pull-left
