@@ -145,16 +145,20 @@ module Blacklight::SolrHelper
          for i in 0..user_params[:search_field_row].count - 1
            if shrink_rows.include?(user_params[:search_field_row][i])
            else
-              shrink_rows << user_params[:search_field_row][i]
-              rowArray << i 
-              if i > 0
+              if !user_params[:q_row][i] == ""
+               shrink_rows << user_params[:search_field_row][i]
+               rowArray << i 
+               if i > 0
                 opArray << user_params[:"as_boolean_row#{i + 1}"]
+               end
               end
            end
          end
          
 #         opArray = []
-#         if !user_params[:op].nil?
+         if opArray.count < 1
+            opArray[0] = "AND"
+         end
 #            opArray = user_params[:op]
 #         else
 #            opArray = ["AND", "AND"] 
