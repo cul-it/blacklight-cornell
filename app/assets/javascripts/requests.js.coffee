@@ -3,12 +3,12 @@ requests =
   onLoad: () ->
     this.originalPickupList
     this.bindEventListeners()
-    this.checkForSingleCopy()
+    this.checkForL2L()
 
   # Store original list of pickup locations for use later
   originalPickupList:  $('#pickup-locations').html()
 
-  # Event listeners. Called on page load
+  # Event listeners for all requests. Called on page load
   bindEventListeners: () ->
     # Listeners for request button (submit request)
     $('#requests_button').click ->
@@ -28,6 +28,8 @@ requests =
       requests.submitPurchaseForm()
       return false
 
+  # Event listeners for library to library (l2l) location suppression
+  bindPickupEventListeners: () ->
     # Listener for copy selection
     $('.copy-select').change ->
       requests.clearValidation()
@@ -42,6 +44,13 @@ requests =
     # Listener for pickup location selection
     $('#pickup-locations').change ->
       requests.clearValidation()
+
+  # Confirm we're dealing with a library to library request
+  # before firing pickup event listeners
+  checkForL2L: () ->
+    if $('form#req.l2l-request').length == 1
+      this.bindPickupEventListeners()
+      this.checkForSingleCopy()
 
   # When there's only a single copy of an item suppress the pickup location immediately
   # -- don't wait for a change event on .copy-select because it will never happen
