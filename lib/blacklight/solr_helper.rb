@@ -145,20 +145,20 @@ module Blacklight::SolrHelper
          for i in 0..user_params[:search_field_row].count - 1
            if shrink_rows.include?(user_params[:search_field_row][i])
            else
-              if !user_params[:q_row][i] == ""
-               shrink_rows << user_params[:search_field_row][i]
-               rowArray << i 
-               if i > 0
-                opArray << user_params[:"as_boolean_row#{i + 1}"]
-               end
-              end
-           end
-         end
-         
-#         opArray = []
-         if opArray.count < 1
-            opArray[0] = "AND"
-         end
+#              if !user_params[:q_row][i] == ""
+                shrink_rows << user_params[:search_field_row][i]
+                rowArray << i 
+                if i > 0
+                 opArray << user_params[:"as_boolean_row#{i + 1}"]
+                end
+ #             end
+            end
+          end
+ 
+ #         opArray = []
+#         if opArray.count < 1
+#            opArray[0] = "AND"
+#         end
 #            opArray = user_params[:op]
 #         else
 #            opArray = ["AND", "AND"] 
@@ -178,28 +178,28 @@ module Blacklight::SolrHelper
                   q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                   q_string_hold = q_string
                end
- #              q_string << "}" << user_params[shrink_rows[i]] << '\\'
-                if holdarray.count > 2
-                  if field_name.nil?
-                     field_name = 'all_fields'
-                  end
-                  for i in 1..holdarray.count - 1
-                    holdarray_parse = holdarray[i].split('_query_')
-                    holdarray[1] = holdarray_parse[0].chomp("\"")
-                    if(i < holdarray.count - 1)
-                     q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                    else
-                     q_string << "}" << holdarray[1].chomp("\"") << "\""
-                    end
-                  end 
-                else
-                  q_string << "}" << holdarray[1].chomp("\"") << "\""
-                end
-               if i < shrink_rows.count - 1
-                  q_string << " " << opArray[i] << " "
+#              q_string << "}" << user_params[shrink_rows[i]] << '\\'
+               if holdarray.count > 2
+                 if field_name.nil?
+                    field_name = 'all_fields'
+                 end
+                 for i in 1..holdarray.count - 1
+                   holdarray_parse = holdarray[i].split('_query_')
+                   holdarray[1] = holdarray_parse[0].chomp("\"")
+                   if(i < holdarray.count - 1)
+                    q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                   else
+                    q_string << "}" << holdarray[1].chomp("\"") << "\""
+                   end
+                 end 
+               else
+                 q_string << "}" << holdarray[1].chomp("\"") << "\""
                end
+              if i < shrink_rows.count - 1
+                 q_string << " " << opArray[i] << " "
+              end
          end
-       end  
+       end
         #{:qt=>nil, :rows=>20, :fl=>"*,score", :"facet.field"=>["online", "format", "author_facet", "pub_date_facet", "language_facet", "subject_topic_facet", "subject_geo_facet", "subject_era_facet", "subject_content_facet", "lc_1letter_facet", "location_facet", "hierarchy_facet"], "spellcheck.q"=>nil, :"f.online.facet.limit"=>3, :"f.format.facet.limit"=>6, :"f.author_facet.facet.limit"=>6, :"f.language_facet.facet.limit"=>6, :"f.subject_topic_facet.facet.limit"=>6, :"f.subject_geo_facet.facet.limit"=>6, :"f.subject_era_facet.facet.limit"=>6, :"f.subject_content_facet.facet.limit"=>6, :"f.lc_1letter_facet.facet.limit"=>6, :"f.location_facet.facet.limit"=>6, :sort=>"score desc, pub_date_sort desc, title_sort asc", "stats"=>"true", "stats.field"=>["pub_date_facet"],
       #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
       solr_parameters[:q] = q_string
