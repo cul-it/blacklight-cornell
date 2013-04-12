@@ -19,7 +19,7 @@
             %span.map-it
               = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
             %div.aeon
-              = link_to 'Request delivery to the RMC Reading Room', "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{location_code}"
+              = link_to 'Request delivery to the RMC Reading Room', "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{location_code}", {:class => 'btn btn-danger'}
 
       -# Only display a real call number
       - if callnumber != 'No call number' && callnumber != ''

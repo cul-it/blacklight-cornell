@@ -267,6 +267,16 @@ module DisplayHelper
     end
   end
 
+    def finding_aid(document)
+    if document['url_findingaid_display'].present?
+      if document['url_findingaid_display'].size > 1
+        catalog_path(document)
+      else
+        render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
+      end
+    end
+  end
+
   FORMAT_MAPPINGS = {
     "Book" => "book",
     "Online" =>"link",
