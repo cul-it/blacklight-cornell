@@ -317,7 +317,7 @@ module DisplayHelper
     format = [format] unless format.is_a? Array
     format.map do |f|
       icon = '<i class="icon-' + formats_icon_mapping(f) + '"></i> '
-      f.prepend(icon).html_safe
+      f.prepend(icon).html_safe unless f.nil?
     end
   end
 
