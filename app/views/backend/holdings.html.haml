@@ -10,7 +10,7 @@
   - grouped_holdings.each do |group, holdings|
     - # Render group headings only if we have multiple groups
     - if multiple_groups
-      %h5
+      %h5.location
         = group
     - holdings.each do |entry|
       - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
@@ -54,3 +54,11 @@
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)
+    - if multiple_groups 
+      -if group == "Circulating"
+        .item-requests
+          =link_to 'Request', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}   
+          %hr
+
+
+
