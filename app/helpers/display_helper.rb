@@ -672,13 +672,26 @@ module DisplayHelper
   def render_document_index_label doc, opts
     label = nil
     if opts[:label].is_a?(Array)
-      title = doc.get(opts[:label][0], :sep => nil)
-      subtitle = doc.get(opts[:label][1], :sep => nil)
+      title_vern = doc.get(opts[:label][0], :sep => nil)
+      title = doc.get(opts[:label][1], :sep => nil)
+      title_complete = title_vern && title
+      subtitle_vern = doc.get(opts[:label][2], :sep => nil)
+      subtitle = doc.get(opts[:label][3], :sep => nil)
+      subtitle_complete = subtitle_vern && subtitle
+      title_subtitle_complete = title_complete && subtitle_complete
       logger.debug "subtitle: #{subtitle}"
-      if subtitle.present?
-        label ||= title + ' : ' + subtitle
+      if title_subtitle_complete.present?
+        label ||= title_vern + ' / ' + title + ' : ' + subtitle_vern + ' / ' + subtitle
       else
-        label ||= title
+        if title_complete.present?
+          label ||= title_vern + ' / ' + title
+        else
+          if subtitle.present?
+            label ||= title + ' : ' + subtitle
+          else 
+            label ||= title
+          end
+        end
       end
     end
     label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
