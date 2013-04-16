@@ -668,30 +668,26 @@ module DisplayHelper
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
-  # Renders label for link to document using 'title: subtitle' if subtitle exists
+  # Renders label for link to document using 'title : subtitle' if subtitle exists
+  # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   def render_document_index_label doc, opts
     label = nil
     if opts[:label].is_a?(Array)
       title_vern = doc.get(opts[:label][0], :sep => nil)
       title = doc.get(opts[:label][1], :sep => nil)
-      title_complete = title_vern && title
       subtitle_vern = doc.get(opts[:label][2], :sep => nil)
       subtitle = doc.get(opts[:label][3], :sep => nil)
-      subtitle_complete = subtitle_vern && subtitle
-      title_subtitle_complete = title_complete && subtitle_complete
-      logger.debug "subtitle: #{subtitle}"
-      if title_subtitle_complete.present?
-        label ||= title_vern + ' / ' + title + ' : ' + subtitle_vern + ' / ' + subtitle
-      else
-        if title_complete.present?
-          label ||= title_vern + ' / ' + title
-        else
-          if subtitle.present?
-            label ||= title + ' : ' + subtitle
-          else 
-            label ||= title
-          end
-        end
+
+      # Use subtitles for vern and english if present
+      vern = subtitle_vern.present? ? title_vern + ' : ' + subtitle_vern : title_vern
+      english = subtitle.present? ? title + ' : ' + subtitle : title
+
+      # If title is missing, fall back to document id (bibid) as last resort
+      label ||= english.present? ? english : doc.id
+
+      # If we have a non-Roman script alternative, prepend it
+      if vern.present?
+        label.prepend(vern + ' / ')
       end
     end
     label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
