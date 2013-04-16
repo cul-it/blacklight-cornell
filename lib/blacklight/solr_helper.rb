@@ -164,9 +164,19 @@ module Blacklight::SolrHelper
 #            opArray = ["AND", "AND"] 
 #         end
          for i in 0..shrink_rows.count - 1
+            Rails.logger.debug("Dippitydoofus = #{shrink_rows[i]}")
                returned_query = {}
                field_query = shrink_rows[i]
+               if user_params[:q_row][1] == ""
+                 user_params[field_query] = user_params[:q_row][0]
+#                 search_session[:counter] = 1
+                  session[:search][:"#{field_query}"] =  user_params[:q_row][0]
+               end
+     
                pass_param = {field_query => user_params[field_query]}
+              Rails.logger.debug("Dippitydoofus1 = #{pass_param}")
+              Rails.logger.debug("Dippitydoofus2 = #{user_params[field_query]}")
+              Rails.logger.debug("Dippitydoofus3 = #{user_params}") 
                returned_query = ParsingNesting::Tree.parse(user_params[field_query])
                newstring = returned_query.to_query(pass_param)
                holdarray = newstring.split('}')
