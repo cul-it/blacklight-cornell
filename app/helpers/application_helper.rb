@@ -5,79 +5,63 @@ module ApplicationHelper
     @alternating_line[id] = @alternating_line[id] == "even" ? "odd" : "even"
   end
 
-  def massage_params_two(params)
-    massage_params_two(params)
-    logger.debug("fogsworth #{params}")
-#    rowHash = {}
-    query_string = ""
-#    new_query_string = ""
-    query_rowSplitArray = []
-    usedSearchTermArray = []
-    query_rowArray = params[:q_row]
-    op_rowArray = params[:op_row]
-    search_field_rowArray = params[:search_field_row]
-    if query_rowArray.count > 1
-      for i in 0..query_rowArray.count - 2
-         unless usedSearchTermArray.include? search_field_rowArray[i]
-            usedSearchTermArray.push(search_field_rowArray[i])
-         end
-         if query_rowArray[i] != ""
-          logger.debug("usedTerms = #{usedSearchTermArray}")
-#          new_query_string = parse_query_row(query_rowArray[i], op_rowArray[i])
-#          if rowHash.hasKey(search_field_rowArray[i])?
-          query_string << search_field_rowArray[i] << "=("
-          query_rowSplitArray = query_rowArray[i].split(" ")
-          if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
-           query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
-           for j in 1..query_rowSplitArray.count - 2
-             query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
-           end
-           query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << ")"
-           if params["as_boolean_row#{i+2}"].nil?
-            query_string << "&op[]=AND"
-           else
-            query_string << "&op[]=" << params["as_boolean_row#{i+2}"] << "&"
-           end
-          elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
-           query_string << '"' << query_rowArray[i] << '")'
-           if params["as_boolean_row#{i+2}"].nil?
-            query_string << "&op[]=AND"
-           else
-            query_string << "&op[]=" << params["as_boolean_row#{i+2}"] << "&"
-           end   
-          else
-           query_string  << query_rowArray[i] << ")"
-           if params["as_boolean_row#{i+2}"].nil?
-            query_string << "&op[]=AND"
-           else
-            query_string << "&op[]=" << params["as_boolean_row#{i+2}"] << "&"
-           end
-	        end
-         end
-      end
-      for i in query_rowArray.count - 1..query_rowArray.count - 1
-
-         if query_rowArray[i] != ""
-           query_string << search_field_rowArray[i] << "=("
-           query_rowSplitArray = query_rowArray[i].split(" ")
-           if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
-             query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
-             for j in 1..query_rowSplitArray.count - 2
-               query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+  def set_advanced_search_params(params)
+         params["advanced_query"] = "yes"
+         counter = test_size_param_array(params[:q_row])
+         Rails.logger.debug("CrappityMuncher = #{counter}")
+        if counter > 1
+            query_string = massage_params(params)
+             holdparams = []
+             terms = []
+             ops = 0
+             params["op"] = []
+             holdparams = query_string.split("&")
+             for i in 0..holdparams.count - 1            
+                terms = holdparams[i].split("=")
+                if (terms[0] == "op[]")
+                  params["op"][ops] = terms[1]
+                  ops = ops + 1
+                else
+                  params[terms[0]] = terms[1]
+                  search_session[terms[0]] = terms[1]
+                end
              end
-             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << ")"
-           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
-             query_string << '"' << query_rowArray[i] << '")'
-           else
-             query_string << query_rowArray[i] << ")"
-      	   end
-         end
-      end
-    end
-    logger.debug("Madisoncheese = #{query_string}")
-    return query_string
+             if holdparams.count > 2
+             params["search_field"] = "advanced"
+             end
+             params[:q] = query_string
+             search_session[:q] = query_string
+             params["commit"] = "Search"
+#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+             params["action"] = "index"
+             params["controller"] = "catalog"
+             Rails.logger.debug("Mollybendumparams = #{params}")
+       else
+            search_session = {}
+            params.delete("advanced_query")
+            query_string = parse_single(params)
+            Rails.logger.debug("DrippitySplit = #{query_string}")
+            holdparams = query_string.split("&")
+            for i in 0..holdparams.count - 1
+              terms = holdparams[i].split("=")
+              params[terms[0]] = terms[1]
+              search_session[terms[0]] = terms[1]
+              session[:search][:"#{terms[0]}"] = terms[1]
+            end
+           #  params[:q] = query_string
+             Rails.logger.debug("Podrick = #{search_session}")
+             params.delete("q_row")
+             params.delete("op_row")
+             params.delete("search_field_row")
+             
+             params["commit"] = "Search"
+             params["action"] = "index"
+             params["controller"] = "catalog"
+             Rails.logger.debug("DrippityPup = #{params}")
+    
+       end
+     return query_string
   end
-
   def massage_params(params)
     logger.debug("fogsworth_two #{params}")
     rowHash = {}
