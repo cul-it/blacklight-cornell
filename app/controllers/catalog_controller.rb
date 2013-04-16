@@ -179,7 +179,7 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_display', 'subtitle_display' #display as 'title: subtitle'
+    config.index.show_link = 'title_vern_display', 'title_display', 'subtitle_vern_display', 'subtitle_display' #display as 'vern_title / title : vern_subtitle / subtitle'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
