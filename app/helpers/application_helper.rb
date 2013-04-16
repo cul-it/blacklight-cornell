@@ -28,9 +28,14 @@ module ApplicationHelper
              end
              if holdparams.count > 2
              params["search_field"] = "advanced"
-             end
              params[:q] = query_string
              search_session[:q] = query_string
+             else
+             params[:q] = params["q"]
+             search_session[:q] = params[:q]
+             params[:search_field] = params["search_field"]
+             search_session[:search_field] = params[:search_field]
+             end
              params["commit"] = "Search"
 #             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
              params["action"] = "index"
