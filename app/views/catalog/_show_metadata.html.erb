@@ -8,7 +8,7 @@
 
       <div class="document item-metadata span10">
         <div class="document-header span6">
-          <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
+          <%#= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
 
           <%
             title = the_vernaculator('title_display', 'title_vern_display')
@@ -51,7 +51,7 @@
             </ul>
           <% end %>
 
-   
+
 
 
           <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
@@ -62,7 +62,7 @@
           <span class="blacklight-url_access_display"></span>
 
           <!-- Only show request button if there are physical holdings -->
- 
+
           <% locs = @response.docs[0]['location_display'] %>
           <% if locs.blank? or !(locs.length == 1 and locs[0] == '*Networked Resource') %>
             <div class="item-requests">
