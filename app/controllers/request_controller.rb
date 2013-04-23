@@ -529,6 +529,12 @@ class RequestController < ApplicationController
       return 'Missing'
     elsif item_status.include? 'Lost'
       return 'Lost'
+    elsif item_status =~ /In transit to(.*)\./  
+      return 'Charged'  
+    elsif item_status =~ /In transit/  
+      return 'Not Charged'  
+    elsif item_status =~ /On hold/  
+      return 'Charged'
     else
       return item_status
     end
