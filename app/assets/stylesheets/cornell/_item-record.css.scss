@@ -117,10 +117,13 @@ dd.blacklight-notes {
 }
 
 // AVAILABILITY
+.availability {
+	float: right;
+	font-size: 0.875em;
+}
 .holding,
 .holdings-error {
 	margin-bottom: 1em;
-	font-size: 0.875em;
 }
 .holding:last-of-type {
 	margin-bottom: 0;
@@ -140,27 +143,23 @@ dd.blacklight-notes {
 	font-size: .9em;
 	color: $light-gray;
 }
-.availability {
-	float: right;
-	p { font-size: 0.875em; }
-}
 .online-link {
 	margin-bottom: .4em;
-	font-size: .9em;
+	// font-size: .9em;
 	line-height: 1.2em;
 }
 .online-coverage,
 .online-note {
 	display: block;
-	margin-left: 2em;
-	font-size: .8em;
+	margin-left: 1.8em;
+	font-size: .85em;
 	line-height: 1.4em;
 	color: $dark-gray;
 }
 .access-restriction {
 	display: block;
 	margin-top: .4em;
-	font-size: .8em;
+	font-size: .9em;
 	line-height: 1.2em;
 	color: $light-gray;
 }
