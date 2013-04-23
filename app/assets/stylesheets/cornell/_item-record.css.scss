@@ -149,10 +149,12 @@ dd.blacklight-notes {
 	font-size: .9em;
 	line-height: 1.2em;
 }
-.online-coverage {
+.online-coverage,
+.online-note {
 	display: block;
 	margin-left: 2em;
 	font-size: .8em;
+	line-height: 1.4em;
 	color: $dark-gray;
 }
 .access-restriction {
