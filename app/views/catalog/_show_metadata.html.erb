@@ -30,19 +30,19 @@
         </div>
 
         <div class="well availability span3">
-          <h4>Availability</h4>
+          <h3>Availability</h3>
 
           <% if finding_aid(@document) %>
-          <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
-    <% if url_findingaid_display.present? %>
-            <span class="url_findingaid_display"><i class="icon-ok"></i> <%= url_findingaid_display %></span>
-     <% end %>
+            <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
+            <% if url_findingaid_display.present? %>
+              <span class="url_findingaid_display"><i class="icon-ok"></i> <%= url_findingaid_display %></span>
+            <% end %>
           <% end %>
-
-          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
 
           <% if online_url(@document) %>
             <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+
+            <h5 class="location">Online</h5>
 
             <ul class="unstyled">
               <% online_links.each do |link| %>
@@ -51,8 +51,7 @@
             </ul>
           <% end %>
 
-   
-
+          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
 
           <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
           <% if access_restrictions.present? %>

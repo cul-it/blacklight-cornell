@@ -27,3 +27,6 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require_tree .
+//
+//= require spin.min.js
+//= require jquery.spin.js
