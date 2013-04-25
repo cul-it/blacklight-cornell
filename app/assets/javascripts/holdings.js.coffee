@@ -4,6 +4,7 @@ holdings =
     this.initObjects()
     this.loadSpinner()
     this.bindHoldingService()
+    this.bindEventListener()
 
   # Create references to frequently used elements for convenience
   initObjects: () ->
@@ -55,6 +56,13 @@ holdings =
         $('#blacklight-avail-'+id).html(data)
       error: (data) ->
         $('#blacklight-avail-'+id).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
+
+  # Event listener called on page load
+  bindEventListener: () ->
+    $('.retry-availability').click ->
+      holdings.loadSpinner()
+      holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
+      return false
 
 $(document).ready ->
   holdings.onLoad()
