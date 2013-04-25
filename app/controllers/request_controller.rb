@@ -21,7 +21,6 @@ class RequestController < ApplicationController
       '6'  => 1,
       '7'  => 1,
       '8'  => 1,
-      '9'  => 1,
       '10' => 1,
       '11' => 1,
       '13' => 1,
@@ -75,89 +74,35 @@ class RequestController < ApplicationController
   end
   helper_method :search_action_url
 
-  def xhold
+  def callslip
+
     @h = session[:holdings]
-    @hd = session[:holdings_detail]
-    @netid = request.env['HTTP_REMOTE_USER']
     logger.debug  "getting info for #{params[:id]}"
-    logger.debug  "getting info for #{@netid}"
+    logger.debug  "getting info for #{params[:netid]}"
     @resp,@document = get_solr_response_for_doc_id(params[:id])
-    logger.debug  "document info : #{@document}"
+    logger.debug  "info : #{@document}"
     logger.debug  @document.to_s
     logger.debug  @document.inspect
     logger.debug  @document[:title_display]
-    logger.debug  "holding info : #{@h}"
-    logger.debug  @h.to_s
-    logger.debug  @h.inspect
-    logger.debug  "holding detail info : #{@hd}"
-    logger.debug  @hd.to_s
-    logger.debug  @hd.inspect
     @ti =  @document[:title_display]
     @au =  @document[:author_display]
+    @netid =  params[:netid]
     @id =  params[:id]
-    if (!@hd.nil?)
     logger.debug   "details: #{@hd.inspect}"
+
     # the details offers an array of records, one element for each holding.
-    @hd['records'].each do | hol |
-      logger.debug  "holding id = #{hol['holding_id']}";
-      logger.debug  "item status = #{hol['item_status'].inspect}";
-      idl =   hol['item_status']['itemdata'];
-      if (!idl.nil?)
-        idl.each do | id |
-          logger.debug  "item = #{id['itemid']} #{id['location']} #{id['callNumber']} #{id['copy']} #{id['enumeration']}";
-        end
-      end
+    if (!@hd.nil?)
+       @hd['records'].each do | hol |
+          logger.debug  "holding id = #{hol['holding_id']}";
+          logger.debug  "item status = #{hol['item_status'].inspect}";
+       end
     end
-    end # 1==0
+
   end
 
-  def xrecall
-  @h = session[:holdings]
-  @netid = request.env['HTTP_REMOTE_USER']
-  logger.debug  "getting info for #{params[:id]}"
-  logger.debug  "getting info for #{@netid}"
-  @resp,@document = get_solr_response_for_doc_id(params[:id])
-  logger.debug  "document info : #{@document}"
-  logger.debug  @document.to_s
-  logger.debug  @document.inspect
-  logger.debug  @document[:title_display]
-  @ti =  @document[:title_display]
-  @au =  @document[:author_display]
-  @id =  params[:id]
-  logger.debug   "details: #{@hd.inspect}"
-  # the details offers an array of records, one element for each holding.
-  if (!@hd.nil?)
-    @hd['records'].each do | hol |
-      logger.debug  "holding id = #{hol['holding_id']}";
-      logger.debug  "item status = #{hol['item_status'].inspect}";
-    end
-   end
-  end
-
-  def callslip
-  @h = session[:holdings]
-  logger.debug  "getting info for #{params[:id]}"
-  logger.debug  "getting info for #{params[:netid]}"
-  @resp,@document = get_solr_response_for_doc_id(params[:id])
-  logger.debug  "info : #{@document}"
-  logger.debug  @document.to_s
-  logger.debug  @document.inspect
-  logger.debug  @document[:title_display]
-  @ti =  @document[:title_display]
-  @au =  @document[:author_display]
-  @netid =  params[:netid]
-  @id =  params[:id]
-  logger.debug   "details: #{@hd.inspect}"
-  # the details offers an array of records, one element for each holding.
-  if (!@hd.nil?)
-    @hd['records'].each do | hol |
-      logger.debug  "holding id = #{hol['holding_id']}";
-      logger.debug  "item status = #{hol['item_status'].inspect}";
-    end
-  end
-  end
-
-  # Process submitted form data from hold/recall/callslip/purchase request forms and perform the appropriate call
+  # TODO: give this function a more descriptive name
+  # Process the submitted form data from hold/recall/callslip/purchase request forms 
+  # and perform the appropriate call
   def make_request
     voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
     if voyager_request_handler_url.blank?
@@ -198,6 +143,7 @@ class RequestController < ApplicationController
     else
     end
 
+    # The purchase request form is a special case (not a voyager request)
     if request_action == 'purchase'
       # Validate the form submission
       # logger.debug(params)
@@ -219,6 +165,7 @@ class RequestController < ApplicationController
           flash[:error] = I18n.t('blacklight.requests.errors.email.invalid')
         end
       end
+    # Everything else is a voyager request
     else
       # Validate the form submission
       if params[:holding_id].blank?
@@ -320,12 +267,11 @@ class RequestController < ApplicationController
     end
   end
 
+  # Given a bibid and related holdings information, figure out the Voyager loan type
+  # Response defaults to 'regular', but can also be 'day' or 'minute'
+  # The holdings_detail parameter should be the sub-output from a retrieve_detail_raw call.
   def get_item_type holdings_detail, bibid
-    ## there are three types of loans
-    ## regular
-    ## day
-    ## minute
-    ## 'regular'
+
     holdings_detail.each do |holding|
       if holding['bibid'] == bibid
         itemdata = holding['item_status']['itemdata']
@@ -335,16 +281,15 @@ class RequestController < ApplicationController
         end
       end
     end
-    # logger.debug "Got regular loan"
+
     return 'regular'
   end
 
+  # Given an item data hash (subset of holdings data), attempt to match the loan type
+  # code to one of the 'irregular' loan type arrays defined in IRREGULAR_LOAN_TYPE.
+  # Use this to return a normalized regular/day/minute loan type.
   def _get_item_type data
-    ## there are three types of loans
-    ## regular
-    ## day
-    ## minute
-    ## 'regular'
+
     if IRREGULAR_LOAN_TYPE[:NOCIRC][data['typeCode']] == 1
       logger.debug 'Got nocirc'
       return 'nocirc'
@@ -355,10 +300,15 @@ class RequestController < ApplicationController
       logger.debug "Got minute loan"
       return 'minute'
     end
-    # logger.debug "Got regular loan"
+
     return 'regular'
   end
 
+  ######### MAIN BRANCHING LOGIC ##########
+  # Use netid, bibid, holdings data, and borrow direct info (isbn and title)
+  # to determine which delivery options are available. Then call _display with
+  # an array of the available options sorted by delivery time; _display sets
+  # a bunch of display variables and then calls the templating system
   def request_item target=''
     netid = request.env['REMOTE_USER']
     bibid = params[:id]
@@ -374,8 +324,8 @@ class RequestController < ApplicationController
     ##   and retrieve_detail_raw gives us item type.
     ## Make holdings consolidated view key off of holdings id so we can easily cross reference
     holdings = ( get_holdings holdings_param )[bibid]['condensed_holdings_full']
-    #logger.info holdings.inspect
     holdings_parsed = {}
+
     holdings.each do |holding|
       ## condensed_holdings_full groups holding_id's from same location together
       ##   but retrieve_detail_raw lists each holding_id separately
@@ -383,26 +333,23 @@ class RequestController < ApplicationController
         holdings_parsed[holding_id] = holding
       end
     end
+
     holdings_param[:type] = 'retrieve_detail_raw'
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid]['records']
-    # logger.info "\n\n"
+
     logger.debug holdings_detail.inspect
 
     item_type = get_item_type holdings_detail, bibid
-    # logger.info "item type: #{item_type}"
 
     netid = request.env['REMOTE_USER']
     patron_type = get_patron_type netid
+
     @request_solution = ''
     request_options = []
 
-    # logger.debug "netid: #{netid}"
-    # logger.debug holdings.inspect
-
     resp, document = get_solr_response_for_doc_id(params[:id])
-    bdParams = { :isbn => document['isbn_display'], :title => URI::escape(document['title_display']) }
-    # logger.info bdParams.inspect
+    bdParams = { :isbn => document['isbn_display'], :title => URI::escape(document['title_display']), :document => document }
 
     if item_type == 'nocirc'
       if patron_type == 'cornell'
@@ -456,6 +403,8 @@ class RequestController < ApplicationController
       ## is requested treated same as charged?
       item_status = get_item_status holding['item_status']['itemdata'][0]['itemStatus']
 
+      # logger.info "sk274_log: ptype: #{patron_type}, itype: #{item_type}, status: #{item_status}"
+
       if holdings_condensed_full_item['location_name'] == '*Networked Resource'
         logger.debug "branch 0"
         next
@@ -464,14 +413,14 @@ class RequestController < ApplicationController
         logger.debug "branch 1a"
         _handle_bd holding, request_options, bdParams
         request_options.push( _handle_recall holding )
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
         request_options.push( _handle_hold holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Requested'
         ## BD ILL HOLD RECALL
         logger.debug "branch 1b"
         _handle_bd holding, request_options, bdParams
         request_options.push( _handle_recall holding )
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
         request_options.push( _handle_hold holding )
       elsif patron_type == 'cornell' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
@@ -481,8 +430,8 @@ class RequestController < ApplicationController
         ## BD PURCHASE ILL
         logger.debug "branch 3"
         _handle_bd holding, request_options, bdParams
-        request_options.push( _handle_purchase holding )
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_purchase )
+        request_options.push( _handle_ill )
       elsif patron_type == 'guest' && item_type == 'regular' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## HOLD
         logger.debug "branch 4"
@@ -494,13 +443,13 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
         ##  BD ASK_CIRCULATION
         logger.debug "branch 6"
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
         _handle_bd holding, request_options, bdParams
       elsif patron_type == 'cornell' && item_type == 'day' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## BD ILL HOLD
         logger.debug "branch 7"
         _handle_bd holding, request_options, bdParams
-        request_options.push( _handle_ill holding )
+        request_options.push( _handle_ill )
         request_options.push( _handle_hold holding )
       elsif patron_type == 'guest' && ( item_status == 'Missing' || item_status == 'Lost' )
         ## ASK_LIBRARIAN
@@ -512,7 +461,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'guest' && item_type == 'minute' && ( item_status == 'Charged' || item_status == 'Requested' )
         ## ASK_LIBRARIAN ASK_CIRCULATION
         logger.debug "branch 10"
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
       # Removed branch 11 - duplicate of branch 2
       elsif patron_type == 'cornell' && item_type == 'day' && item_status == 'Not Charged'
         ## LTL
@@ -523,7 +472,7 @@ class RequestController < ApplicationController
       elsif patron_type == 'cornell' && item_type == 'minute' && item_status == 'Not Charged'
         ## BD ASK_CIRCULATION
         logger.debug "branch 13"
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
         _handle_bd holding, request_options, bdParams
       elsif patron_type == 'guest' && item_type == 'regular' && item_status == 'Not Charged'
         ## LTL
@@ -535,7 +484,7 @@ class RequestController < ApplicationController
         request_options.push( _handle_l2l holding ) if IRREGULAR_LOAN_TYPE[:NO_L2L][holding_type] != 1
       elsif patron_type == 'guest' && item_type == 'minute' && item_status == 'Not Charged'
         ## ASK_LIBRARIAN ASK_CIRCULATION
-        request_options.push( _handle_ask_circulation holding )
+        request_options.push( _handle_ask_circulation )
         logger.debug "branch 16"
       end
       logger.debug "branch 18 - default ask librarian"
@@ -567,6 +516,7 @@ class RequestController < ApplicationController
   end
 
   def get_item_status item_status
+    logger.debug "item status: #{item_status}"
     if item_status.include? 'Not Charged'
       return 'Not Charged'
     elsif item_status =~ /^Charged/
@@ -579,6 +529,12 @@ class RequestController < ApplicationController
       return 'Missing'
     elsif item_status.include? 'Lost'
       return 'Lost'
+    elsif item_status =~ /In transit to(.*)\./  
+      return 'Charged'  
+    elsif item_status =~ /In transit/  
+      return 'Not Charged'  
+    elsif item_status =~ /On hold/  
+      return 'Charged'
     else
       return item_status
     end
@@ -604,7 +560,7 @@ class RequestController < ApplicationController
       if (estimate < 0)
         ## this item is overdue
         ## use default value instead
-        estimate = 180
+        return 180
       end
       ## pad for extra days for processing time?
       ## also padding would allow l2l to be always first option
@@ -675,6 +631,7 @@ class RequestController < ApplicationController
     seen = {}
     request_options.each do |item|
       if item[:service] == service
+        @estimate = item[:estimate]
         iids = item[:iid]
         iids.each do |iid|
           @iis[iid['itemid']] = {
@@ -683,7 +640,9 @@ class RequestController < ApplicationController
             :call_number => iid['callNumber'],
             :copy => iid['copy'],
             :enumeration => iid['enumeration'],
-            :url => iid['url']
+            :url => iid['url'],
+            :chron => iid['chron'],
+            :exclude_location_id => iid['exclude_location_id']
           }
         end
       else
@@ -762,6 +721,10 @@ class RequestController < ApplicationController
   end
 
   def _borrowDirect_available? params
+    if params[:document]['format'] == 'Journal'
+      ## for now, treat all periodicals as not borrow directable
+      return false
+    end
     borrow_direct_webservices_url = Rails.configuration.borrow_direct_webservices_host
     if borrow_direct_webservices_url.blank?
       borrow_direct_webservices_url = request.env['HTTP_HOST']
@@ -870,14 +833,30 @@ class RequestController < ApplicationController
     end
   end
 
+  # Retrieve holdings data from the Voyager service configured in the 
+  # environments file. 
+  # holdings_param = { :bibid => <bibid>, :type => retrieve|retrieve_detail_raw}
   def get_holdings holdings_param
+
+    if holdings_param[:bibid].blank?
+      return nil
+    end
+
     if holdings_param[:type].blank?
       holdings_param[:type] = 'retrieve'
     end
-    return JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/#{holdings_param[:type]}/#{holdings_param[:bibid]}"))
+
+    response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/#{holdings_param[:type]}/#{holdings_param[:bibid]}"))
+
+    # return nil if there is no meaningful response (e.g., invalid bibid)
+    return nil if response[holdings_param[:bibid].to_s].nil?
+
+    return response
+
   end
 
   def _handle_l2l holding
+    print holding
     itemdata = holding["item_status"]["itemdata"]
     iids = []
     estimate = 9999
@@ -965,9 +944,8 @@ class RequestController < ApplicationController
   end
 
   # Note: this is a *purchase request*, which is different from a patron-driven acquisition
-  def _handle_purchase holding
-    iids = []
-    return { :service => PURCHASE, :iid => iids, :estimate => get_purchase_delivery_time }
+  def _handle_purchase
+    return { :service => PURCHASE, :iid => [], :estimate => get_purchase_delivery_time }
   end
 
   def _handle_pda pda_url
@@ -977,19 +955,16 @@ class RequestController < ApplicationController
     return { :service => PDA, :iid => iids, :estimate => get_pda_delivery_time }
   end
 
-  def _handle_ill holding
-    iids = []
-    return { :service => ILL, :iid => iids, :estimate => get_ill_delivery_time }
+  def _handle_ill
+    return { :service => ILL, :iid => [], :estimate => get_ill_delivery_time }
   end
 
-  def _handle_ask_circulation holding
-    iids = []
-    return { :service => ASK_CIRCULATION, :iid => iids, :estimate => 9998 }
+  def _handle_ask_circulation
+    return { :service => ASK_CIRCULATION, :iid => [], :estimate => 9998 }
   end
 
   def _handle_ask_librarian
-    iids = []
-    return { :service => ASK_LIBRARIAN, :iid => iids, :estimate => 9999 }
+    return { :service => ASK_LIBRARIAN, :iid => [], :estimate => 9999 }
   end
 
   def deep_copy(o)

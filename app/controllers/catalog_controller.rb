@@ -154,7 +154,9 @@ class CatalogController < ApplicationController
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
-        'url_bookplate_display'  => { :label => 'Bookplate' }
+        'url_bookplate_display'  => { :label => 'Bookplate' },
+        'url_findingaid_display'  => { :label => 'Finding Aid' }
+
     }
 
     ## custom multi-valued fields separator
@@ -177,7 +179,7 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_display'
+    config.index.show_link = 'title_vern_display', 'title_display', 'subtitle_vern_display', 'subtitle_display' #display as 'vern_title / title : vern_subtitle / subtitle'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
@@ -245,7 +247,7 @@ class CatalogController < ApplicationController
     config.add_index_field 'title_vern_display', :label => 'Title'
     config.add_index_field 'author_display', :label => 'Author'
     config.add_index_field 'author_vern_display', :label => 'Author'
-    config.add_index_field 'format', :label => 'Format'
+    config.add_index_field 'format', :label => 'Format', :helper_method => :render_format_value
     config.add_index_field 'language_facet', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published:'
     #config.add_index_field 'published_vern_display', :label => 'Published'
@@ -256,17 +258,26 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
+    # These 3 title related fields called directly in _show_metadata partial
+    # -- title_display
+    # -- subtitle_display
+    # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_facet', :label => 'Language'
+    config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
     config.add_show_field 'pub_prod_display', :label => 'Produced'
     config.add_show_field 'pub_dist_display', :label => 'Distributed'
     config.add_show_field 'pub_manu_display', :label => 'Manufactured'
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
-    config.add_show_field 'edition_display', :label => 'Edition'
+    config.add_show_field 'publisher_number_display', :label => 'Publisher number'
+    config.add_show_field 'other_identifier_display', :label => 'Other identifier'
     config.add_show_field 'notes', :label => 'Notes'
+    config.add_show_field 'cite_as_display', :label => 'Cite as'
+    config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
+    config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_display', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
@@ -279,19 +290,18 @@ class CatalogController < ApplicationController
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
-
     config.add_show_field 'included_work_display', :label => 'Included work'
     config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
     config.add_show_field 'supersedes_display', :label => 'Supersedes'
     config.add_show_field 'absorbed_display', :label => 'Absorbed'
-    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in Part'
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part'
     config.add_show_field 'continued_by_display', :label => 'Continued by'
     config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by'
     config.add_show_field 'superseded_by_display', :label => 'Superseded by'
     config.add_show_field 'absorbed_by_display', :label => 'Absorbed by'
-    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by:'
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by'
     config.add_show_field 'split_into_display', :label => 'Split into'
     config.add_show_field 'merger_display', :label => 'Merger'
     config.add_show_field 'translation_of_display', :label => 'Translation of'
@@ -304,6 +314,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+
+    # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -367,13 +379,6 @@ class CatalogController < ApplicationController
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('author/creator') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = {
-        :qf => '$author_qf',
-        :pf => '$author_pf'
-      }
-    end
     config.add_search_field('journal title') do |field|
       # field.solr_parameters = { :'spellcheck.dictionary' => 'journal' }
       field.solr_local_parameters = {
@@ -381,21 +386,13 @@ class CatalogController < ApplicationController
         :pf => '$journal_pf'
       }
     end
-    config.add_search_field('call number') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+    config.add_search_field('author/creator') do |field|
+      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
-        :qf => '$lc_callnum_qf',
-        :pf => '$lc_callnum_pf'
+        :qf => '$author_qf',
+        :pf => '$author_pf'
       }
     end
-    config.add_search_field('publisher') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
-      field.solr_local_parameters = {
-        :qf => '$publisher_qf',
-        :pf => '$publisher_pf'
-      }
-    end
-
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
@@ -407,26 +404,66 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
+    config.add_search_field('call number') do |field|
+      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+      field.solr_local_parameters = {
+        :qf => '$lc_callnum_qf',
+        :pf => '$lc_callnum_pf'
+      }
+    end
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'title_series_t' }
+       field.solr_local_parameters = {
+         :qf => '$series_qf',
+         :pf => '$series_pf'
+       }
     end
-    config.add_search_field('notes') do |field|
-       field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'notes' }
+    config.add_search_field('publisher') do |field|
+      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+      field.solr_local_parameters = {
+        :qf => '$publisher_qf',
+        :pf => '$publisher_pf'
+      }
     end
     config.add_search_field('place of publication') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'pubplace_t' }
+       field.solr_local_parameters = {
+         :qf => '$pubplace_qf',
+         :pf => '$pubplace_pf'
+       }
+    end
+    config.add_search_field('publisher number/other identifier') do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$number_qf',
+         :pf => '$number_pf'
+       }
     end
     config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'isbnissn_s' }
+       field.solr_local_parameters = {
+         :qf => '$isbnissn_qf',
+         :pf => '$isbnissn_pf'
+       }
+    end
+    config.add_search_field('notes') do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$notes_qf',
+         :pf => '$notes_pf'
+       }
     end
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :qf => 'donor_t' }
+       field.solr_local_parameters = {
+         :qf => '$donor_qf',
+         :pf => '$donor_pf'
+       }
     end
+#    config.add_search_field('donor name') do |field|
+#       field.include_in_simple_select = false
+#       field.solr_parameters = { :qf => '$donor_t' }
+#    end
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc

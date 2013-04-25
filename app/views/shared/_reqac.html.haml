@@ -10,14 +10,18 @@
         This copy:
     -if (@iis.length > 1)
       .controls
-        %input(type="radio" name="holding_id" value="" id="Any Copy")
-        %label.radio-label{ :for => "Any Copy"} Any Copy
+        %input(id="copy-any" class="copy-select" type="radio" name="holding_id" value="" data-exclude-location="[]")
+        %label.radio-label{ :for => "copy-any"} Any Copy
     -@iis.each do |copyn, copyd|
       .controls
         -if (@iis.length == 1)
-          %input(type="radio" name="holding_id" value="#{copyn}" checked)
+          %input(id="copy-#{copyn}" class="copy-select" type="radio" name="holding_id" value="#{copyn}" data-exclude-location="#{copyd[:exclude_location_id]}" checked)
         -else
-          %input(type="radio" name="holding_id" value="#{copyn}" id="#{copyn}")
-        %label.radio-label{ :for => "#{copyn}"}="#{copyd[:location]} #{copyd[:call_number]} #{copyd[:copy]} #{copyd[:enumeration]}"
-
-
+          %input(id="copy-#{copyn}" class="copy-select" type="radio" name="holding_id" value="#{copyn}" data-exclude-location="#{copyd[:exclude_location_id]}")
+        %label.radio-label{ :for => "copy-#{copyn}"}
+          = "#{copyd[:location]} #{copyd[:copy]} #{copyd[:enumeration]}"
+          %span.copy-callnumber
+            = copyd[:call_number]
+          -if copyd[:chron].present?
+            %span.copy-chron.label
+              = copyd[:chron]

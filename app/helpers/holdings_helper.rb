@@ -3,45 +3,26 @@ module HoldingsHelper
   def process_online_title(title)
     # Trim leading and trailing text
     # Reformat coverage dates to simply mm/yy (drop day) and wrap in span for display
-    title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{,7})/, ' <span class="online-coverage">(\2)</span>').html_safe
+    title_clean = title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{0,7})/, ' <span class="online-coverage">(\2)</span>').html_safe
+    # Address the Factiva links that come with a lengthy note
+    title_clean.to_s.gsub(/(Please check resource for coverage or contact a librarian for assistance.)$/, '<span class="online-note">\1</span>').html_safe
   end
 
-  def xadd_display_elements(entries)
-  entries
-  end
-
-  def add_display_elements(entries)
-
-    entries.each do |entry|
-
-      # location links
-      # location = Location.match_location_text(entry['location_name'])
-      entry['location'] = entry['location_name']
-
-#      if location && location.category == "physical"
-#        check_at = DateTime.now
-#        entry['location_link'] = link_to(entry['location_name'], location_display_path(CGI.escape(entry['location_name'])), :class => :location_display)
-#      else
-#        entry['location_link'] = entry['location_name']
-#      end
-
-#      if location && location.library && (hours = location.library.hours.find_by_date(Date.today))
-#        entry['hours'] = hours.to_opens_closes
-#      end
-
-      # add status icons
-      entry['copies'].each do |copy|
-        copy['items'].each_pair do |message,details|
-          details['image_link'] = image_tag("icons/" + details['status'] + ".png")
-        end
+  # Group holding items into circulating and rare (sort rare last)
+  def group_holdings holdings
+    holdings.inject({}) do |grouped, holding|
+      grouped['Circulating'] = [] if grouped['Circulating'].nil?
+      grouped['Rare'] = [] if grouped['Rare'].nil?
+      if holding['location_code'].include?('rmc')
+        grouped['Rare'] << holding
+      else
+        grouped['Circulating'] << holding
       end
-
+      # Remove empty groups (no holdings)
+      grouped.select! { |group, items| items.present? }
+      # Sort groups by key so rare is last
+      Hash[grouped.sort]
     end
-
-    sort_item_statuses(entries)
-
-    entries
-
   end
 
   ITEM_STATUS_RANKING = ['available', 'some_available', 'not_available', 'none', 'online']

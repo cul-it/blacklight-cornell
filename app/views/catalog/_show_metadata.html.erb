@@ -10,18 +10,39 @@
         <div class="document-header span6">
           <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
 
-          <%= render_document_heading(:h2).html_safe %>
+          <%
+            title = the_vernaculator('title_display', 'title_vern_display')
+            subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
+            responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
+          %>
 
-          <h3 class="subtitle"><%= render_document_show_field_value :document => @document, :field => 'subtitle_display' %></h3>
+          <% if title.present? %>
+            <h2><%= title %></h2>
+          <% end %>
+
+          <% if subtitle.present? %>
+            <h3 class="subtitle"><%= subtitle %></h3>
+          <% end %>
+
+          <% if responsibility.present? %>
+            <h3 class="responsibility"><%= responsibility %></h3>
+          <% end %>
         </div>
 
         <div class="well availability span3">
-          <h4>Availability</h4>
+          <h3>Availability</h3>
 
-          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+          <% if finding_aid(@document) %>
+            <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
+            <% if url_findingaid_display.present? %>
+              <span class="url_findingaid_display"><i class="icon-ok"></i> <%= url_findingaid_display %></span>
+            <% end %>
+          <% end %>
 
           <% if online_url(@document) %>
             <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+
+            <h5 class="location">Online</h5>
 
             <ul class="unstyled">
               <% online_links.each do |link| %>
@@ -30,9 +51,17 @@
             </ul>
           <% end %>
 
+          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+
+          <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
+          <% if access_restrictions.present? %>
+            <span class="access-restriction"><%= access_restrictions %></span>
+          <% end %>
+
           <span class="blacklight-url_access_display"></span>
 
           <!-- Only show request button if there are physical holdings -->
+ 
           <% locs = @response.docs[0]['location_display'] %>
           <% if locs.blank? or !(locs.length == 1 and locs[0] == '*Networked Resource') %>
             <div class="item-requests">

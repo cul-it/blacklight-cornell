@@ -78,6 +78,50 @@ module DisplayHelper
     end
   end
 
+  # Build a link to the CUL libraryhours page for the library location in question
+  def render_location_link location_code
+    base_url = 'http://www.library.cornell.edu/libraryhours'
+    matched_location = nil
+    # Test for substring match of location hash key in location_code
+    LOCATION_MAPPINGS.each do |key, value|
+      if location_code.include?(key)
+        matched_location = value
+        break # Break on first match to ensure RMC (followed by Annex) is properly identified
+      end
+    end
+
+    location_url = matched_location.present? ? base_url + '?loc=' + matched_location : base_url
+
+    link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
+  end
+
+  # Hash map for substring of location codes from holding service => loc param
+  # values for CUL library hours page
+  # Built using lists from:
+  # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-306 (location codes)
+  # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-408 (site param values)
+  LOCATION_MAPPINGS = {
+    'rmc' => 'Rare',
+    'anx' => 'ANNEX',
+    'afr' => 'Africana',
+    'engr' => 'ENGR',
+    'olin' => 'OLIN',
+    'gnva' => 'GENEVA',
+    'ilr' => 'ILR',
+    'fine' => 'FA',
+    'hote' => 'Hotel',
+    'asia' => 'Kroch',
+    'law' => 'Law',
+    'jgsm' => 'JGSM',
+    'mann' => 'MANNLIB',
+    'math' => 'MATH',
+    'phys' => 'PHYSCI',
+    'uris' => 'Uris',
+    'vet' => 'Vet',
+    'orni' => 'Ornithology',
+    'mus' => 'Music'
+  }
+
   def render_clickable_document_show_field_value args
     value = args[:value]
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
@@ -109,7 +153,7 @@ module DisplayHelper
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
             if !clickable_setting[:related_search_field].blank?
-              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], '"' + displayv_searchv[1] + '"', clickable_setting[:related_search_field], '"' + displayv_searchv[2] + '"'))
+              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], displayv_searchv[1], clickable_setting[:related_search_field], displayv_searchv[2]))
             else
               # misconfiguration... no related search field defined
               # ignore related search value
@@ -164,14 +208,24 @@ module DisplayHelper
     logger.info get_clickable_search_field(primary_field)
     logger.info get_clickable_search_field(related_search_field)
     op = 'op[]'
+    q_row = 'q_row'
+    op_row = 'op_row'
+    search_field_row = 'search_field_row'
+    pf = get_clickable_search_field(primary_field)
+    rf = get_clickable_search_field(related_search_field)
+    rf = related_search_field if rf.nil?
+
     new_search_params = {
       #:utf8 => '✓',
-      (get_clickable_search_field(primary_field)).to_sym => pval,
-      related_search_field.to_sym => rval,
+      # :utf8 => '%E2%9C%93',
+      q_row.to_sym => [pval, rval],
+      op_row.to_sym => ['phrase', 'phrase'],
+      search_field_row.to_sym => [pf, rf],
+      :as_boolean_row2 => 'AND',
+      :sort => 'score desc, pub_date_sort desc, title_sort asc',
       :search_field => 'advanced',
-      :commit => 'search',
-      :action => 'index',
-      op.to_sym => 'AND'
+      :commit => 'Search',
+      :action => 'index'
     }
   end
 
@@ -213,6 +267,16 @@ module DisplayHelper
     end
   end
 
+    def finding_aid(document)
+    if document['url_findingaid_display'].present?
+      if document['url_findingaid_display'].size > 1
+        catalog_path(document)
+      else
+        render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
+      end
+    end
+  end
+
   FORMAT_MAPPINGS = {
     "Book" => "book",
     "Online" =>"link",
@@ -243,6 +307,17 @@ module DisplayHelper
       icon_mapping
     else
       'default'
+    end
+  end
+
+  # Renders the format field values with applicable format icons
+  def render_format_value args
+    format = args[:document][args[:field]]
+    # Convert format to array in case it's a string (it shouldn't be)
+    format = [format] unless format.is_a? Array
+    format.map do |f|
+      icon = '<i class="icon-' + formats_icon_mapping(f) + '"></i> '
+      f.prepend(icon).html_safe unless f.nil?
     end
   end
 
@@ -545,7 +620,11 @@ module DisplayHelper
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
   def document_show_html_title
-    render_field_value(@document[blacklight_config.show.html_title].html_safe)
+    # Test to ensure that display_title is not missing
+    # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
+    if @document[blacklight_config.show.html_title].present?
+      render_field_value(@document[blacklight_config.show.html_title].html_safe)
+    end
   end
 
   def borrowdirect_url_from_isbn(isbns)
@@ -581,6 +660,43 @@ module DisplayHelper
     content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   end
 
+  # Overrides original method from blacklight_helper_behavior.rb
+  # -- Updated to handle arrays (multiple fields specified in config)
+  # Used for creating a link to the document show action
+  def document_show_link_field
+    blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
+  end
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Renders label for link to document using 'title : subtitle' if subtitle exists
+  # Also handle non-Roman script alternatives (vernacular) for title and subtitle
+  def render_document_index_label doc, opts
+    label = nil
+    if opts[:label].is_a?(Array)
+      title_vern = doc.get(opts[:label][0], :sep => nil)
+      title = doc.get(opts[:label][1], :sep => nil)
+      subtitle_vern = doc.get(opts[:label][2], :sep => nil)
+      subtitle = doc.get(opts[:label][3], :sep => nil)
+
+      # Use subtitles for vern and english if present
+      vern = subtitle_vern.present? ? title_vern + ' : ' + subtitle_vern : title_vern
+      english = subtitle.present? ? title + ' : ' + subtitle : title
+
+      # If title is missing, fall back to document id (bibid) as last resort
+      label ||= english.present? ? english : doc.id
+
+      # If we have a non-Roman script alternative, prepend it
+      if vern.present?
+        label.prepend(vern + ' / ')
+      end
+    end
+    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
+    label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
+    label ||= opts[:label] if opts[:label].is_a? String
+    label ||= doc.id
+    render_field_value label
+  end
+
   # Overrides original method from catalog_helper_behavior.rb
   # -- All this just to add commas (via format_num) to total result count
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
@@ -614,5 +730,13 @@ module DisplayHelper
 
       return false
     end
+  end
+
+  # To vernaculate or not...that is the question
+  def the_vernaculator(engl, vern)
+    display = render_document_show_field_value :document => @document, :field => engl
+    vernacular = render_document_show_field_value :document => @document, :field => vern
+    display = vernacular +  ' / ' + display unless vernacular.blank?
+    return display
   end
 end

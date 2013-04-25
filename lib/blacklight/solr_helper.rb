@@ -135,73 +135,87 @@ module Blacklight::SolrHelper
 #       blacklight_config.search_fields.each do |key, value|
 #          Rails.logger.debug("Poppa_rock say values = #{value}")
 #       end
-       if !params["search_field_row"].nil?
+       if !user_params[:search_field_row].nil?
+         Rails.logger.debug("Jehova = #{user_params["search_field_row"]}")
          q_string = ""
 #        for i in 0..@advanced_query.keyword_queries.count - 1
-         Rails.logger.debug("QSTRING0 = #{user_params['search_field_row']}")
+         rowArray = []
          shrink_rows = []
-         for i in 0..user_params['search_field_row'].count - 1
-           if shrink_rows.include?(user_params['search_field_row'][i])
-           else
-              shrink_rows << params['search_field_row'][i]
-           end
-         end
-         
          opArray = []
-         if !user_params["op"].nil?
-            opArray = user_params["op"]
-         end 
-         Rails.logger.debug("ShrinkRows = #{shrink_rows}")
+         for i in 0..user_params[:search_field_row].count - 1
+           if shrink_rows.include?(user_params[:search_field_row][i])
+           else
+#              if !user_params[:q_row][i] == ""
+                shrink_rows << user_params[:search_field_row][i]
+                rowArray << i 
+                if i > 0
+                 opArray << user_params[:"as_boolean_row#{i + 1}"]
+                end
+ #             end
+            end
+          end
+ 
+ #         opArray = []
+#         if opArray.count < 1
+#            opArray[0] = "AND"
+#         end
+#            opArray = user_params[:op]
+#         else
+#            opArray = ["AND", "AND"] 
+#         end
          for i in 0..shrink_rows.count - 1
+            Rails.logger.debug("Dippitydoofus = #{shrink_rows[i]}")
                returned_query = {}
                field_query = shrink_rows[i]
-               Rails.logger.debug("Dumbledore = #{field_query}")
+               if user_params[:q_row][1] == ""
+                 user_params[field_query] = user_params[:q_row][0]
+#                 search_session[:counter] = 1
+                  session[:search][:"#{field_query}"] =  user_params[:q_row][0]
+               end
+     
                pass_param = {field_query => user_params[field_query]}
+              Rails.logger.debug("Dippitydoofus1 = #{pass_param}")
+              Rails.logger.debug("Dippitydoofus2 = #{user_params[field_query]}")
+              Rails.logger.debug("Dippitydoofus3 = #{user_params}") 
                returned_query = ParsingNesting::Tree.parse(user_params[field_query])
                newstring = returned_query.to_query(pass_param)
-               Rails.logger.debug("Dumbledore31 = #{newstring}")
                holdarray = newstring.split('}')
                q_string << "_query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
                fieldNames = blacklight_config.search_fields["#{field_query}"]
-               Rails.logger.debug("ShrinkRows2 = #{field_query}")
                if !fieldNames["solr_parameters"].nil?
                   solr_stuff = fieldNames["solr_parameters"]
                   field_name = solr_stuff[:"spellcheck.dictionary"]
                   q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                   q_string_hold = q_string
                end
- #              q_string << "}" << user_params[shrink_rows[i]] << '\\'
-                if holdarray.count > 2
-                  if field_name.nil?
-                     field_name = 'all_fields'
-                  end
-                  for i in 1..holdarray.count - 1
-                    holdarray_parse = holdarray[i].split('_query_')
-                    Rails.logger.debug("HOLDARRAYPARSE = #{holdarray_parse}")
-                    holdarray[1] = holdarray_parse[0].chomp("\"")
-                    Rails.logger.debug("Dumbledore2 = #{holdarray}")
-                    if(i < holdarray.count - 1)
-                     q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                    else
-                     q_string << "}" << holdarray[1].chomp("\"") << "\""
-                    end
-                  end 
-                else
-                  q_string << "}" << holdarray[1].chomp("\"") << "\""
-                end
-               if i < shrink_rows.count - 1
-                  q_string << " " << opArray[i] << " "
+#              q_string << "}" << user_params[shrink_rows[i]] << '\\'
+               if holdarray.count > 2
+                 if field_name.nil?
+                    field_name = 'all_fields'
+                 end
+                 for i in 1..holdarray.count - 1
+                   holdarray_parse = holdarray[i].split('_query_')
+                   holdarray[1] = holdarray_parse[0].chomp("\"")
+                   if(i < holdarray.count - 1)
+                    q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                   else
+                    q_string << "}" << holdarray[1].chomp("\"") << "\""
+                   end
+                 end 
+               else
+                 q_string << "}" << holdarray[1].chomp("\"") << "\""
                end
-            Rails.logger.debug("QUACK #{q_string}")
+              if i < shrink_rows.count - 1
+                 q_string << " " << opArray[i] << " "
+              end
          end
-         Rails.logger.debug("QSTRING= #{q_string}") 
-       end  
+       end
         #{:qt=>nil, :rows=>20, :fl=>"*,score", :"facet.field"=>["online", "format", "author_facet", "pub_date_facet", "language_facet", "subject_topic_facet", "subject_geo_facet", "subject_era_facet", "subject_content_facet", "lc_1letter_facet", "location_facet", "hierarchy_facet"], "spellcheck.q"=>nil, :"f.online.facet.limit"=>3, :"f.format.facet.limit"=>6, :"f.author_facet.facet.limit"=>6, :"f.language_facet.facet.limit"=>6, :"f.subject_topic_facet.facet.limit"=>6, :"f.subject_geo_facet.facet.limit"=>6, :"f.subject_era_facet.facet.limit"=>6, :"f.subject_content_facet.facet.limit"=>6, :"f.lc_1letter_facet.facet.limit"=>6, :"f.location_facet.facet.limit"=>6, :sort=>"score desc, pub_date_sort desc, title_sort asc", "stats"=>"true", "stats.field"=>["pub_date_facet"],
       #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
       solr_parameters[:q] = q_string
+      Rails.logger.debug("THEQUERY = #{solr_parameters}")
  #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
     end
-    Rails.logger.debug("Bazinga = #{solr_parameters}")
    return solr_parameters
   end
     
@@ -282,6 +296,13 @@ module Blacklight::SolrHelper
       # by actual search field config if present. We might want to remove
       # this legacy behavior at some point. It does not seem to be currently
       # rspec'd. 
+
+      # debugger
+
+      if user_parameters['search_field'] == 'call number'
+        user_parameters['q'].gsub!(/\s+/, '')
+      end
+
       solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
       
       search_field_def = search_field_def_for_key(user_parameters[:search_field])
@@ -597,6 +618,7 @@ module Blacklight::SolrHelper
   # Pass in an index where 1 is the first document in the list, and
   # the Blacklight app-level request params that define the search. 
   def get_single_doc_via_search(index, request_params)
+    Rails.logger.debug("SESSION_SEARCH_GET_SINGLE = #{request_params}")
     solr_params = solr_search_params(request_params)
 
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.    

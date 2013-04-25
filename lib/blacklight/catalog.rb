@@ -38,51 +38,16 @@ module Blacklight::Catalog
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
       
       @bookmarks = current_or_guest_user.bookmarks
-      
-      if params[:q_row].present? 
-         params["advanced_query"] = "yes"
-         counter = test_size_param_array(params[:q_row])
-        if counter > 1
-            query_string = massage_params(params)
-             holdparams = []
-             terms = []
-             ops = 0
-             params["op"] = []
-             holdparams = query_string.split("&")
-             for i in 0..holdparams.count - 1            
-                terms = holdparams[i].split("=")
-                if (terms[0] == "op[]")
-                  params["op"][ops] = terms[1]
-                  ops = ops + 1
-                else
-                  params[terms[0]] = terms[1]
-                end
-             end
-     Rails.logger.debug("catalog.rbParams = #{params['op']}")        
-      
-    #         params["op"] = ["AND", "OR"]
-             if holdparams.count > 2
-             params["search_field"] = "advanced"
-             end
-             params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-             params["action"] = "index"
-             params["controller"] = "catalog"
-        else
-            params.delete("advanced_query")
-            query_string = parse_single(params)
-            Rails.logger.debug("MichaelsProb = #{query_string}")
-            holdparams = query_string.split("&")
-            for i in 0..holdparams.count - 1
-              terms = holdparams[i].split("=")
-              params[terms[0]] = terms[1]
-            end
-             params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-             params["action"] = "index"
-             params["controller"] = "catalog"
-         end                  
-      end
+
+
+# secondary parsing of advanced search params.  Code will be moved to external functions for clarity      
+      if params[:q_row].present?
+        query_string = set_advanced_search_params(params)
+      end                  
+ #     end
+# End of secondary parsing
+
+#  Journal title search hack.
 
       if params[:search_field] == "journal title"
         if params[:f].nil?
@@ -93,44 +58,50 @@ module Blacklight::Catalog
           params[:q] = params[:q]
           params[:search_field] = "journal title"
       end
-      Rails.logger.debug("catalogboogityParams = #{params}")     
+# end of Journal title search hack
+
       (@response, @document_list) = get_search_results
+ 
       
       if params.nil? || params[:f].nil?
         @filters = []
       else
-        Rails.logger.debug("paramsFragged = #{params[:f]}")
         @filters = params[:f] || []
       end
-
-      if params[:search_field] == "journal title"      
-        params[:search_field] = ""
+ 
+# clean up search_field and q params.  May be able to remove this
+ 
+      if params[:search_field] == "journal title" 
+         if params[:q].nil?     
+           params[:search_field] = ""
+         end
       end
 
       if params[:q_row].present?              
-#         params[:q_row] = ""
-#         params[:op_row] = ""
-#         params[:op] = ""
-#         params[:search_field_row] = ""
          if params[:q].nil?
           params[:q] = query_string
          end
-         Rails.logger.debug("MGMT = #{query_string}")
-#         params["advanced_query"] = ""
-#          params[:f] = {"format" => ["Journal"]}
-         
+      else
+          if params[:q].nil?
+            params[:q] = query_string
+          end   
       end
+
+# end of cleanup of search_field and q params      
+      
       respond_to do |format|
         format.html { save_current_search_params }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
       end
+#    params.delete("q_row")
+      
     end
 
     # get single document from the solr index
     def show
       @response, @document = get_solr_response_for_doc_id
-
+      Rails.logger.debug("SHOWPARAMS = #{@keyword_queries}")
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
 
@@ -179,14 +150,15 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     end
     # grabs a bunch of documents to export to endnote
-    def endnote
+    def endnote   
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
-        format.endnote :layout => false
+        format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       end
     end
 
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+    # Added callnumber and location parameters to RecordMailer.email_record() call   jac244
     def email
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
@@ -279,7 +251,9 @@ module Blacklight::Catalog
     # gets a document based on its position within a resultset
     def setup_document_by_counter(counter)
       return if counter < 1 || session[:search].blank?
+      Rails.logger.debug("docbycounter = #{session[:search]}")
       search = session[:search] || {}
+      Rails.logger.debug("docbycounter1 = #{search}")
       get_single_doc_via_search(counter, search)
     end
 
@@ -319,7 +293,7 @@ module Blacklight::Catalog
     def save_current_search_params
       # If it's got anything other than controller, action, total, we
       # consider it an actual search to be saved. Can't predict exactly
-      # what the keys for a search will be, due to possible extra plugins.
+      # what the keys for a search will be, due to possible extra plugins.      
       return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
       params_copy = search_session.clone # don't think we need a deep copy for this
       params_copy.delete(:page)

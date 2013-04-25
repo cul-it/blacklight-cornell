@@ -1,50 +1,59 @@
 - holdings_condensed = @holdings['condensed_holdings_full']
 - if holdings_condensed.size > 0
-  - first_item_in_holding = holdings_condensed.first
-  - if first_item_in_holding['location_name'] == '*Networked Resource'
-    - holdings_condensed.shift
-    - holdings_condensed = holdings_condensed.push(first_item_in_holding)
-  - add_display_elements(holdings_condensed).listify.reject { |x| x['location_name'].to_s.strip == "Online"}.each do |entry|
+  - grouped_holdings = group_holdings(holdings_condensed)
+  - multiple_groups = grouped_holdings.size > 1
+  - grouped_holdings.each do |group, holdings|
+    - # Render group headings only if we have multiple groups
+    - if multiple_groups
+      - if group == "Rare"
+        %h4
+          = group + " Items"
+    - holdings.each do |entry|
+      - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
+      - callnumber = entry['call_number']
 
-    - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location']
-    - callnumber = entry['call_number']
-
-    .holding{:class => alternating_line}
-      .location_box
-        %h5.location
-          = location
-          -# @TODO: create a hash for mapping locations
-          - if location != 'Online'
+      .holding{:class => alternating_line}
+        - if location != 'Online'
+          %h5.location
+            = location
             %span.map-it
-              = link_to 'Hours/Map', 'http://library.cornell.edu/libraryhours', {:title => 'Find this location on a map'}
+              = render_location_link entry['location_code']
 
-      -# Only display a real call number
-      - if callnumber != 'No call number' && callnumber != ''
-        .call-number
-          = callnumber
-          %span.text-it
-            = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
-              %i.icon-mobile-phone
-              = t('blacklight.tools.sms')
-      - entry['copies'].each do |copy|
-        .group
-          - unless copy['temp_locations'].nil?
-            - copy['temp_locations'].each do |t|
-              .message= t
-          - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
-            - unless copy[type].nil?
-              .message= copy[type]
-          - copy['items'].each do |item|
-            -# Handling online link in _show_metadata.html.erb
-            - if location != 'Online'
-              .status
-                - message, details = item
-                - if details['status'] == 'available' || details['status'] == 'some_available'
-                  %i.icon-ok
-                - elsif details['status'] == 'none'
-                  %i.icon-question-sign
-                - else
-                  %i.icon-time
-                = message
-                - if details['count'] >1
-                  (#{details['count']} copies)
+        -# Only display a real call number
+        - if callnumber != 'No call number' && callnumber != ''
+          .call-number
+            = callnumber
+            %span.text-it
+              = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
+                %i.icon-mobile-phone
+                = t('blacklight.tools.sms')
+        - entry['copies'].each do |copy|
+          .group
+            - unless copy['temp_locations'].nil?
+              - copy['temp_locations'].each do |t|
+                .message= t
+            - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+              - unless copy[type].nil?
+                .message= copy[type]
+            - copy['items'].each do |item|
+              -# Handling online link in _show_metadata.html.erb
+              - if location != 'Online'
+                .status
+                  - message, details = item
+                  - if details['status'] == 'available' || details['status'] == 'some_available'
+                    %i.icon-ok
+                  - elsif details['status'] == 'none'
+                    %i.icon-question-sign
+                  - else
+                    %i.icon-time
+                  = message
+                  - if details['count'] >1
+                    (#{details['count']} copies)
+    - if multiple_groups
+      -if group == "Circulating"
+        .item-requests
+          =link_to 'Request', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
+          %hr
+
+
+

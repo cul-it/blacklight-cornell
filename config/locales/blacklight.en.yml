@@ -38,7 +38,7 @@ en:
         add:
           button: 'Add to selected items'
       title: 'Selected items'
-      no_bookmarks: 'You have no selected items'
+      no_bookmarks: 'You have no selected items.'
       add:
         button: 'Select'
         success:
@@ -53,25 +53,25 @@ en:
       clear:
         action_title: 'Clear selected items'
         action_confirm: 'Clear your selected items?'
-        success: 'Cleared your selected items.'
+        success: 'Your selected items have been cleared.'
         failure: 'Sorry, there was a problem clearing your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
       list_title: 'Your selected items'
       delete: 'Remove'
 
     feedback:
-      valid_name: 'A valid name is required'
-      valid_email: 'A valid email address is required'
-      need_message: 'A message is required'
+      valid_name: 'A valid name is required.'
+      valid_email: 'A valid email address is required.'
+      need_message: 'A message is required.'
       submit: 'Send!'
       errors:
         title: 'Please fix the following form errors:'
       complete:
-        title: 'Thank-you for your feedback'
+        title: 'Thank you for your feedback.'
 
     saved_searches:
       add:
-        success: 'Successfully saved your search.'
+        success: 'Your search has been saved.'
         failure: 'There was a problem saving your search.'
       remove:
         success: 'Successfully removed that saved search.'
@@ -83,7 +83,7 @@ en:
         failure: 'There was a problem clearing your searches.'
       title: 'Saved searches'
       need_login: 'Please log in to manage and view your saved searches.'
-      no_searches: 'You have no saved searches'
+      no_searches: 'You have no saved searches.'
       list_title: 'Your saved searches'
       delete: 'delete'
 
@@ -91,10 +91,10 @@ en:
       clear:
         action_title: 'Clear search history'
         action_confirm: 'Clear your search history?'
-        success: 'Cleared your search history.'
+        success: 'Your search history has been cleared.'
         failure: 'There was a problem clearing your search history.'
       title: 'Search history'
-      no_history: 'You have no search history'
+      no_history: 'You have no search history.'
       recent: 'Your recent searches'
       forget: 'forget'
       save: 'save'
@@ -134,14 +134,14 @@ en:
         message: 'Message: %{message}'
       errors:
         to:
-          invalid: 'You must enter a valid email address'
-          blank: 'You must enter a recipient in order to send this message'
+          invalid: 'You must enter a valid email address.'
+          blank: 'You must enter a recipient in order to send this message.'
     sms:
       form:
         title: 'Text this'
         to: 'Phone number:'
-        carrier: 'Carrier'
-        carrier_prompt: 'Please select your carrier'
+        carrier: 'Carrier:'
+        carrier_prompt: 'Select your carrier'
         submit: 'Send'
       text:
         title: '%{value}'
@@ -151,10 +151,10 @@ en:
         location: '%{location}'
       errors:
         to:
-          invalid: 'You must enter a valid 10 digit phone number'
-          blank: "You must enter a recipient's phone number in order to send this message"
+          invalid: 'You must enter a valid 10 digit phone number.'
+          blank: "You must enter a recipient's phone number in order to send this message."
         carrier:
-          blank: 'You must select a carrier'
+          blank: 'You must select a carrier.'
 
     back_to_search: 'Back to search results'
     back_to_bookmarks: 'Back to selected items'
@@ -227,19 +227,19 @@ en:
     did_you_mean: 'Did you mean to type: %{options}?'
 
     requests:
-      success: 'Your request was submitted successfully'
-      failure: 'Your request failed, please try again'
+      success: 'Your request was submitted successfully.'
+      failure: 'Your request failed, please try again.'
       errors:
         holding_id:
-          blank: 'Please select your desired copy'
+          blank: 'Please select your desired copy.'
         library_id:
-          blank: 'Please select your pickup location'
+          blank: 'Please select your pickup location.'
         name:
-          blank: 'Please enter your name'
+          blank: 'Please enter your name.'
         email:
-          invalid: 'Please enter a valid email address'
-          blank: 'Please enter your email address'
+          invalid: 'Please enter a valid email address.'
+          blank: 'Please enter your email address.'
         status:
-          blank: 'Please select your current status at Cornell'
+          blank: 'Please select your current status at Cornell.'
         title:
-          blank: 'Please enter the title of the item to be purchased'
+          blank: 'Please enter the title of the item to be purchased.'
