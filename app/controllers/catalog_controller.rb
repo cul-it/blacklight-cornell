@@ -154,7 +154,9 @@ class CatalogController < ApplicationController
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
-        'url_bookplate_display'  => { :label => 'Bookplate' }
+        'url_bookplate_display'  => { :label => 'Bookplate' },
+        'url_findingaid_display'  => { :label => 'Finding Aid' }
+
     }
 
     ## custom multi-valued fields separator
@@ -177,7 +179,7 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_display', 'subtitle_display' #display as 'title: subtitle'
+    config.index.show_link = 'title_vern_display', 'title_display', 'subtitle_vern_display', 'subtitle_display' #display as 'vern_title / title : vern_subtitle / subtitle'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
@@ -264,12 +266,12 @@ class CatalogController < ApplicationController
     config.add_show_field 'author_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_facet', :label => 'Language'
+    config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
     config.add_show_field 'pub_prod_display', :label => 'Produced'
     config.add_show_field 'pub_dist_display', :label => 'Distributed'
     config.add_show_field 'pub_manu_display', :label => 'Manufactured'
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
-    config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'publisher_number_display', :label => 'Publisher number'
     config.add_show_field 'other_identifier_display', :label => 'Other identifier'
     config.add_show_field 'notes', :label => 'Notes'
@@ -288,7 +290,6 @@ class CatalogController < ApplicationController
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
-
     config.add_show_field 'included_work_display', :label => 'Included work'
     config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'continues_display', :label => 'Continues'
@@ -313,6 +314,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+
     # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 
     # "fielded" search configuration. Used by pulldown among other places.

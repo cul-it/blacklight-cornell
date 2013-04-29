@@ -267,6 +267,16 @@ module DisplayHelper
     end
   end
 
+    def finding_aid(document)
+    if document['url_findingaid_display'].present?
+      if document['url_findingaid_display'].size > 1
+        catalog_path(document)
+      else
+        render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
+      end
+    end
+  end
+
   FORMAT_MAPPINGS = {
     "Book" => "book",
     "Online" =>"link",
@@ -307,7 +317,7 @@ module DisplayHelper
     format = [format] unless format.is_a? Array
     format.map do |f|
       icon = '<i class="icon-' + formats_icon_mapping(f) + '"></i> '
-      f.prepend(icon).html_safe
+      f.prepend(icon).html_safe unless f.nil?
     end
   end
 
@@ -658,17 +668,26 @@ module DisplayHelper
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
-  # Renders label for link to document using 'title: subtitle' if subtitle exists
+  # Renders label for link to document using 'title : subtitle' if subtitle exists
+  # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   def render_document_index_label doc, opts
     label = nil
     if opts[:label].is_a?(Array)
-      title = doc.get(opts[:label][0], :sep => nil)
-      subtitle = doc.get(opts[:label][1], :sep => nil)
-      logger.debug "subtitle: #{subtitle}"
-      if subtitle.present?
-        label ||= title + ' : ' + subtitle
-      else
-        label ||= title
+      title_vern = doc.get(opts[:label][0], :sep => nil)
+      title = doc.get(opts[:label][1], :sep => nil)
+      subtitle_vern = doc.get(opts[:label][2], :sep => nil)
+      subtitle = doc.get(opts[:label][3], :sep => nil)
+
+      # Use subtitles for vern and english if present
+      vern = subtitle_vern.present? ? title_vern + ' : ' + subtitle_vern : title_vern
+      english = subtitle.present? ? title + ' : ' + subtitle : title
+
+      # If title is missing, fall back to document id (bibid) as last resort
+      label ||= english.present? ? english : doc.id
+
+      # If we have a non-Roman script alternative, prepend it
+      if vern.present?
+        label.prepend(vern + ' / ')
       end
     end
     label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol

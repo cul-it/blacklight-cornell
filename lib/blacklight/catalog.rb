@@ -42,53 +42,9 @@ module Blacklight::Catalog
 
 # secondary parsing of advanced search params.  Code will be moved to external functions for clarity      
       if params[:q_row].present?
-         params["advanced_query"] = "yes"
-         counter = test_size_param_array(params[:q_row])
-         Rails.logger.debug("CrappityMuncher = #{counter}")
-        if counter > 1
-            query_string = massage_params(params)
-             holdparams = []
-             terms = []
-             ops = 0
-             params["op"] = []
-             holdparams = query_string.split("&")
-             for i in 0..holdparams.count - 1            
-                terms = holdparams[i].split("=")
-                if (terms[0] == "op[]")
-                  params["op"][ops] = terms[1]
-                  ops = ops + 1
-                else
-                  params[terms[0]] = terms[1]
-                  search_session[terms[0]] = terms[1]
-                end
-             end
-             if holdparams.count > 2
-             params["search_field"] = "advanced"
-             end
-             params[:q] = query_string
-             search_session[:q] = query_string
-             params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-             params["action"] = "index"
-             params["controller"] = "catalog"
-             Rails.logger.debug("Mollyparams = #{params}")
-        else
-            params.delete("advanced_query")
-            query_string = parse_single(params)
-            Rails.logger.debug("CrappitySplit = #{query_string}")
-            holdparams = query_string.split("&")
-            for i in 0..holdparams.count - 1
-              terms = holdparams[i].split("=")
-              params[terms[0]] = terms[1]
-              search_session[terms[0]] = terms[1]
-            end
-           #  params[:q] = query_string
-             Rails.logger.debug("CrappityP = #{params}")
-             params["commit"] = "Search"
-             params["action"] = "index"
-             params["controller"] = "catalog"
-         end                  
-      end
+        query_string = set_advanced_search_params(params)
+      end                  
+ #     end
 # End of secondary parsing
 
 #  Journal title search hack.
@@ -295,7 +251,9 @@ module Blacklight::Catalog
     # gets a document based on its position within a resultset
     def setup_document_by_counter(counter)
       return if counter < 1 || session[:search].blank?
+      Rails.logger.debug("docbycounter = #{session[:search]}")
       search = session[:search] || {}
+      Rails.logger.debug("docbycounter1 = #{search}")
       get_single_doc_via_search(counter, search)
     end
 

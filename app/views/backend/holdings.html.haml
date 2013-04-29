@@ -1,28 +1,23 @@
 - holdings_condensed = @holdings['condensed_holdings_full']
 - if holdings_condensed.size > 0
-  - first_item_in_holding = holdings_condensed.first
-  - # Move online items to the end of the array so we can display them last
-  - if first_item_in_holding['location_name'] == '*Networked Resource'
-    - holdings_condensed.shift
-    - holdings_condensed = holdings_condensed.push(first_item_in_holding)
   - grouped_holdings = group_holdings(holdings_condensed)
   - multiple_groups = grouped_holdings.size > 1
   - grouped_holdings.each do |group, holdings|
     - # Render group headings only if we have multiple groups
     - if multiple_groups
-      %h5
-        = group
+      - if group == "Rare"
+        %h4
+          = group + " Items"
     - holdings.each do |entry|
       - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
       - callnumber = entry['call_number']
 
       .holding{:class => alternating_line}
-        .location_box
+        - if location != 'Online'
           %h5.location
             = location
-            - if location != 'Online'
-              %span.map-it
-                = render_location_link entry['location_code']
+            %span.map-it
+              = render_location_link entry['location_code']
 
         -# Only display a real call number
         - if callnumber != 'No call number' && callnumber != ''
@@ -54,3 +49,11 @@
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)
+    - if multiple_groups
+      -if group == "Circulating"
+        .item-requests
+          =link_to 'Request', request_item_redirect_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
+          %hr
+
+
+
