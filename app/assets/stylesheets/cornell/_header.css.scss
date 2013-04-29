@@ -32,6 +32,9 @@ header {
   margin-left: .2em;
   vertical-align: middle;
 }
+a:hover {
+  .beta { background: $blue; }
+}
 
 ul.blacklight-nav {
   	font-size: 0.75em;
