@@ -86,16 +86,18 @@ module ApplicationHelper
        end
 
        for i in 1..query_rowArray.count - 1
+         n = i.to_s
          if query_rowArray[i] != ""
            new_query_string = parse_query_row(query_rowArray[i], op_rowArray[i])
            if rowHash.has_key?(search_field_rowArray[i])
               current_query = rowHash[search_field_rowArray[i]]
-              new_query = "(" << current_query << ") " << params["as_boolean_row#{i+1}"] << " (" << new_query_string << ")"
-              logger.debug("fogsworthLoop = #{params['as_boolean_row#{i+1}']}")
+              new_query = "(" << current_query << ") " << params[:boolean_row][n.to_sym] << " (" << new_query_string << ")"
+              logger.debug("fogsworthLoop = #{params[:boolean_row][n.to_sym]}")
               rowHash[search_field_rowArray[i]] = new_query
            else
               rowHash[search_field_rowArray[i]] = new_query_string
-              opArray << params["as_boolean_row#{i+1}"]
+              opArray << params[:boolean_row][n.to_sym]
+              Rails.logger.debug("fartknocker = #{params[:boolean_row][n.to_sym]}")
            end
          end
        end
