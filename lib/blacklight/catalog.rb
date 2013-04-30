@@ -32,71 +32,20 @@ module Blacklight::Catalog
   end
 
     # get search results from the solr index
-    def index
-
-      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+#    def index
       
-      @bookmarks = current_or_guest_user.bookmarks
-
-
-# secondary parsing of advanced search params.  Code will be moved to external functions for clarity      
-      if params[:q_row].present?
-        query_string = set_advanced_search_params(params)
-      end                  
- #     end
-# End of secondary parsing
-
-#  Journal title search hack.
-
-      if params[:search_field] == "journal title"
-        if params[:f].nil?
-          params[:f] = {}
-        end
-          params[:f] = {"format" => ["Journal"]}
-#          unless(!params[:q])
-          params[:q] = params[:q]
-          params[:search_field] = "journal title"
-      end
-# end of Journal title search hack
-
-      (@response, @document_list) = get_search_results
- 
-      
-      if params.nil? || params[:f].nil?
-        @filters = []
-      else
-        @filters = params[:f] || []
-      end
- 
-# clean up search_field and q params.  May be able to remove this
- 
-      if params[:search_field] == "journal title" 
-         if params[:q].nil?     
-           params[:search_field] = ""
-         end
-      end
-
-      if params[:q_row].present?              
-         if params[:q].nil?
-          params[:q] = query_string
-         end
-      else
-          if params[:q].nil?
-            params[:q] = query_string
-          end   
-      end
-
-# end of cleanup of search_field and q params      
-      
-      respond_to do |format|
-        format.html { save_current_search_params }
-        format.rss  { render :layout => false }
-        format.atom { render :layout => false }
-      end
-#    params.delete("q_row")
-      
-    end
+#      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+#      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+#      
+#      (@response, @document_list) = get_search_results
+#      @filters = params[:f] || []
+#      
+#      respond_to do |format|
+#        format.html { save_current_search_params }
+#        format.rss  { render :layout => false }
+#        format.atom { render :layout => false }
+#      end
+#    end
 
     # get single document from the solr index
     def show

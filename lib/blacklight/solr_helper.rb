@@ -123,108 +123,14 @@ module Blacklight::SolrHelper
   # Incoming parameter :f is mapped to :fq solr parameter.
   def solr_search_params(user_params = params || {})
     solr_parameters = {}
-
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, user_params)
-      Rails.logger.debug("solr_search_params_method_name = #{method_name}")
-      Rails.logger.debug("solr_search_params_user_params = #{user_params}")
     end
-    if user_params[:search_field] == 'advanced'
-      # Rails.logger.debug("Poppa says = #{@advanced_query.keyword_queries}")
-       Rails.logger.debug("Poppa says18 = #{params}")
-#       blacklight_config.search_fields.each do |key, value|
-#          Rails.logger.debug("Poppa_rock say values = #{value}")
-#       end
-       if !user_params[:search_field_row].nil?
-         Rails.logger.debug("Jehova = #{user_params["search_field_row"]}")
-         q_string = ""
-#        for i in 0..@advanced_query.keyword_queries.count - 1
-         rowArray = []
-         shrink_rows = []
-         opArray = []
-         for i in 0..user_params[:search_field_row].count - 1
-           if shrink_rows.include?(user_params[:search_field_row][i])
-           else
-#              if !user_params[:q_row][i] == ""
-                shrink_rows << user_params[:search_field_row][i]
-                rowArray << i 
-                if i > 0
-                 n = i.to_s
-                 opArray << user_params[:boolean_row][n.to_sym]
-                end
- #             end
-            end
-          end
- 
- #         opArray = []
-#         if opArray.count < 1
-#            opArray[0] = "AND"
-#         end
-#            opArray = user_params[:op]
-#         else
-#            opArray = ["AND", "AND"] 
-#         end
-         for i in 0..shrink_rows.count - 1
-            Rails.logger.debug("Dippitydoofus = #{shrink_rows[i]}")
-               returned_query = {}
-               field_query = shrink_rows[i]
-               if user_params[:q_row][1] == ""
-                 user_params[field_query] = user_params[:q_row][0]
-#                 search_session[:counter] = 1
-                  session[:search][:"#{field_query}"] =  user_params[:q_row][0]
-               end
-     
-               pass_param = {field_query => user_params[field_query]}
-              Rails.logger.debug("Dippitydoofus1 = #{pass_param}")
-              Rails.logger.debug("Dippitydoofus2 = #{user_params[field_query]}")
-              Rails.logger.debug("Dippitydoofus3 = #{user_params}") 
-               returned_query = ParsingNesting::Tree.parse(user_params[field_query])
-               newstring = returned_query.to_query(pass_param)
-               holdarray = newstring.split('}')
-               q_string << "_query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-               fieldNames = blacklight_config.search_fields["#{field_query}"]
-               if !fieldNames["solr_parameters"].nil?
-                  solr_stuff = fieldNames["solr_parameters"]
-                  field_name = solr_stuff[:"spellcheck.dictionary"]
-                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                  q_string_hold = q_string
-               end
-#              q_string << "}" << user_params[shrink_rows[i]] << '\\'
-               if holdarray.count > 2
-                 if field_name.nil?
-                    field_name = 'all_fields'
-                 end
-                 for i in 1..holdarray.count - 1
-                   holdarray_parse = holdarray[i].split('_query_')
-                   holdarray[1] = holdarray_parse[0].chomp("\"")
-                   if(i < holdarray.count - 1)
-                    q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                   else
-                    q_string << "}" << holdarray[1].chomp("\"") << "\""
-                   end
-                 end 
-               else
-                 q_string << "}" << holdarray[1].chomp("\"") << "\""
-               end
-              if i < shrink_rows.count - 1
-                 q_string << " " << opArray[i] << " "
-              end
-         end
-       end
-        #{:qt=>nil, :rows=>20, :fl=>"*,score", :"facet.field"=>["online", "format", "author_facet", "pub_date_facet", "language_facet", "subject_topic_facet", "subject_geo_facet", "subject_era_facet", "subject_content_facet", "lc_1letter_facet", "location_facet", "hierarchy_facet"], "spellcheck.q"=>nil, :"f.online.facet.limit"=>3, :"f.format.facet.limit"=>6, :"f.author_facet.facet.limit"=>6, :"f.language_facet.facet.limit"=>6, :"f.subject_topic_facet.facet.limit"=>6, :"f.subject_geo_facet.facet.limit"=>6, :"f.subject_era_facet.facet.limit"=>6, :"f.subject_content_facet.facet.limit"=>6, :"f.lc_1letter_facet.facet.limit"=>6, :"f.location_facet.facet.limit"=>6, :sort=>"score desc, pub_date_sort desc, title_sort asc", "stats"=>"true", "stats.field"=>["pub_date_facet"],
-      #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
-      solr_parameters[:q] = q_string
-      Rails.logger.debug("THEQUERY = #{solr_parameters}")
- #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
-    end
-   return solr_parameters
+
+    return solr_parameters
   end
     
 
-#    def parse_field_query(new_field_query = field_query)
-       
-#    end
-  
     ####
     # Start with general defaults from BL config. Need to use custom
     # merge to dup values, to avoid later mutating the original by mistake.
