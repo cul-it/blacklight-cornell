@@ -149,7 +149,8 @@ module Blacklight::SolrHelper
                 shrink_rows << user_params[:search_field_row][i]
                 rowArray << i 
                 if i > 0
-                 opArray << user_params[:"as_boolean_row#{i + 1}"]
+                 n = i.to_s
+                 opArray << user_params[:boolean_row][n.to_sym]
                 end
  #             end
             end
