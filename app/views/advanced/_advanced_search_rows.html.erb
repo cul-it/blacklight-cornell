@@ -2,13 +2,13 @@
   <div class="input_row">
     <div class="boolean_row">
       <label class="radio inline">
-        <input type="radio" name="boolean_row[]" value="AND" checked="checked"> and
+        <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked"> and
       </label>
       <label class="radio inline">
-        <input type="radio" name="boolean_row[]" value="OR"> or
+        <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR"> or
       </label>
       <label class="radio inline">
-        <input type="radio" name="boolean_row[]" value="NOT"> not
+        <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT"> not
       </label>
     </div>
 
