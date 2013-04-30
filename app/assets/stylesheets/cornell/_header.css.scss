@@ -31,6 +31,7 @@ header {
 .beta {
   margin-left: .2em;
   vertical-align: middle;
+  &:hover { background: $blue; }
 }
 
 ul.blacklight-nav {
