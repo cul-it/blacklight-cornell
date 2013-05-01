@@ -87,6 +87,7 @@ module ApplicationHelper
          rowArray = []
          shrink_rows = []
          opArray = []
+         q_stringArray = []
          for i in 0..user_params[:search_field_row].count - 1
            if shrink_rows.include?(user_params[:search_field_row][i])
            else
@@ -98,7 +99,7 @@ module ApplicationHelper
                 end
             end
           end
- 
+         andFlag = 0;
          for i in 0..shrink_rows.count - 1
                returned_query = {}
                field_query = shrink_rows[i]
@@ -112,13 +113,14 @@ module ApplicationHelper
                returned_query = ParsingNesting::Tree.parse(user_params[field_query])
                newstring = returned_query.to_query(pass_param)
                holdarray = newstring.split('}')
+               queryStart = "_query_:\"{!dismax"
                q_string << "_query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
                fieldNames = blacklight_config.search_fields["#{field_query}"]
                if !fieldNames["solr_parameters"].nil?
                   solr_stuff = fieldNames["solr_parameters"]
                   field_name = solr_stuff[:"spellcheck.dictionary"]
                   q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                  q_string_hold = q_string
+                  q_string_hold = queryStart +  " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
                end
 #              q_string << "}" << user_params[shrink_rows[i]] << '\\'
                if holdarray.count > 2
@@ -129,23 +131,28 @@ module ApplicationHelper
                    holdarray_parse = holdarray[i].split('_query_')
                    holdarray[1] = holdarray_parse[0].chomp("\"")
                    if(i < holdarray.count - 1)
+                    q_string_hold << "}" + holdarray[1]
                     q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
                    else
+                    q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
                     q_string << "}" << holdarray[1].chomp("\"") << "\""
                    end
                  end 
                else
+                 q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
                  q_string << "}" << holdarray[1].chomp("\"") << "\""
                end
               if i < shrink_rows.count - 1
                  q_string << " " << opArray[i] << " "
               end
+              q_stringArray << q_string_hold
          end
        end
-        #{:qt=>nil, :rows=>20, :fl=>"*,score", :"facet.field"=>["online", "format", "author_facet", "pub_date_facet", "language_facet", "subject_topic_facet", "subject_geo_facet", "subject_era_facet", "subject_content_facet", "lc_1letter_facet", "location_facet", "hierarchy_facet"], "spellcheck.q"=>nil, :"f.online.facet.limit"=>3, :"f.format.facet.limit"=>6, :"f.author_facet.facet.limit"=>6, :"f.language_facet.facet.limit"=>6, :"f.subject_topic_facet.facet.limit"=>6, :"f.subject_geo_facet.facet.limit"=>6, :"f.subject_era_facet.facet.limit"=>6, :"f.subject_content_facet.facet.limit"=>6, :"f.lc_1letter_facet.facet.limit"=>6, :"f.location_facet.facet.limit"=>6, :sort=>"score desc, pub_date_sort desc, title_sort asc", "stats"=>"true", "stats.field"=>["pub_date_facet"],
       #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
+   #   q_string = "(_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bees\" OR _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}+Tennessee +agriculture\") AND _query_:\"{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\\\"inspector of apiaries\\\"\""
       solr_parameters[:q] = q_string
       Rails.logger.debug("THEQUERY = #{solr_parameters}")
+      Rails.logger.debug("q_stringArray = #{q_stringArray}")
  #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
     end
    return solr_parameters
