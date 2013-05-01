@@ -619,11 +619,12 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
-  def document_show_html_title
+  def document_show_html_title document=nil
+    document ||= @document
     # Test to ensure that display_title is not missing
     # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
     if @document[blacklight_config.show.html_title].present?
-      render_field_value(@document[blacklight_config.show.html_title].html_safe)
+      render_field_value(document[blacklight_config.show.html_title].html_safe)
     end
   end
 
@@ -663,7 +664,7 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # -- Updated to handle arrays (multiple fields specified in config)
   # Used for creating a link to the document show action
-  def document_show_link_field
+  def document_show_link_field document=nil
     blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
   end
 
