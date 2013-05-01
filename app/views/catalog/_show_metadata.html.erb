@@ -55,7 +55,10 @@
 
           <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
           <% if access_restrictions.present? %>
-            <span class="access-restriction"><%= access_restrictions %></span>
+            <span class="access-restriction">
+              <h5>Restrictions</h5>
+              <%= access_restrictions %>
+            </span>
           <% end %>
 
           <span class="blacklight-url_access_display"></span>
