@@ -12,12 +12,14 @@ holdings =
 
   # Add a spinner to indicate that data is loading
   loadSpinner: () ->
+    headingWidth = this.availabilityHeading.width()
     $.fn.spin.presets.holdings =
       lines: 9,
       length: 4,
       width: 3,
       radius: 4,
       color: '#b31b1b'
+      left: headingWidth - (headingWidth/3)
     this.availabilityHeading.spin('holdings')
 
   # Define calls to holding service. Called on page load

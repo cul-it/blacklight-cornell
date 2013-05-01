@@ -20,7 +20,7 @@
               = render_location_link entry['location_code']
 
         -# Only display a real call number
-        - if callnumber != 'No call number' && callnumber != ''
+        - if !callnumber.include?('No call number') && callnumber != ''
           .call-number
             = callnumber
             %span.text-it
