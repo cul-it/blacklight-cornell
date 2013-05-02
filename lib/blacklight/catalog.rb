@@ -5,7 +5,7 @@ module Blacklight::Catalog
   include Blacklight::Configurable
   include Blacklight::SolrHelper
   include Blacklight::ApplicationHelper
-  
+
 
   SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -36,14 +36,14 @@ module Blacklight::Catalog
 
       extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-      
+
       @bookmarks = current_or_guest_user.bookmarks
 
 
-# secondary parsing of advanced search params.  Code will be moved to external functions for clarity      
+# secondary parsing of advanced search params.  Code will be moved to external functions for clarity
       if params[:q_row].present?
         query_string = set_advanced_search_params(params)
-      end                  
+      end
  #     end
 # End of secondary parsing
 
@@ -61,41 +61,41 @@ module Blacklight::Catalog
 # end of Journal title search hack
 
       (@response, @document_list) = get_search_results
- 
-      
+
+
       if params.nil? || params[:f].nil?
         @filters = []
       else
         @filters = params[:f] || []
       end
- 
+
 # clean up search_field and q params.  May be able to remove this
- 
-      if params[:search_field] == "journal title" 
-         if params[:q].nil?     
+
+      if params[:search_field] == "journal title"
+         if params[:q].nil?
            params[:search_field] = ""
          end
       end
 
-      if params[:q_row].present?              
+      if params[:q_row].present?
          if params[:q].nil?
           params[:q] = query_string
          end
       else
           if params[:q].nil?
             params[:q] = query_string
-          end   
+          end
       end
 
-# end of cleanup of search_field and q params      
-      
+# end of cleanup of search_field and q params
+
       respond_to do |format|
         format.html { save_current_search_params }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
       end
 #    params.delete("q_row")
-      
+
     end
 
     # get single document from the solr index
@@ -126,7 +126,7 @@ module Blacklight::Catalog
     # displays values and pagination links for a single facet field
     def facet
       @pagination = get_facet_pagination(params[:id], params)
- 
+
       respond_to do |format|
         format.html
         format.js { render :layout => false }
@@ -150,7 +150,7 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     end
     # grabs a bunch of documents to export to endnote
-    def endnote   
+    def endnote
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
         format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
@@ -293,7 +293,7 @@ module Blacklight::Catalog
     def save_current_search_params
       # If it's got anything other than controller, action, total, we
       # consider it an actual search to be saved. Can't predict exactly
-      # what the keys for a search will be, due to possible extra plugins.      
+      # what the keys for a search will be, due to possible extra plugins.
       return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
       params_copy = search_session.clone # don't think we need a deep copy for this
       params_copy.delete(:page)
@@ -328,20 +328,21 @@ module Blacklight::Catalog
 
     # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
     def rsolr_request_error(exception)
-      if Rails.env == "development"
+      if Rails.env.development?
         raise exception # Rails own code will catch and give usual Rails error page with stack trace
       else
         flash_notice = I18n.t('blacklight.search.errors.request_error')
-        # Set the notice flag if the flash[:notice] is already set to the error that we are setting.
-        # This is intended to stop the redirect loop error
-        notice = flash[:notice] if flash[:notice] == flash_notice
-        logger.error exception
-        unless notice
-          flash[:notice] = flash_notice
-          redirect_to root_path, :status => 500
-        else
-          render :file => "#{Rails.root}/public/500.html", :status => 500
+
+        # If there are errors coming from the index page, we want to trap those sensibly
+        if flash[:notice] == flash_notice
+          logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
+          raise exception
         end
+
+        logger.error exception
+
+        flash[:notice] = flash_notice
+        redirect_to root_path
       end
     end
 
@@ -355,5 +356,13 @@ module Blacklight::Catalog
         index
         render "index", :status => 404
       end
+    end
+
+    def blacklight_solr
+      @solr ||=  RSolr.connect(blacklight_solr_config)
+    end
+
+    def blacklight_solr_config
+      Blacklight.solr_config
     end
 end
