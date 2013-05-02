@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '~> 3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -8,7 +8,7 @@ gem 'rails', '3.2.11'
 gem 'sqlite3'
 gem 'mysql', '2.8.1'
 gem 'yaml_db'
-gem 'blacklight', '~> 4.0.1'
+gem 'blacklight'
 gem 'blacklight_range_limit'
 gem 'blacklight_advanced_search'
 gem 'blacklight_unapi'
