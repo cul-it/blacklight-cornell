@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
-require File.join(File.dirname(__FILE__), 'mash') unless defined?(Mash)
+# Load mash.rb from Blacklight gem instead of having to copy another file into the app
+require File.join(Gem.loaded_specs['blacklight'].full_gem_path, 'lib/blacklight/mash') unless defined?(Mash)
 # SolrHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
 #
 # NOTE: Be careful when creating variables here as they may be overriding something that already exists.
