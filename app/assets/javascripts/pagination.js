@@ -1,16 +1,27 @@
-function getDocHeight() {
-  var D = document;
-  return Math.max(
-    Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
-    Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
-    Math.max(D.body.clientHeight, D.documentElement.clientHeight)
-  );
-}
+// Extend jQuery to determine how many pixels are below the passed element
+$.fn.scrollBottom = function() {
+  return $(document).height() - this.scrollTop() - this.height();
+};
 
-$(window).scroll(function() {
-  if($(window).scrollTop() + $(window).height() == getDocHeight()) {
-    var footerHeight = $('footer').height();
-    $('.navbar-fixed-bottom').css({bottom: footerHeight});
+$(document).ready(function() {
+  // Make sure "#sticky" element exists
+  if ($('#sticky').length) {
+    var el = $('#sticky');
+
+    // Scroll event
+    $(window).scroll(function() {
+      var windowBottom = $(window).scrollBottom();
+      var footerHeight = $('footer').height();
+
+      if (footerHeight > windowBottom) {
+        // Footer is visible, so keep sticky pagination pinned above it
+        var diff = footerHeight - windowBottom;
+        el.css({bottom: diff});
+      }
+      else {
+        // Otherwise keep pagination pinned at bottom of window
+        el.css({bottom:'0'});
+      }
+    });
   }
-  else $('.navbar-fixed-bottom').css({bottom:'0'})
 });
