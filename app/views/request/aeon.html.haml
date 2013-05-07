@@ -21,12 +21,19 @@
           - if callnumber != 'No call number' && callnumber != ''
             .call-number
               = callnumber
+          - entry['copies'].each do |copy|
+            .group
+              - unless copy['temp_locations'].nil?
+                - copy['temp_locations'].each do |t|
+                  .message= t
+              - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+                - unless copy[type].nil?
+                  .message= copy[type]
+              - copy['items'].each do |item|
+                .status
+                  - message, details = item
+                  - if details['count'] >1
+                    (#{details['count']} copies)
           %div.aeon
             = link_to 'Request reading room delivery', "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{location_code}", {:class => 'btn btn-danger'}
-
-
-
-
-
-
-
+            
