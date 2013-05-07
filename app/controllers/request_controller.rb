@@ -985,7 +985,7 @@ class RequestController < ApplicationController
       :bibid => bibid
     }
     yholdings = get_holdings holdings_param
-    @xholdings = (yholdings)[bibid]
+    @holdings = (yholdings)[bibid]
     holdings = (yholdings) [bibid]['condensed_holdings_full']
     logger.debug "holdings #{bibid} \n\n"
     logger.debug holdings.inspect
