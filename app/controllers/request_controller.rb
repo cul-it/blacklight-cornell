@@ -673,6 +673,8 @@ class RequestController < ApplicationController
       @delivery_time = get_bd_delivery_time
     end
     # logger.info @iis.inspect
+    
+    @service = service
 
     render service
   end
