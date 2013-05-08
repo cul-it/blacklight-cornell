@@ -68,11 +68,14 @@ div.request-options div.accordion-body .span4 {
   padding-top:5px;
 }
 
-table.request-options tbody > tr:nth-child(2n) > td, .request-options tbody > tr:nth-child(2n+1) > th {
-    background-color: $white;
-}
+table.request-options {
+    margin-top:5px;
 
-table.request-options thead:first-child tr:first-child > th:last-child, table.request-options thead:first-child tr:first-child th {
+    tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
+      {background-color: $white;}
+
+    thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
     background-color: $medium-gray;
-    color: $white;
-}
+    color: $white;}
+  }
+ 
