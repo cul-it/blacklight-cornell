@@ -128,7 +128,7 @@ module DisplayHelper
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
 
     value = [value] unless value.is_a? Array
-    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x}
+    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
     return value.map { |v| render_clickable_item(args, v) }.join(args[:sep]).html_safe
   end
 
@@ -177,6 +177,27 @@ module DisplayHelper
             end
             link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'))
           end.join(sep_display).html_safe
+        elsif clickable_setting[:pair_list]
+          ## fields such as title are hierarchical
+          ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
+          # debugger
+          if  value_array.size() > 1
+            # i = 0
+            # value_array.map do |v|
+              # link_to(v, add_search_params(args[:field], '"' + v + '"'))
+            # end.join(sep_display).html_safe
+            i = 0
+            display_list = []
+            while i < value_array.size()
+              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + value_array[i+1] + '"'))
+              i = i + 2
+            end
+            display_list.join(sep_display).html_safe
+          else
+            value_array.map do |v|
+              link_to(v, add_search_params(args[:field], '"' + v + '"'))
+            end.join(sep_display).html_safe
+          end
         else
           # default behavior to search the text displayed
           value_array.map do |v|

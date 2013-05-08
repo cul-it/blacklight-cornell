@@ -673,6 +673,8 @@ class RequestController < ApplicationController
       @delivery_time = get_bd_delivery_time
     end
     # logger.info @iis.inspect
+    
+    @service = service
 
     render service
   end
@@ -983,7 +985,7 @@ class RequestController < ApplicationController
       :bibid => bibid
     }
     yholdings = get_holdings holdings_param
-    @xholdings = (yholdings)[bibid]
+    @holdings = (yholdings)[bibid]
     holdings = (yholdings) [bibid]['condensed_holdings_full']
     logger.debug "holdings #{bibid} \n\n"
     logger.debug holdings.inspect

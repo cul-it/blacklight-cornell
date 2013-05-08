@@ -26,8 +26,18 @@ class CatalogController < ApplicationController
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
     config.display_clickable = {
-        'author_display' => 'author/creator',
-        'author_addl_display' => 'author/creator',
+        'author_display' => {
+            :search_field => 'author/creator',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list => true
+        },
+        'author_addl_display' => {
+            :search_field => 'author/creator',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list => true
+        },
         'subject_display' => {
             :search_field => 'subject',
             :sep => '|',

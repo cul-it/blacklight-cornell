@@ -33,6 +33,26 @@ class BackendController < ApplicationController
     #render "backend/holdings", :layout => false
   end
 
+ def holdings_shorthm
+    @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
+    @mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))
+    @mid = params[:id]
+     logger.debug  "getting info (Multi bibid) for #{params[:id]} from"
+     logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
+     logger.debug @holdings
+    session[:holdings] = @holdings
+    session[:holdings_detail] = @holdings_detail
+    rendera = {};
+    @bibids = params[:id].split('/').collect { |bibid| bibid.strip }
+    @bibids.collect do |bibid|
+      @holdings_detail = @mholdings_detail[bibid]
+      @id = bibid
+      rendera[bibid] = render_to_string "backend/holdings_short", :layout => false
+    end
+    render  :json => rendera, :layout => false
+  end
+
+
   def holdings_shorth
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
