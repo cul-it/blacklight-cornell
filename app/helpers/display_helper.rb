@@ -47,6 +47,35 @@ module DisplayHelper
 
     render_field_value newval
   end
+  
+  # for display of | delimited fields
+  # only displays the string before the first |
+  # otherwise, it does same as render_index_field_value
+  def render_pair_delimited_index_field_value args
+    value = args[:value]
+
+    if args[:field] and blacklight_config.index_fields[args[:field]]
+      field_config = blacklight_config.index_fields[args[:field]]
+      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+    end
+
+    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+
+    newval = nil
+    unless value.nil?
+      value_array = value.split('|')
+      vals = []
+      i = 0
+      value_array.each do |v|
+        vals.push v if i % 2 == 0
+        i = i + 1
+      end
+      newval = vals.join(' / ')
+    end
+
+    render_field_value newval
+  end
 
   # :format arg specifies what should be returned
   # * the raw array (url_access_display in availability on item page)
