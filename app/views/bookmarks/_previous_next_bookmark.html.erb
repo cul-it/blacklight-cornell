@@ -1,0 +1,10 @@
+<% #Using the Bootstrap Pagination class  -%>
+<% if @previous_bookmark || @next_bookmark %>
+	
+    <%= link_to_previous_bookmark(@previous_bookmark, params[:counter]) %> |
+
+    <%= item_page_entry_info %> |
+
+    <%= link_to_next_bookmark(@next_bookmark, params[:counter]) %>
+
+<% end %>
