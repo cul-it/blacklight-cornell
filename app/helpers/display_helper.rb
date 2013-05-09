@@ -246,6 +246,7 @@ module DisplayHelper
   def add_search_params(field, value)
     new_search_params = {
       #:utf8 => '✓',
+      :controller => 'catalog',
       :q => value,
       :search_field => get_clickable_search_field(field),
       :commit => 'search',

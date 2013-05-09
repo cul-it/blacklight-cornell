@@ -4,7 +4,7 @@ require 'blacklight/catalog'
 class CatalogController < ApplicationController
   #include BlacklightGoogleAnalytics::ControllerExtraHead
 
-  include Blacklight::Catalog
+  include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
   include BlacklightAdvancedSearch::ParseBasicQ
 

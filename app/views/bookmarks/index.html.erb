@@ -25,7 +25,9 @@
 <div class="item-tools">
   <%= render 'tools' %>
 </div>
-  <%= render_document_index %>
+  <%#= debug @document_list %>
+  <%#= render_document_index %>
+  <%= render 'bookmark_list' %>
   <%= render 'results_pagination' %>
 <% end %>
 
