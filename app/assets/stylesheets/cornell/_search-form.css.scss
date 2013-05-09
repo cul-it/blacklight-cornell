@@ -42,5 +42,6 @@ input.search-query {
 #search_field {
   margin: 0 0 0 .2em;
   width: auto;
+  font-family: $baseFontFamily; // See cul-bootstrap-loader.css.scss for details
 }
 p.suggest {font-size:.8em}
