@@ -24,7 +24,8 @@ class BookmarksController < CatalogController
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
     @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, bookmark_ids)
-    params[:view] = "bookmarks"
+    params[:view] = "index"
+    params[:controller] = "bookmarks"
   end
 
   def update
@@ -42,8 +43,6 @@ class BookmarksController < CatalogController
     for i in 0..@document_list.count - 1
       bookmarks_id_ordered[i] = @document_list[i].id
     end
-    Rails.logger.debug("Pooky = #{params}")
-    Rails.logger.debug("Pooket = #{bookmarks_id_ordered.index(params[:id])}")
     @response, @document = get_solr_response_for_doc_id 
     
     counter = bookmarks_id_ordered.index(params[:id])
@@ -130,23 +129,22 @@ class BookmarksController < CatalogController
     # gets a document based on its position within a resultset
     def setup_bookmark_by_counter(bookmarks_id_ordered, counter)
       return if counter < 0 # || bookmarks_id_ordered.blank?
-#      Rails.logger.debug("docbycounter1 = #{search}")
 #      get_single_doc_via_search(counter, search)
       new_id = bookmarks_id_ordered[counter]
-      Rails.logger.debug("Pooker = #{new_id}")
       @response, @bookmark = get_solr_response_for_doc_id(new_id, {})
-      Rails.logger.debug("Pooked = #{@bookmark}") 
      return @bookmark
     end
 
     def setup_previous_bookmark(bookmarks_id_ordered, counter)
       @previous_bookmark = setup_bookmark_by_counter(bookmarks_id_ordered, counter - 1) # : nil
-      Rails.logger.info("Pookeprev = #{@previous_bookmark}")
     end
 
     def setup_next_bookmark(bookmarks_id_ordered, counter)
-      @next_bookmark = setup_bookmark_by_counter(bookmarks_id_ordered, counter + 1) # : nil
-      Rails.logger.info("Pooknext = #{@next_bookmark}")
+      if counter < bookmarks_id_ordered.count - 1
+        @next_bookmark = setup_bookmark_by_counter(bookmarks_id_ordered, counter + 1) # : nil
+      else
+        @next_bookmark = nil
+      end
     end
 
     # sets up the session[:search] hash if it doesn't already exist
