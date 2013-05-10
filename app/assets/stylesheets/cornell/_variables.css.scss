@@ -56,6 +56,10 @@ url(//fonts.googleapis.com/css?family=Oxygen:400,700);
 // -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-622
 $baseFontFamily: $realBaseFontFamily;
 
+// Monospace font for facet counts
+$monospaceFontFamily:       Droid Sans Mono;    @import
+url(//fonts.googleapis.com/css?family=Droid+Sans+Mono);
+
 // Buttons
 // -------------------------
 $btnInfoBackground:                 $teal;
