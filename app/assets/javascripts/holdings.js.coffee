@@ -17,18 +17,33 @@ holdings =
   # Create references to frequently used elements for convenience
   initObjects: () ->
     this.availabilityHeading = $('.availability h3')
+    this.resultsAvailability = $('.preloader')
 
-  # Add a spinner to indicate that data is loading
+  # Add spinners to indicate that data is loading
   loadSpinner: () ->
-    headingWidth = this.availabilityHeading.width()
-    $.fn.spin.presets.holdings =
-      lines: 9,
-      length: 4,
-      width: 3,
-      radius: 4,
-      color: '#999'
-      left: headingWidth - (headingWidth/3)
-    this.availabilityHeading.spin('holdings')
+    # Search results view
+    this.resultsAvailability.each ->
+      elWidth = $(this).width()
+      $.fn.spin.presets.holdings =
+        lines: 9,
+        length: 3,
+        width: 2,
+        radius: 3,
+        top: 2,
+        left: elWidth + 5
+      $(this).spin('holdings')
+
+    # Item view
+    this.availabilityHeading.each ->
+      headingWidth = $(this).width()
+      $.fn.spin.presets.holdings =
+        lines: 9,
+        length: 4,
+        width: 3,
+        radius: 4,
+        color: '#999',
+        left: headingWidth - (headingWidth/3)
+      $(this).spin('holdings')
 
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
