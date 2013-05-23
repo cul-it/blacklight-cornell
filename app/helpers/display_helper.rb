@@ -47,7 +47,7 @@ module DisplayHelper
 
     render_field_value newval
   end
-  
+
   # for display of | delimited fields
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
@@ -790,5 +790,13 @@ module DisplayHelper
     vernacular = render_document_show_field_value :document => @document, :field => vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
+  end
+
+  # Display the Solr core in development
+  def render_solr_core
+    core = Blacklight.solr_config[:url]
+    # Find last occurence of forward slash and add one
+    start = core.rindex(/\//) + 1
+    core[start..-1]
   end
 end
