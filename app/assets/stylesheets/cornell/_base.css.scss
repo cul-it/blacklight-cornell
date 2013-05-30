@@ -26,6 +26,17 @@ a:hover {
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.25em; line-height: 1.5em;}
 
+// FORMS
+
+// This is needed as workaround for IE7-9 bug with font-famly on <select>
+// -- see cul-bootstrap-loader.css.scss and this issue for more details:
+// -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-622
+input,
+button,
+textarea {
+  font-family: $baseFontFamily;
+}
+
 
 // MISCELLANEOUS
 

@@ -1,3 +1,6 @@
+// This file is copied from blacklight gem for the sole purpose of changing
+// "Bookmark" language to "Selected items"
+
 //= require blacklight/core
 //= require blacklight/checkbox_submit
 (function($) {

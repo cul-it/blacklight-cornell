@@ -1,0 +1,18 @@
+<% #Using the Bootstrap Pagination class  -%>
+<% if @previous_bookmark || @next_bookmark %>
+	<% if @previous_bookmark %>
+	   <a class="previous"  href="/bookmarks/<%= @previous_bookmark.id %>">&laquo; Previous</a>
+	<% else %>
+	   &laquo; Previous
+	<% end %>
+    <%#= link_to_previous_bookmark(@previous_bookmark, params[:counter]) %> |
+
+    <%= item_page_entry_info %> |
+    <%#= link_to_next_bookmark(@next_bookmark, params[:counter]) %>
+	<% if @next_bookmark %>
+	   <a class="next"  href="/bookmarks/<%= @next_bookmark.id %>"> Next &raquo;</a>
+	<% else %>
+	    Next &raquo;
+	<% end %>
+
+<% end %>

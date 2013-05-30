@@ -82,8 +82,9 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
                temp_op_row = []
                temp_boolean_rows = deep_copy(params)
                temp_boolean_row = []
-               for i in 2..temp_boolean_rows[:search_field_row].count
-                 temp_boolean_row << temp_boolean_rows["as_boolean_row#{i}"]
+               for i in 1..temp_boolean_rows[:search_field_row].count
+                 n = i.to_s
+                 temp_boolean_row << temp_boolean_rows[:boolean_row][n.to_sym]
                end 
                deleted = 0
                params[:search_field_row].each do |val, indx|
@@ -112,7 +113,8 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
                for i in 0..temp_q_row.count - 1
                  autoparam << "q_row[]=" << temp_q_row[i] << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i] 
                  if i < temp_q_row.count - 1
-                    autoparam << "&as_boolean_row#{i + 2}=" << temp_boolean_row[i] << "&"
+                    Rails.logger.debug("ChooChoo = #{temp_boolean_row}")
+                    autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
                  end 
                end
                               Rails.logger.debug("CONSTRAINTsPARAMS4 = #{autoparam}")

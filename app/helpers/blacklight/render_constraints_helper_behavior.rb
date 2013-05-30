@@ -14,17 +14,13 @@ module Blacklight::RenderConstraintsHelperBehavior
   # Render actual constraints, not including header or footer
   # info. 
   def render_constraints(localized_params = params)
-    Rails.logger.debug("spanky = #{localized_params}")
     (render_constraints_query(localized_params) + render_constraints_filters(localized_params)).html_safe
-#    render_constraints_queryeee
   end
 
      
   def render_constraints_query(localized_params = params)
     # So simple don't need a view template, we can just do it here.
-    Rails.logger.debug("whodafugrender_constraints_query = #{localized_params}")
     if(!localized_params[:advanced_query].blank?)
-    Rails.logger.debug("whodafugrenderlocalized_constraints_query = #{localized_params}")
       render_advanced_constraints_query(localized_params)
     else
     if (!localized_params[:q].blank?)
@@ -33,7 +29,6 @@ module Blacklight::RenderConstraintsHelperBehavior
         if (localized_params[:search_field].blank? )# || (default_search_field && localized_params[:search_field] == default_search_field[:key] ) )
           nil
         else
-          Rails.logger.debug("Ignatz = #{label_for_search_field(localized_params[:search_field])}")
           label_for_search_field(localized_params[:search_field]) # + localized_params[:q])
 #          label_for_search_field(params["search_field"] + localized_params[:q])
           
@@ -43,7 +38,7 @@ module Blacklight::RenderConstraintsHelperBehavior
         leftSide = q_paramSplit[0].split("=")
         fixed_query = leftSide[1]
         localized_params.delete("q_row")
-        localized_params.delete("as_boolean_row2")
+        localized_params.delete("boolean_row")
         localized_params.delete("op_row")
         localized_params.delete("search_field_row")
         localized_params.delete("search_field")

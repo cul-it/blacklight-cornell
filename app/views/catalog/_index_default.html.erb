@@ -4,11 +4,11 @@
   <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
 
   <div class="data-block">
-    <span class="blacklight-author_display"><%= render_index_field_value :document => document, :field => 'author_display' %></span>
-    <span class="format"><i class="icon-<%= formats_icon_mapping(document['format']) %>"></i> <%= render_index_field_value :document => document, :field => 'format' %></span>
-    <span class="blacklight-pub_info_display"><%= render_index_field_value :document => document, :field => 'pub_info_display' %></span>
-    <span class="blacklight-language_facet"><%= render_index_field_value :document => document, :field => 'language_facet' %></span>
-    <span class="blacklight-edition_display"><%= render_index_field_value :document => document, :field => 'edition_display' %></span>
+    <span class="blacklight-author_display"><%= render_pair_delimited_index_field_value :document => document, :field => 'author_display' %></span>
+    <span class="format"><i class="icon-<%= formats_icon_mapping(document['format']) %>"></i> <%= render_index_field_value document, :field => 'format' %></span>
+    <span class="blacklight-pub_info_display"><%= render_index_field_value document, :field => 'pub_info_display' %></span>
+    <span class="blacklight-language_facet"><%= render_index_field_value document, :field => 'language_facet' %></span>
+    <span class="blacklight-edition_display"><%= render_index_field_value document, :field => 'edition_display' %></span>
   </div>
 
   <% if online_url(document) %>

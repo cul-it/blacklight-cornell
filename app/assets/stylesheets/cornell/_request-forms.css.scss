@@ -53,12 +53,12 @@ div.request-options div.accordion-body .span4 {
 
 .help-inline.required {
   font-size: .8em;
-  color:#b31b1b;
+  color: $cornell-primary;
 }
 .aeon {font-size: .8em}
 
 .aeon-circ {
-  border-left: solid 1px #EDEBE7;
+  border-left: solid 1px $light-tan;
   padding-left:50px;
   height: 100%
 }
@@ -67,3 +67,15 @@ div.request-options div.accordion-body .span4 {
   font-size:14px;
   padding-top:5px;
 }
+
+table.request-options {
+    margin-top:5px;
+
+    tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
+      {background-color: $white;}
+
+    thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
+    background-color: $medium-gray;
+    color: $white;}
+  }
+ 

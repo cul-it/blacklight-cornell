@@ -1,8 +1,8 @@
 <%# default partial to display solr document fields in catalog show view -%>
 <dl class="dl-horizontal">
-  <% document_show_fields.each do |solr_fname, field| -%>
+  <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
-	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label :field => solr_fname %></dt>
+	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label document, :field => solr_fname %></dt>
       <dd class="blacklight-<%= solr_fname.parameterize %>">
         <% if display_icon? solr_fname -%>
           <%= render_index_field_value :document => document, :field => 'format' %>
@@ -11,7 +11,7 @@
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
         <% else -%>
-          <%= render_document_show_field_value :document => document, :field => solr_fname %>
+          <%= render_document_show_field_value document, :field => solr_fname %>
         <% end -%>
       </dd>
     <% end -%>
