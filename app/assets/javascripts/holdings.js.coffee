@@ -26,7 +26,7 @@ holdings =
       length: 4,
       width: 3,
       radius: 4,
-      color: '#b31b1b'
+      color: '#999'
       left: headingWidth - (headingWidth/3)
     this.availabilityHeading.spin('holdings')
 
@@ -38,22 +38,22 @@ holdings =
     # http://railsapps.github.com/rails-javascript-include-external.html
     bibids = []
     tibids = []
-    batchf = 4 
+    batchf = 4
     n = 0
     $('body.blacklight-catalog-index .document, body.blacklight-bookmarks-index .document').each ->
       bibId = $(this).data('bibid')
       tibids.push bibId
       n++
-      if ((n % batchf) == 0) 
+      if ((n % batchf) == 0)
         bibids.push tibids
         tibids = []
       #holdings.loadHoldingsShort(bibId)
 
     if tibids.length > 0
       bibids.push tibids
-    for b in bibids 
+    for b in bibids
       holdings.loadHoldingsShortm (b.join('/'))
-      
+
     $('body.blacklight-catalog-show .holdings, body.blacklight-bookmarks-show .holdings').each ->
       bibId = $(this).data('bibid')
       holdings.loadHoldings(bibId)
@@ -87,11 +87,11 @@ holdings =
       url: '/backend/holdings_shorthm/' + id
       success: (data) ->
         bids = Object.keys(data)
-        for i in bids 
+        for i in bids
           $('#blacklight-avail-'+i).html(data[i])
       error: (data) ->
         bids = Object.keys(data)
-        for i in bids 
+        for i in bids
           $('#blacklight-avail-'+i).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
 
   # Event listener called on page load
