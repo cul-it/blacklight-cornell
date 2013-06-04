@@ -79,3 +79,4 @@ gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise"
 gem "devise-guests", "~> 0.3"
 gem "bootstrap-sass"
+gem "blacklight_cornell_requests", path: "/users/mjc12/code/blacklight_cornell_requests"

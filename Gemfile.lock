@@ -1,3 +1,14 @@
+PATH
+  remote: /users/mjc12/code/blacklight_cornell_requests
+  specs:
+    blacklight_cornell_requests (0.0.1)
+      blacklight
+      haml (>= 3.0.0)
+      haml-rails
+      httpclient
+      net-ldap
+      rails (~> 3.2.13)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -266,6 +277,7 @@ PLATFORMS
 DEPENDENCIES
   blacklight
   blacklight_advanced_search
+  blacklight_cornell_requests!
   blacklight_range_limit
   blacklight_unapi
   bootstrap-sass
