@@ -3,7 +3,7 @@
     <% # bookmark/folder functions -%>
     <div class="row">
       <div class="cover span2">
-        <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
+        <img id="isbn_<%= bookcover_isbn(@document) %>" class="bookcover img-polaroid" src="/assets/cornell/layout/placeholder-item.png" data-isbn="<%= bookcover_isbn(@document) %>">
       </div>
 
       <div class="document item-metadata span10">
@@ -64,7 +64,7 @@
           <span class="blacklight-url_access_display"></span>
 
           <!-- Only show request button if there are physical holdings -->
- 
+
           <% locs = @response.docs[0]['location_display'] %>
           <% if locs.blank? or !(locs.length == 1 and locs[0] == '*Networked Resource') %>
             <div class="item-requests">

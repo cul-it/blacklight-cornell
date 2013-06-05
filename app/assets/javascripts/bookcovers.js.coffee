@@ -15,18 +15,19 @@ bookcovers =
       isbn = $(this).data('isbn')
       if (isbn)
         resultsIsbn.push(isbn)
-    console.log(resultsIsbn)
 
     url = "http://books.google.com/books?bibkeys=#{resultsIsbn}&jscmd=viewapi&callback=?"
-    console.log(url)
     $.getJSON url, {}, this.insertCovers
 
   # Insert covers into the page
   insertCovers: (data) ->
     for id, values of data
       imgId = 'isbn_' + values.bib_key
-      console.log(imgId)
-      $("##{imgId}").attr("src", values.thumbnail_url)
+      thumbnail = values.thumbnail_url
+      if (thumbnail)
+        # Default response returns smallest thumbnail, swap out with largest
+        thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
+      $("##{imgId}").attr("src", thumbnail)
 
 $(document).ready ->
   bookcovers.onLoad()
