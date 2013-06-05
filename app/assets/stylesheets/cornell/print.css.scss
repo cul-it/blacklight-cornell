@@ -29,10 +29,27 @@
 
 	// PRINT URLS - OVERRIDE BOOTSTRAP SASS GEM
 	// ----------------------------------------
+
+	// default to not printing any URLs
 	a[href]:after {
-    	content: ""; }
+    	content: "";
+    	font-size: 75%; }
   	abbr[title]:after {
     	content: ""; }
+
+  	// search results: print title and online link 
+    .blacklight-title_display {
+    	a[href]:after {
+    	content: " (" attr(href) ")"; }
+    }
+    a[href].status-online:after {
+    	content: " (" attr(href) ")"; }
+
+    // item view: print url_access_display, url_findingaid_display, url_bookplate_display, url_other_display
+    a[href].online-access:after,
+    a[href].url_findingaid_display:after {
+    	content: " (" attr(href) ")"; }
+
 
   	// BOOKMARK TOGGLE
 	// ----------------------------------------
