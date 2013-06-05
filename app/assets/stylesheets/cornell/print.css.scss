@@ -81,4 +81,10 @@
 			.feedback { display: block; }
 		}
 	}
+	@media (min-width: 768px) and (max-width: 979px) {
+ 		.row {
+			margin-left: -30px;
+			margin-right: -30px;
+		}
+	}
 }
