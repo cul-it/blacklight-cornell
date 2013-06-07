@@ -1,19 +1,45 @@
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
 set :application, "blacklight-cornell"
 set :repository,  "git@git.library.cornell.edu:/blacklight-cornell"
 set :scm, :git
-set :user, "jac244"
+set :use_sudo, false
+#set :user, "jac244"
+set :user, "es287"
 set :default_environment, {
-  'PATH' => "/users/#{user}/.rvm/gems/ruby-1.9.3-p194/bin:/users/#{user}/.rvm/gems/ruby-1.9.3-p194/bin/rake:/users/#{user}/.rvm/bin:/users/#{user}/.rvm/bin:$PATH",
+  'PATH' => "/usr/local/rvm/gems/ruby-1.9.3-p194@blacklight/bin:/usr/local/rvm/gems/ruby-1.9.3-p194/bin:/usr/local/rvm/gems/ruby-1.9.3-p194@global/bin:/usr/local/rvm/rubies/ruby-1.9.3-p194/bin:/usr/local/rvm/bin:$PATH",
   'RUBY_VERSION' => "ruby 1.9.3-p194",
-  'GEM_HOME'     => "/users/#{user}/.rvm/gems/ruby-1.9.3-p194/gems",
-  'GEM_PATH'     => "/users/#{user}/.rvm/gems/ruby-1.9.3-p194",
-  'BUNDLE_PATH'  => "/users/#{user}/.rvm/gems/ruby-1.9.3-p194/bundler"  # If you are using bundler.
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-1.9.3-p194",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-1.9.3-p194:/usr/local/rvm/gems/ruby-1.9.3-p194@global",
+  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-1.9.3-p194@global/gems/bundler-1.3.5/"  # If you are using bundler.
 }
+
+set :deploy_to, "/users/#{user}"
+
+#role  :app, "culsearchdev.library.cornell.edu"
+#role  :web, "culsearchdev.library.cornell.edu"
+#role  :db, "culsearchdev.library.cornell.edu", :primary => true
+
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
+require 'capistrano_database_yml'
+
 set :stages, ["staging", "production"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
+
+task :cold do
+  transaction do
+    update
+    setup_db  #replacing migrate in original
+    start
+  end
+end
+
+task :setup_db, :roles => :app do
+  raise RuntimeError.new('db:setup aborted!') unless Capistrano::CLI.ui.ask("About to `rake db:setup`. Are you sure to wipe the entire database (anything other than 'yes' aborts):") == 'yes'
+  run "cd #{current_path}; bundle exec rake db:setup RAILS_ENV=#{rails_env}"
+end
+
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end

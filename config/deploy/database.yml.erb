@@ -1,0 +1,25 @@
+# example of database template
+   
+base: &base
+     adapter: sqlite3
+     timeout: 5000
+development:
+     database: db/development.sqlite3
+     <<: *base
+test:
+     database: db/test.sqlite3
+     <<: *base
+production:
+     database: db/production.sqlite3
+     <<: *base
+xproduction:
+     adapter: mysql
+     database: <%= application %>_production
+     username: <%= user %>
+     password: <%= Capistrano::CLI.ui.ask("Enter MySQL database password: ") %>
+     encoding: utf8
+     timeout: 5000
+
+cucumber:
+   <<:*test
+
