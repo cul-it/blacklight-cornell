@@ -1,25 +1,30 @@
-# example of database template
-   
-base: &base
-     adapter: sqlite3
-     timeout: 5000
 development:
-     database: db/development.sqlite3
-     <<: *base
+  adapter: mysql
+  encoding: utf8
+  database: dna-dev
+  pool: 5
+  username: dnauser
+  password: Rails4you
+  socket: /var/lib/mysql/mysql.sock
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
 test:
-     database: db/test.sqlite3
-     <<: *base
+  adapter: mysql
+  database: dna-test
+  pool: 5
+  username: dnauser
+  password: Rails4you
+  socket: /var/lib/mysql/mysql.sock
+
 production:
-     database: db/production.sqlite3
-     <<: *base
-xproduction:
-     adapter: mysql
-     database: <%= application %>_production
-     username: <%= user %>
-     password: <%= Capistrano::CLI.ui.ask("Enter MySQL database password: ") %>
-     encoding: utf8
-     timeout: 5000
+  adapter: mysql
+  database: dna-production
+  pool: 5
+  username: dnauser
+  password: <%= Capistrano::CLI.ui.ask("Enter Production MySQL database password: ") %>
+  socket: /var/lib/mysql/mysql.sock
 
 cucumber:
    <<:*test
-
