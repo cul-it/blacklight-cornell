@@ -1,4 +1,8 @@
-= render :partial => 'request_header.html.haml'     
+=link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type 
+  Interlibrary Loan    
 %div.row
   %div.span8.well
     %h2.item-title-request.blacklight-title_display=@ti
