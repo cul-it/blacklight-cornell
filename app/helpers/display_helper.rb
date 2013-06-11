@@ -813,4 +813,20 @@ module DisplayHelper
     start = core.rindex(/\//) + 1
     core[start..-1]
   end
+
+  # Clean up isbn in prep for bookcovers via Google Books API
+  def bookcover_isbn(document)
+    isbn = document['isbn_display']
+    unless isbn.blank?
+      isbn = isbn.first
+      # Find first occurence of a space (remove non integer chars)
+      space = isbn.index(' ')
+      unless space.blank?
+        stop = space - 1
+        isbn[0..stop]
+      else
+        isbn
+      end
+    end
+  end
 end
