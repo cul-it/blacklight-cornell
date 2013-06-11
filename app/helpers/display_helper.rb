@@ -767,6 +767,20 @@ module DisplayHelper
       end
   end
 
+  # Overrides original method from catalog_helper_behavior.rb
+  # -- Allow for different default sort when browsing
+  def current_sort_field
+    query_params = session[:search] ? session[:search].dup : {}
+    # if no search term is submitted and user hasn't specified a sort
+    # assume browsing and use the browsing sort field
+    if query_params[:q].blank? and query_params[:sort].blank?
+      blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
+    # otherwise, resume regularly scheduled programming
+    else
+      blacklight_config.sort_fields[params[:sort]] || (blacklight_config.sort_fields.first ? blacklight_config.sort_fields.first.last : nil )
+    end
+  end
+
   # Shadow record sniffer
   def is_shadow_record(document)
     if defined? document.to_marc
