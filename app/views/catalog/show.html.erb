@@ -1,7 +1,9 @@
-<% link_back = link_back_to_catalog %>
+<% if @previous_document || @next_document %>
+  <% link_back = link_back_to_catalog %>
 
-<%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
-  <i class="icon-circle-arrow-left"></i> <%= link_back[:label] %>
+  <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
+    <i class="icon-circle-arrow-left"></i> <%= link_back[:label] %>
+  <% end %>
 <% end %>
 
 <%= render :partial => 'search_form' %>
