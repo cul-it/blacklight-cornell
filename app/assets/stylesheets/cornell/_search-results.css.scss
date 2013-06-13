@@ -96,15 +96,15 @@ body.blacklight-bookmarks-index .document {
 		margin: 0 .5em; }
 }
 
-.icon-cover {
+.icon-cover { // bump up width and heigh to accommodate for padding on nested img with img-polaroid class
 	float: left; 
-	width: 50px; 
+	width: 58px; 
 	margin-right: 1em; 
-	height: 75px;
+	height: 83px;
 	text-align: center;
-	background: $light-tan;
 	i { 
-		font-size: 1.5em;
-		display: inline-block;
-		margin-top: 20px; }
+		font-size: 1.75em;
+		margin-left: 4px;
+		position: relative;
+		top: -60px; }
 }
