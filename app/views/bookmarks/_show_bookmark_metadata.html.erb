@@ -3,7 +3,10 @@
     <% # bookmark/folder functions -%>
     <div class="row">
       <div class="cover span2">
-        <img id="isbn_<%= bookcover_isbn(@document) %>" class="bookcover img-polaroid" src="/assets/cornell/layout/placeholder-item.png" data-isbn="<%= bookcover_isbn(@document) %>">
+        <div class="icon-cover bookcover" id="isbn_<%= bookcover_isbn(@document) %>" data-isbn="<%= bookcover_isbn(@document) %>">
+          <img class="img-polaroid" src="/assets/cornell/layout/placeholder-item.png">
+          <i class="icon-<%= formats_icon_mapping(@document['format'].first) %>"></i>
+        </div>
       </div>
 
       <div class="document item-metadata span10">
