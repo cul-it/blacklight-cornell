@@ -22,12 +22,13 @@ bookcovers =
   # Insert covers into the page
   insertCovers: (data) ->
     for id, values of data
-      imgId = 'isbn_' + values.bib_key
+      divId = 'isbn_' + values.bib_key
       thumbnail = values.thumbnail_url
       if (thumbnail)
         # Default response returns smallest thumbnail, swap out with largest
         thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
-      $("##{imgId}").attr("src", thumbnail)
+        $("##{divId}").replaceWith ->
+          '<img class="bookcover img-polaroid" src="' + thumbnail + '">'
 
 $(document).ready ->
   bookcovers.onLoad()
