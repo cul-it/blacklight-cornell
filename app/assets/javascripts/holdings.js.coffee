@@ -1,3 +1,11 @@
+`if (!Object.keys) Object.keys = function(o) {
+  if (o !== Object(o))
+    throw new TypeError('Object.keys called on a non-object');
+  var k=[],p;
+  for (p in o) if (Object.prototype.hasOwnProperty.call(o,p)) k.push(p);
+  return k;
+}
+`
 holdings =
   # Initial setup
   onLoad: () ->
@@ -39,16 +47,27 @@ holdings =
 
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
-    bibids = []
     # Using body class as selector to make these triggers page specific
     # appears to be an acceptable approach (one of several) in Rails 3
     # with Assets Pipeline. More info here:
     # http://railsapps.github.com/rails-javascript-include-external.html
+    bibids = []
+    tibids = []
+    batchf = 4
+    n = 0
     $('body.blacklight-catalog-index .document, body.blacklight-bookmarks-index .document').each ->
       bibId = $(this).data('bibid')
-      bibids.push bibId
+      tibids.push bibId
+      n++
+      if ((n % batchf) == 0)
+        bibids.push tibids
+        tibids = []
+      #holdings.loadHoldingsShort(bibId)
 
-    holdings.loadHoldingsShortm (bibids.join('/'))
+    if tibids.length > 0
+      bibids.push tibids
+    for b in bibids
+      holdings.loadHoldingsShortm (b.join('/'))
 
     $('body.blacklight-catalog-show .holdings, body.blacklight-bookmarks-show .holdings').each ->
       bibId = $(this).data('bibid')
