@@ -95,3 +95,16 @@ body.blacklight-bookmarks-index .document {
 		color: white;
 		margin: 0 .5em; }
 }
+
+.icon-cover {
+	float: left; 
+	width: 50px; 
+	margin-right: 1em; 
+	height: 75px;
+	text-align: center;
+	background: $light-tan;
+	i { 
+		font-size: 1.5em;
+		display: inline-block;
+		margin-top: 20px; }
+}

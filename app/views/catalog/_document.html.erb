@@ -1,6 +1,9 @@
 <% # container for a single doc -%>
 <div class="document <%= render_document_class document %> clearfix" data-bibid="<%= document.id %>">
-  <img id="isbn_<%= bookcover_isbn(document) %>" class="bookcover img-polaroid" src="/assets/cornell/layout/placeholder-item.png" data-isbn="<%= bookcover_isbn(document) %>">
+  <!-- <img id="isbn_<%= bookcover_isbn(document) %>" class="bookcover img-polaroid" src="/assets/cornell/layout/placeholder-item.png" data-isbn="<%= bookcover_isbn(document) %>"> -->
+  <div class="icon-cover bookcover img-polaroid" id="isbn_<%= bookcover_isbn(document) %>" data-isbn="<%= bookcover_isbn(document) %>">
+    <i class="icon-<%= formats_icon_mapping(document['format'].first) %>"></i>
+  </div>
 
   <div class="document-data">
     <%= render :partial => 'document_header', :locals => { :document => document, :document_counter => document_counter } %>
