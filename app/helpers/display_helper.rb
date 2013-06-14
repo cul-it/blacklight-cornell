@@ -767,6 +767,20 @@ module DisplayHelper
       end
   end
 
+  # Overrides original method from catalog_helper_behavior.rb
+  # -- Allow for different default sort when browsing
+  def current_sort_field
+    query_params = session[:search] ? session[:search].dup : {}
+    # if no search term is submitted and user hasn't specified a sort
+    # assume browsing and use the browsing sort field
+    if query_params[:q].blank? and query_params[:sort].blank?
+      blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
+    # otherwise, resume regularly scheduled programming
+    else
+      blacklight_config.sort_fields[params[:sort]] || (blacklight_config.sort_fields.first ? blacklight_config.sort_fields.first.last : nil )
+    end
+  end
+
   # Shadow record sniffer
   def is_shadow_record(document)
     if defined? document.to_marc
@@ -798,5 +812,21 @@ module DisplayHelper
     # Find last occurence of forward slash and add one
     start = core.rindex(/\//) + 1
     core[start..-1]
+  end
+
+  # Clean up isbn in prep for bookcovers via Google Books API
+  def bookcover_isbn(document)
+    isbn = document['isbn_display']
+    unless isbn.blank?
+      isbn = isbn.first
+      # Find first occurence of a space (remove non integer chars)
+      space = isbn.index(' ')
+      unless space.blank?
+        stop = space - 1
+        isbn[0..stop]
+      else
+        isbn
+      end
+    end
   end
 end

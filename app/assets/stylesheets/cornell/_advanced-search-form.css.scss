@@ -26,3 +26,6 @@ body.blacklight-advanced-index dl.dl-horizontal {
   dt { width: 50px; }
   dd { margin-left: 65px; }
 }
+.blacklight-advanced {
+  select { font-family: $baseFontFamily; }
+}

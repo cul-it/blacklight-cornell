@@ -74,12 +74,6 @@
               %i.icon-circle-arrow-right &nbsp;Check Circulation
         %td
           This item is a short-term loan. Please check at the circulation desk.
-    - else
-      %tr
-        %td
-          = link_to 'http://ask.library.cornell.edu', {:title => @ti} do 
-            %h2.blacklight-title_display 
-              %i.icon-circle-arrow-right 
-              Ask a Librarian
-        %td
-          N/A
+%p 
+  If you need further help, please 
+  =link_to 'Ask a Librarian.','http://ask.library.cornell.edu'
