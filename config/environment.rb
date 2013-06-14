@@ -9,3 +9,17 @@ ActionMailer::Base.smtp_settings = {
   :address    => 'appsmtp.mail.cornell.edu',
 }
 
+BlacklightCornellRequests.config do |config|
+  # URL of service which returns JSON holding info.
+  config.voyager_holdings = "http://culholdingsdev.library.cornell.edu"
+  config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
+  
+  # URL of service which handles item requests
+  config.voyager_request_handler_host = "http://culholdingsdev.library.cornell.edu"
+  config.voyager_request_handler_port = 80
+
+  ## URL of metasearch service
+  config.borrow_direct_webservices_host = ""
+  config.borrow_direct_webservices_port = 9004
+end
+
