@@ -75,7 +75,7 @@ BlacklightCornell::Application.configure do
 
 
   # URL of service which handles item requests
-  config.voyager_request_handler_host = ""
+  config.voyager_request_handler_host = "http://holdings.library.cornell.edu"
   config.voyager_request_handler_port = 80
 
   ## URL of metasearch service
