@@ -48,13 +48,15 @@ textarea {
 // HOME PAGE TEXT
 
 .feedback {
-	h4 { margin-top: 0; }
-  	p { font-size: .8em;}
+	h4 { margin-top: 40px; }
+  	p { font-size: 1em;}
 }
 .home-message {
+	margin-top: 30px;
 	p {
 		line-height: 1.5em;
-		margin-bottom: 15px; }
+		margin-bottom: 15px;
+		font-size: 1.1em; }
 	li {
 		line-height: 1.5em;
 		margin-bottom: .5em; }

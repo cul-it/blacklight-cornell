@@ -3,7 +3,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   include Blacklight::Configurable
   include Blacklight::SolrHelper
-
+#  include ActsAsTinyURL
   SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
@@ -487,14 +487,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-
+        tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+        tiny = tiny_url(tinyPass)
         if params[:to]
           phone_num = params[:to].gsub(/[^\d]/, '')
           unless params[:carrier].blank?
             if phone_num.length != 10
               flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
             else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location]}, url_gen_params)
+              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
             end
 
           else
@@ -510,7 +511,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           redirect_to catalog_path(params['id']) unless request.xhr?
         end
       end
-
       unless !request.xhr? && flash[:success]
         respond_to do |format|
           format.js { render :layout => false }
@@ -671,5 +671,36 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       solr_parameters[:sort] = browsing_sortby.field
     end
   end
+
+  def tiny_url(uri, options = {}) 
+    defaults = { :validate_uri => false }
+    options = defaults.merge options
+    return validate_uri(uri) if options[:validate_uri]
+    return generate_uri(uri)
+  end 
+
+  private
+  
+  def validate_uri(uri)
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    if confirmed_uri.blank?
+      return false
+    else
+      return true
+    end
+  end
+  
+  def generate_uri(uri)
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    if !confirmed_uri.blank?
+      escaped_uri = URI.escape("http://tinyurl.com/api-create.php?url=#{confirmed_uri}")
+      uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+      return uri_parsed
+    else
+     # needs error checking.
+     # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
+    end
+  end
+
 
 end
