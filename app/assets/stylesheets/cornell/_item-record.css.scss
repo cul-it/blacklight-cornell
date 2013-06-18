@@ -21,7 +21,15 @@ h3.responsibility {
 .cover {
 	float: left;
 	margin-bottom: 1.5em;
+	.icon-cover {
+		width: 133px;
+		height: 193px;
+		i { 
+			font-size: 3em;
+			margin-left: 0;
+			top: -130px; }
 	}
+}
 
 .item-metadata {
 	// float: left;
@@ -87,6 +95,7 @@ dd.blacklight-notes {
 .item-tools {
 	ul {
 		float: right;
+		margin-left: 0;
 		list-style: none;
 	}
 	li {
@@ -161,7 +170,8 @@ dd.blacklight-notes {
 	margin-top: .4em;
 	font-size: .9em;
 	line-height: 1.2em;
-	color: $light-gray;
+	color: $medium-gray;
+	h5 { margin: 0; }
 }
 .item-requests {
 	margin: .75em 0;

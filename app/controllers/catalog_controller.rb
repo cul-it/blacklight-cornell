@@ -1,12 +1,16 @@
 # -*- encoding : utf-8 -*-
-require 'blacklight/catalog'
-
 class CatalogController < ApplicationController
   #include BlacklightGoogleAnalytics::ControllerExtraHead
 
   include Blacklight::Catalog
+  include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
   include BlacklightAdvancedSearch::ParseBasicQ
+
+  # Tweak search param logic for default sort when browsing
+  # Follow documentation in project wiki
+  # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
+  self.solr_search_params_logic << :sortby_title_when_browsing
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
@@ -26,8 +30,18 @@ class CatalogController < ApplicationController
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
     config.display_clickable = {
-        'author_display' => 'author/creator',
-        'author_addl_display' => 'author/creator',
+        'author_display' => {
+            :search_field => 'author/creator',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list => true
+        },
+        'author_addl_display' => {
+            :search_field => 'author/creator',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list => true
+        },
         'subject_display' => {
             :search_field => 'subject',
             :sep => '|',
@@ -207,7 +221,7 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
     config.add_facet_field 'online', :label => 'Access', :limit => 2
-    config.add_facet_field 'format', :label => 'Format', :limit => 5
+    config.add_facet_field 'format', :label => 'Format', :limit => 10
     config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
     config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
       :num_segments => 6,
@@ -307,6 +321,12 @@ class CatalogController < ApplicationController
     config.add_show_field 'translation_of_display', :label => 'Translation of'
     config.add_show_field 'has_translation_display', :label => 'Has translation'
     config.add_show_field 'other_edition_display', :label => 'Other edition'
+    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed Selectively By'
+    config.add_show_field 'indexed_by_display', :label => 'Indexed By'
+    config.add_show_field 'references_display', :label => 'References'
+    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its Entity By'
+    config.add_show_field 'in_display', :label => 'In'
+    config.add_show_field 'map_format_display', :label => 'Map Format'
     config.add_show_field 'has_supplement_display', :label => 'Has supplement'
     config.add_show_field 'supplement_to_display', :label => 'Supplement to'
     config.add_show_field 'other_form_display', :label => 'Other form'
@@ -473,7 +493,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'pub_date_sort asc, title_sort asc', :label => 'year ascending', :include_in_advanced_search => false
     config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author A-Z'
     config.add_sort_field 'author_sort desc, title_sort asc', :label => 'author Z-A'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z'
+    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
 
     # If there are more than this many search results, no spelling ("did you

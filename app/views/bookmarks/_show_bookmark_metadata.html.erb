@@ -14,7 +14,7 @@
           <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
 
           <%
-           title = the_vernaculator('title_display', 'title_vern_display')
+            title = the_vernaculator('title_display', 'title_vern_display')
             subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
             responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
           %>

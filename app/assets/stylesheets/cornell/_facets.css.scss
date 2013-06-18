@@ -62,6 +62,10 @@
 	}
 	h5 + div { padding-bottom: .5em; }
 }
+.count {
+  font-family: $monospaceFontFamily;
+  font-size: .9em;
+}
 
 // PUBLICATION YEAR
 .limit_content {
@@ -149,6 +153,6 @@ form.range_limit {
 }
 
 .twiddle-open .icon-plus-sign {
-    @extend .icon-minus-sign;
-    opacity: 1;
-  }
+  @extend .icon-minus-sign;
+  opacity: 1;
+}

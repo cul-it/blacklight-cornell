@@ -4,12 +4,14 @@
       <li>
         <%= link_to bookmarks_path do %>
           <%= t('blacklight.header_links.bookmarks') %>
-          <% unless @bookmarks.nil? %>
-            <% @bookmarks.collect %>
-            <% unless @bookmarks.count < 1 %>
-              (<%= @bookmarks.count %>)
-            <% end %>
-          <% end %>
+          <span id="bookmarks-count">
+            <%- unless @bookmarks.nil? %>
+              <%- @bookmarks.collect %>
+              <%- unless @bookmarks.count < 1 %>
+                (<%= @bookmarks.count %>)
+              <%- end %>
+            <%- end %>
+          </span>
         <% end %>
       </li>
     <% end %>

@@ -20,7 +20,7 @@ body.blacklight-bookmarks-index .document {
 
 .document-data {
 	float: left;
-	width: 90%;
+	width: 89%;
 	span {
 		font-size: .75em;
 		color: $light-gray;
@@ -94,4 +94,17 @@ body.blacklight-bookmarks-index .document {
 		display: inline;
 		color: white;
 		margin: 0 .5em; }
+}
+
+.icon-cover { // bump up width and heigh to accommodate for padding on nested img with img-polaroid class
+	float: left; 
+	width: 58px; 
+	margin-right: 1em; 
+	height: 83px;
+	text-align: center;
+	i { 
+		font-size: 1.75em;
+		margin-left: 4px;
+		position: relative;
+		top: -60px; }
 }

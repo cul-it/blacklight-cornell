@@ -13,15 +13,15 @@ module BlacklightAdvancedSearch::CatalogHelperOverride
         my_index = params["search_field_row"].index(field)
         if my_index == 0
            for i in 0..params["search_field_row"].count - 1
-              my_params["as_boolean_row#{i + 2}"] = my_params["as_boolean_row#{i + 3}"]
+              my_params["boolean_row[#{i + 1}]"] = my_params["boolean_row[#{i + 1}]"]
            end
-           my_params.delete("as_boolean_row#{my_params['search_field_row'].count + 1}")
+           my_params.delete("boolean_row[#{my_params['search_field_row'].count}]")
         end
         if my_index > 0 
            for j in my_index..params["search_field_row"].count - 1
-              my_params["as_boolean_row#{j + 1}"] = my_params["as_boolean_row#{j + 2}"]
+              my_params["boolean_row[#{j}]"] = my_params["boolean_row[#{j + 1}]"]
            end
-           my_params.delete("as_boolean_row#{my_params['search_field_row'].count + 1}")              
+           my_params.delete("boolean_row[#{my_params['search_field_row'].count}]")              
         end
       end
       my_params["search_field_row"].delete_at(my_index)
@@ -30,38 +30,6 @@ module BlacklightAdvancedSearch::CatalogHelperOverride
       my_params.delete("op")
  #     my_params.delete("q")      
     end
-#    if my_params["search_field_row"].count <= 2
-#       if(my_params["search_field_row"].count == 2)
-#        my_index = my_params["search_field_row"].index(field)
-#       if my_index >= 0
-#          my_params['q'] = my_params['q_row'][my_index]
-#          my_params['search_field'] = my_params['search_field_row'][my_index]
-#          my_params['search_field_row'].delete_at(my_index)
-#        my_params.delete('advanced_query')
-#        my_params.delete('advanced_search')
-#        my_params.delete('as_boolean_row2')
-#        my_params.delete('op')#.delete_at(my_index)
-#        my_params.delete('op_row')#.delete_at(my_index)
-#        my_params.delete('q_row')#.delete_at(my_index)
-#        my_params.delete('search_field_row')#.delete_at(my_index)
-#        my_params.delete(field)           
-#          Rails.logger.debug("Number2 = #{my_params}")
-#        end
-#        else
-#          my_params['q'] = my_params['q_row'][0]
-#          my_params['search_field'] = my_params['search_field_row'][0]
-#          my_params['search_field_row'].delete_at(0)
-#        params.delete('advanced_query')
-#        params.delete('advanced_search')
-#        params.delete('as_boolean_row2')
-#        params.delete('op')#.delete_at(my_index)
-#        params.delete('op_row')#.delete_at(my_index)
-#        params.delete('q_row')#.delete_at(my_index)
-#        params.delete('search_field_row')#.delete_at(my_index)
-#        params.delete(field)           
-#          Rails.logger.debug("Number2_1 = #{my_params}")
-#        end
-#    end 
     return my_params
   end
 

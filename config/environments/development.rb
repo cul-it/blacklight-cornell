@@ -33,7 +33,7 @@ BlacklightCornell::Application.configure do
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+#  config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Do not compress assets
   config.assets.compress = false
@@ -41,7 +41,7 @@ BlacklightCornell::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   # URL of service which returns JSON holding info.
-  config.voyager_holdings = "http://culsearchdev.library.cornell.edu:8950" 
+  config.voyager_holdings = "http://culholdingsdev.library.cornell.edu"
   config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
 
   # URL of service which handles item requests

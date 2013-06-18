@@ -1,3 +1,11 @@
+`if (!Object.keys) Object.keys = function(o) {
+  if (o !== Object(o))
+    throw new TypeError('Object.keys called on a non-object');
+  var k=[],p;
+  for (p in o) if (Object.prototype.hasOwnProperty.call(o,p)) k.push(p);
+  return k;
+}
+`
 holdings =
   # Initial setup
   onLoad: () ->
@@ -9,16 +17,33 @@ holdings =
   # Create references to frequently used elements for convenience
   initObjects: () ->
     this.availabilityHeading = $('.availability h3')
+    this.resultsAvailability = $('.preloader')
 
-  # Add a spinner to indicate that data is loading
+  # Add spinners to indicate that data is loading
   loadSpinner: () ->
-    $.fn.spin.presets.holdings =
-      lines: 9,
-      length: 4,
-      width: 3,
-      radius: 4,
-      color: '#b31b1b'
-    this.availabilityHeading.spin('holdings')
+    # Search results view
+    this.resultsAvailability.each ->
+      elWidth = $(this).width()
+      $.fn.spin.presets.holdings =
+        lines: 9,
+        length: 3,
+        width: 2,
+        radius: 3,
+        top: 2,
+        left: elWidth + 5
+      $(this).spin('holdings')
+
+    # Item view
+    this.availabilityHeading.each ->
+      headingWidth = $(this).width()
+      $.fn.spin.presets.holdings =
+        lines: 9,
+        length: 4,
+        width: 3,
+        radius: 4,
+        color: '#999',
+        left: headingWidth - (headingWidth/3)
+      $(this).spin('holdings')
 
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
@@ -26,11 +51,25 @@ holdings =
     # appears to be an acceptable approach (one of several) in Rails 3
     # with Assets Pipeline. More info here:
     # http://railsapps.github.com/rails-javascript-include-external.html
+    bibids = []
+    tibids = []
+    batchf = 4
+    n = 0
     $('body.blacklight-catalog-index .document, body.blacklight-bookmarks-index .document').each ->
       bibId = $(this).data('bibid')
-      holdings.loadHoldingsShort(bibId)
+      tibids.push bibId
+      n++
+      if ((n % batchf) == 0)
+        bibids.push tibids
+        tibids = []
+      #holdings.loadHoldingsShort(bibId)
 
-    $('body.blacklight-catalog-show .holdings').each ->
+    if tibids.length > 0
+      bibids.push tibids
+    for b in bibids
+      holdings.loadHoldingsShortm (b.join('/'))
+
+    $('body.blacklight-catalog-show .holdings, body.blacklight-bookmarks-show .holdings').each ->
       bibId = $(this).data('bibid')
       holdings.loadHoldings(bibId)
 
@@ -49,13 +88,31 @@ holdings =
         # Stop and remove the spinner
         holdings.availabilityHeading.spin(false)
 
-  loadHoldingsShort: (id) ->
+  xxxloadHoldingsShort: (id) ->
     $.ajax
       url: '/backend/holdings_shorth/' + id
       success: (data) ->
         $('#blacklight-avail-'+id).html(data)
       error: (data) ->
         $('#blacklight-avail-'+id).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
+      complete: (data) ->
+        # Stop and remove the spinner
+        holdings.resultsAvailability.spin(false)
+
+  loadHoldingsShortm: (id) ->
+    $.ajax
+      dataType: "json"
+      url: '/backend/holdings_shorthm/' + id
+      success: (data) ->
+        bids = Object.keys(data)
+        for i in bids
+          $('#blacklight-avail-'+i).html(data[i])
+      error: (data) ->
+        # If holdings service is unavailable, create array of batched bibs
+        # from original string sent to service
+        bids = id.split('/')
+        $.each bids, (i, bibid) ->
+          $('#blacklight-avail-'+bibid).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
 
   # Event listener called on page load
   bindEventListener: () ->

@@ -4,9 +4,6 @@
 // v1.0 Discovery & Access 2013
 //**********************************
 
-// Override necessary Bootstrap variables
-@import 'variables';
-
 // Font Awesome
 @import 'font-awesome';
 
@@ -21,9 +18,9 @@
 @import 'search-form';
 @import 'advanced-search-form';
 @import 'search-results';
-@import 'preloader';
 @import 'pagination';
 @import 'item-record';
 @import 'footer';
 @import 'bookmarks';
 @import 'request-forms';
+@import 'retina';

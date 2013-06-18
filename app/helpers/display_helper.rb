@@ -48,6 +48,35 @@ module DisplayHelper
     render_field_value newval
   end
 
+  # for display of | delimited fields
+  # only displays the string before the first |
+  # otherwise, it does same as render_index_field_value
+  def render_pair_delimited_index_field_value args
+    value = args[:value]
+
+    if args[:field] and blacklight_config.index_fields[args[:field]]
+      field_config = blacklight_config.index_fields[args[:field]]
+      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+    end
+
+    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+
+    newval = nil
+    unless value.nil?
+      value_array = value.split('|')
+      vals = []
+      i = 0
+      value_array.each do |v|
+        vals.push v if i % 2 == 0
+        i = i + 1
+      end
+      newval = vals.join(' / ')
+    end
+
+    render_field_value newval
+  end
+
   # :format arg specifies what should be returned
   # * the raw array (url_access_display in availability on item page)
   # * url only (search results)
@@ -128,7 +157,7 @@ module DisplayHelper
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
 
     value = [value] unless value.is_a? Array
-    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x}
+    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
     return value.map { |v| render_clickable_item(args, v) }.join(args[:sep]).html_safe
   end
 
@@ -177,6 +206,27 @@ module DisplayHelper
             end
             link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'))
           end.join(sep_display).html_safe
+        elsif clickable_setting[:pair_list]
+          ## fields such as title are hierarchical
+          ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
+          # debugger
+          if  value_array.size() > 1
+            # i = 0
+            # value_array.map do |v|
+              # link_to(v, add_search_params(args[:field], '"' + v + '"'))
+            # end.join(sep_display).html_safe
+            i = 0
+            display_list = []
+            while i < value_array.size()
+              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + value_array[i+1] + '"'))
+              i = i + 2
+            end
+            display_list.join(sep_display).html_safe
+          else
+            value_array.map do |v|
+              link_to(v, add_search_params(args[:field], '"' + v + '"'))
+            end.join(sep_display).html_safe
+          end
         else
           # default behavior to search the text displayed
           value_array.map do |v|
@@ -196,6 +246,7 @@ module DisplayHelper
   def add_search_params(field, value)
     new_search_params = {
       #:utf8 => '✓',
+      :controller => 'catalog',
       :q => value,
       :search_field => get_clickable_search_field(field),
       :commit => 'search',
@@ -214,6 +265,7 @@ module DisplayHelper
     pf = get_clickable_search_field(primary_field)
     rf = get_clickable_search_field(related_search_field)
     rf = related_search_field if rf.nil?
+    boolean_row = 'boolean_row[1]'
 
     new_search_params = {
       #:utf8 => '✓',
@@ -221,7 +273,7 @@ module DisplayHelper
       q_row.to_sym => [pval, rval],
       op_row.to_sym => ['phrase', 'phrase'],
       search_field_row.to_sym => [pf, rf],
-      :as_boolean_row2 => 'AND',
+      boolean_row.to_sym => 'AND',
       :sort => 'score desc, pub_date_sort desc, title_sort asc',
       :search_field => 'advanced',
       :commit => 'Search',
@@ -619,11 +671,12 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
-  def document_show_html_title
+  def document_show_html_title document=nil
+    document ||= @document
     # Test to ensure that display_title is not missing
     # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
     if @document[blacklight_config.show.html_title].present?
-      render_field_value(@document[blacklight_config.show.html_title].html_safe)
+      render_field_value(document[blacklight_config.show.html_title].html_safe)
     end
   end
 
@@ -663,7 +716,7 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # -- Updated to handle arrays (multiple fields specified in config)
   # Used for creating a link to the document show action
-  def document_show_link_field
+  def document_show_link_field document=nil
     blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
   end
 
@@ -715,6 +768,20 @@ module DisplayHelper
       end
   end
 
+  # Overrides original method from catalog_helper_behavior.rb
+  # -- Allow for different default sort when browsing
+  def current_sort_field
+    query_params = session[:search] ? session[:search].dup : {}
+    # if no search term is submitted and user hasn't specified a sort
+    # assume browsing and use the browsing sort field
+    if query_params[:q].blank? and query_params[:sort].blank?
+      blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
+    # otherwise, resume regularly scheduled programming
+    else
+      blacklight_config.sort_fields[params[:sort]] || (blacklight_config.sort_fields.first ? blacklight_config.sort_fields.first.last : nil )
+    end
+  end
+
   # Shadow record sniffer
   def is_shadow_record(document)
     if defined? document.to_marc
@@ -738,5 +805,29 @@ module DisplayHelper
     vernacular = render_document_show_field_value :document => @document, :field => vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
+  end
+
+  # Display the Solr core in development
+  def render_solr_core
+    core = Blacklight.solr_config[:url]
+    # Find last occurence of forward slash and add one
+    start = core.rindex(/\//) + 1
+    core[start..-1]
+  end
+
+  # Clean up isbn in prep for bookcovers via Google Books API
+  def bookcover_isbn(document)
+    isbn = document['isbn_display']
+    unless isbn.blank?
+      isbn = isbn.first
+      # Find first occurence of a space (remove non integer chars)
+      space = isbn.index(' ')
+      unless space.blank?
+        stop = space - 1
+        isbn[0..stop]
+      else
+        isbn
+      end
+    end
   end
 end
