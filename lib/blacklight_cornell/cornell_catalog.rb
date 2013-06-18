@@ -697,7 +697,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
       return uri_parsed
     else
-      raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
+     # needs error checking.
+     # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
     end
   end
 
