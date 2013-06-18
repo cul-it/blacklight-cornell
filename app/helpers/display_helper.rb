@@ -265,6 +265,7 @@ module DisplayHelper
     pf = get_clickable_search_field(primary_field)
     rf = get_clickable_search_field(related_search_field)
     rf = related_search_field if rf.nil?
+    boolean_row = 'boolean_row[1]'
 
     new_search_params = {
       #:utf8 => '✓',
@@ -272,7 +273,7 @@ module DisplayHelper
       q_row.to_sym => [pval, rval],
       op_row.to_sym => ['phrase', 'phrase'],
       search_field_row.to_sym => [pf, rf],
-      :as_boolean_row2 => 'AND',
+      boolean_row.to_sym => 'AND',
       :sort => 'score desc, pub_date_sort desc, title_sort asc',
       :search_field => 'advanced',
       :commit => 'Search',
