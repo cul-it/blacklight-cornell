@@ -13,7 +13,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     after_filter :set_additional_search_session_values, :only=>:index
-
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
@@ -26,6 +25,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def search_action_url
     url_for(:action => 'index', :only_path => true)
+    
   end
 
 
@@ -35,7 +35,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
-      @bookmarks = current_or_guest_user.bookmarks
+  #    @bookmarks = current_or_guest_user.bookmarks
 
 
 # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
