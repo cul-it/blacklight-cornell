@@ -1,12 +1,16 @@
 # -*- encoding : utf-8 -*-
-require 'blacklight/catalog'
-
 class CatalogController < ApplicationController
   #include BlacklightGoogleAnalytics::ControllerExtraHead
 
+  include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
   include BlacklightAdvancedSearch::ParseBasicQ
+
+  # Tweak search param logic for default sort when browsing
+  # Follow documentation in project wiki
+  # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
+  self.solr_search_params_logic << :sortby_title_when_browsing
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
@@ -489,7 +493,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'pub_date_sort asc, title_sort asc', :label => 'year ascending', :include_in_advanced_search => false
     config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author A-Z'
     config.add_sort_field 'author_sort desc, title_sort asc', :label => 'author Z-A'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z'
+    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
 
     # If there are more than this many search results, no spelling ("did you

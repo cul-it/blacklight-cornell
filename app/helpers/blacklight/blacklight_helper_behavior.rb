@@ -91,6 +91,7 @@ module Blacklight::BlacklightHelperBehavior
 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
+    @bookmarks = current_or_guest_user.bookmarks
 
     content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
   end
@@ -101,7 +102,7 @@ module Blacklight::BlacklightHelperBehavior
     wrapping_class = options.delete(:documentFunctions) || "documentFunctions"
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
-
+    @bookmarks = current_or_guest_user.bookmarks
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
 

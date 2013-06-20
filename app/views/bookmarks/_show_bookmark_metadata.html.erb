@@ -3,7 +3,10 @@
     <% # bookmark/folder functions -%>
     <div class="row">
       <div class="cover span2">
-        <img src="/assets/cornell/layout/placeholder-item.png" class="img-polaroid">
+        <div class="icon-cover bookcover" id="isbn_<%= bookcover_isbn(@document) %>" data-isbn="<%= bookcover_isbn(@document) %>">
+          <img class="img-polaroid" src="/assets/cornell/layout/placeholder-item.png">
+          <i class="icon-<%= formats_icon_mapping(@document['format'].first) %>"></i>
+        </div>
       </div>
 
       <div class="document item-metadata span10">
@@ -64,11 +67,11 @@
           <span class="blacklight-url_access_display"></span>
 
           <!-- Only show request button if there are physical holdings -->
- 
+
           <% locs = @response.docs[0]['location_display'] %>
           <% if locs.blank? or !(locs.length == 1 and locs[0] == '*Networked Resource') %>
             <div class="item-requests">
-              <%= link_to 'Request', aeon_request_path(params[:id]), {:title => 'Request', :class => 'btn btn-danger'} %>
+              <%= link_to 'Request', blacklight_cornell_request.magic_request_path(params[:id]), {:title => 'Request', :class => 'btn btn-danger'} %>
             </div>
           <% end %>
 

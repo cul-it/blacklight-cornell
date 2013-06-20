@@ -21,7 +21,15 @@ h3.responsibility {
 .cover {
 	float: left;
 	margin-bottom: 1.5em;
+	.icon-cover {
+		width: 133px;
+		height: 193px;
+		i { 
+			font-size: 3em;
+			margin-left: 0;
+			top: -130px; }
 	}
+}
 
 .item-metadata {
 	// float: left;

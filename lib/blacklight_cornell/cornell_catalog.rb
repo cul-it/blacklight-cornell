@@ -3,7 +3,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   include Blacklight::Configurable
   include Blacklight::SolrHelper
-
+#  include ActsAsTinyURL
   SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
@@ -13,7 +13,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     after_filter :set_additional_search_session_values, :only=>:index
-
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
@@ -26,22 +25,23 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def search_action_url
     url_for(:action => 'index', :only_path => true)
+    
   end
 
- 
+
     # get search results from the solr index
     def index
 
       extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-      
-      @bookmarks = current_or_guest_user.bookmarks
+
+  #    @bookmarks = current_or_guest_user.bookmarks
 
 
-# secondary parsing of advanced search params.  Code will be moved to external functions for clarity      
+# secondary parsing of advanced search params.  Code will be moved to external functions for clarity
       if params[:q_row].present?
         query_string = set_advanced_search_params(params)
-      end                  
+      end
  #     end
 # End of secondary parsing
 
@@ -59,41 +59,41 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 # end of Journal title search hack
 
       (@response, @document_list) = get_search_results
- 
-      
+
+
       if params.nil? || params[:f].nil?
         @filters = []
       else
         @filters = params[:f] || []
       end
- 
+
 # clean up search_field and q params.  May be able to remove this
- 
-      if params[:search_field] == "journal title" 
-         if params[:q].nil?     
+
+      if params[:search_field] == "journal title"
+         if params[:q].nil?
            params[:search_field] = ""
          end
       end
 
-      if params[:q_row].present?              
+      if params[:q_row].present?
          if params[:q].nil?
           params[:q] = query_string
          end
       else
           if params[:q].nil?
             params[:q] = query_string
-          end   
+          end
       end
 
-# end of cleanup of search_field and q params      
-      
+# end of cleanup of search_field and q params
+
       respond_to do |format|
         format.html { save_current_search_params }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
       end
 #    params.delete("q_row")
-      
+
     end
 
 
@@ -119,7 +119,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
            if shrink_rows.include?(user_params[:search_field_row][i])
            else
                 shrink_rows << user_params[:search_field_row][i]
-                rowArray << i 
+                rowArray << i
                 if i > 0
                  realsub = i;
                  n = realsub.to_s
@@ -137,7 +137,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #                 search_session[:counter] = 1
                   session[:search][:"#{field_query}"] =  user_params[:q_row][0]
                end
-     
+
                pass_param = {field_query => user_params[field_query]}
                returned_query = ParsingNesting::Tree.parse(user_params[field_query])
                newstring = returned_query.to_query(pass_param)
@@ -173,7 +173,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
                     q_string << "}" << holdarray[1].chomp("\"") << "\""
                     q_string2 << holdarray[1].chomp("\"") << " "
                    end
-                 end 
+                 end
                else
                  q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
                  q_string << "}" << holdarray[1].chomp("\"") << "\""
@@ -209,12 +209,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
    return solr_parameters
   end
-  
+
   def groupBools(q_stringArray, opArray)
      grouped = []
      newString = q_stringArray[0];
      for i in 0..opArray.count - 1
-        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") " 
+        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
 #        else
 #           if opArray[i] == "OR"
 #            newString = newString + " OR " + q_stringArray[i + 1]
@@ -236,7 +236,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
              ops = 0
              params["op"] = []
              holdparams = query_string.split("&")
-             for i in 0..holdparams.count - 1            
+             for i in 0..holdparams.count - 1
                 terms = holdparams[i].split("=")
                 if (terms[0] == "op[]")
                   params["op"][ops] = terms[1]
@@ -275,15 +275,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
            #  params[:q] = query_string
              params.delete("q_row")
              params.delete("op_row")
-             params.delete("search_field_row")             
+             params.delete("search_field_row")
              params["commit"] = "Search"
              params["action"] = "index"
-             params["controller"] = "catalog"    
+             params["controller"] = "catalog"
        end
      return query_string
   end
-  
-  
+
+
   def massage_params(params)
     rowHash = {}
     opArray = []
@@ -355,7 +355,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     return returnstring
   end
 
-  
+
   def parse_single(params)
     query_string = ""
     query_rowArray = params[:q_row]
@@ -380,7 +380,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
      return query_string
   end
-  
+
   def test_size_param_array(param_array)
     count = 0
     for i in 0..param_array.count - 1
@@ -487,14 +487,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-
+        tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+        tiny = tiny_url(tinyPass)
         if params[:to]
           phone_num = params[:to].gsub(/[^\d]/, '')
           unless params[:carrier].blank?
             if phone_num.length != 10
               flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
             else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location]}, url_gen_params)
+              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
             end
 
           else
@@ -510,7 +511,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           redirect_to catalog_path(params['id']) unless request.xhr?
         end
       end
-
       unless !request.xhr? && flash[:success]
         respond_to do |format|
           format.js { render :layout => false }
@@ -651,7 +651,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
-  
+
     def blacklight_solr
       @solr ||=  RSolr.connect(blacklight_solr_config)
     end
@@ -659,5 +659,48 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     def blacklight_solr_config
       Blacklight.solr_config
     end
+
+  # solr_search_params_logic methods take two arguments
+  # @param [Hash] solr_parameters a hash of parameters to be sent to Solr (via RSolr)
+  # @param [Hash] user_parameters a hash of user-supplied parameters (often via `params`)
+  def sortby_title_when_browsing solr_parameters, user_parameters
+    # if no search term is submitted and user hasn't specified a sort
+    # assume browsing and use the browsing sort field
+    if user_parameters[:q].blank? and user_parameters[:sort].blank?
+      browsing_sortby =  blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
+      solr_parameters[:sort] = browsing_sortby.field
+    end
+  end
+
+  def tiny_url(uri, options = {}) 
+    defaults = { :validate_uri => false }
+    options = defaults.merge options
+    return validate_uri(uri) if options[:validate_uri]
+    return generate_uri(uri)
+  end 
+
+  private
   
+  def validate_uri(uri)
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    if confirmed_uri.blank?
+      return false
+    else
+      return true
+    end
+  end
+  
+  def generate_uri(uri)
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    if !confirmed_uri.blank?
+      escaped_uri = URI.escape("http://tinyurl.com/api-create.php?url=#{confirmed_uri}")
+      uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+      return uri_parsed
+    else
+     # needs error checking.
+     # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
+    end
+  end
+
+
 end

@@ -1,18 +1,5 @@
 BlacklightCornell::Application.routes.draw do
 
-  match 'request/hold/:id' => 'request#hold', :as =>'request_hold' , :constraints => { :id => /.+/}
-  match 'request/recall/:id' => 'request#recall', :as =>'request_recall'
-  match 'request/callslip/:netid/:id' =>'request#callslip', :as =>'request_callslip'
-  match 'request/l2l/:id' =>'request#l2l', :as =>'request_l2l'
-  match 'request/bd/:id' =>'request#bd', :as =>'request_bd'
-  match 'request/ill/:id' =>'request#ill', :as =>'request_ill'
-  match 'request/purchase/:id' =>'request#purchase', :as =>'request_purchase'
-  match 'request/ask/:id' =>'request#ask', :as =>'request_ask'
-  match 'aeon/request/:id' =>'request#request_aeon', :as =>'aeon_request'
-  match 'make_request' => 'request#make_request', :as => 'request_make_request', :via => :post
-  match 'request_item/:id' => 'request#request_item', :as => 'request_item_redirect'
-  #match 'request_item/:id/:isbn' => 'request#request_item', :as => 'request_item_redirect'
-
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
@@ -26,6 +13,8 @@ BlacklightCornell::Application.routes.draw do
   match 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
   match 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
   match 'backend/feedback_mail', :to => "backend#feedback_mail"
+
+  match 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms', :via => :post
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -83,4 +72,6 @@ BlacklightCornell::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+
+  mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
 end

@@ -146,7 +146,8 @@ en:
       text:
         title: '%{value}'
         author: ''
-        url: 'Link: %{url}'
+#        url: 'Link: %{url}'
+        url: '%{url}'
         callnumber: '%{callnumber}'
         location: '%{location}'
       errors:
