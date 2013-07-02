@@ -40,6 +40,22 @@ task :setup_db, :roles => :app do
   run "cd #{current_path}; bundle exec rake db:setup RAILS_ENV=#{rails_env}"
 end
 
+task :allmigrate, :roles => :db  do
+    rake = fetch(:rake, "rake")
+    rails_env = fetch(:rails_env, "production")
+    migrate_env = fetch(:migrate_env, "")
+    migrate_target = fetch(:migrate_target, :latest)
+
+    directory = case migrate_target.to_sym
+      when :current then current_path
+      when :latest  then latest_release
+      else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+      end
+
+    run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate"
+end
+
+
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end
