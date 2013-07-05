@@ -1,5 +1,7 @@
-PATH
-  remote: /users/mjc12/code/blacklight_cornell_requests
+GIT
+  remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
+  revision: 23cfead753d8b140239577b45316491ac9cd40ad
+  branch: dev
   specs:
     blacklight_cornell_requests (0.0.1)
       blacklight

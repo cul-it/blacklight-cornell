@@ -19,5 +19,27 @@ module ApplicationHelper
     end
   end
 
+#  def link_to_previous_document(previous_document)
+#    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, :class => "previous", :rel => 'prev', :'data-counter' => session[:search][:counter].to_i - 1 do
+#      content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
+#    end
+#  end
 
+#  def link_to_next_document(next_document)
+#    link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, :class => "next", :rel => 'next', :'data-counter' => session[:search][:counter].to_i + 1 do
+#      content_tag :span, raw(t('views.pagination.next')), :class => 'next'
+#    end
+#  end
+  
+  def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
+    opts[:label] ||= blacklight_config.index.show_link.to_sym
+    label = render_document_index_label doc, opts
+    if params[:controller] == 'bookmarks'
+      docID = doc.id
+      link_to label, '/bookmarks/' + docID #, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+    else
+      link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+    end
+  end
+  
 end

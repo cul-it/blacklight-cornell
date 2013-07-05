@@ -11,16 +11,13 @@
 # how to start up solr, generally for automated testing.
 
 development:
-  url: http://fbw4-dev.library.cornell.edu:8080/solr/June13
-  # url: http://da-dev-solr.library.cornell.edu/solr/May9
+  url: http://da-dev-solr.library.cornell.edu/solr/June13
 
 test: &test
-  url: http://fbw4-dev.library.cornell.edu:8080/solr/June13
-  # url: http://da-dev-solr.library.cornell.edu/solr/May9
+  url: http://da-dev-solr.library.cornell.edu/solr/June13
 
 production:
-  url: http://fbw4-dev.library.cornell.edu:8080/solr/June13
-  # url: http://da-dev-solr.library.cornell.edu/solr/May9
+  url: http://da-dev-solr.library.cornell.edu/solr/June13
 
 cucumber:
   <<: *test

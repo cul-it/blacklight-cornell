@@ -9,6 +9,7 @@ module Blacklight::Solr::Document::Sms
     body << I18n.t('blacklight.sms.text.title', :value => semantics[:title].first) unless semantics[:title].blank?
     body << I18n.t('blacklight.sms.text.callnumber', :value => semantics[:lc_callnum_display].join(" ")) unless semantics[:lc_callnum_display].blank?
     body << I18n.t('blacklight.sms.text.location', :value => semantics[:location].join(" ")) unless semantics[:location].blank?
+    body << I18n.t('blacklight.sms.text.tiny', :value => semantics[:tiny].join(" ")) unless semantics[:tiny].blank?
     return body.join unless body.empty?
   end
 

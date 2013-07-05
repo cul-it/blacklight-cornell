@@ -3,7 +3,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   include Blacklight::Configurable
   include Blacklight::SolrHelper
-
+#  include ActsAsTinyURL
   SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
@@ -13,7 +13,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     after_filter :set_additional_search_session_values, :only=>:index
-
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
@@ -26,6 +25,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def search_action_url
     url_for(:action => 'index', :only_path => true)
+    
   end
 
 
@@ -35,7 +35,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
-      @bookmarks = current_or_guest_user.bookmarks
+  #    @bookmarks = current_or_guest_user.bookmarks
 
 
 # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
@@ -487,14 +487,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-
+        tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+        tiny = tiny_url(tinyPass)
         if params[:to]
           phone_num = params[:to].gsub(/[^\d]/, '')
           unless params[:carrier].blank?
             if phone_num.length != 10
               flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
             else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location]}, url_gen_params)
+              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
             end
 
           else
@@ -510,7 +511,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           redirect_to catalog_path(params['id']) unless request.xhr?
         end
       end
-
       unless !request.xhr? && flash[:success]
         respond_to do |format|
           format.js { render :layout => false }
@@ -671,5 +671,36 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       solr_parameters[:sort] = browsing_sortby.field
     end
   end
+
+  def tiny_url(uri, options = {}) 
+    defaults = { :validate_uri => false }
+    options = defaults.merge options
+    return validate_uri(uri) if options[:validate_uri]
+    return generate_uri(uri)
+  end 
+
+  private
+  
+  def validate_uri(uri)
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    if confirmed_uri.blank?
+      return false
+    else
+      return true
+    end
+  end
+  
+  def generate_uri(uri)
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    if !confirmed_uri.blank?
+      escaped_uri = URI.escape("http://tinyurl.com/api-create.php?url=#{confirmed_uri}")
+      uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+      return uri_parsed
+    else
+     # needs error checking.
+     # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
+    end
+  end
+
 
 end

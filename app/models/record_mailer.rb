@@ -12,6 +12,7 @@ class RecordMailer < ActionMailer::Base
     @message        = details[:message]
     @callnumber     = details[:callnumber]
     @location       = details[:location]
+    @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
     
     mail(:to => details[:to],  :subject => subject)
@@ -24,6 +25,7 @@ class RecordMailer < ActionMailer::Base
     @documents      = documents
     @callnumber     = details[:callnumber]
     @location       = details[:location]
+    @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
     mail(:to => to, :subject => "")
   end
