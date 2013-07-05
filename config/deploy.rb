@@ -14,6 +14,7 @@ set :default_environment, {
 }
 
 set :deploy_to, "/users/#{user}"
+set :deploy_via, :copy
 
 #role  :app, "culsearchdev.library.cornell.edu"
 #role  :web, "culsearchdev.library.cornell.edu"
