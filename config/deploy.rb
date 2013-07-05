@@ -55,7 +55,12 @@ task :allmigrate, :roles => :db  do
     run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate"
 end
 
+desc "Fix file permissions"
+task :fix_file_permissions, :roles => [ :app, :db, :web ] do
+	run "chmod -R g+rw #{deploy_to}"
+end
 
+after :deploy, "fix_file_permissions"
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end
