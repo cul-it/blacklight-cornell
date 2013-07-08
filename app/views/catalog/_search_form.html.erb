@@ -6,8 +6,8 @@
       <div class="search-options span4">
         <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
-        <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
-        <%#= text_field_tag :q, "", :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+        <%#= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+        <%= text_field_tag :q, params[:show_query], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
 
       </div>
       <% unless search_fields.empty? %>
