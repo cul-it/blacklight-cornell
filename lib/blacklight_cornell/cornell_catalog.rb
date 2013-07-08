@@ -246,25 +246,25 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
                   search_session[terms[0]] = terms[1]
                 end
              end
-             if holdparams.count > 2
-             params["search_field"] = "advanced"
-             params[:q] = query_string
-             search_session[:q] = query_string
+             if holdparams.count > 1
+               params["search_field"] = "advanced"
+               params[:q] = query_string
+               search_session[:q] = query_string
+               search_session[:search_field] = "advanced"
              else
-             params[:q] = params["q"]
-             search_session[:q] = params[:q]
-             params[:search_field] = params["search_field"]
-             search_session[:search_field] = params[:search_field]
+               params[:q] = params["q"]
+               search_session[:q] = params[:q]
+               params[:search_field] = params["search_field"]
+               search_session[:search_field] = params[:search_field]
              end
              params["commit"] = "Search"
 #             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
              params["action"] = "index"
              params["controller"] = "catalog"
        else
-            search_session = {}
+#            search_session = {}
             params.delete("advanced_query")
             query_string = parse_single(params)
-            Rails.logger.debug("DrippitySplit = #{query_string}")
             holdparams = query_string.split("&")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
@@ -394,7 +394,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # get single document from the solr index
     def show
       @response, @document = get_solr_response_for_doc_id
-      Rails.logger.debug("SHOWPARAMS = #{@keyword_queries}")
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
 

@@ -732,6 +732,9 @@ module DisplayHelper
       subtitle = doc.get(opts[:label][3], :sep => nil)
 
       # Use subtitles for vern and english if present
+      if title_vern.nil?
+        title_vern = subtitle_vern
+      end
       vern = subtitle_vern.present? ? title_vern + ' : ' + subtitle_vern : title_vern
       english = subtitle.present? ? title + ' : ' + subtitle : title
 

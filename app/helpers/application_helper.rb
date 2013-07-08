@@ -36,7 +36,7 @@ module ApplicationHelper
     label = render_document_index_label doc, opts
     if params[:controller] == 'bookmarks'
       docID = doc.id
-      link_to label, '/bookmarks/' + docID #, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+      link_to label, '/catalog/' + docID #, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
     else
       link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
     end
