@@ -13,7 +13,7 @@ set :default_environment, {
   'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-1.9.3-p194@global/gems/bundler-1.3.5/"  # If you are using bundler.
 }
 
-set :deploy_to, "/users/#{user}"
+set :deploy_to, "/libweb/#{user}"
 set :deploy_via, :copy
 
 #role  :app, "culsearchdev.library.cornell.edu"
