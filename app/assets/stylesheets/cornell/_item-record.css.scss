@@ -129,6 +129,7 @@ dd.blacklight-notes {
 .availability {
 	float: right;
 	// font-size: 0.875em;
+	background: white;
 	h3 { margin-top: 0; }
 	.location { 
 		font-size: 1em;
@@ -136,9 +137,9 @@ dd.blacklight-notes {
 		margin-top: 0;
 		padding: 5px 10px;
 		border: 1px solid $tan;
-		-webkit-border-radius: 3px 3px 0 0;
-		-moz-border-radius: 3px 3px 0 0;
-		border-radius: 3px 3px 0 0; }
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px; }
 	.holding {
 		background: white;
 		border: 1px solid $tan;
@@ -153,23 +154,22 @@ dd.blacklight-notes {
 			font-size: .875em; }
 		.status,
 		.message { padding: 0 0 5px 0; }
-		.location {
-			border: 0;
-			border-bottom: 1px solid $tan;
-		}
+		// .location {
+		// 	border: 0;
+		// 	border-bottom: 1px solid $tan;
+		// }
 	}
 	.map-it {
 		font-size: .6875em;
-		display: inline-block;
-		float: right; }
+		 }
 	.url_findingaid_display {
 		display: block;
-		background: white;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		border-radius: 3px;
-		padding: 5px 10px;
-		border: 1px solid $tan;
+		// background: white;
+		// -webkit-border-radius: 3px;
+		// -moz-border-radius: 3px;
+		// border-radius: 3px;
+		// padding: 5px 10px;
+		// border: 1px solid $tan;
 		margin-bottom: 1em;
 	}
 	.unstyled {
@@ -219,21 +219,19 @@ dd.blacklight-notes {
 }
 .access-restriction {
 	display: block;
-	background: $light-tan;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	border: 1px solid $tan;
-	padding: 10px;
+	// background: $light-tan;
+	// -webkit-border-radius: 3px;
+	// -moz-border-radius: 3px;
+	// border-radius: 3px;
+	// border: 1px solid $tan;
+	// padding: 10px;
 	margin-top: 1em;
 	font-size: .9em;
 	line-height: 1.2em;
 	color: $medium-gray;
 	h5 { margin: 0; }
 }
-.item-requests {
-	margin: .75em 0;
-	text-align: right; }
+.item-requests { margin: .75em 0; }
 
 .google-books-link {
 	margin: 1.5em 0 0;
