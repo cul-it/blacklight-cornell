@@ -338,8 +338,6 @@ module DisplayHelper
     "Musical Recording" => "music",
     "Thesis" => "book-open",
     "Microform" => "th",
-    "Serial" => "copy",
-    "Journal/Periodical" => "popup",
     "Journal" => "popup",
     "Conference Proceedings" => "group",
     "Video" => "film",
