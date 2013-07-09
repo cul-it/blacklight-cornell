@@ -336,19 +336,19 @@ module DisplayHelper
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
     "Musical Recording" => "music",
-    "Thesis" => "book-open",
+    "Thesis" => "file-text-alt",
     "Microform" => "th",
-    "Journal" => "popup",
+    "Journal" => "book-open",
     "Conference Proceedings" => "group",
     "Video" => "film",
     "Map or Globe" => "globe",
-    "Manuscript/Archive" => "file",
+    "Manuscript/Archive" => "archive",
     "Newspaper" => "newspaper",
     "Database" => "database",
     "Image" => "picture",
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
-    "Research Guide" => "file-alt",
+    "Research Guide" => "paste",
     "Course Guide" => "graduation-cap"
   }
 
