@@ -129,10 +129,11 @@ dd.blacklight-notes {
 .availability {
 	float: right;
 	background: white;
+	padding: 10px;
 	h3 { margin-top: 0; }
 	.online-link { font-size: .875em; }
 	.location { 
-		font-size: 1em;
+		font-size: .875em;
 		background: $light-tan;
 		margin-top: 0;
 		margin-bottom: .5em;
@@ -151,7 +152,7 @@ dd.blacklight-notes {
 			font-size: .875em; }
 	}
 	.map-it {
-		font-size: .6875em;
+		font-size: .75em;
 		display: block;
 		float: right;
 		width: 25%;
