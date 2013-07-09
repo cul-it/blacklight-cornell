@@ -140,7 +140,8 @@ dd.blacklight-notes {
 		border: 1px solid $tan;
 		-webkit-border-radius: 3px;
 		-moz-border-radius: 3px;
-		border-radius: 3px; }
+		border-radius: 3px;
+		overflow: hidden; }
 	.holding {
 		.call-number {
 			padding: 0 10px 5px 10px;
