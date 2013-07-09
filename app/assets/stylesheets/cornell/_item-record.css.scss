@@ -128,59 +128,40 @@ dd.blacklight-notes {
 // AVAILABILITY
 .availability {
 	float: right;
-	// font-size: 0.875em;
 	background: white;
 	h3 { margin-top: 0; }
+	.online-link { font-size: .875em; }
 	.location { 
 		font-size: 1em;
 		background: $light-tan;
 		margin-top: 0;
+		margin-bottom: .5em;
 		padding: 5px 10px;
 		border: 1px solid $tan;
 		-webkit-border-radius: 3px;
 		-moz-border-radius: 3px;
 		border-radius: 3px; }
 	.holding {
-		background: white;
-		border: 1px solid $tan;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		border-radius: 3px;
 		.call-number {
-			padding: 5px 10px;
+			padding: 0 10px 5px 10px;
 			font-size: .875em; }
 		.group {
 			padding: 0 10px 5px 10px;
 			font-size: .875em; }
-		.status,
-		.message { padding: 0 0 5px 0; }
-		// .location {
-		// 	border: 0;
-		// 	border-bottom: 1px solid $tan;
-		// }
 	}
 	.map-it {
 		font-size: .6875em;
+		display: block;
+		float: right;
+		width: 25%;
+		text-align: right;
 		 }
 	.url_findingaid_display {
 		display: block;
-		// background: white;
-		// -webkit-border-radius: 3px;
-		// -moz-border-radius: 3px;
-		// border-radius: 3px;
-		// padding: 5px 10px;
-		// border: 1px solid $tan;
 		margin-bottom: 1em;
 	}
 	.unstyled {
-		background: white;
-		padding: 5px 10px;
-		border-left: 1px solid $tan;
-		border-right: 1px solid $tan;
-		-webkit-border-radius: 0 0 3px 3px;
-		-moz-border-radius: 0 0 3px 3px;
-		border-radius: 0 0 3px 3px;
-		border-bottom: 1px solid $tan;
+		padding: 0 10px;
 	}
 }
 .holding,
@@ -219,19 +200,17 @@ dd.blacklight-notes {
 }
 .access-restriction {
 	display: block;
-	// background: $light-tan;
-	// -webkit-border-radius: 3px;
-	// -moz-border-radius: 3px;
-	// border-radius: 3px;
-	// border: 1px solid $tan;
-	// padding: 10px;
 	margin-top: 1em;
 	font-size: .9em;
 	line-height: 1.2em;
 	color: $medium-gray;
 	h5 { margin: 0; }
 }
-.item-requests { margin: .75em 0; }
+.item-requests { 
+	border-top: 5px solid $light-tan;
+	padding-top: 10px;
+	text-align: right;
+	margin: .75em 0; }
 
 .google-books-link {
 	margin: 1.5em 0 0;
