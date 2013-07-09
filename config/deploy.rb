@@ -66,7 +66,7 @@ task :install_puppet_db_yml, :roles => [ :app, :db, :web ] do
 	run "cp #{deploy_to}/config/database.yml #{deploy_to}/current/config/database.yml"
 end
 
-after :deploy, "fix_file_permissions"
+#after :deploy, "fix_file_permissions"
 after :deploy, "install_puppet_db_yml"
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
