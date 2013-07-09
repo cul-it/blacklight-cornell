@@ -10,7 +10,7 @@
       </div>
 
       <div class="document item-metadata span10">
-        <div class="document-header span6">
+        <div class="document-header">
           <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
 
           <%
@@ -32,7 +32,7 @@
           <% end %>
         </div>
 
-        <div class="well availability span3">
+        <div class="availability span4">
           <h3>Availability</h3>
 
           <% if finding_aid(@document) %>
