@@ -81,6 +81,8 @@ dl.dl-horizontal {
 }
 
 dd.blacklight-notes {
+	-ms-word-break: break-all;
+	word-break: break-all;
 	/* Non standard for webkit */
 	word-wrap: break-word;
 	word-break:break-word;
@@ -134,7 +136,7 @@ dd.blacklight-notes {
 	padding: 10px 10px 0 10px;
 	h3 { margin-top: 0; }
 	.online-link { font-size: .875em; }
-	.location { 
+	.location {
 		font-size: .875em;
 		background: $light-tan;
 		margin-top: 0;
@@ -210,7 +212,7 @@ dd.blacklight-notes {
 	color: $medium-gray;
 	h5 { margin: 0; }
 }
-.item-requests { 
+.item-requests {
 	border-top: 5px solid $light-tan;
 	padding-top: 10px;
 	text-align: right;
