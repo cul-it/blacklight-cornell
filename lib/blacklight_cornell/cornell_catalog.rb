@@ -214,7 +214,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
      grouped = []
      newString = q_stringArray[0];
      for i in 0..opArray.count - 1
-        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
+#        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
+        newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
 #        else
 #           if opArray[i] == "OR"
 #            newString = newString + " OR " + q_stringArray[i + 1]
@@ -306,7 +307,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
            new_query_string = parse_query_row(query_rowArray[i], op_rowArray[i])
            if rowHash.has_key?(search_field_rowArray[i])
               current_query = rowHash[search_field_rowArray[i]]
-              new_query = "(" << current_query << ") " << params[:boolean_row][n.to_sym] << " (" << new_query_string << ")"
+              new_query = " " << current_query << " " << params[:boolean_row][n.to_sym] << " " << new_query_string << " "
               rowHash[search_field_rowArray[i]] = new_query
            else
               rowHash[search_field_rowArray[i]] = new_query_string
@@ -323,9 +324,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           if opArray[i].nil?
             opArray[i] = 'AND'
           end
-          query_string_two << newArray[i*2] << "=(" << newArray[(i*2)+1] << ")&op[]=" << opArray[i] << "&"
+          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
          else
-          query_string_two << newArray[i*2] << "=(" << newArray[(i*2)+1] << ")"
+          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
          end
        end
        #account for some bozo not selecting different search_fields
@@ -363,18 +364,18 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     search_field_rowArray = params[:search_field_row]
       for i in 0..query_rowArray.count - 1
          if query_rowArray[i] != ""
-           query_string << "q=("
+           query_string << "q="
            query_rowSplitArray = query_rowArray[i].split(" ")
            if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
              query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
              for j in 1..query_rowSplitArray.count - 2
                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
              end
-             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << ")&search_field=" << search_field_rowArray[i]
+             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
            elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
-             query_string << '"' << query_rowArray[i] << '")&search_field=' << search_field_rowArray[i]
+             query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
            else
-             query_string << query_rowArray[i] << ")&search_field=" << search_field_rowArray[i]
+             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
            end
          end
       end
