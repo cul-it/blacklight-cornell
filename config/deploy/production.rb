@@ -8,4 +8,4 @@ role :web, "da-prod-web2.library.cornell.edu"
 role :db, "da-prod-web2.library.cornell.edu", :primary => true
 
 set :deploy_to, "/libweb/#{user}/blacklight-cornell"
-set :branch, "dev"
+set :branch, "hotfix-publicbeta"
