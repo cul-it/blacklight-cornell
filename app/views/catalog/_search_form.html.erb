@@ -2,13 +2,10 @@
   <div class="search-tools">
     <%= form_tag search_action_url, :method => :get, :class => 'search-form span9' do %>
       <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
-
+<% if !params[:q_row].present? %>
       <div class="search-options span4">
         <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-
-        <%#= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
-        <%= text_field_tag :q, params[:show_query], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
-
+          <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
       </div>
       <% unless search_fields.empty? %>
         <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
@@ -25,6 +22,7 @@
       <button id="search-btn" class="btn mobile-search-btn visible-phone btn-inverse" type="submit">
         <i class="icon-search icon-white"></i>
       </button>
+
       <div class="search-options span4">
         <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
         <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
@@ -39,9 +37,21 @@
         <%end %>
       <% end %>
     <% end %>
+<% end %>
 
     <%= render :partial => 'did_you_mean' %>
 
     <%= render :partial => "constraints" %>
+<% if params[:q_row].present? %>
+         <div class="search-options span4">
+        <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
+        <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
+      </div>
+
+      <% if query_has_constraints? || params[:range].present? %>
+        <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
+      <% end %>
+<% end %>
+
   </div>
 </div>

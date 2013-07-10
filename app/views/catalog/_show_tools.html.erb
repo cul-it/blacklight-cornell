@@ -13,19 +13,19 @@
       <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
          <li>
           <%= link_to citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} do %>
-            <i class="icon-pencil"></i><%= t('blacklight.tools.cite') %>
+            <i class="icon-li icon-pencil"></i><%= t('blacklight.tools.cite') %>
           <% end %>
          </li>
          <li>
           <%= link_to email_catalog_path(:id => @document), {:id => 'emailLink', :class => 'lightboxLink'} do %>
-            <i class="icon-envelope"></i><%= t('blacklight.tools.email') %>
+            <i class="icon-li icon-envelope"></i><%= t('blacklight.tools.email') %>
           <% end %>
          </li>
       <% end %>
 
       <% if (@document.export_formats.keys.include?(:refworks_marc_txt) || @document.export_formats.keys.include?(:endnote)) %>
         <li class="dropdown pull-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-share"></i>Export <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-li icon-share"></i>Export <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
               <li><%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %></li>

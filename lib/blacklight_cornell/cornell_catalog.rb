@@ -246,7 +246,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
                   search_session[terms[0]] = terms[1]
                 end
              end
-             if holdparams.count > 1
+             if holdparams.count > 2
                params["search_field"] = "advanced"
                params[:q] = query_string
                search_session[:q] = query_string

@@ -336,7 +336,7 @@ module DisplayHelper
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
     "Musical Recording" => "music",
-    "Thesis" => "file-alt",
+    "Thesis" => "file-text-alt",
     "Microform" => "th",
     "Journal" => "book-open",
     "Conference Proceedings" => "group",
@@ -348,7 +348,7 @@ module DisplayHelper
     "Image" => "picture",
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
-    "Research Guide" => "file-text-alt",
+    "Research Guide" => "paste",
     "Course Guide" => "graduation-cap"
   }
 
