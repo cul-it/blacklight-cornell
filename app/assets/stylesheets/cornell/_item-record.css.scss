@@ -22,9 +22,8 @@ h3.responsibility {
 	float: left;
 	margin-bottom: 1.5em;
 	.icon-cover {
-		width: 133px;
-		height: 193px;
-		i { 
+		width: 100%;
+		i {
 			font-size: 3em;
 			margin-left: 0;
 			top: -130px; }
@@ -100,8 +99,11 @@ dd.blacklight-notes {
 	}
 	li {
 		font-size: 0.875em;
-  		float: left;
-  		margin-right: .8em;
+		float: left;
+		margin-right: 2em;
+	}
+	.icon-li {
+		left: -1.8em;
 	}
 	li:last-child {
 		margin-right: 0;

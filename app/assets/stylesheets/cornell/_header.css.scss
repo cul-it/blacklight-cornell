@@ -28,6 +28,12 @@ header {
   }
 }
 
+.affix {
+    top:0px; 
+    z-index: 2;
+    width:100%
+  }
+
 .beta {
   margin-left: .2em;
   vertical-align: middle;

@@ -18,7 +18,6 @@ gem 'haml'
 gem 'haml-rails'
 gem 'marc'
 gem 'rb-readline', '~> 0.4.2'
-gem 'font-awesome-sass-rails', '~> 3.0.0.1'
 gem 'net-ldap'
 gem 'newrelic_rpm'
 gem 'nokogiri'
@@ -75,8 +74,9 @@ gem 'jquery-rails', '2.1.4'
 # To use debugger
 # gem 'debugger'
 
-gem "unicode", :platforms => [:mri_18, :mri_19]
-gem "devise"
-gem "devise-guests", "~> 0.3"
-gem "bootstrap-sass"
-gem "blacklight_cornell_requests", :git => 'git@git.library.cornell.edu:blacklight_cornell_requests.git', :branch => 'dev'
+gem 'unicode', :platforms => [:mri_18, :mri_19]
+gem 'devise'
+gem 'devise-guests', '~> 0.3'
+gem 'bootstrap-sass'
+gem 'font-awesome-rails'
+gem 'blacklight_cornell_requests', :git => 'git@git.library.cornell.edu:blacklight_cornell_requests.git', :branch => 'dev'
