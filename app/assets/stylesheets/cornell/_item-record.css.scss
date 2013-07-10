@@ -131,7 +131,7 @@ dd.blacklight-notes {
 .availability {
 	float: right;
 	background: white;
-	padding: 10px;
+	padding: 10px 10px 0 10px;
 	h3 { margin-top: 0; }
 	.online-link { font-size: .875em; }
 	.location { 
@@ -170,7 +170,7 @@ dd.blacklight-notes {
 }
 .holding,
 .holdings-error {
-	margin-bottom: 1em;
+	margin-bottom: .5em;
 }
 .holding:last-of-type {
 	margin-bottom: 0;
