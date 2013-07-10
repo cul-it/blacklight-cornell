@@ -16,7 +16,7 @@ set :default_environment, {
 set :deploy_to, "/libweb/#{user}"
 set :deploy_via, :copy
 #set :bundle_flags,    "--deployment --quiet"
-set :bundle_flags,    
+set :bundle_flags, ""    
 
 #role  :app, "culsearchdev.library.cornell.edu"
 #role  :web, "culsearchdev.library.cornell.edu"
