@@ -30,3 +30,5 @@
 //
 //= require spin.min.js
 //= require jquery.spin.js
+
+//= require blacklight_google_analytics

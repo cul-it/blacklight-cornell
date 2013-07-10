@@ -44,6 +44,9 @@
 		padding-top: 0;
 		padding-bottom: 0;
 	}
+	ul.icons-ul {
+		margin-left: 1.3em;
+	}
 	li {
 		margin-right: 0;
 		line-height: 16px;
@@ -150,6 +153,9 @@ form.range_limit {
 .close {
 	color: $medium-gray;
 	opacity: 1;
+}
+.facet_extended_list.icons-ul {
+	margin-left: 1.7em;
 }
 
 .twiddle-open .icon-plus-sign {

@@ -13,11 +13,11 @@
 <div class="modal-body">
   <div class="facet_extended_list">
 
-    <ul class="facet_extended_list">
+    <ul class="facet_extended_list icons-ul">
       <% @pagination.items.each do |item| %>
         <li>
           <% if params[:id] == 'format' %>
-            <i class="icon-<%= formats_icon_mapping(item.value) %>"></i>
+            <i class="icon-li icon-<%= formats_icon_mapping(item.value) %>"></i>
           <% end %>
           <% if facet_in_params?( params[:id], item.value ) %>
             <%= render_selected_facet_value(params[:id], item) %>

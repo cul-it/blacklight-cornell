@@ -57,6 +57,7 @@ GEM
       blacklight (~> 4.0)
       parslet
       rails (~> 3.0)
+    blacklight_google_analytics (0.0.1.pre3)
     blacklight_range_limit (2.0.1)
       blacklight (~> 4.0)
       jquery-rails
@@ -286,6 +287,7 @@ DEPENDENCIES
   blacklight
   blacklight_advanced_search
   blacklight_cornell_requests!
+  blacklight_google_analytics
   blacklight_range_limit
   blacklight_unapi
   bootstrap-sass

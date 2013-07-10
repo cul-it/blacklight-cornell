@@ -22,9 +22,8 @@ h3.responsibility {
 	float: left;
 	margin-bottom: 1.5em;
 	.icon-cover {
-		width: 133px;
-		height: 193px;
-		i { 
+		width: 100%;
+		i {
 			font-size: 3em;
 			margin-left: 0;
 			top: -130px; }
@@ -82,6 +81,8 @@ dl.dl-horizontal {
 }
 
 dd.blacklight-notes {
+	-ms-word-break: break-all;
+	word-break: break-all;
 	/* Non standard for webkit */
 	word-wrap: break-word;
 	word-break:break-word;
@@ -100,8 +101,11 @@ dd.blacklight-notes {
 	}
 	li {
 		font-size: 0.875em;
-  		float: left;
-  		margin-right: .8em;
+		float: left;
+		margin-right: 2em;
+	}
+	.icon-li {
+		left: -1.8em;
 	}
 	li:last-child {
 		margin-right: 0;
@@ -128,11 +132,47 @@ dd.blacklight-notes {
 // AVAILABILITY
 .availability {
 	float: right;
-	font-size: 0.875em;
+	background: white;
+	padding: 10px;
+	h3 { margin-top: 0; }
+	.online-link { font-size: .875em; }
+	.location {
+		font-size: .875em;
+		background: $light-tan;
+		margin-top: 0;
+		margin-bottom: .5em;
+		padding: 5px 10px;
+		border: 1px solid $tan;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		overflow: hidden; }
+	.holding {
+		.call-number {
+			padding: 0 10px 5px 10px;
+			font-size: .875em; }
+		.group {
+			padding: 0 10px 5px 10px;
+			font-size: .875em; }
+	}
+	.map-it {
+		font-size: .75em;
+		display: block;
+		float: right;
+		width: 25%;
+		text-align: right;
+		 }
+	.url_findingaid_display {
+		display: block;
+		margin-bottom: 1em;
+	}
+	.unstyled {
+		padding: 0 10px;
+	}
 }
 .holding,
 .holdings-error {
-	margin-bottom: 1em;
+	margin-bottom: .5em;
 }
 .holding:last-of-type {
 	margin-bottom: 0;
@@ -149,7 +189,6 @@ dd.blacklight-notes {
 }
 .share-options { min-width: auto; }
 .message {
-	font-size: .9em;
 	color: $light-gray;
 }
 .online-link {
@@ -167,15 +206,17 @@ dd.blacklight-notes {
 }
 .access-restriction {
 	display: block;
-	margin-top: .4em;
+	margin-top: 1em;
 	font-size: .9em;
 	line-height: 1.2em;
 	color: $medium-gray;
 	h5 { margin: 0; }
 }
 .item-requests {
-	margin: .75em 0;
-}
+	border-top: 3px solid $light-tan;
+	padding-top: 10px;
+	text-align: right;
+	margin: .75em 0; }
 
 .google-books-link {
 	margin: 1.5em 0 0;
