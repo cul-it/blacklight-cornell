@@ -69,6 +69,13 @@ task :install_puppet_db_yml, :roles => [ :app, :db, :web ] do
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
+desc "Tailor holdings config to local machine by puppet"
+task :tailor_holdings_config, :roles => [ :web ] do
+	run "sed -e s/holdings.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environments/production.rb >/tmp/p.rb   && sed -e s,//search,//holdings,  /tmp/p.rb >#{deploy_to}/current/config/environments/production.rb"
+        run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+end
+
+
 #after :deploy, "fix_file_permissions"
 after :deploy, "install_puppet_db_yml"
 # If you are using Passenger mod_rails uncomment this:
