@@ -106,12 +106,11 @@ requests =
       url:hu,
       success: (data) ->
         requests.scrollToTop()
-        # Clear page on successful submission
-        if data.indexOf('alert-success') != -1
-          $('.request-type, .item-title-request, .request-author, #req').remove()
-        $('.flash_messages').replaceWith(data)
+        # Flash validation error if present
+        if data.indexOf('alert-error') != -1
+          $('.flash_messages').replaceWith(data)
 
-  # Submit purchase form via AJAx
+  # Submit purchase form via AJAX
   # -- nac26 2013-04-10: I see no reason why we need both of these submit functions
   # -- will consult with Matt before refactoring
   submitPurchaseForm: () ->
