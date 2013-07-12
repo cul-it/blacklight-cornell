@@ -93,6 +93,11 @@ dd.blacklight-notes {
   display: table;
 }
 
+.active-hierarchy {
+	color: $dark-gray;
+	text-decoration: underline;
+}
+
 .item-tools {
 	ul {
 		float: right;
