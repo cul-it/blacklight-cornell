@@ -34,16 +34,5 @@ BlacklightCornell::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
-  # URL of service which returns JSON holding info.
-  config.voyager_holdings = "http://culholdingsdev.library.cornell.edu"
-
-
-  # URL of service which handles item requests
-  config.voyager_request_handler_host = ""
-  config.voyager_request_handler_port = 8950
-
-  ## URL of metasearch service
-  config.borrow_direct_webservices_host = ""
-  config.borrow_direct_webservices_port = 9004
 
 end

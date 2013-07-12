@@ -66,20 +66,4 @@ BlacklightCornell::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  # config.active_record.auto_explain_threshold_in_seconds = 0.5
-  # URL of service which returns JSON holding info.
-  config.voyager_holdings = "http://holdings.library.cornell.edu"
-  config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
-
-
-  # URL of service which handles item requests
-  config.voyager_request_handler_host = "http://holdings.library.cornell.edu"
-  config.voyager_request_handler_port = 80
-
-  ## URL of metasearch service
-  config.borrow_direct_webservices_host = ""
-  config.borrow_direct_webservices_port = 9004
-
 end
