@@ -15,6 +15,8 @@ set :default_environment, {
 
 set :deploy_to, "/libweb/#{user}"
 set :deploy_via, :copy
+#set :bundle_flags,    "--deployment --quiet"
+set :bundle_flags, ""    
 
 #role  :app, "culsearchdev.library.cornell.edu"
 #role  :web, "culsearchdev.library.cornell.edu"
@@ -66,6 +68,13 @@ task :install_puppet_db_yml, :roles => [ :app, :db, :web ] do
 	run "cat #{deploy_to}/config/database.yml | sed -e 's/blacklight-cornell/blacklightcornell/' >  #{deploy_to}/current/config/database.yml"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
+
+desc "Tailor holdings config to local machine by puppet"
+task :tailor_holdings_config, :roles => [ :web ] do
+	run "sed -e s/holdings.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environments/production.rb >/tmp/p.rb   && sed -e s,//search,//holdings,  /tmp/p.rb >#{deploy_to}/current/config/environments/production.rb"
+        run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+end
+
 
 #after :deploy, "fix_file_permissions"
 after :deploy, "install_puppet_db_yml"

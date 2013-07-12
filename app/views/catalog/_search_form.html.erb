@@ -40,17 +40,21 @@
 <% end %>
 
     <%= render :partial => 'did_you_mean' %>
-
+<% if params[:q_row].present? %>
+  <h2>Advanced search</h2>
+<% end %>
     <%= render :partial => "constraints" %>
 <% if params[:q_row].present? %>
-         <div class="search-options span4">
+         <div class="advanced-search-link">
         <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
-        <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
-      </div>
+        <%= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %> 
+      
 
       <% if query_has_constraints? || params[:range].present? %>
-        <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
+         or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
       <% end %>
+
+      </div>
 <% end %>
 
   </div>

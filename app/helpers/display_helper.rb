@@ -204,7 +204,7 @@ module DisplayHelper
             else
               hierarchical_value += v
             end
-            link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'))
+            link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'), class: "hierarchical")
           end.join(sep_display).html_safe
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
