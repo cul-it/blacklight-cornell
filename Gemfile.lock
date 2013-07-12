@@ -1,6 +1,6 @@
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
-  revision: a8fbcf2f29f09ff03c493d3ecb6c68f2d746faa3
+  revision: 43210175d8f0b5428b718034e59d98b7aa808810
   branch: master
   specs:
     blacklight_cornell_requests (0.0.1)
@@ -164,7 +164,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    marc (0.5.0)
+    marc (0.5.1)
     method_source (0.8.1)
     mime-types (1.23)
     mini_portile (0.5.1)
