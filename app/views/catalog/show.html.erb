@@ -27,6 +27,10 @@
   </div>
 </div>
 
+<% if params[:flash] == 'success' %>
+  <%- flash.now[:notice]  = 'Your request was submitted successfully.' %>
+<% end %>
+
 <div class="row">
   <%= render :partial => 'show_metadata' %>
 
