@@ -71,7 +71,7 @@ end
 
 desc "Tailor holdings config to local machine by puppet"
 task :tailor_holdings_config, :roles => [ :web ] do
-	run "sed -e s/holdings.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environments/production.rb >/tmp/p.rb   && sed -e s,//search,//holdings,  /tmp/p.rb >#{deploy_to}/current/config/environments/production.rb"
+	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environment.rb >/tmp/e.rb   && sed -e s,//search,//holdings,  /tmp/e.rb  | sed -e s/catalog-test/catalog/ >>#{deploy_to}/current/config/environment.rb"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
