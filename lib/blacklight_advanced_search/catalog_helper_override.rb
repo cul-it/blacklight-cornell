@@ -64,7 +64,7 @@ module BlacklightAdvancedSearch::CatalogHelperOverride
       my_params.delete(:f_inclusive) if my_params[:f_inclusive].length == 0      
     end
 
-    my_params.delete_if do |key, value| 
+    my_params.delete_if do |key, values| 
       [:page, :id, :counter, :commit].include?(key)
     end
     
