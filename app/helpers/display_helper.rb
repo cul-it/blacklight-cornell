@@ -204,7 +204,7 @@ module DisplayHelper
             else
               hierarchical_value += v
             end
-            link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'))
+            link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'), class: "hierarchical")
           end.join(sep_display).html_safe
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
@@ -336,21 +336,19 @@ module DisplayHelper
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
     "Musical Recording" => "music",
-    "Thesis" => "book-open",
+    "Thesis" => "file-text-alt",
     "Microform" => "th",
-    "Serial" => "copy",
-    "Journal/Periodical" => "popup",
-    "Journal" => "popup",
+    "Journal" => "book-open",
     "Conference Proceedings" => "group",
     "Video" => "film",
     "Map or Globe" => "globe",
-    "Manuscript/Archive" => "file",
+    "Manuscript/Archive" => "archive",
     "Newspaper" => "newspaper",
     "Database" => "database",
     "Image" => "picture",
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
-    "Research Guide" => "file-alt",
+    "Research Guide" => "paste",
     "Course Guide" => "graduation-cap"
   }
 
@@ -732,6 +730,9 @@ module DisplayHelper
       subtitle = doc.get(opts[:label][3], :sep => nil)
 
       # Use subtitles for vern and english if present
+      if title_vern.nil?
+        title_vern = subtitle_vern
+      end
       vern = subtitle_vern.present? ? title_vern + ' : ' + subtitle_vern : title_vern
       english = subtitle.present? ? title + ' : ' + subtitle : title
 

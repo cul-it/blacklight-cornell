@@ -21,11 +21,15 @@
     <%= render 'previous_next_doc' %>
   </div>
   <div class="item-tools span6">
-    <ul>
+    <ul class="icons-ul">
       <%= render_document_sidebar_partial %>
     </ul>
   </div>
 </div>
+
+<% if params[:flash] == 'success' %>
+  <%- flash.now[:notice]  = 'Your request was submitted successfully.' %>
+<% end %>
 
 <div class="row">
   <%= render :partial => 'show_metadata' %>

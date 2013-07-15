@@ -46,6 +46,9 @@ class BookmarksController < CatalogController
     @response, @document = get_solr_response_for_doc_id 
     
     counter = bookmarks_id_ordered.index(params[:id])
+    if counter.nil?
+      counter = 0
+    end    
     params[:counter] = counter
     params[:view] = "bookmarks"
     session[:search][:counter] = counter + 1

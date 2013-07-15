@@ -53,6 +53,26 @@
 			margin-bottom: 0;
 		}
 		li:first-child { margin-left: 0; }
+		i { margin-right: 3px; }
+		i.icon-envelope { margin-right: 5px; }
 	}
 	input#request-submit {float:none;}
+	.cover {
+		width: 58px;
+		height: 83px;
+		.icon-cover {
+			width: 58px;
+			height: 83px;
+			i {
+				font-size: 1.5em;
+				top: -53px;
+			}
+		}
+		.img { width: 100%; }
+	}
+	.item-metadata { margin-left: 10px; }
+	.availability {
+		.map-it { float: none; }
+	}
 }
+
