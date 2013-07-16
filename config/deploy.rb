@@ -3,8 +3,8 @@ set :application, "blacklight-cornell"
 set :repository,  "git@git.library.cornell.edu:/blacklight-cornell"
 set :scm, :git
 set :use_sudo, false
-set :user, "es287"
-#set :user, "rails"
+#set :user, "es287"
+set :user, "rails"
 set :default_environment, {
   'PATH' => "/usr/local/rvm/gems/ruby-1.9.3-p194@blacklight/bin:/usr/local/rvm/gems/ruby-1.9.3-p194/bin:/usr/local/rvm/gems/ruby-1.9.3-p194@global/bin:/usr/local/rvm/rubies/ruby-1.9.3-p194/bin:/usr/local/rvm/bin:$PATH",
   'RUBY_VERSION' => "ruby 1.9.3-p194",
@@ -72,6 +72,7 @@ end
 desc "Tailor holdings config to local machine by puppet"
 task :tailor_holdings_config, :roles => [ :web ] do
 	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environment.rb >/tmp/e.rb   && sed -e s,//search,//holdings,  /tmp/e.rb  | sed -e s/catalog-test/catalog/ >>#{deploy_to}/current/config/environment.rb"
+	run "sed -e s/localhost/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environment.rb >/tmp/e.rb   && cp /tmp/e.rb #{deploy_to}/current/config/environment.rb"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
