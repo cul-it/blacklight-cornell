@@ -63,6 +63,24 @@ module HoldingsHelper
     bibkeys.flatten
 
   end
+  
+  AEON_SITES  = [
+    'rmc' ,
+    'rmc,anx',
+    'rmc,icer',
+    'rmc,hsci',
+    'was,rare',
+    'was,ranx',
+    'ech,rare',
+    'ech,ranx',
+    'sasa,rare',
+    'sasa,ranx',
+    'hote,rare'
+  ]
+  
+  def aeon_eligible?(lib)
+    return AEON_SITES.include?(lib)
+  end
 
 end
 

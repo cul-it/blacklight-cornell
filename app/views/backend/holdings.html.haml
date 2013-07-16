@@ -49,6 +49,8 @@
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)
+            - if aeon_eligible? entry['location_code']
+              =link_to 'Request', "http://www.library.cornell.edu/aeon/monograph.php?bibid=#{@id}&libid=#{entry['location_code']}", {:title => 'Request', :class => 'btn btn-danger'}
     - if multiple_groups
       -if group == "Circulating"
         .item-requests
