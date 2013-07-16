@@ -1,7 +1,7 @@
 .search-form { margin: 0 0 .1em 0; }
 .search-options { margin-left: 0; }
 input.search-query {
-  width: 95%;
+  width: 93%;
   padding-right: 0;
 }
 .advanced-search-link {
@@ -47,3 +47,24 @@ input.search-query {
 p.suggest {font-size:.8em}
 
 div.search-tools > h2 {line-height: 1em}
+
+.wcl-results {
+  background: $pale-gray;
+  border: 1px solid $tan;
+  padding: 10px;
+  float: right;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  width: auto;
+  h4 { 
+    text-transform: uppercase;
+    font-size: .75em;
+    margin: 0 0 .5em; }
+  ul { 
+    margin-left: 0;
+    list-style: none; }
+  li { 
+    font-size: .75em;
+    margin-bottom: .25em; }
+}
