@@ -67,6 +67,19 @@ task :install_puppet_db_yml, :roles => [ :app, :db, :web ] do
 	run "cat #{deploy_to}/config/database.yml | sed -e 's/blacklight-cornell/blacklightcornell/' >  #{deploy_to}/shared/config/database.yml"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
+namespace :deploy do
+    namespace :db do
+
+       desc <<-DESC
+        [internal] Updates the symlink for database.yml file to the just deployed release.
+       DESC
+       task :symlink, :except => { :no_release => true } do
+        run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml" 
+       end
+    end
+end
+
+after "deploy:finalize_update", "deploy:db:symlink"
 
 desc "Tailor holdings config to local machine by puppet"
 task :tailor_holdings_config, :roles => [ :web ] do
