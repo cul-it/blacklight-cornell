@@ -24,7 +24,6 @@ set :bundle_flags, ""
 
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
-require 'capistrano_database_yml'
 
 set :stages, ["staging", "production"]
 set :default_stage, "staging"
