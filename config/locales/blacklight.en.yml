@@ -131,7 +131,7 @@ en:
           one: 'Item record: %{title}'
           other: 'Item records'
         url: '%{url}'
-        message: 'Message: %{message}'
+        message: '%{message}'
       errors:
         to:
           invalid: 'You must enter a valid email address.'
