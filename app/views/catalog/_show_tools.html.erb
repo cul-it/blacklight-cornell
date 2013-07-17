@@ -8,31 +8,64 @@
 
   #Added Bootstrap class well and 'hidden-phone' for the tools-bar
 -%>
-<li><%= render_show_doc_actions @document %></li>
+<% if request.path != '/bookmarks' %>
+  <% if (@document.export_formats.keys.include?(:refworks_marc_txt) || @document.export_formats.keys.include?(:endnote)) %>
+    <% exportable = true %>
+  <% end %>
+  <li><%= render_show_doc_actions @document %></li>
+<% else %>
+  <% bookmarks_index = true %>
+<% end %>
 <!-- TODO: TRANSLATE -->
-      <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
-         <li>
-          <%= link_to citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} do %>
-            <i class="icon-li icon-pencil"></i><%= t('blacklight.tools.cite') %>
-          <% end %>
-         </li>
-         <li>
-          <%= link_to email_catalog_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink'} do %>
-            <i class="icon-li icon-envelope"></i><%= t('blacklight.tools.email') %>
-          <% end %>
-         </li>
-      <% end %>
+<% if bookmarks_index %>
+  <li>
+  <%= link_to citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} do %>
+    <i class="icon-li icon-pencil"></i><%= t('blacklight.tools.cite') %>
+  <% end %>
+<% elsif (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
+  <li>
+    <%= link_to citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} do %>
+      <i class="icon-li icon-pencil"></i><%= t('blacklight.tools.cite') %>
+    <% end %>
+  </li>
+<% end %>
+<% if bookmarks_index %>
+  <li>
+    <%= link_to  email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink", :id => "email-link" do %>
+      <i class="icon-li icon-envelope"></i><%= t('blacklight.tools.email') %>
+    <% end %>
+  </li>
+<% elsif @document.respond_to?( :to_email_text ) %>
+  <li>
+    <%= link_to email_catalog_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink'} do %>
+      <i class="icon-li icon-envelope"></i><%= t('blacklight.tools.email') %>
+    <% end %>
+  </li>
+<% end %>
 
-      <% if (@document.export_formats.keys.include?(:refworks_marc_txt) || @document.export_formats.keys.include?(:endnote)) %>
-        <li class="dropdown pull-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-li icon-share"></i>Export <b class="caret"></b></a>
-          <ul class="dropdown-menu export-to">
-            <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
-              <li><%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %></li>
-            <% end %>
-            <% if @document.export_formats.keys.include?( :endnote ) %>
-              <li><%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %></li>
-            <% end %>
-          </ul>
+<% if bookmarks_index || exportable %>
+  <li class="dropdown <% if !bookmarks_index %>pull-right<% end %>">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-li icon-share"></i>Export <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <% if bookmarks_index %>
+        <li class="bookmarks-refworks">
+          <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@document_list} %>
         </li>
+        <li>
+          <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => ' '}%>
+        </li>
+      <% elsif exportable %>
+        <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
+          <li>
+            <%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %>
+          </li>
+        <% end %>
+        <% if @document.export_formats.keys.include?( :endnote ) %>
+          <li>
+            <%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %>
+          </li>
+        <% end %>
       <% end %>
+    </ul>
+  </li>
+<% end %>
