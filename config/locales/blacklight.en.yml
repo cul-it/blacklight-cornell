@@ -102,8 +102,8 @@ en:
     tools:
       title: 'Tools'
       cite: 'Cite'
-      endnote: 'Export to EndNote'
-      refworks: 'Export to Refworks'
+      endnote: 'EndNote'
+      refworks: 'Refworks'
       email: 'Email'
       sms: 'Text'
       librarian_view: 'Librarian view'

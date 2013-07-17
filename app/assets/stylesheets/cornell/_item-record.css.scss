@@ -120,7 +120,7 @@ dd.blacklight-notes {
 	.form-inline .checkbox,
 	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
 	.dropdown-menu {
-		min-width: auto;
+		min-width: 3em;
 		li {
 			float: none;
 			margin: 0;
