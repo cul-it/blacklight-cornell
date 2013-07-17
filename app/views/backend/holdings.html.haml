@@ -12,7 +12,7 @@
       - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
       - callnumber = entry['call_number']
 
-      .holding{:class => alternating_line}
+      .holding
         - if location != 'Online'
           %h5.location
             = location
