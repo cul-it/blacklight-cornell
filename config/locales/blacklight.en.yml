@@ -138,7 +138,7 @@ en:
           blank: 'You must enter a recipient in order to send this message.'
     sms:
       form:
-        title: 'Text this'
+        title: 'Text this call number'
         to: 'Phone number:'
         carrier: 'Carrier:'
         carrier_prompt: 'Select your carrier'
