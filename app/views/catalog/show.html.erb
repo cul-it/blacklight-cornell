@@ -1,4 +1,4 @@
-<% if @previous_document || @next_document %>
+<% if prev_next_needed(@previous_document, @next_document, @previous_bookmark, @next_bookmark) %>
   <% link_back = link_back_to_catalog %>
 
   <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>

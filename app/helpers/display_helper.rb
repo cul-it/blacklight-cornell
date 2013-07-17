@@ -643,6 +643,63 @@ module DisplayHelper
     value_txt
   end
 
+  # Test whether we need previous or next document links
+  def prev_next_needed(prev_doc, next_doc, prev_bookmark=nil, next_bookmark=nil)
+    if (params[:controller] == 'bookmarks' || (prev_bookmark.present? || next_bookmark.present?) || (prev_doc.present? || next_doc.present?))
+      return true
+    end
+  end
+
+  # The following two methods override originals from blacklight_helper_behavior.rb
+  # -- Needed to handle the logic between bookmarks and search results
+  def link_to_previous_document(previous_document)
+    context = bookmark_or_not(previous_document)
+    context_path = context.present? ? context[:url] : previous_document
+    context_counter = context.present? ? context[:data_counter] : nil
+    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), context_path, :class => "previous", :rel => 'prev', :'data-counter' => context_counter.present? ? context_counter - 1 : nil do
+      content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
+    end
+  end
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # -- See comment on previous method for more background info
+  def link_to_next_document(next_document)
+    context = bookmark_or_not(next_document)
+    context_path = context.present? ? context[:url] : next_document
+    context_counter = context.present? ? context[:data_counter] : nil
+    link_to_unless next_document.nil?, raw(t('views.pagination.next')), context_path, :class => "next", :rel => 'next', :'data-counter' => context_counter.present? ? context_counter + 1 : nil do
+      content_tag :span, raw(t('views.pagination.next')), :class => 'next'
+    end
+  end
+
+  # set URL & counter for previous/next link_to depending on current controller
+  def bookmark_or_not(document)
+    unless document.blank?
+      if params[:controller] == 'bookmarks'
+        context = {
+          :url => bookmark_path(document)
+        }
+      else
+        context = {
+          :url => catalog_path(document),
+          :data_counter => session[:search][:counter].to_i
+        }
+      end
+    end
+  end
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
+    opts[:label] ||= blacklight_config.index.show_link.to_sym
+    label = render_document_index_label doc, opts
+    if params[:controller] == 'bookmarks'
+      docID = doc.id
+      link_to label, '/bookmarks/' + docID
+    else
+      link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+    end
+  end
+
   # link_back_to_catalog()
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
@@ -653,8 +710,9 @@ module DisplayHelper
     link_url = url_for(query_params)
     logger.info query_params.inspect
 
-    if link_url =~ /bookmarks/
+    if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
       opts[:label] ||= t('blacklight.back_to_bookmarks')
+      link_url = bookmarks_path
     end
 
     opts[:label] ||= t('blacklight.back_to_search')
