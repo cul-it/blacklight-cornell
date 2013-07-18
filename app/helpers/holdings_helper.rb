@@ -3,7 +3,7 @@ module HoldingsHelper
   def process_online_title(title)
     # Trim leading and trailing text
     # Reformat coverage dates to simply mm/yy (drop day) and wrap in span for display
-    title_clean = title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{0,7})/, ' <span class="online-coverage">(\2)</span>').html_safe
+    title_clean = title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{0,})/, ' <span class="online-coverage">(\2)</span>').html_safe
     # Address the Factiva links that come with a lengthy note
     title_clean.to_s.gsub(/(Please check resource for coverage or contact a librarian for assistance.)$/, '<span class="online-note">\1</span>').html_safe
   end
@@ -63,7 +63,7 @@ module HoldingsHelper
     bibkeys.flatten
 
   end
-  
+
   AEON_SITES  = [
     'rmc' ,
     'rmc,anx',
@@ -77,7 +77,7 @@ module HoldingsHelper
     'sasa,ranx',
     'hote,rare'
   ]
-  
+
   def aeon_eligible?(lib)
     return AEON_SITES.include?(lib)
   end
