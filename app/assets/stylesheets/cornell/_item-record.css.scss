@@ -82,15 +82,14 @@ dl.dl-horizontal {
 
 dd.blacklight-notes {
 	-ms-word-break: break-all;
-	word-break: break-all;
+	// word-break: break-all; - remove this style to fix word wrap error in Firefox (DNA 741)
 	/* Non standard for webkit */
 	word-wrap: break-word;
 	word-break:break-word;
 	overflow-wrap:break-word;
-
 	-webkit-hyphens: auto;
-  hyphens: auto;
-  display: table;
+  	hyphens: auto;
+  	display: table;
 }
 
 .active-hierarchy {
