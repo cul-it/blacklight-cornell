@@ -1,8 +1,9 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
 set :application, "blacklight-cornell"
 set :repository,  "git@git.library.cornell.edu:/blacklight-cornell"
-set :scm, :git
 set :use_sudo, false
+set :scm, :git
+set :scm_verbose, true 
 #set :user, "es287"
 set :user, "rails"
 set :default_environment, {
