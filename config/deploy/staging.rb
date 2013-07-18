@@ -9,4 +9,4 @@ set :deploy_to, "/libweb/#{user}/blacklight-cornell"
 # actually this is a tag
 #set :branch, "staging-publicbeta-0.2"
 # this is set by jenkins, otherwise you can set it.
-set :branch, ENV['GIT_BRANCH'].sub('origin/tags','')
+set :branch, ENV['GIT_BRANCH'].sub('origin/tags/','')
