@@ -62,6 +62,8 @@
       <% end %>
     </div>
 
-    <%= render :partial => 'wcl_results' %>
+    <% if query_has_constraints? || params[:range].present? %>
+      <%= render :partial => 'wcl_results' %>
+    <% end %>
   </div>
 </div>
