@@ -724,6 +724,25 @@ module DisplayHelper
     link
   end
 
+  # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
+  def is_citable document
+    if document.respond_to?(:export_as_mla_citation_txt) || document.respond_to?(:export_as_apa_citation_txt)
+      return true
+    end
+  end
+
+  def is_emailable document
+    if document.respond_to?(:to_email_text)
+      return true
+    end
+  end
+
+  def is_exportable document
+    if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
+      return true
+    end
+  end
+
   # Overrides original method from blacklight_helper_behavior.rb
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
