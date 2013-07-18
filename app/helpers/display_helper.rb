@@ -866,12 +866,15 @@ module DisplayHelper
     return display
   end
 
-  # Display the Solr core in development
+  # Display the Solr core for everything but production instance
   def render_solr_core
-    core = Blacklight.solr_config[:url]
-    # Find last occurence of forward slash and add one
-    start = core.rindex(/\//) + 1
-    core[start..-1]
+    unless request.host == 'search.library.cornell.edu'
+      core = Blacklight.solr_config[:url]
+      # Find last occurence of forward slash and add one
+      start = core.rindex(/\//) + 1
+      display = '<p>Solr core: ' + core[start..-1] + '</p>'
+      display.html_safe
+    end
   end
 
   # Clean up isbn in prep for bookcovers via Google Books API
