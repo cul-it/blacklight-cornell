@@ -15,6 +15,8 @@ BlacklightCornell::Application.routes.draw do
   match 'backend/feedback_mail', :to => "backend#feedback_mail"
 
   match 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms', :via => :post
+  
+  match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
