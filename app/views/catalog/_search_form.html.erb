@@ -3,64 +3,65 @@
     <div class="search-tools span6">
       <%= form_tag search_action_url, :method => :get, :class => 'search-form' do %>
         <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
-  <% if !params[:q_row].present? %>
-        <div class="search-options span3">
-          <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-            <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
-        </div>
-        <% unless search_fields.empty? %>
-          <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
+        <% if !params[:q_row].present? %>
+          <div class="search-options span3">
+            <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
+              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+          </div>
 
-          <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title')) %>
+          <% unless search_fields.empty? %>
+            <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
 
-          <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
-        <% end %>
+            <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title')) %>
 
-        <input type="submit" class="btn btn-inverse hidden-phone" id="search" value="Search">
+            <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
+          <% end %>
 
-        <span class="submit-search-text hide-text"><%=t('blacklight.search.form.submit')%></span>
+          <input type="submit" class="btn btn-inverse hidden-phone" id="search" value="Search">
 
-        <button id="search-btn" class="btn mobile-search-btn visible-phone btn-inverse" type="submit">
-          <i class="icon-search icon-white"></i>
-        </button>
+          <span class="submit-search-text hide-text"><%=t('blacklight.search.form.submit')%></span>
 
-        <div class="search-options span3">
-          <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
-          <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
-        </div>
+          <button id="search-btn" class="btn mobile-search-btn visible-phone btn-inverse" type="submit">
+            <i class="icon-search icon-white"></i>
+          </button>
 
-        <% if query_has_constraints? || params[:range].present? %>
-          <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
-        <% end %>
-        <% if !query_has_constraints? %>
-          <% if !params[:range].blank? %>
+          <div class="search-options span3">
+            <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
+            <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
+          </div>
 
-          <%end %>
+          <% if query_has_constraints? || params[:range].present? %>
+            <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
+          <% end %>
+
+          <% if !query_has_constraints? %>
+            <% if !params[:range].blank? %>
+
+            <%end %>
+          <% end %>
         <% end %>
       <% end %>
-  <% end %>
 
       <%= render :partial => 'did_you_mean' %>
-  <% if params[:q_row].present? %>
-    <h2>Advanced search</h2>
-  <% end %>
+
+      <% if params[:q_row].present? %>
+        <h2>Advanced search</h2>
+      <% end %>
+
       <%= render :partial => "constraints" %>
-  <% if params[:q_row].present? %>
-           <div class="advanced-search-link">
-          <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %> 
-          <%= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %> 
-        
 
-        <% if query_has_constraints? || params[:range].present? %>
-           or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
-        <% end %>
+      <% if params[:q_row].present? %>
+        <div class="advanced-search-link">
+          <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
+          <%= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
 
+          <% if query_has_constraints? || params[:range].present? %>
+             or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
+          <% end %>
         </div>
-  <% end %>
-
+      <% end %>
     </div>
 
     <%= render :partial => 'wcl_results' %>
-    
   </div>
 </div>
