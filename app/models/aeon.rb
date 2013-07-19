@@ -31,7 +31,7 @@ class Aeon
     '45' 
   ]
   
-  attr_accessor :bibid, :show_non_rare
+  attr_accessor :bibid#, :show_non_rare
 
   def self.eligible?(lib)
     return AEON_SITES.include?(lib) 
@@ -44,39 +44,29 @@ class Aeon
   def request_aeon document, params
     bibid = params[:bibid]
     self.bibid = bibid
-    # sk274_log "Entering request_aeon #{bibid} \n\n"
     holdings_param = {
       :bibid => bibid
     }
     yholdings = get_holdings holdings_param
-    # sk274_log "yholdings: #{yholdings.inspect}"
     holdings_chf = (yholdings)[bibid]
     holdings = (yholdings) [bibid][:condensed_holdings_full]
-    # sk274_log "holdings #{bibid} \n\n"
-    # sk274_log holdings.inspect
-    # sk274_log "\n\n"
     holdings_parsed = {}
-    show_non_rare = false;
-    holdings.each do |holding|
-      if (!Aeon.eligible?(holding[:location_code]))
-        show_non_rare = true
-        # sk274_log "\n\nset show_non_rare to #{@show_non_rare} \n\n"
-      end
-      holding[:holding_id].each do |holding_id|
-        holdings_parsed[holding_id] = holding
-      end
-    end
+    # show_non_rare is not currently used as we don't show any non-rare items
+    # on aeon form but if needed, here it is
+    # show_non_rare = false;
+    # holdings.each do |holding|
+      # if (!Aeon.eligible?(holding[:location_code]))
+        # show_non_rare = true
+      # end
+      # holding[:holding_id].each do |holding_id|
+        # holdings_parsed[holding_id] = holding
+      # end
+    # end
     h = holdings
     holdings_param[:type] = 'retrieve_detail_raw'
     raw = get_holdings holdings_param
     holdings_detail = raw[bibid][:records]
-    # sk274_log "\n\nholdings detail \n\n"
-    # sk274_log holdings_detail.inspect
-    # sk274_log "\n\n"
     item_types = get_item_types holdings_detail, bibid
-    # sk274_log "Item types :"
-    # sk274_log item_types.inspect
-    # sk274_log "\n\n"
 
     request_options = []
     holdings_detail.each do |holding|
@@ -89,20 +79,14 @@ class Aeon
       holding_status = holding_type[0][:itemStatus]
 
       holdings_condensed_full_item = holdings_parsed[holding_id]
-      # sk274_log "status: #{holdings_condensed_full_item['status']}"
-      ## is requested treated same as charged?
       item_status = get_item_status holding_status
       request_options.push( _handle_aeon bibid, holding )
     end
     if (!item_types.include?('aeon'))
-       # sk274_log "***Redirecting to see what happens \n\n"
        redirect_to blacklight_cornell_requests.magic_request(bibid)
        return
      end
     request_options.push( _handle_ask_librarian )
-    # sk274_log "\n\n request options \n\n"
-    # sk274_log request_options.inspect
-    # sk274_log "\n\n"
     return request_options, AEON, holdings_chf
   end
   
@@ -111,9 +95,7 @@ class Aeon
     iids = []
     if (!itemdata.nil?)
       itemdata.each do | iid |
-        #itemStatus"=>"Not Charged",
         if (! iid[:itemStatus].match('Not Charged') )
-          # iid[:estimate] = get_recall_delivery_time iid
           iids.push iid
         end
       end
@@ -145,7 +127,6 @@ class Aeon
   end
   
   def get_item_status item_status
-    # sk274_log "item status: #{item_status}"
     if item_status.include? 'Not Charged'
       return 'Not Charged'
     elsif item_status =~ /^Charged/
@@ -190,9 +171,5 @@ class Aeon
     return response.with_indifferent_access
 
   end
-  
-  # def sk274_log msg
-    # Rails.logger.info "sk274_log: #{msg}"
-  # end
 
 end
