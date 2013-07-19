@@ -81,15 +81,15 @@ dl.dl-horizontal {
 }
 
 dd.blacklight-notes {
-	-ms-word-break: break-all;
-	// word-break: break-all; - remove this style to fix word wrap error in Firefox (DNA 741)
+	// -ms-word-break: break-all; - remove this style to fix word wrap bug in IE 8/9/10 (DNA 741)
+	// word-break: break-all; - remove this style to fix word wrap bug in Firefox (DNA 741)
 	/* Non standard for webkit */
 	word-wrap: break-word;
 	word-break:break-word;
 	overflow-wrap:break-word;
 	-webkit-hyphens: auto;
   	hyphens: auto;
-  	display: table;
+  	// display: table; - remove this because it causes IE 9 and 10 to have a smaller width for metadata display for this field. Wasted space.
 }
 
 .active-hierarchy {
