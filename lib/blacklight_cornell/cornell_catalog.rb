@@ -25,7 +25,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def search_action_url
     url_for(:action => 'index', :only_path => true)
-    
+
   end
 
 
@@ -86,6 +86,32 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
 
 # end of cleanup of search_field and q params
+
+      if params[:q].present?
+        require 'worldcat'
+
+        # WorldCat Search API key
+        wcl = WorldCat.new '***REMOVED***'
+
+        cql = 'srw.kw+all+"' + params[:q] + '"'
+
+        wcl_response = wcl.sru_search :query => cql, :format => "dublincore"
+
+        # Following the lead from bento_search
+        # -- ideally we would use Nokogiri from the start but worldcat gem request rexml
+        # -- but it looks like it's missing as a dependency in the gemspec
+        # -- If we stay with the worldcat gem, we should fork and update
+        xml = Nokogiri::XML(wcl_response.to_s)
+        # namespaces only get in the way
+        xml.remove_namespaces!
+
+        cornell_wcl = 'http://cornell.worldcat.org/search?q='
+
+        @wcl_results = {
+          :url => cornell_wcl + params[:q],
+          :count => xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
+        }
+      end
 
       respond_to do |format|
         format.html { save_current_search_params }
@@ -672,15 +698,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
-  def tiny_url(uri, options = {}) 
+  def tiny_url(uri, options = {})
     defaults = { :validate_uri => false }
     options = defaults.merge options
     return validate_uri(uri) if options[:validate_uri]
     return generate_uri(uri)
-  end 
+  end
 
   private
-  
+
   def validate_uri(uri)
     confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
     if confirmed_uri.blank?
@@ -689,7 +715,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       return true
     end
   end
-  
+
   def generate_uri(uri)
     confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
     if !confirmed_uri.blank?
