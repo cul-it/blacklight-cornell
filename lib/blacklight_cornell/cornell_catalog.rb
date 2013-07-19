@@ -29,98 +29,92 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   end
 
 
-    # get search results from the solr index
-    def index
+  # get search results from the solr index
+  def index
 
-      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
-  #    @bookmarks = current_or_guest_user.bookmarks
+    (@response, @document_list) = get_search_results
 
-
-# secondary parsing of advanced search params.  Code will be moved to external functions for clarity
-      if params[:q_row].present?
-        query_string = set_advanced_search_params(params)
-      end
- #     end
-# End of secondary parsing
-
-#  Journal title search hack.
-
-      if params[:search_field] == "journal title"
-        if params[:f].nil?
-          params[:f] = {}
-        end
-          params[:f] = {"format" => ["Journal"]}
-#          unless(!params[:q])
-          params[:q] = params[:q]
-          params[:search_field] = "journal title"
-      end
-# end of Journal title search hack
-
-      (@response, @document_list) = get_search_results
-
-
-      if params.nil? || params[:f].nil?
-        @filters = []
-      else
-        @filters = params[:f] || []
-      end
-
-# clean up search_field and q params.  May be able to remove this
-
-      if params[:search_field] == "journal title"
-         if params[:q].nil?
-           params[:search_field] = ""
-         end
-      end
-
-      if params[:q_row].present?
-         if params[:q].nil?
-          params[:q] = query_string
-         end
-      else
-          if params[:q].nil?
-            params[:q] = query_string
-          end
-      end
-
-# end of cleanup of search_field and q params
-
-      if params[:q].present?
-        require 'worldcat'
-
-        # WorldCat Search API key
-        wcl = WorldCat.new '***REMOVED***'
-
-        cql = 'srw.kw+all+"' + params[:q] + '"'
-
-        wcl_response = wcl.sru_search :query => cql, :format => "dublincore"
-
-        # Following the lead from bento_search
-        # -- ideally we would use Nokogiri from the start but worldcat gem request rexml
-        # -- but it looks like it's missing as a dependency in the gemspec
-        # -- If we stay with the worldcat gem, we should fork and update
-        xml = Nokogiri::XML(wcl_response.to_s)
-        # namespaces only get in the way
-        xml.remove_namespaces!
-
-        cornell_wcl = 'http://cornell.worldcat.org/search?q='
-
-        @wcl_results = {
-          :url => cornell_wcl + params[:q],
-          :count => xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
-        }
-      end
-
-      respond_to do |format|
-        format.html { save_current_search_params }
-        format.rss  { render :layout => false }
-        format.atom { render :layout => false }
-      end
-#    params.delete("q_row")
-
+    if params.nil? || params[:f].nil?
+      @filters = []
+    else
+      @filters = params[:f] || []
     end
+
+    respond_to do |format|
+      format.html { save_current_search_params }
+      format.rss  { render :layout => false }
+      format.atom { render :layout => false }
+    end
+
+    # @bookmarks = current_or_guest_user.bookmarks
+
+    # params.delete("q_row")
+
+    # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
+    if params[:q_row].present?
+      query_string = set_advanced_search_params(params)
+    end
+    # End of secondary parsing
+
+    # Journal title search hack.
+    if params[:search_field] == "journal title"
+      if params[:f].nil?
+        params[:f] = {}
+      end
+        params[:f] = {"format" => ["Journal"]}
+        # unless(!params[:q])
+        params[:q] = params[:q]
+        params[:search_field] = "journal title"
+    end
+    # end of Journal title search hack
+
+    # clean up search_field and q params.  May be able to remove this
+    if params[:search_field] == "journal title"
+       if params[:q].nil?
+         params[:search_field] = ""
+       end
+    end
+
+    if params[:q_row].present?
+       if params[:q].nil?
+        params[:q] = query_string
+       end
+    else
+        if params[:q].nil?
+          params[:q] = query_string
+        end
+    end
+    # end of cleanup of search_field and q params
+
+    if params[:q].present?
+      require 'worldcat'
+
+      # WorldCat Search API key
+      wcl = WorldCat.new '***REMOVED***'
+
+      cql = 'srw.kw+all+"' + params[:q] + '"'
+
+      wcl_response = wcl.sru_search :query => cql, :format => "dublincore"
+
+      # Following the lead from bento_search
+      # -- ideally we would use Nokogiri from the start but worldcat gem request rexml
+      # -- but it looks like it's missing as a dependency in the gemspec
+      # -- If we stay with the worldcat gem, we should fork and update
+      xml = Nokogiri::XML(wcl_response.to_s)
+      # namespaces only get in the way
+      xml.remove_namespaces!
+
+      cornell_wcl = 'http://cornell.worldcat.org/search?q='
+
+      @wcl_results = {
+        :url => cornell_wcl + params[:q],
+        :count => xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
+      }
+    end
+  end
 
 
   def solr_search_params(user_params = params || {})
