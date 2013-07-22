@@ -49,13 +49,12 @@
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)
-            - if aeon_eligible? entry['location_code']
-              =link_to 'Request', "http://www.library.cornell.edu/aeon/monograph.php?bibid=#{@id}&libid=#{entry['location_code']}", {:title => 'Request', :class => 'btn btn-danger'}
-    - if multiple_groups
-      -if group == "Circulating"
-        .item-requests
-          =link_to 'Request', blacklight_cornell_request.magic_request_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
-          %hr
+    -if group == "Circulating"
+      .item-requests
+        =link_to 'Request', blacklight_cornell_request.magic_request_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
+    -if group == "Rare"
+      .item-requests
+        =link_to 'Request', request_aeon_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
 
 
 
