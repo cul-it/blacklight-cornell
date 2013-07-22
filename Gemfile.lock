@@ -1,6 +1,6 @@
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
-  revision: 43210175d8f0b5428b718034e59d98b7aa808810
+  revision: 026fab5acfc272e5ac78d7df5e01d431cea874ec
   branch: master
   specs:
     blacklight_cornell_requests (0.0.1)
@@ -66,7 +66,7 @@ GEM
       blacklight (> 3.2)
       rails (~> 3.0)
     blankslate (2.1.2.4)
-    bootstrap-sass (2.3.2.0)
+    bootstrap-sass (2.3.2.1)
       sass (~> 3.2)
     builder (3.0.4)
     capistrano (2.15.5)
