@@ -66,16 +66,6 @@
 
           <span class="blacklight-url_access_display"></span>
 
-          <!-- Only show request button if there are physical holdings -->
-
-          <% locs = @response.docs[0]['location_display'] %>
-          <% if locs.blank? or !(locs.length == 1 and locs[0] == '*Networked Resource') %>
-            <!--<div class="item-requests">
-              
-              <%= link_to 'Request', blacklight_cornell_request.magic_request_path(params[:id]), {:title => 'Request', :class => 'btn btn-danger'} %> 
-            </div>-->
-          <% end %>
-
           <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
           <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
         </div>
