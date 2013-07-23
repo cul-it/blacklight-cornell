@@ -113,6 +113,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         :url => cornell_wcl + params[:q],
         :count => xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
       }
+
+      # Limit Summon results to articles, journals & book chapters
+      cornell_summon = 'http://cornell.summon.serialssolutions.com/search?s.cmd=addFacetValueFilters(ContentType,Journal+Article,Book+Chapter,Journal+%2F+eJournal)&s.q='
+
+      @summon_url = cornell_summon + params[:q]
     end
   end
 
