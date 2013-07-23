@@ -15,7 +15,7 @@ set :default_environment, {
 }
 
 set :deploy_to, "/libweb/#{user}"
-#set :deploy_via, :copy
+set :deploy_via, :copy
 #set :bundle_flags,    "--deployment --quiet"
 set :bundle_flags, ""    
 
