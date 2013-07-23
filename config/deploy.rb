@@ -26,7 +26,7 @@ set :bundle_flags, ""
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
-set :stages, ["staging", "production"]
+set :stages, ["development", "staging", "production"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
 
