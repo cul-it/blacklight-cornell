@@ -64,7 +64,7 @@
 
     <%# Offer search expansion only if keyword is present and not advanced search %>
     <% if  params[:q].present? and params[:search_field] != 'advanced' %>
-      <%= render :partial => 'wcl_results' %>
+      <%= render :partial => 'expand_search' %>
     <% end %>
   </div>
 </div>
