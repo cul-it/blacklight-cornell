@@ -35,14 +35,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
-    (@response, @document_list) = get_search_results
-
-    if params.nil? || params[:f].nil?
-      @filters = []
-    else
-      @filters = params[:f] || []
-    end
-
     respond_to do |format|
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
@@ -70,6 +62,14 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         params[:search_field] = "journal title"
     end
     # end of Journal title search hack
+
+    (@response, @document_list) = get_search_results
+
+    if params.nil? || params[:f].nil?
+      @filters = []
+    else
+      @filters = params[:f] || []
+    end
 
     # clean up search_field and q params.  May be able to remove this
     if params[:search_field] == "journal title"
