@@ -31,15 +31,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get search results from the solr index
   def index
-
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-
-    respond_to do |format|
-      format.html { save_current_search_params }
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
-    end
 
     # @bookmarks = current_or_guest_user.bookmarks
 
@@ -119,6 +112,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       cornell_summon = 'http://cornell.summon.serialssolutions.com/search?s.cmd=addFacetValueFilters(ContentType,Journal+Article,Book+Chapter,Journal+%2F+eJournal)&s.q='
 
       @summon_url = cornell_summon + params[:q]
+    end
+
+    respond_to do |format|
+      format.html { save_current_search_params }
+      format.rss  { render :layout => false }
+      format.atom { render :layout => false }
     end
   end
 
