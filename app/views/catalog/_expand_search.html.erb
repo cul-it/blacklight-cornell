@@ -1,7 +1,10 @@
-<div class="span2 wcl-results">
-	<h4>Expand your search</h4>
-	<ul>
-		<li><i class="icon-external-link"></i> <a href="<%= @wcl_results[:url] %>"><%= format_num(@wcl_results[:count]) %>+ results</a> at Libraries Worldwide</li>
-		<li><i class="icon-external-link"></i> Looking for articles? <a href="<%= @summon_url %>">Try Summon</a>.</li>
-	</ul>
+<div class="span2 expand-search">
+	<div class="wcl-results">
+		<h4>Expand your search</h4>
+		<ul>
+			<li><i class="icon-external-link"></i> <a href="<%= @wcl_results[:url] %>"><%= format_num(@wcl_results[:count]) %>+ results</a> at Libraries Worldwide</li>
+			<li><i class="icon-external-link"></i> Looking for articles? <a href="<%= @summon_url %>">Try Summon</a>.</li>
+			<li class="advanced-search-link"><i class="icon-search"></i> <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index") %></li>
+		</ul>
+	</div>
 </div>

@@ -5,9 +5,8 @@ input.search-query {
   padding-right: 0;
 }
 .advanced-search-link {
-  display: block;
-  text-align: right;
-  font-size: .8em;
+  font-weight: bold;
+  border-top: 1px solid $tan;
 }
 .start-over {
   margin-left: .3em;
@@ -48,22 +47,25 @@ p.suggest {font-size:.8em}
 
 div.search-tools > h2 {line-height: 1em}
 
+.expand-search {
+  width: auto;
+  float: right; }
 .wcl-results {
   background: $pale-gray;
   border: 1px solid $tan;
-  padding: 10px;
-  float: right;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  width: auto;
+  margin-bottom: 5px;
   h4 { 
     text-transform: uppercase;
     font-size: .75em;
-    margin: 0 0 .5em; }
+    margin: 0 0 .5em;
+    padding: 10px 10px 0 10px; }
   ul { 
     margin-left: 0;
-    list-style: none; }
+    list-style: none;
+    padding: 0 10px; }
   li { 
     font-size: .75em;
     margin-bottom: .25em; }

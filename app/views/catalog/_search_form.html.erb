@@ -1,6 +1,6 @@
 <div class="well clearfix">
   <div class="row">
-    <div class="search-tools span6">
+    <div class="search-tools span5">
       <%= form_tag search_action_url, :method => :get, :class => 'search-form' do %>
         <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
         <% if !params[:q_row].present? %>
@@ -25,10 +25,12 @@
             <i class="icon-search icon-white"></i>
           </button>
 
+          <!-- MOVE THE ADVANCED SEARCH LINK
           <div class="search-options span3">
             <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
             <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
           </div>
+          -->
 
           <% if query_has_constraints? || params[:range].present? %>
             <span class="start-over"> or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %></span>
