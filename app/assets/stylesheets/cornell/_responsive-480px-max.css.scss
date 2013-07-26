@@ -16,19 +16,29 @@
 			padding-left: 10px;
 			padding-right: 10px; }
 	}
+	ul.blacklight-nav {
+		a { display: block; }
+	}
 
 	//
 	// Search form
-	.search-options { width: 50%; }
-	input.search-query { width: 92%; }
+	.search-options { 
+		width: 100%;
+		margin-bottom: 5px; }
+	input.search-query { width: 93%; }
 	#search_field {
-		width: 68px;
 		margin-left: .7em;
 		display: inline-block;
+		width: auto;
 	}
 	.start-over {
 		float: right;
+		margin-top: -5px;
 	}
+	.advanced-search-link { margin-top: 4px; }
+	.wcl-results {
+		float: none;
+		margin-top: 10px; }
 	// Facets modal
 	ul.facet_extended_list {
 		margin: 0;
