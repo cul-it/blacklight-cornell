@@ -11,7 +11,9 @@ ActionMailer::Base.smtp_settings = {
 
 BlacklightCornellRequests.config do |config|
   # URL of service which returns JSON holding info.
-  config.voyager_holdings = "http://culholdingsdev.library.cornell.edu"
+ config.voyager_holdings = ENV['VOYAGER_HOLDINGS_HOST']  ?
+                   ENV['VOYAGER_HOLDINGS_HOST']  :
+                   "http://culholdingsdev.library.cornell.edu" 
   config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
   
   # URL of service which handles item requests
