@@ -4,7 +4,8 @@ role :app, "culsearchdev.library.cornell.edu"
 role :web, "culsearchdev.library.cornell.edu" 
 role :db,  "culsearchdev.library.cornell.edu", :primary => true
 
-set :deploy_to, "/libweb/#{user}/blacklight-cornell"
+set :deploy_to, "/culsearch/#{user}/blacklight-cornell"
+#set :deploy_to, "/libweb/#{user}/blacklight-cornell"
 #set :deploy_to, "/users/#{user}/blacklight-cornell-development"
 # actually this is a tag
 #set :branch, "staging-publicbeta-0.2"
