@@ -14,8 +14,8 @@ set :default_environment, {
   'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-1.9.3-p194@global/gems/bundler-1.3.5/"  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
-
-set :deploy_to, "/libweb/#{user}"
+#Deploy to may vary depending on target stage
+#set :deploy_to, "/libweb/#{user}"
 set :deploy_via, :copy
 #set :bundle_flags,    "--deployment --quiet"
 #set :bundle_flags, ""    
