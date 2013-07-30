@@ -49,10 +49,14 @@ p.suggest {font-size:.8em}
 div.search-tools > h2 {line-height: 1em}
 
 .wcl-results {
-  border-left: 3px solid $light-tan;
+  background: $pale-gray;
+  border: 1px solid $tan;
+  padding: 10px;
   float: right;
-  padding: 0 0 0 10px;
-  margin-bottom: 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  width: auto;
   h4 { 
     text-transform: uppercase;
     font-size: .75em;
@@ -64,5 +68,3 @@ div.search-tools > h2 {line-height: 1em}
     font-size: .75em;
     margin-bottom: .25em; }
 }
-.search-tools { margin-bottom: .5em; }
-.advanced-search-options { margin-top: 1.5em; }
