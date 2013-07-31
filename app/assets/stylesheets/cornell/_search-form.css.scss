@@ -48,15 +48,11 @@ p.suggest {font-size:.8em}
 
 div.search-tools > h2 {line-height: 1em}
 
-.wcl-results {
-  background: $pale-gray;
-  border: 1px solid $tan;
-  padding: 10px;
+.expand-search { float: right; }
+.expand-results {
+  padding: 0 0 0 10px;
+  border-left: 1px solid $tan;
   float: right;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  width: auto;
   h4 { 
     text-transform: uppercase;
     font-size: .75em;
