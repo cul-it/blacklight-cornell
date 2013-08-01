@@ -83,7 +83,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # end of cleanup of search_field and q params
 
     # Expand search only if keyword is present and not advanced search
-    if params[:q].present? and params[:search_field] != 'advanced'
+    if params[:q].present? and !params[:advanced_search]
       require 'worldcat'
 
       # WorldCat Search API key
@@ -254,6 +254,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def set_advanced_search_params(params)
          params["advanced_query"] = "yes"
+         # Use :advanced_search param as trustworthy indicator of search type
+         params[:advanced_search] = true
          counter = test_size_param_array(params[:q_row])
          if counter > 1
             query_string = massage_params(params)
