@@ -6,10 +6,13 @@ body {
 }
 
 .main-content {
-	padding: 0.5em 0;
+	padding: 0.5em 0 30px 0;
 	background: $pale-gray;
 }
 
+.blacklight-catalog-show {
+	.main-content { padding-bottom: .5em; }
+}
 
 // LINKS
 
