@@ -14,7 +14,8 @@
 	.span9 {
 		.well {
 			padding-left: 10px;
-			padding-right: 10px; }
+			padding-right: 10px;
+		}
 	}
 	ul.blacklight-nav {
 		a { display: block; }
@@ -22,9 +23,10 @@
 
 	//
 	// Search form
-	.search-options { 
+	.search-options {
 		width: 100%;
-		margin-bottom: 5px; }
+		clear: left;
+	}
 	input.search-query { width: 93%; }
 	#search_field {
 		margin-left: .7em;
@@ -33,12 +35,11 @@
 	}
 	.start-over {
 		float: right;
-		margin-top: -5px;
 	}
-	.advanced-search-link { margin-top: 4px; }
 	.wcl-results {
 		float: none;
-		margin-top: 10px; }
+		margin-top: 10px;
+	}
 	// Facets modal
 	ul.facet_extended_list {
 		margin: 0;
@@ -46,9 +47,10 @@
 	}
 	.modal-footer {
 		text-align: center;
-		.prev_next_links { 
+		.prev_next_links {
 			float: none;
-			margin-bottom: 10px; }
+			margin-bottom: 10px;
+		}
 		.sort_options { float: none; }
 	}
 	// Item page
