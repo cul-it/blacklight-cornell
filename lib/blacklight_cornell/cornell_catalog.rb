@@ -344,6 +344,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     splitArray = []
     returnstring = ""
     if op == "phrase"
+      query.gsub!("\"", "\'")
       returnstring << '"' << query << '"'
     else
       splitArray = query.split(" ")
@@ -373,6 +374,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
              end
              query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
            elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
+             query_rowArray[i].gsub!("\"", "\'")
              query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
            else
              query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
