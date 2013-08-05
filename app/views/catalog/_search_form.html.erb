@@ -44,22 +44,10 @@
 
       <%= render :partial => 'did_you_mean' %>
 
-      <% if params[:q_row].present? %>
-        <h2>Advanced search</h2>
+      <% if !params[:advanced_search] %>
+        <%= render :partial => "constraints" %>
       <% end %>
 
-      <%= render :partial => "constraints" %>
-
-      <% if params[:q_row].present? %>
-        <div class="advanced-search-link">
-          <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
-          <%= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
-
-          <% if query_has_constraints? || params[:range].present? %>
-             or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
-          <% end %>
-        </div>
-      <% end %>
     </div>
 
     <%# Offer search expansion only if keyword is present and not advanced search %>
@@ -67,4 +55,21 @@
       <%= render :partial => 'expand_search' %>
     <% end %>
   </div>
+
+  <%#= Show the following only if coming from an advanced search %>
+  <% if params[:q_row].present? %>
+    <div class="advanced-search">
+      <h2>Advanced search</h2>
+      <%= render :partial => "constraints" %>
+      <div class="advanced-search-link">
+        <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
+        <%= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
+
+        <% if query_has_constraints? || params[:range].present? %>
+           or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
 </div>
