@@ -189,11 +189,11 @@ en:
         no_items_found: 'No %{entry_name} found'
         single_item_found: '<strong>1 result</strong>'
         pages:
-          one: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
-          other: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
       entry_pagination_info:
-        one: '<b>1 of 1</b>'
-        other: '<b>%{current}</b> of <b>%{total}</b>'
+        one: '<strong>1 of 1</strong>'
+        other: '<strong>%{current}</strong> of <strong>%{total}</strong>'
       documents:
         counter: '%{counter}. '
       facets:
