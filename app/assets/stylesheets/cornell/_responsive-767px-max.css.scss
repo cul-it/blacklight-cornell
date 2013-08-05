@@ -29,9 +29,9 @@
 		h2 { margin-left: 10px; }
 	}
 
-//
-// Search form
-.search-options.span4 {
+	//
+	// Search form
+	.search-options.span3 {
 		width: 50%;
 		float: left;
 	}
@@ -47,8 +47,15 @@
   			margin-left: 3px; }
   	}
   	.return-link { margin-top: 10px; }
-  	.blacklight-catalog-show {
-	}
+  	.search-tools { width: 100%; }
+  	.expand-search { float: none; }
+  	.expand-results {
+  		float: none;
+  		padding: 10px 0 0 0;
+  		border-left: 0;
+  		border-top: 1px solid $tan;
+  		margin-top: 10px;
+  	}
 
 	//
 	// Search results
