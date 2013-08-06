@@ -42,9 +42,28 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
              else
                label = search_field_def_for_key(parts[0])[:label]
              end
+             facetparams = ""
+             if (params[:f].present?)
+               start1 = "f["
+               next1 = ""
+               count = 0
+               Rails.logger.debug("Facet params = #{params[:f]}")
+               params[:f].each do |key, value|
+                   next1 = ""
+                   start2 = start1 + key + "][]="
+                 value.each do |v|
+                   next1 =  next1 + start2 + v + "&"
+                 end
+                 facetparams = facetparams + next1
+               end
+             else
+               facetparams = ""
+             end
+             removeString = "catalog?q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
              content << render_constraint_element(
                label, parts[1],
-               :remove => "catalog?q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
+#               :remove => "catalog?q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
+               :remove => removeString
              )
            else
              content << " " << parts[1] << " "
@@ -117,11 +136,30 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
                     autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
                  end 
                end
-                              Rails.logger.debug("CONSTRAINTsPARAMS4 = #{autoparam}")
+               Rails.logger.debug("CONSTRAINTsPARAMS4 = #{params}")
+             facetparams = ""
+             if (params[:f].present?)
+               start1 = "f["
+               next1 = ""
+               count = 0
+               Rails.logger.debug("Facet params = #{params[:f]}")
+               params[:f].each do |key, value|
+                   next1 = ""
+                   start2 = start1 + key + "][]="
+                 value.each do |v|
+                   next1 =  next1 + start2 + v + "&"
+                 end
+                 facetparams = facetparams + next1
+               end
+             else
+               facetparams = ""
+             end
+             removeString = "catalog?" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
 
                content << render_constraint_element(
                  label, parts[1],
-                 :remove => "catalog?" + autoparam + "&action=index&commit=Search&advanced_query=yes"
+#                 :remove => "catalog?" + autoparam + "&action=index&commit=Search&advanced_query=yes"
+                 :remove => removeString
 #                 :remove => "catalog?" + autoparam +"&q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
 #                 :remove => catalog_index_path(remove_advanced_keyword_query(parts[0],params))
                )
