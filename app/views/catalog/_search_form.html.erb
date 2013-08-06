@@ -51,8 +51,8 @@
       <%= render :partial => "constraints" %>
     </div>
 
-    <%# Offer search expansion only if keyword is present and not advanced search %>
-    <% if  params[:q].present? and !params[:advanced_search] %>
+    <%# Offer search expansion only under certain conditions %>
+    <% if expandable_search? %>
       <%= render :partial => 'expand_search' %>
     <% end %>
   </div>

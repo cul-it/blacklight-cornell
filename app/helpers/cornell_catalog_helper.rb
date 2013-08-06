@@ -1,4 +1,9 @@
-module HoldingsHelper
+module CornellCatalogHelper
+
+  # Determine if user query can be expanded to WCL & Summon
+  def expandable_search?
+    params[:q].present? and !params[:advanced_search] and !params[:click_to_search]
+  end
 
   def process_online_title(title)
     # Trim leading and trailing text

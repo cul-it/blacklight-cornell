@@ -3,6 +3,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   include Blacklight::Configurable
   include Blacklight::SolrHelper
+  include CornellCatalogHelper
 #  include ActsAsTinyURL
   SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -82,8 +83,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     # end of cleanup of search_field and q params
 
-    # Expand search only if keyword is present and not advanced search
-    if params[:q].present? and !params[:advanced_search]
+    # Expand search only under certain conditions
+    if expandable_search?
       require 'worldcat'
 
       # WorldCat Search API key

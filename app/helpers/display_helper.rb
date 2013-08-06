@@ -249,6 +249,7 @@ module DisplayHelper
       :controller => 'catalog',
       :q => value,
       :search_field => get_clickable_search_field(field),
+      :click_to_search => true,
       :commit => 'search',
       :action => 'index'
     }
