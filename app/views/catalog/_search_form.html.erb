@@ -42,13 +42,12 @@
         <% end %>
       <% end %>
 
-      <%= render :partial => 'did_you_mean' %>
-
       <% if params[:q_row].present? %>
         <h2 class="advanced-search">Advanced search</h2>
       <% end %>
 
       <%= render :partial => "constraints" %>
+      <%= render :partial => 'did_you_mean' %>
     </div>
 
     <%# Offer search expansion only under certain conditions %>
