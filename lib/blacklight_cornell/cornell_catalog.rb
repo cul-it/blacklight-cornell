@@ -90,7 +90,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       # WorldCat Search API key
       wcl = WorldCat.new '***REMOVED***'
 
-      cql = 'srw.kw+all+"' + params[:q] + '"'
+      # WCL Search API via SRU request type with CQL does not like quotes
+      clean_keyword = params[:q].gsub('"', '')
+
+      cql = 'srw.kw+all+"' + clean_keyword + '"'
 
       wcl_response = wcl.sru_search :query => cql, :format => "dublincore"
 
