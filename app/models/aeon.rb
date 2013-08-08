@@ -83,9 +83,10 @@ class Aeon
       request_options.push( _handle_aeon bibid, holding )
     end
     if (!item_types.include?('aeon'))
-       redirect_to blacklight_cornell_requests.magic_request(bibid)
-       return
-     end
+      # don't know any good way to get at engine's named route...
+      # redirect_to Rails.application.routes.url_helpers.blacklight_cornell_request.magic_request_path(bibid)
+      # return
+    end
     request_options.push( _handle_ask_librarian )
     return request_options, AEON, holdings_chf
   end
