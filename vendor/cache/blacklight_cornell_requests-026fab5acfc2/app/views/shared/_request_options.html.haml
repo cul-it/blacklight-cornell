@@ -1,0 +1,85 @@
+%table.table.table-striped.table-bordered.request-options  
+  %thead
+    %tr
+      %th
+        Request type
+      %th
+        Approximate availability    
+  - @alternate_request_options.each do |option|
+    - if option[:option] == 'l2l'
+      %tr
+        %td
+          = link_to request_l2l_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Library to Library
+        %td  
+          = option[:estimate]
+          working day(s).
+    - elsif option[:option] == 'bd'
+      %tr
+        %td
+          = link_to request_bd_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Borrow Direct
+        %td 
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'hold'
+      %tr
+        %td
+          = link_to request_hold_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Hold
+        %td
+          = option[:estimate]
+          working days       
+    - elsif option[:option] == 'recall'
+      %tr
+        %td
+          = link_to request_recall_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Recall
+        %td
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'purchase'
+      %tr
+        %td
+          = link_to request_purchase_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Purchase Request
+        %td
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'ill'
+      %tr
+        %td
+          = link_to request_ill_path(@id), {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Interlibrary Loan
+        %td
+          = option[:estimate]
+          working days
+    - elsif option[:option] == 'circ'
+      %tr
+        %td
+          = link_to request_circ_path(@id), {:title => @ti} do
+            %h2.blacklight-title_display
+              %i.icon-circle-arrow-right &nbsp;Check Circulation
+        %td
+          This item is a short-term loan. Please check at the circulation desk.
+    - else
+      %tr
+        %td
+          = link_to 'http://ask.library.cornell.edu', {:title => @ti} do 
+            %h2.blacklight-title_display 
+              %i.icon-circle-arrow-right 
+              Ask a Librarian
+        %td
+          N/A

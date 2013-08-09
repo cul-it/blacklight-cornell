@@ -1,0 +1,42 @@
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Request library to library delivery
+
+%div.row
+  %div.span8.well
+    %h2.blacklight-title_display.item-title-request=@ti
+    %div.request-author=@au
+    %form#req.l2l-request.form-horizontal{:method => 'post', :action => make_voyager_request_path({:bibid =>@id})}
+      %input(type="hidden" name="bid" value="#{@id}" id="bid")
+      %input(type="hidden" name="request_action" value="callslip" id="request_action")
+      = render :partial => 'shared/reqac'
+      = render :partial => 'shared/reqpu'
+      .control-group
+        %label.control-label{:for => 'reqcomments'} Notes to library staff:
+        .controls
+          %textarea#reqcomments
+      .control-group
+        %label.control-label Delivery time:
+        .controls.delivery-estimate
+          Approximately
+          =@estimate
+          days
+      .control-group
+
+        .controls.clearfix
+          %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit delivery request")
+          %div.accordion-heading.request-options.form-alternative-action.pull-left
+            or
+            =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
+        .controls
+          %div.accordion#accordion2.request-options.form-alternative-action
+            %div#collapseOne.accordion-body.collapse
+              %div.accordion-inner
+                %div.span4
+                  Library to library delivery is your fastest option and will take approximately
+                  =@estimate
+                  days. Your other request options are listed below.
+                  = render :partial => 'shared/request_options'
+  -## Used to display working status and result of request via Ajax
+  #result
