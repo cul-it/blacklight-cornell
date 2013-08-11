@@ -83,7 +83,9 @@ holdings =
         # Need to setup modal again for injected share links
         Blacklight.setup_modal("a.lightboxLink", "#ajax-modal form.ajax_form", true);
       error: (data) ->
-        $('.holdings .holdings-error').show()
+        $('.holdings').html('<div class="holdings-error"><i class="icon-warning-sign"></i> Unable to retrieve availability <a href="#" class="retry-availability">Retry?</a></div>')
+        # Bind event listener for retry link
+        holdings.bindEventListener()
       complete: (data) ->
         # Stop and remove the spinner
         holdings.availabilityHeading.spin(false)

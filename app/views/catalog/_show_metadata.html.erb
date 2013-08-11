@@ -54,7 +54,8 @@
             </ul>
           <% end %>
 
-          <%= render :partial => 'show_holdings', :locals => {:documents => @response.docs}  %>
+          <div class="holdings" data-bibid="<%= @document.id.to_s %>">
+          </div>
 
           <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
           <% if access_restrictions.present? %>
