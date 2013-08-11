@@ -13,19 +13,22 @@ module CornellCatalogHelper
     title_clean.to_s.gsub(/(Please check resource for coverage or contact a librarian for assistance.)$/, '<span class="online-note">\1</span>').html_safe
   end
 
-  # Group holding items into circulating and rare (sort rare last)
+  # Group holding items into circulating, interwebs and rare (sort rare last)
   def group_holdings holdings
     holdings.inject({}) do |grouped, holding|
       grouped['Circulating'] = [] if grouped['Circulating'].nil?
+      grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
       if holding['location_code'].include?('rmc')
         grouped['Rare'] << holding
+      elsif holding['location_name'].include?('*Networked Resource')
+        grouped['*Online'] << holding
       else
         grouped['Circulating'] << holding
       end
       # Remove empty groups (no holdings)
       grouped.select! { |group, items| items.present? }
-      # Sort groups by key so rare is last
+      # Sort groups by key so rare is last & *online is first
       Hash[grouped.sort]
     end
   end
