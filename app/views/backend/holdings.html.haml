@@ -49,12 +49,10 @@
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)
-    -if group == "Circulating"
+    - if group == "Circulating" or group == "Rare"
+      - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{@id}") : request_aeon_path("#{@id}")
       .item-requests
-        =link_to 'Request', blacklight_cornell_request.magic_request_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
-    -if group == "Rare"
-      .item-requests
-        =link_to 'Request', request_aeon_path("#{@id}"), {:title => 'Request', :class => 'btn btn-danger'}
+        =link_to 'Request', request_context_path, {:title => 'Request', :class => 'btn btn-danger'}
 
 
 
