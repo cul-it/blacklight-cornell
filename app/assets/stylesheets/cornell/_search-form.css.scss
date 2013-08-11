@@ -6,12 +6,18 @@ input.search-query {
 }
 .advanced-search-link {
   display: block;
-  text-align: right;
+  margin-top: .2em;
+  padding-left: .3em;
   font-size: .8em;
 }
-.start-over {
+.search-or-reset.span2 {
   margin-left: .3em;
-  font-size: .8em;
+  min-width: 70px;
+}
+.start-over {
+  display: block;
+  margin-left: .2em;
+  font-size: .7em;
 }
 .results-info {
   margin: 0;
@@ -40,7 +46,7 @@ input.search-query {
   margin: 0 1em 0 0;
 }
 #search_field {
-  margin: 0 0 0 .2em;
+  float: left;
   width: auto;
   font-family: $baseFontFamily; // See cul-bootstrap-loader.css.scss for details
 }
@@ -55,14 +61,14 @@ div.search-tools > h2 {line-height: 1em}
   padding: 0 0 0 10px;
   border-left: 1px solid $tan;
   float: right;
-  h4 { 
+  h4 {
     text-transform: uppercase;
     font-size: .75em;
     margin: 0 0 .5em; }
-  ul { 
+  ul {
     margin-left: 0;
     list-style: none; }
-  li { 
+  li {
     font-size: .75em;
     margin-bottom: .25em; }
 }

@@ -31,16 +31,14 @@
 
 	//
 	// Search form
-	.search-options.span3 {
+	.search-options.span6 {
 		width: 50%;
 		float: left;
 	}
 	#search_field {
-		width: 100px;
-		margin-left: .4em;
+		margin-right: .3em
 	}
 	.mobile-search-btn { display: inline !important; }
-	.start-over { font-size: .7em; }
 	.navbar {
   		.icon-reorder {
   			color: $light-gray;

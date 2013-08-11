@@ -5,18 +5,16 @@
 @media (min-width: 768px) and (max-width: 979px) {
 	.document-data { width: 85%; }
 	.facets { font-size: 90%; }
-	#search_field { 
+	#search_field {
 		margin-left: .5em;
-		width: 100px; }
-	.start-over { 
-		font-size: .7em;
-		float: right;
-		margin-right: 10px; }
+		width: 100px;
+	}
 	form.range_limit {
 		input.range_begin,
 		input.range_end {
   		width: 3em;
-  		padding: 2px; }
+  		padding: 2px;
+  	}
 	}
 	.input-xxlarge { width: 95%; }
 }
