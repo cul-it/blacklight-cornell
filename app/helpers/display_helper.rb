@@ -350,7 +350,8 @@ module DisplayHelper
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
     "Research Guide" => "paste",
-    "Course Guide" => "graduation-cap"
+    "Course Guide" => "graduation-cap",
+    "Website" => "desktop"
   }
 
   def formats_icon_mapping(format)
