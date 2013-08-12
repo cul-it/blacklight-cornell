@@ -1,0 +1,7 @@
+Select a volume:
+
+%div.row
+  %div.span8.well
+    -@volumes.each do |v|
+      %div.volume
+      = link_to v, volume_request_path(@id, v)
