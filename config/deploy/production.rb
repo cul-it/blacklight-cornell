@@ -8,4 +8,6 @@ role :web, "search2.library.cornell.edu"
 role :db, "search2.library.cornell.edu", :primary => true
 
 set :deploy_to, "/libweb/#{user}/blacklight-cornell"
-set :branch, "hotfix-publicbeta"
+#this avoids an error message from git, but i don't think it's really necessary.
+#as i don't think the message actually affects what gets installed.
+set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
