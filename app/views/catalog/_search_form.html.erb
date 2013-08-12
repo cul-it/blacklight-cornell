@@ -54,6 +54,12 @@
     <% if expandable_search? %>
       <%= render :partial => 'expand_search' %>
     <% end %>
+
+    <%# Add simple links to WCL and Summon if an advanced search %>
+    <% if params[:q_row].present? %>
+      <%= render :partial => 'expand_advanced_search' %>
+    <% end %>
+
   </div>
   <% if params[:q_row].present? %>
     <div class="advanced-search-link">
