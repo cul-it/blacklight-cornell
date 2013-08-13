@@ -351,7 +351,9 @@ module DisplayHelper
     "Kit" => "suitcase",
     "Research Guide" => "paste",
     "Course Guide" => "graduation-cap",
-    "Website" => "desktop"
+    "Website" => "desktop",
+    "Miscellaneous" => "ellipsis-horizontal",
+    "Object" => "trophy"
   }
 
   def formats_icon_mapping(format)
