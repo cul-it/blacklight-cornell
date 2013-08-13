@@ -90,5 +90,52 @@ module CornellCatalogHelper
     return AEON_SITES.include?(lib)
   end
 
+  def render_constraints_query(localized_params = params)
+    # So simple don't need a view template, we can just do it here.
+    if(!localized_params[:advanced_query].blank?)
+      render_advanced_constraints_query(localized_params)
+    else
+    if (!localized_params[:q].blank?)
+      localized_params[:search_field] = params["search_field"]
+      label = 
+        if (localized_params[:search_field].blank? )# || (default_search_field && localized_params[:search_field] == default_search_field[:key] ) )
+          nil
+        else
+          label_for_search_field(localized_params[:search_field]) # + localized_params[:q])
+#          label_for_search_field(params["search_field"] + localized_params[:q])
+          
+        end
+      q_paramSplit = localized_params[:q].split("&")
+      if q_paramSplit.count > 1
+        leftSide = q_paramSplit[0].split("=")
+        fixed_query = leftSide[1]
+        localized_params.delete("q_row")
+        localized_params.delete("boolean_row")
+        localized_params.delete("op_row")
+        localized_params.delete("search_field_row")
+        localized_params.delete("search_field")
+        localized_params.delete("sort")
+        localized_params.delete("commit")
+      render_constraint_element(label,
+       #     localized_params[:q],
+            fixed_query, 
+            :classes => ["query"], 
+            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+      else
+      render_constraint_element(label,
+            localized_params[:q],
+      #      query, 
+            :classes => ["query"], 
+            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
+#            :remove => "?") # url_for(localized_params.merge(:q=>nil, :action=>'index')))
+      end
+    else
+      "".html_safe
+    end
+    end
+  end
+
+
+
 end
 
