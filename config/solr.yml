@@ -17,7 +17,7 @@ test: &test
   url: http://da-dev-solr.library.cornell.edu/solr/August9
 
 production:
-  url: http://da-prod-solr1.library.cornell.edu/solr/July23
+  url: http://da-prod-solr1.library.cornell.edu/solr/August9
 
 cucumber:
   <<: *test
