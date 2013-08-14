@@ -1,0 +1,23 @@
+= link_to catalog_path(@id), {:title => @ti} do
+  %i.icon-circle-arrow-left
+  Back to item
+%h1.request-type Document Delivery
+%div.row
+  %div.span8.well
+    %h2.item-title-request.blacklight-title_display=@ti
+    %div.request-author=@au
+    %p
+      Document Delivery is a service for Cornell students, faculty and staff that provides electronic scans of articles and book chapters from material held by Cornell University Library. 
+    %p
+      = link_to @iis[:document_delivery][:url], {:title => 'Submit Document Delivery Request', :class => 'btn btn-danger'} do
+        Submit Document Delivery Request
+    .control-group
+      .controls
+        %div.accordion#accordion2.request-options.form-alternative-action
+          %div.accordion-group
+            %div.accordion-heading
+            =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
+            %div#collapseOne.accordion-body.collapse
+              %div.accordion-inner
+                %div.span4
+                  = render :partial => 'shared/request_options'
