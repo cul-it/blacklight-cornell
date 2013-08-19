@@ -230,6 +230,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
    #   q_string = "(_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bees\" OR _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}+Tennessee +agriculture\") AND _query_:\"{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\\\"inspector of apiaries\\\"\""
 #      solr_parameters[:q] = q_string
+      if test_q_string == ""
+     #   solr_parameters.delete(:sort)
+      end
       solr_parameters[:q] = test_q_string
       params[:show_query] = test_q_string2
       Rails.logger.debug("THEQUERY = #{solr_parameters}")
@@ -241,17 +244,22 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def groupBools(q_stringArray, opArray)
      grouped = []
-     newString = q_stringArray[0];
-     for i in 0..opArray.count - 1
-#        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
-        newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
-#        else
-#           if opArray[i] == "OR"
-#            newString = newString + " OR " + q_stringArray[i + 1]
-#           else
-#            newString = newString + " NOT " + q_stringArray[i + 1]
-#           end
-#       end
+     newString = ""
+     if !q_stringArray.nil?
+       newString = q_stringArray[0];
+       for i in 0..opArray.count - 1
+  #        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
+          newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
+  #        else
+  #           if opArray[i] == "OR"
+  #            newString = newString + " OR " + q_stringArray[i + 1]
+  #           else
+  #            newString = newString + " NOT " + q_stringArray[i + 1]
+  #           end
+  #       end
+       end
+     else 
+   #    params[:sort] = ""
      end
      return newString
   end
