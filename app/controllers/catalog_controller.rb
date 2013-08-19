@@ -5,7 +5,7 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-  include BlacklightAdvancedSearch::ParseBasicQ
+  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
   # Tweak search param logic for default sort when browsing
   # Follow documentation in project wiki
