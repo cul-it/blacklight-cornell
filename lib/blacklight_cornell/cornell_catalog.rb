@@ -231,7 +231,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
    #   q_string = "(_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bees\" OR _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}+Tennessee +agriculture\") AND _query_:\"{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\\\"inspector of apiaries\\\"\""
 #      solr_parameters[:q] = q_string
       if test_q_string == ""
-     #   solr_parameters.delete(:sort)
+        solr_parameters[:sort] = "score desc, title_sort asc"
       end
       solr_parameters[:q] = test_q_string
       params[:show_query] = test_q_string2
