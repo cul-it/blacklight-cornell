@@ -32,6 +32,7 @@ header {
     top:0px; 
     z-index: 2;
     width:100%;
+    background-color: $black
   }
 
 .affix h2 {
@@ -39,6 +40,10 @@ header {
   }
 .affix .container {
     padding:0px;
+    position:relative;
+    top:0px;
+  }
+.sticky-container {
   }
 
 .beta {
