@@ -12,5 +12,19 @@ utils =
   toggleHierarchy: (activeLink) ->
     $(activeLink).prevUntil('br').toggleClass('active-hierarchy')
 
+  onLoad: () ->
+    measureHeader
+
+  bindEventListener: () ->
+    $(window).resize () ->
+      measureHeader
+
+  measureHeader:
+    ("#sticky-header-wrapper").height $("#sticky-header").height()
+
+
+$("#sticky-header").affix offset: 100
+
+
 $(document).ready ->
   utils.onLoad()
