@@ -107,8 +107,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
       cornell_wcl = 'http://cornell.worldcat.org/search?q='
 
+      # params to ensure sort by "relevance only"
+      wcl_sortby_params = '&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc'
+
       @wcl_results = {
-        :url => cornell_wcl + params[:q],
+        :url => cornell_wcl + params[:q] + wcl_sortby_params,
         :count => xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
       }
 
@@ -258,7 +261,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   #           end
   #       end
        end
-     else 
+     else
    #    params[:sort] = ""
      end
      return newString
