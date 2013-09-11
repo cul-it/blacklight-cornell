@@ -260,7 +260,7 @@ class CatalogController < ApplicationController
     config.add_index_field 'author_display', :label => 'Author'
     config.add_index_field 'author_vern_display', :label => 'Author'
     config.add_index_field 'format', :label => 'Format', :helper_method => :render_format_value
-    config.add_index_field 'language_facet', :label => 'Language'
+    config.add_index_field 'language_display', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published:'
     #config.add_index_field 'published_vern_display', :label => 'Published'
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
@@ -277,7 +277,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
-    config.add_show_field 'language_facet', :label => 'Language'
+    config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
     config.add_show_field 'pub_prod_display', :label => 'Produced'
