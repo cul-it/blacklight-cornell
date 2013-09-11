@@ -255,6 +255,9 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
+    # PLEASE NOTE: The index_field config is not used in our app, instead
+    #   we are specifying desired fields directly in the search results view:
+    #   See _index_default.html.erb
     config.add_index_field 'title_display', :label => 'Title'
     config.add_index_field 'title_vern_display', :label => 'Title'
     config.add_index_field 'author_display', :label => 'Author'
