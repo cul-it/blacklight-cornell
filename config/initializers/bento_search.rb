@@ -10,8 +10,8 @@ rescue Errno::ENOENT
   puts <<-eos
 
   ******************************************************************************
-  Your search_api.yml config file is missing.
-  See config/search_api.yml.example
+  Your search_apis.yml config file is missing.
+  See config/search_apis.yml.example
   ******************************************************************************
 
   eos
