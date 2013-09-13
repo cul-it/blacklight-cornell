@@ -4,6 +4,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::Configurable
   include Blacklight::SolrHelper
   include CornellCatalogHelper
+  include ActionView::Helpers::NumberHelper
+
 #  include ActsAsTinyURL
   SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -85,40 +87,18 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # Expand search only under certain conditions
     if expandable_search?
-      require 'worldcat'
+      searcher = BentoSearch::MultiSearcher.new(:summon, :worldcat)
+      searcher.search(params[:q], :per_page => 1)
 
-      # WorldCat Search API key
-      wcl = WorldCat.new '***REMOVED***'
+      @expanded_results = {}
 
-      # WCL Search API via SRU request type with CQL does not like quotes
-      clean_keyword = params[:q].gsub('"', '')
-
-      cql = 'srw.kw+all+"' + clean_keyword + '"'
-
-      wcl_response = wcl.sru_search :query => cql, :format => "dublincore"
-
-      # Following the lead from bento_search
-      # -- ideally we would use Nokogiri from the start but worldcat gem request rexml
-      # -- but it looks like it's missing as a dependency in the gemspec
-      # -- If we stay with the worldcat gem, we should fork and update
-      xml = Nokogiri::XML(wcl_response.to_s)
-      # namespaces only get in the way
-      xml.remove_namespaces!
-
-      cornell_wcl = 'http://cornell.worldcat.org/search?q='
-
-      # params to ensure sort by "relevance only"
-      wcl_sortby_params = '&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc'
-
-      @wcl_results = {
-        :url => cornell_wcl + params[:q] + wcl_sortby_params,
-        :count => xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
-      }
-
-      # Limit Summon results to articles, journals & book chapters
-      cornell_summon = 'http://cornell.summon.serialssolutions.com/search?s.cmd=addFacetValueFilters(ContentType,Journal+Article,Book+Chapter,Journal+%2F+eJournal)&s.q='
-
-      @summon_url = cornell_summon + params[:q]
+      searcher.results.each_pair do |key, result|
+        source_results = {
+          :count => number_with_delimiter(result.total_items),
+          :url => BentoSearch.get_engine(key).configuration.link + params[:q],
+        }
+        @expanded_results[key] = source_results
+      end
     end
 
     respond_to do |format|

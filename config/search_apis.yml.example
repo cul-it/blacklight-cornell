@@ -1,0 +1,8 @@
+# Add sensitive data for API connections here and save as search_apis.yml
+# This new file will not be tracked by Git.
+# Values are used by config/initializers/bento_search.rb
+
+worldcat_api_key: <apikey>
+
+summon_access_id: <access_id>
+summon_secret_key: <secret_key>

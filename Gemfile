@@ -81,4 +81,6 @@ gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git => 'git@git.library.cornell.edu:blacklight_cornell_requests.git', :branch => 'master'
-gem 'worldcat'
+gem 'bento_search'
+gem 'celluloid'  # Required for bento_search multisearcher
+# gem 'worldcat'
