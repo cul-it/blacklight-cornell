@@ -54,6 +54,16 @@ GEM
     addressable (2.3.5)
     arel (3.0.2)
     bcrypt-ruby (3.1.1)
+    bento_search (1.0.3)
+      confstruct (>= 0.2.3, < 1.0)
+      htmlentities
+      httpclient (>= 2.2.5, < 3.0.0)
+      language_list (~> 1.0)
+      multi_json (>= 1.0.4, < 2.0)
+      nokogiri
+      openurl (>= 0.3.1, < 1.1)
+      rails (~> 3.2.3)
+      summon
     blacklight (4.3.0)
       bootstrap-sass (>= 2.2.0, < 2.4)
       kaminari (~> 0.13)
@@ -88,6 +98,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    celluloid (0.15.1)
+      timers (~> 1.1.0)
     coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -96,6 +108,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    confstruct (0.2.5)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
     cucumber (1.3.6)
@@ -118,6 +131,7 @@ GEM
     devise-guests (0.3.2)
       devise
     diff-lcs (1.2.4)
+    ensure_valid_encoding (0.5.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -148,6 +162,7 @@ GEM
       railties (>= 3.1, < 4.1)
     highline (1.6.19)
     hike (1.2.3)
+    htmlentities (4.3.1)
     httpclient (2.3.4.1)
     i18n (0.6.5)
     journey (1.0.4)
@@ -158,6 +173,7 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    language_list (1.0.0)
     libnotify (0.8.1)
       ffi (>= 1.0.11)
     libv8 (3.3.10.4)
@@ -187,6 +203,9 @@ GEM
     newrelic_rpm (3.6.6.147)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    openurl (0.4.3)
+      ensure_valid_encoding
+      marc
     orm_adapter (0.4.0)
     parslet (1.5.0)
       blankslate (~> 2.0)
@@ -251,7 +270,6 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    simple-rss (1.2.3)
     slop (3.4.6)
     spork (0.9.0)
     sprockets (2.2.2)
@@ -260,10 +278,13 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.7)
+    summon (2.0.5)
+      json
     therubyracer (0.10.2)
       libv8 (~> 3.3.10)
     thor (0.18.1)
     tilt (1.4.1)
+    timers (1.1.0)
     treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
@@ -282,10 +303,6 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
-    worldcat (0.0.1)
-      json (>= 1.4.6)
-      marc (>= 0.3.3)
-      simple-rss (>= 1.2.3)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yaml_db (0.2.3)
@@ -294,6 +311,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bento_search
   blacklight
   blacklight_cornell_advanced_search!
   blacklight_cornell_requests!
@@ -304,6 +322,7 @@ DEPENDENCIES
   capistrano
   capistrano-ext
   capybara
+  celluloid
   coffee-rails (~> 3.2.1)
   cucumber-rails
   database_cleaner
@@ -338,5 +357,4 @@ DEPENDENCIES
   vcr
   webmock
   webrat
-  worldcat
   yaml_db
