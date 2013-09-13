@@ -100,6 +100,10 @@ task :tailor_holdings_config, :roles => [ :web ] do
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
+desc "Install api keys file -- too sensitive for git"
+task :install_api_keys_yml, :roles => [ :app, :db, :web ] do
+	upload(ENV["HOME"] + "/blacklight-cornell/config/search_apis.yml","#{deploy_to}/shared/config/")
+end
 
 #after :deploy, "fix_file_permissions"
 after :deploy, "install_puppet_db_yml"
