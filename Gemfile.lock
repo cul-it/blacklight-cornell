@@ -1,10 +1,10 @@
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_advanced_search.git
-  revision: 9abe4ec2f71e1e3ee59ba2c11bcb8e3a05162dc1
+  revision: c449d702fecec6b32dc9ac37bc1da1eb6dc378f4
   branch: master
   specs:
     blacklight_cornell_advanced_search (2.1.1)
-      blacklight (~> 4.0)
+      blacklight
       parslet
 
 GIT
@@ -81,7 +81,7 @@ GEM
       blacklight (> 3.2)
       rails (~> 3.0)
     blankslate (2.1.2.4)
-    bootstrap-sass (2.3.2.1)
+    bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.0.4)
     capistrano (2.15.5)
@@ -185,9 +185,9 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    marc (0.5.1)
+    marc (0.7.1)
     method_source (0.8.2)
-    mime-types (1.24)
+    mime-types (1.25)
     mini_portile (0.5.1)
     multi_json (1.7.9)
     multi_test (0.0.2)
@@ -285,7 +285,7 @@ GEM
     thor (0.18.1)
     tilt (1.4.1)
     timers (1.1.0)
-    treetop (1.4.14)
+    treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
