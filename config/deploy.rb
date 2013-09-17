@@ -102,7 +102,7 @@ end
 
 desc "Install api keys file -- too sensitive for git"
 task :install_api_keys_yml, :roles => [ :app, :db, :web ] do
-	upload(ENV["HOME"] + "/blacklight-cornell/config/search_apis.yml","#{deploy_to}/shared/config/")
+	upload(ENV["HOME"] + "/blacklight-cornell/config/search_apis.yml","#{deploy_to}/shared/config/search_apis.yml")
         run "ln -nfs #{shared_path}/config/search_apis.yml #{release_path}/config/search_apis.yml" 
 end
 
