@@ -107,7 +107,6 @@ end
 
 desc "Install api keys file -- too sensitive for git"
 task :install_api_keys_yml, :roles => [ :app, :db, :web ] do
-        run "mkdir -p #{release_path}/config" 
         run "ln -nfs #{shared_path}/config/search_apis.yml #{release_path}/config/search_apis.yml" 
 end
 
