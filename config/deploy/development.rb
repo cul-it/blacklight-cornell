@@ -12,3 +12,4 @@ set :deploy_to, "/culsearch/#{user}/blacklight-cornell"
 # this is set by jenkins, otherwise you can set it.
 #set :branch, ENV['GIT_BRANCH']
 set :branch,"dev"
+set :bundle_flags,    "--local "
