@@ -83,6 +83,7 @@ describe BlacklightCornellRequests::Request do
 
       it "should use get_cornell_delivery_options if patron is Cornell" do 
         req.netid = 'mjc12' 
+        req.stub(:borrowDirect_available?).and_return(true)
         options = req.get_delivery_options(item, bd_params)
         options = req.sort_request_options options
         service = options[0][:service]
@@ -110,6 +111,7 @@ describe BlacklightCornellRequests::Request do
 
       it "sorts the return array by delivery time" do
         req.netid = 'mjc12' 
+        req.stub(:borrowDirect_available?).and_return(true)
         options = req.get_delivery_options(item, bd_params)
         options = req.sort_request_options options
         service = options[0][:service]
@@ -497,11 +499,92 @@ describe BlacklightCornellRequests::Request do
           end
 
           context "item status is 'missing'" do
-            pending
+
+            context "available through Borrow Direct" do
+
+              before(:all) { 
+                @services = run_cornell_tests('day', 'Missing', true)
+              }
+
+              it "suggests BD for the service" do
+                @services[0][:service].should == 'bd'
+              end
+
+              it "sets request options to 'bd, purchase, ill'" do
+                b = Set.new ['bd', 'purchase', 'ill']
+                @services.length.should == b.length
+                @services.each do |o|
+                  b.should include(o[:service])
+                end
+
+              end
+
+            end
+
+            context "not available through Borrow Direct" do
+
+              before(:all) { 
+                @services = run_cornell_tests('day', 'Missing', false)
+              }
+
+              it "suggests purchase for the service" do
+                @services[0][:service].should == 'purchase'
+              end
+
+              it "sets request options to 'ill, purchase'" do
+                b = Set.new ['purchase', 'ill']
+                @services.length.should == b.length
+                @services.each do |o|
+                  b.should include(o[:service])
+                end
+              end
+
+            end
+
           end
 
           context "item status is 'lost'" do
-            pending
+
+            context "available through Borrow Direct" do
+
+              before(:all) { 
+                @services = run_cornell_tests('day', 'Lost', true)
+              }
+
+              it "suggests BD for the service" do
+                @services[0][:service].should == 'bd'
+              end
+
+              it "sets request options to 'bd, purchase, ill'" do
+                b = Set.new ['bd', 'purchase', 'ill']
+                @services.length.should == b.length
+                @services.each do |o|
+                  b.should include(o[:service])
+                end
+
+              end
+
+            end
+
+            context "not available through Borrow Direct" do
+
+              before(:all) { 
+                @services = run_cornell_tests('day', 'Lost', false)
+              }
+
+              it "suggests purchase for the service" do\
+                @services[0][:service].should == 'purchase'
+              end
+
+              it "sets request options to 'ill, purchase'" do
+                b = Set.new ['purchase', 'ill']
+                @services.length.should == b.length
+                @services.each do |o|
+                  b.should include(o[:service])
+                end
+              end
+
+            end
           end
 
         end
