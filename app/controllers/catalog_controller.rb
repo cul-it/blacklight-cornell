@@ -255,12 +255,15 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
+    # PLEASE NOTE: The index_field config is not used in our app, instead
+    #   we are specifying desired fields directly in the search results view:
+    #   See _index_default.html.erb
     config.add_index_field 'title_display', :label => 'Title'
     config.add_index_field 'title_vern_display', :label => 'Title'
     config.add_index_field 'author_display', :label => 'Author'
     config.add_index_field 'author_vern_display', :label => 'Author'
     config.add_index_field 'format', :label => 'Format', :helper_method => :render_format_value
-    config.add_index_field 'language_facet', :label => 'Language'
+    config.add_index_field 'language_display', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published:'
     #config.add_index_field 'published_vern_display', :label => 'Published'
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
@@ -277,7 +280,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_display', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
-    config.add_show_field 'language_facet', :label => 'Language'
+    config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
     config.add_show_field 'pub_prod_display', :label => 'Produced'
