@@ -11,13 +11,14 @@ ActionMailer::Base.smtp_settings = {
 
 BlacklightCornellRequests.config do |config|
   # URL of service which returns JSON holding info.
- config.voyager_holdings = ENV['VOYAGER_HOLDINGS_HOST']  ?
+  config.voyager_holdings = ENV['VOYAGER_HOLDINGS_HOST']  ?
                    ENV['VOYAGER_HOLDINGS_HOST']  :
                    "http://culholdingsdev.library.cornell.edu" 
-  config.voyager_get_holds= "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
+  config.voyager_get_holds = "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
+  config.voyager_req_holds = "http://catalog-test.library.cornell.edu:7074/vxws/SendPatronRequestService"
   
   # URL of service which handles item requests
- config.voyager_request_handler_host = ENV['VOYAGER_REQUEST_HANDLER_HOST']  ?
+  config.voyager_request_handler_host = ENV['VOYAGER_REQUEST_HANDLER_HOST']  ?
                    ENV['VOYAGER_REQUEST_HANDLER_HOST']  :
                    "http://culholdingsdev.library.cornell.edu" 
   #config.voyager_request_handler_host = "http://culholdingsdev.library.cornell.edu"
