@@ -5,7 +5,7 @@
 = link_to catalog_path(@id), {:title => @ti} do
   %i.icon-circle-arrow-left
   Back to item
-%h1.request-type Request a recall
+%h1.request-type Request a hold
 %div.row
   %div.span8.well
     %h2.item-title-request.blacklight-title_display=title
@@ -18,18 +18,19 @@
           .controls.delivery-estimate
             = render :partial =>'shared/volume_select'
       %input(type="hidden" name="bid" value="#{@id}" id="bid")
-      %input(type="hidden" name="request_action" value="recall" id="request_action")
+      %input(type="hidden" name="request_action" value="hold" id="request_action")
       = render :partial => 'shared/reqac'
       = render :partial => 'shared/reqpu'
       .control-group
         %label.control-label{:for => 'reqcomments'} Notes to library staff:
         .controls
           %textarea#reqcomments{:name => 'reqcomments'}
+      = render :partial => 'shared/request_date'
       .control-group
         %label.control-label Delivery time:
-        .controls.delivery-estimate 
+        .controls.delivery-estimate
           Approximately
-          =@estimate 
+          =@estimate
           days
       -if @alternate_request_options.count >= 2
         .control-group
@@ -43,7 +44,7 @@
               %div#collapseOne.accordion-body.collapse
                 %div.accordion-inner
                   %div.span4
-                    Recall will take approximately
+                    A hold will take approximately
                     =@estimate
                     days. Your other request options are listed below.
                     = render :partial => 'shared/request_options'
