@@ -107,7 +107,7 @@ end
 
 desc "Install api keys file -- too sensitive for git"
 task :install_api_keys_yml, :roles => [ :app, :db, :web ] do
-        run "cp -p #{deploy_to}/config/search_apis.yml #{latest_release}/config/search_apis.yml" 
+        run "cp #{deploy_to}/config/search_apis.yml #{latest_release}/config/search_apis.yml" 
 end
 
 #after :deploy, "fix_file_permissions"
