@@ -2,13 +2,10 @@
 -subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
 -responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
 - @selected_volume = params[:volume]
--d30 = 30.day.from_now
--d60 = 60.day.from_now
--d180 = 180.day.from_now
 = link_to catalog_path(@id), {:title => @ti} do
   %i.icon-circle-arrow-left
   Back to item
-%h1.request-type Request a hold
+%h1.request-type Request a recall
 %div.row
   %div.span8.well
     %h2.item-title-request.blacklight-title_display=title
@@ -21,32 +18,21 @@
           .controls.delivery-estimate
             = render :partial =>'shared/volume_select'
       %input(type="hidden" name="bid" value="#{@id}" id="bid")
-      %input(type="hidden" name="request_action" value="hold" id="request_action")
+      %input(type="hidden" name="request_action" value="recall" id="request_action")
       = render :partial => 'shared/reqac'
       = render :partial => 'shared/reqpu'
       .control-group
         %label.control-label{:for => 'reqcomments'} Notes to library staff:
         .controls
           %textarea#reqcomments{:name => 'reqcomments'}
-      .control-group
-        %label.control-label{:for => 'latest-date'} If item remains unavailable, cancel hold after:
-        #latest-date.controls
-          %label.radio{ :for => "30 days"}
-            %input(type="radio" name="latest-date" value="#{d30.strftime("%Y-%m-%d")}" id="30 days")
-            30 days (#{d30.strftime("%m-%d-%Y")})
-          %label.radio{ :for => "60 days"}
-            %input(type="radio" name="latest-date" value="#{d60.strftime("%Y-%m-%d")}" id="60 days")
-            60 days (#{d60.strftime("%m-%d-%Y")})
-          %label.radio{ :for => "180 days"}
-            %input(type="radio" name="latest-date" value="#{d180.strftime("%Y-%m-%d")}" id="180 days")
-            180 days (#{d180.strftime("%m-%d-%Y")})
+      = render :partial => 'shared/request_date'
       .control-group
         %label.control-label Delivery time:
-        .controls.delivery-estimate
+        .controls.delivery-estimate 
           Approximately
-          =@estimate
+          =@estimate 
           days
-      -if @alternate_request_options.count >= 2
+      -if @alternate_request_options and @alternate_request_options.count >= 2
         .control-group
           .controls.clearfix
             %input#request-submit.btn.btn-danger.pull-left(type="submit" name="submit" value="Submit delivery request")
@@ -58,7 +44,7 @@
               %div#collapseOne.accordion-body.collapse
                 %div.accordion-inner
                   %div.span4
-                    A hold will take approximately
+                    Recall will take approximately
                     =@estimate
                     days. Your other request options are listed below.
                     = render :partial => 'shared/request_options'

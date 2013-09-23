@@ -518,7 +518,9 @@ module BlacklightCornellRequests
                              {:service => HOLD, :location => item[:location], :status => item[:itemStatus]})
 
       elsif ((item_loan_type == 'regular' and item[:status] == 'Missing') or
-             (item_loan_type == 'regular' and item[:status] == 'Lost'))
+             (item_loan_type == 'regular' and item[:status] == 'Lost') or
+             (item_loan_type == 'day' and item[:status] == 'Missing') or
+             (item_loan_type == 'day' and item[:status] == 'Lost'))
 
          # TODO: Test and fix BD check with real params
         if borrowDirect_available? params

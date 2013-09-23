@@ -31,7 +31,8 @@ module BlacklightCornellRequests
 
       @iis = ActiveSupport::HashWithIndifferentAccess.new
 
-      @volumes = req.set_volumes(req.all_items)
+      # @volumes = req.set_volumes(req.all_items)
+      @volumes = req.volumes
       if req.volumes.present? and params[:volume].blank?
         if req.volumes.count != 1
           render 'shared/_volume_select'
