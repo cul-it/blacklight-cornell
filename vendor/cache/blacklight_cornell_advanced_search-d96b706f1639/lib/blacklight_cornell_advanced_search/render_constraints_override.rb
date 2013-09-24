@@ -254,6 +254,22 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
     return content.html_safe
   end
 
+  def render_edit_constraints_filters(my_params = params)
+#    content = super(my_params)
+    content = "" #super(my_params)
+    if (@advanced_query)
+      @advanced_query.filters.each_pair do |field, value_list|
+        label = facet_field_labels[field]
+        content << render_constraint_element(label,
+          value_list.join(" OR "),
+          :remove => "" #catalog_index_path( remove_advanced_filter_group(field, my_params) )
+          )
+      end
+    end
+
+    return content.html_safe
+  end
+
  #Over-ride of Blacklight method, provide advanced constraints if needed,
   # otherwise call super. Existence of an @advanced_query instance variable
   # is our trigger that we're in advanced mode.

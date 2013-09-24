@@ -753,7 +753,7 @@ module BlacklightCornellRequests
       end
 
       # Use the VoyagerRequest class to submit the request while bypassing the holdings service
-      v = VoyagerRequest.new(self.bibid)
+      v = VoyagerRequest.new(self.bibid, {:holdings_url => Rails.configuration.voyager_get_holds, :request_url => Rails.configuration.voyager_req_holds})
       v.itemid = params[:holding_id]
       v.patron(netid)
       v.libraryid = params[:library_id]

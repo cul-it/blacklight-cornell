@@ -7,14 +7,24 @@ class BlacklightCornellAdvancedSearch::AdvancedController < CatalogController
   def index
     unless request.method==:post
       @response = get_advanced_search_facets
+      Rails.logger.info("Schwedy = #{params}")
     end
   end
+  
+  def edit
+    if !params[:q_row].nil?
+    Rails.logger.info("Hermione = #{params}")
+    end
+    return params
+  end
+  
 
   protected
   def get_advanced_search_facets
     
     search_context_params = {}
-    if (advanced_search_context.length > 0 )
+    if (advanced_search_context.length > 0 && params[:q_row].nil?)
+      Rails.logger.info("Schweet = #{params}")
       # We have a search context, need to fetch facets from within
       # that context -- but we dont' want to search within any
       # existing :q or ADVANCED facets, so we remove those params.
