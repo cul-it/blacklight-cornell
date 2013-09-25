@@ -250,12 +250,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
           )
       end
     end
-
     return content.html_safe
   end
 
   def render_edit_constraints_filters(my_params = params)
-#    content = super(my_params)
+#   content = super(my_params)
     content = "" #super(my_params)
     if (@advanced_query)
       @advanced_query.filters.each_pair do |field, value_list|

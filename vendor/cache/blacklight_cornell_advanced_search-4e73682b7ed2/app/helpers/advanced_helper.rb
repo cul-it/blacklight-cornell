@@ -49,7 +49,7 @@ module AdvancedHelper
     end
   end
 
-  def render_edited_advanced_search(params)
+  def render_edited_advanced_search(params)    
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author/Creator"], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
@@ -119,7 +119,15 @@ module AdvancedHelper
           next2rows << "</select></div>"
       end
     end
-    word << row1 << next2rows #<< render_constraints_filters(params)
+    fparams = ""
+    unless params[:f].nil?
+       params[:f].each do |key, value|
+         value.each do |name|
+          fparams << "<input type=\"hidden\" name=\"f[" << key << "][]\" value=\"" << name << "\"/>"
+         end
+      end
+    end
+    word << row1 << next2rows << fparams
     return word.html_safe
   end
 
