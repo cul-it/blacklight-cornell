@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://projectblacklight.org/"
   s.require_paths = ["lib"]
   s.rubyforge_project = "blacklight"
-  s.rubygems_version = "1.8.25"
+  s.rubygems_version = "1.8.24"
   s.summary = "Blacklight Cornell Advanced Search plugin"
   s.test_files = ["spec/acceptance/blacklight_cornell_advanced_search_form_spec.rb", "spec/integration/blacklight_stub_spec.rb", "spec/internal/app/controllers/application_controller.rb", "spec/internal/app/models/solr_document.rb", "spec/internal/config/database.yml", "spec/internal/config/routes.rb", "spec/internal/config/solr.yml", "spec/internal/db/combustion_test.sqlite", "spec/internal/db/schema.rb", "spec/internal/log/.gitignore", "spec/internal/public/favicon.ico", "spec/lib/filter_parser_spec.rb", "spec/parsing_nesting/build_tree_spec.rb", "spec/parsing_nesting/consuming_spec.rb", "spec/parsing_nesting/to_solr_spec.rb", "spec/rcov.opts", "spec/spec.opts", "spec/spec_helper.rb"]
 
