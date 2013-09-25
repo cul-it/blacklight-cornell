@@ -64,8 +64,8 @@
   <% if params[:q_row].present? %>
     <div class="advanced-search-link">
       <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
-      <%= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
-      <%= link_to 'Edit Advanced search', url_for(:controller=>"advanced", :action=>"edit",
+      <%#= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
+      <%= link_to 'Modify advanced search', url_for(:controller=>"advanced", :action=>"edit",
                                                   :q_row=>params[:q_row], :op_row=>params[:op_row], 
                                                   :search_field_row=>params[:search_field_row], 
                                                   :boolean_row=>params[:boolean_row], :f=>params[:f]), :class=>"" %>
