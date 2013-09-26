@@ -1,7 +1,8 @@
-<% if query_has_constraints? || params[:range].present? %>
+<% if query_has_constraints? || params[:range].present? %> 
   <div class="selected-facets">
-    <span class="constraints-label hide-text"><%= t('blacklight.search.filters.title') %></span>
+    <span class="constraints-label hide-text"><% t('blacklight.search.filters.title') %></span>
     <%#= debug params[:show_query] %>
-    <%= render_constraints(params) %>
+    <%= render_advanced_constraints_query(params) %>
+    <%#= render_constraints(params) %>
   </div>
 <% end %>

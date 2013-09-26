@@ -90,9 +90,9 @@ module CornellCatalogHelper
     return AEON_SITES.include?(lib)
   end
 
-  def render_constraints_query(localized_params = params)
+  def render_constraints_query2(localized_params = params)
     # So simple don't need a view template, we can just do it here.
-    if(!localized_params[:advanced_query].blank?)
+    if(!localized_params[:q_row].nil?)
       render_advanced_constraints_query(localized_params)
     else
     if (!localized_params[:q].blank?)
@@ -130,7 +130,7 @@ module CornellCatalogHelper
 #            :remove => "?") # url_for(localized_params.merge(:q=>nil, :action=>'index')))
       end
     else
-      "".html_safe
+     #"".html_safe
     end
     end
   end

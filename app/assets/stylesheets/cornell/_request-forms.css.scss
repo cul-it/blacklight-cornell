@@ -77,5 +77,7 @@ table.request-options {
     thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
     background-color: $medium-gray;
     color: $white;}
+
+    .blacklight-title_display { line-height: inherit; }
   }
  
