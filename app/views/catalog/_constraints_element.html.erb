@@ -13,10 +13,10 @@
   <a href="<%= url_for(options[:remove]) %>" class="btn btn-info btn-small" title="Remove">
 <%- end -%>
     <%- unless label.blank? -%>
-      <span class="filter-label"><%= options[:escape_label] ? h(label) : raw(label) %></span>:
+      <span class="filter-label"><%= raw(label) %></span>:
     <%- end -%>
     <%- unless value.blank? -%>
-      <span class="filter-value"><%= options[:escape_value] ? h(value) : raw(value) %></span>
+      <span class="filter-value"><%= raw(value) %></span>
     <%- end -%>
     <i class="icon-remove icon-white"></i>
 <%- unless options[:remove].blank? -%>
