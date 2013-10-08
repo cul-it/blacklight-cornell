@@ -108,160 +108,93 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
-
-  def solr_search_params(user_params = params || {})
+  def solr_search_params(my_params = params || {})
     solr_parameters = {}
 
     solr_search_params_logic.each do |method_name|
-      send(method_name, solr_parameters, user_params)
+      send(method_name, solr_parameters, my_params)
     end
-    Rails.logger.info("STARTPARAMS = #{params}")
-    if user_params[:search_field] == 'advanced'
-#       blacklight_config.search_fields.each do |key, value|
-#       end
-       if !user_params[:search_field_row].nil?
-         q_string = ""
-         q_string2 = ""
-         q_string_hold = ""
-         rowArray = []
-         shrink_rows = []
-         opArray = []
-         q_stringArray = []
-         q_string2Array = []
-         for i in 0..user_params[:search_field_row].count - 1
-           if shrink_rows.include?(user_params[:search_field_row][i])
-           else
-                shrink_rows << user_params[:search_field_row][i]
-                rowArray << i
-                if i > 0
-                 realsub = i;
-                 n = realsub.to_s
-                 opArray << user_params[:boolean_row][n.to_sym]
-                 Rails.logger.debug("LetsSee = #{opArray}")
-                end
-            end
-          end
-         andFlag = 0;
-         for i in 0..shrink_rows.count - 1
-               returned_query = {}
-               field_query = shrink_rows[i]
-               if user_params[:q_row][1] == ""
-                 user_params[field_query] = user_params[:q_row][0]
-#                 search_session[:counter] = 1
-                  session[:search][:"#{field_query}"] =  user_params[:q_row][0]
-                  Rails.logger.info("HUMMING= #{field_query}")
-               end
-
-               pass_param = {field_query => user_params[field_query]}
-               returned_query = ParsingNesting::Tree.parse(user_params[field_query])
-               newstring = returned_query.to_query(pass_param)
-               holdarray = newstring.split('}')
-               queryStart = " _query_:\"{!dismax"
-               q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-               q_string2 << ""
-               q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-               fieldNames = blacklight_config.search_fields["#{field_query}"]
-               if !fieldNames["solr_parameters"].nil?
-                  solr_stuff = fieldNames["solr_parameters"]
-                  field_name = solr_stuff[:"spellcheck.dictionary"]
-                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                  q_string2 << field_name << " = "
-                  q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
-               end
-#              q_string << "}" << user_params[shrink_rows[i]] << '\\'
-               if holdarray.count > 1
-                 if field_name.nil?
-                   field_name = 'all_fields'
-                 #   q_string_hold = queryStart
-                 end
-
-                 for j in 1..holdarray.count - 1
-                   holdarray_parse = holdarray[j].split('_query_')
-                   holdarray[1] = holdarray_parse[0].chomp("\"")
-                   if(j < holdarray.count - 1)
-                    q_string_hold << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                    q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                    q_string2 << holdarray[1]
-                   else
-                    q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
-                    q_string << "}" << holdarray[1].chomp("\"") << "\""
-                    q_string2 << holdarray[1].chomp("\"") << " "
-                   end
-                 end
-               else
-                 q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
-                 q_string << "}" << holdarray[1].chomp("\"") << "\""
-                 q_string2 << holdarray[1].chomp("\"")
-               end
-              if i < shrink_rows.count - 1
-                 q_string_hold << " "
-                 q_string << " " << opArray[i] << " "
-                 q_string2 << " "
-              end
-              q_stringArray << q_string_hold
-              q_string2Array << q_string2
-              q_string_hold = "";
-              q_string2 = "";
-          #    q_string2Array
-         end
-       end
-#      if opArray.count > 1
-
-        test_q_string = groupBools(q_stringArray, opArray)
-        test_q_string2 = groupBools(q_string2Array, opArray)
-        Rails.logger.debug("test_q_string = #{q_stringArray}")
-        Rails.logger.debug("test_q_string2 = #{test_q_string}")
-        Rails.logger.debug("WTFOLD = #{opArray}")
-#      end
-      #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
-#      test_q_string = "(_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bees\" OR _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}+Tennessee +agriculture\") AND _query_:\"{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\\\"inspector of apiaries\\\"\""
-#      solr_parameters[:q] = q_string
-#      test_q_string = "_query_:\"{!dismax}bauhaus\"  AND  _query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture\" NOT  _query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}\\\"graphic design\\\"\""
-#      test_q_string = "_query_:\"{!dismax}bauhaus\" NOT _query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture\" OR  _query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}\\\"graphic design\\\"\""
-      if test_q_string == ""
-      solr_parameters[:sort] = "score desc, title_sort asc"
+    q_string = ""
+    q_string2 = ""
+    q_string_hold = ""
+    q_stringArray = []
+    q_string2Array = []
+    opArray = []
+    if !my_params[:boolean_row].nil?    
+      for k in 0..my_params[:boolean_row].count - 1
+         realsub = k + 1;
+         n = realsub.to_s
+         opArray[k] = my_params[:boolean_row][n.to_sym]
       end
-#      solr_parameters[:q] = test_q_string
-       sideways = doitbetter(user_params)
-      solr_parameters[:q] = sideways
+      for i in 0..my_params[:q_row].count - 1
+         if my_params[:op_row][i] == "phrase"
+           newpass = '"' + my_params[:q_row][i] + '"' 
+         else
+           newpass = my_params[:q_row][i]
+         end 
+         pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
+         returned_query = ParsingNesting::Tree.parse(newpass)
+         newstring = returned_query.to_query(pass_param)
+         holdarray = newstring.split('}')
+         queryStart = " _query_:\"{!dismax"
+         q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         q_string2 << ""
+         q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
+         if !fieldNames["solr_parameters"].nil?
+            solr_stuff = fieldNames["solr_parameters"]
+            field_name = solr_stuff[:"spellcheck.dictionary"]
+            q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+            q_string2 << field_name << " = "
+            q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+         end
+         if holdarray.count > 1
+          if field_name.nil?
+            field_name = 'all_fields'
+          end
+
+          for j in 1..holdarray.count - 1
+              holdarray_parse = holdarray[j].split('_query_')
+              holdarray[1] = holdarray_parse[0]
+              if(j < holdarray.count - 1)
+                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                    q_string << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                    q_string2 << holdarray[1]
+              else
+                    q_string_hold << "}" << holdarray[1] << "\\\""
+                    q_string << "}" << holdarray[1] << "\\\""
+                    q_string2 << holdarray[1] << " "
+              end
+          end
+         else
+                 q_string_hold << "}" << holdarray[1] << "\\\""
+                 q_string << "}" << holdarray[1] << "\\\""
+                 q_string2 << holdarray[1]
+         end
+         if i < my_params[:q_row].count - 1
+           q_string_hold << " "
+           q_string << " " <<  opArray[i] << " "
+           q_string2 << " "
+        end 
+        q_stringArray << q_string_hold
+        q_string2Array << q_string2
+        q_string_hold = "";
+        q_string2 = "";
+      end
+     
+      test_q_string = groupBools(q_stringArray, opArray)
+      test_q_string2 = groupBools(q_string2Array, opArray)
+      if test_q_string == ""
+        solr_parameters[:sort] = "score desc, title_sort asc"
+      end
+       solr_parameters[:q] = test_q_string
       params[:show_query] = test_q_string2
-      Rails.logger.debug("THEQUERYOLD = #{solr_parameters}")
-      Rails.logger.debug("q_stringArray = #{q_stringArray}")
- #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
-    end
-   return solr_parameters
   end
+  return solr_parameters
+
+ end
 
   def groupBools(q_stringArray, opArray)
-     grouped = []
-     newString = ""
-     Rails.logger.info("GroupBools = #{q_stringArray}")
-     Rails.logger.info("GroupBoolsOpARRAY = #{opArray.count}")
-     if !q_stringArray.nil?
-       newString = q_stringArray[0];
-       for i in 0..opArray.count - 1
-          q_stringArray[i +1].gsub('"',"")
-  #        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
-          newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
-  #        else
-  #           if opArray[i] == "OR"
-  #            newString = newString + " OR " + q_stringArray[i + 1]
-  #           else
-  #            newString = newString + " NOT " + q_stringArray[i + 1]
-  #           end
-  #       end
-       end
-     else
-   #    params[:sort] = ""
-     end
-     Rails.logger.info("GroupBoolsOut1 = #{newString.gsub('"',"")}")
-     newString = newString.gsub('"',"")
-#     newString =  "_query_:{!dismax}bauhaus  AND ( _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
-     Rails.logger.info("GroupBoolsOut2 = #{newString}")
-     return newString
-  end
-
-  def groupBoolsToo(q_stringArray, opArray)
      grouped = []
      newString = ""
      Rails.logger.info("GroupBools = #{q_stringArray}")
@@ -286,7 +219,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #     Rails.logger.info("GroupBoolsOut1 = #{newString.gsub('"',"")}")
      #newString = newString.gsub('"',"")
 #     newString =  "_query_:{!dismax}bauhaus  AND ( _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
-     Rails.logger.info("GroupBoolsOut2 = #{newString}")
      return newString
   end
 
@@ -597,106 +529,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
-  def doitbetter(my_params = user_params)
-    q_string = ""
-    q_string2 = ""
-    q_string_hold = ""
-    q_stringArray = []
-    q_string2Array = []
-    opArray = []
-    if !my_params[:boolean_row].nil?    
-      for k in 0..my_params[:boolean_row].count - 1
-         realsub = k + 1;
-         n = realsub.to_s
-         opArray[k] = my_params[:boolean_row][n.to_sym]
-      end
-      for i in 0..my_params[:q_row].count - 1
-         if my_params[:op_row][i] == "phrase"
-           newpass = '"' + my_params[:q_row][i] + '"' 
-         else
-           newpass = my_params[:q_row][i]
-         end 
-#         session[:search][:counter] = 0 
-#         search_session[:counter] = 0      
-         pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
-         returned_query = ParsingNesting::Tree.parse(newpass)
-         newstring = returned_query.to_query(pass_param)
-         Rails.logger.info("Hoopla = #{newstring}")
-         holdarray = newstring.split('}')
-         queryStart = " _query_:\"{!dismax"
-         q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-         q_string2 << ""
-         q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-         fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
-         if !fieldNames["solr_parameters"].nil?
-            solr_stuff = fieldNames["solr_parameters"]
-            field_name = solr_stuff[:"spellcheck.dictionary"]
-            q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-            q_string2 << field_name << " = "
-            q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
-         end
-         if holdarray.count > 1
-          if field_name.nil?
-            field_name = 'all_fields'
-            #   q_string_hold = queryStart
-          end
-
-          for j in 1..holdarray.count - 1
-              holdarray_parse = holdarray[j].split('_query_')
-              holdarray[1] = holdarray_parse[0]
-              if(j < holdarray.count - 1)
-                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                    q_string << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                    q_string2 << holdarray[1]
-              else
-                    q_string_hold << "}" << holdarray[1] << "\\\""
-                    q_string << "}" << holdarray[1] << "\\\""
-                    q_string2 << holdarray[1] << " "
-              end
-          end
-         else
-                 q_string_hold << "}" << holdarray[1] << "\\\""
-                 q_string << "}" << holdarray[1] << "\\\""
-                 q_string2 << holdarray[1]
-         end
-         if i < my_params[:q_row].count - 1
-           q_string_hold << " "
-           q_string << " " <<  opArray[i] << " "
-           q_string2 << " "
-        end 
-        q_stringArray << q_string_hold
-        q_string2Array << q_string2
-        q_string_hold = "";
-        q_string2 = "";
-#       q_string2Array
-
-      end
-     
-      Rails.logger.info("HOOPLATESS = #{q_stringArray}")
-      Rails.logger.info("HOOPLATESS = #{opArray}")
-      test_q_string = groupBoolsToo(q_stringArray, opArray)
-      test_q_string2 = groupBoolsToo(q_string2Array, opArray)
-      Rails.logger.debug("TESTQSTRINGARRAY = #{q_stringArray}")
-      Rails.logger.debug("TESTQSTRING9 = #{test_q_string}")
-      Rails.logger.debug("WTF = #{opArray}")
-#      end
-      #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
-#      test_q_string = "(_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bees\" OR _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}+Tennessee +agriculture\") AND _query_:\"{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\\\"inspector of apiaries\\\"\""
-#      solr_parameters[:q] = q_string
-      if test_q_string == ""
-        solr_parameters[:sort] = "score desc, title_sort asc"
-      end
-#      solr_parameters[:q] = test_q_string
-   #   my_params[:show_query] = test_q_string2
-      #params[:search_field] = ""
-#      Rails.logger.debug("NEWQUERY = #{solr_parameters}")
-#      Rails.logger.debug("q_stringArray = #{q_stringArray}")
- #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
-      return test_q_string
-  else
-    #opArray[0] = "OR"
-  end
- end
 
     protected
     #
