@@ -1,4 +1,4 @@
-<% if prev_next_needed(@previous_document, @next_document, @previous_bookmark, @next_bookmark) %>
+<% if back_to_catalog_needed %>
   <% link_back = link_back_to_catalog %>
 
   <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
@@ -32,6 +32,7 @@
 <% end %>
 
 <div class="row">
+  <div id="id_current_counter" style="display: none"><% counter = params[:counter] || session[:search][:counter] %><% if !counter.blank? %><%= counter %><% end %></div>
   <%= render :partial => 'show_metadata' %>
 
   <!-- <div class="well shelf-browser">
