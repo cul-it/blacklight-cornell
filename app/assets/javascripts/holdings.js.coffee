@@ -77,7 +77,9 @@ holdings =
     $(".holdings .holdings-error").hide()
 
     $.ajax
+      type: "POST"
       url: '/backend/holdings/' + id
+      data: { counter: $("#id_current_counter").text() }
       success: (data) ->
         $('.holdings').html(data)
         # Need to setup modal again for injected share links
@@ -125,3 +127,27 @@ holdings =
 
 $(document).ready ->
   holdings.onLoad()
+  $(".holdings").on "click", "#id_request", (event) ->
+    f = document.createElement("form")
+    f.style.display = "none"
+    @parentNode.appendChild f
+    f.method = "POST"
+    f.action = $(this).attr("href")
+    f.target = "_blank"  if event.metaKey or event.ctrlKey
+    d = document.createElement("input")
+    d.setAttribute "type", "hidden"
+    d.setAttribute "name", "counter"
+    d.setAttribute "value", $(this).data("counter")
+    f.appendChild d
+    m = document.createElement("input")
+    m.setAttribute "type", "hidden"
+    m.setAttribute "name", "_method"
+    m.setAttribute "value", "put"
+    f.appendChild m
+    m = document.createElement("input")
+    m.setAttribute "type", "hidden"
+    m.setAttribute "name", $("meta[name=\"csrf-param\"]").attr("content")
+    m.setAttribute "value", $("meta[name=\"csrf-token\"]").attr("content")
+    f.appendChild m
+    f.submit()
+    false
