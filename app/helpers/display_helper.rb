@@ -653,6 +653,11 @@ module DisplayHelper
       return true
     end
   end
+  
+  # Test whether we need back to catalog link
+  def back_to_catalog_needed
+    return !session[:search].blank?
+  end
 
   # The following two methods override originals from blacklight_helper_behavior.rb
   # -- Needed to handle the logic between bookmarks and search results
