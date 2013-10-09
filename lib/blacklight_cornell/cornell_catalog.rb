@@ -107,7 +107,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.atom { render :layout => false }
     end
   end
-
   def solr_search_params(my_params = params || {})
     solr_parameters = {}
 
@@ -190,6 +189,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
        solr_parameters[:q] = test_q_string
       params[:show_query] = test_q_string2
   end
+  Rails.logger.info("Lafayette")
   return solr_parameters
 
  end
@@ -197,8 +197,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   def groupBools(q_stringArray, opArray)
      grouped = []
      newString = ""
-     Rails.logger.info("GroupBools = #{q_stringArray}")
-     Rails.logger.info("GroupBoolsOpARRAY = #{opArray.count}")
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
@@ -216,7 +214,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
      else
    #    params[:sort] = ""
      end
-#     Rails.logger.info("GroupBoolsOut1 = #{newString.gsub('"',"")}")
      #newString = newString.gsub('"',"")
 #     newString =  "_query_:{!dismax}bauhaus  AND ( _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
      return newString
@@ -544,11 +541,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # gets a document based on its position within a resultset
     def setup_document_by_counter(counter)
-      Rails.logger.debug("DOCbycounter = #{session[:search]}")
-      Rails.logger.debug("DOCBycounter = #{counter}")
       return if counter < 1 || session[:search].blank?
       search = session[:search] || {}
-      Rails.logger.debug("docbycounter1 = #{search}")
       get_single_doc_via_search(counter, search)
     end
 
