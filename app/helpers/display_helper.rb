@@ -653,7 +653,7 @@ module DisplayHelper
       return true
     end
   end
-  
+
   # Test whether we need back to catalog link
   def back_to_catalog_needed
     return !session[:search].blank?
@@ -810,24 +810,20 @@ module DisplayHelper
   def render_document_index_label doc, opts
     label = nil
     if opts[:label].is_a?(Array)
-      title_vern = doc.get(opts[:label][0], :sep => nil)
-      title = doc.get(opts[:label][1], :sep => nil)
-      subtitle_vern = doc.get(opts[:label][2], :sep => nil)
-      subtitle = doc.get(opts[:label][3], :sep => nil)
+      title = doc.get(opts[:label][0], :sep => nil)
+      subtitle = doc.get(opts[:label][1], :sep => nil)
+      fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
+      #temporary fix to account for fulltitle_vern_display as multivalued field
+      fulltitle_vern = fulltitle_vern.present? ? fulltitle_vern[0] : fulltitle_vern.to_s
 
-      # Use subtitles for vern and english if present
-      if title_vern.nil?
-        title_vern = subtitle_vern
-      end
-      vern = subtitle_vern.present? ? title_vern + ' : ' + subtitle_vern : title_vern
       english = subtitle.present? ? title + ' : ' + subtitle : title
 
       # If title is missing, fall back to document id (bibid) as last resort
       label ||= english.present? ? english : doc.id
 
       # If we have a non-Roman script alternative, prepend it
-      if vern.present?
-        label.prepend(vern + ' / ')
+      if fulltitle_vern.present?
+        label.prepend(fulltitle_vern + ' / ')
       end
     end
     label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
