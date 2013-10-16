@@ -2,7 +2,7 @@
 # This new file will not be tracked by Git.
 # Values are used by config/initializers/bento_search.rb
 
-worldcat_api_key: <apikey>
+worldcat_api_key: ***REMOVED***
 
-summon_access_id: <access_id>
-summon_secret_key: <secret_key>
+summon_access_id: cornell
+summon_secret_key: ***REMOVED***
