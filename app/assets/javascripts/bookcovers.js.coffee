@@ -2,11 +2,33 @@ bookcovers =
   # Initial setup
   onLoad: () ->
     this.initObjects()
-    this.fetchCovers()
+    this.fetchCoversOclc()
 
   # Create references to frequently used elements for convenience
   initObjects: () ->
     this.results = $('.bookcover')
+
+  # Retrieve covers via Google API using OCLC #
+  fetchCoversOclc: () ->
+    resultsOclc = []
+    this.results.each ->
+      oclc = 'OCLC:' + $(this).data('oclc')
+      if (oclc)
+        resultsOclc.push(oclc)
+
+    url = "http://books.google.com/books?bibkeys=#{resultsOclc}&jscmd=viewapi&callback=?"
+    $.getJSON url, {}, this.insertCoversOclc
+
+  # Insert covers into the page using OCLC #
+  insertCoversOclc: (data) ->
+    for id, values of data
+      divId = values.bib_key.replace(':', '\\:') # Need to escape colon for jQuery
+      thumbnail = values.thumbnail_url
+      if (thumbnail)
+        # Default response returns smallest thumbnail, swap out with largest
+        thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
+        $("##{divId}").replaceWith ->
+          '<img class="bookcover img-polaroid" src="' + thumbnail + '">'
 
   # Retrieve covers via Google API
   fetchCovers: () ->
