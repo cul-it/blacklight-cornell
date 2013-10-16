@@ -916,4 +916,15 @@ module DisplayHelper
       end
     end
   end
+
+  # Parse other_id_display field for OCLC numbers
+  def bookcover_oclc(document)
+    other_ids = document['other_id_display']
+    oclc_id = other_ids.find { |e| /^\(OCoLC\)/ =~ e }
+    unless oclc_id.blank?
+      # Remove '(OCLC)' prefix
+      # -- really need to ask Frances about making OCLC# its own field
+      oclc_id.gsub(/^\(OCoLC\)/, '')
+    end
+  end
 end
