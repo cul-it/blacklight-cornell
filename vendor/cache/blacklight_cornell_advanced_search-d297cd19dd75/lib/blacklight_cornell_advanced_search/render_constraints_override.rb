@@ -4,7 +4,6 @@
 module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 
   def query_has_constraints?(localized_params = params)
-    Rails.logger.info("IWASHERE")
     if (!(localized_params[:q_row].blank? and localized_params[:f].blank? and localized_params[:q].blank?)) #and localized_params[:f_inclusive].blank?))
 #    render_advanced_constraints_query(localized_params) 
      return true    
@@ -28,7 +27,6 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       content << render_constraints_filters(params)
       return content.html_safe
     else 
-      Rails.logger.info("IBETTERZUZUEHERE = #{params["q"]}")
       labels = []
       values = []
       q_parts = []
@@ -38,13 +36,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       end      
       content = ""
 #      if (@advanced_query.keyword_queries.count == 2)
-      Rails.logger.info("QPARTS = #{q_parts.count}")
       facetparams = ""
       if (params[:f].present?)
         start1 = "f["
         next1 = ""
         count = 0
-        Rails.logger.debug("Facet params = #{params[:f]}")
         params[:f].each do |key, value|
            next1 = ""
            start2 = start1 + key + "][]="
@@ -77,13 +73,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
              end
              removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
              content << render_constraint_element(label, parts[1], :remove => removeString) 
-#             Rails.logger.info(render_constraint_element(label, parts[1], :remove => removeString).html_safe) 
            else
             content << " " << parts[1] << " " 
            end 
            #content #<< "".html_safe 
          end  
-             Rails.logger.info("Content = #{content}" )
         if !params[:q].nil?                        
            content << render_advanced_constraints_filters(params)
         else
@@ -93,7 +87,6 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       else
           if (q_parts.count < 2)
 #            parts = q_parts[0].split('=')
-            Rails.logger.info("AVB = #{q_parts}")
             label = search_field_def_for_key(params[:search_field])[:label] 
             if(params[:f].nil?)
               removeString = "?"
@@ -114,13 +107,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
            0.step(q_parts.count - 1, 2) do |x|
              label = ""
              parts = q_parts[x].split('=')
-             Rails.logger.info("HEYDUMBASS parts = #{q_parts.count}")
              if x <= q_parts.count - 1
                hold = q_parts[x].split('=')
              else
                hold = q_parts[x].split('=')
              end
-               Rails.logger.debug("Wookieparams = #{params}")
              if x%2 == 0
                if x - 1 > 0
                  opval = q_parts[x - 1].split('=')
@@ -167,11 +158,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
              for i in 0..temp_q_row.count - 1
                  autoparam << "q_row[]=" << temp_q_row[i] << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i] 
                  if i < temp_q_row.count - 1
-                    Rails.logger.debug("ChooChoo = #{temp_boolean_row}")
                     autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
                  end 
              end
-             Rails.logger.debug("CONSTRAINTsPARAMS4 = #{params}")
              removeString = "catalog?" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
 
              content << render_constraint_element(
@@ -197,9 +186,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
      end
      
     end
-      Rails.logger.debug("RENDERING = #{content}")
 #      end  
-#        Rails.logger.debug("AdvancedQueryKeywordOp = #{@advanced_query.keyword_op}")
       #  if (@advanced_query.keyword_op == "OR" &&
       #      @advanced_query.keyword_queries.length > 1)
       #    content = '<span class="inclusive_or appliedFilter">' + '<span class="operator">Any of:</span>' + content + '</span>'

@@ -14,7 +14,6 @@ module BlacklightCornellAdvancedSearch::CatalogHelperOverride
   end  
   
   def remove_advanced_keyword_query(field, my_params)
-    Rails.logger.info("ClinkCatalogHelper")
  #   my_params = deep_copy(params)
     my_params.delete(field)
     my_params.delete('sort')
