@@ -5,7 +5,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::SolrHelper
   include CornellCatalogHelper
   include ActionView::Helpers::NumberHelper
-
+  include CornellParamsHelper
 #  include ActsAsTinyURL
   SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -108,315 +108,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
-
-  def solr_search_params(user_params = params || {})
-    solr_parameters = {}
-
-    solr_search_params_logic.each do |method_name|
-      send(method_name, solr_parameters, user_params)
-    end
-    if user_params[:search_field] == 'advanced'
-#       blacklight_config.search_fields.each do |key, value|
-#       end
-       if !user_params[:search_field_row].nil?
-         q_string = ""
-         q_string2 = ""
-         q_string_hold = ""
-         rowArray = []
-         shrink_rows = []
-         opArray = []
-         q_stringArray = []
-         q_string2Array = []
-         for i in 0..user_params[:search_field_row].count - 1
-           if shrink_rows.include?(user_params[:search_field_row][i])
-           else
-                shrink_rows << user_params[:search_field_row][i]
-                rowArray << i
-                if i > 0
-                 realsub = i;
-                 n = realsub.to_s
-                 opArray << user_params[:boolean_row][n.to_sym]
-                 Rails.logger.debug("LetsSee = #{opArray}")
-                end
-            end
-          end
-         andFlag = 0;
-         for i in 0..shrink_rows.count - 1
-               returned_query = {}
-               field_query = shrink_rows[i]
-               if user_params[:q_row][1] == ""
-                 user_params[field_query] = user_params[:q_row][0]
-#                 search_session[:counter] = 1
-                  session[:search][:"#{field_query}"] =  user_params[:q_row][0]
-               end
-
-               pass_param = {field_query => user_params[field_query]}
-               returned_query = ParsingNesting::Tree.parse(user_params[field_query])
-               newstring = returned_query.to_query(pass_param)
-               holdarray = newstring.split('}')
-               queryStart = " _query_:\"{!dismax"
-               q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-               q_string2 << ""
-               q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-               fieldNames = blacklight_config.search_fields["#{field_query}"]
-               if !fieldNames["solr_parameters"].nil?
-                  solr_stuff = fieldNames["solr_parameters"]
-                  field_name = solr_stuff[:"spellcheck.dictionary"]
-                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                  q_string2 << field_name << " = "
-                  q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
-               end
-#              q_string << "}" << user_params[shrink_rows[i]] << '\\'
-               if holdarray.count > 2
-                 if field_name.nil?
-                   field_name = 'all_fields'
-                 #   q_string_hold = queryStart
-                 end
-
-                 for j in 1..holdarray.count - 1
-                   holdarray_parse = holdarray[j].split('_query_')
-                   holdarray[1] = holdarray_parse[0].chomp("\"")
-                   if(j < holdarray.count - 1)
-                    q_string_hold << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                    q_string << "}" << holdarray[1] << " _query_:\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                    q_string2 << holdarray[1]
-                   else
-                    q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
-                    q_string << "}" << holdarray[1].chomp("\"") << "\""
-                    q_string2 << holdarray[1].chomp("\"") << " "
-                   end
-                 end
-               else
-                 q_string_hold << "}" << holdarray[1].chomp("\"") << "\""
-                 q_string << "}" << holdarray[1].chomp("\"") << "\""
-                 q_string2 << holdarray[1].chomp("\"")
-               end
-              if i < shrink_rows.count - 1
-                 q_string_hold << " "
-                 q_string << " " << opArray[i] << " "
-                 q_string2 << " "
-              end
-              q_stringArray << q_string_hold
-              q_string2Array << q_string2
-              q_string_hold = "";
-              q_string2 = "";
-              q_string2Array
-         end
-       end
-#      if opArray.count > 1
-        test_q_string = groupBools(q_stringArray, opArray)
-        test_q_string2 = groupBools(q_string2Array, opArray)
-        Rails.logger.debug("test_q_string = #{q_stringArray}")
-        Rails.logger.debug("test_q_string2 = #{test_q_string}")
-        Rails.logger.debug("WTF = #{opArray}")
-#      end
-      #  :q=>"_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\"", :fq=>[], :defType=>"lucene"}
-   #   q_string = "(_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bees\" OR _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}+Tennessee +agriculture\") AND _query_:\"{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\\\"inspector of apiaries\\\"\""
-#      solr_parameters[:q] = q_string
-      if test_q_string == ""
-        solr_parameters[:sort] = "score desc, title_sort asc"
-      end
-      solr_parameters[:q] = test_q_string
-      params[:show_query] = test_q_string2
-      Rails.logger.debug("THEQUERY = #{solr_parameters}")
-      Rails.logger.debug("q_stringArray = #{q_stringArray}")
- #     solr_parameters[:q] = "_query_:\"{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}+turin +shroud\" NOT _query_:\"{!dismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}Nickell\""
-    end
-   return solr_parameters
-  end
-
-  def groupBools(q_stringArray, opArray)
-     grouped = []
-     newString = ""
-     if !q_stringArray.nil?
-       newString = q_stringArray[0];
-       for i in 0..opArray.count - 1
-  #        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
-          newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
-  #        else
-  #           if opArray[i] == "OR"
-  #            newString = newString + " OR " + q_stringArray[i + 1]
-  #           else
-  #            newString = newString + " NOT " + q_stringArray[i + 1]
-  #           end
-  #       end
-       end
-     else
-   #    params[:sort] = ""
-     end
-     return newString
-  end
-
-  def set_advanced_search_params(params)
-         params["advanced_query"] = "yes"
-         # Use :advanced_search param as trustworthy indicator of search type
-         params[:advanced_search] = true
-         counter = test_size_param_array(params[:q_row])
-         if counter > 1
-            query_string = massage_params(params)
-             holdparams = []
-             terms = []
-             ops = 0
-             params["op"] = []
-             holdparams = query_string.split("&")
-             for i in 0..holdparams.count - 1
-                terms = holdparams[i].split("=")
-                if (terms[0] == "op[]")
-                  params["op"][ops] = terms[1]
-                  ops = ops + 1
-                else
-                  params[terms[0]] = terms[1]
-                  search_session[terms[0]] = terms[1]
-                end
-             end
-             if holdparams.count > 2
-               params["search_field"] = "advanced"
-               params[:q] = query_string
-               search_session[:q] = query_string
-               search_session[:search_field] = "advanced"
-             else
-               params[:q] = params["q"]
-               search_session[:q] = params[:q]
-               params[:search_field] = params["search_field"]
-               search_session[:search_field] = params[:search_field]
-             end
-             params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-             params["action"] = "index"
-             params["controller"] = "catalog"
-       else
-#            search_session = {}
-            params.delete("advanced_query")
-            query_string = parse_single(params)
-            holdparams = query_string.split("&")
-            for i in 0..holdparams.count - 1
-              terms = holdparams[i].split("=")
-              params[terms[0]] = terms[1]
-              search_session[terms[0]] = terms[1]
-              session[:search][:"#{terms[0]}"] = terms[1]
-            end
-           #  params[:q] = query_string
-             params.delete("q_row")
-             params.delete("op_row")
-             params.delete("search_field_row")
-             params["commit"] = "Search"
-             params["action"] = "index"
-             params["controller"] = "catalog"
-       end
-     return query_string
-  end
-
-
-  def massage_params(params)
-    rowHash = {}
-    opArray = []
-    query_string = ""
-    new_query_string = ""
-    query_rowArray = params[:q_row]
-    op_rowArray = params[:op_row]
-    search_field_rowArray = params[:search_field_row]
-    if query_rowArray.count > 1
-#first row
-       if query_rowArray[0] != ""
-         new_query_string = parse_query_row(query_rowArray[0], op_rowArray[0])
-         rowHash[search_field_rowArray[0]] = new_query_string
-         new_query_string = ""
-       end
-
-       for i in 1..query_rowArray.count - 1
-         n = i.to_s
-         if query_rowArray[i] != ""
-           new_query_string = parse_query_row(query_rowArray[i], op_rowArray[i])
-           if rowHash.has_key?(search_field_rowArray[i])
-              current_query = rowHash[search_field_rowArray[i]]
-              new_query = " " << current_query << " " << params[:boolean_row][n.to_sym] << " " << new_query_string << " "
-              rowHash[search_field_rowArray[i]] = new_query
-           else
-              rowHash[search_field_rowArray[i]] = new_query_string
-              opArray << params[:boolean_row][n.to_sym]
-           end
-         end
-       end
-       opcount = 0;
-       query_string_two = ""
-       newArray = rowHash.flatten
-       keywordscount = newArray.count / 2
-       for i in 0..keywordscount -1
-         if i < keywordscount - 1
-          if opArray[i].nil?
-            opArray[i] = 'AND'
-          end
-          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
-         else
-          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
-         end
-       end
-       #account for some bozo not selecting different search_fields
-       bozocheck = query_string_two.split("=")
-       if bozocheck.count < 3
-         query_string_two = "q=" + bozocheck[1] + "&search_field=" + bozocheck[0]
-         params["search_field"] = bozocheck[0]
-         params.delete("advanced_query")
-       end
-    end
-   return query_string_two
-  end
-
-  def parse_query_row(query, op)
-    splitArray = []
-    returnstring = ""
-    if op == "phrase"
-      query.gsub!("\"", "\'")
-#      returnstring << '"' << query << '"'
-      returnstring = query
-    else
-      splitArray = query.split(" ")
-      if splitArray.count > 1
-         returnstring = splitArray.join(' ' + op + ' ')
-      else
-         returnstring = query
-      end
-    end
-    return returnstring
-  end
-
-
-  def parse_single(params)
-    query_string = ""
-    query_rowArray = params[:q_row]
-    op_rowArray = params[:op_row]
-    search_field_rowArray = params[:search_field_row]
-      for i in 0..query_rowArray.count - 1
-         if query_rowArray[i] != ""
-           query_string << "q="
-           query_rowSplitArray = query_rowArray[i].split(" ")
-           if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
-             query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
-             for j in 1..query_rowSplitArray.count - 2
-               query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
-             end
-             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
-           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
-             query_rowArray[i].gsub!("\"", "\'")
-             query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
-             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
-           else
-             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
-           end
-         end
-      end
-     return query_string
-  end
-
-  def test_size_param_array(param_array)
-    count = 0
-    for i in 0..param_array.count - 1
-       unless param_array[i] == ""
-        count = count + 1
-       end
-    end
-    return count
-  end
 
     # get single document from the solr index
     def show
@@ -554,7 +245,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
-
     protected
     #
     # non-routable methods ->
@@ -570,9 +260,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # gets a document based on its position within a resultset
     def setup_document_by_counter(counter)
       return if counter < 1 || session[:search].blank?
-      Rails.logger.debug("docbycounter = #{session[:search]}")
       search = session[:search] || {}
-      Rails.logger.debug("docbycounter1 = #{search}")
       get_single_doc_via_search(counter, search)
     end
 
@@ -727,6 +415,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
      # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
     end
   end
+  
+
+
 
 
 end
