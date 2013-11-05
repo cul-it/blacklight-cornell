@@ -8,7 +8,7 @@ ActionMailer::Base.smtp_settings = {
   :from => "culsearch@cornell.edu",
   :address    => 'appsmtp.mail.cornell.edu',
 }
-BlacklightCornellRequests::VoyagerRequest.use_rest(true) 
+BlacklightCornellRequests::VoyagerRequest.use_rest(true)
 BlacklightCornellRequests.config do |config|
   # URL of service which returns JSON holding info.
   config.voyager_holdings = ENV['VOYAGER_HOLDINGS_HOST']  ?
