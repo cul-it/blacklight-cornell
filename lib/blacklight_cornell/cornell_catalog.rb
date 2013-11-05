@@ -58,6 +58,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         params[:search_field] = "journal title"
     end
     # end of Journal title search hack
+    
+#    if params[:search_field] = "call number"
+#      params[:q] = "\"" << params[:q] << "\""
+#    end
 
     (@response, @document_list) = get_search_results
 

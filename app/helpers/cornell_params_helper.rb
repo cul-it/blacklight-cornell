@@ -1,5 +1,6 @@
 module CornellParamsHelper
 
+
    def set_advanced_search_params(params)
          # Use :advanced_search param as trustworthy indicator of search type
          counter = test_size_param_array(params[:q_row])
@@ -60,12 +61,13 @@ module CornellParamsHelper
 #             params[:search_field] = 
 #             params["search_field"] = "Sippy"
        end
+     Rails.logger.info("FARFEL = #{query_string}")
      return query_string
   end
 
     def solr_search_params(my_params = params || {})
     solr_parameters = {}
-  if !my_params[:q_row].nil?
+    if !my_params[:q_row].nil?
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
     end
@@ -95,10 +97,30 @@ module CornellParamsHelper
          q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
          q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         Rails.logger.info("FIRSTPARAM = #{blacklight_config.search_fields}")
+         Rails.logger.info("FIRSTPARAM1 = #{my_params[:search_field_row][i]}")
+
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
-         if !fieldNames["solr_parameters"].nil?
-            solr_stuff = fieldNames["solr_parameters"]
-            field_name = solr_stuff[:"spellcheck.dictionary"]
+         Rails.logger.info("FIELDNAMES = #{fieldNames}")
+         if !fieldNames["key"].nil?
+            solr_stuff = fieldNames["key"]
+            if solr_stuff == "call number"
+              solr_stuff = "lc_callnum"
+            end
+            if solr_stuff == "place of publication"
+              solr_stuff = "pubplace"
+            end
+            if solr_stuff == "publisher number/other identifier"
+              solr_stuff = "number"
+            end
+            if solr_stuff == "ISBN/ISSN"
+              solr_stuff = "isbnissn"
+            end
+            if solr_stuff == "donor name"
+              solr_stuff = "donor"
+            end
+         Rails.logger.info("FIELDNAMES = #{fieldNames}")
+            field_name =  solr_stuff
             q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
             q_string2 << field_name << " = "
             q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
@@ -146,6 +168,8 @@ module CornellParamsHelper
       params[:show_query] = test_q_string2
   end
   else
+#     solr_parameters[:q] = my_params[:q]
+   
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
     end
@@ -154,12 +178,12 @@ module CornellParamsHelper
     session[:search][:search_field] = my_params[:search_field]
     session[:search].delete(:q_row)
     params.delete(:q_row)
-    params.delete(:boolean_row)
+    my_params.delete(:boolean_row)
     session[:search].delete(:boolean_row)
     session[:search]["search_field"] = my_params["search_field"]
-    solr_parameters[:q] = my_params[:q]
+#    solr_parameters[:q] = my_params[:q]
 #    solr_parameters[:sort] = "score desc, title_sort asc"
-    params[:search_field] = my_params["search_field"]
+     my_params[:search_field] = my_params["search_field"]
   end
   Rails.logger.info("Lafayette2")
   return solr_parameters
@@ -187,6 +211,11 @@ module CornellParamsHelper
      end
      #newString = newString.gsub('"',"")
 #     newString =  "_query_:{!dismax}bauhaus  AND ( _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
+#     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PQ7798.416.A43\"\" AND  _query_:{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\"00\""
+#     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PR2983 .I61\"\""
+#     newString =  "_query_:{!dismax qf=$author_qf pf=$author_pf}Shakespeare"
+     #NEWSTRING = \"PQ7798.416.A43 H6\""   AND title = hora"
+     Rails.logger.info("NEWSTRING = #{newString}")
      return newString
   end
 
