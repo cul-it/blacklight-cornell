@@ -501,4 +501,64 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
+
+  def email
+    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+
+    if request.post?
+      captcha_ok = nil
+      if params[:captcha_response]
+
+        Rails.logger.debug "mjc12test: checking captcha"
+        captcha_correct = @m.check_captcha(:session_id => @mollom_session_id, :solution => params[:captcha_response])
+        if captcha_correct
+          captcha_ok = true
+        end
+      end
+
+      if params[:to]
+        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
+        result = nil  
+        if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+          if !captcha_ok
+            @m = Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+            result = @m.check_content(:author_mail => params[:to], :post_body => params[:message])
+            @mollom_session_id = result.session_id
+            Rails.logger.debug "mjc12test: returned var is #{result}"
+            if result.ham?
+              email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+            elsif result.spam?
+              flash[:error] = 'Spam!'
+            end
+          end
+        else
+          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+        end
+      else
+        flash[:error] = I18n.t('blacklight.email.errors.to.blank')
+      end
+
+      if result.unsure?
+        Rails.logger.debug "mjc12test: invoking captcha"
+        @captcha = @m.image_captcha(:session_id => @mollom_session_id)["url"]
+        return render :partial => 'captcha'
+      elsif !flash[:error] 
+        email.deliver 
+        flash[:success] = "Email sent"
+        redirect_to catalog_path(params['id']) unless request.xhr?
+      end
+
+
+    end
+
+    unless !request.xhr? && flash[:success]
+      respond_to do |format|
+        format.js { render :layout => false }
+        format.html
+      end
+    end
+
+  end
+
+
 end
