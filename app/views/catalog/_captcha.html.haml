@@ -1,6 +1,9 @@
-<p>Please complete the CAPTCHA to contine</p>
-%img 
-   =image_tag @captcha
-%form#captcha_form{:method => 'post', :controller => 'catalog', :action => 'email'}
-   %input(type='text' name='captcha_response' id='captcha_response')
-   %input#request-submit.btn.btn-danger(type='submit' name='submit' value='Submit')
+%div{:class => 'modal-header'}
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	%h3 Email this
+%div{:class => 'modal-body'}
+	%p Please enter the letters below to continue.
+	%img= image_tag @captcha
+	%form#captcha_form{:method => 'post', :controller => 'catalog', :action => 'email'}
+		%input(type='text' name='captcha_response' id='captcha_response')
+		%input#request-submit.btn.btn-danger(type='submit' name='submit' value='Submit')
