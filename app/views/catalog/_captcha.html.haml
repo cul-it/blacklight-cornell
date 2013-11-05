@@ -1,0 +1,6 @@
+<p>Please complete the CAPTCHA to contine</p>
+%img 
+   =image_tag @captcha
+%form#captcha_form{:method => 'post', :controller => 'catalog', :action => 'email'}
+   %input(type='text' name='captcha_response' id='captcha_response')
+   %input#request-submit.btn.btn-danger(type='submit' name='submit' value='Submit')
