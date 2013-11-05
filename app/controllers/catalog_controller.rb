@@ -3,7 +3,7 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-#  include BlacklightCornellAdvancedSearch::ParseBasicQ
+  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
   # Tweak search param logic for default sort when browsing
   # Follow documentation in project wiki
@@ -425,8 +425,9 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
-    config.add_search_field('call number') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
+    config.add_search_field('call number', :label => 'Call Number') do |field|
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
+      field.include_in_simple_select = true
       field.solr_local_parameters = {
         :qf => '$lc_callnum_qf',
         :pf => '$lc_callnum_pf'
