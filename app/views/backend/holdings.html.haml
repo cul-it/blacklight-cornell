@@ -13,7 +13,7 @@
       - callnumber = entry['call_number']
 
       .holding
-        - if location != 'Online'
+        - if location != 'Online' and @hide_status.blank?
           %h5.location
             = location
             %span.map-it
@@ -37,7 +37,7 @@
                 .message= copy[type]
             - copy['items'].each do |item|
               -# Handling online link in _show_metadata.html.erb
-              - if location != 'Online'
+              - if location != 'Online' and @hide_status.blank?
                 .status
                   - message, details = item
                   - if details['status'] == 'available' || details['status'] == 'some_available'
