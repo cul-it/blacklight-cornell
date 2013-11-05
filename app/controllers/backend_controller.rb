@@ -1,4 +1,6 @@
 class BackendController < ApplicationController
+  include Blacklight::SolrHelper
+  
   def holdings
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
@@ -6,6 +8,21 @@ class BackendController < ApplicationController
     #@holdings = JSON.parse(HTTPClient.get_content("http://es287-dev.library.cornell.edu:8950/holdings/fetch/#{params[:id]}"))[params[:id]]
     #@holdings = JSON.parse(HTTPClient.get_content("http://rossini.cul.columbia.edu/voyager_backend/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @id = params[:id]
+    
+    resp, document = get_solr_response_for_doc_id(@id)
+    if document['url_pda_display'].present?
+      Rails.logger.info  "sk274_log: #{@holdings}"
+    end
+    
+    if @holdings_detail['records'].blank?
+      @holdings['condensed_holdings_full'].each do |chf|
+        chf['location_name'] = ''
+        chf['location_code'] = ''
+      end
+      @hide_status = true
+      Rails.logger.info "sk274_log: #{@holdings}"
+    end
+    
     # logger.debug  "getting info for #{params[:id]} from" 
     # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
 #    logger.debug @holdings 
@@ -109,6 +126,14 @@ class BackendController < ApplicationController
     end
     
     render :json => results
+  end
+  
+  def blacklight_solr
+    @solr ||=  RSolr.connect(blacklight_solr_config)
+  end
+
+  def blacklight_solr_config
+    Blacklight.solr_config
   end
 
 end
