@@ -11,16 +11,11 @@ class BackendController < ApplicationController
     
     resp, document = get_solr_response_for_doc_id(@id)
     if document['url_pda_display'].present?
-      Rails.logger.info  "sk274_log: #{@holdings}"
-    end
-    
-    if @holdings_detail['records'].blank?
       @holdings['condensed_holdings_full'].each do |chf|
         chf['location_name'] = ''
         chf['location_code'] = ''
       end
       @hide_status = true
-      Rails.logger.info "sk274_log: #{@holdings}"
     end
     
     # logger.debug  "getting info for #{params[:id]} from" 
