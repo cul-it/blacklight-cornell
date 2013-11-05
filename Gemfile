@@ -84,3 +84,5 @@ gem 'blacklight_cornell_requests', :git => 'git@git.library.cornell.edu:blacklig
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'
+#gem 'rest_mollom', :git => 'https://github.com/hernan/rest_mollom.git'
+gem 'mollom'
