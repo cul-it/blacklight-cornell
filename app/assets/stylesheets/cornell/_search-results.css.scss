@@ -68,11 +68,11 @@ body.blacklight-bookmarks-index .document {
 }
 
 .fa-check { color: $available; }
-.icon-time { color: $unavailable; }
+.fa-clock-o { color: $unavailable; }
 // extra specificity required for question-sign since it's also
 // used for the Unknown format
-.status .icon-question-sign,
-.icon-warning-sign {color: $yellow; }
+.status .fa-question-circle,
+.fa-warning {color: $yellow; }
 
 #sort-dropdown,
 #per_page-dropdown {

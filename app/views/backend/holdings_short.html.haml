@@ -18,18 +18,18 @@
         - callnumber = available[location]
       - else
         - location = multiple_locations
-      %i.icon-ok{:title => 'Available'}
+      %i{:class => 'fa fa-check', :title => 'Available'}
     - elsif unavailable.size > 0
       - if unavailable.size === 1 && loc_count === 1
         - location = unavailable.keys()[0]
         - callnumber = unavailable[location]
       - else
         - location = multiple_locations
-      %i.icon-time{:title => 'Available by request'}
+      %i{:class => 'fa fa-clock-o', :title => 'Available by request'}
     - else
       - location = entry['summary']['holdinglocs'][0]
       - callnumber = entry['records'][0]['call_number']
-      %i.icon-question-sign{:title => 'Status unknown'}
+      %i{:class => 'fa fa-question-circle', :title => 'Status unknown'}
     %span.location= location
     %span.callnumber= callnumber
     - if entry['summary']['onotes'].size > 0
