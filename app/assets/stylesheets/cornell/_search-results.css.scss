@@ -67,12 +67,12 @@ body.blacklight-bookmarks-index .document {
 	font-size: .75em;
 }
 
-.icon-ok { color: $available; }
-.icon-time { color: $unavailable; }
+.fa-check { color: $available; }
+.fa-clock-o { color: $unavailable; }
 // extra specificity required for question-sign since it's also
 // used for the Unknown format
-.status .icon-question-sign,
-.icon-warning-sign {color: $yellow; }
+.status .fa-question-circle,
+.fa-warning {color: $yellow; }
 
 #sort-dropdown,
 #per_page-dropdown {
@@ -96,7 +96,7 @@ body.blacklight-bookmarks-index .document {
 		margin: 0 .5em; }
 }
 
-.icon-cover { // bump up width and heigh to accommodate for padding on nested img with img-polaroid class
+.iconcover { // bump up width and heigh to accommodate for padding on nested img with img-polaroid class
 	float: left; 
 	width: 58px; 
 	margin-right: 1em; 

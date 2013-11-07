@@ -3,9 +3,9 @@
     <% # bookmark/folder functions -%>
     <div class="row">
       <div class="cover span2">
-        <div class="icon-cover bookcover" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
+        <div class="iconcover bookcover" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
           <img class="img-polaroid" src="/assets/cornell/layout/placeholder-item.png">
-          <i class="icon-<%= formats_icon_mapping(@document['format'].first) %>"></i>
+          <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
           <% if finding_aid(@document) %>
             <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
             <% if url_findingaid_display.present? %>
-              <span class="url_findingaid_display" id="finding_aid"><i class="icon-ok"></i> <%= url_findingaid_display %></span>
+              <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
             <% end %>
           <% end %>
 
@@ -49,7 +49,7 @@
             <% format = render_document_show_field_value :document => @document, :field => 'format' %>
             <ul class="unstyled" id="item_online_<%= format %>">
               <% online_links.each do |link| %>
-                <li class="online-link" ><i class="icon-ok"></i> <%= link %></li>
+                <li class="online-link" ><i class="fa fa-check"></i> <%= link %></li>
               <% end %>
             </ul>
           <% end %>
@@ -68,7 +68,7 @@
           <span class="blacklight-url_access_display"></span>
 
           <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
-          <!-- <p class="google-books-link"><i class="icon-globe"></i> More info at <a href="#">Google Books</a></p> -->
+          <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
         </div>
 
         <%= render_document_partial @document, :show %>

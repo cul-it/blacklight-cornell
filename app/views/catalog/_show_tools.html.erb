@@ -19,7 +19,7 @@
 
 <!-- TODO: TRANSLATE -->
 <% if bookmarks_index || citable %>
-  <% citelink_content =  '<i class="icon-li icon-pencil"></i>' + t('blacklight.tools.cite') %>
+  <% citelink_content =  '<i class="fa fa-pencil"></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
       <%= link_to citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} do %>
@@ -34,7 +34,7 @@
 <% end %>
 
 <% if bookmarks_index || emailable %>
-  <% emaillink_content = '<i class="icon-li icon-envelope"></i>' + t('blacklight.tools.email') %>
+  <% emaillink_content = '<i class="fa fa-envelope"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
       <%= link_to  email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink", :id => "email-link" do %>
@@ -50,7 +50,7 @@
 
 <% if bookmarks_index || exportable %>
   <li class="dropdown <% if !bookmarks_index %>pull-right<% end %>">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-li icon-share"></i>Export <b class="caret"></b></a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share"></i>Export <b class="caret"></b></a>
     <ul class="dropdown-menu">
       <% if bookmarks_index %>
         <li class="bookmarks-refworks">

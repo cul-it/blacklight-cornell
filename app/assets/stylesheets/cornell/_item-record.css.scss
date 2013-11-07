@@ -21,7 +21,7 @@ h3.responsibility {
 .cover {
 	float: left;
 	margin-bottom: 1.5em;
-	.icon-cover {
+	.iconcover {
 		width: 100%;
 		i {
 			font-size: 3em;
@@ -108,9 +108,6 @@ dd.blacklight-notes {
 		float: left;
 		margin-right: 2em;
 	}
-	.icon-li {
-		left: -1.8em;
-	}
 	li:last-child {
 		margin-right: 0;
 	}
@@ -126,6 +123,7 @@ dd.blacklight-notes {
 			font-size: 1em;
 		}
 	}
+	i { margin-right: 3px; }
 }
 
 .item-pagination {

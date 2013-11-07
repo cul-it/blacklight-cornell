@@ -26,3 +26,6 @@ body.blacklight-bookmarks-index .item-tools ul { float: left;}
 	  @include gradient-vertical($dropdownLinkBackgroundHover, darken($dropdownLinkBackgroundHover, 5%));
 	}
 }
+.blacklight-bookmarks {
+	.item-tools { margin-left: 0; }
+}
