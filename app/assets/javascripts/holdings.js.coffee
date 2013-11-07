@@ -85,7 +85,7 @@ holdings =
         # Need to setup modal again for injected share links
         Blacklight.setup_modal("a.lightboxLink", "#ajax-modal form.ajax_form", true);
       error: (data) ->
-        $('.holdings').html('<div class="holdings-error"><i class="icon-warning-sign"></i> Unable to retrieve availability <a href="#" class="retry-availability">Retry?</a></div>')
+        $('.holdings').html('<div class="holdings-error"><i class="fa fa-warning"></i> Unable to retrieve availability <a href="#" class="retry-availability">Retry?</a></div>')
         # Bind event listener for retry link
         holdings.bindEventListener()
       complete: (data) ->
@@ -98,7 +98,7 @@ holdings =
       success: (data) ->
         $('#blacklight-avail-'+id).html(data)
       error: (data) ->
-        $('#blacklight-avail-'+id).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
+        $('#blacklight-avail-'+id).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
       complete: (data) ->
         # Stop and remove the spinner
         holdings.resultsAvailability.spin(false)
@@ -116,7 +116,7 @@ holdings =
         # from original string sent to service
         bids = id.split('/')
         $.each bids, (i, bibid) ->
-          $('#blacklight-avail-'+bibid).html('<i class="icon-warning-sign"></i> <span class="location">Unable to retrieve availability</span>')
+          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
 
   # Event listener called on page load
   bindEventListener: () ->

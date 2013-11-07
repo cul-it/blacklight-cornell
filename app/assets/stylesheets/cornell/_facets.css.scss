@@ -31,7 +31,9 @@
 		font-weight: bold;
 		padding: 10px;
 		margin: 0; }
-	i { color: $dark-gray; }
+	i { 
+		color: $dark-gray;
+		margin-right: 3px; }
 	.navbar {
 		margin-bottom: 0;
 		padding: 0 0 0 10px; }
@@ -44,9 +46,10 @@
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-	ul.icons-ul {
-		margin-left: 1.3em;
-	}
+	// upgrade to font awesome 4.0.3.0 and no longer needs this margin
+	// ul.icons-ul {
+	// 	margin-left: 1.3em;
+	// }
 	li {
 		margin-right: 0;
 		line-height: 16px;
@@ -154,11 +157,15 @@ form.range_limit {
 	color: $medium-gray;
 	opacity: 1;
 }
-.facet_extended_list.icons-ul {
-	margin-left: 1.7em;
-}
+// upgrade to font awesome 4.0.3.0 and no longer needs this margin
+// .facet_extended_list.icons-ul {
+// 	margin-left: 1.7em;
+// }
 
-.twiddle-open .icon-plus-sign {
-  @extend .icon-minus-sign;
+.twiddle-open .fa-plus-circle {
+  @extend .fa-minus-circle;
   opacity: 1;
+}
+.facet_extended_list {
+	i { margin-right: 5px; }
 }

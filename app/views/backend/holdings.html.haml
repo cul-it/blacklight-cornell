@@ -13,7 +13,7 @@
       - callnumber = entry['call_number']
 
       .holding
-        - if location != 'Online'
+        - if location != 'Online' and @hide_status.blank?
           %h5.location
             = location
             %span.map-it
@@ -25,7 +25,7 @@
             = callnumber
             %span.text-it
               = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
-                %i.icon-mobile-phone
+                %i{:class => 'fa fa-mobile'}
                 = t('blacklight.tools.sms')
         - entry['copies'].each do |copy|
           .group
@@ -37,15 +37,15 @@
                 .message= copy[type]
             - copy['items'].each do |item|
               -# Handling online link in _show_metadata.html.erb
-              - if location != 'Online'
+              - if location != 'Online' and @hide_status.blank?
                 .status
                   - message, details = item
                   - if details['status'] == 'available' || details['status'] == 'some_available'
-                    %i.icon-ok
+                    %i{:class => 'fa fa-check'}
                   - elsif details['status'] == 'none'
-                    %i.icon-question-sign
+                    %i{:class => 'fa fa-question-circle'}
                   - else
-                    %i.icon-time
+                    %i{:class => 'fa fa-clock-o'}
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)

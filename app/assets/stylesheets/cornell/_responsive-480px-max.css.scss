@@ -54,7 +54,7 @@
 	.item-pagination { width: 100%; }
 	.item-tools {
 		float: none;
-		margin-top: 1.6em;
+		// margin-top: 1.6em;
 		width: 100%;
 		ul {
 			float: none;
@@ -63,13 +63,13 @@
 		}
 		li:first-child { margin-left: 0; }
 		i { margin-right: 3px; }
-		i.icon-envelope { margin-right: 5px; }
+		i.fa-envelope { margin-right: 5px; }
 	}
 	input#request-submit {float:none;}
 	.cover {
 		width: 58px;
 		height: 83px;
-		.icon-cover {
+		.iconcover {
 			width: 58px;
 			height: 83px;
 			i {
