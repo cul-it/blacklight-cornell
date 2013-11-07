@@ -40,7 +40,7 @@
               - if location != 'Online' and @hide_status.blank?
                 .status
                   - message, details = item
-                  - if details['status'] == 'available' || details['status'] == 'some_available'
+                  - if details['status'] == 'available' 
                     %i{:class => 'fa fa-check'}
                   - elsif details['status'] == 'none'
                     %i{:class => 'fa fa-question-circle'}
@@ -49,6 +49,10 @@
                   = message
                   - if details['count'] >1
                     (#{details['count']} copies)
+                  - if details ['status'] == 'some_available'
+                    %p
+                      %i{:class => 'fa fa-check'}
+                      All other volumes are available.
     - if group == "Circulating" or group == "Rare"
       - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{@id}") : request_aeon_path("#{@id}")
       .item-requests
