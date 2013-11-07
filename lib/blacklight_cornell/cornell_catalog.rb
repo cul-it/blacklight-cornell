@@ -59,6 +59,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         params[:q] = params[:q]
         params[:search_field] = "journal title"
     end
+    
+    #quote the call number
+    if params[:search_field] == "call number"
+      if !params[:q].nil? and !params[:q].include?('"')
+        params[:q] = '"' << params[:q] << '"'
+      end
+    end
     # end of Journal title search hack
     
 #    if params[:search_field] = "call number"
@@ -88,6 +95,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         if params[:q].nil?
           params[:q] = query_string
         end
+    end
+    
+    if params[:search_field] == "call number"
+      if !params[:q].nil? and params[:q].include?('"')
+        params[:q] = params[:q].gsub!('"','')
+      end
     end
     # end of cleanup of search_field and q params
 

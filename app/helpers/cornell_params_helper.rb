@@ -85,7 +85,7 @@ module CornellParamsHelper
          opArray[k] = my_params[:boolean_row][n.to_sym]
       end
       for i in 0..my_params[:search_field_row].count - 1
-         if my_params[:op_row][i] == "phrase"
+         if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
            newpass = '"' + my_params[:q_row][i] + '"' 
          else
            newpass = my_params[:q_row][i]
