@@ -44,6 +44,7 @@ module CornellParamsHelper
             params.delete("advanced_query")
             query_string = parse_single(params)
             holdparams = query_string.split("&")
+            Rails.logger.info("HOLYSHIT= #{holdparams}")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
               params[terms[0]] = terms[1]
@@ -77,13 +78,13 @@ module CornellParamsHelper
     q_stringArray = []
     q_string2Array = []
     opArray = []
-    if !my_params[:boolean_row].nil?    
+    if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?    
       for k in 0..my_params[:boolean_row].count - 1
          realsub = k + 1;
          n = realsub.to_s
          opArray[k] = my_params[:boolean_row][n.to_sym]
       end
-      for i in 0..my_params[:q_row].count - 1
+      for i in 0..my_params[:search_field_row].count - 1
          if my_params[:op_row][i] == "phrase"
            newpass = '"' + my_params[:q_row][i] + '"' 
          else
@@ -102,7 +103,7 @@ module CornellParamsHelper
 
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
          Rails.logger.info("FIELDNAMES = #{fieldNames}")
-         if !fieldNames["key"].nil?
+         if !fieldNames.nil? 
             solr_stuff = fieldNames["key"]
             if solr_stuff == "call number"
               solr_stuff = "lc_callnum"
@@ -278,6 +279,7 @@ module CornellParamsHelper
   def parse_query_row(query, op)
     splitArray = []
     returnstring = ""
+#    query.gsub!("&","%26")
     if op == "phrase"
       query.gsub!("\"", "\'")
 #      returnstring << '"' << query << '"'
