@@ -31,7 +31,9 @@
 		font-weight: bold;
 		padding: 10px;
 		margin: 0; }
-	i { color: $dark-gray; }
+	i { 
+		color: $dark-gray;
+		margin-right: 3px; }
 	.navbar {
 		margin-bottom: 0;
 		padding: 0 0 0 10px; }
@@ -163,4 +165,7 @@ form.range_limit {
 .twiddle-open .fa-plus-circle {
   @extend .fa-minus-circle;
   opacity: 1;
+}
+.facet_extended_list {
+	i { margin-right: 5px; }
 }
