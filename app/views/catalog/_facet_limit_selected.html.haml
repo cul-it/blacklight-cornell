@@ -4,7 +4,7 @@
   - paginator.items.each do |item|
     %li
       - if solr_field == 'format'
-        %i{:class => "icon-li icon-#{formats_icon_mapping(item.value)}"}
+        %i{:class => "fa fa-#{formats_icon_mapping(item.value)}"}
       - if facet_in_params?( solr_field, item.value )
         = render_selected_facet_value(solr_field, item)
       - else

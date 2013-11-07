@@ -38,7 +38,7 @@
           <% if finding_aid(@document) %>
             <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
             <% if url_findingaid_display.present? %>
-              <span class="url_findingaid_display" id="finding_aid"><i class="icon-ok"></i> <%= url_findingaid_display %></span>
+              <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
             <% end %>
           <% end %>
 
@@ -49,7 +49,7 @@
             <% format = render_document_show_field_value :document => @document, :field => 'format' %>
             <ul class="unstyled" id="item_online_<%= format %>">
               <% online_links.each do |link| %>
-                <li class="online-link" ><i class="icon-ok"></i> <%= link %></li>
+                <li class="online-link" ><i class="fa fa-check"></i> <%= link %></li>
               <% end %>
             </ul>
           <% end %>

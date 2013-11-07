@@ -10,9 +10,10 @@ $fontelloPath: "fontello" !default;
   font-style: normal;
 }
 
-.icon-book-open:before      { font-family: "fontello";  content: "\1f4d6"; }
-.icon-database:before       { font-family: "fontello";  content: "\e754"; }
-.icon-graduation-cap:before { font-family: "fontello";  content: "\1f393"; }
-.icon-musical-score:before  { font-family: "fontello";  content: "\1f3b5"; }
-.icon-newspaper:before      { font-family: "fontello";  content: "\e735"; }
-.icon-popup:before          { font-family: "fontello";  content: "\e74c"; }
+// TODO: rename 'fa' to something like 'fontello
+.fa-book-open:before      { font-family: "fontello";  content: "\1f4d6"; }
+.fa-database:before       { font-family: "fontello";  content: "\e754"; }
+.fa-graduation-cap:before { font-family: "fontello";  content: "\1f393"; }
+.fa-musical-score:before  { font-family: "fontello";  content: "\1f3b5"; }
+.fa-newspaper:before      { font-family: "fontello";  content: "\e735"; }
+.fa-popup:before          { font-family: "fontello";  content: "\e74c"; }

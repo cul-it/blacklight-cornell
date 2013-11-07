@@ -13,7 +13,7 @@
     </span>
 
     <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
-      <i class="icon-remove-sign"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
+      <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
     <% end %>
 
     <%= render :partial => 'sort_widget' %>
