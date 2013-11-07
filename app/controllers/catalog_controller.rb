@@ -5,6 +5,20 @@ class CatalogController < ApplicationController
   include BlacklightUnapi::ControllerExtension
   include BlacklightCornellAdvancedSearch::ParseBasicQ
 
+  # Ensure that the configuration file is present
+  begin
+    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
+  rescue Errno::ENOENT
+    puts <<-eos
+
+    ******************************************************************************
+    Your search_apis.yml config file is missing.
+    See config/search_apis.yml.example
+    ******************************************************************************
+
+    eos
+  end
+
   # Tweak search param logic for default sort when browsing
   # Follow documentation in project wiki
   # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
@@ -517,7 +531,7 @@ class CatalogController < ApplicationController
 
       # First check to see whether we're here as the result of an attempt to solve a CAPTCHA
       if params[:captcha_response]
-        @@mollom ||= Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+        @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
         captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
       end
 
@@ -529,7 +543,7 @@ class CatalogController < ApplicationController
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
           unless captcha_ok
             # Create a new Mollom instance if necessary, then test the message content for spam
-            @@mollom ||= Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+            @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
             result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
             if result.ham?
               # Content is okay, we can proceed with the email
