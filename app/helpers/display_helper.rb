@@ -337,7 +337,7 @@ module DisplayHelper
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
     "Musical Recording" => "music",
-    "Thesis" => "file-text-alt",
+    "Thesis" => "file-text-o",
     "Microform" => "th",
     "Journal" => "book-open",
     "Conference Proceedings" => "group",
@@ -346,13 +346,13 @@ module DisplayHelper
     "Manuscript/Archive" => "archive",
     "Newspaper" => "newspaper",
     "Database" => "database",
-    "Image" => "picture",
+    "Image" => "picture-o",
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
     "Research Guide" => "paste",
     "Course Guide" => "graduation-cap",
     "Website" => "desktop",
-    "Miscellaneous" => "ellipsis-horizontal",
+    "Miscellaneous" => "ellipsis-h",
     "Object" => "trophy"
   }
 
@@ -370,7 +370,7 @@ module DisplayHelper
     # Convert format to array in case it's a string (it shouldn't be)
     format = [format] unless format.is_a? Array
     format.map do |f|
-      icon = '<i class="icon-' + formats_icon_mapping(f) + '"></i> '
+      icon = '<i class="fa fa-' + formats_icon_mapping(f) + '"></i> '
       f.prepend(icon).html_safe unless f.nil?
     end
   end
