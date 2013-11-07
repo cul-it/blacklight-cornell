@@ -502,15 +502,19 @@ class CatalogController < ApplicationController
     config.spell_max = 5
   end
 
+  @@m = nil
+  @@s = nil
   def email
     @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-
+    captcha_ok = nil
     if request.post?
-      captcha_ok = nil
       if params[:captcha_response]
 
         Rails.logger.debug "mjc12test: checking captcha"
-        captcha_correct = @m.check_captcha(:session_id => @mollom_session_id, :solution => params[:captcha_response])
+        if @@m.nil?
+            @@m = Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+        end
+        captcha_correct = @@m.valid_captcha?(:session_id => @@s, :solution => params[:captcha_response])
         if captcha_correct
           captcha_ok = true
         end
@@ -521,9 +525,11 @@ class CatalogController < ApplicationController
         result = nil  
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
           if !captcha_ok
-            @m = Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
-            result = @m.check_content(:author_mail => params[:to], :post_body => params[:message])
-            @mollom_session_id = result.session_id
+            if @@m.nil?
+                @@m = Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+            end
+            result = @@m.check_content(:author_mail => params[:to], :post_body => params[:message])
+            @@s = result.session_id
             Rails.logger.debug "mjc12test: returned var is #{result}"
             if result.ham?
               email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
@@ -538,14 +544,16 @@ class CatalogController < ApplicationController
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
       end
 
-      if result.unsure?
-        Rails.logger.debug "mjc12test: invoking captcha"
-        @captcha = @m.image_captcha(:session_id => @mollom_session_id)["url"]
+      if !captcha_ok and result.unsure?
+        @captcha = @@m.image_captcha(:session_id => @@s)["url"]
+        @email_params = { :to => params[:to], :message => params[:message], :id => params['id'][0] }
         return render :partial => 'captcha'
       elsif !flash[:error] 
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
         email.deliver 
         flash[:success] = "Email sent"
-        redirect_to catalog_path(params['id']) unless request.xhr?
+        Rails.logger.debug "mjc12test: final params: #{params}"
+        redirect_to catalog_path(params[:id]) unless request.xhr?
       end
 
 
