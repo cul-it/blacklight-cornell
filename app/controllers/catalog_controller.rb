@@ -502,38 +502,40 @@ class CatalogController < ApplicationController
     config.spell_max = 5
   end
 
-  @@m = nil
-  @@s = nil
+  # Probably there's a better way to do this, but for now we'll make the mollom instance
+  # a class variable in order to maintain the connection across CAPTCHA 
+  # displays and repeated form submissions.
+  @@mollom = nil            
+  # Note: This function overrides the email function in the Blacklight gem (in order to add
+  # Mollom/CAPTCHA integration)
   def email
-    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-    captcha_ok = nil
-    if request.post?
-      if params[:captcha_response]
 
-        Rails.logger.debug "mjc12test: checking captcha"
-        if @@m.nil?
-            @@m = Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
-        end
-        captcha_correct = @@m.valid_captcha?(:session_id => @@s, :solution => params[:captcha_response])
-        if captcha_correct
-          captcha_ok = true
-        end
+    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+    captcha_ok = false
+
+    if request.post?
+
+      # First check to see whether we're here as the result of an attempt to solve a CAPTCHA
+      if params[:captcha_response]
+        @@mollom ||= Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+        captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
       end
 
+      # 
       if params[:to]
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
         result = nil  
+        # Check for valid email address
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-          if !captcha_ok
-            if @@m.nil?
-                @@m = Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
-            end
-            result = @@m.check_content(:author_mail => params[:to], :post_body => params[:message])
-            @@s = result.session_id
-            Rails.logger.debug "mjc12test: returned var is #{result}"
+          unless captcha_ok
+            # Create a new Mollom instance if necessary, then test the message content for spam
+            @@mollom ||= Mollom.new({:public_key => 'd000c02f4ac0f6bf335bf96c4999eede', :private_key => 'dafcb623fbbf5675c3a3ac91b9a7fdd4'})
+            result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
             if result.ham?
+              # Content is okay, we can proceed with the email
               email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
             elsif result.spam?
+              # This is definite spam (according to Mollom)
               flash[:error] = 'Spam!'
             end
           end
@@ -544,20 +546,20 @@ class CatalogController < ApplicationController
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
       end
 
-      if !captcha_ok and result.unsure?
-        @captcha = @@m.image_captcha(:session_id => @@s)["url"]
+      if !captcha_ok and (result.unsure? or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
+        @captcha = @@mollom.image_captcha
+        # Need to pass through the message form elements in order to retain them in the next POST (from CAPTCHA submission)
         @email_params = { :to => params[:to], :message => params[:message], :id => params['id'][0] }
         return render :partial => 'captcha'
       elsif !flash[:error] 
+        # Don't have to show a CAPTCHA and there are no errors, so we can send the email
         email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
         email.deliver 
         flash[:success] = "Email sent"
-        Rails.logger.debug "mjc12test: final params: #{params}"
         redirect_to catalog_path(params[:id]) unless request.xhr?
       end
 
-
-    end
+    end  # request.post?
 
     unless !request.xhr? && flash[:success]
       respond_to do |format|
