@@ -56,21 +56,38 @@ p.suggest {
 
 div.search-tools > h2 {line-height: 1em}
 
-.expand-search { float: right; }
-.expand-results {
-  padding: 0 0 0 10px;
-  border-left: 1px solid $tan;
-  float: right;
+.expand-search { 
+  margin-top: .5em;
+  padding: 10px;
+  background: white;
+  @include border-radius($borderRadiusLarge);
+  // float: right;
   h4 {
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-size: .75em;
     margin: 0 0 .5em; }
   ul {
     margin-left: 0;
+    margin-bottom: 0;
     list-style: none; }
   li {
     font-size: .75em;
     margin-bottom: .25em; }
 }
+// .expand-results {
+//   padding: 0 0 0 10px;
+//   border-left: 1px solid $tan;
+//   float: right;
+//   h4 {
+//     text-transform: uppercase;
+//     font-size: .75em;
+//     margin: 0 0 .5em; }
+//   ul {
+//     margin-left: 0;
+//     list-style: none; }
+//   li {
+//     font-size: .75em;
+//     margin-bottom: .25em; }
+// }
 h2.advanced-search { margin: 0; }
 .advanced-facets { margin-bottom: 10px; }
