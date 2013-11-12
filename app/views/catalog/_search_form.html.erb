@@ -1,6 +1,6 @@
 <div class="well clearfix">
   <div class="row-fluid">
-    <div class="search-tools span9">
+    <div class="search-tools">
       <%= form_tag search_action_url, :method => :get, :class => 'search-form' do %>
         <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
         <% if !params[:q_row].present? %>
@@ -51,14 +51,14 @@
     </div>
 
     <%# Offer search expansion only under certain conditions %>
-    <% if expandable_search? %>
-      <%= render :partial => 'expand_search' %>
-    <% end %>
+    <%# if expandable_search? %>
+      <%#= render :partial => 'expand_search' %>
+    <%# end %>
 
     <%# Add simple links to WCL and Summon if an advanced search %>
-    <% if params[:q_row].present? %>
-      <%= render :partial => 'expand_advanced_search' %>
-    <% end %>
+    <%# if params[:q_row].present? %>
+      <%#= render :partial => 'expand_advanced_search' %>
+    <%# end %>
 
   </div>
   <% if params[:q_row].present? %>
