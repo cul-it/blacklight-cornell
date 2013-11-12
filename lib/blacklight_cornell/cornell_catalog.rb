@@ -46,9 +46,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       query_string = set_advanced_search_params(params)
     end
     # End of secondary parsing
-    if !params[:q].nil? and params[:q].include?('%26')
-      params[:q] = params[:q].gsub!('%26','&')
-    end
+#    if !params[:q].nil? and params[:q].include?('%26')
+#      params[:q] = params[:q].gsub!('%26','&')
+#    end
+#    if !params[:q].nil? and params[:q].include?('%2526')
+#      params[:q] = params[:q].gsub!('%2526','&')
+#    end
+    
     # Journal title search hack.
     if params[:search_field] == "journal title"
       if params[:f].nil?
