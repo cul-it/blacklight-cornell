@@ -6,6 +6,7 @@ module CornellParamsHelper
          counter = test_size_param_array(params[:q_row])
          if counter > 1
             query_string = massage_params(params)
+            Rails.logger.info("QUERYSTRING = #{query_string}")
             params[:advanced_search] = true
             params["advanced_query"] = "yes"
              holdparams = []
@@ -13,16 +14,16 @@ module CornellParamsHelper
              ops = 0
              params["op"] = []
              holdparams = query_string.split("&")
-             for i in 0..holdparams.count - 1
-                terms = holdparams[i].split("=")
-                if (terms[0] == "op[]")
-                  params["op"][ops] = terms[1]
-                  ops = ops + 1
-                else
-                  params[terms[0]] = terms[1]
-                  search_session[terms[0]] = terms[1]
-                end
+             for i in 0..params[:q_row].count - 1
+               search_session[params[:search_field_row][i]] = params[:q_row][i]
+               params[params[:search_field_row][i]] = params[:q_row][i]
              end
+             for i in 1..params[:boolean_row].count
+               n = i.to_s
+               params["op"][i-1] = params[:boolean_row][n.to_sym]
+             end
+             Rails.logger.info("HOLDPARAMS = #{holdparams}")
+             Rails.logger.info("HOLDPARAMS1 = #{params}")
              if holdparams.count > 2
                params["search_field"] = "advanced"
                params[:q] = query_string
