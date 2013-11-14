@@ -6,14 +6,13 @@ module CornellParamsHelper
          counter = test_size_param_array(params[:q_row])
          if counter > 1
             query_string = massage_params(params)
-            Rails.logger.info("QUERYSTRING = #{query_string}")
             params[:advanced_search] = true
             params["advanced_query"] = "yes"
              holdparams = []
              terms = []
              ops = 0
              params["op"] = []
-             holdparams = query_string.split("&")
+#             holdparams = query_string.split("&")
              for i in 0..params[:q_row].count - 1
                search_session[params[:search_field_row][i]] = params[:q_row][i]
                params[params[:search_field_row][i]] = params[:q_row][i]
@@ -22,9 +21,8 @@ module CornellParamsHelper
                n = i.to_s
                params["op"][i-1] = params[:boolean_row][n.to_sym]
              end
-             Rails.logger.info("HOLDPARAMS = #{holdparams}")
-             Rails.logger.info("HOLDPARAMS1 = #{params}")
-             if holdparams.count > 2
+#             if holdparams.count > 2
+             if params[:q_row].count > 1
                params["search_field"] = "advanced"
                params[:q] = query_string
                search_session[:q] = query_string
@@ -45,7 +43,6 @@ module CornellParamsHelper
             params.delete("advanced_query")
             query_string = parse_single(params)
             holdparams = query_string.split("&")
-            Rails.logger.info("HOLYSHIT= #{holdparams}")
             for i in 0..holdparams.count - 1
               terms = holdparams[i].split("=")
               params[terms[0]] = terms[1]
@@ -63,7 +60,6 @@ module CornellParamsHelper
 #             params[:search_field] = 
 #             params["search_field"] = "Sippy"
        end
-     Rails.logger.info("FARFEL = #{query_string}")
      return query_string
   end
 
@@ -99,11 +95,8 @@ module CornellParamsHelper
          q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
          q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
-         Rails.logger.info("FIRSTPARAM = #{blacklight_config.search_fields}")
-         Rails.logger.info("FIRSTPARAM1 = #{my_params[:search_field_row][i]}")
 
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
-         Rails.logger.info("FIELDNAMES = #{fieldNames}")
          if !fieldNames.nil? 
             solr_stuff = fieldNames["key"]
             if solr_stuff == "call number"
@@ -121,7 +114,6 @@ module CornellParamsHelper
             if solr_stuff == "donor name"
               solr_stuff = "donor"
             end
-         Rails.logger.info("FIELDNAMES = #{fieldNames}")
             field_name =  solr_stuff
             q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
             q_string2 << field_name << " = "
@@ -187,7 +179,6 @@ module CornellParamsHelper
 #    solr_parameters[:sort] = "score desc, title_sort asc"
      my_params[:search_field] = my_params["search_field"]
   end
-  Rails.logger.info("Lafayette2")
   return solr_parameters
  end
 
@@ -217,7 +208,9 @@ module CornellParamsHelper
 #     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PR2983 .I61\"\""
 #     newString =  "_query_:{!dismax qf=$author_qf pf=$author_pf}Shakespeare"
      #NEWSTRING = \"PQ7798.416.A43 H6\""   AND title = hora"
-     Rails.logger.info("NEWSTRING = #{newString}")
+     if newString.include?('%26')
+       newString.gsub!('%26','&')
+     end
      return newString
   end
 
@@ -280,7 +273,10 @@ module CornellParamsHelper
   def parse_query_row(query, op)
     splitArray = []
     returnstring = ""
-#    query.gsub!("&","%26")
+    if query.include?('%26')
+      query.gsub!('%26','&')
+    end
+    query.gsub!("&","%26")
     if op == "phrase"
       query.gsub!("\"", "\'")
 #      returnstring << '"' << query << '"'
