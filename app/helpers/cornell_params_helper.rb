@@ -163,7 +163,9 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-   
+    if params[:search_field] == "call number" and !params[:q].include?('"')
+      params[:q] = '"' + params[:q] + '"'
+    end
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
     end
@@ -178,6 +180,9 @@ module CornellParamsHelper
 #    solr_parameters[:q] = my_params[:q]
 #    solr_parameters[:sort] = "score desc, title_sort asc"
      my_params[:search_field] = my_params["search_field"]
+     
+     Rails.logger.info("SHAZAM = #{my_params}")
+     
   end
   return solr_parameters
  end
