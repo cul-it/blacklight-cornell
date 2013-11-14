@@ -6,3 +6,6 @@ worldcat_api_key: <apikey>
 
 summon_access_id: <access_id>
 summon_secret_key: <secret_key>
+
+mollom_public_key: <public_key>
+mollom_private_key: <private_key>
