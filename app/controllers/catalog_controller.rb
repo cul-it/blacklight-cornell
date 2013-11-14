@@ -520,8 +520,8 @@ class CatalogController < ApplicationController
   # a class variable in order to maintain the connection across CAPTCHA 
   # displays and repeated form submissions.
   @@mollom = nil            
-  # Note: This function overrides the email function in the Blacklight gem (in order to add
-  # Mollom/CAPTCHA integration)
+  # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
+  # (in order to add Mollom/CAPTCHA integration)
   def email
 
     @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
