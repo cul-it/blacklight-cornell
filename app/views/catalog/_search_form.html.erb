@@ -1,6 +1,6 @@
 <div class="well clearfix">
   <div class="row-fluid">
-    <div class="search-tools span9">
+    <div class="search-tools">
       <%= form_tag search_action_url, :method => :get, :class => 'search-form' do %>
         <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
         <% if !params[:q_row].present? %>
@@ -51,20 +51,21 @@
     </div>
 
     <%# Offer search expansion only under certain conditions %>
-    <% if expandable_search? %>
-      <%= render :partial => 'expand_search' %>
-    <% end %>
+    <%# if expandable_search? %>
+      <%#= render :partial => 'expand_search' %>
+    <%# end %>
 
     <%# Add simple links to WCL and Summon if an advanced search %>
-    <% if params[:q_row].present? %>
-      <%= render :partial => 'expand_advanced_search' %>
-    <% end %>
+    <%# if params[:q_row].present? %>
+      <%#= render :partial => 'expand_advanced_search' %>
+    <%# end %>
 
   </div>
   <% if params[:q_row].present? %>
     <div class="advanced-search-link">
       <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
       <%#= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
+      <%#= debug params[:search_field_row] %>
       <%= link_to 'Modify advanced search', url_for(:controller=>"advanced", :action=>"edit",
                                                   :q_row=>params[:q_row], :op_row=>params[:op_row], 
                                                   :search_field_row=>params[:search_field_row], 
