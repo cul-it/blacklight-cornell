@@ -230,3 +230,8 @@ dd.blacklight-notes {
 .shelf-browser { height: 500px; }
 
 .librarian-view { font-size: 0.75em; }
+
+// captcha form
+#captcha_form {
+	#request-submit { display: block; }
+}
