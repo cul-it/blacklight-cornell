@@ -545,13 +545,20 @@ class CatalogController < ApplicationController
           unless captcha_ok
             # Create a new Mollom instance if necessary, then test the message content for spam
             @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
-            result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
-            if result.ham?
-              # Content is okay, we can proceed with the email
-              email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
-            elsif result.spam?
-              # This is definite spam (according to Mollom)
-              flash[:error] = 'Spam!'
+            # Mollom can sometimes fail ('can't get mollom server-list'), so we have to put this next part in a begin/rescue block
+            begin
+                result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
+                if result.ham?
+                    # Content is okay, we can proceed with the email
+                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+                elsif result.spam?
+                    # This is definite spam (according to Mollom)
+                    flash[:error] = 'Spam!'
+                end
+            rescue
+                # Mollom isn't working, so we'll have to just go ahead and mail the item
+                captcha_ok = true
+                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
             end
           end
         else
