@@ -33,7 +33,12 @@
     - else
       - location = entry['summary']['holdinglocs'][0]
       - callnumber = entry['records'][0]['call_number']
-      %i{:class => 'fa fa-question-circle', :title => 'Status unknown'}
+      - if entry['summary']['onotes'].size > 0
+        %i{:class => 'fa fa-clock-o', :title => 'On order'}
+      - else
+        %i{:class => 'fa fa-check', :title => 'On site use'}
+        - callnumber = entry['records'][0]['call_number']
+        - # %i{:class => 'fa fa-question-circle', :title => 'Status unknown'}
     %span.location= location
     %span.callnumber= callnumber
     - if entry['summary']['onotes'].size > 0
