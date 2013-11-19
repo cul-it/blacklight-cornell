@@ -181,7 +181,6 @@ module CornellParamsHelper
 #    solr_parameters[:sort] = "score desc, title_sort asc"
      my_params[:search_field] = my_params["search_field"]
      
-     Rails.logger.info("SHAZAM = #{my_params}")
      
   end
   return solr_parameters
