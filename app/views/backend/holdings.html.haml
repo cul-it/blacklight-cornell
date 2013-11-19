@@ -43,8 +43,12 @@
                   - message, details = item
                   - if details['status'] == 'available' 
                     %i{:class => 'fa fa-check'}
+                  - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
+                    %i{:class => 'fa fa-clock-o', :title => 'On order'}
+                    - message = 'On order'
                   - elsif details['status'] == 'none'
-                    %i{:class => 'fa fa-question-circle'}
+                    %i{:class => 'fa fa-check', :title => 'On-site use'}
+                    - message = 'On-site use'
                   - else
                     %i{:class => 'fa fa-clock-o'}
                   = message
