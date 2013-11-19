@@ -1,0 +1,34 @@
+-title = the_vernaculator('title_display', 'title_vern_display')
+-subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
+-responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
+- if @counter.blank?
+  = link_to catalog_path(@id), { :title => @ti } do
+    %i.icon-circle-arrow-left
+    Back to item
+- else
+  = link_to catalog_path(@id), { :title => @ti, 'data-counter'.to_sym => @counter } do
+    %i.icon-circle-arrow-left
+    Back to item
+%h1.request-type Document Delivery
+%div.row
+  %div.span8.well
+    %h2.item-title-request.blacklight-title_display=title
+    %div.request-author=responsibility
+    %p
+      Click the button below to go to the Document Delivery form and place your request.
+    .control-group
+    .controls.clearfix
+      %a{:href => @iis[:document_delivery][:url], :title =>'Submit Document Delivery Request',:class => 'btn btn-danger pull-left'}
+        Go to Document Delivery
+      %div.accordion-heading.request-options.form-alternative-action.pull-left
+        or
+        =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
+    .controls
+      %div.accordion#accordion2.request-options.form-alternative-action
+        %div#collapseOne.accordion-body.collapse
+          %div.accordion-inner
+            %div.span4
+              Your other request options are listed below.
+              = render :partial => 'shared/request_options'  
+
+
