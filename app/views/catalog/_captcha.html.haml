@@ -1,0 +1,14 @@
+%div{:class => 'modal-header'}
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    %h3 Email this
+%div{:class => 'modal-body'}
+    %p Please enter the letters below to continue.
+    %img= image_tag @captcha['url']
+    %form#captcha_form{:method => 'post', :controller => 'catalog', :action => 'email'}
+        %input(type='text' name='captcha_response' id='captcha_response')
+        %input{ :type => 'hidden', :name => 'to', :id => 'to', :value => @email_params[:to] }
+        %input{ :type => 'hidden', :name => 'message', :id => 'message', :value => @email_params[:message] }
+        %input{ :type => 'hidden', :name => 'id', :id => 'id', :value => @email_params[:id] }
+        %input{ :type => 'hidden', :name => 'mollom_session', :id => 'mollom_session', :value => @captcha['session_id']}
+        %input{ :type => 'hidden', :name => 'carrier', :id => 'carrier', :value =>L @email_params[:carrier] }
+        %input#request-submit.btn.btn-danger(type='submit' name='submit' value='Submit')
