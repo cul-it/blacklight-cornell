@@ -24,7 +24,11 @@
         - location = unavailable.keys()[0]
         - callnumber = unavailable[location]
       - else
-        - location = multiple_locations
+        - if loc_count < 2
+          - location = entry['summary']['holdinglocs'][0]
+          - callnumber = entry['records'][0]['call_number']
+        -else
+          - location = multiple_locations
       %i{:class => 'fa fa-clock-o', :title => 'Available by request'}
     - else
       - location = entry['summary']['holdinglocs'][0]

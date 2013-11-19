@@ -5,6 +5,20 @@ class CatalogController < ApplicationController
   include BlacklightUnapi::ControllerExtension
 #  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
+  # Ensure that the configuration file is present
+  begin
+    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
+  rescue Errno::ENOENT
+    puts <<-eos
+
+    ******************************************************************************
+    Your search_apis.yml config file is missing.
+    See config/search_apis.yml.example
+    ******************************************************************************
+
+    eos
+  end
+
   # Tweak search param logic for default sort when browsing
   # Follow documentation in project wiki
   # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
@@ -502,4 +516,81 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
+
+  # Probably there's a better way to do this, but for now we'll make the mollom instance
+  # a class variable in order to maintain the connection across CAPTCHA 
+  # displays and repeated form submissions.
+  @@mollom = nil            
+  # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
+  # (in order to add Mollom/CAPTCHA integration)
+  def email
+
+    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+    captcha_ok = false
+
+    if request.post?
+
+      # First check to see whether we're here as the result of an attempt to solve a CAPTCHA
+      if params[:captcha_response]
+        @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
+        captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
+      end
+
+      # 
+      if params[:to]
+        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
+        result = nil  
+        # Check for valid email address
+        if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+          unless captcha_ok
+            # Create a new Mollom instance if necessary, then test the message content for spam
+            @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
+            # Mollom can sometimes fail ('can't get mollom server-list'), so we have to put this next part in a begin/rescue block
+            begin
+                result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
+                if result.ham?
+                    # Content is okay, we can proceed with the email
+                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+                elsif result.spam?
+                    # This is definite spam (according to Mollom)
+                    flash[:error] = 'Spam!'
+                end
+            rescue
+                # Mollom isn't working, so we'll have to just go ahead and mail the item
+                captcha_ok = true
+                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+            end
+          end
+        else
+          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+        end
+      else
+        flash[:error] = I18n.t('blacklight.email.errors.to.blank')
+      end
+
+      if !captcha_ok and (result.unsure? or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
+        @captcha = @@mollom.image_captcha
+        # Need to pass through the message form elements in order to retain them in the next POST (from CAPTCHA submission)
+        @email_params = { :to => params[:to], :message => params[:message], :id => params['id'][0] }
+        return render :partial => 'captcha'
+      elsif !flash[:error] 
+        # Don't have to show a CAPTCHA and there are no errors, so we can send the email
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+        email.deliver 
+        flash[:success] = "Email sent"
+        redirect_to catalog_path(params[:id]) unless request.xhr?
+      end
+
+    end  # request.post?
+
+    unless !request.xhr? && flash[:success]
+      respond_to do |format|
+        format.js { render :layout => false }
+        format.html
+      end
+    end
+
+  end
+
+
 end
