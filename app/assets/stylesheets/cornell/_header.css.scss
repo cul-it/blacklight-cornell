@@ -3,15 +3,15 @@ header {
   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
 	.container {
 		background: $dark-gray;
-    background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
-    background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
-    background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
-    background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
-    background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
+    // background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
+    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
+    // background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
+    // background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
+    // background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
+    // background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
+    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
     padding: 10px 0;
-    @include border-radius(6px 6px 0 0);
+    @include border-radius(3px 3px 0 0);
     -webkit-background-clip: padding-box;
     border: 1px solid $dark-gray;
     border-bottom: none;
@@ -62,8 +62,9 @@ ul.blacklight-nav {
     }
   	a {
     	display: block;
-    	padding: 5px 10px;
-    	color: $pale-gray;
+    	padding: 5px 15px;
+    	// color: $pale-gray;
+      color: #ccc;
     }
     a.user-email,
     a.logout {
@@ -79,9 +80,9 @@ ul.blacklight-nav {
     }
    	a:hover {
     	text-decoration: none;
-    	background: $medium-gray;
+    	// background: $medium-gray;
       color: $white;
-      @include border-radius(6px);
+      // @include border-radius(6px);
     }
     a.user-email:hover,
     a.logout:hover {
@@ -94,4 +95,26 @@ ul.blacklight-nav {
   float: left;
   margin-right: 1em;
   color: $light-gray;
+}
+
+.nav-global {
+  padding-right: 0;
+  text-align: right;
+  .nav { 
+    list-style: none;
+    float: right;
+    li { 
+      float: left;
+      font-size: 12px;
+      border-left: 1px solid $cornell-primary-hover; }
+    li:first-child { border-left: 0; }
+    a { 
+      margin: 0 8px;
+      padding: 0;
+      display: inline-block;
+      color: white; }
+    a:hover { 
+      text-decoration: underline;
+      background: inherit; }
+  } 
 }
