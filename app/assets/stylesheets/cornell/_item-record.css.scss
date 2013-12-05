@@ -152,10 +152,13 @@ dd.blacklight-notes {
 	.holding {
 		.call-number {
 			padding: 0 10px 5px 10px;
+			font-weight: 700;
 			font-size: .875em; }
 		.group {
-			padding: 0 10px 5px 10px;
-			font-size: .875em; }
+			padding: 5px 10px;
+			border-top: 1px dotted $tan;
+			font-size: .8em; }
+		// .status { margin-left: 15px; }
 	}
 	.map-it {
 		font-size: .75em;
@@ -191,7 +194,10 @@ dd.blacklight-notes {
 }
 .share-options { min-width: auto; }
 .message {
-	color: $medium-gray;
+	// color: $medium-gray;
+	// font-style: italic;
+	margin: 0 0 .25em 0;
+	line-height: 1.5em;
 }
 .online-link {
 	margin-bottom: .4em;
