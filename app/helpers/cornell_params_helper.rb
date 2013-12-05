@@ -3,6 +3,7 @@ module CornellParamsHelper
 
    def set_advanced_search_params(params)
          # Use :advanced_search param as trustworthy indicator of search type
+         removeBlanks(params)
          counter = test_size_param_array(params[:q_row])
          if counter > 1
             query_string = massage_params(params)
@@ -334,5 +335,39 @@ module CornellParamsHelper
     return countit
   end
 
+ def removeBlanks(params)
+     queryRowArray = params[:q_row]
+     booleanRowArray = params[:boolean_row]
+     subjectFieldArray = params[:search_field_row]
+     opRowArray = params[:op_row]
+     qrowSize = params[:q_row].count
+     for i in 2..qrowSize - 1
+       n = i.to_s
+       if queryRowArray[i] == ""
+         params[:q_row].delete_at(i)
+         params[:op_row].delete_at(i)
+         params[:search_field_row].delete_at(i)
+         j = i+1
+         nextKey = j.to_s
+         onemore = ""
+         if params[:boolean_row].has_key?(nextKey.to_sym)
+           Rails.logger.info("Paspartoo = #{params[:boolean_row]}")
+           for k in i..qrowSize - 2
+             l = k.to_s
+             m = k + 1
+             onemore = m.to_s
+             params[:boolean_row][l.to_sym] = params[:boolean_row][onemore.to_sym]
+           end
+           params[:boolean_row].delete(onemore.to_sym)                       
+         else
+           params[:boolean_row].delete(n.to_sym)
+         end
+       end
+     end
+     finalcheck = params[:q_row].count.to_s
+     if params[:boolean_row].has_key?(finalcheck.to_sym)
+       params[:boolean_row].delete(finalcheck.to_sym)       
+     end
+ end
 
 end
