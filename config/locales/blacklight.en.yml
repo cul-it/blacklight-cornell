@@ -37,7 +37,7 @@ en:
       collection:
         add:
           button: 'Add to selected items'
-      title: 'Selected items'
+      title: 'Selected Items'
       no_bookmarks: 'You have no selected items.'
       add:
         button: 'Select'
@@ -93,7 +93,7 @@ en:
         action_confirm: 'Clear your search history?'
         success: 'Your search history has been cleared.'
         failure: 'There was a problem clearing your search history.'
-      title: 'Search history'
+      title: 'Search History'
       no_history: 'You have no search history.'
       recent: 'Your recent searches'
       forget: 'forget'
