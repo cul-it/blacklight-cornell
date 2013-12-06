@@ -25,9 +25,9 @@ en:
     header_links:
       login: 'Log in'
       logout: 'Log out'
-      bookmarks: 'Selected items'
+      bookmarks: 'Selected Items'
       saved_searches: 'Saved searches'
-      search_history: 'Search history'
+      search_history: 'Search History'
 
     welcome: 'Welcome!'
     and: 'and'
