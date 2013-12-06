@@ -351,7 +351,6 @@ module CornellParamsHelper
          nextKey = j.to_s
          onemore = ""
          if params[:boolean_row].has_key?(nextKey.to_sym)
-           Rails.logger.info("Paspartoo = #{params[:boolean_row]}")
            for k in i..qrowSize - 2
              l = k.to_s
              m = k + 1
