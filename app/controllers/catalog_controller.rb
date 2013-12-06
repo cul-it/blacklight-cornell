@@ -248,7 +248,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
     config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 5
-    config.add_facet_field 'location_facet', :label => 'Library location', :limit => 5
+    config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     # config.add_facet_field 'facet', :multiple => true
     # config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
