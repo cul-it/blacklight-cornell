@@ -8,7 +8,7 @@
             <div class="search-options span6">
               <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
                 <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
-                <%= link_to 'Advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
+                <%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
             </div>
 
             <% unless search_fields.empty? %>
@@ -43,7 +43,7 @@
       <% end %>
 
       <% if params[:q_row].present? %>
-        <h2 class="advanced-search">Advanced search</h2>
+        <h2 class="advanced-search">Advanced Search</h2>
       <% end %>
 
       <%= render :partial => "constraints" %>
