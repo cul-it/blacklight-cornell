@@ -235,7 +235,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'online', :label => 'Access', :limit => 2
     config.add_facet_field 'format', :label => 'Format', :limit => 10
     config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
-    config.add_facet_field 'pub_date_facet', :label => 'Publication year', :range => {
+    config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
       :segments => true,
@@ -246,8 +246,8 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
     config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
     config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
-    config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-fiction', :limit => 5
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call number', :limit => 5
+    config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
+    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 5
     config.add_facet_field 'location_facet', :label => 'Library location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     # config.add_facet_field 'facet', :multiple => true
