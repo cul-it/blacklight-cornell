@@ -29,9 +29,9 @@
         <%= hidden_field_tag("search_field", "dummy_range") %>
       <% end %>
 
-      <label for="range[pub_date_facet][begin]" class="hide-text">Begin</label>
+      <label for="range_pub_date_facet_begin" class="hide-text">Begin</label>
       <%= render_range_input(solr_field, :begin) %> - 
-      <label for="range[pub_date_facet][end]" class="hide-text">End</label>
+      <label for="range_pub_date_facet_end" class="hide-text">End</label>
       <%= render_range_input(solr_field, :end) %>
       <%= submit_tag 'Limit', :class=>'submit btn' %>
     
