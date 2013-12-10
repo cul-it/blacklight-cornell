@@ -39,7 +39,6 @@ module CornellParamsHelper
              params["action"] = "index"
              params["controller"] = "catalog"
        else
-#            search_session = {}
             params.delete(:advanced_search)
             params.delete("advanced_query")
             query_string = parse_single(params)
@@ -58,8 +57,6 @@ module CornellParamsHelper
              params["commit"] = "Search"
              params["action"] = "index"
              params["controller"] = "catalog"
-#             params[:search_field] = 
-#             params["search_field"] = "Sippy"
        end
      return query_string
   end
