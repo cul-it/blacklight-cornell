@@ -338,7 +338,7 @@ module CornellParamsHelper
      subjectFieldArray = params[:search_field_row]
      opRowArray = params[:op_row]
      qrowSize = params[:q_row].count
-     for i in 2..qrowSize - 1
+     for i in 1..qrowSize - 1
        n = i.to_s
        if queryRowArray[i] == ""
          params[:q_row].delete_at(i)
