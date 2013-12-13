@@ -309,7 +309,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'subject_display', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
-    config.add_show_field 'isbn_t', :label => 'ISBN'
+    #config.add_show_field 'isbn_t', :label => 'ISBN'
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
