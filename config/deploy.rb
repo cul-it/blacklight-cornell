@@ -56,7 +56,8 @@ task :allmigrate, :roles => :db  do
       when :latest  then latest_release
       else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
       end
-
+ 
+    run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} #{migrate_env} blacklight_cornell_requests:install:migrations"
     run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate"
 end
 
