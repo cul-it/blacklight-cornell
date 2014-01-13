@@ -56,7 +56,8 @@ task :allmigrate, :roles => :db  do
       when :latest  then latest_release
       else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
       end
-
+ 
+    #run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} #{migrate_env} blacklight_cornell_requests:install:migrations"
     run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate"
 end
 
@@ -110,8 +111,14 @@ task :install_api_keys_yml, :roles => [ :app, :db, :web ] do
         run "cp #{deploy_to}/config/search_apis.yml #{latest_release}/config/search_apis.yml" 
 end
 
+desc "Install newrelic file -- too sensitive for git"
+task :install_new_relic_yml, :roles => [ :app, :db, :web ] do
+        run "cat #{deploy_to}/../common/config/newrelic.yml > #{release_path}/config/newrelic.yml" 
+end
+
 #after :deploy, "fix_file_permissions"
 after :deploy, "install_puppet_db_yml"
+after :deploy, "install_new_relic_yml"
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end
