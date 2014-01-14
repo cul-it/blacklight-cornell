@@ -16,10 +16,11 @@ header {
  //    border: 1px solid $dark-gray;
  //    border-bottom: none;
  // 	}
- background: $pale-gray;
+  background: white;
+  border-bottom: 1px solid $tan;
  	h1 {
-    margin: 10px 0;
-    font-weight: normal;
+    margin: 15px 0;
+    // font-weight: normal;
     line-height: 1em;
     font-size: 1.75em;
   	a { color: $dark-gray; }
@@ -28,6 +29,9 @@ header {
       text-decoration: none;
     }
   }
+}
+#sticky-header-wrapper {
+  border-bottom: 1px solid $tan;
 }
 
 .affix {
@@ -56,7 +60,7 @@ header {
 
 ul.blacklight-nav {
   	font-size: 0.75em;
-  	margin: 5px 0 0 0;
+  	margin: 20px 0 0 0;
   	list-style: none;
     float: right;
   	li {
