@@ -36,6 +36,24 @@ ActiveRecord::Schema.define(:version => 20131217154546) do
     t.string   "user_type"
   end
 
+  create_table "models", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "models", ["email"], :name => "index_models_on_email", :unique => true
+  add_index "models", ["reset_password_token"], :name => "index_models_on_reset_password_token", :unique => true
+
   create_table "searches", :force => true do |t|
     t.text     "query_params"
     t.integer  "user_id"
@@ -47,10 +65,10 @@ ActiveRecord::Schema.define(:version => 20131217154546) do
   add_index "searches", ["user_id"], :name => "index_searches_on_user_id"
 
   create_table "sessions", :force => true do |t|
-    t.string   "session_id", :null => false
-    t.text     "data"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "session_id",                       :null => false
+    t.text     "data",       :limit => 2147483647
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
