@@ -1,39 +1,44 @@
 header {
-	background: $cornell-primary;
-  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-	.container {
-		background: $dark-gray;
-    // background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
-    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
-    // background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
-    // background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
-    // background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
-    // background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
-    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
-    padding: 10px 0;
-    @include border-radius(3px 3px 0 0);
-    -webkit-background-clip: padding-box;
-    border: 1px solid $dark-gray;
-    border-bottom: none;
- 	}
+	// background: $cornell-primary;
+ //  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+	// .container {
+	// 	background: $dark-gray;
+ //    // background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
+ //    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
+ //    // background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
+ //    // background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
+ //    // background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
+ //    // background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
+ //    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
+ //    padding: 10px 0;
+ //    @include border-radius(3px 3px 0 0);
+ //    -webkit-background-clip: padding-box;
+ //    border: 1px solid $dark-gray;
+ //    border-bottom: none;
+ // 	}
+  background: white;
+  border-bottom: 1px solid $tan;
  	h1 {
-    margin: 0 1em;
-    font-weight: normal;
+    margin: 15px 0;
+    // font-weight: normal;
     line-height: 1em;
-    font-size: 1.5em;
-  	a { color: $white; }
+    font-size: 1.75em;
+  	a { color: $dark-gray; }
     a:hover {
-      color: $white;
+      color: $dark-gray;
       text-decoration: none;
     }
   }
+}
+#sticky-header-wrapper {
+  border-bottom: 1px solid $tan;
 }
 
 .affix {
     top:0px; 
     z-index: 2;
     width:100%;
-    background-color: $black
+    background-color: white;
   }
 
 .affix h2 {
@@ -55,17 +60,21 @@ header {
 
 ul.blacklight-nav {
   	font-size: 0.75em;
-  	margin: 0 20px 0 0;
+  	margin: 20px 0 0 0;
   	list-style: none;
     float: right;
   	li {
-    float: left;
+      float: left;
+      border-left: 1px solid #ccc
+    }
+    li:first-child {
+      border-left: none;
     }
   	a {
     	display: block;
-    	padding: 5px 15px;
+    	padding: 0 8px;
     	// color: $pale-gray;
-      color: #ccc;
+      // color: #ccc;
     }
     a.user-email,
     a.logout {
@@ -77,18 +86,18 @@ ul.blacklight-nav {
     }
     a.logout {
       font-size: .9em;
-      color: $light-gray;
+      // color: $light-gray;
     }
    	a:hover {
     	text-decoration: none;
     	// background: $medium-gray;
-      color: $white;
+      // color: $white;
       // @include border-radius(6px);
     }
     a.user-email:hover,
     a.logout:hover {
       background: none;
-      color: $cornell-primary;
+      // color: $cornell-primary;
     }
 }
 
@@ -118,4 +127,39 @@ ul.blacklight-nav {
       text-decoration: underline;
       background: inherit; }
   } 
+}
+
+// nav from main site
+
+.main-nav {
+  background: $cornell-primary;
+  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+  .container {
+    background: $dark-gray;
+    // background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
+    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
+    // background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
+    // background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
+    // background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
+    // background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
+    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
+    // padding: 10px 0;
+    @include border-radius(3px 3px 0 0);
+    -webkit-background-clip: padding-box;
+    border: 1px solid $dark-gray;
+    border-bottom: none;
+  }
+  .nav {
+    li {
+      font-size: .875em;
+      a {
+        padding: 14px 20px;
+        color: #ccc;
+        text-shadow: none;
+      }
+      a:hover {
+        color: white;
+      }
+    }
+  }
 }
