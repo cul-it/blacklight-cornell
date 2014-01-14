@@ -410,7 +410,9 @@ module DisplayHelper
     "Journal Article" => "article"
   }
 
-  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "clio", "ebooks", "article", "summon", "lweb"]
+# Following line needed for determin_formats method, replace with removed clio array element. See https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
+#  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "clio", "ebooks", "article", "summon", "lweb"]
+  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "summon", "lweb"]
 
   def format_online_results(urls)
     non_circ = image_tag("icons/noncirc.png", :class => :availability)
@@ -434,7 +436,8 @@ module DisplayHelper
     formats << "database" if @active_source == "Databases"
     case document
     when SolrDocument
-      formats << "clio"
+# Commenting out following line see https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
+#      formats << "clio"
 
       document["format"].listify.each do |format|
         formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
