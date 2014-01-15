@@ -130,10 +130,47 @@
 	// Nav from main site
 	//------------------------
 	.navbar-cul {
+		height: 45px;
 	  .container {
 	    background: $cornell-primary;
 	    text-align: center;
 	   }
+	}
+	// collapsed nav
+	.culnav-collapse {
+	  background: $dark-gray;
+	  margin-left: 10px;
+	  .nav {
+	  	margin-bottom: 0;
+	    li {
+	      a {
+	        -webkit-border-radius: 0;
+	        border-radius: 0;
+	        padding: 8px 10px;
+	        font-weight: normal;
+	        border-bottom: 1px solid #333;
+	        margin-bottom: 0;
+	        text-align: left;
+	      }
+	      a:hover,
+	      a:active {
+	        background: inherit;
+	        -webkit-border-radius: 0;
+	        border-radius: 0;
+	        color: white;
+	      }
+	    }
+	    .global-link {
+			float: left;
+			a { 
+				display: inline-block;
+				border-right: 1px solid #333;
+				padding: 8px 50px; }
+			}
+	  	.global-link:last-child {
+			a { border-right: 0; }
+	  	}
+	  }
 	}
 	// Branding and util links
 	//----------------------------
