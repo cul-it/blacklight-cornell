@@ -18,72 +18,9 @@
 	}
 	.input-xxlarge { width: 95%; }
 
-
-	// // Nav from main site
-	// // -- see also responsive-480px-max.scss --
-	// //-----------------------------------------
-	// .navbar-cul {
-	//   background: $cornell-primary;
-	//   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-	//   .container {
-	//     background: $dark-gray;
-	//     @include border-radius(3px 3px 0 0);
-	//     -webkit-background-clip: padding-box;
-	//   }
-	//   .nav {
-	//     li {
-	//       font-size: .875em;
-	//       a {
-	//         padding: 15px 20px;
-	//         color: #ccc;
-	//         text-shadow: none;
-	//       }
-	//       a:hover {
-	//         color: white;
-	//       }
-	//     }
-	//   }
-	// }
-	// .navbar-static-top {
-	//   margin-left: 0;
-	//   margin-right: 0;
-	// }
-	// .mobile-insignia { 
-	//   padding-top: 3px;
-	//   float: left; }
-	// .navbar-brand { 
-	//   color: white;
-	//   float: none;
-	//   margin: 0;
-	//   font-size: 16px;
-	//   padding: 12px 0 0; }
-	// .navbar-brand:hover { 
-	//   text-decoration: none;
-	//   color: white;
-	// }
-	// .navbar-header {
-	//   background: $cornell-primary;
-	//   // override bootstrap btn styles
-	//   .btn-navbar {
-	//     background: $cornell-primary;
-	//     margin: 0;
-	//     border: 0; 
-	//     border-radius: 0;
-	//     height: 45px;
-	//     -webkit-border-radius: 0;
-	//     border-radius: 0;
-	//     .icon-bar {
-	//       background: white;
-	//       -webkit-box-shadow: none;
-	//       box-shadow: none;
-	//     }
-	//   }
-	//   .btn-navbar:hover,
-	//   .btn-navbar:active { background: $cornell-primary-hover; }
-	// }
-
-
-
+	// Nav from main site
+	// -- see also responsive-480px-max.scss --
+	//-----------------------------------------
 	.navbar-cul {
 		// padding-left: 15px; 
 		// padding-right: 15px;
