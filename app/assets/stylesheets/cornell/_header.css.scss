@@ -19,7 +19,7 @@ header {
   background: white;
   border-bottom: 1px solid $tan;
  	h1 {
-    margin: 15px 0;
+    margin: 10px 0;
     // font-weight: normal;
     line-height: 1em;
     font-size: 1.75em;
@@ -60,7 +60,7 @@ header {
 
 ul.blacklight-nav {
   	font-size: 0.75em;
-  	margin: 20px 0 0 0;
+  	margin: 15px 0 0 0;
   	list-style: none;
     float: right;
   	li {
@@ -129,31 +129,22 @@ ul.blacklight-nav {
   } 
 }
 
-// nav from main site
-
-.main-nav {
+// Nav from main site
+// -- see also responsive-480px-max.scss --
+//-----------------------------------------
+.navbar-cul {
   background: $cornell-primary;
   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
   .container {
     background: $dark-gray;
-    // background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
-    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
-    // background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
-    // background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
-    // background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
-    // background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
-    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
-    // padding: 10px 0;
     @include border-radius(3px 3px 0 0);
     -webkit-background-clip: padding-box;
-    border: 1px solid $dark-gray;
-    border-bottom: none;
   }
   .nav {
     li {
       font-size: .875em;
       a {
-        padding: 14px 20px;
+        padding: 15px 20px;
         color: #ccc;
         text-shadow: none;
       }
@@ -162,4 +153,41 @@ ul.blacklight-nav {
       }
     }
   }
+}
+.navbar-static-top {
+  margin-left: 0;
+  margin-right: 0;
+}
+.mobile-insignia { 
+  padding-top: 3px;
+  float: left; }
+.navbar-brand { 
+  color: white;
+  float: none;
+  margin: 0;
+  font-size: 16px;
+  padding: 12px 0 0; }
+.navbar-brand:hover { 
+  text-decoration: none;
+  color: white;
+}
+.navbar-header {
+  background: $cornell-primary;
+  // override bootstrap btn styles
+  .btn-navbar {
+    background: $cornell-primary;
+    margin: 0;
+    border: 0; 
+    border-radius: 0;
+    height: 45px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    .icon-bar {
+      background: white;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+  .btn-navbar:hover,
+  .btn-navbar:active { background: $cornell-primary-hover; }
 }

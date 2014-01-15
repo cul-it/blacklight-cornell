@@ -5,10 +5,10 @@
   #facets.facets
     %p{:class => "hidden-phone"} Refine your results
     .navbar
-      %a{:class => "btn btn-navbar" , "data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+      %a{:class => "btn btn-navbar" , "data-toggle" => "collapse", "data-target" => ".facet-collapse"}
         Refine results
         %i{:class => "fa fa-bars"}
-      .nav-collapse.collapse
+      .nav-collapse.collapse.facet-collapse
         - populated_facets.each do |solr_fname|
           %div{:class => "blacklight-#{solr_fname.parameterize}"}
             - case solr_fname
