@@ -127,4 +127,25 @@
 	body.blacklight-advanced-index dl.dl-horizontal dd {
 		margin-left: 0;
 	}
+	// Nav from main site
+	//------------------------
+	.navbar-cul {
+	  .container {
+	    background: $cornell-primary;
+	    text-align: center;
+	   }
+	}
+	// Branding and util links
+	//----------------------------
+	header {
+		text-align: center;
+	}
+	ul.blacklight-nav {
+		margin-bottom: 6px;
+		li {
+			float: none;
+			display: inline;
+		}
+		a { display: inline; }
+	}
 }
