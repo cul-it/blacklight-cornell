@@ -895,10 +895,10 @@ module DisplayHelper
 
   # Display the Solr core for everything but production instance
   def render_solr_core
-    unless request.host == 'search.library.cornell.edu'
+    unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
       core = Blacklight.solr_config[:url]
-      # Find last occurence of forward slash and add one
-      start = core.rindex(/\//) + 1
+      # Remove http protocol string
+      start = core.rindex(/http:\/\//) + 7
       display = '<p>Solr core: ' + core[start..-1] + '</p>'
       display.html_safe
     end
