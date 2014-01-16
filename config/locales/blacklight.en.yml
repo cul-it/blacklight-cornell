@@ -157,7 +157,7 @@ en:
         carrier:
           blank: 'You must select a carrier.'
 
-    back_to_search: 'Back to search results'
+    back_to_search: 'Back to catalog results'
     back_to_bookmarks: 'Back to selected items'
     btn: 'btn'
 
