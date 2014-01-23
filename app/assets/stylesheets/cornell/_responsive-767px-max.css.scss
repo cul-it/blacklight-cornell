@@ -142,6 +142,9 @@
 	.culnav-collapse {
 	  background: $dark-gray;
 	  margin-left: 10px;
+	  // make sure collapse nav appears on top of export link DISCOVERYACCESS-999
+	  position: relative;
+	  z-index: 1000;
 	  .nav {
 	  	margin-bottom: 0;
 	    li {
