@@ -16,7 +16,7 @@ bookcovers =
       if (oclc)
         resultsOclc.push(oclc)
 
-    url = "http://books.google.com/books?bibkeys=#{resultsOclc}&jscmd=viewapi&callback=?"
+    url = "https://books.google.com/books?bibkeys=#{resultsOclc}&jscmd=viewapi&callback=?"
     $.getJSON url, {}, this.insertCoversOclc
 
   # Insert covers into the page using OCLC #
@@ -38,7 +38,7 @@ bookcovers =
       if (isbn)
         resultsIsbn.push(isbn)
 
-    url = "http://books.google.com/books?bibkeys=#{resultsIsbn}&jscmd=viewapi&callback=?"
+    url = "https://books.google.com/books?bibkeys=#{resultsIsbn}&jscmd=viewapi&callback=?"
     $.getJSON url, {}, this.insertCovers
 
   # Insert covers into the page
