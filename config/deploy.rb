@@ -100,6 +100,12 @@ task :tailor_holdings_config, :roles => [ :web ] do
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
+desc "Tailor solr config to local machine"
+task :tailor_solr_yml, :roles => [ :web ] do
+	run "sed -e s/da-prod-solr1.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/solr.rb  >#{deploy_to}/current/config/solr.yml"
+        run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+end
+
 desc "Copy api keys file -- too sensitive for git"
 task :copy_api_keys_yml, :roles => [ :app, :db, :web ] do
 	upload(ENV["HOME"] + "/blacklight-cornell/config/search_apis.yml","#{deploy_to}/shared/config/search_apis.yml")
@@ -118,6 +124,7 @@ end
 #after :deploy, "fix_file_permissions"
 after :deploy, "install_puppet_db_yml"
 after :deploy, "install_new_relic_yml"
+after :deploy, "tailor_solr_yml"
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end
