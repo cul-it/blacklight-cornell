@@ -1,21 +1,4 @@
 header {
-	// background: $cornell-primary;
- //  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-	// .container {
-	// 	background: $dark-gray;
- //    // background: -moz-linear-gradient(top,  #333333 0%, #000000 100%);
- //    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000));
- //    // background: -webkit-linear-gradient(top,  #333333 0%,#000000 100%);
- //    // background: -o-linear-gradient(top,  #333333 0%,#000000 100%);
- //    // background: -ms-linear-gradient(top,  #333333 0%,#000000 100%);
- //    // background: linear-gradient(to bottom,  #333333 0%,#000000 100%);
- //    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000',GradientType=0 );
- //    padding: 10px 0;
- //    @include border-radius(3px 3px 0 0);
- //    -webkit-background-clip: padding-box;
- //    border: 1px solid $dark-gray;
- //    border-bottom: none;
- // 	}
   background: white;
   border-bottom: 1px solid $tan;
  	h1 {
@@ -47,27 +30,6 @@ header {
     }
   }
 }
-#sticky-header-wrapper {
-  border-bottom: 1px solid $tan;
-}
-
-.affix {
-    top:0px; 
-    z-index: 2;
-    width:100%;
-    background-color: white;
-  }
-
-.affix h2 {
-    display:none;
-  }
-.affix .container {
-    padding:0px;
-    position:relative;
-    top:0px;
-  }
-.sticky-container {
-  }
 
 .beta {
   margin-left: .2em;
