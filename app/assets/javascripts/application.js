@@ -21,7 +21,7 @@
 //= require 'blacklight_range_limit'
 
 //= require jquery_ujs
-//
+//= require jquery-ui
 //= require bootstrap
 //
 // Required by Blacklight
