@@ -3,7 +3,7 @@
   $(document).ready(function() {
 
     $('#q').autocomplete({
-      source: 'http://mjc12-dev.library.cornell.edu:8080/match' + $('#q').val(),
+      source: 'http://mjc12-dev.library.cornell.edu:8080/match/' + $('#q').val(),
       minLength: 2,
       select: function(event, ui) {
         var url = ui.item.url;
