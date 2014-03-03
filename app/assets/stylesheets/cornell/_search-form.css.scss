@@ -61,10 +61,8 @@ div.search-tools > h2 {line-height: 1em}
   padding: 10px;
   background: white;
   @include border-radius($borderRadiusLarge);
-  // float: right;
   h4 {
-    // text-transform: uppercase;
-    font-size: .75em;
+    font-size: 1em;
     margin: 0 0 .5em; }
   ul {
     margin-left: 0;
@@ -74,20 +72,5 @@ div.search-tools > h2 {line-height: 1em}
     font-size: .75em;
     margin-bottom: .25em; }
 }
-// .expand-results {
-//   padding: 0 0 0 10px;
-//   border-left: 1px solid $tan;
-//   float: right;
-//   h4 {
-//     text-transform: uppercase;
-//     font-size: .75em;
-//     margin: 0 0 .5em; }
-//   ul {
-//     margin-left: 0;
-//     list-style: none; }
-//   li {
-//     font-size: .75em;
-//     margin-bottom: .25em; }
-// }
 h2.advanced-search { margin: 0; }
 .advanced-facets { margin-bottom: 10px; }
