@@ -7,8 +7,6 @@ utils =
   bindEventListener: () ->
     $('.hierarchical').hover ->
       utils.toggleHierarchy(this)
-    $(window).resize () ->
-      utils.measureHeader()
 
   # Add class to mimic anchor hover state for ancestors in hierarchy
   toggleHierarchy: (activeLink) ->
