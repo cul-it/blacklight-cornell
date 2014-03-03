@@ -2,6 +2,7 @@
 (function ($) {
   $(document).ready(function() {
 
+    if ($('#q').length) {
     $('#q').autocomplete({
       source: 'http://mjc12-dev.library.cornell.edu:8080/match/' + $('#q').val(),
       minLength: 2,
@@ -22,6 +23,6 @@
         .append()
         .appendTo(ul);
     }
-
+  }
   });
 })(jQuery);
