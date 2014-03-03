@@ -21,8 +21,9 @@
 //= require 'blacklight_range_limit'
 
 //= require jquery_ujs
-//
-//= require bootstrap
+//= require jquery-ui
+//= require bootstrap-tooltip
+//= require bootstrap-dropdown
 //
 // Required by Blacklight
 //= require blacklight/blacklight
