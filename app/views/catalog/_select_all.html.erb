@@ -1,17 +1,26 @@
 <div class="pull-right hidden-phone select-all">
-   	<form>
-    	<label class="toggle_bookmark checkbox" for="select_all">
+	<% params[:_method] = "POST" %>
+<!--	 <a href="/bookmarks/all" class="bookmark_toggle_all" data-confirm="Clear your selected items?" data-method="all" rel="nofollow">     		<span>Select all</span>
+</a> --> 
+  	<form accept-charset="UTF-8" action="/bookmarks" class="bookmark_toggle_all" data-method="all" rel="nofollow" method="post">
+    	<label class="bookmark_toggle_all checkbox" for="select_all">
     		<input type="checkbox" id="select_all">
-    		<span>Select all</span>
+            <input name="utf8" type="hidden" value="&#x2713;" />
+            <%= hidden_field_tag "num_rows", @response.rows %>
+			<% @response.docs.each do |doc| %>
+    			<%= hidden_field_tag "doc_ids[]", doc[:id] %>
+			<% end %>            
+            <input name="authenticity_token" type="hidden" value="1RQdxCbyPs5Ng5KHgN3YgsdTNGsc3mmGzujIEitW4ng=" />    		
+<!--   		<span>Select all</span> -->
     	</label>
-	</form>
+
+</form> 
 </div>
 
 
-<!--SELECT ITEM MARKUP
-	<div class="select-item">
-      <form accept-charset="UTF-8" action="/bookmarks/1489006" class="bookmark_toggle" data-doc-id="1489006" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="1RQdxCbyPs5Ng5KHgN3YgsdTNGsc3mmGzujIEitW4ng=" /></div>   
-        <input class="bookmark_add" id="bookmark_toggle_1489006" name="commit" type="submit" value="Select" />
+<!-- SELECT ITEM MARKUP 
+	<div class="select-all">
+      <form accept-charset="UTF-8" action="/bookmarks" class="bookmark_toggle" data-doc-id="1489006" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="1RQdxCbyPs5Ng5KHgN3YgsdTNGsc3mmGzujIEitW4ng=" /></div>   
+        <input class="bookmark_add" id="bookmark_toggle" name="commit" type="submit" value="Select all" />
 </form>  
-</div>
--->
+</div>  -->

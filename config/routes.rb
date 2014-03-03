@@ -18,7 +18,6 @@ BlacklightCornell::Application.routes.draw do
   match 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
   
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

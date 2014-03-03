@@ -29,6 +29,7 @@ class BookmarksController < CatalogController
   end
 
   def update
+    Rails.logger.info("BOOGITY62 = #{params}")
     create
   end
   
@@ -65,28 +66,66 @@ class BookmarksController < CatalogController
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler. 
   def create
-    if params[:bookmarks]
-      @bookmarks = params[:bookmarks]
-    else
-      @bookmarks = [{ :document_id => params[:id] }]
-    end
-
-    current_or_guest_user.save! unless current_or_guest_user.persisted?
-
-    success = @bookmarks.all? do |bookmark|
-      current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
-    end
-
-    if request.xhr?
-      success ? head(:no_content) : render(:text => "", :status => "500")
-    else
-      if @bookmarks.length > 0 && success
-        flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
-      elsif @bookmarks.length > 0
-        flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+    Rails.logger.info("BOOGITY33 = #{params}")
+    Rails.logger.info("BOOGITY4 = YAYS14!")
+    num_rows = 0
+    if params[:num_rows]
+      num_rows = params[:num_rows].to_i
+      if params[:doc_ids]
+        if params[:doc_ids].length < num_rows
+          num_rows = params[:doc_ids].length
+        end
+        @bookmarks = ""
+        for i in 0..num_rows - 1
+         Rails.logger.info("BOOGITY44 = #{@bookmarks}") 
+#         @bookmarks = {"document_id" => params[:doc_ids][i].to_i}
+         @bookmarks = [:document_id => params[:doc_ids][i]]
+         current_or_guest_user.save! unless current_or_guest_user.persisted?
+      
+         success = @bookmarks.each do |bookmark|
+          Rails.logger.info("BOOKWORM = #{bookmark}")
+          current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
+         end
+        end
+        
+        if request.xhr?
+          success ? head(:no_content) : render(:text => "", :status => "500")
+        else
+          if @bookmarks.length > 0 && success
+            flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
+          elsif @bookmarks.length > 0
+            flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+          end
+          params.delete :num_rows
+          params.delete :doc_ids
+          redirect_to :back
+        end 
       end
-
-      redirect_to :back
+    else   
+      if params[:bookmarks]
+        @bookmarks = params[:bookmarks]
+      elseif params[:doc_ids] or !params[:bookmarks]
+        @bookmarks = [{ :document_id => params[:id] }]
+      end
+  
+      current_or_guest_user.save! unless current_or_guest_user.persisted?
+  
+      success = @bookmarks.all? do |bookmark|
+        Rails.logger.info("BOOKWORM = #{bookmark.inspect}")
+        current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
+      end
+  
+      if request.xhr?
+        success ? head(:no_content) : render(:text => "", :status => "500")
+      else
+        if @bookmarks.length > 0 && success
+          flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
+        elsif @bookmarks.length > 0
+          flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+        end
+  
+        redirect_to :back
+      end
     end
   end
   
@@ -117,6 +156,10 @@ class BookmarksController < CatalogController
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure') 
     end
     redirect_to :action => "index"
+  end
+  
+  def all
+    
   end
   
   protected
