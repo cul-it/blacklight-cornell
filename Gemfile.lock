@@ -1,6 +1,6 @@
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_advanced_search.git
-  revision: c1a615be6b484ffc18b6257bd58ba725e81df604
+  revision: 048f0533d240f56b285084272b02f7620aa8ea5b
   branch: master
   specs:
     blacklight_cornell_advanced_search (2.1.1)
@@ -114,7 +114,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    confstruct (0.2.5)
+    confstruct (0.2.7)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     cucumber (1.3.11)
@@ -153,7 +153,7 @@ GEM
       lumberjack (~> 1.0)
       pry (>= 0.9.12)
       thor (>= 0.18.1)
-    guard-rspec (4.2.7)
+    guard-rspec (4.2.8)
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
     guard-spork (0.3.2)
@@ -183,7 +183,7 @@ GEM
     libnotify (0.8.2)
       ffi (>= 1.0.11)
     libv8 (3.3.10.4)
-    listen (2.6.2)
+    listen (2.7.0)
       celluloid (>= 0.15.2)
       celluloid-io (>= 0.15.0)
       rb-fsevent (>= 0.9.3)
@@ -199,7 +199,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.5.2)
     mollom (0.2.3)
-    multi_json (1.8.4)
+    multi_json (1.9.0)
     multi_test (0.0.3)
     mysql (2.8.1)
     net-ldap (0.3.1)
@@ -210,7 +210,7 @@ GEM
     net-ssh (2.8.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    newrelic_rpm (3.7.2.195)
+    newrelic_rpm (3.7.3.199)
     nio4r (1.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
