@@ -52,9 +52,9 @@ selectedItems =
             currentCount = 0
 
           if toggleState
-            newCount = currentCount + (parseInt($("input[type=checkbox]").length) - parseInt($("input[type=checkbox]:checked").length)) - 1 
+            newCount = currentCount + (parseInt($("input[type=checkbox]").length) - parseInt($("input[type=checkbox]:checked").length))  
           else if currentCount > 0
-            newCount = currentCount - parseInt($("input[type=checkbox]").length) + 2 #parseInt($("input[type=checkbox]:checked").length) 
+            newCount = currentCount - parseInt($("input[type=checkbox]").length) + 1 #parseInt($("input[type=checkbox]:checked").length) 
 #  #        if($("input[type=checkbox]:checked").length > 0)
 #  #          alert("testing1 " + $("input[type=checkbox]").length);
 #  #          return true;
