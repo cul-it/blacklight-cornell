@@ -7,14 +7,12 @@
   -%>
   <% unless existing_bookmark %>
       <%= form_tag( bookmark_path( document ), :method => :put, :class => "list_toggle", "data-doc-id" => document.id) do %>
-      <%= print "some text" %>
         <%= submit_tag(t('blacklight.bookmarks.add.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add") %>
       <% end %>
 
   <% else %>
 
       <%= form_tag( bookmark_path( document ), :method => :delete, :class => "list_toggle", "data-doc-id" => document.id) do %>
-      <%= print "some text" %>
         <%= submit_tag(t('blacklight.bookmarks.remove.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove") %>
       <% end %>
 
