@@ -1,6 +1,6 @@
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_advanced_search.git
-  revision: 5f50cada2f16ea39f327364b316de4efc7df0519
+  revision: ec4f15d0460cd9dab49985b8eeb7b43ca7e18a88
   branch: master
   specs:
     blacklight_cornell_advanced_search (2.1.1)
