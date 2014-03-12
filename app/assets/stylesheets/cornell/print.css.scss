@@ -1,3 +1,6 @@
+@import 'font-awesome';
+
+
 // Hide this stuff
 
 #skiptocontent,
@@ -8,11 +11,14 @@
 .search-home,
 .blacklight-nav,
 .facets,
-.search-tools,
+.search-tools .search-form,
 .expand-search,
 .results-info .dropdown,
 .select-all,
-.select-item {
+.select-item,
+.top-content-title,
+.return-link,
+.item-tools {
 	display: none;
 }
 
@@ -64,6 +70,9 @@ body.blacklight-bookmarks-index .document {
 		height: 75px;
 	}
 }
+.document {
+	.iconcover, .bookcover { display: none; } // hides covers on results
+}
 .document-data {
 	float: left;
 	width: 89%;
@@ -92,20 +101,26 @@ body.blacklight-bookmarks-index .document {
 		line-height: 1em;
 	}
 }
-.iconcover,
-.bookcover {
-	float: left; 
-	width: 58px; 
-	margin-right: 1em; 
-	height: 83px;
-	text-align: center;
-	i { 
-		font-size: 1.75em;
-		margin-left: 4px;
-		position: relative;
-		top: -60px; }
+.blacklight-title_display {
+	margin: 0;
+	font-weight: normal;
+	line-height: 1.2em;
+	font-size: 1.1em;
 }
-.bookcover { display: block; }
+// .iconcover,
+// .bookcover {
+// 	float: left; 
+// 	width: 58px; 
+// 	margin-right: 1em; 
+// 	height: 83px;
+// 	text-align: center;
+// 	i { 
+// 		font-size: 1.75em;
+// 		margin-left: 4px;
+// 		position: relative;
+// 		top: -60px; }
+// }
+// .bookcover { display: block; }
 
 // Bring in some Bootstrap stuff
 .img-polaroid {
@@ -138,6 +153,28 @@ body.blacklight-bookmarks-index .document {
   	clear: both;
 }
 
+// Item page
+.cover {
+	float: left;
+	margin-bottom: 1.5em;
+	width: 170px;
+	.iconcover {
+		width: 100%;
+		i {
+			font-size: 3em;
+			margin-left: 0;
+			top: -130px; }
+	}
+}
+.location { 
+	font-size: 1em;
+	margin-bottom: 0;
+}
+// .item-metadata {
+// 	float: left;
+// 	width: 970px;
+// }
+// .blacklight-book { clear: both; }
 
 
 	// // HEADER
