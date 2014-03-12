@@ -124,15 +124,15 @@ footer {
 // .bookcover { display: block; }
 
 // Bring in some Bootstrap stuff
-// .img-polaroid {
-//   	padding: 4px;
-//   	background-color: #fff;
-//   	border: 1px solid #ccc;
-//   	border: 1px solid rgba(0, 0, 0, 0.2);
-//   	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-//   	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-//   	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-// }
+.img-polaroid {
+  	padding: 4px;
+  	background-color: #fff;
+  	border: 1px solid #ccc;
+  	border: 1px solid rgba(0, 0, 0, 0.2);
+  	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
 // .clearfix, 
 // .no-js #sortAndPerPage, 
 // .facet_pagination {
@@ -155,18 +155,19 @@ footer {
 // }
 
 // Item page
-.cover {
+// .cover {
+// 	float: left;
+// 	margin-bottom: 1.5em;
+// 	width: 170px;
+	
+// }
+.bookcover {
 	float: left;
-	margin-bottom: 1.5em;
 	width: 170px;
-	.iconcover {
-		width: 100%;
-		i {
-			font-size: 3em;
-			margin-left: 0;
-			top: -130px; }
-	}
+	margin-bottom: 1.5em;
+	margin-right: 20px;
 }
+.iconcover { display: none; }
 .location { 
 	font-size: 1em;
 	margin-bottom: 0;
