@@ -429,18 +429,33 @@ module BlacklightCornellRequests
             locations[loc[:number].to_s] = loc[:name]
           end
         end if document[:holdings_record_display]
-        
         holdings.each do |holding|
           holding[:status] = item_status statuses[holding['item_id'].to_s]
           holding[:call_number] = item_status call_numbers[holding['item_id'].to_s]
           location = holding[:perm_location]
-          if holding[:temp_location].to_s == '0'
+          if location.is_a?(Hash)
+            location = location['number'].to_s 
+          end
+          if holding[:temp_location].is_a?(Hash)
+            temp_location_s = holding[:temp_location]['number'].to_s 
+            temp_location =  holding[:temp_location]
+          else 
+            temp_location_s = holding[:temp_location]
+          end
+
+          #if holding[:temp_location].to_s == '0'
+          if temp_location_s == '0'
             # use holdings location
             holding[:location] = locations[holding[:perm_location].to_s]
           else
             # use temp location
-            tempLocJSON = parseJSON holding[:temp_location]
-            holding[:location] = tempLocJSON[:name]
+            #tempLocJSON = parseJSON holding[:temp_location]
+            if temp_location.is_a?(Hash)
+              tempLocJSON = temp_location 
+              holding[:location] = tempLocJSON[:name]
+            else
+             Rails.logger.warn "#{__FILE__}:#{__LINE__} Cannot use temp location (not a hash) Your solr database is not up to date.: #{temp_location.inspect}"
+            end
           end
           
           # Rails.logger.info "sk274_log: holding: #{holding.inspect}"
@@ -448,7 +463,7 @@ module BlacklightCornellRequests
           exclude_location_list = Array.new
           
           if location_seen[location] == 1
-            circ_group_id = Circ_policy_locs.select('circ_group_id').where( 'location_id' =>  location['number'] )
+            circ_group_id = Circ_policy_locs.select('circ_group_id').where( 'location_id' =>  location )
             
             ## handle exceptions
             ## group id 3  - Olin
