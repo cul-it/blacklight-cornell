@@ -10,7 +10,7 @@ Then /^the '(.*?)' facet (should|should not) be open$/ do |facet, yesno|
   facet = facet_to(facet)
   within('div.facets') do
 
-  	if (facet == 'blacklight-pub_date')
+  	if (facet == 'blacklight-pub_date_facet')
   	  if (yesno == 'should')
 	   	page.should have_css("div.#{facet} div.limit_content", :visible => true)
 	  else

@@ -121,6 +121,12 @@ form.range_limit {
 	width: 89% !important;
 }
 .hover_legend { padding: 0; }
+// add a little space above the unknown value in pub year facet
+.blacklight-pub_date_facet {
+	.missing.subsection {
+		margin-top: 20px;
+	}
+}
 
 // SELECTED FACETS
 

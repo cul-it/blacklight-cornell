@@ -13,7 +13,7 @@ end
 # end
 
 Then /^I should see a "([^\"]*)" button$/ do |label|
-  page.should have_selector('button#search')
+  page.should have_selector('input#search')
 end
 
 Given /^I select '(.*?)' from the '(.*?)' drop\-down$/ do |option, menu|
@@ -80,17 +80,19 @@ end
 # end
 
 Then /^I should see an RSS discovery link/ do
-  page.should have_selector("link[rel=alternate][type='application/rss+xml']")
+ page.should have_selector("link[rel='alternate'][type='application/rss+xml']",visible:false)
+ #page.body.should have_xpath("//link",visible:false)
+ #page.should have_xpath("//link[@rel='alternate' and @type='application/rss+xml']",visible:false)
 end
 
 Then /^I should see an Atom discovery link/ do
-  page.should have_selector("link[rel=alternate][type='application/atom+xml']")
+  page.should have_selector("link[rel=alternate][type='application/atom+xml']",visible:false)
 end
 
 Then /^I should see OpenSearch response metadata tags/ do
-  page.should have_selector("meta[name=totalResults]")
-  page.should have_selector("meta[name=startIndex]")
-  page.should have_selector("meta[name=itemsPerPage]")
+  page.should have_selector("meta[name=totalResults]",visible:false)
+  page.should have_selector("meta[name=startIndex]",visible:false)
+  page.should have_selector("meta[name=itemsPerPage]",visible:false)
 end
 
 # Then /^I should see the applied filter "([^\"]*)" with the value
