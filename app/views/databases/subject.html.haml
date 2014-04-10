@@ -1,0 +1,13 @@
+= render :partial => 'database_search' 
+- @anthropology.each do |data|
+	%div.document.blacklight-database-name.clearfix
+		%div.document-data
+			%h4.blacklight-title_display
+				=data["title_display"]
+				%span.label.label-danger
+					Core Resource
+			%div.description
+			%div.terms
+				TERMS PLACEHOLDER | 
+				= link_to 'Terms of Use','/databases/subject'
+

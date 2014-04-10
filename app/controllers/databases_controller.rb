@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class DatabasesController < ApplicationController
   
-  def index
+  def subject
      clnt = HTTPClient.new
      @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
        @anthropologyResponse = eval(@anthroString)
@@ -15,7 +15,7 @@ class DatabasesController < ApplicationController
       @libinfosciString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22library+and+information+science+%28core%29%22&wt=ruby&indent=true")
        @libinfosciResponse = eval(@libinfosciString)
        @libinfosci = @libinfosciResponse['response']['docs']
-       
+
     end
   
 end
