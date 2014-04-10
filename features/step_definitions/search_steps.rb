@@ -67,7 +67,7 @@ end
 # end
 
 Then /^I should get results$/ do
-  page.should have_selector("div.document")
+  page.should have_selector(".document")
 end
 
 Then /^I should not get results$/ do
