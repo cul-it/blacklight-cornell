@@ -4,6 +4,7 @@ Feature: Item view
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
 
+  @availability
   Scenario: View an items holdings
   	Given I request the item view for 4759
   	Then I should see the label 'Request'
