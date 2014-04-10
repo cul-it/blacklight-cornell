@@ -54,7 +54,7 @@ module NavigationHelpers
     when /^edition$/
       '.blacklight-edition_display'
     when /^notes$/
-      '.blacklight-notes_display'
+      '.blacklight-notes'
     when /^pub_info$/
       '.blacklight-pub_info_display'
     when /^subject$/
@@ -62,7 +62,7 @@ module NavigationHelpers
     when /^title$/
       '.blacklight-title_display'
     else
-      ''
+      "#{field_name} did not match a field name in field_to"
     end
   end
 
@@ -71,20 +71,20 @@ module NavigationHelpers
 
     when /^format$/
        'blacklight-format'
-    when /^topic$/
+    when /.*genre$/
        'blacklight-subject_topic_facet'
     when /^language$/
        'blacklight-language_facet'
     when /^call number$/
        'blacklight-lc_1letter_facet'
-    when /^region$/
+    when /.*region$/
        'blacklight-subject_geo_facet'
-    when /^era$/
+    when /.*era$/
        'blacklight-subject_era_facet'
     when /^location$/
        'blacklight-location_facet'
     when /^publication year$/
-       'blacklight-pub_date'
+       'blacklight-pub_date_facet'
     end
   end
 
