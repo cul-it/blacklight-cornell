@@ -1,13 +1,23 @@
 = render :partial => 'database_search' 
-- @anthropology.each do |data|
-	%div.document.blacklight-database-name.clearfix
-		%div.document-data
-			%h4.blacklight-title_display
-				=data["fulltitle_display"]
-				%span.label.label-danger
-					Core Resource
-			%div.description
-			%div.terms
-				TERMS PLACEHOLDER | 
-				= link_to 'Terms of Use','/databases/subject'
+.resources
+	.row
+		.page-title.span9
+			%h2
+				Subject Title
+	- @anthropology.each do |data|
+
+		%div.document.blacklight-database-name.clearfix
+			%div.document-data
+				%h4.blacklight-title_display
+					%a
+						=data["fulltitle_display"]
+						%i.fa.fa-external-link
+					%span.label.label-important
+						Core Resource
+				%div.description
+					=data["summary_display"]
+
+				%div.terms
+					TERMS PLACEHOLDER | 
+					= link_to 'Terms of Use','/databases/subject'
 
