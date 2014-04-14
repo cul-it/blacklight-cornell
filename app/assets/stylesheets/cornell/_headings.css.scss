@@ -1,0 +1,47 @@
+// Headings list view
+// ------------------------------------------
+
+body.blacklight-headings-index {
+	.headings-list {
+		margin: 20px 0;
+	}
+	.headings-header {
+		font-size: .75em;
+		text-transform: uppercase;
+		font-weight: 700;
+		border-bottom: 1px solid $light-tan;
+		margin-bottom: 10px;
+	}
+	.headings-body {
+		.document {
+			border-bottom: 1px solid $light-tan;
+			padding: 10px 0;
+			font-size: .875em;
+		}
+	}
+} 
+.see-ref { 
+	margin: 0 0 0 20px;
+	display: inline-block;
+}
+
+// Headings heading view
+// ------------------------------------------
+body.blacklight-headings-show {
+	.main-content {
+		padding-bottom: .5em;
+	}
+	dl {
+		font-size: .875em;
+		margin-bottom: 60px;
+	}
+	dt {
+		color: $light-gray;
+		font-weight: normal;
+	}
+	dd {
+		margin-bottom: 1em;
+		line-height: 1.5em;
+	}
+}
+.titles-count { margin-top: -15px; }
