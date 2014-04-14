@@ -10,6 +10,10 @@
 		font-size: 22px;
 		margin-bottom: 10px;
 	}
+
+	a {
+		color:$bright-blue;
+	}
 }
 .databases-az {
 	.nav-pills {
@@ -48,7 +52,7 @@
 			padding: 4px 0 4px 15px;
 			display: inline-block;
 			i { 
-				color: $light-gray;
+				color: $databases-light-gray;
 				margin-top: 6px;
 				margin-left: 0;
 				margin-right: 5px;
@@ -98,6 +102,14 @@
 			line-height: 1.6em;
 		}
 	}
+
+	.label-important {
+		color:$white;
+		font-size: 60%;
+    	vertical-align: middle; 
+    	padding:.2em .6em .3em;
+    	background-color: $bright-red;
+	}
 }
 .document-data:first-child {
 	padding-top: 0;
@@ -106,6 +118,10 @@
 	background: white;
 	padding: 20px;
 	margin-top: 20px;
+
+	a {
+		color: $bright-blue;
+	}
 }
 .resources-core {
 	h3 { 
