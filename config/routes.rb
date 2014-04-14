@@ -19,6 +19,8 @@ BlacklightCornell::Application.routes.draw do
   
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
   match '/databases' => 'databases#index', :as => 'databases_index'
+  match '/headings' => 'headings#index', :as => 'headings_index'
+  match '/headings/heading' => 'headings#show', :as => 'headings_show'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
