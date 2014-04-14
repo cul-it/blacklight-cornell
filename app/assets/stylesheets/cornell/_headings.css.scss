@@ -1,7 +1,7 @@
 // Headings list view
 // ------------------------------------------
 
-body.blacklight-headings-index {
+body.blacklight-headings {
 	.headings-list {
 		margin: 20px 0;
 	}
@@ -27,7 +27,8 @@ body.blacklight-headings-index {
 
 // Headings heading view
 // ------------------------------------------
-body.blacklight-headings-show {
+body.blacklight-headings-show,
+body.blacklight-headings-show_subject {
 	.main-content {
 		padding-bottom: .5em;
 	}
@@ -43,5 +44,9 @@ body.blacklight-headings-show {
 		margin-bottom: 1em;
 		line-height: 1.5em;
 	}
+	.reference {
+		margin-top: .25em;
+	}
+	.reference:first-child { margin-top: 0; }
 }
 .titles-count { margin-top: -15px; }
