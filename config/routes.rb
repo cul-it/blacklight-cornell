@@ -21,6 +21,8 @@ BlacklightCornell::Application.routes.draw do
   match '/databases' => 'databases#index', :as => 'databases_index'
   match '/headings' => 'headings#index', :as => 'headings_index'
   match '/headings/heading' => 'headings#show', :as => 'headings_show'
+  match '/headings_subject' => 'headings#index_subject', :as => 'headings_index_subject'
+  match '/headings/heading_heartbeat' => 'headings#show_subject', :as => 'headings_show_subject'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
