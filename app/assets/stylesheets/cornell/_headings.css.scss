@@ -16,7 +16,7 @@ body.blacklight-headings {
 		.document {
 			border-bottom: 1px solid $light-tan;
 			padding: 10px 0;
-			font-size: .875em;
+			// font-size: .875em;
 		}
 		.label { margin-left: 5px; }
 	}
@@ -34,12 +34,13 @@ body.blacklight-headings-show_subject {
 		padding-bottom: .5em;
 	}
 	dl {
-		font-size: .875em;
+		// font-size: .875em;
 		margin-bottom: 60px;
 	}
 	dt {
 		color: $light-gray;
 		font-weight: normal;
+		font-size: .875em;
 	}
 	dd {
 		margin-bottom: 1em;
@@ -47,6 +48,9 @@ body.blacklight-headings-show_subject {
 	}
 	.reference {
 		margin-top: .25em;
+		em {
+			font-size: .875em;
+		}
 	}
 	.reference:first-child { margin-top: 0; }
 }
