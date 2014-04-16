@@ -3,20 +3,30 @@
 <h2>Author and subject headings</h2>
 
 <div class="well">
-	<form accept-charset="UTF-8" method="get">
-      	<div class="control-group">
-        	<label for="q" class="hide-text">Search...</label>
-			<input autocapitalize="off" id="q" name="q" placeholder="Search..." type="text" value="heart attack" />
-			<label for="auth" class="hide-text">Select</label>
-			<select class="input-medium" id="auth" name="auth"><option value="author">Author</option>
+	<div class="search-tools">
+      <form accept-charset="UTF-8" action="/" class="search-form" method="get">
+        <input name="id" type="hidden" value="5033822" />
+          <div class="row-fluid">
+            <div class="search-options span6">
+              <label for="q" class="hide-text">Search...</label>
+              <input autocapitalize="off" class="search-query phone-search-query" id="q" name="q" placeholder="Search..." type="text" value="heart attack" />
+            </div>
+          	<label for="search_field" class="hide-text">Search in</label>
+          	<select class="span4" id="search_field" name="search_field" title="Targeted search options">
+          		<option value="author">Author</option>
 				<option value="author_title">Author-Title</option>
 				<option value="subject" selected>Subject</option>
-			</select>
-	  	</div>
-      	<div class="submit-reset">
-        	<input class="btn btn-inverse" id="headings" name="commit" type="submit" value="Browse" />
-      	</div>
-	</form>
+		  	</select>
+            <span class="search-or-reset span2">
+              	<input type="submit" class="btn btn-inverse hidden-phone" id="search" value="Search">
+              	<span class="submit-search-text hide-text">Search</span>
+              	<button id="search-btn" class="btn mobile-search-btn visible-phone btn-inverse" type="submit">
+                	<i class="fa fa-search fa-inverse"></i>
+              	</button>
+            </span>
+          </div>
+		</form>     
+    </div>
 </div>
 
 <h3>Browse "heart attack" in subject headings</h3>
@@ -27,20 +37,6 @@
   	<span class="results-count">
   		<a href="#">&laquo; Previous</a> | <!--  <strong>1</strong> - <strong>20</strong> of <strong>20</strong> |   --><a href="/?f%5Bformat%5D%5B%5D=Book&amp;page=2" rel="next">Next &raquo;</a>
 	</span>
-	<!-- <div id="per_page-dropdown" class="dropdown pull-right  hidden-phone">
-  		<span class="hide-text">Number of results to display per page</span>
-  		<ul class="css-dropdown">
-		    <li class="btn">
-		      <a href="#">20 per page</a> <span class="caret"></span>
-		      <ul>
-		          <li><a href="/?_method=POST&amp;f%5Bformat%5D%5B%5D=Book&amp;per_page=10">10<span class="hide-text"> per page</span></a></li>
-		          <li><a href="/?_method=POST&amp;f%5Bformat%5D%5B%5D=Book&amp;per_page=20">20<span class="hide-text"> per page</span></a></li>
-		          <li><a href="/?_method=POST&amp;f%5Bformat%5D%5B%5D=Book&amp;per_page=50">50<span class="hide-text"> per page</span></a></li>
-		          <li><a href="/?_method=POST&amp;f%5Bformat%5D%5B%5D=Book&amp;per_page=100">100<span class="hide-text"> per page</span></a></li>
-		      </ul>
-		    </li>
-  		</ul>
-	</div> -->
 </div>
 
 <div class="headings-list">
