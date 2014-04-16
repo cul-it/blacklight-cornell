@@ -762,11 +762,11 @@ module DisplayHelper
     document ||= @document
     # Test to ensure that display_title is not missing
     # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
-    blacklight_config.show.html_title = @document['title_displayed']
+    blacklight_config.show.html_title = @document['title_display']
     if @document[blacklight_config.show.html_title].present?
       render_field_value(document[blacklight_config.show.html_title].html_safe)
     else
-      render_field_value("Default title".html_safe)
+      render_field_value("No Title".html_safe)
     end
   end
 
