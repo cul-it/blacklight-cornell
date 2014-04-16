@@ -30,7 +30,8 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
-      :fl => '*,score'
+      :fl => '*,score',
+      :defType => 'edismax'
     }
 
     ## list of display fields with icon
