@@ -40,7 +40,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # @bookmarks = current_or_guest_user.bookmarks
 
     # params.delete("q_row")
-
+    qparam_display = ""
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if params[:q_row].present?
       query_string = set_advanced_search_params(params)
@@ -63,6 +63,22 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       if !params[:q].nil? and !params[:q].include?('"')
         params[:q] = '"' << params[:q] << '"'
         search_session[:q] = params[:q]
+      end        
+    end
+    
+    if params[:search_field] != "journal_title " and params[:search_field] != "call_number"
+      if !params[:q].nil? and !params[:q].include?('"')
+          qparam_display = params[:q]
+          qarray = params[:q].split
+          params[:q] = "("
+          if qarray.size == 1
+            params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
+          else
+            qarray.each do |bits|
+              params[:q] << ' +' << bits
+            end
+            params[:q] << ') OR "' << qparam_display << '"'
+          end
       end
     end
     # end of Journal title search hack
@@ -70,11 +86,14 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #    if params[:search_field] = "call number"
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
-
+    
 
 
     (@response, @document_list) = get_search_results
 
+    if !qparam_display.blank?
+      params[:q] = qparam_display
+    end
     if params.nil? || params[:f].nil?
       @filters = []
     else
