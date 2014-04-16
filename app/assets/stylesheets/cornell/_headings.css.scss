@@ -15,15 +15,19 @@ body.blacklight-headings {
 	.headings-body {
 		.document {
 			border-bottom: 1px solid $light-tan;
-			padding: 10px 0;
+			padding: 5px 0;
 			// font-size: .875em;
 		}
 		.label { margin-left: 5px; }
 	}
 } 
 .see-ref { 
-	margin: 0 0 0 20px;
-	display: inline-block;
+	margin: 3px 0 0 20px;
+	// display: inline-block;
+}
+.see-ref-count { 
+	color: $medium-gray;
+	font-size: .875em;
 }
 
 // Headings heading view
