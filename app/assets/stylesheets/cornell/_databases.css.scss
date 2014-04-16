@@ -94,7 +94,7 @@
 	h3:first-child { margin-top: 0; }
 }
 .document-data {
-	border-top: 1px solid $tan; 
+	border-bottom: 1px solid $tan; 
 	padding: 15px 0;
 	.description {
 		p { 
@@ -119,8 +119,23 @@
 	padding: 20px;
 	margin-top: 20px;
 
-	a {
+
+
+}
+
+.resources, .database-subject {
+		a {
 		color: $bright-blue;
+	}
+}
+
+.database-subject {
+	.page-title {
+		h2 {
+			color:$cornell-primary;
+			font-size: 30px;
+			font-weight: 700
+		}
 	}
 }
 .resources-core {
