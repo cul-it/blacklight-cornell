@@ -819,8 +819,6 @@ module DisplayHelper
       title = doc.get(opts[:label][0], :sep => nil)
       subtitle = doc.get(opts[:label][1], :sep => nil)
       fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
-      #temporary fix to account for fulltitle_vern_display as multivalued field
-      # fulltitle_vern = fulltitle_vern.present? ? fulltitle_vern[0] : fulltitle_vern.to_s
 
       english = subtitle.present? ? title + ' : ' + subtitle : title
 
