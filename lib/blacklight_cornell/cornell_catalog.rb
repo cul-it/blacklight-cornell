@@ -93,6 +93,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     if !qparam_display.blank?
       params[:q] = qparam_display
+      search_session[:q] = params[:q]
     end
     if params.nil? || params[:f].nil?
       @filters = []
