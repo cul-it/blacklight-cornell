@@ -72,10 +72,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           qarray = params[:q].split
           params[:q] = "("
           if qarray.size == 1
-            params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
+            params[:q] << '+' << qarray[0] << ') OR "' << qarray[0] << '"'
           else
             qarray.each do |bits|
-              params[:q] << ' +' << bits
+              params[:q] << '+' << bits << ' '
             end
             params[:q] << ') OR "' << qparam_display << '"'
           end
@@ -91,7 +91,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
     
-
+    Rails.logger.info("BEEVIS = #{params[:q]}")
 
     (@response, @document_list) = get_search_results
 
