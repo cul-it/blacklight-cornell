@@ -17,7 +17,10 @@
 			%div.document-data
 				%h4.blacklight-title_display
 					=link_to data["url_access_display"][0] do
-						=data["fulltitle_display"]
+						-if data["fulltitle_vern_display"].present?
+							=data["fulltitle_vern_display"]
+						-else
+							=data["fulltitle_display"]
 						%i.fa.fa-external-link
 					%span.label.label-important
 						Core Resource
