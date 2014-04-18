@@ -60,8 +60,9 @@ footer {
 	margin-top: 30px;
 }
 
+// hides covers on results
 .document {
-	.iconcover, .bookcover { display: none; } // hides covers on results
+	.iconcover, .bookcover { display: none; } 
 }
 
 .blacklight-title_display {
@@ -92,3 +93,10 @@ footer {
 	font-size: 1em;
 	margin-bottom: 0;
 }
+
+// modal
+.modal {
+	// margin-top: 50px;
+	border-top: 1px solid;
+}
+.modal-header button { display: none; }
