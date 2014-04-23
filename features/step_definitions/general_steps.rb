@@ -6,13 +6,15 @@
 # end
 
 Then /^I should see a stylesheet/ do
-  page.should have_selector("link[rel=stylesheet]")
+  page.should have_selector("link[rel=stylesheet]", :visible => false)
 end
 
 Then /^the page title should be "(.*?)"$/ do |title|
   # Capybara 2 ignores invisible text
   # https://github.com/jnicklas/capybara/issues/863
-  first('title').native.text == title
+  #first('title').native.text == title
+  #first('title').text == title
+  first('title') == title
 end
 
 Then /^the '(.*?)' drop\-down should have an option for '(.*?)'$/ do |menu, option|

@@ -1,0 +1,39 @@
+<div class="pull-right hidden-phone select-all">
+	<% params[:_method] = "POST" %>
+<% if current_or_guest_user %>
+            <% send_to_bookmarks = false %>
+            <%= hidden_field_tag "num_rows", @response.rows %>
+			<% @response.docs.each do |doc| %>
+    			<%= hidden_field_tag "doc_ids[]", doc[:id] %>
+                <% if !current_or_guest_user.existing_bookmark_for(doc[:id]) %>
+                    <% send_to_bookmarks = true %>
+                <% end %>
+			<% end %>            
+
+  <% unless send_to_bookmarks %>
+      <%= form_tag( "bookmarks/update", :method => "update", :class => "bookmark_toggle_all", "data-doc-id" => @response.docs) do %>
+      <%= hidden_field_tag "num_rows", @response.rows %>
+			<% @response.docs.each do |doc| %>
+    			<%= hidden_field_tag "doc_ids[]", doc[:id] %>
+			<% end %>            
+
+        <%= submit_tag(t('blacklight.bookmarks.add.button'), :id => "bookmark_add_all", :class => "bookmark_add") %>
+      <% end %>
+
+  <% else %>
+
+      <%= form_tag( "bookmarks/destroy", :method => "destroy", :class => "bookmark_toggle_all", "data-doc-id" => @response.docs) do %>
+      <%= hidden_field_tag "num_rows", @response.rows %>
+			<% @response.docs.each do |doc| %>
+    			<%= hidden_field_tag "doc_ids[]", doc[:id] %>
+			<% end %>            
+
+        <%= submit_tag(t('blacklight.bookmarks.remove.button'), :id => "bookmark_delete_all", :class => "bookmark_remove") %>
+      <% end %>
+
+  <% end %>
+<% else %>
+  &nbsp;
+<% end %>
+
+</div>

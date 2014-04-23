@@ -30,7 +30,8 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
-      :fl => '*,score'
+      :fl => '*,score',
+      :defType => 'edismax'
     }
 
     ## list of display fields with icon
@@ -542,6 +543,7 @@ class CatalogController < ApplicationController
         result = nil  
         # Check for valid email address
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+          captcha_ok = true #test
           unless captcha_ok
             # Create a new Mollom instance if necessary, then test the message content for spam
             @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})

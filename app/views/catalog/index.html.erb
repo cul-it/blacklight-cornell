@@ -1,7 +1,7 @@
 <div class="row">
   <%= render :partial=>'sidebar' %>
 
-  <div class="main-content span9">
+  <div class="span9 main-text">
 
       <% unless has_search_parameters? %>
         <%# if there are no input/search related params, display the "home" partial -%>
@@ -21,7 +21,6 @@
 
 
         <%= render 'sort_and_per_page' %>
-
         <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
         <%= render_document_index %>
 

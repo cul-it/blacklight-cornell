@@ -53,3 +53,23 @@
 	}
 	img { display: none; }
 }
+
+// Skip to content link
+// http://webaim.org/techniques/skipnav/
+// ---------------------------------------
+#skiptocontent {
+	a {
+		padding:6px;
+		position: absolute;
+		top:-40px;
+		left:0px;
+		color:white;
+		border-right:1px solid white;
+		border-bottom:1px solid white;
+		border-bottom-right-radius:8px;
+		background:transparent;
+		-webkit-transition: top 1s ease-out, background 1s linear;
+	    transition: top 1s ease-out, background 1s linear;
+	    z-index: 100;
+ 	}
+}
