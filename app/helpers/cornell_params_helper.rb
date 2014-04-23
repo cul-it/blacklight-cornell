@@ -95,6 +95,7 @@ module CornellParamsHelper
          q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
 
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
+         
          if !fieldNames.nil? 
             solr_stuff = fieldNames["key"]
             if solr_stuff == "call number"
@@ -161,7 +162,7 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-    if params[:search_field] == "call number" and !params[:q].include?('"')
+    if params[:search_field] == "call number" and !my_params[:q].include?('"')
       params[:q] = '"' + params[:q] + '"'
     end
     solr_search_params_logic.each do |method_name|
@@ -178,7 +179,9 @@ module CornellParamsHelper
 #    solr_parameters[:q] = my_params[:q]
 #    solr_parameters[:sort] = "score desc, title_sort asc"
      my_params[:search_field] = my_params["search_field"]
-     
+     Rails.logger.info("BUTCHIEBOY = #{my_params[:search_field]}")
+     params[:search_field] = my_params[:search_field]
+    session[:search][:search_field] = my_params[:search_field]
      
   end
   return solr_parameters

@@ -758,14 +758,17 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # -- needed to add .html_safe to avoid html encoding in <title> element
   # Used in the show view for setting the main html document title
-  def document_show_html_title document=nil
-    document ||= @document
+#  def document_show_html_title document=nil
+#    document ||= @document
     # Test to ensure that display_title is not missing
     # -- some records in Voyager are missing the title (#DISCOVERYACCESS-552)
-    if @document[blacklight_config.show.html_title].present?
-      render_field_value(document[blacklight_config.show.html_title].html_safe)
-    end
-  end
+#    blacklight_config.show.html_title = @document['fulltitle_display']
+#    if @document[blacklight_config.show.html_title].present?
+#      render_field_value(document[blacklight_config.show.html_title].html_safe)
+#    else
+#      render_field_value("No Title".html_safe)
+#    end
+#  end
 
   def borrowdirect_url_from_isbn(isbns)
 
@@ -816,8 +819,6 @@ module DisplayHelper
       title = doc.get(opts[:label][0], :sep => nil)
       subtitle = doc.get(opts[:label][1], :sep => nil)
       fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
-      #temporary fix to account for fulltitle_vern_display as multivalued field
-      fulltitle_vern = fulltitle_vern.present? ? fulltitle_vern[0] : fulltitle_vern.to_s
 
       english = subtitle.present? ? title + ' : ' + subtitle : title
 
@@ -930,4 +931,15 @@ module DisplayHelper
       oclc_id.gsub(/^\(OCoLC\)/, '')
     end
   end
+
+  # Overrides original method from facets_helper_behavior.rb
+  # -- Replace icon-remove (glyphicon) with appropriate Font Awesome classes
+  # Standard display of a SELECTED facet value, no link, special span
+  # with class, and 'remove' button.
+  def render_selected_facet_value(facet_solr_field, item)
+    #Updated class for Bootstrap Blacklight 
+    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
+      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]', :class => 'hide-text'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+  end
+
 end

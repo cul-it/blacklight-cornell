@@ -15,6 +15,7 @@
  *
 
  *= require 'blacklight_cornell_advanced_search'
+ *= require 'jquery-ui.min.css'
 
 */
 // Cornell catalog variables & overrides
@@ -23,4 +24,4 @@
 @import 'blacklight';
 @import 'cornell/cul-catalog';
 @import 'cornell/responsive';
-@import 'cornell/print';
+// @import 'cornell/print';
