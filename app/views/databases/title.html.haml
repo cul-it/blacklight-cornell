@@ -1,0 +1,34 @@
+= render :partial => 'database_search' 
+.row.database-subject
+	.page-title.span9
+		%h2
+			Databases: A
+	.span3.return-link
+		=link_to "/databases/" do 
+			%i.fa.fa-arrow-circle-left
+			Back to databases
+.results-info
+
+
+.resources		
+	- @a.each do |data|
+		%div.document.blacklight-database-name.clearfix
+			%div.document-data
+				%h4.blacklight-title_display
+					=link_to data["url_access_display"][0].split('|')[0] do
+						-if data["fulltitle_vern_display"].present?
+							=data["fulltitle_vern_display"]
+						-else
+							=data["fulltitle_display"]
+						%i.fa.fa-external-link
+				%div.description
+					%p
+						=data["summary_display"][0]
+
+				%div.terms
+					TERMS PLACEHOLDER | 
+					= link_to 'Terms of Use','/databases/subject'
+
+
+
+
