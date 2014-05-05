@@ -59,3 +59,12 @@ body.blacklight-headings-show_subject {
 	.reference:first-child { margin-top: 0; }
 }
 .titles-count { margin-top: -15px; }
+.author-works {
+	font-size: 14px;
+	// font-style: italic;
+	color: $medium-gray;
+	a {
+		font-style: normal;
+		margin-left: 3px;
+	}
+}
