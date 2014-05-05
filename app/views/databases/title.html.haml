@@ -1,8 +1,9 @@
 = render :partial => 'database_search' 
 .row.database-subject
 	.page-title.span9
-		%h2
-			Databases: A
+		%h2.db-alpha
+			Databases: 
+			=params[:alpha]
 	.span3.return-link
 		=link_to "/databases/" do 
 			%i.fa.fa-arrow-circle-left

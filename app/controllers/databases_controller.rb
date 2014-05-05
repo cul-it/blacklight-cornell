@@ -23,7 +23,7 @@ class DatabasesController < ApplicationController
   
   def title
         clnt = HTTPClient.new
-        @aString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databaseAlphaBuckets?q=a#")
+        @aString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databaseAlphaBuckets?q=#{params[:alpha]}#")
         @aResponse = eval(@aString)
         @a = @aResponse['response']['docs']
     end
