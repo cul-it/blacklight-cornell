@@ -1,9 +1,13 @@
 = render :partial => 'database_search' 
+- alpha = params[:alpha] 
 .row.database-subject
 	.page-title.span9
 		%h2.db-alpha
 			Databases: 
-			=params[:alpha]
+			-if alpha == '1'
+				&#035;
+			-else
+				=alpha
 	.span3.return-link
 		=link_to "/databases/" do 
 			%i.fa.fa-arrow-circle-left
