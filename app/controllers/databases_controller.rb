@@ -1,30 +1,29 @@
 # -*- encoding : utf-8 -*-
 class DatabasesController < ApplicationController
   
-  def subject
+  def index
      clnt = HTTPClient.new
-      @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=%22Anthropology%22&&wt=ruby")
+#     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
+     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=anthropology&wt=ruby&indent=true") # do |chunk|
        @anthropologyResponse = eval(@anthroString)
        @anthropology = @anthropologyResponse['response']['docs']
-      @anthroCoreString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=%22Anthropology+%28Core%29%22&&wt=ruby")
-       @anthropologyCoreResponse = eval(@anthroCoreString)
-       @anthropologyCore = @anthropologyCoreResponse['response']['docs']
-      @psychologyString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=%22psychology+%28core%29%22&wt=ruby")
+      @psychologyString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22psychology+%28core%29%22&wt=ruby&indent=true")
        @psychologyResponse = eval(@psychologyString)
        @psychology = @psychologyResponse['response']['docs']
-      @statisticalString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=%22Computers+and+Information+Science%22&wt=ruby")
-       @statisticalResponse = eval(@statisticalString)
-       @statistical = @statisticalResponse['response']['docs']
-      @libinfosciString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=%22library+and+information+science+%28core%29%22&wt=ruby")
+      @dictionariesString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22dictionaries+and+encyclopedias+%28core%29%22&wt=ruby&indent=true")
+       @dictionariesResponse = eval(@dictionariesString)
+       @dictionaries = @dictionariesResponse['response']['docs']
+      @libinfosciString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22library+and+information+science+%28core%29%22&wt=ruby&indent=true")
        @libinfosciResponse = eval(@libinfosciString)
-       @libinfosci = @libinfosciResponse['response']['docs']
-       
+       @libinfosci = @libinfosciResponse['response']['docs']       
     end
-  
+ 
+    
   def title
         clnt = HTTPClient.new
         @aString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databaseAlphaBuckets?q=#{params[:alpha]}#")
         @aResponse = eval(@aString)
         @a = @aResponse['response']['docs']
     end
-end
+  
+end 
