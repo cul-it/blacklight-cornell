@@ -2,7 +2,7 @@
 .row.database-subject
 	.page-title.span9
 		%h2
-			Anthropology
+			=params[:q]
 	.span3.return-link
 		=link_to "/databases/" do 
 			%i.fa.fa-arrow-circle-left
@@ -13,7 +13,7 @@
 .resources		
 	%h3
 		Core Resources
-	- @anthropologyCore.each do |data|
+	- @subjectCore.each do |data|
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data
 				%h4.blacklight-title_display
@@ -33,7 +33,7 @@
 .resources
 	%h3
 		Additional Resources
-	- @anthropology.each do |data|
+	- @subject.each do |data|
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data
 				%h4.blacklight-title_display
