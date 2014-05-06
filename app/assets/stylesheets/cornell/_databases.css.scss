@@ -43,6 +43,17 @@
 h2.db-alpha {
 	text-transform: capitalize;
 }
+.blacklight-database-name {
+	padding-top: 15px;
+	.document-data { 
+		width: 100%;
+		padding: 0 0 15px 0;
+	}
+}
+.blacklight-database-name:first-child {
+	padding-top: 0;
+}
+
 // Section nav list treatment - taken from beta.library, but tweaked 
 // --------------------------------------------------------------------
 .nav-section { 
