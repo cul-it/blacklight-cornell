@@ -17,6 +17,7 @@
 }
 .databases-az {
 	.nav-pills {
+		margin-bottom: 0;
 		a {
 			background: white;
 			margin-bottom: 5px;
@@ -30,7 +31,7 @@
 	margin-top: 20px;
 	h3 {
 		font-weight: 700;
-		margin-bottom: 10px;
+		margin-bottom: 0;
 		margin-top: 20px;
 		font-size: 18px;
 	}
@@ -43,6 +44,30 @@
 h2.db-alpha {
 	text-transform: capitalize;
 }
+.blacklight-database-name {
+	padding-top: 15px;
+	.document-data { 
+		width: 100%;
+		padding: 0 0 15px 0;
+	}
+}
+.blacklight-database-name:first-child {
+	padding-top: 0;
+}
+.terms {
+	list-style: none;
+	margin: 0;
+	li {
+		float: left;
+		border-left: 1px solid $databases-light-gray;
+		padding: 0 6px;
+	}
+	li:first-child {
+		border: 0;
+		padding-left: 0;
+	}
+}
+
 // Section nav list treatment - taken from beta.library, but tweaked 
 // --------------------------------------------------------------------
 .nav-section { 
@@ -50,15 +75,15 @@ h2.db-alpha {
 	padding: 0;
 	margin: 0;
 	li {
-		// font-size: 16px;
+		font-size: 14px;
 		a {
-			padding: 4px 0 4px 15px;
+			padding: 4px 0 4px 0;
 			display: inline-block;
 			i { 
 				color: $databases-light-gray;
 				margin-top: 6px;
 				margin-left: 0;
-				margin-right: 5px;
+				margin-right: 6px;
 			}
 		}
 		a:hover {
