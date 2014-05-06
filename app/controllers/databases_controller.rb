@@ -6,14 +6,16 @@ class DatabasesController < ApplicationController
   
   def subject
      clnt = HTTPClient.new
+    params[:q].gsub!(' ','%20')
 #     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
-     @subjectString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
+     @subjectString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "\"&wt=ruby&indent=true&defType=dismax")
        @subjectResponse = eval(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
-    @subjectCoreString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
+    @subjectCoreString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "+(Core)\"&wt=ruby&indent=true&defType=dismax")
     @subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
+     params[:q].gsub!('%20', ' ')
    
     end
  
@@ -26,7 +28,9 @@ class DatabasesController < ApplicationController
     end
  
   def searchdb
-    Rails.logger.info("Petunia = #{params[:q]}")
+    Rails.logger.info("Petunia1 = #{params[:q]}")
+    params[:q].gsub!(' ','%20')
+    Rails.logger.info("Petunia2 = #{params[:q]}")
      dbclnt = HTTPClient.new
      @dbResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
      if !@dbResultString.nil?
@@ -35,6 +39,8 @@ class DatabasesController < ApplicationController
        @dbResponseFull = eval("Could not find")
      end
      @dbResponse = @dbResponseFull['response']['docs']
+     params[:q].gsub!('%20', ' ')
+    Rails.logger.info("Petunia3 = #{params[:q]}")
   end
   
 end 
