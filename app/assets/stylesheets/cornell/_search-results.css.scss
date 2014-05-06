@@ -96,6 +96,11 @@ body.blacklight-bookmarks-index .document {
 		margin-left: -15px;
 	}
 }
+.label-online {
+	background: $teal;
+	font-weight: normal;
+}
+.label-online:hover { background: $dark-teal; }
 
 // Search history
 // ------------------------------------------

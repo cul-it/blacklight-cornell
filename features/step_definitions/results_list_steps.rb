@@ -20,7 +20,8 @@ Then /^I should see 'Displaying all (\d+) items' or I should see 'Displaying ite
 end
 
 Then /^I should not see a list of search results$/ do
-  page.has_selector?('div#documents')
+  #page.has_selector?('div#documents')
+  page.has_selector?('#documents')
 end
 
 Then /^I should see the per_page select list$/ do
@@ -39,13 +40,12 @@ Then /^I should see each item format$/ do
   within('#documents') do
   	page.should have_css('.blacklight-title_display')
   	page.should have_css('.blacklight-author_display')
-  	page.should have_css('div.blacklight-fpl')
   end
 end
 
 Then /^results should have a select checkbox$/ do
   within('#documents') do
-  	page.should have_selector('form.bookmark_toggle')
+  	page.should have_selector('.bookmark_add')
   end
 end
 

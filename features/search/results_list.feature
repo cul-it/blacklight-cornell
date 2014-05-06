@@ -5,7 +5,7 @@ Feature: Results list
 	I want to view a list of search results with various options.
 
 	Background:
-
+        @rss
 	Scenario: Empty search
 		Given I am on the home page
 		And I press 'search'
@@ -32,6 +32,7 @@ Feature: Results list
 		#Then there should be 0 search results
 		Then I should not get results
 
+	@getresults
 	Scenario: Search with results
 		Given I am on the home page
 		When I fill in the search box with 'biology'
@@ -59,15 +60,16 @@ Feature: Results list
 		# for more details.
 		And results should have a select checkbox
 		And results should have a title field
-
+  #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
   # DISCOVERYACCESS-?
+ @pub_info
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I am on the home page
     And I fill in the search box with 'architecture'
     And I press 'search'
     Then I should get results
     # Note: this is record 1346, which appears as the first search result currently
-    Then it should contain "pub_info" with value "New Orleans : School of Architecture, Tulane University, 1972."
+    Then it should have a "pub_info" that looks sort of like "American Institute of Architects"
 
 
 
@@ -136,10 +138,12 @@ Feature: Results list
     And it should contain "edition" with value "[1st ed."
 
   # DISCOVERYACCESS-344
+  #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
+  @discoveryaccess-344
   Scenario: Remove spaces from call number queries in Blacklight
     Given I am on the home page
-    When I fill in the search box with 'QB281 .S39'
+    When I fill in the search box with 'QH324.5    .B615'
     And I select 'Call Number' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
-    And it should contain "title" with value "Shore and sea boundaries : with special reference to the interpretation and use of Coast and Geodetic Survey data."
+    And it should have a "title" that looks sort of like "Biology"
