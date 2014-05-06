@@ -162,7 +162,7 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-    if params[:search_field] == "call number" and !params[:q].include?('"')
+    if params[:search_field] == "call number" and !my_params[:q].include?('"')
       params[:q] = '"' + params[:q] + '"'
     end
     solr_search_params_logic.each do |method_name|
