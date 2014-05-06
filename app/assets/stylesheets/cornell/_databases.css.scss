@@ -53,6 +53,19 @@ h2.db-alpha {
 .blacklight-database-name:first-child {
 	padding-top: 0;
 }
+.terms {
+	list-style: none;
+	margin: 0;
+	li {
+		float: left;
+		border-left: 1px solid $databases-light-gray;
+		padding: 0 6px;
+	}
+	li:first-child {
+		border: 0;
+		padding-left: 0;
+	}
+}
 
 // Section nav list treatment - taken from beta.library, but tweaked 
 // --------------------------------------------------------------------
