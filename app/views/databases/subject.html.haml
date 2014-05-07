@@ -26,7 +26,8 @@
 							%i.fa.fa-external-link
 					%div.description
 						%p
-							=data["summary_display"][0]
+							-if data["summary_display"].present?
+								=data["summary_display"][0]
 
 					%div.terms
 						TERMS PLACEHOLDER | 
@@ -46,7 +47,8 @@
 							%i.fa.fa-external-link
 					%div.description
 						%p
-							=data["summary_display"][0]
+							-if data["summary_display"].present?
+								=data["summary_display"][0]
 
 					%div.terms
 						TERMS PLACEHOLDER | 
@@ -65,7 +67,8 @@
 							%i.fa.fa-external-link
 					%div.description
 						%p
-							=data["summary_display"][0]
+							-if data["summary_display"].present?
+								=data["summary_display"][0]
 
 					%div.terms
 						TERMS PLACEHOLDER | 
