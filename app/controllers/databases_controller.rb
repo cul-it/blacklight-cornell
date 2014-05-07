@@ -8,11 +8,11 @@ class DatabasesController < ApplicationController
      clnt = HTTPClient.new
     params[:q].gsub!(' ','%20')
 #     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
-     @subjectString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "\"&wt=ruby&indent=true&defType=dismax")
+     @subjectString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "\"&wt=ruby&indent=true")
        @subjectResponse = eval(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
-    @subjectCoreString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "+(Core)\"&wt=ruby&indent=true&defType=dismax")
+    @subjectCoreString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "+(Core)\"&wt=ruby&indent=true")
     @subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
