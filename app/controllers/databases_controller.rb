@@ -26,6 +26,16 @@ class DatabasesController < ApplicationController
         @aResponse = eval(@aString)
         @a = @aResponse['response']['docs']
     end
+
+
+      def show
+        clnt = HTTPClient.new
+        @dbString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/database?id=#{params[:id]}")
+        @dbResponse = eval(@dbString)
+        @db = @dbResponse['response']['docs']
+    end
+
+    
  
   def searchdb
     Rails.logger.info("Petunia1 = #{params[:q]}")

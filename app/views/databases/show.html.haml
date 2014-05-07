@@ -1,0 +1,69 @@
+= render :partial => 'databases_search_form' 
+- alpha = params[:alpha] 
+.row.database-subject
+	.page-title.span9
+	.span3.return-link
+		=link_to "/databases/" do 
+			%i.fa.fa-arrow-circle-left
+			Back to databases
+.results-info
+
+
+.resources		
+	- @db.each do |data|
+		%div.document.blacklight-database-name.clearfix
+			%div.document-data
+				%h4.blacklight-title_display
+					-if data["fulltitle_vern_display"].present?
+						=data["fulltitle_vern_display"]
+					-else
+						=data["fulltitle_display"]
+
+				%div.description
+					%p
+						=data["summary_display"][0]
+
+				%div.links
+					%h4.blacklight-title_display
+						Access Links
+					=link_to data["url_access_display"][0].split('|')[0] do
+						-if data["fulltitle_vern_display"].present?
+							=data["fulltitle_vern_display"]
+						-else
+							=data["url_access_display"][0].split('|')[1]
+						%i.fa.fa-external-link
+						%div
+					-if data["url_access_display"][1].present?
+						=link_to data["url_access_display"][1].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["url_access_display"][1].split('|')[1]
+						%i.fa.fa-external-link
+						%div
+					-if data["url_access_display"][2].present?
+						=link_to data["url_access_display"][2].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["url_access_display"][2].split('|')[1]
+						%i.fa.fa-external-link
+						%div
+					-if data["url_access_display"][3].present?
+						=link_to data["url_access_display"][3].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["url_access_display"][3].split('|')[1]
+							%i.fa.fa-external-link
+							%div
+
+				%ul.terms
+					%li
+						TERMS PLACEHOLDER
+					%li
+						= link_to 'Terms of Use','/databases/subject'
+
+
+
+
