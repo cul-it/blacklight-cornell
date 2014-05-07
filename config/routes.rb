@@ -20,7 +20,7 @@ BlacklightCornell::Application.routes.draw do
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
   match '/databases' => 'databases#index', :as => 'databases_index'
   match '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
-  match '/databases/searchdb/:q' => 'databases#searchdb', :as => 'databases_searchdb'
+  match '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
   match '/databases/subject/:q' => 'databases#subject', :as => 'databases_subject'
 
 
