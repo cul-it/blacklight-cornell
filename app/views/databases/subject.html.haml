@@ -10,46 +10,65 @@
 .results-info
 
 
-.resources		
-	%h3
-		Core Resources
-	- @subjectCore.each do |data|
-		%div.document.blacklight-database-name.clearfix
-			%div.document-data
-				%h4.blacklight-title_display
-					=link_to data["url_access_display"][0].split('|')[0] do
-						-if data["fulltitle_vern_display"].present?
-							=data["fulltitle_vern_display"]
-						-else
-							=data["fulltitle_display"]
-						%i.fa.fa-external-link
-				%div.description
-					%p
-						=data["summary_display"][0]
+- if @subjectCore.present?	
+	.resources
+		%h3
+			Core Resources
+		- @subjectCore.each do |data|
+			%div.document.blacklight-database-name.clearfix
+				%div.document-data
+					%h4.blacklight-title_display
+						=link_to data["url_access_display"][0].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["fulltitle_display"]
+							%i.fa.fa-external-link
+					%div.description
+						%p
+							=data["summary_display"][0]
 
-				%div.terms
-					TERMS PLACEHOLDER | 
-					= link_to 'Terms of Use','/databases/subject'
-.resources
-	%h3
-		Additional Resources
-	- @subject.each do |data|
-		%div.document.blacklight-database-name.clearfix
-			%div.document-data
-				%h4.blacklight-title_display
-					=link_to data["url_access_display"][0].split('|')[0] do
-						-if data["fulltitle_vern_display"].present?
-							=data["fulltitle_vern_display"]
-						-else
-							=data["fulltitle_display"]
-						%i.fa.fa-external-link
-				%div.description
-					%p
-						=data["summary_display"][0]
+					%div.terms
+						TERMS PLACEHOLDER | 
+						= link_to 'Terms of Use','/databases/subject'
+	.resources
+		%h3
+			Additional Resources
+		- @subject.each do |data|
+			%div.document.blacklight-database-name.clearfix
+				%div.document-data
+					%h4.blacklight-title_display
+						=link_to data["url_access_display"][0].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["fulltitle_display"]
+							%i.fa.fa-external-link
+					%div.description
+						%p
+							=data["summary_display"][0]
 
-				%div.terms
-					TERMS PLACEHOLDER | 
-					= link_to 'Terms of Use','/databases/subject'
+					%div.terms
+						TERMS PLACEHOLDER | 
+						= link_to 'Terms of Use','/databases/subject'
+-else 
+	.resources
+		- @subject.each do |data|
+			%div.document.blacklight-database-name.clearfix
+				%div.document-data
+					%h4.blacklight-title_display
+						=link_to data["url_access_display"][0].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["fulltitle_display"]
+							%i.fa.fa-external-link
+					%div.description
+						%p
+							=data["summary_display"][0]
 
+					%div.terms
+						TERMS PLACEHOLDER | 
+						= link_to 'Terms of Use','/databases/subject'
 
 
