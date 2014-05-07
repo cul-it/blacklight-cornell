@@ -22,6 +22,7 @@ BlacklightCornell::Application.routes.draw do
   match '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
   match '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
   match '/databases/subject/:q' => 'databases#subject', :as => 'databases_subject'
+  match '/databases/show/:id' => 'databases#show', :as => 'databases_show'
 
 
   # The priority is based upon order of creation:

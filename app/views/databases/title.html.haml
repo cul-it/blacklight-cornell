@@ -20,12 +20,20 @@
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data
 				%h4.blacklight-title_display
-					=link_to data["url_access_display"][0].split('|')[0] do
-						-if data["fulltitle_vern_display"].present?
-							=data["fulltitle_vern_display"]
-						-else
-							=data["fulltitle_display"]
-						%i.fa.fa-external-link
+					- if data["url_access_display"][1].present?
+						-dbid = data["id"] 
+						=link_to "/databases/show/#{dbid}" do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["fulltitle_display"]
+					-else		
+						=link_to data["url_access_display"][0].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["fulltitle_display"]
+								%i.fa.fa-external-link
 				%div.description
 					%p
 						=data["summary_display"][0]
