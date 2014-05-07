@@ -1,0 +1,35 @@
+= render :partial => 'databases_search_form' 
+.row.database-subject
+	.page-title.span9
+		%h2
+			=params[:q]
+	.span3.return-link
+		=link_to "/databases/" do 
+			%i.fa.fa-arrow-circle-left
+			View all subjects
+.results-info
+
+
+- if @dbResponse.present?	
+	.resources
+		%h3
+			Results
+		- @dbResponse.each do |data|
+			%div.document.blacklight-database-name.clearfix
+				%div.document-data
+					%h4.blacklight-title_display
+						=link_to data["url_access_display"][0].split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=data["fulltitle_display"]
+							%i.fa.fa-external-link
+					%div.description
+						%p
+							=data["summary_display"][0]
+
+					%div.terms
+						TERMS PLACEHOLDER | 
+- else
+	%h2
+		no results
