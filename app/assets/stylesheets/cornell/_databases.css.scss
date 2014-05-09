@@ -39,6 +39,18 @@
 }
 .databases-search {
 	.form-group { padding-left: 0; }
+
+	p {
+		font-size: 14px;
+	}
+	h2 {
+		font-size:20px;
+		line-height: 1.1em
+	}
+
+	form {
+		margin-bottom:0px;
+	}
 }
 
 h2.db-alpha {
@@ -199,7 +211,15 @@ h2.db-alpha {
 
 // Info appears as blue-green
 .btn-cul {
-//  @include button-variant($btn-cul-color, $btn-cul-bg, $btn-cul-border);
+color: white;
+background-color: $teal;
+border-color: $dark-teal;
+background-image: none;
+}
+
+.btn-cul:hover {
+	background-color: $dark-teal;
+	color: white
 }
 
 // Terms of Use page
