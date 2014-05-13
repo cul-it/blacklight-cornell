@@ -26,37 +26,14 @@
 				%div.links
 					%h4.blacklight-title_display
 						Access Links
-					=link_to data["url_access_display"][0].split('|')[0] do
-						-if data["fulltitle_vern_display"].present?
-							=data["fulltitle_vern_display"]
-						-else
-							=data["url_access_display"][0].split('|')[1]
-						%i.fa.fa-external-link
-						%div
-					-if data["url_access_display"][1].present?
-						=link_to data["url_access_display"][1].split('|')[0] do
+					-data["url_access_display"].each do |link|
+						=link_to link.split('|')[0] do
 							-if data["fulltitle_vern_display"].present?
 								=data["fulltitle_vern_display"]
 							-else
-								=data["url_access_display"][1].split('|')[1]
+								=link.split('|')[1]
 						%i.fa.fa-external-link
 						%div
-					-if data["url_access_display"][2].present?
-						=link_to data["url_access_display"][2].split('|')[0] do
-							-if data["fulltitle_vern_display"].present?
-								=data["fulltitle_vern_display"]
-							-else
-								=data["url_access_display"][2].split('|')[1]
-						%i.fa.fa-external-link
-						%div
-					-if data["url_access_display"][3].present?
-						=link_to data["url_access_display"][3].split('|')[0] do
-							-if data["fulltitle_vern_display"].present?
-								=data["fulltitle_vern_display"]
-							-else
-								=data["url_access_display"][3].split('|')[1]
-							%i.fa.fa-external-link
-							%div
 
 				%ul.terms
 					%li
