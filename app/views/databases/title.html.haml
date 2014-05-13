@@ -1,33 +1,33 @@
-= render :partial => 'databases_search_form' 
-- alpha = params[:alpha] 
+= render :partial => 'databases_search_form'
+- alpha = params[:alpha]
 .row.database-subject
 	.page-title.span9
 		%h2.db-alpha
-			Databases: 
+			Databases:
 			-if alpha == '1'
 				&#035;
 			-else
 				=alpha
 	.span3.return-link
-		=link_to "/databases/" do 
+		=link_to "/databases/" do
 			%i.fa.fa-arrow-circle-left
 			Back to databases
 .results-info
 
 
-.resources		
+.resources
 	- @a.each do |data|
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data
 				%h4.blacklight-title_display
 					- if data["url_access_display"][1].present?
-						-dbid = data["id"] 
+						-dbid = data["id"]
 						=link_to "/databases/show/#{dbid}" do
 							-if data["fulltitle_vern_display"].present?
 								=data["fulltitle_vern_display"]
 							-else
 								=data["fulltitle_display"]
-					-else		
+					-else
 						=link_to data["url_access_display"][0].split('|')[0] do
 							-if data["fulltitle_vern_display"].present?
 								=data["fulltitle_vern_display"]
@@ -36,14 +36,11 @@
 								%i.fa.fa-external-link
 				%div.description
 					%p
-						=data["summary_display"][0]
+						-if data["summary_display"].present?
+							=data["summary_display"][0]
 
 				%ul.terms
 					%li
 						TERMS PLACEHOLDER
 					%li
 						= link_to 'Terms of Use','/databases/subject'
-
-
-
-
