@@ -1,16 +1,16 @@
-= render :partial => 'databases_search_form' 
+= render :partial => 'databases_search_form'
 .row.database-subject
 	.page-title.span9
 		%h2
 			=params[:q]
 	.span3.return-link
-		=link_to "/databases/" do 
+		=link_to "/databases/" do
 			%i.fa.fa-arrow-circle-left
-			View all subjects
+			Back to databases
 .results-info
 
 
-- if @dbResponse.present?	
+- if @dbResponse.present?
 	.resources
 		%h3
 			Results
@@ -18,18 +18,27 @@
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data
 					%h4.blacklight-title_display
-						=link_to data["url_access_display"][0].split('|')[0] do
-							-if data["fulltitle_vern_display"].present?
-								=data["fulltitle_vern_display"]
-							-else
-								=data["fulltitle_display"]
-							%i.fa.fa-external-link
+						- if data["url_access_display"][1].present?
+							-dbid = data["id"]
+							=link_to "/databases/show/#{dbid}" do
+								-if data["fulltitle_vern_display"].present?
+									=data["fulltitle_vern_display"]
+								-else
+									=data["fulltitle_display"]
+						-else
+							=link_to data["url_access_display"][0].split('|')[0] do
+								-if data["fulltitle_vern_display"].present?
+									=data["fulltitle_vern_display"]
+								-else
+									=data["fulltitle_display"]
+									%i.fa.fa-external-link
 					%div.description
 						%p
-							=data["summary_display"][0]
+							-if data["summary_display"].present?
+								=data["summary_display"][0]
 
 					%div.terms
-						TERMS PLACEHOLDER | 
+						TERMS PLACEHOLDER |
 - else
 	%h2
 		no results
