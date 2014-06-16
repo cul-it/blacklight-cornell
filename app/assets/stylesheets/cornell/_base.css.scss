@@ -68,6 +68,7 @@ textarea {
 	margin-top: 30px;
 	padding-top: 20px;
 	border-top: 2px solid $light-tan;
+	margin-bottom: 2em;
 	h2 {
 		font-size: 12px;
 		text-transform: uppercase;
@@ -76,11 +77,18 @@ textarea {
 	}
 	.blacklight-nav {
 		float: none;
-		font-size: 1em;
+		li {
+			border: none;
+			font-size: 1.3em;
+		}
 		li:first-child {
 			a {
 				padding-left: 0;
 			}
+		}
+		i {
+			color: $dark-tan; 
+			margin-right: .25em;
 		}
 	}
 }
