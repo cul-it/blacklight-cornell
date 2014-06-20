@@ -14,7 +14,7 @@ BlacklightCornellRequests.config do |config|
   # URL of service which returns JSON holding info.
   config.voyager_holdings = ENV['VOYAGER_HOLDINGS_HOST']  ?
                    ENV['VOYAGER_HOLDINGS_HOST']  :
-                   "http://culholdingsdev.library.cornell.edu" 
+                   "http://lib-dev-010.serverfarm.cornell.edu/" 
   config.voyager_get_holds = "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
   config.voyager_req_holds = "http://catalog-test.library.cornell.edu:7074/vxws/SendPatronRequestService"
   config.voyager_req_holds_rest = 'http://catalog-test.library.cornell.edu:7074/vxws'
