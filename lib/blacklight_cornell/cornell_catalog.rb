@@ -1,3 +1,4 @@
+#encoding: UTF-8
 module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
@@ -15,6 +16,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     helper_method :search_action_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
+    before_filter :add_cjk_params_logic
     after_filter :set_additional_search_session_values, :only=>:index
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -31,6 +33,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   end
 
+  def add_cjk_params_logic
+    CatalogController.solr_search_params_logic << :cjk_query_addl_params
+  end
 
   # get search results from the solr index
   def index
@@ -78,7 +83,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
               params[:q] << '+' << bits << ' '
             end
             params[:q] << ') OR "' << qparam_display << '"'
-          end
+          end#encoding: UTF-8
       else
         if params[:q].nil? or params[:q].blank?
           params[:q] = params[:q]
@@ -90,7 +95,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #    if params[:search_field] = "call number"
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
-    
+    if num_cjk_uni(params[:q]) > 0
+      cjk_query_addl_params({}, params)
+      Rails.logger.info("Sheeba = HOWDO?")
+    end
     Rails.logger.info("BEEVIS = #{params[:q]}")
 
     (@response, @document_list) = get_search_results
@@ -460,8 +468,59 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
   
+  def cjk_mm_val
+    silence_warnings { @@cjk_mm_val = '3<86%'}
+  end
+  
+  def cjk_mm_qs_params(str)
+ #   cjk_mm_val = []
+    num_uni = num_cjk_uni(str)
+    if num_uni > 2 
+      num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size
+      if num_non_cjk_tokens > 0
+        lower_limit = cjk_mm_val[0].to_i
+        mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
+        {'mm' => mm, 'qs' => 0}
+      else
+        {'mm' => cjk_mm_val, 'qs' => 0}
+      end
+    else
+      {}
+    end
+  end
+  
+  def cjk_query_addl_params(solr_params, params)
+    if params && params.has_key?(:q)
+      q_str = (params[:q] ? params[:q] : '')
+      num_uni = num_cjk_uni(q_str)
+      if num_uni > 2
+        solr_params.merge!(cjk_mm_qs_params(q_str))
+        Rails.logger.info("SPEZ = #{solr_params}")
+      end
+      
+      if num_uni > 0
+        #case params[:search_field]
+          #when 'search', nil
+           solr_params[:q] = "{!qf=$qf_cjk pf=$pf_cjk pf3=$pf3_cjk pf2=$pf2_cjk}#{q_str}"
+          #when 'title'
+           #solr_params[:q] = "{!qf=$qf_title_cjk pf=$pf_title_cjk pf3=$pf3_title_cjk pf2=$pf2_title_cjk}#{q_str}"
+          #when 'author'
+           #solr_params[:q] = "{!qf=$qf_author_cjk pf=$pf_author_cjk pf3=$pf3_author_cjk pf2=$pf2_author_cjk}#{q_str}"
+          #when 'journal title'
+           #solr_params[:q] = "{!qf=$qf_journal_cjk pf=$pf_journal_cjk pf3=$pf3_journal_cjk pf2=$pf2_journal_cjk}#{q_str}"
+          #when 'subject'
+           #solr_params[:q] = "{!qf=$qf_subject_cjk pf=$pf_subject_cjk pf3=$pf3_subject_cjk pf2=$pf2_subject_cjk}#{q_str}"
+        #end
+      end
+    end
+  end
 
-
-
+  def num_cjk_uni(str)
+    if str
+      str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
+    else
+      0
+    end
+  end
 
 end
