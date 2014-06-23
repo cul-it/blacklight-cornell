@@ -29,7 +29,7 @@ Feature: Item view
   Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
     Given I request the item view for 4442
     And click on link "Peabody, William Bourn Oliver, 1799-1847"
-    Then I should see the label  'Lives of Alexander Wilson and Captain John Smith.'
+    Then I should see the label 'Lives of Alexander Wilson and Captain John Smith'
 
   # DISCOVERYACCESS-142
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
@@ -95,6 +95,37 @@ Feature: Item view
   Scenario: As a user I can see the availability for an lost item (status 13)
     Given I request the item view for 259600 
     Then I should see the label 'c. 1 Unavailable 2013-06-12'
+
+  # Make sure subfield z is displayed. 
+  @availability
+  @holdings_field866_subfieldz
+  Scenario: As a user I can see the subfield Z in the holdings display info 
+    Given I request the item view for 2229355 
+    Then I should see the label 'Cayuga <Film 1290>'
+
+  # Make sure Indexes: are displayed 
+  @availability
+  @holdings
+  @indexes
+  Scenario: As a user I can see the indexes information 
+    Given I request the item view for 298714 
+    Then I should see the label 'Indexes'
+
+  # Make sure Supplements: are displayed 
+  @availability
+  @holdings
+  @supplements
+  Scenario: As a user I can see the supplements information 
+    Given I request the item view for 307178 
+    Then I should see the label 'Supplements:'
+
+  # Make sure Current Issues: are displayed 
+  @availability
+  @holdings
+  @current_issues
+  Scenario: As a user I can see the current issues information 
+    Given I request the item view for 329763 
+    Then I should see the label 'Current Issues: issue no'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)

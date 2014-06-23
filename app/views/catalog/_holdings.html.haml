@@ -1,0 +1,76 @@
+- some_av = 'no'
+- holdings_condensed = create_condensed_full(@document) 
+= print "<br/>testing<br/>"
+- if (!holdings_condensed.nil?) && holdings_condensed.size > 0
+  - grouped_holdings = group_holdings(holdings_condensed)
+  - multiple_groups = grouped_holdings.size > 1
+  - grouped_holdings.each do |group, holdings|
+    - # Render group headings only if we have multiple groups
+    - if multiple_groups
+      - if group == "Rare"
+        %h4
+          = group + " Items"
+    - holdings.each do |entry|
+      - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
+      - callnumber = entry['call_number']
+
+      .holding
+        - if location != 'Online' and @hide_status.blank?
+          %h5.location
+            = location
+            %span.map-it
+              = render_location_link entry['location_code']
+
+        -# Only display a real call number
+        - if !callnumber.blank? && !callnumber.include?('No call number') && callnumber != ''
+          .call-number
+            = callnumber
+            %span.text-it
+              = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
+                %i{:class => 'fa fa-mobile'}
+                = t('blacklight.tools.sms')
+        - entry['copies'].each do |copy|
+          .group
+            - unless copy['temp_locations'].nil?
+              - copy['temp_locations'].each do |t|
+                .message= t
+            - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+              - unless copy[type].nil?
+                .message= copy[type]
+            - (copy['items'].sort_by{|mess,det| det["status"]}).each do |item|
+              -# Handling online link in _show_metadata.html.erb
+              - if location != 'Online' and @hide_status.blank?
+                .status
+                  - message, details = item
+                  - if details['status'] == 'available' 
+                    %i{:class => 'fa fa-check'}
+                  - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
+                    %i{:class => 'fa fa-clock-o', :title => 'On order'}
+                    - message = 'On order'
+                  - elsif details['status'] == 'none'
+                    %i{:class => 'fa fa-check', :title => 'On-site use'}
+                    - message = 'On-site use'
+                  - else
+                    %i{:class => 'fa fa-clock-o'}
+                  = message
+                  - if details['count'] >1
+                    (#{details['count']} copies)
+                  - if details['status'] == 'some_available'
+                    - some_av = 'yes'
+            -if some_av == 'yes' 
+              %div.status
+                %i{:class => 'fa fa-check'}
+                All other volumes available
+
+    - if group == "Circulating" or group == "Rare"
+      - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{@id}") : request_aeon_path("#{@id}")
+      .item-requests
+        - counter = params[:counter] || session[:search][:counter]
+        - if counter.blank?
+          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
+        - else
+          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+
+
+
+
