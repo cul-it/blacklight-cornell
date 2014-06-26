@@ -36,6 +36,11 @@ Feature: Item view
     Given I request the item view for 3749
     Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
+  @request_button
+  Scenario: As a user I can request an item 
+    Given I request the item view for 30000 
+    Then it should have link "Request" with value "/request/30000"  
+
   # Availability simple, one location, and is available 
   @availability
   Scenario: As a user I can see the availability for an item 
