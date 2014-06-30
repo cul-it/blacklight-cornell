@@ -72,7 +72,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     
     if params[:search_field] != "journal_title " and params[:search_field] != "call_number"
-      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
+     if params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT')
+       params[:q] = params[:q]
+     else 
+      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank? 
           qparam_display = params[:q]
           qarray = params[:q].split
           params[:q] = "("
@@ -89,6 +92,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           params[:q] = params[:q]
         end
       end
+     end
     end
     # end of Journal title search hack
     
