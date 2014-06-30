@@ -72,7 +72,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     
     if params[:search_field] != "journal_title " and params[:search_field] != "call_number"
-      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
+     if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+       params[:q] = params[:q]
+     else 
+      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank? 
           qparam_display = params[:q]
           qarray = params[:q].split
           params[:q] = "("
@@ -89,6 +92,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           params[:q] = params[:q]
         end
       end
+     end
     end
     # end of Journal title search hack
     
@@ -97,9 +101,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #    end
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
-      Rails.logger.info("Sheeba = HOWDO?")
+#      Rails.logger.info("Sheeba = HOWDO?")
     end
-    Rails.logger.info("BEEVIS = #{params[:q]}")
+#    Rails.logger.info("BEEVIS = #{params[:q]}")
 
     (@response, @document_list) = get_search_results
 
@@ -495,22 +499,22 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       num_uni = num_cjk_uni(q_str)
       if num_uni > 2
         solr_params.merge!(cjk_mm_qs_params(q_str))
-        Rails.logger.info("SPEZ = #{solr_params}")
+#        Rails.logger.info("SPEZ = #{solr_params}")
       end
       
       if num_uni > 0
-        #case params[:search_field]
-          #when 'search', nil
-           solr_params[:q] = "{!qf=$qf_cjk pf=$pf_cjk pf3=$pf3_cjk pf2=$pf2_cjk}#{q_str}"
-          #when 'title'
-           #solr_params[:q] = "{!qf=$qf_title_cjk pf=$pf_title_cjk pf3=$pf3_title_cjk pf2=$pf2_title_cjk}#{q_str}"
-          #when 'author'
-           #solr_params[:q] = "{!qf=$qf_author_cjk pf=$pf_author_cjk pf3=$pf3_author_cjk pf2=$pf2_author_cjk}#{q_str}"
-          #when 'journal title'
-           #solr_params[:q] = "{!qf=$qf_journal_cjk pf=$pf_journal_cjk pf3=$pf3_journal_cjk pf2=$pf2_journal_cjk}#{q_str}"
-          #when 'subject'
-           #solr_params[:q] = "{!qf=$qf_subject_cjk pf=$pf_subject_cjk pf3=$pf3_subject_cjk pf2=$pf2_subject_cjk}#{q_str}"
-        #end
+        case params[:search_field]
+          when 'all_fields', nil
+           solr_params[:q] = "{!qf=$qf pf=$pf pf3=$pf3 pf2=$pf2}#{q_str}"
+          when 'title'
+           solr_params[:q] = "{!qf=$title_qf pf=$title_pf pf3=$title_pf3 pf2=$title_pf2}#{q_str}"
+          when 'author/creator'
+           solr_params[:q] = "{!qf=$author_qf pf=$author_pf pf3=$pf3_author_pf3 pf2=$author_pf2}#{q_str}"
+          when 'journal title'
+           solr_params[:q] = "{!qf=$journal_qf pf=$journal_pf pf3=$journal_pf3 pf2=$journal_pf2}#{q_str}"
+          when 'subject'
+           solr_params[:q] = "{!qf=$subject_qf pf=$subject_pf pf3=$subject_pf3 pf2=$subject_pf2}#{q_str}"
+        end
       end
     end
   end
