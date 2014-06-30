@@ -101,9 +101,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #    end
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
-      Rails.logger.info("Sheeba = HOWDO?")
+#      Rails.logger.info("Sheeba = HOWDO?")
     end
-    Rails.logger.info("BEEVIS = #{params[:q]}")
+#    Rails.logger.info("BEEVIS = #{params[:q]}")
 
     (@response, @document_list) = get_search_results
 
@@ -499,7 +499,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       num_uni = num_cjk_uni(q_str)
       if num_uni > 2
         solr_params.merge!(cjk_mm_qs_params(q_str))
-        Rails.logger.info("SPEZ = #{solr_params}")
+#        Rails.logger.info("SPEZ = #{solr_params}")
       end
       
       if num_uni > 0
