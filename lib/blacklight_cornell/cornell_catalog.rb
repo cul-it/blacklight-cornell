@@ -72,7 +72,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     
     if params[:search_field] != "journal_title " and params[:search_field] != "call_number"
-     if params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT')
+     if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
        params[:q] = params[:q]
      else 
       if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank? 
