@@ -17,8 +17,8 @@ test: &test
   url: http://da-dev-solr.library.cornell.edu/solr/blacklight
 
 production:
- # url: http://da-prod-solr1.library.cornell.edu/solr/blacklight
-  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  url: http://da-prod-solr1.library.cornell.edu/solr/blacklight
+  #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 cucumber:
   <<: *test
