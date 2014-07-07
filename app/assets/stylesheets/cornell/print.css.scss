@@ -1,5 +1,9 @@
 @import 'font-awesome';
 
+body {
+	font-size: 90%;
+}
+
 
 // Hide this stuff
 
@@ -20,7 +24,14 @@
 .return-link,
 .item-tools,
 .holdings .btn,
-.iconcover {
+.iconcover,
+.cover,
+footer,
+header,
+.cornell-identity,
+.map-it,
+.text-it,
+.librarian-view {
 	display: none;
 }
 
@@ -55,10 +66,10 @@ a[href].url_findingaid_display:after {
 	content: " (" attr(href) ")"; }
 
 // Add a line and space between main content and footer
-footer {
-	border-top: 1px solid black;
-	margin-top: 30px;
-}
+// footer {
+// 	border-top: 1px solid black;
+// 	margin-top: 30px;
+// }
 
 // hides covers on results
 .document {
@@ -73,22 +84,22 @@ footer {
 }
 
 // Bring in some Bootstrap stuff
-.img-polaroid {
-  	padding: 4px;
-  	background-color: #fff;
-  	border: 1px solid #ccc;
-  	border: 1px solid rgba(0, 0, 0, 0.2);
-  	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+// .img-polaroid {
+//   	padding: 4px;
+//   	background-color: #fff;
+//   	border: 1px solid #ccc;
+//   	border: 1px solid rgba(0, 0, 0, 0.2);
+//   	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+//   	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+//   	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+// }
 
-.bookcover {
-	float: left;
-	width: 170px;
-	margin-bottom: 1.5em;
-	margin-right: 20px;
-}
+// .bookcover {
+// 	float: left;
+// 	width: 170px;
+// 	margin-bottom: 1.5em;
+// 	margin-right: 20px;
+// }
 .location { 
 	font-size: 1em;
 	margin-bottom: 0;
@@ -96,7 +107,7 @@ footer {
 
 // modal
 .modal {
-	border-top: 1px solid;
+	// border-top: 1px solid;
 	margin-top: 0 !important;
 }
 .modal-header button { display: none; }
@@ -118,4 +129,9 @@ footer {
 	display: inline; 
 	float: left;
 	width: 550px;
+}
+
+.print-only { display: block; }
+#document h2, #document h3 {
+	margin: 0;
 }
