@@ -45,23 +45,5 @@
 
     <%= javascript_include_tag "application" %>
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
-    <script type="text/javascript" src="http://beta.library.cornell.edu/sites/all/libraries/clickheat/js/clickheat.js"></script>
-    <script type="text/javascript">clickHeatSite = 'blacklight';clickHeatGroup = makeGroupName();clickHeatServer = 'http://beta.library.cornell.edu/sites/all/libraries/clickheat/click.php';initClickHeat();
-
-      function makeGroupName() {
-        var path = window.location.pathname;
-        var query = window.top.location.search.substring(1);
-        if (path.indexOf('/advanced') >= 0) 
-          return 'advanced_search';
-        else if (query.indexOf('q') != -1)
-          return 'results';
-        else if (path.indexOf('/catalog/') >= 0)
-          return 'item'
-        else if (path.indexOf('/catalog/') >= 0)
-          return 'request'
-        else
-          return 'home';
-      }
-    </script>
   </body>
 </html>
