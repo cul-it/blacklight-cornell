@@ -34,7 +34,12 @@ module BlacklightCornellRequests
       @name = get_patron_name req.netid
 
       @iis = ActiveSupport::HashWithIndifferentAccess.new
-
+      if !@document[:url_pda_display].blank? && !@document[:url_pda_display][0].blank?
+        pda_url = @document[:url_pda_display][0]
+        Rails.logger.info "es287_log #{__FILE__} #{__LINE__}:" + pda_url.inspect
+        pda_url, note = pda_url.split('|')
+        @iis = {:pda => { :itemid => 'pda', :url => pda_url, :note => note }}
+      end
       # @volumes = req.set_volumes(req.all_items)
       @volumes = req.volumes
       if req.volumes.present? and params[:volume].blank?
@@ -144,13 +149,19 @@ module BlacklightCornellRequests
         end
 
         response = req.make_voyager_request params
-
+        Rails.logger.info "Response:" + response.inspect
+        if !response[:error].blank?
+          flash[:error] = response[:error]
+          render :partial => '/flash_msg', :layout => false
+          return
+        end
         if response[:failure].blank?
           # Note: the :flash=>'success' in this case is not setting the actual flash message,
           # but instead specifying a URL parameter that acts as a flag in Blacklight's show.html.erb view.
           render js: "window.location = '#{Rails.application.routes.url_helpers.catalog_path(params[:bibid], :flash=>'success')}'"
           return
         else
+          Rails.logger.info "Response: was failure" + response[:failure].inspect
           flash[:error] = response[:failure]
         end
       end

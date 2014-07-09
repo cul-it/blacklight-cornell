@@ -10,7 +10,9 @@
   = link_to catalog_path(@id), { :title => @ti, 'data-counter'.to_sym => @counter } do
     %i.fa.fa-arrow-circle-left
     Back to item
-%h1.request-type Borrow Direct Request
+%h1.request-type
+  - user = request.env['REMOTE_USER'].inspect
+  = "Borrow Direct Request for " + user
 %div.row
   %div.span8.well
     %h2.item-title-request.blacklight-title_display=title
@@ -20,7 +22,6 @@
     %p
       Delivery time: Approximately
       = delivery_estimate_display @estimate
-      \.
     .control-group
       .controls.clearfix
         - if @isbn.present?
@@ -29,13 +30,14 @@
           = link_to 'Search Borrow Direct', borrowdirect_url_from_title(@ti), :class => 'btn btn-danger pull-left'
         %div.accordion-heading.request-options.form-alternative-action.pull-left
           or
-          =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}  
+          =link_to 'Other options', '#collapseOne', {:data => {:toggle => 'collapse', :parent => '#accordion2'}}
       .controls
         %div.accordion#accordion2.request-options.form-alternative-action
           %div#collapseOne.accordion-body.collapse
             %div.accordion-inner
               %div.span4
                 Borrow Direct will take approximately
-                = delivery_estimate_display @estimate
-                \. Your other request options are listed below.
-                = render :partial => 'shared/request_options'     
+                = succeed "." do
+                  = delivery_estimate_display @estimate
+                Your other request options are listed below.
+                = render :partial => 'shared/request_options'
