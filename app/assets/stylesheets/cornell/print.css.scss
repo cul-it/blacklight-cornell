@@ -31,7 +31,8 @@ header,
 .cornell-identity,
 .map-it,
 .text-it,
-.librarian-view {
+.librarian-view,
+.item-pagination  {
 	display: none;
 }
 
@@ -134,4 +135,16 @@ a[href].url_findingaid_display:after {
 .print-only { display: block; }
 #document h2, #document h3 {
 	margin: 0;
+}
+
+.availability { margin-top: 10px; }
+.availability h3,
+.availability h4,
+.availability h5 {
+	margin: 0;
+}
+.availability .unstyled {
+	list-style: none;
+	margin: 0 0 .25em;
+	padding: 0;
 }
