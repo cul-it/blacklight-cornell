@@ -11,21 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131205183448) do
+ActiveRecord::Schema.define(:version => 20141205183448) do
 
-  create_table "blacklight_cornell_requests_circ_policy_locs", :force => true do |t|
-    t.integer "CIRC_GROUP_ID"
-    t.integer "LOCATION_ID"
-    t.string  "PICKUP_LOCATION", :limit => 1
-  end
-
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], :name => "key_cgi_pl"
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], :name => "key_location_id"
-
-  create_table "blacklight_cornell_requests_requests", :force => true do |t|
+  create_table "best_bets", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  # create_table "blacklight_cornell_requests_circ_policy_locs", :force => true do |t|
+  #   t.integer "CIRC_GROUP_ID"
+  #   t.integer "LOCATION_ID"
+  #   t.string  "PICKUP_LOCATION", :limit => 1
+  # end
+
+  # add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], :name => "key_cgi_pl"
+  # add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], :name => "key_location_id"
+
+  # create_table "blacklight_cornell_requests_requests", :force => true do |t|
+  #   t.datetime "created_at", :null => false
+  #   t.datetime "updated_at", :null => false
+  # end
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -35,6 +42,24 @@ ActiveRecord::Schema.define(:version => 20131205183448) do
     t.datetime "updated_at",  :null => false
     t.string   "user_type"
   end
+
+  create_table "models", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "models", ["email"], :name => "index_models_on_email", :unique => true
+  add_index "models", ["reset_password_token"], :name => "index_models_on_reset_password_token", :unique => true
 
   create_table "searches", :force => true do |t|
     t.text     "query_params"
@@ -47,10 +72,10 @@ ActiveRecord::Schema.define(:version => 20131205183448) do
   add_index "searches", ["user_id"], :name => "index_searches_on_user_id"
 
   create_table "sessions", :force => true do |t|
-    t.string   "session_id", :null => false
-    t.text     "data"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "session_id",                       :null => false
+    t.text     "data",       :limit => 2147483647
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"

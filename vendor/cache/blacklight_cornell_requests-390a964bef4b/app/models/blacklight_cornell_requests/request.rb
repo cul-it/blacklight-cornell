@@ -66,6 +66,7 @@ module BlacklightCornellRequests
 
     def initialize(bibid)
       self.bibid = bibid
+      @bd = nil
     end
 
     def save!
@@ -94,6 +95,7 @@ module BlacklightCornellRequests
 
       # Get holdings
       self.holdings_data = get_holdings document unless self.holdings_data
+      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} holdings data returned."+ Time.new.inspect
 
       # Get item status and location for each item in each holdings record; store in working_items
       # We now have two item arrays! working_items (which eventually gets set in self.items) is a 
@@ -123,17 +125,23 @@ module BlacklightCornellRequests
 
       self.items = working_items
       self.document = document
+      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} working items processed. number of items: #{self.items.size} at"+ Time.new.inspect
 
       unless document.nil?
 
         # Iterate through all items and get list of delivery methods
         bd_params = { :isbn => document[:isbn_display], :title => document[:title_display], :env_http_host => env_http_host }
+        n = 0
         working_items.each do |item|
+          n = n + 1
+          Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} prepare for deliv options for each item. (#{n})"+ Time.new.inspect
           services = get_delivery_options item, bd_params
+          Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} delivoptions for each item. (#{n}) (#{service.inspect})"+ Time.new.inspect
           item[:services] = services
         end
         populate_document_values
         
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} services established for each item."+ Time.new.inspect
         
         # handle pda
         patron_type = get_patron_type self.netid
@@ -146,7 +154,7 @@ module BlacklightCornellRequests
           pda_entry = { :service => PDA, :iid => iids, :estimate => get_delivery_time(PDA, nil) }
           
           bd_entry = nil
-          if borrowDirect_available? bd_params
+          if xxborrowDirect_available? bd_params
             bd_entry = { :service => BD, :iid => {}, :estimate => get_delivery_time(BD, nil) }
           end
           ill_entry = { :service => ILL, :iid => {}, :estimate => get_delivery_time(ILL, nil) }
@@ -173,7 +181,9 @@ module BlacklightCornellRequests
           
           return
         end
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} bd/pda processed."+ Time.new.inspect
 
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} self request options: #{self.request_options}"
         # Determine whether this is a multi-volume thing or not (i.e, multi-copy)
         # They will be handled differently depending
         if self.document[:multivol_b] and volume.blank?
@@ -191,6 +201,7 @@ module BlacklightCornellRequests
 
       end
   
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} self request options: #{self.request_options}"
       if !target.blank?
         self.service = target
       elsif request_options.present?
@@ -398,13 +409,14 @@ module BlacklightCornellRequests
     # environments file.
     # holdings_param = { :bibid => <bibid>, :type => retrieve|retrieve_detail_raw}
     def get_holdings document
+      #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} entered get_holdings"
       holdings = document[:item_record_display].present? ? document[:item_record_display].map { |item| parseJSON item } : Array.new
-      # Rails.logger.info "sk274_log: #{holdings.inspect}"
+      #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{holdings.inspect}"
 
       return nil unless self.bibid
 
       response = parseJSON(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{self.bibid}"))
-      # Rails.logger.info "sk274_log: #{response.inspect}"
+      #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{response.inspect}"
       
       if response[self.bibid.to_s] and response[self.bibid.to_s][self.bibid.to_s] and response[self.bibid.to_s][self.bibid.to_s][:records]
         statuses = {}
@@ -418,6 +430,7 @@ module BlacklightCornellRequests
           end
         end
         
+        #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{call_numbers.inspect}"
         location_seen = Hash.new
         location_ids = Array.new
         ## assume there is one holdings location per bibid
@@ -473,23 +486,26 @@ module BlacklightCornellRequests
             ## Annex group can deliver to itself
             ## Others can't deliver to itself
             # logger.debug "sk274_log: " + circ_group_id.inspect
-            if circ_group_id[0]['circ_group_id'] == 3 || circ_group_id[0]['circ_group_id'] == 19
-              ## include both group id if Olin or Uris
-              circ_group_id = [3, 19]
-              # logger.debug "sk274_log: Olin or Uris detected"
-            elsif circ_group_id[0]['circ_group_id'] == 5
-              ## skip annex next time
-              # logger.debug "sk274_log: Annex detected, skipping"
+            # there might not be an entry in this table  
+            if !circ_group_id.blank? 
+              if circ_group_id[0]['circ_group_id'] == 3 || circ_group_id[0]['circ_group_id'] == 19
+                ## include both group id if Olin or Uris
+                circ_group_id = [3, 19]
+                # logger.debug "sk274_log: Olin or Uris detected"
+              elsif circ_group_id[0]['circ_group_id'] == 5
+                ## skip annex next time
+                # logger.debug "sk274_log: Annex detected, skipping"
+                location_seen[location] = exclude_location_list
+                holding[:exclude_location_id] = exclude_location_list
+                next
+              end
+              # logger.debug "sk274_log: circ group id: " + circ_group_id.inspect
+              locs = Circ_policy_locs.select('location_id').where( :circ_group_id =>  circ_group_id, :pickup_location => 'Y' )
+              locs.each do |loc|
+                exclude_location_list.push loc['location_id']
+              end
               location_seen[location] = exclude_location_list
-              holding[:exclude_location_id] = exclude_location_list
-              next
             end
-            # logger.debug "sk274_log: circ group id: " + circ_group_id.inspect
-            locs = Circ_policy_locs.select('location_id').where( :circ_group_id =>  circ_group_id, :pickup_location => 'Y' )
-            locs.each do |loc|
-              exclude_location_list.push loc['location_id']
-            end
-            location_seen[location] = exclude_location_list
           else
             exclude_location_list = location_seen[location]
           end
@@ -498,6 +514,7 @@ module BlacklightCornellRequests
         end
       end
       
+      #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{holdings.inspect}"
       holdings
 
     end
@@ -588,11 +605,13 @@ module BlacklightCornellRequests
     # the fastest (i.e., the "best") delivery option.
     def get_delivery_options item, bd_params = {}
 
+      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} start of deliv options (#{item.inspect})"+ Time.new.inspect
       patron_type = get_patron_type self.netid
       # Rails.logger.info "sk274_debug: " + "#{self.netid}, #{patron_type}"
 
       if patron_type == 'cornell'
         # Rails.logger.info "sk274_debug: get cornell options"
+        Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_cornell_delivery_options."+ Time.new.inspect
         options = get_cornell_delivery_options item, bd_params
       else
         # Rails.logger.info "sk274_debug: get guest options"
@@ -601,11 +620,13 @@ module BlacklightCornellRequests
 
       # Get delivery time estimates for each option
       options.each do |option|
+        Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_option_time.."+ Time.new.inspect
         option[:estimate] = get_delivery_time(option[:service], option)
         option[:iid] = item
       end
       
       # Rails.logger.info "sk274_log: #{options.inspect}"
+      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} end of deliv options (#{options.inspect})"+ Time.new.inspect
 
       #return sort_request_options options
       return options
@@ -629,7 +650,7 @@ module BlacklightCornellRequests
           # end
         # end
         # request_options.push({ :service => ILL, :iid => [], :estimate => get_ill_delivery_time })
-        if borrowDirect_available? params
+        if xxborrowDirect_available? params
           request_options.push( {:service => BD, :location => item[:location] } )
         end
         request_options.push({:service => ILL, :location => item[:location]})
@@ -639,7 +660,7 @@ module BlacklightCornellRequests
 
       elsif item_loan_type == 'regular' and item[:status] ==  CHARGED
         # TODO: Test and fix BD check with real params
-        if borrowDirect_available? params
+        if xxborrowDirect_available? params
           request_options.push( {:service => BD, :location => item[:location] } )
         end
         request_options.push({:service => ILL, :location => item[:location]},
@@ -652,7 +673,7 @@ module BlacklightCornellRequests
              (item_loan_type == 'day' and item[:status] == LOST))
 
          # TODO: Test and fix BD check with real params
-        if borrowDirect_available? params
+        if xxborrowDirect_available? params
           request_options.push( {:service => BD, :location => item[:location] } )
         end
         request_options.push({:service => PURCHASE, :location => item[:location]},
@@ -661,7 +682,7 @@ module BlacklightCornellRequests
       elsif item_loan_type == 'day' and item[:status] == CHARGED
 
          # TODO: Test and fix BD check with real params
-        if borrowDirect_available? params
+        if xxborrowDirect_available? params
           request_options.push( {:service => BD, :location => item[:location] } )
         end
         request_options.push( {:service => ILL, :location => item[:location] } )
@@ -675,7 +696,7 @@ module BlacklightCornellRequests
       elsif item_loan_type == 'minute'
 
         # TODO: Test and fix BD check with real params
-        if borrowDirect_available? params
+        if xxborrowDirect_available? params
           request_options.push( {:service => BD, :location => item[:location] } )
         end
         request_options.push( {:service => ASK_CIRCULATION, :location => item[:location] } )
@@ -823,6 +844,7 @@ module BlacklightCornellRequests
     end
     
     def create_ill_link
+
       document = self.document
       ill_link = 'https://cornell.hosts.atlas-sys.com/illiad/illiad.dll?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Flibrary.cornell.edu'
       if self.isbn.present?
@@ -836,13 +858,20 @@ module BlacklightCornellRequests
       if !document[:author_display].blank?
         ill_link = ill_link + "&rft.aulast=#{document[:author_display]}"
       end
-      if document[:pub_info_display].present?
-        pub_info_display = document[:pub_info_display][0]
-        self.pub_info = pub_info_display
-        ill_link = ill_link + "&rft.place=#{pub_info_display}"
-        ill_link = ill_link + "&rft.pub=#{pub_info_display}"
-        ill_link = ill_link + "&rft.date=#{pub_info_display}"
-      end
+      
+      # Populate the publisher data fields. This can be done
+      # using pub_info_display, which gloms everything together,
+      # or by using the separate pubplace_display, publisher_display
+      # and pub_date_display
+      pub_info_combo = document[:pub_info_display][0]
+      pub_date = (document[:pub_date_display] ? document[:pub_date_display][0] : pub_info_combo)
+      pub_info = (document[:publisher_display] ? document[:publisher_display][0] : pub_info_combo)
+      pub_place = (document[:pubplace_display] ? document[:pubplace_display][0] : pub_info_combo)
+      self.pub_info = pub_info_combo
+      ill_link = ill_link + "&rft.place=#{pub_place}"
+      ill_link = ill_link + "&rft.pub=#{pub_info}"
+      ill_link = ill_link + "&rft.date=#{pub_date}"
+
       if !document[:format].blank?
         ill_link = ill_link + "&rft.genre=#{document[:format][0]}"
       end
@@ -900,13 +929,13 @@ module BlacklightCornellRequests
       v.reqcomments = params[:reqcomments]
       case params[:request_action]
       when 'hold'
-        v.place_hold_item!
+         v.itemid.blank? ?  v.place_hold_title!   : v.place_hold_item!
       when 'recall'
-        v.place_recall_item!
+         v.itemid.blank? ?  v.place_recall_title_rest! : v.place_recall_item_rest!
       when 'callslip'
-        v.place_callslip_item!
+         v.itemid.blank? ?  v.place_callslip_title! : v.place_callslip_item!
       end
-
+      #Rails.logger.debug "Response" + v.inspect 
       if v.mtype.strip == 'success'
         return { :success => I18n.t('requests.success') }
       else
@@ -917,36 +946,25 @@ module BlacklightCornellRequests
         end
       end
 
-      # Set up Voyager request URL string
-      # voyager_request_handler_url = Rails.configuration.voyager_request_handler_host
-      # voyager_request_handler_url ||= request.env['HTTP_HOST']
-      # unless voyager_request_handler_url.starts_with?('http')
-      #   voyager_request_handler_url = "http://#{voyager_request_handler_url}"
-      # end
-      # unless Rails.configuration.voyager_request_handler_port.blank?
-      #   voyager_request_handler_url += ":" + Rails.configuration.voyager_request_handler_port.to_s
-      # end
-
-      # # Assemble complete request URL
-      # voyager_request_handler_url += "/holdings/#{params[:request_action]}/#{self.netid}/#{self.bibid}/#{params[:library_id]}"
-      # unless params[:holding_id].nil?
-      #   voyager_request_handler_url += "/#{params[:holding_id]}" # holding_id is actually item id!
-      # end
-
-      # # Send the request
-      # # puts voyager_request_handler_url
-      # body = { 'reqnna' => params['latest-date'], 'reqcomments' => params[:reqcomments] }
-      # result = HTTPClient.post(voyager_request_handler_url, body)
-      #response = JSON.parse(result.content)
-
-      # if response['status'] == 'failed'
-      #   return { :failure => I18n.t('requests.failure') }
-      # else
-      #   return { :success => I18n.t('requests.success') }
-      # end
 
     end
 
-  end
 
+    def xxborrowDirect_available? params
+      if !@bd.nil?
+        return @bd
+      else
+        begin
+          @bd = _borrowDirect_available? params
+          return  @bd
+        rescue => e
+          Rails.logger.info "Error checking borrow direct availability: exception #{e.class.name} : #{e.message}"
+          @bd = false
+          return @bd 
+        end
+      end
+    end
+
+  end
 end
+

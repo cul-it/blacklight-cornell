@@ -106,7 +106,7 @@ en:
       refworks: 'Refworks'
       email: 'Email'
       sms: 'Text'
-      librarian_view: 'Librarian view'
+      librarian_view: 'Librarian View'
       clear: 'Clear'
 
     citation:
@@ -212,7 +212,7 @@ en:
           value: 'Remove constraint %{value}'
           label_value: 'Remove constraint %{label}: %{value}'
       librarian_view:
-        title: 'Librarian view'
+        title: 'Librarian View'
         leader: 'LEADER %{leader}'
       start_over: 'Start over'
       show:

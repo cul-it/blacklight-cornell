@@ -6,6 +6,7 @@ en:
     failure8: 'Your request could not be completed, because you have already requested this item. Please contact a librarian for assistance.'
     failurepatronBlocked: 'Your request could not be completed, because you are not eligible to make requests. Please contact a librarian for assistance.'
     failure12: 'Your request could not be completed, because this item is not available for hold.  Please contact a librarian for assistance. (error code 12)'
+    failure25: 'Your request could not be completed, because this item is not available for hold.  Please contact a librarian for assistance. (error code 25)'
     errors:
       bibid:
         blank: 'No record has been selected for a request.'
