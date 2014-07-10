@@ -11,3 +11,10 @@ set :deploy_to, "/libweb/#{user}/blacklight-cornell"
 # this is set by jenkins, otherwise you can set it.
 # cap says you cannot deploy from remote branch.
 set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
+
+desc "Tailor solr config to local machine"
+task :tailor_solr_yml, :roles => [ :web ] do
+        run "sed -e s/da-prod-solr1.library.cornell.edu/da-stg-ssolr.library.cornell.edu/ #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/slr.rb  >#{deploy_to}/current/config/solr.yml"
+        run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+end
+
