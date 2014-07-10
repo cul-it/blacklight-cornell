@@ -125,7 +125,7 @@ module BlacklightCornellRequests
 
       self.items = working_items
       self.document = document
-      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} working items processed. number of items: #{self.items.size} at"+ Time.new.inspect
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} working items processed. number of items: #{self.items.size} at"+ Time.new.inspect
 
       unless document.nil?
 
@@ -134,9 +134,9 @@ module BlacklightCornellRequests
         n = 0
         working_items.each do |item|
           n = n + 1
-          Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} prepare for deliv options for each item. (#{n})"+ Time.new.inspect
+          #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} prepare for deliv options for each item. (#{n})"+ Time.new.inspect
           services = get_delivery_options item, bd_params
-          Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} delivoptions for each item. (#{n}) (#{service.inspect})"+ Time.new.inspect
+          #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} delivoptions for each item. (#{n}) (#{service.inspect})"+ Time.new.inspect
           item[:services] = services
         end
         populate_document_values
@@ -605,13 +605,12 @@ module BlacklightCornellRequests
     # the fastest (i.e., the "best") delivery option.
     def get_delivery_options item, bd_params = {}
 
-      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} start of deliv options (#{item.inspect})"+ Time.new.inspect
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} start of deliv options (#{item.inspect})"+ Time.new.inspect
       patron_type = get_patron_type self.netid
       # Rails.logger.info "sk274_debug: " + "#{self.netid}, #{patron_type}"
 
       if patron_type == 'cornell'
-        # Rails.logger.info "sk274_debug: get cornell options"
-        Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_cornell_delivery_options."+ Time.new.inspect
+        #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_cornell_delivery_options."+ Time.new.inspect
         options = get_cornell_delivery_options item, bd_params
       else
         # Rails.logger.info "sk274_debug: get guest options"
@@ -620,13 +619,13 @@ module BlacklightCornellRequests
 
       # Get delivery time estimates for each option
       options.each do |option|
-        Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_option_time.."+ Time.new.inspect
+        #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_option_time.."+ Time.new.inspect
         option[:estimate] = get_delivery_time(option[:service], option)
         option[:iid] = item
       end
       
       # Rails.logger.info "sk274_log: #{options.inspect}"
-      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} end of deliv options (#{options.inspect})"+ Time.new.inspect
+      #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} end of deliv options (#{options.inspect})"+ Time.new.inspect
 
       #return sort_request_options options
       return options
@@ -858,7 +857,7 @@ module BlacklightCornellRequests
       if !document[:author_display].blank?
         ill_link = ill_link + "&rft.aulast=#{document[:author_display]}"
       end
-      
+
       # Populate the publisher data fields. This can be done
       # using pub_info_display, which gloms everything together,
       # or by using the separate pubplace_display, publisher_display
