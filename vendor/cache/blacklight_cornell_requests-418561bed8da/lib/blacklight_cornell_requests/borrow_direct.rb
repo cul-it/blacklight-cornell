@@ -60,6 +60,7 @@ module BlacklightCornellRequests
       # Rails.logger.info "session id: #{session_id}"
 
       ## make pazpar2 search
+      isbn = params[:isbn]
       if isbn.present?
         isbn = /([a-zA-Z0-9]+)/.match(params[:isbn][0])
         isbn = isbn[1]
