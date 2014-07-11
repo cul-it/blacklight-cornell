@@ -6,6 +6,8 @@ gem 'rails', '~> 3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'savon', '~> 2.3.0'
+gem 'ultraviolet'
 gem 'mysql', '2.8.1'
 gem 'yaml_db'
 gem 'blacklight', '4.3.0'
