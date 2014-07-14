@@ -140,7 +140,10 @@ dd.blacklight-notes {
 	.online-link { font-size: .875em; }
 	.worldcat-search {
 		font-size: .8em;
-		padding: 5px 10px;}
+		padding: 5px 10px;
+		border-top: 1px dotted $tan;
+		display:block;
+		margin-top:10px;}
 	.location {
 		font-size: .875em;
 		background: $light-tan;
@@ -156,10 +159,11 @@ dd.blacklight-notes {
 		.call-number {
 			padding: 0 10px 5px 10px;
 			font-weight: 700;
-			font-size: .875em; }
+			font-size: .875em;
+			border-bottom: 1px dotted #d8d2c9;}
 		.group {
 			padding: 5px 10px;
-			border-top: 1px dotted $tan;
+		//	border-top: 1px dotted $tan;
 			font-size: .8em; }
 		// .status { margin-left: 15px; }
 	}
@@ -216,10 +220,12 @@ dd.blacklight-notes {
 }
 .access-restriction {
 	display: block;
-	margin-top: 1em;
+	//margin-top: 1em;
 	font-size: .9em;
 	line-height: 1.2em;
 	color: $medium-gray;
+	padding-left: 5px;
+
 	h5 { margin: 0; }
 }
 .item-requests {
