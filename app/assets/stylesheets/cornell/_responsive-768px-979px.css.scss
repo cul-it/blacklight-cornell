@@ -22,13 +22,12 @@
 	// -- see also responsive-480px-max.scss --
 	//-----------------------------------------
 	.navbar-cul {
-		// padding-left: 15px; 
-		// padding-right: 15px;
-		// height: auto;
-		// .brand { font-size: 18px; }
 		.nav {
 			li {
-				a { padding: 15px 12px; }
+				a { 
+					padding: 15px 12px;
+					font-size: 13px;
+				}
 			}
 		}
 	}

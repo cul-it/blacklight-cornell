@@ -1,5 +1,5 @@
 = link_to catalog_path(@id), {:title => @ti} do
-  %i.icon-circle-arrow-left
+  %i.fa.fa-arrow-circle-left
   Back to item
 %h1.request-type Interlibrary Loan
 %div.row
@@ -11,7 +11,6 @@
     %p
       Delivery time: Approximately
       = delivery_estimate_display @estimate
-      \.
     .control-group
       .controls.clearfix
         %a{:href => @ill_link, :class => 'btn btn-danger pull-left'}
@@ -25,7 +24,7 @@
             %div.accordion-inner
               %div.span4
                 Interlibrary loan is your fastest option and will take approximately
-                = delivery_estimate_display @estimate
-                \. Your other request options are listed below.
-                = render :partial => 'shared/request_options'      
-    
+                = succeed "." do
+                  = delivery_estimate_display @estimate
+                Your other request options are listed below.
+                = render :partial => 'shared/request_options'

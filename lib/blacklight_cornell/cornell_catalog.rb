@@ -57,7 +57,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       if params[:f].nil?
         params[:f] = {}
       end
-        params[:f] = {"format" => ["Journal"]}
+        params[:f].merge("format" => ["Journal"])
         # unless(!params[:q])
         params[:q] = params[:q]
         params[:search_field] = "journal title"

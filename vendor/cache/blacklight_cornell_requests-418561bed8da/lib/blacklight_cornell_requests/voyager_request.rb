@@ -398,10 +398,10 @@ module BlacklightCornellRequests
         end
         xml.xpath("//reply-code").collect do |m|
           @bcode = m.content
-          if @bcode == '25'
-             @bcode = '8'
-             @mtype = 'blocked'
-          end
+          #if @bcode == '25'
+          #   @bcode = '8'
+          #   @mtype = 'blocked'
+          #end
         end
       end
     end
