@@ -50,7 +50,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # Journal title search hack.
     if params[:search_field] == "journal title"
       if params[:f].nil?
-        params[:f] = {}
+        params[:f] = {"format" => ["Journal"]}
       end
         params[:f].merge("format" => ["Journal"])
         # unless(!params[:q])
