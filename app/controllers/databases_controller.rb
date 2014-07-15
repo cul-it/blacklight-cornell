@@ -3,7 +3,7 @@ class DatabasesController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-  
+   
   def subject
      clnt = HTTPClient.new
     params[:q].gsub!(' ','%20')
@@ -51,6 +51,28 @@ class DatabasesController < ApplicationController
      @dbResponse = @dbResponseFull['response']['docs']
      params[:q].gsub!('%20', ' ')
     Rails.logger.info("Petunia3 = #{params[:q]}")
+  end
+  
+  def searchERMdb
+     require 'mysql'
+     begin
+      con = Mysql.new 'localhost', 'dnauser', 'DNArails4you', 'dnaNoJetty-dev'
+      rs = con.query("SELECT * from ERM_DATA WHERE Database_Code = '#{params[:dbcode]}' AND Prevailing = 'true' and Database_Code != ''")
+      n_rows = rs.num_rows
+      if n_rows == 0
+        rs = con.query("SELECT * from ERM_DATA WHERE Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true'")
+      end
+      @ermdbResponse = rs
+      @fields = rs.fetch_fields
+      Rails.logger.info("Quacker There are #{n_rows} rows in the result set")
+      Rails.logger.info("in searchERMdb")
+     rescue Mysql::Error => e
+         Rails.logger.info(e.errno)
+         Rails.logger.info(e.error)
+         
+     ensure
+         con.close if con
+     end
   end
   
 end 
