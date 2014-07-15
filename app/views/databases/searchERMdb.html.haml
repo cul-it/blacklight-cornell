@@ -1,0 +1,48 @@
+.row.database-subject
+	.page-title.span9
+		%h2
+			=params[:q]
+	.span3.return-link
+		=link_to "/databases/" do
+			%i.fa.fa-arrow-circle-left
+			Back to databases
+.results-info
+
+
+- if @ermdbResponse.present?
+	.resources
+		%h3
+			Results
+		- @ermdbResponse.each do |data|
+			%div.document.blacklight-database-name.clearfix
+				%div.document-data
+					%h4.blacklight-title_display
+						- if data[0].present?
+							-dbid = data[0]
+							=link_to "/databases/show/#{dbid}" do
+								-if data[0].present?
+									=data[0]
+									=@fields[0].name
+									=data[23]
+									=params[:dbcode]
+									=params[:providercode]
+									=data
+								-else
+									=data[0]
+						-else
+							=link_to data[0] do
+								-if data[0].present?
+									=data[0]
+								-else
+									=data[0]
+									%i.fa.fa-external-link
+					%div.description
+						%p
+							-if data[0].present?
+								=data[0]
+
+					%div.terms
+						TERMS PLACEHOLDER |
+- else
+	%h2
+		no results
