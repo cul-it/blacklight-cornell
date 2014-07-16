@@ -4,7 +4,12 @@
 %h1.request-type Interlibrary Loan
 %div.row
   %div.span8.well
-    %h2.item-title-request.blacklight-title_display=@ti
+    %h2.item-title-request.blacklight-title_display
+      =@ti
+      -if @iis.present?
+        -@iis.each do |copyn, copyd|
+          -if copyd[:item_enum].present?
+            = copyd[:item_enum]
     %div.request-author=@au
     %p
       To request this item through interlibrary loan, please use the button below and complete the interlibrary loan form.

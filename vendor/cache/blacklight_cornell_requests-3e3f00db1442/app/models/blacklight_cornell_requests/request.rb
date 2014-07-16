@@ -799,7 +799,8 @@ module BlacklightCornellRequests
           # for DD, it is the entire holdings data since it matters whether the item is available as a whole or not
           available = false
           self.all_items.each do |item|
-            if item[:status] == 'Not Charged'
+            Rails.logger.warn "mjc12test: item: #{item[:status]}"
+            if item[:status] == NOT_CHARGED
               available = true
               break
             end

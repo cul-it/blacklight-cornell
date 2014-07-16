@@ -5,7 +5,7 @@ module BlacklightCornellRequests
   	# instead of integers. This function converts the range into a string for display
   	def delivery_estimate_display time_estimate
 
-  		if time_estimate[0] = time_estimate[1]
+  		if time_estimate[0] == time_estimate[1]
   			pluralize(time_estimate[0], 'working day')
   		else
   			"#{time_estimate[0]} to #{time_estimate[1]} working days"

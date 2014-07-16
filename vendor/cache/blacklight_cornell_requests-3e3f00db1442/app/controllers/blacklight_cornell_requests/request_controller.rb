@@ -110,6 +110,10 @@ module BlacklightCornellRequests
       return magic_request Request::ASK_LIBRARIAN
     end
 
+    def circ
+      return magic_request Request::ASK_CIRCULATION
+    end
+
     def document_delivery
       return magic_request Request::DOCUMENT_DELIVERY
     end

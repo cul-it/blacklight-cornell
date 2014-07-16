@@ -15,7 +15,13 @@
   = "Borrow Direct Request for " + user
 %div.row
   %div.span8.well
-    %h2.item-title-request.blacklight-title_display=title
+    %h2.item-title-request.blacklight-title_display
+      =title
+      -if @iis.present?
+        -@iis.each do |copyn, copyd|
+          -if copyd[:item_enum].present?
+            = copyd[:item_enum]
+
     %div.request-author=responsibility
     %p
       Click the button below to locate your item in the  Borrow Direct catalog and place a request.
