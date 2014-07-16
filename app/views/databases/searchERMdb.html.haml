@@ -9,24 +9,23 @@
 .results-info
 
 
-- if @ermdbResponse.present?
+- if @ermDBResult.present?
 	.resources
 		%h3
 			Results
-		- @ermdbResponse.each do |data|
+		- @ermDBResult.each do |data|
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data
 					%h4.blacklight-title_display
-						- if data[0].present?
-							-dbid = data[0]
+						- if data.present?
+							-dbid = data['id']
 							=link_to "/databases/show/#{dbid}" do
-								-if data[0].present?
-									=data[0]
-									=@fields[0].name
-									=data[23]
+								-if data.present?
+									=data['id']
+									=data['Provider_Code']
 									=params[:dbcode]
 									=params[:providercode]
-									=data
+									=data['Authorized_Users']
 								-else
 									=data[0]
 						-else
@@ -45,4 +44,4 @@
 						TERMS PLACEHOLDER |
 - else
 	%h2
-		no results
+		=@defaultRightsText

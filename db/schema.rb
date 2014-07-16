@@ -11,9 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131217154546) do
+ActiveRecord::Schema.define(:version => 20141205183448) do
 
-  create_table "ERM_DATA", :id => false, :force => true do |t|
+  create_table "blacklight_cornell_requests_circ_policy_locs", :force => true do |t|
+    t.integer "CIRC_GROUP_ID"
+    t.integer "LOCATION_ID"
+    t.string  "PICKUP_LOCATION", :limit => 1
+  end
+
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], :name => "key_cgi_pl"
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], :name => "key_location_id"
+
+  create_table "blacklight_cornell_requests_requests", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "bookmarks", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.string   "document_id"
+    t.string   "title"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "user_type"
+  end
+
+  create_table "erm_data", :id => false, :force => true do |t|
     t.integer "id"
     t.string  "Collection_Name",                                 :limit => 128
     t.string  "Collection_ID",                                   :limit => 20
@@ -72,29 +95,6 @@ ActiveRecord::Schema.define(:version => 20131217154546) do
     t.text    "Public_Performance_Note"
     t.string  "Training_Materials_Right",                        :limit => 256
     t.text    "Training_Materials_Note"
-  end
-
-  create_table "blacklight_cornell_requests_circ_policy_locs", :force => true do |t|
-    t.integer "CIRC_GROUP_ID"
-    t.integer "LOCATION_ID"
-    t.string  "PICKUP_LOCATION", :limit => 1
-  end
-
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], :name => "key_cgi_pl"
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], :name => "key_location_id"
-
-  create_table "blacklight_cornell_requests_requests", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "bookmarks", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.string   "document_id"
-    t.string   "title"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "user_type"
   end
 
   create_table "models", :force => true do |t|

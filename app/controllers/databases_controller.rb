@@ -54,24 +54,24 @@ class DatabasesController < ApplicationController
   end
   
   def searchERMdb
-     require 'mysql'
-     begin
-      con = Mysql.new 'localhost', 'dnauser', 'DNArails4you', 'dnaNoJetty-dev'
-      rs = con.query("SELECT * from ERM_DATA WHERE Database_Code = '#{params[:dbcode]}' AND Prevailing = 'true' and Database_Code != ''")
-      n_rows = rs.num_rows
-      if n_rows == 0
-        rs = con.query("SELECT * from ERM_DATA WHERE Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true' and Provider_Code != ''")
-      end
-      @ermdbResponse = rs
-      @fields = rs.fetch_fields
-      Rails.logger.info("Quacker There are #{n_rows} rows in the result set")
-      Rails.logger.info("in searchERMdb")
-     rescue Mysql::Error => e
-         Rails.logger.info(e.errno)
-         Rails.logger.info(e.error)
-         
-     ensure
-         con.close if con
+     @defaultRightsText = ''
+     if params[:dbcode].nil? or params[:dbcode] == '' #check for providerCode being nil
+       if params[:providercode].nil? or params[:providercode] == '' #use default rights text
+         @defaultRightsText = "Use default rights text"
+       else
+         @ermDBResult = Erm_data.where(Provider_Code: params[:providercode], Prevailing: 'true')
+         if @ermDBResult.size < 1
+           @defaultRightsText = "ProviderCode returns nothing"
+         end
+       end
+     else
+       @ermDBResult = Erm_data.where(Database_Code: params[:dbcode], Prevailing: 'true')
+       if @ermDBResult.size < 1
+         @ermDBResult = Erm_data.where(Provider_Code: params[:providercode], Prevailing: 'true')
+         if @ermDBResult.size < 1
+           @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+         end
+       end
      end
   end
   
