@@ -21,7 +21,7 @@
 							-dbid = data['id']
 							=link_to "/databases/show/#{dbid}" do
 								-if data.present?
-									=data['id']
+									=data['License_ID']
 									=data['Provider_Code']
 									=params[:dbcode]
 									=params[:providercode]

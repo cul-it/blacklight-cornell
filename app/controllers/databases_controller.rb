@@ -16,6 +16,7 @@ class DatabasesController < ApplicationController
     @subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
+     Rails.logger.info("Googoo = #{@subject}")
    
     end
  
