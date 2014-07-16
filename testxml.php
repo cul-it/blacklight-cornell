@@ -1,5 +1,5 @@
 <?php
-$filename = "./licenseData2.xml";
+$filename = "./licenseData.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
 #var_dump($xml);
@@ -12,7 +12,7 @@ $xml = simplexml_load_file($filename);
     $licenseCount = $licenseCount + 1;
     $licenseName = $license->LicenseName[0]->Content[0];
     $licenseId = $license->LicenseId[0]->Content[0];
-    print "INSERT INTO ERM_DATA (id) VALUES (" . $licenseId . ");\n";
+    #print "INSERT INTO erm_data (id) VALUES (" . $licenseCount . ");\n";
     $type = $license->Type[0]->Content[0];
     $vendorLicenseURL = $license->VendorLicenseURL[0]->Content[0];
     $vendorLicenseURLVisibleInPublicDisplay = $license->VendorLicenseURLVisibleInPublicDisplay[0]->Content[0];
@@ -59,7 +59,7 @@ $xml = simplexml_load_file($filename);
     $distanceLearning = $licenseTerms[0]->DistanceLearning[0]->Content[0];
     $iLLGeneral = $licenseTerms[0]->ILLGeneral[0]->Content[0];
     $iLLSecureElectronic = $licenseTerms[0]->ILLSecureElectronic[0]->Content[0];
-    $illElectronicEmail = $licenseTerms[0]->ILLElectronicEmail[0]->Content[0];
+    $iLLElectronicEmail = $licenseTerms[0]->ILLElectronicEmail[0]->Content[0];
     $iLLRecordKeeping = $licenseTerms[0]->ILLRecordKeeping[0]->Content[0];
     $iLLRecordKeepingNote = $licenseTerms[0]->ILLRecordKeepingNote[0]->Content[0];
     $courseReserve = $licenseTerms[0]->CourseReserve[0]->Content[0];
@@ -118,7 +118,8 @@ $xml = simplexml_load_file($filename);
     $trainingMaterialsNote = $licenseTerms[0]->TrainingMaterialsNote[0]->Content[0];
   #  print "Resources count = " . sizeof($resources);
   #  print "License Count = " . $licenseCount . "\n";
-  $licenseSQL = "License_Name = '" . $licenseName . "', License_ID = '" . $licenseId . "', Type = '" . $type . "', Vendor_License_URL = '" . $vendorLicenseURL . "', Vendor_License_URL_Date_Accessed = '" . $vendorLicenseURLDateAccessed . "', Local_License_URL = '" . $localLicenseURL . "', Physical_Location = '" . $physicalLocation . "', Status = '" . $status . "', Reviewer = '" . $reviewer . "', Reviewer_Note = '" . $reviewerNote . "', License_Replaced_By = '" . $licenseReplacedBy . "', Execution_Date = '" . $executionDate . "', Start_Date = '" . $startDate . "', End_Date = '" . $endDate . "', Advance_Notice_in_Days = '" . $advanceNoticeInDays . "', License_Note = '" . $licenseNote . "', Date_Created = '" . $dateCreated . "', Last_Updated = '" . $lastUpdated . "', Template_Note = '" . $templateNote . "', Authorized_Users = '" . $authUsers . "', Authorized_Users_Note = '" . $authorizedUsersNote . "', Concurrent_Users = '" . $concurrentUsers . "', Concurrent_Users_Note = '" . $concurrentUsersNote . "', ILL_General = '" . $iLLGeneral . "', ILL_Secure_Electronic = '" . $iLLSecureElectronic . "', ILL_Electronic_email = '" . $iLLElectronicEmail . "', ILL_Record_Keeping = '" . $iLLRecordKeeping . "', ILL_Record_Keeping_Note = '" . $iLLRecordKeepingNote . "', Perpetual_Access_Right = '" . $perpetualAccessRight . "', Perpetual_Access_Note = '" . $perpetualAccessNote . "', Perpetual_Access_Holdings = '" . $perpetualAccessHoldings . "', Archiving_Right = '" . $archivingRight . "', Archiving_Format = '" . $archivingFormat . "', Archiving_Note = '" . $archivingNote . "', Incorporation_of_Image_Figures_and_Tables_Right = '" . $incorporationOfImageFiguresAndTablesRight . "', Incorporation_of_Image_Figures_and_Tables_Note = '" . $incorporationOfImageFiguresAndTablesNote . "', Public_Performance_Right = '" . $publicPerformanceRight . "', Public_Performance_Note = '" . $publicPerformanceNote . "', Training_Materials_Right = '" . $trainingMaterialsRight . "', Training_Materials_Note = '" . $trainingMaterialsNote . "'";
+  $licenseNames = " id, License_Name, License_ID, Type, Vendor_License_URL, Vendor_License_URL_Date_Accessed, Local_License_URL, Physical_Location, Status, Reviewer, Reviewer_Note, License_Replaced_By, Execution_Date, Start_Date, End_Date, Advance_Notice_in_Days, License_Note, Date_Created, Last_Updated, Template_Note, Authorized_Users, Authorized_Users_Note, Concurrent_Users, Concurrent_Users_Note, ILL_General, ILL_Secure_Electronic, ILL_Electronic_email, ILL_Record_Keeping, ILL_Record_Keeping_Note, Perpetual_Access_Right, Perpetual_Access_Note, Perpetual_Access_Holdings, Archiving_Right, Archiving_Format, Archiving_Note, Incorporation_of_Image_Figures_and_Tables_Right, Incorporation_of_Image_Figures_and_Tables_Note, Public_Performance_Right, Public_Performance_Note, Training_Materials_Right, Training_Materials_Note";
+  $licenseValues = "\"" . $licenseName . "\", \"" . $licenseId . "\", \"" . $type . "\", \"" . $vendorLicenseURL . "\", \"" . $vendorLicenseURLDateAccessed . "\", \"" . $localLicenseURL . "\", \"" . $physicalLocation . "\", \"" . $status . "\", \"" . $reviewer . "\", \"" . $reviewerNote . "\", \"" . $licenseReplacedBy . "\", \"" . $executionDate . "\", \"" . $startDate . "\", \"" . $endDate . "\", \"" . $advanceNoticeInDays . "\", \"" . $licenseNote . "\", \"" . $dateCreated . "\", \"" . $lastUpdated . "\", \"" . $templateNote . "\", \"" . $authUsers . "\", \"" . $authorizedUsersNote . "\", \"" . $concurrentUsers . "\", \"" . $concurrentUsersNote . "\", \"" . $iLLGeneral . "\", \"" . $iLLSecureElectronic . "\", \"" . $iLLElectronicEmail . "\", \"" . $iLLRecordKeeping . "\", \"" . $iLLRecordKeepingNote . "\", \"" . $perpetualAccessRight . "\", \"" . $perpetualAccessNote . "\", \"" . $perpetualAccessHoldings . "\", \"" . $archivingRight . "\", \"" . $archivingFormat . "\", \"" . $archivingNote . "\", \"" . $incorporationOfImagesFiguresAndTablesRight . "\", \"" . $incorporationOfImagesFiguresAndTablesNote . "\", \"" . $publicPerformanceRight . "\", \"" . $publicPerformanceNote . "\", \"" . $trainingMaterialsRight . "\", \"" . $trainingMaterialsNote . "\"";
   $resourceSQL = ""; 
   if (sizeof($resources)> 0 ) {
     $top = sizeof($resources);
@@ -138,12 +139,14 @@ $xml = simplexml_load_file($filename);
       $iSBN = $resources[$i]->ISBN;
       $sSID = $resources[$i]->SSID;
       $prevailing = $resources[$i]->Prevailing;
-     $resourceSQL = ", Collection_Name = '" . $collectionName . "', Collection_ID = '" . $libraryCollectionId . "', Provider_Name = '" . $providerName . "', Provider_Code = '" . $providerCode . "', Database_Name = '" . $databaseName . "', Database_Code = '" . $databaseCode . "', Database_Status = '" . $databaseStatus . "', Title_Name = '" . $titleName . "', Title_ID = '" . $titleId . "', Title_Status = '" . $titleStatus . "', ISSN = '" . $iSSN . "', eISSN = '" . $eISSN . "', ISBN = '" . $iSBN . "', SSID = '" . $sSID . "', Prevailing = '" . $prevailing . "'"; 
-     print "UPDATE ERM_DATA SET " . $licenseSQL . " " . $resourceSQL . " WHERE id = " . $licenseId . ";\n";
+     $resourceNames = " Collection_Name, Collection_ID, Provider_Name, Provider_Code, Database_Name, Database_Code, Database_Status, Title_Name, Title_ID, Title_Status, ISSN, eISSN, ISBN, SSID, Prevailing";
+     $resourceValues = " \"" .  $collectionName . "\", \"" . $libraryCollectionId . "\", \"" . $providerName . "\", \"" . $providerCode . "\", \"" . $databaseName . "\", \"" . $databaseCode . "\", \"" . $databaseStatus . "\", \"" . $titleName . "\", \"" . $titleId . "\", \"" . $titleStatus . "\", \"" . $iSSN . "\", \"" . $eISSN . "\", \"" . $iSBN . "\", \"" . $sSID . "\", \"" . $prevailing . "\""; 
+     print "INSERT INTO erm_data (" . $licenseNames . ", " . $resourceNames . ") VALUES (\"" . $licenseCount . "\", " . $licenseValues . ", " . $resourceValues . ");\n";
+    $licenseCount = $licenseCount + 1;
     } 
   } else {
      # print "No Resources.\n";
-      print "UPDATE ERM_DATA SET " . $licenseSQL . " WHERE id = " . $licenseId . ";\n";
+      print "INSERT INTO erm_data (" . $licenseNames . ") VALUES (\"" . $licenseCount . "\", " . $licenseValues . ");\n";
   }
    
  # print $license->LicenseName[0]->Content[0] . "\t" . $license->LicenseId[0]->Content[0] . "\n";

@@ -38,8 +38,10 @@
 								=data["summary_display"][0]
 
 					%div.terms
+						-dbcode = data["dbcode"][0]
+						-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use','/databases/subject'
+						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
 	.resources
 		%h3
 			Additional Resources
@@ -67,8 +69,10 @@
 								=data["summary_display"][0]
 
 					%div.terms
+						-dbcode = ""
+						-providercode = ""
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use','/databases/subject'
+						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=&providercode="
 -else
 	.resources
 		- @subject.each do |data|
@@ -95,5 +99,7 @@
 								=data["summary_display"][0]
 
 					%div.terms
+						-dbcode = data["dbcode"][0]
+						-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use','/databases/searchERMdb?dbcode=&providercode='
+						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
