@@ -60,7 +60,7 @@ class DatabasesController < ApplicationController
       rs = con.query("SELECT * from ERM_DATA WHERE Database_Code = '#{params[:dbcode]}' AND Prevailing = 'true' and Database_Code != ''")
       n_rows = rs.num_rows
       if n_rows == 0
-        rs = con.query("SELECT * from ERM_DATA WHERE Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true'")
+        rs = con.query("SELECT * from ERM_DATA WHERE Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true' and Provider_Code != ''")
       end
       @ermdbResponse = rs
       @fields = rs.fetch_fields
