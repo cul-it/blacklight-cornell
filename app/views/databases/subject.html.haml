@@ -38,8 +38,14 @@
 								=data["summary_display"][0]
 
 					%div.terms
-						-dbcode = data["dbcode"][0]
-						-providercode = data["providercode"][0]
+						-if data["dbcode"].nil?
+							-dbcode = ""
+						-else
+							-dbcode = data["dbcode"][0]
+						-if data["providercode"].nil?
+							-providercode = ""
+						-else
+							-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
 						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
 	.resources
@@ -69,10 +75,16 @@
 								=data["summary_display"][0]
 
 					%div.terms
-						-dbcode = ""
-						-providercode = ""
+						-if data["dbcode"].nil?
+							-dbcode = ""
+						-else
+							-dbcode = data["dbcode"][0]
+						-if data["providercode"].nil?
+							-providercode = ""
+						-else
+							-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=&providercode="
+						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
 -else
 	.resources
 		- @subject.each do |data|
@@ -99,7 +111,13 @@
 								=data["summary_display"][0]
 
 					%div.terms
-						-dbcode = data["dbcode"][0]
-						-providercode = data["providercode"][0]
+						-if data["dbcode"].nil?
+							-dbcode = ""
+						-else
+							-dbcode = data["dbcode"][0]
+						-if data["providercode"].nil?
+							-providercode = ""
+						-else
+							-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
 						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
