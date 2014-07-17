@@ -13,6 +13,8 @@
 	.resources
 		%h3
 			Results
+		- @column_names.each do |column|
+			=column
 		- @ermDBResult.each do |data|
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data
