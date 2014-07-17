@@ -13,6 +13,7 @@
     - holdings.each do |entry|
       - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
       - callnumber = entry['call_number']
+      - some_av = 'no'
 
       .holding
         - if location != 'Online' and @hide_status.blank?
