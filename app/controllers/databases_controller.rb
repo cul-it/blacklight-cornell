@@ -63,18 +63,18 @@ class DatabasesController < ApplicationController
 
      @defaultRightsText = ''
      if params[:dbcode].nil? or params[:dbcode] == '' #check for providerCode being nil
-       if params[:providercode].nil? or params[:providercode] == '' #use default rights text
-         @defaultRightsText = "Use default rights text"
-       else
-         @ermDBResult = Erm_data.where(Provider_Code: params[:providercode], Prevailing: 'true')
-         if @ermDBResult.size < 1
-           @defaultRightsText = "ProviderCode returns nothing"
-         end
-       end
+#       if params[:providercode].nil? or params[:providercode] == '' #use default rights text
+#         @defaultRightsText = "Use default rights text"
+#       else
+#         @ermDBResult = Erm_data.where(Provider_Code: params[:providercode], Prevailing: 'true')
+#         if @ermDBResult.size < 1
+           @defaultRightsText = "Use default rights text"
+#         end
+#       end
      else
        @ermDBResult = Erm_data.where(Database_Code: params[:dbcode], Prevailing: 'true')
        if @ermDBResult.size < 1
-         @ermDBResult = Erm_data.where(Provider_Code: params[:providercode], Prevailing: 'true')
+         @ermDBResult = Erm_data.where("Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
          if @ermDBResult.size < 1
            @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
          end
