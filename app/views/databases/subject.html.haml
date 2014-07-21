@@ -1,4 +1,5 @@
 = render :partial => 'databases_search_form'
+
 .row.database-subject
 	.page-title.span9
 		%h2
@@ -15,6 +16,7 @@
 		%h3
 			Core Resources
 		- @subjectCore.each do |data|
+			-dbid = data["id"]
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data
 					%h4.blacklight-title_display
@@ -47,11 +49,12 @@
 						-else
 							-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
+						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 	.resources
 		%h3
 			Additional Resources
 		- @subject.each do |data|
+			-dbid = data["id"]
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data
 					%h4.blacklight-title_display
@@ -84,10 +87,11 @@
 						-else
 							-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
+						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 -else
 	.resources
 		- @subject.each do |data|
+			-dbid = data["id"]
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data
 					%h4.blacklight-title_display
@@ -120,4 +124,4 @@
 						-else
 							-providercode = data["providercode"][0]
 						TERMS PLACEHOLDER |
-						= link_to 'Terms of Use',"/databases/searchERMdb?dbcode=#{dbcode}&providercode=#{providercode}"
+						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
