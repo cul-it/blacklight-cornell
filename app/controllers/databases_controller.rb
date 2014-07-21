@@ -3,7 +3,7 @@ class DatabasesController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-   
+
   def subject
      clnt = HTTPClient.new
     params[:q].gsub!(' ','%20')
@@ -17,10 +17,10 @@ class DatabasesController < ApplicationController
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
      Rails.logger.info("Googoo = #{@subject}")
-   
+
     end
- 
-    
+
+
   def title
         clnt = HTTPClient.new
         @aString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databaseAlphaBuckets?q=#{params[:alpha]}#")
@@ -36,8 +36,8 @@ class DatabasesController < ApplicationController
         @db = @dbResponse['response']['docs']
     end
 
-    
- 
+
+
   def searchdb
     Rails.logger.info("Petunia1 = #{params[:q]}")
     params[:q].gsub!(' ','%20')
@@ -53,8 +53,14 @@ class DatabasesController < ApplicationController
      params[:q].gsub!('%20', ' ')
     Rails.logger.info("Petunia3 = #{params[:q]}")
   end
-  
+
   def searchERMdb
+
+    clnt = HTTPClient.new
+    @dbString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/database?id=#{params[:id]}")
+    @dbResponse = eval(@dbString)
+    @db = @dbResponse['response']['docs']
+
      @defaultRightsText = ''
      if params[:dbcode].nil? or params[:dbcode] == '' #check for providerCode being nil
        if params[:providercode].nil? or params[:providercode] == '' #use default rights text
@@ -74,6 +80,7 @@ class DatabasesController < ApplicationController
          end
        end
      end
+      @column_names = Erm_data.column_names.collect(&:to_sym)
   end
-  
-end 
+
+end
