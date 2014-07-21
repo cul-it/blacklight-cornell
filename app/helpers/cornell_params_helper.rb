@@ -89,10 +89,13 @@ module CornellParamsHelper
          returned_query = ParsingNesting::Tree.parse(newpass)
          newstring = returned_query.to_query(pass_param)
          holdarray = newstring.split('}')
-         queryStart = " _query_:\"{!dismax"
-         q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         if my_params[:op_row][i] == "OR"
+          holdarray[1] = parse_query_row(holdarray[1], "OR")
+         end
+         queryStart = " _query_:\"{!edismax"
+         q_string << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
-         q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         q_string_hold << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
 
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
          
@@ -127,8 +130,8 @@ module CornellParamsHelper
               holdarray_parse = holdarray[j].split('_query_')
               holdarray[1] = holdarray_parse[0]
               if(j < holdarray.count - 1)
-                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                    q_string << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                    q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
                     q_string2 << holdarray[1]
               else
                     q_string_hold << "}" << holdarray[1] << "\\\""
@@ -208,10 +211,10 @@ module CornellParamsHelper
    #    params[:sort] = ""
      end
      #newString = newString.gsub('"',"")
-#     newString =  "_query_:{!dismax}bauhaus  AND ( _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
-#     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PQ7798.416.A43\"\" AND  _query_:{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\"00\""
-#     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PR2983 .I61\"\""
-#     newString =  "_query_:{!dismax qf=$author_qf pf=$author_pf}Shakespeare"
+#     newString =  "_query_:{!edismax}bauhaus  AND ( _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
+#     newString =  "_query_:{!edismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PQ7798.416.A43\"\" AND  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\"00\""
+#     newString =  "_query_:{!edismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PR2983 .I61\"\""
+#     newString =  "_query_:{!edismax qf=$author_qf pf=$author_pf}Shakespeare"
      #NEWSTRING = \"PQ7798.416.A43 H6\""   AND title = hora"
      if newString.include?('%26')
        newString.gsub!('%26','&')
