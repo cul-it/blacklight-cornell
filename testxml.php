@@ -6,10 +6,9 @@ $xml = simplexml_load_file($filename);
 # print_r($xml->LicenseDataResult->License[0]->LicenseName[0]->Label[0]);
   $licenses = $xml->LicenseDataResult->License;
  # print "Number of Licenses = " . sizeof($licenses);
-  $licenseCount = 0;
+  $licenseCount = 1;
   foreach ($licenses as $license) {
  # print $xml->LicenseDataResult->License[15]->LicenseName[0]->Content[0] . "\n";   
-    $licenseCount = $licenseCount + 1;
     $licenseName = $license->LicenseName[0]->Content[0];
     $licenseId = $license->LicenseId[0]->Content[0];
     #print "INSERT INTO erm_data (id) VALUES (" . $licenseCount . ");\n";
@@ -31,7 +30,8 @@ $xml = simplexml_load_file($filename);
     $startDate = $license->StartDate[0]->Content[0];
     $endDate = $license->EndDate[0]->Content[0];
     $advanceNoticeInDays = $license->AdvanceNoticeInDays[0]->Content[0];
-    $licenseNote = $license->LicenseNote[0]->Content[0];
+    $licenseNote = str_replace('"', '\\"', $license->LicenseNote[0]->Content[0]);
+	$licenseNote = str_replace("'", "\\'", $licenseNote);
     $templateNote = $license->TemplateNote[0]->Content[0];
     $dateCreated = $license->DateCreated[0]->Content[0];
     $lastUpdated = $license->LastUpdated[0]->Content[0];
@@ -52,18 +52,20 @@ $xml = simplexml_load_file($filename);
     $allRightsReservedIndicator = $licenseTerms[0]->AllRightsReservedIndicator[0]->Content[0];
     $citationRequirementDetail = $licenseTerms[0]->CitationRequirementDetail[0]->Content[0];
     $digitallyCopy = $licenseTerms[0]->DigitallyCopy[0]->Content[0];
+    $digitallyCopyNote = $licenseTerms[0]->DigitallyCopyNote[0]->Content[0];
     $printCopy = $licenseTerms[0]->PrintCopy[0]->Content[0];
     $printCopyNote = $licenseTerms[0]->PrintCopyNote[0]->Content[0];
     $scholarlySharing = $licenseTerms[0]->ScholarlySharing[0]->Content[0];
     $scholarlySharingNote = $licenseTerms[0]->ScholarlySharingNote[0]->Content[0];
     $distanceLearning = $licenseTerms[0]->DistanceLearning[0]->Content[0];
+    $distanceLearningNote = $licenseTerms[0]->DistanceLearningNote[0]->Content[0];
     $iLLGeneral = $licenseTerms[0]->ILLGeneral[0]->Content[0];
     $iLLSecureElectronic = $licenseTerms[0]->ILLSecureElectronic[0]->Content[0];
     $iLLElectronicEmail = $licenseTerms[0]->ILLElectronicEmail[0]->Content[0];
-    $iLLRecordKeeping = $licenseTerms[0]->ILLRecordKeeping[0]->Content[0];
-    $iLLRecordKeepingNote = $licenseTerms[0]->ILLRecordKeepingNote[0]->Content[0];
+    $iLLRecordKeeping = str_replace('"','\\"', $licenseTerms[0]->ILLRecordKeeping[0]->Content[0]);
+    $iLLRecordKeepingNote = str_replace('"', '\\"', $licenseTerms[0]->ILLRecordKeepingNote[0]->Content[0]);
     $courseReserve = $licenseTerms[0]->CourseReserve[0]->Content[0];
-    $courseReserveNote = $licenseTerms[0]->CourseReserveNote[0]->Content[0];
+    $courseReserveNote = str_replace('"', '\\"', $licenseTerms[0]->CourseReserveNote[0]->Content[0]);
     $electronicLink = $licenseTerms[0]->ElectronicLink[0]->Content[0];
     $electronicLinkNote = $licenseTerms[0]->ElectronicLinkNote[0]->Content[0];
     $coursePackPrint = $licenseTerms[0]->CoursePackPrint[0]->Content[0];
@@ -81,7 +83,7 @@ $xml = simplexml_load_file($filename);
     $licenseeTerminationNote = $licenseTerms[0]->LicenseeTerminationNote[0]->Content[0];
     $licenseeNoticePeriodForTerminationNumber = $licenseTerms[0]->LicenseeNoticePeriodForTerminationNumber[0]->Content[0];
     $licenseeNoticePeriodForTerminationUnit = $licenseTerms[0]->LicenseeNoticePeriodForTerminationUnit[0]->Content[0];
-    $licensorTerminationRight[0] = $licenseTerms[0]->LicensorTerminationRight[0]->Content[0];
+    $licensorTerminationRight = $licenseTerms[0]->LicensorTerminationRight[0]->Content[0];
     $licensorTerminationCondition = $licenseTerms[0]->LicensorTerminationCondition[0]->Content[0];
     $licensorTerminationNote = $licenseTerms[0]->LicensorTerminationNote[0]->Content[0];
     $licensorNoticePeriodForTerminationNumber = $licenseTerms[0]->LicensorNoticePeriodForTerminationNumber[0]->Content[0];
@@ -118,8 +120,43 @@ $xml = simplexml_load_file($filename);
     $trainingMaterialsNote = $licenseTerms[0]->TrainingMaterialsNote[0]->Content[0];
   #  print "Resources count = " . sizeof($resources);
   #  print "License Count = " . $licenseCount . "\n";
-  $licenseNames = " id, License_Name, License_ID, Type, Vendor_License_URL, Vendor_License_URL_Date_Accessed, Local_License_URL, Physical_Location, Status, Reviewer, Reviewer_Note, License_Replaced_By, Execution_Date, Start_Date, End_Date, Advance_Notice_in_Days, License_Note, Date_Created, Last_Updated, Template_Note, Authorized_Users, Authorized_Users_Note, Concurrent_Users, Concurrent_Users_Note, ILL_General, ILL_Secure_Electronic, ILL_Electronic_email, ILL_Record_Keeping, ILL_Record_Keeping_Note, Perpetual_Access_Right, Perpetual_Access_Note, Perpetual_Access_Holdings, Archiving_Right, Archiving_Format, Archiving_Note, Incorporation_of_Image_Figures_and_Tables_Right, Incorporation_of_Image_Figures_and_Tables_Note, Public_Performance_Right, Public_Performance_Note, Training_Materials_Right, Training_Materials_Note";
-  $licenseValues = "\"" . $licenseName . "\", \"" . $licenseId . "\", \"" . $type . "\", \"" . $vendorLicenseURL . "\", \"" . $vendorLicenseURLDateAccessed . "\", \"" . $localLicenseURL . "\", \"" . $physicalLocation . "\", \"" . $status . "\", \"" . $reviewer . "\", \"" . $reviewerNote . "\", \"" . $licenseReplacedBy . "\", \"" . $executionDate . "\", \"" . $startDate . "\", \"" . $endDate . "\", \"" . $advanceNoticeInDays . "\", \"" . $licenseNote . "\", \"" . $dateCreated . "\", \"" . $lastUpdated . "\", \"" . $templateNote . "\", \"" . $authUsers . "\", \"" . $authorizedUsersNote . "\", \"" . $concurrentUsers . "\", \"" . $concurrentUsersNote . "\", \"" . $iLLGeneral . "\", \"" . $iLLSecureElectronic . "\", \"" . $iLLElectronicEmail . "\", \"" . $iLLRecordKeeping . "\", \"" . $iLLRecordKeepingNote . "\", \"" . $perpetualAccessRight . "\", \"" . $perpetualAccessNote . "\", \"" . $perpetualAccessHoldings . "\", \"" . $archivingRight . "\", \"" . $archivingFormat . "\", \"" . $archivingNote . "\", \"" . $incorporationOfImagesFiguresAndTablesRight . "\", \"" . $incorporationOfImagesFiguresAndTablesNote . "\", \"" . $publicPerformanceRight . "\", \"" . $publicPerformanceNote . "\", \"" . $trainingMaterialsRight . "\", \"" . $trainingMaterialsNote . "\"";
+  $licenseNames = " id, License_Name, License_ID, Type, Vendor_License_URL, Vendor_License_URL_Visible_In_Public_Display, Vendor_License_URL_Date_Accessed, " .
+    "Second_Vendor_License_URL, Local_License_URL, Local_License_URL_Visible_In_Public_Display, Second_Local_License_URL, Physical_Location, "  .
+    "Status, Reviewer, Reviewer_Note, License_Replaced_By, License_Replaces, Execution_Date, Start_Date, End_Date, " .
+    "Advance_Notice_In_Days, License_Note, Template_Note, Date_Created, Last_Updated, Authorized_Users, " .
+    "Authorized_Users_Note, Concurrent_Users, Concurrent_Users_Note, Fair_Use_Clause_Indicator, Database_Protection_Override_Clause_Indicator, All_Rights_Reserved_Indicator, " .
+    "Citation_Requirement_Detail, Digitally_Copy, Digitally_Copy_Note, Print_Copy, Print_Copy_Note, Scholarly_Sharing, Scholarly_Sharing_Note, " . 
+    "Distance_Learning, Distance_Learning_Note, ILL_General, ILL_Secure_Electronic, ILL_Electronic_Email, ILL_Record_Keeping, ILL_Record_Keeping_Note, " .
+    "Course_Reserve, Course_Reserve_Note, Electronic_Link, Electronic_Link_Note, Course_Pack_Print, Course_Pack_Electronic, Course_Pack_Note, " .
+    "Remote_Access, Remote_Access_Note, Other_Use_Restrictions_Staff_Note, Other_Use_Restrictions_Public_Note, Perpetual_Access_Right, " . 
+    "Perpetual_Access_Holdings, Perpetual_Access_Note, Licensee_Termination_Right, Licensee_Termination_Condition, Licensee_Termination_Note, Licensee_Notice_Period_For_Termination_Number, " . 
+    "Licensee_Notice_Period_For_Termination_Unit, Licensor_Termination_Right, Licensor_Termination_Condition, Licensor_Termination_Note, Licensor_Notice_Period_For_Termination_Number, " .
+    "Licensor_Notice_Period_For_Termination_Unit, Termination_Right_Note, Termination_Requirements, Terms_Note, Local_Use_Terms_Note, Governing_Law, " .
+    "Governing_Jurisdiction, Applicable_Copyright_Law, Cure_Period_For_Breach_Number, Cure_Period_For_Breach_Unit, Renewal_Type, Non_Renewal_Notice_Period_Number, " . 
+    "Non_Renewal_Notice_Period_Unit, Archiving_Right, Archiving_Format, Archiving_Note, Pre_Print_Archive_Allowed, Pre_Print_Archive_Conditions, " . 
+    "Pre_Print_Archive_Restrictions_Number, Pre_Print_Archive_Restrictions_Unit, Pre_Print_Archive_Note, Post_Print_Archive_Allowed, Post_Print_Archive_Restrictions_Number, " .
+    "Post_Print_Archive_Restrictions_Unit, Post_Print_Archive_Note, Incorporation_Of_Images_Figures_And_Tables_Right, Incorporation_Of_Images_Figures_And_Tables_Note, " .
+    "Public_Performance_Right, Public_Performance_Note, Training_Materials_Right, Training_Materials_Note"; 
+
+ $licenseValues = $licenseName . "\", \"" . $licenseId . "\", \"" . $type . "\", \"" . $vendorLicenseURL . "\", \"" . $vendorLicenseURLVisibleInPublicDisplay . 
+  "\", \"" . $vendorLicenseURLDateAccessed . "\", \"" . $secondVendorLicenseURL  . "\", \"" . $localLicenseURL .  "\", \"" . $localLicenseURLVisibleInPublicDisplay . "\", \"" . $secondLocalLicenseURL . "\", \"" . 
+  $physicalLocation . "\", \"" . $status . "\", \"" . $reviewer . "\", \"" . $reviewerNote . "\", \"" . $licenseReplacedBy . "\", \"" . $licenseReplaces . "\", \"" . $executionDate . "\", \"" . $startDate . 
+  "\", \"" . $endDate . "\", \"" . $advanceNoticeInDays . "\", \"" . $licenseNote . "\", \"" . $templateNote . "\", \"" . $dateCreated . "\", \"" . $lastUpdated . "\", \"" . $authUsers . "\", \"" .
+  $authorizedUsersNote . "\", \"" . $concurrentUsers . "\", \"" . $concurrentUsersNote . "\", \"" . $fairUseClauseIndicator . "\", \"" . $databaseProtectionOverrideClauseIndicator . "\", \"" . 
+  $allRightsReservedIndicator . "\", \"" . $citationRequirementDetail . "\", \"" . $digitallyCopy . "\", \"" . $digitallyCopyNote . "\", \"" . $printCopy . "\", \"" . $printCopyNote . "\", \"" . 
+  $scholarlySharing . "\", \"" . $scholarlySharingNote . "\", \"" . $distanceLearning . "\", \"" . $distanceLearningNote . "\", \"" . $iLLGeneral . "\", \"" . $iLLSecureElectronic . "\", \"" . $iLLElectronicEmail . "\", \"" . 
+  $iLLRecordKeeping . "\", \"" . $iLLRecordKeepingNote . "\", \"" . $courseReserve . "\", \"" . $courseReserveNote . "\", \"" . $electronicLink . "\", \"" . $electronicLinkNote . "\", \"" . 
+  $coursePackPrint . "\", \"" . $coursePackElectronic . "\", \"" . $coursePackNote . "\", \"" . $remoteAccess . "\", \"" . $remoteAccessNote . "\", \"" . $otherUseRestrictionsStaffNote . "\", \"" . 
+  $otherUseRestrictionsPublicNote . "\", \"" . $perpetualAccessRight . "\", \"" . $perpetualAccessHoldings . "\", \"" . $perpetualAccessNote . "\", \"" . $licenseeTerminationRight . "\", \"" . 
+  $licenseeTerminationCondition . "\", \"" . $licenseeTerminationNote . "\", \"" . $licenseeNoticePeriodForTerminationNumber . "\", \"" . $licenseeNoticePeriodForTerminationUnit . "\", \"" . 
+  $licensorTerminationRight . "\", \"" . $licensorTerminationCondition . "\", \"" . $licensorTerminationNote . "\", \"" . $licensorNoticePeriodForTerminationNumber . "\", \"" . 
+  $licensorNoticePeriodForTerminationUnit . "\", \"" . $terminationRightNote . "\", \"" . $terminationRequirements . "\", \"" . $termsNote . "\", \"" . $localUseTermsNote . "\", \"" . $governingLaw .
+  "\", \"" . $governingJurisdiction . "\", \"" . $applicableCopyrightLaw . "\", \"" . $curePeriodForBreachNumber . "\", \"" . $curePeriodForBreachUnit . "\", \"" . $renewalType . "\", \"" . 
+  $nonRenewalNoticePeriodNumber . "\", \"" . $nonRenewalNoticePeriodUnit . "\", \"" . $archivingRight . "\", \"" . $archivingFormat . "\", \"" . $archivingNote . "\", \"" . $prePrintArchiveAllowed . 
+  "\", \"" . $prePrintArchiveConditions . "\", \"" . $prePrintArchiveRestrictionsNumber . "\", \"" . $prePrintArchiveRestrictionsUnit . "\", \"" . $prePrintArchiveNote . "\", \"" . $postPrintArchiveAllowed . 
+  "\", \"" . $postPrintArchiveRestrictionsNumber . "\", \"" . $postPrintArchiveRestrictionsUnit . "\", \"" . $postPrintArchiveNote . "\", \"" . $incorporationOfImagesFiguresAndTablesRight . 
+  "\", \"" . $incorporationOfImagesFiguresAndTablesNote . "\", \"" . $publicPerformanceRight . "\", \"" . $publicPerformanceNote . "\", \"" . $trainingMaterialsRight . "\", \"" . $trainingMaterialsNote . "\"";
+  
   $resourceSQL = ""; 
   if (sizeof($resources)> 0 ) {
     $top = sizeof($resources);
@@ -140,13 +177,15 @@ $xml = simplexml_load_file($filename);
       $sSID = $resources[$i]->SSID;
       $prevailing = $resources[$i]->Prevailing;
      $resourceNames = " Collection_Name, Collection_ID, Provider_Name, Provider_Code, Database_Name, Database_Code, Database_Status, Title_Name, Title_ID, Title_Status, ISSN, eISSN, ISBN, SSID, Prevailing";
-     $resourceValues = " \"" .  $collectionName . "\", \"" . $libraryCollectionId . "\", \"" . $providerName . "\", \"" . $providerCode . "\", \"" . $databaseName . "\", \"" . $databaseCode . "\", \"" . $databaseStatus . "\", \"" . $titleName . "\", \"" . $titleId . "\", \"" . $titleStatus . "\", \"" . $iSSN . "\", \"" . $eISSN . "\", \"" . $iSBN . "\", \"" . $sSID . "\", \"" . $prevailing . "\""; 
-     print "INSERT INTO erm_data (" . $licenseNames . ", " . $resourceNames . ") VALUES (\"" . $licenseCount . "\", " . $licenseValues . ", " . $resourceValues . ");\n";
+     $resourceValues = " \"" .  $collectionName . "\", \"" . $libraryCollectionId . "\", \"" . $providerName . "\", \"" . $providerCode . "\", \"" . $databaseName . "\", \"" . $databaseCode . "\", \"" . 
+     $databaseStatus . "\", \"" . $titleName . "\", \"" . $titleId . "\", \"" . $titleStatus . "\", \"" . $iSSN . "\", \"" . $eISSN . "\", \"" . $iSBN . "\", \"" . $sSID . "\", \"" . $prevailing . "\""; 
+     print "INSERT INTO erm_data (" . $licenseNames . ", " . $resourceNames . ") VALUES (\"" . $licenseCount . "\", \"" . $licenseValues . ", " . $resourceValues . ");\n";
     $licenseCount = $licenseCount + 1;
     } 
   } else {
      # print "No Resources.\n";
-      print "INSERT INTO erm_data (" . $licenseNames . ") VALUES (\"" . $licenseCount . "\", " . $licenseValues . ");\n";
+      print "INSERT INTO erm_data (" . $licenseNames . ") VALUES (\"" . $licenseCount . "\", \"" . $licenseValues . ");\n";
+    $licenseCount = $licenseCount + 1;
   }
    
  # print $license->LicenseName[0]->Content[0] . "\t" . $license->LicenseId[0]->Content[0] . "\n";
