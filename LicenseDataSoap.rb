@@ -6,5 +6,5 @@ end
 
 File.open("licenseData.xml", 'w') { |file| file.write(docResponse.to_xml) }
 #puts docResponse.to_xml(:indent => 2)
-File.close
+#File.close
 
