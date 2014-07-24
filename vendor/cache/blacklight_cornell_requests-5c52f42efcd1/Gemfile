@@ -5,6 +5,7 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gem "thor"
 gem 'zoom', :git => 'https://github.com/bricestacey/ruby-zoom.git'
+gem 'blacklight', '4.3.0'
 
 gemspec
 
