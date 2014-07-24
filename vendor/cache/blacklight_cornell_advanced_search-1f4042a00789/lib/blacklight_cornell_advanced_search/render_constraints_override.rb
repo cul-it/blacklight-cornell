@@ -61,9 +61,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       else
         facetparams = ""
       end
+      if !facetparams.nil?
       test = facetparams.sub!('Kroch Library Rare & Manuscripts', 'Kroch Library Rare %26 Manuscripts')
       if !test.nil?
         facetparams = test
+      end
       end
       j = 1
       if (!my_params[:search_field_row].nil?)
@@ -112,7 +114,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
              if hold[1].include?('&')
                hold[1] = hold[1].gsub!('&','%26')
             end
-             Rails.logger.info("Kadejum1 = #{facetparams}")
+#             Rails.logger.info("Kadejum1 = #{facetparams}")
              removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
              content << render_constraint_element(label, querybuttontext, :remove => removeString) 
            else
@@ -141,8 +143,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
             if querybuttontext.include?('%26')
               querybuttontext = querybuttontext.gsub!('%26','&')
             end         
-             Rails.logger.info("Kadejum2 = #{my_params[:f]['location_facet']}")
+#             Rails.logger.info("Kadejum2 = #{my_params[:f]['location_facet']}")
              count = 0
+             if !my_params[:f].nil?
              my_params[:f]['location_facet'].each do |loc_facet| 
                    Rails.logger.info("Summoner = #{loc_facet}")
                   if loc_facet == ('Kroch Library Rare & Manuscripts' or 'Kroch Library Rare')
@@ -153,10 +156,14 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
                   end
                count = count + 1
             end
-            Rails.logger.info("Kadejum21 = #{my_params}")
+            end
+#            Rails.logger.info("Kadejum21 = #{my_params}")
             if !test.nil?
               facetparams = test
             end
+               if querybuttontext.include?('%26')
+                 querybuttontext = querybuttontext.gsub!('%26','&')
+               end
             content << render_constraint_element(
                label, querybuttontext,
                :remove => removeString
@@ -252,7 +259,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
                if querybuttontext.include?('%26')
                  querybuttontext = querybuttontext.gsub!('%26','&')
                end
-             Rails.logger.info("Kadejum5 = #{facetparams}")
+#             Rails.logger.info("Kadejum5 = #{facetparams}")
                removeString = "catalog?%utf8=E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
                content << render_constraint_element(
                  label, querybuttontext,
@@ -299,6 +306,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       content = ""
       @advanced_query.keyword_queries.each_pair do |field, query|
         label = search_field_def_for_key(field)[:label]
+        if query.include?('%26')
+          query.gsub!('%26','&')
+        end
         content << render_constraint_element(
           label, query,
           :remove =>
@@ -322,6 +332,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
     if (@advanced_query)
       @advanced_query.filters.each_pair do |field, value_list|
         label = facet_field_labels[field]
+        if value_list[0].include?('%26')
+          value_list[0].gsub!('%26','&')
+        end
         content << render_constraint_element(label,
           value_list.join(" OR "),
           :remove => catalog_index_path( remove_advanced_filter_group(field, my_params) )
@@ -337,6 +350,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
     if (@advanced_query)
       @advanced_query.filters.each_pair do |field, value_list|
         label = facet_field_labels[field]
+        if value_list[0].include?('%26')
+          value_list[0].gsub!('%26','&')
+        end
         content << render_constraint_element(label,
           value_list.join(" OR "),
           :remove => "" #catalog_index_path( remove_advanced_filter_group(field, my_params) )
@@ -352,7 +368,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
     if(my_params[:f].present?)
       my_params[:f].each do |key, value|
         removeString = makeSimpleRemoveString(my_params,key)
-        label = facet_field_labels[key]
+        label =facet_field_labels[key]
+        if value[0].include?('%26')
+          value[0].gsub!('%26','&')
+        end
+        Rails.logger.info("SPUTUM = #{value[0]}")
         return_content << render_constraint_element(label,
           value.join(" AND "),
           :remove => "?" + removeString
@@ -374,6 +394,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 #        label = facet_field_labels[field]
         removeString = makeRemoveString(my_params, key)
         label = facet_field_labels[key]
+        if value[0].include?('%26')
+          value[0].gsub!('%26','&')
+        end
         return_content << render_constraint_element(label,
           value.join(" AND "),
 #          :remove => catalog_index_path( remove_advanced_filter_group(field, my_params) )

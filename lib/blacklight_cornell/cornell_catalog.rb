@@ -90,9 +90,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #    if params[:search_field] = "call number"
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
-    
+#    params[:q] = "(+Baker +M ) OR \"Baker M\""
     Rails.logger.info("BEEVIS = #{params[:q]}")
-
+    Rails.logger.info("BEEVIS = #{solr_search_params}")
+     
     (@response, @document_list) = get_search_results
 
     if !qparam_display.blank?

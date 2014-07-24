@@ -1,4 +1,13 @@
 GIT
+  remote: git@git.library.cornell.edu:blacklight_cornell_advanced_search.git
+  revision: 1f4042a007898381357704cc2174fe44a20fd9ad
+  branch: master
+  specs:
+    blacklight_cornell_advanced_search (2.1.1)
+      blacklight
+      parslet
+
+GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
   revision: 3e3f00db1442414dd62ba907edc88846c343bdb9
   branch: master
@@ -13,13 +22,6 @@ GIT
       nokogiri
       rails (~> 3.2.13)
       zoom
-
-PATH
-  remote: vendor/cache/blacklight_cornell_advanced_search-2.1.1
-  specs:
-    blacklight_cornell_advanced_search (2.1.1)
-      blacklight
-      parslet
 
 GEM
   remote: https://rubygems.org/

@@ -209,6 +209,11 @@ module CornellParamsHelper
      else
    #    params[:sort] = ""
      end
+     Rails.logger.info("BEEVIS3 = #{newString}")
+     if !newString.nil?
+       newString = newString.gsub('author/creator','author')
+     end
+     Rails.logger.info("BEEVIS4 = #{newString}")
      #newString = newString.gsub('"',"")
 #      newString = "_query_:\"{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}greek OR greece\"\\\"  AND  _query_:\"{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}myths OR mythology\"\\\""
 #     newString =  "_query_:{!edismax}bauhaus  AND ( _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
