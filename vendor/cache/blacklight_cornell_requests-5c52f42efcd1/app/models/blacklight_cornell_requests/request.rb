@@ -863,7 +863,7 @@ module BlacklightCornellRequests
       # using pub_info_display, which gloms everything together,
       # or by using the separate pubplace_display, publisher_display
       # and pub_date_display
-      pub_info_combo = document[:pub_info_display][0]
+      pub_info_combo = document[:pub_info_display][0] unless document[:pub_info_display].blank?
       pub_date = (document[:pub_date_display] ? document[:pub_date_display][0] : pub_info_combo)
       pub_info = (document[:publisher_display] ? document[:publisher_display][0] : pub_info_combo)
       pub_place = (document[:pubplace_display] ? document[:pubplace_display][0] : pub_info_combo)
