@@ -9,11 +9,11 @@ GIT
 
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
-  revision: 3e3f00db1442414dd62ba907edc88846c343bdb9
+  revision: 5c52f42efcd195cd97d95bdc354ea6a7df8c50f3
   branch: master
   specs:
     blacklight_cornell_requests (0.0.1)
-      blacklight
+      blacklight (~> 4.3)
       haml (>= 3.0.0)
       haml-rails
       httpclient
