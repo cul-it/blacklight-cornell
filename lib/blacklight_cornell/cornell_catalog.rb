@@ -1,3 +1,4 @@
+#encoding: UTF-8
 module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
