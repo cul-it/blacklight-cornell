@@ -15,6 +15,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     helper_method :search_action_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
+    before_filter :add_cjk_params_logic
     after_filter :set_additional_search_session_values, :only=>:index
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -31,6 +32,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   end
 
+  def add_cjk_params_logic
+    CatalogController.solr_search_params_logic << :cjk_query_addl_params
+  end
 
   # get search results from the solr index
   def index
@@ -66,8 +70,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end        
     end
     
-    if params[:search_field] != "journal_title " and params[:search_field] != "call_number" 
-      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
+    if params[:search_field] != "journal_title " and params[:search_field] != "call_number"
+     if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+       params[:q] = params[:q]
+     else 
+      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank? 
           qparam_display = params[:q]
           qarray = params[:q].split
           params[:q] = "("
@@ -78,24 +85,26 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
               params[:q] << '+' << bits << ' '
             end
             params[:q] << ') OR "' << qparam_display << '"'
-          end
+          end#encoding: UTF-8
       else
         if params[:q].nil? or params[:q].blank?
           params[:q] = params[:q]
         end
       end
+     end
     end
     # end of Journal title search hack
     
 #    if params[:search_field] = "call number"
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
-#    params[:q] = "(+Baker +M ) OR \"Baker M\""
-    Rails.logger.info("BEEVIS = #{params[:q]}")
-    Rails.logger.info("BEEVIS = #{solr_search_params}")
+    if num_cjk_uni(params[:q]) > 0
+      cjk_query_addl_params({}, params)
+    end
+#    Rails.logger.info("BEEVIS = #{params[:q]}")
      
     (@response, @document_list) = get_search_results
-
+    
     if !qparam_display.blank?
       params[:q] = qparam_display
       search_session[:q] = params[:q]
@@ -461,8 +470,59 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
   
+  def cjk_mm_val
+    silence_warnings { @@cjk_mm_val = '3<86%'}
+  end
 
+  def cjk_mm_qs_params(str)
+ #   cjk_mm_val = []
+    num_uni = num_cjk_uni(str)
+    if num_uni > 2 
+      num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size
+      if num_non_cjk_tokens > 0
+        lower_limit = cjk_mm_val[0].to_i
+        mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
+        {'mm' => mm, 'qs' => 0}
+      else
+        {'mm' => cjk_mm_val, 'qs' => 0}
+      end
+    else
+      {}
+    end
+  end
 
+  def cjk_query_addl_params(solr_params, params)
+    if params && params.has_key?(:q)
+      q_str = (params[:q] ? params[:q] : '')
+      num_uni = num_cjk_uni(q_str)
+      if num_uni > 2
+        solr_params.merge!(cjk_mm_qs_params(q_str))
+#        Rails.logger.info("SPEZ = #{solr_params}")
+      end
 
+      if num_uni > 0
+        case params[:search_field]
+          when 'all_fields', nil
+           solr_params[:q] = "{!qf=$qf pf=$pf pf3=$pf3 pf2=$pf2}#{q_str}"
+          when 'title'
+           solr_params[:q] = "{!qf=$title_qf pf=$title_pf pf3=$title_pf3 pf2=$title_pf2}#{q_str}"
+          when 'author/creator'
+           solr_params[:q] = "{!qf=$author_qf pf=$author_pf pf3=$pf3_author_pf3 pf2=$author_pf2}#{q_str}"
+          when 'journal title'
+           solr_params[:q] = "{!qf=$journal_qf pf=$journal_pf pf3=$journal_pf3 pf2=$journal_pf2}#{q_str}"
+          when 'subject'
+           solr_params[:q] = "{!qf=$subject_qf pf=$subject_pf pf3=$subject_pf3 pf2=$subject_pf2}#{q_str}"
+        end
+      end
+    end
+  end
+
+  def num_cjk_uni(str)
+    if str
+      str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
+    else
+      0
+    end
+  end
 
 end
