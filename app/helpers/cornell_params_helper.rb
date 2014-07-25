@@ -83,7 +83,7 @@ module CornellParamsHelper
          if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
            newpass = '"' + my_params[:q_row][i] + '"' 
          else
-           newpass = my_params[:q_row][i]
+          newpass = my_params[:q_row][i]
          end 
          pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
          returned_query = ParsingNesting::Tree.parse(newpass)
@@ -182,7 +182,6 @@ module CornellParamsHelper
 #    solr_parameters[:q] = my_params[:q]
 #    solr_parameters[:sort] = "score desc, title_sort asc"
      my_params[:search_field] = my_params["search_field"]
-     Rails.logger.info("BUTCHIEBOY = #{my_params[:search_field]}")
      params[:search_field] = my_params[:search_field]
     session[:search][:search_field] = my_params[:search_field]
      
@@ -209,6 +208,9 @@ module CornellParamsHelper
        end
      else
    #    params[:sort] = ""
+     end
+     if !newString.nil?
+       newString = newString.gsub('author/creator','author')
      end
      #newString = newString.gsub('"',"")
 #     newString =  "_query_:{!edismax}bauhaus  AND ( _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
