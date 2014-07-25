@@ -607,7 +607,7 @@ module BlacklightCornellRequests
 
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} start of deliv options (#{item.inspect})"+ Time.new.inspect
       patron_type = get_patron_type self.netid
-      # Rails.logger.info "sk274_debug: " + "#{self.netid}, #{patron_type}"
+      Rails.logger.info "es287_debug: " + "#{__FILE__}  #{__LINE__} #{self.netid}, #{patron_type}"
 
       if patron_type == 'cornell'
         #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_cornell_delivery_options."+ Time.new.inspect
