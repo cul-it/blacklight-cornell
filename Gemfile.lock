@@ -9,10 +9,10 @@ GIT
 
 GIT
   remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
-  revision: 5c52f42efcd195cd97d95bdc354ea6a7df8c50f3
+  revision: 58857cfecb22504ef8d07850f3b5e0f42d7fc27a
   branch: master
   specs:
-    blacklight_cornell_requests (0.0.1)
+    blacklight_cornell_requests (0.7.14)
       blacklight (~> 4.3)
       haml (>= 3.0.0)
       haml-rails
