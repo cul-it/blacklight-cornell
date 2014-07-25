@@ -145,7 +145,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
             end         
 #             Rails.logger.info("Kadejum2 = #{my_params[:f]['location_facet']}")
              count = 0
-             if !my_params[:f].nil?
+             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
              my_params[:f]['location_facet'].each do |loc_facet| 
                    Rails.logger.info("Summoner = #{loc_facet}")
                   if loc_facet == ('Kroch Library Rare & Manuscripts' or 'Kroch Library Rare')
