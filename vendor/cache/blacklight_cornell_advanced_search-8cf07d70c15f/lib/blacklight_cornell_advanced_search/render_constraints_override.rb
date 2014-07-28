@@ -26,10 +26,36 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 #      params.delete("q_row")
 #      params.delete("op_row")
 #      params.delete("search_field_row")
+#             count = 0
+#             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
+#             my_params[:f]['location_facet'].each do |loc_facet| 
+#                   Rails.logger.info("SummonerA = #{loc_facet}")
+#                  if loc_facet.include? 'Kroch Library Rare'
+#                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
+#                   Rails.logger.info("SummonerA1 = #{loc_facet}")
+#                   my_params[:f]['location_facet'][count] = loc_facet
+#                   Rails.logger.info("SummonerA2 = #{my_params[:f]['location_facet']}")
+#                  end
+#               count = count + 1
+#            end
+#            end
       content = ""
       content << render_advanced_constraints_filters(my_params)
       return content.html_safe
     else 
+#             count = 0
+#             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
+#             my_params[:f]['location_facet'].each do |loc_facet| 
+#                   Rails.logger.info("SummonerB = #{loc_facet}")
+#                  if loc_facet.include? 'Kroch Library Rare'
+#                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
+#                   Rails.logger.info("SummonerB1 = #{loc_facet}")
+#                   my_params[:f]['location_facet'][count] = loc_facet
+#                   Rails.logger.info("SummonerB2 = #{my_params[:f]['location_facet']}")
+#                  end
+#               count = count + 1
+#            end
+#            end
      
       labels = []
       values = []
@@ -144,19 +170,19 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
               querybuttontext = querybuttontext.gsub!('%26','&')
             end         
 #             Rails.logger.info("Kadejum2 = #{my_params[:f]['location_facet']}")
-             count = 0
-             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
-             my_params[:f]['location_facet'].each do |loc_facet| 
-                   Rails.logger.info("Summoner = #{loc_facet}")
-                  if loc_facet == ('Kroch Library Rare & Manuscripts' or 'Kroch Library Rare')
-                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
-                   Rails.logger.info("Summoner2 = #{loc_facet}")
-                   my_params[:f]['location_facet'][count] = loc_facet
-                   Rails.logger.info("Summoner3 = #{my_params[:f]['location_facet']}")
-                  end
-               count = count + 1
-            end
-            end
+#             count = 0
+#             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
+#             my_params[:f]['location_facet'].each do |loc_facet| 
+#                   Rails.logger.info("SummonerC = #{loc_facet}")
+#                  if loc_facet.include? 'Kroch Library Rare'
+#                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
+#                   Rails.logger.info("SummonerC1 = #{loc_facet}")
+#                   my_params[:f]['location_facet'][count] = loc_facet
+#                   Rails.logger.info("SummonerC2 = #{my_params[:f]['location_facet']}")
+#                  end
+#               count = count + 1
+#            end
+#            end
 #            Rails.logger.info("Kadejum21 = #{my_params}")
             if !test.nil?
               facetparams = test
@@ -260,6 +286,19 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
                  querybuttontext = querybuttontext.gsub!('%26','&')
                end
 #             Rails.logger.info("Kadejum5 = #{facetparams}")
+#             count = 0
+#             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
+#             my_params[:f]['location_facet'].each do |loc_facet| 
+#                   Rails.logger.info("SummonerD = #{loc_facet}")
+#                  if loc_facet.include? 'Kroch Library Rare'
+#                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
+#                   Rails.logger.info("SummonerD1 = #{loc_facet}")
+#                   my_params[:f]['location_facet'][count] = loc_facet
+#                   Rails.logger.info("SummonerD2 = #{my_params[:f]['location_facet']}")
+#                  end
+#               count = count + 1
+#            end
+#            end
                removeString = "catalog?%utf8=E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
                content << render_constraint_element(
                  label, querybuttontext,
@@ -419,6 +458,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       facets.each do |key, value|
         if key != fkey
           for i in 0..value.count - 1 do
+            if value[i].include? 'Kroch Library Rare'
+              value[i] = 'Kroch Library Rare %26 Manuscripts'
+            end
             facets_string << "f[" << key << "][]=" << value[i] << "&"
           end
         end
@@ -491,6 +533,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       facets.each do |key, value|
         if key != fkey
           for i in 0..value.count - 1 do
+            if value[i].include? 'Kroch Library Rare'
+              value[i] = 'Kroch Library Rare %26 Manuscripts'
+            end
             facets_string << "f[" << key << "][]=" << value[i] << "&"
           end
         end
