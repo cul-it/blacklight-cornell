@@ -136,11 +136,15 @@ h2.db-alpha {
 .document-data {
 	border-bottom: 1px solid $tan; 
 	padding: 15px 0;
+	td,th {
+		font-size:14px;
+	}
 	.description {
 		p { 
-			font-size: 13px;
+			font-size: 14px;
 			line-height: 1.6em;
 		}
+
 	}
 
 	.label-important {
