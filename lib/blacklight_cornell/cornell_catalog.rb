@@ -101,12 +101,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #    end
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
-#      Rails.logger.info("Sheeba = HOWDO?")
     end
 #    Rails.logger.info("BEEVIS = #{params[:q]}")
 
     (@response, @document_list) = get_search_results
-
+    
     if !qparam_display.blank?
       params[:q] = qparam_display
       search_session[:q] = params[:q]
@@ -475,7 +474,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   def cjk_mm_val
     silence_warnings { @@cjk_mm_val = '3<86%'}
   end
-  
+
   def cjk_mm_qs_params(str)
  #   cjk_mm_val = []
     num_uni = num_cjk_uni(str)
