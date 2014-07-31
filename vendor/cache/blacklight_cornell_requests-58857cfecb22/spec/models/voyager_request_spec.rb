@@ -192,7 +192,7 @@ describe BlacklightCornellRequests::VoyagerRequest do
       req.place_hold_item!
     end
     expect( req.mtype).to_not eq 'success'
-    expect( req.bcode).to eq '8' 
+    expect( req.bcode).to eq '25' 
     was = BlacklightCornellRequests::VoyagerRequest.use_rest(was)
   end
 

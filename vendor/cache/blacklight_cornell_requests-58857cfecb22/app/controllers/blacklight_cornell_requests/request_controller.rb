@@ -15,6 +15,7 @@ module BlacklightCornellRequests
 
       req = BlacklightCornellRequests::Request.new(@id)
       req.netid = request.env['REMOTE_USER']
+      req.netid.sub! '@CORNELL.EDU', ''
       req.magic_request @document, request.env['HTTP_HOST'], {:target => target, :volume => params[:volume]}
 
       if ! req.service.nil?
@@ -145,7 +146,7 @@ module BlacklightCornellRequests
         # Hand off the data to the request model for sending
         req = BlacklightCornellRequests::Request.new(params[:bibid])
         req.netid = request.env['REMOTE_USER']
-        
+        req.netid.sub! '@CORNELL.EDU', ''
         # If the holding_id = 'any', then set to blank. Voyager expects an empty value for 'any copy',
         # but validation above expects a non-blank value!
         if params[:holding_id] == 'any'

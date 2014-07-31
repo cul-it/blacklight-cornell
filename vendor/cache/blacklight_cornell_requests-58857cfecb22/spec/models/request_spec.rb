@@ -184,7 +184,8 @@ describe BlacklightCornellRequests::Request do
         context 'at least one item is available' do
 
           before { 
-            items << { :status => 'Not Charged' }
+            #items << { :status => 'Not Charged' }
+            items << { :status => 1 }
             request.all_items = items 
           }
           it 'returns a range of [2,2]' do
@@ -194,7 +195,7 @@ describe BlacklightCornellRequests::Request do
 
           it 'returns a single value of 2' do
             result = request.get_delivery_time 'document_delivery', {  }, false
-            expect(result).to equal(2)        
+            expect(result).to eq(2)
           end
 
         end
