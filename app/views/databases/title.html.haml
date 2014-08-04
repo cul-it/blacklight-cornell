@@ -17,11 +17,11 @@
 
 .resources
 	- @a.each do |data|
+		-dbid = data["id"]
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data
 				%h4.blacklight-title_display
 					- if data["url_access_display"][1].present?
-						-dbid = data["id"]
 						=link_to "/databases/show/#{dbid}" do
 							-if data["fulltitle_vern_display"].present?
 								=data["fulltitle_vern_display"]
@@ -39,8 +39,14 @@
 						-if data["summary_display"].present?
 							=data["summary_display"][0]
 
-				%ul.terms
-					%li
-						TERMS PLACEHOLDER
-					%li
-						= link_to 'Terms of Use','/databases/subject'
+				%div.terms
+					-if data["dbcode"].nil?
+						-dbcode = ""
+					-else
+						-dbcode = data["dbcode"][0]
+					-if data["providercode"].nil?
+						-providercode = ""
+					-else
+						-providercode = data["providercode"][0]
+					TERMS PLACEHOLDER |
+					= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
