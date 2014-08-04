@@ -1,7 +1,6 @@
 <div class="databases-search">
-  <h2>Search by name or broad subject terms</h2>
+  <h2>Search top databases by name or broad subject terms</h2>
 <div class="well clearfix">
-  <p>Search for top databases by name or broad subject terms (e.g. MLA, Biosis, statistics, philosophy).</p>
   <div class="row-fluid">
     <div class="search-tools">
       <%= form_tag '/databases/searchdb', :method => :get, :class => 'form-inline' do %>
@@ -10,7 +9,7 @@
           <div class="row-fluid">
             <div class="search-options span6">
               <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-                <%= text_field_tag :q, params[:q], :placeholder => 'Search for databases', :class => "span12 phone-search-query", :id => "q", :autocapitalize => "off" %>
+                <%= text_field_tag :q, params[:q], :placeholder => 'e.g. MLA, Biosis, statistics, philosophy', :class => "span12 phone-search-query", :id => "q", :autocapitalize => "off" %>
             </div>
 
             <% unless search_fields.empty? %>
@@ -23,22 +22,14 @@
 
             <span class="search-or-reset span2">
               <input type="submit" class="btn btn-cul hidden-phone" id="search" value="Search">
-
               <button id="search-btn" class="btn btn-cul mobile-search-btn visible-phone" type="submit">
                 <i class="fa fa-search fa-inverse"></i>
               </button>
-
-             
             </span>
-          </div>
 
-         
+          </div>
         <% end %>
       <% end %>
-      
-
-
-
     </div>
 
     <%# Offer search expansion only under certain conditions %>
