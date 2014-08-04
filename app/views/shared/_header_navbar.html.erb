@@ -44,10 +44,14 @@
 
 <header>
   <div class="container">
-    <div class="row" >
-      <div class="span6 catalog-name">
+    <div class="row">
+      <div class="span4 catalog-name">
+        <% if request.original_url.include? "/databases" %>
+          <h1>Databases</h1>
+        <% else %>
         <span class="search-home"><a href="http://search.library.cornell.edu/">Search</a><span class="divider">/</span></span>
         <h1><a href="<%=root_path%>">Catalog</a></h1>
+        <%end%>
       </div>
       <%= render :partial=>'/user_util_links' %>
     </div>

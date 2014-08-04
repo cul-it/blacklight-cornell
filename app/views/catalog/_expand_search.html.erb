@@ -1,7 +1,7 @@
 <div class="expand-search">
 	<h4>Expand your search</h4>
 	<ul>
-		<li><i class="fa fa-external-link"></i> <a href="<%= @expanded_results['worldcat'][:url] %>"><%= format_num(@expanded_results['worldcat'][:count]) %>+ results at libraries worldwide</a></li>
-		<li><i class="fa fa-external-link"></i> <a href="<%= @expanded_results['summon'][:url] %>"><%= format_num(@expanded_results['summon'][:count]) %> articles</a></li>
+		<li><a href="<%= @expanded_results['summon'][:url] %>">Articles &amp; Full Text (<%= format_num(@expanded_results['summon'][:count]) %>)</a></li>
+		<li><a href="<%= @expanded_results['worldcat'][:url] %>">Libraries Worldwide (<%= format_num(@expanded_results['worldcat'][:count]) %>+)</a></li>
 	</ul>
 </div>
