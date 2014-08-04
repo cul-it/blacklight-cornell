@@ -1,4 +1,4 @@
-<div class="span6">
+<div class="span8">
   <ul class="blacklight-nav">
     <% if current_or_guest_user %>
     <%  @bookmarks = current_or_guest_user.bookmarks %>
@@ -17,6 +17,7 @@
       </li>
     <% end %>
     <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
-    <!-- <li><a href="http://www.library.cornell.edu/myacct">My Account</a></li> -->
+    <li class="hidden-phone"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
+    <li class="hidden-phone"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
   </ul>
 </div>
