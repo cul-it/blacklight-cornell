@@ -1,4 +1,3 @@
-= render :partial => 'databases_search_form'
 - alpha = params[:alpha]
 .row.database-subject
 	.page-title.span9
@@ -13,6 +12,8 @@
 			%i.fa.fa-arrow-circle-left
 			Back to databases
 .results-info
+
+	= render :partial => 'a_to_z_nav' 
 
 
 .resources
