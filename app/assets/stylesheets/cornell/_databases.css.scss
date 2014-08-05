@@ -62,6 +62,16 @@ h2.db-alpha {
 		width: 100%;
 		padding: 0 0 15px 0;
 	}
+	td,th {
+		font-size:14px;
+	}
+	.description {
+		p { 
+			font-size: 14px;
+			line-height: 1.6em;
+		}
+
+	}
 }
 .blacklight-database-name:first-child {
 	padding-top: 0;
