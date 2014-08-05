@@ -11,9 +11,9 @@
 		margin-bottom: 10px;
 	}
 
-	a {
-		color:$bright-blue;
-	}
+	// a {
+	// 	color:$bright-blue;
+	// }
 }
 .databases-az {
 	.nav-pills {
@@ -167,16 +167,16 @@ h2.db-alpha {
 
 }
 
-.resources, .database-subject {
-		a {
-		color: $bright-blue;
-	}
-}
+// .resources, .database-subject {
+// 		a {
+// 		color: $bright-blue;
+// 	}
+// }
 
 .database-subject {
 	.page-title {
 		h2 {
-			color:$cornell-primary;
+			// color:$cornell-primary;
 			font-size: 30px;
 			font-weight: 700
 		}
@@ -184,7 +184,7 @@ h2.db-alpha {
 }
 .resources-core {
 	h3 { 
-		color: $cornell-primary;
+		// color: $cornell-primary;
 		font-weight: 700;
 	}
 }
