@@ -481,18 +481,23 @@ module CornellCatalogHelper
     if !holding[:ITEM_ID].nil? 
       sdate = holding[:ITEM_STATUS_DATE].to_s.slice(0,10)
       date = holding[:CURRENT_DUE_DATE].blank? ? holding[:ITEM_STATUS_DATE].to_s.slice(0,10)  : holding[:CURRENT_DUE_DATE].to_s.slice(0,10)  
-      status =  ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + 'n'].nil?  ?  "Status #{holding[:ITEM_STATUS].to_s} " : ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + 'n']['short_message']
       solri = items_solr[holding[:ITEM_ID].to_s]
+      reqs = "0"
       if !solri.nil?
         copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
         enum = solri["item_enum"] + ' ' + solri["chron"]+copy
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
         reqs = solri["reqs"] 
       end
+      norr = reqs == '0' ? 'n' : 'r'
+      status =  ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr].nil?  ?  "Status #{holding[:ITEM_STATUS].to_s} " : ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr]['short_message']
+      Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} status = #{status.inspect}\n"
       status_text =  status.gsub('%ENUM',enum)
       status_text =  status_text.gsub('%SDATE',sdate)
       status_text =  status_text.gsub('%DATE',date)
       status_text =  status_text.gsub('%REQS',reqs)
     end
+  Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} status text = #{status_text.inspect}\n"
   status_text
   end
 
