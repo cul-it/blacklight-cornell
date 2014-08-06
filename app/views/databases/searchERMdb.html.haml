@@ -1,11 +1,11 @@
 .row.database-subject
-	.page-title.span9
+	.page-title.span12
+		.return-link
+			=link_to "/databases/" do
+				%i.fa.fa-arrow-circle-left
+				Back to Databases
 		%h2
 			=params[:q]
-	.span3.return-link
-		=link_to "/databases/" do
-			%i.fa.fa-arrow-circle-left
-			Back to databases
 .resources
 	%div.document.blacklight-database-name.clearfix
 		%div.document-data
