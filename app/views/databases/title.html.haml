@@ -1,16 +1,16 @@
 - alpha = params[:alpha]
 .row.database-subject
-	.page-title.span9
+	.page-title.span12
+		.return-link
+			=link_to "/databases/" do
+				%i.fa.fa-arrow-circle-left
+				Back to Databases
 		%h2.db-alpha
 			Databases:
 			-if alpha == '1'
 				&#035;
 			-else
 				=alpha
-	.span3.return-link
-		=link_to "/databases/" do
-			%i.fa.fa-arrow-circle-left
-			Back to databases
 .results-info
 
 	= render :partial => 'a_to_z_nav' 
