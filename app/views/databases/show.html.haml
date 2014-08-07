@@ -1,0 +1,46 @@
+= render :partial => 'databases_search_form' 
+- alpha = params[:alpha] 
+.row.database-subject
+	.page-title.span12
+		.return-link
+			=link_to "/databases/" do 
+				%i.fa.fa-arrow-circle-left
+				Back to Databases
+.results-info
+
+
+.resources		
+	- @db.each do |data|
+		%div.document.blacklight-database-name.clearfix
+			%div.document-data
+				%h4.blacklight-title_display
+					-if data["fulltitle_vern_display"].present?
+						=data["fulltitle_vern_display"]
+					-else
+						=data["fulltitle_display"]
+
+				%div.description
+					%p
+						=data["summary_display"][0]
+
+				%div.links
+					%h4.blacklight-title_display
+						Access Links
+					-data["url_access_display"].each do |link|
+						=link_to link.split('|')[0] do
+							-if data["fulltitle_vern_display"].present?
+								=data["fulltitle_vern_display"]
+							-else
+								=link.split('|')[1]
+						%i.fa.fa-external-link
+						%div
+
+				%ul.terms
+					%li
+						TERMS PLACEHOLDER
+					%li
+						= link_to 'Terms of Use','/databases/subject'
+
+
+
+

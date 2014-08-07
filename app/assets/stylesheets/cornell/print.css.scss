@@ -41,10 +41,9 @@ header,
 	img { display: block; }
 }
 
-// Use Oxygen font
+// Use Arial to see if it removes printing issues
 body {
-  font-family: Oxygen;        @import
-	url(//fonts.googleapis.com/css?family=Oxygen:400,700);
+  font-family: sans-serif;
 }
 
 // Remove Catalog header link
