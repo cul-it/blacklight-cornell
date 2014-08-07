@@ -10,11 +10,11 @@ class DatabasesController < ApplicationController
 #     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
      solr = Blacklight.solr_config[:url]
-     @subjectString = clnt.get_content("#{solr}/databasesBySubject?q=\"" + params[:q] + "\"&wt=ruby&indent=true")
+     @subjectString = clnt.get_content("#{solr}/databasesBySubject?q=%22" + params[:q] + "%22&wt=ruby&indent=true")
        @subjectResponse = eval(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
-    @subjectCoreString = clnt.get_content("#{solr}/databasesBySubject?q=\"" + params[:q] + "+(Core)\"&wt=ruby&indent=true")
+    @subjectCoreString = clnt.get_content("#{solr}/databasesBySubject?q=%22" + params[:q] + "+(Core)%22&wt=ruby&indent=true")
     @subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
