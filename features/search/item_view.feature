@@ -83,6 +83,14 @@ Feature: Item view
     Given I request the item view for 8052244 
     Then I should see the label 'Copy Ordered'
 
+  # Show that requests exist for an item.
+  # DISCOVERYACCESS-1220
+  # Item is overdue and should show that another request has been placed for it 
+  @availability
+  Scenario: As a user I can see the number of requests placed on an item 
+    Given I request the item view for 5724314  
+    Then I should see the label 'Requests'
+
   # Availability for a lost item, and one available. 
   @availability
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
