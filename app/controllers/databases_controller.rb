@@ -8,11 +8,13 @@ class DatabasesController < ApplicationController
      clnt = HTTPClient.new
     params[:q].gsub!(' ','%20')
 #     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
-     @subjectString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "\"&wt=ruby&indent=true")
+     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+     solr = Blacklight.solr_config[:url]
+     @subjectString = clnt.get_content("#{solr}/databasesBySubject?q=\"" + params[:q] + "\"&wt=ruby&indent=true")
        @subjectResponse = eval(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
-    @subjectCoreString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databasesBySubject?q=\"" + params[:q] + "+(Core)\"&wt=ruby&indent=true")
+    @subjectCoreString = clnt.get_content("#{solr}/databasesBySubject?q=\"" + params[:q] + "+(Core)\"&wt=ruby&indent=true")
     @subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
@@ -23,7 +25,9 @@ class DatabasesController < ApplicationController
 
   def title
         clnt = HTTPClient.new
-        @aString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databaseAlphaBuckets?q=#{params[:alpha]}#")
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+        solr = Blacklight.solr_config[:url]
+        @aString = clnt.get_content("#{solr}/databaseAlphaBuckets?q=#{params[:alpha]}#")
         @aResponse = eval(@aString)
         @a = @aResponse['response']['docs']
     end
@@ -31,7 +35,9 @@ class DatabasesController < ApplicationController
 
       def show
         clnt = HTTPClient.new
-        @dbString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/database?id=#{params[:id]}")
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+        solr = Blacklight.solr_config[:url]
+        @dbString = clnt.get_content("#{solr}/database?id=#{params[:id]}")
         @dbResponse = eval(@dbString)
         @db = @dbResponse['response']['docs']
     end
@@ -43,7 +49,9 @@ class DatabasesController < ApplicationController
     params[:q].gsub!(' ','%20')
     Rails.logger.info("Petunia2 = #{params[:q]}")
      dbclnt = HTTPClient.new
-     @dbResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
+     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+     solr = Blacklight.solr_config[:url]
+     @dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
      if !@dbResultString.nil?
        @dbResponseFull = eval(@dbResultString)
      else
@@ -57,7 +65,9 @@ class DatabasesController < ApplicationController
   def searchERMdb
 
     clnt = HTTPClient.new
-    @dbString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/database?id=#{params[:id]}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+    solr = Blacklight.solr_config[:url]
+    @dbString = clnt.get_content("#{solr}/database?id=#{params[:id]}")
     @dbResponse = eval(@dbString)
     @db = @dbResponse['response']['docs']
 
