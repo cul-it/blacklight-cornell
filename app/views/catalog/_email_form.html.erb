@@ -24,7 +24,13 @@
     </div>
     
     <% @documents.each do |doc| %>
-      <%=hidden_field_tag "callnumber", params[:callnumber] %> 
+      <% find = doc[:holdings_record_display][0] %>
+      <% seek = find.split(',') %>
+      <% seek = seek[1].split(':') %>
+      <% seek[1].gsub!('[','')%>
+      <% seek[1].gsub!('"','')%>
+      <% seek[1].gsub!(']','')%>
+      <%=hidden_field_tag "callnumber", seek[1]%> 
       <%=hidden_field_tag "location", params[:location] %> 
       <%=hidden_field_tag "id[]", doc.id %>
     <% end %>
