@@ -89,16 +89,16 @@ class DatabasesController < ApplicationController
 #         end
 #       end
      else
-       @ermDBResult = Erm_data.where(Database_Code: params[:dbcode], Prevailing: 'true')
+       @ermDBResult = ::Erm_data.where(Database_Code: params[:dbcode], Prevailing: 'true')
        if @ermDBResult.size < 1
-         @ermDBResult = Erm_data.where("Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+         @ermDBResult = ::Erm_data.where("Provider_Code = '#{params[:providercode]}' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
          if @ermDBResult.size < 1
            @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
          end
        end
      end
 
-   @column_names = Erm_data.column_names.collect(&:to_sym)
+   @column_names = ::Erm_data.column_names.collect(&:to_sym)
 
   end
 
