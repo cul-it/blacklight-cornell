@@ -1,3 +1,3 @@
-class ErmData < ActiveRecord::Base
+class Erm_data < ActiveRecord::Base
   
 end
