@@ -11,12 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140430193241) do
+ActiveRecord::Schema.define(:version => 20141205183449) do
 
-  create_table "blacklight_cornell_requests_requests", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "blacklight_cornell_requests_circ_policy_locs", :force => true do |t|
+    t.integer "CIRC_GROUP_ID"
+    t.integer "LOCATION_ID"
+    t.string  "PICKUP_LOCATION", :limit => 1
   end
+  
+  # create_table "blacklight_cornell_requests_circ_policy_locs", :force => true
+  #   t.integer "CIRC_GROUP_ID"
+  #   t.integer "LOCATION_ID"
+  #   t.string  "PICKUP_LOCATION", :limit => 1
+  # end
+
+  # add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID",
+  # add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], 
+
+  #create_table "blacklight_cornell_requests_requests", :force => true do |t|
+  #  t.datetime "created_at", :null => false
+  #  t.datetime "updated_at", :null => false
+  #end
+
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
