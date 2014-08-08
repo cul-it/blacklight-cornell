@@ -552,7 +552,7 @@ class CatalogController < ApplicationController
                 result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
                 if result.ham?
                     # Content is okay, we can proceed with the email
-                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params["callnumber"],}, url_gen_params)
                 elsif result.spam?
                     # This is definite spam (according to Mollom)
                     flash[:error] = 'Spam!'
@@ -560,7 +560,7 @@ class CatalogController < ApplicationController
             rescue
                 # Mollom isn't working, so we'll have to just go ahead and mail the item
                 captcha_ok = true
-                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params["callnumber"],}, url_gen_params)
             end
           end
         else
@@ -570,14 +570,14 @@ class CatalogController < ApplicationController
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
       end
 
-      if !captcha_ok and (result.unsure? or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
+      if !captcha_ok and ((!result.nil? and result.unsure?) or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
         @captcha = @@mollom.image_captcha
         # Need to pass through the message form elements in order to retain them in the next POST (from CAPTCHA submission)
         @email_params = { :to => params[:to], :message => params[:message], :id => params['id'][0] }
         return render :partial => 'captcha'
       elsif !flash[:error] 
         # Don't have to show a CAPTCHA and there are no errors, so we can send the email
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params["callnumber"]}, url_gen_params)
         email.deliver 
         flash[:success] = "Email sent"
         redirect_to catalog_path(params[:id]) unless request.xhr?
