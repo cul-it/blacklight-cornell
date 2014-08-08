@@ -53,7 +53,9 @@
         <h1><a href="<%=root_path%>">Catalog</a></h1>
         <%end%>
       </div>
-      <%= render :partial=>'/user_util_links' %>
+      <% if !request.original_url.include? "/databases" %>
+        <%= render :partial=>'/user_util_links' %>
+      <%end%>
     </div>
   </div>
 </header>
