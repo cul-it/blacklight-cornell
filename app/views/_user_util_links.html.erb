@@ -1,25 +1,23 @@
-<% if !request.original_url.include? "/databases" %>
-  <div class="span8">
-    <ul class="blacklight-nav">
-      <% if current_or_guest_user %>
-      <%  @bookmarks = current_or_guest_user.bookmarks %>
-        <li>
-          <%= link_to bookmarks_path do %>
-            <%= t('blacklight.header_links.bookmarks') %>
-            <span id="bookmarks-count">
-              <%- unless @bookmarks.nil? %>
-                <%- @bookmarks.collect %>
-                <%- unless @bookmarks.count < 1 %>
-                  (<%= @bookmarks.count %>)
-                <%- end %>
+<div class="span8">
+  <ul class="blacklight-nav">
+    <% if current_or_guest_user %>
+    <%  @bookmarks = current_or_guest_user.bookmarks %>
+      <li>
+        <%= link_to bookmarks_path do %>
+          <%= t('blacklight.header_links.bookmarks') %>
+          <span id="bookmarks-count">
+            <%- unless @bookmarks.nil? %>
+              <%- @bookmarks.collect %>
+              <%- unless @bookmarks.count < 1 %>
+                (<%= @bookmarks.count %>)
               <%- end %>
-            </span>
-          <% end %>
-        </li>
-      <% end %>
-      <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
-      <li class="hidden-phone"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
-      <li class="hidden-phone"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
-    </ul>
-  </div>
-<%end%>
+            <%- end %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+    <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
+    <li class="hidden-phone"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
+    <li class="hidden-phone"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
+  </ul>
+</div>
