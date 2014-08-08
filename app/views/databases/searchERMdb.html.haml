@@ -1,11 +1,11 @@
 .row.database-subject
-	.page-title.span9
+	.page-title.span12
+		.return-link
+			=link_to "/databases/" do
+				%i.fa.fa-arrow-circle-left
+				Back to Databases
 		%h2
 			=params[:q]
-	.span3.return-link
-		=link_to "/databases/" do
-			%i.fa.fa-arrow-circle-left
-			Back to databases
 .resources
 	%div.document.blacklight-database-name.clearfix
 		%div.document-data
@@ -14,8 +14,10 @@
 					=link_to data["url_access_display"][0].split('|')[0] do
 						-if data["fulltitle_vern_display"].present?
 							=data["fulltitle_vern_display"]
+							%i.fa.fa-external-link
 						-else
 							=data["fulltitle_display"]
+							%i.fa.fa-external-link
 				%div.description
 					%p
 						=data["summary_display"][0]

@@ -58,13 +58,43 @@ h2.db-alpha {
 }
 .blacklight-database-name {
 	padding-top: 15px;
+	h3 { margin-bottom: 20px; }
+	h3:first-child { margin-top: 0; }
 	.document-data { 
 		width: 100%;
 		padding: 0 0 15px 0;
 	}
+	td,th {
+		font-size:14px;
+	}
+	.description {
+		p { 
+			font-size: 14px;
+			line-height: 1.6em;
+		}
+
+	}
+	.blacklight-title_display {
+		margin: 0 0 .5em;
+		font-weight: normal;
+		line-height: 1.2em;
+		// font-size: 1.1em;
+		font-size: 20px;
+		i { 
+			font-size: 12px;
+			margin-left: 5px;
+		}
+	}
 }
 .blacklight-database-name:first-child {
 	padding-top: 0;
+}
+.blacklight-databases-subject,
+.blacklight-databases-searchdb,
+.blacklight-databases-title {
+	.document {
+		border-bottom: 1px solid $light-tan;
+	}
 }
 .terms {
 	list-style: none;
@@ -77,6 +107,14 @@ h2.db-alpha {
 	li:first-child {
 		border: 0;
 		padding-left: 0;
+	}
+}
+.blacklight-databases {
+	.return-link {
+		margin-bottom: 2em;
+	}
+	.mobile-search-btn {
+		margin-left: 5px;
 	}
 }
 
@@ -118,60 +156,11 @@ h2.db-alpha {
   padding-bottom: .2em;
   border-bottom: solid 5px $light-tan;
 }
-.blacklight-title_display {
-	margin: 0 0 .5em;
-	font-weight: normal;
-	line-height: 1.2em;
-	// font-size: 1.1em;
-	font-size: 20px;
-	i { 
-		font-size: 12px;
-		margin-left: 5px;
-	}
-}
-.document {
-	h3 { margin-bottom: 20px; }
-	h3:first-child { margin-top: 0; }
-}
-// .document-data {
-// 	border-bottom: 1px solid $tan; 
-// 	padding: 15px 0;
-// 	td,th {
-// 		font-size:14px;
-// 	}
-// 	.description {
-// 		p { 
-// 			font-size: 14px;
-// 			line-height: 1.6em;
-// 		}
-
-// 	}
-
-// 	.label-important {
-// 		color:$white;
-// 		font-size: 60%;
-//     	vertical-align: middle; 
-//     	padding:.2em .6em .3em;
-//     	background-color: $bright-red;
-// 	}
-// }
-// .document-data:first-child {
-// 	padding-top: 0;
-// }
 .resources {
 	background: white;
 	padding: 20px;
 	margin-top: 20px;
-
-
-
 }
-
-// .resources, .database-subject {
-// 		a {
-// 		color: $bright-blue;
-// 	}
-// }
 
 .database-subject {
 	.page-title {
@@ -215,10 +204,10 @@ h2.db-alpha {
 
 // Info appears as blue-green
 .btn-cul {
-color: white;
-background-color: $teal;
-border-color: $dark-teal;
-background-image: none;
+	color: white;
+	background-color: $teal;
+	border-color: $dark-teal;
+	background-image: none;
 }
 
 .btn-cul:hover {
