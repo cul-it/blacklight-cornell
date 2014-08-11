@@ -106,7 +106,7 @@ dd.blacklight-notes {
 	li {
 		font-size: 0.875em;
 		float: left;
-		margin-right: 2em;
+		margin-right: .5em;
 	}
 	li:last-child {
 		margin-right: 0;
@@ -124,6 +124,7 @@ dd.blacklight-notes {
 		}
 	}
 	i { margin-right: 3px; }
+	.selected-box { margin-right: 1em; }
 }
 
 .item-pagination {
