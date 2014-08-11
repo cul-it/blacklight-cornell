@@ -16,7 +16,7 @@ class DatabasesController < ApplicationController
        @subjectResponse = eval(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
-    p = {"q" => '"' + params[:q] +'(Core)"', "wt" => 'ruby',"indent"=>"true"}
+    p = {"q" => '"' + params[:q] +' (Core)"', "wt" => 'ruby',"indent"=>"true"}
     Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databasesBySubject?"+p.to_param)
     @subjectCoreString = clnt.get_content("#{solr}/databasesBySubject?" + p.to_param)
     @subjectCoreResponse = eval(@subjectCoreString)
