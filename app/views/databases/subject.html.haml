@@ -1,13 +1,14 @@
 = render :partial => 'databases_search_form'
 
 .row.database-subject
-	.page-title.span9
+	.page-title.span12
+		.return-link
+			=link_to "/databases/" do
+				%i.fa.fa-arrow-circle-left
+				Back to Databases
 		%h2
 			=params[:q]
-	.span3.return-link
-		=link_to "/databases/" do
-			%i.fa.fa-arrow-circle-left
-			View all subjects
+
 .results-info
 
 
@@ -48,7 +49,7 @@
 							-providercode = ""
 						-else
 							-providercode = data["providercode"][0]
-						TERMS PLACEHOLDER |
+
 						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 	.resources
 		%h3
@@ -86,7 +87,7 @@
 							-providercode = ""
 						-else
 							-providercode = data["providercode"][0]
-						TERMS PLACEHOLDER |
+
 						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 -else
 	.resources
@@ -122,6 +123,5 @@
 						-if data["providercode"].nil?
 							-providercode = ""
 						-else
-							-providercode = data["providercode"][0]
-						TERMS PLACEHOLDER |
+							-providercode = data["providercode"][0]					
 						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"

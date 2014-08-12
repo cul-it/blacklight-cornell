@@ -1,5 +1,7 @@
-class CreateBlacklightCornellRequestsCircPolicyLocs < ActiveRecord::Migration
-  def change
+class CondCreateBlacklightCornellRequestsCircPolicyLocs < ActiveRecord::Migration
+
+  def up 
+    if !ActiveRecord::Base.connection.table_exists? :blacklight_cornell_requests_circ_policy_locs 
     create_table :blacklight_cornell_requests_circ_policy_locs do |t|
       t.integer :CIRC_GROUP_ID, :LOCATION_ID
       t.string  :PICKUP_LOCATION, limit: 1
@@ -217,6 +219,11 @@ class CreateBlacklightCornellRequestsCircPolicyLocs < ActiveRecord::Migration
     BlacklightCornellRequests::Circ_policy_locs.create :CIRC_GROUP_ID => 27, :LOCATION_ID => 47, :PICKUP_LOCATION => 'N'
     BlacklightCornellRequests::Circ_policy_locs.create :CIRC_GROUP_ID => 3, :LOCATION_ID => 247, :PICKUP_LOCATION => nil
     BlacklightCornellRequests::Circ_policy_locs.create :CIRC_GROUP_ID => 27, :LOCATION_ID => 246, :PICKUP_LOCATION => 'N'
-
   end
+  end
+
+  def down 
+    drop_table :blacklight_cornell_requests_circ_policy_locs 
+  end
+
 end

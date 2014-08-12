@@ -78,20 +78,7 @@
 		    display: inline-block;
 		    float: none;
 		    color: #333;
-		    // color: #ffffff;
 		    text-shadow: none;
-		    // background-color: #363636;
-		    // background-image: -moz-linear-gradient(top, #444444, #222222);
-		    // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
-		    // background-image: -webkit-linear-gradient(top, #444444, #222222);
-		    // background-image: -o-linear-gradient(top, #444444, #222222);
-		    // background-image: linear-gradient(to bottom, #444444, #222222);
-		    // background-repeat: repeat-x;
-		    // filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
-		    // border-color: #222222 #222222 #000000;
-		    // border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-		    // *background-color: #222222;
-		    // filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	 	}
 	 	.btn-navbar:hover,
 	 	.btn-navbar:active,
@@ -99,25 +86,25 @@
 	 	.btn-navbar.disabled,
 	 	.btn-navbar[disabled] {
     		color: #333;
-		    // background-color: #222222;
-		    // *background-color: #151515;
  		}
- 		// .btn-navbar:active,
- 		// .btn-navbar.active { background-color: #080808 \9; }
  		.nav-collapse { margin: 5px 10px; }
+	}
+	.results-info {
+		overflow: hidden;
 	}
 
 	//
 	// Item page
 	.item-pagination {
-		float: left;
-		width: 40%;
-		margin-bottom: 0;
+		margin-bottom: .5em;
 	}
 	.item-tools {
-		float: right;
 		clear: none;
-		width: 60%;
+		overflow: hidden;
+		margin-bottom: 1em;
+		ul {
+			float: none;
+		}
 	}
 	.cover { width: 25%; }
 	.cover img {width: 75%; }

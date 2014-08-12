@@ -27,5 +27,8 @@ body.blacklight-bookmarks-index .item-tools ul { float: left;}
 	}
 }
 .blacklight-bookmarks {
-	.item-tools { margin-left: 0; }
+	.item-tools { 
+		margin-left: 0;
+		margin-top: .25em;
+	}
 }
