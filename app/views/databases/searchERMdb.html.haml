@@ -5,7 +5,11 @@
 				%i.fa.fa-arrow-circle-left
 				Back to Databases
 		%h2
-			=params[:q]
+			- @db.each do |data|
+				-if data["fulltitle_vern_display"].present?
+					=data["fulltitle_vern_display"]
+				-else
+					=data["fulltitle_display"]
 .resources
 	%div.document.blacklight-database-name.clearfix
 		%div.document-data
