@@ -12,4 +12,73 @@ module Blacklight::Solr::Document::RIS
     document.will_export_as(:zotero, "application/x-research-info-systems")
   end
 
+
+# setup_pub_info: Grand Rapids, Mich.: Baker Academic
+
+
+
+  def export_as_mendeley
+
+    Rails.logger.warn "mjc12test: test 1"
+    a = get_all_authors to_marc
+    Rails.logger.warn "mjc12test: #{setup_pub_date(to_marc)}"
+    #export_ris
+
+  end
+
+  def export_as_zotero
+
+    Rails.logger.warn "mjc12test: test 2"
+    export_ris
+
+  end
+
+  def export_ris
+
+    Rails.logger.warn "mjc12test: Calling export_ris"
+
+    # Determine type (TY) of format
+    # but for now, go with generic (that's what endnote is doing)
+    output = 'TY  - GEN' + "\n"
+    
+    # Handle title
+    output += "TI  - #{clean_end_punctuation(setup_title_info(to_marc))}\n"
+
+    # Handle authors
+    authors = get_all_authors(to_marc)
+    # authors can contain primary_authors, editors, translators, and compilers
+    # each one is an array. Oddly, though, RIS format doesn't seem to provide
+    # for anything except 'author'
+    primary_authors = authors[:primary_authors]
+    output += "AU  - #{primary_authors[0]}\n"
+    if primary_authors.length > 1
+      for i in 1..primary_authors.length
+        output += "A#{i}  - #{primary_authors[i]}"
+      end
+    end
+
+    # publication year
+    output += "PY  - #{setup_pub_date(to_marc)}\n"
+
+    # publisher
+    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    place, publisher = pub_data.split(':')
+    Rails.logger.warn "mjc12test: place: #{place}, pub: #{publisher}"
+    output += "PB  - #{publisher.strip!}\n"
+
+    # publication place
+    output += "CY  - " + place + "\n"
+
+    # edition
+    output += "ET  - #{setup_edition(to_marc)}\n"
+
+
+
+    # closing tag
+    output += "ER  - "
+
+    output
+
+  end
+
 end
