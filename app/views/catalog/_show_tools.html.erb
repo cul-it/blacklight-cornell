@@ -61,14 +61,25 @@
             <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => ' '}%>
           </li>
         <% elsif exportable %>
+
+          <% if @document.export_formats.keys.include?( :endnote ) %>
+            <li>
+              <%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %>
+            </li>
+          <% end %>
+          <% if @document.export_formats.keys.include?( :mendeley ) %>
+            <li>
+              <%= link_to t('blacklight.tools.mendeley'), catalog_path(@document, :format => 'mendeley') %>
+            </li>
+          <% end %>
           <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
             <li>
               <%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document), :target=>'_blank'  %>
             </li>
           <% end %>
-          <% if @document.export_formats.keys.include?( :endnote ) %>
+          <% if @document.export_formats.keys.include?( :zotero ) %>
             <li>
-              <%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %>
+              <%= link_to t('blacklight.tools.zotero'), catalog_path(@document, :format => 'zotero') %>
             </li>
           <% end %>
         <% end %>
