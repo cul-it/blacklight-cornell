@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'appsignal'
 gem 'rails', '~> 3.2.18'
 
 # Bundle edge Rails instead:

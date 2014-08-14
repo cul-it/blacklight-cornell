@@ -98,5 +98,10 @@
 		}
 		a { display: inline; }
 	}
+	// Make advanced search form elements fit on one line
+	//---------------------------------------------------
+	.advanced {
+		.input_row > .input-small { width: 20%; }
+	}
 }
 
