@@ -180,4 +180,10 @@
 	.databases-subject {
 		h3:first-child { margin-top: 20px; }
 	}
+	// Make advanced search form elements fit on one line
+	//---------------------------------------------------
+	.advanced-search-field { width: 30%; }
+	.advanced {
+		.input_row > input { width: 30%; }
+	}
 }
