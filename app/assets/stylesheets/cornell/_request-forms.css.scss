@@ -49,7 +49,11 @@ div.request-options div.accordion-body .span4 {
   position:relative;
   left:-15px;
 }
-.form-alternative-action{font-size: .75em;}
+.form-alternative-action{
+  font-size: .75em;
+  h3 {margin-top:3em;
+    }
+  }
 
 .help-inline.required {
   font-size: .8em;
@@ -75,8 +79,8 @@ table.request-options {
       {background-color: $white;}
 
     thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-    background-color: $medium-gray;
-    color: $white;}
+    background-color: $tan;
+    color: $gray;}
 
     .blacklight-title_display { line-height: inherit; }
   }
