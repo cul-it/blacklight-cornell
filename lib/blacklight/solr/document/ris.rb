@@ -13,29 +13,19 @@ module Blacklight::Solr::Document::RIS
   end
 
 
-# setup_pub_info: Grand Rapids, Mich.: Baker Academic
-
-
-
   def export_as_mendeley
 
-    Rails.logger.warn "mjc12test: test 1"
-    a = get_all_authors to_marc
-    Rails.logger.warn "mjc12test: #{setup_pub_date(to_marc)}"
-    #export_ris
+    export_ris
 
   end
 
   def export_as_zotero
 
-    Rails.logger.warn "mjc12test: test 2"
     export_ris
 
   end
 
   def export_ris
-
-    Rails.logger.warn "mjc12test: Calling export_ris"
 
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
@@ -71,8 +61,6 @@ module Blacklight::Solr::Document::RIS
 
     # edition
     output += "ET  - #{setup_edition(to_marc)}\n"
-
-
 
     # closing tag
     output += "ER  - "
