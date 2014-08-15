@@ -19,7 +19,8 @@ module CornellCatalogHelper
       grouped['Circulating'] = [] if grouped['Circulating'].nil?
       grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
-      if holding['location_code'].include?('rmc')
+      #if holding['location_code'].include?('rmc')
+      if aeon_eligible? holding['location_code']
         grouped['Rare'] << holding
       elsif holding['location_name'].include?('*Networked Resource')
         grouped['*Online'] << holding
