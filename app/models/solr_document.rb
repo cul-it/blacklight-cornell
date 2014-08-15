@@ -30,4 +30,7 @@ class SolrDocument
                          :language => "language_facet",
                          :format => "format"
                          )
+
+  use_extension( Blacklight::Solr::Document::RIS )
+  
 end
