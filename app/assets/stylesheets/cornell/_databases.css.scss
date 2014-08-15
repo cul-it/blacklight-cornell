@@ -10,23 +10,35 @@
 		font-size: 22px;
 		margin-bottom: 10px;
 	}
-
-	// a {
-	// 	color:$bright-blue;
-	// }
 }
 .databases-az {
 	.nav-pills {
 		margin-bottom: 0;
+		li {
+			float: left !important;
+		}
 		a {
 			background: white;
 			margin-bottom: 5px;
+			font-weight: normal !important;
+			color: $cornell-primary !important;
+			padding: 8px 12px !important;
 		}
 		a:hover, a:active, a:focus {
 			background: $pale-gray;
 		}
 	}
 }
+
+  // // Nav and dropdown links in navbar
+  // .nav-collapse .nav > li > a,
+  // .nav-collapse .dropdown-menu a {
+  //   padding: 9px 15px;
+  //   font-weight: bold;
+  //   color: $navbarLinkColor;
+  //   @include border-radius(3px);
+  // }
+
 .databases-subject {
 	margin-top: 20px;
 	h3 {
@@ -226,3 +238,18 @@ h2.db-alpha {
 		p { font-size: 14px; }
 	}
 }
+
+// Collapsible A-Z nav 
+// -----------------------------------
+.btn-az {
+	display: none;
+	padding: 7px 10px;
+	.fa-bars { 
+		color: $light-gray;
+		margin-left: 3px;
+	}
+}
+// .az-collapse.collapse {
+// 	height: auto;
+// 	overflow: visible;
+// }
