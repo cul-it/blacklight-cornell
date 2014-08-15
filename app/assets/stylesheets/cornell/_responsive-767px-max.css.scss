@@ -180,6 +180,17 @@
 	.databases-subject {
 		h3:first-child { margin-top: 20px; }
 	}
+	// Collapsible A-Z nav
+	.btn-az {
+		display: inline-block;
+	}
+	.az-collapse {
+		margin-top: 10px;
+	}
+	// .az-collapse.collapse {
+	// 	overflow: hidden;
+	// 	height: 0;
+	// }
 	// Make advanced search form elements fit on one line
 	//---------------------------------------------------
 	.advanced-search-field { width: 30%; }
