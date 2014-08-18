@@ -49,7 +49,7 @@
                     %i{:class => 'fa fa-clock-o', :title => 'On order'}
                     - message = 'On order'
                   - elsif details['status'] == 'none'
-                    - if callnumber == 'On Order'  
+                    - if callnumber == 'On Order'  || callnumber.blank? 
                       %i{:class => 'fa', :title => 'On order'}
                       - message = ''
                     - else
