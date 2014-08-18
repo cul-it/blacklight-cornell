@@ -19,7 +19,8 @@ module CornellCatalogHelper
       grouped['Circulating'] = [] if grouped['Circulating'].nil?
       grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
-      if holding['location_code'].include?('rmc')
+      #if holding['location_code'].include?('rmc')
+      if aeon_eligible? holding['location_code']
         grouped['Rare'] << holding
       elsif holding['location_name'].include?('*Networked Resource')
         grouped['*Online'] << holding
@@ -164,7 +165,7 @@ module CornellCatalogHelper
             oneloc["notes"] = "Notes: " + notes.join(' ') unless notes.blank? 
             notes_by_mid[id.to_s] = oneloc["notes"]
             oneloc["summary_holdings"]="Library has: " + summary_holdings.join(' ') unless summary_holdings.blank? 
-            oneloc["supplemental_holdings_desc"]=suppl_holdings.join(';') unless suppl_holdings.blank? 
+            oneloc["supplements"]=suppl_holdings.join(';') unless suppl_holdings.blank? 
             if (!@current_suppl.nil?) 
               if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).blank?
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} selected current  = " +  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id }).inspect

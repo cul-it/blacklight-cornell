@@ -15,6 +15,7 @@ BlacklightCornell::Application.routes.draw do
   match 'backend/feedback_mail', :to => "backend#feedback_mail"
 
   match 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms', :via => :post
+  match 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   match 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
   
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'

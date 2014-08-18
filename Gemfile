@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'appsignal'
 gem 'rails', '~> 3.2.18'
 
 # Bundle edge Rails instead:
@@ -25,6 +26,10 @@ gem 'rb-readline', '~> 0.4.2'
 gem 'net-ldap'
 gem 'newrelic_rpm'
 gem 'nokogiri'
+
+gem 'zoom', :git => 'https://github.com/bricestacey/ruby-zoom.git'
+
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -84,6 +89,7 @@ gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git => 'git@git.library.cornell.edu:blacklight_cornell_requests.git', :branch => 'master'
+#gem 'blacklight_cornell_requests', :path => '/users/mjc12/code/blacklight_cornell_requests'
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'

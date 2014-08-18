@@ -49,8 +49,7 @@
 							-providercode = ""
 						-else
 							-providercode = data["providercode"][0]
-						TERMS PLACEHOLDER 
-						| 
+
 						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 	.resources
 		%h3
@@ -88,8 +87,7 @@
 							-providercode = ""
 						-else
 							-providercode = data["providercode"][0]
-						TERMS PLACEHOLDER 
-						| 
+
 						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 -else
 	.resources
@@ -125,7 +123,5 @@
 						-if data["providercode"].nil?
 							-providercode = ""
 						-else
-							-providercode = data["providercode"][0]
-						TERMS PLACEHOLDER 
-						| 
+							-providercode = data["providercode"][0]					
 						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
