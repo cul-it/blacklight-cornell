@@ -12,11 +12,13 @@ module Blacklight::Solr::Document::Email
         semantics[:author][0] << " / " << stringArray[2]
       end
     end
+
     body = []
     body << I18n.t('blacklight.email.text.title', :value => semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.author', :value => semantics[:author][0]) unless semantics[:author].blank?
 #    body << I18n.t('blacklight.email.text.title', :value => semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.language', :value => semantics[:language].join(" ")) unless semantics[:language].blank?
+    body << I18n.t('blacklight.email.text.callnumber', :value => semantics[:callnumber].join(" ")) unless semantics[:callnumber].blank?
     return body.join("\n") unless body.empty?
   end
 

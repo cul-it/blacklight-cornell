@@ -49,13 +49,17 @@
                     %i{:class => 'fa fa-clock-o', :title => 'On order'}
                     - message = 'On order'
                   - elsif details['status'] == 'none'
-                    %i{:class => 'fa fa-check', :title => 'On-site use'}
-                    - message = 'On-site use'
+                    - if callnumber == 'On Order'  || callnumber.blank? 
+                      %i{:class => 'fa', :title => 'On order'}
+                      - message = ''
+                    - else
+                      %i{:class => 'fa fa-check', :title => 'On-site use'}
+                      - message = 'On-site use'
                   - else
                     %i{:class => 'fa fa-clock-o'}
                   = message
                   - if details['count'] >1
-                    (#{details['count']} copies)
+                    (#{details['count']} volumes)
                   - if details['status'] == 'some_available'
                     - some_av = 'yes'
             -if some_av == 'yes' 
