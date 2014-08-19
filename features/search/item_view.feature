@@ -88,7 +88,7 @@ Feature: Item view
   # Item is overdue and should show that another request has been placed for it 
   @availability
   Scenario: As a user I can see the number of requests placed on an item 
-    Given I request the item view for 5724314  
+    Given I request the item view for 6230569  
     Then I should see the label 'Requests'
 
   # Availability for a lost item, and one available. 
@@ -96,6 +96,25 @@ Feature: Item view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728 
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
+
+  # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
+  @availability @missing
+  Scenario: As a user I can see the availability for a Missing item
+    Given I request the item view for 119162 
+    Then I should see the labels 'Missing'
+
+  # Availability for an In transit item  Beautiful houses (status 9)
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item
+    Given I request the item view for 1991 
+    Then I should see the labels 'In transit'
+
+  # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item
+    Given I request the item view for 2000195 
+    Then I should see the labels 'In transit'
+
 
   # Availability for a lost item status 14
   @availability
