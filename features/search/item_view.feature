@@ -115,6 +115,12 @@ Feature: Item view
     Given I request the item view for 2000195 
     Then I should see the labels 'In transit'
 
+  # Availability for an In transit item The goldfinch 
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
+    Given I request the item view for 8272732
+    Then I should not see the label '%LOC'
+
 
   # Availability for a lost item status 14
   @availability
