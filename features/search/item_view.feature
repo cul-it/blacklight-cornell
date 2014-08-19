@@ -121,6 +121,13 @@ Feature: Item view
     Given I request the item view for 8272732
     Then I should not see the label '%LOC'
 
+  # Availability for an In transit item status 10 - Declaration of a heretic
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
+    Given I request the item view for 106223 
+    Then I should not see the label '%LOC'
+
+
 
   # Availability for a lost item status 14
   @availability
