@@ -497,6 +497,8 @@ module CornellCatalogHelper
       status_text =  status_text.gsub('%SDATE',sdate)
       status_text =  status_text.gsub('%DATE',date)
       status_text =  status_text.gsub('%REQS',reqs)
+      status_text =  status_text.gsub('at %LOC','') # I have not figured out where to get the loc from yet.
+      status_text =  status_text.gsub('to %LOC','') # I have not figured out where to get the loc from yet.
     end
   Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} status text = #{status_text.inspect}\n"
   status_text
