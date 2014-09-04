@@ -172,6 +172,15 @@ Feature: Item view
     Given I request the item view for 329763 
     Then I should see the label 'Current Issues: issue no'
 
+  # Make sure PDA makes some sense  DISCOVERYACCESS-1356
+  # Confusing availability labels for 8036458
+  @availability
+  @holdings
+  @pda
+  Scenario: As a user I can see that an item is available for acquisition
+    Given I request the item view for 38036458
+    Then I should not see the label 'Library Technical Services Review Shelves'
+
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
   	Given I request the item view for 4759
