@@ -52,12 +52,13 @@ module Blacklight::Solr::Document::RIS
 
     # publisher
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
-    place, publisher = pub_data.split(':')
-    Rails.logger.warn "mjc12test: place: #{place}, pub: #{publisher}"
-    output += "PB  - #{publisher.strip!}\n"
+    if !pub_data.nil?
+      place, publisher = pub_data.split(':')
+      output += "PB  - #{publisher.strip!}\n"
 
-    # publication place
-    output += "CY  - " + place + "\n"
+      # publication place
+      output += "CY  - " + place + "\n"
+    end
 
     # edition
     output += "ET  - #{setup_edition(to_marc)}\n"
