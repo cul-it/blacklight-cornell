@@ -8,7 +8,8 @@ module CornellCatalogHelper
   def process_online_title(title)
     # Trim leading and trailing text
     # Reformat coverage dates to simply mm/yy (drop day) and wrap in span for display
-    title_clean = title.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{0,})/, ' <span class="online-coverage">(\2)</span>').html_safe
+    title_dirty = ERB::Util.html_escape(title)
+    title_clean = title_dirty.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{0,})/, ' <span class="online-coverage">(\2)</span>')
     # Address the Factiva links that come with a lengthy note
     title_clean.to_s.gsub(/(Please check resource for coverage or contact a librarian for assistance.)$/, '<span class="online-note">\1</span>').html_safe
   end
@@ -497,6 +498,8 @@ module CornellCatalogHelper
       status_text =  status_text.gsub('%SDATE',sdate)
       status_text =  status_text.gsub('%DATE',date)
       status_text =  status_text.gsub('%REQS',reqs)
+      status_text =  status_text.gsub('at %LOC','') # I have not figured out where to get the loc from yet.
+      status_text =  status_text.gsub('to %LOC','') # I have not figured out where to get the loc from yet.
     end
   Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} status text = #{status_text.inspect}\n"
   status_text
