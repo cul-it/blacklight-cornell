@@ -157,10 +157,11 @@ dd.blacklight-notes {
 		overflow: hidden; }
 	.holding {
 		.call-number {
-			padding: 0 10px 5px 10px;
-			font-weight: 700;
+			padding: 0 10px;
+			// font-weight: 700;
 			font-size: .875em;
-			border-bottom: 1px dotted #d8d2c9;}
+			// border-bottom: 1px dotted #d8d2c9;
+		}
 		.group {
 			padding: 5px 10px;
 		//	border-top: 1px dotted $tan;
@@ -180,6 +181,7 @@ dd.blacklight-notes {
 	}
 	.unstyled {
 		padding: 0 10px;
+		margin-bottom: 0;
 	}
 }
 .holding,
