@@ -1,4 +1,5 @@
 module CornellCatalogHelper
+ require "pp"
 
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
@@ -142,7 +143,8 @@ module CornellCatalogHelper
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
           Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
-          callnumber = hrdJSON["callnos"][0]
+          callnumber = "" 
+          callnumber = hrdJSON["callnos"][0] unless  hrdJSON["callnos"].blank?		
           id = hrdJSON[:id]
           hrds[id]  =  hrdJSON
           notes = hrdJSON[:notes]
@@ -232,9 +234,10 @@ module CornellCatalogHelper
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after trim avail) = " + condensed_full.inspect 
     condensed_full = fix_notes(condensed_full)
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
-    #condensed_full = collapse_locs(condensed_full)
+    xcondensed_full = fix_temps(condensed_full)
+    @condensed_full = collapse_locs(xcondensed_full)
     #Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
-    condensed_full
+    @condensed_full
   end
 
   def parse_item_locs(bibid,response)
@@ -724,6 +727,45 @@ module CornellCatalogHelper
   condensed
   end
 
+  # when all items on holding have the same temp location, 
+  # rejigger the temp location to be the 
+  # perm location 
+  def fix_temps(con_full)
+    Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) con_full=#{con_full.inspect}\n"  
+    Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) @document.item_record_display=#{@document['item_record_display'].inspect}\n"  
+    iarray = @document['item_record_display']
+    items = []
+    if iarray.nil? 
+      return con_full
+    end
+    iarray.each do |ite|
+      items << JSON.parse(ite)
+    end 
+    Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) items=#{items}\n"  
+  # for each holding record, count the items 
+    cond2 = []
+    con_full.each do |loc|
+      loc2 = loc
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc['location_name']} callnumber=#{loc['call_number']} holding_id=#{loc['holding_id'][0]}\n"  
+      #select from items array those with matching mfhd_id, and count them. how many items on this mfhd?
+      im = items.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
+      tm = im.select {|i| !i['temp_location']['code'].blank? }
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching with temp=#{tm.inspect} and count with temps= #{tm.count}\n"  
+      tl = (im.select {|i| !i['temp_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'temp_location'}}
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) tl=#{tl.inspect}\n"  
+      #select from items array those with matching mfhd_id and a temp loc, and count them. how many items on this mfhd with a temp location?
+      if tm.count > 0 and tm.count == im.count  
+        loc2['location_name'] = tl[0]['temp_location']['name'] 
+        loc2['location_code'] = tl[0]['temp_location']['code'] 
+        loc2['copies'][0].delete('temp_locations')
+      end
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) loc2=#{loc2.inspect}\n"  
+      cond2 << loc2 
+    end
+    Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) cond2=#{cond2.inspect}\n"  
+    cond2 
+  end
   # when holding records have the same location, AND call number --
   # collapse them into one location info block 
   # condensed is an array of hashes
