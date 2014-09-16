@@ -6,9 +6,11 @@
   margin: 0.7em 0;
 }
 #sort { width: auto; }
-.as-tips {position:relative;
+.as-tips {
+  position:relative;
 	top:-10px;
 	font-size: .85em;
+  margin-top: 0;
 }
 .add-and-sort label {
   display: inline-block;
