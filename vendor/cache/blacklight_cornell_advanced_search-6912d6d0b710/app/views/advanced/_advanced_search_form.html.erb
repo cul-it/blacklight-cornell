@@ -4,18 +4,27 @@
       <%#= search_as_hidden_fields(:params => advanced_search_context ) %>
       <div class="query_zone control-group">
         <div class="input_row">
-          <label for="q_row" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-          <%= render_edited_advanced_search(params) %>
+          <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
 
+          <%= text_field_tag "q_row[]", params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q", :autocapitalize => "off" %>
+
+          <label for="op_row" class="hide-text"><%= t('blacklight.search.form.op_row') %></label>
+
+          <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase'}.sort,'all'), :class => 'input-small', :id =>"op_row" ) %> in
+
+          <label for="search_field_advanced" class="hide-text"><%= t('blacklight.search.form.search_field_advanced') %></label>
+
+          <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}, :selected => params[:search_field]), :id => 'search_field_advanced', :class => 'advanced-search-field') %>
+        </div>
+
+        <%= render :partial => 'advanced_search_rows' %>
       </div>
 
       <div class="add-and-sort control-group">
         <div class="add-row">
           <a href="#" id="add-row"><i class="fa fa-plus-circle"></i> Add a row</a>
         </div>
-        <div class="advanced-facets">
-         <%= render_constraints_filters(params) %>
-        </div>
+
         <%# # Comment out the display of active constraints -- still need to be removed
             # from the query before it's sent to Solr. John will handle this in the
             # controller.
@@ -61,8 +70,9 @@
       <li>Results can be filtered by date, language, format, etc., after submitting the search.
       </li>
 
-      <li>Truncation and wildcards are not supported. Word stemming is done automatically.
+      <li>Truncation, wildcards and word stemming are supported.
       </li>
     </ul>
+    <p><a href="https://www.library.cornell.edu/help/catalog#advanced">More search tips</a></p>
   </div> <!-- .span4 -->
 </div> <!-- .row -->
