@@ -1,0 +1,19 @@
+/Users/nick/.rbenv/versions/1.9.3-p194/bin/ruby extconf.rb 
+checking for yaz/zoom.h... yes
+creating Makefile
+
+make  clean
+
+make
+compiling rbzoom.c
+compiling rbzoomconnection.c
+compiling rbzoomoptions.c
+compiling rbzoompackage.c
+compiling rbzoomquery.c
+compiling rbzoomrecord.c
+compiling rbzoomresultset.c
+linking shared-object zoom.bundle
+
+make  install
+/usr/bin/install -c -m 0755 zoom.bundle /Users/nick/Dropbox/usr_local/src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/ext/.gem.20140917-63634-nc2tcs
+installing default zoom libraries
