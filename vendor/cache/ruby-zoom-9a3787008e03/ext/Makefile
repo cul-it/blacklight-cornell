@@ -12,11 +12,11 @@ ECHO = $(ECHO1:0=@echo)
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /Users/nick/.rbenv/versions/1.9.3-p194/include/ruby-1.9.1
-hdrdir = /Users/nick/.rbenv/versions/1.9.3-p194/include/ruby-1.9.1
-arch_hdrdir = /Users/nick/.rbenv/versions/1.9.3-p194/include/ruby-1.9.1/$(arch)
+topdir = /usr/local/rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1
+hdrdir = /usr/local/rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1
+arch_hdrdir = /usr/local/rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/$(arch)
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/Users/nick/.rbenv/versions/1.9.3-p194
+prefix = $(DESTDIR)/usr/local/rvm/rubies/ruby-1.9.3-p194
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
 exec_prefix = $(prefix)
 vendorhdrdir = $(rubyhdrdir)/vendor_ruby
@@ -46,8 +46,8 @@ sbindir = $(exec_prefix)/sbin
 bindir = $(exec_prefix)/bin
 rubylibdir = $(rubylibprefix)/$(ruby_version)
 archdir = $(rubylibdir)/$(arch)
-sitelibdir = $(DESTDIR)/Users/nick/Dropbox/usr_local/src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/ext/.gem.20140917-63634-nc2tcs
-sitearchdir = $(DESTDIR)/Users/nick/Dropbox/usr_local/src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/ext/.gem.20140917-63634-nc2tcs
+sitelibdir = $(sitedir)/$(ruby_version)
+sitearchdir = $(sitelibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 
@@ -55,10 +55,10 @@ NULLCMD = :
 
 CC = gcc
 CXX = g++
-LIBRUBY = $(LIBRUBY_A)
+LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = 
-LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
+LIBRUBYARG_SHARED = -Wl,-R -Wl,$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)
+LIBRUBYARG_STATIC = -Wl,-R -Wl,$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)-static
 OUTFLAG = -o 
 COUTFLAG = -o 
 
@@ -66,35 +66,35 @@ RUBY_EXTCONF_H =
 cflags   =  $(optflags) $(debugflags) $(warnflags)
 optflags = -O3
 debugflags = -ggdb
-warnflags = -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration
-CFLAGS   = -fno-common  -O3 -Wno-error=shorten-64-to-32  -pipe -I/Users/nick/Dropbox/usr_local/Cellar/yaz/5.4.1/include -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1 -DYAZ_HAVE_XSLT=1 -DYAZ_HAVE_EXSLT=1 -I/usr/include/libxml2
+warnflags = -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration
+CFLAGS   = -fPIC $(cflags)  -fPIC -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1 -DYAZ_HAVE_XSLT=1 -DYAZ_HAVE_EXSLT=1 -I/usr/include/libxml2
   $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS = -DHAVE_YAZ_ZOOM_H -I/Users/nick/.rbenv/versions/1.9.3-p194/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)
+CPPFLAGS = -DHAVE_YAZ_ZOOM_H  $(DEFS) $(cppflags)
 CXXFLAGS = $(CFLAGS) $(cxxflags)
-ldflags  = -L. -L/Users/nick/.rbenv/versions/1.9.3-p194/lib  -L/usr/local/lib -L/Users/nick/Dropbox/usr_local/Cellar/yaz/5.4.1/lib -lyaz -lexslt -lxslt -lxml2 -lz -lpthread -licucore -lm -lxml2 -liconv -lpthread
+ldflags  = -L.  -rdynamic -Wl,-export-dynamic -lyaz -lexslt -lxslt -lz -lm -lgcrypt -ldl -lgpg-error -lxml2 -lpthread
  
-dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress -Wl,-flat_namespace
+dldflags = 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
-LDSHARED = $(CC) -dynamic -bundle
-LDSHAREDXX = $(CXX) -dynamic -bundle
+LDSHARED = $(CC) -shared
+LDSHAREDXX = $(CXX) -shared
 AR = ar
 EXEEXT = 
 
 RUBY_BASE_NAME = ruby
 RUBY_INSTALL_NAME = ruby
 RUBY_SO_NAME = ruby
-arch = x86_64-darwin13.3.0
+arch = x86_64-linux
 sitearch = $(arch)
 ruby_version = 1.9.1
-ruby = /Users/nick/.rbenv/versions/1.9.3-p194/bin/ruby
+ruby = /usr/local/rvm/rubies/ruby-1.9.3-p194/bin/ruby
 RUBY = $(ruby)
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
-RMDIRS = rmdir -p
-MAKEDIRS = mkdir -p
+RMDIRS = rmdir --ignore-fail-on-non-empty -p
+MAKEDIRS = /bin/mkdir -p
 INSTALL = /usr/bin/install -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
@@ -105,7 +105,7 @@ COPY = cp
 preload = 
 
 libpath = . $(libdir)
-LIBPATH =  -L. -L$(libdir)
+LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir)
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -116,23 +116,23 @@ extout =
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS =   -lpthread -ldl -lobjc 
-SRCS = rbzoom.c rbzoomconnection.c rbzoomoptions.c rbzoompackage.c rbzoomquery.c rbzoomrecord.c rbzoomresultset.c
-OBJS = rbzoom.o rbzoomconnection.o rbzoomoptions.o rbzoompackage.o rbzoomquery.o rbzoomrecord.o rbzoomresultset.o
+LIBS = $(LIBRUBYARG_SHARED)  -lpthread -lrt -ldl -lcrypt -lm   -lc
+SRCS = rbzoom.c rbzoompackage.c rbzoomoptions.c rbzoomrecord.c rbzoomresultset.c rbzoomconnection.c rbzoomquery.c
+OBJS = rbzoom.o rbzoompackage.o rbzoomoptions.o rbzoomrecord.o rbzoomresultset.o rbzoomconnection.o rbzoomquery.o
 TARGET = zoom
-DLLIB = $(TARGET).bundle
+DLLIB = $(TARGET).so
 EXTSTATIC = 
 STATIC_LIB = 
 
 BINDIR        = $(bindir)
 RUBYCOMMONDIR = $(sitedir)$(target_prefix)
-RUBYLIBDIR    = $(sitelibdir)$(target_prefix)
-RUBYARCHDIR   = $(sitearchdir)$(target_prefix)
+RUBYLIBDIR = /libweb/dev/git-src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
+RUBYARCHDIR = /libweb/dev/git-src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
 HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
 
 TARGET_SO     = $(DLLIB)
-CLEANLIBS     = $(TARGET).bundle 
+CLEANLIBS     = $(TARGET).so 
 CLEANOBJS     = *.o  *.bak
 
 all:    $(DLLIB)
