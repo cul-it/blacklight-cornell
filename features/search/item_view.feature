@@ -77,6 +77,34 @@ Feature: Item view
     Given I request the item view for 115628 
     Then I should see the label 'Shelved'
 
+  # when there is a perm location, and temp and all items for holding are at temp
+  # then the temp location should be shown INSTEAD of permanent so "temporarily shelved
+  # at" does not show , temporary shows as if it were permanent.
+  # DISCOVERYACCESS-988
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should not see the label 'Temporarily shelved'
+
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should not see the label 'Olin Library'
+
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should see the label 'Uris Library Reserve'
+
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should see the label '3 volumes'
+
   # Availability for an on order item. "Problems for the mathematical olympiads" 
   @availability
   Scenario: As a user I can see the availability for an item on order 
