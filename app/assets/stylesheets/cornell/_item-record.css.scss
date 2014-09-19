@@ -157,10 +157,11 @@ dd.blacklight-notes {
 		overflow: hidden; }
 	.holding {
 		.call-number {
-			padding: 0 10px 5px 10px;
-			font-weight: 700;
+			padding: 0 10px;
+			// font-weight: 700;
 			font-size: .875em;
-			border-bottom: 1px dotted #d8d2c9;}
+			// border-bottom: 1px dotted #d8d2c9;
+		}
 		.group {
 			padding: 5px 10px;
 		//	border-top: 1px dotted $tan;
@@ -180,6 +181,7 @@ dd.blacklight-notes {
 	}
 	.unstyled {
 		padding: 0 10px;
+		margin-bottom: 0;
 	}
 }
 .holding,
@@ -248,4 +250,22 @@ dd.blacklight-notes {
 // captcha form
 #captcha_form {
 	#request-submit { display: block; }
+}
+
+// librarian view
+#marc_view { font-family: courier, monospace; }
+#marc_view .field { clear: both; }
+#marc_view .tag { 
+	float: left;
+	margin-right: 5px;
+}
+#marc_view .ind1,
+#marc_view .ind2 {
+	width: 20px;
+	display: inline; 
+	float: left;
+}
+#marc_view .subfields { 
+padding-left: 6em;
+	width: 70%;
 }
