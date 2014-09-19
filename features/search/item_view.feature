@@ -119,6 +119,16 @@ Feature: Item view
     Given I request the item view for 6230569  
     Then I should see the label 'Requests'
 
+  # Make sure that blocking call number display does not cause availability display probs. 
+  # DISCOVERYACCESS-1386 
+  # items with no call number caused an exception -- so the text 'Call number' never
+  # appears anyway, but we make sure we don't have an exception with null ptr. 
+  @availability
+  @discoveryaccess-1386 
+  Scenario: As a user I can see the information about an ONLINE item, but not the call number 
+    Given I request the item view for 5380314  
+    Then I should not see the label 'Call number'
+
   # Availability for a lost item, and one available. 
   @availability
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
