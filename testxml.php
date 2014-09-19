@@ -1,14 +1,14 @@
 <?php
-$filename = "./licenseData.xml";
+$filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
 #var_dump($xml);
-# print_r($xml->LicenseDataResult->License[0]->LicenseName[0]->Label[0]);
-  $licenses = $xml->LicenseDataResult->License;
- # print "Number of Licenses = " . sizeof($licenses);
+  #print_r($xml->LicenseDataResult->License[0]->LicenseName[0]->Label[0]);
+  $licenses = $xml->License;
+  #print "Number of Licenses = " . sizeof($licenses);
   $licenseCount = 1;
   foreach ($licenses as $license) {
- # print $xml->LicenseDataResult->License[15]->LicenseName[0]->Content[0] . "\n";   
+  #print $xml->LicenseDataResult->License[15]->LicenseName[0]->Content[0] . "\n";   
     $licenseName = $license->LicenseName[0]->Content[0];
     $licenseId = $license->LicenseId[0]->Content[0];
     #print "INSERT INTO erm_data (id) VALUES (" . $licenseCount . ");\n";
