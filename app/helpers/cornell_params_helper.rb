@@ -1,6 +1,7 @@
 module CornellParamsHelper
 
 
+
    def set_advanced_search_params(params)
          # Use :advanced_search param as trustworthy indicator of search type
          removeBlanks(params)
@@ -372,6 +373,41 @@ module CornellParamsHelper
      if params[:boolean_row].has_key?(finalcheck.to_sym)
        params[:boolean_row].delete(finalcheck.to_sym)       
      end
+ end
+ 
+ def getLocations(doc)
+   require 'json'
+        @recordLocsNameArray = [] 
+        myhash = {}
+        breakerlength = doc[:holdings_record_display].length
+        i = 0
+        doc[:holdings_record_display].each do |hrd|          
+         myhash = JSON.parse(hrd)
+         if i == breakerlength - 1
+           @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
+         else
+           @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
+         end
+         i = i + 1
+      end 
+   return @recordLocsNameArray
+ end
+ def getCallNos(doc)
+   require 'json'
+         @recordCallNumArray = [] 
+        myhash = {}
+        breakerlength = doc[:holdings_record_display].length
+        i = 0
+        doc[:holdings_record_display].each do |hrd|          
+         myhash = JSON.parse(hrd)
+         if i == breakerlength - 1
+           @recordCallNumArray << myhash["callnos"][0] + " || "
+         else
+           @recordCallNumArray << myhash["callnos"][0] + " | "
+         end           
+         i = i + 1
+      end
+   return @recordCallNumArray 
  end
 
 end

@@ -22,17 +22,14 @@
       <%= text_area_tag :message, params[:message] %>
        </div>
     </div>
-    
+    <% @callNosArray = [] %>
+    <% @locationNameArray = [] %>
     <% @documents.each do |doc| %>
-      <% find = doc[:holdings_record_display][0] %>
-      <% seek = find.split(',') %>
-      <% seek = seek[1].split(':') %>
-      <% seek[1].gsub!('[','')%>
-      <% seek[1].gsub!('"','')%>
-      <% seek[1].gsub!(']','')%>
-      <%=hidden_field_tag "callnumber", seek[1]%> 
-      <%=hidden_field_tag "location", params[:location] %> 
+      <% @locationNameArray.push(getLocations(doc)) %>
+      <% @callNosArray.push(getCallNos(doc))%>
       <%=hidden_field_tag "id[]", doc.id %>
+      <%=hidden_field_tag "location", @locationNameArray %> 
+      <%=hidden_field_tag "callnumber", @callNosArray%> 
     <% end %>
     <%- if params[:sort] -%>
       <%= hidden_field_tag "sort", params[:sort] %>

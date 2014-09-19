@@ -4,7 +4,7 @@ module Blacklight::Solr::Document::Email
 
   # Return a text string that will be the body of the email
   def to_email_text
-    semantics = self.to_semantic_values
+    semantics = self #.to_semantic_values
     if !semantics[:author].blank?
       stringArray = semantics[:author][0].split("|")
       semantics[:author][0] = stringArray[0]
@@ -12,13 +12,12 @@ module Blacklight::Solr::Document::Email
         semantics[:author][0] << " / " << stringArray[2]
       end
     end
-
     body = []
     body << I18n.t('blacklight.email.text.title', :value => semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.author', :value => semantics[:author][0]) unless semantics[:author].blank?
 #    body << I18n.t('blacklight.email.text.title', :value => semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.language', :value => semantics[:language].join(" ")) unless semantics[:language].blank?
-    body << I18n.t('blacklight.email.text.callnumber', :value => semantics[:callnumber].join(" ")) unless semantics[:callnumber].blank?
+#    body << I18n.t('blacklight.email.text.callnumber', :value => semantics[:callnumber].join(" ")) unless semantics[:callnumber].blank?
     return body.join("\n") unless body.empty?
   end
 
