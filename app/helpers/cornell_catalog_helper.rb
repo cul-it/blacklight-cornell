@@ -771,80 +771,102 @@ module CornellCatalogHelper
   # collapse them into one location info block 
   # condensed is an array of hashes
   def collapse_locs(condensed)
-  supl = ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues']
-  cond2 = []
-  lstat = istat = []
-  count_cond2 = {} 
-  condensed.each do |loc|
-    Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc['location_name']} #{loc['call_number']}\n"  
-    if count_cond2["#{loc['location_name']} #{loc['call_number']}"].blank?   
-      count_cond2["#{loc['location_name']} #{loc['call_number']}"] = {}  
-      count_cond2["#{loc['location_name']} #{loc['call_number']}"]["count"] = 1  
-      count_cond2["#{loc['location_name']} #{loc['call_number']}"]["holdings"] =  [loc]   
-     else
-      count_cond2["#{loc['location_name']} #{loc['call_number']}"]["count"]  += 1  
-      count_cond2["#{loc['location_name']} #{loc['call_number']}"]["holdings"] <<  loc 
+    supl = ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues']
+    cond2 = []
+    lstat = istat = []
+    count_cond2 = {} 
+    condensed.each do |loc|
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc['location_name']} #{loc['call_number']}\n"  
+      if count_cond2["#{loc['location_name']} #{loc['call_number']}"].blank?   
+        count_cond2["#{loc['location_name']} #{loc['call_number']}"] = {}  
+        count_cond2["#{loc['location_name']} #{loc['call_number']}"]["count"] = 1  
+        count_cond2["#{loc['location_name']} #{loc['call_number']}"]["holdings"] =  [loc]   
+       else
+        count_cond2["#{loc['location_name']} #{loc['call_number']}"]["count"]  += 1  
+        count_cond2["#{loc['location_name']} #{loc['call_number']}"]["holdings"] <<  loc 
+      end
     end
-  end
-  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) count_cond2=#{count_cond2.inspect}"  
-  count_cond2.each do |key,loc|
-    for i in 0..(loc['holdings'].size-1)  do
-      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) i=#{i} loc holdings i =#{loc['holdings'][i].inspect}"  
-      # first one just copy data.
-      if i == 0 
-        cond2 << loc['holdings'][i]
-        next
-      else
-      # update copies data -- items counts and statuses
-        istat = cond2[cond2.size-1]['copies'][0]['items'].keys 
-        lstat = loc['holdings'][i]['copies'][0]['items'].keys  
-        bstat = (istat | lstat)
-        Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) bstat=#{bstat.inspect}"  
-        bstat.each do |s|
-         if (!cond2[cond2.size-1]['copies'][0]['items'][s].blank? && !loc['holdings'][i]['copies'][0]['items'][s].blank? )
-           cond2[cond2.size-1]['copies'][0]['items'][s]['count'] +=  loc['holdings'][i]['copies'][0]['items'][s]['count']
-         end 
-         if (cond2[cond2.size-1]['copies'][0]['items'][s].blank? && !loc['holdings'][i]['copies'][0]['items'][s].blank?)
-           cond2[cond2.size-1]['copies'][0]['items'][s] =  loc['holdings'][i]['copies'][0]['items'][s]
-         end 
-        end #bstat.each
-      # copy or add to supplementary data 
-        supl.each do |type|
-          if type == 'current_issues' 
-            Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ loc[holdings[i][type] =" + loc['holdings'][i][type].inspect
-            Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ loc[holdings[i] =" + loc['holdings'][i].inspect
-          end
-          if !loc['holdings'][i][type].blank? && !cond2[cond2.size-1]['copies'][0][type].blank? 
+    Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) count_cond2=#{count_cond2.inspect}"  
+    count_cond2.each do |key,loc|
+      for i in 0..(loc['holdings'].size-1)  do
+        Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) i=#{i} loc holdings i =#{loc['holdings'][i].inspect}"  
+        # first one just copy data.
+        if i == 0 
+          cond2 << loc['holdings'][i]
+          next
+        else
+          # update copies data -- items counts and statuses
+          istat = cond2[cond2.size-1]['copies'][0]['items'].keys 
+          lstat = loc['holdings'][i]['copies'][0]['items'].keys  
+          bstat = (istat | lstat)
+          Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) bstat=#{bstat.inspect}"  
+          bstat.each do |s|
+           if (!cond2[cond2.size-1]['copies'][0]['items'][s].blank? && !loc['holdings'][i]['copies'][0]['items'][s].blank? )
+             cond2[cond2.size-1]['copies'][0]['items'][s]['count'] +=  loc['holdings'][i]['copies'][0]['items'][s]['count']
+           end 
+           if (cond2[cond2.size-1]['copies'][0]['items'][s].blank? && !loc['holdings'][i]['copies'][0]['items'][s].blank?)
+             cond2[cond2.size-1]['copies'][0]['items'][s] =  loc['holdings'][i]['copies'][0]['items'][s]
+           end 
+          end #bstat.each
+          # copy or add to supplementary data 
+          supl.each do |type|
             if type == 'current_issues' 
-              Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
+              Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) type = 'current issues '@@@@ loc[holdings[i][type] =" + loc['holdings'][i][type].inspect
+              Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ loc[holdings[i] =" + loc['holdings'][i].inspect
             end
-            cond2[cond2.size-1]['copies'][0][type]  << '  ' + loc['holdings'][i][type]
-          end 
-          if !loc['holdings'][i][type].blank? && cond2[cond2.size-1]['copies'][0][type].blank? 
-            if type == 'current_issues' 
-              Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
-            end
-            cond2[cond2.size-1]['copies'][0][type]  = '  ' + loc['holdings'][i][type]
-          end 
-        end #supl.each do  
+            if !loc['holdings'][i][type].blank? && !cond2[cond2.size-1]['copies'][0][type].blank? 
+              if type == 'current_issues' 
+                Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
+              end
+              if !cond2[cond2.size-1]['copies'][0][type].include?(loc['holdings'][i][type])
+                cond2[cond2.size-1]['copies'][0][type]  << ';' + loc['holdings'][i][type]
+                if type == 'indexes'
+                  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
+                  t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Indexes: ','')
+                  t1str.gsub!('; ',';')
+                  t2str = t1str.split(';')
+                  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+                  t2str.sort!
+                  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+                  cond2[cond2.size-1]['copies'][0][type] = 'Indexes: ' + t2str.join(';')
+                end
+                if type == 'summary_holdings'
+                  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
+                  t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Library has: ','')
+                  t1str.gsub!('; ',';')
+                  t2str = t1str.split(';')
+                  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+                  t2str.sort!
+                  Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+                  cond2[cond2.size-1]['copies'][0][type] = 'Library has: ' + t2str.join(';')
+                end
+              end
+            end 
+            if !loc['holdings'][i][type].blank? && cond2[cond2.size-1]['copies'][0][type].blank? 
+              if type == 'current_issues' 
+                Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
+              end
+              cond2[cond2.size-1]['copies'][0][type]  = loc['holdings'][i][type]
+            end 
+          end #supl.each do  
 
-      end #if i == 0
-    end #for i in 0 .. loc
-  end #count_cond2
-  Rails.logger.debug "\nes287_debug line(#{__LINE__}) count_cond2=#{count_cond2.inspect}"  
-  Rails.logger.debug "\nes287_debug line(#{__LINE__}) cond2=#{cond2.inspect}"  
-  #condensed
-  if false 
-  cond2.each do |loc|
-    if loc['copies'][0]['items']['Available'] &&  loc['copies'][0]['items']['Available'].size > 0   
+        end #if i == 0
+      end #for i in 0 .. loc
+    end #count_cond2
+    Rails.logger.debug "\nes287_debug line(#{__LINE__}) count_cond2=#{count_cond2.inspect}"  
+    Rails.logger.debug "\nes287_debug line(#{__LINE__}) cond2=#{cond2.inspect}"  
+    #condensed
+    if false 
+      cond2.each do |loc|
+      if loc['copies'][0]['items']['Available'] &&  loc['copies'][0]['items']['Available'].size > 0   
        loc['copies'][0]['items'][' Available'] = loc['copies'][0]['items']['Available']
-    end 
-    loc['copies'][0]['items'].delete('Available')
+      end 
+      loc['copies'][0]['items'].delete('Available')
  
-  end
-  end
-  cond2
-  end #condensed.each do 
+    end
+    end
+    cond2
+  end #def collapse_locs
 
 end # End of Module
 
