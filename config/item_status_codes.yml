@@ -66,13 +66,13 @@
             -   ill
 7n:
         short_message: '%ENUM On hold (Requests: %REQS)'
-        long_message: 'On hold at %LOC. Try Borrow Direct or ILL.'
+        long_message: 'On hold. Try Borrow Direct or ILL.'
         services:
             -   borrow_direct
             -   ill
 7r:
-        short_message: '%ENUM On hold at %LOC (Requests: %REQS)'
-        long_message: 'On hold at %LOC (Requests: %REQS). Try Borrow Direct or ILL.'
+        short_message: '%ENUM On hold. (Requests: %REQS)'
+        long_message: 'On hold. (Requests: %REQS). Try Borrow Direct or ILL.'
         services:
             -   borrow_direct
             -   ill
