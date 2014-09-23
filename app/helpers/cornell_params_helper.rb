@@ -400,10 +400,15 @@ module CornellParamsHelper
         i = 0
         doc[:holdings_record_display].each do |hrd|          
          myhash = JSON.parse(hrd)
-         if i == breakerlength - 1
-           @recordCallNumArray << myhash["callnos"][0] + " || "
+         if myhash["callnos"].nil?
+           testString = "No Call Number"
          else
-           @recordCallNumArray << myhash["callnos"][0] + " | "
+           testString = myhash["callnos"][0]
+         end
+         if i == breakerlength - 1
+           @recordCallNumArray << testString + " || "
+         else
+           @recordCallNumArray << testString + " | "
          end           
          i = i + 1
       end
