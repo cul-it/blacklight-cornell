@@ -84,26 +84,26 @@ Feature: Item view
   @availability
   @discoveryaccess-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 8519109 
+    Given I request the item view for 44112 
     Then I should not see the label 'Temporarily shelved'
 
   @availability
   @discoveryaccess-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 8519109 
+    Given I request the item view for 44112 
     Then I should not see the label 'Olin Library'
 
   @availability
   @discoveryaccess-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 8519109 
-    Then I should see the label 'Uris Library Reserve'
+    Given I request the item view for 44112 
+    Then I should see the label 'Fine Arts Library Reserve'
 
   @availability
   @discoveryaccess-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 8519109 
-    Then I should see the label '3 volumes'
+    Given I request the item view for 44112 
+    Then I should see the label '2 volumes'
 
   # Availability for an on order item. "Problems for the mathematical olympiads" 
   @availability
@@ -115,8 +115,9 @@ Feature: Item view
   # DISCOVERYACCESS-1220
   # Item is overdue and should show that another request has been placed for it 
   @availability
+  @discoveryaccess-1220
   Scenario: As a user I can see the number of requests placed on an item 
-    Given I request the item view for 6230569  
+    Given I request the item view for 5054489  
     Then I should see the label 'Requests'
 
   # Make sure that blocking call number display does not cause availability display probs. 
