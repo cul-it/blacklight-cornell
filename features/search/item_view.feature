@@ -77,6 +77,34 @@ Feature: Item view
     Given I request the item view for 115628 
     Then I should see the label 'Shelved'
 
+  # when there is a perm location, and temp and all items for holding are at temp
+  # then the temp location should be shown INSTEAD of permanent so "temporarily shelved
+  # at" does not show , temporary shows as if it were permanent.
+  # DISCOVERYACCESS-988
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should not see the label 'Temporarily shelved'
+
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should not see the label 'Olin Library'
+
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should see the label 'Uris Library Reserve'
+
+  @availability
+  @discoveryaccess-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 8519109 
+    Then I should see the label '3 volumes'
+
   # Availability for an on order item. "Problems for the mathematical olympiads" 
   @availability
   Scenario: As a user I can see the availability for an item on order 
@@ -88,14 +116,56 @@ Feature: Item view
   # Item is overdue and should show that another request has been placed for it 
   @availability
   Scenario: As a user I can see the number of requests placed on an item 
-    Given I request the item view for 5724314  
+    Given I request the item view for 6230569  
     Then I should see the label 'Requests'
+
+  # Make sure that blocking call number display does not cause availability display probs. 
+  # DISCOVERYACCESS-1386 
+  # items with no call number caused an exception -- so the text 'Call number' never
+  # appears anyway, but we make sure we don't have an exception with null ptr. 
+  @availability
+  @discoveryaccess-1386 
+  Scenario: As a user I can see the information about an ONLINE item, but not the call number 
+    Given I request the item view for 5380314  
+    Then I should not see the label 'Call number'
 
   # Availability for a lost item, and one available. 
   @availability
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728 
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
+
+  # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
+  @availability @missing
+  Scenario: As a user I can see the availability for a Missing item
+    Given I request the item view for 119162 
+    Then I should see the labels 'Missing'
+
+  # Availability for an In transit item  Beautiful houses (status 9)
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item
+    Given I request the item view for 1991 
+    Then I should see the labels 'In transit'
+
+  # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item
+    Given I request the item view for 2000195 
+    Then I should see the labels 'In transit'
+
+  # Availability for an In transit item The goldfinch 
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
+    Given I request the item view for 8272732
+    Then I should not see the label '%LOC'
+
+  # Availability for an In transit item status 10 - Declaration of a heretic
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
+    Given I request the item view for 106223 
+    Then I should not see the label '%LOC'
+
+
 
   # Availability for a lost item status 14
   @availability
@@ -139,6 +209,15 @@ Feature: Item view
   Scenario: As a user I can see the current issues information 
     Given I request the item view for 329763 
     Then I should see the label 'Current Issues: issue no'
+
+  # Make sure PDA makes some sense  DISCOVERYACCESS-1356
+  # Confusing availability labels for 8036458
+  @availability
+  @holdings
+  @pda
+  Scenario: As a user I can see that an item is available for acquisition
+    Given I request the item view for 38036458
+    Then I should not see the label 'Library Technical Services Review Shelves'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)

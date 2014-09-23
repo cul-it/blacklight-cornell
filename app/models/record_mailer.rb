@@ -2,7 +2,7 @@
 # Only works for documents with a #to_marc right now. 
 class RecordMailer < ActionMailer::Base
   default :from => "culsearch@cornell.edu"
-  def email_record(documents, details, url_gen_params)
+  def email_record(documents, details, url_gen_params, params)
     #raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
         
 #    subject = I18n.t('blacklight.email.text.subject', :count => documents.length, :title => (documents.first.to_semantic_values[:title] rescue 'N/A') )
@@ -11,7 +11,19 @@ class RecordMailer < ActionMailer::Base
     @documents      = documents
     @message        = details[:message]
     @callnumber     = details[:callnumber]
+    @callNumFirst = @callnumber.split('|| ')
+    @callnumber = []
+    @callNumFirst.each do |calls|
+      @second = calls.split('| ')
+      @callnumber << @second
+    end
     @location       = details[:location]
+    @locationFirst = @location.split('|| ')
+    @location = []
+    @locationFirst.each do |locs|
+      @second = locs.split('| ')
+      @location << @second
+    end
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
     
