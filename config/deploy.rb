@@ -141,6 +141,14 @@ end
 after :deploy, "install_puppet_db_yml"
 after :deploy, "install_new_relic_yml"
 after :deploy, "tailor_solr_yml"
+desc "Install  env -- too sensitive for git - production"
+task :install_env, :roles => [ :app, :db, :web ] do
+        run "cp #{deploy_to}/blacklight-cornell/config/.env  #{shared_path}/.env"
+        run "cat #{deploy_to}/config/.env  > #{shared_path}/.env"
+        run "cat #{shared_path}/.env"
+end
+ 
+after "deploy:setup", "install_env"
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end
