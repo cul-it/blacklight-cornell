@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'appsignal'
 gem 'rails', '~> 3.2.18'
+gem "dotenv-rails"
+gem "dotenv-deployment"
+gem 'appsignal'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
