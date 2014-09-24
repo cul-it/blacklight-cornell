@@ -1,4 +1,5 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
+require "dotenv/deployment/capistrano"
 set :application, "blacklight-cornell"
 set :repository,  "git@git.library.cornell.edu:/blacklight-cornell"
 set :use_sudo, false
@@ -143,8 +144,7 @@ after :deploy, "install_new_relic_yml"
 after :deploy, "tailor_solr_yml"
 desc "Install  env -- too sensitive for git - production"
 task :install_env, :roles => [ :app, :db, :web ] do
-        run "cp #{deploy_to}/blacklight-cornell/config/.env  #{shared_path}/.env"
-        run "cat #{deploy_to}/config/.env  > #{shared_path}/.env"
+        run "cp #{deploy_to}/config/.env  #{shared_path}/.env"
         run "cat #{shared_path}/.env"
 end
  
