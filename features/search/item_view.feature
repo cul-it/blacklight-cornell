@@ -99,11 +99,11 @@ Feature: Item view
     Given I request the item view for 44112 
     Then I should see the label 'Fine Arts Library Reserve'
 
-  @availability
-  @discoveryaccess-988
-  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 44112 
-    Then I should see the label '2 volumes'
+  #@availability
+  #@discoveryaccess-988
+  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+  #  Given I request the item view for 44112 
+  #  Then I should see the label '2 volumes'
 
   # Availability for an on order item. "Problems for the mathematical olympiads" 
   @availability
