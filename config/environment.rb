@@ -15,9 +15,9 @@ BlacklightCornellRequests.config do |config|
   config.voyager_holdings = ENV['VOYAGER_HOLDINGS_HOST']  ?
                    ENV['VOYAGER_HOLDINGS_HOST']  :
                    "http://culholdingsdev.library.cornell.edu/" 
-  config.voyager_get_holds = "http://catalog-test.library.cornell.edu:7074/vxws/GetHoldingsService"
-  config.voyager_req_holds = "http://catalog-test.library.cornell.edu:7074/vxws/SendPatronRequestService"
-  config.voyager_req_holds_rest = 'http://catalog-test.library.cornell.edu:7074/vxws'
+  config.voyager_get_holds = ENV['VXWS_URL'] +"/GetHoldingsService"
+  config.voyager_req_holds = ENV['VXWS_URL'] + "/SendPatronRequestService"
+  config.voyager_req_holds_rest = ENV['VXWS_URL'] 
 
   ## URL of metasearch service
   config.borrow_direct_webservices_host = "http://localhost"
