@@ -1,5 +1,5 @@
 GIT
-  remote: git@git.library.cornell.edu:blacklight_cornell_advanced_search.git
+  remote: git@github.com:/cul-it/blacklight-cornell-advanced-search.git
   revision: 6912d6d0b710645153d64246dd997df7164f083a
   branch: master
   specs:
@@ -8,14 +8,15 @@ GIT
       parslet
 
 GIT
-  remote: git@git.library.cornell.edu:blacklight_cornell_requests.git
-  revision: 3ebbe6fb309b48cbc9d24e0146d2ccfe262d6d4a
+  remote: git@github.com:/cul-it/blacklight-cornell-requests.git
+  revision: 76655c622af3e7b687de3feb99a2d3dafbcb9bbc
   branch: master
   specs:
-    blacklight_cornell_requests (0.7.14)
+    blacklight_cornell_requests (0.9.14)
       blacklight (~> 4.3)
       dotenv
       dotenv-deployment
+      dotenv-rails
       haml (>= 3.0.0)
       haml-rails
       httpclient
