@@ -418,10 +418,11 @@ class CatalogController < ApplicationController
     #    }
     #)
     config.add_search_field('journal title') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'journal' }
+      field.solr_parameters = { :'format' => "Journal" }
       field.solr_local_parameters = {
-        :qf => '$journal_qf',
-        :pf => '$journal_pf'
+        :qf => '$title_qf',
+        :pf => '$title_pf',
+        :search_field => "journal title"
       }
     end
     config.add_search_field('author/creator') do |field|
