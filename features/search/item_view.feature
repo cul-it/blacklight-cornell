@@ -145,7 +145,8 @@ Feature: Item view
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
 
   # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
-  @availability @missing
+  @missing
+  @availability 
   Scenario: As a user I can see the availability for a Missing item
     Given I request the item view for 119162 
     Then I should see the labels 'Missing'

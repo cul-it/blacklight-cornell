@@ -25,6 +25,10 @@ Then /^I should see the text '(.*?)'$/i do |text|
   page.should have_content(text)
 end
 
+Then /^I should not see the text '(.*?)'$/i do |text|
+  page.should_not have_content(text)
+end
+
 Then /I should see "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, comparator, expected_num|
   actual_num = page.split(target).length - 1
   case comparator
