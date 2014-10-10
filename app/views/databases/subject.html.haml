@@ -37,6 +37,9 @@
 									%i.fa.fa-external-link
 					%div.description
 						%p
+							-if data["url_access_display"][0].split('|')[1] != 'Connect to resource.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text'
+								=data["url_access_display"][0].split('|')[1]
+						%p
 							-if data["summary_display"].present?
 								=data["summary_display"][0]
 
@@ -74,6 +77,9 @@
 									=data["fulltitle_display"]
 									%i.fa.fa-external-link
 					%div.description
+						%p
+							-if data["url_access_display"][0].split('|')[1] != 'Connect to resource.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text'
+								=data["url_access_display"][0].split('|')[1]
 						%p
 							-if data["summary_display"].present?
 								=data["summary_display"][0]
