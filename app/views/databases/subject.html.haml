@@ -13,91 +13,21 @@
 
 
 - if @subjectCore.present?
+	-@responsewoo = @subjectCore
 	.resources
 		%h3
 			Core Resources
-		- @subjectCore.each do |data|
-			-dbid = data["id"]
-			%div.document.blacklight-database-name.clearfix
-				%div.document-data
-					%h4.blacklight-title_display
-						- if data["url_access_display"][1].present?
-							-dbid = data["id"]
-							=link_to "/databases/show/#{dbid}" do
-								-if data["fulltitle_vern_display"].present?
-									=data["fulltitle_vern_display"]
-								-else
-									=data["fulltitle_display"]
-						-else
-							=link_to data["url_access_display"][0].split('|')[0] do
-								-if data["fulltitle_vern_display"].present?
-									=data["fulltitle_vern_display"]
-								-else
-									=data["fulltitle_display"]
-									%i.fa.fa-external-link
-					%div.description
-						%p
-							-if data["url_access_display"][0].split('|')[1] != 'Connect to resource.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text'
-								=data["url_access_display"][0].split('|')[1]
-						%p
-							-if data["summary_display"].present?
-								=data["summary_display"][0]
-
-					%div.terms
-						-if data["dbcode"].nil?
-							-dbcode = ""
-						-else
-							-dbcode = data["dbcode"][0]
-						-if data["providercode"].nil?
-							-providercode = ""
-						-else
-							-providercode = data["providercode"][0]
-
-						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
+		=render :partial => 'database'
+	-@responsewoo = @subject
 	.resources
 		%h3
 			Additional Resources
-		- @subject.each do |data|
-			-dbid = data["id"]
-			%div.document.blacklight-database-name.clearfix
-				%div.document-data
-					%h4.blacklight-title_display
-						- if data["url_access_display"][1].present?
-							-dbid = data["id"]
-							=link_to "/databases/show/#{dbid}" do
-								-if data["fulltitle_vern_display"].present?
-									=data["fulltitle_vern_display"]
-								-else
-									=data["fulltitle_display"]
-						-else
-							=link_to data["url_access_display"][0].split('|')[0] do
-								-if data["fulltitle_vern_display"].present?
-									=data["fulltitle_vern_display"]
-								-else
-									=data["fulltitle_display"]
-									%i.fa.fa-external-link
-					%div.description
-						%p
-							-if data["url_access_display"][0].split('|')[1] != 'Connect to resource.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text'
-								=data["url_access_display"][0].split('|')[1]
-						%p
-							-if data["summary_display"].present?
-								=data["summary_display"][0]
-
-					%div.terms
-						-if data["dbcode"].nil?
-							-dbcode = ""
-						-else
-							-dbcode = data["dbcode"][0]
-						-if data["providercode"].nil?
-							-providercode = ""
-						-else
-							-providercode = data["providercode"][0]
-
-						= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
+		=render :partial => 'database'
+	
 -else
 	.resources
-		- @subject.each do |data|
+		-@responsewoo = @subject
+		- @responsewoo.each do |data|
 			-dbid = data["id"]
 			%div.document.blacklight-database-name.clearfix
 				%div.document-data

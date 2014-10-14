@@ -17,37 +17,5 @@
 
 
 .resources
-	- @a.each do |data|
-		-dbid = data["id"]
-		%div.document.blacklight-database-name.clearfix
-			%div.document-data
-				%h4.blacklight-title_display
-					- if data["url_access_display"][1].present?
-						=link_to "/databases/show/#{dbid}" do
-							-if data["fulltitle_vern_display"].present?
-								=data["fulltitle_vern_display"]
-							-else
-								=data["fulltitle_display"]
-					-else
-						=link_to data["url_access_display"][0].split('|')[0] do
-							-if data["fulltitle_vern_display"].present?
-								=data["fulltitle_vern_display"]
-							-else
-								=data["fulltitle_display"]
-								%i.fa.fa-external-link
-				%div.description
-					%p
-						-if data["summary_display"].present?
-							=data["summary_display"][0]
-
-				%div.terms
-					-if data["dbcode"].nil?
-						-dbcode = ""
-					-else
-						-dbcode = data["dbcode"][0]
-					-if data["providercode"].nil?
-						-providercode = ""
-					-else
-						-providercode = data["providercode"][0]
-
-					= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
+	-if @a.present?
+		= render 'database', :responsewoo => @a
