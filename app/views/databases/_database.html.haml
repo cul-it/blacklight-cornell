@@ -1,5 +1,5 @@
--if responsewoo.present? 
-	- responsewoo.each do |data|
+-if response.present? 
+	- response.each do |data|
 		-dbid = data["id"]
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data

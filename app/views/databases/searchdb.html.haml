@@ -11,11 +11,10 @@
 
 
 - if @dbResponse.present?
-	-@responsewoo = @dbResponse
 	.resources
 		%h3
 			Results
-		=render :partial => 'database'
+		= render 'database', :response => @dbResponse
 
 - else
 	%h2
