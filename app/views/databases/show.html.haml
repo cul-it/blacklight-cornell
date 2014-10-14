@@ -11,6 +11,7 @@
 
 .resources		
 	- @db.each do |data|
+		-dbid = data["id"]
 		%div.document.blacklight-database-name.clearfix
 			%div.document-data
 				%h4.blacklight-title_display
@@ -35,12 +36,17 @@
 						%i.fa.fa-external-link
 						%div
 
-				%ul.terms
-					%li
-						TERMS PLACEHOLDER
-					%li
-						= link_to 'Terms of Use','/databases/subject'
+				%div.terms
+					-if data["dbcode"].nil?
+						-dbcode = ""
+					-else
+						-dbcode = data["dbcode"][0]
+					-if data["providercode"].nil?
+						-providercode = ""
+					-else
+						-providercode = data["providercode"][0]
 
+					= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}"
 
 
 
