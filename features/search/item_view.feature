@@ -16,12 +16,15 @@ Feature: Item view
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
+  @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
-    Given I request the item view for 4696
+    Given I request the item view for 1630516 
     And click on link "English poetry"
     Then it should contain filter "Subject" with value "English poetry"
+
+  @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
-    Given I request the item view for 4696
+    Given I request the item view for 1630516 
     And click on link "19th century"
     Then it should contain filter "Subject" with value "English poetry 19th century"
 
@@ -228,6 +231,22 @@ Feature: Item view
   Scenario: As a user I can see that an item is available for acquisition
     Given I request the item view for 38036458
     Then I should not see the label 'Library Technical Services Review Shelves'
+
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  @availability
+  @holdings
+  @DISCOVERYACCESS-1430
+  Scenario: As a user I can see the exactly what copy is available 
+    Given I request the item view for 5545750
+    Then I should see the label '1 Copy Available'
+
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  @availability
+  @holdings
+  @DISCOVERYACCESS-1430
+  Scenario: As a user I can see the exactly what copy is available 
+    Given I request the item view for 7728655 
+    Then I should see the label 'HG4026 .R677 2013 Text Available (3 copies)'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
