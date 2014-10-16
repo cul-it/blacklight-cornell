@@ -16,12 +16,15 @@ Feature: Item view
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
+  @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
-    Given I request the item view for 4696
+    Given I request the item view for 1630516 
     And click on link "English poetry"
     Then it should contain filter "Subject" with value "English poetry"
+
+  @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
-    Given I request the item view for 4696
+    Given I request the item view for 1630516 
     And click on link "19th century"
     Then it should contain filter "Subject" with value "English poetry 19th century"
 
@@ -82,25 +85,25 @@ Feature: Item view
   # at" does not show , temporary shows as if it were permanent.
   # DISCOVERYACCESS-988
   @availability
-  @discoveryaccess-988
+  @DISCOVERYACCESS-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 44112 
     Then I should not see the label 'Temporarily shelved'
 
   @availability
-  @discoveryaccess-988
+  @DISCOVERYACCESS-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 44112 
     Then I should not see the label 'Olin Library'
 
   @availability
-  @discoveryaccess-988
+  @DISCOVERYACCESS-988
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 44112 
     Then I should see the label 'Fine Arts Library Reserve'
 
   #@availability
-  #@discoveryaccess-988
+  #@DISCOVERYACCESS-988
   #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
   #  Given I request the item view for 44112 
   #  Then I should see the label '2 volumes'
@@ -111,11 +114,19 @@ Feature: Item view
     Given I request the item view for 8052244 
     Then I should see the label 'Copy Ordered'
 
+  # On the other hand some subscriptions remain "on order" for years, and should NOT 
+  # display on order. DISCOVERYACCESS-1407
+  @availability
+  @DISCOVERYACCESS-1407
+  Scenario: As a user I can see the availability for an item with an "open order" that does not say so. 
+    Given I request the item view for 2795276 
+    Then I should not see the label 'Copy Ordered'
+
   # Show that requests exist for an item.
   # DISCOVERYACCESS-1220
   # Item is overdue and should show that another request has been placed for it 
   @availability
-  @discoveryaccess-1220
+  @DISCOVERYACCESS-1220
   Scenario: As a user I can see the number of requests placed on an item 
     Given I request the item view for 5054489  
     Then I should see the label 'Requests'
@@ -125,7 +136,7 @@ Feature: Item view
   # items with no call number caused an exception -- so the text 'Call number' never
   # appears anyway, but we make sure we don't have an exception with null ptr. 
   @availability
-  @discoveryaccess-1386 
+  @DISCOVERYACCESS-1386 
   Scenario: As a user I can see the information about an ONLINE item, but not the call number 
     Given I request the item view for 5380314  
     Then I should not see the label 'Call number'
@@ -137,7 +148,8 @@ Feature: Item view
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
 
   # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
-  @availability @missing
+  @missing
+  @availability 
   Scenario: As a user I can see the availability for a Missing item
     Given I request the item view for 119162 
     Then I should see the labels 'Missing'
@@ -219,6 +231,22 @@ Feature: Item view
   Scenario: As a user I can see that an item is available for acquisition
     Given I request the item view for 38036458
     Then I should not see the label 'Library Technical Services Review Shelves'
+
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  @availability
+  @holdings
+  @DISCOVERYACCESS-1430
+  Scenario: As a user I can see the exactly what copy is available 
+    Given I request the item view for 5545750
+    Then I should see the label '1 Copy Available'
+
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  @availability
+  @holdings
+  @DISCOVERYACCESS-1430
+  Scenario: As a user I can see the exactly what copy is available 
+    Given I request the item view for 7728655 
+    Then I should see the label 'HG4026 .R677 2013 Text Available (3 copies)'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
