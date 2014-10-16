@@ -12,11 +12,11 @@ ECHO = $(ECHO1:0=@echo)
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/local/rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1
-hdrdir = /usr/local/rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1
-arch_hdrdir = /usr/local/rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/$(arch)
+topdir = /users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1
+hdrdir = /users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1
+arch_hdrdir = /users/jac244/.rvm/rubies/ruby-1.9.3-p194/include/ruby-1.9.1/$(arch)
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/usr/local/rvm/rubies/ruby-1.9.3-p194
+prefix = $(DESTDIR)/users/jac244/.rvm/rubies/ruby-1.9.3-p194
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
 exec_prefix = $(prefix)
 vendorhdrdir = $(rubyhdrdir)/vendor_ruby
@@ -67,13 +67,13 @@ cflags   =  $(optflags) $(debugflags) $(warnflags)
 optflags = -O3
 debugflags = -ggdb
 warnflags = -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration
-CFLAGS   = -fPIC $(cflags)  -fPIC -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1 -DYAZ_HAVE_XSLT=1 -DYAZ_HAVE_EXSLT=1 -I/usr/include/libxml2
+CFLAGS   = -fPIC $(cflags)  -fPIC -pthread -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1 -DYAZ_HAVE_XSLT=1 -DYAZ_HAVE_EXSLT=1 -I/usr/include/libxml2
   $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS = -DHAVE_YAZ_ZOOM_H  $(DEFS) $(cppflags)
+CPPFLAGS = -DHAVE_YAZ_ZOOM_H -I/users/jac244/.rvm/usr/include  $(DEFS) $(cppflags)
 CXXFLAGS = $(CFLAGS) $(cxxflags)
-ldflags  = -L.  -rdynamic -Wl,-export-dynamic -lyaz -lexslt -lxslt -lz -lm -lgcrypt -ldl -lgpg-error -lxml2 -lpthread
+ldflags  = -L.  -rdynamic -Wl,-export-dynamic -lyaz -lexslt -lxslt -lgcrypt -lgpg-error -lxml2 -lz -lm -lpthread -L/usr/kerberos/lib -lssl -lcrypto -ldl -lz -lwrap -lnsl
  
 dldflags = 
 ARCH_FLAG = 
@@ -89,7 +89,7 @@ RUBY_SO_NAME = ruby
 arch = x86_64-linux
 sitearch = $(arch)
 ruby_version = 1.9.1
-ruby = /usr/local/rvm/rubies/ruby-1.9.3-p194/bin/ruby
+ruby = /users/jac244/.rvm/rubies/ruby-1.9.3-p194/bin/ruby
 RUBY = $(ruby)
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
@@ -104,8 +104,8 @@ COPY = cp
 
 preload = 
 
-libpath = . $(libdir)
-LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir)
+libpath = . $(libdir) /users/jac244/.rvm/usr/lib
+LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir) -L/users/jac244/.rvm/usr/lib -Wl,-R/users/jac244/.rvm/usr/lib
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -117,8 +117,8 @@ extout_prefix =
 target_prefix = 
 LOCAL_LIBS = 
 LIBS = $(LIBRUBYARG_SHARED)  -lpthread -lrt -ldl -lcrypt -lm   -lc
-SRCS = rbzoom.c rbzoompackage.c rbzoomoptions.c rbzoomrecord.c rbzoomresultset.c rbzoomconnection.c rbzoomquery.c
-OBJS = rbzoom.o rbzoompackage.o rbzoomoptions.o rbzoomrecord.o rbzoomresultset.o rbzoomconnection.o rbzoomquery.o
+SRCS = rbzoompackage.c rbzoomresultset.c rbzoomoptions.c rbzoomrecord.c rbzoomquery.c rbzoom.c rbzoomconnection.c
+OBJS = rbzoompackage.o rbzoomresultset.o rbzoomoptions.o rbzoomrecord.o rbzoomquery.o rbzoom.o rbzoomconnection.o
 TARGET = zoom
 DLLIB = $(TARGET).so
 EXTSTATIC = 
@@ -126,8 +126,8 @@ STATIC_LIB =
 
 BINDIR        = $(bindir)
 RUBYCOMMONDIR = $(sitedir)$(target_prefix)
-RUBYLIBDIR = /libweb/dev/git-src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
-RUBYARCHDIR = /libweb/dev/git-src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
+RUBYLIBDIR = /lib-dev/jac244/workspace/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
+RUBYARCHDIR = /lib-dev/jac244/workspace/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
 HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
 
