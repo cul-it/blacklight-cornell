@@ -337,7 +337,7 @@ Feature: Item view
     | 4768  | should not | 'Partial Table of Contents' |
     # DISCOVERYACCESS-?: Item description
     | 4626  | should     | 'Description' |
-    | 8250310  | should not | 'Description' |
+    | 5250067   | should not | 'Description' |
 
   # DISCOVERYACCESS -?
   Scenario: Show the record notes field when available
