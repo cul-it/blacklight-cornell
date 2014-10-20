@@ -3,6 +3,9 @@
 // --------------------------------------------------
 
 @media (max-width: 767px) {
+	body {
+		padding: 0;
+	}
 	.main-content {
 		padding: 0px 5px;
 	}
