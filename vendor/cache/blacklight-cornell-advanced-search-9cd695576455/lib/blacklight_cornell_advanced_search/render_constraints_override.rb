@@ -88,7 +88,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       end
       end
       j = 1
-      if (!my_params[:search_field_row].nil?)
+      if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
        sfr = my_params[:search_field_row][0]
 ##       if sfr.include?('%26')
 ##         sfr = sfr.gsub!('26','%&')
@@ -337,11 +337,11 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 #           return content
           
          end 
-#         unless my_params[:q].nil?                        
-#           content << render_simple_constraints_filters(my_params)
-#         else
-#           content << render_advanced_constraints_filters(my_params)
-#         end
+         unless my_params[:q].nil?                        
+           content << render_simple_constraints_filters(my_params)
+         else
+           content << render_advanced_constraints_filters(my_params)
+         end
          return content.html_safe
        end
      
