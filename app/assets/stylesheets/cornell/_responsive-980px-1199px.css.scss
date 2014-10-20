@@ -17,4 +17,14 @@
 	// Make advanced search form elements fit on one line
 	//---------------------------------------------------
 	.advanced-search-field { width: 30%; }
+	.navbar-cul {
+		.nav {
+			li {
+				a { 
+					padding: 15px 18px;
+					font-size: 14px;
+				}
+			}
+		}
+	}
 }
