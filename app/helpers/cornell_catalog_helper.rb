@@ -237,7 +237,7 @@ module CornellCatalogHelper
     xcondensed_full = fix_temps(condensed_full)
     Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix temps) = " + xcondensed_full.inspect 
     ycondensed_full = collapse_locs(xcondensed_full)
-    #Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
+    Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
     ycondensed_full
   end
 
@@ -732,9 +732,13 @@ module CornellCatalogHelper
   # rejigger the temp location to be the 
   # perm location 
   def fix_temps(con_full)
-    Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) con_full=#{con_full.inspect}\n"  
-    Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) @document.item_record_display=#{@document['item_record_display'].inspect}\n"  
-    iarray = @document['item_record_display']
+    Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) con_full=#{con_full.inspect}\n"
+    if @document.nil?
+      iarray = nil
+    else
+      Rails.logger.debug "\nes287_debug fix_temp: #{__FILE__} line(#{__LINE__}) @document.item_record_display=#{@document['item_record_display'].inspect}\n"  
+      iarray = @document['item_record_display']      
+    end
     items = []
     if iarray.nil? 
       return con_full

@@ -24,6 +24,8 @@ class RecordMailer < ActionMailer::Base
       @second = locs.split('| ')
       @location << @second
     end
+    @templocation = []
+    @templocation = details[:templocation]
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
     
