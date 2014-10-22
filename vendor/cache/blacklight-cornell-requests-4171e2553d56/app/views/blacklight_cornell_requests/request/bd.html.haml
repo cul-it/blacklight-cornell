@@ -29,4 +29,11 @@
         - else
           = link_to 'Search Borrow Direct', borrowdirect_url_from_title(@ti), :class => 'btn btn-danger pull-left'
         
-    = render :partial => 'shared/request_options'
+    -if @alternate_request_options and @alternate_request_options.count >= 2
+      = render :partial => 'shared/request_options'
+    -else
+      .form-alternative-action
+        = succeed "." do
+          If you need further help, please
+          =link_to 'Ask a Librarian','http://ask.library.cornell.edu'
+

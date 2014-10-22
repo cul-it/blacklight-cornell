@@ -25,10 +25,10 @@
         .controls
           %textarea#reqcomments{:name => 'reqcomments'}
       = render :partial => 'shared/request_date'
-      .control-group
-        %label.control-label Delivery time:
-        .controls.delivery-estimate
-          - if !@estimate.blank?
+      - if !@estimate.blank?
+        .control-group
+          %label.control-label Delivery time:
+          .controls.delivery-estimate
             Approximately
             = delivery_estimate_display @estimate
       -if @alternate_request_options and @alternate_request_options.count >= 2
