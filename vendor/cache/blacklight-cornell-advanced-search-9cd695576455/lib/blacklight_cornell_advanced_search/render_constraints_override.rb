@@ -29,12 +29,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 #             count = 0
 #             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
 #             my_params[:f]['location_facet'].each do |loc_facet| 
-#                   Rails.logger.info("SummonerA = #{loc_facet}")
 #                  if loc_facet.include? 'Kroch Library Rare'
 #                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
-#                   Rails.logger.info("SummonerA1 = #{loc_facet}")
 #                   my_params[:f]['location_facet'][count] = loc_facet
-#                   Rails.logger.info("SummonerA2 = #{my_params[:f]['location_facet']}")
 #                  end
 #               count = count + 1
 #            end
@@ -46,12 +43,9 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 #             count = 0
 #             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
 #             my_params[:f]['location_facet'].each do |loc_facet| 
-#                   Rails.logger.info("SummonerB = #{loc_facet}")
 #                  if loc_facet.include? 'Kroch Library Rare'
 #                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
-#                   Rails.logger.info("SummonerB1 = #{loc_facet}")
 #                   my_params[:f]['location_facet'][count] = loc_facet
-#                   Rails.logger.info("SummonerB2 = #{my_params[:f]['location_facet']}")
 #                  end
 #               count = count + 1
 #            end
@@ -94,7 +88,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       end
       end
       j = 1
-      if (!my_params[:search_field_row].nil?)
+      if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
        sfr = my_params[:search_field_row][0]
 ##       if sfr.include?('%26')
 ##         sfr = sfr.gsub!('26','%&')
@@ -114,7 +108,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
       elsif !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
        new_q_parts[0] = "q=" << my_params[:q]
        new_q_parts[1] = "search_field=" << my_params[:search_field]
-      end      
+      end 
       if (new_q_parts.count == 3 )
        #  params.delete("advanced_query")
          0.step(2, 2) do |x|
@@ -140,7 +134,6 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
              if hold[1].include?('&')
                hold[1] = hold[1].gsub!('&','%26')
             end
-#             Rails.logger.info("Kadejum1 = #{facetparams}")
              removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
              content << render_constraint_element(label, querybuttontext, :remove => removeString) 
            else
@@ -169,21 +162,16 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
             if querybuttontext.include?('%26')
               querybuttontext = querybuttontext.gsub!('%26','&')
             end         
-#             Rails.logger.info("Kadejum2 = #{my_params[:f]['location_facet']}")
 #             count = 0
 #             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
 #             my_params[:f]['location_facet'].each do |loc_facet| 
-#                   Rails.logger.info("SummonerC = #{loc_facet}")
 #                  if loc_facet.include? 'Kroch Library Rare'
 #                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
-#                   Rails.logger.info("SummonerC1 = #{loc_facet}")
 #                   my_params[:f]['location_facet'][count] = loc_facet
-#                   Rails.logger.info("SummonerC2 = #{my_params[:f]['location_facet']}")
 #                  end
 #               count = count + 1
 #            end
 #            end
-#            Rails.logger.info("Kadejum21 = #{my_params}")
             if !test.nil?
               facetparams = test
             end
@@ -202,125 +190,160 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
             end
             return content.html_safe
        else  
-          0.step(new_q_parts.count - 1, 2) do |x|
-          label = ""
-          parts = new_q_parts[x].split('=')
-          if x <= new_q_parts.count - 1
-               hold = new_q_parts[x].split('=')
-          else
-               hold = new_q_parts[x].split('=')
-          end
-          if x%2 == 0
-               if x - 1 > 0
-                 opval = new_q_parts[x - 1].split('=')
-                 label = opval[1] << " "            
-                 label << search_field_def_for_key(parts[0])[:label]
-               else
-                 label = search_field_def_for_key(parts[0])[:label]
-               end
-               remove_indexes = []
-               icount = 0
-               temp_search_field_row = []
-               temp_q_row = []
-               temp_op_row = []
-               temp_boolean_rows = deep_copy(my_params)
-               temp_boolean_row = []
-               for i in 1..temp_boolean_rows[:boolean_row].count
-                 n = i.to_s
-                 temp_boolean_row << temp_boolean_rows[:boolean_row][n.to_sym]
-               end 
-               deleted = 0
-               my_params[:search_field_row].each do |val, indx|
-                 newval = val.split('=')
-                 if newval[0] == parts[0]
-                    remove_indexes << icount
-                    if icount <= 1
-                        temp_boolean_row.delete_at(0)
-                        deleted = deleted +1
-                    else
-                       if icount == my_params[:search_field_row].count - 1 
-                        temp_boolean_row.delete_at(temp_boolean_row.count - 1)
-                        deleted = deleted +1
-                       else
-                         temp_boolean_row.delete_at(icount - 1)
-                         deleted = deleted +1 
-                       end 
-                    end
-                 else
-                   tsf = my_params[:search_field_row][icount].split('=')
-#                   temp_search_field_row << my_params[:search_field_row][icount]
-                   temp_search_field_row << tsf[0]
-##                   if my_params[:q_row][icount].include?('%26')
-##                     tqr = my_params[:q_row][icount].gsub!('%26','&')
-##                   else 
-##                     if my_params[:q_row][icount].include?('%2526')
-##                       tqr = my_params[:q_row][icount].gsub!('%2526', '&')
-##                     else
-##                      tqr = my_params[:q_row][icount]
-##                     end
-##                   end
-                   temp_q_row << my_params[:q_row][icount]
-#                   temp_q_row << tqr
-                   temp_op_row << my_params[:op_row][icount]
+#          0.step(new_q_parts.count - 1, 2) do |x|
+          0.step(my_params[:q_row].count - 1, 1) do |x|
+            label = ""
+            opval = ""
+###            parts = new_q_parts[x].split('=')
+     #       if x <= new_q_parts.count - 1
+###                 hold = new_q_parts[x].split('=')
+     #       else
+     #            hold = new_q_parts[x].split('=')
+     #       end
+       #     if x%2 == 0
+###                 if x - 1 > 0
+###                   opval = new_q_parts[x - 1].split('=')
+###                   label = opval[1] << " "            
+###                   label << search_field_def_for_key(parts[0])[:label]
+###                 else
+###                   label = search_field_def_for_key(parts[0])[:label]
+###                 end
+                 remove_indexes = []
+                 icount = 0
+                 temp_search_field_row = []
+                 temp_q_row = []
+                 temp_op_row = []
+                 temp_boolean_rows = deep_copy(my_params)
+                 temp_boolean_row = []
+                 for i in 1..temp_boolean_rows[:boolean_row].count
+                   n = i.to_s
+                   temp_boolean_row << temp_boolean_rows[:boolean_row][n.to_sym]
                  end
-                 icount = icount + 1
-               end               
-               autoparam = "" 
-               for i in 0..temp_q_row.count - 1
-                 temp_temp_qrow = ''
-#                 if temp_q_row[i].include?('&')
-#                   temp_temp_qrow = temp_q_row[i].gsub!('&','%26')
-#                 else
-                   temp_temp_qrow = temp_q_row[i]
-                   if temp_temp_qrow.include?('&')
-                     temp_temp_qrow = temp_temp_qrow.gsub!('&','%26')
+                 deleted = 0
+                 0.step(my_params[:q_row].count - 1, 1) do |y|
+                   if y != x
+                     temp_q_row << my_params[:q_row][y]
+                     temp_op_row << my_params[:op_row][y]
+                     temp_search_field_row << my_params[:search_field_row][y]
+                   else
+                     if y == 0
+                   #    temp_boolean_row.delete_at(0)
+                     else
+                   #    temp_boolean_row.delete_at(y)
+                     end
                    end
+                 end
+                   if x > 0 and x <= temp_boolean_row.count
+                     opval = temp_boolean_row[x -1]
+              #       label = opval << " "            
+                     label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
+                   else
+                     label = search_field_def_for_key(my_params[:search_field_row][x])[:label]
+                   end
+#                 my_params[:search_field_row].each do |val, indx|
+#                   newval = val.split('=')
+#                   if newval[0] == parts[0] 
+#                      remove_indexes << icount
+#                      if icount == 1 
+#                          temp_boolean_row.delete_at(0)
+#                          deleted = deleted +1
+#                      else
+#                         if icount == my_params[:search_field_row].count - 1 
+#                          temp_boolean_row.delete_at(temp_boolean_row.count - 1)
+#                          deleted = deleted +1
+#                         else
+#                           temp_boolean_row.delete_at(icount - 1)
+#                           deleted = deleted +1 
+#                         end 
+#                      end
+#                   else
+#                     tsf = my_params[:search_field_row][icount].split('=')
+#                     temp_search_field_row << tsf[0]
+#                     temp_q_row << my_params[:q_row][icount]
+#                     temp_op_row << my_params[:op_row][icount]
+#                   end
+#                   icount = icount + 1
 #                 end
-                 autoparam << "q_row[]=" << temp_temp_qrow << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i] 
-                 if i < temp_q_row.count - 1
-                    autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
-                 end 
-               end
-               querybuttontext = parts[1]
-               if querybuttontext.include?('%26')
-                 querybuttontext = querybuttontext.gsub!('%26','&')
-               end
-#             Rails.logger.info("Kadejum5 = #{facetparams}")
+#                 constraint_count = 0
+#                 thisone = 0
+#                 my_params[:search_field_row].each do |val|
+#                   for i in 1..temp_boolean_rows[:boolean_row].count
+#                     n = i.to_s
+#                     temp_boolean_row << temp_boolean_rows[:boolean_row][n.to_sym]
+#                   end 
+#                   if thisone == 0
+#                     temp_boolean_row.delete_at(0)
+#                   else
+#                     if thisone == my_params[:search_field_row].count - 1
+##                       temp_boolean_row.delete_at(temp_boolean_row.count - 1)
+#                     else 
+#                      # temp_boolean_row.delete_at(thisone - 1)
+#                     end
+#                   end
+#                 thatonecount = 0
+#                   my_params[:search_field_row].each do |thatone| 
+#                     if thisone != thatonecount
+#                       tsf = my_params[:search_field_row][thatonecount].split('=')
+#                       temp_search_field_row << tsf[0]
+#                       temp_q_row << my_params[:q_row][thatonecount]
+#                       temp_op_row << my_params[:op_row][thatonecount]                       
+#                     end
+#                     thatonecount = thatonecount + 1
+#                   end
+#                   thisone = thisone + 1              
+#                 end               
+                 autoparam = "" 
+                 for i in 0..temp_q_row.count - 1
+                   temp_temp_qrow = ''
+#                   if temp_q_row[i].include?('&')
+#                     temp_temp_qrow = temp_q_row[i].gsub!('&','%26')
+#                   else
+                    temp_temp_qrow = temp_q_row[i]
+                    if temp_temp_qrow.include?('&')
+                      temp_temp_qrow = temp_temp_qrow.gsub!('&','%26')
+                    end
+#                 end
+                    autoparam << "q_row[]=" << temp_temp_qrow << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i] 
+                    if i < temp_q_row.count - 1
+                      autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
+                    end 
+                 end
+                 querybuttontext = my_params[:q_row][x] #parts[1]
+                 if querybuttontext.include?('%26')
+                   querybuttontext = querybuttontext.gsub!('%26','&')
+                 end
 #             count = 0
 #             if !my_params[:f].nil? and !my_params[:f]['location_facet'].nil?
 #             my_params[:f]['location_facet'].each do |loc_facet| 
-#                   Rails.logger.info("SummonerD = #{loc_facet}")
 #                  if loc_facet.include? 'Kroch Library Rare'
 #                     loc_facet = 'Kroch Library Rare %26 Manuscripts'
-#                   Rails.logger.info("SummonerD1 = #{loc_facet}")
 #                   my_params[:f]['location_facet'][count] = loc_facet
-#                   Rails.logger.info("SummonerD2 = #{my_params[:f]['location_facet']}")
 #                  end
 #               count = count + 1
 #            end
 #            end
-               removeString = "catalog?%utf8=E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
-               content << render_constraint_element(
-                 label, querybuttontext,
-                 :remove => "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "&action=index&commit=Search&advanced_query=yes"
-#                 :remove => removeString
-#                 :remove => "catalog?" + autoparam +"&q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
-#                 :remove => catalog_index_path(remove_advanced_keyword_query(parts[0],params))
-               )
-          else
-               content << " " << parts[1] << " "
-          end 
-#          content << render_advanced_constraints_filters(params)
-#          return content
+                 removeString = "catalog?%utf8=E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
+                 content << render_constraint_element(
+                   label, querybuttontext,
+                   :remove => "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "&action=index&commit=Search&advanced_query=yes"
+#                  :remove => removeString
+#                  :remove => "catalog?" + autoparam +"&q=" + hold[1] + "&search_field=" + hold[0] + "&action=index&commit=Search"
+#                  :remove => catalog_index_path(remove_advanced_keyword_query(parts[0],params))
+                   )
+   #         else
+   #            content << " " << "Heather2" << " " #parts[1] << " "
+   #         end 
+#           content << render_advanced_constraints_filters(params)
+#           return content
           
-        end 
-        unless !my_params[:q].nil?                        
+         end 
+         unless my_params[:q].nil?                        
            content << render_simple_constraints_filters(my_params)
-        else
+         else
            content << render_advanced_constraints_filters(my_params)
-        end
-        return content.html_safe
-     end
+         end
+         return content.html_safe
+       end
      
     end
 #      end  
@@ -411,7 +434,6 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
         if value[0].include?('%26')
           value[0].gsub!('%26','&')
         end
-        Rails.logger.info("SPUTUM = #{value[0]}")
         return_content << render_constraint_element(label,
           value.join(" AND "),
           :remove => "?" + removeString
