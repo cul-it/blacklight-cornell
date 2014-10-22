@@ -354,7 +354,7 @@ module CornellParamsHelper
   def test_size_param_array(param_array)
     countit = 0
     for i in 0..param_array.count - 1
-       unless param_array[i] == ""
+       unless param_array[i] == "" and !param_array[i].nil?
         countit = countit + 1
        end
     end
@@ -395,13 +395,37 @@ module CornellParamsHelper
      end
  end
  
+ def getTempLocations(doc)
+   require 'json'
+   require 'pp'
+   temp_loc_Full = []
+   temp_loc_text = []
+   temp_loc_Full = create_condensed_full(doc)
+   if !temp_loc_Full[0]["copies"][0]["temp_locations"].nil? and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
+     temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
+   end
+   temp_loc_text.each do |templocs|
+       templocs.gsub(/^  /, '')
+   end
+   if temp_loc_text.nil? 
+     return [""]
+   else
+    return temp_loc_text
+   end
+ end
+ 
  def getLocations(doc)
    require 'json'
+   require 'pp'
         @recordLocsNameArray = [] 
         myhash = {}
+        Rails.logger.info("Cline122 = #{doc.inspect}")
+        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
         breakerlength = doc[:holdings_record_display].length
+   #     Rails.logger.info("BeetleJooz = #{tmploc["display"]}")
         i = 0
-        doc[:holdings_record_display].each do |hrd|          
+        doc[:holdings_record_display].each do |hrd|  
+          Rails.logger.info("Beetlejuice = #{hrd}")        
          myhash = JSON.parse(hrd)
          if i == breakerlength - 1
            @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
