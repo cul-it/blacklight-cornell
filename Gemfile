@@ -51,6 +51,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
+  gem 'poltergeist'
 end
 
 group :test do

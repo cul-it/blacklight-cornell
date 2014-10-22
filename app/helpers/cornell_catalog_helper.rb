@@ -466,7 +466,7 @@ module CornellCatalogHelper
               items_by_hid[hk] << holding[:ITEM_ID].to_s 
               statuses_as_text[holding[:ITEM_ID].to_s] = make_substitute(holding,items_solr) 
               Rails.logger.debug "\nes287_debug line #{__LINE__} is there an item id  = " + holding.inspect
-              if holding[:ITEM_ID].nil? and !(holding[:ODATE].nil?)  and holding[:PO_TYPE] != 5
+              if holding[:ITEM_ID].nil? and !(holding[:ODATE].nil?)  and holding[:PO_TYPE] != 5 and holding[:DISPLAY_CALL_NO].blank?
                  Rails.logger.debug "\nes287_debug line #{__LINE__} there no item id, there is an order date so treat as order  = " + holding.inspect
                  orders_by_hid[hk.to_s] = "1 Copy Ordered as of " + holding[:ODATE].to_s[0,10]
               end

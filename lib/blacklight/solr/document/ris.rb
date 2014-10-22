@@ -54,7 +54,7 @@ module Blacklight::Solr::Document::RIS
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
     if !pub_data.nil?
       place, publisher = pub_data.split(':')
-      output += "PB  - #{publisher.strip!}\n"
+      output += "PB  - #{publisher.strip!}\n" unless publisher.nil?
 
       # publication place
       output += "CY  - " + place + "\n"
