@@ -18,10 +18,10 @@
 /tmp
 
 # Ignore config files with sensitive data
-config/database.yml
 config/newrelic.yml
-config/search_apis.yml
 
 # Ignore precompiled assets
 public/assets
+# Ignore ENV file.
+/.env
 
