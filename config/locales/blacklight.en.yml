@@ -128,6 +128,7 @@ en:
         author: 'Author: %{value}'
         language: 'Language: %{value}'
         location: 'Location: %{location}'
+        templocation: 'Temporary Location: %{templocation}'
         callnumber: 'Call number: %{callnumber}'
         subject:
           one: 'Item record: %{title}'

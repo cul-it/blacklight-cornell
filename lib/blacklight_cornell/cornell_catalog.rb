@@ -53,15 +53,21 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # End of secondary parsing
     
     # Journal title search hack.
-    if params[:search_field] == "journal title"
+    if (params[:search_field].present? and params[:search_field] == "journal title") or (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
       if params[:f].nil?
         params[:f] = {"format" => ["Journal"]}
       end
         params[:f].merge("format" => ["Journal"])
         # unless(!params[:q])
-        params[:q] = params[:q]
-        params[:search_field] = "journal title"
+#        params[:q] = params[:q]
+        if (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
+          params[:search_field] = "advanced"
+        else
+          params[:search_field] = "journal title"
+        end
+        search_session[:f] = params[:f]
     end
+      Rails.logger.info("Swetener = #{params[:format]}")
     
     #quote the call number
     if params[:search_field] == "call number"
@@ -71,7 +77,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end        
     end
     
-    if params[:search_field] != "journal_title " and params[:search_field] != "call_number"
+    if params[:search_field] != "journal title " and params[:search_field] != "call_number"
      if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
        params[:q] = params[:q]
      else 
