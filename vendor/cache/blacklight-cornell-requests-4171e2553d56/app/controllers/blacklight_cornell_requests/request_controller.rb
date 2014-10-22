@@ -13,6 +13,8 @@ module BlacklightCornellRequests
       resp, @document = get_solr_response_for_doc_id(@id)
       @document = @document
 
+      Rails.logger.debug "Viewing item #{@id} (within request controller) - session: #{session}"
+
       req = BlacklightCornellRequests::Request.new(@id)
       req.netid = request.env['REMOTE_USER'] 
       req.netid.sub!('@CORNELL.EDU', '') unless req.netid.nil?

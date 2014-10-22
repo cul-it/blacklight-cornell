@@ -3,9 +3,13 @@
 		=options_for_select(@volumes, selected = @selected_volume)
 
 -else
-	= link_to catalog_path(@id), {:title => @ti} do
-		%i.icon-circle-arrow-left
-		Back to item
+	%div.row
+		%div.span12
+
+
+			= render :partial => 'shared/back_to_item'
+
+			%h1.request-type Select a Volume
 	%div.row
 		%div.span8.well
 			%h2
