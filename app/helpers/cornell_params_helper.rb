@@ -82,9 +82,18 @@ module CornellParamsHelper
       end
       for i in 0..my_params[:search_field_row].count - 1
          if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
+           if my_params[:q_row][i] == ""
+             my_params[:q_row][i] = "blank"
+           end
            newpass = '"' + my_params[:q_row][i] + '"' 
          else
+           if my_params[:q_row][i] == ""
+             my_params[:q_row][i] = "blank"
+           end
           newpass = my_params[:q_row][i]
+         end
+         if my_params[:search_field_row][i] == 'journal title'
+           params['format'] = "Journal"
          end 
          pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
          returned_query = ParsingNesting::Tree.parse(newpass)
@@ -117,10 +126,21 @@ module CornellParamsHelper
             if solr_stuff == "donor name"
               solr_stuff = "donor"
             end
+            if solr_stuff == "journal title"
+              solr_stuff = "journal title"
+            end
             field_name =  solr_stuff
-            q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-            q_string2 << field_name << " = "
-            q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+            if field_name == "journal title"
+              field_name = "title"
+              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+              q_string2 << field_name << " = "
+              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
+              
+            else
+              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+              q_string2 << field_name << " = "
+              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+            end
          end
          if holdarray.count > 1
           if field_name.nil?
@@ -166,8 +186,8 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-    if params[:search_field] == "call number" and !my_params[:q].include?('"')
-      params[:q] = '"' + params[:q] + '"'
+    if params[:search_field] == "call number" and !my_params[:q].include?('"') and !my_params[:q].nil?
+      params[:q] = '"' + my_params[:q] + '"'
     end
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
