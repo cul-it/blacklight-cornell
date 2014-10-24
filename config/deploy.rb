@@ -114,7 +114,7 @@ after "deploy:finalize_update", "deploy:db:symlink"
 desc "Tailor holdings config to local machine by puppet"
 task :tailor_holdings_config, :roles => [ :web ] do
 	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environment.rb >/tmp/e.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,/newcatalog,/holdings,    /tmp/e.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/config/environment.rb"
-	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/.env >/tmp/env.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,/newcatalog,/holdings,    /tmp/env.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/.env"
+	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/.env >/tmp/env.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,newcatalog,holdings,    /tmp/env.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/.env"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
