@@ -164,6 +164,11 @@ en:
     back_to_bookmarks: 'Back to selected items'
     btn: 'btn'
 
+    catalog:
+        available: "Available"
+        bound_with: ""
+        on_order: "On order"
+        on_site: "On-site use"
     search:
       title: 'Search Results | %{application_name}'
       search_results_header: 'Search'
