@@ -1,6 +1,8 @@
 - some_av = 'no'
 - pda = 'no'
+- bound_with = false
 - holdings_condensed = create_condensed_full(@document) 
+- multi_vol = @document['multivol_b']
 = print "<br/>testing<br/>"
 - if (!holdings_condensed.nil?) && holdings_condensed.size > 0
   - grouped_holdings = group_holdings(holdings_condensed)
@@ -45,6 +47,8 @@
             - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
               - unless copy[type].nil?
                 .message= copy[type]
+                - if copy[type] =~ /Bound with:/ 
+                  - bound_with = true
             - (copy['items'].sort_by{|mess,det| det["status"]}).each do |item|
               -# Handling online link in _show_metadata.html.erb
               - if location != 'Online' and @hide_status.blank?
@@ -56,10 +60,13 @@
                       - message = '1 Copy ' + message 
                   - elsif details['status'] == 'available'  and noncirc == true 
                     %i{:class => 'fa fa-check', :title => 'On-site use'}
-                    - message = 'On-site use'
+                    - message = I18n.t('blacklight.catalog.on_site')
+                  - elsif details['status'] == 'none' && bound_with
+                    %i{:class => 'fa', :title => 'Bound with'}
+                    - message = I18n.t('blacklight.catalog.bound_with')
                   - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
                     %i{:class => 'fa fa-clock-o', :title => 'On order'}
-                    - message = 'On order'
+                    - message = I18n.t('blacklight.catalog.on_order')
                   - elsif details['status'] == 'none'
                     - if callnumber == 'On Order'  || callnumber.blank? 
                       %i{:class => 'fa', :title => 'On order'}
@@ -67,14 +74,16 @@
                     - else
                       - if pda != 'yes'
                         %i{:class => 'fa fa-check', :title => 'On-site use'}
-                        - message = 'On-site use'
+                        - message = I18n.t('blacklight.catalog.on_site')
                       - else 
                         - message = ''
                   - else
                     %i{:class => 'fa fa-clock-o'}
                   = message
-                  - if details['count'] >1
+                  - if details['count'] >1 and !multi_vol
                     (#{details['count']} copies)
+                  - if details['count'] >1 and multi_vol
+                    (#{details['count']} volumes)
                   - if details['status'] == 'some_available'
                     - some_av = 'yes'
             -if some_av == 'yes' 
