@@ -19,7 +19,7 @@ end
 
 BentoSearch.register_engine("worldcat") do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
-  conf.api_key = SEARCH_API_CONFIG['worldcat_api_key']
+  conf.api_key = ENV['WORLDCAT_API_KEY']
   # assume all users are affiliates and have servicelevel=full access.
   conf.auth = true
   # Link to Cornell WCL, ensure sort by "relevance only"
@@ -28,8 +28,8 @@ end
 
 BentoSearch.register_engine('summon') do |conf|
   conf.engine = 'BentoSearch::SummonEngine'
-  conf.access_id =  SEARCH_API_CONFIG['summon_access_id']
-  conf.secret_key = SEARCH_API_CONFIG['summon_secret_key']
+  conf.access_id =  ENV['SUMMON_ACCESS_ID']
+  conf.secret_key = ENV['SUMMON_SECRET_KEY']
 
   # More details on Summon Search API commands here:
   # http://api.summon.serialssolutions.com/help/api/search/commands
