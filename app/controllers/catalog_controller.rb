@@ -536,7 +536,7 @@ class CatalogController < ApplicationController
 
       # First check to see whether we're here as the result of an attempt to solve a CAPTCHA
       if params[:captcha_response]
-        @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
+        @@mollom ||= Mollom.new({:public_key => ENV['mollom_public_key'], :private_key => ENV['mollom_private_key']})
         captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
       end
 
@@ -549,7 +549,7 @@ class CatalogController < ApplicationController
           captcha_ok = true #test
           unless captcha_ok
             # Create a new Mollom instance if necessary, then test the message content for spam
-            @@mollom ||= Mollom.new({:public_key => SEARCH_API_CONFIG['mollom_public_key'], :private_key => SEARCH_API_CONFIG['mollom_private_key']})
+            @@mollom ||= Mollom.new({:public_key => ENV['MOLLOM_PUBLIC_KEY'], :private_key => ENV['MOLLOM_PRIVATE_KEY']})
             # Mollom can sometimes fail ('can't get mollom server-list'), so we have to put this next part in a begin/rescue block
             begin
                 result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
