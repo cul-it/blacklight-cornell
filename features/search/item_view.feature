@@ -102,6 +102,12 @@ Feature: Item view
     Given I request the item view for 44112 
     Then I should see the label 'Fine Arts Library Reserve'
 
+  @availability
+  @DISCOVERYACCESS-1443
+  Scenario: As a user I can see the availability for an item that is bound with 
+    Given I request the item view for 656258 
+    Then I should not see the label 'On-site'
+
   #@availability
   #@DISCOVERYACCESS-988
   #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
@@ -337,7 +343,7 @@ Feature: Item view
     | 4768  | should not | 'Partial Table of Contents' |
     # DISCOVERYACCESS-?: Item description
     | 4626  | should     | 'Description' |
-    | 8250310  | should not | 'Description' |
+    | 5250067   | should not | 'Description' |
 
   # DISCOVERYACCESS -?
   Scenario: Show the record notes field when available

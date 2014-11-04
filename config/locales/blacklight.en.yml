@@ -128,6 +128,7 @@ en:
         author: 'Author: %{value}'
         language: 'Language: %{value}'
         location: 'Location: %{location}'
+        templocation: 'Temporary Location: %{templocation}'
         callnumber: 'Call number: %{callnumber}'
         subject:
           one: 'Item record: %{title}'
@@ -163,6 +164,11 @@ en:
     back_to_bookmarks: 'Back to selected items'
     btn: 'btn'
 
+    catalog:
+        available: "Available"
+        bound_with: ""
+        on_order: "On order"
+        on_site: "On-site use"
     search:
       title: 'Search Results | %{application_name}'
       search_results_header: 'Search'
