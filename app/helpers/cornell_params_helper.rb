@@ -82,9 +82,18 @@ module CornellParamsHelper
       end
       for i in 0..my_params[:search_field_row].count - 1
          if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
+           if my_params[:q_row][i] == ""
+             my_params[:q_row][i] = "blank"
+           end
            newpass = '"' + my_params[:q_row][i] + '"' 
          else
+           if my_params[:q_row][i] == ""
+             my_params[:q_row][i] = "blank"
+           end
           newpass = my_params[:q_row][i]
+         end
+         if my_params[:search_field_row][i] == 'journal title'
+           params['format'] = "Journal"
          end 
          pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
          returned_query = ParsingNesting::Tree.parse(newpass)
@@ -117,10 +126,21 @@ module CornellParamsHelper
             if solr_stuff == "donor name"
               solr_stuff = "donor"
             end
+            if solr_stuff == "journal title"
+              solr_stuff = "journal title"
+            end
             field_name =  solr_stuff
-            q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-            q_string2 << field_name << " = "
-            q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+            if field_name == "journal title"
+              field_name = "title"
+              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+              q_string2 << field_name << " = "
+              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
+              
+            else
+              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+              q_string2 << field_name << " = "
+              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+            end
          end
          if holdarray.count > 1
           if field_name.nil?
@@ -166,8 +186,8 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-    if params[:search_field] == "call number" and !my_params[:q].include?('"')
-      params[:q] = '"' + params[:q] + '"'
+    if params[:search_field] == "call number" and !my_params[:q].include?('"') and !my_params[:q].nil?
+      params[:q] = '"' + my_params[:q] + '"'
     end
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
@@ -334,7 +354,7 @@ module CornellParamsHelper
   def test_size_param_array(param_array)
     countit = 0
     for i in 0..param_array.count - 1
-       unless param_array[i] == ""
+       unless param_array[i] == "" and !param_array[i].nil?
         countit = countit + 1
        end
     end
@@ -375,13 +395,37 @@ module CornellParamsHelper
      end
  end
  
+ def getTempLocations(doc)
+   require 'json'
+   require 'pp'
+   temp_loc_Full = []
+   temp_loc_text = []
+   temp_loc_Full = create_condensed_full(doc)
+   if !temp_loc_Full[0]["copies"][0]["temp_locations"].nil? and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
+     temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
+   end
+   temp_loc_text.each do |templocs|
+       templocs.gsub(/^  /, '')
+   end
+   if temp_loc_text.nil? 
+     return [""]
+   else
+    return temp_loc_text
+   end
+ end
+ 
  def getLocations(doc)
    require 'json'
+   require 'pp'
         @recordLocsNameArray = [] 
         myhash = {}
+        Rails.logger.info("Cline122 = #{doc.inspect}")
+        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
         breakerlength = doc[:holdings_record_display].length
+   #     Rails.logger.info("BeetleJooz = #{tmploc["display"]}")
         i = 0
-        doc[:holdings_record_display].each do |hrd|          
+        doc[:holdings_record_display].each do |hrd|  
+          Rails.logger.info("Beetlejuice = #{hrd}")        
          myhash = JSON.parse(hrd)
          if i == breakerlength - 1
            @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
