@@ -4,6 +4,7 @@
 - holdings_condensed = create_condensed_full(@document) 
 - multi_vol = @document['multivol_b']
 = print "<br/>testing<br/>"
+- on_site_count = 0
 - if (!holdings_condensed.nil?) && holdings_condensed.size > 0
   - grouped_holdings = group_holdings(holdings_condensed)
   - multiple_groups = grouped_holdings.size > 1
@@ -59,6 +60,7 @@
                     -if details['count'] == 1 and !( message =~ /Returned/)
                       - message = '1 Copy ' + message 
                   - elsif details['status'] == 'available'  and noncirc == true 
+                    - on_site_count += 1
                     %i{:class => 'fa fa-check', :title => 'On-site use'}
                     - message = I18n.t('blacklight.catalog.on_site')
                   - elsif details['status'] == 'none' && bound_with
@@ -73,6 +75,7 @@
                       - message = ''
                     - else
                       - if pda != 'yes'
+                        - on_site_count += 1
                         %i{:class => 'fa fa-check', :title => 'On-site use'}
                         - message = I18n.t('blacklight.catalog.on_site')
                       - else 
@@ -91,7 +94,7 @@
                 %i{:class => 'fa fa-check'}
                 All other volumes/copies available
 
-    - if group == "Circulating" or group == "Rare"
+    - if (group == "Circulating" && on_site_count < holdings.count) or group == "Rare"
       - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")
       .item-requests
         - counter = params[:counter] || session[:search][:counter]
