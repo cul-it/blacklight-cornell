@@ -234,9 +234,12 @@ module CornellCatalogHelper
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after trim avail) = " + condensed_full.inspect 
     condensed_full = fix_notes(condensed_full)
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
-    xcondensed_full = fix_temps(condensed_full)
-    Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix temps) = " + xcondensed_full.inspect 
-    ycondensed_full = collapse_locs(xcondensed_full)
+    #xcondensed_full = fix_temps(condensed_full)
+    #Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix temps) = " + xcondensed_full.inspect 
+    zcondensed_full = fix_permtemps(condensed_full)
+    #zcondensed_full = fix_temps(condensed_full)
+    Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix temps) = " + zcondensed_full.inspect 
+    ycondensed_full = collapse_locs(zcondensed_full)
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
     ycondensed_full
   end
@@ -728,6 +731,73 @@ module CornellCatalogHelper
   condensed
   end
 
+  # when all items on holding have the same item perm location, 
+  # and it is different from the holding perm location
+  # rejigger the item perm location to be the 
+  # perm location 
+  def fix_permtemps(con_full)
+    Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) con_full=#{con_full.inspect}\n"
+    if @document.nil?
+      iarray = nil
+    else
+      Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) @document.item_record_display=#{@document['item_record_display'].inspect}\n"  
+      iarray = @document['item_record_display']      
+    end
+    items = []
+    if iarray.nil? 
+      return con_full
+    end
+    iarray.each do |ite|
+      items << JSON.parse(ite)
+    end 
+    Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) items=#{items}\n"  
+  # for each holding record, count the items 
+    cond2 = []
+    items2 = Marshal.load( Marshal.dump(items) )
+    con_full.each do |loc|
+      loc2 = loc
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc.inspect}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc['location_name']} callnumber=#{loc['call_number']} holding_id=#{loc['holding_id'][0]}\n"  
+      #select from items array those with matching mfhd_id, and count them. how many items on this mfhd?
+      im = items.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
+      imc = im.count
+      im2 = items2.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
+      imc2 = im2.count
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{im2.count}\n"  
+      tm = im.select {|i| !i['temp_location']['code'].blank? }
+      pm = im2.select {|i| !i['perm_location']['code'].blank? }
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching temp=#{tm.inspect} and count with temps= #{tm.count}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching perm=#{pm.inspect} and count with perms= #{pm.count}\n"  
+      pl = (pm.select {|i| !i['perm_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'perm_location'}}
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pl=#{pl.inspect}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{im2.count}\n"  
+      tl = (tm.select {|i| !i['temp_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'temp_location'}}
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) tl=#{tl.inspect}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{imc}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{imc2}\n"  
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pm count=#{pm.count} and count for this holding = #{imc2}\n"  
+      #select from items array those with matching mfhd_id and a temp loc, and count them. how many items on this mfhd with a temp location?
+      if pm.count > 0 and pm.count == imc2 and tm.count == 0 
+        loc2['location_name'] = pl[0]['perm_location']['name'] 
+        loc2['location_code'] = pl[0]['perm_location']['code'] 
+        loc2['copies'][0].delete('temp_locations')
+         Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) over rode based on pm pmcount = #{imc2}\n"  
+      end
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) tm count=#{tm.count} and count for this holding = #{imc}\n"  
+      if tm.count > 0 and tm.count == imc  
+        loc2['location_name'] = tl[0]['temp_location']['name'] 
+        loc2['location_code'] = tl[0]['temp_location']['code'] 
+        loc2['copies'][0].delete('temp_locations')
+         Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) over rode based on tm pmcount = #{imc}\n"  
+      end
+      Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) loc2=#{loc2.inspect}\n"  
+      cond2 << loc2 
+    end
+    Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) cond2=#{cond2.inspect}\n"  
+    cond2 
+  end
   # when all items on holding have the same temp location, 
   # rejigger the temp location to be the 
   # perm location 
@@ -822,8 +892,13 @@ module CornellCatalogHelper
               if type == 'current_issues' 
                 Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
               end
+              if type == 'summary_holdings'
+                div = ';'
+              else
+                div = ';'
+              end
               if !cond2[cond2.size-1]['copies'][0][type].include?(loc['holdings'][i][type])
-                cond2[cond2.size-1]['copies'][0][type]  << ';' + loc['holdings'][i][type]
+                cond2[cond2.size-1]['copies'][0][type]  << div + loc['holdings'][i][type]
                 if type == 'indexes'
                   Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
                   t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Indexes: ','')
@@ -837,12 +912,16 @@ module CornellCatalogHelper
                 if type == 'summary_holdings'
                   Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
                   t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Library has: ','')
+                  t1str.gsub!('<br/>','')
+                  t1str.gsub!('&nbsp;','')
                   t1str.gsub!('; ',';')
-                  t2str = t1str.split(';')
+                  #t2str = t1str.split(';')
+                  t2str = t1str.split(div)
                   Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
                   t2str.sort!
                   Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
-                  cond2[cond2.size-1]['copies'][0][type] = 'Library has: ' + t2str.join(';')
+                  #cond2[cond2.size-1]['copies'][0][type] = ('Library has: ' + t2str.join(';')).html_safe
+                  cond2[cond2.size-1]['copies'][0][type] = ('Library has: ' + t2str.join(';<br/>&nbsp;&nbsp;&nbsp;&nbsp;')).html_safe
                 end
               end
             end 
