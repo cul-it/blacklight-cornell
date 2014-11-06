@@ -18,9 +18,11 @@
         
         <%= render :partial => 'search_form' %>
 
-
-
+        <%if paginate_params(@response).total_count < 1 %>
+        <p>Your search returned 0 results. Try searching <a href="<%= @expanded_results['worldcat'][:url] %>">Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommmend a purchase</a>.</p>
+        <%else%>
         <%= render 'sort_and_per_page' %>
+        <%end%>
         <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
         <%= render_document_index %>
 
