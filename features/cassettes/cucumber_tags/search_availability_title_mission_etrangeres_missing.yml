@@ -3410,7 +3410,7 @@ http_interactions:
   recorded_at: Wed, 08 Oct 2014 19:42:20 GMT
 - request:
     method: get
-    uri: http://<%= ENV['VOYAGER_HOLDINGS_HOST'] %>//holdings/retrieve_detail_short/119162
+    uri: http://culholdingsdev.library.cornell.edu//holdings/retrieve_detail_short/119162
     body:
       encoding: UTF-8
       string: ''
@@ -3621,4 +3621,79 @@ http_interactions:
         Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"onotes":[]}}}}'
     http_version: 
   recorded_at: Thu, 09 Oct 2014 13:57:00 GMT
-recorded_with: VCR 2.9.2
+- request:
+    method: get
+    uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22Atlas%22%20AND%20srw.kw%20=%20%22des%22%20AND%20srw.kw%20=%20%22missions%22%20AND%20srw.kw%20=%20%22de%22%20AND%20srw.kw%20=%20%22la%22%20AND%20srw.kw%20=%20%22Soci%C3%A9t%C3%A9%22%20AND%20srw.kw%20=%20%22des%22%20AND%20srw.kw%20=%20%22Missions-Etrang%C3%A8re%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.4.0, ruby 1.9.3 (2012-04-20))
+      Accept:
+      - ! '*/*'
+      Date:
+      - Thu, 06 Nov 2014 16:27:08 GMT
+  response:
+    status:
+      code: 200
+      message: !binary |-
+        T0s=
+    headers:
+      !binary "RGF0ZQ==":
+      - !binary |-
+        VGh1LCAwNiBOb3YgMjAxNCAxNjoyNzowOCBHTVQ=
+      !binary "U2VydmVy":
+      - !binary |-
+        QXBhY2hl
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        MTEyMA==
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        dGV4dC94bWw7Y2hhcnNldD11dGYtOA==
+    body:
+      encoding: UTF-8
+      string: ! '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+        <?xml-stylesheet type="text/xsl" href="/webservices/catalog/xsl/searchRetrieveResponse.xsl"?>
+
+
+        <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/" xmlns:oclcterms="http://purl.org/oclc/terms/"
+        xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+        <version>1.1</version>
+
+        <numberOfRecords>0</numberOfRecords>
+
+        <echoedSearchRetrieveRequest xmlns:srw="http://www.loc.gov/zing/srw/">
+
+        <version>1.1</version>
+
+        <query>srw.kw = "Atlas" AND srw.kw = "des" AND srw.kw = "missions" AND srw.kw
+        = "de" AND srw.kw = "la" AND srw.kw = "Société" AND srw.kw = "des" AND srw.kw
+        = "Missions-Etrangère"</query>
+
+        <maximumRecords>1</maximumRecords>
+
+        <recordSchema>info:srw/schema/1/dc</recordSchema>
+
+        <recordPacking>xml</recordPacking>
+
+        <startRecord>1</startRecord>
+
+        <sortKeys>relevance</sortKeys>
+
+        <wskey>ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4</wskey>
+
+        <servicelevel>full</servicelevel>
+
+        </echoedSearchRetrieveRequest>
+
+        </searchRetrieveResponse>
+
+'
+    http_version: 
+  recorded_at: Thu, 06 Nov 2014 16:27:08 GMT
+recorded_with: VCR 2.9.3
