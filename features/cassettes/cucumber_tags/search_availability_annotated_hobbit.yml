@@ -3386,7 +3386,7 @@ http_interactions:
   recorded_at: Wed, 08 Oct 2014 19:52:16 GMT
 - request:
     method: get
-    uri: http://<%= ENV['VOYAGER_HOLDINGS_HOST'] %>//holdings/retrieve_detail_short/4392584/1535861
+    uri: http://culholdingsdev.library.cornell.edu//holdings/retrieve_detail_short/4392584/1535861
     body:
       encoding: UTF-8
       string: ''
@@ -3657,4 +3657,153 @@ http_interactions:
         H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
   recorded_at: Thu, 09 Oct 2014 13:56:53 GMT
-recorded_with: VCR 2.9.2
+- request:
+    method: get
+    uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22Annotated%22%20AND%20srw.kw%20=%20%22hobbit%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.4.0, ruby 1.9.3 (2012-04-20))
+      Accept:
+      - ! '*/*'
+      Date:
+      - Thu, 06 Nov 2014 16:26:58 GMT
+  response:
+    status:
+      code: 200
+      message: !binary |-
+        T0s=
+    headers:
+      !binary "RGF0ZQ==":
+      - !binary |-
+        VGh1LCAwNiBOb3YgMjAxNCAxNjoyNjo1OCBHTVQ=
+      !binary "U2VydmVy":
+      - !binary |-
+        QXBhY2hl
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        Mjk5NQ==
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        dGV4dC94bWw7Y2hhcnNldD11dGYtOA==
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+        <?xml-stylesheet type="text/xsl" href="/webservices/catalog/xsl/searchRetrieveResponse.xsl"?>
+
+
+        <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/" xmlns:oclcterms="http://purl.org/oclc/terms/"
+        xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+        <version>1.1</version>
+
+        <numberOfRecords>23</numberOfRecords>
+
+        <records>
+
+        <record>
+
+        <recordSchema>info:srw/schema/1/dc</recordSchema>
+
+        <recordPacking>xml</recordPacking>
+
+        <recordData>
+
+        <oclcdcs>
+
+        <dc:creator>Tolkien, J. R. R. (John Ronald Reuel), 1892-1973.</dc:creator>
+
+        <dc:date>1988</dc:date>
+
+        <dc:description>Includes bibliographical references (pages 331-335).</dc:description>
+
+        <dc:description>Bilbo Baggins, a respectable, well-to-do hobbit, lives comfortably
+        in his hobbit-hole until one day the wandering wizard Gandalf chooses him
+        to take part in an adventure from which he may never return.</dc:description>
+
+        <dc:format>x, 335 pages : illustrations ; 29 cm</dc:format>
+
+        <dc:identifier>0395476909</dc:identifier>
+
+        <dc:identifier>9780395476901</dc:identifier>
+
+        <dc:language xsi:type="http://purl.org/dc/terms/ISO639-2">eng</dc:language>
+
+        <dc:publisher>Houghton Mifflin Co</dc:publisher>
+
+        <dc:relation>Hobbit.</dc:relation>
+
+        <dc:relation>There and back again.</dc:relation>
+
+        <dc:subject xsi:type="http://purl.org/dc/terms/DDC">823/.912</dc:subject>
+
+        <dc:subject xsi:type="http://purl.org/dc/terms/LCC">PR6039.O32 H6 1988</dc:subject>
+
+        <dc:subject xsi:type="http://purl.org/dc/terms/LCSH">Middle Earth (Imaginary
+        place)--Fiction.</dc:subject>
+
+        <dc:title>The annotated Hobbit : the hobbit, or, There and back again </dc:title>
+
+        <dc:title>Hobbit</dc:title>
+
+        <dc:type>Fantasy fiction.</dc:type>
+
+        <dc:type>Text</dc:type>
+
+        <oclcterms:recordContentSource>DLC</oclcterms:recordContentSource>
+
+        <oclcterms:recordCreationDate xsi:type="http://purl.org/oclc/terms/marc008date">880517</oclcterms:recordCreationDate>
+
+        <oclcterms:recordIdentifier xsi:type="http://purl.org/oclc/terms/lccn">   88009061
+        </oclcterms:recordIdentifier>
+
+        <oclcterms:recordIdentifier>18053069</oclcterms:recordIdentifier>
+
+        <oclcterms:languageOfCataloging xsi:type="http://purl.org/oclc/terms/iso639-2b">eng</oclcterms:languageOfCataloging>
+
+        <oclcterms:recordTranscribingAgency>DLC</oclcterms:recordTranscribingAgency>
+
+        </oclcdcs>
+
+        </recordData>
+
+        </record>
+
+        </records>
+
+        <nextRecordPosition>2</nextRecordPosition>
+
+        <resultSetIdleTime/>
+
+        <echoedSearchRetrieveRequest xmlns:srw="http://www.loc.gov/zing/srw/">
+
+        <version>1.1</version>
+
+        <query>srw.kw = "Annotated" AND srw.kw = "hobbit"</query>
+
+        <maximumRecords>1</maximumRecords>
+
+        <recordSchema>info:srw/schema/1/dc</recordSchema>
+
+        <recordPacking>xml</recordPacking>
+
+        <startRecord>1</startRecord>
+
+        <sortKeys>relevance</sortKeys>
+
+        <wskey>ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4</wskey>
+
+        <servicelevel>full</servicelevel>
+
+        </echoedSearchRetrieveRequest>
+
+        </searchRetrieveResponse>
+
+'
+    http_version: 
+  recorded_at: Thu, 06 Nov 2014 16:26:59 GMT
+recorded_with: VCR 2.9.3
