@@ -1,7 +1,6 @@
 - some_av = 'no'
 - pda = 'no'
 - holdings_condensed = create_condensed_full(@document) 
-= print "<br/>testing<br/>"
 - if (!holdings_condensed.nil?) && holdings_condensed.size > 0
   - grouped_holdings = group_holdings(holdings_condensed)
   - multiple_groups = grouped_holdings.size > 1
