@@ -1,5 +1,4 @@
 #server "#{user}-dev.library.cornell.edu", :app, :web, :db, :primary => true
-#server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
 role :app, ENV['DEPLOY_TARGET'] 
 role :web,  ENV['DEPLOY_TARGET']
 role :db,   ENV['DEPLOY_TARGET'], :primary => true
