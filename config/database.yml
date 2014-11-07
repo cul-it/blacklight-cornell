@@ -1,4 +1,5 @@
-<% if ( (ENV['RAILS_ENV']  != "development")   && (ENV['RAILS_ENV'] != "test" )) then %>
+<% if ( (ENV['RAILS_ENV']  != "development")   && (ENV['RAILS_ENV'] != "test" ) 
+&& (ENV['RAILS_ENV'] != 'production' )) then %>
 <%= ENV['RAILS_ENV'] %>:
   adapter: mysql
   host: <%= ENV['MYSQL_HOST'] %>
@@ -9,6 +10,12 @@
   encoding: utf8
   pool: 200
 <% end %> 
+
+production:
+  adapter: sqlite3
+  database: db/production.sqlite3
+  pool: 5
+  timeout: 5000
 
 development:
   adapter: sqlite3
