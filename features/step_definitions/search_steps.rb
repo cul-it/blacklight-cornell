@@ -28,8 +28,14 @@ Then /^I should see the "([^\"]*)" element$/ do |id|
    page.should have_selector("##{id}")
 end
 
-Then /^I should see the "([^\"]*)" class$/ do |id|
+Then(/^I should see the "([^\"]*)" class$/) do |id|
    page.should have_selector(".#{id}")
+end
+
+#Then(/^I should see the 'fa\-on\-site' class (\d+) times$/) do |arg1|
+#Then(/^I should see the "([^\"]*)" class (\d+) times$/) do |id, times|
+Then(/^I should see the "([^\"]*)" class (\d+) times$/) do |id, times|
+   page.should have_css(".#{id}", :count => times)
 end
 
 # Given /^the application is configured to have searchable fields "([^\"]*)" with values "([^\"]*)"$/ do |fields, values|
