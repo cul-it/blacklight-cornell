@@ -19,6 +19,8 @@
       - noncirc = false
       - if location =~ /Non-Circulating/
         - noncirc = true 
+      - if location =~ /Rare/
+        - noncirc = true 
       - some_av = 'no'
 
       .holding
@@ -60,7 +62,7 @@
                       - message = '1 Copy ' + message 
                   - elsif details['status'] == 'available'  and noncirc == true 
                     - on_site_count += 1
-                    %i{:class => 'fa fa-check', :title => 'On-site use'}
+                    %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
                     - message = I18n.t('blacklight.catalog.on_site')
                   - elsif details['status'] == 'none' && bound_with
                     %i{:class => 'fa', :title => 'Bound with'}
@@ -75,7 +77,7 @@
                     - else
                       - if pda != 'yes'
                         - on_site_count += 1
-                        %i{:class => 'fa fa-check', :title => 'On-site use'}
+                        %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
                         - message = I18n.t('blacklight.catalog.on_site')
                       - else 
                         - message = ''
@@ -85,7 +87,7 @@
                   - if details['count'] >1 and !multi_vol
                     (#{details['count']} copies)
                   - if details['count'] >1 and multi_vol
-                    (#{details['count']} volumes)
+                    (#{details['count']} volumes/copies)
                   - if details['status'] == 'some_available'
                     - some_av = 'yes'
             -if some_av == 'yes' 

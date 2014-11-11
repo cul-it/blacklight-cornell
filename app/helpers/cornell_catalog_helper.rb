@@ -76,6 +76,7 @@ module CornellCatalogHelper
   end
 
   AEON_SITES  = [
+    'lawr' ,
     'rmc' ,
     'rmc,anx',
     'rmc,icer',
