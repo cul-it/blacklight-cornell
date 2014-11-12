@@ -124,6 +124,41 @@ module DisplayHelper
     link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
   end
 
+  def oclc_number_link 
+    id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
+    if id_display.present?
+      if id_display.start_with? "(OCoLC)"
+        oclc_number = id_display.split("<")[0]
+      elsif id_display.include? "(OCoLC)"
+        ids = id_display.split(">")
+          ids.each do |id| 
+            if id.start_with? "(OCoLC)" 
+              oclc_number = id.split("<")[0]
+            end
+          end
+        end
+      end
+
+      if !oclc_number.present?
+        wcl_isbn = render_document_show_field_value :document => @document, :field => 'isbn_display'
+        if wcl_isbn.include? ("<") 
+          wcl_isbn = wcl_isbn.split("<")[0] 
+        end
+        if wcl_isbn.include? (' ') 
+          wcl_isbn = wcl_isbn.split(" ")[0] 
+        end 
+      end
+
+      if wcl_isbn.present? && !oclc_number.present?
+        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
+        @xisbn = JSON.parse(@xisbn)["list"] 
+        @xisbn.each do |wcl_data| 
+          oclc_number = wcl_data["oclcnum"][0]
+        end
+    end 
+    return oclc_number
+  end
+
   # Hash map for substring of location codes from holding service => loc param
   # values for CUL library hours page
   # Built using lists from:
