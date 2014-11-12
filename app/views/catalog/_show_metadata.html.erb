@@ -67,14 +67,12 @@
           <% end %>
 
           <span class="blacklight-url_access_display"></span>
-          <% id_display = render_document_show_field_value :document => @document, :field => 'other_id_display' %>
           <%= @hide_status %>
-          <% if id_display.start_with? "(OCoLC)" %>
-            <% oclc_number = id_display.split("<")[0] %>
-          <% end %>
+          <% oclc_number=oclc_number_link %>
+
       <% if format == 'Book' && online_url(@document) && oclc_number %>
           <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
-        <% end %>
+      <% end %>
           <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
           <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
         </div>
