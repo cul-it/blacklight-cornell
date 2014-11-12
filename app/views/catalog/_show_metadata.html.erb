@@ -70,8 +70,11 @@
           <%= @hide_status %>
           <% oclc_number=oclc_number_link %>
 
-      <% if format == 'Book' && online_url(@document) && oclc_number %>
+      <% if format == 'Book' && online_url(@document) %>
+       <% oclc_number=oclc_number_link %>
+       <% if oclc_number.present? %>
           <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
+          <% end %>
       <% end %>
           <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
           <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
