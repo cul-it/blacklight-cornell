@@ -19,7 +19,13 @@
         <%= render :partial => 'search_form' %>
 
         <%if paginate_params(@response).total_count < 1 %>
-        <p>Your search returned 0 results. Try searching <a href="<%= @expanded_results['worldcat'][:url] %>">Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommmend a purchase</a>.</p>
+        <p>Your search returned 0 results. Try searching 
+          <%if params[:q_row].nil? %>
+            <a href="<%= @expanded_results['worldcat'][:url] %>">
+          <% else %>
+            <a href="http://cornell.worldcat.org">
+          <%end%>
+          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommmend a purchase</a>.</p>
         <%else%>
         <%= render 'sort_and_per_page' %>
         <%end%>
