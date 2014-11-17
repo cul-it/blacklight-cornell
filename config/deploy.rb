@@ -140,8 +140,8 @@ task :install_new_relic_yml, :roles => [ :app, :db, :web ] do
 end
 
 #after :deploy, "fix_file_permissions"
-after :deploy, "install_puppet_db_yml"
-after :deploy, "install_new_relic_yml"
+#after :deploy, "install_puppet_db_yml"
+#after :deploy, "install_new_relic_yml"
 after :deploy, "tailor_solr_yml"
 desc "Install  env -- too sensitive for git - production"
 task :install_env, :roles => [ :app, :db, :web ] do
