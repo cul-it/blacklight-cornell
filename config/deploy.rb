@@ -109,7 +109,7 @@ namespace :deploy do
     end
 end
 
-after "deploy:finalize_update", "deploy:db:symlink"
+#after "deploy:finalize_update", "deploy:db:symlink"
 
 desc "Tailor holdings config to local machine by puppet"
 task :tailor_holdings_config, :roles => [ :web ] do
