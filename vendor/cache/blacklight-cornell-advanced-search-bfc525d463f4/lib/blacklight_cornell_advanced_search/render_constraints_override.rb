@@ -337,7 +337,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
 #           return content
           
          end 
-         unless my_params[:q].nil?                        
+         if !my_params[:q].nil?                        
            content << render_simple_constraints_filters(my_params)
          else
            content << render_advanced_constraints_filters(my_params)
@@ -429,7 +429,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
     return_content = ""
     if(my_params[:f].present?)
       my_params[:f].each do |key, value|
-        removeString = makeSimpleRemoveString(my_params,key)
+        removeString = makeRemoveString(my_params,key)
         label =facet_field_labels[key]
         if value[0].include?('%26')
           value[0].gsub!('%26','&')
@@ -534,7 +534,7 @@ module BlacklightCornellAdvancedSearch::RenderConstraintsOverride
     advanced_query = my_params["advanced_query"]
     advanced_search = my_params["advanced_search"]
     show_query_string = ""
-    if advanced_search
+    if !advanced_search.nil?
       advanced_search = "true"
     else
       advanced_search = "false"
