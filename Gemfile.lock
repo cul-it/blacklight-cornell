@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
-  revision: 9cd695576455e61955a3f1ea8cd3c1f1fc2c24d8
+  revision: bfc525d463f4873bb0c1918e4812ec1ccaf4cbf3
   branch: master
   specs:
     blacklight_cornell_advanced_search (2.1.1)
@@ -207,7 +207,7 @@ GEM
     language_list (1.0.0)
     libnotify (0.8.4)
       ffi (>= 1.0.11)
-    libv8 (3.3.10.4)
+    libv8 (3.16.14.7)
     listen (2.7.11)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -285,6 +285,7 @@ GEM
     rb-readline (0.4.2)
     rdoc (3.12.2)
       json (~> 1.4)
+    ref (1.0.5)
     responders (1.1.1)
       railties (>= 3.2, < 4.2)
     rsolr (1.0.10)
@@ -339,8 +340,9 @@ GEM
       json
     textpow (1.3.1)
       plist (>= 3.0.1)
-    therubyracer (0.10.2)
-      libv8 (~> 3.3.10)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
@@ -429,7 +431,7 @@ DEPENDENCIES
   savon (~> 2.3.0)
   spork (= 0.9.0)
   sqlite3
-  therubyracer (~> 0.10.2)
+  therubyracer (~> 0.12.1)
   uglifier (>= 1.0.3)
   ultraviolet
   unicode

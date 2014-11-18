@@ -126,8 +126,8 @@ STATIC_LIB =
 
 BINDIR        = $(bindir)
 RUBYCOMMONDIR = $(sitedir)$(target_prefix)
-RUBYLIBDIR = /libweb/dev/git-src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
-RUBYARCHDIR = /libweb/dev/git-src/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
+RUBYLIBDIR = /libweb/dev/git-src/wtf/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
+RUBYARCHDIR = /libweb/dev/git-src/wtf/blacklight-cornell/vendor/cache/ruby-zoom-9a3787008e03/lib$(target_prefix)
 HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
 
