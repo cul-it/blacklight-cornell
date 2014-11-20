@@ -6,7 +6,6 @@
   username: <%= ENV['MYSQL_USERNAME'] %>
   password: <%= ENV['MYSQL_PASSWORD'] %>
   socket: <%= ENV['MYSQL_SOCKET'] %>
-  encoding: utf8
   pool: 200
 <% end %> 
 
