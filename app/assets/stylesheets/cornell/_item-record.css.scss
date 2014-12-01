@@ -154,7 +154,14 @@ dd.blacklight-notes {
 		-webkit-border-radius: 3px;
 		-moz-border-radius: 3px;
 		border-radius: 3px;
-		overflow: hidden; }
+		overflow: hidden;
+	}
+	.location-online {
+		color: white;
+		background: $teal;
+		border-color: $teal;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	}
 	.holding {
 		.call-number {
 			padding: 0 10px;
@@ -182,6 +189,13 @@ dd.blacklight-notes {
 	.unstyled {
 		padding: 0 10px;
 		margin-bottom: 0;
+	}
+}
+.label-available {
+	background: $teal;
+	margin-right: .25em;
+	i {
+		color: white;
 	}
 }
 .holding,
