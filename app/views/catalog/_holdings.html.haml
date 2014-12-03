@@ -89,9 +89,9 @@
                     %i{:class => 'fa fa-clock-o'}
                   = message
                   - if details['count'] >1 and !multi_vol
-                    #{details['count']} copies
+                    (#{details['count']} copies)
                   - if details['count'] >1 and multi_vol
-                    #{details['count']} volumes/copies
+                    (#{details['count']} volumes/copies)
                   - if details['status'] == 'some_available'
                     - some_av = 'yes'
             -if some_av == 'yes' 
@@ -106,9 +106,9 @@
       .item-requests
         - counter = params[:counter] || session[:search][:counter]
         - if counter.blank?
-          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
+          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-default' }
         - else
-          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-default', 'data-counter'.to_sym => counter, :id => 'id_request' }
 
 
 
