@@ -6060,4 +6060,75 @@ http_interactions:
         ZV19fQo=
     http_version: 
   recorded_at: Wed, 15 Oct 2014 14:53:50 GMT
-recorded_with: VCR 2.9.2
+- request:
+    method: get
+    uri: http://holdings1.library.cornell.edu/holdings/status_short/1630516
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.4.0, ruby 1.9.3 (2012-04-20))
+      Accept:
+      - ! '*/*'
+      Date:
+      - Thu, 04 Dec 2014 19:49:56 GMT
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      !binary "RGF0ZQ==":
+      - !binary |-
+        VGh1LCAwNCBEZWMgMjAxNCAxOTo0OTo1NiBHTVQ=
+      !binary "U2VydmVy":
+      - !binary |-
+        QXBhY2hlLzIuMi4xNSAoUmVkIEhhdCk=
+      !binary "WC1Qb3dlcmVkLUJ5":
+      - !binary |-
+        UGh1c2lvbiBQYXNzZW5nZXIgKG1vZF9yYWlscy9tb2RfcmFjaykgMy4wLjE5
+      !binary "QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2lu":
+      - !binary |-
+        Kg==
+      !binary "WC1VYS1Db21wYXRpYmxl":
+      - !binary |-
+        SUU9RWRnZQ==
+      !binary "RXRhZw==":
+      - !binary |-
+        IjE5NDUxMTFjN2Q4MTAzMGQ3YmUzMGVhODRjYjJhNDc4Ig==
+      !binary "Q2FjaGUtQ29udHJvbA==":
+      - !binary |-
+        bWF4LWFnZT0wLCBwcml2YXRlLCBtdXN0LXJldmFsaWRhdGU=
+      !binary "WC1SZXF1ZXN0LUlk":
+      - !binary |-
+        NzY0YWFlZDZiYjMzMGMzYWFjZjBlNTRlNTY5YWZlOGE=
+      !binary "WC1SdW50aW1l":
+      - !binary |-
+        MC4xMjgyNjY=
+      !binary "U3RhdHVz":
+      - !binary |-
+        MjAw
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        MTQ1Ng==
+      !binary "Q29ubmVjdGlvbg==":
+      - !binary |-
+        Y2xvc2U=
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        YXBwbGljYXRpb24vanNvbjsgY2hhcnNldD11dGYtOA==
+    body:
+      encoding: US-ASCII
+      string: ! '{"1630516":{"1630516":{"records":[{"bibid":"1630516","call_number":"PR1195.C455
+        A62","statuses":{"1978198":"available","1978199":"available"},"holdings":[{"BIB_ID":1630516,"MFHD_ID":1978198,"ITEM_ID":3205864,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"PR1195.C455
+        A62","LOCATION_ID":101,"LOCATION_CODE":"olin,anx","LOCATION_DISPLAY_NAME":"Library
+        Annex","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2004-01-31T08:04:06-05:00","PERM_LOCATION":101,"PERM_LOCATION_DISPLAY_NAME":"Library
+        Annex","PERM_LOCATION_CODE":"olin,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null},{"BIB_ID":1630516,"MFHD_ID":1978199,"ITEM_ID":3205865,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"PR1195.C455
+        A62","LOCATION_ID":52,"LOCATION_CODE":"ilr,anx","LOCATION_DISPLAY_NAME":"Library
+        Annex","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":null,"PERM_LOCATION":52,"PERM_LOCATION_DISPLAY_NAME":"Library
+        Annex","PERM_LOCATION_CODE":"ilr,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Library
+        Annex"],"locnumber":1,"status":["avail"],"avail_at":{"Library Annex":"PR1195.C455
+        A62"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Thu, 04 Dec 2014 19:49:56 GMT
+recorded_with: VCR 2.9.3
