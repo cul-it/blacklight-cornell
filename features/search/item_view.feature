@@ -177,6 +177,7 @@ Feature: Item view
 
   # Availability for an In transit item  Beautiful houses (status 9)
   @availability @intransit
+  @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
     Given I request the item view for 1991 
     Then I should see the labels 'In transit'
@@ -257,17 +258,19 @@ Feature: Item view
   @availability
   @holdings
   @DISCOVERYACCESS-1430
+  @DISCOVERYACCESS-1483
   Scenario: As a user I can see the exactly what copy is available 
     Given I request the item view for 5545750
-    Then I should see the label '1 Copy Available'
+    Then I should see the label '1 copy'
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
   @availability
   @holdings
   @DISCOVERYACCESS-1430
+  @DISCOVERYACCESS-1483
   Scenario: As a user I can see the exactly what copy is available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available (3 copies)'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
@@ -346,7 +349,7 @@ Feature: Item view
   Examples:
     | bibid | yesno      | label |
     # Test for links to full content and TOC
-    | 607   | should     | 'Online' |
+    | 607   | should     | 'online' |
     | 608   | should not | 'Access online' |
     | 8212979 | should     | ' Table of contents' |
     | 608   | should not | 'Access table of contents' |

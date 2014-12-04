@@ -56,7 +56,9 @@
               - if location != 'Online' and @hide_status.blank?
                 .status
                   - message, details = item
-                  - if details['status'] == 'available'  and noncirc == false
+                  - if details['status'] == 'available'  and noncirc == false 
+                    - if !( message =~ /Returned/)
+                      - message = ''
                     %span{:class => 'label label-available'}
                       %i{:class => 'fa fa-check'}
                       Available
@@ -89,9 +91,9 @@
                     %i{:class => 'fa fa-clock-o'}
                   = message
                   - if details['count'] >1 and !multi_vol
-                    (#{details['count']} copies)
+                    #{details['count']} copies
                   - if details['count'] >1 and multi_vol
-                    (#{details['count']} volumes/copies)
+                    #{details['count']} volumes/copies
                   - if details['status'] == 'some_available'
                     - some_av = 'yes'
             -if some_av == 'yes' 
