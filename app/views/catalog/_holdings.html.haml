@@ -66,7 +66,9 @@
                       - message = '1 copy'
                   - elsif details['status'] == 'available'  and noncirc == true 
                     - on_site_count += 1
-                    %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
+                    %span{:class => 'label label-available'}
+                      %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
+                      Available
                     - message = I18n.t('blacklight.catalog.on_site')
                   - elsif details['status'] == 'none' && bound_with
                     %i{:class => 'fa', :title => 'Bound with'}
