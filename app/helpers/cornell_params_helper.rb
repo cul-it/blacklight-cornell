@@ -448,6 +448,9 @@ module CornellParamsHelper
            testString = "No Call Number"
          else
            testString = myhash["callnos"][0]
+           if testString == '' or testString.nil?
+             testString = "No Call Number, possibly still on order."
+           end
          end
          if i == breakerlength - 1
            @recordCallNumArray << testString + " || "
