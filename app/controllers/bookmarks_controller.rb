@@ -112,7 +112,11 @@ class BookmarksController < CatalogController
   
       success = @bookmarks.each do |bookmark|
         Rails.logger.info("BOOKWORM = #{bookmark.inspect}")
-        current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
+        if (!current_or_guest_user.existing_bookmark_for(bookmark[:document_id]))
+          bm = current_or_guest_user.bookmarks.new 
+          bm.assign_attributes(bookmark,:without_protection => true) 
+          bm.save
+        end
       end
   
       if request.xhr?
