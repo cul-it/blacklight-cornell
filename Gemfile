@@ -90,9 +90,8 @@ gem 'unicode', :platforms => [:mri_18, :mri_19]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
-gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'r4'
-#gem 'blacklight_cornell_requests', :path => '/libweb/dev/git-src/blacklight-cornell-requests'
+gem 'font-awesome-rails' 
+gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'dev'
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'
