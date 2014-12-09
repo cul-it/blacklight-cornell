@@ -335,9 +335,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
     # sets up the session[:search] hash if it doesn't already exist
-    def search_session
-      session[:search] ||= {}
-    end
+    #def search_session
+    #  session[:search] ||= {} 
+      #if session[:search].nil?
+      #  session.assign_attributes({:search => {} }, :without_protection => true)
+      #  session.save
+      #end
+    #end
 
     # sets up the session[:history] hash if it doesn't already exist.
     # assigns all Search objects (that match the searches in session[:history]) to a variable @searches.
@@ -369,7 +373,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
       unless @searches.collect { |search| search.query_params }.include?(params_copy)
 
-       new_search = Search.create(:query_params => params_copy)
+       #new_search = Search.create(:query_params => params_copy)
+       logger.debug "es287_debug file:#{__FILE__}:#{__LINE__}:query_params=#{params_copy}\n"
+
+       new_search = Search.new
+       new_search.assign_attributes({:query_params => params_copy}, :without_protection => true)
+       new_search.save
+
         session[:history].unshift(new_search.id)
         # Only keep most recent X searches in history, for performance.
         # both database (fetching em all), and cookies (session is in cookie)
