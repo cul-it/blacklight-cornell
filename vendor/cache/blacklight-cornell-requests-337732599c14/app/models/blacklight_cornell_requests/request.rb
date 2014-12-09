@@ -485,7 +485,8 @@ module BlacklightCornellRequests
             # logger.debug "sk274_log: " + circ_group_id.inspect
             # there might not be an entry in this table  
             if !circ_group_id.blank? 
-              circ_group_id[0]['circ_group_id'] = Float(circ_group_id[0]['circ_group_id'])
+              res  = circ_group_id[0]['circ_group_id']
+              circ_group_id[0]['circ_group_id'] = res.nil? ? 0 : Float(circ_group_id[0]['circ_group_id'])
               if circ_group_id[0]['circ_group_id'] == 3 || circ_group_id[0]['circ_group_id'] == 19
                 ## include both group id if Olin or Uris
                 circ_group_id = [3, 19]

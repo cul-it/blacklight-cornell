@@ -8,7 +8,7 @@ module BlacklightCornellRequests
     # Add the path for the engine's migrations to the main app's migration paths
     initializer :append_migrations do |app|
     	unless app.root.to_s.match root.to_s
-        app.config.paths['db/migrate'] += config.paths['db/migrate'].expanded
+          app.config.paths['db/migrate'] << config.paths['db/migrate'].expanded[0]
       end
     end
     
