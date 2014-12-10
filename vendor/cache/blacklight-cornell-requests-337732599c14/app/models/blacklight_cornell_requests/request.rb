@@ -375,31 +375,6 @@ module BlacklightCornellRequests
       self.volumes = volumes
     end
 
-    # Sort volumes in their logical order for display.
-    # Volume strings typically look like 'v.1', 'v21-22', 'index v.1-10', etc.
-    # def sort_volumes(volumes)
-
-    #   Rails.logger.debug "mjc12test: v1: #{volumes}"
-    #   volumes = volumes.sort_by do |v|
-
-    #     if v.is_a? Integer
-    #       [Integer(v)]
-    #     else
-    #       a, b, c = v.split(/[\.\-,]/) 
-    #       b = b.gsub(/[^0-9]/,'') unless b.nil?
-    #       if b.blank? or b !~ /\d+/
-    #         [a]
-    #       else
-    #         [a, Integer(b)] # Note: This forces whatever is left into an integer!
-    #       end
-    #     end
-    #   end
-    #   Rails.logger.debug "mjc12test: v2: #{volumes}"
-
-    #   volumes
-
-    # end
-
     ##################### Manipulate holdings data #####################
 
     # Set holdings data from the Voyager service configured in the
@@ -560,45 +535,40 @@ module BlacklightCornellRequests
              item['perm_location']['name'].include? 'Non-Circulating')
     end
 
-    # Locate and translate the actual item status from the text string in the holdings data
+    # Locate and translate the actual item status 
+    # from the text string in the holdings data
     def item_status item_status
-      if item_status == NOT_CHARGED
-        NOT_CHARGED
-      elsif item_status == DISCHARGED
-        NOT_CHARGED
-      elsif item_status == CATALOG_REVIEW
-        NOT_CHARGED
-      elsif item_status == CIRCULATION_REVIEW
-        NOT_CHARGED
-      elsif item_status == CHARGED
-        CHARGED
-      elsif item_status == RENEWED
-        CHARGED
-      elsif item_status == CALL_SLIP_REQUEST or item_status == RECALL_REQUEST or item_status == HOLD_REQUEST
-        CHARGED
-      elsif item_status == MISSING
-        MISSING
-      elsif item_status == LOST_LIBRARY_APPLIED or item_status == LOST_SYSTEM_APPLIED
-        LOST
-      elsif item_status == IN_TRANSIT_ON_HOLD
-        CHARGED
-      elsif item_status == IN_TRANSIT or item_status == IN_TRANSIT_DISCHARGED
-        NOT_CHARGED
-      elsif item_status == ON_HOLD
-        CHARGED
-      elsif item_status == OVERDUE
-        CHARGED
-      elsif item_status == CLAIMS_RETURNED
-        CHARGED
-      elsif item_status == DAMAGED
-        CHARGED
-      elsif item_status == WITHDRAWN
-        CHARGED
-      elsif item_status == AT_BINDERY
-        AT_BINDERY
-      else
-        item_status
+
+      case item_status
+        when DISCHARGED,
+             CATALOG_REVIEW,
+             CIRCULATION_REVIEW,
+             IN_TRANSIT,
+             IN_TRANSIT_DISCHARGED
+          return NOT_CHARGED
+
+        when RENEWED,
+             CALL_SLIP_REQUEST,
+             RECALL_REQUEST,
+             HOLD_REQUEST,
+             IN_TRANSIT_ON_HOLD,
+             OVERDUE,
+             CLAIMS_RETURNED,
+             DAMAGED,
+             WITHDRAWN,
+             ON_HOLD
+          return CHARGED
+
+        when LOST_LIBRARY_APPLIED,
+             LOST_SYSTEM_APPLIED
+          return LOST
+
+        else
+          # covers self-returning statuses 
+          # like LOST, MISSING, AT_BINDERY, CHARGED, NOT_CHARGED
+          return item_status
       end
+
     end
 
     ############  Return eligible delivery services for request #################
@@ -646,70 +616,17 @@ module BlacklightCornellRequests
       typeCode = (item[:temp_item_type_id].blank? or item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
       item_loan_type = loan_type typeCode
       
-      # Rails.logger.info "sk274_log: type id: #{typeCode.inspect}, item loan type: #{item_loan_type.inspect}, status: #{item[:status].inspect}"
-
       request_options = []
-      if item_loan_type == 'nocirc' or noncirculating? item
-        # if borrowDirect_available? bdParams
-          # request_options.push({ :service => BD, :iid => [], :estimate => get_bd_delivery_time })
-          # if target.blank?
-            # target = BD
-          # end
-        # end
-        # request_options.push({ :service => ILL, :iid => [], :estimate => get_ill_delivery_time })
+
+      # Borrow direct check where appropriate:
+      #   item type is noncirculating,
+      #   item is not at bindery
+      #   item status is charged, lost, or missing
+      if (item_loan_type == 'nocirc' or noncirculating? item) or
+        (! [AT_BINDERY, NOT_CHARGED].include?(item[:status]))
         if xxborrowDirect_available? params
           request_options.push( {:service => BD, :location => item[:location] } )
         end
-        request_options.push({:service => ILL, :location => item[:location]})
-      elsif item_loan_type == 'regular' and item[:status] == NOT_CHARGED
-
-        request_options.push({:service => L2L, :location => item[:location] } )
-
-      elsif item_loan_type == 'regular' and item[:status] ==  CHARGED
-        # TODO: Test and fix BD check with real params
-        if xxborrowDirect_available? params
-          request_options.push( {:service => BD, :location => item[:location] } )
-        end
-        request_options.push({:service => ILL, :location => item[:location]},
-                             {:service => RECALL,:location => item[:location]},
-                             {:service => HOLD, :location => item[:location], :status => item[:status]})
-
-      elsif ((item_loan_type == 'regular' and item[:status] == MISSING) or
-             (item_loan_type == 'regular' and item[:status] == LOST) or
-             (item_loan_type == 'day' and item[:status] == MISSING) or
-             (item_loan_type == 'day' and item[:status] == LOST))
-
-         # TODO: Test and fix BD check with real params
-        if xxborrowDirect_available? params
-          request_options.push( {:service => BD, :location => item[:location] } )
-        end
-        request_options.push({:service => PURCHASE, :location => item[:location]},
-                             {:service => ILL,:location => item[:location]})
-
-      elsif item_loan_type == 'day' and item[:status] == CHARGED
-
-         # TODO: Test and fix BD check with real params
-        if xxborrowDirect_available? params
-          request_options.push( {:service => BD, :location => item[:location] } )
-        end
-        request_options.push( {:service => ILL, :location => item[:location] } )
-        request_options.push( {:service => HOLD, :location => item[:location], :status => item[:status] } )
-
-      elsif item_loan_type == 'day' and item[:status] == NOT_CHARGED
-        unless Request.no_l2l_day_loan_types.include? typeCode
-          request_options.push( {:service => L2L, :location => item[:location] } )
-        end
-
-      elsif item_loan_type == 'minute'
-
-        # TODO: Test and fix BD check with real params
-        if xxborrowDirect_available? params
-          request_options.push( {:service => BD, :location => item[:location] } )
-        end
-        request_options.push( {:service => ASK_CIRCULATION, :location => item[:location] } )
-        
-      elsif item[:status] == AT_BINDERY
-        request_options.push( {:service => ILL, :location => item[:location] } )
       end
 
       # Document delivery should be available for all items - see DISCOVERYACCESS-1149
@@ -718,44 +635,73 @@ module BlacklightCornellRequests
         request_options.push( {:service => DOCUMENT_DELIVERY })
       end
 
-      return request_options
+      # Check the rest of the cases
+      if item_loan_type == 'nocirc' or noncirculating? item
+        return request_options.push({:service => ILL, 
+                                     :location => item[:location]})
+      elsif item_loan_type == 'regular' and item[:status] == NOT_CHARGED
+        return request_options.push({:service => L2L, 
+                                     :location => item[:location] } )
+      elsif item_loan_type == 'regular' and item[:status] ==  CHARGED
+        return request_options.push({:service => ILL, 
+                                     :location => item[:location]},
+                                    {:service => RECALL,
+                                     :location => item[:location]},
+                                    {:service => HOLD, 
+                                     :location => item[:location], 
+                                     :status => item[:status]})
+      elsif (['regular','day'].include? item_loan_type) and 
+            ([MISSING, LOST].include? item[:status])
+        return request_options.push({:service => PURCHASE, 
+                                     :location => item[:location]},
+                                    {:service => ILL,
+                                     :location => item[:location]})
+      elsif item_loan_type == 'day' and item[:status] == CHARGED
+        return request_options.push({:service => ILL, 
+                                     :location => item[:location] },
+                                    {:service => HOLD, 
+                                     :location => item[:location], 
+                                     :status => item[:status] } )
+      elsif item_loan_type == 'day' and item[:status] == NOT_CHARGED
+        if Request.no_l2l_day_loan_types.include? typeCode
+          return request_options
+        else
+          return request_options.push( {:service => L2L, 
+                                        :location => item[:location] } )
+        end
+      elsif item_loan_type == 'minute'
+        return request_options.push( {:service => ASK_CIRCULATION, 
+                                      :location => item[:location] } )
+      elsif item[:status] == AT_BINDERY
+        return request_options.push( {:service => ILL, 
+                                      :location => item[:location] } )
+      else
+        return request_options
+      end
+
     end
 
     # Determine delivery options for a single item if the patron is a guest (non-Cornell)
     def get_guest_delivery_options item
       typeCode = (item[:temp_item_type_id].blank? or item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
       item_loan_type = loan_type typeCode
-      request_options = []
 
-      if item_loan_type == 'nocirc' or noncirculating? item
-        # do nothing
-      elsif item_loan_type == 'regular' and item[:status] == NOT_CHARGED
-        request_options = [ { :service => L2L, :location => item[:location] } ] unless no_l2l_day_loan_types? item_loan_type
-      elsif item_loan_type == 'regular' and item[:status] == CHARGED
-        request_options = [ { :service => HOLD, :location => item[:location], :status => item[:itemStatus] } ]
-      elsif item_loan_type == 'regular' and item[:status] == MISSING
-        ## do nothing
-      elsif item_loan_type == 'regular' and item[:status] == LOST
-        ## do nothing
-      elsif item_loan_type == 'day' and item[:status] == NOT_CHARGED
-        request_options = [ { :service => L2L, :location => item[:location] } ] unless no_l2l_day_loan_types? item_loan_type
-      elsif item_loan_type == 'day' and item[:status] == CHARGED
-        request_options = [ { :service => HOLD, :location => item[:location], :status => item[:itemStatus] } ]
-      elsif item_loan_type == 'day' and item[:status] == MISSING
-        ## do nothing
-      elsif item_loan_type == 'day' and item[:status] == LOST
-        ## do nothing
-      elsif item_loan_type == 'minute' and item[:status] == NOT_CHARGED
-        request_options = [ { :service => ASK_CIRCULATION, :location => item[:location] } ]
-      elsif item_loan_type == 'minute' and item[:status] == CHARGED
-        request_options = [ { :service => ASK_CIRCULATION, :location => item[:location] } ]
-      elsif item_loan_type == 'minute' and item[:status] == MISSING
-        ## do nothing
-      elsif item_loan_type == 'minute' and item[:status] == LOST
-        ## do nothing
+      if noncirculating? item 
+        []
+      elsif item[:status] == NOT_CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day') 
+        [ { :service => L2L, :location => item[:location] } ] unless no_l2l_day_loan_types? item_loan_type
+      elsif item[:status] == CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day')
+        [ { :service => HOLD, :location => item[:location], :status => item[:itemStatus] } ]
+      elsif item_loan_type == 'minute' and (item[:status] == NOT_CHARGED or item[:status] == CHARGED)
+        [ { :service => ASK_CIRCULATION, :location => item[:location] } ]
+      else
+        # default case covers:
+        # item_loan_type == 'nocirc' 
+        # item[:status] == MISSING or item[:status] == LOST
+        # anything else
+        []
       end
 
-      return request_options
     end
 
     # Custom sort method: sort by delivery time estimate from a hash
