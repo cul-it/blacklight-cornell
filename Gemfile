@@ -35,7 +35,6 @@ gem 'zoom', :git => 'https://github.com/bricestacey/ruby-zoom.git'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
   gem 'sass-rails',   '~> 4.0'
   gem 'coffee-rails', '~> 4.0'
 
@@ -43,7 +42,6 @@ group :assets do
    gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
-end
 
 group :development, :test do
   gem 'rspec'
@@ -54,7 +52,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'poltergeist'
 end
-
+  
 group :test do
   gem 'capybara'
   # Following two gems are following the setup proposed in the RoR tutorial
