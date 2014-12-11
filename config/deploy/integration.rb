@@ -11,3 +11,8 @@ set :deploy_to, "/cul/web/newcatalog-int.library.cornell.edu/rails-app"
 #set :branch, ENV['GIT_BRANCH']
 set :branch,"dev"
 set :bundle_flags,    "--local "
+desc "Install  (redefine for integration) env -- too sensitive for git - production"
+task :install_env, :roles => [ :app, :db, :web ] do
+         run "cp #{deploy_to}/config/integration.env  #{shared_path}/.env"
+         run "cat #{shared_path}/.env"
+ end
