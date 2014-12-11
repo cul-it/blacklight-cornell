@@ -8,8 +8,8 @@ set :deploy_to, "/cul/web/newcatalog-int.library.cornell.edu/rails-app"
 # actually this is a tag
 #set :branch, "staging-publicbeta-0.2"
 # this is set by jenkins, otherwise you can set it.
-#set :branch, ENV['GIT_BRANCH']
-set :branch,"dev"
+set :branch, ENV['GIT_BRANCH']
+#set :branch,"dev"
 set :bundle_flags,    "--local "
 desc "Install  (redefine for integration) env -- too sensitive for git - production"
 task :install_env, :roles => [ :app, :db, :web ] do
