@@ -4,8 +4,8 @@ $fontelloPath: "fontello" !default;
 
 @font-face {
   font-family: "fontello";
-  src: url("#{$fontelloPath}.eot");
-  src: url("#{$fontelloPath}.eot?#iefix") format("embedded-opentype"), url("#{$fontelloPath}.woff") format("woff"), url("#{$fontelloPath}.ttf") format("truetype"), url("#{$fontelloPath}.svg#fontello") format("svg");
+  src: url(font-path("#{$fontelloPath}.eot"));
+  src: url(font-path("#{$fontelloPath}.eot?#iefix")) format("embedded-opentype"), url(font-path("#{$fontelloPath}.woff")) format("woff"), url(font-path("#{$fontelloPath}.ttf")) format("truetype"), url(font-path("#{$fontelloPath}.svg#fontello")) format("svg");
   font-weight: normal;
   font-style: normal;
 }
