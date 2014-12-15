@@ -449,7 +449,7 @@ module CornellParamsHelper
          else
            testString = myhash["callnos"][0]
            if testString == '' or testString.nil?
-             testString = "No Call Number, possibly still on order."
+             testString = "No Call Number, possibly still on order. Please contact Circ Desk 607-255-4245 email okucirc@cornell.edu"
            end
          end
          if i == breakerlength - 1
