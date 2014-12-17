@@ -456,6 +456,7 @@ module BlacklightCornellRequests
             ## group id 5  - Annex
             ## Olin or Uris can't deliver to itselves and each other
             ## Annex group can deliver to itself
+            ## Law group can deliver to itself
             ## Others can't deliver to itself
             # logger.debug "sk274_log: " + circ_group_id.inspect
             # there might not be an entry in this table  
@@ -469,6 +470,12 @@ module BlacklightCornellRequests
               elsif circ_group_id[0]['circ_group_id'] == 5
                 ## skip annex next time
                 # logger.debug "sk274_log: Annex detected, skipping"
+                location_seen[location] = exclude_location_list
+                holding[:exclude_location_id] = exclude_location_list
+                next
+              elsif circ_group_id[0]['circ_group_id'] == 14 
+                ## skip law library next time
+                # logger.debug "sk274_log: Library detected, skipping"
                 location_seen[location] = exclude_location_list
                 holding[:exclude_location_id] = exclude_location_list
                 next
