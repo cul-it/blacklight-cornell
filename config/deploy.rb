@@ -14,7 +14,7 @@ set :user, "rails"
 #  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.1.5:/usr/local/rvm/gems/ruby-2.1.5@global",
 #  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.1.5@global/gems/bundler-1.3.5/",  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
-}
+#}
 #Deploy to may vary depending on target stage
 #set :deploy_to, "/libweb/#{user}"
 set :deploy_via, :copy
