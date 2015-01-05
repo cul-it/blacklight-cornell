@@ -6,12 +6,15 @@
 
 # Ignore .env file
 /.env
-
+/.gitignore
 # Ignore bundler config
 /.bundle
-
+/.ruby-version
 # Ignore the default SQLite database.
 /db/*.sqlite3
+/config/database.yml
+/vendor
+/db/schema.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*.log

@@ -419,8 +419,6 @@ module CornellParamsHelper
    require 'pp'
         @recordLocsNameArray = [] 
         myhash = {}
-        Rails.logger.info("Cline122 = #{doc.inspect}")
-        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
         breakerlength = doc[:holdings_record_display].length
    #     Rails.logger.info("BeetleJooz = #{tmploc["display"]}")
         i = 0
