@@ -1,3 +1,6 @@
+[![Build Status](https://newjenkins.library.cornell.edu/buildStatus/icon?job=Continuous Test - blacklight-cornell)](https://newjenkins.library.cornell.edu/job/Continuous%20Test%20-%20blacklight-cornell/)
+
+
 == Welcome to Rails
 
 Rails is a web-application framework that includes everything needed to create
@@ -259,3 +262,4 @@ vendor
   External libraries that the application depends on. Also includes the plugins
   subdirectory. If the app has frozen rails, those gems also go here, under
   vendor/rails/. This directory is in the load path.
+

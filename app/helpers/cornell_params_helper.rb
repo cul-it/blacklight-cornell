@@ -1,6 +1,7 @@
 module CornellParamsHelper
 
 
+
    def set_advanced_search_params(params)
          # Use :advanced_search param as trustworthy indicator of search type
          removeBlanks(params)
@@ -81,18 +82,30 @@ module CornellParamsHelper
       end
       for i in 0..my_params[:search_field_row].count - 1
          if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
+           if my_params[:q_row][i] == ""
+             my_params[:q_row][i] = "blank"
+           end
            newpass = '"' + my_params[:q_row][i] + '"' 
          else
-           newpass = my_params[:q_row][i]
+           if my_params[:q_row][i] == ""
+             my_params[:q_row][i] = "blank"
+           end
+          newpass = my_params[:q_row][i]
+         end
+         if my_params[:search_field_row][i] == 'journal title'
+           params['format'] = "Journal"
          end 
          pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
          returned_query = ParsingNesting::Tree.parse(newpass)
          newstring = returned_query.to_query(pass_param)
          holdarray = newstring.split('}')
-         queryStart = " _query_:\"{!dismax"
-         q_string << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         if my_params[:op_row][i] == "OR"
+          holdarray[1] = parse_query_row(holdarray[1], "OR")
+         end
+         queryStart = " _query_:\"{!edismax"
+         q_string << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
-         q_string_hold << " _query_:\"{!dismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
+         q_string_hold << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
 
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
          
@@ -113,10 +126,21 @@ module CornellParamsHelper
             if solr_stuff == "donor name"
               solr_stuff = "donor"
             end
+            if solr_stuff == "journal title"
+              solr_stuff = "journal title"
+            end
             field_name =  solr_stuff
-            q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-            q_string2 << field_name << " = "
-            q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+            if field_name == "journal title"
+              field_name = "title"
+              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+              q_string2 << field_name << " = "
+              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
+              
+            else
+              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+              q_string2 << field_name << " = "
+              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+            end
          end
          if holdarray.count > 1
           if field_name.nil?
@@ -127,8 +151,8 @@ module CornellParamsHelper
               holdarray_parse = holdarray[j].split('_query_')
               holdarray[1] = holdarray_parse[0]
               if(j < holdarray.count - 1)
-                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                    q_string << "}" << holdarray[1] << " _query_:\\\"{!dismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                    q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
                     q_string2 << holdarray[1]
               else
                     q_string_hold << "}" << holdarray[1] << "\\\""
@@ -162,8 +186,8 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-    if params[:search_field] == "call number" and !my_params[:q].include?('"')
-      params[:q] = '"' + params[:q] + '"'
+    if params[:search_field] == "call number" and !my_params[:q].nil? and !my_params[:q].include?('"')
+      params[:q] = '"' + my_params[:q] + '"'
     end
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
@@ -179,7 +203,6 @@ module CornellParamsHelper
 #    solr_parameters[:q] = my_params[:q]
 #    solr_parameters[:sort] = "score desc, title_sort asc"
      my_params[:search_field] = my_params["search_field"]
-     Rails.logger.info("BUTCHIEBOY = #{my_params[:search_field]}")
      params[:search_field] = my_params[:search_field]
     session[:search][:search_field] = my_params[:search_field]
      
@@ -207,11 +230,14 @@ module CornellParamsHelper
      else
    #    params[:sort] = ""
      end
+     if !newString.nil?
+       newString = newString.gsub('author/creator','author')
+     end
      #newString = newString.gsub('"',"")
-#     newString =  "_query_:{!dismax}bauhaus  AND ( _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!dismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
-#     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PQ7798.416.A43\"\" AND  _query_:{!dismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\"00\""
-#     newString =  "_query_:{!dismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PR2983 .I61\"\""
-#     newString =  "_query_:{!dismax qf=$author_qf pf=$author_pf}Shakespeare"
+#     newString =  "_query_:{!edismax}bauhaus  AND ( _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
+#     newString =  "_query_:{!edismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PQ7798.416.A43\"\" AND  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\"00\""
+#     newString =  "_query_:{!edismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PR2983 .I61\"\""
+#     newString =  "_query_:{!edismax qf=$author_qf pf=$author_pf}Shakespeare"
      #NEWSTRING = \"PQ7798.416.A43 H6\""   AND title = hora"
      if newString.include?('%26')
        newString.gsub!('%26','&')
@@ -328,7 +354,7 @@ module CornellParamsHelper
   def test_size_param_array(param_array)
     countit = 0
     for i in 0..param_array.count - 1
-       unless param_array[i] == ""
+       unless param_array[i] == "" and !param_array[i].nil?
         countit = countit + 1
        end
     end
@@ -367,6 +393,73 @@ module CornellParamsHelper
      if params[:boolean_row].has_key?(finalcheck.to_sym)
        params[:boolean_row].delete(finalcheck.to_sym)       
      end
+ end
+ 
+ def getTempLocations(doc)
+   require 'json'
+   require 'pp'
+   temp_loc_Full = []
+   temp_loc_text = []
+   temp_loc_Full = create_condensed_full(doc)
+   if !temp_loc_Full[0]["copies"][0]["temp_locations"].nil? and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
+     temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
+   end
+   temp_loc_text.each do |templocs|
+       templocs.gsub(/^  /, '')
+   end
+   if temp_loc_text.nil? 
+     return [""]
+   else
+    return temp_loc_text
+   end
+ end
+ 
+ def getLocations(doc)
+   require 'json'
+   require 'pp'
+        @recordLocsNameArray = [] 
+        myhash = {}
+        Rails.logger.info("Cline122 = #{doc.inspect}")
+        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
+        breakerlength = doc[:holdings_record_display].length
+   #     Rails.logger.info("BeetleJooz = #{tmploc["display"]}")
+        i = 0
+        doc[:holdings_record_display].each do |hrd|  
+          Rails.logger.info("Beetlejuice = #{hrd}")        
+         myhash = JSON.parse(hrd)
+         if i == breakerlength - 1
+           @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
+         else
+           @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
+         end
+         i = i + 1
+      end 
+   return @recordLocsNameArray
+ end
+ def getCallNos(doc)
+   require 'json'
+         @recordCallNumArray = [] 
+        myhash = {}
+        breakerlength = doc[:holdings_record_display].length
+        i = 0
+        doc[:holdings_record_display].each do |hrd|          
+         myhash = JSON.parse(hrd)
+         if myhash["callnos"].nil?
+           testString = "No Call Number"
+         else
+           testString = myhash["callnos"][0]
+           if testString == '' or testString.nil?
+             testString = "No Call Number, possibly still on order."
+           end
+         end
+         if i == breakerlength - 1
+           @recordCallNumArray << testString + " || "
+         else
+           @recordCallNumArray << testString + " | "
+         end           
+         i = i + 1
+      end
+   return @recordCallNumArray 
  end
 
 end

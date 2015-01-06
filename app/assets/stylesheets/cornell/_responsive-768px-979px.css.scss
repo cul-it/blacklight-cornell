@@ -17,18 +17,22 @@
   	}
 	}
 	.input-xxlarge { width: 95%; }
-
+	// Make advanced search form elements fit on one line
+	//---------------------------------------------------
+	.advanced-search-field { width: 30%; }
+	.advanced {
+		.input_row > input { width: 30%; }
+	}
 	// Nav from main site
 	// -- see also responsive-480px-max.scss --
 	//-----------------------------------------
 	.navbar-cul {
-		// padding-left: 15px; 
-		// padding-right: 15px;
-		// height: auto;
-		// .brand { font-size: 18px; }
 		.nav {
 			li {
-				a { padding: 15px 12px; }
+				a { 
+					padding: 15px 10px;
+					font-size: 13px;
+				}
 			}
 		}
 	}

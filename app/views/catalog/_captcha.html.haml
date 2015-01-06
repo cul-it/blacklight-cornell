@@ -11,4 +11,4 @@
         %input{ :type => 'hidden', :name => 'id', :id => 'id', :value => @email_params[:id] }
         %input{ :type => 'hidden', :name => 'mollom_session', :id => 'mollom_session', :value => @captcha['session_id']}
         %input{ :type => 'hidden', :name => 'carrier', :id => 'carrier', :value => @email_params[:carrier] }
-        %input#request-submit.btn.btn-danger(type='submit' name='submit' value='Submit')
+        %input#request-submit.btn.btn-default(type='submit' name='submit' value='Submit')

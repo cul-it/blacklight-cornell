@@ -3,12 +3,19 @@
 input.search-query {
   width: 93%;
   padding-right: 0;
+  padding-left: 15px;
 }
 .advanced-search-link {
   display: inline-block;
   margin-top: .2em;
   padding-left: .3em;
   font-size: .8em;
+}
+.advanced-link {
+  margin-top: .5em;
+  padding-left: .3em;
+  font-size: .75em;
+  color: $light-gray;
 }
 .search-or-reset.span2 {
   margin-left: .3em;
@@ -34,6 +41,7 @@ input.search-query {
 .results-count {
   font-size: .8em;
   font-weight: bold;
+  float: left;
 }
 .results-pagination {
   margin: .1em 0 0 1em;
@@ -63,14 +71,23 @@ div.search-tools > h2 {line-height: 1em}
   @include border-radius($borderRadiusLarge);
   h4 {
     font-size: 1em;
-    margin: 0 0 .5em; }
+    font-weight: normal;
+    margin: 0 0 .5em 0;
+    border-bottom: 1px solid $light-tan;
+    padding: 0 0 .25em 0;
+  }
   ul {
     margin-left: 0;
     margin-bottom: 0;
     list-style: none; }
   li {
     font-size: .75em;
-    margin-bottom: .25em; }
+    margin-bottom: .25em;
+  }
+  i {
+    color: $dark-tan;
+    margin-right: .25em;
+  }
 }
 h2.advanced-search { margin: 0; }
 .advanced-facets { margin-bottom: 10px; }

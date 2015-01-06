@@ -1,17 +1,25 @@
+ruby "2.1.5"
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.13'
+gem 'rails', '~> 4.0'
+gem "dotenv-rails"
+gem "dotenv-deployment"
+gem 'appsignal'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# added for rails 4.
+gem 'activerecord-session_store'
+gem 'protected_attributes'
 
 gem 'sqlite3'
-gem 'mysql', '2.8.1'
+gem 'savon', '~> 2.3.0'
+gem 'ultraviolet'
+gem 'mysql'
 gem 'yaml_db'
 gem 'blacklight', '4.3.0'
 gem 'blacklight_range_limit'
-gem 'blacklight_cornell_advanced_search', :git => 'git@git.library.cornell.edu:blacklight_cornell_advanced_search.git', :branch => 'master'
-gem 'blacklight_unapi'
+gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'master'
+#gem 'blacklight_unapi'
+gem 'kaminari', '0.15.0'
 gem 'blacklight_google_analytics'
 gem 'json'
 gem 'httpclient'
@@ -20,19 +28,21 @@ gem 'haml-rails'
 gem 'marc'
 gem 'rb-readline', '~> 0.4.2'
 gem 'net-ldap'
-gem 'newrelic_rpm'
+#gem 'newrelic_rpm'
 gem 'nokogiri'
+
+gem 'zoom', :git => 'https://github.com/bricestacey/ruby-zoom.git'
+
+
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   '~> 4.0'
+  gem 'coffee-rails', '~> 4.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
    gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
-end
 
 group :development, :test do
   gem 'rspec'
@@ -41,8 +51,9 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
+  gem 'poltergeist'
 end
-
+  
 group :test do
   gem 'capybara'
   # Following two gems are following the setup proposed in the RoR tutorial
@@ -74,13 +85,12 @@ gem 'jquery-rails', '2.1.4'
 
 # To use debugger
 # gem 'debugger'
-
 gem 'unicode', :platforms => [:mri_18, :mri_19]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
-gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests', :git => 'git@git.library.cornell.edu:blacklight_cornell_requests.git', :branch => 'master'
+gem 'font-awesome-rails' 
+gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'

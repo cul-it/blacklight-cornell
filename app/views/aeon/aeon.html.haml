@@ -5,8 +5,8 @@
 %div.row
   %div.well.span8
     %h2.blacklight-title_display.item-title-request=@ti
-    %div.request-author=@au
-    %p This rare item may be delivered only to the RMC Reading Room. Items that are marked "request in advanced" are delivered to the reading room from the Annex and must be requested two days in advance.
+    -if @au.present?
+      %div.request-author=@au.split('|')[1][0..-2]
     %form#req.form-horizontal{:method => 'get', :action => '/'}
       - holdings_condensed = @holdings['condensed_holdings_full']
       - if holdings_condensed.size > 0
@@ -33,5 +33,8 @@
                   - if details['count'] >1
                     (#{details['count']} copies)
           %div.aeon
-            = link_to 'Request reading room delivery', "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:bibid]}&libid=#{location_code}", {:class => 'btn btn-danger'}
-            
+            %p This rare item may be delivered only to the RMC Reading Room.
+            -if location.include? 'advance'
+              %p This item will be delivered to the reading room from the Annex and must be requested two days in advance.
+
+            = link_to 'Request reading room delivery', "http://www.library.cornell.edu/aeon/monograph.php?bibid=#{params[:bibid]}&libid=#{location_code}", {:class => 'btn btn-default'}

@@ -147,3 +147,26 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And it should have a "title" that looks sort of like "Biology"
+
+  # DISCOVERYACCESS-1407
+  @DISCOVERYACCESS-1407
+  @availability
+  @javascript
+  Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
+    Given I am on the home page
+    When I fill in the search box with '"the Economist"'
+    And I press 'search'
+    Then I should get results
+    And I should not see the text 'Order Information'
+
+  # DISCOVERYACCESS-1407
+  @DISCOVERYACCESS-1407
+  @availability
+  @javascript
+  Scenario: As a user, I can see order status for items on order
+    Given I am on the home page
+    When I fill in the search box with '"Problems for the mathematical olympiads"'
+    And I press 'search'
+    Then I should get results
+    And I should see the text 'Order Information'
+

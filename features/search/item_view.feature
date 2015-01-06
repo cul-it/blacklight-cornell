@@ -16,12 +16,15 @@ Feature: Item view
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
+  @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
-    Given I request the item view for 4696
+    Given I request the item view for 1630516 
     And click on link "English poetry"
     Then it should contain filter "Subject" with value "English poetry"
+
+  @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
-    Given I request the item view for 4696
+    Given I request the item view for 1630516 
     And click on link "19th century"
     Then it should contain filter "Subject" with value "English poetry 19th century"
 
@@ -29,12 +32,17 @@ Feature: Item view
   Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
     Given I request the item view for 4442
     And click on link "Peabody, William Bourn Oliver, 1799-1847"
-    Then I should see the label  'Lives of Alexander Wilson and Captain John Smith.'
+    Then I should see the label 'Lives of Alexander Wilson and Captain John Smith'
 
   # DISCOVERYACCESS-142
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I request the item view for 3749
     Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
+
+  @request_button
+  Scenario: As a user I can request an item 
+    Given I request the item view for 30000 
+    Then it should have link "Request" with value "/request/30000"  
 
   # Availability simple, one location, and is available 
   @availability
@@ -70,7 +78,56 @@ Feature: Item view
   @availability
   Scenario: As a user I can see the availability for an item at an overriden location
     Given I request the item view for 115628 
-    Then I should see the label 'Shelved'
+    Then I should see the label 'Temporarily shelved'
+
+  # 
+  # Show overriding perm location properly instead of holding location 
+  @availability
+  Scenario: As a user I can see the availability for an item at an overriden location but
+  when all items have an overriden location that location takes over for the main location 
+    Given I request the item view for 2378252 
+    Then I should not see the label 'Shelved in'
+
+  @availability
+  Scenario: As a user I can see the availability for an item at an overriden location but
+  when all items have an overriden location that location takes over for the main location 
+    Given I request the item view for 2378252 
+    Then I should see the label 'Law Library (Myron Taylor Hall) Rare Books'
+
+  @DISCOVERYACCESS-988
+  @availability
+  Scenario: As a user I can see the availability for an item at an overriden location but
+  when all items have an overriden location that location takes over for the main location 
+    Given I request the item view for 2378252 
+    Then I should see the "fa-on-site" class 2 times
+
+  # when there is a perm location, and temp and all items for holding are at temp
+  # then the temp location should be shown INSTEAD of permanent so "temporarily shelved
+  # at" does not show , temporary shows as if it were permanent.
+  # DISCOVERYACCESS-988
+  @availability
+  @DISCOVERYACCESS-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 44112 
+    Then I should not see the label 'Temporarily shelved'
+
+  @availability
+  @DISCOVERYACCESS-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 44112 
+    Then I should not see the label 'Olin Library'
+
+  @availability
+  @DISCOVERYACCESS-988
+  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+    Given I request the item view for 44112 
+    Then I should see the label 'Fine Arts Library Reserve'
+
+  #@availability
+  #@DISCOVERYACCESS-988
+  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+  #  Given I request the item view for 44112 
+  #  Then I should see the label '2 volumes'
 
   # Availability for an on order item. "Problems for the mathematical olympiads" 
   @availability
@@ -78,11 +135,72 @@ Feature: Item view
     Given I request the item view for 8052244 
     Then I should see the label 'Copy Ordered'
 
+  # On the other hand some subscriptions remain "on order" for years, and should NOT 
+  # display on order. DISCOVERYACCESS-1407
+  @availability
+  @DISCOVERYACCESS-1407
+  Scenario: As a user I can see the availability for an item with an "open order" that does not say so. 
+    Given I request the item view for 2795276 
+    Then I should not see the label 'Copy Ordered'
+
+  # Show that requests exist for an item.
+  # DISCOVERYACCESS-1220
+  # Item is overdue and should show that another request has been placed for it 
+  @availability
+  @DISCOVERYACCESS-1220
+  Scenario: As a user I can see the number of requests placed on an item 
+    Given I request the item view for 5054489  
+    Then I should see the label 'Requests'
+
+  # Make sure that blocking call number display does not cause availability display probs. 
+  # DISCOVERYACCESS-1386 
+  # items with no call number caused an exception -- so the text 'Call number' never
+  # appears anyway, but we make sure we don't have an exception with null ptr. 
+  @availability
+  @DISCOVERYACCESS-1386 
+  Scenario: As a user I can see the information about an ONLINE item, but not the call number 
+    Given I request the item view for 5380314  
+    Then I should not see the label 'Call number'
+
   # Availability for a lost item, and one available. 
   @availability
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728 
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
+
+  # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
+  @missing
+  @availability 
+  Scenario: As a user I can see the availability for a Missing item
+    Given I request the item view for 119162 
+    Then I should see the labels 'Missing'
+
+  # Availability for an In transit item  Beautiful houses (status 9)
+  @availability @intransit
+  @DISCOVERYACCESS-1483
+  Scenario: As a user I can see the availability for an In transit item
+    Given I request the item view for 1991 
+    Then I should see the labels 'In transit'
+
+  # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item
+    Given I request the item view for 2000195 
+    Then I should see the labels 'In transit'
+
+  # Availability for an In transit item The goldfinch 
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
+    Given I request the item view for 8272732
+    Then I should not see the label '%LOC'
+
+  # Availability for an In transit item status 10 - Declaration of a heretic
+  @availability @intransit
+  Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
+    Given I request the item view for 106223 
+    Then I should not see the label '%LOC'
+
+
 
   # Availability for a lost item status 14
   @availability
@@ -95,6 +213,64 @@ Feature: Item view
   Scenario: As a user I can see the availability for an lost item (status 13)
     Given I request the item view for 259600 
     Then I should see the label 'c. 1 Unavailable 2013-06-12'
+
+  # Make sure subfield z is displayed. 
+  @availability
+  @holdings_field866_subfieldz
+  Scenario: As a user I can see the subfield Z in the holdings display info 
+    Given I request the item view for 2229355 
+    Then I should see the label 'Cayuga <Film 1290>'
+
+  # Make sure Indexes: are displayed 
+  @availability
+  @holdings
+  @indexes
+  Scenario: As a user I can see the indexes information 
+    Given I request the item view for 298714 
+    Then I should see the label 'Indexes'
+
+  # Make sure Supplements: are displayed 
+  @availability
+  @holdings
+  @supplements
+  Scenario: As a user I can see the supplements information 
+    Given I request the item view for 307178 
+    Then I should see the label 'Supplements:'
+
+  # Make sure Current Issues: are displayed 
+  @availability
+  @holdings
+  @current_issues
+  Scenario: As a user I can see the current issues information 
+    Given I request the item view for 329763 
+    Then I should see the label 'Current Issues: issue no'
+
+  # Make sure PDA makes some sense  DISCOVERYACCESS-1356
+  # Confusing availability labels for 8036458
+  @availability
+  @holdings
+  @pda
+  Scenario: As a user I can see that an item is available for acquisition
+    Given I request the item view for 38036458
+    Then I should not see the label 'Library Technical Services Review Shelves'
+
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  @availability
+  @holdings
+  @DISCOVERYACCESS-1430
+  @DISCOVERYACCESS-1483
+  Scenario: As a user I can see the exactly what copy is available 
+    Given I request the item view for 5545750
+    Then I should see the label '1 copy'
+
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  @availability
+  @holdings
+  @DISCOVERYACCESS-1430
+  @DISCOVERYACCESS-1483
+  Scenario: As a user I can see the exactly what copy is available 
+    Given I request the item view for 7728655 
+    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
@@ -173,7 +349,7 @@ Feature: Item view
   Examples:
     | bibid | yesno      | label |
     # Test for links to full content and TOC
-    | 607   | should     | 'Online' |
+    | 607   | should     | 'online' |
     | 608   | should not | 'Access online' |
     | 8212979 | should     | ' Table of contents' |
     | 608   | should not | 'Access table of contents' |
@@ -185,7 +361,7 @@ Feature: Item view
     | 4768  | should not | 'Partial Table of Contents' |
     # DISCOVERYACCESS-?: Item description
     | 4626  | should     | 'Description' |
-    | 8250310  | should not | 'Description' |
+    | 5250067   | should not | 'Description' |
 
   # DISCOVERYACCESS -?
   Scenario: Show the record notes field when available

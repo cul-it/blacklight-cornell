@@ -1,9 +1,10 @@
 .facets {
 	margin-top: 0.5em;
+	padding: 10px;
 	background: white;
 	@include border-radius($borderRadiusLarge);
 	h5 {
-		padding: 6px 6px 6px 0;
+		padding: 6px 0 6px 0;
 		line-height: 1.2em;
 		font-size: 0.875em;
 		margin: 0 0 5px 0;
@@ -11,8 +12,9 @@
 		color: $dark-gray;
 		i {
 			float: right;
-			padding-right: .25em;
-			color: $light-gray; }
+			margin-right: 0;
+			color: $light-gray;
+		}
 	}
 	h5.twiddle-open {
 		border-bottom: none;
@@ -20,23 +22,26 @@
 	}
 	ul {
 		margin: 0 0 5px 10px;
-		padding: 0 10px 0 0;
+		padding: 0;
 		list-style: none;
 	}
 	li {
 		font-size: 0.75em;
 		color: $light-gray;
+		padding-right: 50px;
 	}
 	p {
-		font-weight: bold;
-		padding: 10px;
-		margin: 0; }
+		margin: 0 0 .25em;
+		border-bottom: 1px solid $light-tan;
+    	padding: 0 0 .25em 0;
+	}
 	i { 
 		color: $dark-gray;
 		margin-right: 3px; }
 	.navbar {
 		margin-bottom: 0;
-		padding: 0 0 0 10px; }
+		padding: 0 0 5px 10px;
+	}
 	a:hover { background: white; }
 }
 // OVERRIDE #FACETS
@@ -53,6 +58,10 @@
 	li {
 		margin-right: 0;
 		line-height: 16px;
+		padding-right: 0;
+		.count {
+			margin-right: 0;
+		}
 	}
 	a.remove { padding: 3px 5px; }
 	a.remove:hover {
@@ -62,7 +71,7 @@
 	}
 	li.more_facets_link {
 		float: none;
-		margin-right: -50px; }
+		margin-right: 0; }
 	span.selected {
 		color: $dark-gray;
 	}
@@ -132,7 +141,7 @@ form.range_limit {
 
 .selected-facets {
 	clear: both;
-	padding-top: 10px;
+	padding-top: 20px;
 	.btn-info {
 		margin-bottom: 3px;
 		text-align: left;
