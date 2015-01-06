@@ -4,7 +4,7 @@
     <div class="row">
       <div class="cover span2">
         <div class="iconcover bookcover" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
-          <img class="img-polaroid" src="/assets/cornell/layout/placeholder-item.png" alt="">
+          <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-polaroid",  alt: "" %>
           <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
       </div>
@@ -45,16 +45,17 @@
           <% if online_url(@document) %>
             <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
 
-            <h5 class="location">Online</h5>
+            <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
             <% format = render_document_show_field_value :document => @document, :field => 'format' %>
             <ul class="unstyled" id="item_online_<%= format %>">
               <% online_links.each do |link| %>
-                <li class="online-link" ><i class="fa fa-check"></i> <%= link %></li>
+                <li class="online-link" ><%= link %></li>
               <% end %>
             </ul>
           <% end %>
 
           <div class="holdings" data-bibid="<%= @document.id.to_s %>">
+          <%= render "holdings"  %>
           </div>
 
           <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
@@ -66,7 +67,14 @@
           <% end %>
 
           <span class="blacklight-url_access_display"></span>
+          <%= @hide_status %>
 
+      <% if format == 'Book' && online_url(@document) %>
+       <% oclc_number=oclc_number_link %>
+       <% if oclc_number.present? %>
+          <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
+          <% end %>
+      <% end %>
           <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
           <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
         </div>

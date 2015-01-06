@@ -16,7 +16,7 @@ holdings =
 
   # Create references to frequently used elements for convenience
   initObjects: () ->
-    this.availabilityHeading = $('.availability h3')
+    this.availabilityHeading = $('.XXavailability h3')
     this.resultsAvailability = $('.preloader')
 
   # Add spinners to indicate that data is loading
@@ -41,7 +41,7 @@ holdings =
         length: 4,
         width: 3,
         radius: 4,
-        color: '#999',
+        color: '999',
         left: headingWidth - (headingWidth/3)
       $(this).spin('holdings')
 
@@ -69,9 +69,9 @@ holdings =
     for b in bibids
       holdings.loadHoldingsShortm (b.join('/'))
 
-    $('body.blacklight-catalog-show .holdings, body.blacklight-bookmarks-show .holdings').each ->
-      bibId = $(this).data('bibid')
-      holdings.loadHoldings(bibId)
+    #$('body.blacklight-catalog-show .holdings, body.blacklight-bookmarks-show .holdings').each ->
+    #  bibId = $(this).data('bibid')
+    #  holdings.loadHoldings(bibId)
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()

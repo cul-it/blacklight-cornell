@@ -60,7 +60,9 @@ require 'cucumber/rails'
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
-
+# by default, uses selenium for javascript, but using poltergeist allows using phantomjs
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
 # your application behaves in the production environment, where an error page will 

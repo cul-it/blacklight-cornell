@@ -10,6 +10,9 @@
 # jetty_path is only required for rake tasks that need to know
 # how to start up solr, generally for automated testing.
 
+integration:
+  url: http://da-dev-solr.library.cornell.edu/solr/blacklight
+
 development:
   url: http://da-dev-solr.library.cornell.edu/solr/blacklight
 
@@ -18,6 +21,7 @@ test: &test
 
 production:
   url: http://da-prod-solr1.library.cornell.edu/solr/blacklight
+  #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 cucumber:
   <<: *test

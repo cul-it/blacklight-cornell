@@ -4,8 +4,24 @@
 
 ---
 <%- end -%>
+<% i = 0 %>
 <% @documents.each do |document| %>
 <%= document.to_email_text %>
+<% j = 0 %>
+<% @callnumber[i].each do |callno|%>
+
+<%= t('blacklight.email.text.callnumber', :callnumber => callno) %>
+<%= t('blacklight.email.text.location', :location => @location[i][j]) %>
+<% if !@templocation.nil? and @templocation.length > 0 %>
+<%= t('blacklight.email.text.templocation', :templocation => @templocation) %>
+<% end %>
+<% j = j + 1 %>
+<% end %>
+<% i = i + 1 %>
+
 <%= t('blacklight.email.text.url', :url =>polymorphic_path(document, {:only_path => false}.merge(@url_gen_params))) %>
 
+
+---
 <% end %>
+

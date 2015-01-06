@@ -1,9 +1,8 @@
 .cornell-identity {
 	width: 100%;
 	background: $cornell-primary;
-	height: 75px;
-	// font-family: $cornell-font;
-	padding: 5px 0;
+	height: 80px;
+	padding: 5px 0 0 0;
 	}
 
 .search-links {
@@ -28,7 +27,7 @@
 
 .cu-logo {
 	display: block;
-	background: url("cornell/layout/cul-logo-red.gif") no-repeat 0 0;
+	background: image-url("cornell/layout/cul-logo-red.gif") no-repeat 0 0;
 	width: 263px;
 	height: 75px;
 	a {

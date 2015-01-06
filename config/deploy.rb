@@ -1,17 +1,18 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
+require "dotenv/deployment/capistrano"
 set :application, "blacklight-cornell"
-set :repository,  "git@git.library.cornell.edu:/blacklight-cornell"
+set :repository,  "git@github.com:/cul-it/blacklight-cornell"
 set :use_sudo, false
 set :scm, :git
 set :scm_verbose, true 
 #set :user, "es287"
 set :user, "rails"
 set :default_environment, {
-  'PATH' => "/usr/local/rvm/gems/ruby-1.9.3-p194/bin:/usr/local/rvm/gems/ruby-1.9.3-p194@global/bin:/usr/local/rvm/rubies/ruby-1.9.3-p194/bin:/usr/local/rvm/bin:$PATH",
-  'RUBY_VERSION' => "ruby 1.9.3-p194",
-  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-1.9.3-p194",
-  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-1.9.3-p194:/usr/local/rvm/gems/ruby-1.9.3-p194@global",
-  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-1.9.3-p194@global/gems/bundler-1.3.5/"  # If you are using bundler.
+  'PATH' => "/usr/local/rvm/gems/ruby-2.1.5/bin:/usr/local/rvm/gems/ruby-2.1.5@global/bin:/usr/local/rvm/rubies/ruby-2.1.5/bin:/usr/local/rvm/bin:$PATH",
+  'RUBY_VERSION' => "ruby 2.1.5",
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.1.5",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.1.5:/usr/local/rvm/gems/ruby-2.1.5@global",
+#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.1.5@global/gems/bundler-1.3.5/",  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 #Deploy to may vary depending on target stage
@@ -28,7 +29,7 @@ set :bundle_flags,    "--local --deployment "
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
-set :stages, ["development", "staging", "production"]
+set :stages, ["integration","development", "staging", "production"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
 
@@ -108,11 +109,12 @@ namespace :deploy do
     end
 end
 
-after "deploy:finalize_update", "deploy:db:symlink"
+#after "deploy:finalize_update", "deploy:db:symlink"
 
 desc "Tailor holdings config to local machine by puppet"
 task :tailor_holdings_config, :roles => [ :web ] do
 	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environment.rb >/tmp/e.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,/newcatalog,/holdings,    /tmp/e.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/config/environment.rb"
+	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/.env >/tmp/env.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,newcatalog,holdings,    /tmp/env.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/.env"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
@@ -138,9 +140,16 @@ task :install_new_relic_yml, :roles => [ :app, :db, :web ] do
 end
 
 #after :deploy, "fix_file_permissions"
-after :deploy, "install_puppet_db_yml"
-after :deploy, "install_new_relic_yml"
+#after :deploy, "install_puppet_db_yml"
+#after :deploy, "install_new_relic_yml"
 after :deploy, "tailor_solr_yml"
+desc "Install  env -- too sensitive for git - production"
+task :install_env, :roles => [ :app, :db, :web ] do
+        run "cp #{deploy_to}/config/.env  #{shared_path}/.env"
+        run "cat #{shared_path}/.env"
+end
+ 
+after "deploy:setup", "install_env"
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
 #   task :start do ; end
@@ -149,3 +158,5 @@ after :deploy, "tailor_solr_yml"
 #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 #   end
 # end
+
+require 'appsignal/capistrano'

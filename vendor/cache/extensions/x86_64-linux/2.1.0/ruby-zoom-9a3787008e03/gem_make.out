@@ -1,0 +1,19 @@
+/usr/local/rvm/rubies/ruby-2.1.2/bin/ruby extconf.rb 
+checking for yaz/zoom.h... yes
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling rbzoom.c
+compiling rbzoompackage.c
+compiling rbzoomoptions.c
+compiling rbzoomrecord.c
+compiling rbzoomresultset.c
+compiling rbzoomconnection.c
+compiling rbzoomquery.c
+linking shared-object zoom.so
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 zoom.so ./.gem.20141208-15677-13614j4
+installing default zoom libraries

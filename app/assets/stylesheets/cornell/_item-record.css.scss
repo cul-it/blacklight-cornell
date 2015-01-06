@@ -106,7 +106,7 @@ dd.blacklight-notes {
 	li {
 		font-size: 0.875em;
 		float: left;
-		margin-right: 2em;
+		margin-right: .5em;
 	}
 	li:last-child {
 		margin-right: 0;
@@ -124,6 +124,7 @@ dd.blacklight-notes {
 		}
 	}
 	i { margin-right: 3px; }
+	.selected-box { margin-right: 1em; }
 }
 
 .item-pagination {
@@ -138,6 +139,11 @@ dd.blacklight-notes {
 	padding: 10px;
 	h3 { margin-top: 0; }
 	.online-link { font-size: .875em; }
+	.worldcat-search {
+		font-size: .8em;
+		padding: 5px 10px;
+		display:block;
+		margin-top:10px;}
 	.location {
 		font-size: .875em;
 		background: $light-tan;
@@ -148,15 +154,24 @@ dd.blacklight-notes {
 		-webkit-border-radius: 3px;
 		-moz-border-radius: 3px;
 		border-radius: 3px;
-		overflow: hidden; }
+		overflow: hidden;
+	}
+	.location-online {
+		color: white;
+		background: $teal;
+		border-color: $teal;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	}
 	.holding {
 		.call-number {
-			padding: 0 10px 5px 10px;
-			font-weight: 700;
-			font-size: .875em; }
+			padding: 0 10px;
+			// font-weight: 700;
+			font-size: .875em;
+			// border-bottom: 1px dotted #d8d2c9;
+		}
 		.group {
 			padding: 5px 10px;
-			border-top: 1px dotted $tan;
+		//	border-top: 1px dotted $tan;
 			font-size: .8em; }
 		// .status { margin-left: 15px; }
 	}
@@ -173,6 +188,14 @@ dd.blacklight-notes {
 	}
 	.unstyled {
 		padding: 0 10px;
+		margin-bottom: 0;
+	}
+}
+.label-available {
+	background: $teal;
+	margin-right: .25em;
+	i {
+		color: white;
 	}
 }
 .holding,
@@ -194,10 +217,9 @@ dd.blacklight-notes {
 }
 .share-options { min-width: auto; }
 .message {
-	// color: $medium-gray;
-	// font-style: italic;
 	margin: 0 0 .25em 0;
 	line-height: 1.5em;
+	word-wrap: break-word;
 }
 .online-link {
 	margin-bottom: .4em;
@@ -214,16 +236,17 @@ dd.blacklight-notes {
 }
 .access-restriction {
 	display: block;
-	margin-top: 1em;
+	//margin-top: 1em;
 	font-size: .9em;
 	line-height: 1.2em;
 	color: $medium-gray;
+	padding-left: 5px;
+
 	h5 { margin: 0; }
 }
 .item-requests {
 	border-top: 3px solid $light-tan;
 	padding-top: 10px;
-	text-align: right;
 	margin: .75em 0; }
 
 .google-books-link {
@@ -240,4 +263,22 @@ dd.blacklight-notes {
 // captcha form
 #captcha_form {
 	#request-submit { display: block; }
+}
+
+// librarian view
+#marc_view { font-family: courier, monospace; }
+#marc_view .field { clear: both; }
+#marc_view .tag { 
+	float: left;
+	margin-right: 5px;
+}
+#marc_view .ind1,
+#marc_view .ind2 {
+	width: 20px;
+	display: inline; 
+	float: left;
+}
+#marc_view .subfields { 
+padding-left: 6em;
+	width: 70%;
 }

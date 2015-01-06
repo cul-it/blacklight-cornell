@@ -33,3 +33,68 @@ Feature: Search
     And it should contain filter "Publisher" with value "Springer"
     And I should see the label 'Springer'
 
+  @peabody
+  Scenario: Perform a search by author, as author see results 
+    Given I am on the home page
+    And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'of 11'
+
+  @peabody
+  Scenario: Perform a search by author, as author see results 
+    Given I am on the home page
+    And I select 'Author/Creator' from the 'search_field' drop-down
+    And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'of 10'
+
+  @search_availability_annotated_hobbit
+  @availability
+  @clock
+  @javascript
+  Scenario: Perform a search and see no avail icon 
+    Given I am on the home page
+    And I fill in the search box with 'Annotated hobbit'
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-clock-o" class
+
+  @utf8
+  @javascript
+  Scenario: Perform a search and see linked fields displayed
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with '"美国学者论美国中"'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'Meiguo xue zhe lun Meiguo Zhongguo xue' 
+    And I should see the label '美国学者论美国中国学' 
+
+  @search_availability_title_professional_manager_multiple
+  @multiple
+  @availability
+  @javascript
+  Scenario: Perform a title search and see avail icon, avail at  multiple locations 
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with '"The Professional Manager"'
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-check" class
+    And I should see the label 'Multiple locations' 
+
+  @search_availability_title_mission_etrangeres_missing
+  @multiple
+  @availability
+  @javascript
+  Scenario: Perform a title search and see avail icon, avail at  multiple locations 
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-clock-o" class
+    And I should see the label 'Olin Library Maps' 
+

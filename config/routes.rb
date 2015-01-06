@@ -5,34 +5,53 @@ BlacklightCornell::Application.routes.draw do
   Blacklight.add_routes(self)
 
   devise_for :users
+# rails 4
+#You should not use the `match` method in your router without specifying an HTTP method.
+#If you want to expose your action to both GET and POST, add `via: [:get, :post]` option.
+#If you want to expose your action to GET, use `get` in the router:
+#  Instead of: match "controller#action"
+#  Do: get "controller#action"
 
-  match 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
-  match 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
-  match 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
-  match 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
-  match 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
-# commenting out until certain this is a dead-end route  match 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
-  match 'backend/feedback_mail', :to => "backend#feedback_mail"
+  get 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
+  get 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
+  get 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
+  get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
+  get 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
+# commenting out until certain this is a dead-end route  get 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
+  get 'backend/feedback_mail', :to => "backend#feedback_mail"
 
-  match 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms', :via => :post
-  match 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
+#ArgumentError: Invalid route name, already in use: 'catalog_email' 
+#You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here: 
+  get 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms', :via => :post
+  get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
+
+  resources :catalog, only:  [:post, :get]
+  get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
-  match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
-  match '/databases' => 'databases#index', :as => 'databases_index'
+
   match '/headings' => 'headings#index', :as => 'headings_index'
   match '/headings/heading' => 'headings#show', :as => 'headings_show'
   match '/headings_subject' => 'headings#index_subject', :as => 'headings_index_subject'
   match '/headings/heading_subject' => 'headings#show_subject', :as => 'headings_show_subject'
   match '/headings_authortitle' => 'headings#index_authortitle', :as => 'headings_index_authortitle'
+
+  get '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
+  get '/databases' => 'databases#index', :as => 'databases_index'
+  get '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
+  get '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
+  get '/databases/subject/:q' => 'databases#subject', :as => 'databases_subject'
+  get '/databases/show/:id' => 'databases#show', :as => 'databases_show'
+  get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
+  #   get 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
+  #   get 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):

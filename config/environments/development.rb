@@ -1,5 +1,7 @@
 BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
+ #config.eager_load = false
+ config.eager_load = true 
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -24,12 +26,15 @@ BlacklightCornell::Application.configure do
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
+  # See everything in the log (default is :info)
+ config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  #config.active_record.mass_assignment_sanitizer = :strict
+  #config.active_record.mass_assignment_sanitizer = false 
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
