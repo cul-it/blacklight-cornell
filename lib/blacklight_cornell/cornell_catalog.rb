@@ -45,7 +45,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # @bookmarks = current_or_guest_user.bookmarks
     if (!params[:range].nil?)
       check_dates(params)
-     Rails.logger.info("WOBBLYRULE = #{params[:range][:pub_date_facet][:begin]}")
     end
     # params.delete("q_row")
     qparam_display = ""
