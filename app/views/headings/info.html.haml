@@ -1,4 +1,5 @@
 -if @headingsResponse.present? 
+	-@headingsResponse.inspect
 	- @headingsResponse.each do |data|
 		%h2
 			=data["heading"]
