@@ -1,0 +1,41 @@
+-if @headingsResponse.present? 
+	- @headingsResponse.each do |data|
+		%h2
+			=data["heading"]
+		(title count)
+
+		%dl
+			- if !data["notes"].nil?
+				%dt
+					Scope note
+				%dd
+					-data["notes"].each do |n|
+						=n
+			%dt
+				Reference info
+			%dd
+				.reference
+					-if !data["seeAlso"].nil?
+						%em
+							See also:
+						- data["seeAlso"].each do |a|
+							.see-ref
+								=a
+								=link_to "/headings/info?q=" + a + "&start=0" do
+									%span.label.label-info
+										Info
+							.author-works
+								Works by:
+								= link_to '/?q="' + a + '"&search_field=author%2Fcreator' do
+									(title count)
+							.author-works
+								Works about:
+								= link_to '/?q="' + a + '"&search_field=subject' do
+									(title count)
+			%dt
+				Headings type
+			%dd
+				=data["headingTypeDesc"]
+
+
+	
