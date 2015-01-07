@@ -30,7 +30,7 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
-      :fl => '*,score',
+# DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
 #      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
       :defType => 'edismax'
