@@ -5,15 +5,28 @@
 				.document
 					.row
 						.span1
-							1
+							(title count)
 						
 						.span7
 							= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
 								=data["heading"]
 							-if !data["seeAlso"].nil?
-								.see-ref
-									See 
-									=data["seeAlso"]	
-									(36 titles)
+								- data["seeAlso"].each do |a|
+									-a_link = a.split("|")[0]
+									-a_note = a.split('|')[1]
+									.see-ref
+										=link_to "/headings/info?q=" + a_link + "&start=0" do
+											-if a_note.present?
+												=a_note
+											%span.label.label-info
+												Info
+												
+							-if !data["preferedForm"].nil?
+								-data["preferedForm"].each do |f|
+									%p
+										See
+										= link_to "/headings/authors?q=" + f + "&start=0" do
+											=f
+										(title count)
 						.span4
 							=data["headingTypeDesc"]

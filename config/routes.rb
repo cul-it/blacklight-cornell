@@ -29,6 +29,7 @@ BlacklightCornell::Application.routes.draw do
   get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
   get '/headings/authors' => 'headings#authors', :as => 'headings_authors'
+  get '/headings/info' => 'headings#info', :as => 'headings_info'
   get '/headings' => 'headings#index', :as => 'headings_index'
   get '/headings/heading' => 'headings#show', :as => 'headings_show'
   get '/headings_subject' => 'headings#index_subject', :as => 'headings_index_subject'
