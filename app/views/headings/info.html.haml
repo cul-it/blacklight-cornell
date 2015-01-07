@@ -20,9 +20,16 @@
 						%em
 							See also:
 						- data["seeAlso"].each do |a|
+							-a_link = a.split("|")[0]
+							-a_note = a.split("|")[1]
 							.see-ref
-								=a
-								=link_to "/headings/info?q=" + a + "&start=0" do
+								- if a_note.present?
+									=a_note + ':'
+
+								- if a_note.nil?
+									See also:
+								=link_to "/headings/info?q=" + a_link + "&start=0" do
+									=a_link
 									%span.label.label-info
 										Info
 							.author-works
