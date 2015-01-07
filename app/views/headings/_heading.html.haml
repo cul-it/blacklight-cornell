@@ -1,0 +1,19 @@
+.headings-list
+	.headings-body
+		-if response.present? 
+			- response.each do |data|
+				.document
+					.row
+						.span1
+							1
+						
+						.span7
+							= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+								=data["heading"]
+							-if !data["seeAlso"].nil?
+								.see-ref
+									See 
+									=data["seeAlso"]	
+									(36 titles)
+						.span4
+							=data["headingTypeDesc"]
