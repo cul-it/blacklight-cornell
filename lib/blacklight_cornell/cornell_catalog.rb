@@ -43,7 +43,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
     # @bookmarks = current_or_guest_user.bookmarks
-
+    if (!params[:range].nil?)
+      check_dates(params)
+     Rails.logger.info("WOBBLYRULE = #{params[:range][:pub_date_facet][:begin]}")
+    end
     # params.delete("q_row")
     qparam_display = ""
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
@@ -67,7 +70,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         end
         search_session[:f] = params[:f]
     end
-      Rails.logger.info("Swetener = #{params[:format]}")
     
     #quote the call number
     if params[:search_field] == "call number"
@@ -541,6 +543,24 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     else
       0
     end
+  end
+  
+  def check_dates(params)
+    begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
+    end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
+    if begin_test.nil? or begin_test < 0
+      begin_test = 800
+    end
+    if end_test.nil? or end_test < 0
+      end_test = Time.now.year + 2
+    end
+      if begin_test > end_test
+        swap = end_test
+        end_test = begin_test
+        begin_test = swap
+      end
+      params[:range][:pub_date_facet][:begin] = begin_test
+      params[:range][:pub_date_facet][:end] = end_test      
   end
 
 end
