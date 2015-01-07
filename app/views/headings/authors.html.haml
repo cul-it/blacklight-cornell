@@ -1,0 +1,24 @@
+= render :partial => 'headings_search_form'
+.row.database-subject
+	.page-title.span12
+		.return-link
+			=link_to "/advanced/" do
+				%i.fa.fa-arrow-circle-left
+				Back to Advanced Search
+		%h2
+			
+
+- if @headingsResponse.present?
+	%h3
+		Browse " 
+		=params[:q]
+		" in author headings
+	-start = Integer(params[:start]) + 20
+	-start = start.to_s
+	= link_to "/headings/authors?q=" + params[:q] + "&start=" + start do
+		Next
+	= render 'heading', :response => @headingsResponse
+
+- else
+	%h2
+		No results

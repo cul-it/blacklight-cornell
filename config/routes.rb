@@ -28,12 +28,13 @@ BlacklightCornell::Application.routes.draw do
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
-
-  match '/headings' => 'headings#index', :as => 'headings_index'
-  match '/headings/heading' => 'headings#show', :as => 'headings_show'
-  match '/headings_subject' => 'headings#index_subject', :as => 'headings_index_subject'
-  match '/headings/heading_subject' => 'headings#show_subject', :as => 'headings_show_subject'
-  match '/headings_authortitle' => 'headings#index_authortitle', :as => 'headings_index_authortitle'
+  get '/headings/authors' => 'headings#authors', :as => 'headings_authors'
+  get '/headings' => 'headings#index', :as => 'headings_index'
+  get '/headings/heading' => 'headings#show', :as => 'headings_show'
+  get '/headings_subject' => 'headings#index_subject', :as => 'headings_index_subject'
+  get '/headings/heading_subject' => 'headings#show_subject', :as => 'headings_show_subject'
+  get '/headings_authortitle' => 'headings#index_authortitle', :as => 'headings_index_authortitle'
+  
 
   get '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
   get '/databases' => 'databases#index', :as => 'databases_index'
