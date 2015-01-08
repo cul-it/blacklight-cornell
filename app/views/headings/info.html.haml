@@ -28,7 +28,6 @@
 								-else
 									-@seeAlsoResponseFull = eval("Could not find")
 								-@seeAlsoResponse = @seeAlsoResponseFull['response']['docs']
-								=@seeAlsoResponse.inspect
 								.see-ref
 									- if a_note.present?
 										=a_note + ':'
@@ -38,8 +37,7 @@
 									=link_to "/headings/authors?q=" + a_link + "&start=0" do
 										=a_link.gsub!('%20', ' ')
 								-@seeAlsoResponse.each do |sa|
-									=sa["seeAlso"]
-									=sa["notes"]
+									
 									-unless sa["seeAlso"].blank? && sa["notes"].blank?
 										=link_to "/headings/info?q=" + a_link + "&start=0" do
 											%span.label.label-info
