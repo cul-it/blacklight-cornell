@@ -10,7 +10,7 @@
 						.span7
 							= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
 								=data["heading"]
-							-if !data["seeAlso"].nil?
+							-if !data["seeAlso"].nil? || !data["notes"].nil?
 								.see-ref
 									=link_to '/headings/info?q=' + data["heading"] do
 										%span.label.label-info
