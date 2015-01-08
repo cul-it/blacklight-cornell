@@ -11,12 +11,12 @@ ECHO = $(ECHO1:0=@echo)
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/local/rvm/rubies/ruby-2.1.2/include/ruby-2.1.0
+topdir = /usr/local/rvm/rubies/ruby-2.1.5/include/ruby-2.1.0
 hdrdir = $(topdir)
-arch_hdrdir = /usr/local/rvm/rubies/ruby-2.1.2/include/ruby-2.1.0/x86_64-linux
+arch_hdrdir = /usr/local/rvm/rubies/ruby-2.1.5/include/ruby-2.1.0/x86_64-linux
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/usr/local/rvm/rubies/ruby-2.1.2
+prefix = $(DESTDIR)/usr/local/rvm/rubies/ruby-2.1.5
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -30,8 +30,8 @@ rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendordir = $(rubylibprefix)/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20141208-15677-13614j4
-sitelibdir = $(DESTDIR)./.gem.20141208-15677-13614j4
+sitearchdir = $(DESTDIR)./.gem.20150107-17784-1cb5txa
+sitelibdir = $(DESTDIR)./.gem.20150107-17784-1cb5txa
 sitedir = $(rubylibprefix)/site_ruby
 rubyarchdir = $(rubylibdir)/$(arch)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -82,11 +82,11 @@ CFLAGS   = $(CCDLFLAGS) $(cflags)  -fPIC -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1
   $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS = -DHAVE_YAZ_ZOOM_H  $(DEFS) $(cppflags)
+CPPFLAGS = -DHAVE_YAZ_ZOOM_H  -I/usr/local/rvm/usr/include $(DEFS) $(cppflags)
 CXXFLAGS = $(CCDLFLAGS) $(cxxflags) $(ARCH_FLAG)
-ldflags  = -L. -fstack-protector -rdynamic -Wl,-export-dynamic -lyaz -lexslt -lxslt -lz -lm -lgcrypt -ldl -lgpg-error -lxml2 -lpthread
+ldflags  = -L. -fstack-protector -rdynamic -Wl,-export-dynamic -L/usr/local/rvm/usr/lib  -Wl,-R/usr/local/rvm/usr/lib  -lyaz -lexslt -lxslt -lz -lm -lgcrypt -ldl -lgpg-error -lxml2 -lpthread
  
-dldflags =  
+dldflags = -L/usr/local/rvm/usr/lib  -Wl,-R/usr/local/rvm/usr/lib  
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
 LDSHARED = $(CC) -shared
@@ -122,8 +122,8 @@ TOUCH = exit >
 
 preload = 
 
-libpath = . $(libdir)
-LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir)
+libpath = . $(libdir) /usr/local/rvm/usr/lib
+LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir) -L/usr/local/rvm/usr/lib -Wl,-R/usr/local/rvm/usr/lib
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -135,9 +135,9 @@ extout_prefix =
 target_prefix = 
 LOCAL_LIBS = 
 LIBS = $(LIBRUBYARG_SHARED)  -lpthread -lrt -ldl -lcrypt -lm   -lc
-ORIG_SRCS = rbzoom.c rbzoompackage.c rbzoomoptions.c rbzoomrecord.c rbzoomresultset.c rbzoomconnection.c rbzoomquery.c
+ORIG_SRCS = rbzoomresultset.c rbzoompackage.c rbzoomrecord.c rbzoomquery.c rbzoom.c rbzoomconnection.c rbzoomoptions.c
 SRCS = $(ORIG_SRCS) 
-OBJS = rbzoom.o rbzoompackage.o rbzoomoptions.o rbzoomrecord.o rbzoomresultset.o rbzoomconnection.o rbzoomquery.o
+OBJS = rbzoomresultset.o rbzoompackage.o rbzoomrecord.o rbzoomquery.o rbzoom.o rbzoomconnection.o rbzoomoptions.o
 HDRS = $(srcdir)/rbzoom.h
 TARGET = zoom
 TARGET_NAME = zoom
