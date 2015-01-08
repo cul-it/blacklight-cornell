@@ -1,5 +1,4 @@
 -if @headingsResponse.present? 
-	-@headingsResponse.inspect
 	- @headingsResponse.each do |data|
 		%h2
 			=data["heading"]
@@ -16,30 +15,43 @@
 				Reference info
 			%dd
 				.reference
-					-if !data["seeAlso"].nil?
-						%em
-							See also:
-						- data["seeAlso"].each do |a|
-							-a_link = a.split("|")[0]
-							-a_note = a.split("|")[1]
-							.see-ref
-								- if a_note.present?
-									=a_note + ':'
+					-if !data["seeAlso"].nil?  
+						-if data["seeAlso"].present?
+							- data["seeAlso"].each do |a|
+								-a_link = a.split("|")[0]
+								-a_note = a.split("|")[1]
+								-aq = a_link.gsub!(' ', '%20')
+								-refclnt = HTTPClient.new
+								-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a3/authors?q="' + aq + '"' )
+								-if !@seeAlsoResultString.nil?
+									-@seeAlsoResponseFull = eval(@seeAlsoResultString)
+								-else
+									-@seeAlsoResponseFull = eval("Could not find")
+								-@seeAlsoResponse = @seeAlsoResponseFull['response']['docs']
+								=@seeAlsoResponse.inspect
+								.see-ref
+									- if a_note.present?
+										=a_note + ':'
 
-								- if a_note.nil?
-									See also:
-								=link_to "/headings/info?q=" + a_link + "&start=0" do
-									=a_link
-									%span.label.label-info
-										Info
-							.author-works
-								Works by:
-								= link_to '/?q="' + a + '"&search_field=author%2Fcreator' do
-									(title count)
-							.author-works
-								Works about:
-								= link_to '/?q="' + a + '"&search_field=subject' do
-									(title count)
+									- if a_note.nil?
+										See also:
+									=link_to "/headings/authors?q=" + a_link + "&start=0" do
+										=a_link.gsub!('%20', ' ')
+								-@seeAlsoResponse.each do |sa|
+									=sa["seeAlso"]
+									=sa["notes"]
+									-unless sa["seeAlso"].blank? && sa["notes"].blank?
+										=link_to "/headings/info?q=" + a_link + "&start=0" do
+											%span.label.label-info
+												Info
+								.author-works
+									Works by:
+									= link_to '/?q="' + a_link + '"&search_field=author%2Fcreator' do
+										(title count)
+								.author-works
+									Works about:
+									= link_to '/?q="' + a_link + '"&search_field=subject' do
+										(title count)
 			%dt
 				Headings type
 			%dd
