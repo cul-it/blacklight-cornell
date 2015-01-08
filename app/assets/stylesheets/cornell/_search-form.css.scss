@@ -91,3 +91,43 @@ div.search-tools > h2 {line-height: 1em}
 }
 h2.advanced-search { margin: 0; }
 .advanced-facets { margin-bottom: 10px; }
+
+// Search navigation/tabs
+.nav-search {
+  margin-bottom: 0;
+  border-bottom: 0;
+  li {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 4px 8px;
+    a {
+      padding: 0;
+      border: 0;
+    }
+    a:hover {
+      background: inherit;
+    }
+  }
+  .active {
+    background: $light-tan;
+    border: 1px solid #dedad3;
+    border-bottom: 1px solid $light-tan;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    margin-bottom: -5px;
+    font-weight: 700;
+    color: $medium-gray;
+  }
+  .tips-link {
+    float: right;
+  }
+  li:first-child {
+    margin-right: 10px;
+  }
+}
+
+// add some custom styles to the search well
+.well-search {
+  box-shadow: none;
+  padding-top: 30px;
+}
