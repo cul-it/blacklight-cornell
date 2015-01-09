@@ -12,7 +12,7 @@
 								=data["heading"]
 							-if !data["seeAlso"].nil? || !data["notes"].nil?
 								.see-ref
-									=link_to '/browse/info?q=' + data["heading"] do
+									=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
 										%span.label.label-info
 											Info
 												
@@ -20,7 +20,7 @@
 								-data["preferedForm"].each do |f|
 									%p
 										See
-										= link_to "/browse/authors?q=" + f + "&start=0" do
+										= link_to "/browse?q=" + f + "&start=0" +"&browse_type=" + params[:browse_type]do
 											=f
 										(title count)
 						.span4

@@ -17,9 +17,14 @@
 		Browse " 
 		=params[:q]
 		" in author headings
-	-start = Integer(params[:start]) + 20
-	-start = start.to_s
-	= link_to "/browse/authors?q=" + params[:q] + "&start=" + start do
+	-nextpage = Integer(params[:start]) + 20
+	-nextpage = nextpage.to_s
+	-previous = Integer(params[:start]) - 20
+	-previous = previous.to_s
+	- if Integer(params[:start]) > 0
+		= link_to "/browse?q=" + params[:q] + "&start=" + previous +"&browse_type=" + params[:browse_type] do
+			Previous |
+	= link_to "/browse?q=" + params[:q] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] do
 		Next
 	= render 'heading', :response => @headingsResponse
 

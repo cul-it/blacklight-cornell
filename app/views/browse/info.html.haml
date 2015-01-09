@@ -34,12 +34,12 @@
 
 									- if a_note.nil?
 										See also:
-									=link_to "/browse/authors?q=" + a_link + "&start=0" do
+									=link_to "/browse?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type] do
 										=a_link.gsub!('%20', ' ')
 								-@seeAlsoResponse.each do |sa|
 									
 									-unless sa["seeAlso"].blank? && sa["notes"].blank?
-										=link_to "/browse/info?q=" + a_link + "&start=0" do
+										=link_to "/browse/info?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type]do
 											%span.label.label-info
 												Info
 								.author-works
