@@ -28,13 +28,13 @@ BlacklightCornell::Application.routes.draw do
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
-  get '/headings/authors' => 'headings#authors', :as => 'headings_authors'
-  get '/headings/info' => 'headings#info', :as => 'headings_info'
-  get '/headings' => 'headings#index', :as => 'headings_index'
-  get '/headings/heading' => 'headings#show', :as => 'headings_show'
-  get '/headings_subject' => 'headings#index_subject', :as => 'headings_index_subject'
-  get '/headings/heading_subject' => 'headings#show_subject', :as => 'headings_show_subject'
-  get '/headings_authortitle' => 'headings#index_authortitle', :as => 'headings_index_authortitle'
+  get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
+  get '/browse/info' => 'browse#info', :as => 'browse_info'
+  get '/browse' => 'browse#index', :as => 'browse_index'
+  get '/browse/heading' => 'browse#show', :as => 'browse_show'
+  get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
+  get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
+  get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
   
 
   get '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
