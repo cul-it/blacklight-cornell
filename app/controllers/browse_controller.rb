@@ -1,15 +1,12 @@
 # -*- encoding : utf-8 -*-
-class HeadingsController < ApplicationController
+class BrowseController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   #include BlacklightUnapi::ControllerExtension
 
-    def authors
-      if params[:q].nil? or params[:q] == ""
-        flash.now[:error] = "Please enter a query."
-        render "index"
-      end
-      if !params[:q].nil? and params[:q] != ""
+    def index
+
+      if !params[:q].nil? and params[:q] != "" and params[:browse_type] == "Author"
         #Rails.logger.info("Petunia1 = #{params[:q]}")
         #params[:q].gsub!(' ','%20')
         #Rails.logger.info("Petunia2 = #{params[:q]}")

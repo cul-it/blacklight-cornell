@@ -1,0 +1,32 @@
+
+= render :partial => 'headings_search_form'
+- if params[:q].nil?
+	=render :partial => 'headings_text'
+
+- if @headingsResponse.present?
+	.row.database-subject
+		.page-title.span12
+			.return-link
+				=link_to "/browse/" do
+					%i.fa.fa-arrow-circle-left
+					Back to Browse
+			
+
+- if @headingsResponse.present?
+	%h3
+		Browse " 
+		=params[:q]
+		" in author headings
+	-start = Integer(params[:start]) + 20
+	-start = start.to_s
+	= link_to "/browse/authors?q=" + params[:q] + "&start=" + start do
+		Next
+	= render 'heading', :response => @headingsResponse
+
+- if !params[:q].blank? && @headingsResponse.blank? && params[:browse_type].present?
+	%h2
+		No results
+
+- if params[:browse_type].present? && @headingsResponse.blank? && params[:q].blank?
+	%h2
+		Please enter a query

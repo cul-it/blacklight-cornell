@@ -2,9 +2,9 @@
 .row.database-subject
 	.page-title.span12
 		.return-link
-			=link_to "/advanced/" do
+			=link_to "/browse/" do
 				%i.fa.fa-arrow-circle-left
-				Back to Advanced Search
+				Back to Browse
 		%h2
 			
 
@@ -15,7 +15,7 @@
 		" in author headings
 	-start = Integer(params[:start]) + 20
 	-start = start.to_s
-	= link_to "/headings/authors?q=" + params[:q] + "&start=" + start do
+	= link_to "/browse/authors?q=" + params[:q] + "&start=" + start do
 		Next
 	= render 'heading', :response => @headingsResponse
 
