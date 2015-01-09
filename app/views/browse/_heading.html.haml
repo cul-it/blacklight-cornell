@@ -20,8 +20,8 @@
 								-data["preferedForm"].each do |f|
 									%p
 										See
-										= link_to "/browse?q=" + f + "&start=0" +"&browse_type=" + params[:browse_type]do
-											=f
+										= link_to "/browse?q=" + f.split("|")[0] + "&start=0" +"&browse_type=" + params[:browse_type]do
+											=f.split("|")[0]
 										(title count)
 						.span4
 							=data["headingTypeDesc"]
