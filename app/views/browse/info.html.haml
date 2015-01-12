@@ -1,8 +1,13 @@
 -if @headingsResponse.present? 
+	.return-link
+		=link_to "/browse/" do
+			%i.fa.fa-arrow-circle-left
+			Back to list
 	- @headingsResponse.each do |data|
 		%h2
 			=data["heading"]
-		(title count)
+		.titles-count
+			(n titles)
 
 		%dl
 			- if !data["notes"].nil?
@@ -28,14 +33,15 @@
 								-else
 									-@seeAlsoResponseFull = eval("Could not find")
 								-@seeAlsoResponse = @seeAlsoResponseFull['response']['docs']
-								.see-ref
-									- if a_note.present?
+								- if a_note.present?
+									.reference-note
 										=a_note + ':'
 
-									- if a_note.nil?
+								- if a_note.nil?
+									.reference-note
 										See also:
-									=link_to "/browse?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type] do
-										=a_link.gsub!('%20', ' ')
+								=link_to "/browse?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type] do
+									=a_link.gsub!('%20', ' ')
 								-@seeAlsoResponse.each do |sa|
 									
 									-unless sa["seeAlso"].blank? && sa["notes"].blank?

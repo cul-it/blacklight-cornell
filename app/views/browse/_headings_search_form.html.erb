@@ -14,7 +14,7 @@
           <div class="row-fluid">
             <div class="search-options span6">
               <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-                <%= text_field_tag :q, params[:q], :placeholder => 'Clemens, Samuel', :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+                <%= text_field_tag :q, params[:q], :placeholder => 'Browse', :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
                 <%= hidden_field_tag :start, params[:start], :value => '0', :id => "start" %>            </div>
 
               <label for="browse_type" class="hide-text">Browse Type</label>
