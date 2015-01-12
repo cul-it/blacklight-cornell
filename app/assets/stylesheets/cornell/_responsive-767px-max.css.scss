@@ -200,4 +200,18 @@
 	.advanced {
 		.input_row > input { width: 30%; }
 	}
+	// Headings
+	//----------------------------
+	.see-ref {
+		margin-left: 0;
+	}
+	.heading-type {
+		margin-top: 5px;
+	}
+	body.blacklight-browse {
+		h2 {
+			line-height: 1.25em;
+			margin-bottom: 1em;
+		}
+	}
 }

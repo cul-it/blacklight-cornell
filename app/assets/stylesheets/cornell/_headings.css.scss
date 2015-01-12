@@ -1,7 +1,7 @@
 // Headings list view
 // ------------------------------------------
 
-body.blacklight-headings {
+body.blacklight-browse {
 	.headings-list {
 		margin: 20px 0;
 	}
@@ -15,25 +15,42 @@ body.blacklight-headings {
 	.headings-body {
 		.document {
 			border-bottom: 1px solid $light-tan;
-			padding: 5px 0;
-			// font-size: .875em;
+			padding: .4em 0;
 		}
 		.label { margin-left: 5px; }
 	}
+	.results-count {
+		float: none;
+	}
 } 
 .see-ref { 
-	margin: 3px 0 0 20px;
-	// display: inline-block;
+	margin: 5px 0 0 20px;
+	// font-style: italic;
+	font-size: .875em;
+	color: $medium-gray;
+	a {
+		font-style: normal;
+	}
+	i {
+		color: $light-gray;
+		font-size: 90%;
+	}
 }
 .see-ref-count { 
 	color: $medium-gray;
 	font-size: .875em;
+	display: inline;
+	font-style: normal;
+}
+.heading-type {
+	font-size: .875em;
+	color: $medium-gray;
 }
 
 // Headings heading view
 // ------------------------------------------
-body.blacklight-headings-show,
-body.blacklight-headings-show_subject {
+body.blacklight-browse-info,
+body.blacklight-browse-show_subject {
 	.main-content {
 		padding-bottom: .5em;
 	}
@@ -42,7 +59,7 @@ body.blacklight-headings-show_subject {
 		margin-bottom: 60px;
 	}
 	dt {
-		color: $light-gray;
+		color: $medium-gray;
 		font-weight: normal;
 		font-size: .875em;
 	}
@@ -57,6 +74,10 @@ body.blacklight-headings-show_subject {
 		}
 	}
 	.reference:first-child { margin-top: 0; }
+}
+.reference-note {
+	font-style: italic;
+	font-size: .875em;
 }
 .titles-count { margin-top: -15px; }
 .author-works {
