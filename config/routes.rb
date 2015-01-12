@@ -22,13 +22,13 @@ BlacklightCornell::Application.routes.draw do
 
 #ArgumentError: Invalid route name, already in use: 'catalog_email' 
 #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here: 
-  get 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms', :via => :post
+  post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms'  #:via => :post
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
-  get '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
+  put '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
   get '/databases' => 'databases#index', :as => 'databases_index'
   get '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
   get '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
