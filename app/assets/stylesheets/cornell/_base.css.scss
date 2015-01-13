@@ -101,6 +101,10 @@ textarea {
 	text-shadow: none;
 	box-shadow: none;
 	margin-bottom: 1.5em;
+	i {
+		color: $medium-teal;
+		margin-left: 3px;
+	}
 }
 .btn-libraries:hover,
 .btn-libraries:focus {
