@@ -20,6 +20,10 @@
 				Reference info
 			%dd
 				.reference
+					-if !data["alternateForm"].nil?
+						.reference-note
+							Alternate form:
+						=data["alternateForm"][0]
 					-if !data["seeAlso"].nil?  
 						-if data["seeAlso"].present?
 							- data["seeAlso"].each do |a|
