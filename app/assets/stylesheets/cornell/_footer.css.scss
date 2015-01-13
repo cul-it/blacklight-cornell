@@ -2,7 +2,6 @@ footer {
 	color: $light-gray;
 	.container { padding: 20px 0; }
 	p { font-size: 0.875em; }
-	a { color: white; }
-	a:hover { color: $cornell-primary; }
+	a, a:hover { color: white; }
 }
 .feedback-link { text-align: right; }

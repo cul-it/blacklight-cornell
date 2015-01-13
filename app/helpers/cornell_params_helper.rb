@@ -186,7 +186,7 @@ module CornellParamsHelper
   end
   else
 #     solr_parameters[:q] = my_params[:q]
-    if params[:search_field] == "call number" and !my_params[:q].include?('"') and !my_params[:q].nil?
+    if params[:search_field] == "call number" and !my_params[:q].nil? and !my_params[:q].include?('"')
       params[:q] = '"' + my_params[:q] + '"'
     end
     solr_search_params_logic.each do |method_name|
@@ -448,6 +448,9 @@ module CornellParamsHelper
            testString = "No Call Number"
          else
            testString = myhash["callnos"][0]
+           if testString == '' or testString.nil?
+             testString = "No Call Number, possibly still on order."
+           end
          end
          if i == breakerlength - 1
            @recordCallNumArray << testString + " || "
