@@ -91,3 +91,19 @@ textarea {
 		}
 	}
 }
+
+// CUL button style
+.btn-libraries {
+	background: #16524d;
+	color: white;
+	border-radius: 0;
+	border-color: #16524d;
+	text-shadow: none;
+	box-shadow: none;
+	margin-bottom: 1.5em;
+}
+.btn-libraries:hover,
+.btn-libraries:focus {
+	background: #16524d;
+	color: white;
+}

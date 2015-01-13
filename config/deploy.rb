@@ -8,11 +8,11 @@ set :scm_verbose, true
 #set :user, "es287"
 set :user, "rails"
 set :default_environment, {
-  'PATH' => "/usr/local/rvm/gems/ruby-1.9.3-p194/bin:/usr/local/rvm/gems/ruby-1.9.3-p194@global/bin:/usr/local/rvm/rubies/ruby-1.9.3-p194/bin:/usr/local/rvm/bin:$PATH",
-  'RUBY_VERSION' => "ruby 1.9.3-p194",
-  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-1.9.3-p194",
-  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-1.9.3-p194:/usr/local/rvm/gems/ruby-1.9.3-p194@global",
-  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-1.9.3-p194@global/gems/bundler-1.3.5/"  # If you are using bundler.
+  'PATH' => "/usr/local/rvm/gems/ruby-2.1.5/bin:/usr/local/rvm/gems/ruby-2.1.5@global/bin:/usr/local/rvm/rubies/ruby-2.1.5/bin:/usr/local/rvm/bin:$PATH",
+  'RUBY_VERSION' => "ruby 2.1.5",
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.1.5",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.1.5:/usr/local/rvm/gems/ruby-2.1.5@global",
+#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.1.5@global/gems/bundler-1.3.5/",  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 #Deploy to may vary depending on target stage
@@ -29,7 +29,7 @@ set :bundle_flags,    "--local --deployment "
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
-set :stages, ["development", "staging", "production"]
+set :stages, ["integration","development", "staging", "production"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
 

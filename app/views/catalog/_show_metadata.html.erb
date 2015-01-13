@@ -4,7 +4,7 @@
     <div class="row">
       <div class="cover span2">
         <div class="iconcover bookcover" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
-          <img class="img-polaroid" src="/assets/cornell/layout/placeholder-item.png" alt="">
+          <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-polaroid",  alt: "" %>
           <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
       </div>
