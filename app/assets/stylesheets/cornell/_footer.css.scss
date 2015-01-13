@@ -1,7 +1,98 @@
 footer {
 	color: $light-gray;
-	.container { padding: 20px 0; }
-	p { font-size: 0.875em; }
-	a, a:hover { color: white; }
+	border-top: 10px solid #16524d;
+	.container {
+		padding: 0 0 20px 0;
+	}
+	p {
+		font-size: 0.75em;
+	}
+	a, a:hover {
+		color: white;
+	}
 }
 .feedback-link { text-align: right; }
+
+.footer-copyright {
+	padding-top: 1.5em;
+	border-top: 1px solid #2d2d2d;
+	margin-top: em;
+}
+.social-links {
+	text-align: right;
+}
+.footer-nav {
+	margin-top: .25em;
+	margin-bottom: 1.5em;
+	overflow: hidden;
+	li {
+		float: left;
+		font-size: .75em;
+		border-left: 1px solid $medium-gray;
+		i {
+			margin-right: 4px;
+		}
+	}
+	li:first-child {
+		border-left: 0;
+		a {
+			padding-left: 0;
+		}
+	}
+	a {
+		padding: 0 10px;
+	}
+	a:hover, a:focus {
+		background: inherit !important;
+		text-decoration: underline !important;
+	}
+}
+
+.libraries-list {
+	padding: 0 0 2em;
+	.row {
+		margin-left: 0;
+	}
+	.libraries-collapse.in {
+		padding: 2em;
+	}
+	.libraries-collapse {
+		background: #2d2d2d;
+		overflow: hidden;
+		ul {
+			list-style: none;
+			padding-left: 0;
+			margin-bottom: 0;
+			margin-left: 0;
+		}
+		li { 
+			line-height: 1.5em;
+			padding-bottom: .5em;
+			font-size: 12px;
+		}
+		a:hover { background: #2d2d2d; }
+	}
+	.btn-libraries {
+		margin-bottom: 0;
+	}
+	.btn-libraries:focus, .btn-libraries:active {
+		box-shadow: none;
+	}
+}
+.libraries-group {
+	margin-left: 0;
+}
+footer {
+	h3 {
+		text-transform: uppercase;
+		font-size: 11px;
+		margin: 0;
+	}
+}
+.social-links {
+	i { 
+		font-size: 40px;
+	}
+	a { color: $medium-gray; }
+	.facebook-button { margin-right: 5px; }
+}
