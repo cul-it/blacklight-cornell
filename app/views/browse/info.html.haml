@@ -1,6 +1,6 @@
 -if @headingsResponse.present? 
 	.return-link
-		=link_to "/browse/" do
+		=link_to "/browse?q=" + params[:q] + "&browse_type=" + params[:browse_type] + "&start=0"do
 			%i.fa.fa-arrow-circle-left
 			Back to list
 	- @headingsResponse.each do |data|
@@ -27,7 +27,7 @@
 								-a_note = a.split("|")[1]
 								-aq = a_link.gsub!(' ', '%20')
 								-refclnt = HTTPClient.new
-								-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a3/authors?q="' + aq + '"' )
+								-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a7/authors?q="' + aq + '"' )
 								-if !@seeAlsoResultString.nil?
 									-@seeAlsoResponseFull = eval(@seeAlsoResultString)
 								-else

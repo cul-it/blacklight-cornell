@@ -26,6 +26,8 @@
 			- if Integer(params[:start]) > 0
 				= link_to "/browse?q=" + params[:q] + "&start=" + previous +"&browse_type=" + params[:browse_type] do
 					&laquo; Previous | 
+			- else 
+				&laquo; Previous | 
 			= link_to "/browse?q=" + params[:q] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] do
 				Next &raquo;
 	= render 'heading', :response => @headingsResponse
