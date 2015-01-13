@@ -20,10 +20,7 @@
 				Reference info
 			%dd
 				.reference
-					-if !data["alternateForm"].nil?
-						.reference-note
-							Alternate form:
-						=data["alternateForm"][0]
+					
 					-if !data["seeAlso"].nil?  
 						-if data["seeAlso"].present?
 							- data["seeAlso"].each do |a|
@@ -60,6 +57,12 @@
 									Works about:
 									= link_to '/?q="' + a_link + '"&search_field=subject' do
 										(title count)
+					-if !data["alternateForm"].nil?
+						.reference-note
+							Alternate form(s):
+						-data["alternateForm"].each do |af|
+							.alternate-form
+								=af
 			%dt
 				Headings type
 			%dd
