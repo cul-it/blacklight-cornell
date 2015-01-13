@@ -87,47 +87,47 @@ ActiveRecord::Schema.define(version: 20141205183450) do
     t.string  "All_Rights_Reserved_Indicator",                    limit: 16
     t.string  "Citation_Requirement_Detail",                      limit: 256
     t.string  "Digitally_Copy",                                   limit: 256
-    t.string  "Digitally_Copy_Note",                              limit: 256
+    t.text    "Digitally_Copy_Note"
     t.string  "Print_Copy",                                       limit: 256
-    t.string  "Print_Copy_Note",                                  limit: 256
+    t.text    "Print_Copy_Note"
     t.string  "Scholarly_Sharing",                                limit: 128
-    t.string  "Scholarly_Sharing_Note",                           limit: 256
+    t.text    "Scholarly_Sharing_Note"
     t.string  "Distance_Learning",                                limit: 128
-    t.string  "Distance_Learning_Note",                           limit: 256
+    t.text    "Distance_Learning_Note"
     t.string  "ILL_General",                                      limit: 256
     t.string  "ILL_Secure_Electronic",                            limit: 256
     t.string  "ILL_Electronic_email",                             limit: 256
     t.string  "ILL_Record_Keeping",                               limit: 128
     t.text    "ILL_Record_Keeping_Note"
     t.string  "Course_Reserve",                                   limit: 128
-    t.string  "Course_Reserve_Note",                              limit: 256
+    t.text    "Course_Reserve_Note"
     t.string  "Electronic_Link",                                  limit: 128
-    t.string  "Electronic_Link_Note",                             limit: 256
+    t.text    "Electronic_Link_Note"
     t.string  "Course_Pack_Print",                                limit: 128
     t.string  "Course_Pack_Electronic",                           limit: 128
-    t.string  "Course_Pack_Note",                                 limit: 256
+    t.text    "Course_Pack_Note"
     t.string  "Remote_Access",                                    limit: 128
-    t.string  "Remote_Access_Note",                               limit: 256
-    t.string  "Other_Use_Restrictions_Staff_Note",                limit: 256
-    t.string  "Other_Use_Restrictions_Public_Note",               limit: 256
+    t.text    "Remote_Access_Note"
+    t.text    "Other_Use_Restrictions_Staff_Note"
+    t.text    "Other_Use_Restrictions_Public_Note"
     t.string  "Perpetual_Access_Right",                           limit: 128
     t.text    "Perpetual_Access_Note"
     t.string  "Perpetual_Access_Holdings",                        limit: 256
     t.string  "Licensee_Termination_Right",                       limit: 128
     t.string  "Licensee_Termination_Condition",                   limit: 128
-    t.string  "Licensee_Termination_Note",                        limit: 256
+    t.text    "Licensee_Termination_Note"
     t.string  "Licensee_Notice_Period_For_Termination_Number",    limit: 128
     t.string  "Licensee_Notice_Period_For_Termination_Unit",      limit: 128
     t.string  "Licensor_Termination_Right",                       limit: 128
     t.string  "Licensor_Termination_Condition",                   limit: 128
-    t.string  "Licensor_Termination_Note",                        limit: 256
+    t.text    "Licensor_Termination_Note"
     t.string  "Licensor_Notice_Period_For_Termination_Number",    limit: 128
     t.string  "Licensor_Notice_Period_For_Termination_Unit",      limit: 256
-    t.string  "Termination_Right_Note",                           limit: 256
+    t.text    "Termination_Right_Note"
     t.string  "Termination_Requirements",                         limit: 256
-    t.string  "Termination_Requirements_Note",                    limit: 256
-    t.string  "Terms_Note",                                       limit: 256
-    t.string  "Local_Use_Terms_Note",                             limit: 256
+    t.text    "Termination_Requirements_Note"
+    t.text    "Terms_Note"
+    t.text    "Local_Use_Terms_Note"
     t.string  "Governing_Law",                                    limit: 256
     t.string  "Governing_Jurisdiction",                           limit: 256
     t.string  "Applicable_Copyright_Law",                         limit: 256
@@ -143,12 +143,12 @@ ActiveRecord::Schema.define(version: 20141205183450) do
     t.string  "Pre_Print_Archive_Conditions",                     limit: 256
     t.string  "Pre_Print_Archive_Restrictions_Number",            limit: 128
     t.string  "Pre_Print_Archive_Restrictions_Unit",              limit: 128
-    t.string  "Pre_Print_Archive_Note",                           limit: 256
+    t.text    "Pre_Print_Archive_Note"
     t.string  "Post_Print_Archive_Allowed",                       limit: 128
     t.string  "Post_Print_Archive_Conditions",                    limit: 256
     t.string  "Post_Print_Archive_Restrictions_Number",           limit: 128
     t.string  "Post_Print_Archive_Restrictions_Unit",             limit: 128
-    t.string  "Post_Print_Archive_Note",                          limit: 256
+    t.text    "Post_Print_Archive_Note"
     t.string  "Incorporation_Of_Images_Figures_And_Tables_Right", limit: 256
     t.text    "Incorporation_Of_Images_Figures_And_Tables_Note"
     t.string  "Public_Performance_Right",                         limit: 256
