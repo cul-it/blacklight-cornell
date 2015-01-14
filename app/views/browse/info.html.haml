@@ -26,7 +26,7 @@
 							- data["seeAlso"].each do |a|
 								-a_link = a.split("|")[0]
 								-a_note = a.split("|")[1]
-								-aq = a_link.gsub(' ', '%20')
+								-aq = URI::encode(a_link)
 								-refclnt = HTTPClient.new
 								-if params[:browse_type] == "Author"
 									-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a7/authors?q="' + aq + '"' )

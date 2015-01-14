@@ -49,7 +49,7 @@ class BrowseController < ApplicationController
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:q] +'"}' }
 
-          @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/subjectssR?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/subjectsR?" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
           @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/subjects?" + p.to_param + '&' + start.to_param  )
