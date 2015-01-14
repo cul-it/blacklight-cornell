@@ -1,4 +1,4 @@
-/usr/local/rvm/rubies/ruby-2.1.5/bin/ruby -r ./siteconf20150107-17784-wxepec.rb extconf.rb 
+/usr/local/rvm/rubies/ruby-2.1.5/bin/ruby -r ./siteconf20150109-17288-7rhc4m.rb extconf.rb 
 checking for yaz/zoom.h... yes
 creating Makefile
 
@@ -15,5 +15,5 @@ compiling rbzoomoptions.c
 linking shared-object zoom.so
 
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 zoom.so ./.gem.20150107-17784-1cb5txa
+/usr/bin/install -c -m 0755 zoom.so ./.gem.20150109-17288-19ri4dh
 installing default zoom libraries
