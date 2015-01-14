@@ -17,19 +17,8 @@
 		Browse "
 		=params[:q]
 		" in author headings
-	-nextpage = Integer(params[:start]) + 20
-	-nextpage = nextpage.to_s
-	-previous = Integer(params[:start]) - 20
-	-previous = previous.to_s
-	.results-info
-		.results-count
-			- if Integer(params[:start]) > 0
-				= link_to "/browse?q=" + params[:q] + "&start=" + previous +"&browse_type=" + params[:browse_type] do
-					&laquo; Previous | 
-			- else 
-				&laquo; Previous | 
-			= link_to "/browse?q=" + params[:q] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] do
-				Next &raquo;
+	=render 'pagination'
+
 	= render 'heading', :response => @headingsResponse
 
 - if !params[:q].blank? && @headingsResponse.blank? && params[:browse_type].present?
