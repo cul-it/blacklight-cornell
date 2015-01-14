@@ -18,8 +18,10 @@
 		=params[:q]
 		" in author headings
 	=render 'pagination'
-
-	= render 'heading', :response => @headingsResponse
+	-if params[:order] == "reverse"
+		= render 'heading', :response => @headingsResponse.reverse
+	-else
+		= render 'heading', :response => @headingsResponse
 
 - if !params[:q].blank? && @headingsResponse.blank? && params[:browse_type].present?
 	%h2
