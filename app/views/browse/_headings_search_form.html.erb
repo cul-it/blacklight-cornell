@@ -19,7 +19,7 @@
 
               <label for="browse_type" class="hide-text">Browse Type</label>
 
-              <%= select_tag :browse_type, options_for_select(["Author","Author-Title","Subject"]) %>
+              <%= select_tag :browse_type, options_for_select(["Author","Author-Title","Subject"], params[:browse_type]) %>
 
 
             <span class="search-or-reset">

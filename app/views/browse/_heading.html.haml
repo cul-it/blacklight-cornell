@@ -15,8 +15,13 @@
 							n
 						
 						.span8
-							= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
-								=data["heading"]
+							-if params[:browse_type] == "Author"
+								= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+									=data["heading"]
+							-if params[:browse_type] == "Subject"
+								= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+									=data["heading"]
+							
 							-if !data["seeAlso"].nil? || !data["notes"].nil?
 								=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
 									%span.label.label-info

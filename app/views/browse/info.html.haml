@@ -26,9 +26,12 @@
 							- data["seeAlso"].each do |a|
 								-a_link = a.split("|")[0]
 								-a_note = a.split("|")[1]
-								-aq = a_link.gsub!(' ', '%20')
+								-aq = a_link.gsub(' ', '%20')
 								-refclnt = HTTPClient.new
-								-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a7/authors?q="' + aq + '"' )
+								-if params[:browse_type] == "Author"
+									-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a7/authors?q="' + aq + '"' )
+								-if params[:browse_type] == "Subject"
+									-@seeAlsoResultString = refclnt.get_content('http://da-dev-solr.library.cornell.edu/solr/a7/subjects?q="' + aq + '"' )
 								-if !@seeAlsoResultString.nil?
 									-@seeAlsoResponseFull = eval(@seeAlsoResultString)
 								-else
@@ -42,17 +45,18 @@
 									.reference-note
 										See also:
 								=link_to "/browse?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type] do
-									=a_link.gsub!('%20', ' ')
+									=a_link
 								-@seeAlsoResponse.each do |sa|
 									
 									-unless sa["seeAlso"].blank? && sa["notes"].blank?
 										=link_to "/browse/info?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type]do
 											%span.label.label-info
 												Info
-								.author-works
-									Works by:
-									= link_to '/?q="' + a_link + '"&search_field=author%2Fcreator' do
-										(title count)
+								- if params[:browse_type] == "Author"
+									.author-works
+										Works by:
+										= link_to '/?q="' + a_link + '"&search_field=author%2Fcreator' do
+											(title count)
 								.author-works
 									Works about:
 									= link_to '/?q="' + a_link + '"&search_field=subject' do
