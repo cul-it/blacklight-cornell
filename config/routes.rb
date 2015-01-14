@@ -28,7 +28,7 @@ BlacklightCornell::Application.routes.draw do
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
-  get '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon'
+  match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon' , :via => [:get, :post, :put ]
   get '/databases' => 'databases#index', :as => 'databases_index'
   get '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
   get '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
