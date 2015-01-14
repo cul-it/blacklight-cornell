@@ -30,7 +30,7 @@ gem 'rb-readline', '~> 0.4.2'
 gem 'net-ldap'
 #gem 'newrelic_rpm'
 gem 'nokogiri'
-
+gem 'rufus-scheduler'
 gem 'zoom', :git => 'https://github.com/bricestacey/ruby-zoom.git'
 
 
