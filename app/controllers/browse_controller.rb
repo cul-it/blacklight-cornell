@@ -13,11 +13,18 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:q] +'" TO *]' } 
+        p =  {"q" => '["' + params[:q] +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
-        @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/authors?" + p.to_param + '&' + start.to_param )
+        if params[:order] == "reverse"
+          p =  {"q" => '[* TO "' + params[:q] +'"}' }
+
+          @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/authorsR?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = @headingsResultString
+        else
+          @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/authors?" + p.to_param + '&' + start.to_param  )
+        end
         if !@headingsResultString.nil?
            @headingsResponseFull = eval(@headingsResultString)
         else
