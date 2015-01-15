@@ -99,5 +99,13 @@
 	.advanced {
 		.input_row > .input-small { width: 20%; }
 	}
+	// Headings search box
+	//----------------------------
+	.blacklight-browse {
+		#browse_type {
+			width: 63px;
+			margin-left: 1em;
+		}
+	}
 }
 
