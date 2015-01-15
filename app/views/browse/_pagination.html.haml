@@ -13,10 +13,12 @@
 		- if Integer(params[:start]) == 0
 			-if params[:order] != "reverse"
 				= link_to "/browse?q=" + params[:q] + "&start=0" +"&browse_type=" + params[:browse_type] + '&order=reverse' do
-					&laquo; Previous | 
+					&laquo; Previous 
+				| 
 			-else
 				= link_to "/browse?q=" + params[:q] + "&start=" + previous +"&browse_type=" + params[:browse_type] + '&order=reverse' do
-					&laquo; Previous | 
+					&laquo; Previous 
+				| 
 			-if params[:order] != "reverse"
 				= link_to "/browse?q=" + params[:q] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + '&order=forward' do
 					Next &raquo;
@@ -26,7 +28,8 @@
 
 		- else  
 			= link_to "/browse?q=" + params[:q] + "&start=" + previous +"&browse_type=" + params[:browse_type] +  "&order=" + params[:order] do
-				&laquo; Previous | 
+				&laquo; Previous 
+			| 
 			= link_to "/browse?q=" + params[:q] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + "&order=" + params[:order] do
 				Next &raquo;
 

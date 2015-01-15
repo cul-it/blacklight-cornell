@@ -30,3 +30,7 @@
 - if params[:browse_type].present? && @headingsResponse.blank? && params[:q].blank?
 	%h2
 		Please enter a query
+
+
+- if @headingsResponse.present?
+	=render 'pagination'
