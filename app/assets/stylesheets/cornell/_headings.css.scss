@@ -22,6 +22,14 @@ body.blacklight-browse {
 	.results-count {
 		float: none;
 	}
+	// tweak pagination styles for bottom pagination links
+	.span12 {
+		.results-info:last-child {
+			border-bottom: 0;
+			border-top: solid 5px #edebe7;
+			padding-top: .2em;
+		}
+	}
 } 
 .see-ref { 
 	margin: 5px 0 0 20px;
@@ -46,6 +54,7 @@ body.blacklight-browse {
 	font-size: .875em;
 	color: $medium-gray;
 }
+
 
 // Headings heading view
 // ------------------------------------------
