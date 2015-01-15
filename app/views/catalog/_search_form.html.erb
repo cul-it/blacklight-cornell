@@ -1,9 +1,16 @@
-<ul class="nav nav-tabs nav-search">
-  <li class="active">Search</li>
-  <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
-  <li><a href="/browse">Browse</a></li>
-  <li class="tips-link"><a href="http://www.library.cornell.edu/help/catalog">Search Tips</a></li>
-</ul>
+
+  <ul class="nav nav-tabs nav-search">
+    <% if params[:q_row].present? %>
+      <li><a href="/">Search</a></li>
+      <li class="active">Advanced Search</li>
+    <% else %>
+      <li class="active">Search</a></li>
+      <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
+    <% end %>
+    <li><a href="/browse">Browse</a></li>
+    <li class="tips-link"><a href="http://www.library.cornell.edu/help/catalog">Search Tips</a></li>
+  </ul>
+
 
 <div class="well well-search clearfix">
   <div class="row-fluid">
@@ -46,10 +53,6 @@
             <%end %>
           <% end %>
         <% end %>
-      <% end %>
-
-      <% if params[:q_row].present? %>
-        <h2 class="advanced-search">Advanced Search</h2>
       <% end %>
 
       <%= render :partial => "constraints" %>
