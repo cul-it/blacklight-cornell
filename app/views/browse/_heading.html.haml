@@ -12,15 +12,19 @@
 				.document
 					.row
 						.span1
-							n
+							-if data["recordCount"].present?
+								=data["recordCount"]
 						
 						.span8
-							-if params[:browse_type] == "Author"
-								= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
-									=data["heading"]
-							-if params[:browse_type] == "Subject"
-								= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
-									=data["heading"]
+							-if data["recordCount"].present?
+								-if params[:browse_type] == "Author" 
+									= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+										=data["heading"]
+								-if params[:browse_type] == "Subject"
+									= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+										=data["heading"]
+							- else
+								=data["heading"]
 							
 							-if !data["seeAlso"].nil? || !data["notes"].nil?
 								=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
