@@ -6,8 +6,16 @@
 	- @headingsResponse.each do |data|
 		%h2
 			=data["heading"]
-		.titles-count
-			(n titles)
+		-if data["recordCount"].present?
+			.titles-count
+				-if params[:browse_type] == "Author" 
+					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+						=data["recordCount"]
+						Title(s)
+				-if params[:browse_type] == "Subject"
+					= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+						=data["recordCount"]
+						Title(s)
 
 		%dl
 			- if !data["notes"].nil?
