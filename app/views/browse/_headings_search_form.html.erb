@@ -1,9 +1,4 @@
-<ul class="nav nav-tabs nav-search">
-  <li><a href="/">Search</a></li>
-  <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
-  <li class="active">Browse</li>
-  <li class="tips-link"><a href="http://www.library.cornell.edu/help/catalog">Search Tips</a></li>
-</ul>
+<%= render :partial => "catalog/search_navigation" %>
 
 <div class="well well-search clearfix">
   <div class="row-fluid">

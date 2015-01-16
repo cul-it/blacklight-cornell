@@ -1,15 +1,4 @@
-
-  <ul class="nav nav-tabs nav-search">
-    <% if params[:q_row].present? %>
-      <li><a href="/">Search</a></li>
-      <li class="active">Advanced Search</li>
-    <% else %>
-      <li class="active">Search</a></li>
-      <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
-    <% end %>
-    <li><a href="/browse">Browse</a></li>
-    <li class="tips-link"><a href="http://www.library.cornell.edu/help/catalog">Search Tips</a></li>
-  </ul>
+<%= render :partial => "search_navigation" %>
 
 
 <div class="well well-search clearfix">
