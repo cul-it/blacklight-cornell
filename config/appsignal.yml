@@ -21,3 +21,7 @@ development:
 production:
   <<: *defaults
   active: true
+
+integration:
+  <<: *defaults
+  active: true
