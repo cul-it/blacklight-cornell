@@ -155,7 +155,7 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
     Given I am on the home page
-    When I fill in the search box with '"the Economist"'
+    When I fill in the search box with 'the Economist newspaper 1843'
     And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'
