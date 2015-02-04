@@ -130,12 +130,13 @@ Feature: Results list
     And it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
   # DISCOVERYACCESS-135
+  @DISCOVERYACCESS-135
   Scenario: As a user, I can see the edition of an item in the query results list.
     Given I am on the home page
     When I fill in the search box with 'Birds of the Bahamas,'
     And I press 'search'
     Then I should get results
-    And it should contain "edition" with value "[1st ed."
+    And it should contain "edition" with value "1st ed"
 
   # DISCOVERYACCESS-344
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
@@ -154,7 +155,7 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
     Given I am on the home page
-    When I fill in the search box with '"the Economist"'
+    When I fill in the search box with 'the Economist newspaper microfilm'
     And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'

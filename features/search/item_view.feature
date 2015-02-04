@@ -51,9 +51,10 @@ Feature: Item view
     Then I should see the label 'Library Annex'  
 
   # Availability simple, one location, and is NOT available 
-  @availability
+  # the black atlantic
+  @availability @due
   Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 4392584 
+    Given I request the item view for 2269649 
     Then I should see the label 'Checked out, due'  
 
   # Availability less simple, multiple locations, one copy at each. 
@@ -111,17 +112,20 @@ Feature: Item view
     Given I request the item view for 44112 
     Then I should not see the label 'Temporarily shelved'
 
+  # the black atlantic modernity and double consciousness
   @availability
   @DISCOVERYACCESS-988
+  @nomusic
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 44112 
-    Then I should not see the label 'Olin Library'
+    Given I request the item view for 2269649 
+    Then I should not see the label 'Music Library Reserve'
 
   @availability
   @DISCOVERYACCESS-988
+  @templocation
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 44112 
-    Then I should see the label 'Fine Arts Library Reserve'
+    Given I request the item view for 8635196 
+    Then I should see the label 'ILR Library Reserve'
 
   #@availability
   #@DISCOVERYACCESS-988
@@ -168,18 +172,18 @@ Feature: Item view
     Given I request the item view for 2144728 
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
 
-  # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
+  # Availability for a Missing item Sweetness and power : the place of sugar in modern history  
   @missing
   @availability 
   Scenario: As a user I can see the availability for a Missing item
-    Given I request the item view for 119162 
+    Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item  Beautiful houses (status 9)
+  # Availability for an In transit item Managerial accounting 
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 1991 
+    Given I request the item view for 8758143 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
