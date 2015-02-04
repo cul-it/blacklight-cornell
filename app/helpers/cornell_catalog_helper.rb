@@ -235,11 +235,8 @@ module CornellCatalogHelper
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after trim avail) = " + condensed_full.inspect 
     condensed_full = fix_notes(condensed_full)
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
-    #xcondensed_full = fix_temps(condensed_full)
-    #Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix temps) = " + xcondensed_full.inspect 
-    zcondensed_full = fix_permtemps(condensed_full)
-    #zcondensed_full = fix_temps(condensed_full)
-    Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix temps) = " + zcondensed_full.inspect 
+    zcondensed_full = fix_permtemps(bibid,condensed_full,response)
+    Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix perm temps) = " + zcondensed_full.inspect 
     ycondensed_full = collapse_locs(zcondensed_full)
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
     ycondensed_full
@@ -736,8 +733,11 @@ module CornellCatalogHelper
   # and it is different from the holding perm location
   # rejigger the item perm location to be the 
   # perm location 
-  def fix_permtemps(con_full)
-    Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) con_full=#{con_full.inspect}\n"
+  # use the temp location from the response though, not from the item record, as that
+  # might be out of date.
+  def fix_permtemps(bibid,con_full,response)
+    Rails.logger.debug "\nes287_debug #{__method__.to_s}: #{__FILE__} line(#{__LINE__}) con_full=#{con_full.inspect}\n"
+    Rails.logger.debug "\nes287_debug #{__method__.to_s}: #{__FILE__} line(#{__LINE__}) response=#{response.inspect}\n"
     if @document.nil?
       iarray = nil
     else
@@ -748,11 +748,46 @@ module CornellCatalogHelper
     if iarray.nil? 
       return con_full
     end
+    Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) iarray=#(iarray.inspect}\n"  
     iarray.each do |ite|
       items << JSON.parse(ite)
     end 
     Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) items=#{items}\n"  
-  # for each holding record, count the items 
+    Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) items=#{items}\n"  
+    # from response create an array of items similar to that of solr 
+    items_db = []  
+    if response[bibid] and response[bibid][bibid] and response[bibid][bibid][:records]
+     response[bibid][bibid][:records].each do |record|
+      if record[:bibid].to_s == bibid
+        record[:holdings].each do |hdb|
+              hso = {} 
+              hso['mfhd_id'] = hdb['MFHD_ID'].to_s
+              hso['item_id'] = hdb['ITEM_ID'].to_s
+              hso['perm_location'] = {} 
+              hso['perm_location']['number'] = hdb['PERM_LOCATION']
+              hso['perm_location']['code'] = hdb['PERM_LOCATION_CODE']
+              hso['perm_location']['name'] = hdb['PERM_LOCATION_DISPLAY_NAME']
+              hso['perm_location']['library'] = hdb['PERM_LOCATION_DISPLAY_NAME']
+	      if hdb['TEMP_LOCATION_ID'] != 0
+                   hso['temp_location'] = {} 
+                   hso['temp_location']['code'] = hdb['TEMP_LOCATION_CODE']
+                   hso['temp_location']['number'] = hdb['TEMP_LOCATION_ID']
+                   hso['temp_location']['name'] = hdb['TEMP_LOCATION_DISPLAY_NAME']
+                   hso['temp_location']['library'] = hdb['TEMP_LOCATION_DISPLAY_NAME']
+              end
+              items_db << hso 
+        end
+      end
+     end
+    end
+#es287_debug fix_perm: /libweb/dev/git-src/wtf/blacklight-cornell-dev2/app/helpers/cornell_catalog_helper.rb line(756) items=[{"sensitize"=>"Y", "spine_label"=>"", "magnetic_media"=>"N", "recalls_placed"=>"0", "temp_location"=>{"code"=>"uris,res", "number"=>132, "name"=>"Uris Library Reserve", "library"=>"Uris Library"}, "item_barcode"=>"31924009465034", "historical_browses"=>"12", "item_enum"=>"", "item_sequence_number"=>"1", "historical_charges"=>"55", "create_date"=>"2000-05-31 00:00:00.0", "copy_number"=>"1", "create_location_id"=>"0", "mfhd_id"=>"881500", "short_loan_charges"=>"0", "chron"=>"", "reserve_charges"=>"0", "year"=>"", "modify_location_id"=>"188", "media_type_id"=>"0", "create_operator_id"=>"", "historical_bookings"=>"0", "holds_placed"=>"0", "perm_location"=>{"code"=>"olin", "number"=>99, "name"=>"Olin Library", "library"=>"Olin Library"}, "modify_date"=>"2014-09-26 20:23:03.0", "temp_item_type_id"=>"26", "caption"=>"", "on_reserve"=>"N", "pieces"=>"1", "item_type_id"=>"3", "price"=>"0", "item_type_name"=>"book", "item_id"=>"1914113", "freetext"=>"", "modify_operator_id"=>"tbs23"}]
+
+
+#es287_debug fix_permtemps: /libweb/dev/git-src/wtf/blacklight-cornell-dev2/app/helpers/cornell_catalog_helper.rb line(768) items_db=[{"BIB_ID"=>723323, "MFHD_ID"=>881500, "ITEM_ID"=>1914113, "ITEM_STATUS"=>1, "DISPLAY_CALL_NO"=>"PR115 .G46", "LOCATION_ID"=>99, "LOCATION_CODE"=>"olin", "LOCATION_DISPLAY_NAME"=>"Olin Library", "OQUANTITY"=>nil, "ODATE"=>nil, "LINE_ITEM_STATUS"=>nil, "LINE_ITEM_ID"=>nil, "TEMP_LOCATION_DISPLAY_NAME"=>nil, "TEMP_LOCATION_CODE"=>nil, "TEMP_LOCATION_ID"=>0, "ITEM_STATUS_DATE"=>"2014-12-27T08:39:17-05:00", "PERM_LOCATION"=>99, "PERM_LOCATION_DISPLAY_NAME"=>"Olin Library", "PERM_LOCATION_CODE"=>"olin", "CURRENT_DUE_DATE"=>nil, "HOLDS_PLACED"=>0, "RECALLS_PLACED"=>0, "PO_TYPE"=>nil}]
+
+
+    Rails.logger.debug "\nes287_debug #{__method__.to_s}: #{__FILE__} line(#{__LINE__}) items_db=#{items_db.inspect}\n"
+    # for each holding record, count the items 
     cond2 = []
     items2 = Marshal.load( Marshal.dump(items) )
     con_full.each do |loc|
@@ -760,13 +795,14 @@ module CornellCatalogHelper
       Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc.inspect}\n"  
       Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc['location_name']} callnumber=#{loc['call_number']} holding_id=#{loc['holding_id'][0]}\n"  
       #select from items array those with matching mfhd_id, and count them. how many items on this mfhd?
-      im = items.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
+      # we have to check against data directly from the db as solr might be out of date.
+      im = items_db.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
       imc = im.count
       im2 = items2.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
       imc2 = im2.count
       Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
       Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{im2.count}\n"  
-      tm = im.select {|i| !i['temp_location']['code'].blank? }
+      tm = im.select {|i| i['temp_location'] && !i['temp_location']['code'].blank? }
       pm = im2.select {|i| !i['perm_location']['code'].blank? }
       Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching temp=#{tm.inspect} and count with temps= #{tm.count}\n"  
       Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching perm=#{pm.inspect} and count with perms= #{pm.count}\n"  
