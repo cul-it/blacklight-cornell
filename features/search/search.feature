@@ -95,6 +95,20 @@ Feature: Search
     And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
     And I press 'search'
     Then I should get results
-    And I should see the "fa-clock-o" class
+    And I should see the "fa-check" class
     And I should see the label 'Olin Library Maps' 
 
+  # bibid 846380 Tolkien, new critical perspectives
+  #   edited by Neil D. Isaacs & Rose A. Zimbardo
+  @search_availability_title_tolkien_critical
+  @multiple
+  @availability
+  @javascript
+  Scenario: Perform a title search and see avail icon, avail at  multiple locations 
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with 'Tolkien, new critical perspectives'
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-clock-o" class
+    And I should see the label 'Olin Library' 
