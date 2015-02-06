@@ -374,7 +374,7 @@ module DisplayHelper
     "Musical Recording" => "music",
     "Thesis" => "file-text-o",
     "Microform" => "th",
-    "Journal" => "book-open",
+    "Journal/Periodical" => "book-open",
     "Conference Proceedings" => "group",
     "Video" => "film",
     "Map or Globe" => "globe",
