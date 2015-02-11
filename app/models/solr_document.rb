@@ -32,5 +32,13 @@ class SolrDocument
                          )
 
   use_extension( Blacklight::Solr::Document::RIS )
+# see https://groups.google.com/forum/#!topic/hydra-tech/qLPqC49fhEE
+ def to_model
+    self
+  end
+
+  def persisted?
+    true
+  end
   
 end
