@@ -1,4 +1,5 @@
 module DisplayHelper
+include ActionView::Helpers::NumberHelper
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -835,7 +836,8 @@ module DisplayHelper
   # Overrides original method from facets_helper_behavior.rb
   # Renders a count value for facet limits with comma delimeter
   def render_facet_count(num)
-    content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
+    content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
+    #content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
@@ -976,5 +978,19 @@ module DisplayHelper
     content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
       link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hide-text'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
   end
+  # deprecated function from blacklight 4 that will live ons
+  def sidebar_items
+      @sidebar_items ||= []
+  end
+
+def render_head_content
+     Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+       render_stylesheet_includes +
+       render_js_includes +
+       render_extra_head_content
+     end +
+     content_for(:head)
+   end
+
 
 end
