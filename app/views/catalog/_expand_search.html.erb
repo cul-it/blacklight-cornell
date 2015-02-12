@@ -1,8 +1,8 @@
 <div class="expand-search">
 	<h4>Looking for more?</h4>
 	<ul class="icons-ul">
-		<li><i class="fa fa-arrow-right"></i><a href="<%= @expanded_results['worldcat'][:url] %>">Request from Libraries Worldwide (<%= format_num(@expanded_results['worldcat'][:count]) %>+)</a></li>
-		<li><i class="fa fa-arrow-right"></i><a href="<%= @expanded_results['summon'][:url] %>">Search Articles &amp; Full Text (<%= format_num(@expanded_results['summon'][:count]) %>)</a></li>
+		<li><i class="fa fa-arrow-right"></i><a href="<%= @expanded_results['worldcat'][:url] %>">Request from Libraries Worldwide (<%= number_with_delimiter(@expanded_results['worldcat'][:count]) %>+)</a></li>
+		<li><i class="fa fa-arrow-right"></i><a href="<%= @expanded_results['summon'][:url] %>">Search Articles &amp; Full Text (<%= number_with_delimiter(@expanded_results['summon'][:count]) %>)</a></li>
 		<li><i class="fa fa-arrow-right"></i><a href="http://www.library.cornell.edu/services/request/recommend">Recommend a Purchase</a></li>
 	</ul>
 </div>
