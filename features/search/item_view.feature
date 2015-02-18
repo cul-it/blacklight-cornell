@@ -9,13 +9,33 @@ Feature: Item view
   	Given I request the item view for 4759
   	Then I should see the label 'Request'
 
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        Then it should have link "Request" with value "/aeon/2083253"  
+
+
   # DISCOVERYACCESS-136
+  @DISCOVERYACCESS-136
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
+  @javascript 
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 1630516 
