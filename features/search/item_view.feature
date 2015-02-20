@@ -4,6 +4,13 @@ Feature: Item view
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
 
+  @allow-rescue
+  @e404
+  Scenario: goto an invalid page 
+  	When I go to literal abcdefg 
+  	Then I should see an error 
+        Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
+
   @availability
   Scenario: View an items holdings
   	Given I request the item view for 4759
