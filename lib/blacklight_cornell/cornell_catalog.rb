@@ -57,9 +57,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # Journal title search hack.
     if (params[:search_field].present? and params[:search_field] == "journal title") or (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
       if params[:f].nil?
-        params[:f] = {"format" => ["Journal"]}
+        params[:f] = {"format" => ["Journal/Periodical"]}
       end
-        params[:f].merge("format" => ["Journal"])
+        params[:f].merge("format" => ["Journal/Periodical"])
         # unless(!params[:q])
 #        params[:q] = params[:q]
         if (params[:search_field_row].present? and params[:search_field_row].index("journal title"))

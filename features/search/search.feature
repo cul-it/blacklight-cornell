@@ -41,6 +41,15 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 11'
 
+  @journaltitle
+  Scenario: Perform a search by journaltitle 
+    Given I am on the home page
+    And I select 'Journal Title' from the 'search_field' drop-down
+    And I fill in the search box with 'tetrahedron'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'of '
+
   @peabody
   Scenario: Perform a search by author, as author see results 
     Given I am on the home page
