@@ -45,19 +45,19 @@ class CatalogController < ApplicationController
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
     config.display_clickable = {
-        'author_display' => {
+        'author_cts' => {
             :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
         },
-        'author_addl_display' => {
+        'author_addl_cts' => {
             :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
         },
-        'subject_display' => {
+        'subject_cts' => {
             :search_field => 'subject',
             :sep => '|',
             :sep_index => ' ',
@@ -295,7 +295,7 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_display', :label => 'Author/Creator'
+    config.add_show_field 'author_cts', :label => 'Author/Creator'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -309,14 +309,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
-    config.add_show_field 'subject_display', :label => 'Subject'
+    config.add_show_field 'subject_cts', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
-    config.add_show_field 'author_addl_display', :label => 'Other author/creator'
+    config.add_show_field 'author_addl_cts', :label => 'Other author/creator'
     config.add_show_field 'title_series_display', :label => 'Series'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'

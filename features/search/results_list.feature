@@ -32,6 +32,23 @@ Feature: Results list
 		#Then there should be 0 search results
 		Then I should not get results
 
+	@next
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology'
+		And I press 'search'
+		Then I should get results
+                Then click on first link "Next »"
+		Then I should get results
+
+	@next_facet
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology'
+		And I press 'search'
+		Then I should get results
+                Then click on first link "See more »"
+
 	@getresults
 	Scenario: Search with results
 		Given I am on the home page
@@ -39,6 +56,12 @@ Feature: Results list
 		And I press 'search'
 		Then I should get results
 		#Then there should be at least 1 search result
+
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology'
+		And I press 'search'
+		Then I should get results
 
 		# DISCOVERYACCESS-7
 	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
