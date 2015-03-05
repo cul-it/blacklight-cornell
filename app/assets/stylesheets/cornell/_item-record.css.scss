@@ -12,7 +12,7 @@ h3.subtitle,
 h3.responsibility {
 	font-size: 1em;
 	font-weight: normal;
-	font-style: italic;
+	// font-style: italic; turn off italic because the rendering is not as clean for non-webkit diacritic characters
 	line-height: 1.2em;
 	color: $medium-gray;
 	margin-bottom: 1em;
