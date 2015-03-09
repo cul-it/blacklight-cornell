@@ -213,11 +213,11 @@ Feature: Item view
     Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item Subordinate Courts Rules Act, 1955 
+  # Availability for an In transit item Jean-Léon Gérôme (status 10) 
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 650573 
+    Given I request the item view for 114103 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
@@ -310,7 +310,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the exactly what copy is available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available 4 copies'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
