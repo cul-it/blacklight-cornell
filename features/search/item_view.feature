@@ -4,18 +4,45 @@ Feature: Item view
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
 
+  @allow-rescue
+  @e404
+  Scenario: goto an invalid page 
+  	When I go to literal abcdefg 
+  	Then I should see an error 
+        Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
+
   @availability
   Scenario: View an items holdings
   	Given I request the item view for 4759
   	Then I should see the label 'Request'
 
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        Then it should have link "Request" with value "/aeon/2083253"  
+
+
   # DISCOVERYACCESS-136
+  @DISCOVERYACCESS-136
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
+  @javascript 
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 1630516 
@@ -51,9 +78,10 @@ Feature: Item view
     Then I should see the label 'Library Annex'  
 
   # Availability simple, one location, and is NOT available 
-  @availability
+  # the black atlantic
+  @availability @due
   Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 4392584 
+    Given I request the item view for 2269649 
     Then I should see the label 'Checked out, due'  
 
   # Availability less simple, multiple locations, one copy at each. 
@@ -99,7 +127,7 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item at an overriden location but
   when all items have an overriden location that location takes over for the main location 
     Given I request the item view for 2378252 
-    Then I should see the "fa-on-site" class 2 times
+    Then I should see the "fa-on-site" class 3 times
 
   # when there is a perm location, and temp and all items for holding are at temp
   # then the temp location should be shown INSTEAD of permanent so "temporarily shelved
@@ -111,17 +139,20 @@ Feature: Item view
     Given I request the item view for 44112 
     Then I should not see the label 'Temporarily shelved'
 
+  # the black atlantic modernity and double consciousness
   @availability
   @DISCOVERYACCESS-988
+  @nomusic
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 44112 
-    Then I should not see the label 'Olin Library'
+    Given I request the item view for 2269649 
+    Then I should not see the label 'Music Library Reserve'
 
   @availability
   @DISCOVERYACCESS-988
+  @templocation
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 44112 
-    Then I should see the label 'Fine Arts Library Reserve'
+    Given I request the item view for 8635196 
+    Then I should see the label 'ILR Library Reserve'
 
   #@availability
   #@DISCOVERYACCESS-988
@@ -162,24 +193,31 @@ Feature: Item view
     Given I request the item view for 5380314  
     Then I should not see the label 'Call number'
 
+  #see holdings in Classic Catalog, but the space is just blank under “Availability” for this title in New Catalog.
+  @availability
+  @DISCOVERYACCESS-1558 
+  Scenario: As a user I can see the information about an  item when info in solr is slightly out of date
+    Given I request the item view for 8688843 
+    Then I should see the label 'HD58.7 .S633 2014'
+ 
   # Availability for a lost item, and one available. 
   @availability
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728 
     Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
 
-  # Availability for a Missing item Atlas des missions de la Société des Missions-Etrangère
+  # Availability for a Missing item Sweetness and power : the place of sugar in modern history  
   @missing
   @availability 
   Scenario: As a user I can see the availability for a Missing item
-    Given I request the item view for 119162 
+    Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item  Beautiful houses (status 9)
+  # Availability for an In transit item Jean-Léon Gérôme (status 10) 
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 1991 
+    Given I request the item view for 114103 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
@@ -255,15 +293,17 @@ Feature: Item view
     Then I should not see the label 'Library Technical Services Review Shelves'
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  # Annotated Hobbit -- two locations, 1 copy at each.
   @availability
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the exactly what copy is available 
-    Given I request the item view for 5545750
+    Given I request the item view for 1535861
     Then I should see the label '1 copy'
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  # Fundamentals of corporate finance Stephen A. Ross, Randolph W. Westerfield, Bradford D. Jordan
   @availability
   @holdings
   @DISCOVERYACCESS-1430

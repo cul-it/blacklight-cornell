@@ -6,12 +6,17 @@ Given /^I request the item holdings view for (.*?)$/ do |bibid|
   visit "/backend/holdings/#{bibid}"
 end
 
-And /^click on link "(.*?)"$/ do |link|
+Then /^click on link "(.*?)"$/ do |link|
   click_link link
 end
 
+Then /^click on first link "(.*?)"$/ do |link|
+  l = page.first('a', :text => link)
+  l.click 
+end
+
 Then /^it should contain "(.*?)" with value "(.*?)"/ do |field, author|
-  page.should have_selector(field_to(field), :text => author)
+  page.should have_selector(field_to(field), :text => author,:exact =>false )
 end
 
 Then /^it should have link "(.*?)" with value "(.*?)"/ do |field, author|

@@ -6,7 +6,7 @@
   %div.well.span8
     %h2.blacklight-title_display.item-title-request=@ti
     -if @au.present?
-      %div.request-author=@au.split('|')[1][0..-2]
+      %div.request-author=@au
     %form#req.form-horizontal{:method => 'get', :action => '/'}
       - holdings_condensed = @holdings['condensed_holdings_full']
       - if holdings_condensed.size > 0
