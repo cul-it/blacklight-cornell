@@ -20,10 +20,10 @@ class BrowseController < ApplicationController
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:q] +'"}' }
 
-          @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/authorsR?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/browse?" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/authors?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/browse?" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
            @headingsResponseFull = eval(@headingsResultString)
@@ -77,7 +77,7 @@ class BrowseController < ApplicationController
         p =  {"q" => '"' + params[:q].gsub("-"," ").gsub(/[^a-z0-9\s]/i, '') +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
-        @headingsResultString = dbclnt.get_content("http://da-dev-solr.library.cornell.edu/solr/a7/authors?" + p.to_param )
+        @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/browse?" + p.to_param )
         if !@headingsResultString.nil?
            @headingsResponseFull = eval(@headingsResultString)
         else
