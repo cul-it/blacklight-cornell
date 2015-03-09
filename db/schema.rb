@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141205183450) do
+ActiveRecord::Schema.define(version: 20150127115917) do
 
 <<<<<<< HEAD
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|

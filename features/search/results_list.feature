@@ -32,6 +32,23 @@ Feature: Results list
 		#Then there should be 0 search results
 		Then I should not get results
 
+	@next
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology'
+		And I press 'search'
+		Then I should get results
+                Then click on first link "Next »"
+		Then I should get results
+
+	@next_facet
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology'
+		And I press 'search'
+		Then I should get results
+                Then click on first link "See more »"
+
 	@getresults
 	Scenario: Search with results
 		Given I am on the home page
@@ -39,6 +56,12 @@ Feature: Results list
 		And I press 'search'
 		Then I should get results
 		#Then there should be at least 1 search result
+
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology'
+		And I press 'search'
+		Then I should get results
 
 		# DISCOVERYACCESS-7
 	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
@@ -130,12 +153,13 @@ Feature: Results list
     And it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
   # DISCOVERYACCESS-135
+  @DISCOVERYACCESS-135
   Scenario: As a user, I can see the edition of an item in the query results list.
     Given I am on the home page
     When I fill in the search box with 'Birds of the Bahamas,'
     And I press 'search'
     Then I should get results
-    And it should contain "edition" with value "[1st ed."
+    And it should contain "edition" with value "1st ed"
 
   # DISCOVERYACCESS-344
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
@@ -154,7 +178,7 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
     Given I am on the home page
-    When I fill in the search box with '"the Economist"'
+    When I fill in the search box with 'the Economist newspaper microfilm'
     And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'

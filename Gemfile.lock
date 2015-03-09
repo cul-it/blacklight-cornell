@@ -27,6 +27,15 @@ GIT
       zoom
 
 GIT
+  remote: git@github.com:cul-it/blacklight-unapi
+  revision: 7ea111503796d95adc1dcc78dfbfae88d879dd39
+  branch: rails4
+  specs:
+    blacklight_unapi (0.0.3)
+      blacklight (> 3.2)
+      rails (~> 4.0)
+
+GIT
   remote: https://github.com/bricestacey/ruby-zoom.git
   revision: 9a3787008e0385f8d9085bbfb2b27096e1bcb528
   specs:
@@ -390,6 +399,7 @@ DEPENDENCIES
   blacklight_cornell_requests!
   blacklight_google_analytics
   blacklight_range_limit
+  blacklight_unapi!
   bootstrap-sass
   capistrano
   capistrano-ext
