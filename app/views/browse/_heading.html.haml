@@ -26,7 +26,7 @@
 							- else
 								=data["heading"]
 							
-							-if !data["seeAlso"].nil? || !data["notes"].nil?
+							-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
 								=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
 									%span.label.label-info
 										Info
