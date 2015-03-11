@@ -8,6 +8,7 @@
 			=data["heading"]
 		-if data["worksBy"].present?
 			.titles-count
+
 				-if params[:browse_type] == "Author" 
 					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
 						=data["worksBy"]
@@ -80,7 +81,53 @@
 			%dt
 				Headings type
 			%dd
-				=data["headingTypeDesc"]
+				=data["headingTypeDesc"]				
+		- if data["mainEntry"] == true
+			%h3
+				Description
+			- if data["rda_place"].present?
+				%dt 
+					Place
+				%dd
+					-data["rda_place"].each do |place|
+						=place
+
+			- if data["rda_field"].present?
+				%dt
+					Field
+				%dd
+					-data["rda_field"].each do |field|
+						=field
+
+
+			- if data["rda_group_or_org"].present?
+				%dt
+					Group or Organization
+				%dd
+					-data["rda_group_or_org"].each do |org|
+						=org
+
+			- if data["rda_occupation"].present?
+				%dt
+					Occupation
+				%dd
+					-data["rda_occupation"].each do |occ|
+						.occupation
+							=occ
+
+			- if data["rda_gender"].present?
+				%dt
+					Gender
+				%dd
+					- data["rda_gender"].each do |gender|
+						=gender
+
+			- if data["rda_form_of_work"].present?
+				= data["rda_form_of_work"]
+			- if data["rda_perform_medium"].present?
+				= data["rda_perform_medium"]
+
+
 
 
 	
