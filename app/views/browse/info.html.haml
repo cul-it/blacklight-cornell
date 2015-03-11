@@ -7,7 +7,8 @@
 		%h2
 			=data["heading"]
 		-if data["worksBy"].present?
-			.titles-count
+			.author-works
+				Works by:
 
 				-if params[:browse_type] == "Author" 
 					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
@@ -17,6 +18,12 @@
 					= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
 						=data["worksBy"]
 						Title(s)
+		-if !data["worksAbout"].nil?
+			.author-works
+				Works about:
+				= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+					=data["worksAbout"] 
+					Title(s)
 
 		%dl
 			- if !data["notes"].nil?
@@ -29,7 +36,8 @@
 				Reference info
 			%dd
 				.reference
-					
+
+
 					-if !data["seeAlso"].nil?  
 						-if data["seeAlso"].present?
 							- data["seeAlso"].each do |a|
