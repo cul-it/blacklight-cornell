@@ -48,7 +48,7 @@ $wellBackground: $light-tan;
 // -------------------------
 // Protocol is intentionally absent from URL to allow browser to automatically
 // use either http or https as needed -- this is primarily to address Chrome bug
-$realBaseFontFamily:        Oxygen;        @import
+$realBaseFontFamily:        Oxygen, Helvetica, sans-serif;        @import
 url(//fonts.googleapis.com/css?family=Oxygen:400,700);
 
 // We're not setting $baseFontFamily directly to Oxygen because we need to
