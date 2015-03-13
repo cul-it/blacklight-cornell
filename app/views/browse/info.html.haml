@@ -47,7 +47,7 @@
 									-aq = URI::encode(a_link)
 									-refclnt = HTTPClient.new
 									-if params[:browse_type] == "Author"
-										-@seeAlsoResultString = refclnt.get_content('http://da-stg-ssolr.library.cornell.edu/solr/author/browse?q="' + aq + '"' )
+										-@seeAlsoResultString = refclnt.get_content('http://da-stg-ssolr.library.cornell.edu/solr/author/browse?q="' + "aq" + '"' )
 									-if params[:browse_type] == "Subject"
 										-@seeAlsoResultString = refclnt.get_content('http://da-stg-ssolr.library.cornell.edu/solr/author/browse?q="' + aq + '"' )
 									-if !@seeAlsoResultString.nil?
