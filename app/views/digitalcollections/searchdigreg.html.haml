@@ -1,0 +1,19 @@
+= render :partial => 'digreg_search_form' 
+
+-if @digregResponse.present? 
+	- @digregResponse.each do |data|
+		%h3
+			-if data["url_access_display"].present? && data["fulltitle_display"].present?
+				-data["url_access_display"].each do |link|
+					=link_to link.split('|')[0] do
+						=data["fulltitle_display"]
+			-else
+				=data["fulltitle_display"]
+		.summary-display
+			-if data["summary_display"].present?
+				-data["summary_display"].each do |sd|
+					=sd
+		.catalog-link
+			-if data["id"].present?
+				=link_to 'http://newcatalog.library.cornell.edu/catalog/' + data["id"] do
+					catalog record
