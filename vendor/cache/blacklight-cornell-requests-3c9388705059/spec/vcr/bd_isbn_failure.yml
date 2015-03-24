@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bdtest.relais-host.com/dws/item/available
+    body:
+      encoding: UTF-8
+      string: '{"PartnershipId":"BD","Credentials":{"LibrarySymbol":"CORNELL","Barcode":"<TEST_USER_BARCODE>"},"ExactSearch":[{"Type":"ISBN","Value":"1"}]}'
+    headers:
+      User-Agent:
+      - ruby borrow_direct gem 1.0.0 (HTTPClient 2.6.0.1) https://github.com/jrochkind/borrow_direct
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 11 Mar 2015 19:40:38 GMT
+      Content-Type:
+      - application/json
+      Accept-Language:
+      - en
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.1
+      Date:
+      - Wed, 11 Mar 2015 19:40:49 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"Item":{"Available":false,"SearchTerm":"isbn=1","AuthorizationId":"e63mdL88hLv1n-Mwm9ojVoNSKPo","RequestLink":{"ButtonPrefix":"rft","RequestMessage":"This
+        item is available locally"}}}'
+    http_version: 
+  recorded_at: Wed, 11 Mar 2015 19:40:49 GMT
+recorded_with: VCR 2.9.3

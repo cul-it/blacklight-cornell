@@ -14,7 +14,7 @@ describe BlacklightCornellRequests::Request do
         context "available through borrow direct" do
 
           before(:each) {
-            request.stub(:xxborrowDirect_available?).and_return(true);
+            request.stub(:available_in_bd?).and_return(true);
             request.stub(:docdel_eligible?).and_return(false);
           }
 
@@ -38,7 +38,7 @@ describe BlacklightCornellRequests::Request do
         context "not available through borrow direct" do
 
           before(:each) {
-            request.stub(:xxborrowDirect_available?).and_return(false);
+            request.stub(:available_in_bd?).and_return(false);
             request.stub(:docdel_eligible?).and_return(false);
           }
 
@@ -46,7 +46,7 @@ describe BlacklightCornellRequests::Request do
             item = { :item_type_id => 9 }
             options = request.get_cornell_delivery_options(item,{})
             expect(options.count).to eq(1)
-            expect(contains?(options, ['ill'])).to be true       
+            expect(contains?(options, ['ill'])).to be true
           end
 
           it "return ILL for other noncirculating items" do
@@ -54,7 +54,7 @@ describe BlacklightCornellRequests::Request do
             request.stub(:noncirculating?).and_return(true)
             options = request.get_cornell_delivery_options(item,{})
             expect(options.count).to eq(1)
-            expect(contains?(options, ['ill'])).to be true         
+            expect(contains?(options, ['ill'])).to be true
           end
 
         end #context not available through BD
@@ -77,28 +77,28 @@ describe BlacklightCornellRequests::Request do
         context "available through borrow direct" do
 
           before(:each) {
-            request.stub(:xxborrowDirect_available?).and_return(true);
+            request.stub(:available_in_bd?).and_return(true);
           }
 
           it "returns BD, ILL, RECALL, HOLD if item is charged" do
             item = { :item_type_id => 2, :status => 2 }
             options = request.get_cornell_delivery_options(item, {})
             expect(contains?(options, ['bd', 'ill', 'recall', 'hold'])).to be true
-            expect(options.count).to eq(4)        
+            expect(options.count).to eq(4)
           end
 
           it "returns BD, ILL, PURCHASE if item is missing" do
             item = { :item_type_id => 2, :status => 12 }
             options = request.get_cornell_delivery_options(item, {})
             expect(contains?(options, ['bd','ill','purchase'])).to be true
-            expect(options.count).to eq(3)          
+            expect(options.count).to eq(3)
           end
 
           it "returns BD, ILL, PURCHASE if item is lost" do
             item = { :item_type_id => 2, :status => 26 }
             options = request.get_cornell_delivery_options(item, {})
             expect(contains?(options, ['bd','ill','purchase'])).to be true
-            expect(options.count).to eq(3)          
+            expect(options.count).to eq(3)
           end
 
         end # context available through BD
@@ -106,28 +106,28 @@ describe BlacklightCornellRequests::Request do
         context "not available through borrow direct" do
 
           before(:each) {
-            request.stub(:xxborrowDirect_available?).and_return(false);
+            request.stub(:available_in_bd?).and_return(false);
           }
 
           it "returns ILL, RECALL, HOLD if item is charged" do
             item = { :item_type_id => 2, :status => 2 }
             options = request.get_cornell_delivery_options(item, {})
             expect(contains?(options, ['ill', 'recall', 'hold'])).to be true
-            expect(options.count).to eq(3)        
+            expect(options.count).to eq(3)
           end
 
           it "returns ILL, PURCHASE if item is missing" do
             item = { :item_type_id => 2, :status => 12 }
             options = request.get_cornell_delivery_options(item, {})
             expect(contains?(options, ['ill','purchase'])).to be true
-            expect(options.count).to eq(2)          
+            expect(options.count).to eq(2)
           end
 
           it "returns ILL, PURCHASE if item is lost" do
             item = { :item_type_id => 2, :status => 26 }
             options = request.get_cornell_delivery_options(item, {})
             expect(contains?(options, ['ill','purchase'])).to be true
-            expect(options.count).to eq(2)          
+            expect(options.count).to eq(2)
           end
 
         end # context not available through BD
@@ -144,7 +144,7 @@ describe BlacklightCornellRequests::Request do
           it "returns an empty set if the item is available" do
             item = { :item_type_id => 10, :status => 1 }
             options = request.get_cornell_delivery_options(item,{})
-            expect(options).to eq([]) 
+            expect(options).to eq([])
           end
         end
         context "loan type allows L2L delivery" do
@@ -152,14 +152,14 @@ describe BlacklightCornellRequests::Request do
             item = { :item_type_id => 5, :status => 1 }
             options = request.get_cornell_delivery_options(item,{})
             expect(contains?(options, ['l2l'])).to be true
-            expect(options.count).to eq(1)   
+            expect(options.count).to eq(1)
           end
         end
 
         context "available through BD" do
 
           before(:each) {
-            request.stub(:xxborrowDirect_available?).and_return(true);
+            request.stub(:available_in_bd?).and_return(true);
           }
 
           it "returns BD, ILL, HOLD if item is charged" do
@@ -180,12 +180,12 @@ describe BlacklightCornellRequests::Request do
             options = request.get_cornell_delivery_options(item,{})
             expect(contains?(options, ['bd','ill','purchase'])).to be true
             expect(options.count).to eq(3)
-          end          
+          end
         end # not available through BD
         context "not available through BD" do
 
           before(:each) {
-            request.stub(:xxborrowDirect_available?).and_return(false);
+            request.stub(:available_in_bd?).and_return(false);
           }
 
           it "returns ILL, HOLD if item is charged" do
@@ -205,30 +205,30 @@ describe BlacklightCornellRequests::Request do
             options = request.get_cornell_delivery_options(item,{})
             expect(contains?(options, ['ill','purchase'])).to be true
             expect(options.count).to eq(2)
-          end      
+          end
         end # not available through BD
 
       end # context day loan item
 
       context "minute loan item" do
-        
+
         before(:each) {
           request.stub(:docdel_eligible?).and_return(false);
         }
 
         it "returns BD and ASK_CIRCULATION if available through borrow direct" do
           item = { :item_type_id => 12 }
-          request.stub(:xxborrowDirect_available?).and_return(true);
+          request.stub(:available_in_bd?).and_return(true);
           options = request.get_cornell_delivery_options(item,{})
           expect(contains?(options, ['bd', 'circ'])).to be true
-          expect(options.count).to eq(2) 
+          expect(options.count).to eq(2)
         end
         it "returns ASK_CIRCULATION if not available through borrow direct" do
           item = { :item_type_id => 12 }
-          request.stub(:xxborrowDirect_available?).and_return(false);
+          request.stub(:available_in_bd?).and_return(false);
           options = request.get_cornell_delivery_options(item,{})
           expect(contains?(options, ['circ'])).to be true
-          expect(options.count).to eq(1) 
+          expect(options.count).to eq(1)
         end
 
       end #context minute loan item
@@ -241,13 +241,14 @@ describe BlacklightCornellRequests::Request do
           options = request.get_cornell_delivery_options(item,{})
           expect(contains?(options, ['ill'])).to be true
           expect(options.count).to eq(1)
-        end 
+        end
 
       end #context item at bindery
 
       context "item is eligible for document delivery" do
         it "includes document delivery as an option" do
-          request.stub(:docdel_eligible?).and_return(true);
+          request.stub(:docdel_eligible?).and_return(true)
+          request.stub(:available_in_bd?).and_return(true);
           item = { :item_type_id => 5, :status => 2 }
           options = request.get_cornell_delivery_options(item,{})
           expect(contains?(options, ['document_delivery'])).to be true
@@ -257,11 +258,12 @@ describe BlacklightCornellRequests::Request do
       context "item is not eligible for document delivery" do
         it "does not include document delivery as an option" do
           request.stub(:docdel_eligible?).and_return(false);
+          request.stub(:available_in_bd?).and_return(true);
           item = { :item_type_id => 5, :status => 2 }
           options = request.get_cornell_delivery_options(item,{})
           expect(contains?(options, ['document_delivery'])).to be false
         end
-      end      
+      end
 
     end #describe get cornell delivery options
 
@@ -299,21 +301,21 @@ describe BlacklightCornellRequests::Request do
         it "returns an empty set if the item is missing" do
           item = { :item_type_id => 2, :status => 12 }
           options = request.get_guest_delivery_options(item)
-          expect(options).to eq([])    
+          expect(options).to eq([])
         end
         it "returns an empty set if the item is lost" do
           item = { :item_type_id => 2, :status => 26 }
           options = request.get_guest_delivery_options(item)
-          expect(options).to eq([])     
+          expect(options).to eq([])
         end
       end # context regular loan item
 
-      context "day loan item" do 
+      context "day loan item" do
         it "returns L2L if item is not charged" do
           item = { :item_type_id => 5, :status => 1 }
           options = request.get_guest_delivery_options(item)
           expect(contains?(options, ['l2l'])).to be true
-          expect(options.count).to eq(1)        
+          expect(options.count).to eq(1)
         end
         it "returns HOLD if item is charged" do
           item = { :item_type_id => 5, :status => 2 }
@@ -324,37 +326,37 @@ describe BlacklightCornellRequests::Request do
         it "returns an empty set if the item is missing" do
           item = { :item_type_id => 5, :status => 12 }
           options = request.get_guest_delivery_options(item)
-          expect(options).to eq([])  
+          expect(options).to eq([])
         end
         it "returns an empty set if the item is lost" do
           item = { :item_type_id => 5, :status => 26 }
           options = request.get_guest_delivery_options(item)
-          expect(options).to eq([]) 
+          expect(options).to eq([])
         end
       end # context day loan item
 
-      context "minute loan item" do 
+      context "minute loan item" do
         it "returns ask at circulation if item is not charged" do
           item = { :item_type_id => 12, :status => 1 }
           options = request.get_guest_delivery_options(item)
           expect(contains?(options, ['circ'])).to be true
-          expect(options.count).to eq(1) 
+          expect(options.count).to eq(1)
         end
         it "returns ask at circulation if item is charged" do
           item = { :item_type_id => 12, :status => 2 }
           options = request.get_guest_delivery_options(item)
           expect(contains?(options, ['circ'])).to be true
-          expect(options.count).to eq(1)        
+          expect(options.count).to eq(1)
         end
         it "returns an empty set if the item is missing" do
           item = { :item_type_id => 12, :status => 12 }
           options = request.get_guest_delivery_options(item)
-          expect(options).to eq([])          
+          expect(options).to eq([])
         end
         it "returns an empty set if the item is lost" do
           item = { :item_type_id => 12, :status => 26 }
           options = request.get_guest_delivery_options(item)
-          expect(options).to eq([])          
+          expect(options).to eq([])
         end
       end # context day loan item
 
