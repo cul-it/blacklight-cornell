@@ -20,7 +20,7 @@ module BlacklightCornellRequests
     DOCUMENT_DELIVERY_URL = ENV['ILLIAD_URL'] + '?Action=10&Form=22'
     HOLD_PADDING_TIME = 3
     OCLC_TYPE_ID = 'OCoLC'
-
+    
     NOT_CHARGED = 1
     CHARGED = 2
     RENEWED = 3
@@ -80,7 +80,7 @@ module BlacklightCornellRequests
       HOLD_PADDING_TIME
     end
 
-    ##################### Calculate optimum request method #####################
+    ##################### Calculate optimum request method ##################### 
     def magic_request(document, env_http_host, options = {})
       target = options[:target]
       volume = options[:volume]
@@ -100,8 +100,8 @@ module BlacklightCornellRequests
       Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} holdings data returned."+ Time.new.inspect
 
       # Get item status and location for each item in each holdings record; store in working_items
-      # We now have two item arrays! working_items (which eventually gets set in self.items) is a
-      # list of all 'active' items, e.g., those for a particular volume or other set.
+      # We now have two item arrays! working_items (which eventually gets set in self.items) is a 
+      # list of all 'active' items, e.g., those for a particular volume or other set. 
       # self.all_items includes *all* the items in the holdings data for the bibid, so that we can
       # use that list to, for example, obtain a list of all the volumes in the bibid.
       working_items = []
@@ -120,7 +120,7 @@ module BlacklightCornellRequests
           # Require a match on all three iterator values to determine a match
           next if ( y != h[:year] or c != h[:chron] or e != h[:item_enum])
         end
-
+          
         # Only a subset of all_items gets put into working_items
         working_items.push h
       end
@@ -142,19 +142,19 @@ module BlacklightCornellRequests
           item[:services] = services
         end
         populate_document_values
-
+        
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} services established for each item."+ Time.new.inspect
-
+        
         # handle pda
         patron_type = get_patron_type self.netid
         if patron_type == 'cornell' && !document['url_pda_display'].blank?
           self.document = document
-
+          
           pda_url = document[:url_pda_display][0]
           pda_url, note = pda_url.split('|')
           iids = { :itemid => 'pda', :url => pda_url, :note => note }
           pda_entry = { :service => PDA, :iid => iids, :estimate => get_delivery_time(PDA, nil) }
-
+          
           bd_entry = nil
           if available_in_bd? self.netid, bd_params
             bd_entry = { :service => BD, :iid => {}, :estimate => get_delivery_time(BD, nil) }
@@ -177,11 +177,11 @@ module BlacklightCornellRequests
             alternate_options.push pda_entry
             alternate_options.push bd_entry unless bd_entry.nil?
           end
-
+          
           self.request_options = request_options
           self.alternate_options = alternate_options
 
-          populate_options self.service, request_options
+          populate_options self.service, request_options 
           return
         end
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} bd/pda processed."+ Time.new.inspect
@@ -204,7 +204,7 @@ module BlacklightCornellRequests
       end
 
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} self request options: #{self.request_options}"
-      if  working_items.size < 1
+      if  working_items.size < 1 
         hld_entry = {:service => HOLD, :location => '', :status => ''}
         request_options.push hld_entry
       end
@@ -213,7 +213,7 @@ module BlacklightCornellRequests
       elsif request_options.present?
         # Don't present document delivery as the default option unless
         # there's no other choice
-        if (request_options[0][:service] == DOCUMENT_DELIVERY) and
+        if (request_options[0][:service] == DOCUMENT_DELIVERY) and 
            (request_options.length > 1)
 
            # There may be more than one DD option in the queue, so we have to
@@ -233,7 +233,7 @@ module BlacklightCornellRequests
 
       self.document = document
     end
-
+    
     def populate_options target, request_options
       self.alternate_options = []
       self.request_options = []
@@ -252,31 +252,31 @@ module BlacklightCornellRequests
     end
 
     # set the class volumes from a list of item records
-    def set_volumes(items)
+    def set_volumes(items) 
       volumes = {}
       num_enum = 0
       num_chron = 0
       num_year = 0
-
+      
       ## take first integer from each of enum, chron and year
       ## if not populated, use big number to rank low
       ## if the field is blank, use 'z' to rank low
-      ## record number of occurances for each of the
+      ## record number of occurances for each of the 
       items.each do |item|
-
-        # item[:numeric_enumeration] = item[:item_enum][/\d+/]
-        enums = item[:item_enum].scan(/\d+/)
-        if enums.count > 0
-          numeric_enumeration = ''
-          enums.each do |enum|
-            numeric_enumeration = numeric_enumeration + enum.rjust(9,'0')
-          end
+        
+        # item[:numeric_enumeration] = item[:item_enum][/\d+/]  
+        enums = item[:item_enum].scan(/\d+/)  
+        if enums.count > 0  
+          numeric_enumeration = ''  
+          enums.each do |enum|  
+            numeric_enumeration = numeric_enumeration + enum.rjust(9,'0')  
+          end  
           item[:numeric_enumeration] = numeric_enumeration
           num_enum = num_enum + 1
         else
           item[:numeric_enumeration] = '999999999'
         end
-
+        
         item[:numeric_chron] = item[:chron][/\d+/]
         if !item[:numeric_chron].blank?
           item[:numeric_chron] = item[:numeric_chron].to_i
@@ -284,7 +284,7 @@ module BlacklightCornellRequests
         else
           item[:numeric_chron] = 999999999
         end
-
+        
         item[:numeric_year] = item[:year][/\d+/]
         if !item[:numeric_year].blank?
           item[:numeric_year] = item[:numeric_year].to_i
@@ -292,21 +292,21 @@ module BlacklightCornellRequests
         else
           item[:numeric_year] = 999999999
         end
-
-        if item[:item_enum].blank?
-          item[:item_enum_compare] = 'z'
-        else
-          item[:item_enum_compare] = item[:item_enum]
+        
+        if item[:item_enum].blank?  
+          item[:item_enum_compare] = 'z'  
+        else  
+          item[:item_enum_compare] = item[:item_enum]  
         end
-
-        if item[:chron].blank?
-          item[:chron_compare] = 'z'
-          item[:chron_month] = 13
-        else
-          item[:chron_compare] = item[:chron].delete(' ')
-          item[:chron_month] = Date::ABBR_MONTHNAMES.index(item[:chron]).to_i
+        
+        if item[:chron].blank?  
+          item[:chron_compare] = 'z'  
+          item[:chron_month] = 13  
+        else  
+          item[:chron_compare] = item[:chron].delete(' ')  
+          item[:chron_month] = Date::ABBR_MONTHNAMES.index(item[:chron]).to_i  
         end
-
+        
         if item[:year].blank?
           item[:year_compare] = 'z'
         else
@@ -336,13 +336,13 @@ module BlacklightCornellRequests
           sorted_items = items.sort_by {|h| [ h[:numeric_chron],h[:chron_month],h[:chron_compare],h[:numeric_enumeration],h[:item_enum_compare],h[:numeric_year],h[:year_compare] ]}
         end
       end
-
+      
       ## as of ruby 1.9, hash preserves insertion order
       sorted_items.each do |item|
         e = item[:item_enum]
         c = item[:chron]
         y = item[:year]
-
+        
         next if e.blank? and c.blank? and y.blank?
 
         # if e.present? and c.blank? and y.blank?
@@ -361,7 +361,7 @@ module BlacklightCornellRequests
           # end
           # volumes[label] = "|#{e}|#{c}|#{y}|"
         # end
-
+        
         label = ''
         [e, c, y].each do |element|
           if element.present?
@@ -372,7 +372,7 @@ module BlacklightCornellRequests
         volumes[label] = "|#{e}|#{c}|#{y}|"
 
       end
-
+      
       self.volumes = volumes
     end
 
@@ -389,7 +389,7 @@ module BlacklightCornellRequests
 
       response = parseJSON(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{self.bibid}"))
       #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{response.inspect}"
-
+      
       if response[self.bibid.to_s] and response[self.bibid.to_s][self.bibid.to_s] and response[self.bibid.to_s][self.bibid.to_s][:records]
         statuses = {}
         call_numbers = {}
@@ -401,7 +401,7 @@ module BlacklightCornellRequests
             end
           end
         end
-
+        
         #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{call_numbers.inspect}"
         location_seen = Hash.new
         location_ids = Array.new
@@ -419,12 +419,12 @@ module BlacklightCornellRequests
           holding[:call_number] = item_status call_numbers[holding['item_id'].to_s]
           location = holding[:perm_location]
           if location.is_a?(Hash)
-            location = location['number'].to_s
+            location = location['number'].to_s 
           end
           if holding[:temp_location].is_a?(Hash)
-            temp_location_s = holding[:temp_location]['number'].to_s
+            temp_location_s = holding[:temp_location]['number'].to_s 
             temp_location =  holding[:temp_location]
-          else
+          else 
             temp_location_s = holding[:temp_location]
           end
 
@@ -436,20 +436,20 @@ module BlacklightCornellRequests
             # use temp location
             #tempLocJSON = parseJSON holding[:temp_location]
             if temp_location.is_a?(Hash)
-              tempLocJSON = temp_location
+              tempLocJSON = temp_location 
               holding[:location] = tempLocJSON[:name]
             else
              Rails.logger.warn "#{__FILE__}:#{__LINE__} Cannot use temp location (not a hash) Your solr database is not up to date.: #{temp_location.inspect}"
             end
           end
-
+          
           # Rails.logger.info "sk274_log: holding: #{holding.inspect}"
           location_seen[location] = 1 unless location_seen[location]
           exclude_location_list = Array.new
-
+          
           if location_seen[location] == 1
             circ_group_id = Circ_policy_locs.select('circ_group_id').where( 'location_id' =>  location )
-
+            
             ## handle exceptions
             ## group id 3  - Olin
             ## group id 19 - Uris
@@ -459,21 +459,21 @@ module BlacklightCornellRequests
             ## Law group can deliver to itself
             ## Others can't deliver to itself
             # logger.debug "sk274_log: " + circ_group_id.inspect
-            # there might not be an entry in this table
-            if !circ_group_id.blank?
-              res  = circ_group_id[0]['CIRC_GROUP_ID']
-              circ_group_id[0]['CIRC_GROUP_ID'] = res.nil? ? 0 : Float(circ_group_id[0]['CIRC_GROUP_ID'])
-              if circ_group_id[0]['CIRC_GROUP_ID'] == 3 || circ_group_id[0]['CIRC_GROUP_ID'] == 19
+            # there might not be an entry in this table  
+            if !circ_group_id.blank? 
+              res  = circ_group_id[0]['circ_group_id']
+              circ_group_id[0]['circ_group_id'] = res.nil? ? 0 : Float(circ_group_id[0]['circ_group_id'])
+              if circ_group_id[0]['circ_group_id'] == 3 || circ_group_id[0]['circ_group_id'] == 19
                 ## include both group id if Olin or Uris
                 circ_group_id = [3, 19]
                 # logger.debug "sk274_log: Olin or Uris detected"
-              elsif circ_group_id[0]['CIRC_GROUP_ID'] == 5
+              elsif circ_group_id[0]['circ_group_id'] == 5
                 ## skip annex next time
                 # logger.debug "sk274_log: Annex detected, skipping"
                 location_seen[location] = exclude_location_list
                 holding[:exclude_location_id] = exclude_location_list
                 next
-              elsif circ_group_id[0]['CIRC_GROUP_ID'] == 14
+              elsif circ_group_id[0]['circ_group_id'] == 14 
                 ## skip law library next time
                 # logger.debug "sk274_log: Library detected, skipping"
                 location_seen[location] = exclude_location_list
@@ -494,7 +494,7 @@ module BlacklightCornellRequests
           # Rails.logger.info "sk274_log: #{holding[:item_id].inspect}, #{holding[:exclude_location_id].inspect}"
         end
       end
-
+      
       #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{holdings.inspect}"
       holdings
 
@@ -523,7 +523,7 @@ module BlacklightCornellRequests
     def self.no_l2l_day_loan_types
       [10, 17, 23, 24]
     end
-
+    
     def no_l2l_day_loan_types?(loan_code)
       [10, 17, 23, 24].include? loan_code.to_i
     end
@@ -537,7 +537,6 @@ module BlacklightCornellRequests
     # a note in the holdings record that the item doesn't circulate (even
     # with a different typecode)
     def noncirculating?(item)
-
       # If item is in a temp location, concentrate on that
       if item.key?('temp_location_id') and item['temp_location_id'] > 0
         return (item.key?('temp_location_display_name') and
@@ -550,7 +549,7 @@ module BlacklightCornellRequests
       end
     end
 
-    # Locate and translate the actual item status
+    # Locate and translate the actual item status 
     # from the text string in the holdings data
     def item_status item_status
 
@@ -579,7 +578,7 @@ module BlacklightCornellRequests
           return LOST
 
         else
-          # covers self-returning statuses
+          # covers self-returning statuses 
           # like LOST, MISSING, AT_BINDERY, CHARGED, NOT_CHARGED
           return item_status
       end
@@ -594,7 +593,7 @@ module BlacklightCornellRequests
     # Main entry point for determining which delivery services are available for a given item
     # Returns an array of hashes with the following structure:
     # { :service => SERVICE NAME, :estimate => ESTIMATED DELIVERY TIME }
-    # The array is sorted by delivery time estimate, so the first array item should be
+    # The array is sorted by delivery time estimate, so the first array item should be 
     # the fastest (i.e., the "best") delivery option.
     def get_delivery_options item, bd_params = {}
 
@@ -616,7 +615,7 @@ module BlacklightCornellRequests
         option[:estimate] = get_delivery_time(option[:service], option)
         option[:iid] = item
       end
-
+      
       # Rails.logger.info "sk274_log: #{options.inspect}"
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} end of deliv options (#{options.inspect})"+ Time.new.inspect
 
@@ -651,43 +650,43 @@ module BlacklightCornellRequests
 
       # Check the rest of the cases
       if item_loan_type == 'nocirc' or noncirculating? item
-        return request_options.push({:service => ILL,
+        return request_options.push({:service => ILL, 
                                      :location => item[:location]})
       elsif item_loan_type == 'regular' and item[:status] == NOT_CHARGED
-        return request_options.push({:service => L2L,
+        return request_options.push({:service => L2L, 
                                      :location => item[:location] } )
       elsif item_loan_type == 'regular' and item[:status] ==  CHARGED
-        return request_options.push({:service => ILL,
+        return request_options.push({:service => ILL, 
                                      :location => item[:location]},
                                     {:service => RECALL,
                                      :location => item[:location]},
-                                    {:service => HOLD,
-                                     :location => item[:location],
+                                    {:service => HOLD, 
+                                     :location => item[:location], 
                                      :status => item[:status]})
-      elsif (['regular','day'].include? item_loan_type) and
+      elsif (['regular','day'].include? item_loan_type) and 
             ([MISSING, LOST].include? item[:status])
-        return request_options.push({:service => PURCHASE,
+        return request_options.push({:service => PURCHASE, 
                                      :location => item[:location]},
                                     {:service => ILL,
                                      :location => item[:location]})
       elsif item_loan_type == 'day' and item[:status] == CHARGED
-        return request_options.push({:service => ILL,
+        return request_options.push({:service => ILL, 
                                      :location => item[:location] },
-                                    {:service => HOLD,
-                                     :location => item[:location],
+                                    {:service => HOLD, 
+                                     :location => item[:location], 
                                      :status => item[:status] } )
       elsif item_loan_type == 'day' and item[:status] == NOT_CHARGED
         if Request.no_l2l_day_loan_types.include? typeCode
           return request_options
         else
-          return request_options.push( {:service => L2L,
+          return request_options.push( {:service => L2L, 
                                         :location => item[:location] } )
         end
       elsif item_loan_type == 'minute'
-        return request_options.push( {:service => ASK_CIRCULATION,
+        return request_options.push( {:service => ASK_CIRCULATION, 
                                       :location => item[:location] } )
       elsif item[:status] == AT_BINDERY
-        return request_options.push( {:service => ILL,
+        return request_options.push( {:service => ILL, 
                                       :location => item[:location] } )
       else
         return request_options
@@ -700,9 +699,9 @@ module BlacklightCornellRequests
       typeCode = (item[:temp_item_type_id].blank? or item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
       item_loan_type = loan_type typeCode
 
-      if noncirculating? item
+      if noncirculating? item 
         []
-      elsif item[:status] == NOT_CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day')
+      elsif item[:status] == NOT_CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day') 
         [ { :service => L2L, :location => item[:location] } ] unless no_l2l_day_loan_types? item_loan_type
       elsif item[:status] == CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day')
         [ { :service => HOLD, :location => item[:location], :status => item[:itemStatus] } ]
@@ -710,7 +709,7 @@ module BlacklightCornellRequests
         [ { :service => ASK_CIRCULATION, :location => item[:location] } ]
       else
         # default case covers:
-        # item_loan_type == 'nocirc'
+        # item_loan_type == 'nocirc' 
         # item[:status] == MISSING or item[:status] == LOST
         # anything else
         []
@@ -728,14 +727,14 @@ module BlacklightCornellRequests
     def docdel_eligible? item
 
       # Specifically exclude based on item_type
-      eligible_formats = ['Book',
-                          'Image',
-                          'Journal',
-                          'Manuscript/Archive',
-                          'Musical Recording',
-                          'Musical Score',
-                          'Non-musical Recording',
-                          'Research Guide',
+      eligible_formats = ['Book', 
+                          'Image', 
+                          'Journal', 
+                          'Manuscript/Archive', 
+                          'Musical Recording', 
+                          'Musical Score', 
+                          'Non-musical Recording', 
+                          'Research Guide', 
                           'Thesis']
 
       item_formats = self.document[:format]
@@ -754,7 +753,7 @@ module BlacklightCornellRequests
       # Delivery time estimates are kept as ranges (as per requested) instead of single numbers
       range = [9999, 9999]     # default value
 
-      case service
+      case service 
 
         when L2L
           if item_data[:location] == LIBRARY_ANNEX
@@ -826,7 +825,7 @@ module BlacklightCornellRequests
       end
 
     end
-
+    
     def populate_document_values
       unless self.document.blank?
         self.isbn = self.document[:isbn_display]
@@ -841,7 +840,7 @@ module BlacklightCornellRequests
         create_ill_link
       end
     end
-
+    
     def create_ill_link
 
       document = self.document
@@ -889,18 +888,18 @@ module BlacklightCornellRequests
           ill_link = ill_link + "&rfe_dat=#{oclc.join(',')}"
         end
       end
-
+      
       self.ill_link = ill_link
     end
-
+    
     def deep_copy(o)
       Marshal.load(Marshal.dump(o)).with_indifferent_access
     end
-
+    
     def parseJSON data
       JSON.parse(data).with_indifferent_access
     end
-
+    
     ###################### Make Voyager requests ################################
 
     # Handle a request for a Voyager action
@@ -912,7 +911,7 @@ module BlacklightCornellRequests
       # Need bibid, netid, itemid to proceed
       if self.bibid.nil?
         return { :error => I18n.t('requests.errors.bibid.blank') }
-      elsif netid.nil?
+      elsif netid.nil? 
         return { :error => I18n.t('requests.errors.email.blank') }
       elsif params[:holding_id].nil?
         #return { :error => I18n.t('requests.errors.holding_id.blank') }
@@ -934,7 +933,7 @@ module BlacklightCornellRequests
       when 'callslip'
          v.itemid.blank? ?  v.place_callslip_title! : v.place_callslip_item!
       end
-      #Rails.logger.debug "Response" + v.inspect
+      #Rails.logger.debug "Response" + v.inspect 
       if v.mtype.strip == 'success'
         return { :success => I18n.t('requests.success') }
       else
@@ -1018,3 +1017,4 @@ module BlacklightCornellRequests
 
   end
 end
+
