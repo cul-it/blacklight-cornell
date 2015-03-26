@@ -448,7 +448,7 @@ module BlacklightCornellRequests
           exclude_location_list = Array.new
           
           if location_seen[location] == 1
-            circ_group_id = Circ_policy_locs.select('circ_group_id').where( 'location_id' =>  location )
+            circ_group_id = Circ_policy_locs.select('CIRC_GROUP_ID').where( 'location_id' =>  location )
             
             ## handle exceptions
             ## group id 3  - Olin
@@ -461,19 +461,19 @@ module BlacklightCornellRequests
             # logger.debug "sk274_log: " + circ_group_id.inspect
             # there might not be an entry in this table  
             if !circ_group_id.blank? 
-              res  = circ_group_id[0]['circ_group_id']
-              circ_group_id[0]['circ_group_id'] = res.nil? ? 0 : Float(circ_group_id[0]['circ_group_id'])
-              if circ_group_id[0]['circ_group_id'] == 3 || circ_group_id[0]['circ_group_id'] == 19
+              res  = circ_group_id[0]['CIRC_GROUP_ID']
+              circ_group_id[0]['CIRC_GROUP_ID'] = res.nil? ? 0 : Float(circ_group_id[0]['CIRC_GROUP_ID'])
+              if circ_group_id[0]['CIRC_GROUP_ID'] == 3 || circ_group_id[0]['CIRC_GROUP_ID'] == 19
                 ## include both group id if Olin or Uris
                 circ_group_id = [3, 19]
                 # logger.debug "sk274_log: Olin or Uris detected"
-              elsif circ_group_id[0]['circ_group_id'] == 5
+              elsif circ_group_id[0]['CIRC_GROUP_ID'] == 5
                 ## skip annex next time
                 # logger.debug "sk274_log: Annex detected, skipping"
                 location_seen[location] = exclude_location_list
                 holding[:exclude_location_id] = exclude_location_list
                 next
-              elsif circ_group_id[0]['circ_group_id'] == 14 
+              elsif circ_group_id[0]['CIRC_GROUP_ID'] == 14 
                 ## skip law library next time
                 # logger.debug "sk274_log: Library detected, skipping"
                 location_seen[location] = exclude_location_list
