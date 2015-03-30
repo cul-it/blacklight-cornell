@@ -599,8 +599,7 @@ module BlacklightCornellRequests
 
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} start of deliv options (#{item.inspect})"+ Time.new.inspect
       patron_type = get_patron_type self.netid
-      Rails.logger.info "es287_debug: " + "#{__FILE__}  #{__LINE__} #{self.netid}, #{patron_type}"
-
+      Rails.logger.info "es287_debug: " + "#{__FILE__}:#{__LINE__} netid=#{self.netid}, patron_type=#{patron_type}"
       if patron_type == 'cornell'
         #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} get_cornell_delivery_options."+ Time.new.inspect
         options = get_cornell_delivery_options item, bd_params
@@ -976,7 +975,7 @@ module BlacklightCornellRequests
       end
       BorrowDirect::Defaults.library_symbol = "CORNELL"
       BorrowDirect::Defaults.find_item_patron_barcode = patron_barcode(netid)
-      BorrowDirect::Defaults.timeout = 15 # (seconds)
+      BorrowDirect::Defaults.timeout = 30 # (seconds)
 
       ####### possible FALSE test isbn?
       #response = BorrowDirect::FindItem.new.find(:isbn => "1212121212")
@@ -985,18 +984,26 @@ module BlacklightCornellRequests
       # This block can throw timeout errors if BD takes to long to respond
       begin
         if !params[:isbn].nil?
-          response = BorrowDirect::FindItem.new.find(:isbn => params[:isbn])
+          response = BorrowDirect::FindItem.new.find(:isbn => (params[:isbn].map!{|i| i.clean_isbn}))
         elsif !params[:title].nil?
           response = BorrowDirect::FindItem.new.find(:phrase => params[:title])
         end
 
+        Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} response from bd ."+ response.inspect
         return response.requestable?
 
-      rescue BorrowDirect::HttpTimeoutError
+      rescue BorrowDirect::HttpTimeoutError => e
         Rails.logger.warn 'Requests: Borrow Direct check timed out'
-
+        Rails.logger.warn e.message
+        Rails.logger.warn e.backtrace.inspect
+        return false
+      rescue BorrowDirect::Error => e
+        Rails.logger.warn 'Requests: Borrow Direct gave error.'
+        Rails.logger.warn e.message
+        Rails.logger.warn e.backtrace.inspect
+        Rails.logger.warn response.inspect 
+        return false
       end
-
     end
 
     # Use the external netid lookup script to figure out the patron's barcode
@@ -1015,6 +1022,13 @@ module BlacklightCornellRequests
 
     end
 
+    
   end
+end
+
+class String
+def clean_isbn
+  return self.gsub! /[^0-9X]*/, ''
+end
 end
 
