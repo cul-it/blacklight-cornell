@@ -3,7 +3,7 @@
   <div class="row-fluid">
     <div class="search-tools">
       <%= form_tag '/digitalcollections/searchdigreg', :method => :get, :class => 'form-inline' do %>
-        <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
+        <%= render_hash_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
         <% if !params[:q_row].present? %>
           <div class="row-fluid">
             <div class="search-options span6">
