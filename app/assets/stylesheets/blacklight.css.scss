@@ -1,2 +1,5 @@
-@import 'cul-bootstrap-loader'; // switch $baseFontFamily for forms (see file for details)
+@import 'bootstrap-sprockets';
+
+@import 'bootstrap';
+
 @import 'blacklight/blacklight';

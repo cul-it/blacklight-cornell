@@ -1,13 +1,13 @@
 // LAYOUT
 
 body {
-  padding-top: 0;
-  font-size: 100%;
+  	padding-top: 0;
 }
 
 .main-content {
 	padding: 0.5em 0 30px 0;
-	background: $pale-gray;
+	// background: $pale-gray; lighten up
+	background: white;
 }
 
 .blacklight-catalog-show {
@@ -17,12 +17,23 @@ body {
 
 // LINKS
 
-a { color: $link-primary; }
+a { 
+	color: $link-primary;
+}
 
 a:hover {
-	color: $dark-gray;
-	text-decoration: underline;
+	color: $link-primary-hover;
+	text-decoration: none;
+}
+
+.main-content {
+	a {
+		border-bottom: 1px dotted $light-gray;
 	}
+	a:hover {
+		border-bottom: 1px solid $light-gray;
+	}
+}
 
 
 // TYPOGRAPHY
@@ -38,28 +49,22 @@ h3 { font-size: 1.25em; line-height: 1.5em;}
 input,
 button,
 textarea {
-  font-family: $baseFontFamily;
+  font-family: $font-family-base;
 }
-
-
-// MISCELLANEOUS
-
-.align-right { text-align: right; }
-
-.float-right { float: right; }
-.float-left { float: left; }
 
 // HOME PAGE TEXT
 
 .feedback {
 	h4 { margin-top: 40px; }
-  	p { font-size: 1em;}
+  	p { font-size: 16px;}
 }
 .home-message {
 	margin-top: 30px;
 	p {
-		line-height: 1.5em;
-		margin-bottom: 15px; }
+		// line-height: 1.5em;
+		margin-bottom: 15px;
+		font-size: 16px;
+	}
 	li {
 		line-height: 1.5em;
 		margin-bottom: .5em; }
@@ -78,7 +83,7 @@ textarea {
 	.blacklight-nav {
 		float: none;
 		li {
-			font-size: 1.2em;
+			font-size: 16pxem;
 		}
 		li:first-child {
 			a {
@@ -110,4 +115,35 @@ textarea {
 .btn-libraries:focus {
 	background: #16524d;
 	color: white;
+}
+.btn-secondary {
+	background: $tan;
+}
+
+// Well overrides
+// ------------------------
+
+.well {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+// Panel overrides
+// ------------------------
+.panel-group {
+	.panel {
+		border-radius: 0;
+		border: 0 0 1px 0;
+		box-shadow: none;
+	}
+}
+.panel-default > .panel-heading {
+	background: $light-tan;
+	border-radius: 0;
+}
+// Img overrides
+// ------------------------
+.img-thumbnail {
+	border-radius: 0;
+	background: white;
 }

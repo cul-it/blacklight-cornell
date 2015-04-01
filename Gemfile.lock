@@ -438,7 +438,7 @@ DEPENDENCIES
   activerecord-session_store
   appsignal
   bento_search
-  blacklight (~> 5.0)
+  blacklight (~> 5.9)
   blacklight-marc
   blacklight_cornell_advanced_search!
   blacklight_cornell_requests!

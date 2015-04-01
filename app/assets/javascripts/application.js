@@ -22,8 +22,6 @@
 
 //= require jquery_ujs
 //= require jquery-ui
-//= require bootstrap-tooltip
-//= require bootstrap-dropdown
 //
 // Required by Blacklight
 //= require blacklight/blacklight

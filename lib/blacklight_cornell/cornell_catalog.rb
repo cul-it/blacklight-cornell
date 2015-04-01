@@ -28,10 +28,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
 
-  def search_action_url
-    url_for(:action => 'index', :only_path => true)
-
-  end
+  
 
   def add_cjk_params_logic
     CatalogController.solr_search_params_logic << :cjk_query_addl_params
