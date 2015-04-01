@@ -18,7 +18,7 @@ gem 'yaml_db'
 gem 'blacklight', '5.9'
 gem 'blacklight_range_limit'
 gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'master'
-#gem 'blacklight_unapi'
+gem 'blacklight_unapi'
 gem 'kaminari', '0.15.0'
 
 gem 'blacklight_google_analytics'
