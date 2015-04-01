@@ -7,6 +7,9 @@
     <!-- Mobile viewport optimization h5bp.com/ad -->
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    
+    <!-- Internet Explorer use the highest version available -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
     <!--[if IEMobile]>
@@ -33,6 +36,12 @@
 
     <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 
+    <div class="search-bar">
+      <div class="container">
+        <%= render :partial => 'search_form' %>
+      </div>
+    </div>
+
     <section class="main-content" id="maincontent">
       <div class="container">
         <div class="row">
@@ -54,3 +63,4 @@
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
   </body>
 </html>
+

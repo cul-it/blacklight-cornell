@@ -1,5 +1,9 @@
 <div class="row">
-  <%= render :partial=>'sidebar' %>
+  <%# TODO: delete this bit, old call to sidebar partial in BL4 %>
+  <%#= render :partial=>'sidebar' %>
+  <div id="sidebar" class="col-sm-3">
+    <%= render 'search_sidebar' %>
+  </div>
 
   <div class="col-sm-9 main-text">
 
@@ -19,7 +23,7 @@
         <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
       <% end -%>
         
-        <%= render :partial => 'search_form' %>
+        <%#= render :partial => 'search_form' %>
 
         <%if @response.total_count < 1 %>
         <p>Your search returned 0 results. Try searching 
@@ -43,3 +47,5 @@
 
   </div><!--/.main-content -->
 </div>
+
+
