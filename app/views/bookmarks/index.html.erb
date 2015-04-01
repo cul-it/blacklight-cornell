@@ -7,7 +7,7 @@
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
 
 <% else %>
-  <div class="results-info span12">
+  <div class="results-info col-sm-12">
     <span class="results-count">
       <%= render :partial => "paginate_compact" %>
     </span>
@@ -21,7 +21,7 @@
     <%= render :partial => 'per_page_widget' %>
   </div>
 
-  <div class="item-tools span7">
+  <div class="item-tools col-sm-7">
     <ul class="icons-ul" id="item-tools">
       <%= render :partial => 'catalog/show_tools' %>
     </ul>

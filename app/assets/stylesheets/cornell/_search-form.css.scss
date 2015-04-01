@@ -114,3 +114,16 @@ h2.advanced-search { margin: 0; }
 .btn-search {
   background: $medium-gray;
 }
+
+// Search navigation
+// --------------------- //
+.search-nav {
+  .nav {
+    float: right;
+  }
+}
+.tips-link {
+    display: block;
+    float: right;
+    clear: both;
+  }
