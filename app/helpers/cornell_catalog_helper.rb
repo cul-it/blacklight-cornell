@@ -323,7 +323,7 @@ module CornellCatalogHelper
         copies = ""
         copies = " c. #{tmploc['copies']} " unless tmploc.blank?
         Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__} tmploc = " + tmploc.inspect 
-        tmploc["display"] = tmploc['item_enum'] + ' ' + tmploc['chron'] + copies+  " Shelved in #{dispname}"
+        tmploc["display"] = Maybe(tmploc['item_enum']) + ' ' + Maybe(tmploc['chron']) + Maybe(copies) +  " Shelved in #{dispname}"
         #oneloc["summary_holdings"] = "Library has: " + summary_holdings.join(' ') unless summary_holdings.blank?
         Rails.logger.debug "\nes287_debug line(#{__LINE__}) item = " + iinfo.inspect
         Rails.logger.debug "\nes287_debug line(#{__LINE__}) tmploc = " + tmploc.inspect
@@ -425,6 +425,7 @@ module CornellCatalogHelper
       Rails.logger.debug "\nes287_debug File:#{__FILE__}:line:(#{__LINE__}) hk  = #{hk}"
       next if  hk.nil?
       next if  items_by_mid[hk].nil?
+      next if  condensed[hk].nil?
       #condensed[condn_by_mid[hk]]["copies"] << items_by_mid[hk] 
       condensed[hk]["copies"] << items_by_mid[hk]  
       if !over_locs[hk].blank?

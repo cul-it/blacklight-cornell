@@ -4,19 +4,101 @@ Feature: Item view
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
 
-  @itemview
+  @allow-rescue
+  @e404
+  Scenario: goto an invalid page 
+    When I go to literal abcdefg 
+    Then I should see an error 
+        Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
+
   @availability
   Scenario: View an items holdings
-  	Given I request the item view for 4759
-  	Then I should see the label 'Request'
+    Given I request the item view for 4759
+    Then I should see the label 'Request'
+
+  @aeon
+  @rmcnoitems
+  Scenario: View an items holdings
+    Given I request the item view for 8753977 
+    Then I should see the label 'Request'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+    Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+    Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+    Given I request the item view for 2083253 
+        Then it should have link "Request" with value "/aeon/2083253"  
+
 
   # DISCOVERYACCESS-136
+  @DISCOVERYACCESS-136
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
+  @javascript 
+  @DISCOVERYACCESS-137
+  Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
+    Given I request the item view for 1630516 
+    And click on link "English poetry"
+    Then it should contain filter "Subject" with value "English poetry"
+
+  @DISCOVERYACCESS-137
+  Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
+    Given I request the item view for 1630516 
+    And click on link "19th century"
+    Then it should contain filter "Subject" with value "English poetry 19th century"
+
+  # DISCOVERYACCESS-138
+  Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
+    Given I request the item view for 4442
+    And click on link "Peabody, William Bourn Oliver, 1799-1847"
+    Then I should see the label 'Lives of Alexander Wilson and Captain John Smith'
+
+  # DISCOVERYACCESS-142
+  Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
+    Given I request the item view for 3749
+    Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+    Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+    Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+    Given I request the item view for 2083253 
+        Then it should have link "Request" with value "/aeon/2083253"  
+
+
+  # DISCOVERYACCESS-136
+  @DISCOVERYACCESS-136
+  Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
+    Given I request the item view for 6041
+    And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+    Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+
+  # DISCOVERYACCESS-137
+  @javascript 
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 1630516 
@@ -187,11 +269,11 @@ Feature: Item view
     Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item Subordinate Courts Rules Act, 1955 
+  # Availability for an In transit item Jean-Léon Gérôme (status 10) 
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 650573 
+    Given I request the item view for 114103 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
@@ -284,25 +366,25 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the exactly what copy is available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available 4 copies'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
-  	Given I request the item view for 4759
-  	# DISCOVERYACCESS-148
-  	Then I should see the label 'Series'
+    Given I request the item view for 4759
+    # DISCOVERYACCESS-148
+    Then I should see the label 'Series'
     And click on link "Mangraithammasat"
     Then it should contain filter "Title" with value "Mangraithammasat"
-  	# DISCOVERYACCESS-149
+    # DISCOVERYACCESS-149
     Given I request the item view for 4759
-  	Then I should see the label 'Uniform title'
+    Then I should see the label 'Uniform title'
     And click on link "Mangraithammasat"
     Then it should contain filter "Title" with value "Mangraithammasat"
 
   @linkfield
   Scenario: following linking fields
     Given I request the item view for 115093 
-  	Then I should see the label 'Superseded by'
+    Then I should see the label 'Superseded by'
     And click on link "Nghiên cứu lịch sử."
     Then it should contain filter "Title" with value "Nghiên cứu lịch sử."
 
@@ -393,16 +475,16 @@ Feature: Item view
   # TODO: need bibids that match these cases
 
   # Scenario: Item has series title but not uniform title
-  # 	Given I request the item view for 4759
-  # 	Then I should see the label 'Series Title'
-  # 	And I should not see the label 'Uniform Title'
+  #   Given I request the item view for 4759
+  #   Then I should see the label 'Series Title'
+  #   And I should not see the label 'Uniform Title'
 
   # Scenario: Item has uniform title but not series title
-  # 	Given I request the item view for 4759
-  # 	Then I should not see the label 'Series Title'
-  # 	And I should see the label 'Uniform Title'
+  #   Given I request the item view for 4759
+  #   Then I should not see the label 'Series Title'
+  #   And I should see the label 'Uniform Title'
 
   # Scenario: Item has neither series nor uniform title
-  # 	Given I request the item view for 4759
-  # 	Then I should not see the label 'Series Title'
-  # 	And I should not see the label 'Uniform Title'
+  #   Given I request the item view for 4759
+  #   Then I should not see the label 'Series Title'
+  #   And I should not see the label 'Uniform Title'
