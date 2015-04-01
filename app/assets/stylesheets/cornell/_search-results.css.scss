@@ -1,8 +1,9 @@
-body.blacklight-catalog-index .document,
-body.blacklight-bookmarks-index .document {
+body.blacklight-catalog-index #documents .document,
+body.blacklight-bookmarks-index #documents .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
-	padding: 20px 0;
+	padding: 1.5em 0;
+	margin-top: 0;
 	img {
 		float: left;
 		margin-right: 1em;
@@ -21,7 +22,6 @@ body.blacklight-bookmarks-index .document {
 .document-data {
 	float: left;
 	width: 89%;
-	margin-bottom: 1em;
 	span {
 		font-size: 12px;
 		// color: $medium-gray;
@@ -117,6 +117,14 @@ body.blacklight-bookmarks-index .document {
 	padding-bottom: 0;
 }
 
+// override bl5.9 gem
+// #documents {
+// 	.document {
+// 		padding-top: 1.5;
+// 		margin-top: 0;
+// 	}
+// }
+
 // Search history
 // ------------------------------------------
 .search_history {
@@ -131,7 +139,7 @@ body.blacklight-bookmarks-index .document {
 	float: left; 
 	width: 75px; 
 	margin-right: 1em; 
-	height: 83px;
+	height: 100px;
 	text-align: center;
 	i { 
 		font-size: 24px;
