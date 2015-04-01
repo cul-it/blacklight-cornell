@@ -8,16 +8,12 @@ GIT
       parslet
 
 GIT
-  remote: https://github.com/bricestacey/ruby-zoom.git
-  revision: 9a3787008e0385f8d9085bbfb2b27096e1bcb528
-  specs:
-    zoom (0.4.1)
-
-PATH
-  remote: /users/jrc88/githubrepos/blacklight-cornell-requests
+  remote: git@github.com:cul-it/blacklight-cornell-requests.git
+  revision: e3c6f1ea83434af7b865ed10ad0a6400f2e2f2fb
+  branch: bl5
   specs:
     blacklight_cornell_requests (1.0.1)
-      blacklight (~> 5.0)
+      blacklight (= 5.9)
       borrow_direct
       dotenv
       dotenv-deployment
@@ -31,6 +27,12 @@ PATH
       protected_attributes
       rails (~> 4.0)
       zoom
+
+GIT
+  remote: https://github.com/bricestacey/ruby-zoom.git
+  revision: 9a3787008e0385f8d9085bbfb2b27096e1bcb528
+  specs:
+    zoom (0.4.1)
 
 GEM
   remote: https://rubygems.org/
@@ -96,15 +98,15 @@ GEM
       openurl (>= 0.3.1, < 1.1)
       rails (>= 3.2.3, < 5)
       summon
-    blacklight (5.12.1)
+    blacklight (5.9.0)
       bootstrap-sass (~> 3.2)
       deprecation
-      kaminari (>= 0.15)
+      kaminari (~> 0.13)
       nokogiri (~> 1.6)
       rails (>= 3.2.6, < 5)
-      rsolr (~> 1.0.11)
-    blacklight-marc (5.10.0)
-      blacklight (~> 5.10)
+      rsolr (~> 1.0.6)
+    blacklight-marc (5.5.0)
+      blacklight (~> 5.8)
       marc (>= 0.4.3, < 1.1)
       rails
     blacklight_google_analytics (0.0.1.pre3)
@@ -438,7 +440,7 @@ DEPENDENCIES
   activerecord-session_store
   appsignal
   bento_search
-  blacklight (~> 5.9)
+  blacklight (= 5.9)
   blacklight-marc
   blacklight_cornell_advanced_search!
   blacklight_cornell_requests!
