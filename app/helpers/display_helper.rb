@@ -835,10 +835,14 @@ include ActionView::Helpers::NumberHelper
 
   # Overrides original method from facets_helper_behavior.rb
   # Renders a count value for facet limits with comma delimeter
-  def render_facet_count(num)
-    content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
+  # Removed override, blacklight 5 provides commas
+  
+  #def render_facet_count(num)
+   # content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
     #content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
-  end
+  #end
+
+
 
   # Overrides original method from blacklight_helper_behavior.rb
   # -- Updated to handle arrays (multiple fields specified in config)
