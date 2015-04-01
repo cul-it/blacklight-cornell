@@ -1,13 +1,8 @@
 .facets {
-	margin-top: 0.5em;
-	padding: 10px;
 	background: white;
-	@include border-radius($borderRadiusLarge);
 	h5 {
-		padding: 6px 0 6px 0;
 		line-height: 1.2em;
-		font-size: 0.875em;
-		margin: 0 0 5px 0;
+		font-size: 14px;
 		cursor: pointer;
 		color: $dark-gray;
 		i {
@@ -16,17 +11,17 @@
 			color: $light-gray;
 		}
 	}
-	h5.twiddle-open {
-		border-bottom: none;
-		margin-bottom: 0;
-	}
+	// h5.twiddle-open {
+	// 	border-bottom: none;
+	// 	margin-bottom: 0;
+	// }
 	ul {
 		margin: 0 0 5px 10px;
 		padding: 0;
 		list-style: none;
 	}
 	li {
-		font-size: 0.75em;
+		font-size: 12px;
 		color: $light-gray;
 		padding-right: 50px;
 	}
@@ -43,8 +38,19 @@
 		padding: 0 0 5px 10px;
 	}
 	a:hover { background: white; }
+	.top-panel-heading {
+		padding: 0;
+	}
+	.panel-heading{
+		a {
+			border-bottom: 0;
+		}
+	}
 }
-// OVERRIDE #FACETS
+
+// OVERRIDE #FACETS - TODO: do we still need this in BL5?
+// -------------------------
+
 #facets {
 	ul {
 		margin-left: 0;
@@ -83,6 +89,8 @@
 }
 
 // PUBLICATION YEAR
+// -----------------------
+
 .limit_content {
 	margin-right: 10px;
 	.subsection { margin-top: .5em; }
@@ -138,16 +146,18 @@ form.range_limit {
 }
 
 // SELECTED FACETS
+// -----------------------
 
 .selected-facets {
 	clear: both;
-	padding-top: 20px;
+	padding-top: 1em;
 	.btn-info {
 		margin-bottom: 3px;
 		text-align: left;
+		background: $teal;
 		i { margin: .1em 0 0 .5em; }
 	}
-	a {
+	.btn {
 		color: $white;
 	}
 	a:hover {
@@ -168,20 +178,18 @@ form.range_limit {
 }
 
 // MODAL WINDOW
+// ----------------------
 .modal { background: $pale-gray; }
 .close {
 	color: $medium-gray;
 	opacity: 1;
 }
-// upgrade to font awesome 4.0.3.0 and no longer needs this margin
-// .facet_extended_list.icons-ul {
-// 	margin-left: 1.7em;
-// }
 
-.twiddle-open .fa-plus-circle {
-  @extend .fa-minus-circle;
-  opacity: 1;
-}
+
+// .twiddle-open .fa-plus-circle {
+//   @extend .fa-minus-circle;
+//   opacity: 1;
+// }
 .facet_extended_list {
 	i { margin-right: 5px; }
 }

@@ -1,3 +1,8 @@
+.search-bar {
+  background: $light-tan;
+  padding: 1em 0;
+}
+
 .search-form { margin: 0 0 .1em 0; }
 .search-options { margin-left: 0; }
 input.search-query {
@@ -23,8 +28,10 @@ input.search-query {
 }
 .start-over {
   display: block;
-  margin-left: .2em;
-  font-size: .7em;
+  font-size: 14px;
+  padding: 6px 12px 6px 0;
+  float: left;
+  margin-right: 1em;
 }
 .results-info {
   margin: 0;
@@ -56,7 +63,7 @@ input.search-query {
 #search_field {
   float: left;
   width: auto;
-  font-family: $baseFontFamily; // See cul-bootstrap-loader.css.scss for details
+  font-family: $font-family-base; // See cul-bootstrap-loader.css.scss for details
 }
 p.suggest {
   font-size:.8em;
@@ -64,11 +71,23 @@ p.suggest {
 
 div.search-tools > h2 {line-height: 1em}
 
+.search-tools {
+  .form-inline {
+    .form-group {
+      padding-left: 0;
+    }
+    .form-control {
+      width: 100%;
+    }
+  }
+}
+
 .expand-search { 
   margin-top: .5em;
   padding: 10px;
   background: white;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   h4 {
     font-size: 1em;
     font-weight: normal;

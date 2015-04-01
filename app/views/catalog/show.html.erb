@@ -8,8 +8,8 @@
 <% end %>
 
 <%= render :partial => 'search_form' %>
-<% @page_title = raw t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
-<% extra_head_content << render_link_rel_alternates %>
+<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) -%>
+<% content_for(:head) { render_link_rel_alternates } -%>
 <% sidebar_items << render_document_sidebar_partial %>
 
 
@@ -46,9 +46,11 @@
 
 <div class="row">
   <div class="span12">
-    <% if @document.respond_to?(:to_marc) %>
-      <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %> | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local">Classic Catalog <i class="fa fa-external-link"></i></a></div>
-    <% end %>
+    <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
+      <li class="librarian_view">
+        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :data => {:ajax_modal => "trigger"}} %>
+      </li>
+<%end%>
   </div>
 </div>
 

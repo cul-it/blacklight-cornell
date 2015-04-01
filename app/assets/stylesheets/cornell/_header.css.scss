@@ -1,12 +1,16 @@
 header {
   background: white;
   border-bottom: 1px solid $tan;
+  // background: $pale-gray;
+  .container {
+    padding-right: 0;
+  }
  	h1 {
     margin: 10px 0;
-    // font-weight: normal;
     display: inline-block;
     line-height: 1em;
-    font-size: 1.75em;
+    font-size: 28px;
+    font-weight: 700;
   	a { color: $dark-gray; }
     a:hover {
       color: $dark-gray;
@@ -15,8 +19,7 @@ header {
   }
   // Search home button
   .search-home {
-    // float: left;
-    font-size: 1.75em;
+    font-size: 28px;
     a {
       color: #b4b4b4;
     }
@@ -38,13 +41,13 @@ header {
 }
 
 ul.blacklight-nav {
-  	font-size: 0.75em;
+  	font-size: 12px;
   	margin: 15px 0 0 0;
   	list-style: none;
     float: right;
   	li {
       float: left;
-      border-left: 1px solid #ccc
+      border-left: 1px solid #ccc;
     }
     li:first-child {
       border-left: none;
@@ -52,8 +55,6 @@ ul.blacklight-nav {
   	a {
     	display: block;
     	padding: 0 8px;
-    	// color: $pale-gray;
-      // color: #ccc;
     }
     a.user-email,
     a.logout {
@@ -65,18 +66,13 @@ ul.blacklight-nav {
     }
     a.logout {
       font-size: .9em;
-      // color: $light-gray;
     }
    	a:hover {
     	text-decoration: none;
-    	// background: $medium-gray;
-      // color: $white;
-      // @include border-radius(6px);
     }
     a.user-email:hover,
     a.logout:hover {
       background: none;
-      // color: $cornell-primary;
     }
 }
 
@@ -109,19 +105,24 @@ ul.blacklight-nav {
 }
 
 // Nav from main site
-// -- see also responsive-480px-max.scss --
 //-----------------------------------------
+.navbar {
+  margin-bottom: 0;
+  border: 0;
+  .container {
+    padding: 0;
+  }
+}
 .navbar-cul {
   background: $cornell-primary;
   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
   .container {
     background: $dark-gray;
-    @include border-radius(3px 3px 0 0);
+    @include border-top-radius(3px);
     -webkit-background-clip: padding-box;
   }
   .nav {
     li {
-      font-size: .875em;
       a {
         padding: 15px 20px;
         color: #ccc;
@@ -150,7 +151,7 @@ ul.blacklight-nav {
 .navbar-header {
   background: $cornell-primary;
   // override bootstrap btn styles
-  .btn-navbar {
+  .navbar-toggle {
     background: $cornell-primary;
     margin: 0;
     border: 0; 
@@ -164,6 +165,6 @@ ul.blacklight-nav {
       box-shadow: none;
     }
   }
-  .btn-navbar:hover,
-  .btn-navbar:active { background: $cornell-primary-hover; }
+  .navbar-toggle:hover,
+  .navbar-toggle:active { background: $cornell-primary-hover; }
 }

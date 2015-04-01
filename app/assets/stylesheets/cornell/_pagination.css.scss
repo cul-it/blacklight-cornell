@@ -15,5 +15,7 @@
 .pagination ul > .active > a,
 .pagination ul > .active > span {
   color: $cornell-primary;
-  @include border-radius(2px);
+  @include border-top-radius(2px);
+  @include border-bottom-radius(2px);
+
 }
