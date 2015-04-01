@@ -517,7 +517,7 @@ class CatalogController < ApplicationController
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
-    config.spell_max = 5
+    config.spell_check_max = 5
   end
 
   # Probably there's a better way to do this, but for now we'll make the mollom instance

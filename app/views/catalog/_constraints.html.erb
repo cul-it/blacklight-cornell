@@ -3,7 +3,7 @@
     <span class="constraints-label hide-text"><% t('blacklight.search.filters.title') %></span>
     <%#= debug params[:show_query] %>
     <%if params[:q_row].nil? and params[:f].nil? %>
-    	<%= render_constraints_query(params) %>
+    	<%= render_constraints(params) %>
     <%else %>
        <%= render_advanced_constraints_query(params) %>
     <% end %>
