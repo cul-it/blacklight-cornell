@@ -20,6 +20,7 @@ gem 'blacklight_range_limit'
 gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'master'
 #gem 'blacklight_unapi'
 gem 'kaminari', '0.15.0'
+
 gem 'blacklight_google_analytics'
 gem 'json'
 gem 'httpclient'
@@ -91,7 +92,8 @@ gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails' 
 gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
-#gem 'blacklight_cornell_requests', :path => '../blacklight-cornell-requests'
+
+#gem 'blacklight_cornell_requests', :path =>  '/libweb/dev/git-src/wtf/wtf2/febsprint/blacklight-cornell-requests'
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'

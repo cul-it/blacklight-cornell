@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-dev-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_1letter_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet.field=hierarchy_facet&q=%7B!qf=$title_qf%20pf=$title_pf%7D(%2BAtlas%20%2Bdes%20%2Bmissions%20%2Bde%20%2Bla%20%2BSoci%C3%A9t%C3%A9%20%2Bdes%20%2BMissions-Etrang%C3%A8re%20)%20OR%20%22Atlas%20des%20missions%20de%20la%20Soci%C3%A9t%C3%A9%20des%20Missions-Etrang%C3%A8re%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2BAtlas%20%2Bdes%20%2Bmissions%20%2Bde%20%2Bla%20%2BSoci%C3%A9t%C3%A9%20%2Bdes%20%2BMissions-Etrang%C3%A8re%20)%20OR%20%22Atlas%20des%20missions%20de%20la%20Soci%C3%A9t%C3%A9%20des%20Missions-Etrang%C3%A8re%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    uri: http://da-prod-solr1.library.cornell.edu/solr/blacklight2/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_1letter_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet.field=hierarchy_facet&q=%7B!qf=$title_qf%20pf=$title_pf%7D(%2BAtlas%20%2Bdes%20%2Bmissions%20%2Bde%20%2Bla%20%2BSoci%C3%A9t%C3%A9%20%2Bdes%20%2BMissions-Etrang%C3%A8re%20)%20OR%20%22Atlas%20des%20missions%20de%20la%20Soci%C3%A9t%C3%A9%20des%20Missions-Etrang%C3%A8re%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2BAtlas%20%2Bdes%20%2Bmissions%20%2Bde%20%2Bla%20%2BSoci%C3%A9t%C3%A9%20%2Bdes%20%2BMissions-Etrang%C3%A8re%20)%20OR%20%22Atlas%20des%20missions%20de%20la%20Soci%C3%A9t%C3%A9%20des%20Missions-Etrang%C3%A8re%22&stats=true&stats.field=pub_date_facet&wt=ruby
     body:
       encoding: US-ASCII
       string: ''
@@ -13,120 +13,124 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:30:08 GMT
+      - Mon, 09 Mar 2015 17:39:09 GMT
       Last-Modified:
-      - Wed, 14 Jan 2015 14:58:53 GMT
+      - Mon, 09 Mar 2015 06:07:45 GMT
       Etag:
-      - '"NzFmNjAwMDAwMDAwMDAwMFNvbHI="'
+      - '"NmM3ODAwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=UTF-8
+      Connection:
+      - close
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eydyZXNwb25zZUhlYWRlcic9Pnsnc3RhdHVzJz0+MCwnUVRpbWUnPT43Mywn
-        cGFyYW1zJz0+eydzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQg
-        ZGVzYywgdGl0bGVfc29ydCBhc2MnLCdmLm9ubGluZS5mYWNldC5saW1pdCc9
-        PiczJywnc3RhdHMnPT4ndHJ1ZScsJ2Yuc3ViamVjdF90b3BpY19mYWNldC5m
-        YWNldC5saW1pdCc9Pic2Jywnc3BlbGxjaGVjay5xJz0+JygrQXRsYXMgK2Rl
-        cyArbWlzc2lvbnMgK2RlICtsYSArU29jacOpdMOpICtkZXMgK01pc3Npb25z
-        LUV0cmFuZ8OocmUgKSBPUiAiQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNv
-        Y2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hyZSInLCdmLmxhbmd1YWdl
-        X2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdmLmxjXzFsZXR0ZXJfZmFjZXQu
-        ZmFjZXQubGltaXQnPT4nNicsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
-        aXQnPT4nNicsJ3d0Jz0+J3J1YnknLCdyb3dzJz0+JzIwJywnZGVmVHlwZSc9
-        PidlZGlzbWF4JywnZi5zdWJqZWN0X2NvbnRlbnRfZmFjZXQuZmFjZXQubGlt
-        aXQnPT4nNicsJ2Yuc3ViamVjdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4n
-        NicsJ3N0YXRzLmZpZWxkJz0+J3B1Yl9kYXRlX2ZhY2V0JywncSc9Pid7IXFm
-        PSR0aXRsZV9xZiBwZj0kdGl0bGVfcGZ9KCtBdGxhcyArZGVzICttaXNzaW9u
-        cyArZGUgK2xhICtTb2Npw6l0w6kgK2RlcyArTWlzc2lvbnMtRXRyYW5nw6hy
-        ZSApIE9SICJBdGxhcyBkZXMgbWlzc2lvbnMgZGUgbGEgU29jacOpdMOpIGRl
-        cyBNaXNzaW9ucy1FdHJhbmfDqHJlIicsJ3NwZWxsY2hlY2suZGljdGlvbmFy
-        eSc9Pid0aXRsZScsJ2YuYXV0aG9yX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYn
-        LCdmYWNldC5maWVsZCc9Plsnb25saW5lJywnZm9ybWF0JywnYXV0aG9yX2Zh
-        Y2V0JywncHViX2RhdGVfZmFjZXQnLCdsYW5ndWFnZV9mYWNldCcsJ3N1Ympl
-        Y3RfdG9waWNfZmFjZXQnLCdzdWJqZWN0X2dlb19mYWNldCcsJ3N1YmplY3Rf
-        ZXJhX2ZhY2V0Jywnc3ViamVjdF9jb250ZW50X2ZhY2V0JywnbGNfMWxldHRl
-        cl9mYWNldCcsJ2xvY2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0J10s
-        J3F0Jz0+J3NlYXJjaCcsJ2Yuc3ViamVjdF9lcmFfZmFjZXQuZmFjZXQubGlt
-        aXQnPT4nNicsJ2YuZm9ybWF0LmZhY2V0LmxpbWl0Jz0+JzExJ319LCdyZXNw
-        b25zZSc9PnsnbnVtRm91bmQnPT4xLCdzdGFydCc9PjAsJ21heFNjb3JlJz0+
-        Ni42NDc4NjIsJ2RvY3MnPT5beydpZCc9PicxMTkxNjInLCdob2xkaW5nc19y
-        ZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjE1NjUwOSIsImNvcHlfbnVtYmVy
-        IjpudWxsLCJjYWxsbm9zIjpbIk92ZXJzaXplIEcyMjA5LkU0IEwzNyArKysi
-        XSwibm90ZXMiOlsiRm9saW8uIl0sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNl
-        bnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19k
-        ZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6
-        W3siY29kZSI6Im1hcHMiLCJudW1iZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJy
-        YXJ5IE1hcHMgKE5vbi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5IjoiT2xpbiBM
-        aWJyYXJ5In1dfSddLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3VhZ2VfZGlz
-        cGxheSc9PlsnRnJlbmNoJ10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg5MCwncHVi
-        X2luZm9fZGlzcGxheSc9PlsnTGlsbGUgOiBTb2Npw6l0w6kgZGUgU2FpbnQt
-        QXVndXN0aW4gRGVzY2zDqWUgZGUgQnJvdXdlciAxODkwLiddLCd0aXRsZV9k
-        aXNwbGF5Jz0+J0F0bGFzIGRlcyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kg
-        ZGVzIE1pc3Npb25zLUV0cmFuZ8OocmVzJywnc3VidGl0bGVfZGlzcGxheSc9
-        PicyNyBjYXJ0ZXMgZW4gNSBjb3VsZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3
-        IG5vdGljZXMgIGfDqW9ncmFwaGlxdWVzIGV0IGhpc3RvcmlxdWVzJywnZnVs
-        bHRpdGxlX2Rpc3BsYXknPT4nQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNv
-        Y2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMgOiAyNyBjYXJ0ZXMg
-        ZW4gNSBjb3VsZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGljZXMgIGfD
-        qW9ncmFwaGlxdWVzIGV0IGhpc3RvcmlxdWVzJywnb25saW5lJz0+WydBdCB0
-        aGUgTGlicmFyeSddLCdhdXRob3JfZGlzcGxheSc9PidMYXVuYXksIEFkcmll
-        biwgMTg1My0xOTI3fExhdW5heSwgQWRyaWVuLCAxODUzLTE5MjcuJywnaXRl
-        bV9yZWNvcmRfZGlzcGxheSc9PlsneyJzZW5zaXRpemUiOiJZIiwic3BpbmVf
-        bGFiZWwiOiIiLCJtYWduZXRpY19tZWRpYSI6Ik4iLCJyZWNhbGxzX3BsYWNl
-        ZCI6IjAiLCJ0ZW1wX2xvY2F0aW9uIjoiMCIsIml0ZW1fYmFyY29kZSI6IjMx
-        OTI0MDgzNTMyNTg0IiwiaGlzdG9yaWNhbF9icm93c2VzIjoiMSIsIml0ZW1f
-        ZW51bSI6IiIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsImhpc3Rvcmlj
-        YWxfY2hhcmdlcyI6IjEiLCJjcmVhdGVfZGF0ZSI6IjIwMDAtMDUtMzEgMDA6
-        MDA6MDAuMCIsImNvcHlfbnVtYmVyIjoiMSIsImNyZWF0ZV9sb2NhdGlvbl9p
-        ZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5Iiwic2hvcnRfbG9hbl9jaGFyZ2Vz
-        IjoiMCIsImNocm9uIjoiIiwicmVzZXJ2ZV9jaGFyZ2VzIjoiMCIsInllYXIi
-        OiIiLCJtb2RpZnlfbG9jYXRpb25faWQiOiIxMDAiLCJtZWRpYV90eXBlX2lk
-        IjoiMCIsImNyZWF0ZV9vcGVyYXRvcl9pZCI6IiIsImhpc3RvcmljYWxfYm9v
-        a2luZ3MiOiIwIiwiaG9sZHNfcGxhY2VkIjoiMCIsInBlcm1fbG9jYXRpb24i
-        OnsiY29kZSI6Im1hcHMiLCJudW1iZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJy
-        YXJ5IE1hcHMgKE5vbi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5IjoiT2xpbiBM
-        aWJyYXJ5In0sIm1vZGlmeV9kYXRlIjoiMjAxMi0xMC0wMyAxMzoyODowOC4w
-        IiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwiY2FwdGlvbiI6IiIsIm9uX3Jl
-        c2VydmUiOiJOIiwicGllY2VzIjoiMSIsIml0ZW1fdHlwZV9pZCI6IjMiLCJw
-        cmljZSI6IjAiLCJpdGVtX3R5cGVfbmFtZSI6ImJvb2siLCJpdGVtX2lkIjoi
-        MjYyMjU0IiwiZnJlZXRleHQiOiIiLCJtb2RpZnlfb3BlcmF0b3JfaWQiOiJj
-        YWMyIn0nXSwnc2NvcmUnPT42LjY0Nzg2Mn1dfSwnZmFjZXRfY291bnRzJz0+
-        eydmYWNldF9xdWVyaWVzJz0+e30sJ2ZhY2V0X2ZpZWxkcyc9Pnsnb25saW5l
-        Jz0+WydBdCB0aGUgTGlicmFyeScsMV0sJ2Zvcm1hdCc9PlsnQm9vaycsMV0s
-        J2F1dGhvcl9mYWNldCc9PlsnTGF1bmF5LCBBZHJpZW4sIDE4NTMtMTkyNycs
-        MSwnTWlzc2lvbnMgw6l0cmFuZ8OocmVzIGRlIFBhcmlzJywxXSwncHViX2Rh
-        dGVfZmFjZXQnPT5bJzE4OTAnLDFdLCdsYW5ndWFnZV9mYWNldCc9PlsnRnJl
-        bmNoJywxXSwnc3ViamVjdF90b3BpY19mYWNldCc9PlsnTWlzc2lvbnMnLDEs
-        J01pc3Npb25zIMOpdHJhbmfDqHJlcyBkZSBQYXJpcycsMSwnTWlzc2lvbnMs
-        IEZyZW5jaCcsMV0sJ3N1YmplY3RfZ2VvX2ZhY2V0Jz0+WydBc2lhJywxXSwn
-        c3ViamVjdF9lcmFfZmFjZXQnPT5bXSwnc3ViamVjdF9jb250ZW50X2ZhY2V0
-        Jz0+WydOb24tRmljdGlvbiAoYm9va3MpJywxXSwnbGNfMWxldHRlcl9mYWNl
-        dCc9PlsnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9u
-        JywxXSwnbG9jYXRpb25fZmFjZXQnPT5bJ09saW4gTGlicmFyeScsMV0sJ2hp
-        ZXJhcmNoeV9mYWNldCc9PltdfSwnZmFjZXRfZGF0ZXMnPT57fSwnZmFjZXRf
-        cmFuZ2VzJz0+e319LCdzdGF0cyc9Pnsnc3RhdHNfZmllbGRzJz0+eydwdWJf
-        ZGF0ZV9mYWNldCc9PnsnbWluJz0+MTg5MC4wLCdtYXgnPT4xODkwLjAsJ2Nv
-        dW50Jz0+MSwnbWlzc2luZyc9PjAsJ3N1bSc9PjE4OTAuMCwnc3VtT2ZTcXVh
-        cmVzJz0+MzU3MjEwMC4wLCdtZWFuJz0+MTg5MC4wLCdzdGRkZXYnPT4wLjAs
-        J2ZhY2V0cyc9Pnt9fX19LCdzcGVsbGNoZWNrJz0+eydzdWdnZXN0aW9ucyc9
-        PlsnZXRyYW5nw6hyZScseydudW1Gb3VuZCc9PjUsJ3N0YXJ0T2Zmc2V0Jz0+
-        NTUsJ2VuZE9mZnNldCc9PjY0LCdvcmlnRnJlcSc9PjUsJ3N1Z2dlc3Rpb24n
-        PT5beyd3b3JkJz0+J2V0cmFuZ8OocmVzJywnZnJlcSc9PjE0fSx7J3dvcmQn
-        PT4nw6l0cmFuZ8OocmUnLCdmcmVxJz0+MzY0fSx7J3dvcmQnPT4nw6l0cmFu
-        Z8OocmVzJywnZnJlcSc9PjQyMn0seyd3b3JkJz0+J2V0cmFuZ2VyZXMnLCdm
-        cmVxJz0+MTF9LHsnd29yZCc9PidldHJhbmdlcnMnLCdmcmVxJz0+Mzl9XX0s
-        J2V0cmFuZ8OocmUnLHsnbnVtRm91bmQnPT41LCdzdGFydE9mZnNldCc9PjEx
-        NywnZW5kT2Zmc2V0Jz0+MTI2LCdvcmlnRnJlcSc9PjUsJ3N1Z2dlc3Rpb24n
-        PT5beyd3b3JkJz0+J2V0cmFuZ8OocmVzJywnZnJlcSc9PjE0fSx7J3dvcmQn
-        PT4nw6l0cmFuZ8OocmUnLCdmcmVxJz0+MzY0fSx7J3dvcmQnPT4nw6l0cmFu
-        Z8OocmVzJywnZnJlcSc9PjQyMn0seyd3b3JkJz0+J2V0cmFuZ2VyZXMnLCdm
-        cmVxJz0+MTF9LHsnd29yZCc9PidldHJhbmdlcnMnLCdmcmVxJz0+Mzl9XX0s
-        J2NvcnJlY3RseVNwZWxsZWQnLHRydWVdfX0K
+        eydyZXNwb25zZUhlYWRlcic9Pnsnc3RhdHVzJz0+MCwnUVRpbWUnPT45NDIs
+        J3BhcmFtcyc9Pnsnc29ydCc9PidzY29yZSBkZXNjLCBwdWJfZGF0ZV9zb3J0
+        IGRlc2MsIHRpdGxlX3NvcnQgYXNjJywnZi5vbmxpbmUuZmFjZXQubGltaXQn
+        PT4nMycsJ3N0YXRzJz0+J3RydWUnLCdmLnN1YmplY3RfdG9waWNfZmFjZXQu
+        ZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2sucSc9PicoK0F0bGFzICtk
+        ZXMgK21pc3Npb25zICtkZSArbGEgK1NvY2nDqXTDqSArZGVzICtNaXNzaW9u
+        cy1FdHJhbmfDqHJlICkgT1IgIkF0bGFzIGRlcyBtaXNzaW9ucyBkZSBsYSBT
+        b2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0cmFuZ8OocmUiJywnZi5sYW5ndWFn
+        ZV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5sY18xbGV0dGVyX2ZhY2V0
+        LmZhY2V0LmxpbWl0Jz0+JzYnLCdmLmxvY2F0aW9uX2ZhY2V0LmZhY2V0Lmxp
+        bWl0Jz0+JzYnLCd3dCc9PidydWJ5Jywncm93cyc9PicyMCcsJ2RlZlR5cGUn
+        PT4nZWRpc21heCcsJ2Yuc3ViamVjdF9jb250ZW50X2ZhY2V0LmZhY2V0Lmxp
+        bWl0Jz0+JzYnLCdmLnN1YmplY3RfZ2VvX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+
+        JzYnLCdzdGF0cy5maWVsZCc9PidwdWJfZGF0ZV9mYWNldCcsJ3EnPT4neyFx
+        Zj0kdGl0bGVfcWYgcGY9JHRpdGxlX3BmfSgrQXRsYXMgK2RlcyArbWlzc2lv
+        bnMgK2RlICtsYSArU29jacOpdMOpICtkZXMgK01pc3Npb25zLUV0cmFuZ8Oo
+        cmUgKSBPUiAiQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBk
+        ZXMgTWlzc2lvbnMtRXRyYW5nw6hyZSInLCdzcGVsbGNoZWNrLmRpY3Rpb25h
+        cnknPT4ndGl0bGUnLCdmLmF1dGhvcl9mYWNldC5mYWNldC5saW1pdCc9Pic2
+        JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zvcm1hdCcsJ2F1dGhvcl9m
+        YWNldCcsJ3B1Yl9kYXRlX2ZhY2V0JywnbGFuZ3VhZ2VfZmFjZXQnLCdzdWJq
+        ZWN0X3RvcGljX2ZhY2V0Jywnc3ViamVjdF9nZW9fZmFjZXQnLCdzdWJqZWN0
+        X2VyYV9mYWNldCcsJ3N1YmplY3RfY29udGVudF9mYWNldCcsJ2xjXzFsZXR0
+        ZXJfZmFjZXQnLCdsb2NhdGlvbl9mYWNldCcsJ2hpZXJhcmNoeV9mYWNldCdd
+        LCdxdCc9PidzZWFyY2gnLCdmLnN1YmplY3RfZXJhX2ZhY2V0LmZhY2V0Lmxp
+        bWl0Jz0+JzYnLCdmLmZvcm1hdC5mYWNldC5saW1pdCc9PicxMSd9fSwncmVz
+        cG9uc2UnPT57J251bUZvdW5kJz0+MSwnc3RhcnQnPT4wLCdtYXhTY29yZSc9
+        PjYuNjQ2MjM5LCdkb2NzJz0+W3snaWQnPT4nMTE5MTYyJywnaG9sZGluZ3Nf
+        cmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiIxNTY1MDkiLCJjb3B5X251bWJl
+        ciI6bnVsbCwiY2FsbG5vcyI6WyJPdmVyc2l6ZSBHMjIwOS5FNCBMMzcgKysr
+        Il0sIm5vdGVzIjpbIkZvbGlvLiJdLCJob2xkaW5nc19kZXNjIjpbXSwicmVj
+        ZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3Nf
+        ZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMi
+        Olt7ImNvZGUiOiJtYXBzIiwibnVtYmVyIjo4MCwibmFtZSI6Ik9saW4gTGli
+        cmFyeSBNYXBzIChOb24tQ2lyY3VsYXRpbmcpIiwibGlicmFyeSI6Ik9saW4g
+        TGlicmFyeSJ9XX0nXSwnb3RoZXJfaWRfZGlzcGxheSc9PlsnKENTdFJMSU4p
+        TllDWDExNzE2ODZCJywnKE5JQylub3Rpc0FBTjA2MzUnLCcxMTkxNjInXSwn
+        Zm9ybWF0Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5j
+        aCddLCdwdWJfZGF0ZV9mYWNldCc9PjE4OTAsJ3B1Yl9kYXRlX2Rpc3BsYXkn
+        PT5bJzE4OTAnXSwncHViX2luZm9fZGlzcGxheSc9PlsnTGlsbGUgOiBTb2Np
+        w6l0w6kgZGUgU2FpbnQtQXVndXN0aW4gRGVzY2zDqWUgZGUgQnJvdXdlciAx
+        ODkwLiddLCd0aXRsZV9kaXNwbGF5Jz0+J0F0bGFzIGRlcyBtaXNzaW9ucyBk
+        ZSBsYSBTb2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0cmFuZ8OocmVzJywnc3Vi
+        dGl0bGVfZGlzcGxheSc9PicyNyBjYXJ0ZXMgZW4gNSBjb3VsZXVycyBhY2Nv
+        bXBhZ27DqWVzIGRlIDI3IG5vdGljZXMgIGfDqW9ncmFwaGlxdWVzIGV0IGhp
+        c3RvcmlxdWVzJywnZnVsbHRpdGxlX2Rpc3BsYXknPT4nQXRsYXMgZGVzIG1p
+        c3Npb25zIGRlIGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hy
+        ZXMgOiAyNyBjYXJ0ZXMgZW4gNSBjb3VsZXVycyBhY2NvbXBhZ27DqWVzIGRl
+        IDI3IG5vdGljZXMgIGfDqW9ncmFwaGlxdWVzIGV0IGhpc3RvcmlxdWVzJywn
+        b25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdhdXRob3JfZGlzcGxheSc9
+        PidMYXVuYXksIEFkcmllbiwgMTg1My0xOTI3JywnaXRlbV9yZWNvcmRfZGlz
+        cGxheSc9PlsneyJzZW5zaXRpemUiOiJZIiwic3BpbmVfbGFiZWwiOiIiLCJt
+        YWduZXRpY19tZWRpYSI6Ik4iLCJyZWNhbGxzX3BsYWNlZCI6IjAiLCJ0ZW1w
+        X2xvY2F0aW9uIjoiMCIsIml0ZW1fYmFyY29kZSI6IjMxOTI0MDgzNTMyNTg0
+        IiwiaGlzdG9yaWNhbF9icm93c2VzIjoiMiIsIml0ZW1fZW51bSI6IiIsIml0
+        ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsImhpc3RvcmljYWxfY2hhcmdlcyI6
+        IjEiLCJjcmVhdGVfZGF0ZSI6IjIwMDAtMDUtMzEgMDA6MDA6MDAuMCIsImNv
+        cHlfbnVtYmVyIjoiMSIsImNyZWF0ZV9sb2NhdGlvbl9pZCI6IjAiLCJtZmhk
+        X2lkIjoiMTU2NTA5Iiwic2hvcnRfbG9hbl9jaGFyZ2VzIjoiMCIsImNocm9u
+        IjoiIiwicmVzZXJ2ZV9jaGFyZ2VzIjoiMCIsInllYXIiOiIiLCJtb2RpZnlf
+        bG9jYXRpb25faWQiOiIxMDAiLCJtZWRpYV90eXBlX2lkIjoiMCIsImNyZWF0
+        ZV9vcGVyYXRvcl9pZCI6IiIsImhpc3RvcmljYWxfYm9va2luZ3MiOiIwIiwi
+        aG9sZHNfcGxhY2VkIjoiMCIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6Im1h
+        cHMiLCJudW1iZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1hcHMgKE5v
+        bi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5In0sIm1v
+        ZGlmeV9kYXRlIjoiMjAxMi0xMC0wMyAxMzoyODowOC4wIiwidGVtcF9pdGVt
+        X3R5cGVfaWQiOiIwIiwiY2FwdGlvbiI6IiIsIm9uX3Jlc2VydmUiOiJOIiwi
+        cGllY2VzIjoiMSIsIml0ZW1fdHlwZV9pZCI6IjMiLCJwcmljZSI6IjAiLCJp
+        dGVtX3R5cGVfbmFtZSI6ImJvb2siLCJpdGVtX2lkIjoiMjYyMjU0IiwiZnJl
+        ZXRleHQiOiIiLCJtb2RpZnlfb3BlcmF0b3JfaWQiOiJjYWMyIn0nXSwnc2Nv
+        cmUnPT42LjY0NjIzOX1dfSwnZmFjZXRfY291bnRzJz0+eydmYWNldF9xdWVy
+        aWVzJz0+e30sJ2ZhY2V0X2ZpZWxkcyc9Pnsnb25saW5lJz0+WydBdCB0aGUg
+        TGlicmFyeScsMV0sJ2Zvcm1hdCc9PlsnQm9vaycsMV0sJ2F1dGhvcl9mYWNl
+        dCc9PlsnTGF1bmF5LCBBZHJpZW4sIDE4NTMtMTkyNycsMSwnTWlzc2lvbnMg
+        w6l0cmFuZ8OocmVzIGRlIFBhcmlzJywxXSwncHViX2RhdGVfZmFjZXQnPT5b
+        JzE4OTAnLDFdLCdsYW5ndWFnZV9mYWNldCc9PlsnRnJlbmNoJywxXSwnc3Vi
+        amVjdF90b3BpY19mYWNldCc9PlsnTWlzc2lvbnMgPiBBc2lhID4gTWFwcycs
+        MSwnTWlzc2lvbnMgw6l0cmFuZ8OocmVzIGRlIFBhcmlzJywxLCdNaXNzaW9u
+        cywgRnJlbmNoJywxXSwnc3ViamVjdF9nZW9fZmFjZXQnPT5bXSwnc3ViamVj
+        dF9lcmFfZmFjZXQnPT5bXSwnc3ViamVjdF9jb250ZW50X2ZhY2V0Jz0+WydO
+        b24tRmljdGlvbiAoYm9va3MpJywxXSwnbGNfMWxldHRlcl9mYWNldCc9Plsn
+        RyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uJywxXSwn
+        bG9jYXRpb25fZmFjZXQnPT5bJ09saW4gTGlicmFyeScsMV0sJ2hpZXJhcmNo
+        eV9mYWNldCc9PltdfSwnZmFjZXRfZGF0ZXMnPT57fSwnZmFjZXRfcmFuZ2Vz
+        Jz0+e319LCdzdGF0cyc9Pnsnc3RhdHNfZmllbGRzJz0+eydwdWJfZGF0ZV9m
+        YWNldCc9PnsnbWluJz0+MTg5MC4wLCdtYXgnPT4xODkwLjAsJ2NvdW50Jz0+
+        MSwnbWlzc2luZyc9PjAsJ3N1bSc9PjE4OTAuMCwnc3VtT2ZTcXVhcmVzJz0+
+        MzU3MjEwMC4wLCdtZWFuJz0+MTg5MC4wLCdzdGRkZXYnPT4wLjAsJ2ZhY2V0
+        cyc9Pnt9fX19LCdzcGVsbGNoZWNrJz0+eydzdWdnZXN0aW9ucyc9PlsnZXRy
+        YW5nw6hyZScseydudW1Gb3VuZCc9PjUsJ3N0YXJ0T2Zmc2V0Jz0+NTUsJ2Vu
+        ZE9mZnNldCc9PjY0LCdvcmlnRnJlcSc9PjUsJ3N1Z2dlc3Rpb24nPT5beyd3
+        b3JkJz0+J2V0cmFuZ8OocmVzJywnZnJlcSc9PjE0fSx7J3dvcmQnPT4nw6l0
+        cmFuZ8OocmUnLCdmcmVxJz0+MzY4fSx7J3dvcmQnPT4nw6l0cmFuZ8OocmVz
+        JywnZnJlcSc9PjQyN30seyd3b3JkJz0+J2V0cmFuZ2VyZXMnLCdmcmVxJz0+
+        MTF9LHsnd29yZCc9PidldHJhbmdlcnMnLCdmcmVxJz0+Mzl9XX0sJ2V0cmFu
+        Z8OocmUnLHsnbnVtRm91bmQnPT41LCdzdGFydE9mZnNldCc9PjExNywnZW5k
+        T2Zmc2V0Jz0+MTI2LCdvcmlnRnJlcSc9PjUsJ3N1Z2dlc3Rpb24nPT5beyd3
+        b3JkJz0+J2V0cmFuZ8OocmVzJywnZnJlcSc9PjE0fSx7J3dvcmQnPT4nw6l0
+        cmFuZ8OocmUnLCdmcmVxJz0+MzY4fSx7J3dvcmQnPT4nw6l0cmFuZ8OocmVz
+        JywnZnJlcSc9PjQyN30seyd3b3JkJz0+J2V0cmFuZ2VyZXMnLCdmcmVxJz0+
+        MTF9LHsnd29yZCc9PidldHJhbmdlcnMnLCdmcmVxJz0+Mzl9XX0sJ2NvcnJl
+        Y3RseVNwZWxsZWQnLHRydWVdfX0K
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:08 GMT
+  recorded_at: Mon, 09 Mar 2015 17:39:10 GMT
 - request:
     method: get
     uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22Atlas%22%20AND%20srw.kw%20=%20%22des%22%20AND%20srw.kw%20=%20%22missions%22%20AND%20srw.kw%20=%20%22de%22%20AND%20srw.kw%20=%20%22la%22%20AND%20srw.kw%20=%20%22Soci%C3%A9t%C3%A9%22%20AND%20srw.kw%20=%20%22des%22%20AND%20srw.kw%20=%20%22Missions-Etrang%C3%A8re%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
@@ -139,14 +143,14 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Wed, 14 Jan 2015 19:30:08 GMT
+      - Mon, 09 Mar 2015 17:39:10 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:30:08 GMT
+      - Mon, 09 Mar 2015 17:39:10 GMT
       Server:
       - Apache
       Content-Length:
@@ -175,7 +179,7 @@ http_interactions:
         </echoedSearchRetrieveRequest>
         </searchRetrieveResponse>
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:08 GMT
+  recorded_at: Mon, 09 Mar 2015 17:39:10 GMT
 - request:
     method: get
     uri: http://api.summon.serialssolutions.com/2.0.0/search?s.cmd=setHoldingsOnly(true)&s.he=__BENTO_HL_END__&s.hs=__BENTO_HL_START__&s.ps=1&s.q=Atlas%20des%20missions%20de%20la%20Soci%C3%A9t%C3%A9%20des%20Missions-Etrang%C3%A8re
@@ -188,13 +192,13 @@ http_interactions:
       Accept:
       - application/json
       Date:
-      - Wed, 14 Jan 2015 19:30:08 GMT
+      - Mon, 09 Mar 2015 17:39:10 GMT
       Content-Type:
       - application/x-www-form-urlencoded; charset=utf8
       X-Summon-Date:
-      - Wed, 14 Jan 2015 19:30:08 GMT
+      - Mon, 09 Mar 2015 17:39:10 GMT
       Authorization:
-      - Summon cornell;Mf6YWKmoUpu/7thigWJlrzk/HhY=
+      - Summon cornell;7cGOT9kpwMyIaxg3uOInplpcYP8=
       Host:
       - api.summon.serialssolutions.com:80
   response:
@@ -207,14 +211,14 @@ http_interactions:
       Datacenter:
       - IAD1
       Date:
-      - Wed, 14 Jan 2015 19:30:08 GMT
+      - Mon, 09 Mar 2015 17:39:09 GMT
       Transfer-Encoding:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"version": "2.0.0","sessionId": "cf03c2d5-6565-4c30-b13a-7b7284f52fe9","elapsedQueryTime":
-        5,"queryTime": 920,"totalRequestTime": 34,"pageCount": 17,"recordCount": 17,"query":
-        {"queryString": "s.hs=__BENTO_HL_START__&s.ho=t&s.ps=1&s.q=Atlas+des+missions+de+la+Soci%C3%A9t%C3%A9+des+Missions-Etrang%C3%A8re&s.he=__BENTO_HL_END__&s.pn=1&s.fvf=ContentType%2CJournal+Article%2Cf&s.fvf=ContentType%2CJournal+%2F+eJournal%2Cf&s.fvf=ContentType%2CBook+Chapter%2Cf","pageNumber":
+      string: '{"version": "2.0.0","sessionId": "ee0f4bce-3a4a-4910-b7a3-ec0beab3c4a3","elapsedQueryTime":
+        535,"queryTime": 529,"totalRequestTime": 548,"pageCount": 19,"recordCount":
+        19,"query": {"queryString": "s.hs=__BENTO_HL_START__&s.ho=t&s.ps=1&s.q=Atlas+des+missions+de+la+Soci%C3%A9t%C3%A9+des+Missions-Etrang%C3%A8re&s.he=__BENTO_HL_END__&s.pn=1&s.fvf=ContentType%2CJournal+Article%2Cf&s.fvf=ContentType%2CJournal+%2F+eJournal%2Cf&s.fvf=ContentType%2CBook+Chapter%2Cf","pageNumber":
         1,"pageSize": 1,"highlightStartDelimiter": "__BENTO_HL_START__","highlightEndDelimiter":
         "__BENTO_HL_END__","isHoldingsOnlyEnabled": true,"textQueries": [{"textQuery":
         "Atlas des missions de la Société des Missions-Etrangère","removeCommand":
@@ -234,20 +238,16 @@ http_interactions:
         "setTextQuery(Atlas des missions de la Société des Missions-Étrangère)"}],"recommendationLists":
         {},"documents": [{"hasFullText": true,"isFullTextHit": true,"inHoldings":
         true,"openUrl": "ctx_ver=Z39.88-2004&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rfr_id=info:sid/summon.serialssolutions.com&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Challenging+the+Imperial+Order%3A+The+Precarious+Status+of+Local+Christians+in+Late-qing+Sichuan&rft.jtitle=European+Journal+of+East+Asian+Studies&rft.au=Daigle%2C+Jean-Guy&rft.date=2005&rft.pub=BRILL&rft.issn=1568-0584&rft.volume=4&rft.issue=1&rft.spage=1&rft.epage=1&rft.externalDBID=n%2Fa&rft.externalDocID=n%2Fa","link":
-        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwfV1Lj9MwELZWrEBcgIWllIfkAyBxSIkT20m5RVFDI9LHNqmo9oDlxLaEVPHoLof994ydJtuVCpGS2IkzsuQvnhl7Hgi9bYwfNoFiHsgKzKNN6Hs1CaUX1RFMhoYFRrvo-kt28ZWuM7Y5QV1GQWtV6cwC3SY-yEf1Vn-08UEYp6CYnxISus1Yv7zdKwDlzqVQYTz2fBbTOxzm1kXp0NzQMY_sMeqTsTqTkd7y6OfOmpgcmFQfxGb8bw-foEd7ORIn7cCfoRP94yk6b4N-3OD32EaUlS5r780z9C2dJkXhYkh9xtV0gvPZEhS4pMCgAk5Wn9wzGIs0WeWLdYnLKqngtshwsUihVTpd5WWVJ_MS53NcJNXEu7CkyjydrpP5OVpnkyqdevvECl5DrOt4YOogUqom1s90zCWXdcx0qKRqaCCV5hEnMoyMMZHiQaQl6MmKalXLwPCY1eEAnRr4O_QAuA2cZIAebMbRhhZZ1VbPuuroyjmPjX5fD2C83L_l8ZF_lMCXeHYZzHoCbfUYATaiRwlcpsEsXfYE2urxHvAXCGtAJgg4hinAEKcy9ptx7I8bBWqyL6kaog8dkMSvNvaHcDoTDwWxeQFA9ASBN7Rz5hC92yNN1Lvv262wKwgV8FdhcWlhKaggIhii-G679qq1vLIZQZnw24N2BSJgCrEF-PS5A17flw51L__14hV66CLNuhWj1-je9e6PfoPu7_H9F2S-_WM","DatabaseTitle":
-        ["CrossRef"],"Volume": ["4"],"Language": ["English"],"Author": ["Daigle, Jean-Guy"],"Score":
-        ["2.4112058"],"DOI": ["10.1163/1570061054030305"],"PageCount": ["30"],"Copyright":
-        ["Copyright 2005 Koninklijke Brill NV"],"IsPeerReviewed": ["false"],"PublicationDate_xml":
-        [{"text": "2005","year": "2005"}],"PublicationDate": ["2005","20050101","2005-06-01"],"PublicationCentury":
-        ["2000"],"Copyright_xml": [{"notice": "Copyright 2005 Koninklijke Brill NV"}],"Publisher":
-        ["BRILL","Brill Academic Publishers"],"AbstractList": ["In the last decades
-        of the nineteenth century, Roman Catholics in China were under the active
-        protection of a Western power and they benefited from the steadfast support
-        of French missionaries. In Sichuan province specifically they frequently fell
-        victim to arson and plunder during anti-Christian incidents (jiao''an), as
-        they were commonly perceived as despicable characters beyond the reach of
-        Chinese law, although most of them acted responsibly and inoffensively in
-        their respective communities. However, the Fathers of the Society of Foreign
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwfV3Pb5swFLaqVZN6Wbut09J1kg_bpB3QAP-A9oZQMpBY0gai9lTLxs9SpWir0vbQ_37PJknTw8YBLDAI6QPe-_Dn7xHyBSB23PQQMc11xDEgRSbTLII-NqAN67kOlvkX4vKKLybieo9sKgp6VWWQBYZBfMyPzBJ-eH8QITkS8_0kYWEwNm6fxwqQ3IUSKkLmUSxy_iLCPE9R2pUbhuAxOSTbYqxBMrJVHv1ZeYnJjqR6x5vxv3d4RN6s80haDMC_JXvw-x05Hkw_nug36h1ldaja-_Se3JRV0TTBQ-on7aoxrX9dIIErGooUcDw_D_sQi7KY17NFS9uu6HAzm9BmVmKvsprXbVcX05bWU9oU3Ti69Jdq67JaFNNjspiMu7KK1oUVoj7xU8dTZ9LMWpP4eaZnUkttcgHMatvzVFuQmUw0y5xzmZVpBhp5suVgjU6dzIVhHwl1Lj-Le9CYIAJ3Msb-vUYobAYi6xkfke8bFNTdYJyhAuGQTCXeVB_zNswWmf_gjMjXNUzKrG6XS-Xpd4fBSXlQPaaKq0SlI5K_7DesAfS9L6cpVDwsfNNIFL5_voGnfgiobe9lA9nJvw58IgfBpjX8bjklrx5Wj_CZvF4_HH8BHF3SCQ","Volume":
+        ["4"],"DatabaseTitle": ["CrossRef"],"Language": ["English"],"Author": ["Daigle,
+        Jean-Guy"],"Score": ["2.4072258"],"PageCount": ["30"],"DOI": ["10.1163/1570061054030305"],"Copyright":
+        ["Copyright 2005 Koninklijke Brill NV"],"IsPeerReviewed": ["false"],"PublicationDate":
+        ["2005","20050101","2005-06-01"],"PublicationDate_xml": [{"text": "2005","year":
+        "2005"}],"PublicationCentury": ["2000"],"Copyright_xml": [{"notice": "Copyright
+        2005 Koninklijke Brill NV"}],"Publisher": ["BRILL","Brill Academic Publishers"],"AbstractList":
+        ["), as they were commonly perceived as despicable characters beyond the reach
+        of Chinese law, although most of them acted responsibly and inoffensively
+        in their respective communities. However, the Fathers of the Society of Foreign
         Missions consistently behaved in many ways as the main agents of foreign influence,
         particularly with the local mandarins, whom they urged to comply with the
         treaties and to protect Chinese Christians against any form of open hostility.
@@ -258,7 +258,11 @@ http_interactions:
         cause in eastern Sichuan, had to pay the ultimate price for asserting their
         arguments too aggressively. Such incidents help to explain how much the status
         of Sichuanese Christians could fluctuate in a general climate of public suspicion
-        and decline of state authority.","), as they were commonly perceived as despicable
+        and decline of state authority.","In the last decades of the nineteenth century,
+        Roman Catholics in China were under the active protection of a Western power
+        and they benefited from the steadfast support of French missionaries. In Sichuan
+        province specifically they frequently fell victim to arson and plunder during
+        anti-Christian incidents (jiao''an), as they were commonly perceived as despicable
         characters beyond the reach of Chinese law, although most of them acted responsibly
         and inoffensively in their respective communities. However, the Fathers of
         the Society of Foreign Missions consistently behaved in many ways as the main
@@ -284,7 +288,7 @@ http_interactions:
         . Under these circumstances even those Christians who..."],"URI": ["http://www.ingentaconnect.com/content/brill/eeas/2005/00000004/00000001/art00002","http://www.jstor.org/stable/23615640"],"IsScholarly":
         ["true"],"ID": ["FETCH-LOGICAL-c1190-2fb27ddb1478196a6ab85e3dadc42ade6761a37fff7d627ea788d4edba2f685b3"],"PublicationTitle":
         ["European Journal of East Asian Studies"],"Issue": ["1"],"Discipline": ["History
-        & Archaeology"],"PublicationYear": ["2005"],"EISSN": ["1570-0615"],"Abstract":
+        & Archaeology"],"PublicationYear": ["2005"],"DatabaseTitleList": ["",""],"Abstract":
         ["), as they were commonly perceived as despicable characters beyond the reach
         of Chinese law, although most of them acted responsibly and inoffensively
         in their respective communities. However, the Fathers of the Society of Foreign
@@ -302,20 +306,20 @@ http_interactions:
         Roman Catholics in China were under the active protection of a Western power
         and they benefited from the steadfast support of French missionaries. In Sichuan
         province specifically they frequently fell victim to arson and plunder during
-        anti-Christian incidents ("],"DatabaseTitleList": ["",""],"MergedId": ["FETCHMERGED-LOGICAL-c1190-2fb27ddb1478196a6ab85e3dadc42ade6761a37fff7d627ea788d4edba2f685b3"],"Author_xml":
+        anti-Christian incidents ("],"EISSN": ["1570-0615"],"MergedId": ["FETCHMERGED-LOGICAL-c1190-2fb27ddb1478196a6ab85e3dadc42ade6761a37fff7d627ea788d4edba2f685b3"],"Author_xml":
         [{"sequence": "1","fullname": "Daigle, Jean-Guy"}],"PublicationDecade": ["2000"],"ContentType":
         ["Journal Article"],"Title": ["Challenging the Imperial Order: The Precarious
-        Status of Local Christians in Late-qing Sichuan"],"ISSN": ["1568-0584"],"ExternalDocumentID":
-        ["n/a","23615640","10_1163_1570061054030305"],"SSID": ["ssj0017427"],"StartPage":
-        ["1"],"EndPage": ["1"],"thumbnail_l": ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/lc.gif&issn=1568-0584&client=summon"],"thumbnail_s":
-        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/sc.gif&issn=1568-0584&client=summon"],"thumbnail_m":
-        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/mc.gif&issn=1568-0584&client=summon"],"LinkModel":
+        Status of Local Christians in Late-qing Sichuan"],"ExternalDocumentID": ["n/a","23615640","10_1163_1570061054030305"],"ISSN":
+        ["1568-0584"],"SSID": ["ssj0017427"],"StartPage": ["1"],"EndPage": ["1"],"thumbnail_l":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/lc.gif&issn=1568-0584&client=summon"],"thumbnail_m":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/mc.gif&issn=1568-0584&client=summon"],"thumbnail_s":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/sc.gif&issn=1568-0584&client=summon"],"LinkModel":
         ["DirectLink"]}],"rollups": {"image": {},"reference": {},"newspaper": {}}}'
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:08 GMT
+  recorded_at: Mon, 09 Mar 2015 17:39:10 GMT
 - request:
     method: get
-    uri: http://culholdingsdev.library.cornell.edu/holdings/retrieve_detail_short/119162
+    uri: http://holdings1.library.cornell.edu/holdings/retrieve_detail_short/119162
     body:
       encoding: UTF-8
       string: ''
@@ -325,14 +329,14 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Wed, 14 Jan 2015 19:30:09 GMT
+      - Mon, 09 Mar 2015 17:39:10 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:30:09 GMT
+      - Mon, 09 Mar 2015 17:39:10 GMT
       Server:
       - Apache/2.2.15 (Red Hat)
       Access-Control-Allow-Origin:
@@ -340,15 +344,15 @@ http_interactions:
       X-Ua-Compatible:
       - IE=Edge
       Etag:
-      - '"4e46741853fb7e330d7dca11555f6ed1"'
+      - '"4b203110e2bcd7794c02399a032dadd1"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 59a4f9905d0b467b79b3c8e22350843e
+      - 87b2fb1d01c5388bef2c7958375b18d7
       X-Runtime:
-      - '0.072298'
+      - '0.610038'
       X-Powered-By:
-      - Phusion Passenger 4.0.53
+      - Phusion Passenger 4.0.57
       Status:
       - 200 OK
       Connection:
@@ -360,15 +364,14 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"119162":{"119162":{"records":[{"bibid":"119162","holding_id":"156509","location_name":"maps","call_number":"Oversize
-        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog-test.library.cornell.edu/vxws/record/119162/items/262254","itemid":"262254","permLocation":"Olin
+        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/119162/items/262254","itemid":"262254","permLocation":"Olin
         Library Maps (Non-Circulating)","location_id":"80","tempLocation":"","location":"Olin
         Library Maps (Non-Circulating)","callNumber":"Oversize G2209.E4 L37 +++","copy":"c.
-        1","itemBarcode":"31924083532584","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Missing
-        - 2011-10-04","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"not_available","messages":[{"status_code":"Missing
-        - 2011-10-04","short_message":"Missing - 2011-10-04","long_message":"Missing
-        - 2011-10-04"}],"location_id":"80"},"services":["in_process","borrow_direct","ill","recall_hold"],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
-        Library Maps (Non-Circulating)"],"locnumber":1,"status":["not_avail"],"avail_at":{},"not_avail_at":{"Olin
-        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"onotes":[]}}}}'
+        1","itemBarcode":"31924083532584","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"80"},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library Maps (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Olin
+        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:09 GMT
+  recorded_at: Mon, 09 Mar 2015 17:39:11 GMT
 recorded_with: VCR 2.9.3

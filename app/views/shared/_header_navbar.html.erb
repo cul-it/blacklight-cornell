@@ -49,12 +49,14 @@
       <div class="span4 catalog-name">
         <% if request.original_url.include? "/databases" %>
           <h1><a href="/databases">Databases</a></h1>
+        <% elsif request.original_url.include? "/digitalcollections" %>
+          <h1><a href="/digitalcollections">Cornell Digital Collections</a></h1>
         <% else %>
         <span class="search-home"><a href="http://search.library.cornell.edu/">Search</a><span class="divider">/</span></span>
         <h1><a href="<%=root_path%>">Catalog</a></h1>
         <%end%>
       </div>
-      <% if !request.original_url.include? "/databases" %>
+      <% if !request.original_url.include? "/databases"  %>
         <%= render :partial=>'/user_util_links' %>
       <%end%>
     </div>

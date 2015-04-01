@@ -1,0 +1,46 @@
+<div class="digitalcollections-search">
+<div class="well clearfix">
+  <div class="row-fluid">
+    <div class="search-tools">
+      <%= form_tag '/digitalcollections/searchdigreg', :method => :get, :class => 'form-inline' do %>
+        <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
+        <% if !params[:q_row].present? %>
+          <div class="row-fluid">
+            <div class="search-options span6">
+              <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
+                <%= text_field_tag :q, params[:q], :placeholder => 'Search for digital collection records e.g. hip hop', :class => "span12 phone-search-query", :id => "q", :autocapitalize => "off" %>
+            </div>
+
+            <% unless search_fields.empty? %>
+              <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
+
+              <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class => 'span4') %>
+
+              <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
+            <% end %>
+
+            <span class="search-or-reset span2">
+              <input type="submit" class="btn btn-cul hidden-phone" id="search" value="Search">
+              <button id="search-btn" class="btn btn-cul mobile-search-btn visible-phone" type="submit">
+                <i class="fa fa-search fa-inverse"></i>
+              </button>
+            </span>
+
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# Offer search expansion only under certain conditions %>
+    <%# if expandable_search? %>
+      <%#= render :partial => 'expand_search' %>
+    <%# end %>
+
+    <%# Add simple links to WCL and Summon if an advanced search %>
+    <%# if params[:q_row].present? %>
+      <%#= render :partial => 'expand_advanced_search' %>
+    <%# end %>
+
+  </div>
+
+</div>

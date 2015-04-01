@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-dev-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_1letter_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet.field=hierarchy_facet&q=(%2BAnnotated%20%2Bhobbit%20)%20OR%20%22Annotated%20hobbit%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=(%2BAnnotated%20%2Bhobbit%20)%20OR%20%22Annotated%20hobbit%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    uri: http://da-prod-solr1.library.cornell.edu/solr/blacklight2/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_1letter_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet.field=hierarchy_facet&q=(%2BAnnotated%20%2Bhobbit%20)%20OR%20%22Annotated%20hobbit%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=(%2BAnnotated%20%2Bhobbit%20)%20OR%20%22Annotated%20hobbit%22&stats=true&stats.field=pub_date_facet&wt=ruby
     body:
       encoding: US-ASCII
       string: ''
@@ -13,21 +13,23 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:29:59 GMT
+      - Mon, 09 Mar 2015 17:38:56 GMT
       Last-Modified:
-      - Wed, 14 Jan 2015 14:58:53 GMT
+      - Mon, 09 Mar 2015 06:07:45 GMT
       Etag:
-      - '"NzFmNjAwMDAwMDAwMDAwMFNvbHI="'
+      - '"NmM3ODAwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=UTF-8
+      Connection:
+      - close
       Transfer-Encoding:
       - chunked
     body:
       encoding: UTF-8
       string: |
-        {'responseHeader'=>{'status'=>0,'QTime'=>212,'params'=>{'sort'=>'score desc, pub_date_sort desc, title_sort asc','f.online.facet.limit'=>'3','stats'=>'true','f.subject_topic_facet.facet.limit'=>'6','spellcheck.q'=>'(+Annotated +hobbit ) OR "Annotated hobbit"','f.language_facet.facet.limit'=>'6','f.lc_1letter_facet.facet.limit'=>'6','f.location_facet.facet.limit'=>'6','wt'=>'ruby','rows'=>'20','defType'=>'edismax','f.subject_content_facet.facet.limit'=>'6','f.subject_geo_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet','q'=>'(+Annotated +hobbit ) OR "Annotated hobbit"','f.author_facet.facet.limit'=>'6','facet.field'=>['online','format','author_facet','pub_date_facet','language_facet','subject_topic_facet','subject_geo_facet','subject_era_facet','subject_content_facet','lc_1letter_facet','location_facet','hierarchy_facet'],'qt'=>'search','f.subject_era_facet.facet.limit'=>'6','f.format.facet.limit'=>'11'}},'response'=>{'numFound'=>2,'start'=>0,'maxScore'=>19.696186,'docs'=>[{'id'=>'4392584','holdings_record_display'=>['{"id":"4929617","copy_number":null,"callnos":["PR6039.O32 H6x 2002"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'format'=>['Book'],'language_display'=>['English'],'pub_date_facet'=>2002,'pub_info_display'=>['Boston : Houghton Mifflin, 2002.'],'edition_display'=>['Rev. and expanded ed.'],'title_display'=>'The annotated hobbit','fulltitle_display'=>'The annotated hobbit','online'=>['At the Library'],'author_display'=>'Tolkien, J. R. R. (John Ronald Reuel), 1892-1973|Tolkien, J. R. R. (John Ronald Reuel), 1892-1973.','item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924095232199","historical_browses":"19","item_enum":"","item_sequence_number":"1","historical_charges":"12","create_date":"2002-11-01 10:53:20.0","copy_number":"1","create_location_id":"153","mfhd_id":"4929617","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"181","media_type_id":"0","create_operator_id":"ds279","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"},"modify_date":"2013-05-17 14:10:44.0","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"6530722","freetext":"","modify_operator_id":"tbs23"}'],'score'=>19.696186},{'id'=>'1535861','holdings_record_display'=>['{"id":"1873487","copy_number":"5","callnos":["PR6039.O49 H6 1988"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"uris,anx","number":210,"name":"Library Annex","library":"Library Annex"}]}','{"id":"1873482","copy_number":null,"callnos":["Oversize PR6039.O49 H6 1988 +"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}','{"id":"1873484","copy_number":null,"callnos":["Rare Books PR6039.O49 H6 1988 +"],"notes":["With dust jacket.","Inscribed by author."],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"}]}'],'format'=>['Book'],'language_display'=>['English'],'pub_date_facet'=>1988,'pub_info_display'=>['Boston : Houghton Mifflin Co., 1988.'],'title_display'=>'The annotated Hobbit','subtitle_display'=>'The hobbit, or, There and back again','fulltitle_display'=>'The annotated Hobbit : The hobbit, or, There and back again','online'=>['At the Library','At the Library','At the Library'],'author_display'=>'Tolkien, J. R. R. (John Ronald Reuel), 1892-1973|Tolkien, J. R. R. (John Ronald Reuel), 1892-1973.','item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924068304017","historical_browses":"11","item_enum":"","item_sequence_number":"1","historical_charges":"29","create_date":"2000-05-31 00:00:00.0","copy_number":"5","create_location_id":"0","mfhd_id":"1873487","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"100","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"uris,anx","number":210,"name":"Library Annex","library":"Library Annex"},"modify_date":"2010-05-28 09:36:12.0","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"3076151","freetext":"","modify_operator_id":"jm17"}','{"sensitize":"Y","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924050942220","historical_browses":"9","item_enum":"","item_sequence_number":"1","historical_charges":"34","create_date":"2000-05-31 00:00:00.0","copy_number":"1","create_location_id":"0","mfhd_id":"1873482","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"0","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"3076147","freetext":"","modify_operator_id":""}','{"sensitize":"Y","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924051288110","historical_browses":"0","item_enum":"","item_sequence_number":"1","historical_charges":"0","create_date":"2000-05-31 00:00:00.0","copy_number":"1","create_location_id":"0","mfhd_id":"1873484","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"0","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"9","price":"0","item_type_name":"nocirc","item_id":"3076148","freetext":"","modify_operator_id":""}'],'score'=>12.777016}]},'facet_counts'=>{'facet_queries'=>{},'facet_fields'=>{'online'=>['At the Library',2],'format'=>['Book',2],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'pub_date_facet'=>['1988',1,'2002',1],'language_facet'=>['English',2],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1],'subject_geo_facet'=>[],'subject_era_facet'=>[],'subject_content_facet'=>['Fiction (books)',2],'lc_1letter_facet'=>['P - Language & Literature',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'hierarchy_facet'=>[]},'facet_dates'=>{},'facet_ranges'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1988.0,'max'=>2002.0,'count'=>2,'missing'=>0,'sum'=>3990.0,'sumOfSquares'=>7960148.0,'mean'=>1995.0,'stddev'=>9.899494936611665,'facets'=>{}}}},'spellcheck'=>{'suggestions'=>['annotated',{'numFound'=>1,'startOffset'=>2,'endOffset'=>11,'origFreq'=>16297,'suggestion'=>[{'word'=>'annotation','freq'=>20305}]},'hobbit',{'numFound'=>4,'startOffset'=>13,'endOffset'=>19,'origFreq'=>68,'suggestion'=>[{'word'=>'hobbing','freq'=>135},{'word'=>'hobbies','freq'=>127},{'word'=>'hobbes','freq'=>1219},{'word'=>'hobbes\'s','freq'=>96}]},'annotated',{'numFound'=>1,'startOffset'=>26,'endOffset'=>35,'origFreq'=>16297,'suggestion'=>[{'word'=>'annotation','freq'=>20305}]},'hobbit',{'numFound'=>4,'startOffset'=>36,'endOffset'=>42,'origFreq'=>68,'suggestion'=>[{'word'=>'hobbing','freq'=>135},{'word'=>'hobbies','freq'=>127},{'word'=>'hobbes','freq'=>1219},{'word'=>'hobbes\'s','freq'=>96}]},'correctlySpelled',true]}}
+        {'responseHeader'=>{'status'=>0,'QTime'=>506,'params'=>{'sort'=>'score desc, pub_date_sort desc, title_sort asc','f.online.facet.limit'=>'3','stats'=>'true','f.subject_topic_facet.facet.limit'=>'6','spellcheck.q'=>'(+Annotated +hobbit ) OR "Annotated hobbit"','f.language_facet.facet.limit'=>'6','f.lc_1letter_facet.facet.limit'=>'6','f.location_facet.facet.limit'=>'6','wt'=>'ruby','rows'=>'20','defType'=>'edismax','f.subject_content_facet.facet.limit'=>'6','f.subject_geo_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet','q'=>'(+Annotated +hobbit ) OR "Annotated hobbit"','f.author_facet.facet.limit'=>'6','facet.field'=>['online','format','author_facet','pub_date_facet','language_facet','subject_topic_facet','subject_geo_facet','subject_era_facet','subject_content_facet','lc_1letter_facet','location_facet','hierarchy_facet'],'qt'=>'search','f.subject_era_facet.facet.limit'=>'6','f.format.facet.limit'=>'11'}},'response'=>{'numFound'=>2,'start'=>0,'maxScore'=>24.245403,'docs'=>[{'id'=>'4392584','holdings_record_display'=>['{"id":"4929617","copy_number":null,"callnos":["PR6039.O32 H6x 2002"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'other_id_display'=>['4392584','(OCoLC)50064985'],'format'=>['Book'],'language_display'=>['English'],'pub_date_facet'=>2002,'pub_date_display'=>['2002'],'pub_info_display'=>['Boston : Houghton Mifflin, 2002.'],'edition_display'=>['Rev. and expanded ed.'],'title_uniform_display'=>['Hobbit|Hobbit|Tolkien, J. R. R. (John Ronald Reuel), 1892-1973'],'title_display'=>'The annotated hobbit','fulltitle_display'=>'The annotated hobbit','online'=>['At the Library'],'author_display'=>'Tolkien, J. R. R. (John Ronald Reuel), 1892-1973','item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924095232199","historical_browses":"19","item_enum":"","item_sequence_number":"1","historical_charges":"13","create_date":"2002-11-01 10:53:20.0","copy_number":"1","create_location_id":"153","mfhd_id":"4929617","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"153","media_type_id":"0","create_operator_id":"ds279","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"},"modify_date":"2015-01-15 12:39:12.0","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"6530722","freetext":"","modify_operator_id":"lms6"}'],'score'=>24.245403},{'id'=>'1535861','holdings_record_display'=>['{"id":"1873487","copy_number":"5","callnos":["PR6039.O49 H6 1988"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"uris,anx","number":210,"name":"Library Annex","library":"Library Annex"}]}','{"id":"1873482","copy_number":null,"callnos":["Oversize PR6039.O49 H6 1988 +"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}','{"id":"1873484","copy_number":null,"callnos":["Rare Books PR6039.O49 H6 1988 +"],"notes":["With dust jacket.","Inscribed by author."],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"}]}'],'other_id_display'=>['(NIC)notisAHE9160','(OCoLC)18053069','1535861'],'format'=>['Book'],'language_display'=>['English'],'pub_date_facet'=>1988,'pub_date_display'=>['1988'],'pub_info_display'=>['Boston : Houghton Mifflin Co., 1988.'],'title_uniform_display'=>['Hobbit|Hobbit|Tolkien, J. R. R. (John Ronald Reuel), 1892-1973'],'title_display'=>'The annotated Hobbit','subtitle_display'=>'The hobbit, or, There and back again','fulltitle_display'=>'The annotated Hobbit : The hobbit, or, There and back again','online'=>['At the Library','At the Library','At the Library'],'author_display'=>'Tolkien, J. R. R. (John Ronald Reuel), 1892-1973','item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924068304017","historical_browses":"11","item_enum":"","item_sequence_number":"1","historical_charges":"29","create_date":"2000-05-31 00:00:00.0","copy_number":"5","create_location_id":"0","mfhd_id":"1873487","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"100","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"uris,anx","number":210,"name":"Library Annex","library":"Library Annex"},"modify_date":"2010-05-28 09:36:12.0","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"3076151","freetext":"","modify_operator_id":"jm17"}','{"sensitize":"Y","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924050942220","historical_browses":"9","item_enum":"","item_sequence_number":"1","historical_charges":"34","create_date":"2000-05-31 00:00:00.0","copy_number":"1","create_location_id":"0","mfhd_id":"1873482","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"0","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"3076147","freetext":"","modify_operator_id":""}','{"sensitize":"Y","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924051288110","historical_browses":"0","item_enum":"","item_sequence_number":"1","historical_charges":"0","create_date":"2000-05-31 00:00:00.0","copy_number":"1","create_location_id":"0","mfhd_id":"1873484","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"0","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"9","price":"0","item_type_name":"nocirc","item_id":"3076148","freetext":"","modify_operator_id":""}'],'score'=>12.782404}]},'facet_counts'=>{'facet_queries'=>{},'facet_fields'=>{'online'=>['At the Library',2],'format'=>['Book',2],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'pub_date_facet'=>['1988',1,'2002',1],'language_facet'=>['English',2],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1,'Middle Earth (Imaginary place) > Fiction',1],'subject_geo_facet'=>[],'subject_era_facet'=>[],'subject_content_facet'=>['Fiction (books)',2],'lc_1letter_facet'=>['P - Language & Literature',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'hierarchy_facet'=>[]},'facet_dates'=>{},'facet_ranges'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1988.0,'max'=>2002.0,'count'=>2,'missing'=>0,'sum'=>3990.0,'sumOfSquares'=>7960148.0,'mean'=>1995.0,'stddev'=>9.899494936611665,'facets'=>{}}}},'spellcheck'=>{'suggestions'=>['annotated',{'numFound'=>1,'startOffset'=>2,'endOffset'=>11,'origFreq'=>16356,'suggestion'=>[{'word'=>'annotation','freq'=>20333}]},'hobbit',{'numFound'=>4,'startOffset'=>13,'endOffset'=>19,'origFreq'=>68,'suggestion'=>[{'word'=>'hobbing','freq'=>135},{'word'=>'hobbies','freq'=>129},{'word'=>'hobbes','freq'=>1225},{'word'=>'hobbes\'s','freq'=>96}]},'annotated',{'numFound'=>1,'startOffset'=>26,'endOffset'=>35,'origFreq'=>16356,'suggestion'=>[{'word'=>'annotation','freq'=>20333}]},'hobbit',{'numFound'=>4,'startOffset'=>36,'endOffset'=>42,'origFreq'=>68,'suggestion'=>[{'word'=>'hobbing','freq'=>135},{'word'=>'hobbies','freq'=>129},{'word'=>'hobbes','freq'=>1225},{'word'=>'hobbes\'s','freq'=>96}]},'correctlySpelled',true]}}
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:29:59 GMT
+  recorded_at: Mon, 09 Mar 2015 17:38:56 GMT
 - request:
     method: get
     uri: http://api.summon.serialssolutions.com/2.0.0/search?s.cmd=setHoldingsOnly(true)&s.he=__BENTO_HL_END__&s.hs=__BENTO_HL_START__&s.ps=1&s.q=Annotated%20hobbit
@@ -40,13 +42,13 @@ http_interactions:
       Accept:
       - application/json
       Date:
-      - Wed, 14 Jan 2015 19:29:59 GMT
+      - Mon, 09 Mar 2015 17:38:56 GMT
       Content-Type:
       - application/x-www-form-urlencoded; charset=utf8
       X-Summon-Date:
-      - Wed, 14 Jan 2015 19:29:59 GMT
+      - Mon, 09 Mar 2015 17:38:56 GMT
       Authorization:
-      - Summon cornell;I2LpGdTuVyDdBbyfJ2XcuzvURJo=
+      - Summon cornell;+AgwZrCEOJRxdwIraxNhSWfDFuA=
       Host:
       - api.summon.serialssolutions.com:80
   response:
@@ -59,14 +61,14 @@ http_interactions:
       Datacenter:
       - IAD1
       Date:
-      - Wed, 14 Jan 2015 19:29:59 GMT
+      - Mon, 09 Mar 2015 17:38:56 GMT
       Transfer-Encoding:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"version": "2.0.0","sessionId": "c3e1f6c0-f588-4787-8a82-f6a6229e7a01","elapsedQueryTime":
-        68,"queryTime": 58,"totalRequestTime": 107,"pageCount": 180,"recordCount":
-        180,"query": {"queryString": "s.hs=__BENTO_HL_START__&s.ho=t&s.ps=1&s.q=Annotated+hobbit&s.he=__BENTO_HL_END__&s.pn=1&s.fvf=ContentType%2CJournal+Article%2Cf&s.fvf=ContentType%2CJournal+%2F+eJournal%2Cf&s.fvf=ContentType%2CBook+Chapter%2Cf","pageNumber":
+      string: '{"version": "2.0.0","sessionId": "566ae7f9-a6fe-461c-9731-467398f3c8f5","elapsedQueryTime":
+        73,"queryTime": 66,"totalRequestTime": 93,"pageCount": 198,"recordCount":
+        198,"query": {"queryString": "s.hs=__BENTO_HL_START__&s.ho=t&s.ps=1&s.q=Annotated+hobbit&s.he=__BENTO_HL_END__&s.pn=1&s.fvf=ContentType%2CJournal+Article%2Cf&s.fvf=ContentType%2CJournal+%2F+eJournal%2Cf&s.fvf=ContentType%2CBook+Chapter%2Cf","pageNumber":
         1,"pageSize": 1,"highlightStartDelimiter": "__BENTO_HL_START__","highlightEndDelimiter":
         "__BENTO_HL_END__","isHoldingsOnlyEnabled": true,"textQueries": [{"textQuery":
         "Annotated hobbit","removeCommand": "removeTextQuery(Annotated hobbit)"}],"searchTerms":
@@ -86,10 +88,10 @@ http_interactions:
         by the staff of the MLA Office of Bibliographic Information Services with
         the cooperation of more than 100 contributing bibliographers in the United
         States and abroad, it annually indexes over 66,000 books and articles.","link":
-        "http://cornell.summon.serialssolutions.com/2.0.0/link/dbrecommender/AAAkYzNlMWY2YzAtZjU4OC00Nzg3LThhODItZjZhNjIyOWU3YTAxAQAKVlA1UVc0VUY1WAIAfWh0dHA6Ly9wcm94eS5saWJyYXJ5LmNvcm5lbGwuZWR1L2xvZ2luP3VybD1odHRwOi8vc2VhcmNoLmVic2NvaG9zdC5jb20vbG9naW4uYXNweD9hdXRodHlwZT1pcCx1aWQmcHJvZmlsZT1laG9zdCZkZWZhdWx0ZGI9bXpoAwABMAQAHk1MQSBJbnRlcm5hdGlvbmFsIEJpYmxpb2dyYXBoeQUACGRhdGFiYXNl","score":
-        "35.81719"}]},"documents": [{"hasFullText": true,"isFullTextHit": false,"inHoldings":
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/dbrecommender/AAAkNTY2YWU3ZjktYTZmZS00NjFjLTk3MzEtNDY3Mzk4ZjNjOGY1AQAKVlA1UVc0VUY1WAIAfWh0dHA6Ly9wcm94eS5saWJyYXJ5LmNvcm5lbGwuZWR1L2xvZ2luP3VybD1odHRwOi8vc2VhcmNoLmVic2NvaG9zdC5jb20vbG9naW4uYXNweD9hdXRodHlwZT1pcCx1aWQmcHJvZmlsZT1laG9zdCZkZWZhdWx0ZGI9bXpoAwABMAQAHk1MQSBJbnRlcm5hdGlvbmFsIEJpYmxpb2dyYXBoeQUACGRhdGFiYXNl","score":
+        "38.44498"}]},"documents": [{"hasFullText": true,"isFullTextHit": false,"inHoldings":
         true,"openUrl": "ctx_ver=Z39.88-2004&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rfr_id=info:sid/summon.serialssolutions.com&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=The+Annotated+Hobbit&rft.jtitle=Library+Journal&rft.au=Michael+Rogers&rft.date=2002-10-01&rft.pub=Media+Source&rft.issn=0363-0277&rft.volume=127&rft.issue=16&rft.spage=134&rft.externalDocID=209218261","link":
-        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwnV1LT9wwELYqqiJ64b1AQcqh4paQ-Jmcqna7q5XKAlUXWHGxHD8Q0mq3-_r_HefVFQoXDjmM7Iyc-PPM2DPjQeirJjZxXMehY6k_ugEYpwoMOccVxzizQhWumIc79vuR3vfZuK5zelXlaUe1VCxEtZlpf0p-BVgRsB1h6be_89CXjfLu1aqGBshgUIR-YQ7x7f-8yFe-yrfEbqFL-ruoDkwqI0iaQKTZwkecbERYb1zV-N4B76HPPpkhKD0A--iDnR6giypXIbgMqmQkPzlBtcoP0RigE0j5o3czupWDa_lnBEavlN-n05m3TM1GU-_mp5QtfQezPH9Zve54hO77vVF3EFYFGMLnJIZZU6C6Yth6E-6dmVZbwXjKlCKCaQOWSZ5nSjmSUfhQLTAxNDeg_l2Gc80wV6SDPjpYRbYDWgmepIO2x5kY0-v-qCT3azJaFklm0XzVgdkrflHIo7iVwa90-ISHDYOSbGPAItrK4KmLh927hkFJto-An6DAOGVpnjBDiKVJbJRIjHOCeyckNVScomMPKzlZ6Ge1Xi5lRsCQxYSdovMaGFLl_uhKr5aygQW81zSbyUTiOPP36fPk7K2GL2inrEbjgwnP0dZqsbYX6FOF0H_Ir_mM","DatabaseTitle":
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwnV07T8MwELZ4CAkW3uLRShkQW2gS24k9IR6NOkAB0Ypulu04FVLVQJr-f3xpUqKKLkyxco4U-ezz2ffdfQhdWQ9BmijlrgxT45LQ1y4QJNlWhDlLsWZpyVrySt8-yDCmo5rntFPlad_UVrE01Umm4Za8Y-dKZI8jlN1-fbtAGwXh1YpDYxNt-zjigOl69uLfxMiVYOU6u1tuJvE-qpFJCwjJEomU5QA5aUCsG7Ua__vHB2gPshmcRQjgEG2Y6RFqV8kKzrVTZSOBdpxqmR-jkZ07jhD33f7gRfSexPvAer1C3E2nGbimSUPU7T8K8UffXqbUZ7Ha8QQN4-7goedWDAzu2C-rRxrCk8T3Uwx13JmkkmJJKDP2reIpMZTah06MjhJJmIZMbKoCFhIPp9yef88AOxV6kjMTpJjZzc9nXAW-5JFS1nOTBJ-jU9CJgAVV5FILjq0bGGBaCya5Hsv5bNYQtOrhFlLBjZAuZmI52Pa7pTiZTETgcShTH_oX6wSXaHdB8gIYvRbaKvK5aaOdSu8_aOLTeA","DatabaseTitle":
         ["ProQuest Nursing & Allied Health Source (Alumni)","ABI/INFORM Professional
         Advanced","Professional Collection: Science & Technology","ProQuest Nursing
         and Allied Health Source","ProQuest Research Library","Platinum: Literature
@@ -109,11 +111,11 @@ http_interactions:
         Complete","ProQuest Platinum","ProQuest Education Journals (Alumni Edition)","ABI/INFORM
         Trade & Industry","Professional Collection: Literature & Language"],"Volume":
         ["127"],"Language": ["English"],"Author": ["Michael Rogers"],"PublicationPlace":
-        ["New York"],"Score": ["35.283222"],"RelatedPersons_xml": [{"fullname": "Tolkien,
+        ["New York"],"Score": ["35.28181"],"RelatedPersons_xml": [{"fullname": "Tolkien,
         John Ronald Reuel (1892-1973)"},{"fullname": "Anderson, Douglas"},{"fullname":
         "Tolkien, J.R.R"}],"PageCount": ["1"],"Copyright": ["COPYRIGHT 2002 A wholly
         owned subsidiary of Media Source, Inc. No redistribution permitted."],"DBID":
-        ["KB0","L.-","8FY","M2O","8FX","M0P","O2G","Q9U","O2J","8FZ","O2K","7XB","P62","K6~","7RW","7RV","M0F","8FU","8G5","M0D","M0C","O33","O2V","O37","K60","O38","O2Z","8A4","O2Y","87Z","881","0-V","883","8FE","M1O","88M","88B","8FL","8FK","8FJ","8FI","8FG","7WZ","7WY"],"IsPeerReviewed":
+        ["KB0","L.-","2~S","3GN","8FY","M2O","8FX","M0P","O2G","Q9U","O2J","8FZ","O2K","7XB","P62","K6~","7RW","7RV","M0F","8FU","8G5","M0D","M0C","O33","O2V","O37","K60","O38","O2Z","8A4","O2Y","87Z","881","0-V","883","8FE","M1O","88M","88B","8FL","8FK","8FJ","8FI","8FG","7WZ","7WY"],"IsPeerReviewed":
         ["false"],"PublicationDate": ["20021001"],"PublicationDate_xml": [{"text":
         "20021001","month": "10","year": "2002","day": "01"}],"PublicationCentury":
         ["2000"],"RelatedPersons": ["Tolkien, John Ronald Reuel (1892-1973)","Anderson,
@@ -130,28 +132,30 @@ http_interactions:
         __BENTO_HL_START__Hobbit__BENTO_HL_END__. rev. ed. Houghton. 2002. c.416p.
         illus. bibliog. ISBN 0-618-13470-0. $28. FANTASY With the success of the film..."],"PQPubID":
         ["40955"],"URI": ["http://search.proquest.com/docview/196784058"],"IsScholarly":
-        ["false"],"ID": ["FETCH-LOGICAL-g1087-a8470eb2368913ece75685aa375cd102bb9aaf394967c723d4bd853f92bc526a3"],"PublicationTitle":
+        ["false"],"ID": ["FETCH-LOGICAL-g1307-1e49dd11f355988a5a53a458e9ddb9f4e55b9fcdec7da48c18525b286403f9713"],"PublicationTitle":
         ["Library Journal"],"Issue": ["16"],"Discipline": ["Library & Information
         Science"],"PublicationYear": ["2002"],"Genre": ["Review"],"PublicationPlace_xml":
         [{"name": "New York"}],"Audience": ["General"],"PQID": ["196784058"],"DatabaseTitleList":
-        ["ProQuest Nursing & Allied Health Source (Alumni)","Professional Collection:
-        Science & Technology"],"Abstract": ["The Annotated Hobbit. rev. ed. Houghton.
+        ["Professional Collection: Science & Technology","ProQuest Nursing & Allied
+        Health Source (Alumni)"],"Abstract": ["The Annotated Hobbit. rev. ed. Houghton.
         2002. c.416p. illus. bibliog. ISBN 0-618-13470-0. $28. FANTASY"],"SubjectTerms":
         ["Novels","Science fiction & fantasy","Tolkien, John Ronald Reuel (1892-1973)"],"MergedId":
-        ["FETCHMERGED-LOGICAL-g1087-a8470eb2368913ece75685aa375cd102bb9aaf394967c723d4bd853f92bc526a3"],"Author_xml":
+        ["FETCHMERGED-LOGICAL-g1307-1e49dd11f355988a5a53a458e9ddb9f4e55b9fcdec7da48c18525b286403f9713"],"Author_xml":
         [{"sequence": "1","fullname": "Michael Rogers"}],"PublicationDecade": ["2000"],"ContentType":
         ["Book Review","Journal Article"],"Title": ["The __BENTO_HL_START__Annotated__BENTO_HL_END__
         __BENTO_HL_START__Hobbit__BENTO_HL_END__"],"CODEN": ["LIBJA7"],"ExternalDocumentID":
         ["209218261","93085235"],"ISSN": ["0363-0277"],"SSID": ["ssj0004466"],"StartPage":
-        ["134"],"thumbnail_s": ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/sc.gif&issn=0363-0277&client=summon"],"thumbnail_l":
-        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/lc.gif&issn=0363-0277&client=summon"],"thumbnail_m":
-        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/mc.gif&issn=0363-0277&client=summon"],"Database_xml":
+        ["134"],"thumbnail_l": ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/lc.gif&issn=0363-0277&client=summon"],"thumbnail_m":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/mc.gif&issn=0363-0277&client=summon"],"thumbnail_s":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/sc.gif&issn=0363-0277&client=summon"],"Database_xml":
         [{"sequence": "1","name": "ProQuest Social Sciences Premium Collection","dbid":
         "0-V","url": "http://proxy.library.cornell.edu/login?url=http://search.proquest.com/socscicoll","sourceTypes":
+        ["Aggregation Database"]},{"sequence": "2","name": "InfoTrac Newsstand","dbid":
+        "3GN","url": "http://proxy.library.cornell.edu/login?url=http://infotrac.galegroup.com/itweb/nysl_sc_cornl?db=STND","sourceTypes":
         ["Aggregation Database"]}],"LinkModel": ["DirectLink"]}],"rollups": {"image":
         {},"reference": {},"newspaper": {}}}'
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:29:59 GMT
+  recorded_at: Mon, 09 Mar 2015 17:38:56 GMT
 - request:
     method: get
     uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22Annotated%22%20AND%20srw.kw%20=%20%22hobbit%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
@@ -164,18 +168,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Wed, 14 Jan 2015 19:29:59 GMT
+      - Mon, 09 Mar 2015 17:38:56 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:29:59 GMT
+      - Mon, 09 Mar 2015 17:38:56 GMT
       Server:
       - Apache
       Content-Length:
-      - '5036'
+      - '2995'
       Content-Type:
       - text/xml;charset=utf-8
     body:
@@ -186,42 +190,35 @@ http_interactions:
 
         <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/" xmlns:oclcterms="http://purl.org/oclc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <version>1.1</version>
-        <numberOfRecords>20</numberOfRecords>
+        <numberOfRecords>23</numberOfRecords>
         <records>
         <record>
         <recordSchema>info:srw/schema/1/dc</recordSchema>
         <recordPacking>xml</recordPacking>
         <recordData>
         <oclcdcs>
-        <dc:contributor>Anderson, Douglas A. (Douglas Allen), 1959-</dc:contributor>
         <dc:creator>Tolkien, J. R. R. (John Ronald Reuel), 1892-1973.</dc:creator>
-        <dc:date>2002</dc:date>
-        <dc:description>Rev. and expanded ed. / annotated by Douglas A. Anderson.</dc:description>
-        <dc:description>J.R.R. Tolkien's beloved novel The hobbit has deep roots in European folklore, mythology, and language. As a reader's introduction to Tolkien's Middle-earth, it contains references to the ancient history of this imaginary world which, though rarely explained, contribute greatly to the effect of Tolkien's art. This revised and expanded edition of The annotated hobbit unobtrusively and authoritatively illuminates the novel's antecedents and curiosities. Douglas Anderson has also collected here wonderful illustrations from all over the world. The many new annotations in this edition reflect more than a decade's additional scholarship on the history and evolution of The hobbit, and the annotations and illustrations are newly integrated with the core text in a handsome reader-friendly format. This edition also reproduces the fully corrected text of The hobbit as J.R.R. Tolkien approved it before his death, in 1973. Anderson has compared every page from every major edition of The hobbit with Tolkien's own last checking copy in the restoration work for this definitive edition.</dc:description>
-        <dc:description>An unexpected party -- Roast mutton -- A short rest -- Over hill and under hill -- Riddles in the dark -- Out of the frying-pan into the fire -- queer lodgings -- Flies and spiders -- Barrels out of bond -- A warm welcome -- On the doorstep -- Inside information -- Not at home -- Fire and water -- The gathering of the clouds -- A thief in the night -- The clouds burst -- The return journey -- The last stage.</dc:description>
-        <dc:format>xii, 398 pages : illustrations (some color), map ; 25 cm</dc:format>
-        <dc:identifier>0618134700</dc:identifier>
-        <dc:identifier>9780618134700</dc:identifier>
+        <dc:date>1988</dc:date>
+        <dc:description>Includes bibliographical references (pages 331-335).</dc:description>
+        <dc:description>Bilbo Baggins, a respectable, well-to-do hobbit, lives comfortably in his hobbit-hole until one day the wandering wizard Gandalf chooses him to take part in an adventure from which he may never return.</dc:description>
+        <dc:format>x, 335 pages : illustrations ; 29 cm</dc:format>
+        <dc:identifier>0395476909</dc:identifier>
+        <dc:identifier>9780395476901</dc:identifier>
         <dc:language xsi:type="http://purl.org/dc/terms/ISO639-2">eng</dc:language>
-        <dc:publisher>Houghton Mifflin</dc:publisher>
-        <dc:relation xsi:type="http://purl.org/dc/terms/URI">http://catdir.loc.gov/catdir/samples/hm051/2002075940.html</dc:relation>
-        <dc:relation xsi:type="http://purl.org/dc/terms/URI">http://catdir.loc.gov/catdir/toc/hm021/2002075940.html</dc:relation>
-        <dc:relation xsi:type="http://purl.org/dc/terms/URI">http://catdir.loc.gov/catdir/enhancements/fy0736/2002075940-b.html</dc:relation>
-        <dc:relation xsi:type="http://purl.org/dc/terms/URI">http://catdir.loc.gov/catdir/description/hm022/2002075940.html</dc:relation>
+        <dc:publisher>Houghton Mifflin Co</dc:publisher>
+        <dc:relation>Hobbit.</dc:relation>
+        <dc:relation>There and back again.</dc:relation>
         <dc:subject xsi:type="http://purl.org/dc/terms/DDC">823/.912</dc:subject>
-        <dc:subject xsi:type="http://purl.org/dc/terms/LCC">PR6039.O32 H6 2002</dc:subject>
+        <dc:subject xsi:type="http://purl.org/dc/terms/LCC">PR6039.O32 H6 1988</dc:subject>
         <dc:subject xsi:type="http://purl.org/dc/terms/LCSH">Middle Earth (Imaginary place)--Fiction.</dc:subject>
-        <dc:subject xsi:type="http://purl.org/dc/terms/LCSH">Baggins, Bilbo (Fictitious character)--Fiction.</dc:subject>
-        <dc:title>The annotated hobbit : the hobbit, or, There and back again </dc:title>
+        <dc:title>The annotated Hobbit : the hobbit, or, There and back again </dc:title>
         <dc:title>Hobbit</dc:title>
-        <dc:title>Hobbit</dc:title>
-        <dc:title>There and back again</dc:title>
         <dc:type>Fantasy fiction.</dc:type>
         <dc:type>Text</dc:type>
         <oclcterms:recordContentSource>DLC</oclcterms:recordContentSource>
-        <oclcterms:recordCreationDate xsi:type="http://purl.org/oclc/terms/marc008date">020619</oclcterms:recordCreationDate>
-        <oclcterms:recordIdentifier xsi:type="http://purl.org/oclc/terms/lccn">  2002075940</oclcterms:recordIdentifier>
-        <oclcterms:recordIdentifier>50064985</oclcterms:recordIdentifier>
+        <oclcterms:recordCreationDate xsi:type="http://purl.org/oclc/terms/marc008date">880517</oclcterms:recordCreationDate>
+        <oclcterms:recordIdentifier xsi:type="http://purl.org/oclc/terms/lccn">   88009061 </oclcterms:recordIdentifier>
+        <oclcterms:recordIdentifier>18053069</oclcterms:recordIdentifier>
         <oclcterms:languageOfCataloging xsi:type="http://purl.org/oclc/terms/iso639-2b">eng</oclcterms:languageOfCataloging>
         <oclcterms:recordTranscribingAgency>DLC</oclcterms:recordTranscribingAgency>
         </oclcdcs>
@@ -243,10 +240,10 @@ http_interactions:
         </echoedSearchRetrieveRequest>
         </searchRetrieveResponse>
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:00 GMT
+  recorded_at: Mon, 09 Mar 2015 17:38:57 GMT
 - request:
     method: get
-    uri: http://da-dev-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_1letter_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet.query=pub_date_facet:%5B2002%20TO%202002%5D&q=Annotated%20hobbit&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=Annotated%20hobbit&stats=true&stats.field=pub_date_facet&wt=ruby
+    uri: http://da-prod-solr1.library.cornell.edu/solr/blacklight2/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_1letter_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet.query=pub_date_facet:%5B2002%20TO%202002%5D&q=Annotated%20hobbit&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=Annotated%20hobbit&stats=true&stats.field=pub_date_facet&wt=ruby
     body:
       encoding: US-ASCII
       string: ''
@@ -257,24 +254,26 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:30:00 GMT
+      - Mon, 09 Mar 2015 17:38:57 GMT
       Last-Modified:
-      - Wed, 14 Jan 2015 14:58:53 GMT
+      - Mon, 09 Mar 2015 06:07:45 GMT
       Etag:
-      - '"NzFmNjAwMDAwMDAwMDAwMFNvbHI="'
+      - '"NmM3ODAwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=UTF-8
+      Connection:
+      - close
       Transfer-Encoding:
       - chunked
     body:
       encoding: UTF-8
       string: |
-        {'responseHeader'=>{'status'=>0,'QTime'=>108,'params'=>{'sort'=>'score desc, pub_date_sort desc, title_sort asc','f.online.facet.limit'=>'3','stats'=>'true','f.subject_topic_facet.facet.limit'=>'6','spellcheck.q'=>'Annotated hobbit','f.language_facet.facet.limit'=>'6','f.lc_1letter_facet.facet.limit'=>'6','f.location_facet.facet.limit'=>'6','wt'=>'ruby','rows'=>'0','defType'=>'edismax','f.subject_content_facet.facet.limit'=>'6','facet.query'=>['pub_date_facet:[1988 TO 1989]','pub_date_facet:[1990 TO 1991]','pub_date_facet:[1992 TO 1994]','pub_date_facet:[1995 TO 1996]','pub_date_facet:[1997 TO 1999]','pub_date_facet:[2000 TO 2001]','pub_date_facet:[2002 TO 2002]'],'f.subject_geo_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet','q'=>'Annotated hobbit','f.author_facet.facet.limit'=>'6','qt'=>'search','f.subject_era_facet.facet.limit'=>'6','f.format.facet.limit'=>'11'}},'response'=>{'numFound'=>2,'start'=>0,'maxScore'=>16.822424,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1988 TO 1989]'=>1,'pub_date_facet:[1990 TO 1991]'=>0,'pub_date_facet:[1992 TO 1994]'=>0,'pub_date_facet:[1995 TO 1996]'=>0,'pub_date_facet:[1997 TO 1999]'=>0,'pub_date_facet:[2000 TO 2001]'=>0,'pub_date_facet:[2002 TO 2002]'=>1},'facet_fields'=>{'format'=>['Book',2],'online'=>['At the Library',2],'lc_1letter_facet'=>['P - Language & Literature',2],'language_facet'=>['English',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'pub_date_facet'=>['1988',1,'2002',1],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'subject_era_facet'=>[],'subject_geo_facet'=>[],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1],'subject_content_facet'=>['Fiction (books)',2]},'facet_dates'=>{},'facet_ranges'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1988.0,'max'=>2002.0,'count'=>2,'missing'=>0,'sum'=>3990.0,'sumOfSquares'=>7960148.0,'mean'=>1995.0,'stddev'=>9.899494936611665,'facets'=>{}}}},'spellcheck'=>{'suggestions'=>['annotated',{'numFound'=>1,'startOffset'=>0,'endOffset'=>9,'origFreq'=>16297,'suggestion'=>[{'word'=>'annotation','freq'=>20305}]},'hobbit',{'numFound'=>4,'startOffset'=>10,'endOffset'=>16,'origFreq'=>68,'suggestion'=>[{'word'=>'hobbing','freq'=>135},{'word'=>'hobbies','freq'=>127},{'word'=>'hobbes','freq'=>1219},{'word'=>'hobbes\'s','freq'=>96}]},'correctlySpelled',true]}}
+        {'responseHeader'=>{'status'=>0,'QTime'=>153,'params'=>{'sort'=>'score desc, pub_date_sort desc, title_sort asc','f.online.facet.limit'=>'3','stats'=>'true','f.subject_topic_facet.facet.limit'=>'6','spellcheck.q'=>'Annotated hobbit','f.language_facet.facet.limit'=>'6','f.lc_1letter_facet.facet.limit'=>'6','f.location_facet.facet.limit'=>'6','wt'=>'ruby','rows'=>'0','defType'=>'edismax','f.subject_content_facet.facet.limit'=>'6','facet.query'=>['pub_date_facet:[1988 TO 1989]','pub_date_facet:[1990 TO 1991]','pub_date_facet:[1992 TO 1994]','pub_date_facet:[1995 TO 1996]','pub_date_facet:[1997 TO 1999]','pub_date_facet:[2000 TO 2001]','pub_date_facet:[2002 TO 2002]'],'f.subject_geo_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet','q'=>'Annotated hobbit','f.author_facet.facet.limit'=>'6','qt'=>'search','f.format.facet.limit'=>'11','f.subject_era_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>2,'start'=>0,'maxScore'=>20.707935,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1988 TO 1989]'=>1,'pub_date_facet:[1990 TO 1991]'=>0,'pub_date_facet:[1992 TO 1994]'=>0,'pub_date_facet:[1995 TO 1996]'=>0,'pub_date_facet:[1997 TO 1999]'=>0,'pub_date_facet:[2000 TO 2001]'=>0,'pub_date_facet:[2002 TO 2002]'=>1},'facet_fields'=>{'format'=>['Book',2],'online'=>['At the Library',2],'lc_1letter_facet'=>['P - Language & Literature',2],'language_facet'=>['English',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'pub_date_facet'=>['1988',1,'2002',1],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'subject_era_facet'=>[],'subject_geo_facet'=>[],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1,'Middle Earth (Imaginary place) > Fiction',1],'subject_content_facet'=>['Fiction (books)',2]},'facet_dates'=>{},'facet_ranges'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1988.0,'max'=>2002.0,'count'=>2,'missing'=>0,'sum'=>3990.0,'sumOfSquares'=>7960148.0,'mean'=>1995.0,'stddev'=>9.899494936611665,'facets'=>{}}}},'spellcheck'=>{'suggestions'=>['annotated',{'numFound'=>1,'startOffset'=>0,'endOffset'=>9,'origFreq'=>16356,'suggestion'=>[{'word'=>'annotation','freq'=>20333}]},'hobbit',{'numFound'=>4,'startOffset'=>10,'endOffset'=>16,'origFreq'=>68,'suggestion'=>[{'word'=>'hobbing','freq'=>135},{'word'=>'hobbies','freq'=>129},{'word'=>'hobbes','freq'=>1225},{'word'=>'hobbes\'s','freq'=>96}]},'correctlySpelled',true]}}
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:00 GMT
+  recorded_at: Mon, 09 Mar 2015 17:38:57 GMT
 - request:
     method: get
-    uri: http://culholdingsdev.library.cornell.edu/holdings/retrieve_detail_short/4392584/1535861
+    uri: http://holdings1.library.cornell.edu/holdings/retrieve_detail_short/4392584/1535861
     body:
       encoding: UTF-8
       string: ''
@@ -284,14 +283,14 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Wed, 14 Jan 2015 19:30:00 GMT
+      - Mon, 09 Mar 2015 17:38:57 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 14 Jan 2015 19:30:00 GMT
+      - Mon, 09 Mar 2015 17:38:57 GMT
       Server:
       - Apache/2.2.15 (Red Hat)
       Access-Control-Allow-Origin:
@@ -299,15 +298,15 @@ http_interactions:
       X-Ua-Compatible:
       - IE=Edge
       Etag:
-      - '"4717aa67a9861581ce6a429f39f189e6"'
+      - '"a192d240f8cde696d3081b436d0865e9"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - dc6c3a8f017015eccf8f6cfea55a66e5
+      - ede3d1dc844335cb8d7865cc89aa990c
       X-Runtime:
-      - '0.313626'
+      - '1.557125'
       X-Powered-By:
-      - Phusion Passenger 4.0.53
+      - Phusion Passenger 4.0.57
       Status:
       - 200 OK
       Connection:
@@ -319,27 +318,27 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"4392584":{"4392584":{"records":[{"bibid":"4392584","holding_id":"4929617","location_name":"olin","call_number":"PR6039.O32
-        H6x 2002","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog-test.library.cornell.edu/vxws/record/4392584/items/6530722","itemid":"6530722","permLocation":"Olin
+        H6x 2002","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/4392584/items/6530722","itemid":"6530722","permLocation":"Olin
         Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"PR6039.O32
         H6x 2002","copy":"c. 1","itemBarcode":"31924095232199","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Charged
-        - Due on 2014-10-31","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"not_available","messages":[{"status_code":"Charged
-        - Due on 2014-10-31","short_message":"Charged - Due on 2014-10-31","long_message":"Charged
-        - Due on 2014-10-31"}],"location_id":"99"},"services":["in_process","borrow_direct","ill","recall_hold"],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        - Due on 2016-01-28","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"not_available","messages":[{"status_code":"Charged
+        - Due on 2016-01-28","short_message":"Charged - Due on 2016-01-28","long_message":"Charged
+        - Due on 2016-01-28"}],"location_id":"99"},"services":["in_process","borrow_direct","ill","recall_hold"],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
         Library"],"locnumber":1,"status":["not_avail"],"avail_at":{},"not_avail_at":{"Olin
         Library":"PR6039.O32 H6x 2002"},"onotes":[]}}},"1535861":{"1535861":{"records":[{"bibid":"1535861","holding_id":"1873484","location_name":"rmc","call_number":"Rare
         Books PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["With
-        dust jacket.","Inscribed by author."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog-test.library.cornell.edu/vxws/record/1535861/items/3076148","itemid":"3076148","permLocation":"Kroch
+        dust jacket.","Inscribed by author."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076148","itemid":"3076148","permLocation":"Kroch
         Library Rare & Manuscripts (Non-Circulating)","location_id":"87","tempLocation":"","location":"Kroch
         Library Rare & Manuscripts (Non-Circulating)","callNumber":"Rare Books PR6039.O49
         H6 1988 +","copy":"c. 1","itemBarcode":"31924051288110","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"9","typeDesc":"nocirc","tempType":"0","itemStatus":"Not
         Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
         Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"87"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873487","location_name":"uris,anx","call_number":"PR6039.O49
-        H6 1988","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog-test.library.cornell.edu/vxws/record/1535861/items/3076151","itemid":"3076151","permLocation":"Library
+        H6 1988","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076151","itemid":"3076151","permLocation":"Library
         Annex","location_id":"210","tempLocation":"","location":"Library Annex","callNumber":"PR6039.O49
         H6 1988","copy":"c. 5","itemBarcode":"31924068304017","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
         Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
         Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"210"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873482","location_name":"olin","call_number":"Oversize
-        PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog-test.library.cornell.edu/vxws/record/1535861/items/3076147","itemid":"3076147","permLocation":"Olin
+        PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076147","itemid":"3076147","permLocation":"Olin
         Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"Oversize
         PR6039.O49 H6 1988 +","copy":"c. 1","itemBarcode":"31924050942220","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
         Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
@@ -349,5 +348,5 @@ http_interactions:
         +","Library Annex":"PR6039.O49 H6 1988","Olin Library":"Oversize PR6039.O49
         H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
-  recorded_at: Wed, 14 Jan 2015 19:30:01 GMT
+  recorded_at: Mon, 09 Mar 2015 17:38:58 GMT
 recorded_with: VCR 2.9.3

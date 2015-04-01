@@ -107,6 +107,7 @@
 
     - if (group == "Circulating" && on_site_count < holdings.count) or group == "Rare"
       - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")
+      - @group = group
       .item-requests
         - counter = params[:counter] || session[:search][:counter]
         - if counter.blank?
