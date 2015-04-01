@@ -28,7 +28,7 @@ bookcovers =
         # Default response returns smallest thumbnail, swap out with largest
         thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
         $("##{divId}").replaceWith ->
-          '<img class="bookcover img-polaroid" alt="" src="' + thumbnail + '">'
+          '<img class="bookcover img-thumbnail" alt="" src="' + thumbnail + '">'
 
   # Retrieve covers via Google API
   fetchCovers: () ->
@@ -50,7 +50,7 @@ bookcovers =
         # Default response returns smallest thumbnail, swap out with largest
         thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
         $("##{divId}").replaceWith ->
-          '<img class="bookcover img-polaroid" alt="" src="' + thumbnail + '">'
+          '<img class="bookcover img-thumbnail" alt="" src="' + thumbnail + '">'
 
 $(document).ready ->
   bookcovers.onLoad()
