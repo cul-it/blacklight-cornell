@@ -1,34 +1,30 @@
 <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
 
-<section class="cornell-identity hidden-phone">
+<section class="cornell-identity hidden-xs">
   <div class="container">
-    <div class="row">
-      <div class="span6">
-        <div class="cu-logo">
-          <%= image_tag  "cornell/layout/cul-logo-white.gif" , alt: "Cornell University Library" %>
-          <a id="insignia-link" href="http://www.cornell.edu/">Cornell Insignia</a>
-          <div class="unit-signature-links">
-            <a id="cornell-link" href="http://www.cornell.edu/">Cornell University</a>
-            <a id="unit-link" href="http://www.library.cornell.edu/">Cornell University Library</a>
-          </div>
-        </div>
+    <div class="cu-logo">
+      <%= image_tag  "cornell/layout/cul-logo-white.gif" , alt: "Cornell University Library" %>
+      <a id="insignia-link" href="http://www.cornell.edu/">Cornell Insignia</a>
+      <div class="unit-signature-links">
+        <a id="cornell-link" href="http://www.cornell.edu/">Cornell University</a>
+        <a id="unit-link" href="http://www.library.cornell.edu/">Cornell University Library</a>
       </div>
-    </div> <!-- /row -->
+    </div>
   </div> <!-- /container -->
 </section>
 
 <div class="navbar navbar-static-top navbar-cul">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".culnav-collapse">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".culnav-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand visible-phone" href="http://www.library.cornell.edu/"><%= image_tag "cornell/layout/cul-mobile.png" , alt: "Cornell University Library" %></a>
+      <a class="navbar-brand visible-xs" href="http://www.library.cornell.edu/"><%= image_tag "cornell/layout/cul-mobile.png" , alt: "Cornell University Library" %></a>
     </div>
-    <div class="nav-collapse collapse culnav-collapse">
-      <ul class="nav">
+    <div class="navbar-collapse collapse culnav-collapse">
+      <ul class="nav navbar-nav">
         <li><a href="http://www.library.cornell.edu/">Home</a></li>
         <li><a href="http://www.library.cornell.edu/about">About Us</a></li>
         <li><a href="http://www.library.cornell.edu/libraries">Libraries and Hours</a></li>
@@ -46,7 +42,7 @@
 <header>
   <div class="container">
     <div class="row">
-      <div class="span4 catalog-name">
+      <div class="col-sm-4 catalog-name">
         <% if request.original_url.include? "/databases" %>
           <h1><a href="/databases">Databases</a></h1>
         <% elsif request.original_url.include? "/digitalcollections" %>
