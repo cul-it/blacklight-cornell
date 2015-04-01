@@ -11,12 +11,12 @@ ECHO = $(ECHO1:0=@echo)
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/local/rvm/rubies/ruby-2.1.5/include/ruby-2.1.0
+topdir = /Users/jrc88/.rvm/rubies/ruby-2.1.5/include/ruby-2.1.0
 hdrdir = $(topdir)
-arch_hdrdir = /usr/local/rvm/rubies/ruby-2.1.5/include/ruby-2.1.0/x86_64-linux
+arch_hdrdir = /Users/jrc88/.rvm/rubies/ruby-2.1.5/include/ruby-2.1.0/x86_64-darwin14.0
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/usr/local/rvm/rubies/ruby-2.1.5
+prefix = $(DESTDIR)/Users/jrc88/.rvm/rubies/ruby-2.1.5
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -30,8 +30,8 @@ rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendordir = $(rubylibprefix)/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20150109-17288-19ri4dh
-sitelibdir = $(DESTDIR)./.gem.20150109-17288-19ri4dh
+sitearchdir = $(DESTDIR)./.gem.20150331-6027-1mrkdj5
+sitelibdir = $(DESTDIR)./.gem.20150331-6027-1mrkdj5
 sitedir = $(rubylibprefix)/site_ruby
 rubyarchdir = $(rubylibdir)/$(arch)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -53,7 +53,7 @@ oldincludedir = $(DESTDIR)/usr/include
 includedir = $(prefix)/include
 localstatedir = $(prefix)/var
 sharedstatedir = $(prefix)/com
-sysconfdir = $(prefix)/etc
+sysconfdir = $(DESTDIR)/etc
 datadir = $(datarootdir)
 datarootdir = $(prefix)/share
 libexecdir = $(exec_prefix)/libexec
@@ -64,10 +64,10 @@ archdir = $(rubyarchdir)
 
 CC = gcc
 CXX = g++
-LIBRUBY = $(LIBRUBY_SO)
+LIBRUBY = $(LIBRUBY_A)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = -Wl,-R -Wl,$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)
-LIBRUBYARG_STATIC = -Wl,-R -Wl,$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)-static
+LIBRUBYARG_SHARED = 
+LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static -framework CoreFoundation
 empty =
 OUTFLAG = -o $(empty)
 COUTFLAG = -o $(empty)
@@ -76,21 +76,21 @@ RUBY_EXTCONF_H =
 cflags   =  $(optflags) $(debugflags) $(warnflags)
 optflags = -O3 -fno-fast-math
 debugflags = -ggdb3
-warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration
-CCDLFLAGS = -fPIC
-CFLAGS   = $(CCDLFLAGS) $(cflags)  -fPIC -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1 -DYAZ_HAVE_XSLT=1 -DYAZ_HAVE_EXSLT=1 -I/usr/include/libxml2
+warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wextra-tokens
+CCDLFLAGS = -fno-common
+CFLAGS   = $(CCDLFLAGS) -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.7 -pipe -I/usr/local/Cellar/yaz/5.7.2/include -DYAZ_POSIX_THREADS=1 -DYAZ_HAVE_XML2=1 -DYAZ_HAVE_XSLT=1 -DYAZ_HAVE_EXSLT=1 -I/usr/include/libxml2
   $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS = -DHAVE_YAZ_ZOOM_H  -I/usr/local/rvm/usr/include $(DEFS) $(cppflags)
+CPPFLAGS = -DHAVE_YAZ_ZOOM_H -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags)
 CXXFLAGS = $(CCDLFLAGS) $(cxxflags) $(ARCH_FLAG)
-ldflags  = -L. -fstack-protector -rdynamic -Wl,-export-dynamic -L/usr/local/rvm/usr/lib  -Wl,-R/usr/local/rvm/usr/lib  -lyaz -lexslt -lxslt -lz -lm -lgcrypt -ldl -lgpg-error -lxml2 -lpthread
+ldflags  = -L. -L/Users/mpapis/.sm/pkg/active/lib -fPIC -Bstatic -fstack-protector -L/usr/local/Cellar/yaz/5.7.2/lib -lyaz -lexslt -lxslt -lxml2 -lz -lpthread -licucore -lm -lxml2 -liconv -lpthread
  
-dldflags = -L/usr/local/rvm/usr/lib  -Wl,-R/usr/local/rvm/usr/lib  
-ARCH_FLAG = 
+dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress 
+ARCH_FLAG =  -arch x86_64
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
-LDSHARED = $(CC) -shared
-LDSHAREDXX = $(CXX) -shared
+LDSHARED = $(CC) -dynamic -bundle
+LDSHAREDXX = $(CXX) -dynamic -bundle
 AR = ar
 EXEEXT = 
 
@@ -101,7 +101,7 @@ RUBY_VERSION_NAME = $(RUBY_BASE_NAME)-$(ruby_version)
 RUBYW_BASE_NAME = rubyw
 RUBY_BASE_NAME = ruby
 
-arch = x86_64-linux
+arch = x86_64-darwin14.0
 sitearch = $(arch)
 ruby_version = 2.1.0
 ruby = $(bindir)/ruby
@@ -110,9 +110,9 @@ ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/ruby.h $(hdrdir)/ruby/defines.h $
 
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
-RMDIRS = rmdir --ignore-fail-on-non-empty -p
-MAKEDIRS = /bin/mkdir -p
-INSTALL = /usr/bin/install -c
+RMDIRS = rmdir -p
+MAKEDIRS = mkdir -p
+INSTALL = /usr/bin/install
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
 COPY = cp
@@ -122,8 +122,8 @@ TOUCH = exit >
 
 preload = 
 
-libpath = . $(libdir) /usr/local/rvm/usr/lib
-LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir) -L/usr/local/rvm/usr/lib -Wl,-R/usr/local/rvm/usr/lib
+libpath = . $(libdir)
+LIBPATH =  -L. -L$(libdir)
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -134,15 +134,15 @@ extout =
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS = $(LIBRUBYARG_SHARED)  -lpthread -lrt -ldl -lcrypt -lm   -lc
-ORIG_SRCS = rbzoomresultset.c rbzoompackage.c rbzoomrecord.c rbzoomquery.c rbzoom.c rbzoomconnection.c rbzoomoptions.c
+LIBS =   -lpthread -ldl -lobjc 
+ORIG_SRCS = rbzoom.c rbzoomconnection.c rbzoomoptions.c rbzoompackage.c rbzoomquery.c rbzoomrecord.c rbzoomresultset.c
 SRCS = $(ORIG_SRCS) 
-OBJS = rbzoomresultset.o rbzoompackage.o rbzoomrecord.o rbzoomquery.o rbzoom.o rbzoomconnection.o rbzoomoptions.o
+OBJS = rbzoom.o rbzoomconnection.o rbzoomoptions.o rbzoompackage.o rbzoomquery.o rbzoomrecord.o rbzoomresultset.o
 HDRS = $(srcdir)/rbzoom.h
 TARGET = zoom
 TARGET_NAME = zoom
 TARGET_ENTRY = Init_$(TARGET_NAME)
-DLLIB = $(TARGET).so
+DLLIB = $(TARGET).bundle
 EXTSTATIC = 
 STATIC_LIB = 
 
@@ -155,7 +155,7 @@ HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
 
 TARGET_SO     = $(DLLIB)
-CLEANLIBS     = $(TARGET).so 
+CLEANLIBS     = $(TARGET).bundle 
 CLEANOBJS     = *.o  *.bak
 
 all:    $(DLLIB)
@@ -234,6 +234,7 @@ $(DLLIB): $(OBJS) Makefile
 	$(ECHO) linking shared-object $(DLLIB)
 	-$(Q)$(RM) $(@)
 	$(Q) $(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
+	$(Q) $(POSTLINK)
 
 
 
