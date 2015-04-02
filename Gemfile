@@ -17,7 +17,7 @@ gem 'mysql'
 gem 'yaml_db'
 gem 'blacklight', '5.9'
 gem 'blacklight_range_limit'
-gem 'blacklight_cornell_advanced_search', :path => '/users/jrc88/blacklight-cornell-advanced-search', :branch => 'bl5'
+#gem 'blacklight_cornell_advanced_search', :path => '/users/jrc88/blacklight-cornell-advanced-search', :branch => 'bl5'
 gem 'blacklight_unapi'
 gem 'kaminari', '0.15.0'
 
