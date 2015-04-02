@@ -7,9 +7,6 @@
           <div class="form-group col-sm-6">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
               <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
-              <!-- <div class="advanced-link">
-                <%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %> | <a href="http://www.library.cornell.edu/help/catalog">Search Tips</a>
-              </div> -->
           </div>
 
           <% unless search_fields.empty? %>
@@ -69,9 +66,9 @@
   <div class="search-nav col-sm-4">
     <ul class="nav nav-pills">
       <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
-      <li><a href="#">Browse <i class="fa fa-bars"></i></li>
+      <li><a href="#">Browse</a></li>
+      <li><a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a></li>
     </ul>
-    <a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a>
   </div>
 
 </div>
