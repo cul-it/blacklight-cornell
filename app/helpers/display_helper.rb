@@ -126,7 +126,7 @@ include ActionView::Helpers::NumberHelper
   end
 
   def oclc_number_link 
-    id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
+    id_display = render_document_show_field_value :document => @document, :field => 'other_identifier_display'
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
         oclc_number = id_display.split("<")[0]
@@ -153,8 +153,10 @@ include ActionView::Helpers::NumberHelper
       if wcl_isbn.present? && !oclc_number.present?
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
         @xisbn = JSON.parse(@xisbn)["list"] 
+        unless @xisbn.blank?
         @xisbn.each do |wcl_data| 
           oclc_number = wcl_data["oclcnum"][0]
+        end
         end
     end 
     return oclc_number
@@ -881,20 +883,20 @@ include ActionView::Helpers::NumberHelper
   # Overrides original method from catalog_helper_behavior.rb
   # -- All this just to add commas (via format_num) to total result count
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
-  def render_pagination_info(response, options = {})
-      pagination_info = paginate_params(response)
+  #def render_pagination_info(response, options = {})
+   #   pagination_info = paginate_params(response)
 
    # TODO: i18n the entry_name
-      entry_name = options[:entry_name]
-      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
-      entry_name ||= t('blacklight.entry_name.default')
+   #   entry_name = options[:entry_name]
+   #   entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
+    #  entry_name ||= t('blacklight.entry_name.default')
 
-      case pagination_info.total_count
-        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
-        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => format_num(pagination_info.total_count), :count => pagination_info.num_pages).html_safe
-      end
-  end
+    #  case pagination_info.total_count
+    #    when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+    #    when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+    #    else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => format_num(pagination_info.total_count), :count => pagination_info.num_pages).html_safe
+     # end
+  #end
 
   # Overrides original method from catalog_helper_behavior.rb
   # -- Allow for different default sort when browsing
