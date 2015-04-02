@@ -1,8 +1,9 @@
 .pagination {
   margin: 0;
   padding-top: .25em;
-  background: $dark-gray;
+  background: #333;
   @include opacity(90);
+  border-radius: 0;
 }
 .pagination ul > li > a,
 .pagination ul > li > span {

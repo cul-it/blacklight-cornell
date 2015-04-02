@@ -26,7 +26,7 @@
         <%= citelink_content.html_safe %>
       <% end %>
     <% elsif citable %>
-      <%= link_to citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-mini'} do %>
+      <%= link_to citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-default btn-xs'} do %>
         <%= citelink_content.html_safe %>
       <% end %>
     <% end %>
@@ -41,7 +41,7 @@
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
-      <%= link_to email_catalog_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-mini'} do %>
+      <%= link_to email_catalog_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-default btn-xs'} do %>
         <%= emaillink_content.html_safe %>
       <% end %>
     <% end %>
@@ -51,8 +51,8 @@
 <% if bookmarks_index || exportable %>
   <li class="dropdown <% if !bookmarks_index %>pull-right<% end %>">
     <div class="btn-group">
-      <a href="#" class="dropdown-toggle btn btn-mini" data-toggle="dropdown"><i class="fa fa-share"></i>Export <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+      <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i>Export <b class="caret"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
         <% if bookmarks_index %>
           <li class="bookmarks-refworks">
             <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@document_list} %>
