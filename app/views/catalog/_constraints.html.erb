@@ -3,10 +3,10 @@
   	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-secondary" %>
     <span class="constraints-label hidden"><% t('blacklight.search.filters.title') %></span>
     <%#= debug params[:show_query] %>
-    <%if params[:q_row].nil? and params[:f].nil? %>
+    <%#if params[:q_row].nil? and params[:f].nil? %>
     	<%= render_constraints(params) %>
-    <%else %>
-       <%= render_advanced_constraints_query(params) %>
-    <% end %>
+    <%#else %>
+       <%#= render_advanced_constraints_query(params) %>
+    <% #end %>
   </div>
 <% end %>
