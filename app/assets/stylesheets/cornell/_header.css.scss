@@ -9,7 +9,7 @@ header {
     margin: 0 0 10px 0;
     display: inline-block;
     line-height: 1em;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
   	a { 
       color: $dark-gray;}
@@ -80,6 +80,16 @@ ul.blacklight-nav {
     a.user-email:hover,
     a.logout:hover {
       background: none;
+    }
+    .myaccount-link {
+      a {
+        color: $dark-gray;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      i {
+        margin-right: .5em;
+      }
     }
 }
 
@@ -175,3 +185,79 @@ ul.blacklight-nav {
   .navbar-toggle:hover,
   .navbar-toggle:active { background: $cornell-primary-hover; }
 }
+
+
+// Library menu 
+//-----------------------------------------
+
+.btn-library {
+  background: #b31b1b;
+  margin-top: 1em;
+  color: white;
+  text-transform: uppercase;
+  i {
+    color: white;
+    // margin-right: .5em;
+    font-size: 20px;
+  }
+}
+.btn-library:hover, .btn-library:active, .btn-library:focus {
+  background: $cornell-primary-hover;
+  color: white;
+  box-shadow: none;
+}
+.library-menu {
+  // width: 50%;
+  float: right;
+  background: $pale-gray;
+}
+.culnav-collapse {
+  float: right;
+  background: $dark-gray;
+}
+
+
+// MEDIA QUERIES
+// -------------------------
+
+// /* Extra small devices (phones, up to 480px) */
+// /* No media query since this is the default in Bootstrap */
+
+// /* Small devices (tablets, 768px and up) */
+// @media (min-width: @screen-sm) { ... }
+
+// /* Medium devices (desktops, 992px and up) */
+// @media (min-width: @screen-md) { ... }
+
+// /* Large devices (large desktops, 1200px and up) */
+// @media (min-width: @screen-lg) { ... }
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) {
+
+  // Menu overlay
+  .library-menu {
+    .collapsing {
+      position: absolute !important;
+      z-index: 20;
+      width: auto;
+      top: 50px;
+    }
+    .collapse.in {
+      display: block;
+      position: absolute;
+      z-index: 20;
+      width: auto;
+      top: 50px;
+    }
+    .culnav-collapse {
+      max-height: none !important;
+    }
+  }  
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+
+}
+
