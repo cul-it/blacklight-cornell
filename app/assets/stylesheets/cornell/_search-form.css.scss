@@ -125,8 +125,20 @@ h2.advanced-search { margin: 0; }
   li {
     border-left: 1px solid $dark-tan;
     font-size: 13px;
-    font-weight: 700;
     padding: 0 .5em;
+    a {
+      color: $dark-gray;
+      font-weight: 700;
+      text-transform: uppercase;
+      i {
+        margin-right: .5em;
+      }
+    }
+    .tips-link {
+      font-weight: normal;
+      color: $link-primary;
+      text-transform: none;
+    }
   }
   li:first-child {
     border-left: 0;
@@ -148,6 +160,3 @@ h2.advanced-search { margin: 0; }
 //     margin-top: 1em;
 //     font-size: 12px;
 //   }
-.tips-link {
-  font-weight: normal;
-}
