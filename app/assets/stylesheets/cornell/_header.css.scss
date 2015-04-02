@@ -6,12 +6,13 @@ header {
     padding-right: 0;
   }
  	h1 {
-    margin: 10px 0;
+    margin: 0 0 10px 0;
     display: inline-block;
     line-height: 1em;
     font-size: 28px;
     font-weight: 700;
-  	a { color: $dark-gray; }
+  	a { 
+      color: $dark-gray;}
     a:hover {
       color: $dark-gray;
       text-decoration: none;
@@ -19,16 +20,18 @@ header {
   }
   // Search home button
   .search-home {
-    font-size: 28px;
+    font-size: 14px;
+    display: block;
+    margin-top: .25em;
     a {
-      color: #b4b4b4;
+      color: $medium-gray;
     }
     a:hover {
       text-decoration: none;
       color: $medium-gray;
     }
     .divider {
-      color: #eee;
+      color: $light-gray;
       margin: 0 2px 0 8px;
     }
   }
