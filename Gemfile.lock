@@ -1,13 +1,4 @@
 GIT
-  remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
-  revision: bfc525d463f4873bb0c1918e4812ec1ccaf4cbf3
-  branch: master
-  specs:
-    blacklight_cornell_advanced_search (2.1.1)
-      blacklight
-      parslet
-
-GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
   revision: e3c6f1ea83434af7b865ed10ad0a6400f2e2f2fb
   branch: bl5
@@ -33,6 +24,13 @@ GIT
   revision: 9a3787008e0385f8d9085bbfb2b27096e1bcb528
   specs:
     zoom (0.4.1)
+
+PATH
+  remote: /users/jrc88/blacklight-cornell-advanced-search
+  specs:
+    blacklight_cornell_advanced_search (2.1.1)
+      blacklight
+      parslet
 
 GEM
   remote: https://rubygems.org/
