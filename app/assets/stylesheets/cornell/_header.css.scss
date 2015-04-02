@@ -20,9 +20,10 @@ header {
   }
   // Search home button
   .search-home {
-    font-size: 14px;
+    font-size: 12px;
     display: block;
     margin-top: .25em;
+    text-transform: uppercase;
     a {
       color: $medium-gray;
     }
@@ -33,6 +34,9 @@ header {
     .divider {
       color: $light-gray;
       margin: 0 2px 0 8px;
+    }
+    i {
+      margin-right: .25em;
     }
   }
 }
@@ -121,7 +125,7 @@ ul.blacklight-nav {
   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
   .container {
     background: $dark-gray;
-    @include border-top-radius(3px);
+    // @include border-top-radius(3px);
     -webkit-background-clip: padding-box;
   }
   .nav {
