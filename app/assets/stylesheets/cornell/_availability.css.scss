@@ -1,0 +1,132 @@
+// AVAILABILITY
+.availability {
+	// float: right;
+	background: white;
+	padding: 10px;
+	h3 { 
+		margin-top: 0;
+		font-size: 26px;
+	}
+	// .online-link { font-size: .875em; }
+	.worldcat-search {
+		font-size: 14px;
+		padding: 5px 10px;
+		display:block;
+		margin-top:10px;}
+	.location {
+		// font-size: .875em;
+		background: $light-tan;
+		margin-top: 0;
+		margin-bottom: .5em;
+		font-weight: bold;
+		padding: 5px 10px;
+		border: 1px solid $tan;
+		// -webkit-border-radius: 3px;
+		// -moz-border-radius: 3px;
+		// border-radius: 3px;
+		// overflow: hidden;
+		// border-bottom: 1px dotted $light-gray;
+		padding-bottom: .25em;
+	}
+	.location-online {
+		color: white;
+		background: $teal;
+		border-color: $teal;
+		// text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	}
+	.holding {
+		// border: 1px solid $tan;
+		.call-number {
+			padding: 0 10px;
+			// font-weight: 700;
+			// font-size: .875em;
+			// border-bottom: 1px dotted #d8d2c9;
+		}
+		.group {
+			padding: 5px 10px;
+		//	border-top: 1px dotted $tan;
+			font-size: .8em; }
+		// .status { margin-left: 15px; }
+	}
+	.map-it {
+		font-size: 12px;
+		display: inline-block;
+		// float: right;
+		// width: 25%;
+		// text-align: right;
+		 }
+	.url_findingaid_display {
+		display: block;
+		margin-bottom: 1em;
+	}
+	.unstyled {
+		padding: 0 10px;
+		margin-bottom: 0;
+	}
+}
+.label-available {
+	background: $teal;
+	margin-right: .25em;
+	i {
+		color: white;
+	}
+}
+.holding,
+.holdings-error {
+	margin-bottom: .5em;
+}
+.holding:last-of-type {
+	margin-bottom: 0;
+}
+.location {
+	margin-bottom: 0;
+	// font-size: 16;
+}
+.text-it,
+.map-it {
+	margin-left: .5em;
+	font-size: 12px;
+	font-weight: normal;
+}
+.share-options { min-width: auto; }
+.message {
+	margin: 0 0 .25em 0;
+	line-height: 1.5em;
+	word-wrap: break-word;
+}
+.online-link {
+	margin-bottom: .4em;
+	// font-size: .9em;
+	line-height: 1.2em;
+}
+.online-coverage,
+.online-note {
+	display: block;
+	margin-left: 1.8em;
+	// font-size: .85em;
+	line-height: 1.4em;
+	color: $dark-gray;
+}
+.access-restriction {
+	display: block;
+	//margin-top: 1em;
+	// font-size: .9em;
+	line-height: 1.2em;
+	color: $medium-gray;
+	padding-left: 5px;
+
+	h5 { margin: 0; }
+}
+.item-requests {
+	border-top: 3px solid $light-tan;
+	padding-top: 10px;
+	margin: .75em 0; }
+
+.google-books-link {
+	margin: 1.5em 0 0;
+	padding-top: 1em;
+	border-top: solid 2px #d8d2c9;
+}
+.online-holdings {
+	// border: 1px solid $tan;
+}
