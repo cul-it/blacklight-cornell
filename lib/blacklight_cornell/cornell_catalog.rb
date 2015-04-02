@@ -13,6 +13,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
+    helper_method :search_action_url, :search_action_path, :search_facet_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     before_filter :add_cjk_params_logic
@@ -26,6 +27,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # Example, when the standard query parser is used, and a user submits a "bad" query.
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
+
+    def search_action_path *args
+
+      if args.first.is_a? Hash
+        args.first[:only_path] = true
+      end
+
+      search_action_url *args
+    end
 
   def add_cjk_params_logic
     CatalogController.solr_search_params_logic << :cjk_query_addl_params
