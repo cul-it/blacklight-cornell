@@ -15,12 +15,11 @@
 .pagination ul > .active > span,
 .pagination ul > .active > span:hover,
 .pagination ul > li > a:hover {
-  color: $dark-gray;
   border: none;
-  background: white;
+  background: $teal;
 }
 .pagination ul > li > a:hover {
-  background: $light-gray;
+  background: $white;
 }
 .pagination > .disabled > span, 
 .pagination > .disabled > span:hover, 
