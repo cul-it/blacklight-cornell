@@ -34,7 +34,7 @@
   <body onload="<%= onload_text %>" class="<%= render_body_class %>">
     <%= render :partial => 'shared/header_navbar' %>
 
-    <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
+  <%= render partial: 'shared/ajax_modal' %>
 
     <div class="search-bar">
       <div class="container">
@@ -49,7 +49,7 @@
     </div>
 
     <section class="main-content" id="maincontent">
-      <div class="container">
+      <div class="container" id="main-container">
         <div class="row">
           <div class="col-sm-12">
               <div id="main-flashes">
