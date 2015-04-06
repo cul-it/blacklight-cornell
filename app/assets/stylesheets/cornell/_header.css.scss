@@ -1,7 +1,6 @@
 header {
   background: white;
   border-bottom: 1px solid $tan;
-  // background: $pale-gray;
   .container {
     padding-right: 0;
   }
@@ -47,17 +46,23 @@ header {
   &:hover { background: $blue; }
 }
 
+// Links like Search History, Selected Items, etc.
+// --------------------------------------------------//
 ul.blacklight-nav {
   	font-size: 12px;
   	margin: .75em 0 0 0;
+    padding: 0;
   	list-style: none;
-    float: right;
   	li {
       float: left;
       border-left: 1px solid #ccc;
+      margin-bottom: .5em;
     }
     li:first-child {
       border-left: none;
+      a {
+        padding-left: 0;
+      }
     }
   	a {
     	display: block;
@@ -93,98 +98,99 @@ ul.blacklight-nav {
     }
 }
 
-.current-user {
-  float: left;
-  margin-right: 1em;
-  color: $light-gray;
-}
 
-.nav-global {
-  padding-right: 0;
-  text-align: right;
-  .nav { 
-    list-style: none;
-    float: right;
-    li { 
-      float: left;
-      font-size: 12px;
-      border-left: 1px solid $cornell-primary-hover; }
-    li:first-child { border-left: 0; }
-    a { 
-      margin: 0 8px;
-      padding: 0;
-      display: inline-block;
-      color: white; }
-    a:hover { 
-      text-decoration: underline;
-      background: inherit; }
-  } 
-}
+// TODO: Delete in BL5?
+// .current-user {
+//   float: left;
+//   margin-right: 1em;
+//   color: $light-gray;
+// }
 
-// Nav from main site
+// .nav-global {
+//   padding-right: 0;
+//   text-align: right;
+//   .nav { 
+//     list-style: none;
+//     float: right;
+//     li { 
+//       float: left;
+//       font-size: 12px;
+//       border-left: 1px solid $cornell-primary-hover; }
+//     li:first-child { border-left: 0; }
+//     a { 
+//       margin: 0 8px;
+//       padding: 0;
+//       display: inline-block;
+//       color: white; }
+//     a:hover { 
+//       text-decoration: underline;
+//       background: inherit; }
+//   } 
+// }
+
+// Nav from main site - TODO: Don't need any more?
 //-----------------------------------------
-.navbar {
-  margin-bottom: 0;
-  border: 0;
-  .container {
-    padding: 0;
-  }
-}
-.navbar-cul {
-  background: $cornell-primary;
-  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-  .container {
-    background: $dark-gray;
-    // @include border-top-radius(3px);
-    -webkit-background-clip: padding-box;
-  }
-  .nav {
-    li {
-      a {
-        padding: 15px 20px;
-        color: #ccc;
-        text-shadow: none;
-      }
-      a:hover {
-        color: white;
-      }
-    }
-  }
-}
-.navbar-static-top {
-  margin-left: 0;
-  margin-right: 0;
-}
-.navbar-brand { 
-  color: white;
-  float: none;
-  margin: 0;
-  font-size: 16px;
-}
-.navbar-brand:hover { 
-  text-decoration: none;
-  color: white;
-}
-.navbar-header {
-  background: $cornell-primary;
+// .navbar {
+//   margin-bottom: 0;
+//   border: 0;
+//   .container {
+//     padding: 0;
+//   }
+// }
+// .navbar-cul {
+//   background: $cornell-primary;
+//   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+//   .container {
+//     background: $dark-gray;
+//     -webkit-background-clip: padding-box;
+//   }
+//   .nav {
+//     li {
+//       a {
+//         padding: 15px 20px;
+//         color: #ccc;
+//         text-shadow: none;
+//       }
+//       a:hover {
+//         color: white;
+//       }
+//     }
+//   }
+// }
+// .navbar-static-top {
+//   margin-left: 0;
+//   margin-right: 0;
+// }
+// .navbar-brand { 
+//   color: white;
+//   float: none;
+//   margin: 0;
+//   font-size: 16px;
+// }
+// .navbar-brand:hover { 
+//   text-decoration: none;
+//   color: white;
+// }
+// .navbar-header {
+//   background: $cornell-primary;
   // override bootstrap btn styles
-  .navbar-toggle {
-    background: $cornell-primary;
-    margin: 0;
-    border: 0; 
-    border-radius: 0;
-    height: 45px;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    .icon-bar {
-      background: white;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-    }
-  }
-  .navbar-toggle:hover,
-  .navbar-toggle:active { background: $cornell-primary-hover; }
-}
+//   .navbar-toggle {
+//     background: $cornell-primary;
+//     margin: 0;
+//     border: 0; 
+//     border-radius: 0;
+//     height: 45px;
+//     -webkit-border-radius: 0;
+//     border-radius: 0;
+//     .icon-bar {
+//       background: white;
+//       -webkit-box-shadow: none;
+//       box-shadow: none;
+//     }
+//   }
+//   .navbar-toggle:hover,
+//   .navbar-toggle:active { background: $cornell-primary-hover; }
+// }
 
 
 // Library menu 
@@ -192,8 +198,8 @@ ul.blacklight-nav {
 
 .btn-library {
   background: #b31b1b;
-  margin-top: 1.25em;
   color: white;
+  margin-top: .25em;
   text-transform: uppercase;
   i {
     color: white;
@@ -218,54 +224,31 @@ ul.blacklight-nav {
     }
   }
 }
-// .library-menu {
-//   // width: 50%;
-//   float: right;
-//   background: $pale-gray;
-// }
-// .culnav-collapse {
-//   float: right;
-//   background: $dark-gray;
-// }
-
 
 // MEDIA QUERIES
 // -------------------------
 
-// /* Extra small devices (phones, up to 480px) */
-// /* No media query since this is the default in Bootstrap */
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
 
-// /* Small devices (tablets, 768px and up) */
-// @media (min-width: @screen-sm) { ... }
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
 
-// /* Medium devices (desktops, 992px and up) */
-// @media (min-width: @screen-md) { ... }
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
 
-// /* Large devices (large desktops, 1200px and up) */
-// @media (min-width: @screen-lg) { ... }
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) {
-
-  // // Menu overlay
-  // .library-menu {
-  //   .collapsing {
-  //     position: absolute !important;
-  //     z-index: 20;
-  //     width: auto;
-  //     top: 50px;
-  //   }
-  //   .collapse.in {
-  //     display: block;
-  //     position: absolute;
-  //     z-index: 20;
-  //     width: auto;
-  //     top: 50px;
-  //   }
-  //   .culnav-collapse {
-  //     max-height: none !important;
-  //   }
-  // }  
+@media (min-width: $screen-sm) { 
+  .btn-library {
+    margin-top: 1.25em;
+  }
+  ul.blacklight-nav {
+    float: right;
+  }
 }
 
 /* Medium devices (desktops, 992px and up) */

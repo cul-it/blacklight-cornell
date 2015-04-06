@@ -62,7 +62,6 @@ input.search-query {
 }
 #search_field {
   float: left;
-  width: auto;
   font-family: $font-family-base; // See cul-bootstrap-loader.css.scss for details
 }
 p.suggest {
@@ -160,3 +159,32 @@ h2.advanced-search { margin: 0; }
 //     margin-top: 1em;
 //     font-size: 12px;
 //   }
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  #search_field {
+    width: auto;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+
+}
+
