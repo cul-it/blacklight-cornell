@@ -17,6 +17,62 @@ Feature: Item view
   	Then I should see the label 'Request'
 
   @aeon
+  @rmcnoitems
+  Scenario: View an items holdings
+  	Given I request the item view for 8753977 
+  	Then I should see the label 'Request'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        And click on link "Request"
+        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+
+  @aeon
+  Scenario: View an items holdings, and request from aeon
+  	Given I request the item view for 2083253 
+        Then it should have link "Request" with value "/aeon/2083253"  
+
+
+  # DISCOVERYACCESS-136
+  @DISCOVERYACCESS-136
+  Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
+    Given I request the item view for 6041
+    And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+    Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+
+  # DISCOVERYACCESS-137
+  @javascript 
+  @DISCOVERYACCESS-137
+  Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
+    Given I request the item view for 1630516 
+    And click on link "English poetry"
+    Then it should contain filter "Subject" with value "English poetry"
+
+  @DISCOVERYACCESS-137
+  Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
+    Given I request the item view for 1630516 
+    And click on link "19th century"
+    Then it should contain filter "Subject" with value "English poetry 19th century"
+
+  # DISCOVERYACCESS-138
+  Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
+    Given I request the item view for 4442
+    And click on link "Peabody, William Bourn Oliver, 1799-1847"
+    Then I should see the label 'Lives of Alexander Wilson and Captain John Smith'
+
+  # DISCOVERYACCESS-142
+  Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
+    Given I request the item view for 3749
+    Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
+
+  @aeon
   Scenario: View an items holdings, and request from aeon
   	Given I request the item view for 2083253 
         And click on link "Request"

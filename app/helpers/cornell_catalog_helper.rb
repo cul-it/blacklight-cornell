@@ -425,6 +425,7 @@ module CornellCatalogHelper
       Rails.logger.debug "\nes287_debug File:#{__FILE__}:line:(#{__LINE__}) hk  = #{hk}"
       next if  hk.nil?
       next if  items_by_mid[hk].nil?
+      next if  condensed[hk].nil?
       #condensed[condn_by_mid[hk]]["copies"] << items_by_mid[hk] 
       condensed[hk]["copies"] << items_by_mid[hk]  
       if !over_locs[hk].blank?
