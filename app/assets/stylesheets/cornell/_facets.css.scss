@@ -40,6 +40,13 @@
 	a:hover { background: white; }
 	.top-panel-heading {
 		padding: 0;
+		border-radius: 0;
+		border: 0 !important;
+		overflow: hidden;
+		h4 {
+			padding-left: .5em;
+			font-size: 14px;
+		}
 	}
 	.panel-heading{
 		a {
@@ -82,6 +89,10 @@
 		color: $dark-gray;
 	}
 	h5 + div { padding-bottom: .5em; }
+	.top-panel-heading {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
 }
 .count {
   font-family: $monospaceFontFamily;
@@ -181,6 +192,30 @@ form.range_limit {
 	background: white;
 }
 
+// Facet button on mobile
+// ---------------------------
+.facets-toggle,
+.facets-toggle:hover
+.facets-toggle:active,
+.facets-toggle:focus {
+	border-radius: 0;
+	border: 1px solid $tan;
+	padding: 5px 10px;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 12px;
+	clear: both;
+	width: 100%;
+	margin: 0;
+}
+.facets-toggle {
+	i {
+		margin-right: 0;
+		margin-left: .75em;
+		color: $dark-gray;
+	}
+}
+
 // MODAL WINDOW
 // ----------------------
 .modal { background: $pale-gray; }
@@ -197,3 +232,42 @@ form.range_limit {
 .facet_extended_list {
 	i { margin-right: 5px; }
 }
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.facets {
+		.top-panel-heading {
+			h4 {
+				padding-left: 0;
+				font-size: 18px;
+			}	
+		}
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+
+}
+
+
+
+
+
+
