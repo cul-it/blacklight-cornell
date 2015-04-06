@@ -510,10 +510,15 @@ module CornellCatalogHelper
       date = holding[:CURRENT_DUE_DATE].blank? ? holding[:ITEM_STATUS_DATE].to_s.slice(0,10)  : holding[:CURRENT_DUE_DATE].to_s.slice(0,10)  
       solri = items_solr[holding[:ITEM_ID].to_s]
       Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+      enum = Maybe(holding[:ITEM_ENUM]) + ' ' + Maybe(holding[:CHRON])
       reqs = "0"
       if !solri.nil?
         copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
-        enum = solri['item_enum'] + ' ' + solri['chron']+copy
+        if  solri['item_enum'].blank? 
+          enum = Maybe(holding[:ITEM_ENUM]) + ' ' + Maybe(holding[:CHRON])
+        else 
+          enum = solri['item_enum'] + ' ' + solri['chron']+copy
+        end
         reqs = solri['reqs'] 
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
       end
