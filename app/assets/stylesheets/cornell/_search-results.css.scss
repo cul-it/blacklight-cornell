@@ -4,14 +4,38 @@ body.blacklight-bookmarks-index #documents .document {
 	border-bottom: 1px solid $light-tan;
 	padding: 1.5em 0;
 	margin-top: 0;
+	// Book cover and icon cover
 	img {
 		float: left;
 		margin-right: 1em;
-		width: 75px;
-		height: 100px;
+		width: 50px;
+		height: auto;
 	}
 }
 
+// Icon cover
+// ------------------------------------------
+
+.iconcover {
+	float: left; 
+	width: 75px; 
+	margin-right: 1em; 
+	height: 100px;
+	text-align: center;
+	width: 50px;
+	height: auto;
+	i { 
+		font-size: 24px;
+		color: $dark-tan;
+		margin-left: 2px;
+		position: relative;
+		top: -50px
+
+	}
+}
+
+// Title
+// ------------------------------------------
 .blacklight-title_display {
 	margin: 0 0 .5em 0;
 	font-weight: normal;
@@ -19,9 +43,11 @@ body.blacklight-bookmarks-index #documents .document {
 	font-size: 20px;
 }
 
+// Item data
+// ------------------------------------------
 .document-data {
 	float: left;
-	width: 89%;
+	width: 75%;
 	span {
 		font-size: 12px;
 		// color: $medium-gray;
@@ -73,6 +99,9 @@ body.blacklight-bookmarks-index #documents .document {
 	margin-bottom: .5em;
 }
 
+// Availability status
+// ------------------------------------------
+
 .status-online {
 	font-size: 12px;
 }
@@ -84,6 +113,10 @@ body.blacklight-bookmarks-index #documents .document {
 .status .fa-question-circle,
 .fa-warning {color: $yellow; }
 
+
+// Sort and per page options
+// ------------------------------------------
+
 #sort-dropdown,
 #per_page-dropdown {
 	font-size: 12px;
@@ -91,10 +124,17 @@ body.blacklight-bookmarks-index #documents .document {
 		font-size: inherit;
 	}
 }
-.select-item {
-	float: right;
-	margin-left: 30px;
+#sortAndPerPage {
+	margin-bottom: 0;
+	padding-bottom: .25em;
 }
+.search-widgets {
+	float: none !important;
+}
+
+// Select / bookmarks
+// ------------------------------------------
+
 .select-all {
 	margin-left: 10px;
 	form { margin-bottom: 0; }
@@ -111,19 +151,11 @@ body.blacklight-bookmarks-index #documents .document {
 	font-weight: normal;
 }
 .label-online:hover { background: $dark-teal; }
-
-#sortAndPerPage {
-	margin-bottom: 0;
-	padding-bottom: 0;
+.form-horizontal {
+	.toggle_bookmark {
+		padding-top: 0;
+	}
 }
-
-// override bl5.9 gem
-// #documents {
-// 	.document {
-// 		padding-top: 1.5;
-// 		margin-top: 0;
-// 	}
-// }
 
 // Search history
 // ------------------------------------------
@@ -135,16 +167,54 @@ body.blacklight-bookmarks-index #documents .document {
 		margin: 0 .5em; }
 }
 
-.iconcover { // bump up width and heigh to accommodate for padding on nested img with img-polaroid class
-	float: left; 
-	width: 75px; 
-	margin-right: 1em; 
-	height: 100px;
-	text-align: center;
-	i { 
-		font-size: 24px;
-		color: $dark-tan;
-		margin-left: 4px;
-		position: relative;
-		top: -70px; }
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.search-widgets {
+		float: right !important;
+	}
+	#sortAndPerPage {
+		padding-bottom: 0;
+	}
+	body.blacklight-catalog-index #documents .document,
+	body.blacklight-bookmarks-index #documents .document {
+		img {
+			width: 75px;
+			height: 100px;
+		}
+	}
+	.iconcover {
+		width: 75px; 
+		height: 100px;
+		i {
+			margin-left: 4px;
+			top: -70px;
+		}
+	}
+	.select-item {
+		float: right;
+		margin-left: 30px;
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+	.document-data {
+		width: 89%;
+	}
 }
