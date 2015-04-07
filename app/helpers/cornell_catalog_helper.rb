@@ -514,7 +514,7 @@ module CornellCatalogHelper
       if !solri.nil?
         copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
         if  solri['item_enum'].blank? 
-          enum = "#{holding[:ITEM_ENUM]}  #{holding[:CHRON]}"
+          enum = "#{holding[:ITEM_ENUM]}  #{holding[:CHRON]} #{copy}"
         else 
           enum = solri['item_enum'] + ' ' + solri['chron']+copy
         end
