@@ -1,24 +1,34 @@
-.pagination {
-  margin: 0;
-  padding-top: .25em;
+.pagination-bar {
   background: #333;
   @include opacity(90);
   border-radius: 0;
+  font-size: 85%;
+  min-height: 0;
+  text-align: center;
 }
-.pagination ul > li > a,
-.pagination ul > li > span {
+.pagination {
+  margin: 0;
+  padding-top: .15em;
+}
+.pagination-bar ul > li > a,
+.pagination-bar ul > li > span {
   color: $white;
   background-color: transparent;
   border: none;
+  padding: 4px 7px;
 }
-.pagination ul > .active > a,
-.pagination ul > .active > span,
-.pagination ul > .active > span:hover,
-.pagination ul > li > a:hover {
+.pagination-bar ul > .active > a,
+.pagination-bar ul > .active > span,
+.pagination-bar ul > .active > span:hover,
+.pagination-bar ul > li > a:hover {
   border: none;
   background: $teal;
 }
-.pagination ul > li > a:hover {
+
+.pagination > li > a, .pagination > li > span
+
+
+.pagination-bar ul > li > a:hover {
   background: $white;
 }
 .pagination > .disabled > span, 
@@ -34,4 +44,31 @@
 .pagination > li:first-child > a, .pagination > li:first-child > span,
 .pagination > li:last-child > a, .pagination > li:last-child > span {
   border-radius: 0;
+}
+
+.pagination.navbar {
+    min-height: 0;
+  }
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .pagination-bar {
+    font-size: 100%;
+  }
 }
