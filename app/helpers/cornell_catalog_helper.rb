@@ -513,13 +513,18 @@ module CornellCatalogHelper
       reqs = "0"
       if !solri.nil?
         copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
-        enum = solri['item_enum'] + ' ' + solri['chron']+copy
+        if  solri['item_enum'].blank? 
+          enum = "#{holding[:ITEM_ENUM]}  #{holding[:CHRON]} #{copy}"
+        else 
+          enum = solri['item_enum'] + ' ' + solri['chron']+copy
+        end
         reqs = solri['reqs'] 
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
       end
       norr = reqs == '0' ? 'n' : 'r'
       status =  ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr].nil?  ?  "Status #{holding[:ITEM_STATUS].to_s} " : ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr]['short_message']
-      Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} status = #{status.inspect}\n"
+      Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} status = #{status.inspect}\n"
+      Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} enum = #{enum.inspect}\n"
       status_text =  status.gsub('%ENUM',enum)
       status_text =  status_text.gsub('%SDATE',sdate)
       status_text =  status_text.gsub('%DATE',date)
