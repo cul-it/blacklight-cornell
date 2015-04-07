@@ -259,6 +259,8 @@ class CatalogController < ApplicationController
     # config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
 
     config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+    config.add_facet_fields_to_solr_request! 
+
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
