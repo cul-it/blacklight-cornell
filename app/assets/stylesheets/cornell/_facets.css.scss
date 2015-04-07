@@ -58,7 +58,11 @@
 // OVERRIDE #FACETS - TODO: do we still need this in BL5?
 // -------------------------
 
+#sidebar {
+	padding-bottom: 0;
+}
 #facets {
+	padding-bottom: 0;
 	ul {
 		margin-left: 0;
 		padding-top: 0;
