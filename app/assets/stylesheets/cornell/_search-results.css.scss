@@ -50,7 +50,6 @@ body.blacklight-bookmarks-index #documents .document {
 	width: 75%;
 	span {
 		font-size: 12px;
-		// color: $medium-gray;
 		margin-bottom: .5em;
 	}
 	.shadow-record {
@@ -60,14 +59,11 @@ body.blacklight-bookmarks-index #documents .document {
 	}
 	.blacklight-pub_date_display {
 		margin-left: .2em;
-		// color: $dark-gray;
 	}
 	.blacklight-title_uniform_display {
 		display: block;
 		margin-top: -.2em;
-		// font-style: italic;
 		font-size: 14px;
-		// color: $medium-gray;
 		color: $dark-gray;
 	}
 	.blacklight-author_display {
@@ -76,18 +72,15 @@ body.blacklight-bookmarks-index #documents .document {
 	}
 	.format {
 		margin-right: .5em;
-		// color: $dark-gray;
 	}
 	.blacklight-pub_info_display {
 		margin-right: .5em;
-		// color: $medium-gray;
 	}
 	.status {
 		font-size: 12px;
 		line-height: 1em;
 		margin-top: 1em;
 	}
-	.location { color: $medium-gray; }
 	.preloader {
 		color: $light-gray;
 		font-size: 11px;
