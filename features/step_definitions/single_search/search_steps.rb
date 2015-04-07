@@ -1,20 +1,20 @@
 # -*- encoding : utf-8 -*-
-Then /^I should see a search field$/ do
-  page.should have_selector("input#q")
-end
+# Then /^I should see a search field$/ do
+#   page.should have_selector("input#q")
+# end
 
-Then /^I should see a "([^\"]*)" button$/ do |label|
+Then /^I should see a bento "([^\"]*)" button$/ do |label|
   #page.should have_selector('button#search-btn')
   page.should have_selector('input[value="Search"]')
 end
 
-Then /^I should get results$/ do
+Then /^I should get bento results$/ do
   page.should  have_selector('.bento1')
   bento1 = all('.bento1')[0].text
   bento1.should match(/[a-zA-Z]+/) 
 end
 
-Then /^I should not get results$/ do
+Then /^I should not get bento results$/ do
   if false 
     anytext= all('.bento1')[0].text
     anytext.should_not match(/[a-zA-Z]+/)
