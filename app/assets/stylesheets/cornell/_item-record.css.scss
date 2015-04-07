@@ -1,6 +1,9 @@
+// Return to catalog link
+//----------------------------//
 .return-link {
 	display: inline-block;
 	margin-bottom: .6em;
+	font-size: 12px;
 }
 
 .document-header {
@@ -160,4 +163,27 @@ dd.blacklight-notes {
 #marc_view .subfields { 
 padding-left: 6em;
 	width: 70%;
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.return-link {
+		font-size: 16px;
+	}
 }

@@ -11,7 +11,6 @@ footer {
 		padding: 0 10px;
 	}
 }
-.feedback-link { text-align: right; }
 
 .footer-copyright {
 	padding-top: 1.5em;
@@ -83,7 +82,7 @@ footer {
 	h3 {
 		text-transform: uppercase;
 		font-size: 11px;
-		margin: 0;
+		margin: 2em 0 0 0;
 	}
 }
 .social-links {
@@ -92,4 +91,27 @@ footer {
 	}
 	a { color: $medium-gray; }
 	.facebook-button { margin-right: 5px; }
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.feedback-link { 
+		text-align: right;
+	}
 }
