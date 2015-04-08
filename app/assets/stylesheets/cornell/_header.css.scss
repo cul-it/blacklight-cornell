@@ -125,69 +125,70 @@ ul.blacklight-nav {
 //   } 
 // }
 
-// Nav from main site - TODO: Don't need any more?
+// Nav from main site 
 //-----------------------------------------
-// .navbar {
-//   margin-bottom: 0;
-//   border: 0;
-//   .container {
-//     padding: 0;
-//   }
-// }
-// .navbar-cul {
-//   background: $cornell-primary;
-//   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-//   .container {
-//     background: $dark-gray;
-//     -webkit-background-clip: padding-box;
-//   }
-//   .nav {
-//     li {
-//       a {
-//         padding: 15px 20px;
-//         color: #ccc;
-//         text-shadow: none;
-//       }
-//       a:hover {
-//         color: white;
-//       }
-//     }
-//   }
-// }
-// .navbar-static-top {
-//   margin-left: 0;
-//   margin-right: 0;
-// }
-// .navbar-brand { 
-//   color: white;
-//   float: none;
-//   margin: 0;
-//   font-size: 16px;
-// }
-// .navbar-brand:hover { 
-//   text-decoration: none;
-//   color: white;
-// }
-// .navbar-header {
-//   background: $cornell-primary;
-  // override bootstrap btn styles
-//   .navbar-toggle {
-//     background: $cornell-primary;
-//     margin: 0;
-//     border: 0; 
-//     border-radius: 0;
-//     height: 45px;
-//     -webkit-border-radius: 0;
-//     border-radius: 0;
-//     .icon-bar {
-//       background: white;
-//       -webkit-box-shadow: none;
-//       box-shadow: none;
-//     }
-//   }
-//   .navbar-toggle:hover,
-//   .navbar-toggle:active { background: $cornell-primary-hover; }
-// }
+.navbar {
+  margin-bottom: 0;
+  border: 0;
+  .container {
+    padding: 0;
+  }
+}
+.navbar-cul {
+  background: $cornell-primary;
+  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+  .container {
+    background: $dark-gray;
+    -webkit-background-clip: padding-box;
+  }
+  .nav {
+    li {
+      a {
+        padding: 15px 20px;
+        color: #ccc;
+        text-shadow: none;
+      }
+      a:hover, a:active, a:focus {
+        color: white;
+        background: black;
+      }
+    }
+  }
+}
+.navbar-static-top {
+  margin-left: 0;
+  margin-right: 0;
+}
+.navbar-brand { 
+  color: white;
+  float: none;
+  margin: 0;
+  font-size: 16px;
+}
+.navbar-brand:hover { 
+  text-decoration: none;
+  color: white;
+}
+.navbar-header {
+  background: $cornell-primary;
+  //override bootstrap btn styles
+  .navbar-toggle {
+    background: $cornell-primary;
+    margin: 0;
+    border: 0; 
+    border-radius: 0;
+    height: 45px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    .icon-bar {
+      background: white;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+  .navbar-toggle:hover,
+  .navbar-toggle:active { background: $cornell-primary-hover; }
+}
 
 
 // Library menu 
