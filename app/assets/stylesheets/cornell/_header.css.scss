@@ -137,6 +137,7 @@ ul.blacklight-nav {
 .navbar-cul {
   background: $cornell-primary;
   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+  min-height: 0;
   .container {
     background: $dark-gray;
     -webkit-background-clip: padding-box;
@@ -188,6 +189,9 @@ ul.blacklight-nav {
   }
   .navbar-toggle:hover,
   .navbar-toggle:active { background: $cornell-primary-hover; }
+}
+.navbar-collapse {
+  border-top: 0;
 }
 
 
