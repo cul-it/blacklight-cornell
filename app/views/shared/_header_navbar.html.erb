@@ -55,8 +55,8 @@
         <% elsif request.original_url.include? "/digitalcollections" %>
           <h1><a href="/digitalcollections">Cornell Digital Collections</a></h1>
         <% else %>
-        <span class="search-home"><a href="http://search.library.cornell.edu/"><i class="fa fa-search"></i>Search</a><span class="divider">/</span></span>
-        <h1><a href="<%=root_path%>">Library Catalog</a></h1>
+        <span class="search-home"><a href="http://search.library.cornell.edu/">Search</a><span class="divider">/</span></span>
+        <h1><a href="<%=root_path%>">Catalog</a></h1>
         <%end%>
       </div>
       <% if !request.original_url.include? "/databases"  %>
