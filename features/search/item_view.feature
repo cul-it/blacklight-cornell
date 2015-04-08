@@ -359,6 +359,7 @@ Feature: Item view
     Then I should see the label '1 copy'
 
   # DISCOVERYACCESS-1409 -- this record returns we are sorry 
+  # thai language material
   @DISCOVERYACCESS-1409
   Scenario: As a user I can see the exactly what copy is available for this Thai language material
     Given I request the item view for 8258651 
