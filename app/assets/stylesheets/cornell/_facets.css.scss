@@ -262,12 +262,19 @@ form.range_limit {
 				font-size: 18px;
 			}	
 		}
+		h5 {
+			font-size: 12px;
+		}
 	}
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
-
+	.facets {
+		h5 {
+			font-size: 14px;
+		}
+	}
 }
 
 

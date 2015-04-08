@@ -203,10 +203,20 @@ body.blacklight-bookmarks-index #documents .document {
 		float: right;
 		margin-left: 30px;
 	}
+	.document-data {
+		width: 83%;
+	}
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
+	.document-data {
+		width: 87%;
+	}
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg) {
 	.document-data {
 		width: 89%;
 	}
