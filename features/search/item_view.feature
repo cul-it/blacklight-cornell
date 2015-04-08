@@ -359,6 +359,13 @@ Feature: Item view
     Given I request the item view for 1535861
     Then I should see the label '1 copy'
 
+  # DISCOVERYACCESS-1409 -- this record returns we are sorry 
+  # thai language material
+  @DISCOVERYACCESS-1409
+  Scenario: As a user I can see the exactly what copy is available for this Thai language material
+    Given I request the item view for 8258651 
+    Then I should see the label '1 copy'
+
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
   # Fundamentals of corporate finance Stephen A. Ross, Randolph W. Westerfield, Bradford D. Jordan
   @availability
