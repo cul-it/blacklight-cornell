@@ -23,18 +23,17 @@ a {
 
 a:hover {
 	color: $link-primary-hover;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
-.main-content {
-	a {
-		border-bottom: 1px dotted $light-gray;
-	}
-	a:hover {
-		border-bottom: 1px solid $light-gray;
-	}
-}
-
+// .main-content {
+// 	a {
+// 		border-bottom: 1px dotted $light-gray;
+// 	}
+// 	a:hover {
+// 		border-bottom: 1px solid $light-gray;
+// 	}
+// }
 
 // TYPOGRAPHY
 
