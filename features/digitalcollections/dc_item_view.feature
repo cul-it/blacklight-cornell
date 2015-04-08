@@ -6,19 +6,19 @@ Feature: Digital Collection View
 
   @digitalcollections
   Scenario: View a list of digital collections
-  	Given I go to literal digitalcollections
+  	Given I literally go to digitalcollections
   	Then I should see the label 'Collections digitized and curated by Cornell University Library.'
 
   @conzo
   @digitalcollections
   Scenario: Make sure list contains known collection 
-  	Given I go to literal digitalcollections
+  	Given I literally go to digitalcollections
   	Then I should see the label 'Conzo'
 
   @hiphop
   @digitalcollections
   Scenario: Make sure list contains known collection 
-  	Given I go to literal digitalcollections
+  	Given I literally go to digitalcollections
         And I fill in the search box with 'hip hop'
         And I press 'search'
   	Then I should see the label 'Conzo'

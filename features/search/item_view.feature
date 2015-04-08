@@ -7,9 +7,10 @@ Feature: Item view
   @allow-rescue
   @e404
   Scenario: goto an invalid page 
-    When I go to literal abcdefg 
-    Then I should see an error 
-        Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
+
+  	When I literally go to abcdefg 
+  	Then I should see an error 
+    Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
 
   @availability
   Scenario: View an items holdings
