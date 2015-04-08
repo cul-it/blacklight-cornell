@@ -398,6 +398,7 @@ module CornellParamsHelper
  def getTempLocations(doc)
    require 'json'
    require 'pp'
+   @tempLocsNameArray = [] 
    temp_loc_Full = []
    temp_loc_text = []
    temp_loc_Full = create_condensed_full(doc)
@@ -405,13 +406,14 @@ module CornellParamsHelper
      temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
    end
    temp_loc_text.each do |templocs|
-       templocs.gsub(/^  /, '')
+     templocs.gsub(/^  /, '')
    end
-   if temp_loc_text.nil? 
-     return [""]
+   if temp_loc_text.blank? 
+     @tempLocsNameArray << [" || "] 
    else
-    return temp_loc_text
+     @tempLocsNameArray << temp_loc_text 
    end
+   return @tempLocsNameArray
  end
  
  def getLocations(doc)
