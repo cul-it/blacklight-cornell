@@ -154,12 +154,13 @@
       font-size: 12px;
     }
   }
+  .availability {
+  	margin-left: 2em;
+  	float: right;
+  }
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
-	.availability {
-		float: right;
-	}
 }
 

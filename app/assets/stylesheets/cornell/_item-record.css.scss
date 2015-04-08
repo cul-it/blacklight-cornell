@@ -7,15 +7,15 @@
 }
 
 .document-header {
-	float: left;
-	margin-left: 0;
+	// float: left;
+	// margin-left: 0;
+	margin-bottom: 1.5em;
 }
 
 h3.subtitle,
 h3.responsibility {
-	// font-size: 16px;
+	font-size: 16px;
 	font-weight: normal;
-	font-style: italic;
 	line-height: 1.2em;
 	margin-bottom: 1em;
 }
@@ -24,7 +24,7 @@ h3.responsibility {
 }
 
 .cover {
-	float: left;
+	text-align: center;
 	margin-bottom: 1.5em;
 	.iconcover {
 		width: 100%;
@@ -36,7 +36,7 @@ h3.responsibility {
 }
 
 .item-metadata {
-	// float: left;
+	float: left;
 	// width: 79%;
 	margin-bottom: 20px;
 }
@@ -48,19 +48,18 @@ h3.responsibility {
 	padding-bottom: 0;
 }
 #document {
-	 margin-top: 0;
+	 margin-top: 1.5em;
 	 h2 {
 	 	line-height: 32px;
 	 	margin-top: 0; }
 }
 label.toggle_bookmark toggle_all_bookmarks { min-width: 3.5em; }
 dl.dl-horizontal {
-	clear: left;
-	margin-top: 0;
+	// clear: left;
+	// margin-top: 0;
 	dt {
 		width: 115px;
 		display: inline;
-		// font-size: .875em;
 		color: $medium-gray;
 		margin-right: 10px;
 		font-weight: normal;
@@ -69,8 +68,6 @@ dl.dl-horizontal {
 		white-space: normal;
 		}
 	dd {
-		margin-left: 130px;
-		// font-size: .875em;
 		ul {
 			list-style: none;
 			margin: 0;
@@ -102,11 +99,14 @@ dd.blacklight-notes {
 	text-decoration: underline;
 }
 
+// Item tools
+// -------------------------
+
 .item-tools {
 	ul {
-		float: right;
 		margin-left: 0;
 		list-style: none;
+		padding-left: 0;
 	}
 	li {
 		font-size: 0.875em;
@@ -131,23 +131,15 @@ dd.blacklight-notes {
 	i { margin-right: 3px; }
 	.selected-box { margin-right: 1em; }
 }
-
 .item-pagination {
 	margin-bottom: 2.2em;
 	font-size: 0.875em;
 }
 
-// temporarily add a height to the shelf browser to convey estimated content size
-.shelf-browser { height: 500px; }
+// Librarian view
+// -------------------------
 
 .librarian-view { font-size: 0.75em; }
-
-// captcha form
-#captcha_form {
-	#request-submit { display: block; }
-}
-
-// librarian view
 #marc_view { font-family: courier, monospace; }
 #marc_view .field { clear: both; }
 #marc_view .tag { 
@@ -163,6 +155,13 @@ dd.blacklight-notes {
 #marc_view .subfields { 
 padding-left: 6em;
 	width: 70%;
+}
+
+// Captcha
+// -------------------------
+
+#captcha_form {
+	#request-submit { display: block; }
 }
 
 // MEDIA QUERIES
@@ -185,5 +184,22 @@ padding-left: 6em;
 @media (min-width: $screen-sm) { 
 	.return-link {
 		font-size: 16px;
+	}
+	.item-tools {
+		ul {
+			float: right;
+		}
+	}
+	#document {
+		margin-top: 0;
+	}
+	.cover {
+		float: left;
+		text-align: left;
+	}
+	dl.dl-horizontal {
+		dd {
+			margin-left: 130px;
+		}
 	}
 }
