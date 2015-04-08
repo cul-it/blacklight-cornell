@@ -253,7 +253,7 @@ module DisplayHelper
             i = 0
             display_list = []
             while i < value_array.size()
-              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + value_array[i+1] + '"'))
+              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + Maybe(value_array[i+1]).to_s + '"'))
               i = i + 2
             end
             display_list.join(sep_display).html_safe
