@@ -140,9 +140,11 @@ ul.blacklight-nav {
     -webkit-background-clip: padding-box;
   }
   .nav {
+    margin-top: 0;
+    margin-bottom: 0;
     li {
       a {
-        padding: 15px 20px;
+        padding: 10px 20px;
         color: #ccc;
         text-shadow: none;
       }
@@ -251,10 +253,28 @@ ul.blacklight-nav {
       font-size: 12px;
     }
   }
+  .navbar-cul {
+    .nav {
+      li {
+        a { 
+          padding: 15px 10px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
-
+  .navbar-cul {
+    .nav {
+      li {
+        a {
+          padding: 15px 20px;
+        }
+      }
+    }
+  }
 }
 
