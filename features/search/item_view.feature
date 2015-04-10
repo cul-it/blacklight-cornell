@@ -475,8 +475,7 @@ Feature: Item view
     Given I request the item view for 4629
     Then I should not see the label 'Notes'
 
-  # DISCOVERYACCESS-?
-
+  
 
 
 
