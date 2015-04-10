@@ -170,16 +170,12 @@ GEM
     dotenv (1.0.2)
     dotenv-deployment (0.3.0)
       dotenv (~> 1.0)
-<<<<<<< HEAD
-    dotenv-rails (1.0.2)
-      dotenv (= 1.0.2)
-=======
+
     dotenv-rails (1.0.0)
       dotenv (= 1.0.0)
     email_spec (1.6.0)
       launchy (~> 2.1)
       mail (~> 2.2)
->>>>>>> origin/dev
     erubis (2.7.0)
     execjs (2.4.0)
     ffi (1.9.8)
@@ -238,15 +234,11 @@ GEM
     kaminari (0.15.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-<<<<<<< HEAD
-    language_list (1.1.0)
-    libnotify (0.9.1)
-=======
+
     language_list (1.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     libnotify (0.8.4)
->>>>>>> origin/dev
       ffi (>= 1.0.11)
     libv8 (3.3.10.4)
     listen (2.10.0)
