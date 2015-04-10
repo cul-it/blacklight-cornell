@@ -59,6 +59,7 @@ require 'cucumber/rails'
 # require 'email_spec' # add this line if you use spork
 require 'cucumber/rails/world'
 require 'email_spec/cucumber'
+require 'launchy'
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
@@ -118,3 +119,4 @@ Before do
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
 end
+
