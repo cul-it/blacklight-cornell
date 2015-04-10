@@ -406,12 +406,12 @@ module CornellParamsHelper
      temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
    end
    temp_loc_text.each do |templocs|
-     templocs.gsub(/^  /, '')
+     templocs.gsub!(/^  /, ' || ')
    end
    if temp_loc_text.blank? 
      @tempLocsNameArray << [" || "] 
    else
-     @tempLocsNameArray << temp_loc_text 
+     @tempLocsNameArray <<  temp_loc_text  
    end
    return @tempLocsNameArray
  end
