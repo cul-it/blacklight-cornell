@@ -24,8 +24,14 @@ class RecordMailer < ActionMailer::Base
       @second = locs.split('| ')
       @location << @second
     end
-    @templocation = []
+
     @templocation = details[:templocation]
+    @tempLocationFirst = @templocation.split('|| ')
+    @templocation = []
+    @tempLocationFirst.each do |locs|
+      @second = locs.split('| ')
+      @templocation << @second
+    end
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
     

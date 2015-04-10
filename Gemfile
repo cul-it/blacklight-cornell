@@ -67,6 +67,7 @@ group :test do
   gem 'spork', '0.9.0'
   gem 'webmock'
   gem 'vcr'
+  gem 'email_spec'
 end
 
 gem 'jquery-rails', '2.1.4'

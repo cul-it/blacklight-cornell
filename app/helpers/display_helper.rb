@@ -125,15 +125,20 @@ include ActionView::Helpers::NumberHelper
     link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
   end
 
+<<<<<<< HEAD
   def oclc_number_link 
     id_display = render_document_show_field_value :document => @document, :field => 'other_identifier_display'
+=======
+  def oclc_number_link
+    id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
+>>>>>>> origin/dev
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
         oclc_number = id_display.split("<")[0]
       elsif id_display.include? "(OCoLC)"
         ids = id_display.split(">")
-          ids.each do |id| 
-            if id.start_with? "(OCoLC)" 
+          ids.each do |id|
+            if id.start_with? "(OCoLC)"
               oclc_number = id.split("<")[0]
             end
           end
@@ -142,15 +147,16 @@ include ActionView::Helpers::NumberHelper
 
       if !oclc_number.present?
         wcl_isbn = render_document_show_field_value :document => @document, :field => 'isbn_display'
-        if wcl_isbn.include? ("<") 
-          wcl_isbn = wcl_isbn.split("<")[0] 
+        if wcl_isbn.include? ("<")
+          wcl_isbn = wcl_isbn.split("<")[0]
         end
-        if wcl_isbn.include? (' ') 
-          wcl_isbn = wcl_isbn.split(" ")[0] 
-        end 
+        if wcl_isbn.include? (' ')
+          wcl_isbn = wcl_isbn.split(" ")[0]
+        end
       end
 
       if wcl_isbn.present? && !oclc_number.present?
+<<<<<<< HEAD
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
         @xisbn = JSON.parse(@xisbn)["list"] 
         unless @xisbn.blank?
@@ -159,6 +165,14 @@ include ActionView::Helpers::NumberHelper
         end
         end
     end 
+=======
+        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
+        @xisbn = JSON.parse(@xisbn)["list"]
+        @xisbn.each do |wcl_data|
+          oclc_number = wcl_data["oclcnum"][0]
+        end
+    end
+>>>>>>> origin/dev
     return oclc_number
   end
 
@@ -200,10 +214,16 @@ include ActionView::Helpers::NumberHelper
   end
 
   def render_clickable_item args, value
+   # if args[:field] == 'title_series_display'
+   #   args[:field] = "title_series_cts"
+   #   value = args[:document][:title_series_cts]
+   # end
     clickable_setting = blacklight_config.display_clickable[args[:field]]
+    Rails.logger.info("clickable_setting = #{clickable_setting}")
     case clickable_setting
     when String
       # default single value
+      Rails.logger.info("Brenda559 = #{args[:field]}")
       link_to(value, add_search_params(args[:field], '"' + value + '"'))
     when Hash
       # delimited value to be separated out further
@@ -980,7 +1000,7 @@ include ActionView::Helpers::NumberHelper
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
-    #Updated class for Bootstrap Blacklight 
+    #Updated class for Bootstrap Blacklight
     content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
       link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
   end

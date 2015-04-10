@@ -5,6 +5,7 @@ class NullObject
   def method_missing(*args, &block)
     self
   end
+  def to_hash; []; end
   def to_a; []; end
   def to_s; ""; end
   def to_f; 0.0; end
