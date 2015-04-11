@@ -138,52 +138,21 @@ Feature: Item view
   @availability @due
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 2269649 
-    Then I should see the label 'Checked out, due'  
+    Then I should see the label 'Checked out, due'
 
-  # Availability less simple, multiple locations, one copy at each. 
+  # availability -- several copies,all copy1, checked out. 
+  # Directory American Veterinary Medical Association
   @availability
+  @javascript
+  @bibid1902405
+  @DISCOVERYACCESS-1659
   Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 1535861 
-    Then I should see the labels 'Library Annex,Olin Library'
+    Given I request the item view for 1902405 
+    Then I should see the label '1941 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label '1960 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label 'Request'  
 
-  # Availability less simple, multiple locations, one copy at each. 
-  @availability
-  Scenario: As a user I can see the availability for an item at multiple locations 
-    Given I request the item view for 561536 
-    Then I should see the labels 'Mann Library,ILR Library,Library Annex,Olin Library'
-
-  # Availability less simple, multiple locations, one permanent location overridden 
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location
-    Given I request the item view for 561536 
-    Then I should not see the label 'Olin Library Media Center'
-
-  # Availability less simple, multiple locations, show temporary location properly 
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location
-    Given I request the item view for 115628 
-    Then I should see the label 'Temporarily shelved'
-
-  # 
-  # Show overriding perm location properly instead of holding location 
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location but
-  when all items have an overriden location that location takes over for the main location 
-    Given I request the item view for 2378252 
-    Then I should not see the label 'Shelved in'
-
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location but
-  when all items have an overriden location that location takes over for the main location 
-    Given I request the item view for 2378252 
-    Then I should see the label 'Law Library (Myron Taylor Hall) Rare Books'
-
-  @DISCOVERYACCESS-988
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location but
-  when all items have an overriden location that location takes over for the main location 
-    Given I request the item view for 2378252 
-    Then I should see the "fa-on-site" class 3 times
 
   # when there is a perm location, and temp and all items for holding are at temp
   # then the temp location should be shown INSTEAD of permanent so "temporarily shelved
