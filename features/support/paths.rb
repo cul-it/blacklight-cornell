@@ -32,6 +32,9 @@ module NavigationHelpers
       
     when /the facet page for "([^\"]*)"/
       catalog_facet_path($1)
+      
+    when /the search page/
+      single_search_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

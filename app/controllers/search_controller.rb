@@ -3,59 +3,64 @@ class SearchController < ApplicationController
   def index
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
 
-      @catalog_host = get_catalog_host(request.host)
+    #  @catalog_host = get_catalog_host(request.host)
 
       unless params["q"].nil?
-  		@query = params['q']
-      @query.slice! 'doi:'
-      original_query = @query
-      # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
-      if @query.empty?
-        # no action, pass through
-        # Something about the Summon engine causes the search to choke if the query is empty.
-        # All the other engines are fine with either empty or a single space character, and
-        # forcing to the space allows the Summon empty query to work.
-        @query = ' '
-      # Only do the following if the query isn't already quoted
-      else
-        @query = objectify_query @query
-      end
-      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-      searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon, :web, :bestbet, :summonArticles)
-      searcher.search(@query, :oq =>original_query,:per_page => 3)
-      @results = searcher.results
+  		    @query = params['q']
+          @query.slice! 'doi:'
+          original_query = @query
+          
+          # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
+          if @query.empty?
+            # no action, pass through
+            # Something about the Summon engine causes the search to choke if the query is empty.
+            # All the other engines are fine with either empty or a single space character, and
+            # forcing to the space allows the Summon empty query to work.
+            @query = ' '
+          # Only do the following if the query isn't already quoted
+          else
+            @query = objectify_query @query
+          end
+          Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
+          #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
+          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :summonArticles)
+          searcher.search(@query, :oq =>original_query,:per_page => 3)
+          @results = searcher.results
 
-      # Reset query to make it show up properly for the user on the results page
-      @query = original_query
+          # Reset query to make it show up properly for the user on the results page
+          @query = original_query
 
-      # In order to treat multiple formats separately but only run one Solr query to retrieve
-      # them all, we have to store the query result in the custom_data object ...
-      facet_results = @results['solr'][0].custom_data
-      # ... which then needs some extra massaging to get the data into the proper form
-      faceted_results, @scores = facet_solr_results facet_results
+          # In order to treat multiple formats separately but only run one Solr query to retrieve
+          # them all, we have to store the query result in the custom_data object ...
+          facet_results = @results['solr'][0].custom_data
+          # ... which then needs some extra massaging to get the data into the proper form
+          faceted_results, @scores = facet_solr_results facet_results
 
-      if !@results['summon'].nil?
-        @results['summon'].each do |result|
-          result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
-        end
-      end
-      if !@results['summonArticles'].nil?
-        @results['summonArticles'].each do |result|
-          result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
-        end
-      end
-      # Merge the newly generated, format-specific results with any other results (e.g., from
-      # Summon or web search), then remove the original single-query result.
-      @results.merge!(faceted_results).except! 'solr'
+          if !@results['summon_bento'].nil?
+            @results['summon_bento'].each do |result|
+              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+            end
+          end
+          if !@results['summonArticles'].nil?
+            @results['summonArticles'].each do |result|
+              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+            end
+          end
+              
+          # Merge the newly generated, format-specific results with any other results (e.g., from
+          # Summon or web search), then remove the original single-query result.
+          @results.merge!(faceted_results).except! 'solr'
 
-      unless @results['bestbet'].nil? or @results['bestbet'][0].nil?
-        @best_bets = [{'title' => @results['bestbet'][0].title, 'link' => @results['bestbet'][0].link}]
+          unless @results['bestbet'].nil? or @results['bestbet'][0].nil?
+            @best_bets = [{'title' => @results['bestbet'][0].title, 'link' => @results['bestbet'][0].link}]
+          end
+          
+          display_type = params['fixedPanes'].nil? ? 'dynamic' : 'fixed'
+          @fixed_panes = display_type == 'fixed' ? true : false
+          @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet',) , display_type, @scores
       end
-      #@best_bets = @results['summon'].custom_data[:recommendationLists]['bestBet'] unless @results['summon'].blank?
-      display_type = params['fixedPanes'].nil? ? 'dynamic' : 'fixed'
-      @fixed_panes = display_type == 'fixed' ? true : false
-      @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet',) , display_type, @scores
-  	end
+      
+      render 'single_search/index'
   end
 
   def single_search
@@ -102,8 +107,8 @@ class SearchController < ApplicationController
     @wcl = results.delete('worldcat')
     Rails.logger.debug("#{__FILE__}:#{__LINE__} results=  #{@results.inspect}")
     Rails.logger.debug("#{__FILE__}:#{__LINE__} requesthost=  #{request.host.inspect}")
-    @catalog_host = get_catalog_host(request.host)
-    Rails.logger.debug("#{__FILE__}:#{__LINE__} @catalog_host=  #{@catalog_host.inspect}")
+  #  @catalog_host = get_catalog_host(request.host)
+  #  Rails.logger.debug("#{__FILE__}:#{__LINE__} @catalog_host=  #{@catalog_host.inspect}")
     top1 = top4 = secondary = []
 
     # Sort formats alphabetically for more results
@@ -114,7 +119,7 @@ class SearchController < ApplicationController
     @summonArticles = results.delete('summonArticles')
 
     # Top 2 are books and articles, regardless of display_type
-    top1 << ['summon', results.delete('summon')]
+    top1 << ['summon_bento', results.delete('summon_bento')]
     top4 = top1
 
     if display_type == 'fixed'
@@ -165,13 +170,15 @@ class SearchController < ApplicationController
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
       #cat_url = Rails.configuration.cornell_catalog
-      cat_url = "http://" + @catalog_host
+      #cat_url = "http://" + @catalog_host
       query = ((objectify_query query).gsub('%', '%25')).gsub('+','%2B').gsub('&', '%26')
       if format == 'all'
-        "#{cat_url}/?q=#{query}"
+        #"#{cat_url}/?q=#{query}"
+        "/?q=#{query}"
       else
          query = query.gsub('&','%26')
-        "#{cat_url}/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
+        #"#{cat_url}/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
+        "/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
       end
     end
   end
@@ -179,7 +186,7 @@ class SearchController < ApplicationController
   # In order to trick bento_search into thinking that our results from our single Solr query are
   # a group of results for different item formats, we have to take an extra step here to parse out
   # the one result from the Solr query into the different formats and create a BentoSearch:: Results
-  # object for eaach one.
+  # object for each one.
   #
   # Also sort the results by max relevancy
   def facet_solr_results unfaceted_results
@@ -218,7 +225,8 @@ class SearchController < ApplicationController
           item.year = d['pub_date_display'][0].to_s
           item.year.tr!('[]','')
         end
-        item.link = "http://" + @catalog_host + "/catalog/#{d['id']}"
+        #item.link = "http://" + @catalog_host + "/catalog/#{d['id']}"
+        item.link = "/catalog/#{d['id']}"
         if d['url_access_display']
           item.custom_data = {
             'url_online_access' => d['url_access_display']
@@ -237,19 +245,19 @@ class SearchController < ApplicationController
 
   end
 
-
-  def get_catalog_host req_host
-    ch  = Rails.configuration.cornell_catalog
-    # for hosts like "es287-dev"
-    if (/.*-dev/).match(req_host)
-       ch  = req_host.gsub(/.*-dev/,"newcatalog-int");
-    end
-    if (/search.*/).match(req_host)
-       ch  = req_host.gsub(/search/,"newcatalog");
-    end
-    Rails.logger.debug("#{__FILE__}:#{__LINE__} #{ch}")
-    return ch
-  end
+  # 
+  # def get_catalog_host req_host
+  #   ch  = Rails.configuration.cornell_catalog
+  #   # for hosts like "es287-dev"
+  #   if (/.*-dev/).match(req_host)
+  #      ch  = req_host.gsub(/.*-dev/,"newcatalog-int");
+  #   end
+  #   if (/search.*/).match(req_host)
+  #      ch  = req_host.gsub(/search/,"newcatalog");
+  #   end
+  #   Rails.logger.debug("#{__FILE__}:#{__LINE__} #{ch}")
+  #   return ch
+  # end
 
   # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
   def objectify_query search_query
