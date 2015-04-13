@@ -36,7 +36,8 @@ BlacklightCornell::Application.routes.draw do
   get '/databases/show/:id' => 'databases#show', :as => 'databases_show'
   get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   
-  match '/search' => 'search#index', :as => 'single_search', :via => [:post, :get]
+  get '/search', :to => 'search#index'#, :as => 'single_search', :via => [:post, :get]
+  match "search/:engine", :to => "search#single_search", :as => "single_search", via: [ :get ]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
