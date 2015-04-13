@@ -1,12 +1,8 @@
 class Databases < ActiveRecord::Base
   require 'dotenv'
-
+  conf = YAML.load_file('config/database.yml')
   ActiveRecord::Base.establish_connection(
-    :adapter => 'mysql',
-    :host => ENV['MYSQL_HOST'],
-    :username => ENV['MYSQL_USERNAME'],
-    :password => ENV['MYSQL_PASSWORD'],
-    :database => ENV['MYSQL_DATABASE']
+  conf[ENV['RAILS_ENV']]
   )
   def self.update
     Rails.logger.info("Successfully entered Databases.update #{Time.now}")

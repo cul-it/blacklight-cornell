@@ -48,10 +48,10 @@ Feature: Item view
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
-  @javascript 
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 1630516 
+    And I should see the label 'English poetry'
     And click on link "English poetry"
     Then it should contain filter "Subject" with value "English poetry"
 
@@ -98,7 +98,6 @@ Feature: Item view
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
-  @javascript 
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 1630516 
