@@ -98,19 +98,6 @@ Feature: Item view
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
-  # DISCOVERYACCESS-137
-  @DISCOVERYACCESS-137
-  Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
-    Given I request the item view for 1630516 
-    And click on link "English poetry"
-    Then it should contain filter "Subject" with value "English poetry"
-
-  @DISCOVERYACCESS-137
-  Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
-    Given I request the item view for 1630516 
-    And click on link "19th century"
-    Then it should contain filter "Subject" with value "English poetry 19th century"
-
   # DISCOVERYACCESS-138
   Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
     Given I request the item view for 4442
