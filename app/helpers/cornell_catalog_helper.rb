@@ -244,7 +244,11 @@ module CornellCatalogHelper
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
     zcondensed_full = fix_permtemps(bibid,condensed_full,response)
     Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix perm temps) = " + zcondensed_full.inspect 
-    ycondensed_full = collapse_locs(zcondensed_full)
+    if ENV['NO_COLLAPSE']
+      ycondensed_full = zcondensed_full
+    else
+      ycondensed_full = collapse_locs(zcondensed_full)
+    end
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
     ycondensed_full
   end
@@ -511,8 +515,9 @@ module CornellCatalogHelper
       solri = items_solr[holding[:ITEM_ID].to_s]
       Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
       reqs = "0"
+      #copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
       if !solri.nil?
-        copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
+      copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
         if  solri['item_enum'].blank? 
           enum = "#{holding[:ITEM_ENUM]}  #{holding[:CHRON]} #{copy}"
         else 

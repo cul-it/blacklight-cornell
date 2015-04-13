@@ -12,16 +12,13 @@
 
 <%= t('blacklight.email.text.callnumber', :callnumber => callno) %>
 <%= t('blacklight.email.text.location', :location => @location[i][j]) %>
-<% if !@templocation.nil? and @templocation.length > 0 and !@templocation[i][j].blank? %>
+<% if !@templocation.blank? and @templocation.length > 0 and !@templocation[i].blank? and !@templocation[i][j].blank? %>
 <%= t('blacklight.email.text.templocation', :templocation => @templocation[i][j]) %>
 <% end %>
 <% j = j + 1 %>
 <% end %>
 <% i = i + 1 %>
-
 <%= t('blacklight.email.text.url', :url =>polymorphic_path(document, {:only_path => false}.merge(@url_gen_params))) %>
-
-
 ---
 <% end %>
 
