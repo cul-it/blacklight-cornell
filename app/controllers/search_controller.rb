@@ -23,7 +23,7 @@ class SearchController < ApplicationController
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :summonArticles)
+          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results
 
@@ -84,7 +84,7 @@ class SearchController < ApplicationController
     end
 
     respond_to do |format|
-      format.html
+      format.html { render :template => "single_search/single_search" }
       format.atom { render :template => "bento_search/atom_results", :locals => {:atom_results => @results} }
     end
   end
