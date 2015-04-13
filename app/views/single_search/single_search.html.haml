@@ -2,7 +2,7 @@
   .row
     .span12
       %p.back-to-search
-        = link_to url_for(multi_search_path(:q => params[:q], :field => params[:field])) do
+        = link_to url_for(search_path(:q => params[:q], :field => params[:field])) do
           %i.fa.fa-arrow-circle-left
           Back to search results
 
@@ -19,8 +19,8 @@
 
 
 - if @results
-  = render 'pagination'
+  = render 'single_search/pagination'
   .row{:class => @results.engine_id}
     .span12
       = bento_search @results
-  = render 'pagination'
+  = render 'single_search/pagination'
