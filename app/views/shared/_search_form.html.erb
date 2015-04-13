@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="search-tools col-sm-6 col-md-7 col-lg-8">
+
+    <%= form_tag search_action_url, :method => :get, :class => 'search-form form-inline' do %>
+      <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)).html_safe %>
+      <% if !params[:q_row].present? %>
+          <div class="form-group col-xs-6">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
+          </div>
+
+          <% unless search_fields.empty? %>
+            <div class="form-group col-xs-4 col-sm-2">
+              <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
+              <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
+              <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
+            </div>
+          <% end %>
+
+          <button id="search-btn" class="btn btn-search" type="submit">
+            <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+          <!-- </span> -->
+        <!-- </div> -->
+
+        <% if !query_has_constraints? %>
+          <% if !params[:range].blank? %>
+
+          <%end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if params[:q_row].present? %>
+      <h2 class="advanced-search">Advanced Search</h2>
+    <% end %>
+
+  </div>
+
+    <%# Offer search expansion only under certain conditions %>
+    <%# if expandable_search? %>
+      <%#= render :partial => 'expand_search' %>
+    <%# end %>
+
+    <%# Add simple links to WCL and Summon if an advanced search %>
+    <%# if params[:q_row].present? %>
+      <%#= render :partial => 'expand_advanced_search' %>
+    <%# end %>
+
+  <% if params[:q_row].present? %>
+    <div class="advanced-search-link">
+      <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
+      <%#= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
+      <%#= debug params[:search_field_row] %>
+      <%= link_to 'Modify advanced search', url_for(:controller=>"advanced", :action=>"edit",
+                                                  :q_row=>params[:q_row], :op_row=>params[:op_row], 
+                                                  :search_field_row=>params[:search_field_row], 
+                                                  :boolean_row=>params[:boolean_row], :f=>params[:f]), :class=>"" %>
+
+      <% if query_has_constraints? || params[:range].present? %>
+         or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="search-nav col-sm-6 col-md-5 col-lg-4">
+    <ul class="nav nav-pills">
+      <li>
+        <%#= link_to url_for(:controller=>"advanced", :action=>"index") do %>
+          <!--i class="fa fa-search"></i>Advanced Search-->
+        <%# end %>
+        <a href="#"><i class="fa fa-search"></i>Advanced Search</a>
+      </li>
+      <li><a href="#"><i class="fa fa-hand-o-up"></i>Browse</a></li>
+      <li><a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a></li>
+    </ul>
+  </div>
+
+</div>
+
