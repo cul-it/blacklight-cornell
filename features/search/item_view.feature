@@ -323,14 +323,14 @@ Feature: Item view
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the exactly what copy is available 
+  Scenario: As a user I can see exactly what copy is available 
     Given I request the item view for 1535861
     Then I should see the label '1 copy'
 
   # DISCOVERYACCESS-1409 -- this record returns we are sorry 
   # thai language material
   @DISCOVERYACCESS-1409
-  Scenario: As a user I can see the exactly what copy is available for this Thai language material
+  Scenario: As a user I can see exactly what copy is available for this Thai language material
     Given I request the item view for 8258651 
     Then I should see the label '1 copy'
 
@@ -340,9 +340,9 @@ Feature: Item view
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the exactly what copy is available 
+  Scenario: As a user I can see the how many copies are available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 2 copies'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
