@@ -520,11 +520,16 @@ module CornellCatalogHelper
       copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
         if  solri['item_enum'].blank? 
           enum = "#{holding[:ITEM_ENUM]}  #{holding[:CHRON]} #{copy}"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
         else 
           enum = solri['item_enum'] + ' ' + solri['chron']+copy
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
         end
         reqs = solri['reqs'] 
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
       end
       norr = reqs == '0' ? 'n' : 'r'
       status =  ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr].nil?  ?  "Status #{holding[:ITEM_STATUS].to_s} " : ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr]['short_message']
