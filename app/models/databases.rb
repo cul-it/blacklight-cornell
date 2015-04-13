@@ -1,8 +1,14 @@
 class Databases < ActiveRecord::Base
+  require 'dotenv'
+  conf = YAML.load_file('config/database.yml')
+  ActiveRecord::Base.establish_connection(
+  conf[ENV['RAILS_ENV']]
+  )
   def self.update
+    Rails.logger.info("Successfully entered Databases.update #{Time.now}")
     ::Erm_data.delete_all
     client = Savon.client(wsdl: 'http://rmws.serialssolutions.com/serialssolutionswebservice/SerialsSolutions360WebService.asmx?wsdl') do convert_request_keys_to :none end
-    response2 = client.call(:license_data, message: { request: {op: 'LicenseData', UserName: 'esubs-l@cornell.edu', Password: 'CULselector', LibraryCode: 'COO'}})
+    response2 = client.call(:license_data, message: { request: {op: 'LicenseData', UserName: ENV['ERM_USERNAME'], Password: ENV['ERM_PASSWORD'], LibraryCode: ENV['ERM_LIBCODE']}})
     response = response2.to_s
     response = response.gsub!('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><LicenseDataResponse xmlns="http://serialssolutions.com/">','')
     response = response.gsub!('</LicenseDataResponse>','')
@@ -78,7 +84,7 @@ class Databases < ActiveRecord::Base
        authorizedUsersNote = licenseTerms.xpath(sprintf('./%s', "AuthorizedUsersNote/Content")).inner_text
        concurrentUsers = licenseTerms.xpath(sprintf('./%s', "ConcurrentUsers/Content")).inner_text
        concurrentUsersNote = licenseTerms.xpath(sprintf('./%s', "ConcurrentUsersNote/Content")).inner_text
-       fairUseClauseIndicator = licenseTerms.xpath(sprintf('./%s', "FairUseClauseIndicator/Content")).inner_text  
+       fairUseClauseIndicator = licenseTerms.xpath(sprintf('./%s', "FairUseClauseIndicator/Content")).inner_text
        databaseProtectionOverrideClauseIndicator = licenseTerms.xpath(sprintf('./%s', "DatabaseProtectionOverrideClauseIndicator/Content")).inner_text
        allRightsReservedIndicator = licenseTerms.xpath(sprintf('./%s', "AllRightsReservedIndicator/Content")).inner_text
        citationRequirementDetail = licenseTerms.xpath(sprintf('./%s', "CitationRequirementDetail/Content")).inner_text
@@ -208,14 +214,14 @@ class Databases < ActiveRecord::Base
            insert.execute
            licenseCount = licenseCount + 1
          end
-       else 
+       else
            #puts "No Resources.\n";
  #          output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
            insert = Erm_data.connection.raw_connection.prepare(sql)
-           insert.execute           
+           insert.execute
            licenseCount = licenseCount + 1
-       end    
+       end
     end
   end
 end
