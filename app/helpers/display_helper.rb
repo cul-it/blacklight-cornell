@@ -125,13 +125,9 @@ include ActionView::Helpers::NumberHelper
     link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
   end
 
-<<<<<<< HEAD
-  def oclc_number_link 
-    id_display = render_document_show_field_value :document => @document, :field => 'other_identifier_display'
-=======
+
   def oclc_number_link
     id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
->>>>>>> origin/dev
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
         oclc_number = id_display.split("<")[0]
@@ -156,7 +152,6 @@ include ActionView::Helpers::NumberHelper
       end
 
       if wcl_isbn.present? && !oclc_number.present?
-<<<<<<< HEAD
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
         @xisbn = JSON.parse(@xisbn)["list"] 
         unless @xisbn.blank?
@@ -165,14 +160,6 @@ include ActionView::Helpers::NumberHelper
         end
         end
     end 
-=======
-        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
-        @xisbn = JSON.parse(@xisbn)["list"]
-        @xisbn.each do |wcl_data|
-          oclc_number = wcl_data["oclcnum"][0]
-        end
-    end
->>>>>>> origin/dev
     return oclc_number
   end
 
