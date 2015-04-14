@@ -8,17 +8,20 @@
 			Type
 	.headings-body
 		-if response.present? 
-			=response.inspect
 			- response.each do |data|
+				
 
 				.document
 					.row
 						.span1
-							-if data["worksAbout"].present? 
-								=data["worksAbout"]
+							-if data["count"] > 0
+								=data["count"]
+								
+
 						
 						.span8
-							-if data["worksBy"].present? && data["worksBy"] > 0
+							-counts=JSON.parse(data["counts_json"])
+							-if counts["worksBy"].to_i > 0  || counts["worksAbout"].to_i > 0
 								-if params[:browse_type] == "Author" 
 									= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
 										=data["heading"]
@@ -34,14 +37,16 @@
 										Info
 												
 							-if !data["preferedForm"].blank?
-								-data["preferedForm"].each do |f|
-									-unless f.blank?
+								-data["preferedForm"].each do |form|
+									-form=JSON.parse(form)
+									-unless form.blank?
 										.see-ref
 											%i.fa.fa-arrow-right
 											See
-											= link_to "/browse?q=" + f.split("|")[0] + "&start=0" +"&browse_type=" + params[:browse_type]do
-												=f.split("|")[0]
+											= link_to "/browse?q=" + form["heading"] + "&start=0" +"&browse_type=" + params[:browse_type]do
+												=form["heading"]
 											.see-ref-count
+												= "(" + form["worksBy"].to_s + ")"
 												
 						.span3.heading-type
 							=data["headingTypeDesc"]
