@@ -94,61 +94,62 @@
 		- if data["mainEntry"] == true
 			%h3
 				Description
-			-rda=JSON.parse(data["rda_json"])
-			- if rda["Birth Place"].present?
-				%dt 
-					Birth Place
-				%dd
-					-rda["Birth Place"].each do |place|
-						=place
-			- if rda["Place of Death"].present?
-				%dt 
-					Place of Death
-				%dd
-					-rda["Place of Death"].each do |deathplace|
-						=deathplace
-			- if rda["Gender"].present?
-				%dt
-					Gender
-				%dd
-					-rda["Gender"].each do |gender|
-						=gender
-			- if rda["Country"].present?
-				%dt 
-					Country
-				%dd
-					-rda["Country"].each do |country|
-						=country
-			- if rda["Field"].present?
-				%dt
-					Field
-				%dd
-					-rda["Field"].each do |field|
-						=org
-			- if rda["Group/Organization"].present?
-				%dt
-					Group or Organization
-				%dd
-					-rda["Group/Organization"].each do |org|
-						=org
-			- if rda["Occupation"].present?
-				%dt
-					Occupation
-				%dd
-					-rda["Occupation"].each do |field|
-						.rda-occupation
-							=field
+			-if data["rda_json"].present?
+				-rda=JSON.parse(data["rda_json"])
+				- if rda["Birth Place"].present?
+					%dt 
+						Birth Place
+					%dd
+						-rda["Birth Place"].each do |place|
+							=place
+				- if rda["Place of Death"].present?
+					%dt 
+						Place of Death
+					%dd
+						-rda["Place of Death"].each do |deathplace|
+							=deathplace
+				- if rda["Gender"].present?
+					%dt
+						Gender
+					%dd
+						-rda["Gender"].each do |gender|
+							=gender
+				- if rda["Country"].present?
+					%dt 
+						Country
+					%dd
+						-rda["Country"].each do |country|
+							=country
+				- if rda["Field"].present?
+					%dt
+						Field
+					%dd
+						-rda["Field"].each do |field|
+							=org
+				- if rda["Group/Organization"].present?
+					%dt
+						Group or Organization
+					%dd
+						-rda["Group/Organization"].each do |org|
+							=org
+				- if rda["Occupation"].present?
+					%dt
+						Occupation
+					%dd
+						-rda["Occupation"].each do |field|
+							.rda-occupation
+								=field
 
-			- if rda["Form of Work"].present?
-				%dt
-					Form of Work
-				%dd
-					-rda["Form of Work"].each do |fow|
-						=fow
-			- if rda["Instrumentation"].present?
-				%dt
-					Instrumentation
-				%dd
-					-rda["Instrumentation"].each do |inst|
-						=inst
+				- if rda["Form of Work"].present?
+					%dt
+						Form of Work
+					%dd
+						-rda["Form of Work"].each do |fow|
+							=fow
+				- if rda["Instrumentation"].present?
+					%dt
+						Instrumentation
+					%dd
+						-rda["Instrumentation"].each do |inst|
+							=inst
 	
