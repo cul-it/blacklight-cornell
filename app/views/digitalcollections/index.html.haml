@@ -1,0 +1,33 @@
+.digitalcollections-search
+	%em
+		Collections digitized and curated by Cornell University Library. Contact 
+		=link_to "dcaps@cornell.edu", 'mailto:dcaps@cornell.edu' 
+		for more information.
+
+
+	= render :partial => 'digreg_search_form' 
+
+	.digitalcollections
+		
+		
+		-if @digReg.present? 
+			- @digReg.each do |data|
+				%div.document.blacklight-digitalcollections-name.clearfix
+					%div.document-data
+						%h4.blacklight-title_display
+							-if data["url_access_display"].present? && data["fulltitle_display"].present?
+								-data["url_access_display"].each do |link|
+									=link_to link.split('|')[0] do
+										=data["fulltitle_display"]
+										%i.fa.fa-external-link
+							-else
+								=data["fulltitle_display"]
+						.description
+							-if data["summary_display"].present?
+								-data["summary_display"].each do |sd|
+									%p
+										=sd 
+						.catalog-link
+							-if data["id"].present?
+								=link_to 'http://newcatalog.library.cornell.edu/catalog/' + data["id"] do
+									Catalog record
