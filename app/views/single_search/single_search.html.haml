@@ -1,0 +1,26 @@
+-unless params[:q].nil?
+  .row
+    .span12
+      %p.back-to-search
+        = link_to url_for(search_path(:q => params[:q], :field => params[:field])) do
+          %i.fa.fa-arrow-circle-left
+          Back to search results
+
+.row
+  .span12
+    =@query
+    %form#search.well{:method => 'get'}
+      %label{:for=>'q',:class => "hide-text"}
+        Search
+      %input.search-query(type='text' name='q' id='q' value='#{params[:q]}' placeholder='Search library websites' autocapitalize='off')
+      %input.btn.hidden-phone.btn-inverse(type='submit' name='submit' value='Search')
+      %button#search-btn.btn.mobile-search-btn.visible-phone.btn-inverse(type="submit")
+        %i.fa.fa-search.icon-white
+
+
+- if @results
+  = render 'single_search/pagination'
+  .row{:class => @results.engine_id}
+    .span12
+      = bento_search @results
+  = render 'single_search/pagination'
