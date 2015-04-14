@@ -1,8 +1,8 @@
 class Databases < ActiveRecord::Base
   require 'dotenv'
-  conf = YAML.load_file('config/database.yml')
+  conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)
   ActiveRecord::Base.establish_connection(
-  conf[ENV['RAILS_ENV']]
+  conf[Rails.env]
   )
   def self.update
     Rails.logger.info("Successfully entered Databases.update #{Time.now}")
@@ -59,8 +59,8 @@ class Databases < ActiveRecord::Base
          licenseNote = ""
        end
        if !licenseNote.blank?
-          licenseNote.gsub!('"','\"')
-          licenseNote.gsub!("'","\'")
+          licenseNote.gsub!('"',' ')
+          licenseNote.gsub!("'"," ")
        end
        templateNote = k.xpath(sprintf('./%s', "TemplateNote/Content")).inner_text
        dateCreated = k.xpath(sprintf('./%s', "DateCreated/Content")).inner_text
@@ -104,40 +104,53 @@ class Databases < ActiveRecord::Base
          iLLRecordKeeping = ""
        end
        if !iLLRecordKeeping.blank?
-          iLLRecordKeeping.gsub!('"','\"')
-          iLLRecordKeeping.gsub!("'","\'")
+          iLLRecordKeeping.gsub!('"',' ')
+          iLLRecordKeeping.gsub!("'",' ')
        end
        iLLRecordKeepingNote = licenseTerms.xpath(sprintf('./%s', "ILLRecordKeepingNote/Content")).inner_text
        if iLLRecordKeepingNote.nil? or iLLRecordKeepingNote.blank?
          iLLRecordKeepingNote = ""
        end
        if !iLLRecordKeepingNote.blank?
-          iLLRecordKeepingNote.gsub!('"','\"')
-          iLLRecordKeepingNote.gsub!("'","\'")
+          iLLRecordKeepingNote.gsub!('"',' ')
+          iLLRecordKeepingNote.gsub!("'"," ")
        end
        courseReserve = licenseTerms.xpath(sprintf('./%s', "CourseReserveContent")).inner_text
        if courseReserve.nil? or courseReserve.blank?
          courseReserve = ""
        end
        if !courseReserve.blank?
-          courseReserve.gsub!('"','\"')
-          courseReserve.gsub!("'","\'")
+          courseReserve.gsub!('"',' ')
+          courseReserve.gsub!("'",' ')
        end
        courseReserveNote = licenseTerms.xpath(sprintf('./%s', "CourseReserveNote/Content")).inner_text
        if courseReserveNote.nil? or courseReserveNote.blank?
          courseReserveNote = ""
        end
        if !courseReserveNote.blank?
-          courseReserveNote.gsub!('"','\"')
-          courseReserveNote.gsub!("'","\'")
+          courseReserveNote.gsub!('"',' ')
+          courseReserveNote.gsub!("'",' ')
        end
        electronicLink = licenseTerms.xpath(sprintf('./%s', "ElectronicLink/Content")).inner_text
        electronicLinkNote = licenseTerms.xpath(sprintf('./%s', "ElectronicLinkNote/Content")).inner_text
+       if !electronicLinkNote.blank?
+          electronicLinkNote.gsub!('"',' ')
+          electronicLinkNote.gsub!("'"," ")
+       end
        coursePackPrint = licenseTerms.xpath(sprintf('./%s', "CoursePackPrint/Content")).inner_text
        coursePackElectronic = licenseTerms.xpath(sprintf('./%s', "CoursePackElectronic/Content")).inner_text
        coursePackNote = licenseTerms.xpath(sprintf('./%s', "CoursePackNote/Content")).inner_text
+       if !coursePackNote.blank?
+          coursePackNote.gsub!('"',' ')
+          coursePackNote.gsub!("'"," ")
+       end
        remoteAccess = licenseTerms.xpath(sprintf('./%s', "RemoteAccess/Content")).inner_text
        remoteAccessNote = licenseTerms.xpath(sprintf('./%s', "RemoteAccessNote/Content")).inner_text
+       coursePackNote = licenseTerms.xpath(sprintf('./%s', "CoursePackNote/Content")).inner_text
+       if !remoteAccessNote.blank?
+          remoteAccessNote.gsub!('"',' ')
+          remoteAccessNote.gsub!("'"," ")
+       end
        otherUseRestrictionsStaffNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsStaffNote/Content")).inner_text
        otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
@@ -210,6 +223,7 @@ class Databases < ActiveRecord::Base
            resourceValues = " \"" +  collectionName + "\", \"" + libraryCollectionId + "\", \"" + providerName + "\", \"" + providerCode + "\", \"" + databaseName + "\", \"" + databaseCode + "\", \"" + databaseStatus + "\", \"" + titleName + "\", \"" + titleId + "\", \"" + titleStatus + "\", \"" + iSSN + "\", \"" + eISSN + "\", \"" + iSBN + "\", \"" + sSID + "\", \"" + prevailing + "\""
 #           output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
+            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
            insert = Erm_data.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1
