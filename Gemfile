@@ -65,6 +65,7 @@ group :test do
   gem 'spork', '0.9.0'
   gem 'webmock'
   gem 'vcr'
+  gem 'email_spec'
 end
 
 gem 'jquery-rails', '2.1.4'
@@ -91,6 +92,7 @@ gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails' 
 gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
+#gem 'blacklight_cornell_requests', :path =>  '/libweb/dev/git-src/wtf/wtf2/febsprint/blacklight-cornell-requests'
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'
