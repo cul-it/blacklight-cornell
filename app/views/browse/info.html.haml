@@ -6,24 +6,25 @@
 	- @headingsResponse.each do |data|
 		%h2
 			=data["heading"]
-		-if data["worksBy"].present?
-			.author-works
-				Works by:
+		-if data["counts_json"].present?
+			-works=JSON.parse(data["counts_json"])
+				.author-works
+					Works by:
 
-				-if params[:browse_type] == "Author" 
-					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
-						=data["worksBy"]
-						Title(s)
-				-if params[:browse_type] == "Subject"
+					-if params[:browse_type] == "Author" 
+						= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+							=works["worksBy"]
+							Title(s)
+					-if params[:browse_type] == "Subject"
+						= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+							=works["worksBy"]
+							Title(s)
+				-if !works["worksAbout"].nil?
+				.author-works
+					Works about:
 					= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
-						=data["worksBy"]
+						=works["worksAbout"] 
 						Title(s)
-		-if !data["worksAbout"].nil?
-			.author-works
-				Works about:
-				= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
-					=data["worksAbout"] 
-					Title(s)
 
 		%dl
 			- if !data["notes"].nil?
@@ -93,49 +94,61 @@
 		- if data["mainEntry"] == true
 			%h3
 				Description
-			- if data["rda_place"].present?
+			-rda=JSON.parse(data["rda_json"])
+			- if rda["Birth Place"].present?
 				%dt 
-					Place
+					Birth Place
 				%dd
-					-data["rda_place"].each do |place|
+					-rda["Birth Place"].each do |place|
 						=place
-
-			- if data["rda_field"].present?
-				%dt
-					Field
+			- if rda["Place of Death"].present?
+				%dt 
+					Place of Death
 				%dd
-					-data["rda_field"].each do |field|
-						=field
-
-
-			- if data["rda_group_or_org"].present?
-				%dt
-					Group or Organization
-				%dd
-					-data["rda_group_or_org"].each do |org|
-						=org
-
-			- if data["rda_occupation"].present?
-				%dt
-					Occupation
-				%dd
-					-data["rda_occupation"].each do |occ|
-						.occupation
-							=occ
-
-			- if data["rda_gender"].present?
+					-rda["Place of Death"].each do |deathplace|
+						=deathplace
+			- if rda["Gender"].present?
 				%dt
 					Gender
 				%dd
-					- data["rda_gender"].each do |gender|
+					-rda["Gender"].each do |gender|
 						=gender
+			- if rda["Country"].present?
+				%dt 
+					Country
+				%dd
+					-rda["Country"].each do |country|
+						=country
+			- if rda["Field"].present?
+				%dt
+					Field
+				%dd
+					-rda["Field"].each do |field|
+						=org
+			- if rda["Group/Organization"].present?
+				%dt
+					Group or Organization
+				%dd
+					-rda["Group/Organization"].each do |org|
+						=org
+			- if rda["Occupation"].present?
+				%dt
+					Occupation
+				%dd
+					-rda["Occupation"].each do |field|
+						.rda-occupation
+							=field
 
-			- if data["rda_form_of_work"].present?
-				= data["rda_form_of_work"]
-			- if data["rda_perform_medium"].present?
-				= data["rda_perform_medium"]
-
-
-
-
+			- if rda["Form of Work"].present?
+				%dt
+					Form of Work
+				%dd
+					-rda["Form of Work"].each do |fow|
+						=fow
+			- if rda["Instrumentation"].present?
+				%dt
+					Instrumentation
+				%dd
+					-rda["Instrumentation"].each do |inst|
+						=inst
 	
