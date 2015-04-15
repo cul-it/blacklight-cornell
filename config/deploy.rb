@@ -129,7 +129,8 @@ end
 desc "Guarantee app signal environment -- too sensitive for git"
 task :export_app_yml, :roles => [ :app, :db, :web ] do
          rails_env = fetch(:rails_env, "production")
-         run "cd  #{deploy_to}/current/ ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; bundle exec appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
+         #run "cd  #{deploy_to}/current/ ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; echo $APPSIGNAL_PUSH_API_KEY ; bundle exec bin/appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
+	run "cd  #{current_path} ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; wget -O -  https://push.appsignal.com/1/markers?api_key=$APPSIGNAL_PUSH_API_KEY&name=BlacklightCornell&environment=integration&hostname=sf-lib-inf-006.serverfarm.cornell.edu&gem_version=0.11.0"
 end
 
 #after :deploy, "fix_file_permissions"
