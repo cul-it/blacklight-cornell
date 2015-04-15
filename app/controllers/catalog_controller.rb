@@ -559,7 +559,7 @@ class CatalogController < ApplicationController
                 result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
                 if result.ham?
                     # Content is okay, we can proceed with the email
-                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber],}, url_gen_params, params)
+                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
                 elsif result.spam?
                     # This is definite spam (according to Mollom)
                     flash[:error] = 'Spam!'
@@ -567,7 +567,7 @@ class CatalogController < ApplicationController
             rescue
                 # Mollom isn't working, so we'll have to just go ahead and mail the item
                 captcha_ok = true
-                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber],}, url_gen_params)
+                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params)
             end
           end
         else
@@ -584,7 +584,7 @@ class CatalogController < ApplicationController
         return render :partial => 'captcha'
       elsif !flash[:error]
         # Don't have to show a CAPTCHA and there are no errors, so we can send the email
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation]}, url_gen_params, params)
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
         email.deliver
         flash[:success] = "Email sent"
         redirect_to catalog_path(params[:id]) unless request.xhr?
