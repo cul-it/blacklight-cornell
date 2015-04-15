@@ -25,3 +25,8 @@ production:
 integration:
   <<: *defaults
   active: true
+
+staging:
+  <<: *defaults
+  active: false 
+

@@ -178,9 +178,9 @@ module CornellCatalogHelper
             oneloc["summary_holdings"]="Library has: " + summary_holdings.join(' ') unless summary_holdings.blank? 
             oneloc["supplements"]=suppl_holdings.join(';') unless suppl_holdings.blank? 
             if (!@current_suppl.nil?) 
-              if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).blank?
+              if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && ( x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).blank?
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} selected current  = " +  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id }).inspect
-                cur =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).sort_by{|x| x["ISSUE_ID"]}
+                cur =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && (x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).sort_by{|x| x["ISSUE_ID"]}
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted current  = " +  cur.inspect
                 currev = cur.reverse.map{|x| x["ENUMCHRON"]}.join(";") 
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  currev.inspect
