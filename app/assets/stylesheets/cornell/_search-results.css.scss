@@ -1,5 +1,5 @@
-body.blacklight-catalog-index #documents .document,
-body.blacklight-bookmarks-index #documents .document {
+body.catalog-index #documents .document,
+body.bookmarks-index #documents .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
 	padding: 1.5em 0;
@@ -184,8 +184,8 @@ body.blacklight-bookmarks-index #documents .document {
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}
-	body.blacklight-catalog-index #documents .document,
-	body.blacklight-bookmarks-index #documents .document {
+	body.catalog-index #documents .document,
+	body.bookmarks-index #documents .document {
 		img {
 			width: 75px;
 			height: 100px;
