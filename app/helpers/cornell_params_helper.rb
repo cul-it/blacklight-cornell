@@ -74,7 +74,7 @@ module CornellParamsHelper
     q_stringArray = []
     q_string2Array = []
     opArray = []
-    if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?    
+    if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?
       for k in 0..my_params[:boolean_row].count - 1
          realsub = k + 1;
          n = realsub.to_s
@@ -85,7 +85,7 @@ module CornellParamsHelper
            if my_params[:q_row][i] == ""
              my_params[:q_row][i] = "blank"
            end
-           newpass = '"' + my_params[:q_row][i] + '"' 
+           newpass = '"' + my_params[:q_row][i] + '"'
          else
            if my_params[:q_row][i] == ""
              my_params[:q_row][i] = "blank"
@@ -94,7 +94,7 @@ module CornellParamsHelper
          end
          if my_params[:search_field_row][i] == 'journal title'
            params['format'] = "Journal"
-         end 
+         end
          pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
          returned_query = ParsingNesting::Tree.parse(newpass)
          newstring = returned_query.to_query(pass_param)
@@ -108,8 +108,8 @@ module CornellParamsHelper
          q_string_hold << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
 
          fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
-         
-         if !fieldNames.nil? 
+
+         if !fieldNames.nil?
             solr_stuff = fieldNames["key"]
             if solr_stuff == "call number"
               solr_stuff = "lc_callnum"
@@ -135,7 +135,7 @@ module CornellParamsHelper
               q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
               q_string2 << field_name << " = "
               q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
-              
+
             else
               q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
               q_string2 << field_name << " = "
@@ -169,13 +169,13 @@ module CornellParamsHelper
            q_string_hold << " "
            q_string << " " <<  opArray[i] << " "
            q_string2 << " "
-        end 
+        end
         q_stringArray << q_string_hold
         q_string2Array << q_string2
         q_string_hold = "";
         q_string2 = "";
       end
-     
+
       test_q_string = groupBools(q_stringArray, opArray)
       test_q_string2 = groupBools(q_string2Array, opArray)
       if test_q_string == ""
@@ -205,7 +205,7 @@ module CornellParamsHelper
      my_params[:search_field] = my_params["search_field"]
      params[:search_field] = my_params[:search_field]
     session[:search][:search_field] = my_params[:search_field]
-     
+
   end
   return solr_parameters
  end
@@ -383,7 +383,7 @@ module CornellParamsHelper
              onemore = m.to_s
              params[:boolean_row][l.to_sym] = params[:boolean_row][onemore.to_sym]
            end
-           params[:boolean_row].delete(onemore.to_sym)                       
+           params[:boolean_row].delete(onemore.to_sym)
          else
            params[:boolean_row].delete(n.to_sym)
          end
@@ -391,14 +391,14 @@ module CornellParamsHelper
      end
      finalcheck = params[:q_row].count.to_s
      if params[:boolean_row].has_key?(finalcheck.to_sym)
-       params[:boolean_row].delete(finalcheck.to_sym)       
+       params[:boolean_row].delete(finalcheck.to_sym)
      end
  end
- 
+
  def getTempLocations(doc)
    require 'json'
    require 'pp'
-   @tempLocsNameArray = [] 
+   @tempLocsNameArray = []
    temp_loc_Full = []
    temp_loc_text = []
    temp_loc_Full = create_condensed_full(doc)
@@ -408,26 +408,26 @@ module CornellParamsHelper
    temp_loc_text.each do |templocs|
      templocs.gsub!(/^  /, ' || ')
    end
-   if temp_loc_text.blank? 
-     @tempLocsNameArray << [" || "] 
+   if temp_loc_text.blank?
+     @tempLocsNameArray << [" || "]
    else
-     @tempLocsNameArray <<  temp_loc_text  
+     @tempLocsNameArray <<  temp_loc_text
    end
    return @tempLocsNameArray
  end
- 
+
  def getLocations(doc)
    require 'json'
    require 'pp'
-        @recordLocsNameArray = [] 
+        @recordLocsNameArray = []
         myhash = {}
-        Rails.logger.info("Cline122 = #{doc.inspect}")
-        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
+#        Rails.logger.info("Cline122 = #{doc.inspect}")
+#        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
         breakerlength = doc[:holdings_record_display].length
    #     Rails.logger.info("BeetleJooz = #{tmploc["display"]}")
         i = 0
-        doc[:holdings_record_display].each do |hrd|  
-          Rails.logger.info("Beetlejuice = #{hrd}")        
+        doc[:holdings_record_display].each do |hrd|
+#          Rails.logger.info("Beetlejuice = #{hrd}")
          myhash = JSON.parse(hrd)
          if i == breakerlength - 1
            @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
@@ -435,16 +435,16 @@ module CornellParamsHelper
            @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
          end
          i = i + 1
-      end 
+      end
    return @recordLocsNameArray
  end
  def getCallNos(doc)
    require 'json'
-         @recordCallNumArray = [] 
+         @recordCallNumArray = []
         myhash = {}
         breakerlength = doc[:holdings_record_display].length
         i = 0
-        doc[:holdings_record_display].each do |hrd|          
+        doc[:holdings_record_display].each do |hrd|
          myhash = JSON.parse(hrd)
          if myhash["callnos"].nil?
            testString = "No Call Number"
@@ -458,10 +458,48 @@ module CornellParamsHelper
            @recordCallNumArray << testString + " || "
          else
            @recordCallNumArray << testString + " | "
-         end           
+         end
          i = i + 1
       end
-   return @recordCallNumArray 
+   return @recordCallNumArray
+ end
+
+
+
+ def getItemStatus(doc)
+   require 'json'
+   require 'pp'
+        @itemStatusArray = []
+
+        @hideArray = []
+ #       Rails.logger.info("ClineJohn3 = #{doc[:url_access_display]}")
+ #       Rails.logger.info("ClineJohn2 = #{create_condensed_full(doc)}")
+        @hideArray = create_condensed_full(doc)
+        @hideArray.each do |hidee|
+        myhash = {}
+ #       Rails.logger.info("ClineJohn53 = #{hidee}")
+          myhash = hidee
+          if myhash["copies"][0]["items"].size > 1
+            i = 0
+            breakerlength = myhash["copies"][0]["items"].size
+            myhash["copies"][0]["items"].each do |item|
+           #   if i == breakerlength - 1
+               @itemStatusArray << item[0] + " || "
+           #   else
+           #    @itemStatusArray << item[0] + " | "
+           #   end
+              i = i + 1
+            end
+          else
+            if myhash["location_name"] == '*Networked Resource'
+              @link = doc[:url_access_display][0].split('|')
+              @itemStatusArray << @link[0] + " || "
+            else
+              @itemStatusArray << myhash["copies"][0]["items"]["Available"]["status"] + " || "
+            end
+          end
+        end
+   return @itemStatusArray
  end
 
 end

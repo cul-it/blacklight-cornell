@@ -12,6 +12,8 @@
 
 <%= t('blacklight.email.text.callnumber', :callnumber => callno) %>
 <%= t('blacklight.email.text.location', :location => @location[i][j]) %>
+<%= t('blacklight.email.text.status', :status => @status[j][0]) %>
+
 <% if !@templocation.blank? and @templocation.length > 0 and !@templocation[i].blank? and !@templocation[i][j].blank? %>
 <%= t('blacklight.email.text.templocation', :templocation => @templocation[i][j]) %>
 <% end %>
