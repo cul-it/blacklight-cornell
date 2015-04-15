@@ -1,52 +1,49 @@
 .headings-list
-	.headings-header.row.hidden-phone
-		.span1
-			Titles
-		.span8
-			Headings
-		.span3
-			Type
-	.headings-body
+	%table.table.table-responsive.table-striped
+		%thead
+			%tr
+				%th.heading-count
+					Titles
+				%th.heading-name
+					Headings
+				%th.heading-type
+					Type
+		%tbody
 		-if response.present? 
 			- response.each do |data|
-				
-
-				.document
-					.row
-						.span1
-							-if data["count"] > 0
-								=data["count"]
+				%tr
+					%td
+						-if data["count"] > 0
+							=data["count"]
 								
-
+					%td
+						-counts=JSON.parse(data["counts_json"])
+						-if counts["worksBy"].to_i > 0  || counts["worksAbout"].to_i > 0
+							-if params[:browse_type] == "Author" 
+								= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+									=data["heading"]
+							-if params[:browse_type] == "Subject"
+								= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+									=data["heading"]
+						- else
+							=data["heading"]
 						
-						.span8
-							-counts=JSON.parse(data["counts_json"])
-							-if counts["worksBy"].to_i > 0  || counts["worksAbout"].to_i > 0
-								-if params[:browse_type] == "Author" 
-									= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
-										=data["heading"]
-								-if params[:browse_type] == "Subject"
-									= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
-										=data["heading"]
-							- else
-								=data["heading"]
-							
-							-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
-								=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
-									%span.label.label-info
-										Info
+						-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
+							=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
+								%span.label.label-info
+									Info
+											
+						-if !data["preferedForm"].blank?
+							-data["preferedForm"].each do |form|
+								-form=JSON.parse(form)
+								-unless form.blank?
+									.see-ref
+										%i.fa.fa-arrow-right
+										See
+										= link_to "/browse?q=" + form["heading"] + "&start=0" +"&browse_type=" + params[:browse_type]do
+											=form["heading"]
+										.see-ref-count
+											= "(" + form["worksBy"].to_s + ")"
 												
-							-if !data["preferedForm"].blank?
-								-data["preferedForm"].each do |form|
-									-form=JSON.parse(form)
-									-unless form.blank?
-										.see-ref
-											%i.fa.fa-arrow-right
-											See
-											= link_to "/browse?q=" + form["heading"] + "&start=0" +"&browse_type=" + params[:browse_type]do
-												=form["heading"]
-											.see-ref-count
-												= "(" + form["worksBy"].to_s + ")"
-												
-						.span3.heading-type
-							=data["headingTypeDesc"]
+					%td
+						=data["headingTypeDesc"]
