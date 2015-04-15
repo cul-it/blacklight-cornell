@@ -56,7 +56,7 @@
         <h1><a href="<%=root_path%>">Catalog</a></h1>
         <%end%>
       </div>
-      <% if !request.original_url.include? "/databases"  %>
+      <% if !request.original_url.include?("/databases") && !request.original_url.include?("/digitalcollections") %>
         <%= render :partial=>'/user_util_links' %>
       <%end%>
     </div>
