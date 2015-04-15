@@ -477,26 +477,20 @@ module CornellParamsHelper
         @hideArray = create_condensed_full(doc)
         @hideArray.each do |hidee|
         myhash = {}
- #       Rails.logger.info("ClineJohn53 = #{hidee}")
+ #      Rails.logger.info("ClineJohn53 = #{hidee}")
           myhash = hidee
-          if myhash["copies"][0]["items"].size > 1
+          if myhash["copies"][0]["items"].size > 0 and myhash["copies"][0]["items"]["Available"].nil? and myhash["location_name"] != "*Networked Resource"
             i = 0
-            breakerlength = myhash["copies"][0]["items"].size
             myhash["copies"][0]["items"].each do |item|
-           #   if i == breakerlength - 1
                @itemStatusArray << item[0] + " || "
-           #   else
-           #    @itemStatusArray << item[0] + " | "
-           #   end
-              i = i + 1
             end
           else
-            if myhash["location_name"] == '*Networked Resource'
-              @link = doc[:url_access_display][0].split('|')
-              @itemStatusArray << @link[0] + " || "
-            else
-              @itemStatusArray << myhash["copies"][0]["items"]["Available"]["status"] + " || "
-            end
+              if myhash["location_name"] == '*Networked Resource'
+                @link = doc[:url_access_display][0].split('|')
+                @itemStatusArray << @link[0] + " || "
+              else
+                @itemStatusArray << myhash["copies"][0]["items"]["Available"]["status"] + " || "
+              end
           end
         end
    return @itemStatusArray
