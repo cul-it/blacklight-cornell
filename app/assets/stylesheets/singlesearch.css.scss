@@ -1,11 +1,6 @@
-
-// .main-content { 
-//   font-size: .75em;
-//   padding: 0.5em 0 4em 0;
-//  }
-div.single-search.container {
-  padding:2em;
-}
+// div.single-search.container {
+//   padding:2em;
+// }
 input.search-query { width: 35%; }
 #field,
 #sort,
@@ -22,13 +17,25 @@ input.search-query { width: 35%; }
   padding-right:1em;
 }
 
-.single-search form {
-  margin:0px;
-
-  .btn {
-    margin-left:.25em;
+.single-search {
+  .form-group {
+    width: 80%;
+  }
+  .search-query {
+    width: 100%;
+  }
+  .btn-search {
+    margin-left: .5em;
   }
 }
+
+// .single-search form {
+//   margin:0px;
+
+//   .btn {
+//     margin-left:.25em;
+//   }
+// }
 
 #top2 {
   .search-source {
@@ -273,16 +280,6 @@ div.view-all {
     color: $dark-tan;
   }
 }
-// Div with other links or ways out
-// .other-links {
-//   background: white;
-//   h4 {
-//     font-size: 1.5em;
-//   }
-//   p {
-//     font-size: 1.2em;
-//   }
-// }
 
 .bento_compartment {
   .web {
@@ -295,57 +292,27 @@ div.view-all {
   margin-bottom: 1.5em;
 }
 
-// SEARCH OPTIONS
-.search-options {
-  border-top: 1px solid $tan;
-  padding-top: 1em;
-  margin-top: 1.5em;
-  h3 {
-    text-transform: uppercase;
-    font-size: 1em;
-    color: $medium-gray;
-  }
-  ul {
-    margin: 0;
-    padding: 0 0 3em 0;
-    list-style: none;
-  }
-  li {
-    float: left;
-    margin: 0;
-    padding: 0 8px;
-    font-size: 1.1em;
-    border-left: 1px solid #ccc;
-  }
-  li:first-child {
-    border-left: 0;
-    padding-left: 0;
-  }
 
-  h2 {
-    margin:10px 0 5px 0
+// Search options - customized from Catalog home page search options
+// ------------------------------------------------------------------//
+.search-index {
+  .other-resources {
+    border-top: 1px solid $tan;
+    padding-top: 1em;
+    margin-top: 1.5em;
   }
-  .well {
-    padding: 0 0 0 3em;
-  }
-  i { color: $light-gray; }
 }
 
 .empty-single-search {
+  margin-top: 2em;
   .well {
     font-size:1.2em;
     padding: 19px 19px 0 19px;
-    // SEARCH OPTIONS on home page -- override default .search-options rules
-    .search-options {
-      margin-top: 0;
-      h3 { font-size: .8em;}
-      li { font-size: 1em; }
-    }
   }
   form {
     padding-bottom: 2.5em;
   }
-  input.search-query { width: 60%; }
+  // input.search-query { width: 60%; }
   // margin:3em;
   h2 {
     line-height: normal;
@@ -384,11 +351,11 @@ div.view-all {
 }
 
 // match online label to blacklight catalog
-.label-online {
-  background: $teal;
-  font-weight: normal;
-}
-.label-online:hover { background: $dark-teal; }
+// .label-online {
+//   background: $teal;
+//   font-weight: normal;
+// }
+// .label-online:hover { background: $dark-teal; }
 
 // feedback and classic boxes under formats
 .results-collapse {
@@ -431,10 +398,10 @@ div.view-all {
   }
 }
 // advanced search link - override style that was brought over from catalog
-.advanced-search-link {
-  font-size: 1em;
-  margin-top: .5em;
-}
+// .advanced-search-link {
+//   font-size: 1em;
+//   margin-top: .5em;
+// }
 // match autocomplete suggestions to beta site
 .ui-widget {
   font-family: $font-family-base !important;
@@ -505,4 +472,33 @@ div.view-all {
     overflow: visible !important;
   }
 
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .single-search {
+    .btn-search {
+      margin-left: 0;
+    }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
 }
