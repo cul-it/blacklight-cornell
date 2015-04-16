@@ -41,6 +41,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     CatalogController.solr_search_params_logic << :cjk_query_addl_params
   end
 
+   def append_facet_fields(values)
+    self['facet.field'] += Array(values)
+  end
+
   # get search results from the solr index
   def index
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
@@ -565,5 +569,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       params[:range][:pub_date_facet][:begin] = begin_test
       params[:range][:pub_date_facet][:end] = end_test      
   end
+
 
 end
