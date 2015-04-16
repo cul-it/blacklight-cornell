@@ -1,8 +1,8 @@
 
-.main-content { 
-  font-size: .75em;
-  padding: 0.5em 0 4em 0;
- }
+// .main-content { 
+//   font-size: .75em;
+//   padding: 0.5em 0 4em 0;
+//  }
 div.single-search.container {
   padding:2em;
 }
@@ -145,7 +145,8 @@ div.view-all {
   padding: 10px;
   // margin-bottom:20px;
   background-color:#fff;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   h3 {
     font-size: 1.3em;
     font-weight: normal;
@@ -169,7 +170,8 @@ div.view-all {
   background: white;
   // margin-top: .75em;
   margin-bottom: 1em;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   border: 1px solid #dedad3;
   h2 {
     line-height: 1.2em;
@@ -200,7 +202,8 @@ div.view-all {
 
 .all-formats {
   background: $light-tan;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   h3 {
     font-size: 1.2em;
     line-height: 1.2em;
@@ -222,7 +225,8 @@ div.view-all {
   margin-bottom: .5em;
   padding: 10px;
   background: white;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   h3 {
     font-size: 1.3em;
     font-weight: normal;
@@ -433,7 +437,7 @@ div.view-all {
 }
 // match autocomplete suggestions to beta site
 .ui-widget {
-  font-family: $baseFontFamily !important;
+  font-family: $font-family-base !important;
   li { font-size: 16px; }
 }
 // give summon alert a little more space between it and the header

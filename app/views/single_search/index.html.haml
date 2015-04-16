@@ -1,10 +1,10 @@
 
 -if @results
   .row-fluid
-    .span12
+    .col-sm-12
       .well
         .row-fluid
-          %div.span9
+          %div.col-sm-9
             %form#search{:method => 'get', :action => '/search'}
               %label{:for=>'q',:class => "hide-text"}
                 Search
@@ -12,11 +12,11 @@
               %input.btn.hidden-phone.btn-inverse(type='submit' value='Search')
               %button#search-btn.btn.mobile-search-btn.visible-phone.btn-inverse(type="submit")
                 %i.fa.fa-search.icon-white
-          %div.advanced-search-link.span3.text-right
+          %div.advanced-search-link.col-sm-3.text-right
             = link_to 'Catalog Advanced Search', '/advanced'
 -else
   .row-fluid
-    .span8.offset2.empty-single-search
+    .col-sm-8.col-sm-offset-2.empty-single-search
       .well
         .search-info
           %a{:class => 'hidden-phone pull-right', "data-toggle" => "tooltip", "data-placement" => "right", :title => "Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page."}
@@ -47,7 +47,7 @@
     - if !@results.blank? or !result.blank? or !@websites.blank?
       .bento_box.row-fluid
         - if @results
-          .span3
+          .col-sm-3
             %a{:class => "btn btn-navbar visible-phone" , "data-toggle" => "collapse", "data-target" => ".results-collapse"}
               All results
               %i{:class => "fa fa-bars"}
@@ -89,7 +89,7 @@
               %div.well.survey
                 %p
                   Did you find what you were looking for? <a href="http://www.library.cornell.edu/feedback">Tell us about your experience</a>.
-        .span9#top
+        .col-sm-9#top
           #jumpbar.navbar
             %span.top-results
               Top Results
@@ -116,7 +116,7 @@
           #bt-container
             - if params[:q] && @ajax_bg_engines
               - @ajax_bg_engines.each do |engine|
-                .span6
+                .col-sm-6
                   .bento_compartment{:class => engine}
                     %h2
                       =engine.configuration.title

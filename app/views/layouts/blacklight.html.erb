@@ -34,19 +34,23 @@
   <body onload="<%= onload_text %>" class="<%= render_body_class %>">
     <%= render :partial => 'shared/header_navbar' %>
 
-  <%= render partial: 'shared/ajax_modal' %>
+    <%= render partial: 'shared/ajax_modal' %>
 
-    <div class="search-bar">
-      <div class="container">
-        <%= render :partial => 'shared/search_form' %>
+    <%# display search bar and contraints if not in single search %>
+    <% if !request.original_url.include? "/search" %>
+      <div class="search-bar">
+        <div class="container">
+          <%= render :partial => 'shared/search_form' %>
+        </div>
       </div>
-    </div>
+      <div class="constraints-bar">
+        <div class="container">
+          <%= render :partial => "catalog/constraints" %>
+        </div>
+      </div>
+    <% end %>
 
-    <div class="constraints-bar">
-      <div class="container">
-        <%= render :partial => "catalog/constraints" %>
-      </div>
-    </div>
+    
 
     <section class="main-content" id="maincontent">
       <div class="container" id="main-container">
