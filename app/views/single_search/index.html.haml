@@ -24,13 +24,15 @@
             About this search
         %h2
           Search
-        %form#search{:method => 'get', :action => '/search'}
-          %label{:for=>'q',:class => "hide-text"}
-            Search
-          %input.search-query(type='text' name='q' id='q' value='#{@query}' placeholder='Books, articles, databases, journals and more' autocapitalize='off')
-          %input.btn.hidden-phone.btn-inverse.search(type='submit' value='Search')
-          %button#search-btn.btn.mobile-search-btn.visible-phone.btn-inverse.search(type="submit")
-            %i.fa.fa-search.icon-white
+        %form#search.form-inline.single-search{:method => 'get', :action => '/search'}
+          %div.form-group
+            %label{:for=>'q',:class => "sr-only"}
+              Search
+            %input.search-query.form-control.col-xs-6(type='text' name='q' id='q' value='#{@query}' placeholder='Books, articles, databases, journals and more' autocapitalize='off')
+          %button#search-btn.btn.btn-search(type="submit")
+            %i.fa.fa-search.fa-inverse
+            %span.sr-only
+              Search
         = render 'single_search/search_options'
 -if @top_4_results.present?
   - @top_4_results.from(0).to(0).each do |key, result|
