@@ -1,9 +1,9 @@
 
 -if @results
-  .row-fluid
+  .row
     .col-sm-12
       .well
-        .row-fluid
+        .row
           %div.col-sm-9
             %form#search{:method => 'get', :action => '/search'}
               %label{:for=>'q',:class => "hide-text"}
@@ -15,7 +15,7 @@
           %div.advanced-search-link.col-sm-3.text-right
             = link_to 'Catalog Advanced Search', '/advanced'
 -else
-  .row-fluid
+  .row
     .col-sm-8.col-sm-offset-2.empty-single-search
       .well
         .search-info
@@ -47,7 +47,7 @@
         = link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend"
       = render 'single_search/search_options'
     - if !@results.blank? or !result.blank? or !@websites.blank?
-      .bento_box.row-fluid
+      .bento_box.row
         - if @results
           .col-sm-3
             %a{:class => "btn btn-navbar visible-phone" , "data-toggle" => "collapse", "data-target" => ".results-collapse"}
@@ -172,7 +172,7 @@
                     %div{:id => key+"-Bento4"}
                       = render 'single_search/pane_results', :key => key, :result => result
 
-          .row-fluid.web-pane
+          .row.web-pane
             - if @websites.present?
               .web-results
                 = render 'single_search/pane_results', :key => 'web', :result => @websites
