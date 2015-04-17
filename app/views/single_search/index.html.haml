@@ -59,26 +59,32 @@
                         %li
                           %i.fa.fa-arrow-right
                           = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
+                  .panel.panel-default#formats
+                    - unless @more_results.length < 3
+                      .panel-heading
+                        %h5.panel-title
+                          Format
+                      .panel-body
+                        %ul#more-results.fa-ul
+                          - @more_results.each do |key, result|
+                            - if !result.empty? and result.total_items > 0
+                              %li
+                                %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
+                                - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+                                - link_url = ss_uri_encode(link_url)
+                                = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
+                                  = BentoSearch.get_engine(key).configuration.title
+                                  / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
+                                  (#{number_with_delimiter(result.total_items)})
+                  .panel.panel-default
+                    .panel-heading
+                      %h5.panel-title
+                        Legacy Resource
+                    .panel-body
+                      %div
+                        = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
 
-              .formats#formats
-                - unless @more_results.length < 3
-                  %h3 Format
-                  %ul#more-results.fa-ul
-                    - @more_results.each do |key, result|
-                      - if !result.empty? and result.total_items > 0
-                        %li
-                          %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
-                          - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
-                          - link_url = ss_uri_encode(link_url)
-                          = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
-                            = BentoSearch.get_engine(key).configuration.title
-                            / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
-                            (#{number_with_delimiter(result.total_items)})
-              .div.expand-search
-                %h3
-                  Legacy Resource
-                %div
-                  = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
+                
               /
                 %div.well.survey
                   %p

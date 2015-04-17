@@ -81,32 +81,32 @@ div.search-tools > h2 {line-height: 1em}
   }
 }
 
-.expand-search { 
-  margin-top: .5em;
-  padding: 10px;
-  background: white;
-  @include border-top-radius($border-radius-large);
-  @include border-bottom-radius($border-radius-large);
-  h4 {
-    font-size: 1em;
-    font-weight: normal;
-    margin: 0 0 .5em 0;
-    border-bottom: 1px solid $light-tan;
-    padding: 0 0 .25em 0;
-  }
-  ul {
-    margin-left: 0;
-    margin-bottom: 0;
-    list-style: none; }
-  li {
-    font-size: .75em;
-    margin-bottom: .25em;
-  }
-  i {
-    color: $dark-tan;
-    margin-right: .25em;
-  }
-}
+// .expand-search { 
+  // margin-top: .5em;
+  // padding: 10px;
+//   background: white;
+//   @include border-top-radius($border-radius-large);
+//   @include border-bottom-radius($border-radius-large);
+//   h4 {
+//     font-size: 1em;
+//     font-weight: normal;
+//     margin: 0 0 .5em 0;
+//     border-bottom: 1px solid $light-tan;
+//     padding: 0 0 .25em 0;
+//   }
+//   ul {
+//     margin-left: 0;
+//     margin-bottom: 0;
+//     list-style: none; }
+//   li {
+//     font-size: .75em;
+//     margin-bottom: .25em;
+//   }
+//   i {
+//     color: $dark-tan;
+//     margin-right: .25em;
+//   }
+// }
 h2.advanced-search { margin: 0; }
 .advanced-facets { margin-bottom: 10px; }
 
