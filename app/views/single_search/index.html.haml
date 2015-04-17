@@ -36,7 +36,7 @@
       .bento_box.row
         - if @results
           .col-sm-3
-            %a{:class => "btn btn-navbar visible-phone" , "data-toggle" => "collapse", "data-target" => ".results-collapse"}
+            %a{:class => "btn btn-navbar visible-xs" , "data-toggle" => "collapse", "data-target" => ".results-collapse", "aria-expanded" => "false", "aria-controls" => "results-collapse"}
               All results
               %i{:class => "fa fa-bars"}
             %div.results-collapse.collapse
