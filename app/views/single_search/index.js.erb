@@ -1,0 +1,24 @@
+// For proof of concept only...this will be refactored...big time
+
+<% updated_threefour = '' %>
+<% @top_4_results.from(2).to(1).each do |key, result| %>
+  <% updated_threefour << '<div class="span6">' %>
+    <% updated_threefour << render('pane_results', :key => key, :result => result) %>
+  <% updated_threefour << '</div>' %>
+<% end %>
+
+$('#three-four').html('<%= escape_javascript(updated_threefour.html_safe) %>');
+
+<% updated_moreresults = '' %>
+<% @more_results.each do |key, result| %>
+  <% if result.total_items > 0 %>
+    <% updated_moreresults << '<li>' %>
+      <% updated_moreresults << '<i class="fa fa-' + formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) + '"></i>' %>
+      <% updated_moreresults << link_to(single_search_path(result.engine_id, :q => params[:q] || params[:query], :field => params[:field])) do %>
+        <%= BentoSearch.get_engine(key).configuration.title %> (<%=number_with_delimiter(result.total_items) %>)
+      <% end %>
+    <% updated_moreresults << '</li>' %>
+  <% end %>
+<% end %>
+
+$('#more-results').html('<%= escape_javascript(updated_moreresults.html_safe) %>');

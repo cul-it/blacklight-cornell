@@ -36,10 +36,12 @@ BlacklightCornell::Application.routes.draw do
   get '/databases/subject/:q' => 'databases#subject', :as => 'databases_subject'
   get '/databases/show/:id' => 'databases#show', :as => 'databases_show'
   get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
+  
+  get '/search', :to => 'search#index'#, :as => 'single_search', :via => [:post, :get]
+  match "search/:engine", :to => "search#single_search", :as => "single_search", via: [ :get ]
 
-  get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'
+   get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'
   get '/digitalcollections/searchdigreg/' => 'digitalcollections#searchdigreg', :as => 'digitalcollections_searchdigreg'
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,4 +1,13 @@
 GIT
+  remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
+  revision: bfc525d463f4873bb0c1918e4812ec1ccaf4cbf3
+  branch: master
+  specs:
+    blacklight_cornell_advanced_search (2.1.1)
+      blacklight
+      parslet
+
+GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
   revision: e3c6f1ea83434af7b865ed10ad0a6400f2e2f2fb
   branch: bl5
@@ -108,6 +117,7 @@ GEM
     blacklight_unapi (0.1.0)
       blacklight (~> 5.0)
       rails
+    blankslate (3.1.3)
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
@@ -280,6 +290,8 @@ GEM
       marc
       scrub_rb (~> 1.0)
     orm_adapter (0.5.0)
+    parslet (1.7.0)
+      blankslate (>= 2.0, <= 4.0)
     plist (3.1.0)
     poltergeist (1.6.0)
       capybara (~> 2.1)
@@ -440,6 +452,7 @@ DEPENDENCIES
   bento_search
   blacklight (= 5.9)
   blacklight-marc
+  blacklight_cornell_advanced_search!
   blacklight_cornell_requests!
   blacklight_google_analytics
   blacklight_range_limit
