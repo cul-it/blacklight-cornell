@@ -8,18 +8,11 @@ GIT
       parslet
 
 GIT
-  remote: git@github.com:cul-it/blacklight-unapi
-  revision: 7ea111503796d95adc1dcc78dfbfae88d879dd39
-  branch: rails4
+  remote: git@github.com:cul-it/blacklight-cornell-requests.git
+  revision: e4bca35d49363f80621cb5042fd6c60a1cbe2ba1
+  branch: master
   specs:
-    blacklight_unapi (0.0.3)
-      blacklight (> 3.2)
-      rails (~> 4.0)
-
-PATH
-  remote: vendor/cache/blacklight-cornell-requests
-  specs:
-    blacklight_cornell_requests (1.0.1)
+    blacklight_cornell_requests (1.1.0)
       blacklight (~> 4.3)
       borrow_direct
       dotenv
@@ -32,6 +25,15 @@ PATH
       net-ldap
       nokogiri
       protected_attributes
+      rails (~> 4.0)
+
+GIT
+  remote: git@github.com:cul-it/blacklight-unapi
+  revision: 7ea111503796d95adc1dcc78dfbfae88d879dd39
+  branch: rails4
+  specs:
+    blacklight_unapi (0.0.3)
+      blacklight (> 3.2)
       rails (~> 4.0)
 
 GEM
@@ -382,7 +384,7 @@ GEM
       textpow (>= 1.3.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.6)
+    unf_ext (0.0.7)
     unicode (0.4.4.2)
     vcr (2.9.3)
     warden (1.2.3)
