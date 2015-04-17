@@ -79,14 +79,22 @@ module NavigationHelpers
   def facet_to(facet) 
     case facet
 
+    when /^access$/
+      'blacklight-online'
+    when /^author\/creator$/
+      'blacklight-author_facet'
+    when /^fiction\/non-fiction$/
+      'blacklight-subject_content_facet'
     when /^format$/
        'blacklight-format'
     when /.*genre$/
        'blacklight-subject_topic_facet'
     when /^language$/
        'blacklight-language_facet'
+    when /^library location$/
+      'blacklight-location_facet'
     when /^call number$/
-       'blacklight-lc_1letter_facet'
+       'blacklight-lc_alpha_facet'
     when /.*region$/
        'blacklight-subject_geo_facet'
     when /.*era$/
