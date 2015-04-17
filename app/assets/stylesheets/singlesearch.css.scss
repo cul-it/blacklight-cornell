@@ -227,47 +227,47 @@ div.view-all {
 }
 
 // more prominent Expand your search box to match Catalog presentation
-.expand-search { 
-  margin-top: .5em;
-  margin-bottom: .5em;
-  padding: 10px;
-  background: white;
-  @include border-top-radius($border-radius-large);
-  @include border-bottom-radius($border-radius-large);
-  h3 {
-    font-size: 1.3em;
-    font-weight: normal;
-    margin: 0 0 .5em;
-    border-bottom: 1px solid $light-tan;
-    padding-bottom: .25em;
-  }
-  h4 {
-    font-size: 1.2em;
-    font-weight: normal;
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
-    padding-bottom: 0;
-  }
-  ul {
-    margin-left: 0;
-    list-style: none;
-  }
-  li {
-    font-size: 1em;
-    margin-bottom: .25em;
-  }
-  i {
-    color: $dark-tan;
-    margin-right: .25em;
-  }
-  p {
-    font-size: 1.1em;
-  }
-}
+// .expand-search { 
+  // margin-top: .5em;
+  // margin-bottom: .5em;
+  // padding: 10px;
+  // background: white;
+  // @include border-top-radius($border-radius-large);
+  // @include border-bottom-radius($border-radius-large);
+//   h3 {
+//     font-size: 1.3em;
+//     font-weight: normal;
+//     margin: 0 0 .5em;
+//     border-bottom: 1px solid $light-tan;
+//     padding-bottom: .25em;
+//   }
+//   h4 {
+//     font-size: 1.2em;
+//     font-weight: normal;
+//     line-height: 1.2em;
+//     margin-bottom: 0.2em;
+//     padding-bottom: 0;
+//   }
+//   ul {
+//     margin-left: 0;
+//     list-style: none;
+//   }
+//   li {
+//     font-size: 1em;
+//     margin-bottom: .25em;
+//   }
+//   i {
+//     color: $dark-tan;
+//     margin-right: .25em;
+//   }
+//   p {
+//     font-size: 1.1em;
+//   }
+// }
 // give last expand-search div a little margin underneath for mobile so Top Results isn't jammed up under there
-.expand-search:last-child {
-  margin-bottom: 2em;
-}
+// .expand-search:last-child {
+//   margin-bottom: 2em;
+// }
 .survey {
   ul {
     list-style: none;
