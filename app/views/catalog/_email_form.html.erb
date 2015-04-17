@@ -3,8 +3,8 @@
 
   <div class="modal-body">
     <%= render :partial=>'/flash_msg' %>
-      
-      
+
+
     <div class="control-group">
       <label class="control-label" for="to">
         <%= t('blacklight.email.form.to') %>
@@ -25,14 +25,17 @@
     <% @callNosArray = [] %>
     <% @locationNameArray = [] %>
     <% @tempLocationsArray = [] %>
+    <% @statusArray = [] %>
     <% @documents.each do |doc| %>
       <% @locationNameArray.push(getLocations(doc)) %>
       <% @tempLocationsArray.push(getTempLocations(doc))%>
       <% @callNosArray.push(getCallNos(doc))%>
+      <% @statusArray.push(getItemStatus(doc))%>
       <%=hidden_field_tag "id[]", doc.id %>
       <%=hidden_field_tag "location", @locationNameArray %>
-      <%=hidden_field_tag "templocation", @tempLocationsArray %> 
-      <%=hidden_field_tag "callnumber", @callNosArray%> 
+      <%=hidden_field_tag "templocation", @tempLocationsArray %>
+      <%=hidden_field_tag "callnumber", @callNosArray%>
+      <%=hidden_field_tag "itemStatus", @statusArray%>
     <% end %>
     <%- if params[:sort] -%>
       <%= hidden_field_tag "sort", params[:sort] %>

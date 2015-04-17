@@ -110,14 +110,6 @@ namespace :deploy do
 end
 
 #after "deploy:finalize_update", "deploy:db:symlink"
-
-desc "Tailor holdings config to local machine by puppet"
-task :tailor_holdings_config, :roles => [ :web ] do
-	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/environment.rb >/tmp/e.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,/newcatalog,/holdings,    /tmp/e.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/config/environment.rb"
-	run "sed -e s/culholdingsdev.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/.env >/tmp/env.rb   && sed -e s,//search,//holdings, -e s,/culsearch,/culholdings, -e s,newcatalog,holdings,    /tmp/env.rb  | sed -e s/catalog-test/catalog/ >#{deploy_to}/current/.env"
-        run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-end
-
 desc "Tailor solr config to local machine"
 task :tailor_solr_yml, :roles => [ :web ] do
 	run "sed -e s/da-prod-solr1.library.cornell.edu/$CAPISTRANO:HOST$/ #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/slr.rb  >#{deploy_to}/current/config/solr.yml"
@@ -137,13 +129,14 @@ end
 desc "Guarantee app signal environment -- too sensitive for git"
 task :export_app_yml, :roles => [ :app, :db, :web ] do
          rails_env = fetch(:rails_env, "production")
-         run "cd  #{deploy_to}/current/ ; pwd ; . ./.env ; export APPSIGNAL_PUSH_API_KEY ; bundle exec appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{rails_env} --name=BlacklightCornell "
+         #run "cd  #{deploy_to}/current/ ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; echo $APPSIGNAL_PUSH_API_KEY ; bundle exec bin/appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
+	run "cd  #{current_path} ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; erb config/appsignal.yml > a ; mv a config/appsignal.yml;  cat config/appsignal.yml ;  echo $APPSIGNAL_PUSH_API_KEY ; bundle exec appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
 end
 
 #after :deploy, "fix_file_permissions"
 #after :deploy, "install_puppet_db_yml"
 after :deploy, "tailor_solr_yml"
-#after :deploy, "export_app_yml"
+before 'appsignal:deploy', "export_app_yml"
 desc "Install  env -- too sensitive for git - production"
 task :install_env, :roles => [ :app, :db, :web ] do
         run "cp #{deploy_to}/config/.env  #{shared_path}/.env"

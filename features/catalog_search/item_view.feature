@@ -133,8 +133,10 @@ Feature: Item view
   @javascript
   @bibid1902405
   @DISCOVERYACCESS-1659
+  @current_issues
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
+    Then I should see the label 'Current Issues: # 50 (2001)'  
     Then I should see the label '1941 c. 1 Checked out, due 2016-01-09'  
     Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'  
     Then I should see the label '1960 c. 1 Checked out, due 2016-01-09'  
