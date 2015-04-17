@@ -7,7 +7,11 @@ When /^(?:|I )fill in "([^"]*)" with ["']([^"]*)["']$/ do |field, value|
 end
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
-  click_button button
+  if button == 'search'
+    page.find(:css, 'button#search-btn').click
+  else
+    click_button button
+  end
 end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
