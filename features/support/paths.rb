@@ -21,8 +21,7 @@ module NavigationHelpers
 
       
     when /the catalog page/
-      #catalog_index_path
-      root_path
+      catalog_index_path
       
     when /the folder page/
       folder_index_path
