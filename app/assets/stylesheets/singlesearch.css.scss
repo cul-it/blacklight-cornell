@@ -438,8 +438,7 @@ div.view-all {
 
 // Override the default collapsed state -- copied out of gem - navbar.scss.css - stick this in here so IE8 will display the All Results panel - https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1202
 .results-collapse.collapse {
-  height: auto;
-  overflow: visible;
+  // display: none;
 }
 
 .chat {
@@ -452,11 +451,11 @@ div.view-all {
 // -----------------
 @media (max-width: $navbarCollapseWidth) {
   // Hide everything in the results save toggle button */
-  .results-collapse,
-  .results-collapse.collapse {
-    overflow: hidden;
-    height: 0;
-  }
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   overflow: hidden;
+  //   height: 0;
+  // }
 }
 
 
@@ -466,11 +465,11 @@ div.view-all {
 @media (min-width: $navbarCollapseDesktopWidth) {
 
   // Required to make the collapsing navbar work on regular desktops
-  .results-collapse,
-  .results-collapse.collapse {
-    height: auto !important;
-    overflow: visible !important;
-  }
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   height: auto !important;
+  //   overflow: visible !important;
+  // }
 
 }
 
@@ -497,8 +496,20 @@ div.view-all {
       margin-left: 0;
     }
   }
+  .results-collapse,
+  .results-collapse.collapse {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
+  // Required to make the collapsing navbar work on regular desktops
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   height: auto !important;
+  //   overflow: visible !important;
+  // }
 }
