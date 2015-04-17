@@ -43,22 +43,27 @@
               %div.expand-search
                 - query = params[:q] || params[:query]
                 - query = query.gsub('&', '%26')
-                %h3
-                  Looking for more?
-                %ul.icons-ul
-                  %li
-                    %i.fa.fa-arrow-right
-                    = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
-                      Request from Libraries Worldwide 
-                      = precede "(" do
-                        = render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl
-                  %li
-                    %i.fa.fa-arrow-right
-                    = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
+                .panel-group
+                  .panel.panel-default
+                    .panel-heading
+                      %h5.panel-title
+                        Looking for more?
+                    .panel-body
+                      %ul.fa-ul
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
+                            Request from Libraries Worldwide 
+                            = precede "(" do
+                              = render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
+
               .formats#formats
                 - unless @more_results.length < 3
                   %h3 Format
-                  %ul#more-results.icons-ul
+                  %ul#more-results.fa-ul
                     - @more_results.each do |key, result|
                       - if !result.empty? and result.total_items > 0
                         %li
@@ -74,9 +79,10 @@
                   Legacy Resource
                 %div
                   = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
-              %div.well.survey
-                %p
-                  Did you find what you were looking for? <a href="http://www.library.cornell.edu/feedback">Tell us about your experience</a>.
+              /
+                %div.well.survey
+                  %p
+                    Did you find what you were looking for? <a href="http://www.library.cornell.edu/feedback">Tell us about your experience</a>.
         .col-sm-9#top
           #jumpbar.navbar
             %span.top-results
