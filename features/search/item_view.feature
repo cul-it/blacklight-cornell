@@ -7,7 +7,7 @@ Feature: Item view
   @allow-rescue
   @e404
   Scenario: goto an invalid page 
-  	When I go to literal abcdefg 
+  	When I literally go to abcdefg 
   	Then I should see an error 
         Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
 
@@ -48,10 +48,10 @@ Feature: Item view
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
-  @javascript 
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
     Given I request the item view for 1630516 
+    And I should see the label 'English poetry'
     And click on link "English poetry"
     Then it should contain filter "Subject" with value "English poetry"
 
@@ -97,20 +97,6 @@ Feature: Item view
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
     Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
-  # DISCOVERYACCESS-137
-  @javascript 
-  @DISCOVERYACCESS-137
-  Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
-    Given I request the item view for 1630516 
-    And click on link "English poetry"
-    Then it should contain filter "Subject" with value "English poetry"
-
-  @DISCOVERYACCESS-137
-  Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
-    Given I request the item view for 1630516 
-    And click on link "19th century"
-    Then it should contain filter "Subject" with value "English poetry 19th century"
-
   # DISCOVERYACCESS-138
   Scenario: As a user, the "other names" in an item record is clickable and produces a query resulting in a list of items related to the other name chosen.
     Given I request the item view for 4442
@@ -138,52 +124,23 @@ Feature: Item view
   @availability @due
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 2269649 
-    Then I should see the label 'Checked out, due'  
+    Then I should see the label 'Checked out, due'
 
-  # Availability less simple, multiple locations, one copy at each. 
+  # availability -- several copies,all copy1, checked out. 
+  # Directory American Veterinary Medical Association
   @availability
+  @javascript
+  @bibid1902405
+  @DISCOVERYACCESS-1659
+  @current_issues
   Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 1535861 
-    Then I should see the labels 'Library Annex,Olin Library'
+    Given I request the item view for 1902405 
+    Then I should see the label 'Current Issues: # 50 (2001)'  
+    Then I should see the label '1941 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label '1960 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label 'Request'  
 
-  # Availability less simple, multiple locations, one copy at each. 
-  @availability
-  Scenario: As a user I can see the availability for an item at multiple locations 
-    Given I request the item view for 561536 
-    Then I should see the labels 'Mann Library,ILR Library,Library Annex,Olin Library'
-
-  # Availability less simple, multiple locations, one permanent location overridden 
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location
-    Given I request the item view for 561536 
-    Then I should not see the label 'Olin Library Media Center'
-
-  # Availability less simple, multiple locations, show temporary location properly 
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location
-    Given I request the item view for 115628 
-    Then I should see the label 'Temporarily shelved'
-
-  # 
-  # Show overriding perm location properly instead of holding location 
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location but
-  when all items have an overriden location that location takes over for the main location 
-    Given I request the item view for 2378252 
-    Then I should not see the label 'Shelved in'
-
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location but
-  when all items have an overriden location that location takes over for the main location 
-    Given I request the item view for 2378252 
-    Then I should see the label 'Law Library (Myron Taylor Hall) Rare Books'
-
-  @DISCOVERYACCESS-988
-  @availability
-  Scenario: As a user I can see the availability for an item at an overriden location but
-  when all items have an overriden location that location takes over for the main location 
-    Given I request the item view for 2378252 
-    Then I should see the "fa-on-site" class 3 times
 
   # when there is a perm location, and temp and all items for holding are at temp
   # then the temp location should be shown INSTEAD of permanent so "temporarily shelved
@@ -354,8 +311,15 @@ Feature: Item view
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the exactly what copy is available 
+  Scenario: As a user I can see exactly what copy is available 
     Given I request the item view for 1535861
+    Then I should see the label '1 copy'
+
+  # DISCOVERYACCESS-1409 -- this record returns we are sorry 
+  # thai language material
+  @DISCOVERYACCESS-1409
+  Scenario: As a user I can see exactly what copy is available for this Thai language material
+    Given I request the item view for 8258651 
     Then I should see the label '1 copy'
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
@@ -364,9 +328,9 @@ Feature: Item view
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the exactly what copy is available 
+  Scenario: As a user I can see the how many copies are available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 1 copy'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
@@ -467,8 +431,7 @@ Feature: Item view
     Given I request the item view for 4629
     Then I should not see the label 'Notes'
 
-  # DISCOVERYACCESS-?
-
+  
 
 
 
