@@ -7,10 +7,12 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
 end
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
+  has_css?(button) 
   click_link_or_button button
 end
 
 When /^(?:|I )press "([^"]*)"$/ do |button|
+  has_css?(button) 
   click_link_or_button button
 end
 
