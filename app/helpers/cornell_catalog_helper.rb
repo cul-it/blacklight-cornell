@@ -178,9 +178,9 @@ module CornellCatalogHelper
             oneloc["summary_holdings"]="Library has: " + summary_holdings.join(' ') unless summary_holdings.blank? 
             oneloc["supplements"]=suppl_holdings.join(';') unless suppl_holdings.blank? 
             if (!@current_suppl.nil?) 
-              if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).blank?
+              if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && ( x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).blank?
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} selected current  = " +  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id }).inspect
-                cur =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).sort_by{|x| x["ISSUE_ID"]}
+                cur =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && (x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).sort_by{|x| x["ISSUE_ID"]}
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted current  = " +  cur.inspect
                 currev = cur.reverse.map{|x| x["ENUMCHRON"]}.join(";") 
                 Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  currev.inspect
@@ -244,7 +244,11 @@ module CornellCatalogHelper
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
     zcondensed_full = fix_permtemps(bibid,condensed_full,response)
     Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix perm temps) = " + zcondensed_full.inspect 
-    ycondensed_full = collapse_locs(zcondensed_full)
+    if ENV['NO_COLLAPSE']
+      ycondensed_full = zcondensed_full
+    else
+      ycondensed_full = collapse_locs(zcondensed_full)
+    end
     Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
     ycondensed_full
   end
@@ -511,15 +515,26 @@ module CornellCatalogHelper
       solri = items_solr[holding[:ITEM_ID].to_s]
       Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
       reqs = "0"
+      #copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
       if !solri.nil?
-        copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
-        enum = solri['item_enum'] + ' ' + solri['chron']+copy
+      copy = solri['copy_number'].blank? ? "" : " c. #{solri['copy_number']}"
+        if  solri['item_enum'].blank? 
+          enum = "#{holding[:ITEM_ENUM]}  #{holding[:CHRON]} #{copy}"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
+        else 
+          enum = solri['item_enum'] + ' ' + solri['chron']+copy
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
+        end
         reqs = solri['reqs'] 
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
+        Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
       end
       norr = reqs == '0' ? 'n' : 'r'
       status =  ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr].nil?  ?  "Status #{holding[:ITEM_STATUS].to_s} " : ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr]['short_message']
-      Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} status = #{status.inspect}\n"
+      Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} status = #{status.inspect}\n"
+      Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} enum = #{enum.inspect}\n"
       status_text =  status.gsub('%ENUM',enum)
       status_text =  status_text.gsub('%SDATE',sdate)
       status_text =  status_text.gsub('%DATE',date)

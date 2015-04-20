@@ -3,6 +3,12 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 require 'celluloid/autostart'
 
+# Load defaults from config/*.env in config
+# Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)
+#
+# # Override any existing variables if an environment-specific file exists
+# Dotenv.overload *Dir.glob(Rails.root.join("config/**/*.env.#{Rails.env}"), File::FNM_DOTMATCH)
+
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))

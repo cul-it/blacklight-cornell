@@ -91,3 +91,29 @@ module NavigationHelpers
 end
 
 World(NavigationHelpers)
+
+
+class Capybara::Driver::Node
+  def submit_form!
+    print self.inspect
+    raise NotImplementedError
+  end
+end
+
+class Capybara::RackTest::Node
+  def submit_form!
+    Capybara::RackTest::Form.new(driver, self.native).submit({})
+  end
+end
+
+class Capybara::Poltergeist::Node
+  def submit_form!
+    Capybara::Poltergeist::Form.new(driver, self.native).submit({})
+  end
+end
+
+class Capybara::Node::Element
+  def submit_form!
+    base.submit_form!
+  end
+end

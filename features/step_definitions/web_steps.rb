@@ -7,14 +7,20 @@ When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
 end
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
-  click_button button
+  has_css?(button) 
+  click_link_or_button button
+end
+
+When /^(?:|I )press "([^"]*)"$/ do |button|
+  has_css?(button) 
+  click_link_or_button button
 end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )go to literal (.+)$/ do |page_name|
+When /^(?:|I )literally go to (.+)$/ do |page_name|
   visit page_name
 end
 
@@ -37,4 +43,8 @@ end
 
 Then /^I should see an error$/ do
   (400 .. 599).should include(page.status_code)
+end
+
+Then(/^I sleep (\d+) seconds$/) do |wait_seconds|
+  sleep wait_seconds.to_i 
 end

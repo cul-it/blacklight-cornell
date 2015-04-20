@@ -6,19 +6,19 @@ Feature: Databases List
 
   @databases
   Scenario: View a list of databases
-  	Given I go to literal databases
+  	Given I literally go to databases
   	Then I should see the label 'Search top databases'
 
   @mla
   @databases
   Scenario: Make sure list contains known database 
-  	Given I go to literal databases
+  	Given I literally go to databases
   	Then I should see the label 'General Interest and Reference Biographies'
 
   @mla
   @databases
   Scenario: Make sure list contains known collection 
-  	Given I go to literal databases
+  	Given I literally go to databases
         And I fill in the search box with 'MLA'
         And I press 'search'
   	Then I should see the label 'MLA'

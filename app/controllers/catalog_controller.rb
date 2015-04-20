@@ -57,6 +57,11 @@ class CatalogController < ApplicationController
             :sep_display => ' / ',
             :pair_list => true
         },
+        'title_series_cts' => {
+          :search_field => 'title',
+          :sep => '|',
+          :key_value => true
+        },
         'subject_cts' => {
             :search_field => 'subject',
             :sep => '|',
@@ -70,7 +75,6 @@ class CatalogController < ApplicationController
             :sep => '|',
             :key_value => true
         },
-        'title_series_display'  => 'title',
         'continues_display' => {
             :search_field => 'title',
             :sep => '|',
@@ -317,12 +321,12 @@ class CatalogController < ApplicationController
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
     config.add_show_field 'author_addl_cts', :label => 'Other author/creator'
-    config.add_show_field 'title_series_display', :label => 'Series'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'
     config.add_show_field 'related_work_display', :label => 'Related Work'
+    config.add_show_field 'title_series_cts', :label => 'Series'
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
     config.add_show_field 'supersedes_display', :label => 'Supersedes'
@@ -522,9 +526,9 @@ class CatalogController < ApplicationController
   end
 
   # Probably there's a better way to do this, but for now we'll make the mollom instance
-  # a class variable in order to maintain the connection across CAPTCHA 
+  # a class variable in order to maintain the connection across CAPTCHA
   # displays and repeated form submissions.
-  @@mollom = nil            
+  @@mollom = nil
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def email
@@ -540,10 +544,10 @@ class CatalogController < ApplicationController
         captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
       end
 
-      # 
+      #
       if params[:to]
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        result = nil  
+        result = nil
         # Check for valid email address
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
           captcha_ok = true #test
@@ -555,7 +559,7 @@ class CatalogController < ApplicationController
                 result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
                 if result.ham?
                     # Content is okay, we can proceed with the email
-                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber],}, url_gen_params, params)
+                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
                 elsif result.spam?
                     # This is definite spam (according to Mollom)
                     flash[:error] = 'Spam!'
@@ -563,7 +567,7 @@ class CatalogController < ApplicationController
             rescue
                 # Mollom isn't working, so we'll have to just go ahead and mail the item
                 captcha_ok = true
-                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber],}, url_gen_params)
+                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params)
             end
           end
         else
@@ -578,10 +582,10 @@ class CatalogController < ApplicationController
         # Need to pass through the message form elements in order to retain them in the next POST (from CAPTCHA submission)
         @email_params = { :to => params[:to], :message => params[:message], :id => params['id'][0] }
         return render :partial => 'captcha'
-      elsif !flash[:error] 
+      elsif !flash[:error]
         # Don't have to show a CAPTCHA and there are no errors, so we can send the email
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation]}, url_gen_params, params)
-        email.deliver 
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
+        email.deliver
         flash[:success] = "Email sent"
         redirect_to catalog_path(params[:id]) unless request.xhr?
       end
