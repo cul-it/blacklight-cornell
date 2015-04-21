@@ -28,5 +28,5 @@ integration:
 
 staging:
   <<: *defaults
-  active: false 
+  active: true 
 
