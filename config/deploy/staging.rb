@@ -18,3 +18,9 @@ task :tailor_solr_yml, :roles => [ :web ] do
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
+desc "Install  (redefine for staging) env -- too sensitive for git - production"
+task :install_env, :roles => [ :app, :db, :web ] do
+        run "cp #{deploy_to}/config/staging.env  #{shared_path}/.env"
+        run "cat #{shared_path}/.env"
+end
+
