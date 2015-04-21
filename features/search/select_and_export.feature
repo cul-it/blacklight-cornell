@@ -55,6 +55,6 @@ Feature: Select and export items from the result set
     And I sleep 2 seconds
     Then "quentin@example.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
     Then I should see "Shelter medicine for veterinarians and staff" in the email body
-    Then I should see "xLocation: Veterinary Library Core Resource (Non-Circulating)" in the email body
+    Then I should see "Location: Veterinary Library Core Resource (Non-Circulating)" in the email body
   
 
