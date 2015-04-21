@@ -1,8 +1,10 @@
 <% if back_to_catalog_needed %>
   <% link_back = link_back_to_catalog %>
   <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
+  <% if !link_back[:url].include? "digitalcollections" and link_back[:url] != "/"  %>
   <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
     <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
+    <% end %>
     <% end %>
   <% end %>
 <% end %>
