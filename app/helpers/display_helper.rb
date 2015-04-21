@@ -768,6 +768,8 @@ module DisplayHelper
       link_url = bookmarks_path
     end
 
+    if link_url.include?('q=') || link_url.include?('/?f%')  || link_url.include?("q_row")
+
     opts[:label] ||= t('blacklight.back_to_search')
 
     link = {}
@@ -775,6 +777,7 @@ module DisplayHelper
     link[:label] = opts[:label]
 
     link
+  end
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
