@@ -151,10 +151,13 @@ module DisplayHelper
 
       if wcl_isbn.present? && !oclc_number.present?
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
-        @xisbn = JSON.parse(@xisbn)["list"]
-        if !@xisbn.nil?
-          @xisbn.each do |wcl_data|
-            oclc_number = wcl_data["oclcnum"][0]
+        mess = JSON.parse(@xisbn)
+        if ( !mess.blank? and mess["stat"]  == "ok")  
+          @xisbn = mess["list"]
+          if !@xisbn.nil?
+            @xisbn.each do |wcl_data|
+              oclc_number = wcl_data["oclcnum"][0]
+            end
           end
         end
     end
