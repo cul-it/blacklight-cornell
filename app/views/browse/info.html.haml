@@ -1,6 +1,6 @@
 -if @headingsResponse.present? 
 	.return-link
-		=link_to "/browse?q=" + params[:q] + "&browse_type=" + params[:browse_type] + "&start=0"do
+		=link_to "/browse?q=" + params[:q] + "&browse_type=" + params[:browse_type] + "&start=0" do
 			%i.fa.fa-arrow-circle-left
 			Back to list
 	- @headingsResponse.each do |data|
@@ -8,18 +8,13 @@
 			=data["heading"]
 		-if data["counts_json"].present?
 			-works=JSON.parse(data["counts_json"])
+			-if params[:browse_type] == "Author" 
 				.author-works
 					Works by:
-
-					-if params[:browse_type] == "Author" 
-						= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
-							=works["worksBy"]
-							Title(s)
-					-if params[:browse_type] == "Subject"
-						= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
-							=works["worksBy"]
-							Title(s)
-				-if !works["worksAbout"].nil?
+					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+						=works["worksBy"]
+						Title(s)
+			-if !works["worksAbout"].nil?
 				.author-works
 					Works about:
 					= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
@@ -37,50 +32,33 @@
 				Reference info
 			%dd
 				.reference
+					-if data["seeAlso"].present? 
+						-data["seeAlso"].each do |sa|
+							-seeAlso=JSON.parse(sa)
+							- if seeAlso["relationship"].present?
+								.reference-note
+									=seeAlso["relationship"] + ':'
 
-
-					-if !data["seeAlso"].nil?  
-						-if data["seeAlso"].present?
-							- data["seeAlso"].each do |a|
-								-unless a.blank?
-									-a_link = a.split("|")[0]
-									-a_note = a.split("|")[1]
-									-aq = URI::encode(a_link)
-									-refclnt = HTTPClient.new
-									-if params[:browse_type] == "Author"
-										-@seeAlsoResultString = refclnt.get_content('http://da-stg-ssolr.library.cornell.edu/solr/author/browse?q="' + "aq" + '"' )
-									-if params[:browse_type] == "Subject"
-										-@seeAlsoResultString = refclnt.get_content('http://da-stg-ssolr.library.cornell.edu/solr/author/browse?q="' + aq + '"' )
-									-if !@seeAlsoResultString.nil?
-										-@seeAlsoResponseFull = eval(@seeAlsoResultString)
-									-else
-										-@seeAlsoResponseFull = eval("Could not find")
-									-@seeAlsoResponse = @seeAlsoResponseFull['response']['docs']
-									- if a_note.present?
-										.reference-note
-											=a_note + ':'
-
-									- if a_note.nil?
-										.reference-note
-											See also:
-									=link_to "/browse?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type] do
-										=a_link
-								-unless @seeAlsoResponse.blank?
-									-@seeAlsoResponse.each do |sa|
-										
-										-unless sa["seeAlso"].blank? && sa["notes"].blank?
-											=link_to "/browse/info?q=" + a_link + "&start=0" + "&browse_type=" + params[:browse_type]do
-												%span.label.label-info
-													Info
-									- if params[:browse_type] == "Author"
-										.author-works
-											Works by:
-											= link_to '/?q="' + a_link + '"&search_field=author%2Fcreator' do
-												(title count)
-									.author-works
-										Works about:
-										= link_to '/?q="' + a_link + '"&search_field=subject' do
-											(title count)
+							- if seeAlso["relationship"].nil?
+								.reference-note
+									See also:
+							=link_to "/browse?q=" + seeAlso["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+								=seeAlso["heading"]
+								
+							- if params[:browse_type] == "Author"
+								.author-works
+									Works by:
+									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=author%2Fcreator' do
+										=seeAlso["worksBy"]
+								.author-works
+									Works about:
+									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
+										=seeAlso["worksAbout"]
+							- if params[:browse_type] == "Subject"
+								.author-works
+									Works about:
+									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
+										(title count)
 					-if !data["alternateForm"].nil?
 						.reference-note
 							Alternate form(s):
@@ -125,7 +103,7 @@
 						Field
 					%dd
 						-rda["Field"].each do |field|
-							=org
+							=field
 				- if rda["Group/Organization"].present?
 					%dt
 						Group or Organization
@@ -136,9 +114,9 @@
 					%dt
 						Occupation
 					%dd
-						-rda["Occupation"].each do |field|
+						-rda["Occupation"].each do |occupation|
 							.rda-occupation
-								=field
+								=occupation
 
 				- if rda["Form of Work"].present?
 					%dt
