@@ -20,7 +20,7 @@
 
         <%if paginate_params(@response).total_count < 1 %>
         <p>Your search returned 0 results. Try searching 
-          <%if params[:q_row].nil?  && params[:click_to_search].nil? %>
+          <%if params[:q_row].nil?  && params[:click_to_search].nil? && params[:f].nil? %>
             <a href="<%= @expanded_results['worldcat'][:url] %>">
           <% else %>
             <a href="http://cornell.worldcat.org">
