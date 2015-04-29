@@ -25,6 +25,9 @@
 							-if params[:browse_type] == "Subject"
 								= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
 									=data["heading"]
+							-if params[:browse_type] == "Author-Title"
+								= link_to '/?f[authortitle_facet[]=' + data["heading"] do
+									=data["heading"]
 						- else
 							=data["heading"]
 						
@@ -43,7 +46,7 @@
 										= link_to "/browse?q=" + form["heading"] + "&start=0" +"&browse_type=" + params[:browse_type]do
 											=form["heading"]
 										.see-ref-count
-											= "(" + form["worksBy"].to_s + ")"
+											= "(" + form["count"].to_s + ")"
 												
 					%td
 						=data["headingTypeDesc"]

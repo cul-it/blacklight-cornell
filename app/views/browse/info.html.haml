@@ -14,11 +14,17 @@
 					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
 						=works["worksBy"]
 						Title(s)
-			-if !works["worksAbout"].nil?
+			-if works["worksAbout"] > 0
 				.author-works
 					Works about:
 					= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
 						=works["worksAbout"] 
+						Title(s)
+			-if params[:browse_type] == "Author-Title" 
+				.author-works
+					Works:
+					= link_to '/?f[authortitle_facet[]=' + data["heading"] do
+						=data["count"]
 						Title(s)
 
 		%dl
@@ -28,47 +34,54 @@
 				%dd
 					-data["notes"].each do |n|
 						=n
-			%dt
-				Reference info
-			%dd
-				.reference
-					-if data["seeAlso"].present? 
-						-data["seeAlso"].each do |sa|
-							-seeAlso=JSON.parse(sa)
-							- if seeAlso["relatioship"].present?
-								.reference-note
-									=seeAlso["relatioship"] + ':'
+			-if data["seeAlso"].present? || data["alternateForm"].present?
+				%dt
+					Reference info
+				%dd
+					.reference
+						-if data["seeAlso"].present? 
+							-data["seeAlso"].each do |sa|
+								-seeAlso=JSON.parse(sa)
+								- if seeAlso["relatioship"].present?
+									.reference-note
+										=seeAlso["relatioship"] + ':'
 
-							- if seeAlso["relatioship"].nil?
-								.reference-note
-									See also:
-							=link_to "/browse?q=" + seeAlso["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
-								=seeAlso["heading"]
-								
-							- if params[:browse_type] == "Author"
-								.author-works
-									Works by:
-									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=author%2Fcreator' do
-										=seeAlso["worksBy"]
-								.author-works
-									Works about:
-									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
-										=seeAlso["worksAbout"]
-							- if params[:browse_type] == "Subject"
-								.author-works
-									Works about:
-									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
-										=seeAlso["worksAbout"]
-					-if !data["alternateForm"].nil?
-						.reference-note
-							Alternate form(s):
-						-data["alternateForm"].each do |af|
-							.alternate-form
-								=af
-			%dt
-				Headings type
-			%dd
-				=data["headingTypeDesc"]				
+								- if seeAlso["relatioship"].nil?
+									.reference-note
+										See also:
+								=link_to "/browse?q=" + seeAlso["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+									=seeAlso["heading"]
+									
+								- if params[:browse_type] == "Author"
+									.author-works
+										Works by:
+										= link_to '/?q="' + seeAlso["heading"] + '"&search_field=author%2Fcreator' do
+											=seeAlso["worksBy"]
+									.author-works
+										Works about:
+										= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
+											=seeAlso["worksAbout"]
+								- if params[:browse_type] == "Subject"
+									.author-works
+										Works about:
+										= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
+											=seeAlso["worksAbout"]
+								- if params[:browse_type] == "Author-Title"
+									.author-works
+										Works:
+										= link_to '/?f=[authortitle_facet[]="' + seeAlso["heading"]do
+											=data["count"]
+						-if !data["alternateForm"].nil?
+							.reference-note
+								Alternate form(s):
+							-data["alternateForm"].each do |af|
+								.alternate-form
+									=af
+			-if data["headingTypeDesc"].present?
+				%dt
+					Headings type
+				%dd
+					=data["headingTypeDesc"]				
 		- if data["mainEntry"] == true  && data["rda_json"].present?
 			%h3
 				Description
@@ -129,5 +142,6 @@
 						Instrumentation
 					%dd
 						-rda["Instrumentation"].each do |inst|
-							=inst
+							.rda-instrumentation
+								=inst
 	
