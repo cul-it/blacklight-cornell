@@ -35,11 +35,11 @@
 					-if data["seeAlso"].present? 
 						-data["seeAlso"].each do |sa|
 							-seeAlso=JSON.parse(sa)
-							- if seeAlso["relationship"].present?
+							- if seeAlso["relatioship"].present?
 								.reference-note
-									=seeAlso["relationship"] + ':'
+									=seeAlso["relatioship"] + ':'
 
-							- if seeAlso["relationship"].nil?
+							- if seeAlso["relatioship"].nil?
 								.reference-note
 									See also:
 							=link_to "/browse?q=" + seeAlso["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
