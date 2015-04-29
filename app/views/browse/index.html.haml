@@ -16,7 +16,12 @@
 	%h3
 		Browse "
 		=params[:q]
-		" in author headings
+		-if params[:browse_type] == "Author"
+			" in author headings
+		-if params[:browse_type] == "Subject"
+			" in subject headings
+		-if params[:browse_type] == "AuthorTitle"
+			" in author-title headings
 	=render 'pagination'
 	-if params[:order] == "reverse"
 		= render 'heading', :response => @headingsResponse.reverse
