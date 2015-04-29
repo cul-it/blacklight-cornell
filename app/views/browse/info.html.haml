@@ -11,15 +11,29 @@
 			-if params[:browse_type] == "Author" 
 				.author-works
 					Works by:
-					= link_to '/?q="' + data["heading"] + '"&search_field=author%2Fcreator' do
+					= link_to '/?f[author_facet[]=' + data["heading"] do
 						=works["worksBy"]
 						Title(s)
-			-if works["worksAbout"] > 0
 				.author-works
 					Works about:
-					= link_to '/?q="' + data["heading"] + '"&search_field=subject' do
+					= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
 						=works["worksAbout"] 
 						Title(s)
+			-if works["worksAbout"] > 0 && params[:browse_type] == "Subject"
+				.author-works
+					Works about:
+					-if data["headingTypeDesc"] == "Geographic Name"
+						= link_to '/?f[subject_geo_facet[]=' + data["heading"] do
+							=works["worksAbout"] 
+							Title(s)
+					-elsif data["headingTypeDesc"] == "Chronological Term"
+						= link_to '/?f[subject_era_facet[]=' + data["heading"] do
+							=works["worksAbout"] 
+							Title(s)
+					-else 
+						= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
+							=works["worksAbout"] 
+							Title(s)
 			-if params[:browse_type] == "Author-Title" 
 				.author-works
 					Works:
@@ -55,17 +69,24 @@
 								- if params[:browse_type] == "Author"
 									.author-works
 										Works by:
-										= link_to '/?q="' + seeAlso["heading"] + '"&search_field=author%2Fcreator' do
+										= link_to '/?f=[subject_facet[]="' + seeAlso["heading"]do
 											=seeAlso["worksBy"]
 									.author-works
 										Works about:
-										= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
+										= link_to '/?f=[subject_topic_facet[]="' + seeAlso["heading"]do
 											=seeAlso["worksAbout"]
 								- if params[:browse_type] == "Subject"
 									.author-works
 										Works about:
-										= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
-											=seeAlso["worksAbout"]
+										-if data["headingTypeDesc"] == "Geographic Name"
+											= link_to '/?f[subject_geo_facet[]=' + seeAlso["heading"] do
+												=data["count"] 
+										-elsif data["headingTypeDesc"] == "Chronological Term"
+											= link_to '/?f[subject_era_facet[]=' + seeAlso["heading"] do
+												=data["count"]
+										-else 
+											= link_to '/?f[subject_topic_facet[]=' + seeAlso["heading"] do
+												=works["worksAbout"] 
 								- if params[:browse_type] == "Author-Title"
 									.author-works
 										Works:
