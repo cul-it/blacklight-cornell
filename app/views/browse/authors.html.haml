@@ -12,7 +12,12 @@
 	%h3
 		Browse " 
 		=params[:q]
+		-if params[:browse_type] == "Author"
 		" in author headings
+		-if params[:browse_type] == "Subject"
+		" in subject headings
+		-if params[:browse_type] == "AuthorTitle"
+		" in author-title headings
 	-start = Integer(params[:start]) + 20
 	-start = start.to_s
 	= link_to "/browse/authors?q=" + params[:q] + "&start=" + start do
