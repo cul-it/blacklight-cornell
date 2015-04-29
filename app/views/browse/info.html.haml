@@ -58,7 +58,7 @@
 								.author-works
 									Works about:
 									= link_to '/?q="' + seeAlso["heading"] + '"&search_field=subject' do
-										(title count)
+										=seeAlso["worksAbout"]
 					-if !data["alternateForm"].nil?
 						.reference-note
 							Alternate form(s):
@@ -69,7 +69,7 @@
 				Headings type
 			%dd
 				=data["headingTypeDesc"]				
-		- if data["mainEntry"] == true
+		- if data["mainEntry"] == true  && data["rda_json"].present?
 			%h3
 				Description
 			-if data["rda_json"].present?
