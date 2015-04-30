@@ -6,8 +6,9 @@
 					Titles
 				%th.heading-name
 					Headings
-				%th.heading-type
-					Type
+				-unless params[:browse_type] == "Author-Title"	
+					%th.heading-type
+						Type
 		%tbody
 		-if response.present? 
 			- response.each do |data|
