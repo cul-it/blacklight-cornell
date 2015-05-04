@@ -232,10 +232,10 @@ Feature: Item view
     Given I request the item view for 114103 
     Then I should see the labels 'In transit'
 
-  # Availability for an In transit item Die Zeit meines Abschieds ist vorhanden (status 8) 
+  # Availability for an In transit item bonsai culture and care 
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 2000195 
+    Given I request the item view for 52325 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item The goldfinch 
@@ -329,7 +329,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the how many copies are available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available 2 copies'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 1 copy'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
@@ -430,7 +430,12 @@ Feature: Item view
     Given I request the item view for 4629
     Then I should not see the label 'Notes'
 
-  
+ # not blow up when nothing returned by xisbn 
+ @DISCOVERYACCESS-1679 
+  Scenario: Show the record properly when xisbn does not work 
+    Given I request the item view for 8881455 
+    Then I should see the label 'Language'
+
 
 
 
