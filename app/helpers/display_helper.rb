@@ -860,7 +860,7 @@ include ActionView::Helpers::NumberHelper
   # -- Updated to handle arrays (multiple fields specified in config)
   # Used for creating a link to the document show action
   def document_show_link_field document=nil
-    blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
+    blacklight_config.index.title_field.is_a?(Array) ? blacklight_config.index.title_field : blacklight_config.index.title_field.to_sym
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
