@@ -74,7 +74,7 @@
           <% end %>
           <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
             <li>
-              <%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document), :target=>'_blank'  %>
+              <%= link_to t('blacklight.tools.refworks'), refworks_export_url({ 'url' => url_for_document(@document), 'format' => :refworks_marc_txt }), :target=>'_blank'  %>
             </li>
           <% end %>
           <% if @document.export_formats.keys.include?( :zotero ) %>
