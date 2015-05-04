@@ -887,7 +887,8 @@ include ActionView::Helpers::NumberHelper
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
-    render_field_value label
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value label
   end
 
   # Overrides original method from catalog_helper_behavior.rb
