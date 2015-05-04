@@ -2,7 +2,7 @@
 class CatalogController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
-  #include BlacklightUnapi::ControllerExtension
+  include BlacklightUnapi::ControllerExtension
 #  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
   # Ensure that the configuration file is present
