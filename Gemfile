@@ -1,7 +1,7 @@
 ruby "2.1.5"
 source 'https://rubygems.org'
 
-gem 'rails', '< 4.2'
+gem 'rails', '4.2.1'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -18,7 +18,6 @@ gem 'yaml_db'
 gem 'blacklight', '5.9'
 gem 'blacklight_range_limit'
 gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'master'
-
 #gem 'blacklight_cornell_advanced_search', :path => '/users/jrc88/blacklight-cornell-advanced-search', :branch => 'bl5'
 gem 'blacklight_unapi'
 gem 'kaminari', '0.15.0'
