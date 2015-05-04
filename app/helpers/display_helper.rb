@@ -46,7 +46,8 @@ include ActionView::Helpers::NumberHelper
       end
     end
 
-    render_field_value newval
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
   end
 
   # for display of | delimited fields
@@ -75,7 +76,8 @@ include ActionView::Helpers::NumberHelper
       newval = vals.join(' / ')
     end
 
-    render_field_value newval
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
   end
 
   # :format arg specifies what should be returned
@@ -105,7 +107,6 @@ include ActionView::Helpers::NumberHelper
       return value
     else
       dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-      
       dp.render_field_value value
     end
   end
