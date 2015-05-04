@@ -7,7 +7,7 @@ When /^(?:|I )fill in "([^"]*)" with ["']([^"]*)["']$/ do |field, value|
 end
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
-<<<<<<< HEAD
+
   if button == 'search'
     page.find(:css, 'button#search-btn').click
   else
