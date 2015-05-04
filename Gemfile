@@ -1,7 +1,7 @@
 ruby "2.1.5"
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.0'
+gem 'rails', '4.2.1'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -18,7 +18,6 @@ gem 'yaml_db'
 gem 'blacklight', '5.9'
 gem 'blacklight_range_limit'
 gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'master'
-
 #gem 'blacklight_cornell_advanced_search', :path => '/users/jrc88/blacklight-cornell-advanced-search', :branch => 'bl5'
 gem 'blacklight_unapi'
 gem 'kaminari', '0.15.0'
@@ -35,7 +34,6 @@ gem 'net-ldap'
 #gem 'newrelic_rpm'
 gem 'nokogiri'
 gem 'rufus-scheduler'
-gem 'zoom', :git => 'https://github.com/bricestacey/ruby-zoom.git'
 
 
 # Gems used only for assets and not required
@@ -69,7 +67,7 @@ group :test do
   gem 'spork', '0.9.0'
   gem 'webmock'
   gem 'vcr'
-  gem 'email_spec'
+  gem 'capybara-email'
 end
 
 gem 'jquery-rails', '2.1.4'
@@ -98,6 +96,7 @@ gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'bl5'
 
 #gem 'blacklight_cornell_requests', :path =>  '/libweb/dev/git-src/wtf/wtf2/febsprint/blacklight-cornell-requests'
+
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'
