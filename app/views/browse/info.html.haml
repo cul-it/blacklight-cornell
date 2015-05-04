@@ -54,44 +54,47 @@
 				%dd
 					.reference
 						-if data["seeAlso"].present? 
-							-data["seeAlso"].each do |sa|
-								-seeAlso=JSON.parse(sa)
-								- if seeAlso["relatioship"].present?
-									.reference-note
-										=seeAlso["relatioship"] + ':'
+							-sa=JSON.parse(data["seeAlso"])
+							-sa.each do |r,h|
+								-if r.blank?
+									See Also
+								-if !r.blank?
+									.heading
+										=r
+								-h.each do |headingInfo|
+									.heading
+										=link_to "/browse?q=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+											=headingInfo["heading"]
+									- if params[:browse_type] == "Author"
+										.author-works
+											Works by:
+											= link_to '/?f=[subject_facet[]="' + headingInfo["heading"]do
+												=headingInfo["worksBy"]
+										.author-works
+											Works about:
+											= link_to '/?f=[subject_topic_facet[]="' + headingInfo["heading"]do
+												=headingInfo["worksAbout"]
+									- if params[:browse_type] == "Subject"
+										.author-works
+											Works about:
+											-if headingInfo["headingTypeDesc"] == "Geographic Name"
+												= link_to '/?f[subject_geo_facet[]=' + headingInfo["heading"] do
+													=headingInfo["count"] 
+											-elsif headingInfo["headingTypeDesc"] == "Chronological Term"
+												= link_to '/?f[subject_era_facet[]=' + headingInfo["heading"] do
+													=headingInfo["count"]
+											-else 
+												= link_to '/?f[subject_topic_facet[]=' + headingInfo["heading"] do
+													=headingInfo["worksAbout"] 
+									- if params[:browse_type] == "Author-Title"
+										.author-works
+											Works:
+											= link_to '/?f=[authortitle_facet[]="' + headingInfo["heading"]do
+												=headingInfo["count"]					
 
-								- if seeAlso["relatioship"].nil?
-									.reference-note
-										See also:
-								=link_to "/browse?q=" + seeAlso["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
-									=seeAlso["heading"]
-									
-								- if params[:browse_type] == "Author"
-									.author-works
-										Works by:
-										= link_to '/?f=[subject_facet[]="' + seeAlso["heading"]do
-											=seeAlso["worksBy"]
-									.author-works
-										Works about:
-										= link_to '/?f=[subject_topic_facet[]="' + seeAlso["heading"]do
-											=seeAlso["worksAbout"]
-								- if params[:browse_type] == "Subject"
-									.author-works
-										Works about:
-										-if data["headingTypeDesc"] == "Geographic Name"
-											= link_to '/?f[subject_geo_facet[]=' + seeAlso["heading"] do
-												=data["count"] 
-										-elsif data["headingTypeDesc"] == "Chronological Term"
-											= link_to '/?f[subject_era_facet[]=' + seeAlso["heading"] do
-												=data["count"]
-										-else 
-											= link_to '/?f[subject_topic_facet[]=' + seeAlso["heading"] do
-												=works["worksAbout"] 
-								- if params[:browse_type] == "Author-Title"
-									.author-works
-										Works:
-										= link_to '/?f=[authortitle_facet[]="' + seeAlso["heading"]do
-											=data["count"]
+
+
+
 						-if !data["alternateForm"].nil?
 							.reference-note
 								Alternate form(s):
