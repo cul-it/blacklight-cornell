@@ -104,7 +104,9 @@ include ActionView::Helpers::NumberHelper
     if render_format == 'raw'
       return value
     else
-      render_field_value value
+      dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+      
+      dp.render_field_value value
     end
   end
 
@@ -152,18 +154,12 @@ include ActionView::Helpers::NumberHelper
       end
 
       if wcl_isbn.present? && !oclc_number.present?
-
-        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
-        mess = JSON.parse(@xisbn)
-        if ( !mess.blank? and mess["stat"]  == "ok")  
-          @xisbn = mess["list"]
-          if !@xisbn.nil?
-            @xisbn.each do |wcl_data|
-              oclc_number = wcl_data["oclcnum"][0]
-            end
-          end
-
-        
+        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
+        @xisbn = JSON.parse(@xisbn)["list"] 
+        unless @xisbn.blank?
+        @xisbn.each do |wcl_data| 
+          oclc_number = wcl_data["oclcnum"][0]
+        end
         end
     end 
     return oclc_number
@@ -778,8 +774,6 @@ include ActionView::Helpers::NumberHelper
       link_url = bookmarks_path
     end
 
-    if link_url.include?('q=') || link_url.include?('/?f%')  || link_url.include?("q_row")
-
     opts[:label] ||= t('blacklight.back_to_search')
 
     link = {}
@@ -787,7 +781,6 @@ include ActionView::Helpers::NumberHelper
     link[:label] = opts[:label]
 
     link
-  end
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
