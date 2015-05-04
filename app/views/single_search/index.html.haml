@@ -1,22 +1,16 @@
 
 -if @results
-  .row-fluid
-    .span12
+  .row
+    .col-sm-12
       .well
-        .row-fluid
-          %div.span9
-            %form#search{:method => 'get', :action => '/search'}
-              %label{:for=>'q',:class => "hide-text"}
-                Search
-              %input.search-query(type='text' name='q' id='q' value='#{@query}' placeholder='Books, articles, databases, journals and more' autocapitalize='off')
-              %input.btn.hidden-phone.btn-inverse(type='submit' value='Search')
-              %button#search-btn.btn.mobile-search-btn.visible-phone.btn-inverse(type="submit")
-                %i.fa.fa-search.icon-white
-          %div.advanced-search-link.span3.text-right
+        .row
+          %div.col-sm-9
+            = render 'single_search/search_form'
+          %div.advanced-search-link.col-sm-3.text-right
             = link_to 'Catalog Advanced Search', '/advanced'
 -else
-  .row-fluid
-    .span8.offset2.empty-single-search
+  .row
+    .col-sm-8.col-sm-offset-2.empty-single-search
       .well
         .search-info
           %a{:class => 'hidden-phone pull-right', "data-toggle" => "tooltip", "data-placement" => "right", :title => "Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page."}
@@ -24,13 +18,7 @@
             About this search
         %h2
           Search
-        %form#search{:method => 'get', :action => '/search'}
-          %label{:for=>'q',:class => "hide-text"}
-            Search
-          %input.search-query(type='text' name='q' id='q' value='#{@query}' placeholder='Books, articles, databases, journals and more' autocapitalize='off')
-          %input.btn.hidden-phone.btn-inverse.search(type='submit' value='Search')
-          %button#search-btn.btn.mobile-search-btn.visible-phone.btn-inverse.search(type="submit")
-            %i.fa.fa-search.icon-white
+        = render 'single_search/search_form'
         = render 'single_search/search_options'
 -if @top_4_results.present?
   - @top_4_results.from(0).to(0).each do |key, result|
@@ -45,51 +33,63 @@
         = link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend"
       = render 'single_search/search_options'
     - if !@results.blank? or !result.blank? or !@websites.blank?
-      .bento_box.row-fluid
+      .bento_box.row
         - if @results
-          .span3
-            %a{:class => "btn btn-navbar visible-phone" , "data-toggle" => "collapse", "data-target" => ".results-collapse"}
+          .col-sm-3
+            %a{:class => "btn btn-navbar visible-xs" , "data-toggle" => "collapse", "data-target" => ".results-collapse", "aria-expanded" => "false", "aria-controls" => "results-collapse"}
               All results
               %i{:class => "fa fa-bars"}
             %div.results-collapse.collapse
               %div.expand-search
                 - query = params[:q] || params[:query]
                 - query = query.gsub('&', '%26')
-                %h3
-                  Looking for more?
-                %ul.icons-ul
-                  %li
-                    %i.fa.fa-arrow-right
-                    = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
-                      Request from Libraries Worldwide 
-                      = precede "(" do
-                        = render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl
-                  %li
-                    %i.fa.fa-arrow-right
-                    = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
-              .formats#formats
-                - unless @more_results.length < 3
-                  %h3 Format
-                  %ul#more-results.icons-ul
-                    - @more_results.each do |key, result|
-                      - if !result.empty? and result.total_items > 0
+                .panel-group
+                  .panel.panel-default
+                    .panel-heading
+                      %h5.panel-title
+                        Looking for more?
+                    .panel-body
+                      %ul.fa-ul
                         %li
-                          %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
-                          - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
-                          - link_url = ss_uri_encode(link_url)
-                          = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
-                            = BentoSearch.get_engine(key).configuration.title
-                            / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
-                            (#{number_with_delimiter(result.total_items)})
-              .div.expand-search
-                %h3
-                  Legacy Resource
-                %div
-                  = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
-              %div.well.survey
-                %p
-                  Did you find what you were looking for? <a href="http://www.library.cornell.edu/feedback">Tell us about your experience</a>.
-        .span9#top
+                          %i.fa.fa-arrow-right
+                          = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
+                            Request from Libraries Worldwide 
+                            = precede "(" do
+                              = render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
+                  .panel.panel-default#formats
+                    - unless @more_results.length < 3
+                      .panel-heading
+                        %h5.panel-title
+                          Format
+                      .panel-body
+                        %ul#more-results.fa-ul
+                          - @more_results.each do |key, result|
+                            - if !result.empty? and result.total_items > 0
+                              %li
+                                %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
+                                - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+                                - link_url = ss_uri_encode(link_url)
+                                = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
+                                  = BentoSearch.get_engine(key).configuration.title
+                                  / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
+                                  (#{number_with_delimiter(result.total_items)})
+                  .panel.panel-default
+                    .panel-heading
+                      %h5.panel-title
+                        Legacy Resource
+                    .panel-body
+                      %div
+                        = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
+
+                
+              /
+                %div.well.survey
+                  %p
+                    Did you find what you were looking for? <a href="http://www.library.cornell.edu/feedback">Tell us about your experience</a>.
+        .col-sm-9#top
           #jumpbar.navbar
             %span.top-results
               Top Results
@@ -116,7 +116,7 @@
           #bt-container
             - if params[:q] && @ajax_bg_engines
               - @ajax_bg_engines.each do |engine|
-                .span6
+                .col-sm-6
                   .bento_compartment{:class => engine}
                     %h2
                       =engine.configuration.title
@@ -170,7 +170,7 @@
                     %div{:id => key+"-Bento4"}
                       = render 'single_search/pane_results', :key => key, :result => result
 
-          .row-fluid.web-pane
+          .row.web-pane
             - if @websites.present?
               .web-results
                 = render 'single_search/pane_results', :key => 'web', :result => @websites

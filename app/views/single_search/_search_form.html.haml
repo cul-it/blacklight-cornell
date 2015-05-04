@@ -1,0 +1,9 @@
+%form#search.form-inline.single-search{:method => 'get', :action => '/search'}
+  %div.form-group
+    %label{:for=>'q',:class => "sr-only"}
+      Search
+    %input.search-query.form-control.col-xs-6(type='text' name='q' id='q' value='#{@query}' placeholder='Books, articles, databases, journals and more' autocapitalize='off')
+  %button#search-btn.btn.btn-search(type="submit")
+    %i.fa.fa-search.fa-inverse
+    %span.sr-only
+      Search

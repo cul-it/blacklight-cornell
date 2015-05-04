@@ -2,7 +2,7 @@ header {
   background: white;
   border-bottom: 1px solid $tan;
  	h1 {
-    margin: 0 0 10px 0;
+    margin: 0;
     display: inline-block;
     line-height: 1em;
     font-size: 30px;
@@ -16,7 +16,6 @@ header {
   }
   // Search home button
   .search-home {
-    font-size: 30px;
     a {
       color: $light-gray;
     }
@@ -32,6 +31,10 @@ header {
       margin-right: .25em;
     }
   }
+}
+.catalog-name {
+  font-size: 30px;
+  margin-bottom: 5px;
 }
 
 .beta {
