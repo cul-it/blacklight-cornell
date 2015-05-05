@@ -2,7 +2,7 @@
 // ----------------------------------------------
 
 .digitalcollections-search {
-	margin-top:20px;
+	margin-top: 20px;
 	h2 {
 		font-weight: normal;
 		color: $dark-gray;
@@ -16,6 +16,11 @@
 	}
 	form {
 		margin-bottom:0px;
+	}
+	.well {
+		.row {
+			margin-left: 0;
+		}
 	}
 }
 
