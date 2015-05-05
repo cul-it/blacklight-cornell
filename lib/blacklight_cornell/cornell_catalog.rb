@@ -181,7 +181,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # get single document from the solr index
     def show
-      @response, @document = get_solr_response_for_doc_id
+      @response, @document = get_solr_response_for_doc_id params[:id]
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
 
