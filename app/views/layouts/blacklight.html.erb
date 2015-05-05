@@ -36,11 +36,13 @@
 
   <%= render partial: 'shared/ajax_modal' %>
 
-    <div class="search-bar">
-      <div class="container">
-        <%= render :partial => 'shared/search_form' %>
+    <% if !request.original_url.include? "search" %>
+      <div class="search-bar">
+        <div class="container">
+          <%= render :partial => 'shared/search_form' %>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <% if !request.original_url.include? "/digitalcollections" %>
       <div class="constraints-bar">
