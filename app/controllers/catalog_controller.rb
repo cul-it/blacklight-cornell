@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
+  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
