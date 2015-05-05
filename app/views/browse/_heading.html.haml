@@ -44,8 +44,8 @@
 								%span.label.label-info
 									Info
 											
-						-if !data["preferedForm"].blank?
-							-data["preferedForm"].each do |form|
+						-if !data["see"].blank?
+							-data["see"].each do |form|
 								-form=JSON.parse(form)
 								-unless form.blank?
 									.see-ref
