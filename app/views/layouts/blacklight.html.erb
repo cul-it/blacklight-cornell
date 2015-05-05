@@ -42,11 +42,13 @@
       </div>
     </div>
 
-    <div class="constraints-bar">
-      <div class="container">
-        <%= render :partial => "catalog/constraints" %>
+    <% if !request.original_url.include? "/digitalcollections" %>
+      <div class="constraints-bar">
+        <div class="container">
+          <%= render :partial => "catalog/constraints" %>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <section class="main-content" id="maincontent">
       <div class="container" id="main-container">
