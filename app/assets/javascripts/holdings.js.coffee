@@ -55,7 +55,7 @@ holdings =
     tibids = []
     batchf = 4
     n = 0
-    $('body.blacklight-catalog-index .document, body.blacklight-bookmarks-index .document').each ->
+    $('body.catalog-index .document, body.blacklight-bookmarks-index .document').each ->
       bibId = $(this).data('bibid')
       tibids.push bibId
       n++
