@@ -46,8 +46,21 @@
 				%dt
 					Scope note
 				%dd
-					-data["notes"].each do |n|
-						=n
+					-data["notes"].each do |note|
+						-if note.include?("header")
+							-note=JSON.parse(note)
+							-note.each do |nottee|
+								.scope-note
+									-if nottee.include?("header")
+										-nottee.each do |headingInfo|
+											=link_to "/browse?q=" + headingInfo[1] + "&start=0" + "&browse_type=" + params[:browse_type] do
+												=headingInfo[1]
+									-else
+										=nottee
+						-else
+							.scope-note
+								=note
+
 			-if data["seeAlso"].present? || data["alternateForm"].present?
 				%dt
 					Reference info
