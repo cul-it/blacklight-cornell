@@ -1,11 +1,6 @@
-
-.main-content { 
-  font-size: .75em;
-  padding: 0.5em 0 4em 0;
- }
-div.single-search.container {
-  padding:2em;
-}
+// div.single-search.container {
+//   padding:2em;
+// }
 input.search-query { width: 35%; }
 #field,
 #sort,
@@ -22,13 +17,25 @@ input.search-query { width: 35%; }
   padding-right:1em;
 }
 
-.single-search form {
-  margin:0px;
-
-  .btn {
-    margin-left:.25em;
+.single-search {
+  .form-group {
+    width: 80%;
+  }
+  .search-query {
+    width: 100%;
+  }
+  .btn-search {
+    margin-left: .5em;
   }
 }
+
+// .single-search form {
+//   margin:0px;
+
+//   .btn {
+//     margin-left:.25em;
+//   }
+// }
 
 #top2 {
   .search-source {
@@ -145,7 +152,8 @@ div.view-all {
   padding: 10px;
   // margin-bottom:20px;
   background-color:#fff;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   h3 {
     font-size: 1.3em;
     font-weight: normal;
@@ -169,7 +177,8 @@ div.view-all {
   background: white;
   // margin-top: .75em;
   margin-bottom: 1em;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   border: 1px solid #dedad3;
   h2 {
     line-height: 1.2em;
@@ -200,7 +209,8 @@ div.view-all {
 
 .all-formats {
   background: $light-tan;
-  @include border-radius($borderRadiusLarge);
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
   h3 {
     font-size: 1.2em;
     line-height: 1.2em;
@@ -217,46 +227,47 @@ div.view-all {
 }
 
 // more prominent Expand your search box to match Catalog presentation
-.expand-search { 
-  margin-top: .5em;
-  margin-bottom: .5em;
-  padding: 10px;
-  background: white;
-  @include border-radius($borderRadiusLarge);
-  h3 {
-    font-size: 1.3em;
-    font-weight: normal;
-    margin: 0 0 .5em;
-    border-bottom: 1px solid $light-tan;
-    padding-bottom: .25em;
-  }
-  h4 {
-    font-size: 1.2em;
-    font-weight: normal;
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
-    padding-bottom: 0;
-  }
-  ul {
-    margin-left: 0;
-    list-style: none;
-  }
-  li {
-    font-size: 1em;
-    margin-bottom: .25em;
-  }
-  i {
-    color: $dark-tan;
-    margin-right: .25em;
-  }
-  p {
-    font-size: 1.1em;
-  }
-}
+// .expand-search { 
+  // margin-top: .5em;
+  // margin-bottom: .5em;
+  // padding: 10px;
+  // background: white;
+  // @include border-top-radius($border-radius-large);
+  // @include border-bottom-radius($border-radius-large);
+//   h3 {
+//     font-size: 1.3em;
+//     font-weight: normal;
+//     margin: 0 0 .5em;
+//     border-bottom: 1px solid $light-tan;
+//     padding-bottom: .25em;
+//   }
+//   h4 {
+//     font-size: 1.2em;
+//     font-weight: normal;
+//     line-height: 1.2em;
+//     margin-bottom: 0.2em;
+//     padding-bottom: 0;
+//   }
+//   ul {
+//     margin-left: 0;
+//     list-style: none;
+//   }
+//   li {
+//     font-size: 1em;
+//     margin-bottom: .25em;
+//   }
+//   i {
+//     color: $dark-tan;
+//     margin-right: .25em;
+//   }
+//   p {
+//     font-size: 1.1em;
+//   }
+// }
 // give last expand-search div a little margin underneath for mobile so Top Results isn't jammed up under there
-.expand-search:last-child {
-  margin-bottom: 2em;
-}
+// .expand-search:last-child {
+//   margin-bottom: 2em;
+// }
 .survey {
   ul {
     list-style: none;
@@ -269,16 +280,6 @@ div.view-all {
     color: $dark-tan;
   }
 }
-// Div with other links or ways out
-// .other-links {
-//   background: white;
-//   h4 {
-//     font-size: 1.5em;
-//   }
-//   p {
-//     font-size: 1.2em;
-//   }
-// }
 
 .bento_compartment {
   .web {
@@ -291,57 +292,27 @@ div.view-all {
   margin-bottom: 1.5em;
 }
 
-// SEARCH OPTIONS
-.search-options {
-  border-top: 1px solid $tan;
-  padding-top: 1em;
-  margin-top: 1.5em;
-  h3 {
-    text-transform: uppercase;
-    font-size: 1em;
-    color: $medium-gray;
-  }
-  ul {
-    margin: 0;
-    padding: 0 0 3em 0;
-    list-style: none;
-  }
-  li {
-    float: left;
-    margin: 0;
-    padding: 0 8px;
-    font-size: 1.1em;
-    border-left: 1px solid #ccc;
-  }
-  li:first-child {
-    border-left: 0;
-    padding-left: 0;
-  }
 
-  h2 {
-    margin:10px 0 5px 0
+// Search options - customized from Catalog home page search options
+// ------------------------------------------------------------------//
+.search-index {
+  .other-resources {
+    border-top: 1px solid $tan;
+    padding-top: 1em;
+    margin-top: 1.5em;
   }
-  .well {
-    padding: 0 0 0 3em;
-  }
-  i { color: $light-gray; }
 }
 
 .empty-single-search {
+  margin-top: 2em;
   .well {
     font-size:1.2em;
     padding: 19px 19px 0 19px;
-    // SEARCH OPTIONS on home page -- override default .search-options rules
-    .search-options {
-      margin-top: 0;
-      h3 { font-size: .8em;}
-      li { font-size: 1em; }
-    }
   }
   form {
     padding-bottom: 2.5em;
   }
-  input.search-query { width: 60%; }
+  // input.search-query { width: 60%; }
   // margin:3em;
   h2 {
     line-height: normal;
@@ -380,11 +351,11 @@ div.view-all {
 }
 
 // match online label to blacklight catalog
-.label-online {
-  background: $teal;
-  font-weight: normal;
-}
-.label-online:hover { background: $dark-teal; }
+// .label-online {
+//   background: $teal;
+//   font-weight: normal;
+// }
+// .label-online:hover { background: $dark-teal; }
 
 // feedback and classic boxes under formats
 .results-collapse {
@@ -427,13 +398,13 @@ div.view-all {
   }
 }
 // advanced search link - override style that was brought over from catalog
-.advanced-search-link {
-  font-size: 1em;
-  margin-top: .5em;
-}
+// .advanced-search-link {
+//   font-size: 1em;
+//   margin-top: .5em;
+// }
 // match autocomplete suggestions to beta site
 .ui-widget {
-  font-family: $baseFontFamily !important;
+  font-family: $font-family-base !important;
   li { font-size: 16px; }
 }
 // give summon alert a little more space between it and the header
@@ -467,8 +438,7 @@ div.view-all {
 
 // Override the default collapsed state -- copied out of gem - navbar.scss.css - stick this in here so IE8 will display the All Results panel - https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1202
 .results-collapse.collapse {
-  height: auto;
-  overflow: visible;
+  // display: none;
 }
 
 .chat {
@@ -481,11 +451,11 @@ div.view-all {
 // -----------------
 @media (max-width: $navbarCollapseWidth) {
   // Hide everything in the results save toggle button */
-  .results-collapse,
-  .results-collapse.collapse {
-    overflow: hidden;
-    height: 0;
-  }
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   overflow: hidden;
+  //   height: 0;
+  // }
 }
 
 
@@ -495,10 +465,51 @@ div.view-all {
 @media (min-width: $navbarCollapseDesktopWidth) {
 
   // Required to make the collapsing navbar work on regular desktops
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   height: auto !important;
+  //   overflow: visible !important;
+  // }
+
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .single-search {
+    .btn-search {
+      margin-left: 0;
+    }
+  }
   .results-collapse,
   .results-collapse.collapse {
+    display: block !important;
     height: auto !important;
     overflow: visible !important;
   }
+}
 
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+  // Required to make the collapsing navbar work on regular desktops
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   height: auto !important;
+  //   overflow: visible !important;
+  // }
 }

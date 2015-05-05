@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require 'blacklight_cornell_advanced_search'
+//= require blacklight_cornell_advanced_search
 
 
 
