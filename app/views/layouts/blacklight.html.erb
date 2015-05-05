@@ -36,7 +36,7 @@
 
   <%= render partial: 'shared/ajax_modal' %>
 
-    <% if !request.original_url.include? "search" %>
+    <% if !request.original_url.include? "/search" %>
       <div class="search-bar">
         <div class="container">
           <%= render :partial => 'shared/search_form' %>
