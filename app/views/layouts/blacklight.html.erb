@@ -17,7 +17,7 @@
     <![endif]-->
 
     <title><%= h(@page_title || application_name) %></title>
-    <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
+    <link href="<%= opensearch_catalog_url(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag    "application" %>
     <%#= javascript_include_tag "application" %>
@@ -34,23 +34,19 @@
   <body onload="<%= onload_text %>" class="<%= render_body_class %>">
     <%= render :partial => 'shared/header_navbar' %>
 
-    <%= render partial: 'shared/ajax_modal' %>
+  <%= render partial: 'shared/ajax_modal' %>
 
-    <%# display search bar and contraints if not in single search %>
-    <% if !request.original_url.include? "/search" %>
-      <div class="search-bar">
-        <div class="container">
-          <%= render :partial => 'shared/search_form' %>
-        </div>
+    <div class="search-bar">
+      <div class="container">
+        <%= render :partial => 'shared/search_form' %>
       </div>
-      <div class="constraints-bar">
-        <div class="container">
-          <%= render :partial => "catalog/constraints" %>
-        </div>
-      </div>
-    <% end %>
+    </div>
 
-    
+    <div class="constraints-bar">
+      <div class="container">
+        <%= render :partial => "catalog/constraints" %>
+      </div>
+    </div>
 
     <section class="main-content" id="maincontent">
       <div class="container" id="main-container">
@@ -71,9 +67,6 @@
 
     <%= javascript_include_tag "application" %>
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
-    <script type="text/javascript">
-      $('.search-info a').tooltip();
-    </script>
   </body>
 </html>
 
