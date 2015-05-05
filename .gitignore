@@ -19,7 +19,7 @@
 
 # Ignore config files with sensitive data
 config/newrelic.yml
-
+config/database.yml
 # Ignore precompiled assets
 public/assets
 # Ignore ENV file.

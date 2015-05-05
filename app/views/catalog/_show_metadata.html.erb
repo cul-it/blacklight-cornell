@@ -25,7 +25,7 @@
     <div class="row">
 
       <div class="cover col-sm-2">
-        <div class="iconcover bookcover" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
+        <div class="iconcover bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
           <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-thumbnail",  alt: "" %>
           <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
