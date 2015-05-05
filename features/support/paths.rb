@@ -33,7 +33,7 @@ module NavigationHelpers
       catalog_facet_path($1)
       
     when /the search page/
-      single_search_path
+      search_index_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
