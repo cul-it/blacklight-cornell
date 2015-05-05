@@ -9,7 +9,7 @@
 <% else %>
   <div class="results-info col-sm-12">
     <span class="results-count">
-      <%= render :partial => "paginate_compact" %>
+      <%#= render :partial => "paginate_compact" %>
     </span>
 
     <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
@@ -23,7 +23,7 @@
 
   <div class="item-tools col-sm-7">
     <ul class="icons-ul" id="item-tools">
-      <%= render :partial => 'catalog/show_tools' %>
+      <%#= render :partial => 'catalog/show_tools' %>
     </ul>
   </div>
 
