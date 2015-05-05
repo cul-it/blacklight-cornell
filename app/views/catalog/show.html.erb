@@ -1,10 +1,7 @@
-<% if back_to_catalog_needed %>
-  <% link_back = link_back_to_catalog %>
-  <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
-  <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
-    <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
+<% if back_to_catalog_needed && !link_back_to_catalog.nil? %>
+  <%= link_to link_back_to_catalog[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
+    <i class="fa fa-arrow-circle-left"></i> <%= link_back_to_catalog[:label] %>
     <% end %>
-  <% end %>
 <% end %>
 
 <%#= render :partial => 'search_form' %>

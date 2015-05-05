@@ -194,3 +194,23 @@ Feature: Results list
     Then I should get results
     And I should see the text 'Order Information'
 
+ @DISCOVERYACCESS-1673
+ @catalogresults
+ Scenario: Search with results, an item view, make sure we do show link to catalog results
+   Given I am on the home page
+   When I fill in the search box with 'Marvel Masterworks'
+   And I press 'search'
+   Then I should get results
+   Then click on link "Marvel masterworks presents the X-men" 
+   And I should see the text 'Back to catalog results'
+
+ @DISCOVERYACCESS-1673
+ Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
+   Given I am on the home page
+   When I fill in the search box with 'Marvel Masterworks'
+   And I press 'search'
+   Then I should get results
+   When I literally go to databases 
+   Then I request the item view for 2083253
+   And I should not see the text 'catalog results'
+
