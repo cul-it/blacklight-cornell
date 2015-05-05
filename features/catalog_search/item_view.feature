@@ -133,10 +133,8 @@ Feature: Item view
   @javascript
   @bibid1902405
   @DISCOVERYACCESS-1659
-  @current_issues
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
-    Then I should see the label 'Current Issues: # 50 (2001)'  
     Then I should see the label '1941 c. 1 Checked out, due 2016-01-09'  
     Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'  
     Then I should see the label '1960 c. 1 Checked out, due 2016-01-09'  
@@ -427,7 +425,7 @@ Feature: Item view
   # DISCOVERYACCESS -?
   Scenario: Show the record notes field when available
     Given I request the item view for 4626
-    Then it should contain "notes" with value "Includes indexes.Bibliography: p. 360-363."
+    Then it should contain "notes" with value "Includes indexes., Bibliography: p. 360-363."
 
     Given I request the item view for 4629
     Then I should not see the label 'Notes'

@@ -46,7 +46,8 @@ include ActionView::Helpers::NumberHelper
       end
     end
 
-    render_field_value newval
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
   end
 
   # for display of | delimited fields
@@ -75,7 +76,8 @@ include ActionView::Helpers::NumberHelper
       newval = vals.join(' / ')
     end
 
-    render_field_value newval
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
   end
 
   # :format arg specifies what should be returned
@@ -104,7 +106,8 @@ include ActionView::Helpers::NumberHelper
     if render_format == 'raw'
       return value
     else
-      render_field_value value
+      dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+      dp.render_field_value value
     end
   end
 
@@ -152,18 +155,12 @@ include ActionView::Helpers::NumberHelper
       end
 
       if wcl_isbn.present? && !oclc_number.present?
-
-        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
-        mess = JSON.parse(@xisbn)
-        if ( !mess.blank? and mess["stat"]  == "ok")  
-          @xisbn = mess["list"]
-          if !@xisbn.nil?
-            @xisbn.each do |wcl_data|
-              oclc_number = wcl_data["oclcnum"][0]
-            end
-          end
-
-        
+        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
+        @xisbn = JSON.parse(@xisbn)["list"] 
+        unless @xisbn.blank?
+        @xisbn.each do |wcl_data| 
+          oclc_number = wcl_data["oclcnum"][0]
+        end
         end
     end 
     return oclc_number
@@ -778,8 +775,6 @@ include ActionView::Helpers::NumberHelper
       link_url = bookmarks_path
     end
 
-    if link_url.include?('q=') || link_url.include?('/?f%')  || link_url.include?("q_row")
-
     opts[:label] ||= t('blacklight.back_to_search')
 
     link = {}
@@ -787,7 +782,6 @@ include ActionView::Helpers::NumberHelper
     link[:label] = opts[:label]
 
     link
-  end
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
@@ -866,7 +860,7 @@ include ActionView::Helpers::NumberHelper
   # -- Updated to handle arrays (multiple fields specified in config)
   # Used for creating a link to the document show action
   def document_show_link_field document=nil
-    blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
+    blacklight_config.index.title_field.is_a?(Array) ? blacklight_config.index.title_field : blacklight_config.index.title_field.to_sym
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
@@ -893,7 +887,8 @@ include ActionView::Helpers::NumberHelper
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
-    render_field_value label
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value label
   end
 
   # Overrides original method from catalog_helper_behavior.rb

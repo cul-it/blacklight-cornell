@@ -29,7 +29,7 @@ Then /^I should see the per_page select list$/ do
 end
 
 Then /^the '(.*?)' select list should default to '(.*?)'$/ do |list, option|
-  page.find('#' + list + '-dropdown ul.css-dropdown li.btn > a').text.should == option
+  page.find('#' + list + '-dropdown button.dropdown-toggle').text.should == option
 end
 
 Then /^the '(.*?)' select list should have an option for '(.*?)'$/ do |list, option|
