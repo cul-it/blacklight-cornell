@@ -80,11 +80,11 @@ GEM
     akami (1.2.2)
       gyoku (>= 0.4.0)
       nokogiri
-    appsignal (0.11.7)
+    appsignal (0.11.8)
       rack
       thread_safe
     arel (6.0.0)
-    autoprefixer-rails (5.1.8.1)
+    autoprefixer-rails (5.1.9)
       execjs
       json
     bcrypt (3.1.10)
@@ -266,7 +266,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     mollom (0.2.3)
     multi_json (1.11.0)
     multi_test (0.1.2)
@@ -361,7 +361,7 @@ GEM
       rspec-mocks (~> 3.2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.2)
-    ruby_parser (3.6.5)
+    ruby_parser (3.6.6)
       sexp_processor (~> 4.1)
     rubyntlm (0.3.4)
     rufus-scheduler (3.0.9)
