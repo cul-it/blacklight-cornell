@@ -1,7 +1,8 @@
+<h2>Cornell Digital Collections</h2>
 <div class="digitalcollections-search">
 	<p>Collections digitized and curated by Cornell University Library. Contact <a href="mailto:dcaps@cornell.edu">dcaps@cornell.edu</a> for more information.</p>
 	<%= render :partial => 'digreg_search_form' %>
-	<div class="digitalcollections">
+	<div class="digital-collections">
 		<% if @digReg.present?  %>
 			<% @digReg.each do |data| %>
 				<div class="document blacklight-digitalcollections-name clearfix">
