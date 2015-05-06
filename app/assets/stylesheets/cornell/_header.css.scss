@@ -16,8 +16,12 @@ header {
   }
   // Search home button
   .search-home {
+    font-size: 12px;
+    display: block;
+    margin-top: .5em;
+    text-transform: uppercase;
     a {
-      color: $light-gray;
+      color: $medium-gray;
     }
     a:hover {
       text-decoration: none;

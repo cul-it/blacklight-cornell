@@ -15,20 +15,32 @@
         </div>
       </div>
       <div class="library-menu col-xs-2 col-sm-6 text-right">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".culnav-collapse" aria-expanded="false" aria-controls="collapseExample">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="sr-only">Library menu</span>
+        <!-- <a class="btn btn-library" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" data-target=".culnav-collapse">
+          <i class="fa fa-bars"></i>
+        </a> -->
+        <div class="dropdown">
+          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
+            <i class="fa fa-bars"></i><span class="sr-only">Library menu</span>
+            <!-- <span class="caret"></span> -->
           </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href="http://www.library.cornell.edu/">Home</a></li>
+            <li><a href="http://www.library.cornell.edu/about">About Us</a></li>
+            <li><a href="http://www.library.cornell.edu/libraries">Libraries and Hours</a></li>
+            <li><a href="http://www.library.cornell.edu/courses">Courses</a></li>
+            <li><a href="http://www.library.cornell.edu/research">Research</a></li>
+            <li><a href="http://www.library.cornell.edu/services">Services</a></li>
+            <li><a href="http://www.library.cornell.edu/ask">Ask a Librarian</a></li>
+            <li><a href="http://www.library.cornell.edu/help">Help</a></li>
+            <li><a href="http://www.library.cornell.edu/myacct">My Account</a></li>
+          </ul>
         </div>
       </div>
     </div>
   </div> <!-- /container -->
 </section>
 
-<div class="navbar navbar-static-top navbar-cul">
+<!-- <div class="navbar navbar-static-top navbar-cul">
   <div class="container">
     <div class="navbar-collapse collapse culnav-collapse">
       <ul class="nav navbar-nav">
@@ -44,7 +56,7 @@
       </ul>
     </div>
   </div>
-</div>
+</div> -->
 
 <header>
   <div class="container">
@@ -53,8 +65,8 @@
         <% if request.original_url.include?("/search") && !request.original_url.include?("/searchdigreg") %>
           <h1><a href="/search">Search</a></h1>
         <% else %>
-          <span class="search-home"><a href="http://search.library.cornell.edu/">Search</a><span class="divider">/</span></span>
-          <h1><a href="<%=root_path%>">Catalog</a></h1>
+          <span class="search-home"><a href="http://search.library.cornell.edu/"><i class="fa fa-search"></i>Search</a><span class="divider">/</span></span>
+          <h1><a href="<%=root_path%>">Library Catalog</a></h1>
         <%end%>
       </div>
       <%= render :partial=>'/user_util_links' %>
