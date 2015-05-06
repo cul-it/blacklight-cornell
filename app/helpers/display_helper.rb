@@ -380,7 +380,6 @@ include ActionView::Helpers::NumberHelper
 
   FORMAT_MAPPINGS = {
     "Book" => "book",
-    "Online" =>"link",
     "Computer File" => 'save',
     "Non-musical Recording" => "headphones",
     "Musical Score" => "musical-score",
@@ -992,9 +991,32 @@ include ActionView::Helpers::NumberHelper
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
     #Updated class for Bootstrap Blacklight
-    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
+
+       content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
       link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+end
+
+  def render_facet_item(solr_field, item)
+    format = item.value
+    if (facet_icon = FORMAT_MAPPINGS[format])
+    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+    end
+    if facet_in_params?( solr_field, item.value )
+      if facet_icon
+      (facet_icon).html_safe + render_selected_facet_value(solr_field, item)  
+      else
+      render_selected_facet_value(solr_field, item) 
+    end
+    else
+      if facet_icon
+      (facet_icon).html_safe + render_facet_value(solr_field, item)
+    else
+      render_facet_value(solr_field, item)
   end
+    end
+  end
+
+
   # deprecated function from blacklight 4 that will live ons
   def sidebar_items
       @sidebar_items ||= []
