@@ -41,12 +41,6 @@ header {
   margin-bottom: 5px;
 }
 
-.beta {
-  margin-left: .2em;
-  vertical-align: middle;
-  &:hover { background: $blue; }
-}
-
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
@@ -98,7 +92,11 @@ ul.blacklight-nav {
       }
     }
 }
-
+.separator {
+  border-top: 1px solid $medium-gray;
+  margin-top: .5em;
+  padding-top: .5em;
+}
 
 // TODO: Delete in BL5?
 // .current-user {
@@ -131,74 +129,74 @@ ul.blacklight-nav {
 
 // Nav from main site 
 //-----------------------------------------
-.navbar {
-  margin-bottom: 0;
-  border: 0;
-  .container {
-    padding: 0;
-  }
-}
-.navbar-cul {
-  background: $cornell-primary;
-  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-  min-height: 0;
-  .container {
-    background: $dark-gray;
-    -webkit-background-clip: padding-box;
-  }
-  .nav {
-    margin-top: 0;
-    margin-bottom: 0;
-    li {
-      a {
-        padding: 10px 20px;
-        color: #ccc;
-        text-shadow: none;
-      }
-      a:hover, a:active, a:focus {
-        color: white;
-        background: black;
-      }
-    }
-  }
-}
-.navbar-static-top {
-  margin-left: 0;
-  margin-right: 0;
-}
-.navbar-brand { 
-  color: white;
-  float: none;
-  margin: 0;
-  font-size: 16px;
-}
-.navbar-brand:hover { 
-  text-decoration: none;
-  color: white;
-}
-.navbar-header {
-  background: $cornell-primary;
-  //override bootstrap btn styles
-  .navbar-toggle {
-    background: $cornell-primary;
-    margin: 0;
-    border: 0; 
-    border-radius: 0;
-    height: 45px;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    .icon-bar {
-      background: white;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-    }
-  }
-  .navbar-toggle:hover,
-  .navbar-toggle:active { background: $cornell-primary-hover; }
-}
-.navbar-collapse {
-  border-top: 0;
-}
+// .navbar {
+//   margin-bottom: 0;
+//   border: 0;
+//   .container {
+//     padding: 0;
+//   }
+// }
+// .navbar-cul {
+//   background: $cornell-primary;
+//   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+//   min-height: 0;
+//   .container {
+//     background: $dark-gray;
+//     -webkit-background-clip: padding-box;
+//   }
+//   .nav {
+//     margin-top: 0;
+//     margin-bottom: 0;
+//     li {
+//       a {
+//         padding: 10px 20px;
+//         color: #ccc;
+//         text-shadow: none;
+//       }
+//       a:hover, a:active, a:focus {
+//         color: white;
+//         background: black;
+//       }
+//     }
+//   }
+// }
+// .navbar-static-top {
+//   margin-left: 0;
+//   margin-right: 0;
+// }
+// .navbar-brand { 
+//   color: white;
+//   float: none;
+//   margin: 0;
+//   font-size: 16px;
+// }
+// .navbar-brand:hover { 
+//   text-decoration: none;
+//   color: white;
+// }
+// .navbar-header {
+//   background: $cornell-primary;
+//   //override bootstrap btn styles
+//   .navbar-toggle {
+//     background: $cornell-primary;
+//     margin: 0;
+//     border: 0; 
+//     border-radius: 0;
+//     height: 45px;
+//     -webkit-border-radius: 0;
+//     border-radius: 0;
+//     .icon-bar {
+//       background: white;
+//       -webkit-box-shadow: none;
+//       box-shadow: none;
+//     }
+//   }
+//   .navbar-toggle:hover,
+//   .navbar-toggle:active { background: $cornell-primary-hover; }
+// }
+// .navbar-collapse {
+//   border-top: 0;
+// }
 
 
 // Library menu 
