@@ -229,20 +229,6 @@ form.range_limit {
 		color: $dark-gray;
 	}
 }
-
-// MODAL WINDOW
-// ----------------------
-.modal { background: $pale-gray; }
-.close {
-	color: $medium-gray;
-	opacity: 1;
-}
-
-
-// .twiddle-open .fa-plus-circle {
-//   @extend .fa-minus-circle;
-//   opacity: 1;
-// }
 .facet_extended_list {
 	i { margin-right: 5px; }
 }
