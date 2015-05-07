@@ -87,10 +87,9 @@ Feature: Results list
 
         @search_with_view_all_books
          Scenario: Search with view all books link 
-                Given I am on the home page
+                Given I literally go to search
                 When I fill in "q" with 'nature'
                 And I press 'Search'
-                Then I should get results
                 When I follow "link_top_book" 
                 And I should see the text "Nature 2012" 
 

@@ -34,6 +34,7 @@ end
 # end
 
 When /^I follow "([^\"]*)"$/ do |link|
+   print page.html
    click_link(link)
 end
 
