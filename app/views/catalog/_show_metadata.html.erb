@@ -32,7 +32,11 @@
       </div>
 
       <div class="document item-metadata col-sm-10">
-        <div class="availability well col-sm-4">
+        <%= render_document_partial @document, :show %>
+      </div>
+    </div>
+  </div>
+  <div class="availability well" style="float: none; margin-left: 0;">
           <h3>Availability</h3>
 
           <% if finding_aid(@document) %>
@@ -77,12 +81,4 @@
           <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
           <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
         </div>
-
-        
-
-        <%= render_document_partial @document, :show %>
-      </div>
-    </div>
-  </div>
-  
 </div>
