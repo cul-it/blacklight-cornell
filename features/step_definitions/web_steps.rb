@@ -15,6 +15,15 @@ When /^(?:|I )press '([^"]*)'$/ do |button|
   end
 end
 
+When /^(?:|I )press "([^"]*)"$/ do |button|
+
+  if button == 'search'
+    page.find(:css, 'button#search-btn').click
+  else
+    click_button button
+  end
+end
+
 When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
 end
