@@ -1,5 +1,6 @@
 BlacklightCornell::Application.routes.draw do
 
+  Blacklight::Marc.add_routes(self)
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)

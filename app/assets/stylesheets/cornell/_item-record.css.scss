@@ -130,6 +130,22 @@ dd.blacklight-notes {
 	}
 	i { margin-right: 3px; }
 	.selected-box { margin-right: 1em; }
+	// override button group border radius
+	.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle), .btn-group > .facets-toggle:first-child:not(:last-child):not(.dropdown-toggle) {
+		border-radius: 3px;
+	}
+}
+.main-content {
+	.item-tools {
+		a, a:hover {
+			border: 1px solid $databases-light-gray;
+		}
+		.dropdown-menu {
+			a, a:hover {
+				border: none;
+			}
+		}
+	}
 }
 .item-pagination {
 	margin-bottom: 2.2em;
@@ -139,7 +155,7 @@ dd.blacklight-notes {
 // Librarian view
 // -------------------------
 
-.librarian-view { font-size: 0.75em; }
+.librarian-view { font-size: 12px; }
 #marc_view { font-family: courier, monospace; }
 #marc_view .field { clear: both; }
 #marc_view .tag { 
