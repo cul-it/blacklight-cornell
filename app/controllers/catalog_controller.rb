@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
+  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
@@ -238,8 +239,8 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    config.add_facet_field 'online', :label => 'Access', :limit => 2
-    config.add_facet_field 'format', :label => 'Format', :limit => 10
+    config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
+    config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
     config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
     config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
       :num_segments => 6,
