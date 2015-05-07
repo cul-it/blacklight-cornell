@@ -1048,6 +1048,12 @@ module CornellCatalogHelper
     cond2
   end #def collapse_locs
 
+  def facet_field_labels
+ # this was D*EPRECATED
+     Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
+  end
+
+
 end # End of Module
 
     # this logic is from the voyager_oracle_api status.rb
