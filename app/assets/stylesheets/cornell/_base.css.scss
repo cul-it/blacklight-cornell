@@ -52,7 +52,7 @@ a:hover {
 	.label:hover,
 	.dropdown-menu a,
 	.dropdown-menu a:hover {
-		border: none;
+		border-bottom: none;
 	}
 }
 
@@ -171,4 +171,16 @@ h3 { font-size: 20px; line-height: 1.5em;}
 .img-thumbnail {
 	border-radius: 0;
 	background: white;
+}
+// Modal overrides
+// ----------------------
+.close {
+	color: $medium-gray;
+	opacity: 1;
+}
+.modal {
+	h3 {
+		font-weight: 700;
+		margin: 0;
+	}
 }
