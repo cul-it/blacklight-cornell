@@ -22,7 +22,7 @@
     <%= render 'previous_next_doc' %>
   </div>
   <div class="item-tools col-sm-7">
-    <ul class="icons-ul" id="item-tools">
+    <ul class="fa-ul" id="item-tools">
       <%= render_document_sidebar_partial %>
     </ul>
   </div>
@@ -40,11 +40,12 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
-      <li class="librarian_view">
-        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :data => {:ajax_modal => "trigger"}} %>
-      </li>
-<%end%>
+    <div class="librarian-view">
+      <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
+        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
+      <%end%>
+      | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local">Classic Catalog <i class="fa fa-external-link"></i></a>
+    </div>
   </div>
 </div>
 

@@ -19,7 +19,9 @@
     <% if !request.original_url.include?("/search") %>
       <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
     <% end %>
-    <li class="hidden-xs"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
-    <li class="hidden-xs"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
+    <!-- <li class="hidden-xs"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
+    <li class="hidden-xs"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li> -->
+    <li><a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a></li>
+    <li class="hidden-xs"><a href="http://www.library.cornell.edu/ask">Ask a Librarian</a></li>
   </ul>
 </div>
