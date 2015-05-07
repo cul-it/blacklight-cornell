@@ -34,6 +34,9 @@ module NavigationHelpers
       
     when /the search page/
       search_index_path
+      
+    when /the single search results page/
+      search_index_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
