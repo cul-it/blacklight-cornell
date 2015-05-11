@@ -12,8 +12,8 @@ end
 #   page.should have_selector("select#per_page")
 # end
 
-Then /^I should see a "([^\"]*)" input$/ do |label|
-  page.should have_selector('input#search')
+Then /^I should see a "([^\"]*)" button$/ do |label|
+  page.should have_selector('button.btn-search')
 end
 
 Then /^I should see a "([^\"]*)" button$/ do |label|

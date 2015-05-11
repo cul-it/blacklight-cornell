@@ -12,6 +12,8 @@
   -# uses 'query'.This ordinarily is fine, but since we want this layout to work
   -# for both, we have to look for both, oh well.
   - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+  - if key != 'summon_bento'
+    - link_url = request.protocol + request.host_with_port + '/' + link_url
   -if result
     = bento_search result
     - link_url = ss_uri_encode(link_url)
