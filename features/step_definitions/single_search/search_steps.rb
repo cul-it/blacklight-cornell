@@ -96,7 +96,7 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
       #numx = pagedom.css('.'+divtag)[0].text 
       page.find(".#{divtag}").should_not be_nil 
       numx = page.find(".#{divtag}").text
-      print "total2 on view (line #{__LINE__}  all page is '#{numx}'\n"
+      #print "total2 on view (line #{__LINE__}  all page is '#{numx}'\n"
       numx.should_not be_nil
       if numx.match(/of\s+(\d+)/)
         numx.match(/of\s+(\d+)/).should_not be_nil
@@ -125,6 +125,5 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
     #print "box total of items = #{num}, and page number of items = #{num2}\n"
     diff = (num2.to_i - num.to_i).abs
     diff.should <=(20)
-    print "diff: #{diff}, num: #{num}, num2: #{num2}"
 end
 
