@@ -2,7 +2,7 @@
   .row
     .span12
       %p.back-to-search
-        = link_to url_for(search_path(:q => params[:q], :field => params[:field])) do
+        = link_to url_for(search_index_path(:q => params[:q], :field => params[:field])) do
           %i.fa.fa-arrow-circle-left
           Back to search results
 

@@ -12,8 +12,12 @@ end
 #   page.should have_selector("select#per_page")
 # end
 
-Then /^I should see a "([^\"]*)" button$/ do |label|
+Then /^I should see a "([^\"]*)" input$/ do |label|
   page.should have_selector('input#search')
+end
+
+Then /^I should see a "([^\"]*)" button$/ do |label|
+  page.should have_selector("#{label}")
 end
 
 Given /^I select '(.*?)' from the '(.*?)' drop\-down$/ do |option, menu|
