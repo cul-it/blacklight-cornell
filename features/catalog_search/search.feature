@@ -8,7 +8,7 @@ Feature: Search
     When I go to the catalog page
     Then I should see a search field
     And I should see a selectable list with field choices
-    And I should see a "Search" button
+    And I should see a "#search-btn" button 
     # And I should not see the "startOverLink" element
     # And I should see "Welcome!"
     And the page title should be "Cornell University Library Catalog"
