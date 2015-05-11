@@ -149,7 +149,7 @@ module CornellCatalogHelper
           hrdJSON = JSON.parse(hrd).with_indifferent_access
           Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
           callnumber = "" 
-          callnumber = hrdJSON["callnos"][0] unless  hrdJSON["callnos"].blank?		
+          callnumber = hrdJSON["callnos"][0] unless  hrdJSON["callnos"].blank?    
           id = hrdJSON[:id]
           hrds[id]  =  hrdJSON
           notes = hrdJSON[:notes]
@@ -828,7 +828,7 @@ module CornellCatalogHelper
               hso['perm_location']['code'] = hdb['PERM_LOCATION_CODE']
               hso['perm_location']['name'] = hdb['PERM_LOCATION_DISPLAY_NAME']
               hso['perm_location']['library'] = hdb['PERM_LOCATION_DISPLAY_NAME']
-	      if hdb['TEMP_LOCATION_ID'] != 0
+        if hdb['TEMP_LOCATION_ID'] != 0
                    hso['temp_location'] = {} 
                    hso['temp_location']['code'] = hdb['TEMP_LOCATION_CODE']
                    hso['temp_location']['number'] = hdb['TEMP_LOCATION_ID']
@@ -1047,6 +1047,12 @@ module CornellCatalogHelper
     end
     cond2
   end #def collapse_locs
+
+  def facet_field_labels
+ # this was D*EPRECATED
+     Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
+  end
+
 
 end # End of Module
 
