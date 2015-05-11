@@ -10,6 +10,44 @@ Feature: Select and export items from the result set
 		# Note: Checking the 'select' box on an item saves it to a personal Selected Items
 		# set immediately via JavaScript
 
+# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+@citations
+@DISCOVERYACCESS-1677 @javascript
+  Scenario: User needs to cite a record 
+    Given I request the item view for 8867518
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'MLA Fitch, G. Michael. The Impact of Hand-held and Hands-free Cell Phone Use On Driving Performance and Safety-critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013.'
+
+# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+@citations
+@DISCOVERYACCESS-1677 @javascript
+  Scenario: User needs to cite a record 
+    Given I request the item view for 8069112 
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'APA Cohen, A. I. (2013). Social media : legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
+
+# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+@citations
+@DISCOVERYACCESS-1677 @javascript
+  Scenario: User needs to cite a record 
+    Given I request the item view for 8696757
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'Chicago Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013.'
+
+# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+# test regular expression that expunges characters from date field.
+@citations
+@DISCOVERYACCESS-1677 @javascript
+  Scenario: User needs to cite a record 
+    Given I request the item view for 5558811
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'MLA Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
+
+
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
 @DISCOVERYACCESS-1633
   Scenario: User sends a record by email
