@@ -989,32 +989,69 @@ include ActionView::Helpers::NumberHelper
   # -- Replace icon-remove (glyphicon) with appropriate Font Awesome classes
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
-  def render_selected_facet_value(facet_solr_field, item)
+  def render_selected_facet_value(solr_field, item, options ={})
+    unless solr_field == 'format'
+
     #Updated class for Bootstrap Blacklight
+      content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
+      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
 
-       content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
-end
-
-  def render_facet_item(solr_field, item)
+    end
+    if solr_field == 'format'
     format = item.value
     if (facet_icon = FORMAT_MAPPINGS[format])
     facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
     end
-    if facet_in_params?( solr_field, item.value )
-      if facet_icon
-      (facet_icon).html_safe + render_selected_facet_value(solr_field, item)  
-      else
-      render_selected_facet_value(solr_field, item) 
+      content_tag(:span, :class => "facet-label") do
+      (facet_icon).html_safe +
+      content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
+      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
     end
+
+end
+end
+
+
+
+
+  def render_facet_item(solr_field, item)
+    if solr_field == 'format'
+    format = item.value
+    path = search_action_path(add_facet_params_and_redirect(solr_field, item))
+    if (facet_icon = FORMAT_MAPPINGS[format])
+    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+    end
+    if facet_in_params?( solr_field, item.value )
+      render_selected_facet_value(solr_field, item)   
     else
-      if facet_icon
-      (facet_icon).html_safe + render_facet_value(solr_field, item)
+      content_tag(:span, :class => "facet-label") do
+      (facet_icon).html_safe + link_to(facet_display_value(solr_field, item), path, :class=>"facet_select")
+    end + render_facet_count(item.hits)
+      end 
+    
+    else
+     if facet_in_params?( solr_field, item.value )
+      render_selected_facet_value(solr_field, item)          
     else
       render_facet_value(solr_field, item)
-  end
     end
   end
+  end
+
+
+  def render_facet_value(facet_solr_field, item, options ={})
+    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
+    if facet_solr_field != 'format'
+    content_tag(:span, :class => "facet-label") do
+      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+    end + render_facet_count(item.hits)
+    else
+    content_tag(:span) do
+      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+    end + render_facet_count(item.hits)
+  end
+  end
+
 
 
   # deprecated function from blacklight 4 that will live ons
