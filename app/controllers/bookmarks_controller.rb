@@ -148,7 +148,9 @@ class BookmarksController < CatalogController
         end
         @bookmarks = ""
         for i in 0..num_rows - 1
-          bookmark = current_or_guest_user.existing_bookmark_for(params[:doc_ids][i])
+          bookmark = current_or_guest_user.bookmarks.where(document_id: params[:doc_ids][i], document_type: blacklight_config.solr_document_model).first
+
+#          bookmark = current_or_guest_user.existing_bookmark_for(params[:doc_ids][i])
           success = (!bookmark) || current_or_guest_user.bookmarks.delete(bookmark)
 
           unless request.xhr?
@@ -165,7 +167,8 @@ class BookmarksController < CatalogController
         end
        end
     else
-        bookmark = current_or_guest_user.existing_bookmark_for(params[:id])
+       bookmark = current_or_guest_user.bookmarks.where(document_id: params[:id], document_type: blacklight_config.solr_document_model).first
+       #bookmark = current_or_guest_user.existing_bookmark_for(params[:id])
 
         success = (!bookmark) || current_or_guest_user.bookmarks.delete(bookmark)
 
