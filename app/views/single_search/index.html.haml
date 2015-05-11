@@ -81,38 +81,62 @@
                       %h5.panel-title
                         Legacy Resource
                     .panel-body
-                      %div
+                      %p
                         = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
-
-                
-              /
-                %div.well.survey
-                  %p
-                    Did you find what you were looking for? <a href="http://www.library.cornell.edu/feedback">Tell us about your experience</a>.
         .col-sm-9#top
           #jumpbar.navbar
-            %span.top-results
-              Top Results
-            - @top_4_results.from(1).to(0).each do |key, result|
-              /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-              =link_to '#'+key.tr(" ", "_") do
-                %i.fa.fa-arrow-down
-                =BentoSearch.get_engine(key).configuration.title
-            - @top_4_results.from(0).to(0).each do |key, result|
-              /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-              -unless result.blank?
-                =link_to '#'+key do
-                  %i.fa.fa-arrow-down
-                  =BentoSearch.get_engine(key).configuration.title
-            - @top_4_results.from(2).to(1).each do |key, result|
-              /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-              =link_to '#'+key.tr(" ", "_") do
-                %i.fa.fa-arrow-down
-                =BentoSearch.get_engine(key).configuration.title
-            -unless @websites.blank?
-              =link_to '#web' do
-                %i.fa.fa-arrow-down
-                Library Websites
+            %ul.list-inline
+              %li.top-results
+                Top Results
+              %li
+                - @top_4_results.from(1).to(0).each do |key, result|
+                  /=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  =link_to '#'+key.tr(" ", "_") do
+                    %i.fa.fa-arrow-down
+                    =BentoSearch.get_engine(key).configuration.title
+              %li
+                - @top_4_results.from(0).to(0).each do |key, result|
+                  /=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  -unless result.blank?
+                    =link_to '#'+key do
+                      %i.fa.fa-arrow-down
+                      =BentoSearch.get_engine(key).configuration.title
+              %li
+                - @top_4_results.from(2).to(1).each do |key, result|
+                  /=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  =link_to '#'+key.tr(" ", "_") do
+                    %i.fa.fa-arrow-down
+                    =BentoSearch.get_engine(key).configuration.title
+              %li
+                -unless @websites.blank?
+                  =link_to '#web' do
+                    %i.fa.fa-arrow-down
+                    Library Websites
+
+
+
+            / %span.top-results
+            /   Top Results
+            / - @top_4_results.from(1).to(0).each do |key, result|
+            /   /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+            /   =link_to '#'+key.tr(" ", "_") do
+            /     %i.fa.fa-arrow-down
+            /     =BentoSearch.get_engine(key).configuration.title
+            / - @top_4_results.from(0).to(0).each do |key, result|
+            /   /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+            /   -unless result.blank?
+            /     =link_to '#'+key do
+            /       %i.fa.fa-arrow-down
+            /       =BentoSearch.get_engine(key).configuration.title
+            / - @top_4_results.from(2).to(1).each do |key, result|
+            /   /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+            /   =link_to '#'+key.tr(" ", "_") do
+            /     %i.fa.fa-arrow-down
+            /     =BentoSearch.get_engine(key).configuration.title
+            / -unless @websites.blank?
+            /   =link_to '#web' do
+            /     %i.fa.fa-arrow-down
+            /     Library Websites
           #bt-container
             - if params[:q] && @ajax_bg_engines
               - @ajax_bg_engines.each do |engine|
@@ -132,7 +156,7 @@
                     - alertsArray.each do |alert|
                       .best-bet
                         .heads-up
-                          .fa.fa-star.red
+                          %i.fa.fa-star
                           = 'Best Bet'
                         %h2
                           = link_to alert['title'], alert['link']
