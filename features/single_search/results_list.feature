@@ -7,7 +7,8 @@ Feature: Results list
 	Background:
         @empty_search
 	Scenario: Empty search
-                Given I literally go to search
+
+    Given I literally go to search
 		And I press 'Search'
 
 		# Tests copied from Blacklight gem code
