@@ -13,7 +13,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:q].gsub("-"," ").gsub(/["!@#$%^&*()=_+|;':",.?'"]/, ' ')
+        p =  {"q" => '["' + params[:q].gsub(/["!@#$%^&*()=_+|;:",.?'"]/, ' ')
 .gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
@@ -43,7 +43,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:q].gsub("-"," ").gsub(/["!@#$%^&*()=_+|;':",.?'"]/, ' ')
+        p =  {"q" => '["' + params[:q].gsub(/["!@#$%^&*()=_+|;:",.?'"]/, ' ')
 .gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
@@ -73,7 +73,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:q].gsub("-"," ").gsub(/["!@#$%^&*()=_+|;':",.?'"]/, ' ')
+        p =  {"q" => '["' + params[:q].gsub(/["!@#$%^&*()=_+|;:",.?'"]/, ' ')
 .gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
@@ -106,7 +106,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '"' + params[:q].gsub("-"," ").gsub(/["!@#$%^&*()=_+|;':",.?'"]/, ' ')
+        p =  {"q" => '"' + params[:q].gsub(/["!@#$%^&*()=_+|;:",.?'"]/, ' ')
 .gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
@@ -128,7 +128,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '"' + params[:q].gsub("-"," ").gsub(/["!@#$%^&*()=_+|;':",.?'"]/, ' ')
+        p =  {"q" => '"' + params[:q].gsub(/["!@#$%^&*()=_+|;:",.?'"]/, ' ')
 .gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
@@ -149,7 +149,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '"' + params[:q].gsub("-"," ").gsub(/["!@#$%^&*()=_+|;':",.?'"]/, ' ')
+        p =  {"q" => '"' + params[:q].gsub(/["!@#$%^&*()=_+|;:",.?'"]/, ' ')
 .gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
