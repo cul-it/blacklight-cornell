@@ -160,7 +160,7 @@ class SearchController < ApplicationController
     if engine_id == 'web'
       zq= query.gsub('&','%26')
       "search/web?q=#{zq}"
-    elsif engine_id == 'summon'
+    elsif engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
       "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.cmd=setFacetValueFilters(ContentType,Journal+Article)&s.q=#{query}"
     elsif engine_id == 'summonArticles'
