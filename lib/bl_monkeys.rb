@@ -8,7 +8,7 @@ def setup_pub_info(record)
     text = ''
     pub_info_field = record.find{|f| f.tag == '260'}
     if pub_info_field.nil?
-      pub_info_field = record.find{|f| f.tag == '264'}
+      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
     end
     if !pub_info_field.nil?
       a_pub_info = pub_info_field.find{|s| s.code == 'a'}
@@ -29,7 +29,7 @@ def setup_pub_info(record)
   def setup_pub_date(record)
     pub_date = record.find{|f| f.tag == '260'}
     if pub_date.nil?
-      pub_date = record.find{|f| f.tag == '264'}
+      pub_date = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
     end
     if !pub_date.nil?
       if pub_date.find{|s| s.code == 'c'}
