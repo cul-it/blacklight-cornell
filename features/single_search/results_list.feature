@@ -107,8 +107,8 @@ Feature: Results list
                 Given I literally go to search
                 When I fill in "q" with 'nature morte'
                 And I press 'Search'
-                Then I should get results
-		Then box "link_top_musical_recording" should match "0" th "from Catalog" in "results-count"
+#                Then I should get results
+		Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page_entries"
 
          @search_with_view_all_manuscript_archive
          Scenario: Search with view all music link 
