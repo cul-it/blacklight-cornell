@@ -44,7 +44,7 @@
       </div>
     <% end %>
 
-    <% if !request.original_url.include? "/digitalcollections" %>
+    <% if !request.original_url.include?("/digitalcollections") && !request.original_url.include?("/search") %>
       <div class="constraints-bar">
         <div class="container">
           <%= render :partial => "catalog/constraints" %>
