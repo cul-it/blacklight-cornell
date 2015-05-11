@@ -16,6 +16,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 require File.expand_path('../../lib/james_monkeys', __FILE__)
+require File.expand_path('../../lib/bl_monkeys', __FILE__)
 module BlacklightCornell
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
