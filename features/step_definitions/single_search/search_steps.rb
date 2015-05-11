@@ -64,7 +64,8 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
      #print "total on bento box page is #{total.text}\n"
      num = total.text.match(/([0-9,]+)/)[0]
      #print "#{__FILE__} #{__LINE__} num is #{num}\n"
-     #print page.html
+     #print "#{__FILE__} #{__LINE__} type is #{type}\n"
+     #print "#{__FILE__} #{__LINE__} label is #{label}\n"
      l2 = find('#' + label)
      href =  l2[:href]
      case
@@ -74,20 +75,24 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
        pagedom = Nokogiri::HTML(page2)   
        pagedom.css('#'+divtag)[0].should_not be_nil 
        numx = pagedom.css('#'+divtag)[0].text 
-       #print "total2 on view all page is #{numx}\n"
+       print "total2 on view all page is #{numx}\n"
        numx.should_not be_nil
        numx.match(/returned\s+(\d+)/).should_not be_nil
        numx.match(/returned\s+(\d+)/)[1].should_not be_nil
        num2 = numx.match(/returned\s+(\d+)/)[1]
      when type.match("from Catalog")
-       cmd =  "wget -O -  '#{href}' 2>/dev/null"
+       click_link("#{label}");
+       #cmd =  "wget -O -  '#{href}' 2>/dev/null"
        #print "****cmd is #{cmd}"
-       page2 = `#{cmd}`
+       #page2 = `#{cmd}`
+       page2 = page 
        #print "++++ #{page2}"
-       pagedom = Nokogiri::HTML(page2)   
-       pagedom.css('.'+divtag)[0].should_not be_nil 
-       numx = pagedom.css('.'+divtag)[0].text 
-       #print "total2 on view (line #{__LINE__}  all page is '#{numx}'\n"
+       #pagedom = Nokogiri::HTML(page2)   
+       #pagedom.css('.'+divtag)[0].should_not be_nil 
+       #numx = pagedom.css('.'+divtag)[0].text 
+       page.find(".#{divtag}").should_not be_nil 
+       numx = page.find(".#{divtag}").text
+       print "total2 on view (line #{__LINE__}  all page is '#{numx}'\n"
        numx.should_not be_nil
        if numx.match(/of\s+(\d+)/)
          numx.match(/of\s+(\d+)/).should_not be_nil
