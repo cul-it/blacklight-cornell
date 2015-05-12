@@ -32,7 +32,7 @@
 	}
 	i { 
 		color: $dark-gray;
-		margin-right: 3px; }
+	}
 	.navbar {
 		margin-bottom: 0;
 		padding: 0 0 5px 10px;
@@ -70,17 +70,19 @@
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-	// upgrade to font awesome 4.0.3.0 and no longer needs this margin
-	// ul.icons-ul {
-	// 	margin-left: 1.3em;
-	// }
+	// add a little margin back to the format facets due to icons
+	#facet-format {
+		ul {
+			margin-left: 15px;
+		}
+		.facet-count {
+			padding-right: 15px;
+		}
+	}
 	li {
 		margin-right: 0;
 		line-height: 16px;
 		padding-right: 0;
-		.count {
-			margin-right: 0;
-		}
 	}
 	a.remove { padding: 3px 5px; }
 	a.remove:hover {
@@ -88,9 +90,6 @@
 		background: white;
 		i { color: $medium-gray; }
 	}
-	li.more_facets_link {
-		float: none;
-		margin-right: 0; }
 	span.selected {
 		color: $dark-gray;
 	}
@@ -100,9 +99,11 @@
 		border-bottom-right-radius: 0;
 	}
 }
+// TODO: ".count" may not be used in BL5
+.facet-count,
 .count {
-  font-family: $monospaceFontFamily;
-  font-size: .9em;
+  font-family: $monospace-font-family;
+  font-size: 11px;
 }
 
 // PUBLICATION YEAR
@@ -261,6 +262,19 @@ form.range_limit {
 		h5 {
 			font-size: 12px;
 		}
+		li {
+			font-size: 11px;
+		}
+	}
+	.facet-values {
+		.facet-label {
+			display: block;
+			padding-bottom: 0;
+		}
+		.facet-count {
+			display: inline-block;
+			padding-bottom: .5em;
+		}
 	}
 }
 
@@ -269,6 +283,24 @@ form.range_limit {
 	.facets {
 		h5 {
 			font-size: 14px;
+		}
+	}
+	.facet-values {
+		.facet-label {
+			display: table-cell;
+			padding-bottom: 6px;
+		}
+		.facet-count {
+			display: table-cell;
+			padding-bottom: 0;
+		}
+	}
+}
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: $screen-lg) {
+	.facets {
+		li {
+			font-size: 12px;
 		}
 	}
 }
