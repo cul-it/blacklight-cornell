@@ -11,10 +11,6 @@
 			color: $light-gray;
 		}
 	}
-	// h5.twiddle-open {
-	// 	border-bottom: none;
-	// 	margin-bottom: 0;
-	// }
 	ul {
 		margin: 0 0 5px 10px;
 		padding: 0;
@@ -43,10 +39,6 @@
 		border-radius: 0;
 		border: 0 !important;
 		overflow: hidden;
-		h4 {
-			padding-left: .5em;
-			font-size: 14px;
-		}
 	}
 	.panel-heading{
 		a {
@@ -215,18 +207,14 @@ form.range_limit {
 .facets-toggle:focus {
 	border-radius: 0;
 	border: 1px solid $tan;
-	padding: 5px 10px;
-	text-align: center;
-	text-transform: uppercase;
-	font-size: 12px;
+	padding: 10px;
 	clear: both;
-	width: 100%;
 	margin: 0;
 }
 .facets-toggle {
 	i {
 		margin-right: 0;
-		margin-left: .75em;
+		// margin-left: .75em;
 		color: $dark-gray;
 	}
 }
