@@ -71,6 +71,24 @@
 
     <%= javascript_include_tag "application" %>
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
+    <!-- Piwik --> 
+<script type="text/javascript"> 
+  var _paq = _paq || []; 
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]); 
+  _paq.push(["setCookieDomain", "*.library.cornell.edu"]); 
+  _paq.push(["setDomains", ["*.library.cornell.edu","*.newcatalog.library.cornell.edu","*.search.library.cornell.edu"]]); 
+  _paq.push(['trackPageView']); 
+  _paq.push(['enableLinkTracking']); 
+  (function() { 
+    var u="//webanalytics.library.cornell.edu/"; 
+    _paq.push(['setTrackerUrl', u+'piwik.php']); 
+    _paq.push(['setSiteId', 60]); 
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; 
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s); 
+  })(); 
+</script> 
+<noscript><p><img src="//webanalytics.library.cornell.edu/piwik.php?idsite=60" style="border:0;" alt="" /></p></noscript> 
+<!-- End Piwik Code -->
   </body>
 </html>
 
