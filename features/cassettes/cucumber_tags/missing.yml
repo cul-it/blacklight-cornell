@@ -92,4 +92,66 @@ http_interactions:
         Library (Africana Center)":"GT2869 .M56x 1985"},"onotes":[]}}}}'
     http_version: 
   recorded_at: Mon, 09 Mar 2015 17:37:46 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/status_short/18583
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.1.5 (2014-11-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 11 May 2015 18:16:42 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 May 2015 18:16:42 GMT
+      Server:
+      - Apache/2.2.15 (Red Hat)
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"4880e9258bcc1034bae7214a042cb187"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 7ea2afc46f2606c4680dba64c72195b7
+      X-Runtime:
+      - '0.046161'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"18583":{"18583":{"records":[{"bibid":"18583","call_number":"GT2869
+        .M66","statuses":{"86":"unavailable","29015":"unavailable","29017":"available"},"holdings":[{"BIB_ID":18583,"MFHD_ID":86,"ITEM_ID":89,"ITEM_STATUS":12,"DISPLAY_CALL_NO":"GT2869
+        .M66","LOCATION_ID":99,"LOCATION_CODE":"olin","LOCATION_DISPLAY_NAME":"Olin
+        Library","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2014-07-22T15:56:39-04:00","PERM_LOCATION":99,"PERM_LOCATION_DISPLAY_NAME":"Olin
+        Library","PERM_LOCATION_CODE":"olin","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null},{"BIB_ID":18583,"MFHD_ID":29015,"ITEM_ID":45646,"ITEM_STATUS":3,"DISPLAY_CALL_NO":"GT2869
+        .M56 1985","LOCATION_ID":43,"LOCATION_CODE":"hote","LOCATION_DISPLAY_NAME":"ILR
+        Library (Ives Hall)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2014-11-23T16:30:32-04:00","PERM_LOCATION":43,"PERM_LOCATION_DISPLAY_NAME":"ILR
+        Library (Ives Hall)","PERM_LOCATION_CODE":"hote","CURRENT_DUE_DATE":"2015-11-23T23:00:00-04:00","HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null},{"BIB_ID":18583,"MFHD_ID":29017,"ITEM_ID":45648,"ITEM_STATUS":11,"DISPLAY_CALL_NO":"GT2869
+        .M56x 1985","LOCATION_ID":2,"LOCATION_CODE":"afr","LOCATION_DISPLAY_NAME":"Africana
+        Library (Africana Center)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2015-05-08T13:50:06-04:00","PERM_LOCATION":2,"PERM_LOCATION_DISPLAY_NAME":"Africana
+        Library (Africana Center)","PERM_LOCATION_CODE":"afr","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Olin
+        Library","ILR Library (Ives Hall)","Africana Library (Africana Center)"],"locnumber":3,"status":["avail"],"avail_at":{"Africana
+        Library (Africana Center)":"GT2869 .M56x 1985"},"not_avail_at":{"Olin Library":"GT2869
+        .M66","ILR Library (Ives Hall)":"GT2869 .M56 1985"},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Mon, 11 May 2015 18:16:42 GMT
 recorded_with: VCR 2.9.3
