@@ -16,9 +16,9 @@ Then /^I should see a "([^\"]*)" button$/ do |label|
   page.should have_selector('button.btn-search')
 end
 
-Then /^I should see a "([^\"]*)" button$/ do |label|
-  page.should have_selector("#{label}")
-end
+#Then /^I should see a "([^\"]*)" button$/ do |label|
+#  page.should have_selector("#{label}")
+#end
 
 Given /^I select '(.*?)' from the '(.*?)' drop\-down$/ do |option, menu|
   select(option, :from => menu)
