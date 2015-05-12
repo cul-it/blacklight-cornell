@@ -1,14 +1,22 @@
 // Custom styles for database pages 
 // -----------------------------------
 
-.databases-search,
-.databases-az,
-.databases-subject {
-	h2 {
-		font-weight: normal;
-		color: $dark-gray;
-		font-size: 22px;
-		margin-bottom: 10px;
+// .databases-search,
+// .databases-az,
+// .databases-subject {
+// 	h2 {
+// 		font-weight: normal;
+// 		color: $dark-gray;
+// 		font-size: 22px;
+// 		margin-bottom: 10px;
+// 	}
+// }
+
+.databases-search {
+	.well {
+		.row {
+			margin-left: 0;
+		}
 	}
 }
 .databases-az {
@@ -30,24 +38,11 @@
 	}
 }
 
-  // // Nav and dropdown links in navbar
-  // .nav-collapse .nav > li > a,
-  // .nav-collapse .dropdown-menu a {
-  //   padding: 9px 15px;
-  //   font-weight: bold;
-  //   color: $navbarLinkColor;
-  //   @include border-radius(3px);
-  // }
-
 .databases-subject {
 	margin-top: 20px;
 	h3 {
-		font-weight: 700;
-		margin-bottom: 0;
-		margin-top: 20px;
-		font-size: 18px;
+		font-size: 22px;
 	}
-	h3:first-child { margin-top: 0; }
 }
 .databases-search {
 	.form-group { padding-left: 0; }
@@ -135,25 +130,23 @@ h2.db-alpha {
 .nav-section { 
 	list-style: none;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 1.5em 0;
 	li {
 		font-size: 14px;
+		padding: 4px 0 4px 0;
 		a {
-			padding: 4px 0 4px 0;
 			display: inline-block;
-			i { 
-				color: $databases-light-gray;
-				margin-top: 6px;
-				margin-left: 0;
-				margin-right: 6px;
-			}
+			padding: 0;
+			
 		}
 		a:hover {
 			background: inherit;
-			text-decoration: underline;
-			i { 
-				text-decoration: none;
-				 }
+		}
+		i { 
+			color: $databases-light-gray;
+			margin-top: 6px;
+			margin-left: 0;
+			margin-right: 6px;
 		}
 	}
 }
@@ -185,7 +178,6 @@ h2.db-alpha {
 }
 .resources-core {
 	h3 { 
-		// color: $cornell-primary;
 		font-weight: 700;
 	}
 }
@@ -253,7 +245,3 @@ h2.db-alpha {
 		margin-left: 3px;
 	}
 }
-// .az-collapse.collapse {
-// 	height: auto;
-// 	overflow: visible;
-// }
