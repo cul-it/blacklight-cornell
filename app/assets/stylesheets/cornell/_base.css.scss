@@ -60,7 +60,10 @@ a:hover {
 // Typography
 // ------------------------
 
-h2 { font-size: 24px; }
+h2 { 
+	margin-bottom: .5em;
+	font-size: 26px;
+}
 h3 { font-size: 20px; line-height: 1.5em;}
 
 // Forms
