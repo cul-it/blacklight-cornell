@@ -5,7 +5,7 @@
       <li>
         <%= link_to bookmarks_path do %>
           <%= t('blacklight.header_links.bookmarks') %>
-          <span id="bookmarks-count">
+          <span data-role='bookmark-counter' id="bookmarks-count">
             <%- unless @bookmarks.nil? %>
               <%- @bookmarks.collect %>
               <%- unless @bookmarks.count < 1 %>

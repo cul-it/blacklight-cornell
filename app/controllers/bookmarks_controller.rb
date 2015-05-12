@@ -79,7 +79,7 @@ class BookmarksController < CatalogController
         for i in 0..num_rows - 1
          Rails.logger.info("BOOGITY44 = #{@bookmarks}")
 #         @bookmarks = {"document_id" => params[:doc_ids][i].to_i}
-         @bookmarks = [:document_id => params[:doc_ids][i]]
+         @bookmarks = [{:document_id => params[:doc_ids][i], :document_type => blacklight_config.solr_document_model.to_s }]
          current_or_guest_user.save! unless current_or_guest_user.persisted?
 
          success = @bookmarks.each do |bookmark|
@@ -89,7 +89,8 @@ class BookmarksController < CatalogController
         end
 
         if request.xhr?
-          success ? head(:no_content) : render(:text => "", :status => "500")
+          Rails.logger.debug("es287_debug file:#{__FILE__}:#{__LINE__} count = #{current_or_guest_user.bookmarks.count}")
+          success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
         else
           if @bookmarks.length > 0 && success
             flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -103,9 +104,9 @@ class BookmarksController < CatalogController
       end
     else
       if params[:bookmarks]
-        @bookmarks = params[:bookmarks]
+        @bookmarks =  params[:bookmarks]
       elsif params[:doc_ids] or !params[:bookmarks]
-        @bookmarks = [{ :document_id => params[:id] }]
+        @bookmarks = [{ :document_id => params[:id],:document_type => blacklight_config.solr_document_model.to_s }]
       end
 
       current_or_guest_user.save! unless current_or_guest_user.persisted?
@@ -116,13 +117,14 @@ class BookmarksController < CatalogController
 #        if (!current_or_guest_user.existing_bookmark_for(params[:id]))
           Rails.logger.info("BOOMWORM = hey dude")
           bm = current_or_guest_user.bookmarks.new
-          bm.assign_attributes(bookmark,:without_protection => true)
+          bm.assign_attributes(bookmark,:document_type => blacklight_config.solr_document_model.to_s, :without_protection => true)
           bm.save
 #        end
       end
 
       if request.xhr?
-        success ? head(:no_content) : render(:text => "", :status => "500")
+        Rails.logger.debug("es287_debug file: #{__FILE__}:#{__LINE__}# #{__method__} count = #{current_or_guest_user.bookmarks.count}")
+        success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
       else
         if @bookmarks.length > 0 && success
           flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -162,7 +164,7 @@ class BookmarksController < CatalogController
             redirect_to :back
           else
             # ajaxy request needs no redirect and should not have flash set
-            success ? head(:no_content) : render(:text => "", :status => "500")
+            success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
           end
         end
        end
@@ -181,7 +183,7 @@ class BookmarksController < CatalogController
           redirect_to :back
         else
           # ajaxy request needs no redirect and should not have flash set
-          success ? head(:no_content) : render(:text => "", :status => "500")
+          success ?  render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
         end
     end
   end
