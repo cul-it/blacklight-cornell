@@ -1,0 +1,157 @@
+@media print {
+	body {
+		font-family: helvetica, arial, sans-serif;
+	}
+	.search-home {
+		display: none !important;
+	}
+
+
+
+	// BL4 print styles
+
+	// @import 'font-awesome';
+
+	body {
+		font-size: 90%;
+	}
+
+	.main-content {
+		a {
+			border: none;
+		}
+	}
+
+
+	// Hide this stuff - TODO: some of these selectors may have been used in BL4, but not needed in BL5
+
+	#skiptocontent,
+	.nav-global,
+	#insignia-link,
+	.unit-signature-links,
+	.navbar,
+	.search-home,
+	.blacklight-nav,
+	.facets,
+	.search-bar,
+	.expand-search,
+	.results-info .dropdown,
+	.select-all,
+	.select-item,
+	.top-content-title,
+	.return-link,
+	.item-tools,
+	.holdings .btn,
+	.iconcover,
+	.cover,
+	footer,
+	header,
+	.cornell-identity,
+	.map-it,
+	.text-it,
+	.librarian-view,
+	.item-pagination,
+	.clear-bookmarks,
+	#startOverLink,
+	.search-widgets,
+	.pagination  {
+		display: none;
+	}
+
+	// Display Cornell logo
+	.cu-logo {
+		img { display: block; }
+	}
+
+	// Use Arial to see if it removes printing issues
+	body {
+	  font-family: sans-serif;
+	}
+
+	// Remove Catalog header link
+	.catalog-name {
+		a { text-decoration: none;}
+	}
+
+	// Print certain URLs
+	// search results: print title and online link 
+	.blacklight-title_display {
+		a[href]:after {
+		content: " (" attr(href) ")"; }
+	}
+	a[href].status-online:after {
+		content: " (" attr(href) ")"; }
+
+	// item view: print url_access_display, url_findingaid_display, url_bookplate_display, url_other_display
+	a[href].online-access:after,
+	a[href].url_findingaid_display:after {
+		content: " (" attr(href) ")"; }
+
+	// hides covers on results
+	.document {
+		.iconcover, .bookcover { display: none; } 
+	}
+
+	.blacklight-title_display {
+		margin: .5em 0 0;
+		font-weight: normal;
+		line-height: 1.2em;
+		font-size: 1.1em;
+	}
+	.location { 
+		font-size: 1em;
+		margin-bottom: 0;
+	}
+
+	// modal
+	.modal {
+		margin-top: 0 !important;
+	}
+	.modal-header button { display: none; }
+	// print  librarian view in monospace font
+	#marc_view { font-family: courier, monospace; }
+	#marc_view .field { clear: both; }
+	#marc_view .tag { 
+		float: left;
+		margin-right: 10px;
+	}
+	#marc_view .ind1,
+	#marc_view .ind2 {
+		margin-right: 10px;
+		width: 20px;
+		display: inline; 
+		float: left;
+	}
+	#marc_view .subfields { 
+		display: inline; 
+		float: left;
+		width: 550px;
+	}
+
+	.print-only { display: block; }
+	#document h2, #document h3 {
+		margin: 0;
+	}
+
+	.availability { margin-top: 10px; }
+	.availability h3,
+	.availability h4,
+	.availability h5 {
+		margin: 0;
+	}
+	.availability .unstyled {
+		list-style: none;
+		margin: 0 0 .25em;
+		padding: 0;
+	}
+	.availability.well {
+		padding: 0;
+		border: 0;
+	}
+	.item-requests {
+		border-top: 0;
+	}
+
+	//remove underlines from links
+	a { text-decoration: none; }
+	}
