@@ -36,9 +36,14 @@
       .bento_box.row
         - if @results
           .col-sm-3
-            %a{:class => "btn btn-navbar visible-xs" , "data-toggle" => "collapse", "data-target" => ".results-collapse", "aria-expanded" => "false", "aria-controls" => "results-collapse"}
-              All results
-              %i{:class => "fa fa-bars"}
+            %div.top-panel-heading.panel-heading
+              %button.facets-toggle.collapsed{"aria-expanded" => "false", "aria-controls" => "results-collapse", "data-target" => ".results-collapse", "data-toggle" => "collapse", :type => "button"}
+                %span.sr-only Toggle facets
+                %span.icon-bar
+                %span.icon-bar
+                %span.icon-bar
+              %h4
+                All results
             %div.results-collapse.collapse
               %div.expand-search
                 - query = params[:q] || params[:query]
@@ -50,6 +55,9 @@
                         Looking for more?
                     .panel-body
                       %ul.fa-ul
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to 'View all Catalog results', "/?q=#{query}&search_field=all_fields"
                         %li
                           %i.fa.fa-arrow-right
                           = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
@@ -112,31 +120,6 @@
                   =link_to '#web' do
                     %i.fa.fa-arrow-down
                     Library Websites
-
-
-
-            / %span.top-results
-            /   Top Results
-            / - @top_4_results.from(1).to(0).each do |key, result|
-            /   /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-            /   =link_to '#'+key.tr(" ", "_") do
-            /     %i.fa.fa-arrow-down
-            /     =BentoSearch.get_engine(key).configuration.title
-            / - @top_4_results.from(0).to(0).each do |key, result|
-            /   /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-            /   -unless result.blank?
-            /     =link_to '#'+key do
-            /       %i.fa.fa-arrow-down
-            /       =BentoSearch.get_engine(key).configuration.title
-            / - @top_4_results.from(2).to(1).each do |key, result|
-            /   /  =link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-            /   =link_to '#'+key.tr(" ", "_") do
-            /     %i.fa.fa-arrow-down
-            /     =BentoSearch.get_engine(key).configuration.title
-            / -unless @websites.blank?
-            /   =link_to '#web' do
-            /     %i.fa.fa-arrow-down
-            /     Library Websites
           #bt-container
             - if params[:q] && @ajax_bg_engines
               - @ajax_bg_engines.each do |engine|
@@ -194,7 +177,7 @@
                     %div{:id => key+"-Bento4"}
                       = render 'single_search/pane_results', :key => key, :result => result
 
-          .row.web-pane
+          .web-pane
             - if @websites.present?
               .web-results
                 = render 'single_search/pane_results', :key => 'web', :result => @websites

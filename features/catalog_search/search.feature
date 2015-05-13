@@ -4,6 +4,7 @@ Feature: Search
   As a user
   I want to enter terms, select fields, and select number of results per page
 
+  @searchpage
   Scenario: Search Page
     When I go to the catalog page
     Then I should see a search field
