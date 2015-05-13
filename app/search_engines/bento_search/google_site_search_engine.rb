@@ -177,8 +177,11 @@ class BentoSearch::GoogleSiteSearchEngine
   #   line wrapping ourselves thanks.
   # * and mark html_safe
   def highlight_normalize(str)
-    str.gsub("<b>", '<b class="bento_search_highlight">').
-      gsub("<br>", "").
+    
+    return if str.nil?
+    
+    str.gsub('<b>', '<b class="bento_search_highlight">').
+      gsub('<br>', '').
       html_safe
   end
 
