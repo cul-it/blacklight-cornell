@@ -1002,11 +1002,12 @@ include ActionView::Helpers::NumberHelper
     facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
     end
     if facet_in_params?( solr_field, item.value )
-     content_tag(:span, :class => "facet-label") do
-     (facet_icon).html_safe +
-      content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
-    end
+     content_tag(:span, :class => "selected") do
+
+     
+    content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
+    link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
+  end
   
     else
       content_tag(:span, :class => "facet-label") do
@@ -1016,10 +1017,9 @@ include ActionView::Helpers::NumberHelper
     
     else
      if facet_in_params?( solr_field, item.value )
-      content_tag(:span, :class => "facet-label") do
+      
       content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
       link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")   
-      end
       else
       render_facet_value(solr_field, item)
     end
@@ -1032,11 +1032,17 @@ include ActionView::Helpers::NumberHelper
   def render_facet_value(facet_solr_field, item, options ={})
     path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
     if facet_solr_field != 'format'
-    content_tag(:span) do
+    content_tag(:span,:class=>'facet-label') do
     link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
     else
-    content_tag(:span) do
+    format = item.value
+    if (facet_icon = FORMAT_MAPPINGS[format])
+    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+    end
+    content_tag(:span, :class => "facet-label") do
+    (facet_icon).html_safe +
+    
       link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
   end
