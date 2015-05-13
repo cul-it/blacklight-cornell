@@ -73,26 +73,12 @@ div.view-all {
 }
 .bento_item_row {
    margin-bottom: .5em;
-   line-height: 1.2em;
+   line-height: 1.4em;
 }
 
 // Bento grid
 // -----------------------------------------------//
 #grid div {margin:0}
-.bento1 {
-  width: 45%;
-  float: left; 
-  margin-right: 3em; 
-  margin-bottom: 2em;
-}
-.bento2 {
-  width: 45%;
-  float: right;
-  margin-bottom: 2em;
-}
-.bento3 {
-  margin-right:3em;width:45%;float:left;clear:left;margin-bottom:2em}
-.bento4{width:45%;float:right;clear:right;margin-bottom:2em}
 .web-pane{
   clear:both;
   position:relative;
@@ -122,6 +108,7 @@ div.view-all {
 .bento_item_title {
   margin: 0 0 .5em 0;
   font-weight: normal;
+  line-height: 1.25em;
 }
 .bento_item_body {
   font-size: 12px;
@@ -264,6 +251,15 @@ div.view-all {
 #more-results {
   margin-left: 0;
 }
+.bento_box {
+  .top-panel-heading {
+    padding: 0;
+    border-radius: 0;
+    border: 0 !important;
+    overflow: hidden;
+    margin-bottom: 1em;
+  }
+}
 
 // Advanced link customized for single search
 // -----------------------------------------------//
@@ -354,7 +350,7 @@ div.view-all {
 // -----------------------------------------------//
 .top-link {
   text-align: center;
-  margin-top: .5em;
+  margin: .5em 0;
   i {
     color: $dark-tan;
   }
@@ -461,6 +457,39 @@ div.view-all {
     display: block !important;
     height: auto !important;
     overflow: visible !important;
+  }
+  .bento_box {
+    .top-panel-heading {
+      margin-bottom: 0;
+    }
+    h4 {
+      margin-top: 0;
+    }
+  }
+  // Grid
+  .bento1 {
+    width: 45%;
+    float: left; 
+    margin-right: 3em; 
+    margin-bottom: 2em;
+  }
+  .bento2 {
+    width: 45%;
+    float: right;
+    margin-bottom: 2em;
+  }
+  .bento3 {
+    margin-right:3em;
+    width:45%;
+    float:left;
+    clear:left;
+    margin-bottom:2em;
+  }
+  .bento4 {
+    width:45%;
+    float:right;
+    clear:right;
+    margin-bottom:2em;
   }
 }
 
