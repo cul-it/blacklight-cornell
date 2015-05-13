@@ -4,7 +4,7 @@
 
     if ($('#q').length) {
     $('#q').autocomplete({
-      source: location.protocol + '://bestbets.library.cornell.edu/match/' + $('#q').val(),
+      source: location.protocol + "//bestbets.library.cornell.edu/match/" + $('#q').val(),
       minLength: 2,
       select: function(event, ui) {
         var url = ui.item.url;
