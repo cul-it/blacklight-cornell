@@ -271,6 +271,9 @@ class BentoSearch::WorldcatSruDcEngine
 
     # We need to split terms and phrases, so we can formulate
     # CQL with seperate clauses for each, bah.
+    if args[:oq].nil?
+      args[:oq] = args[:query]
+    end
     tokens = args[:oq].split(%r{\s|("[^"]+")}).delete_if {|a| a.blank?}
 
 
