@@ -95,9 +95,9 @@ h2.db-alpha {
 .blacklight-database-name:first-child {
 	padding-top: 0;
 }
-.blacklight-databases-subject,
-.blacklight-databases-searchdb,
-.blacklight-databases-title {
+.databases-subject,
+.databases-searchdb,
+.databases-title {
 	.document {
 		border-bottom: 1px solid $light-tan;
 	}
@@ -164,9 +164,7 @@ h2.db-alpha {
 .database-subject {
 	.page-title {
 		h2 {
-			// color:$cornell-primary;
-			font-size: 30px;
-			font-weight: 700
+			margin-top: 1em;
 		}
 	}
 }
