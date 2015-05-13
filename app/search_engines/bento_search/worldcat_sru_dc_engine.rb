@@ -55,7 +55,7 @@ class BentoSearch::WorldcatSruDcEngine
   def search_implementation(args)
 
     url = construct_query_url(args)
-    #Rails.logger.warn "mjc12test: url: #{url} from '#{args}'"
+    Rails.logger.warn "mjc12test: url: #{url} from '#{args}'"
 
     results = BentoSearch::Results.new
 
@@ -276,7 +276,7 @@ class BentoSearch::WorldcatSruDcEngine
     end
     tokens = args[:oq].split(%r{\s|("[^"]+")}).delete_if {|a| a.blank?}
 
-    return "#{field} = #{args[:oq]}"
+
 
     return tokens.collect do |token|
       quoted_token = nil
