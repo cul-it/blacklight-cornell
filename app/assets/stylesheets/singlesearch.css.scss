@@ -12,11 +12,6 @@ input.search-query { width: 35%; }
 }
 .sort_group { margin: 1em 0; }
 
-.web-count {
-  float:right;
-  padding-right:1em;
-}
-
 .single-search {
   .form-group {
     width: 80%;
@@ -114,19 +109,6 @@ div.view-all {
   font-size: 12px;
 }
 
-// Web box
-.web {
-  .bento_item {
-  margin-bottom: 1em;
-  }
-  .bento_item_title {
-    margin-bottom: .25em;
-  }
-     .second_about {
-    color:$light-gray;
-  }
-
-}
 .web-results {
   margin-bottom: 2em;
 }
@@ -136,6 +118,18 @@ div.view-all {
 .back-to-search {
   font-size:1.3em;
 }
+
+// Library Website results
+// -----------------------------------------------//
+.web-count {
+  margin-bottom: 20px;
+}
+.web {
+  .bento_item {
+    margin-bottom: 1em;
+  }
+}
+
 
 
  .bento_compartment {
@@ -179,7 +173,7 @@ div.view-all {
 .best-bet {
   padding: 1em 1em 1.5em 1em; 
   margin-bottom: 2em;
-  border: 1px solid $medium-gray;
+  border: 5px solid $light-tan;
   h2 {
     line-height: 1.2em;
     margin-bottom: 0.2em;
@@ -495,6 +489,15 @@ div.view-all {
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
+  .single-search {
+    .form-group {
+      width: 60%;
+    }
+  }
+  .web-count {
+    text-align: right;
+    margin-top: 20px;
+  }
   // Required to make the collapsing navbar work on regular desktops
   // .results-collapse,
   // .results-collapse.collapse {
