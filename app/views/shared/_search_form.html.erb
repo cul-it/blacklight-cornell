@@ -37,16 +37,6 @@
 
   </div>
 
-    <!-- Offer search expansion only under certain conditions -->
-    <% if expandable_search? %>
-      <%= render :partial => 'expand_search' %>
-    <% end %>
-
-    <%# Add simple links to WCL and Summon if an advanced search %>
-    <%# if params[:q_row].present? %>
-      <%#= render :partial => 'expand_advanced_search' %>
-    <%# end %>
-
   <% if params[:q_row].present? %>
     <div class="advanced-search-link">
       <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
