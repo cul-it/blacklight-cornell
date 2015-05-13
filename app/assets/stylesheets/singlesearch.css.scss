@@ -221,6 +221,7 @@ div.view-all {
 
 // Sidebar
 // -----------------------------------------------//
+// expand-search rules also apply to catalog
 .expand-search { 
   ul {
     margin-left: 0;
@@ -228,7 +229,7 @@ div.view-all {
   }
   li {
     font-size: 12px;
-    margin-bottom: .25em;
+    margin-bottom: 6px;
     line-height: 1.5em;
   }
   i {
@@ -240,6 +241,9 @@ div.view-all {
   }
   h5 {
     font-size: 14px;
+  }
+  .panel {
+    margin-bottom: 10px;
   }
 }
 #more-results {
