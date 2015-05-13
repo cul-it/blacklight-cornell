@@ -36,14 +36,14 @@
       .bento_box.row
         - if @results
           .col-sm-3
-
-            %button.facets-toggle.collapsed{"aria-expanded" => "false", "aria-controls" => "results-collapse", "data-target" => ".results-collapse", "data-toggle" => "collapse", :type => "button"}
-              %span.sr-only Toggle facets
-              %span.icon-bar
-              %span.icon-bar
-              %span.icon-bar
-            %h4
-              All results
+            %div.top-panel-heading.panel-heading
+              %button.facets-toggle.collapsed{"aria-expanded" => "false", "aria-controls" => "results-collapse", "data-target" => ".results-collapse", "data-toggle" => "collapse", :type => "button"}
+                %span.sr-only Toggle facets
+                %span.icon-bar
+                %span.icon-bar
+                %span.icon-bar
+              %h4
+                All results
             %div.results-collapse.collapse
               %div.expand-search
                 - query = params[:q] || params[:query]
@@ -177,7 +177,7 @@
                     %div{:id => key+"-Bento4"}
                       = render 'single_search/pane_results', :key => key, :result => result
 
-          .row.web-pane
+          .web-pane
             - if @websites.present?
               .web-results
                 = render 'single_search/pane_results', :key => 'web', :result => @websites
