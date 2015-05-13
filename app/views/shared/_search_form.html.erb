@@ -37,10 +37,10 @@
 
   </div>
 
-    <%# Offer search expansion only under certain conditions %>
-    <%# if expandable_search? %>
-      <%#= render :partial => 'expand_search' %>
-    <%# end %>
+    <!-- Offer search expansion only under certain conditions -->
+    <% if expandable_search? %>
+      <%= render :partial => 'expand_search' %>
+    <% end %>
 
     <%# Add simple links to WCL and Summon if an advanced search %>
     <%# if params[:q_row].present? %>
