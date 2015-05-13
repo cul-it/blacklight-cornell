@@ -55,7 +55,7 @@ class BentoSearch::WorldcatSruDcEngine
   def search_implementation(args)
 
     url = construct_query_url(args)
-    Rails.logger.warn "mjc12test: url: #{url} from '#{args}'"
+    #Rails.logger.warn "mjc12test: url: #{url} from '#{args}'"
 
     results = BentoSearch::Results.new
 
@@ -271,9 +271,12 @@ class BentoSearch::WorldcatSruDcEngine
 
     # We need to split terms and phrases, so we can formulate
     # CQL with seperate clauses for each, bah.
+    if args[:oq].nil?
+      args[:oq] = args[:query]
+    end
     tokens = args[:oq].split(%r{\s|("[^"]+")}).delete_if {|a| a.blank?}
 
-
+    return "#{field} = #{args[:oq]}"
 
     return tokens.collect do |token|
       quoted_token = nil
