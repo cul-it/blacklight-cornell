@@ -45,21 +45,6 @@ input.search-query { width: 35%; }
 .bento_box .span3 p {
   padding:1em;
 }
-h2.search-source {
-  font-size: 24px;
-  font-family: Oxygen;
-  font-weight: 700;
-  margin: 0 0 0em;
-  i { color:$dark-tan}
-  a {
-    color: $dark-gray;
-    border: none;
-  }
-  a:hover {
-    text-decoration: none;
-    border: none;
-  }
-}
 
 .result-totals {
   font-size: 1em;
@@ -86,21 +71,63 @@ div.view-all {
     margin-top: .5em;
   }
 }
+.bento_item_row {
+   margin-bottom: .5em;
+   line-height: 1.2em;
+}
+
+// Bento grid
+// -----------------------------------------------//
+#grid div {margin:0}
+.bento1 {
+  width: 45%;
+  float: left; 
+  margin-right: 3em; 
+  margin-bottom: 2em;
+}
+.bento2 {
+  width: 45%;
+  float: right;
+  margin-bottom: 2em;
+}
+.bento3 {
+  margin-right:3em;width:45%;float:left;clear:left;margin-bottom:2em}
+.bento4{width:45%;float:right;clear:right;margin-bottom:2em}
+.web-pane{
+  clear:both;
+  position:relative;
+  margin-bottom:2em;
+}
+
+// Bento box
+// -----------------------------------------------//
+.search-source {
+  font-size: 24px;
+  margin: 0 0 .25em 0;
+  i { color:$dark-tan}
+  a {
+    color: $dark-gray;
+    border: none;
+  }
+  a:hover {
+    text-decoration: none;
+    border: none;
+  }
+}
 .bento_item {
   margin-top: .6em;
   padding-bottom: .4em;
   border-bottom: 1px solid $light-tan;
 }
 .bento_item_title {
-  margin: 0;
-  font-size: 1.3em;
+  margin: 0 0 .5em 0;
   font-weight: normal;
 }
-.date {
-  font-size: .8em;
+.bento_item_body {
+  font-size: 12px;
 }
-.bento_item_body { font-size: .9em; }
 
+// Web box
 .web {
   .bento_item {
   margin-bottom: 1em;
@@ -113,27 +140,15 @@ div.view-all {
   }
 
 }
-
-  .web-results {
-    margin-bottom: 2em;
-    .second_about {
-      color:$light-gray;
-    }
-  }
-.bento_item_row {
-   margin-bottom: .5em;
-   line-height: 1.2em;
-
-
- }
-
-  .abstract {
-    font-size: 1.3em;
-   }
-
- .back-to-search {
+.web-results {
+  margin-bottom: 2em;
+}
+.abstract {
+  font-size: 14px;
+}
+.back-to-search {
   font-size:1.3em;
- }
+}
 
 
  .bento_compartment {
@@ -148,8 +163,6 @@ div.view-all {
  .bento_box {
   padding: 1em 0 0 0;
   }
-
-.first_about { color: $light-gray; }
 .formats {
   padding: 10px;
   // margin-bottom:20px;
@@ -280,8 +293,6 @@ div.view-all {
   form {
     padding-bottom: 2.5em;
   }
-  // input.search-query { width: 60%; }
-  // margin:3em;
   h2 {
     line-height: normal;
     margin: 0 0 .25em;
@@ -301,27 +312,6 @@ div.view-all {
 .no-book-results {
   font-size:1.3em;
   padding-top:.5em;
-}
-
-#grid div {margin:0}
-.bento1 {
-  width: 45%;
-  float: left; 
-  margin-right: 3em; 
-  margin-bottom: 2em;
-}
-.bento2 {
-  width: 45%;
-  float: right;
-  margin-bottom: 2em;
-}
-.bento3 {
-  margin-right:3em;width:45%;float:left;clear:left;margin-bottom:2em}
-.bento4{width:45%;float:right;clear:right;margin-bottom:2em}
-.web-pane{
-  clear:both;
-  position:relative;
-  margin-bottom:2em;
 }
 
 .results-collapse {
