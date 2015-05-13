@@ -158,12 +158,11 @@ h3 { font-size: 20px; line-height: 1.5em;}
 
 // Panel overrides
 // ------------------------
-.panel-group {
-	.panel {
-		border-radius: 0;
-		border: 0 0 1px 0;
-		box-shadow: none;
-	}
+.panel,
+.panel-group .panel {
+	border-radius: 0;
+	border: 0 0 1px 0;
+	box-shadow: none;
 }
 .panel-default > .panel-heading {
 	background: $light-tan;
