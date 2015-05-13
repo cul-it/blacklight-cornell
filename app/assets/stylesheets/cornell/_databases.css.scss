@@ -40,9 +40,6 @@
 
 .databases-subject {
 	margin-top: 20px;
-	h3 {
-		font-size: 22px;
-	}
 }
 .databases-search {
 	.form-group { padding-left: 0; }
@@ -51,7 +48,7 @@
 		font-size: 14px;
 	}
 	h2 {
-		font-size:20px;
+		font-size: 20px;
 		line-height: 1.1em
 	}
 
@@ -165,6 +162,9 @@ h2.db-alpha {
 	.page-title {
 		h2 {
 			margin-top: 1em;
+			font-size: 22px;
+			font-weight: 700;
+			margin-bottom: .25em;
 		}
 	}
 }
