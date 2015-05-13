@@ -7,10 +7,8 @@ GIT
       blacklight
       parslet
 
-GIT
-  remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: eb6b9ed6dfe5ed9978039ec2e3f1021a0659ddbf
-  branch: bl5
+PATH
+  remote: /users/mjc12/code/blacklight-cornell-requests
   specs:
     blacklight_cornell_requests (1.1.0)
       blacklight (= 5.9)

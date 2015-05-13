@@ -23,16 +23,16 @@ ActiveRecord::Schema.define(version: 20150507152505) do
   add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id", using: :btree
 
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,   null: false
     t.string   "document_id",   limit: 255
     t.string   "title",         limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "user_type",     limit: 255
     t.string   "document_type", limit: 255
   end
@@ -163,8 +163,8 @@ ActiveRecord::Schema.define(version: 20150507152505) do
   create_table "searches", force: :cascade do |t|
     t.text     "query_params", limit: 65535
     t.integer  "user_id",      limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "user_type",    limit: 255
   end
 
@@ -173,8 +173,8 @@ ActiveRecord::Schema.define(version: 20150507152505) do
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", limit: 255,        null: false
     t.text     "data",       limit: 4294967295
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
@@ -191,8 +191,8 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "guest",                  limit: 1,   default: false
   end
 
