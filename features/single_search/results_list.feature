@@ -70,11 +70,11 @@ Feature: Results list
   @search_with_view_all_websites_multi_word
   Scenario: Search with view all websites multi word link 
     Given I literally go to search
-    When I fill in "q" with 'Optical Levitation of a Cavity Mirror'
+    When I fill in "q" with 'levitating nanosphere'
     And I press 'Search'
     Then I should get bento results
     When I follow "link_top_web" 
-    And I should see the text "Optical Levitation of a Cavity Mirror" 
+    And I should see the text "levitating nanosphere" 
 
 	#https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1135
   @search_with_view_all_websites_multi_word_with_percent

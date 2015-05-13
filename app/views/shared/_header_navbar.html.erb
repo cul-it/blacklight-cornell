@@ -42,7 +42,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-5 catalog-name">
-        <% if request.original_url.include?("/search") && !request.original_url.include?("/searchdigreg") %>
+        <% if request.original_url.include?("/search") && !request.original_url.include?("/searchdigreg")  && !request.original_url.include?("db")%>
           <h1><a href="/search">Search</a></h1>
         <% else %>
           <span class="search-home"><a href="http://search.library.cornell.edu/"><i class="fa fa-search"></i>Search</a><span class="divider">/</span></span>
