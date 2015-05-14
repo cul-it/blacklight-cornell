@@ -3,8 +3,13 @@ class DigitalcollectionsController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
+  before_filter :heading
+  
+  def heading
+   @heading='Cornell Digital Collections'
+  end
 
-  def index
+   def index
      clnt = HTTPClient.new
     #params[:q].gsub!(' ','%20')
      @digRegString = clnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/blacklight/select?qt=search&rows=100&facet=false&wt=ruby&indent=true&fq=eightninenine_t:culdigreg&sort=title_sort%20asc&fl=id,fulltitle_display,author_display,pub_info_display,fulltitle_vern_display,summary_display,url_access_display") 
