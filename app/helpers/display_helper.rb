@@ -1050,7 +1050,7 @@ include ActionView::Helpers::NumberHelper
 
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
-    if params[:controller] =='catalog' || params[:controller]=='bookmarks' || request.original_url.include?("request") || params[:controller]=='search_history' || params[:controller] == 'advanced'
+    if params[:controller] =='catalog' || params[:controller]=='bookmarks' || request.original_url.include?("request") || params[:controller]=='search_history' || params[:controller] == 'advanced' || params[:controller]=='aeon'
       return true
     end
   end
