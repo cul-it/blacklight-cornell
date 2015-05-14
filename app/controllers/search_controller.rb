@@ -1,5 +1,10 @@
 require "cgi"
 class SearchController < ApplicationController
+  before_filter :heading
+  def heading
+   @heading='Search'
+  end
+
   def index
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
 
