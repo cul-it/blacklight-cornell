@@ -36,7 +36,7 @@
 
   <%= render partial: 'shared/ajax_modal' %>
 
-    <% if params[:controller]=="catalog" || params[:controller]=="advanced" || params[:controller]=="bookmarks" %>
+    <% if part_of_catalog? %>
       <div class="search-bar">
         <div class="container">
           <%= render :partial => 'shared/search_form' %>
@@ -44,7 +44,7 @@
       </div>
     <% end %>
 
-    <% if params[:controller]=="catalog" %>
+    <% if part_of_catalog? %>
       <div class="constraints-bar">
         <div class="container">
           <%= render :partial => "catalog/constraints" %>
