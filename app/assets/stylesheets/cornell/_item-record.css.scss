@@ -134,6 +134,9 @@ dd.blacklight-notes {
 	.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle), .btn-group > .facets-toggle:first-child:not(:last-child):not(.dropdown-toggle) {
 		border-radius: 3px;
 	}
+	a {
+		color: $dark-gray;
+	}
 }
 .main-content {
 	.item-tools {
