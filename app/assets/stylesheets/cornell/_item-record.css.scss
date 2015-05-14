@@ -211,7 +211,9 @@ padding-left: 6em;
 	}
 	.cover {
 		float: left;
-		text-align: left;
+		.iconcover {
+			height: 200px;
+		}
 	}
 	dl.dl-horizontal {
 		dd {
