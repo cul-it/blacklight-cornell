@@ -1,6 +1,7 @@
-<%# Databases search results page %>
+<%# Browse by title list page (#-Z) %>
 
 <%= render :partial => 'databases_search_form' %>
+<% alpha = params[:alpha] %>
 <div class="row database-subject">
   <div class="page-title col-sm-12">
     <div class="return-link">
@@ -10,19 +11,17 @@
       <% end %>
     </div>
     <h2>
-      <%= params[:q] %>
+      Databases:
+      <% if alpha == '1' %>
+        &#035;
+      <% else %>
+        <%= alpha %>
+      <% end %>
     </h2>
   </div>
 </div>
-<% if @dbResponse.present? %>
-  <div class="resources">
-    <h3>
-      Results
-    </h3>
-    <%= render 'database', :response => @dbResponse %>
-  </div>
-<% else %>
-  <h2>
-    No results
-  </h2>
-<% end %>
+<div class="resources">
+  <% if @a.present? %>
+    <%= render 'database', :response => @a %>
+  <% end %>
+</div>
