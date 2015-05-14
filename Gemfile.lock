@@ -1,7 +1,7 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
-  revision: bfc525d463f4873bb0c1918e4812ec1ccaf4cbf3
-  branch: master
+  revision: 1fbcb7a6852b9ceb521070ffa6b58635856dfc22
+  branch: bl5
   specs:
     blacklight_cornell_advanced_search (2.1.1)
       blacklight
@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: ab90c561779970b4aa732737e8f6ad7f84d369d0
+  revision: 240c70935140897d85e3ad0a8735bb667a6751ad
   branch: bl5
   specs:
     blacklight_cornell_requests (1.1.0)
@@ -383,7 +383,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.2.4)
+    sprockets-rails (2.3.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
