@@ -1,10 +1,10 @@
 .bookmarks-index {
-	#sort-dropdown, #per_page-dropdown {
-		display: block;
-	}
-	#per_page-dropdown {
-		button { margin-right: 5px; }
-	}
+	// #sort-dropdown, #per_page-dropdown {
+	// 	display: block;
+	// }
+	// #per_page-dropdown {
+	// 	button { margin-right: 5px; }
+	// }
 	.item-tools {
 		margin-top: .5em;
 	}
@@ -40,7 +40,6 @@
   margin: 0;
   padding-bottom: .2em;
   border-bottom: solid 5px $light-tan;
-  overflow: hidden;
 }
 
 
@@ -65,13 +64,13 @@
   	.bookmarks-index {
 		#sort-dropdown, #per_page-dropdown {
 			float: right;
-			display: inline-block;
 		}
+	}
 		#sort-dropdown {
 			margin-right: 5px;
 		}
-		#per_page-dropdown {
-			button { margin-right: 0; }
-		}
-	}	
+	// 	#per_page-dropdown {
+	// 		button { margin-right: 0; }
+	// 	}
+	// }
 }

@@ -8,16 +8,21 @@
 
 <% else %>
   <div class="results-info">
-    <span class="results-count">
-      <%= render :partial => "paginate_compact", :object => @response %>
-    </span>
+    <div class="row">
+      <div class="col-sm-6">
+        <span class="results-count">
+          <%= render :partial => "paginate_compact", :object => @response %>
+        </span>
 
-    <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
-      <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
-    <% end %>
-
-    <%= render :partial => 'per_page_widget' %>
-    <%= render :partial => 'sort_widget' %>
+        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
+          <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
+        <% end %>
+      </div>
+      <div class="col-sm-6">
+        <%= render :partial => 'per_page_widget' %>
+        <%= render :partial => 'sort_widget' %>
+      </div>
+    </div>
   </div>
 
   <div class="item-tools">
