@@ -65,6 +65,14 @@ class SearchController < ApplicationController
           @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet',) , display_type, @scores
       end
       
+      session[:search][:q] = @query
+      session[:search][:search_field] = 'all_fields'
+      session[:search][:controller] = 'search'
+      session[:search][:action] = 'index'
+      # session[:search][:counter] = ?
+      # session[:search][:total] = ?
+      
+      Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
       render 'single_search/index'
   end
 

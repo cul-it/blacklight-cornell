@@ -779,8 +779,8 @@ include ActionView::Helpers::NumberHelper
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-
-    link
+    
+    return link
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
