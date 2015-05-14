@@ -11,7 +11,7 @@
     - # Render group headings only if we have multiple groups
     - if multiple_groups
       - if group == "Rare"
-        %h4
+        %h3.rare
           = group + " Items"
     - holdings.each do |entry|
       - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
