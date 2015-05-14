@@ -3,6 +3,12 @@ class DatabasesController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   #include BlacklightUnapi::ControllerExtension
+  before_filter :heading
+  
+  def heading
+   @heading='Databases'
+  end
+
 
   def subject
      clnt = HTTPClient.new

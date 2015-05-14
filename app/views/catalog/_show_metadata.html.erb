@@ -29,6 +29,7 @@
           <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-thumbnail",  alt: "" %>
           <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
+        <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down"></i></a>
       </div>
 
       <div class="document item-metadata col-sm-10">
@@ -36,49 +37,47 @@
       </div>
     </div>
   </div>
-  <div class="availability well" style="float: none; margin-left: 0;">
-          <h3>Availability</h3>
+  <div class="availability well" id="availability">
+    <h3>Availability</h3>
 
-          <% if finding_aid(@document) %>
-            <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
-            <% if url_findingaid_display.present? %>
-              <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
-            <% end %>
-          <% end %>
+    <% if finding_aid(@document) %>
+      <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
+      <% if url_findingaid_display.present? %>
+        <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
+      <% end %>
+    <% end %>
 
-          <% if online_url(@document) %>
-            <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-            <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
-             <% format = render_document_show_field_value :document => @document, :field => 'format' %>
-             <ul class="unstyled" id="item_online_<%= format %>">
-               <% online_links.each do |link| %>
-                 <li class="online-link" ><%= link %></li>
-               <% end %>
-             </ul>
-          <% end %>
+    <% if online_url(@document) %>
+      <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+      <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
+      <% format = render_document_show_field_value :document => @document, :field => 'format' %>
+      <ul class="unstyled" id="item_online_<%= format %>">
+        <% online_links.each do |link| %>
+          <li class="online-link" ><%= link %></li>
+        <% end %>
+      </ul>
+    <% end %>
 
-          <div class="holdings" data-bibid="<%= @document.id.to_s %>">
-          <%= render "holdings"  %>
-          </div>
+    <div class="holdings" data-bibid="<%= @document.id.to_s %>">
+    <%= render "holdings"  %>
+    </div>
 
-          <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
-          <% if access_restrictions.present? %>
-            <span class="access-restriction">
-              <h5>Restrictions</h5>
-              <%= access_restrictions %>
-            </span>
-          <% end %>
+    <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
+    <% if access_restrictions.present? %>
+      <span class="access-restriction">
+        <h5>Restrictions</h5>
+        <%= access_restrictions %>
+      </span>
+    <% end %>
 
-          <span class="blacklight-url_access_display"></span>
-          <%= @hide_status %>
+    <span class="blacklight-url_access_display"></span>
+    <%= @hide_status %>
 
-          <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
-           <% oclc_number=oclc_number_link %>
-           <% if oclc_number.present? %>
-              <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
-              <% end %>
-          <% end %>
-          <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
-          <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
-        </div>
+    <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
+     <% oclc_number=oclc_number_link %>
+     <% if oclc_number.present? %>
+        <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
+        <% end %>
+    <% end %>
+  </div>
 </div>
