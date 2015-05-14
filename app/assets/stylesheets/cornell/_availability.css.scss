@@ -40,6 +40,9 @@
 		padding: 0;
 		margin-bottom: 0;
 	}
+	.call-number {
+		margin-bottom: .5em;
+	}
 }
 h3.rare {
 	margin-top: 1.25em;
@@ -48,7 +51,7 @@ h3.rare {
 .label-available {
 	background: $teal;
 	margin-right: .5em;
-	font-size: 80%;
+	font-size: 90%;
 	i {
 		color: white;
 	}
