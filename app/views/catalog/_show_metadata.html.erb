@@ -49,13 +49,15 @@
 
     <% if online_url(@document) %>
       <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-      <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
-      <% format = render_document_show_field_value :document => @document, :field => 'format' %>
-      <ul class="unstyled" id="item_online_<%= format %>">
-        <% online_links.each do |link| %>
-          <li class="online-link" ><%= link %></li>
-        <% end %>
-      </ul>
+      <div class="holdings-online">
+        <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
+        <% format = render_document_show_field_value :document => @document, :field => 'format' %>
+        <ul class="list-unstyled" id="item_online_<%= format %>">
+          <% online_links.each do |link| %>
+            <li class="online-link" ><%= link %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
 
     <div class="holdings" data-bibid="<%= @document.id.to_s %>">
