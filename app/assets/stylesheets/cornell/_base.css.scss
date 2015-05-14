@@ -123,7 +123,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
-// CUL button style
+// CUL button - libraries
 // ------------------------
 
 .btn-libraries {
@@ -148,6 +148,28 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	background: $dark-tan;
 }
 
+// CUL button - generic teal
+// ------------------------------
+
+.btn-cul {
+	color: white;
+	background-color: $teal;
+	border-color: $dark-teal;
+	background-image: none;
+}
+.btn-cul:hover,
+.btn-cul:active,
+.btn-cul:focus {
+	background-color: $dark-teal;
+	color: white
+}
+.main-content {
+	.btn-cul {
+		border-bottom: 1px solid $dark-teal;
+	}
+}
+
+
 // Well overrides
 // ------------------------
 
@@ -158,12 +180,11 @@ h3 { font-size: 20px; line-height: 1.5em;}
 
 // Panel overrides
 // ------------------------
-.panel-group {
-	.panel {
-		border-radius: 0;
-		border: 0 0 1px 0;
-		box-shadow: none;
-	}
+.panel,
+.panel-group .panel {
+	border-radius: 0;
+	border: 0 0 1px 0;
+	box-shadow: none;
 }
 .panel-default > .panel-heading {
 	background: $light-tan;

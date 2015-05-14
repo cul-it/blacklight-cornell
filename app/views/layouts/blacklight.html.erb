@@ -36,7 +36,7 @@
 
   <%= render partial: 'shared/ajax_modal' %>
 
-    <% if !request.original_url.include? "/search" %>
+    <% if part_of_catalog? %>
       <div class="search-bar">
         <div class="container">
           <%= render :partial => 'shared/search_form' %>
@@ -44,7 +44,7 @@
       </div>
     <% end %>
 
-    <% if !request.original_url.include?("/digitalcollections") && !request.original_url.include?("/search") %>
+    <% if part_of_catalog? %>
       <div class="constraints-bar">
         <div class="container">
           <%= render :partial => "catalog/constraints" %>
@@ -96,6 +96,7 @@
       $(".next-link a").anchorScroll();
       $(".top-link a").anchorScroll();
       });
+      $('.availability-link').anchorScroll();
       $('.search-info a').tooltip();
     </script>
   </body>
