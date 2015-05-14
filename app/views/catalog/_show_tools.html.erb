@@ -21,7 +21,7 @@
   <% citelink_content =  '<i class="fa fa-pencil"></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-mini'} do %>
+      <%= link_to citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
         <%= citelink_content.html_safe %>
       <% end %>
     <% elsif citable %>
@@ -36,7 +36,7 @@
   <% emaillink_content = '<i class="fa fa-envelope"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to  email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink btn btn-mini", :id => "email-link" do %>
+      <%= link_to  email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
