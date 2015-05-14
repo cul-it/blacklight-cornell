@@ -1,17 +1,6 @@
 // Custom styles for database pages 
 // -----------------------------------
 
-// .databases-search,
-// .databases-az,
-// .databases-subject {
-// 	h2 {
-// 		font-weight: normal;
-// 		color: $dark-gray;
-// 		font-size: 22px;
-// 		margin-bottom: 10px;
-// 	}
-// }
-
 .databases-search {
 	.well {
 		.row {
@@ -26,14 +15,14 @@
 			float: left !important;
 		}
 		a {
-			background: white;
+			background: $light-tan;
 			margin-bottom: 5px;
-			font-weight: normal !important;
-			color: $cornell-primary !important;
 			padding: 8px 12px !important;
+			border: none;
 		}
 		a:hover, a:active, a:focus {
-			background: $pale-gray;
+			background: $tan;
+			border: none;
 		}
 	}
 }
@@ -56,10 +45,6 @@
 		margin-bottom:0px;
 	}
 }
-
-h2.db-alpha {
-	text-transform: capitalize;
-}
 .blacklight-database-name {
 	padding-top: 15px;
 	h3 { margin-bottom: 20px; }
@@ -81,7 +66,7 @@ h2.db-alpha {
 	.blacklight-title_display {
 		margin: 0 0 .5em;
 		font-weight: normal;
-		line-height: 1.2em;
+		line-height: 1.5em;
 		font-size: 18px;
 		i { 
 			font-size: 12px;
@@ -152,11 +137,6 @@ h2.db-alpha {
 
 // Subject or A-Z list page - some ttaken from blacklight and edited
 // --------------------------------------------------------------------
-.results-info {
-  margin: 0;
-  padding-bottom: .2em;
-  border-bottom: solid 5px $light-tan;
-}
 
 .database-subject {
 	.page-title {
@@ -164,15 +144,22 @@ h2.db-alpha {
 			margin-top: 1em;
 			font-size: 22px;
 			font-weight: 700;
-			margin-bottom: .25em;
+			margin-bottom: 1em;
+			padding-bottom: .2em;
+  			border-bottom: solid 5px $light-tan;
 		}
 	}
 }
-.resources-core {
-	h3 { 
-		font-weight: 700;
+.resources {
+	h3 {
+		margin-top: 0;
 	}
 }
+// .resources-core {
+// 	h3 { 
+// 		font-weight: 700;
+// 	}
+// }
 .resources-all, .resource {
 	.document-data:first-child { border-top: 0; }
 }
@@ -197,22 +184,6 @@ h2.db-alpha {
 }
 .pagination-wrapper {
 	text-align: center;
-}
-
-// CUL button
-// -------------------------
-
-// Info appears as blue-green
-.btn-cul {
-	color: white;
-	background-color: $teal;
-	border-color: $dark-teal;
-	background-image: none;
-}
-
-.btn-cul:hover {
-	background-color: $dark-teal;
-	color: white
 }
 
 // Terms of Use page

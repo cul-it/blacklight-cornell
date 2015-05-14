@@ -1,10 +1,10 @@
 // AVAILABILITY
 .availability {
 	background: white;
-	padding: 10px;
-	clear: both;
 	h3 { 
 		margin-top: 0;
+		margin-bottom: .25em;
+		font-size: 24px;
 	}
 	// .online-link { font-size: .875em; }
 	.worldcat-search {
@@ -13,46 +13,24 @@
 		display:block;
 		margin-top:10px;}
 	.location {
-		// font-size: .875em;
-		background: $light-tan;
 		margin-top: 0;
 		margin-bottom: .5em;
-		font-weight: bold;
-		padding: 5px 10px;
-		border: 1px solid $tan;
-		// -webkit-border-radius: 3px;
-		// -moz-border-radius: 3px;
-		// border-radius: 3px;
-		// overflow: hidden;
-		// border-bottom: 1px dotted $light-gray;
-		padding-bottom: .25em;
+		font-size: 16px;
+		font-weight: 700;
 	}
 	.location-online {
 		color: white;
 		background: $teal;
 		border-color: $teal;
-		// text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	}
 	.holding {
-		// border: 1px solid $tan;
-		.call-number {
-			padding: 0 10px;
-			// font-weight: 700;
-			// font-size: .875em;
-			// border-bottom: 1px dotted #d8d2c9;
-		}
 		.group {
-			padding: 5px 10px;
-		//	border-top: 1px dotted $tan;
-			font-size: .8em; }
-		// .status { margin-left: 15px; }
+			font-size: 12px;
+		}
 	}
 	.map-it {
 		font-size: 12px;
 		display: inline-block;
-		// float: right;
-		// width: 25%;
-		// text-align: right;
 		 }
 	.url_findingaid_display {
 		display: block;
@@ -63,16 +41,26 @@
 		margin-bottom: 0;
 	}
 }
+h3.rare {
+	margin-top: 1.25em;
+	margin-bottom: .5em;
+}
 .label-available {
 	background: $teal;
-	margin-right: .25em;
+	margin-right: .5em;
+	font-size: 80%;
 	i {
 		color: white;
 	}
 }
 .holding,
 .holdings-error {
-	margin-bottom: .5em;
+	margin-bottom: 1em;
+	border-top: 2px solid $light-tan;
+	padding-top: 1em;
+}
+.holding:first-child {
+	border-top: 0;
 }
 .holding:last-of-type {
 	margin-bottom: 0;
@@ -117,7 +105,7 @@
 	h5 { margin: 0; }
 }
 .item-requests {
-	border-top: 3px solid $light-tan;
+	border-top: 5px solid $light-tan;
 	padding-top: 10px;
 	margin: .75em 0; }
 
@@ -126,6 +114,16 @@
 	padding-top: 1em;
 	border-top: solid 2px #d8d2c9;
 }
+
+// Availability anchor button
+// ----------------------------- //
+.availability-link {
+	margin: 2em 0;
+	i {
+		margin-left: .5em;
+	}
+}
+
 
 // MEDIA QUERIES
 // -------------------------
@@ -153,10 +151,6 @@
     li {
       font-size: 12px;
     }
-  }
-  .availability {
-  	margin-left: 2em;
-  	float: right;
   }
 }
 
