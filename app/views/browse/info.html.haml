@@ -1,0 +1,184 @@
+-if @headingsResponse.present? 
+	.return-link
+		=link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do
+			%i.fa.fa-arrow-circle-left
+			Back to list
+	- @headingsResponse.each do |data|
+		%h2
+			=data["heading"]
+		-if data["counts_json"].present?
+			-works=JSON.parse(data["counts_json"])
+			-if params[:browse_type] == "Author" 
+				.author-works
+					Works by:
+					= link_to '/?f[author_facet[]=' + data["heading"] do
+						=works["worksBy"]
+						Title(s)
+				.author-works
+					Works about:
+					= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
+						=works["worksAbout"] 
+						Title(s)
+			-if works["worksAbout"] > 0 && params[:browse_type] == "Subject"
+				.author-works
+					Works about:
+					-if data["headingTypeDesc"] == "Geographic Name"
+						= link_to '/?f[subject_geo_facet[]=' + data["heading"] do
+							=works["worksAbout"] 
+							Title(s)
+					-elsif data["headingTypeDesc"] == "Chronological Term"
+						= link_to '/?f[subject_era_facet[]=' + data["heading"] do
+							=works["worksAbout"] 
+							Title(s)
+					-else 
+						= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
+							=works["worksAbout"] 
+							Title(s)
+			-if params[:browse_type] == "Author-Title" 
+				.author-works
+					Works:
+					= link_to '/?f[authortitle_facet[]=' + data["heading"] do
+						=data["count"]
+						Title(s)
+
+		%dl
+			- if !data["notes"].nil?
+				%dt
+					Scope note
+				%dd
+					-data["notes"].each do |note|
+						-if note.include?("header")
+							-note=JSON.parse(note)
+							-note.each do |nottee|
+								.scope-note
+									-if nottee.include?("header")
+										-nottee.each do |headingInfo|
+											=link_to "/browse?authq=" + headingInfo[1] + "&start=0" + "&browse_type=" + params[:browse_type] do
+												=headingInfo[1]
+									-else
+										=nottee
+						-else
+							.scope-note
+								=note
+
+			-if data["seeAlso"].present? || data["alternateForm"].present?
+				%dt
+					Reference info
+				%dd
+					.reference
+						-if data["seeAlso"].present? 
+							-sa=JSON.parse(data["seeAlso"])
+							-sa.each do |r,h|
+								-if r.blank?
+									See Also
+								-if !r.blank?
+									.heading
+										=r
+								-h.each do |headingInfo|
+									.heading
+										=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+											=headingInfo["heading"]
+									- if params[:browse_type] == "Author"
+										.author-works
+											Works by:
+											= link_to '/?f=[subject_facet[]="' + headingInfo["heading"]do
+												=headingInfo["worksBy"]
+										.author-works
+											Works about:
+											= link_to '/?f=[subject_topic_facet[]="' + headingInfo["heading"]do
+												=headingInfo["worksAbout"]
+									- if params[:browse_type] == "Subject"
+										.author-works
+											Works about:
+											-if headingInfo["headingTypeDesc"] == "Geographic Name"
+												= link_to '/?f[subject_geo_facet[]=' + headingInfo["heading"] do
+													=headingInfo["count"] 
+											-elsif headingInfo["headingTypeDesc"] == "Chronological Term"
+												= link_to '/?f[subject_era_facet[]=' + headingInfo["heading"] do
+													=headingInfo["count"]
+											-else 
+												= link_to '/?f[subject_topic_facet[]=' + headingInfo["heading"] do
+													=headingInfo["worksAbout"] 
+									- if params[:browse_type] == "Author-Title"
+										.author-works
+											Works:
+											= link_to '/?f=[authortitle_facet[]="' + headingInfo["heading"]do
+												=headingInfo["count"]					
+
+
+
+
+						-if !data["alternateForm"].nil?
+							.reference-note
+								Alternate form(s):
+							-data["alternateForm"].each do |af|
+								.alternate-form
+									=af
+			-if data["headingTypeDesc"].present?
+				%dt
+					Headings type
+				%dd
+					=data["headingTypeDesc"]				
+		- if data["mainEntry"] == true  && data["rda_json"].present?
+			%h3
+				Description
+			-if data["rda_json"].present?
+				-rda=JSON.parse(data["rda_json"])
+				- if rda["Birth Place"].present?
+					%dt 
+						Birth Place
+					%dd
+						-rda["Birth Place"].each do |place|
+							=place
+				- if rda["Place of Death"].present?
+					%dt 
+						Place of Death
+					%dd
+						-rda["Place of Death"].each do |deathplace|
+							=deathplace
+				- if rda["Gender"].present?
+					%dt
+						Gender
+					%dd
+						-rda["Gender"].each do |gender|
+							=gender
+				- if rda["Country"].present?
+					%dt 
+						Country
+					%dd
+						-rda["Country"].each do |country|
+							=country
+				- if rda["Field"].present?
+					%dt
+						Field
+					%dd
+						-rda["Field"].each do |field|
+							=field
+				- if rda["Group/Organization"].present?
+					%dt
+						Group or Organization
+					%dd
+						-rda["Group/Organization"].each do |org|
+							=org
+				- if rda["Occupation"].present?
+					%dt
+						Occupation
+					%dd
+						-rda["Occupation"].each do |occupation|
+							.rda-occupation
+								=occupation
+
+				- if rda["Form of Work"].present?
+					%dt
+						Form of Work
+					%dd
+						-rda["Form of Work"].each do |fow|
+							=fow
+				- if rda["Instrumentation"].present?
+					%dt
+						Instrumentation
+					%dd
+						-rda["Instrumentation"].each do |inst|
+							.rda-instrumentation
+								=inst
+	
