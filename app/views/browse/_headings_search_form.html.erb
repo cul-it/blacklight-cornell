@@ -1,15 +1,14 @@
-<%= render :partial => "catalog/search_navigation" %>
 
+<h2>Browse</h2>
 <div class="well well-search clearfix">
   <div class="row-fluid">
     <div class="search-tools">
       <%= form_tag '/browse', :method => :get, :class => 'form-inline' do %>
-        <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
-        <% if !params[:q_row].present? %>
+        <% if !params[:authq_row].present? %>
           <div class="row-fluid">
             <div class="search-options span6">
-              <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-                <%= text_field_tag :q, params[:q], :placeholder => 'Browse', :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+              <label for="authq" class="hide-text">Begin browse with</label>
+                <%= text_field_tag :authq, params[:authq], :placeholder => 'Enter the beginning of the term you wish to', :class => "search-query phone-search-query", :id => "authq", :autocapitalize => "off" %>
                 <%= hidden_field_tag :start, params[:start], :value => '0', :id => "start" %>            </div>
 
               <label for="browse_type" class="hide-text">Browse Type</label>

@@ -1,6 +1,6 @@
 -if @headingsResponse.present? 
 	.return-link
-		=link_to "/browse?q=" + params[:q] + "&browse_type=" + params[:browse_type] + "&start=0" do
+		=link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do
 			%i.fa.fa-arrow-circle-left
 			Back to list
 	- @headingsResponse.each do |data|
@@ -53,7 +53,7 @@
 								.scope-note
 									-if nottee.include?("header")
 										-nottee.each do |headingInfo|
-											=link_to "/browse?q=" + headingInfo[1] + "&start=0" + "&browse_type=" + params[:browse_type] do
+											=link_to "/browse?authq=" + headingInfo[1] + "&start=0" + "&browse_type=" + params[:browse_type] do
 												=headingInfo[1]
 									-else
 										=nottee
@@ -76,7 +76,7 @@
 										=r
 								-h.each do |headingInfo|
 									.heading
-										=link_to "/browse?q=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+										=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
 											=headingInfo["heading"]
 									- if params[:browse_type] == "Author"
 										.author-works

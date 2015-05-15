@@ -40,7 +40,7 @@
 							=data["heading"]
 						
 						-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
-							=link_to '/browse/info?q=' + data["heading"] +"&browse_type=" + params[:browse_type] do
+							=link_to '/browse/info?authq=' + data["heading"] +"&browse_type=" + params[:browse_type] do
 								%span.label.label-info
 									Info
 											
@@ -51,7 +51,7 @@
 									.see-ref
 										%i.fa.fa-arrow-right
 										See
-										= link_to "/browse?q=" + form["heading"] + "&start=0" +"&browse_type=" + params[:browse_type]do
+										= link_to "/browse?authq=" + form["heading"] + "&start=0" +"&browse_type=" + params[:browse_type]do
 											=form["heading"]
 										.see-ref-count
 											= "(" + form["count"].to_s + ")"
