@@ -588,7 +588,7 @@ class CatalogController < ApplicationController
       elsif !flash[:error]
         # Don't have to show a CAPTCHA and there are no errors, so we can send the email
         email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
-        email.deliver
+        email.deliver_now
         flash[:success] = "Email sent"
         redirect_to catalog_path(params[:id]) unless request.xhr?
       end
