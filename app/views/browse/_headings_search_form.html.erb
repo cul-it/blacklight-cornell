@@ -1,0 +1,43 @@
+<%= render :partial => "catalog/search_navigation" %>
+
+<div class="well well-search clearfix">
+  <div class="row-fluid">
+    <div class="search-tools">
+      <%= form_tag '/browse', :method => :get, :class => 'form-inline' do %>
+        <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
+        <% if !params[:q_row].present? %>
+          <div class="row-fluid">
+            <div class="search-options span6">
+              <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
+                <%= text_field_tag :q, params[:q], :placeholder => 'Browse', :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
+                <%= hidden_field_tag :start, params[:start], :value => '0', :id => "start" %>            </div>
+
+              <label for="browse_type" class="hide-text">Browse Type</label>
+
+              <%= select_tag :browse_type, options_for_select(["Author","Author-Title","Subject"], params[:browse_type]) %>
+
+
+            <span class="search-or-reset">
+              <input type="submit" class="btn btn-inverse hidden-phone" id="search" value="Search">
+              <button id="search-btn" class="btn btn-inverse mobile-search-btn visible-phone" type="submit">
+                <i class="fa fa-search fa-inverse"></i>
+              </button>
+            </span>
+
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+</div>
+    <%# Offer search expansion only under certain conditions %>
+    <%# if expandable_search? %>
+      <%#= render :partial => 'expand_search' %>
+    <%# end %>
+
+    <%# Add simple links to WCL and Summon if an advanced search %>
+    <%# if params[:q_row].present? %>
+      <%#= render :partial => 'expand_advanced_search' %>
+    <%# end %>
+
+
+</div>

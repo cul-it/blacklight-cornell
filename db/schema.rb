@@ -19,14 +19,19 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "PICKUP_LOCATION", limit: 1
   end
 
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl", using: :btree
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id", using: :btree
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl"
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id"
 
+<<<<<<< HEAD
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
+=======
+  create_table "blacklight_cornell_requests_requests", force: true do |t|
+>>>>>>> origin/authorities
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,   null: false
     t.string   "document_id",   limit: 255
@@ -35,6 +40,15 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.datetime "updated_at"
     t.string   "user_type",     limit: 255
     t.string   "document_type", limit: 255
+=======
+  create_table "bookmarks", force: true do |t|
+    t.integer  "user_id",     null: false
+    t.string   "document_id"
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "user_type"
+>>>>>>> origin/authorities
   end
 
   add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
@@ -157,6 +171,7 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "Public_Performance_Right",                         limit: 256
     t.text    "Public_Performance_Note",                          limit: 65535
     t.string  "Training_Materials_Right",                         limit: 256
+<<<<<<< HEAD
     t.text    "Training_Materials_Note",                          limit: 65535
   end
 
@@ -166,19 +181,36 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "user_type",    limit: 255
+=======
+    t.text    "Training_Materials_Note"
   end
 
-  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
+  create_table "searches", force: true do |t|
+    t.text     "query_params"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "user_type"
+>>>>>>> origin/authorities
+  end
 
+  add_index "searches", ["user_id"], name: "index_searches_on_user_id"
+
+<<<<<<< HEAD
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", limit: 255,        null: false
     t.text     "data",       limit: 4294967295
+=======
+  create_table "sessions", force: true do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+>>>>>>> origin/authorities
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "",    null: false
@@ -189,14 +221,22 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.integer  "sign_in_count",          limit: 4,   default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
+<<<<<<< HEAD
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "guest",                  limit: 1,   default: false
+=======
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "guest",                  default: false
+>>>>>>> origin/authorities
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
