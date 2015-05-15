@@ -1059,7 +1059,11 @@ include ActionView::Helpers::NumberHelper
       @sidebar_items ||= []
   end
 
-def render_head_content
+  def render_extra_head_content
+        @extra_head_content.join("\n").html_safe
+  end
+
+  def render_head_content
      Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
        render_stylesheet_includes +
        render_js_includes +
