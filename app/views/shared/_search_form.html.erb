@@ -37,22 +37,6 @@
 
   </div>
 
-  <% if params[:q_row].present? %>
-    <div class="advanced-search-link">
-      <%#= link_to 'Advanced search', params.except(:f).merge(:controller=>"advanced", :action=>"index"), :class=>"advanced-search-link" %>
-      <%#= link_to 'New advanced search', url_for(:controller=>"advanced", :action=>"index"), :class=>"" %>
-      <%#= debug params[:search_field_row] %>
-      <%= link_to 'Modify advanced search', url_for(:controller=>"advanced", :action=>"edit",
-                                                  :q_row=>params[:q_row], :op_row=>params[:op_row], 
-                                                  :search_field_row=>params[:search_field_row], 
-                                                  :boolean_row=>params[:boolean_row], :f=>params[:f]), :class=>"" %>
-
-      <% if query_has_constraints? || params[:range].present? %>
-         or <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
-      <% end %>
-    </div>
-  <% end %>
-
   <div class="search-nav col-sm-6 col-md-5 col-lg-4">
     <ul class="nav nav-pills">
       <li><a href="/advanced"><i class="fa fa-search"></i>Advanced Search</a></li>
