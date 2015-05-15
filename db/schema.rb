@@ -14,13 +14,13 @@
 ActiveRecord::Schema.define(version: 20150507152505) do
 
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
-    t.integer "CIRC_GROUP_ID",   limit: 4
-    t.integer "LOCATION_ID",     limit: 4
+    t.integer "CIRC_GROUP_ID"
+    t.integer "LOCATION_ID"
     t.string  "PICKUP_LOCATION", limit: 1
   end
 
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl", using: :btree
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id", using: :btree
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl"
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id"
 
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
     t.datetime "created_at"
@@ -28,19 +28,19 @@ ActiveRecord::Schema.define(version: 20150507152505) do
   end
 
   create_table "bookmarks", force: :cascade do |t|
-    t.integer  "user_id",       limit: 4,   null: false
+    t.integer  "user_id",                   null: false
     t.string   "document_id",   limit: 255
     t.string   "title",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "user_type",     limit: 255
-    t.string   "document_type", limit: 255
+    t.string   "document_type"
   end
 
-  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
+  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id"
 
   create_table "erm_data", id: false, force: :cascade do |t|
-    t.integer "id",                                               limit: 4
+    t.integer "id"
     t.string  "Collection_Name",                                  limit: 128
     t.string  "Collection_ID",                                    limit: 20
     t.string  "Provider_name",                                    limit: 128
@@ -70,21 +70,21 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "Physical_Location",                                limit: 256
     t.string  "Status",                                           limit: 128
     t.string  "Reviewer",                                         limit: 256
-    t.text    "Reviewer_Note",                                    limit: 65535
+    t.text    "Reviewer_Note"
     t.string  "License_Replaced_By",                              limit: 256
     t.string  "License_Replaces",                                 limit: 256
     t.date    "Execution_Date"
     t.date    "Start_Date"
     t.date    "End_Date"
     t.string  "Advance_Notice_in_Days",                           limit: 64
-    t.text    "License_Note",                                     limit: 65535
+    t.text    "License_Note"
     t.date    "Date_Created"
     t.date    "Last_Updated"
-    t.text    "Template_Note",                                    limit: 65535
+    t.text    "Template_Note"
     t.string  "Authorized_Users",                                 limit: 256
-    t.text    "Authorized_Users_Note",                            limit: 65535
+    t.text    "Authorized_Users_Note"
     t.string  "Concurrent_Users",                                 limit: 64
-    t.text    "Concurrent_Users_Note",                            limit: 65535
+    t.text    "Concurrent_Users_Note"
     t.string  "Fair_Use_Clause_Indicator",                        limit: 256
     t.string  "Database_Protection_Override_Clause_Indicator",    limit: 16
     t.string  "All_Rights_Reserved_Indicator",                    limit: 16
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "ILL_Secure_Electronic",                            limit: 256
     t.string  "ILL_Electronic_email",                             limit: 256
     t.string  "ILL_Record_Keeping",                               limit: 128
-    t.text    "ILL_Record_Keeping_Note",                          limit: 65535
+    t.text    "ILL_Record_Keeping_Note"
     t.string  "Course_Reserve",                                   limit: 128
     t.string  "Course_Reserve_Note",                              limit: 256
     t.string  "Electronic_Link",                                  limit: 128
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "Other_Use_Restrictions_Staff_Note",                limit: 256
     t.string  "Other_Use_Restrictions_Public_Note",               limit: 256
     t.string  "Perpetual_Access_Right",                           limit: 128
-    t.text    "Perpetual_Access_Note",                            limit: 65535
+    t.text    "Perpetual_Access_Note"
     t.string  "Perpetual_Access_Holdings",                        limit: 256
     t.string  "Licensee_Termination_Right",                       limit: 128
     t.string  "Licensee_Termination_Condition",                   limit: 128
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "Non_Renewal_Notice_Period_Unit",                   limit: 128
     t.string  "Archiving_Right",                                  limit: 128
     t.string  "Archiving_Format",                                 limit: 256
-    t.text    "Archiving_Note",                                   limit: 65535
+    t.text    "Archiving_Note"
     t.string  "Pre_Print_Archive_Allowed",                        limit: 128
     t.string  "Pre_Print_Archive_Conditions",                     limit: 256
     t.string  "Pre_Print_Archive_Restrictions_Number",            limit: 128
@@ -153,32 +153,32 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string  "Post_Print_Archive_Restrictions_Unit",             limit: 128
     t.string  "Post_Print_Archive_Note",                          limit: 256
     t.string  "Incorporation_Of_Images_Figures_And_Tables_Right", limit: 256
-    t.text    "Incorporation_Of_Images_Figures_And_Tables_Note",  limit: 65535
+    t.text    "Incorporation_Of_Images_Figures_And_Tables_Note"
     t.string  "Public_Performance_Right",                         limit: 256
-    t.text    "Public_Performance_Note",                          limit: 65535
+    t.text    "Public_Performance_Note"
     t.string  "Training_Materials_Right",                         limit: 256
-    t.text    "Training_Materials_Note",                          limit: 65535
+    t.text    "Training_Materials_Note"
   end
 
   create_table "searches", force: :cascade do |t|
-    t.text     "query_params", limit: 65535
-    t.integer  "user_id",      limit: 4
+    t.text     "query_params"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "user_type",    limit: 255
   end
 
-  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
+  add_index "searches", ["user_id"], name: "index_searches_on_user_id"
 
   create_table "sessions", force: :cascade do |t|
-    t.string   "session_id", limit: 255,        null: false
-    t.text     "data",       limit: 4294967295
+    t.string   "session_id", limit: 255, null: false
+    t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "",    null: false
@@ -186,17 +186,17 @@ ActiveRecord::Schema.define(version: 20150507152505) do
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "guest",                  limit: 1,   default: false
+    t.boolean  "guest",                              default: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
