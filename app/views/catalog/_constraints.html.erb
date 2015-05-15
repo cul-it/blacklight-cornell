@@ -8,5 +8,10 @@
     <% else %>
        <%= render_advanced_constraints_query(params) %>
     <% end %>
+    <% if params[:q_row].present? %>
+      <div class="advanced-search-link">
+        <%= link_to 'Modify advanced search', url_for(:controller=>"advanced", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f]), :class=>"btn btn-search" %>
+      </div>
+    <% end %>
   </div>
 <% end %>

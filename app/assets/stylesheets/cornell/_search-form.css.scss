@@ -10,22 +10,6 @@ input.search-query {
   padding-right: 0;
   padding-left: 15px;
 }
-.advanced-search-link {
-  display: inline-block;
-  margin-top: .2em;
-  padding-left: .3em;
-  font-size: 12px;
-}
-// .advanced-link {
-//   margin-top: .5em;
-//   padding-left: .3em;
-//   font-size: .75em;
-//   color: $light-gray;
-// }
-// .search-or-reset.span2 {
-//   margin-left: .3em;
-//   min-width: 70px;
-// }
 .start-over {
   display: block;
   font-size: 14px;
@@ -75,39 +59,20 @@ div.search-tools > h2 {line-height: 1em}
     }
   }
 }
-
-// .expand-search { 
-  // margin-top: .5em;
-  // padding: 10px;
-//   background: white;
-//   @include border-top-radius($border-radius-large);
-//   @include border-bottom-radius($border-radius-large);
-//   h4 {
-//     font-size: 1em;
-//     font-weight: normal;
-//     margin: 0 0 .5em 0;
-//     border-bottom: 1px solid $light-tan;
-//     padding: 0 0 .25em 0;
-//   }
-//   ul {
-//     margin-left: 0;
-//     margin-bottom: 0;
-//     list-style: none; }
-//   li {
-//     font-size: .75em;
-//     margin-bottom: .25em;
-//   }
-//   i {
-//     color: $dark-tan;
-//     margin-right: .25em;
-//   }
-// }
-h2.advanced-search { margin: 0; }
-.advanced-facets { margin-bottom: 10px; }
-
-.btn-search {
+.btn-search,
+.btn-search:hover,
+.btn-search:active,
+.btn-search:focus {
   background: $medium-gray;
   color: white;
+}
+
+// Advanced search - TODO: combine with AS CSS partial when that is brought into app
+// ------------------------------------------------------------------------------ //
+h2.advanced-search { margin: 0; }
+.advanced-facets { margin-bottom: 10px; }
+.advanced-search-link {
+  margin-top: .5em;
 }
 
 // Search navigation
@@ -145,17 +110,7 @@ h2.advanced-search { margin: 0; }
   .nav > li > a {
     padding: 0;
   }
-  // i {
-  //   margin-left: .25em;
-  // }
 }
-// .tips-link {
-//     display: block;
-//     float: right;
-//     clear: both;
-//     margin-top: 1em;
-//     font-size: 12px;
-//   }
 
 // MEDIA QUERIES
 // -------------------------
@@ -186,6 +141,10 @@ h2.advanced-search { margin: 0; }
     li {
       font-size: 13px;
     }
+  }
+  .advanced-search-link {
+    float: right;
+    margin-top: 0;
   }
 }
 
