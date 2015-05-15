@@ -487,4 +487,82 @@ http_interactions:
         H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
   recorded_at: Mon, 11 May 2015 18:18:01 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/4392584/1535861
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.1.5 (2014-11-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 13 May 2015 18:52:50 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 13 May 2015 18:52:50 GMT
+      Server:
+      - Apache/2.2.15 (Red Hat)
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"a192d240f8cde696d3081b436d0865e9"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9977bba2413e483c097496b8825c01d0
+      X-Runtime:
+      - '0.822356'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"4392584":{"4392584":{"records":[{"bibid":"4392584","holding_id":"4929617","location_name":"olin","call_number":"PR6039.O32
+        H6x 2002","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/4392584/items/6530722","itemid":"6530722","permLocation":"Olin
+        Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"PR6039.O32
+        H6x 2002","copy":"c. 1","itemBarcode":"31924095232199","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Charged
+        - Due on 2016-01-28","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"not_available","messages":[{"status_code":"Charged
+        - Due on 2016-01-28","short_message":"Charged - Due on 2016-01-28","long_message":"Charged
+        - Due on 2016-01-28"}],"location_id":"99"},"services":["in_process","borrow_direct","ill","recall_hold"],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library"],"locnumber":1,"status":["not_avail"],"avail_at":{},"not_avail_at":{"Olin
+        Library":"PR6039.O32 H6x 2002"},"onotes":[]}}},"1535861":{"1535861":{"records":[{"bibid":"1535861","holding_id":"1873484","location_name":"rmc","call_number":"Rare
+        Books PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["With
+        dust jacket.","Inscribed by author."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076148","itemid":"3076148","permLocation":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","location_id":"87","tempLocation":"","location":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","callNumber":"Rare Books PR6039.O49
+        H6 1988 +","copy":"c. 1","itemBarcode":"31924051288110","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"9","typeDesc":"nocirc","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"87"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873487","location_name":"uris,anx","call_number":"PR6039.O49
+        H6 1988","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076151","itemid":"3076151","permLocation":"Library
+        Annex","location_id":"210","tempLocation":"","location":"Library Annex","callNumber":"PR6039.O49
+        H6 1988","copy":"c. 5","itemBarcode":"31924068304017","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"210"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873482","location_name":"olin","call_number":"Oversize
+        PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076147","itemid":"3076147","permLocation":"Olin
+        Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"Oversize
+        PR6039.O49 H6 1988 +","copy":"c. 1","itemBarcode":"31924050942220","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"99"},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Kroch
+        Library Rare & Manuscripts (Non-Circulating)","Library Annex","Olin Library"],"locnumber":3,"status":["avail"],"avail_at":{"Kroch
+        Library Rare & Manuscripts (Non-Circulating)":"Rare Books PR6039.O49 H6 1988
+        +","Library Annex":"PR6039.O49 H6 1988","Olin Library":"Oversize PR6039.O49
+        H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 13 May 2015 18:52:51 GMT
 recorded_with: VCR 2.9.3

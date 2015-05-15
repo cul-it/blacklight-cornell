@@ -1,10 +1,15 @@
 BlacklightCornell::Application.routes.draw do
 
+  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+
   Blacklight::Marc.add_routes(self)
+
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
-  
+
+
+  #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
   devise_for :users
 # rails 4
