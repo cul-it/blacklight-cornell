@@ -18,8 +18,6 @@ class ApplicationController < ActionController::Base
        #Deprecation.warn Blacklight::LegacyControllerMethods, "#extra_head_content is NOT deprecated"
         @extra_head_content ||= []
    end
-   
-       
 
 
 end
