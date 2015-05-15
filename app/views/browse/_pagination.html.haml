@@ -1,0 +1,35 @@
+- if params[:order] == "reverse"	
+	-nextpage = Integer(params[:start]) - 20
+- else 
+	-nextpage = Integer(params[:start]) + 20
+-nextpage = nextpage.to_s
+-if params[:order] == "reverse"
+	-previous = Integer(params[:start]) + 20
+- else
+	-previous = Integer(params[:start]) - 20
+-previous = previous.to_s
+.results-info
+	.results-count
+		- if Integer(params[:start]) == 0
+			-if params[:order] != "reverse"
+				= link_to "/browse?authq=" + params[:authq] + "&start=0" +"&browse_type=" + params[:browse_type] + '&order=reverse' do
+					&laquo; Previous 
+				| 
+			-else
+				= link_to "/browse?authq=" + params[:authq] + "&start=" + previous +"&browse_type=" + params[:browse_type] + '&order=reverse' do
+					&laquo; Previous 
+				| 
+			-if params[:order] != "reverse"
+				= link_to "/browse?authq=" + params[:authq] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + '&order=forward' do
+					Next &raquo;
+			-else
+				= link_to "/browse?authq=" + params[:authq] + "&start=0" + "&browse_type=" + params[:browse_type] + '&order=forward' do
+					Next &raquo;				
+
+		- else  
+			= link_to "/browse?authq=" + params[:authq] + "&start=" + previous +"&browse_type=" + params[:browse_type] +  "&order=" + params[:order] do
+				&laquo; Previous 
+			| 
+			= link_to "/browse?authq=" + params[:authq] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + "&order=" + params[:order] do
+				Next &raquo;
+

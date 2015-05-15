@@ -257,6 +257,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
+    config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
     # config.add_facet_field 'facet', :multiple => true
     # config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
     # config.add_facet_field 'my_query_field', :query => { 'label' => 'value:1', 'label2' => 'value:2'}
