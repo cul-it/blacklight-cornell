@@ -54,28 +54,7 @@
       <% end %>
     </div>
   </div> <!-- .col-sm-7 -->
+  
+  <%= render :partial => 'advanced_search_tips' %>
 
-  <div class="col-sm-4 home-message as-tips">
-    <h3>Search Tips</h3>
-    <ul>
-      <li>
-        Using the first dropdown in each row, select how the terms should be used in the search:
-          <dl class="as-examples dl-horizontal">
-            <dt><strong>all</strong></dt>
-            <dd>United AND States</dd>
-            <dt><strong>any</strong></dt>
-            <dd>United OR States</dd>
-            <dt><strong>phrase</strong></dt>
-            <dd>"United States"</dd>
-          </dl>
-      </li>
-
-      <li>Results can be filtered by date, language, format, etc., after submitting the search.
-      </li>
-
-      <li>Truncation, wildcards and word stemming are supported.
-      </li>
-    </ul>
-    <p><a href="https://www.library.cornell.edu/help/catalog#advanced">More search tips</a></p>
-  </div> <!-- .col-sm-4 -->
 </div> <!-- .row -->
