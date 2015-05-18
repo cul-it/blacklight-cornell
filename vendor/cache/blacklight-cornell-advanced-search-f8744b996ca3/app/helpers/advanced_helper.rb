@@ -59,7 +59,7 @@ module AdvancedHelper
     word = ""
     row1 = ""
     row1 << "<input autocapitalize=\"off\" id=\"q_row\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\" value=\""  << params[:q_row][0] << "\" /> "
-    row1 << "<label for=\"op_row\" class=\"hide-text\"><span class=\"translation_missing\" title=\"translation missing: en.blacklight.search.form.op_row\">Op Row</span></label>"
+    row1 << "<label for=\"op_row\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
     row1 << "<select class=\"input-small\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
       if key == params[:op_row][0]
@@ -69,7 +69,7 @@ module AdvancedHelper
       end
     end
     row1 << "</select> in "
-    row1 << "<label for=\"search_field_row\" class=\"hide-text\"><span class=\"translation_missing\" title=\"translation missing: en.blacklight.search.form.search_field_row\">Search Field Row</span></label>"
+    row1 << "<label for=\"search_field_row\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>"
     row1 << "<select class=\"advanced-search-field\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
@@ -96,9 +96,9 @@ module AdvancedHelper
            end 
          end  
          next2rows << "</div>"
-         next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"hide-text\">span class=\"translation_missing\" title=\"translation missing: en.blacklight.search.form.q_row\">Q Row</span></label>"
+         next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"sr-only\">" << t('blacklight.search.form.q_row') << "</label>"
          next2rows << "<input autocapitalize=\"off\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value=\""  << params[:q_row][i] << "\" /> "
-         next2rows << "<label for=\"op_row" << "#{i}\" class=\"hide-text\"><span class=\"translation_missing\" title=\"translation missing: en.blacklight.search.form.op_row\">Op Row</span></label>"
+         next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" <<  t('blacklight.search.form.op_row') << "</label>"
          next2rows << "<select class=\"input-small\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
          boolean_values.each do |key, value|
             if key == params[:op_row][i]
@@ -108,7 +108,7 @@ module AdvancedHelper
             end
          end
          next2rows << "</select> in "
-         next2rows << "<label for=\"search_field_row" << "#{i}\" class=\"hide-text\"><span class=\"translation_missing\" title=\"translation missing: en.blacklight.search.form.search_field_row\">Search Field Row</span></label>" 
+         next2rows << "<label for=\"search_field_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>" 
          next2rows << "<select class=\"advanced-search-field\" id=\"search_field_row" << "#{i}" << "\" name=\"search_field_row[]\">"
          subject_values.each do |key, value|
            if key == params[:search_field_row][i]
