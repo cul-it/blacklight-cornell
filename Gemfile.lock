@@ -447,6 +447,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  addressable
   appsignal
   bento_search
   blacklight (= 5.9)
