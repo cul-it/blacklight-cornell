@@ -1,5 +1,5 @@
-ruby "2.1.5"
 source 'https://rubygems.org'
+ruby "2.1.5"
 
 gem 'rails', '4.2.1'
 gem "dotenv-rails"
@@ -34,7 +34,7 @@ gem 'net-ldap'
 #gem 'newrelic_rpm'
 gem 'nokogiri'
 gem 'rufus-scheduler'
-
+gem 'addressable'
 
 # Gems used only for assets and not required
 # in production environments by default.
