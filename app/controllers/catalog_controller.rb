@@ -34,7 +34,8 @@ class CatalogController < ApplicationController
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
 #      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
-      :defType => 'edismax'
+      :defType => 'edismax',
+      :"f.lc_callnum_facet.facet.limit" => "-1"
     }
 
     ## list of display fields with icon
@@ -254,10 +255,19 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
     config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
-    config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5
+    config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+     config.add_facet_field 'lc_callnum_facet',
+                           label: 'Call number',
+                           partial: 'blacklight/hierarchy/facet_hierarchy',
+                           sort: 'index'
+    config.facet_display = {
+      :hierarchy => {
+        'lc_callnum' => [['facet'], ':']
+      }
+  }
     # config.add_facet_field 'facet', :multiple => true
     # config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
     # config.add_facet_field 'my_query_field', :query => { 'label' => 'value:1', 'label2' => 'value:2'}
