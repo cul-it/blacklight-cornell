@@ -19,8 +19,8 @@ Feature: Facets
 		And I should see a facet called 'Subject: Region'
 		And I should see a facet called 'Subject: Era'
 		And I should see a facet called 'Fiction/Non-Fiction'
-		And I should see a facet called 'Call Number'
 		And I should see a facet called 'Library Location'
+		And I should see a facet called 'Call Number'
 
 		And the 'Access' facet should not be open
 		# DISCOVERYACCESS-? 'Format' facet should always be open
