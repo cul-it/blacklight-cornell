@@ -20,7 +20,7 @@ Feature: Facets
 		And I should see a facet called 'Subject: Era'
 		And I should see a facet called 'Fiction/Non-Fiction'
 		And I should see a facet called 'Library Location'
-		#And I should see a facet called 'Call Number'
+		And I should see a facet called 'Call Number'
 
 		And the 'Access' facet should not be open
 		# DISCOVERYACCESS-? 'Format' facet should always be open
@@ -28,9 +28,15 @@ Feature: Facets
 		And the 'Author/Creator' facet should not be open
 		And the 'Publication Year' facet should not be open
 		And the 'Language' facet should not be open
-		#And the 'Subject/Genre' facet should not be open
-		#And the 'Subject: Region' facet should not be open
-		#And the 'Subject: Era' facet should not be open
+		And the 'Subject/Genre' facet should not be open
+		And the 'Subject: Region' facet should not be open
+		And the 'Subject: Era' facet should not be open
 		And the 'Fiction/Non-Fiction' facet should not be open
-		#And the 'Call Number' facet should not be open
+		And the 'Call Number' facet should not be open
 		And the 'Library Location' facet should not be open
+
+	@callnumber 
+        @javascript
+	Scenario: Viewing the home page
+		Given I am on the home page
+		And I should see a facet called 'Call Number'

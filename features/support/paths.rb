@@ -90,17 +90,17 @@ module NavigationHelpers
     when /^format$/
        'blacklight-format'
     when /.*genre$/
-       'blacklight-subject_topic_facet'
+       'blacklight-fast_genre_facet'
     when /^language$/
        'blacklight-language_facet'
     when /^library location$/
       'blacklight-location_facet'
     when /^call number$/
-       'blacklight-lc_alpha_facet'
+       'blacklight-lc_callnum_facet'
     when /.*region$/
-       'blacklight-subject_geo_facet'
+       'blacklight-fast_geo_facet'
     when /.*era$/
-       'blacklight-subject_era_facet'
+       'blacklight-fast_era_facet'
     when /^location$/
        'blacklight-location_facet'
     when /^publication year$/
