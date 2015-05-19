@@ -251,9 +251,10 @@ class CatalogController < ApplicationController
     }, :show => true, :include_in_advanced_search => false
 
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
-    config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
-    config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
+    config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
+    config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
+    config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5
+    config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
