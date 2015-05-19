@@ -269,6 +269,25 @@ class CatalogController < ApplicationController
         'lc_callnum' => [['facet'], ':']
       }
   }
+
+#these facets are for browse CTS they are not displayed
+    config.add_facet_field 'author_pers_browse', :label => 'Personal Name', :limit => 5, :show => false
+    config.add_facet_field 'author_corp_browse', :label => 'Corporate Name', :limit => 5, :show => false
+    config.add_facet_field 'author_event_browse', :label => 'Event', :limit => 5, :show => false
+
+    config.add_facet_field 'subject_pers_browse', :label => 'Personal Name', :limit => 5, :show => false
+    config.add_facet_field 'subject_corp_browse', :label => 'Corporate Name', :limit => 5, :show => false
+    config.add_facet_field 'subject_event_browse', :label => 'Event', :limit => 5, :show => false
+    config.add_facet_field 'subject_topic_browse', :label => 'Topical Term', :limit => 5, :show => false
+    config.add_facet_field 'subject_era_browse', :label => 'Chronological Term', :limit => 5, :show => false
+    config.add_facet_field 'subject_genr_browse', :label => 'Genre/Form Term', :limit => 5, :show => false
+    config.add_facet_field 'subject_geo_browse', :label => 'Geographic Name', :limit => 5, :show => false
+    config.add_facet_field 'subject_work_browse', :label => 'Work', :limit => 5, :show => false
+
+
+
+
+
     # config.add_facet_field 'facet', :multiple => true
     # config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
     # config.add_facet_field 'my_query_field', :query => { 'label' => 'value:1', 'label2' => 'value:2'}
