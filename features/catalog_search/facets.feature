@@ -15,7 +15,7 @@ Feature: Facets
 		And I should see a facet called 'Author/Creator'
 		And I should see a facet called 'Publication Year'
 		And I should see a facet called 'Language'
-		And I should see a facet called 'Subject/Genre'
+		#And I should see a facet called 'Subject/Genre'
 		And I should see a facet called 'Subject: Region'
 		And I should see a facet called 'Subject: Era'
 		And I should see a facet called 'Fiction/Non-Fiction'
@@ -28,9 +28,9 @@ Feature: Facets
 		And the 'Author/Creator' facet should not be open
 		And the 'Publication Year' facet should not be open
 		And the 'Language' facet should not be open
-		And the 'Subject/Genre' facet should not be open
-		And the 'Subject: Region' facet should not be open
-		And the 'Subject: Era' facet should not be open
+		#And the 'Subject/Genre' facet should not be open
+		#And the 'Subject: Region' facet should not be open
+		#And the 'Subject: Era' facet should not be open
 		And the 'Fiction/Non-Fiction' facet should not be open
 		#And the 'Call Number' facet should not be open
 		And the 'Library Location' facet should not be open
