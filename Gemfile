@@ -22,6 +22,7 @@ gem 'blacklight_unapi', :git => 'git@github.com:cul-it/blacklight-unapi', :branc
 gem 'kaminari', '0.15.0'
 
 gem 'blacklight_google_analytics'
+gem 'blacklight-hierarchy'
 gem 'json'
 gem 'httpclient'
 gem 'haml'
