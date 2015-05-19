@@ -107,6 +107,9 @@ GEM
       nokogiri (~> 1.6)
       rails (>= 3.2.6, < 5)
       rsolr (~> 1.0.6)
+    blacklight-hierarchy (0.1.0)
+      blacklight (~> 5, < 6)
+      rails (~> 4.1)
     blacklight-marc (5.5.0)
       blacklight (~> 5.8)
       marc (>= 0.4.3, < 1.1)
@@ -447,6 +450,7 @@ DEPENDENCIES
   appsignal
   bento_search
   blacklight (= 5.9)
+  blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_advanced_search!
   blacklight_cornell_requests!
