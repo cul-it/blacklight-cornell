@@ -1,10 +1,10 @@
-h1.request-type {
-  font-size: 1.5em;
-  font-weight: 600;
-}
+// h1.request-type {
+//   font-size: 1.5em;
+//   font-weight: 600;
+// }
 .item-title-request {
-  font-size:1.25em;
-  font-weight:600;
+  margin-top: 0;
+  font-size: 24px;
 }
 #req {
   select {
@@ -59,13 +59,32 @@ div.request-options div.accordion-body .span4 {
   font-size: .8em;
   color: $cornell-primary;
 }
-.aeon {font-size: .8em}
 
+
+// Aeon screen
+// --------------------//
 .aeon-circ {
   border-left: solid 1px $light-tan;
   padding-left:50px;
   height: 100%
 }
+// .aeon {font-size: .8em}
+.aeon-request_aeon {
+  .location {
+    margin-bottom: .5em;
+    margin-top: 1.5em;
+  }
+  .call-number {
+    margin-bottom: .25em;
+  }
+}
+// .aeon {
+//   .btn {
+//     margin-bottom: 1em;
+//   }
+// }
+
+
 
 .delivery-estimate {
   font-size:14px;
