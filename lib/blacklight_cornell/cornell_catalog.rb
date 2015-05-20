@@ -262,7 +262,22 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 ##        end
 ##      end
 ##    end
-
+    def sms_action documents
+       print "\n in #{__method__} of #{__FILE__}\n"
+       print "\n :carrier = #{params[:carrier]}\n"
+       print "\n :to  =#{params[:to]}\n"
+       to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
+       print "\n to = #{to}\n"
+       tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+       tiny = tiny_url(tinyPass)
+       mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
+       print mail.pretty_inspect
+       if mail.respond_to? :deliver_now
+         mail.deliver_now
+       else
+         mail.deliver
+       end
+     end
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def sms
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
