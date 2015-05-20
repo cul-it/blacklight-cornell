@@ -117,4 +117,15 @@ Feature: Select and export items from the result set
     Then I should see "Shelter medicine for veterinarians and staff" in the email body
     Then I should see "Location: Veterinary Library Core Resource (Non-Circulating)" in the email body
   
+@DISCOVERYACCESS-1777
+  Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
+    Given I request the item view for 7981095 
+    And click on link "Text"
+    And I fill in "to" with "6073516271"
+    And I select 'Verizon' from the 'carrier' drop-down
+    And I press "Send"
+    And I sleep 2 seconds
+    Then "6073516271@vtext.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
+    Then I should see "Shelter medicine for veterinarians and staff" in the email body
+  
 
