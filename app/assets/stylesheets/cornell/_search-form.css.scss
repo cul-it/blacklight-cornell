@@ -146,11 +146,16 @@ h2.advanced-search { margin: 0; }
     float: right;
     margin-top: 0;
   }
+  .search-nav {
+    padding-left: 0;
+  }
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md) {
-
+  .search-nav {
+    padding-left: 15px;
+  }
 }
 
 
