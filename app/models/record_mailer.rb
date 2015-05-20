@@ -52,6 +52,8 @@ class RecordMailer < ActionMailer::Base
   def sms_record(documents, details, url_gen_params)
     if sms_mapping[details[:carrier]]
       to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
+    else
+      to = details[:to]
     end
     @documents      = documents
     @callnumber     = details[:callnumber]
