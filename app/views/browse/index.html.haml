@@ -1,11 +1,11 @@
 
 = render :partial => 'headings_search_form'
-- if params[:authq].nil?
-	=render :partial => 'headings_text'
+/ - if params[:authq].nil?
+/ 	=render :partial => 'headings_text'
 
 - if @headingsResponse.present?
 	.row.database-subject
-		.page-title.span12
+		.page-title.col-sm-12
 			.return-link
 				=link_to "/browse/" do
 					%i.fa.fa-arrow-circle-left
