@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: a73b2776b78dc66a5c8ec02ef9d50924f26f8886
+  revision: fea39a04ed6ed82322b7d61d56f4c047bf9e26e2
   branch: master
   specs:
     blacklight_cornell_requests (1.1)
