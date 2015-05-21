@@ -1,7 +1,7 @@
-.control-group
-  %label.control-label{:for => "pickup-locations"} Pick up at:
-  .controls
-    %select#pickup-locations{:name => 'library_id'}
+.form-group
+  %label.control-label.col-sm-2{:for => "pickup-locations"} Pick up at:
+  .col-sm-10
+    %select#pickup-locations.form-control{:name => 'library_id'}
       %option(value='') -- Select a location --
       %option(value="149") Africana Circulation
       %option(value="151") Annex Circulation
