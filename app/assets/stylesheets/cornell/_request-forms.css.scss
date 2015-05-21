@@ -2,6 +2,16 @@
 //   font-size: 1.5em;
 //   font-weight: 600;
 // }
+
+// Well
+// --------------------//
+.aeon-request_aeon,
+.request {
+  .well {
+    background: white;
+  }
+}
+
 .item-title-request {
   margin-top: 0;
   font-size: 24px;
@@ -19,7 +29,10 @@
   text-shadow: none;
   background: #ddd;
 }
-.request-author { margin-bottom: 1em; }
+.request-author { 
+  margin-bottom: 1em;
+}
+
 .radio-label {
   display: inline-block;
   margin-top: .5em;
@@ -49,15 +62,14 @@ div.request-options div.accordion-body .span4 {
   position:relative;
   left:-15px;
 }
-.form-alternative-action{
-  font-size: 12px;
-  h3 {margin-top:3em;
-    }
-  }
 
 .help-inline.required {
   font-size: .8em;
   color: $cornell-primary;
+}
+
+.delivery-estimate {
+  padding-top: 7px;
 }
 
 
@@ -72,35 +84,42 @@ div.request-options div.accordion-body .span4 {
 .aeon-request_aeon {
   .location {
     margin-bottom: .5em;
-    margin-top: 1.5em;
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 2px solid #edebe7;
+  }
+  .location:first-child {
+    border-top: 0;
   }
   .call-number {
     margin-bottom: .25em;
   }
 }
-// .aeon {
-//   .btn {
-//     margin-bottom: 1em;
-//   }
-// }
 
+// Other delivery options
+// -------------------------//
 
+.request-options {
+  margin-top: 5px;
 
-.delivery-estimate {
-  font-size:14px;
-  padding-top:5px;
+  tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
+    {background-color: $white;}
+
+  thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
+  background-color: $light-tan;
+  color: $gray; }
 }
 
-table.request-options {
-    margin-top:5px;
+  // .blacklight-title_display { 
+  //   line-height: inherit;
+  //   font-size: 14px;
+  // }
 
-    tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
-      {background-color: $white;}
-
-    thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-    background-color: $tan;
-    color: $gray;}
-
-    .blacklight-title_display { line-height: inherit; }
+.form-alternative-action{
+  font-size: 12px;
+  h3 {  
+    margin-top: 2em;
+    font-size: 18px;
   }
+}
  
