@@ -242,7 +242,7 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
-    config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
+    config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5
     config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
@@ -450,7 +450,7 @@ class CatalogController < ApplicationController
         :search_field => "journal title"
       }
     end
-    config.add_search_field('author/creator') do |field|
+    config.add_search_field('author/creator',:label => "Author, etc.") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
