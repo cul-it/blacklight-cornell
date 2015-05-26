@@ -11,33 +11,32 @@
 			-if params[:browse_type] == "Author" 
 				.author-works
 					Works by:
-					= link_to '/?f[author_facet[]=' + data["heading"] do
+					= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 						=works["worksBy"]
 						Title(s)
 				.author-works
 					Works about:
-					= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
+					= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 						=works["worksAbout"] 
 						Title(s)
 			-if works["worksAbout"] > 0 && params[:browse_type] == "Subject"
+				
+				- if works["worksBy"] > 0
+					.author-works
+						Works by:
+						= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
+							=works["worksBy"]
+							Title(s)
 				.author-works
 					Works about:
-					-if data["headingTypeDesc"] == "Geographic Name"
-						= link_to '/?f[subject_geo_facet[]=' + data["heading"] do
-							=works["worksAbout"] 
-							Title(s)
-					-elsif data["headingTypeDesc"] == "Chronological Term"
-						= link_to '/?f[subject_era_facet[]=' + data["heading"] do
-							=works["worksAbout"] 
-							Title(s)
-					-else 
-						= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
-							=works["worksAbout"] 
-							Title(s)
+					= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
+						=works["worksAbout"] 
+						Title(s)
+				
 			-if params[:browse_type] == "Author-Title" 
 				.author-works
 					Works:
-					= link_to '/?f[authortitle_facet[]=' + data["heading"] do
+					= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
 						=data["count"]
 						Title(s)
 
@@ -81,28 +80,31 @@
 									- if params[:browse_type] == "Author"
 										.author-works
 											Works by:
-											= link_to '/?f=[subject_facet[]="' + headingInfo["heading"]do
+											= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 												=headingInfo["worksBy"]
-										.author-works
-											Works about:
-											= link_to '/?f=[subject_topic_facet[]="' + headingInfo["heading"]do
-												=headingInfo["worksAbout"]
+										-if headingInfo["worksAbout"] > 0 
+											.author-works
+												Works about:
+												= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+													=headingInfo["worksAbout"]
 									- if params[:browse_type] == "Subject"
 										.author-works
-											Works about:
-											-if headingInfo["headingTypeDesc"] == "Geographic Name"
-												= link_to '/?f[subject_geo_facet[]=' + headingInfo["heading"] do
-													=headingInfo["count"] 
-											-elsif headingInfo["headingTypeDesc"] == "Chronological Term"
-												= link_to '/?f[subject_era_facet[]=' + headingInfo["heading"] do
-													=headingInfo["count"]
-											-else 
-												= link_to '/?f[subject_topic_facet[]=' + headingInfo["heading"] do
-													=headingInfo["worksAbout"] 
+											
+											- if headingInfo["worksBy"] > 0
+												= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+													Works by:
+													=headingInfo["worksBy"]
+											
+											-if headingInfo["worksAbout"] > 0 
+												Works about:
+												=headingInfo["worksAbout"]
+												= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+													=headingInfo["worksAbout"]
+												
 									- if params[:browse_type] == "Author-Title"
 										.author-works
 											Works:
-											= link_to '/?f=[authortitle_facet[]="' + headingInfo["heading"]do
+											= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
 												=headingInfo["count"]					
 
 
@@ -129,37 +131,43 @@
 						Birth Place
 					%dd
 						-rda["Birth Place"].each do |place|
-							=place
+							.rda-birthplace
+								=place
 				- if rda["Place of Death"].present?
 					%dt 
 						Place of Death
 					%dd
 						-rda["Place of Death"].each do |deathplace|
-							=deathplace
+							.rda-deathplace
+								=deathplace
 				- if rda["Gender"].present?
 					%dt
 						Gender
 					%dd
 						-rda["Gender"].each do |gender|
-							=gender
+							.rda-gender
+								=gender
 				- if rda["Country"].present?
 					%dt 
 						Country
 					%dd
 						-rda["Country"].each do |country|
-							=country
+							.rda-country
+								=country
 				- if rda["Field"].present?
 					%dt
 						Field
 					%dd
 						-rda["Field"].each do |field|
-							=field
+							.rda-field
+								=field
 				- if rda["Group/Organization"].present?
 					%dt
 						Group or Organization
 					%dd
 						-rda["Group/Organization"].each do |org|
-							=org
+							.rda-organization
+								=org
 				- if rda["Occupation"].present?
 					%dt
 						Occupation
@@ -173,7 +181,8 @@
 						Form of Work
 					%dd
 						-rda["Form of Work"].each do |fow|
-							=fow
+							.rda-form
+								=fow
 				- if rda["Instrumentation"].present?
 					%dt
 						Instrumentation
