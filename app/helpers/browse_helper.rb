@@ -14,7 +14,7 @@ def search_field(headingType)
 	elsif headingType == 'Genre/Form Term'
 		search_field = 'genr'
 	elsif headingType == "Topical Term"
-		searchfield = 'topic'
+		search_field = 'topic'
 	end
 
 	return search_field
