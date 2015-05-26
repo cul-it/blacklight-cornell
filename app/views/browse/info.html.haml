@@ -19,19 +19,20 @@
 					= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 						=works["worksAbout"] 
 						Title(s)
-			-if works["worksAbout"] > 0 && params[:browse_type] == "Subject"
+			-if params[:browse_type] == "Subject"
 				
-				- if works["worksBy"] > 0
+				- if works["worksBy"].present?
 					.author-works
 						Works by:
 						= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksBy"]
 							Title(s)
 				.author-works
-					Works about:
-					= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
-						=works["worksAbout"] 
-						Title(s)
+					-if works["worksAbout"].present?
+						Works about:
+						= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
+							=works["worksAbout"] 
+							Title(s)
 				
 			-if params[:browse_type] == "Author-Title" 
 				.author-works
@@ -90,14 +91,13 @@
 									- if params[:browse_type] == "Subject"
 										.author-works
 											
-											- if headingInfo["worksBy"] > 0
+											- if headingInfo["worksBy"].present?
 												= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 													Works by:
 													=headingInfo["worksBy"]
 											
-											-if headingInfo["worksAbout"] > 0 
+											-if headingInfo["worksAbout"].present?
 												Works about:
-												=headingInfo["worksAbout"]
 												= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 													=headingInfo["worksAbout"]
 												
