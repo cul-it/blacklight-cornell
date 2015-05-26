@@ -48,6 +48,16 @@
 		}
 	}
 }
+.facet-values {
+	.facet-label {
+		text-indent: 0;
+		padding-left: 0;
+		word-break: normal;
+		i {
+			margin-right: 3px;
+		}
+	}
+}
 
 // OVERRIDE #FACETS - TODO: do we still need this in BL5?
 // -------------------------
@@ -61,15 +71,6 @@
 		margin-left: 0;
 		padding-top: 0;
 		padding-bottom: 0;
-	}
-	// add a little margin back to the format facets due to icons
-	#facet-format {
-		ul {
-			margin-left: 15px;
-		}
-		.facet-count {
-			padding-right: 15px;
-		}
 	}
 	li {
 		margin-right: 0;
@@ -96,6 +97,14 @@
 .count {
   font-family: $monospace-font-family;
   font-size: 11px;
+}
+
+// Selected facet in sidebar
+// ----------------------------
+.selected {
+	span {
+		float: left;
+	}
 }
 
 // PUBLICATION YEAR
