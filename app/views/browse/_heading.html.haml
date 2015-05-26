@@ -21,20 +21,40 @@
 						-counts=JSON.parse(data["counts_json"])
 						-if data["count"] > 0 
 							-if params[:browse_type] == "Author" 
-								= link_to '/?f[author_facet[]=' + data["heading"] do
-									=data["heading"]
-							-if params[:browse_type] == "Subject"
-								-if data["headingTypeDesc"] == "Geographic Name"
-									= link_to '/?f[subject_geo_facet[]=' + data["heading"] do
+								- if data["headingTypeDesc"] == "Personal Name"
+									= link_to '/?q=' + data["heading"] + '&search_field=author_pers_browse' do
 										=data["heading"]
-								-elsif data["headingTypeDesc"] == "Chronological Term"
-									= link_to '/?f[subject_era_facet[]=' + data["heading"] do
+								- elsif data["headingTypeDesc"] == "Corporate Name"
+									= link_to '/?q=' + data["heading"] + '&search_field=author_corp_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Event"
+									= link_to '/?q=' + data["heading"] + '&search_field=author_event_browse' do
 										=data["heading"]
 								-else 
-									= link_to '/?f[subject_topic_facet[]=' + data["heading"] do
+									=data["heading"]
+							-if params[:browse_type] == "Subject"
+								- if data["headingTypeDesc"] == "Personal Name"
+									= link_to '/?q=' + data["heading"] + '&search_field=subject_pers_browse' do
 										=data["heading"]
+								- elsif data["headingTypeDesc"] == "Corporate Name"
+									= link_to '/?q=' + data["heading"] + '&search_field=subject_corp_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Geographic Name"
+									= link_to '/?q=' + data["heading"] + '&search_field=subject_geo_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Chronological Term"
+									= link_to '/?q=' + data["heading"] + '&search_field=subject_era_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Genre/Form Term"
+									= link_to '/?q=' + data["heading"] + '&search_field=subject_genr_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Topical Term"
+									= link_to '/?q=' + data["heading"] + '&search_field=subject_topic_browse' do 
+										=data["heading"]
+								-else
+									=data["heading"]
 							-if params[:browse_type] == "Author-Title"
-								= link_to '/?f[authortitle_facet[]=' + data["heading"] do
+								= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
 									=data["heading"]
 						- else
 							=data["heading"]
