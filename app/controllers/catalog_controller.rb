@@ -320,7 +320,7 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_cts', :label => 'Author/Creator'
+    config.add_show_field 'author_cts', :label => 'Author, etc.'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
