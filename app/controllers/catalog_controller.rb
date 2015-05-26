@@ -553,7 +553,7 @@ class CatalogController < ApplicationController
          :pf => 'author_event_browse'
        }
     end
-    config.add_search_field('subject_pers_browse', :label => 'Subejct: Personal Name') do |field|
+    config.add_search_field('subject_pers_browse', :label => 'Subject: Personal Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
