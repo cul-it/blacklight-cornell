@@ -12,7 +12,7 @@ Feature: Facets
 		Given I am on the home page
 		Then I should see a facet called 'Access'
 		And I should see a facet called 'Format'
-		And I should see a facet called 'Author/Creator'
+		And I should see a facet called 'Author, etc.'
 		And I should see a facet called 'Publication Year'
 		And I should see a facet called 'Language'
 		#And I should see a facet called 'Subject/Genre'
@@ -25,7 +25,7 @@ Feature: Facets
 		And the 'Access' facet should not be open
 		# DISCOVERYACCESS-? 'Format' facet should always be open
 		And the 'Format' facet should be open
-		And the 'Author/Creator' facet should not be open
+		And the 'Author, etc.' facet should not be open
 		And the 'Publication Year' facet should not be open
 		And the 'Language' facet should not be open
 		And the 'Subject/Genre' facet should not be open

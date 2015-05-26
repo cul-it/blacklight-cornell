@@ -83,7 +83,7 @@ module NavigationHelpers
 
     when /^access$/
       'blacklight-online'
-    when /^author\/creator$/
+    when /^author.*$/
       'blacklight-author_facet'
     when /^fiction\/non-fiction$/
       'blacklight-subject_content_facet'

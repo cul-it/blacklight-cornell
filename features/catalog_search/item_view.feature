@@ -159,12 +159,12 @@ Feature: Item view
     Given I request the item view for 2269649 
     Then I should not see the label 'Music Library Reserve'
 
-  @availability
-  @DISCOVERYACCESS-988
-  @templocation
-  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 8635196 
-    Then I should see the label 'ILR Library Reserve'
+  #@availability
+  #@DISCOVERYACCESS-988
+  #@templocation
+  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+  #  Given I request the item view for 8635196 
+  #  Then I should see the label 'ILR Library Reserve'
 
   #@availability
   #@DISCOVERYACCESS-988

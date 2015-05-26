@@ -19,7 +19,7 @@ Feature: Search
     When I am on the home page
     Then the 'search_field' drop-down should have an option for 'All Fields'
     Then the 'search_field' drop-down should have an option for 'Title'
-    Then the 'search_field' drop-down should have an option for 'Author/Creator'
+    Then the 'search_field' drop-down should have an option for 'Author, etc.'
     Then the 'search_field' drop-down should have an option for 'Call Number'
     Then the 'search_field' drop-down should have an option for 'Publisher'
     Then the 'search_field' drop-down should have an option for 'Subject'
@@ -54,7 +54,7 @@ Feature: Search
   @peabody
   Scenario: Perform a search by author, as author see results 
     Given I am on the home page
-    And I select 'Author/Creator' from the 'search_field' drop-down
+    And I select 'Author, etc.' from the 'search_field' drop-down
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
