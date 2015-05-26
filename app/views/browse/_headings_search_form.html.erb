@@ -10,7 +10,7 @@
           </div>
           <div class="form-group col-xs-4 col-sm-2">
             <label for="browse_type" class="sr-only">Browse Type</label>
-            <%= select_tag :browse_type, options_for_select(["Author","Author-Title","Subject"], params[:browse_type]), :class => 'form-control' %>
+            <%= select_tag :browse_type, options_for_select([["Author"],["Author (sorted by title)","Author-Title"],["Subject"]], params[:browse_type]), :class => 'form-control' %>
           </div>
           <button id="search-btn" class="btn btn-search" type="submit">
             <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
