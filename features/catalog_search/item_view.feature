@@ -329,7 +329,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the how many copies are available 
     Given I request the item view for 7728655 
-    Then I should see the label 'HG4026 .R677 2013 Text Available 1 copy'
+    Then I should see the label 'HG4026 .R677 2013 Text Available 3 copies'
 
   @uniformtitle
   Scenario: Item has both series title and uniform title (and they are clickable)
