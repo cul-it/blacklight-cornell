@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
-  revision: f8744b996ca3c325c0273dd0a5cd86c4bb65084d
+  revision: deebfa8f490c29cbd44a6c3731ef54076d7b8a07
   branch: bl5
   specs:
     blacklight_cornell_advanced_search (2.1.1)
@@ -9,10 +9,10 @@ GIT
 
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: 240c70935140897d85e3ad0a8735bb667a6751ad
-  branch: bl5
+  revision: fea39a04ed6ed82322b7d61d56f4c047bf9e26e2
+  branch: master
   specs:
-    blacklight_cornell_requests (1.1.0)
+    blacklight_cornell_requests (1.1)
       blacklight (= 5.9)
       borrow_direct
       dotenv

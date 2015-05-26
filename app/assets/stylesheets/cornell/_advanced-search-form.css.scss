@@ -27,11 +27,60 @@
 }
 body.blacklight-advanced-index dl.dl-horizontal {
   dt { width: 50px; }
-  dd { margin-left: 65px; }
 }
 .submit-reset {
   margin-top: 1.5em;
 }
 .sort-results {
   font-weight: normal;
+}
+.form-control {
+  width: 25%;
+  display: inline-block;
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: 25%;
+    }
+  }
+  body.blacklight-advanced-index dl.dl-horizontal {
+    dd { margin-left: 65px; }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: 40%;
+    }
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: auto;
+    }
+  }
 }
