@@ -7,9 +7,10 @@
           <div class="input_row form-group">
             <label for="q_row" class="sr-only"><%= t('blacklight.search.form.q') %></label>
             <%= render_edited_advanced_search(params) %>
+          </div>
         </div>
 
-        <div class="add-and-sort form-group">
+        <div class="add-and-sort">
           <div class="add-row">
             <a href="#" id="add-row"><i class="fa fa-plus-circle"></i> Add a row</a>
           </div>
@@ -26,7 +27,6 @@
               <%#= search_context_str %>
             <%# </div> %>
           <%# end %>
-
           <div class="form-group">
             <%= label_tag(:sort, "Sort results by", :class => "sort-results" ) %>
             <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), :class => "form-control" ) %>
