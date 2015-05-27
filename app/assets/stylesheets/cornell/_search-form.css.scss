@@ -1,6 +1,14 @@
 .search-bar {
   background: $light-tan;
   padding: 1em 0 .5em 0;
+  // header in place of search box used on browse interface
+  h2 {
+    margin: 0;
+    a, a:hover, a:active, a:focus {
+      color: $dark-gray;
+      text-decoration: none;
+    }
+  }
 }
 
 .search-form { margin: 0 0 .1em 0; }
