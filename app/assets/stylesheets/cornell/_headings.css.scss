@@ -103,10 +103,17 @@ body.blacklight-browse-show_subject {
 .titles-count { margin-top: -15px; }
 .author-works {
 	font-size: 14px;
-	// font-style: italic;
 	color: $medium-gray;
+	display: block;
 	a {
 		font-style: normal;
 		margin-left: 3px;
+	}
+}
+dl {
+	.author-works {
+		font-size: 12px;
+		margin-left: .6em;
+		display: inline-block;
 	}
 }
