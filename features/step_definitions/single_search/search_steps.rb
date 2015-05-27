@@ -34,6 +34,7 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
      if type.match("from Catalog")
        cmd =  "wget -O -  '#{href}' 2>/dev/null"
        page2 = `#{cmd}`
+      sleep 3
        pagedom = Nokogiri::HTML(page2)   
        pagedom.css('.'+divtag)[0].should_not be_nil 
        numx = pagedom.css('.'+divtag)[0].text 
@@ -44,10 +45,9 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
        num2 = numx.match(/of\s+(\d+)/)[1]
      else
        visit(href)
-       #print "HREF is #{href}\n"
+      sleep 3
        total2 = find('.'+divtag,match: :first)
        total2.should_not be_nil
-       #print "total2 on view all page is #{total2.text}\n"
        num2 = total2.text.match(/of ([0-9,]+) /)[1]
      end
      num.should_not be_nil
@@ -112,6 +112,7 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
       #print "num2 on view (line #{__LINE__} all page is #{num2}\n"
     else
       visit(href)
+      sleep 3
       #print "HREF is #{href}\n"
       total2 = find('.'+divtag,match: :first)
       total2.should_not be_nil
