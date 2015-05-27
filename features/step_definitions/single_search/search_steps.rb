@@ -55,7 +55,7 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
      num2.gsub!(',','')
      num.gsub!(',','')
      diff = (num2.to_i - num.to_i).abs
-     diff.should <=(20)
+     diff.should <=(30)
 end
 
 Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
