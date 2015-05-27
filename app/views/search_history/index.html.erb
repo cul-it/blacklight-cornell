@@ -11,7 +11,7 @@
   <h3><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search_history">
     <%- @searches.each_with_index do |search,index| -%>
-    <%-unless !link_to_previous_search(search.query_params).include?("span") %>
+    <%-unless search.query_params[:q].nil? || !link_to_previous_search(search.query_params).include?("span") %>
       <%= content_tag :tr, :id => "document_#{index + 1}" do %>
         <td class="query"><span><%= link_to_previous_search(search.query_params) %></span></td>
       <% end #content_tag %>
