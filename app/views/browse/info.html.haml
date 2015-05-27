@@ -41,7 +41,9 @@
 						=data["count"]
 						Title(s)
 
-		%dl
+		%h2
+			Reference Info
+		%dl.dl-horizontal
 			- if !data["notes"].nil?
 				%dt
 					Scope note
@@ -62,59 +64,53 @@
 								=note
 
 			-if data["seeAlso"].present? || data["alternateForm"].present?
-				%dt
-					Reference info
-				%dd
-					.reference
-						-if data["seeAlso"].present? 
-							-sa=JSON.parse(data["seeAlso"])
-							-sa.each do |r,h|
-								-if r.blank?
+				.reference
+					-if data["seeAlso"].present? 
+						-sa=JSON.parse(data["seeAlso"])
+						-sa.each do |r,h|
+							-if r.blank?
+								%dt
 									See Also
-								-if !r.blank?
-									.heading
-										=r
-								-h.each do |headingInfo|
-									.heading
-										=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
-											=headingInfo["heading"]
+							-if !r.blank?
+								%dt.heading
+									=r
+							-h.each do |headingInfo|
+								%dd.heading
+									=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+										=headingInfo["heading"]
 									- if params[:browse_type] == "Author"
-										.author-works
-											Works by:
-											= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-												=headingInfo["worksBy"]
+										Works by:
+										= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+											=headingInfo["worksBy"]
 										-if headingInfo["worksAbout"] > 0 
-											.author-works
-												Works about:
-												= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-													=headingInfo["worksAbout"]
+											Works about:
+											= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												=headingInfo["worksAbout"]
 									- if params[:browse_type] == "Subject"
-										.author-works
 											
-											- if headingInfo["worksBy"].present?
-												= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-													Works by:
-													=headingInfo["worksBy"]
-											
-											-if headingInfo["worksAbout"].present?
-												Works about:
-												= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-													=headingInfo["worksAbout"]
+										- if headingInfo["worksBy"].present?
+											= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												Works by:
+												=headingInfo["worksBy"]
+										
+										-if headingInfo["worksAbout"].present?
+											Works about:
+											= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												=headingInfo["worksAbout"]
 												
 									- if params[:browse_type] == "Author-Title"
-										.author-works
-											Works:
-											= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
-												=headingInfo["count"]					
+										Works:
+										= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
+											=headingInfo["count"]					
 
 
 
 
 						-if !data["alternateForm"].nil?
-							.reference-note
+							%dt.reference-note
 								Alternate form(s):
 							-data["alternateForm"].each do |af|
-								.alternate-form
+								%dd.alternate-form
 									=af
 			-if data["headingTypeDesc"].present?
 				%dt
@@ -125,69 +121,13 @@
 			%h3
 				Description
 			-if data["rda_json"].present?
-				-rda=JSON.parse(data["rda_json"])
-				- if rda["Birth Place"].present?
-					%dt 
-						Birth Place
-					%dd
-						-rda["Birth Place"].each do |place|
-							.rda-birthplace
-								=place
-				- if rda["Place of Death"].present?
-					%dt 
-						Place of Death
-					%dd
-						-rda["Place of Death"].each do |deathplace|
-							.rda-deathplace
-								=deathplace
-				- if rda["Gender"].present?
-					%dt
-						Gender
-					%dd
-						-rda["Gender"].each do |gender|
-							.rda-gender
-								=gender
-				- if rda["Country"].present?
-					%dt 
-						Country
-					%dd
-						-rda["Country"].each do |country|
-							.rda-country
-								=country
-				- if rda["Field"].present?
-					%dt
-						Field
-					%dd
-						-rda["Field"].each do |field|
-							.rda-field
-								=field
-				- if rda["Group/Organization"].present?
-					%dt
-						Group or Organization
-					%dd
-						-rda["Group/Organization"].each do |org|
-							.rda-organization
-								=org
-				- if rda["Occupation"].present?
-					%dt
-						Occupation
-					%dd
-						-rda["Occupation"].each do |occupation|
-							.rda-occupation
-								=occupation
-
-				- if rda["Form of Work"].present?
-					%dt
-						Form of Work
-					%dd
-						-rda["Form of Work"].each do |fow|
-							.rda-form
-								=fow
-				- if rda["Instrumentation"].present?
-					%dt
-						Instrumentation
-					%dd
-						-rda["Instrumentation"].each do |inst|
-							.rda-instrumentation
-								=inst
-	
+				%dl.dl-horizontal
+					-rda=JSON.parse(data["rda_json"])
+					-rda.each do |t,d|
+						%dt
+							=t
+						
+						-d.each do |data|
+							%dd
+								=data
+				
