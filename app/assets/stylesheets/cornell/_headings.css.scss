@@ -101,19 +101,4 @@ body.blacklight-browse-show_subject {
 	font-size: .875em;
 }
 .titles-count { margin-top: -15px; }
-.author-works {
-	font-size: 14px;
-	color: $medium-gray;
-	display: block;
-	a {
-		font-style: normal;
-		margin-left: 3px;
-	}
-}
-dl {
-	.author-works {
-		font-size: 12px;
-		margin-left: .6em;
-		display: inline-block;
-	}
-}
+
