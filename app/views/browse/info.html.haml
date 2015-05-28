@@ -111,12 +111,12 @@
 
 
 
-					-if !data["alternateForm"].nil?
-						%dt
-							Alternate form(s):
-						-data["alternateForm"].each do |af|
-							%dd
-								=af
+			-if !data["alternateForm"].nil?
+				%dt
+					Alternate form(s):
+				-data["alternateForm"].each do |af|
+					%dd
+						=af
 			-if data["headingTypeDesc"].present?
 				%dt
 					Headings type
