@@ -42,8 +42,7 @@ body.blacklight-browse {
 } 
 .see-ref { 
 	margin: 5px 0 0 20px;
-	// font-style: italic;
-	font-size: .875em;
+	font-size: 12px;
 	color: $medium-gray;
 	a {
 		font-style: normal;
@@ -55,12 +54,12 @@ body.blacklight-browse {
 }
 .see-ref-count { 
 	color: $medium-gray;
-	font-size: .875em;
+	font-size: 12px;
 	display: inline;
 	font-style: normal;
 }
 .heading-type {
-	font-size: .875em;
+	font-size: 12px;
 	color: $medium-gray;
 }
 .headings-count {
@@ -76,29 +75,46 @@ body.blacklight-browse-show_subject {
 		padding-bottom: .5em;
 	}
 	dl {
-		// font-size: .875em;
 		margin-bottom: 60px;
 	}
 	dt {
 		color: $medium-gray;
 		font-weight: normal;
-		font-size: .875em;
 	}
 	dd {
-		margin-bottom: 1em;
+		margin-bottom: .5em;
 		line-height: 1.5em;
 	}
-	.reference {
-		margin-top: .25em;
-		em {
-			font-size: .875em;
-		}
-	}
+	// .reference {
+	// 	margin-top: .25em;
+	// 	em {
+	// 		font-size: 12px;
+	// 	}
+	// }
 	.reference:first-child { margin-top: 0; }
 }
 .reference-note {
 	font-style: italic;
-	font-size: .875em;
+	font-size: 12px;
 }
 .titles-count { margin-top: -15px; }
+.author-works {
+	font-size: 14px;
+	color: $medium-gray;
+	display: block;
+	margin-bottom: .5em;
+	a {
+		font-style: normal;
+		margin-left: 3px;
+	}
+}
+dl {
+	.author-works {
+		font-size: 12px;
+		margin-left: .6em;
+		display: inline-block;
+		margin-bottom: 0;
+	}
+} 
+
 

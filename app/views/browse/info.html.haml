@@ -23,13 +23,13 @@
 				
 				- if works["worksBy"].present?
 					.author-works
-						Works by:
+						Works by
 						= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksBy"]
 							Title(s)
 				.author-works
 					-if works["worksAbout"].present?
-						Works about:
+						Works about
 						= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksAbout"] 
 							Title(s)
@@ -41,8 +41,9 @@
 						=data["count"]
 						Title(s)
 
-		%h2
-			Reference Info
+		- if !data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?
+			%h3
+				Reference Info
 		%dl.dl-horizontal
 			- if !data["notes"].nil?
 				%dt
@@ -64,41 +65,45 @@
 								=note
 
 			-if data["seeAlso"].present? || data["alternateForm"].present?
-				.reference
-					-if data["seeAlso"].present? 
-						-sa=JSON.parse(data["seeAlso"])
-						-sa.each do |r,h|
-							-if r.blank?
-								%dt
-									See Also
-							-if !r.blank?
-								%dt.heading
-									=r
-							-h.each do |headingInfo|
-								%dd.heading
-									=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
-										=headingInfo["heading"]
-									- if params[:browse_type] == "Author"
+				-if data["seeAlso"].present? 
+					-sa=JSON.parse(data["seeAlso"])
+					-sa.each do |r,h|
+						-if r.blank?
+							%dt
+								See Also
+						-if !r.blank?
+							%dt
+								=r
+						-h.each do |headingInfo|
+							%dd
+								=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
+									=headingInfo["heading"]
+								- if params[:browse_type] == "Author"
+									%span.author-works
 										Works by:
 										= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 											=headingInfo["worksBy"]
-										-if headingInfo["worksAbout"] > 0 
-											Works about:
-											= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-												=headingInfo["worksAbout"]
-									- if params[:browse_type] == "Subject"
-											
-										- if headingInfo["worksBy"].present?
-											= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+										-if headingInfo["worksAbout"] > 0
+											%span.author-works 
+												Works about:
+												= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+													=headingInfo["worksAbout"]
+								- if params[:browse_type] == "Subject"
+										
+									- if headingInfo["worksBy"].present?
+										= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+											%span.author-works 
 												Works by:
 												=headingInfo["worksBy"]
-										
-										-if headingInfo["worksAbout"].present?
+									
+									-if headingInfo["worksAbout"].present?
+										%span.author-works 
 											Works about:
 											= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 												=headingInfo["worksAbout"]
-												
-									- if params[:browse_type] == "Author-Title"
+											
+								- if params[:browse_type] == "Author-Title"
+									%span.author-works 
 										Works:
 										= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
 											=headingInfo["count"]					
@@ -106,12 +111,12 @@
 
 
 
-						-if !data["alternateForm"].nil?
-							%dt.reference-note
-								Alternate form(s):
-							-data["alternateForm"].each do |af|
-								%dd.alternate-form
-									=af
+					-if !data["alternateForm"].nil?
+						%dt
+							Alternate form(s):
+						-data["alternateForm"].each do |af|
+							%dd
+								=af
 			-if data["headingTypeDesc"].present?
 				%dt
 					Headings type
