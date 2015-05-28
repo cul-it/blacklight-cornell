@@ -15,6 +15,9 @@ def search_field(headingType)
 		search_field = 'genr'
 	elsif headingType == "Topical Term"
 		search_field = 'topic'
+	elsif headingType=='Work'
+		search_field='work'
+
 	end
 
 	return search_field
