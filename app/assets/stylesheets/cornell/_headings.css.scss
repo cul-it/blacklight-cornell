@@ -85,12 +85,6 @@ body.blacklight-browse-show_subject {
 		margin-bottom: .5em;
 		line-height: 1.5em;
 	}
-	// .reference {
-	// 	margin-top: .25em;
-	// 	em {
-	// 		font-size: 12px;
-	// 	}
-	// }
 	.reference:first-child { margin-top: 0; }
 }
 .reference-note {
@@ -115,6 +109,10 @@ dl {
 		display: inline-block;
 		margin-bottom: 0;
 	}
-} 
+}
+.scope-note {
+	margin-bottom: .25em;
+	line-height: 1.5em;
+}
 
 

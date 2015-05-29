@@ -23,13 +23,13 @@
 				
 				- if works["worksBy"].present?
 					.author-works
-						Works by
+						Works by:
 						= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksBy"]
 							Title(s)
 				.author-works
 					-if works["worksAbout"].present?
-						Works about
+						Works about:
 						= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksAbout"] 
 							Title(s)
@@ -47,7 +47,7 @@
 		%dl.dl-horizontal
 			- if !data["notes"].nil?
 				%dt
-					Scope note
+					Scope note:
 				%dd
 					-data["notes"].each do |note|
 						-if note.include?("header")
@@ -70,10 +70,10 @@
 					-sa.each do |r,h|
 						-if r.blank?
 							%dt
-								See Also
+								See Also:
 						-if !r.blank?
 							%dt
-								=r
+								=r + ':'
 						-h.each do |headingInfo|
 							%dd
 								=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
@@ -119,7 +119,7 @@
 						=af
 			-if data["headingTypeDesc"].present?
 				%dt
-					Headings type
+					Headings type:
 				%dd
 					=data["headingTypeDesc"]				
 		- if data["mainEntry"] == true  && data["rda_json"].present?
@@ -130,8 +130,7 @@
 					-rda=JSON.parse(data["rda_json"])
 					-rda.each do |t,d|
 						%dt
-							=t
-						
+							=t + ':'
 						-d.each do |data|
 							%dd
 								=data
