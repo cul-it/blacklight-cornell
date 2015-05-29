@@ -15,14 +15,12 @@
 			float: left !important;
 		}
 		a {
-			background: $light-tan;
+			border: 1px solid #ddd;
 			margin-bottom: 5px;
 			padding: 8px 12px !important;
-			border: none;
 		}
 		a:hover, a:active, a:focus {
-			background: $tan;
-			border: none;
+			background: $light-tan;			
 		}
 	}
 }

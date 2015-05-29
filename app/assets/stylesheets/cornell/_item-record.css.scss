@@ -7,8 +7,6 @@
 }
 
 .document-header {
-	// float: left;
-	// margin-left: 0;
 	margin-bottom: 1.5em;
 }
 
@@ -24,14 +22,14 @@ h3.responsibility {
 }
 
 .cover {
-	text-align: center;
 	margin-bottom: 1.5em;
+	height: auto;
 	.iconcover {
 		width: 100%;
 		i {
 			font-size: 3em;
 			margin-left: 0;
-			top: -130px; }
+		}
 	}
 }
 
@@ -183,6 +181,14 @@ padding-left: 6em;
 	#request-submit { display: block; }
 }
 
+// Availability anchor button
+// ----------------------------- //
+.availability-link {
+	i {
+		margin-left: .5em;
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 
@@ -214,13 +220,35 @@ padding-left: 6em;
 	}
 	.cover {
 		float: left;
+		text-align: center;
 		.iconcover {
-			height: 200px;
+			height: 140px;
+			i {
+				top: -110px;
+			}
 		}
 	}
 	dl.dl-horizontal {
 		dd {
 			margin-left: 130px;
 		}
+	}
+	.availability-link {
+		font-size: 10px;
+		margin: 2em 0;
+	}
+}
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) { 
+	.cover {
+		.iconcover {
+			height: 200px;
+			i {
+				top: -130px;
+			}
+		}
+	}
+	.availability-link {
+		font-size: 12px;
 	}
 }
