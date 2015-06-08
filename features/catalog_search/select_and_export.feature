@@ -88,7 +88,7 @@ Feature: Select and export items from the result set
 #search for marvel masterworks, and get two results, select, and email them
 @javascript
 @select_and_email
-  Scenario: Search with results
+  Scenario: Search with 2 results, select, and email them 
     Given I am on the home page
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
