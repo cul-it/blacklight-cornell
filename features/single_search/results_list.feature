@@ -61,11 +61,11 @@ Feature: Results list
   @search_with_view_all_websites
   Scenario: Search with view all websites link 
     Given I literally go to search
-    When I fill in "q" with 'nature'
+    When I fill in "q" with 'nature study at Cornell University'
     And I press 'Search'
     Then I should get bento results
     When I follow "link_top_web" 
-    And I should see the text "Nature Study" 
+    And I should see the text "nature study at Cornell University" 
 
   @search_with_view_all_websites_multi_word
   Scenario: Search with view all websites multi word link 
