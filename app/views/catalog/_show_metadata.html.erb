@@ -51,7 +51,6 @@
       <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
       <div class="holdings-online">
         <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
-        <% format = render_document_show_field_value :document => @document, :field => 'format' %>
         <ul class="list-unstyled">
           <% online_links.each do |link| %>
             <li class="online-link" ><%= link %></li>
@@ -74,7 +73,7 @@
 
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
-
+    <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
     <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
      <% oclc_number=oclc_number_link %>
      <% if oclc_number.present? %>
