@@ -1,17 +1,20 @@
 // AVAILABILITY
 .availability {
 	background: white;
+	margin-bottom: 2em;
 	h3 { 
 		margin-top: 0;
 		margin-bottom: .25em;
 		font-size: 24px;
 	}
-	// .online-link { font-size: .875em; }
 	.worldcat-search {
 		font-size: 14px;
-		padding: 5px 10px;
-		display:block;
-		margin-top:10px;}
+		display: block;
+		margin-top: 2em;
+		i {
+			color: $light-gray;
+		}
+	}
 	.location {
 		margin-top: 0;
 		margin-bottom: .5em;
@@ -107,9 +110,10 @@ h3.rare {
 .access-restriction {
 	display: block;
 	line-height: 1.2em;
-	margin-top: 1.5em;
+	margin-top: 1em;
 	h5 { 
 		font-weight: 700;
+		margin-bottom: .5em;
 	}
 }
 .item-requests {
