@@ -155,14 +155,14 @@ include ActionView::Helpers::NumberHelper
       end
 
       if wcl_isbn.present? && !oclc_number.present?
-        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&") 
-        @xisbn = JSON.parse(@xisbn)["list"] 
+        @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
+        @xisbn = JSON.parse(@xisbn)["list"]
         unless @xisbn.blank?
-        @xisbn.each do |wcl_data| 
+        @xisbn.each do |wcl_data|
           oclc_number = wcl_data["oclcnum"][0]
         end
         end
-    end 
+    end
     return oclc_number
   end
 
@@ -380,35 +380,56 @@ include ActionView::Helpers::NumberHelper
 
   FORMAT_MAPPINGS = {
     "Book" => "book",
+    "Books" => 'book',
     "Computer File" => 'save',
+    "Computer Files" => 'save',
     "Non-musical Recording" => "headphones",
+    "Non-musical Recordings" => "headphones",
     "Musical Score" => "musical-score",
+    "Musical Scores" => "musical-score",
     "Musical Recording" => "music",
+    "Musical Recordings" => "music",
     "Thesis" => "file-text-o",
+    "Theses" => "file-text-o",
     "Microform" => "th",
     "Journal/Periodical" => "book-open",
+    "Journals/Periodicals" => "book-open",
+    "Journal Articles" => "book-open",
     "Conference Proceedings" => "group",
     "Video" => "film",
+    "Videos" => "film",
     "Map or Globe" => "globe",
+    "Maps and Globes" => "globe",
     "Manuscript/Archive" => "archive",
+    "Manuscripts / Archives" => "archive",
     "Newspaper" => "newspaper",
+    "Newspaper Articles" => "newspaper",
     "Database" => "database",
+    "Databases" => "database",
     "Image" => "picture-o",
+    "Images" => "picture-o",
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
+    "Kits" => "suitcase",
     "Research Guide" => "paste",
+    "Research Guides" => "paste",
     "Course Guide" => "graduation-cap",
+    "Course Guides" => "graduation-cap",
     "Website" => "desktop",
+    "Library Websites" => "desktop",
     "Miscellaneous" => "ellipsis-h",
-    "Object" => "trophy"
+    "Object" => "trophy",
+    "Objects" => "trophy"
   }
 
   def formats_icon_mapping(format)
-    if (icon_mapping = FORMAT_MAPPINGS[format])
-      icon_mapping
-    else
-      'default'
+    ic = 'default'
+    f = format
+    if (icon_mapping = FORMAT_MAPPINGS[f])
+      ic = icon_mapping
     end
+    logger.info "icon mapping is #{ic} for #{f}"
+    ic
   end
 
   # Renders the format field values with applicable format icons
@@ -779,7 +800,7 @@ include ActionView::Helpers::NumberHelper
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-    
+
     return link
   end
 
@@ -847,7 +868,7 @@ include ActionView::Helpers::NumberHelper
   # Overrides original method from facets_helper_behavior.rb
   # Renders a count value for facet limits with comma delimeter
   # Removed override, blacklight 5 provides commas
-  
+
   #def render_facet_count(num)
    # content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
     #content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
@@ -1004,22 +1025,22 @@ include ActionView::Helpers::NumberHelper
     if facet_in_params?( solr_field, item.value )
      content_tag(:span, :class => "selected") do
 
-     
+
     content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
     link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
   end
-  
+
     else
       content_tag(:span, :class => "facet-label") do
       (facet_icon).html_safe + link_to(facet_display_value(solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
-      end 
-    
+      end
+
     else
      if facet_in_params?( solr_field, item.value )
-      
+
       content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")   
+      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
       else
       render_facet_value(solr_field, item)
     end
@@ -1042,7 +1063,7 @@ include ActionView::Helpers::NumberHelper
     end
     content_tag(:span, :class => "facet-label") do
     (facet_icon).html_safe +
-    
+
       link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
   end
@@ -1050,8 +1071,8 @@ include ActionView::Helpers::NumberHelper
 
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
-    if params[:controller] =='catalog' || params[:controller]=='bookmarks' || 
-      request.original_url.include?("request") || params[:controller]=='search_history' || 
+    if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
+      request.original_url.include?("request") || params[:controller]=='search_history' ||
       params[:controller] == 'advanced' || params[:controller]=='aeon' || params[:controller]=='browse'
       return true
     end
@@ -1073,6 +1094,26 @@ include ActionView::Helpers::NumberHelper
      end +
      content_for(:head)
    end
+
+def bento_online_url(url_online_access, url_item)
+    if url_online_access.size > 1
+      url_item
+    else
+      # url_online_access[0]
+      # Remove trailing link label text if it exists
+      link = url_online_access[0]
+      link_end = link.rindex(/\|/).blank? ? link.size : link.rindex(/\|/) -1
+      link[0..link_end]
+    end
+  end
+
+  def is_cataloged(url)
+    if url.nil?
+      false
+    else
+      url.include? "/catalog/"
+    end
+  end
 
 
 end

@@ -27,7 +27,7 @@
         - else
           -if BentoSearch.get_engine(key).configuration.title != "Theses" && BentoSearch.get_engine(key).configuration.title != "Miscellaneous" && BentoSearch.get_engine(key).configuration.title != "Manuscripts / Archives"
             = BentoSearch.get_engine(key).configuration.title[0...-1]
-          -if BentoSearch.get_engine(key).configuration.title == "Theses" 
+          -if BentoSearch.get_engine(key).configuration.title == "Theses"
             Thesis
           -if BentoSearch.get_engine(key).configuration.title == "Miscellaneous"
             Miscellaneous
