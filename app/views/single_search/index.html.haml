@@ -26,10 +26,10 @@
       - query = params[:q] || params[:query]
       - query = query.gsub('&', '%26')
       %p.no-results
-        Your search returned 0 results. Try searching 
+        Your search returned 0 results. Try searching
 
         = link_to 'Libraries Worldwide', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc"
-        or 
+        or
         = link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend"
       = render 'single_search/search_options'
     - if !@results.blank? or !result.blank? or !@websites.blank?
@@ -61,7 +61,7 @@
                         %li
                           %i.fa.fa-arrow-right
                           = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
-                            Request from Libraries Worldwide 
+                            Request from Libraries Worldwide
                             = precede "(" do
                               = render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl
                         %li
@@ -156,7 +156,7 @@
                 .search-pane
                   - #this is the second result
                   -unless @results.blank?
-                    - @top_4_results.to(0).each do |key, result, position| 
+                    - @top_4_results.to(0).each do |key, result, position|
                       %div{:id => key+"-Bento2"}
                         -unless result.nil? or result[0].nil?
                           = render 'single_search/pane_results', :key => key, :result => result

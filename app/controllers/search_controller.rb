@@ -1,4 +1,5 @@
 require "cgi"
+
 class SearchController < ApplicationController
   before_filter :heading
   def heading
@@ -120,8 +121,8 @@ class SearchController < ApplicationController
 
     #remove wcl before it tries to sort it and fails
     @wcl = results.delete('worldcat')
-    Rails.logger.debug("#{__FILE__}:#{__LINE__} results=  #{@results.inspect}")
-    Rails.logger.debug("#{__FILE__}:#{__LINE__} requesthost=  #{request.host.inspect}")
+    #Rails.logger.debug("#{__FILE__}:#{__LINE__} results=  #{@results.inspect}")
+    #Rails.logger.debug("#{__FILE__}:#{__LINE__} requesthost=  #{request.host.inspect}")
   #  @catalog_host = get_catalog_host(request.host)
   #  Rails.logger.debug("#{__FILE__}:#{__LINE__} @catalog_host=  #{@catalog_host.inspect}")
     top1 = top4 = secondary = []
@@ -241,6 +242,7 @@ class SearchController < ApplicationController
           item.year.tr!('[]','')
         end
         #item.link = "http://" + @catalog_host + "/catalog/#{d['id']}"
+        item.unique_id = "#{d['id']}"
         item.link = "/catalog/#{d['id']}"
         if d['url_access_display']
           item.custom_data = {
