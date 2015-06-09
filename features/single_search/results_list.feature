@@ -24,78 +24,78 @@ Feature: Results list
     Then I should not get bento results
 
   @search_with_best_bets
- 	Scenario: Search with best bets 
+ 	Scenario: Search with best bets
     Given I literally go to search
     When I fill in "q" with 'nature'
     And I press 'Search'
     Then I should get bento results
-    And I should see the text "Best Bet" 
-    And I should see the text "from Catalog" 
+    And I should see the text "Best Bet"
+    And I should see the text "from Catalog"
 
   @search_with_multi_word_best_bets
-  Scenario: Search with multi word best bets 
+  Scenario: Search with multi word best bets
     Given I literally go to search
     When I fill in "q" with 'biosis previews'
     And I press 'Search'
     Then I should get bento results
-    And I should see the text "Best Bet" 
+    And I should see the text "Best Bet"
 
   @search_with_vern_text
-  Scenario: Search with vern text 
+  Scenario: Search with vern text
     Given I literally go to search
     When I fill in "q" with 'mao tse tung untold'
     And I press 'Search'
     Then I should get bento results
-    #And I should see the text "珍藏毛泽东 = Mao Tse-tung untold" 
-    And I should see the text " 珍藏毛泽东 / Zhen cang Mao Zedong" 
+    #And I should see the text "珍藏毛泽东 = Mao Tse-tung untold"
+    And I should see the text " 珍藏毛泽东 / Zhen cang Mao Zedong"
 
 
   @search_with_no_best_bets
-  Scenario: Search with no best bets 
+  Scenario: Search with no best bets
     Given I literally go to search
     When I fill in "q" with 'otitis media'
     And I press 'Search'
     Then I should get bento results
-    And I should not see the text "Best Bet" 
+    And I should not see the text "Best Bet"
 
   @search_with_view_all_websites
-  Scenario: Search with view all websites link 
+  Scenario: Search with view all websites link
     Given I literally go to search
     When I fill in "q" with 'nature study at Cornell University'
     And I press 'Search'
     Then I should get bento results
-    When I follow "link_top_web" 
-    And I should see the text "nature study at Cornell University" 
+    When I follow "link_top_web"
+    And I should see the text "nature study at Cornell University"
 
   @search_with_view_all_websites_multi_word
-  Scenario: Search with view all websites multi word link 
+  Scenario: Search with view all websites multi word link
     Given I literally go to search
-    When I fill in "q" with 'levitating nanosphere'
+    When I fill in "q" with 'levitated nanosphere'
     And I press 'Search'
     Then I should get bento results
-    When I follow "link_top_web" 
-    And I should see the text "levitating nanosphere" 
+    When I follow "link_top_web"
+    And I should see the text "levitated nanosphere"
 
 	#https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1135
   @search_with_view_all_websites_multi_word_with_percent
-  Scenario: Search with view all websites multi word link 
+  Scenario: Search with view all websites multi word link
     Given I literally go to search
     When I fill in "q" with '100% beef'
     And I press 'Search'
     Then I should get bento results
-    When I follow "link_top_web" 
-    And I should see the text "National Beef Packing Co" 
+    When I follow "link_top_web"
+    And I should see the text "National Beef Packing Co"
 
   @search_with_view_all_books
-  Scenario: Search with view all books link 
+  Scenario: Search with view all books link
     Given I literally go to search
     When I fill in "q" with 'nature'
     And I press 'Search'
-    When I follow "link_top_book" 
-    And I should see the text "Nature 2012" 
+    When I follow "link_top_book"
+    And I should see the text "Nature 2012"
 
   @search_with_view_all_webs_match_box
-  Scenario: Search with view all webs link 
+  Scenario: Search with view all webs link
     Given I literally go to search
     When I fill in "q" with 'gettysburg address'
     And I press 'Search'
@@ -103,7 +103,7 @@ Feature: Results list
 		Then box "link_top_web" should match "4" th "Library Websites" in "web-count"
 
   @search_with_view_all_music_match_box
-  Scenario: Search with view all music link 
+  Scenario: Search with view all music link
     Given I literally go to search
     When I fill in "q" with 'nature morte'
     And I press 'Search'
@@ -111,7 +111,7 @@ Feature: Results list
 		Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page_entries"
 
   @search_with_view_all_manuscript_archive
-  Scenario: Search with view all music link 
+  Scenario: Search with view all music link
     Given I literally go to search
     When I fill in "q" with 'george burr upton'
     And I press 'Search'
@@ -119,7 +119,7 @@ Feature: Results list
 		Then box "link_top_manuscript_archive" should match "0" th "from Catalog" in "page_entries"
 
   @search_with_view_all_webs_match_box_with_percent
-  Scenario: Search with view all webs link 
+  Scenario: Search with view all webs link
     Given I literally go to search
     When I fill in "q" with '100% beef packing'
     And I press 'Search'
@@ -127,7 +127,7 @@ Feature: Results list
 		Then box "link_top_web" should match "2" nd "Library Websites" in "web-count"
 
   @search_with_view_all_journals_match_box_with_percent
-  Scenario: Search with view all journals link 
+  Scenario: Search with view all journals link
     Given I literally go to search
     When I fill in "q" with '100% beef'
     And I press 'Search'
@@ -135,7 +135,7 @@ Feature: Results list
 		Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
 
   @search_with_view_all_books_match_box_with_percent
-  Scenario: Search with view all books link 
+  Scenario: Search with view all books link
     Given I literally go to search
     When I fill in "q" with '100% beef'
     And I press 'Search'
@@ -143,7 +143,7 @@ Feature: Results list
 		Then box "link_top_book" should match "2" nd "from Catalog" in "page_entries"
 
   @search_with_view_all_computer_file_match_box_with_ampersand
-  Scenario: Search with view all journals link 
+  Scenario: Search with view all journals link
     Given I literally go to search
     When I fill in "q" with '100 Vietnamese painters & sculptors'
     And I press 'Search'
@@ -168,7 +168,7 @@ Feature: Results list
 		Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
 
   @search_with_view_all_article_match_box
-  Scenario: Search with view all article link should match bento box total 
+  Scenario: Search with view all article link should match bento box total
     Given I literally go to search
     When I fill in "q" with 'stress testing cardio horse insights'
     And I press 'Search'
@@ -177,7 +177,7 @@ Feature: Results list
 
 
   @search_with_view_all_article_match_box
-  Scenario: Search with view all article link should match bento box total 
+  Scenario: Search with view all article link should match bento box total
     Given I literally go to search
     When I fill in "q" with 'photoplethysmography methodological studies arterial stiffness'
     And I press 'Search'
