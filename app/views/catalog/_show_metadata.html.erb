@@ -77,7 +77,7 @@
     <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
      <% oclc_number=oclc_number_link %>
      <% if oclc_number.present? %>
-        <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
+        <span class="worldcat-search"><i class="fa fa-arrow-right"></i> <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Search Libraries Worldwide for a print copy</a></span>
         <% end %>
     <% end %>
   </div>
