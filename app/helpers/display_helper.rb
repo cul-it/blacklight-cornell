@@ -129,13 +129,13 @@ include ActionView::Helpers::NumberHelper
   end
 
 
-  def oclc_number_link
+ def oclc_number_link
     id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
-        oclc_number = id_display.split("<")[0]
+        oclc_number = id_display.split(",")[0]
       elsif id_display.include? "(OCoLC)"
-        ids = id_display.split(">")
+        ids = id_display.split(", ")
           ids.each do |id|
             if id.start_with? "(OCoLC)"
               oclc_number = id.split("<")[0]
@@ -157,7 +157,7 @@ include ActionView::Helpers::NumberHelper
       if wcl_isbn.present? && !oclc_number.present?
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
         @xisbn = JSON.parse(@xisbn)["list"]
-        unless @xisbn.blank?
+        if @xisbn.present?
         @xisbn.each do |wcl_data|
           oclc_number = wcl_data["oclcnum"][0]
         end
