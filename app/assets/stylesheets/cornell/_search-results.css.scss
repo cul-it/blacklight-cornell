@@ -161,6 +161,21 @@ body.bookmarks-index #documents .document {
 		margin: 0 .5em; }
 }
 
+// Did you mean
+// ------------------------------------------
+#spell {
+	background: $light-tan;
+	padding: 5px 15px;
+	margin-bottom: 1.5em;
+}
+h4.suggest {
+	font-size: 14px;
+	line-height: 1.5em;
+	em {
+		font-style: normal;
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 
