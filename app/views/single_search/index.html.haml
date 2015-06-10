@@ -13,7 +13,7 @@
     .col-sm-8.col-sm-offset-2.empty-single-search
       .well
         .search-info
-          %a{:class => 'hidden-phone pull-right', "data-toggle" => "tooltip", "data-placement" => "right", :title => "Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page."}
+          %a{:class => 'hidden-phone pull-right', "data-toggle" => "tooltip", "data-placement" => "bottom", :title => "Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page."}
             %i{:class => "fa fa-info-circle"}
             About this search
         %h2
@@ -67,30 +67,30 @@
                         %li
                           %i.fa.fa-arrow-right
                           = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
-                  .panel.panel-default#formats
-                    - unless @more_results.length < 3
-                      .panel-heading
-                        %h5.panel-title
-                          Format
-                      .panel-body
-                        %ul#more-results.fa-ul
-                          - @more_results.each do |key, result|
-                            - if !result.empty? and result.total_items > 0
-                              %li
-                                %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
-                                - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
-                                - link_url = ss_uri_encode(link_url)
-                                = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
-                                  = BentoSearch.get_engine(key).configuration.title
-                                  / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
-                                  (#{number_with_delimiter(result.total_items)})
-                  .panel.panel-default
-                    .panel-heading
-                      %h5.panel-title
-                        Legacy Resource
-                    .panel-body
-                      %p
-                        = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
+              .panel.panel-default#formats
+                - unless @more_results.length < 3
+                  .panel-heading
+                    %h5.panel-title
+                      Format
+                  .panel-body
+                    %ul#more-results.fa-ul
+                      - @more_results.each do |key, result|
+                        - if !result.empty? and result.total_items > 0
+                          %li
+                            %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
+                            - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+                            - link_url = ss_uri_encode(link_url)
+                            = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
+                              = BentoSearch.get_engine(key).configuration.title
+                              / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
+                              (#{number_with_delimiter(result.total_items)})
+              .panel.panel-default
+                .panel-heading
+                  %h5.panel-title
+                    Legacy Resource
+                .panel-body
+                  %p
+                    = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
         .col-sm-9#top
           #jumpbar.navbar
             %ul.list-inline
