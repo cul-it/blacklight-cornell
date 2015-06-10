@@ -22,7 +22,7 @@
 //= require 'blacklight_range_limit'
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
-//= require jquery-ui
+//= require jquery-ui/autocomplete
 //
 // Required by Blacklight
 //= require blacklight/blacklight
@@ -36,4 +36,10 @@
 //= require blacklight_google_analytics
 //= require print_button.js
 //= require jquery.anchorscroll.js
+
+
+
+// For blacklight_range_limit built-in JS, if you don't want it you don't need
+// this:
+//= require 'blacklight_range_limit'
 
