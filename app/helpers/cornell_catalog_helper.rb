@@ -1052,6 +1052,7 @@ module CornellCatalogHelper
  # this was D*EPRECATED
      Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
   end
+
   def  cornell_item_page_entry_info
     t('blacklight.search.entry_pagination_info.other', 
       :current => number_with_delimiter(search_session['counter']), :total => number_with_delimiter(search_session[:total]), 

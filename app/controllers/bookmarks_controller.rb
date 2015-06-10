@@ -51,8 +51,10 @@ class BookmarksController < CatalogController
       counter = 0
     end
     params[:counter] = counter
+    params['counter'] = counter
     params[:view] = "bookmarks"
     session[:search][:counter] = counter + 1
+    session[:search]['counter'] = counter + 1
     setup_next_and_previous_bookmarks(bookmarks_id_ordered, counter)
 
   end
