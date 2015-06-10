@@ -66,7 +66,8 @@ holdings =
     if tibids.length > 0
       bibids.push tibids
     for b in bibids
-      holdings.loadHoldingsShortm (b.join('/'))
+      if b.length > 0
+        holdings.loadHoldingsShortm (b.join('/'))
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()
