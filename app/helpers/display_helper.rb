@@ -209,11 +209,9 @@ include ActionView::Helpers::NumberHelper
    #   value = args[:document][:title_series_cts]
    # end
     clickable_setting = blacklight_config.display_clickable[args[:field]]
-    Rails.logger.info("clickable_setting = #{clickable_setting}")
     case clickable_setting
     when String
       # default single value
-      Rails.logger.info("Brenda559 = #{args[:field]}")
       link_to(value, add_search_params(args[:field], '"' + value + '"'))
     when Hash
       # delimited value to be separated out further
@@ -225,7 +223,6 @@ include ActionView::Helpers::NumberHelper
         if clickable_setting[:key_value]
           # field has display value and search value separated by :sep
           displayv_searchv = value.split(clickable_setting[:sep])
-          logger.info clickable_setting.inspect
           if displayv_searchv.size > 2
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
@@ -304,9 +301,6 @@ include ActionView::Helpers::NumberHelper
   end
 
   def add_advanced_search_params(primary_field, pval, related_search_field, rval)
-    logger.info "#{primary_field}, #{pval}, #{related_search_field}, #{rval}"
-    logger.info get_clickable_search_field(primary_field)
-    logger.info get_clickable_search_field(related_search_field)
     op = 'op[]'
     q_row = 'q_row'
     op_row = 'op_row'
@@ -428,7 +422,6 @@ include ActionView::Helpers::NumberHelper
     if (icon_mapping = FORMAT_MAPPINGS[f])
       ic = icon_mapping
     end
-    logger.info "icon mapping is #{ic} for #{f}"
     ic
   end
 
@@ -788,7 +781,6 @@ include ActionView::Helpers::NumberHelper
     query_params.delete :counter
     query_params.delete :total
     link_url = url_for(query_params)
-    logger.info query_params.inspect
 
     if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
       opts[:label] ||= t('blacklight.back_to_bookmarks')
