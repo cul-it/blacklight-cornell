@@ -15,7 +15,9 @@
 <% else %>
   <% bookmarks_index = true %>
 <% end %>
+<% if !bookmarks_index %>
 <li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
+<% end %>
 <!-- TODO: TRANSLATE -->
 <% if bookmarks_index || citable %>
   <% citelink_content =  '<i class="fa fa-pencil"></i>' + t('blacklight.tools.cite') %>
