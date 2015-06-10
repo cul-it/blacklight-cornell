@@ -1,6 +1,11 @@
 (function($) {
   Blacklight.cornell_do_search_context_behavior = function() {
       $('a[data-counter]').click(function(event) {
+      //  not a catalog reference
+      if  (($(this).attr('href').indexOf('catalog') < 0 ) {
+       ||   ($(this).attr('href').indexOf('bookmark') < 0 )) {
+        return true;
+      }
       var f = document.createElement('form'); f.style.display = 'none'; 
       this.parentNode.appendChild(f); 
       f.method = 'POST'; 
@@ -14,9 +19,7 @@
       m.setAttribute('name', '_method'); m.setAttribute('value', 'post'); f.appendChild(m);
       var m = document.createElement('input'); m.setAttribute('type', 'hidden'); 
       m.setAttribute('name', $('meta[name="csrf-param"]').attr('content')); m.setAttribute('value', $('meta[name="csrf-token"]').attr('content')); f.appendChild(m);
-
       f.submit();
-        
       return false;
       });
 
