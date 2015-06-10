@@ -122,7 +122,6 @@
 		color: $light-gray; }
 	.tickLabel { font-size: 0.875em; }
 	.missing,
-	span.selected {font-size: 0.75em;}
 	.range_limit {
 		i { font-size: 0.75em; }
 	}
@@ -138,7 +137,6 @@
 form.range_limit {
 	input.range_begin,
 	input.range_end {
-		font-size: 0.75em;
 		padding: 1px 3px;
 		width: 3em;
 	}
