@@ -195,6 +195,21 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
+    def track
+      search_session[:counter] = params[:counter]
+      search_session['counter'] = params[:counter]
+      search_session['per_page'] = params[:per_page]
+ 
+      path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
+        URI.parse(params[:redirect]).path
+      else
+        { action: 'show' }
+      end
+      redirect_to path, :status => 303
+    end
+
+
+
     # updates the search counter (allows the show view to paginate)
     def update
       adjust_for_results_view
