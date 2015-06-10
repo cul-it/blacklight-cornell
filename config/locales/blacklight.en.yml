@@ -234,6 +234,10 @@ en:
       atom_feed: 'Atom for results'
       fields:
         default: 'Keyword'
+      bookmarks:
+        present: "Selected"
+        absent: "Select"
+        inprogress: "Saving..."
 
     entry_name:
       default: 'entry'
