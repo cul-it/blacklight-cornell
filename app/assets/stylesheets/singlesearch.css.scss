@@ -399,32 +399,11 @@ div.view-all {
   margin: 0 0 1em;
 }
 
-// More Results collapse
+// Availability 
+// -----------------------
 
-// TABLETS AND BELOW
-// -----------------
-@media (max-width: $navbarCollapseWidth) {
-  // Hide everything in the results save toggle button */
-  // .results-collapse,
-  // .results-collapse.collapse {
-  //   overflow: hidden;
-  //   height: 0;
-  // }
-}
-
-
-// DEFAULT DESKTOP
-// ---------------
-
-@media (min-width: $navbarCollapseDesktopWidth) {
-
-  // Required to make the collapsing navbar work on regular desktops
-  // .results-collapse,
-  // .results-collapse.collapse {
-  //   height: auto !important;
-  //   overflow: visible !important;
-  // }
-
+.bento_item_avail {
+  font-size: 12px;
 }
 
 // MEDIA QUERIES
