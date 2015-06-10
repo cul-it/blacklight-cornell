@@ -2,7 +2,7 @@
   Blacklight.cornell_do_search_context_behavior = function() {
       $('a[data-counter]').click(function(event) {
       //  not a catalog reference
-      if  (($(this).attr('href').indexOf('catalog') < 0 ) {
+      if  (($(this).attr('href').indexOf('catalog') < 0 ) 
        ||   ($(this).attr('href').indexOf('bookmark') < 0 )) {
         return true;
       }
