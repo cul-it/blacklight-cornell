@@ -18,7 +18,7 @@
 	}
 	li {
 		font-size: 12px;
-		color: $light-gray;
+		color: $medium-gray;
 		padding-right: 50px;
 	}
 	p {
@@ -101,11 +101,11 @@
 
 // Selected facet in sidebar
 // ----------------------------
-.selected {
-	span {
-		float: left;
-	}
-}
+// .selected {
+// 	span {
+// 		float: left;
+// 	}
+// }
 
 // PUBLICATION YEAR
 // -----------------------
@@ -234,6 +234,19 @@ form.range_limit {
 .modal-dialog {
 	.facet-values {
 		padding-left: 15px;
+	}
+}
+
+// Hierarchical call number facet
+// ------------------------------------
+.facet-hierarchy {
+	li,
+	.facet_select,
+	.selected {
+		margin-bottom: 6px;
+	}
+	ul {
+		margin-top: .25em;
 	}
 }
 
