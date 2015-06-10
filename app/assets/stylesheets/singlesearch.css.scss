@@ -245,6 +245,11 @@ div.view-all {
   .panel {
     margin-bottom: 10px;
   }
+  #formats {
+    i {
+      color: $dark-gray;
+    }
+  }
 }
 #more-results {
   margin-left: 0;
