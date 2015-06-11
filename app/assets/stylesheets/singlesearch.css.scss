@@ -130,8 +130,6 @@ div.view-all {
   }
 }
 
-
-
  .bento_compartment {
     border-bottom: 5px solid #edebe7;
     .top-view-all {
@@ -144,29 +142,30 @@ div.view-all {
  .bento_box {
   padding: 1em 0 0 0;
   }
-.formats {
-  padding: 10px;
-  // margin-bottom:20px;
-  background-color:#fff;
-  @include border-top-radius($border-radius-large);
-  @include border-bottom-radius($border-radius-large);
-  h3 {
-    font-size: 1.3em;
-    font-weight: normal;
-    margin: 0 0 .5em;
-    border-bottom: 1px solid $light-tan;
-    padding-bottom: .25em;
-  }
-  h3:first-child { margin-top: 0; }
-  ul.icons-ul {
-    margin-left: 1.8em;
-    list-style: none;
-    margin-bottom: 0;
-  }
-  .no-results a {
-    color: #aaa;
-  }
-}
+// TODO: BL4 stuff? delete
+// .formats {
+//   padding: 10px;
+//   // margin-bottom:20px;
+//   background-color:#fff;
+//   @include border-top-radius($border-radius-large);
+//   @include border-bottom-radius($border-radius-large);
+//   h3 {
+//     font-size: 1.3em;
+//     font-weight: normal;
+//     margin: 0 0 .5em;
+//     border-bottom: 1px solid $light-tan;
+//     padding-bottom: .25em;
+//   }
+//   h3:first-child { margin-top: 0; }
+//   ul.icons-ul {
+//     margin-left: 1.8em;
+//     list-style: none;
+//     margin-bottom: 0;
+//   }
+//   .no-results a {
+//     color: #aaa;
+//   }
+// }
 
 // Best bet
 // -----------------------------------------------//
@@ -222,7 +221,8 @@ div.view-all {
 // Sidebar
 // -----------------------------------------------//
 // expand-search rules also apply to catalog
-.expand-search { 
+.expand-search,
+#formats { 
   ul {
     margin-left: 0;
     list-style: none;
@@ -245,11 +245,6 @@ div.view-all {
   .panel {
     margin-bottom: 10px;
   }
-  #formats {
-    i {
-      color: $dark-gray;
-    }
-  }
 }
 #more-results {
   margin-left: 0;
@@ -261,6 +256,12 @@ div.view-all {
     border: 0 !important;
     overflow: hidden;
     margin-bottom: 1em;
+  }
+}
+
+#formats {
+  i {
+    color: $dark-gray;
   }
 }
 
