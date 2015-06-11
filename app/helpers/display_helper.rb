@@ -420,6 +420,7 @@ include ActionView::Helpers::NumberHelper
     "Course Guide" => "graduation-cap",
     "Course Guides" => "graduation-cap",
     "Website" => "desktop",
+    "Websites" => "desktop",
     "Library Websites" => "desktop",
     "Miscellaneous" => "ellipsis-h",
     "Object" => "trophy",
