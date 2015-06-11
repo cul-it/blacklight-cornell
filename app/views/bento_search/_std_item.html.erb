@@ -25,7 +25,7 @@
    <% dbid = '' %>
   <% dbid = "data-bibid=#{item.unique_id}"  unless !is_cataloged(item.link) %>
   <div class="bento_item"  <%= dbid %>  data-unique-id="<%= item.unique_id %>">
-    <%= render :partial => "bento_search/item_title", :object => item, :as => 'item', :locals => {:index => bento_item_counter(local_assigns[:item_counter], local_assigns[:results]) } %>
+    <%= render :partial => "bento_search/item_title", :object => item, :as => 'item', :locals => { } %>
 
 
     <div class="bento_item_body">
