@@ -3,7 +3,7 @@
       $('a[data-counter]').click(function(event) {
       //  not a catalog reference
       if  (($(this).attr('href').indexOf('catalog') < 0 ) 
-       ||   ($(this).attr('href').indexOf('bookmark') < 0 )) {
+       &&   ($(this).attr('href').indexOf('bookmark') < 0 )) {
         return true;
       }
       var f = document.createElement('form'); f.style.display = 'none'; 
