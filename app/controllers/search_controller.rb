@@ -15,7 +15,7 @@ class SearchController < ApplicationController
   		    @query = params['q']
           @query.slice! 'doi:'
           original_query = @query
-          
+
           # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
           if @query.empty?
             # no action, pass through
@@ -25,7 +25,8 @@ class SearchController < ApplicationController
             @query = ' '
           # Only do the following if the query isn't already quoted
           else
-            @query = objectify_query @query
+      #      @query = objectify_query @query
+            @query = @query
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
@@ -52,7 +53,7 @@ class SearchController < ApplicationController
               result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
             end
           end
-              
+
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
           @results.merge!(faceted_results).except! 'solr'
@@ -60,10 +61,10 @@ class SearchController < ApplicationController
           unless @results['bestbet'].nil? or @results['bestbet'][0].nil?
             @best_bets = [{'title' => @results['bestbet'][0].title, 'link' => @results['bestbet'][0].link}]
           end
-          
+
           display_type = params['fixedPanes'].nil? ? 'dynamic' : 'fixed'
           @fixed_panes = display_type == 'fixed' ? true : false
-          @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet',) , display_type, @scores
+          @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet') , display_type, @scores
       end
       if session[:search].nil?
 	session[:search] = {}
@@ -74,7 +75,7 @@ class SearchController < ApplicationController
       session[:search][:action] = 'index'
       # session[:search][:counter] = ?
       # session[:search][:total] = ?
-      
+
       Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
       render 'single_search/index'
   end
@@ -187,7 +188,8 @@ class SearchController < ApplicationController
       # the Solr query format.
       #cat_url = Rails.configuration.cornell_catalog
       #cat_url = "http://" + @catalog_host
-      query = ((objectify_query query).gsub('%', '%25')).gsub('+','%2B').gsub('&', '%26')
+#      query = ((objectify_query query).gsub('%', '%25')).gsub('+','%2B').gsub('&', '%26')
+      query = query.gsub('&', '%26')
       if format == 'all'
         #"#{cat_url}/?q=#{query}"
         "/?q=#{query}"
@@ -262,7 +264,7 @@ class SearchController < ApplicationController
 
   end
 
-  # 
+  #
   # def get_catalog_host req_host
   #   ch  = Rails.configuration.cornell_catalog
   #   # for hosts like "es287-dev"
