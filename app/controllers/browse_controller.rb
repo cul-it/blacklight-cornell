@@ -17,8 +17,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:authq].gsub(/["!@#$%^&*()=_+|;:",.?"]/, ' ')
-.gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'" TO *]' }
+        p =  {"q" => '["' + params[:authq] +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
@@ -28,7 +27,7 @@ class BrowseController < ApplicationController
           @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/reverse?" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/browse?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/browse?" + p.to_param + '&' + start.to_param )
         end
         if !@headingsResultString.nil?
            @headingsResponseFull = eval(@headingsResultString)
@@ -47,8 +46,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:authq].gsub(/["!@#$%^&*()=_+|;:",.?"]/, ' ')
-.gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'" TO *]' }
+        p =  {"q" => '["' + params[:authq] +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
@@ -77,8 +75,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:authq].gsub(/["!@#$%^&*()=_+|;:",.?"]/, ' ')
-.gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'" TO *]' }
+        p =  {"q" => '["' + params[:authq] +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
@@ -110,8 +107,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '"' + params[:authq].gsub(/["!@#$%^&*()=_+|;:",.?"]/, ' ')
-.gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'"' } 
+        p =  {"q" => '"' + params[:authq] +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/author/browse?" + p.to_param )
@@ -132,8 +128,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '"' + params[:authq].gsub(/["!@#$%^&*()=_+|;:",.?"]/, ' ')
-.gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'"' } 
+        p =  {"q" => '"' + params[:authq] +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/subject/browse?" + p.to_param )
@@ -153,8 +148,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '"' + params[:authq].gsub(/["!@#$%^&*()=_+|;:",.?"]/, ' ')
-.gsub(/\s{2,}/,' ').gsub(/\s*$/,'') +'"' } 
+        p =  {"q" => '"' + params[:authq] +'"' } 
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         @headingsResultString = dbclnt.get_content("http://da-stg-ssolr.library.cornell.edu/solr/authortitle/browse?" + p.to_param )
