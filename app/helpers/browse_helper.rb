@@ -17,13 +17,18 @@ def search_field(headingType)
 		search_field = 'topic'
 	elsif headingType=='Work'
 		search_field='work'
+	else search_field='all_fields'
 
 	end
 
 	return search_field
 end
 
+  def browse_uri_encode (link_url)
+    link_url = link_url.gsub('&','%26')
+    link_url = link_url.gsub('"','%22')
 
+  end
 
 end
 
