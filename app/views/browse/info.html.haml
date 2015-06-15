@@ -4,135 +4,138 @@
 			%i.fa.fa-arrow-circle-left
 			Back to list
 	- @headingsResponse.each do |data|
-		%h2
-			=data["heading"]
-		-if data["counts_json"].present?
-			-works=JSON.parse(data["counts_json"])
-			-if params[:browse_type] == "Author" 
-				.author-works
-					Works by:
-					= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
-						=works["worksBy"]
-						Title(s)
-				.author-works
-					Works about:
-					= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
-						=works["worksAbout"] 
-						Title(s)
-			-if params[:browse_type] == "Subject"
-				
-				- if works["worksBy"].present?
+		-encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'")
+		- if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil?
+			%h2
+				=data["heading"]
+			-if data["counts_json"].present?
+				-works=JSON.parse(data["counts_json"])
+				-if params[:browse_type] == "Author" 
 					.author-works
 						Works by:
-						= link_to '/?q=' + data["heading"] + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
+						= link_to '/?q=' + encoded_heading + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksBy"]
 							Title(s)
-				.author-works
-					-if works["worksAbout"].present?
+					.author-works
 						Works about:
-						= link_to '/?q=' + data["heading"] + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
+						= link_to '/?q=' + encoded_heading + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksAbout"] 
 							Title(s)
-				
-			-if params[:browse_type] == "Author-Title" 
-				.author-works
-					Works:
-					= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
-						=data["count"]
-						Title(s)
+				-if params[:browse_type] == "Subject"
+					
+					- if works["worksBy"].present?
+						.author-works
+							Works by:
+							= link_to '/?q=' + encoded_heading + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
+								=works["worksBy"]
+								Title(s)
+					.author-works
+						-if works["worksAbout"].present?
+							Works about:
+							= link_to '/?q=' + encoded_heading + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
+								=works["worksAbout"] 
+								Title(s)
+					
+				-if params[:browse_type] == "Author-Title" 
+					.author-works
+						Works:
+						= link_to '/?q=' + encoded_heading + '&search_field=authortitle_browse' do
+							=data["count"]
+							Title(s)
 
-		- if !data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?
-			%h3
-				Reference Info
-		%dl.dl-horizontal
-			- if !data["notes"].nil?
-				%dt
-					Scope note:
-				%dd
-					-data["notes"].each do |note|
-						-if note.include?("header")
-							-note=JSON.parse(note)
-							-note.each do |nottee|
+			- if !data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?
+				%h3
+					Reference Info
+					
+			%dl.dl-horizontal
+				- if !data["notes"].nil?
+					%dt
+						Scope note:
+					%dd
+						-data["notes"].each do |note|
+							-if note.include?("header")
+								-note=JSON.parse(note)
+								-note.each do |nottee|
+									.scope-note
+										-if nottee.include?("header")
+											-nottee.each do |headingInfo|
+												=link_to "/browse?authq=" + headingInfo[1] + "&start=0" + "&browse_type=" + params[:browse_type] do
+													=headingInfo[1]
+										-else
+											=nottee
+							-else
 								.scope-note
-									-if nottee.include?("header")
-										-nottee.each do |headingInfo|
-											=link_to "/browse?authq=" + headingInfo[1] + "&start=0" + "&browse_type=" + params[:browse_type] do
-												=headingInfo[1]
-									-else
-										=nottee
-						-else
-							.scope-note
-								=note
+									=note
 
-			-if data["seeAlso"].present? || data["alternateForm"].present?
-				-if data["seeAlso"].present? 
-					-sa=JSON.parse(data["seeAlso"])
-					-sa.each do |r,h|
-						-if r.blank?
-							%dt
-								See Also:
-						-if !r.blank?
-							%dt
-								=r + ':'
-						-h.each do |headingInfo|
-							%dd
-								=link_to "/browse?authq=" + headingInfo["heading"] + "&start=0" + "&browse_type=" + params[:browse_type] do
-									=headingInfo["heading"]
-								- if params[:browse_type] == "Author"
-									%span.author-works
-										Works by:
-										= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-											=headingInfo["worksBy"]
-										-if headingInfo["worksAbout"] > 0
+				-if data["seeAlso"].present? || data["alternateForm"].present?
+					-if data["seeAlso"].present? 
+						-sa=JSON.parse(data["seeAlso"])
+						-sa.each do |r,h|
+							-if r.blank?
+								%dt
+									See Also:
+							-if !r.blank?
+								%dt
+									=r + ':'
+							-h.each do |headingInfo|
+								%dd
+									=link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do
+										=headingInfo["heading"]
+									- if params[:browse_type] == "Author"
+										%span.author-works
+											Works by:
+											= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												=headingInfo["worksBy"]
+											-if headingInfo["worksAbout"] > 0
+												%span.author-works 
+													Works about:
+													= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+														=headingInfo["worksAbout"]
+									- if params[:browse_type] == "Subject"
+											
+										- if headingInfo["worksBy"].present?
+											= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												%span.author-works 
+													Works by:
+													=headingInfo["worksBy"]
+										
+										-if headingInfo["worksAbout"].present?
 											%span.author-works 
 												Works about:
-												= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 													=headingInfo["worksAbout"]
-								- if params[:browse_type] == "Subject"
-										
-									- if headingInfo["worksBy"].present?
-										= link_to '/?q=' + headingInfo["heading"] + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-											%span.author-works 
-												Works by:
-												=headingInfo["worksBy"]
-									
-									-if headingInfo["worksAbout"].present?
+												
+									- if params[:browse_type] == "Author-Title"
 										%span.author-works 
-											Works about:
-											= link_to '/?q=' + headingInfo["heading"] + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-												=headingInfo["worksAbout"]
-											
-								- if params[:browse_type] == "Author-Title"
-									%span.author-works 
-										Works:
-										= link_to '/?q=' + data["heading"] + '&search_field=authortitle_browse' do
-											=headingInfo["count"]					
+											Works:
+											= link_to '/?q=' + data["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=authortitle_browse' do
+												=headingInfo["count"]					
 
 
 
 
-			-if !data["alternateForm"].nil?
-				%dt
-					Alternate form(s):
-				-data["alternateForm"].each do |af|
+				-if !data["alternateForm"].nil?
+					%dt
+						Alternate form(s):
+					-data["alternateForm"].each do |af|
+						%dd
+							=af
+				-if data["headingTypeDesc"].present?
+					%dt
+						Headings type:
 					%dd
-						=af
-			-if data["headingTypeDesc"].present?
-				%dt
-					Headings type:
-				%dd
-					=data["headingTypeDesc"]				
-		- if data["mainEntry"] == true  && data["rda_json"].present?
-			%h3
-				Description
-			-if data["rda_json"].present?
-				%dl.dl-horizontal
-					-rda=JSON.parse(data["rda_json"])
-					-rda.each do |t,d|
-						%dt
-							=t + ':'
-						-d.each do |data|
-							%dd
-								-data = data.titlecase
-								=data
-				
+						=data["headingTypeDesc"]				
+			- if data["mainEntry"] == true  && data["rda_json"].present?
+				%h3
+					Description
+				-if data["rda_json"].present?
+					%dl.dl-horizontal
+						-rda=JSON.parse(data["rda_json"])
+						-rda.each do |t,d|
+							%dt
+								=t + ':'
+							-d.each do |data|
+								%dd
+									-data = data.titlecase
+									=data
+					
