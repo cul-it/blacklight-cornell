@@ -1,17 +1,32 @@
-// Custom styles for database pages 
-// -----------------------------------
+// Custom styles for digital collections pages 
+// ----------------------------------------------
 
 .digitalcollections-search {
-	margin-top:20px;
+	margin-top: 20px;
 	h2 {
 		font-weight: normal;
 		color: $dark-gray;
-		font-size: 22px;
-		margin-bottom: 10px;
+		line-height: 1.1em
+	}
+	.form-group { padding-left: 0; }
+	p {
+		font-size: 14px;
+	}
+	form {
+		margin-bottom:0px;
+	}
+	.well {
+		.row {
+			margin-left: 0;
+		}
 	}
 }
 
-
+.digital-collections {
+	.document {
+		border-bottom: 1px solid $light-tan;
+	}
+}
   // // Nav and dropdown links in navbar
   // .nav-collapse .nav > li > a,
   // .nav-collapse .dropdown-menu a {
@@ -20,22 +35,6 @@
   //   color: $navbarLinkColor;
   //   @include border-radius(3px);
   // }
-
-.digitalcollections-search {
-	.form-group { padding-left: 0; }
-
-	p {
-		font-size: 14px;
-	}
-	h2 {
-		font-size:20px;
-		line-height: 1.1em
-	}
-
-	form {
-		margin-bottom:0px;
-	}
-}
 
 
 .blacklight-digitalcollections-name {
@@ -71,14 +70,11 @@
 .blacklight-database-name:first-child {
 	padding-top: 0;
 }
-.digitalcollections {
-	.document {
-		border-bottom: 1px solid $light-tan;
-	}
-}
+
 .catalog-link {
 	list-style: none;
 	margin: 0;
+	font-size: 12px;
 	li {
 		float: left;
 		border-left: 1px solid $databases-light-gray;
@@ -97,131 +93,3 @@
 		margin-left: 5px;
 	}
 }
-
-// Section nav list treatment - taken from beta.library, but tweaked 
-// --------------------------------------------------------------------
-.nav-section { 
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	li {
-		font-size: 14px;
-		a {
-			padding: 4px 0 4px 0;
-			display: inline-block;
-			i { 
-				color: $databases-light-gray;
-				margin-top: 6px;
-				margin-left: 0;
-				margin-right: 6px;
-			}
-		}
-		a:hover {
-			background: inherit;
-			text-decoration: underline;
-			i { 
-				text-decoration: none;
-				 }
-		}
-	}
-}
-.sub-search {
-	margin-top: 20px;
-}
-
-// Subject or A-Z list page - some ttaken from blacklight and edited
-// --------------------------------------------------------------------
-.results-info {
-  margin: 0;
-  padding-bottom: .2em;
-  border-bottom: solid 5px $light-tan;
-}
-.digitalcollections {
-	background: white;
-	padding: 20px;
-	margin-top: 20px;
-}
-
-.database-subject {
-	.page-title {
-		h2 {
-			// color:$cornell-primary;
-			font-size: 30px;
-			font-weight: 700
-		}
-	}
-}
-.resources-core {
-	h3 { 
-		// color: $cornell-primary;
-		font-weight: 700;
-	}
-}
-.resources-all, .resource {
-	.document-data:first-child { border-top: 0; }
-}
-.catalog-link {
-	color: $medium-gray;
-	font-size: 12px;
-	.divider { 
-		color: #ccc;
-		margin: 0 3px;
-	}
-}
-
-.z-note {
-	font-style: italic;
-}
-.page-title {
-	h2 { margin-top: 0; }
-}
-.return-link { 
-	text-align: right;
-	font-size: 16px;
-}
-.pagination-wrapper {
-	text-align: center;
-}
-
-// CUL button
-// -------------------------
-
-// Info appears as blue-green
-.btn-cul {
-	color: white;
-	background-color: $teal;
-	border-color: $dark-teal;
-	background-image: none;
-}
-
-.btn-cul:hover {
-	background-color: $dark-teal;
-	color: white
-}
-
-// Terms of Use page
-// ---------------------
-.terms-table {
-	margin-top: 20px;
-}
-.resource {
-	margin-top: 0;
-	.document-data {
-		p { font-size: 14px; }
-	}
-}
-
-// Collapsible A-Z nav 
-// -----------------------------------
-.btn-az {
-	display: none;
-	padding: 7px 10px;
-	.fa-bars { 
-		color: $light-gray;
-		margin-left: 3px;
-	}
-}
-// .az-collapse.collapse {
-// 	height: auto;
-// 	overflow: visible;
-// }

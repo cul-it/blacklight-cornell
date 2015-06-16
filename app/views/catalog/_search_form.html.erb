@@ -1,4 +1,7 @@
-<div class="well clearfix">
+<%= render :partial => "search_navigation" %>
+
+
+<div class="well well-search clearfix">
   <div class="row-fluid">
     <div class="search-tools">
       <%= form_tag search_action_url, :method => :get, :class => 'search-form' do %>
@@ -8,9 +11,6 @@
             <div class="search-options span6">
               <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
                 <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query", :id => "q", :autocapitalize => "off" %>
-                <div class="advanced-link">
-                  <%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %> | <a href="http://www.library.cornell.edu/help/catalog">Search Tips</a>
-                </div>
             </div>
 
             <% unless search_fields.empty? %>
@@ -42,10 +42,6 @@
             <%end %>
           <% end %>
         <% end %>
-      <% end %>
-
-      <% if params[:q_row].present? %>
-        <h2 class="advanced-search">Advanced Search</h2>
       <% end %>
 
       <%= render :partial => "constraints" %>

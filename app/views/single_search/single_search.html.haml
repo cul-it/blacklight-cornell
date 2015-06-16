@@ -1,0 +1,30 @@
+%h2
+  Library Websites
+.well
+  .row
+    .col-sm-12
+      =@query
+      %form#search.form-inline.single-search{:method => 'get'}
+        %div.form-group
+          %label{:for=>'q',:class => "sr-only"}
+            Search
+          %input.search-query.form-control.col-xs-6(type='text' name='q' id='q' value='#{params[:q]}' placeholder='Search library websites' autocapitalize='off')
+        %button#search-btn.btn.btn-search(type="submit")
+          %i.fa.fa-search.fa-inverse
+          %span.sr-only
+            Search
+
+-unless params[:q].nil?
+  .row
+    .col-sm-12
+      %div.return-link
+        = link_to url_for(search_index_path(:q => params[:q], :field => params[:field])) do
+          %i.fa.fa-arrow-circle-left
+          Back to search results
+
+- if @results
+  = render 'single_search/pagination'
+  .row{:class => @results.engine_id}
+    .col-sm-12
+      = bento_search @results
+  = render 'single_search/pagination'

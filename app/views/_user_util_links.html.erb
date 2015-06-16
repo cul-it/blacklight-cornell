@@ -1,11 +1,11 @@
-<div class="span8">
+<div class="col-sm-7">
   <ul class="blacklight-nav">
     <% if current_or_guest_user %>
     <%  @bookmarks = current_or_guest_user.bookmarks %>
       <li>
         <%= link_to bookmarks_path do %>
           <%= t('blacklight.header_links.bookmarks') %>
-          <span id="bookmarks-count">
+          <span data-role='bookmark-counter' id="bookmarks-count">
             <%- unless @bookmarks.nil? %>
               <%- @bookmarks.collect %>
               <%- unless @bookmarks.count < 1 %>
@@ -17,7 +17,9 @@
       </li>
     <% end %>
     <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
-    <li class="hidden-phone"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
-    <li class="hidden-phone"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
+    <!-- <li class="hidden-xs"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
+    <li class="hidden-xs"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li> -->
+    <li><a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a></li>
+    <li class="hidden-xs"><a href="http://www.library.cornell.edu/ask">Ask a Librarian</a></li>
   </ul>
 </div>

@@ -12,16 +12,21 @@
  *
  * Used by blacklight_range_limit
  *= require  'blacklight_range_limit'
- *
+ *= require 'blacklight/hierarchy/hierarchy'
 
- *= require 'blacklight_cornell_advanced_search'
  *= require 'jquery-ui.min.css'
 
+
+ *
+ * Used by blacklight_range_limit
+ *= require  'blacklight_range_limit'
+ *= require jquery-ui
+ *
 */
 // Cornell catalog variables & overrides
 @import 'cornell/variables';
 
 @import 'blacklight';
 @import 'cornell/cul-catalog';
-@import 'cornell/responsive';
 // @import 'cornell/print';
+@import 'singlesearch';

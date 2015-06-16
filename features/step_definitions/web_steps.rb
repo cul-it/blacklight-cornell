@@ -2,18 +2,26 @@ Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
+When /^(?:|I )fill in "([^"]*)" with ["']([^"]*)["']$/ do |field, value|
   fill_in(field, :with => value)
 end
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
-  has_css?(button) 
-  click_link_or_button button
+
+  if button == 'search'
+    page.find(:css, 'button#search-btn').click
+  else
+    click_button button
+  end
 end
 
 When /^(?:|I )press "([^"]*)"$/ do |button|
-  has_css?(button) 
-  click_link_or_button button
+
+  if button == 'search'
+    page.find(:css, 'button#search-btn').click
+  else
+    click_button button
+  end
 end
 
 When /^(?:|I )go to (.+)$/ do |page_name|

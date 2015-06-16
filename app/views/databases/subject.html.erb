@@ -1,0 +1,35 @@
+<%# Databases by subject page %>
+
+<%= render :partial => 'databases_search_form' %>
+<div class="row database-subject">
+  <div class="page-title col-sm-12">
+    <div class="return-link">
+      <%= link_to "/databases/" do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Databases
+      <% end %>
+    </div>
+    <h2>
+      <%= params[:q] %>
+    </h2>
+  </div>
+</div>
+<% if @subjectCore.present? %>
+  <div class="resources">
+    <h3>
+      Core Resources
+    </h3>
+    <%= render 'database', :response => @subjectCore %>
+  </div>
+  <div class="resources">
+    <h3>
+      Additional Resources
+    </h3>
+    <%= render 'database', :response => @subject %>
+  </div>
+<% else %>
+  <div class="resources">
+    <%= render 'database', :response => @subject %>
+  </div>
+<% end %>
+<%= render :partial => 'shared/top'  %>

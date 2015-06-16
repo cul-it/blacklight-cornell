@@ -63,11 +63,14 @@ $(function () {
 
 
   //facet expand/collapse
-  $('#facets h5').live('click', function(){
+  //$('#facets h5').live('click', function(){
+  $(document).on('click','#facets h5', function(){
     var label = $(this).text();
     var heading_values = ['facets', 'collapse_expand', label];
     try{
+    <% if Rails.env == 'production' %>
       _gaq.push(['_trackEvent'].concat(heading_values));
+    <% end %>
     } catch(err) {
       BlacklightGoogleAnalytics.console_log_error(err, heading_values);
     }

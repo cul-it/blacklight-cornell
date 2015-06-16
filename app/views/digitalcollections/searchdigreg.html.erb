@@ -1,0 +1,47 @@
+<div class="digitalcollections-search">
+  <%= render :partial => 'intro_text' %>
+  <%= render :partial => 'digreg_search_form'  %>
+  <div class="return-link">
+    <%= link_to "/digitalcollections/" do %>
+      <i class="fa fa-arrow-circle-left"></i>
+      Back to all digital collections
+    <% end %>
+  </div>
+</div>
+<div class="digitalcollections">
+  <% if @digregResponse.present?  %>
+    <% @digregResponse.each do |data| %>
+      <div class="document blacklight-digitalcollections-name clearfix">
+        <div class="document-data">
+          <h4 class="blacklight-title_display">
+            <% if data["url_access_display"].present? && data["fulltitle_display"].present? %>
+              <% data["url_access_display"].each do |link| %>
+                <%= link_to link.split('|')[0] do %>
+                  <%= data["fulltitle_display"] %>
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= data["fulltitle_display"] %>
+            <% end %>
+          </h4>
+          <div class="description">
+            <% if data["summary_display"].present? %>
+              <% data["summary_display"].each do |sd| %>
+                <p>
+                  <%= sd  %>
+                </p>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="catalog-link">
+            <% if data["id"].present? %>
+              <%= link_to '/catalog/' + data["id"] do %>
+                Catalog record
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

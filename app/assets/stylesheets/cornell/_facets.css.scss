@@ -1,13 +1,8 @@
 .facets {
-	margin-top: 0.5em;
-	padding: 10px;
 	background: white;
-	@include border-radius($borderRadiusLarge);
 	h5 {
-		padding: 6px 0 6px 0;
 		line-height: 1.2em;
-		font-size: 0.875em;
-		margin: 0 0 5px 0;
+		font-size: 14px;
 		cursor: pointer;
 		color: $dark-gray;
 		i {
@@ -16,18 +11,14 @@
 			color: $light-gray;
 		}
 	}
-	h5.twiddle-open {
-		border-bottom: none;
-		margin-bottom: 0;
-	}
 	ul {
 		margin: 0 0 5px 10px;
 		padding: 0;
 		list-style: none;
 	}
 	li {
-		font-size: 0.75em;
-		color: $light-gray;
+		font-size: 12px;
+		color: $medium-gray;
 		padding-right: 50px;
 	}
 	p {
@@ -37,31 +28,54 @@
 	}
 	i { 
 		color: $dark-gray;
-		margin-right: 3px; }
+	}
 	.navbar {
 		margin-bottom: 0;
 		padding: 0 0 5px 10px;
 	}
 	a:hover { background: white; }
+	.top-panel-heading {
+		padding: 0;
+		border-radius: 0;
+		border: 0 !important;
+		overflow: hidden;
+	}
+	.panel-heading{
+		a {
+			border-bottom: 0;
+			background-color: inherit;
+			text-decoration: none;
+		}
+	}
 }
-// OVERRIDE #FACETS
+.facet-values {
+	.facet-label {
+		text-indent: 0;
+		padding-left: 0;
+		word-break: normal;
+		i {
+			margin-right: 3px;
+		}
+	}
+}
+
+// OVERRIDE #FACETS - TODO: do we still need this in BL5?
+// -------------------------
+
+#sidebar {
+	padding-bottom: 0;
+}
 #facets {
+	padding-bottom: 0;
 	ul {
 		margin-left: 0;
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-	// upgrade to font awesome 4.0.3.0 and no longer needs this margin
-	// ul.icons-ul {
-	// 	margin-left: 1.3em;
-	// }
 	li {
 		margin-right: 0;
 		line-height: 16px;
 		padding-right: 0;
-		.count {
-			margin-right: 0;
-		}
 	}
 	a.remove { padding: 3px 5px; }
 	a.remove:hover {
@@ -69,20 +83,33 @@
 		background: white;
 		i { color: $medium-gray; }
 	}
-	li.more_facets_link {
-		float: none;
-		margin-right: 0; }
 	span.selected {
 		color: $dark-gray;
 	}
 	h5 + div { padding-bottom: .5em; }
+	.top-panel-heading {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
 }
+// TODO: ".count" may not be used in BL5
+.facet-count,
 .count {
-  font-family: $monospaceFontFamily;
-  font-size: .9em;
+  font-family: $monospace-font-family;
+  font-size: 11px;
 }
 
+// Selected facet in sidebar
+// ----------------------------
+// .selected {
+// 	span {
+// 		float: left;
+// 	}
+// }
+
 // PUBLICATION YEAR
+// -----------------------
+
 .limit_content {
 	margin-right: 10px;
 	.subsection { margin-top: .5em; }
@@ -95,7 +122,6 @@
 		color: $light-gray; }
 	.tickLabel { font-size: 0.875em; }
 	.missing,
-	span.selected {font-size: 0.75em;}
 	.range_limit {
 		i { font-size: 0.75em; }
 	}
@@ -111,7 +137,6 @@
 form.range_limit {
 	input.range_begin,
 	input.range_end {
-		font-size: 0.75em;
 		padding: 1px 3px;
 		width: 3em;
 	}
@@ -137,18 +162,22 @@ form.range_limit {
 	}
 }
 
-// SELECTED FACETS
+// Constraints
+// -----------------------
 
 .selected-facets {
 	clear: both;
-	padding-top: 20px;
+	padding: 1.5em 0;
+
 	.btn-info {
-		margin-bottom: 3px;
 		text-align: left;
+		background: $teal;
+		border-color: $teal;
 		i { margin: .1em 0 0 .5em; }
 	}
-	a {
+	.btn {
 		color: $white;
+		margin-bottom: .25em;
 	}
 	a:hover {
 		text-decoration: none;
@@ -167,21 +196,131 @@ form.range_limit {
 	border-radius: 20px;
 }
 
-// MODAL WINDOW
-.modal { background: $pale-gray; }
-.close {
-	color: $medium-gray;
-	opacity: 1;
+.constraints-bar {
+	background: white;
 }
-// upgrade to font awesome 4.0.3.0 and no longer needs this margin
-// .facet_extended_list.icons-ul {
-// 	margin-left: 1.7em;
-// }
 
-.twiddle-open .fa-plus-circle {
-  @extend .fa-minus-circle;
-  opacity: 1;
+// Active facet panel
+// -----------------------
+
+.panel-success > .panel-heading, .facet_limit-active > .panel-heading {
+	background-color: #dff0d8;
 }
-.facet_extended_list {
-	i { margin-right: 5px; }
+
+// Facet button on mobile
+// ---------------------------
+.facets-toggle,
+.facets-toggle:hover
+.facets-toggle:active,
+.facets-toggle:focus {
+	border-radius: 0;
+	border: 1px solid $tan;
+	padding: 10px;
+	clear: both;
+	margin: 0;
 }
+.facets-toggle {
+	i {
+		margin-right: 0;
+		color: $dark-gray;
+	}
+}
+
+// More facets modal
+// ---------------------------
+// Add this to account for icons in the format facet
+.modal-dialog {
+	.facet-values {
+		padding-left: 15px;
+	}
+}
+
+// Hierarchical call number facet
+// ------------------------------------
+.facet-hierarchy {
+	li,
+	.facet_select,
+	.selected {
+		margin-bottom: 6px;
+	}
+	ul {
+		margin-top: .25em;
+	}
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.facets {
+		.top-panel-heading {
+			h4 {
+				padding-left: 0;
+				font-size: 18px;
+			}	
+		}
+		h5 {
+			font-size: 12px;
+		}
+		li {
+			font-size: 11px;
+		}
+	}
+	.facet-values {
+		.facet-label {
+			display: block;
+			padding-bottom: 0;
+		}
+		.facet-count {
+			display: inline-block;
+			padding-bottom: .5em;
+		}
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+	.facets {
+		h5 {
+			font-size: 14px;
+		}
+	}
+	.facet-values {
+		.facet-label {
+			display: table-cell;
+			padding-bottom: 6px;
+		}
+		.facet-count {
+			display: table-cell;
+			padding-bottom: 0;
+		}
+	}
+}
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: $screen-lg) {
+	.facets {
+		li {
+			font-size: 12px;
+		}
+	}
+}
+
+
+
+
+
+

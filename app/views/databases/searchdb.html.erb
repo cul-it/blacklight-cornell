@@ -1,0 +1,28 @@
+<%# Databases search results page %>
+
+<%= render :partial => 'databases_search_form' %>
+<div class="row database-subject">
+  <div class="page-title col-sm-12">
+    <div class="return-link">
+      <%= link_to "/databases/" do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Databases
+      <% end %>
+    </div>
+    <h2>
+      <%= params[:q] %>
+    </h2>
+  </div>
+</div>
+<% if @dbResponse.present? %>
+  <div class="resources">
+    <h3>
+      Results
+    </h3>
+    <%= render 'database', :response => @dbResponse %>
+  </div>
+<% else %>
+  <h2>
+    No results
+  </h2>
+<% end %>

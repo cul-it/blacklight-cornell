@@ -1,14 +1,11 @@
 // Custom styles for database pages 
 // -----------------------------------
 
-.databases-search,
-.databases-az,
-.databases-subject {
-	h2 {
-		font-weight: normal;
-		color: $dark-gray;
-		font-size: 22px;
-		margin-bottom: 10px;
+.databases-search {
+	.well {
+		.row {
+			margin-left: 0;
+		}
 	}
 }
 .databases-az {
@@ -18,36 +15,14 @@
 			float: left !important;
 		}
 		a {
-			background: white;
+			border: 1px solid #ddd;
 			margin-bottom: 5px;
-			font-weight: normal !important;
-			color: $cornell-primary !important;
 			padding: 8px 12px !important;
 		}
 		a:hover, a:active, a:focus {
-			background: $pale-gray;
+			background: $light-tan;			
 		}
 	}
-}
-
-  // // Nav and dropdown links in navbar
-  // .nav-collapse .nav > li > a,
-  // .nav-collapse .dropdown-menu a {
-  //   padding: 9px 15px;
-  //   font-weight: bold;
-  //   color: $navbarLinkColor;
-  //   @include border-radius(3px);
-  // }
-
-.databases-subject {
-	margin-top: 20px;
-	h3 {
-		font-weight: 700;
-		margin-bottom: 0;
-		margin-top: 20px;
-		font-size: 18px;
-	}
-	h3:first-child { margin-top: 0; }
 }
 .databases-search {
 	.form-group { padding-left: 0; }
@@ -56,17 +31,13 @@
 		font-size: 14px;
 	}
 	h2 {
-		font-size:20px;
+		font-size: 20px;
 		line-height: 1.1em
 	}
 
 	form {
 		margin-bottom:0px;
 	}
-}
-
-h2.db-alpha {
-	text-transform: capitalize;
 }
 .blacklight-database-name {
 	padding-top: 15px;
@@ -89,9 +60,8 @@ h2.db-alpha {
 	.blacklight-title_display {
 		margin: 0 0 .5em;
 		font-weight: normal;
-		line-height: 1.2em;
-		// font-size: 1.1em;
-		font-size: 20px;
+		line-height: 1.5em;
+		font-size: 18px;
 		i { 
 			font-size: 12px;
 			margin-left: 5px;
@@ -101,9 +71,9 @@ h2.db-alpha {
 .blacklight-database-name:first-child {
 	padding-top: 0;
 }
-.blacklight-databases-subject,
-.blacklight-databases-searchdb,
-.blacklight-databases-title {
+.databases-subject,
+.databases-searchdb,
+.databases-title {
 	.document {
 		border-bottom: 1px solid $light-tan;
 	}
@@ -135,25 +105,23 @@ h2.db-alpha {
 .nav-section { 
 	list-style: none;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 1.5em 0;
 	li {
 		font-size: 14px;
+		padding: 4px 0 4px 0;
 		a {
-			padding: 4px 0 4px 0;
 			display: inline-block;
-			i { 
-				color: $databases-light-gray;
-				margin-top: 6px;
-				margin-left: 0;
-				margin-right: 6px;
-			}
+			padding: 0;
+			
 		}
 		a:hover {
 			background: inherit;
-			text-decoration: underline;
-			i { 
-				text-decoration: none;
-				 }
+		}
+		i { 
+			color: $databases-light-gray;
+			margin-top: 6px;
+			margin-left: 0;
+			margin-right: 6px;
 		}
 	}
 }
@@ -163,32 +131,29 @@ h2.db-alpha {
 
 // Subject or A-Z list page - some ttaken from blacklight and edited
 // --------------------------------------------------------------------
-.results-info {
-  margin: 0;
-  padding-bottom: .2em;
-  border-bottom: solid 5px $light-tan;
-}
-.resources {
-	background: white;
-	padding: 20px;
-	margin-top: 20px;
-}
 
 .database-subject {
 	.page-title {
 		h2 {
-			// color:$cornell-primary;
-			font-size: 30px;
-			font-weight: 700
+			margin-top: 1em;
+			font-size: 22px;
+			font-weight: 700;
+			margin-bottom: 1em;
+			padding-bottom: .2em;
+  			border-bottom: solid 5px $light-tan;
 		}
 	}
 }
-.resources-core {
-	h3 { 
-		// color: $cornell-primary;
-		font-weight: 700;
+.resources {
+	h3 {
+		margin-top: 0;
 	}
 }
+// .resources-core {
+// 	h3 { 
+// 		font-weight: 700;
+// 	}
+// }
 .resources-all, .resource {
 	.document-data:first-child { border-top: 0; }
 }
@@ -209,26 +174,10 @@ h2.db-alpha {
 }
 .return-link { 
 	text-align: right;
-	font-size: 16px;
+	// font-size: 16px;
 }
 .pagination-wrapper {
 	text-align: center;
-}
-
-// CUL button
-// -------------------------
-
-// Info appears as blue-green
-.btn-cul {
-	color: white;
-	background-color: $teal;
-	border-color: $dark-teal;
-	background-image: none;
-}
-
-.btn-cul:hover {
-	background-color: $dark-teal;
-	color: white
 }
 
 // Terms of Use page
@@ -253,7 +202,3 @@ h2.db-alpha {
 		margin-left: 3px;
 	}
 }
-// .az-collapse.collapse {
-// 	height: auto;
-// 	overflow: visible;
-// }

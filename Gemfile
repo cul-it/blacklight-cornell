@@ -1,7 +1,7 @@
-ruby "2.1.5"
 source 'https://rubygems.org'
+ruby "2.1.5"
 
-gem 'rails', '< 4.2'
+gem 'rails', '4.2.1'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -15,23 +15,26 @@ gem 'savon', '~> 2.3.0'
 gem 'ultraviolet'
 gem 'mysql'
 gem 'yaml_db'
-gem 'kaminari', '0.15.0'
-gem 'blacklight', '4.3.0'
+gem 'blacklight', '5.9'
 gem 'blacklight_range_limit'
-gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'master'
+gem 'blacklight_cornell_advanced_search', :git => 'git@github.com:cul-it/blacklight-cornell-advanced-search.git', :branch => 'bl5'
 gem 'blacklight_unapi', :git => 'git@github.com:cul-it/blacklight-unapi', :branch => 'rails4'
+gem 'kaminari', '0.15.0'
+
 gem 'blacklight_google_analytics'
+gem 'blacklight-hierarchy'
 gem 'json'
 gem 'httpclient'
 gem 'haml'
 gem 'haml-rails'
 gem 'marc'
+gem 'blacklight-marc'
 gem 'rb-readline', '~> 0.4.2'
 gem 'net-ldap'
 #gem 'newrelic_rpm'
 gem 'nokogiri'
 gem 'rufus-scheduler'
-
+gem 'addressable'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -67,7 +70,8 @@ group :test do
   gem 'capybara-email'
 end
 
-gem 'jquery-rails', '2.1.4'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -85,15 +89,16 @@ gem 'jquery-rails', '2.1.4'
 
 # To use debugger
 # gem 'debugger'
-gem 'unicode', :platforms => [:mri_18, :mri_19]
+gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails' 
-gem 'blacklight_cornell_requests', :git => 'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
-#gem 'blacklight_cornell_requests', :path =>  '/xxx/blacklight-cornell-requests'
+gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
+
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 # gem 'worldcat'
 #gem 'rest_mollom', :git => 'https://github.com/hernan/rest_mollom.git'
 gem 'mollom'
+#gem 'blacklight-marc'

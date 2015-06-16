@@ -1,9 +1,0 @@
-= render :partial => 'shared/back_to_item'
-%h1.request-type Check at Circulation
-%p
-	This item has a short loan period and cannot be requested. Please check at the circulation desk to see if it is available or
-	=link_to 'ask a librarian','http://ask.library.cornell.edu'
-	for help.
-
--if @alternate_request_options and @alternate_request_options.count >= 2
-	= render :partial => 'shared/request_options'           

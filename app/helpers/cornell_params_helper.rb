@@ -63,7 +63,8 @@ module CornellParamsHelper
   end
 
     def solr_search_params(my_params = params || {})
-    solr_parameters = {}
+    Blacklight::Solr::Request.new.tap do |solr_parameters|
+
     if !my_params[:q_row].nil?
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, my_params)
@@ -209,6 +210,7 @@ module CornellParamsHelper
   end
   return solr_parameters
  end
+end
 
   def groupBools(q_stringArray, opArray)
      grouped = []

@@ -2,34 +2,60 @@
 <html lang="en" class="no-js">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    
+    <!-- Internet Explorer use the highest version available -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
-    <meta http-equiv="cleartype" content="on">
+    <!--[if IEMobile]>
+      <meta http-equiv="cleartype" content="on">
+    <![endif]-->
 
     <title><%= h(@page_title || application_name) %></title>
-    <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
-    <%= favicon_link_tag asset_path('favicon.png') %>
-    <%= stylesheet_link_tag    "application", :media => "screen" %>
-    <%= stylesheet_link_tag    "cornell/print", :media => "print" %>
+    <link href="<%= opensearch_catalog_url(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%#= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
-    <%= raw(render_head_content) %>
+    <%= content_for(:head) %> 
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
   </head>
   <% onload_text = "$('input#q').focus();" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
   <body onload="<%= onload_text %>" class="<%= render_body_class %>">
     <%= render :partial => 'shared/header_navbar' %>
 
-    <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
+  <%= render partial: 'shared/ajax_modal' %>
+
+    <% if part_of_catalog? %>
+      <div class="search-bar">
+        <div class="container">
+          <%= render :partial => 'shared/search_form' %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if part_of_catalog? %>
+      <div class="constraints-bar">
+        <div class="container">
+          <%= render :partial => "catalog/constraints" %>
+        </div>
+      </div>
+    <% end %>
 
     <section class="main-content" id="maincontent">
-      <div class="container">
+      <div class="container" id="main-container">
         <div class="row">
-          <div class="span12">
+          <div class="col-sm-12">
               <div id="main-flashes">
                 <%= render :partial=>'/flash_msg' %>
               </div>
@@ -45,5 +71,34 @@
 
     <%= javascript_include_tag "application" %>
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
+    <!-- Piwik --> 
+    <script type="text/javascript"> 
+      var _paq = _paq || []; 
+      _paq.push(["setDocumentTitle", document.domain + "/" + document.title]); 
+      _paq.push(["setCookieDomain", "*.library.cornell.edu"]); 
+      _paq.push(["setDomains", ["*.library.cornell.edu","*.newcatalog.library.cornell.edu","*.search.library.cornell.edu"]]); 
+      _paq.push(['trackPageView']); 
+      _paq.push(['enableLinkTracking']); 
+      (function() { 
+        var u="//webanalytics.library.cornell.edu/"; 
+        _paq.push(['setTrackerUrl', u+'piwik.php']); 
+        _paq.push(['setSiteId', 60]); 
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; 
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s); 
+      })(); 
+    </script> 
+    <noscript><p><img src="//webanalytics.library.cornell.edu/piwik.php?idsite=60" style="border:0;" alt="" /></p></noscript> 
+    <!-- End Piwik Code -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+        //Default
+        $(".navbar a").anchorScroll();
+        $(".next-link a").anchorScroll();
+        $(".top-link a").anchorScroll();
+        $('.availability-link').anchorScroll();
+        $('.search-info a').tooltip();
+      });
+    </script>
   </body>
 </html>
+

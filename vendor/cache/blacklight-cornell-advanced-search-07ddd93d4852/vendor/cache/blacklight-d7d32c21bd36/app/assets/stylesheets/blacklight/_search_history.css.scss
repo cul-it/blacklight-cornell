@@ -1,0 +1,42 @@
+/* Search History */
+.search_history
+{
+
+  .query > a 
+  {
+    display: block;
+    border-bottom: none;
+  }
+
+  .constraint 
+  {
+    display: block;
+    text-indent: -2em;
+    padding-left: 2em;
+    margin-right: 2em;
+
+    .search 
+    {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
+    }
+
+    &:last-child 
+    {
+      margin-right: 0;
+    }
+  }
+
+  td 
+  {
+    vertical-align: top; 
+  }
+
+  .filterName, .filterSeparator
+  {
+    color: gray; 
+  }
+}
+
+
+

@@ -1,86 +1,84 @@
-<div id="document" class="<%= render_document_class %> span12">
+<div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
     <% # bookmark/folder functions -%>
+    <div class="document-header">
+      <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
+
+      <%
+       title = the_vernaculator('title_display', 'title_vern_display')
+        subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
+        responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
+      %>
+
+      <% if title.present? %>
+        <h2><%= title %></h2>
+      <% end %>
+
+      <% if subtitle.present? %>
+        <h3 class="subtitle"><%= subtitle %></h3>
+      <% end %>
+
+      <% if responsibility.present? %>
+        <h3 class="responsibility"><%= responsibility %></h3>
+      <% end %>
+    </div>
     <div class="row">
-      <div class="cover span2">
-        <div class="iconcover bookcover" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
-          <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-polaroid",  alt: "" %>
+
+      <div class="cover col-sm-2">
+        <div class="iconcover bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
+          <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-thumbnail",  alt: "" %>
           <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
+        <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down"></i></a>
       </div>
 
-      <div class="document item-metadata span10">
-        <div class="document-header">
-          <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
-
-          <%
-           title = the_vernaculator('title_display', 'title_vern_display')
-            subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
-            responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
-          %>
-
-          <% if title.present? %>
-            <h2><%= title %></h2>
-          <% end %>
-
-          <% if subtitle.present? %>
-            <h3 class="subtitle"><%= subtitle %></h3>
-          <% end %>
-
-          <% if responsibility.present? %>
-            <h3 class="responsibility"><%= responsibility %></h3>
-          <% end %>
-        </div>
-
-        <div class="well availability span4">
-          <h3>Availability</h3>
-
-          <% if finding_aid(@document) %>
-            <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
-            <% if url_findingaid_display.present? %>
-              <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
-            <% end %>
-          <% end %>
-
-          <% if online_url(@document) %>
-            <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-
-            <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
-            <% format = render_document_show_field_value :document => @document, :field => 'format' %>
-            <ul class="unstyled" id="item_online_<%= format %>">
-              <% online_links.each do |link| %>
-                <li class="online-link" ><%= link %></li>
-              <% end %>
-            </ul>
-          <% end %>
-
-          <div class="holdings" data-bibid="<%= @document.id.to_s %>">
-          <%= render "holdings"  %>
-          </div>
-
-          <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
-          <% if access_restrictions.present? %>
-            <span class="access-restriction">
-              <h5>Restrictions</h5>
-              <%= access_restrictions %>
-            </span>
-          <% end %>
-
-          <span class="blacklight-url_access_display"></span>
-          <%= @hide_status %>
-
-      <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
-       <% oclc_number=oclc_number_link %>
-       <% if oclc_number.present? %>
-          <span class="worldcat-search"><i class="fa fa-search"></i> Search  <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Libraries Worldwide</a> for a print copy.</span>
-          <% end %>
-      <% end %>
-          <%# @TODO: This needs to be conditional and more descriptive if possible, such as "Table of Contents at Google Books" %>
-          <!-- <p class="google-books-link"><i class="fa fa-globe"></i> More info at <a href="#">Google Books</a></p> -->
-        </div>
-
+      <div class="document item-metadata col-sm-10">
         <%= render_document_partial @document, :show %>
       </div>
     </div>
+  </div>
+  <div class="availability well" id="availability">
+    <h3>Availability</h3>
+
+    <% if finding_aid(@document) %>
+      <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
+      <% if url_findingaid_display.present? %>
+        <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
+      <% end %>
+    <% end %>
+
+    <% if online_url(@document) %>
+      <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+      <div class="holdings-online">
+        <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
+        <ul class="list-unstyled">
+          <% online_links.each do |link| %>
+            <li class="online-link" ><%= link %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="holdings" data-bibid="<%= @document.id.to_s %>">
+    <%= render "holdings"  %>
+    </div>
+
+    <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
+    <% if access_restrictions.present? %>
+      <span class="access-restriction">
+        <h5>Restrictions</h5>
+        <%= access_restrictions %>
+      </span>
+    <% end %>
+
+    <span class="blacklight-url_access_display"></span>
+    <%= @hide_status %>
+    <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
+    <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
+     <% oclc_number=oclc_number_link %>
+     <% if oclc_number.present? %>
+        <span class="worldcat-search"><i class="fa fa-arrow-right"></i> <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Search Libraries Worldwide for a print copy</a></span>
+        <% end %>
+    <% end %>
   </div>
 </div>

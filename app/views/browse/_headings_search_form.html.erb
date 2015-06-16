@@ -1,0 +1,21 @@
+<div class="well browse-search">
+  <div class="search-tools">
+    <%= form_tag '/browse', :method => :get, :class => 'form-inline' do %>
+      <% if !params[:authq_row].present? %>
+        <div class="form-group col-xs-6">
+          <label for="authq" class="sr-only">Begin browse with</label>
+          <%= text_field_tag :authq, params[:authq], :placeholder => 'Enter browse terms', :class => "search-query form-control", :id => "authq", :autocapitalize => "off" %>
+          <%= hidden_field_tag :start, params[:start], :value => '0', :id => "start" %>
+        </div>
+        <div class="form-group col-xs-4 col-sm-2">
+          <label for="browse_type" class="sr-only">Browse Type</label>
+          <%= select_tag :browse_type, options_for_select([["Author"],["Author (sorted by title)","Author-Title"],["Subject"]], params[:browse_type]), :class => 'form-control' %>
+        </div>
+        <button id="search-btn" class="btn btn-search" type="submit">
+          <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+        </button>
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+</div>

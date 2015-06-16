@@ -1,7 +1,6 @@
 <% sidebar_items << capture do %>
   <p><%= link_back_to_catalog %></p>
 <% end %>
-
 <h2><%=t('blacklight.search_history.title')%></h2>
 <%- if @searches.blank? -%>
   <p><%=t('blacklight.search_history.no_history')%></p>
@@ -11,10 +10,12 @@
     </p>
   <h3><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search_history">
-    <%-  @searches.each_with_index do |search,index| -%>
-    <%= content_tag :tr, :id => "document_#{index + 1}" do %>
-      <td class="query"><%= link_to_previous_search(search.query_params) %></td>
-    <% end #content_tag %>
+    <%- @searches.each_with_index do |search,index| -%>
+    <%-unless search.query_params[:q].nil? || !link_to_previous_search(search.query_params).include?("span") %>
+      <%= content_tag :tr, :id => "document_#{index + 1}" do %>
+        <td class="query"><span><%= link_to_previous_search(search.query_params) %></span></td>
+      <% end #content_tag %>
+      <%end %>
   <%- end -%>
   </table>
 <%- end -%>

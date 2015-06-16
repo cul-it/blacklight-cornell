@@ -8,6 +8,13 @@
           <%= render_index_field_value :document => document, :field => 'format' %>
         <% elsif display_link? solr_fname -%>
           <%= render_display_link :document => document, :field => solr_fname %>
+        <% elsif  solr_fname == 'author_display' -%>
+          <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
+          <% authname = render_document_show_field_value document, :field => solr_fname %>
+          <a href='/browse/info?q=<%=  authname.split("|")[0] %>&amp;browse_type=Author' class="lightboxLink" id="info" ><span class="label label-info">
+            Info
+          </span>
+          </a>
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
         <% else -%>
@@ -17,3 +24,4 @@
     <% end -%>
   <% end -%>
 </dl>
+

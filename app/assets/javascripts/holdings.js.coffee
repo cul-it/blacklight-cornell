@@ -55,23 +55,19 @@ holdings =
     tibids = []
     batchf = 4
     n = 0
-    $('body.blacklight-catalog-index .document, body.blacklight-bookmarks-index .document').each ->
+    $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
       bibId = $(this).data('bibid')
-      tibids.push bibId
-      n++
+      if  bibId?
+        tibids.push bibId
+        n++
       if ((n % batchf) == 0)
         bibids.push tibids
         tibids = []
-      #holdings.loadHoldingsShort(bibId)
-
     if tibids.length > 0
       bibids.push tibids
     for b in bibids
-      holdings.loadHoldingsShortm (b.join('/'))
-
-    #$('body.blacklight-catalog-show .holdings, body.blacklight-bookmarks-show .holdings').each ->
-    #  bibId = $(this).data('bibid')
-    #  holdings.loadHoldings(bibId)
+      if b.length > 0
+        holdings.loadHoldingsShortm (b.join('/'))
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()

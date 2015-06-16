@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
+  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
@@ -33,7 +34,8 @@ class CatalogController < ApplicationController
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
 #      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
-      :defType => 'edismax'
+      :defType => 'edismax',
+      :"f.lc_callnum_facet.facet.limit" => "-1"
     }
 
     ## list of display fields with icon
@@ -212,13 +214,12 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_display', 'subtitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
-    config.index.record_display_type = 'format'
+    config.index.title_field = 'title_display', 'subtitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
+    config.index.display_type_field = 'format'
 
     # solr field configuration for document/show views
-    config.show.html_title = 'title_display'
-    config.show.heading = 'title_display'
-    config.show.display_type = 'format'
+    config.show.title_field = 'title_display'
+    config.show.display_type_field = 'format'
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
@@ -239,9 +240,9 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    config.add_facet_field 'online', :label => 'Access', :limit => 2
-    config.add_facet_field 'format', :label => 'Format', :limit => 10
-    config.add_facet_field 'author_facet', :label => 'Author/Creator', :limit => 5
+    config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
+    config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
+    config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5
     config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
@@ -250,13 +251,31 @@ class CatalogController < ApplicationController
     }, :show => true, :include_in_advanced_search => false
 
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Subject/Genre', :limit => 5
-    config.add_facet_field 'subject_geo_facet', :label => 'Subject: Region', :limit => 5
-    config.add_facet_field 'subject_era_facet', :label => 'Subject: Era', :limit => 5
+    config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
+    config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
+    config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5
+    config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number', :limit => 5
+    config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
+    config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+     config.add_facet_field 'lc_callnum_facet',
+                           label: 'Call Number',
+                           partial: 'blacklight/hierarchy/facet_hierarchy',
+                           sort: 'index'
+    config.facet_display = {
+      :hierarchy => {
+        'lc_callnum' => [['facet'], ':']
+      }
+  }
+
+    config.add_facet_field 'collection', :show => false
+
+
+
+
+
     # config.add_facet_field 'facet', :multiple => true
     # config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
     # config.add_facet_field 'my_query_field', :query => { 'label' => 'value:1', 'label2' => 'value:2'}
@@ -264,6 +283,8 @@ class CatalogController < ApplicationController
     # config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
 
     config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+    config.add_facet_fields_to_solr_request!
+
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -299,7 +320,7 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_cts', :label => 'Author/Creator'
+    config.add_show_field 'author_cts', :label => 'Author, etc.'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -320,7 +341,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
-    config.add_show_field 'author_addl_cts', :label => 'Other author/creator'
+    config.add_show_field 'author_addl_cts', :label => 'Other contributor'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
@@ -429,7 +450,7 @@ class CatalogController < ApplicationController
         :search_field => "journal title"
       }
     end
-    config.add_search_field('author/creator') do |field|
+    config.add_search_field('author/creator',:label => "Author, etc.") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
@@ -504,6 +525,115 @@ class CatalogController < ApplicationController
          :pf => '$donor_pf'
        }
     end
+
+    #browse CTS fields. they do not appear in simple or advanced drop downs.
+    config.add_search_field('author_pers_browse',:label=>'Author: Personal Name') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'author_pers_browse',
+         :pf => 'author_pers_browse'
+       }
+    end
+
+    config.add_search_field('author_corp_browse', :label=>'Author: Corporate Name') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'author_corp_browse',
+         :pf => 'author_corp_browse'
+       }
+    end
+
+    config.add_search_field('author_event_browse', :label=>'Author: Event') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'author_event_browse',
+         :pf => 'author_event_browse'
+       }
+    end
+    config.add_search_field('subject_pers_browse', :label => 'Subject: Personal Name') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_pers_browse',
+         :pf => 'subject_pers_browse'
+       }
+    end
+
+    config.add_search_field('subject_corp_browse', :label => 'Subject: Corporate Name') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_corp_browse',
+         :pf => 'subject_corp_browse'
+       }
+    end
+
+    config.add_search_field('subject_event_browse', :label => 'Subject: Event') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_event_browse',
+         :pf => 'subject_event_browse'
+       }
+    end
+
+    config.add_search_field('subject_topic_browse', :label => 'Subject: Topic Term') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_topic_browse',
+         :pf => 'subject_topic_browse'
+       }
+    end
+
+    config.add_search_field('subject_era_browse', :label => 'Subject: Chronological Term') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_era_browse',
+         :pf => 'subject_era_browse'
+       }
+    end
+
+    config.add_search_field('subject_genr_browse', :label => 'Subject: Genre/Form Term') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_genr_browse',
+         :pf => 'subject_genr_browse'
+       }
+    end
+
+    config.add_search_field('subject_geo_browse', :label => 'Subject: Geographic Name') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_geo_browse',
+         :pf => 'subject_geo_browse'
+       }
+    end
+
+    config.add_search_field('subject_work_browse', :label => 'Subject: Work') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'subject_work_browse',
+         :pf => 'subject_work_browse'
+       }
+    end
+
+    config.add_search_field('authortitle_browse', :label => 'Author (sorted by title)') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => 'authortitle_browse',
+         :pf => 'authortitle_browse'
+       }
+    end
+
 #    config.add_search_field('donor name') do |field|
 #       field.include_in_simple_select = false
 #       field.solr_parameters = { :qf => '$donor_t' }
@@ -522,7 +652,7 @@ class CatalogController < ApplicationController
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
-    config.spell_max = 5
+    config.spell_check_max = 5
   end
 
   # Probably there's a better way to do this, but for now we'll make the mollom instance
@@ -585,7 +715,7 @@ class CatalogController < ApplicationController
       elsif !flash[:error]
         # Don't have to show a CAPTCHA and there are no errors, so we can send the email
         email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
-        email.deliver
+        email.deliver_now
         flash[:success] = "Email sent"
         redirect_to catalog_path(params[:id]) unless request.xhr?
       end

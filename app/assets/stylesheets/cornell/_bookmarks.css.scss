@@ -1,9 +1,18 @@
+.bookmarks-index {
+	// #sort-dropdown, #per_page-dropdown {
+	// 	display: block;
+	// }
+	// #per_page-dropdown {
+	// 	button { margin-right: 5px; }
+	// }
+	.item-tools {
+		margin-top: .5em;
+	}
+}	
 .clear-bookmarks {
 	margin-left: 1em;
-	font-size: .8em;
 }
 
-body.blacklight-bookmarks-index .item-tools ul { float: left;}
 
 .bookmarks-refworks input.submit {display:none;}
 
@@ -16,19 +25,52 @@ body.blacklight-bookmarks-index .item-tools ul { float: left;}
 		padding: 3px 20px;
 		clear: both;
 		font-weight: normal;
-		line-height: $baseLineHeight;
-    color: $dropdownLinkColor;
+		line-height: $line-height-base;
+    	color: $dropdown-link-color;
 		white-space: nowrap;
 	}
 	> li > form > a:hover {
 		text-decoration: none;
-	  color: $dropdownLinkColorHover;
-	  @include gradient-vertical($dropdownLinkBackgroundHover, darken($dropdownLinkBackgroundHover, 5%));
+	  	color: $dropdown-link-hover-color;
+	  	@include gradient-vertical($dropdown-link-hover-bg, darken($dropdown-link-hover-bg, 5%));
 	}
 }
-.blacklight-bookmarks {
-	.item-tools { 
-		margin-left: 0;
-		margin-top: .25em;
+
+.results-info {
+  margin: 0;
+  padding-bottom: .2em;
+  border-bottom: solid 5px $light-tan;
+}
+
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  	.bookmarks-index {
+		#sort-dropdown, #per_page-dropdown {
+			float: right;
+		}
 	}
+		#sort-dropdown {
+			margin-right: 5px;
+		}
+	// 	#per_page-dropdown {
+	// 		button { margin-right: 0; }
+	// 	}
+	// }
 }
