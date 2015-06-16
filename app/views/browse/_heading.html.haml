@@ -1,0 +1,81 @@
+.headings-list
+	%table.table.table-responsive.table-striped
+		%thead
+			%tr
+				%th.heading-count
+					Titles
+				%th.heading-name
+					Headings
+				-unless params[:browse_type] == "Author-Title"	
+					%th.heading-type
+						Type
+		%tbody
+		-if response.present? 
+			- response.each do |data|
+				-encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'")
+				%tr
+					%td
+						-if data["count"] > 0
+							=data["count"]
+								
+					%td
+						-counts=JSON.parse(data["counts_json"])
+						-if data["count"] > 0 
+							-if params[:browse_type] == "Author" 
+								- if data["headingTypeDesc"] == "Personal Name"
+									= link_to '/?q=' + encoded_heading + '&search_field=author_pers_browse' do
+										=data["heading"]
+								- elsif data["headingTypeDesc"] == "Corporate Name"
+									= link_to '/?q=' + encoded_heading + '&search_field=author_corp_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Event"
+									= link_to '/?q=' + encoded_heading + '&search_field=author_event_browse' do
+										=data["heading"]
+								-else 
+									=data["heading"]
+							-if params[:browse_type] == "Subject"
+								- if data["headingTypeDesc"] == "Personal Name"
+									= link_to '/?q=' + encoded_heading + '&search_field=subject_pers_browse' do
+										=data["heading"]
+								- elsif data["headingTypeDesc"] == "Corporate Name"
+									= link_to '/?q=' + encoded_heading + '&search_field=subject_corp_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Geographic Name"
+									= link_to '/?q=' + encoded_heading + '&search_field=subject_geo_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Chronological Term"
+									= link_to '/?q=' + encoded_heading + '&search_field=subject_era_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Genre/Form Term"
+									= link_to '/?q=' + encoded_heading + '&search_field=subject_genr_browse' do
+										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Topical Term"
+									= link_to '/?q=' + encoded_heading + '&search_field=subject_topic_browse' do 
+										=data["heading"]
+								-else
+									=data["heading"]
+							-if params[:browse_type] == "Author-Title"
+								= link_to '/?q=' + encoded_heading + '&search_field=authortitle_browse' do
+									=data["heading"]
+						- else
+							=data["heading"]
+						
+						-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
+							= link_to '/browse/info?authq=' + encoded_heading +"&browse_type=" + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do
+								%span.label.label-info
+									Info
+											
+						-if !data["see"].blank?
+							-data["see"].each do |form|
+								-form=JSON.parse(form)
+								-unless form.blank?
+									.see-ref
+										%i.fa.fa-arrow-right
+										See
+										= link_to "/browse?authq=" + form["heading"].gsub('&', '%26') + "&start=0" +"&browse_type=" + params[:browse_type]do
+											=form["heading"]
+										.see-ref-count
+											= "(" + form["count"].to_s + ")"
+												
+					%td
+						=data["headingTypeDesc"]

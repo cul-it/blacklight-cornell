@@ -1,0 +1,496 @@
+// div.single-search.container {
+//   padding:2em;
+// }
+input.search-query { width: 35%; }
+#field,
+#sort,
+#per_page { margin-bottom: 0; }
+.sort,
+.per_page {
+  display: inline;
+  margin-right: .6em;
+}
+.sort_group { margin: 1em 0; }
+
+.single-search {
+  .form-group {
+    width: 80%;
+  }
+  .search-query {
+    width: 100%;
+  }
+  .btn-search {
+    margin-left: .5em;
+  }
+}
+
+// .single-search form {
+//   margin:0px;
+
+//   .btn {
+//     margin-left:.25em;
+//   }
+// }
+
+#top2 {
+  .search-source {
+    margin-top: 0;
+  }
+}
+.bento_box .span3 p {
+  padding:1em;
+}
+
+.result-totals {
+  font-size: 1em;
+  float: right;
+  font-weight: normal;
+  color: $light-gray;
+  padding-left: .5em;
+  i {
+    color:$dark-tan
+  }
+}
+div.view-all {
+  text-align: center;
+  margin-top: 1em;
+  font-size: 1em;
+  font-weight: 700;
+  .engine-title{
+    text-transform: lowercase;
+  }
+  .btn {
+    font-size: 12px;
+  }
+  .all-link {
+    margin-top: .5em;
+  }
+}
+.bento_item_row {
+   margin-bottom: .5em;
+   line-height: 1.4em;
+}
+
+// Bento grid
+// -----------------------------------------------//
+#grid div {margin:0}
+.web-pane{
+  clear:both;
+  position:relative;
+  margin-bottom:2em;
+}
+
+// Bento box
+// -----------------------------------------------//
+.search-source {
+  font-size: 24px;
+  margin: 0 0 .25em 0;
+  i { color:$dark-tan}
+  a {
+    color: $dark-gray;
+    border: none;
+  }
+  a:hover {
+    text-decoration: none;
+    border: none;
+  }
+}
+.bento_item {
+  margin-top: .6em;
+  padding-bottom: .4em;
+  border-bottom: 1px solid $light-tan;
+}
+.bento_item_title {
+  margin: 0 0 .5em 0;
+  font-weight: normal;
+  line-height: 1.25em;
+}
+.bento_item_body {
+  font-size: 12px;
+}
+
+.web-results {
+  margin-bottom: 2em;
+}
+.abstract {
+  font-size: 14px;
+}
+.back-to-search {
+  font-size:1.3em;
+}
+
+// Library Website results
+// -----------------------------------------------//
+.web-count {
+  margin-bottom: 20px;
+}
+.web {
+  .bento_item {
+    margin-bottom: 1em;
+  }
+}
+
+ .bento_compartment {
+    border-bottom: 5px solid #edebe7;
+    .top-view-all {
+      position:relative;
+      top:20px;
+      font-size:1em;
+    }
+ }
+
+ .bento_box {
+  padding: 1em 0 0 0;
+  }
+// TODO: BL4 stuff? delete
+// .formats {
+//   padding: 10px;
+//   // margin-bottom:20px;
+//   background-color:#fff;
+//   @include border-top-radius($border-radius-large);
+//   @include border-bottom-radius($border-radius-large);
+//   h3 {
+//     font-size: 1.3em;
+//     font-weight: normal;
+//     margin: 0 0 .5em;
+//     border-bottom: 1px solid $light-tan;
+//     padding-bottom: .25em;
+//   }
+//   h3:first-child { margin-top: 0; }
+//   ul.icons-ul {
+//     margin-left: 1.8em;
+//     list-style: none;
+//     margin-bottom: 0;
+//   }
+//   .no-results a {
+//     color: #aaa;
+//   }
+// }
+
+// Best bet
+// -----------------------------------------------//
+.best-bet {
+  padding: 1em 1em 1.5em 1em; 
+  margin-bottom: 2em;
+  border: 5px solid $light-tan;
+  h2 {
+    line-height: 1.2em;
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+    margin-top: -.15em;
+    font-size: 20px;
+  }
+  .heads-up {
+    font-size: 16px;
+    margin-bottom:.5em;
+    font-weight: bold;
+    padding:0;
+  }
+  i {
+    color: $cornell-primary
+  }
+
+}
+
+
+.bento-box {
+  position:relative;
+  margin-bottom:2em;
+  padding-right:2em;
+}
+
+.all-formats {
+  background: $light-tan;
+  @include border-top-radius($border-radius-large);
+  @include border-bottom-radius($border-radius-large);
+  h3 {
+    font-size: 1.2em;
+    line-height: 1.2em;
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+  }
+  ul.icons-ul {
+    margin-left: 1.8em;
+    list-style: none;
+  }
+  .no-results a {
+    color: #aaa;
+  }
+}
+
+// Sidebar
+// -----------------------------------------------//
+// expand-search rules also apply to catalog
+.expand-search,
+#formats { 
+  ul {
+    margin-left: 0;
+    list-style: none;
+  }
+  li {
+    font-size: 12px;
+    margin-bottom: 6px;
+    line-height: 1.5em;
+  }
+  i {
+    color: $dark-tan;
+    margin-right: .25em;
+  }
+  p {
+    font-size: 12px;
+  }
+  h5 {
+    font-size: 14px;
+  }
+  .panel {
+    margin-bottom: 10px;
+  }
+}
+#more-results {
+  margin-left: 0;
+}
+.bento_box {
+  .top-panel-heading {
+    padding: 0;
+    border-radius: 0;
+    border: 0 !important;
+    overflow: hidden;
+    margin-bottom: 1em;
+  }
+}
+
+#formats {
+  i {
+    color: $dark-gray;
+  }
+}
+
+// Advanced link customized for single search
+// -----------------------------------------------//
+.search {
+  .advanced-search-link {
+    padding-left: 15px;
+    margin-top: 1em;
+  }
+}
+
+// Search options - customized from the same markup as catalog home page
+// -----------------------------------------------------------------------//
+.search-index {
+  .other-resources {
+    border-top: 1px solid $tan;
+    padding-top: 1em;
+    margin-top: 1.5em;
+  }
+}
+
+.empty-single-search {
+  margin-top: 2em;
+  .well {
+    font-size:1.2em;
+    padding: 19px 19px 0 19px;
+  }
+  form {
+    padding-bottom: 2.5em;
+  }
+  h2 {
+    line-height: normal;
+    margin: 0 0 .25em;
+  }
+}
+
+.bento_compartment {
+  .web {
+    margin-top:2em;
+  }
+}
+
+.top-row {
+  padding-bottom:2em;
+}
+
+.no-book-results {
+  font-size:1.3em;
+  padding-top:.5em;
+}
+
+.results-collapse {
+  .well {
+    padding: 10px;
+    margin-top: 20px;
+    p {
+      padding: 0;
+      font-size: 1.1em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Advanced link customized for single search
+// -----------------------------------------------//
+#jumpbar {
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  .top-results {
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  li {
+    font-size: 14px;
+  }
+  a {
+    padding-right: 1em;
+    border-bottom: none;
+  }
+  a:hover {
+    border: none;
+  }
+  i {
+    color: $dark-tan;
+  }
+}
+
+// Mobile helper links - top and all results
+// -----------------------------------------------//
+.top-link {
+  text-align: center;
+  margin: .5em 0;
+  i {
+    color: $dark-tan;
+  }
+}
+
+// Match autocomplete suggestions to main site
+// -----------------------------------------------//
+.ui-widget {
+  font-family: $font-family-base !important;
+  li { font-size: 16px; }
+}
+
+// give summon alert a little more space between it and the header
+.item {
+  .alert { margin-top: 1em; }
+}
+
+// no results
+.no-results {
+  font-size: 14px;
+}
+.no-margin {
+  margin-bottom: 0;
+}
+
+// Search info -- tooltip on home page -- lifted from CUL site
+.search-info {
+  font-size: 13px;
+  float: right;
+  a {
+    color: $medium-gray;
+    cursor: pointer;
+  }
+}
+.tooltip-inner {
+  padding: 10px 12px; 
+  font-size: 13px;
+  background: $dark-gray;
+  text-align: left;
+}
+
+// Override the default collapsed state -- copied out of gem - navbar.scss.css - stick this in here so IE8 will display the All Results panel - https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1202
+.results-collapse.collapse {
+  // display: none;
+}
+
+.chat {
+  margin: 0 0 1em;
+}
+
+// Availability 
+// -----------------------
+
+.bento_item_avail {
+  font-size: 12px;
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .single-search {
+    .btn-search {
+      margin-left: 0;
+    }
+  }
+  .results-collapse,
+  .results-collapse.collapse {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .bento_box {
+    .top-panel-heading {
+      margin-bottom: 0;
+    }
+    h4 {
+      margin-top: 0;
+    }
+  }
+  // Grid
+  .bento1 {
+    width: 45%;
+    float: left; 
+    margin-right: 3em; 
+    margin-bottom: 2em;
+  }
+  .bento2 {
+    width: 45%;
+    float: right;
+    margin-bottom: 2em;
+  }
+  .bento3 {
+    margin-right:3em;
+    width:45%;
+    float:left;
+    clear:left;
+    margin-bottom:2em;
+  }
+  .bento4 {
+    width:45%;
+    float:right;
+    clear:right;
+    margin-bottom:2em;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+  .single-search {
+    .form-group {
+      width: 60%;
+    }
+  }
+  .web-count {
+    text-align: right;
+    margin-top: 20px;
+  }
+  // Required to make the collapsing navbar work on regular desktops
+  // .results-collapse,
+  // .results-collapse.collapse {
+  //   height: auto !important;
+  //   overflow: visible !important;
+  // }
+}

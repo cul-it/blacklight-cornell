@@ -11,7 +11,7 @@
     - # Render group headings only if we have multiple groups
     - if multiple_groups
       - if group == "Rare"
-        %h4
+        %h3.rare
           = group + " Items"
     - holdings.each do |entry|
       - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
@@ -110,9 +110,9 @@
       .item-requests
         - counter = params[:counter] || session[:search][:counter]
         - if counter.blank?
-          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-default' }
+          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
         - else
-          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-default', 'data-counter'.to_sym => counter, :id => 'id_request' }
+          =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
 
 
 

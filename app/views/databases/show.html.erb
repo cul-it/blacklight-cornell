@@ -1,0 +1,61 @@
+<%= render :partial => 'databases_search_form'  %>
+<% alpha = params[:alpha]  %>
+<div class="row database-subject">
+  <div class="page-title col-sm-12">
+    <div class="return-link">
+      <%= link_to "/databases/" do  %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Databases
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="resources">
+  <% @db.each do |data| %>
+    <% dbid = data["id"] %>
+    <div class="document blacklight-database-name clearfix">
+      <div class="document-data">
+        <h4 class="blacklight-title_display">
+          <% if data["fulltitle_vern_display"].present? %>
+            <%= data["fulltitle_vern_display"] %>
+          <% else %>
+            <%= data["fulltitle_display"] %>
+          <% end %>
+        </h4>
+        <div class="description">
+          <p>
+            <%= data["summary_display"][0] %>
+          </p>
+        </div>
+        <div class="links">
+          <h4 class="blacklight-title_display">
+            Access Links
+          </h4>
+          <% data["url_access_display"].each do |link| %>
+            <%= link_to link.split('|')[0] do %>
+              <% if data["fulltitle_vern_display"].present? %>
+                <%= data["fulltitle_vern_display"] %>
+              <% else %>
+                <%= link.split('|')[0] %>
+              <% end %>
+            <% end %>
+            <div></div>
+          <% end %>
+        </div>
+        <div class="terms">
+          <% if data["dbcode"].nil? %>
+            <% dbcode = "" %>
+          <% else %>
+            <% dbcode = data["dbcode"][0] %>
+          <% end %>
+          <% if data["providercode"].nil? %>
+            <% providercode = "" %>
+          <% else %>
+            <% providercode = data["providercode"][0] %>
+          <% end %>
+          <%= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

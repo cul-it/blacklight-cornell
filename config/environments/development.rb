@@ -45,4 +45,8 @@ BlacklightCornell::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  # this allows WEBrick to handle pipe symbols in query parameters
+URI::DEFAULT_PARSER = 
+  URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 end

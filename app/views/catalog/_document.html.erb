@@ -1,7 +1,7 @@
 <% # container for a single doc -%>
 <div class="document <%= render_document_class document %> clearfix" data-bibid="<%= document.id %>">
   <div class="iconcover bookcover" id="OCLC:<%= bookcover_oclc(document) %>" data-oclc="<%= bookcover_oclc(document) %>">
-<%= image_tag "cornell/layout/placeholder-item.png", class: "img-polaroid",  alt: "" %>
+<%= image_tag "cornell/layout/placeholder-item.png", class: "img-thumbnail",  alt: "" %>
     <i class="fa fa-<%= formats_icon_mapping(document['format'].first) %>"></i>
   </div>
 

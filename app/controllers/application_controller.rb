@@ -11,4 +11,13 @@ class ApplicationController < ActionController::Base
   layout 'blacklight'
 
   protect_from_forgery
+
+# An array of strings to be added to HTML HEAD section of view.
+# See ApplicationHelper#render_head_content for details.
+   def extra_head_content
+       #Deprecation.warn Blacklight::LegacyControllerMethods, "#extra_head_content is NOT deprecated"
+        @extra_head_content ||= []
+   end
+
+
 end

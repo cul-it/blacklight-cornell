@@ -1,8 +1,15 @@
 BlacklightCornell::Application.routes.draw do
 
+  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+
+  Blacklight::Marc.add_routes(self)
+
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
+
+
+  #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
   devise_for :users
 # rails 4
@@ -22,12 +29,21 @@ BlacklightCornell::Application.routes.draw do
 
 #ArgumentError: Invalid route name, already in use: 'catalog_email' 
 #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here: 
-  post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
+  #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
   
+  get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
+  get '/browse/info' => 'browse#info', :as => 'browse_info'
+  get '/browse' => 'browse#index', :as => 'browse_index'
+  get '/browse/heading' => 'browse#show', :as => 'browse_show'
+  get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
+  get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
+  get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
+  
+
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon', :via => [:post, :put, :get]
   get '/databases' => 'databases#index', :as => 'databases_index'
   get '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
@@ -35,10 +51,11 @@ BlacklightCornell::Application.routes.draw do
   get '/databases/subject/:q' => 'databases#subject', :as => 'databases_subject'
   get '/databases/show/:id' => 'databases#show', :as => 'databases_show'
   get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
-
+  
+  get '/search', :to => 'search#index', :as => 'search_index'
+  match "search/:engine", :to => "search#single_search", :as => "single_search", via: [ :get ]
   get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'
   get '/digitalcollections/searchdigreg/' => 'digitalcollections#searchdigreg', :as => 'digitalcollections_searchdigreg'
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -96,6 +113,8 @@ BlacklightCornell::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+
+
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
 end

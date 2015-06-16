@@ -191,6 +191,10 @@ en:
           title: 'Targeted search options'
           post_label: 'for'
         q: 'Search...'
+        q_row: 'Term'
+        search_field_row: 'Field'
+        search_field_advanced: 'Field'
+        op_row: 'Operator'
         submit: 'Search'
       pagination:
         title: 'Results navigation'
@@ -230,6 +234,10 @@ en:
       atom_feed: 'Atom for results'
       fields:
         default: 'Keyword'
+      bookmarks:
+        present: "Selected"
+        absent: "Select"
+        inprogress: "Saving..."
 
     entry_name:
       default: 'entry'

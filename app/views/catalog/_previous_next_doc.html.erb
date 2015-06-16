@@ -2,13 +2,13 @@
 <% if params[:controller] == 'bookmarks' && (@previous_bookmark || @next_bookmark) %>
   <%= link_to_previous_document @previous_bookmark %> |
 
-  <%= item_page_entry_info %> |
+  <%= cornell_item_page_entry_info %> |
 
   <%= link_to_next_document @next_bookmark %>
 <% elsif @previous_document || @next_document %>
   <%= link_to_previous_document @previous_document %> |
 
-  <%= item_page_entry_info %> |
+  <%= cornell_item_page_entry_info %> |
 
   <%= link_to_next_document @next_document %>
 <% end %>

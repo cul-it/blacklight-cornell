@@ -1,10 +1,20 @@
-h1.request-type {
-  font-size: 1.5em;
-  font-weight: 600;
+// h1.request-type {
+//   font-size: 1.5em;
+//   font-weight: 600;
+// }
+
+// Well
+// --------------------//
+.aeon-request_aeon,
+.request {
+  .well {
+    background: white;
+  }
 }
+
 .item-title-request {
-  font-size:1.25em;
-  font-weight:600;
+  margin-top: 0;
+  font-size: 24px;
 }
 #req {
   select {
@@ -19,7 +29,10 @@ h1.request-type {
   text-shadow: none;
   background: #ddd;
 }
-.request-author { margin-bottom: 1em; }
+.request-author { 
+  margin-bottom: 1em;
+}
+
 .radio-label {
   display: inline-block;
   margin-top: .5em;
@@ -49,39 +62,64 @@ div.request-options div.accordion-body .span4 {
   position:relative;
   left:-15px;
 }
-.form-alternative-action{
-  font-size: .75em;
-  h3 {margin-top:3em;
-    }
-  }
 
-.help-inline.required {
-  font-size: .8em;
+.help-block.required {
+  font-size: 12px;
   color: $cornell-primary;
 }
-.aeon {font-size: .8em}
 
+.delivery-estimate {
+  padding-top: 7px;
+}
+
+
+// Aeon screen
+// --------------------//
 .aeon-circ {
   border-left: solid 1px $light-tan;
   padding-left:50px;
   height: 100%
 }
-
-.delivery-estimate {
-  font-size:14px;
-  padding-top:5px;
+// .aeon {font-size: .8em}
+.aeon-request_aeon {
+  .location {
+    margin-bottom: .5em;
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 2px solid #edebe7;
+  }
+  .location:first-child {
+    border-top: 0;
+  }
+  .call-number {
+    margin-bottom: .25em;
+  }
 }
 
-table.request-options {
-    margin-top:5px;
+// Other delivery options
+// -------------------------//
 
-    tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
-      {background-color: $white;}
+.request-options {
+  margin-top: 5px;
 
-    thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-    background-color: $tan;
-    color: $gray;}
+  tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
+    {background-color: $white;}
 
-    .blacklight-title_display { line-height: inherit; }
+  thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
+  background-color: $light-tan;
+  color: $gray; }
+}
+
+  // .blacklight-title_display { 
+  //   line-height: inherit;
+  //   font-size: 14px;
+  // }
+
+.form-alternative-action{
+  font-size: 12px;
+  h3 {  
+    margin-top: 2em;
+    font-size: 18px;
   }
+}
  

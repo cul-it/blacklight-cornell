@@ -1,0 +1,28 @@
+<%# Browse by title list page (#-Z) %>
+
+<%= render :partial => 'databases_search_form' %>
+<% alpha = params[:alpha] %>
+<div class="row database-subject">
+  <div class="page-title col-sm-12">
+    <div class="return-link">
+      <%= link_to "/databases/" do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Databases
+      <% end %>
+    </div>
+    <h2>
+      Databases:
+      <% if alpha == '1' %>
+        &#035;
+      <% else %>
+        <%= alpha %>
+      <% end %>
+    </h2>
+  </div>
+</div>
+<div class="resources">
+  <% if @a.present? %>
+    <%= render 'database', :response => @a %>
+  <% end %>
+</div>
+<%= render :partial => 'shared/top'  %>

@@ -1,0 +1,40 @@
+
+= render :partial => 'headings_search_form'
+- if params[:authq].nil?
+	=render :partial => 'headings_text'
+
+.col-sm-12
+	- if @headingsResponse.present?
+		.database-subject
+			.page-title
+				.return-link
+					=link_to "/browse/" do
+						%i.fa.fa-arrow-circle-left
+						Start over
+				
+
+	- if @headingsResponse.present?
+		%h3
+			-if params[:browse_type] == "Author"
+				='Browse "' + params[:authq] + '" in author headings'
+			-if params[:browse_type] == "Subject"
+				='Browse "' + params[:authq] + '" in subject headings'
+			-if params[:browse_type] == "Author-Title"
+				='Browse "' + params[:authq] + '" in author-title headings'
+		=render 'pagination'
+		-if params[:order] == "reverse"
+			= render 'heading', :response => @headingsResponse.reverse
+		-else
+			= render 'heading', :response => @headingsResponse
+
+	- if !params[:authq].blank? && @headingsResponse.blank? && params[:browse_type].present?
+		%h2
+			No results
+
+	- if params[:browse_type].present? && @headingsResponse.blank? && params[:authq].blank?
+		%h2
+			Please enter a query
+
+
+	- if @headingsResponse.present?
+		=render 'pagination'

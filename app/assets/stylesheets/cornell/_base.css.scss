@@ -1,65 +1,96 @@
-// LAYOUT
+// Layout
+// ------------------------
 
 body {
-  padding-top: 0;
-  font-size: 100%;
+  	padding-top: 0;
 }
 
 .main-content {
 	padding: 0.5em 0 30px 0;
-	background: $pale-gray;
+	background: white;
 }
 
 .blacklight-catalog-show {
-	.main-content { padding-bottom: .5em; }
+	.main-content {
+		padding-bottom: .5em;
+	}
 }
-.main-text { padding-top: .5em; }
+.main-text {
+	padding-top: .5em;
+}
 
-// LINKS
+// Links
+// ------------------------
 
-a { color: $link-primary; }
+a { 
+	color: $link-primary;
+}
 
 a:hover {
-	color: $dark-gray;
+	color: $link-primary-hover;
 	text-decoration: underline;
+}
+
+// Add underlines to links in main content area so that they are easier to see / accessibility
+.main-content,
+.blacklight-nav {
+	a {
+		border-bottom: 1px dotted $light-gray;
 	}
+	a:hover,
+	a:active,
+	a:focus {
+		border-bottom: 1px solid $light-gray;
+		text-decoration: none;
+	}
+}
+// No underlines for some elements in the main content area
+.main-content {
+	.remove,
+	.remove:hover,
+	.label,
+	.label:hover,
+	.dropdown-menu a,
+	.dropdown-menu a:hover {
+		border-bottom: none;
+	}
+}
 
 
-// TYPOGRAPHY
+// Typography
+// ------------------------
 
-h2 { font-size: 1.5em; }
-h3 { font-size: 1.25em; line-height: 1.5em;}
+h2 { 
+	margin-bottom: .5em;
+	font-size: 26px;
+}
+h3 { font-size: 20px; line-height: 1.5em;}
 
-// FORMS
+// Forms
+// ------------------------
 
 // This is needed as workaround for IE7-9 bug with font-famly on <select>
 // -- see cul-bootstrap-loader.css.scss and this issue for more details:
 // -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-622
-input,
-button,
-textarea {
-  font-family: $baseFontFamily;
-}
+// input,
+// button,
+// textarea {
+//   font-family: $font-family-base;
+// }
 
-
-// MISCELLANEOUS
-
-.align-right { text-align: right; }
-
-.float-right { float: right; }
-.float-left { float: left; }
-
-// HOME PAGE TEXT
+// Home page text
+// ------------------------
 
 .feedback {
 	h4 { margin-top: 40px; }
-  	p { font-size: 1em;}
+  	p { font-size: 16px;}
 }
 .home-message {
 	margin-top: 30px;
 	p {
-		line-height: 1.5em;
-		margin-bottom: 15px; }
+		margin-bottom: 15px;
+		font-size: 16px;
+	}
 	li {
 		line-height: 1.5em;
 		margin-bottom: .5em; }
@@ -78,7 +109,7 @@ textarea {
 	.blacklight-nav {
 		float: none;
 		li {
-			font-size: 1.2em;
+			font-size: 16px;
 		}
 		li:first-child {
 			a {
@@ -92,7 +123,9 @@ textarea {
 	}
 }
 
-// CUL button style
+// CUL button - libraries
+// ------------------------
+
 .btn-libraries {
 	background: #16524d;
 	color: white;
@@ -110,4 +143,76 @@ textarea {
 .btn-libraries:focus {
 	background: #16524d;
 	color: white;
+}
+.btn-secondary {
+	background: $dark-tan;
+}
+
+// CUL button - generic teal
+// ------------------------------
+
+.btn-cul {
+	color: white;
+	background-color: $teal;
+	border-color: $dark-teal;
+	background-image: none;
+}
+.btn-cul:hover,
+.btn-cul:active,
+.btn-cul:focus {
+	background-color: $dark-teal;
+	color: white
+}
+.main-content {
+	.btn-cul {
+		border-bottom: 1px solid $dark-teal;
+	}
+}
+
+
+// Well overrides
+// ------------------------
+
+.well {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+// Panel overrides
+// ------------------------
+.panel,
+.panel-group .panel {
+	border-radius: 0;
+	border: 0 0 1px 0;
+	box-shadow: none;
+}
+.panel-default > .panel-heading {
+	background: $light-tan;
+	border-radius: 0;
+}
+// Img overrides
+// ------------------------
+.img-thumbnail {
+	border-radius: 0;
+	background: white;
+}
+// Modal overrides
+// ----------------------
+.close {
+	color: $medium-gray;
+	opacity: 1;
+}
+.modal {
+	h3 {
+		font-weight: 700;
+		margin: 0;
+	}
+}
+
+// Miscellaneous
+// ----------------------
+.toplink {
+	margin: 1em 0;
+	font-size: 12px !important;
+	text-align: right;
 }

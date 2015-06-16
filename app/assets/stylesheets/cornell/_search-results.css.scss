@@ -1,29 +1,56 @@
-body.blacklight-catalog-index .document,
-body.blacklight-bookmarks-index .document {
+body.catalog-index #documents .document,
+body.bookmarks-index #documents .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
-	padding: 20px 0;
+	padding: 1.5em 0;
+	margin-top: 0;
+	// Book cover and icon cover
 	img {
 		float: left;
 		margin-right: 1em;
 		width: 50px;
-		height: 75px;
+		height: auto;
 	}
 }
 
-.blacklight-title_display {
-	margin: 0;
-	font-weight: normal;
-	line-height: 1.2em;
-	font-size: 1.1em;
+// Icon cover
+// ------------------------------------------
+
+.iconcover {
+	float: left; 
+	width: 75px; 
+	margin-right: 1em; 
+	height: 100px;
+	text-align: center;
+	width: 50px;
+	height: auto;
+	i { 
+		font-size: 24px;
+		color: $dark-tan;
+		margin-left: 2px;
+		position: relative;
+		top: -50px
+
+	}
 }
 
+// Title
+// ------------------------------------------
+.blacklight-title_display {
+	margin: 0 0 .5em 0;
+	font-weight: normal;
+	line-height: 1.2em;
+	font-size: 20px;
+}
+
+// Item data
+// ------------------------------------------
 .document-data {
 	float: left;
-	width: 89%;
+	width: 75%;
 	span {
-		font-size: .75em;
-		color: $light-gray;
+		font-size: 12px;
+		margin-bottom: .5em;
 	}
 	.shadow-record {
 		margin-top: .15em;
@@ -32,39 +59,44 @@ body.blacklight-bookmarks-index .document {
 	}
 	.blacklight-pub_date_display {
 		margin-left: .2em;
-		color: $dark-gray;
 	}
 	.blacklight-title_uniform_display {
 		display: block;
 		margin-top: -.2em;
-		font-style: italic;
-		color: $medium-gray;
+		font-size: 14px;
+		color: $dark-gray;
 	}
 	.blacklight-author_display {
 		display: block;
+		font-size: 14px;
 	}
 	.format {
 		margin-right: .5em;
-		color: $dark-gray;
 	}
 	.blacklight-pub_info_display {
 		margin-right: .5em;
-		color: $medium-gray;
 	}
 	.status {
-		font-size: 1em;
+		font-size: 12px;
 		line-height: 1em;
+		margin-top: 1em;
 	}
-	.location { color: $medium-gray; }
+	.preloader {
+		color: $light-gray;
+		font-size: 11px;
+	}
 }
-
 .data-block {
 	margin-top: .4em;
 	line-height: 1em;
+	margin-bottom: .5em;
 }
 
+// Availability status
+// ------------------------------------------
+
 .status-online {
-	font-size: .75em;
+	font-size: 12px;
 }
 
 .fa-check { color: $available; }
@@ -74,22 +106,34 @@ body.blacklight-bookmarks-index .document {
 .status .fa-question-circle,
 .fa-warning {color: $yellow; }
 
+
+// Sort and per page options
+// ------------------------------------------
+
 #sort-dropdown,
 #per_page-dropdown {
-	font-size: .8em;
+	font-size: 12px;
 	.btn {
 		font-size: inherit;
 	}
 }
-.select-item {
-	float: right;
-	margin-left: 30px;
+#sortAndPerPage {
+	margin-bottom: 0;
+	padding-bottom: .25em;
+	border-bottom: 5px solid $light-tan;
 }
+.search-widgets {
+	float: none !important;
+}
+
+// Select / bookmarks
+// ------------------------------------------
+
 .select-all {
 	margin-left: 10px;
 	form { margin-bottom: 0; }
 	span {
-		font-size: .75em;
+		font-size: 12px;
 		color: $light-gray;
 	}
 	input[type="checkbox"] {
@@ -101,6 +145,11 @@ body.blacklight-bookmarks-index .document {
 	font-weight: normal;
 }
 .label-online:hover { background: $dark-teal; }
+.form-horizontal {
+	.toggle_bookmark {
+		padding-top: 0;
+	}
+}
 
 // Search history
 // ------------------------------------------
@@ -112,15 +161,79 @@ body.blacklight-bookmarks-index .document {
 		margin: 0 .5em; }
 }
 
-.iconcover { // bump up width and heigh to accommodate for padding on nested img with img-polaroid class
-	float: left; 
-	width: 58px; 
-	margin-right: 1em; 
-	height: 83px;
-	text-align: center;
-	i { 
-		font-size: 1.75em;
-		margin-left: 4px;
-		position: relative;
-		top: -60px; }
+// Did you mean
+// ------------------------------------------
+#spell {
+	background: $light-tan;
+	padding: 5px 15px;
+	margin-bottom: 1.5em;
+}
+h4.suggest {
+	font-size: 14px;
+	line-height: 1.5em;
+	em {
+		font-style: normal;
+	}
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.search-widgets {
+		float: right !important;
+	}
+	#sortAndPerPage {
+		padding-bottom: 0;
+	}
+	body.catalog-index #documents .document,
+	body.bookmarks-index #documents .document {
+		img {
+			width: 75px;
+			height: 100px;
+		}
+	}
+	.iconcover {
+		width: 75px; 
+		height: 100px;
+		i {
+			margin-left: 4px;
+			top: -70px;
+		}
+	}
+	.select-item {
+		float: right;
+		margin-left: 30px;
+	}
+	.document-data {
+		width: 83%;
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+	.document-data {
+		width: 87%;
+	}
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg) {
+	.document-data {
+		width: 89%;
+	}
 }

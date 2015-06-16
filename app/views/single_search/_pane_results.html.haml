@@ -1,0 +1,46 @@
+.bento_compartment{:class => key, :id => key.tr(" ", "_")}
+  -if result
+    - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+    - link_url = ss_uri_encode(link_url)
+  %h2.search-source
+    = link_to link_url, :title => "View all" do
+      %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
+      = BentoSearch.get_engine(key).configuration.title
+
+- if result
+  -# our app chooses to use 'q' as the query param; the ajax loading controller
+  -# uses 'query'.This ordinarily is fine, but since we want this layout to work
+  -# for both, we have to look for both, oh well.
+  - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+  - if key != 'summon_bento'
+    - link_url = request.protocol + request.host_with_port + '/' + link_url
+  -if result
+    = bento_search result
+    - link_url = ss_uri_encode(link_url)
+    %div.view-all
+      = link_to link_url, :class => "btn btn-default", :id => "link_top_" + downcast(key) do
+        View
+        / = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
+        = number_with_delimiter(result.total_items)
+        - if result.total_items > 1
+          = BentoSearch.get_engine(key).configuration.title
+        - else
+          -if BentoSearch.get_engine(key).configuration.title != "Theses" && BentoSearch.get_engine(key).configuration.title != "Miscellaneous" && BentoSearch.get_engine(key).configuration.title != "Manuscripts / Archives"
+            = BentoSearch.get_engine(key).configuration.title[0...-1]
+          -if BentoSearch.get_engine(key).configuration.title == "Theses"
+            Thesis
+          -if BentoSearch.get_engine(key).configuration.title == "Miscellaneous"
+            Miscellaneous
+          -if BentoSearch.get_engine(key).configuration.title == "Manuscripts / Archives"
+            Manuscript / Archive
+        -BentoSearch.get_engine(key).configuration.title
+        - if BentoSearch.get_engine(key).configuration.title == 'Journal Articles'
+          from Articles &amp; Full Text
+        - elsif BentoSearch.get_engine(key).configuration.title == 'Library Websites'
+        - else
+          from Catalog
+        %i.fa.fa-angle-double-right
+    %div.top-link.visible-xs
+      = link_to '#top' do
+        %i.fa.fa-arrow-up
+        Top

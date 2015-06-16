@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="search-tools col-sm-6 col-md-7 col-lg-8">
+  <% if params[:controller]=='browse' %>
+    <h2><a href="/browse">Browse</a></h2>
+  <%else%>
+    <%= form_tag catalog_index_url, :method => :get, :class => 'search-form form-inline' do %>
+      <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)).html_safe %>
+      <% if !params[:q_row].present? || params[:action] == 'edit' %>
+          <div class="form-group col-xs-6">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
+          </div>
+
+          <% unless search_fields.empty? %>
+            <div class="form-group col-xs-4 col-sm-4">
+              <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
+              <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
+              <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
+            </div>
+          <% end %>
+
+          <button id="search-btn" class="btn btn-search" type="submit">
+            <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+          <!-- </span> -->
+        <!-- </div> -->
+
+        <% if !query_has_constraints? %>
+          <% if !params[:range].blank? %>
+<%end%>
+          <%end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if params[:q_row].present? && params[:action] != 'edit'%>
+      <h2 class="advanced-search">Advanced Search</h2>
+    <% end %>
+
+  </div>
+
+  <div class="search-nav col-sm-6 col-md-5 col-lg-4">
+    <ul class="nav nav-pills">
+      <li><a href="/advanced"><i class="fa fa-search"></i>Advanced Search</a></li>
+      <li><a href="/browse"><i class="fa fa-hand-o-up"></i>Browse</a></li>
+      <li><a href="http://www.library.cornell.edu/myacct"><i class="fa fa-user"></i>My Account</a></li>
+    </ul>
+  </div>
+
+</div>
+

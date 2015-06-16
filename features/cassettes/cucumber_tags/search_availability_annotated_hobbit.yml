@@ -349,4 +349,220 @@ http_interactions:
         H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
   recorded_at: Mon, 09 Mar 2015 17:38:58 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr1.library.cornell.edu/solr/blacklight2/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet=true&facet.field=hierarchy_facet&q=(%2BAnnotated%20%2Bhobbit%20)%20OR%20%22Annotated%20hobbit%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=(%2BAnnotated%20%2Bhobbit%20)%20OR%20%22Annotated%20hobbit%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 May 2015 18:17:59 GMT
+      Last-Modified:
+      - Mon, 11 May 2015 10:11:05 GMT
+      Etag:
+      - '"ZjgwNjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'status'=>0,'QTime'=>1202,'params'=>{'facet'=>'true','sort'=>'score desc, pub_date_sort desc, title_sort asc','f.online.facet.limit'=>'3','stats'=>'true','f.subject_topic_facet.facet.limit'=>'6','spellcheck.q'=>'(+Annotated +hobbit ) OR "Annotated hobbit"','f.language_facet.facet.limit'=>'6','f.location_facet.facet.limit'=>'6','wt'=>'ruby','rows'=>'20','defType'=>'edismax','f.subject_content_facet.facet.limit'=>'6','f.subject_geo_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet','f.lc_alpha_facet.facet.limit'=>'6','q'=>'(+Annotated +hobbit ) OR "Annotated hobbit"','f.author_facet.facet.limit'=>'6','facet.field'=>['online','format','author_facet','pub_date_facet','language_facet','subject_topic_facet','subject_geo_facet','subject_era_facet','subject_content_facet','lc_alpha_facet','location_facet','hierarchy_facet','online','format','author_facet','pub_date_facet','language_facet','subject_topic_facet','subject_geo_facet','subject_era_facet','subject_content_facet','lc_alpha_facet','location_facet','hierarchy_facet'],'qt'=>'search','f.subject_era_facet.facet.limit'=>'6','f.format.facet.limit'=>'11'}},'response'=>{'numFound'=>2,'start'=>0,'maxScore'=>23.777597,'docs'=>[{'id'=>'4392584','holdings_record_display'=>['{"id":"4929617","copy_number":null,"callnos":["PR6039.O32 H6x 2002"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'other_id_display'=>['4392584','(OCoLC)50064985'],'format'=>['Book'],'language_display'=>['English'],'pub_date_facet'=>2002,'pub_date_display'=>['2002'],'pub_info_display'=>['Boston : Houghton Mifflin, 2002.'],'edition_display'=>['Rev. and expanded ed.'],'title_uniform_display'=>['Hobbit|Hobbit|Tolkien, J. R. R. (John Ronald Reuel), 1892-1973'],'author_display'=>'Tolkien, J. R. R. (John Ronald Reuel), 1892-1973','title_display'=>'The annotated hobbit','fulltitle_display'=>'The annotated hobbit','online'=>['At the Library'],'item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924095232199","historical_browses":"19","item_enum":"","item_sequence_number":"1","historical_charges":"13","create_date":"2002-11-01 10:53:20.0","copy_number":"1","create_location_id":"153","mfhd_id":"4929617","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"153","media_type_id":"0","create_operator_id":"ds279","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"},"modify_date":"2015-01-15 12:39:12.0","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"6530722","freetext":"","modify_operator_id":"lms6"}'],'score'=>23.777597},{'id'=>'1535861','holdings_record_display'=>['{"id":"1873487","copy_number":"5","callnos":["PR6039.O49 H6 1988"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"uris,anx","number":210,"name":"Library Annex","library":"Library Annex"}]}','{"id":"1873482","copy_number":null,"callnos":["Oversize PR6039.O49 H6 1988 +"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}','{"id":"1873484","copy_number":null,"callnos":["Rare Books PR6039.O49 H6 1988 +"],"notes":["With dust jacket.","Inscribed by author."],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"}]}'],'other_id_display'=>['(NIC)notisAHE9160','(OCoLC)18053069','1535861'],'format'=>['Book'],'language_display'=>['English'],'pub_date_facet'=>1988,'pub_date_display'=>['1988'],'pub_info_display'=>['Boston : Houghton Mifflin Co., 1988.'],'title_uniform_display'=>['Hobbit|Hobbit|Tolkien, J. R. R. (John Ronald Reuel), 1892-1973'],'author_display'=>'Tolkien, J. R. R. (John Ronald Reuel), 1892-1973','subtitle_display'=>'The hobbit, or, There and back again','title_display'=>'The annotated Hobbit','fulltitle_display'=>'The annotated Hobbit : The hobbit, or, There and back again','online'=>['At the Library','At the Library','At the Library'],'item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924068304017","historical_browses":"11","item_enum":"","item_sequence_number":"1","historical_charges":"29","create_date":"2000-05-31 00:00:00.0","copy_number":"5","create_location_id":"0","mfhd_id":"1873487","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"100","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"uris,anx","number":210,"name":"Library Annex","library":"Library Annex"},"modify_date":"2010-05-28 09:36:12.0","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"3076151","freetext":"","modify_operator_id":"jm17"}','{"sensitize":"Y","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924050942220","historical_browses":"9","item_enum":"","item_sequence_number":"1","historical_charges":"34","create_date":"2000-05-31 00:00:00.0","copy_number":"1","create_location_id":"0","mfhd_id":"1873482","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"0","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"3076147","freetext":"","modify_operator_id":""}','{"sensitize":"Y","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924051288110","historical_browses":"0","item_enum":"","item_sequence_number":"1","historical_charges":"0","create_date":"2000-05-31 00:00:00.0","copy_number":"1","create_location_id":"0","mfhd_id":"1873484","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"0","media_type_id":"0","create_operator_id":"","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"9","price":"0","item_type_name":"nocirc","item_id":"3076148","freetext":"","modify_operator_id":""}'],'score'=>12.810444}]},'facet_counts'=>{'facet_queries'=>{},'facet_fields'=>{'online'=>['At the Library',2],'format'=>['Book',2],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'pub_date_facet'=>['1988',1,'2002',1],'language_facet'=>['English',2],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1,'Middle Earth (Imaginary place) > Fiction',1],'subject_geo_facet'=>[],'subject_era_facet'=>[],'subject_content_facet'=>['Fiction (books)',2],'lc_alpha_facet'=>['P - Language & Literature',2,'PR - English Literature',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'hierarchy_facet'=>[],'online'=>['At the Library',2],'format'=>['Book',2],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'pub_date_facet'=>['1988',1,'2002',1],'language_facet'=>['English',2],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1,'Middle Earth (Imaginary place) > Fiction',1],'subject_geo_facet'=>[],'subject_era_facet'=>[],'subject_content_facet'=>['Fiction (books)',2],'lc_alpha_facet'=>['P - Language & Literature',2,'PR - English Literature',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'hierarchy_facet'=>[]},'facet_dates'=>{},'facet_ranges'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1988.0,'max'=>2002.0,'count'=>2,'missing'=>0,'sum'=>3990.0,'sumOfSquares'=>7960148.0,'mean'=>1995.0,'stddev'=>9.899494936611665,'facets'=>{}}}},'spellcheck'=>{'suggestions'=>['annotated',{'numFound'=>1,'startOffset'=>2,'endOffset'=>11,'origFreq'=>16398,'suggestion'=>[{'word'=>'annotation','freq'=>20274}]},'hobbit',{'numFound'=>4,'startOffset'=>13,'endOffset'=>19,'origFreq'=>67,'suggestion'=>[{'word'=>'hobbies','freq'=>135},{'word'=>'hobbing','freq'=>135},{'word'=>'hobbes','freq'=>1235},{'word'=>'hobbes\'s','freq'=>95}]},'annotated',{'numFound'=>1,'startOffset'=>26,'endOffset'=>35,'origFreq'=>16398,'suggestion'=>[{'word'=>'annotation','freq'=>20274}]},'hobbit',{'numFound'=>4,'startOffset'=>36,'endOffset'=>42,'origFreq'=>67,'suggestion'=>[{'word'=>'hobbies','freq'=>135},{'word'=>'hobbing','freq'=>135},{'word'=>'hobbes','freq'=>1235},{'word'=>'hobbes\'s','freq'=>95}]},'correctlySpelled',true]}}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 18:18:00 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr1.library.cornell.edu/solr/blacklight2/select?defType=edismax&f.author_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&f.subject_era_facet.facet.limit=6&f.subject_geo_facet.facet.limit=6&f.subject_topic_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B2002%20TO%202002%5D&q=Annotated%20hobbit&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=Annotated%20hobbit&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 May 2015 18:18:00 GMT
+      Last-Modified:
+      - Mon, 11 May 2015 10:11:05 GMT
+      Etag:
+      - '"ZjgwNjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'status'=>0,'QTime'=>153,'params'=>{'facet'=>'true','sort'=>'score desc, pub_date_sort desc, title_sort asc','f.online.facet.limit'=>'3','stats'=>'true','f.subject_topic_facet.facet.limit'=>'6','spellcheck.q'=>'Annotated hobbit','f.language_facet.facet.limit'=>'6','f.location_facet.facet.limit'=>'6','wt'=>'ruby','rows'=>'0','defType'=>'edismax','f.subject_content_facet.facet.limit'=>'6','f.subject_geo_facet.facet.limit'=>'6','facet.query'=>['pub_date_facet:[1988 TO 1989]','pub_date_facet:[1990 TO 1991]','pub_date_facet:[1992 TO 1994]','pub_date_facet:[1995 TO 1996]','pub_date_facet:[1997 TO 1999]','pub_date_facet:[2000 TO 2001]','pub_date_facet:[2002 TO 2002]'],'stats.field'=>'pub_date_facet','f.lc_alpha_facet.facet.limit'=>'6','q'=>'Annotated hobbit','f.author_facet.facet.limit'=>'6','qt'=>'search','f.subject_era_facet.facet.limit'=>'6','f.format.facet.limit'=>'11'}},'response'=>{'numFound'=>2,'start'=>0,'maxScore'=>20.309994,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1988 TO 1989]'=>1,'pub_date_facet:[1990 TO 1991]'=>0,'pub_date_facet:[1992 TO 1994]'=>0,'pub_date_facet:[1995 TO 1996]'=>0,'pub_date_facet:[1997 TO 1999]'=>0,'pub_date_facet:[2000 TO 2001]'=>0,'pub_date_facet:[2002 TO 2002]'=>1},'facet_fields'=>{'format'=>['Book',2],'online'=>['At the Library',2],'lc_1letter_facet'=>['P - Language & Literature',2],'language_facet'=>['English',2],'location_facet'=>['Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Library Annex',1],'pub_date_facet'=>['1988',1,'2002',1],'author_facet'=>['Tolkien, J. R. R. (John Ronald Reuel), 1892-1973',2,'Anderson, Douglas A. (Douglas Allen), 1959-',1,'Anderson, Douglas A. (Douglas Allen), 1959--',1],'subject_era_facet'=>[],'subject_geo_facet'=>[],'subject_topic_facet'=>['Fantasy fiction',1,'Fiction',1,'Middle Earth (Imaginary place)',1,'Middle Earth (Imaginary place) > Fiction',1],'subject_content_facet'=>['Fiction (books)',2]},'facet_dates'=>{},'facet_ranges'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1988.0,'max'=>2002.0,'count'=>2,'missing'=>0,'sum'=>3990.0,'sumOfSquares'=>7960148.0,'mean'=>1995.0,'stddev'=>9.899494936611665,'facets'=>{}}}},'spellcheck'=>{'suggestions'=>['annotated',{'numFound'=>1,'startOffset'=>0,'endOffset'=>9,'origFreq'=>16398,'suggestion'=>[{'word'=>'annotation','freq'=>20274}]},'hobbit',{'numFound'=>4,'startOffset'=>10,'endOffset'=>16,'origFreq'=>67,'suggestion'=>[{'word'=>'hobbies','freq'=>135},{'word'=>'hobbing','freq'=>135},{'word'=>'hobbes','freq'=>1235},{'word'=>'hobbes\'s','freq'=>95}]},'correctlySpelled',true]}}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 18:18:01 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/4392584/1535861
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.1.5 (2014-11-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 11 May 2015 18:18:00 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 May 2015 18:18:00 GMT
+      Server:
+      - Apache/2.2.15 (Red Hat)
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"a192d240f8cde696d3081b436d0865e9"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 2ac581d9500aaa13c265c5f9344dd4bd
+      X-Runtime:
+      - '0.178696'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"4392584":{"4392584":{"records":[{"bibid":"4392584","holding_id":"4929617","location_name":"olin","call_number":"PR6039.O32
+        H6x 2002","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/4392584/items/6530722","itemid":"6530722","permLocation":"Olin
+        Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"PR6039.O32
+        H6x 2002","copy":"c. 1","itemBarcode":"31924095232199","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Charged
+        - Due on 2016-01-28","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"not_available","messages":[{"status_code":"Charged
+        - Due on 2016-01-28","short_message":"Charged - Due on 2016-01-28","long_message":"Charged
+        - Due on 2016-01-28"}],"location_id":"99"},"services":["in_process","borrow_direct","ill","recall_hold"],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library"],"locnumber":1,"status":["not_avail"],"avail_at":{},"not_avail_at":{"Olin
+        Library":"PR6039.O32 H6x 2002"},"onotes":[]}}},"1535861":{"1535861":{"records":[{"bibid":"1535861","holding_id":"1873484","location_name":"rmc","call_number":"Rare
+        Books PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["With
+        dust jacket.","Inscribed by author."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076148","itemid":"3076148","permLocation":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","location_id":"87","tempLocation":"","location":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","callNumber":"Rare Books PR6039.O49
+        H6 1988 +","copy":"c. 1","itemBarcode":"31924051288110","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"9","typeDesc":"nocirc","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"87"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873487","location_name":"uris,anx","call_number":"PR6039.O49
+        H6 1988","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076151","itemid":"3076151","permLocation":"Library
+        Annex","location_id":"210","tempLocation":"","location":"Library Annex","callNumber":"PR6039.O49
+        H6 1988","copy":"c. 5","itemBarcode":"31924068304017","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"210"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873482","location_name":"olin","call_number":"Oversize
+        PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076147","itemid":"3076147","permLocation":"Olin
+        Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"Oversize
+        PR6039.O49 H6 1988 +","copy":"c. 1","itemBarcode":"31924050942220","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"99"},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Kroch
+        Library Rare & Manuscripts (Non-Circulating)","Library Annex","Olin Library"],"locnumber":3,"status":["avail"],"avail_at":{"Kroch
+        Library Rare & Manuscripts (Non-Circulating)":"Rare Books PR6039.O49 H6 1988
+        +","Library Annex":"PR6039.O49 H6 1988","Olin Library":"Oversize PR6039.O49
+        H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Mon, 11 May 2015 18:18:01 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/4392584/1535861
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.1.5 (2014-11-13))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 13 May 2015 18:52:50 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 13 May 2015 18:52:50 GMT
+      Server:
+      - Apache/2.2.15 (Red Hat)
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"a192d240f8cde696d3081b436d0865e9"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9977bba2413e483c097496b8825c01d0
+      X-Runtime:
+      - '0.822356'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"4392584":{"4392584":{"records":[{"bibid":"4392584","holding_id":"4929617","location_name":"olin","call_number":"PR6039.O32
+        H6x 2002","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/4392584/items/6530722","itemid":"6530722","permLocation":"Olin
+        Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"PR6039.O32
+        H6x 2002","copy":"c. 1","itemBarcode":"31924095232199","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Charged
+        - Due on 2016-01-28","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"not_available","messages":[{"status_code":"Charged
+        - Due on 2016-01-28","short_message":"Charged - Due on 2016-01-28","long_message":"Charged
+        - Due on 2016-01-28"}],"location_id":"99"},"services":["in_process","borrow_direct","ill","recall_hold"],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library"],"locnumber":1,"status":["not_avail"],"avail_at":{},"not_avail_at":{"Olin
+        Library":"PR6039.O32 H6x 2002"},"onotes":[]}}},"1535861":{"1535861":{"records":[{"bibid":"1535861","holding_id":"1873484","location_name":"rmc","call_number":"Rare
+        Books PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["With
+        dust jacket.","Inscribed by author."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076148","itemid":"3076148","permLocation":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","location_id":"87","tempLocation":"","location":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","callNumber":"Rare Books PR6039.O49
+        H6 1988 +","copy":"c. 1","itemBarcode":"31924051288110","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"9","typeDesc":"nocirc","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"87"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873487","location_name":"uris,anx","call_number":"PR6039.O49
+        H6 1988","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076151","itemid":"3076151","permLocation":"Library
+        Annex","location_id":"210","tempLocation":"","location":"Library Annex","callNumber":"PR6039.O49
+        H6 1988","copy":"c. 5","itemBarcode":"31924068304017","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"210"},"services":[],"current_issues":[],"orders":[],"onotes":[]},{"bibid":"1535861","holding_id":"1873482","location_name":"olin","call_number":"Oversize
+        PR6039.O49 H6 1988 +","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/1535861/items/3076147","itemid":"3076147","permLocation":"Olin
+        Library","location_id":"99","tempLocation":"","location":"Olin Library","callNumber":"Oversize
+        PR6039.O49 H6 1988 +","copy":"c. 1","itemBarcode":"31924050942220","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"99"},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Kroch
+        Library Rare & Manuscripts (Non-Circulating)","Library Annex","Olin Library"],"locnumber":3,"status":["avail"],"avail_at":{"Kroch
+        Library Rare & Manuscripts (Non-Circulating)":"Rare Books PR6039.O49 H6 1988
+        +","Library Annex":"PR6039.O49 H6 1988","Olin Library":"Oversize PR6039.O49
+        H6 1988 +"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 13 May 2015 18:52:51 GMT
 recorded_with: VCR 2.9.3

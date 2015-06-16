@@ -1,4 +1,5 @@
 module DisplayHelper
+include ActionView::Helpers::NumberHelper
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -14,8 +15,17 @@ module DisplayHelper
 
   end
 
+  def presenter_class
+    MultilineDisplayPresenterClass
+  end
+  class MultilineDisplayPresenterClass < Blacklight::DocumentPresenter
+    def field_value_separator
+      "<br />".html_safe
+    end
+  end
+
   def field_value_separator
-    '<br/>'
+    '<br />'
   end
 
   # for display of | delimited fields
@@ -45,7 +55,8 @@ module DisplayHelper
       end
     end
 
-    render_field_value newval
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
   end
 
   # for display of | delimited fields
@@ -74,7 +85,8 @@ module DisplayHelper
       newval = vals.join(' / ')
     end
 
-    render_field_value newval
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
   end
 
   # :format arg specifies what should be returned
@@ -103,7 +115,8 @@ module DisplayHelper
     if render_format == 'raw'
       return value
     else
-      render_field_value value
+      dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+      dp.render_field_value value
     end
   end
 
@@ -124,13 +137,14 @@ module DisplayHelper
     link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
   end
 
-  def oclc_number_link
+
+ def oclc_number_link
     id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
-        oclc_number = id_display.split("<")[0]
+        oclc_number = id_display.split(",")[0]
       elsif id_display.include? "(OCoLC)"
-        ids = id_display.split(">")
+        ids = id_display.split(", ")
           ids.each do |id|
             if id.start_with? "(OCoLC)"
               oclc_number = id.split("<")[0]
@@ -152,8 +166,10 @@ module DisplayHelper
       if wcl_isbn.present? && !oclc_number.present?
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
         @xisbn = JSON.parse(@xisbn)["list"]
+        if @xisbn.present?
         @xisbn.each do |wcl_data|
           oclc_number = wcl_data["oclcnum"][0]
+        end
         end
     end
     return oclc_number
@@ -187,6 +203,7 @@ module DisplayHelper
   }
 
   def render_clickable_document_show_field_value args
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     value = args[:value]
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -202,11 +219,9 @@ module DisplayHelper
    #   value = args[:document][:title_series_cts]
    # end
     clickable_setting = blacklight_config.display_clickable[args[:field]]
-    Rails.logger.info("clickable_setting = #{clickable_setting}")
     case clickable_setting
     when String
       # default single value
-      Rails.logger.info("Brenda559 = #{args[:field]}")
       link_to(value, add_search_params(args[:field], '"' + value + '"'))
     when Hash
       # delimited value to be separated out further
@@ -218,7 +233,6 @@ module DisplayHelper
         if clickable_setting[:key_value]
           # field has display value and search value separated by :sep
           displayv_searchv = value.split(clickable_setting[:sep])
-          logger.info clickable_setting.inspect
           if displayv_searchv.size > 2
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
@@ -297,9 +311,6 @@ module DisplayHelper
   end
 
   def add_advanced_search_params(primary_field, pval, related_search_field, rval)
-    logger.info "#{primary_field}, #{pval}, #{related_search_field}, #{rval}"
-    logger.info get_clickable_search_field(primary_field)
-    logger.info get_clickable_search_field(related_search_field)
     op = 'op[]'
     q_row = 'q_row'
     op_row = 'op_row'
@@ -373,36 +384,56 @@ module DisplayHelper
 
   FORMAT_MAPPINGS = {
     "Book" => "book",
-    "Online" =>"link",
+    "Books" => 'book',
     "Computer File" => 'save',
+    "Computer Files" => 'save',
     "Non-musical Recording" => "headphones",
+    "Non-musical Recordings" => "headphones",
     "Musical Score" => "musical-score",
+    "Musical Scores" => "musical-score",
     "Musical Recording" => "music",
+    "Musical Recordings" => "music",
     "Thesis" => "file-text-o",
+    "Theses" => "file-text-o",
     "Microform" => "th",
     "Journal/Periodical" => "book-open",
+    "Journals/Periodicals" => "book-open",
+    "Journal Articles" => "book-open",
     "Conference Proceedings" => "group",
     "Video" => "film",
+    "Videos" => "film",
     "Map or Globe" => "globe",
+    "Maps and Globes" => "globe",
     "Manuscript/Archive" => "archive",
+    "Manuscripts / Archives" => "archive",
     "Newspaper" => "newspaper",
+    "Newspaper Articles" => "newspaper",
     "Database" => "database",
+    "Databases" => "database",
     "Image" => "picture-o",
+    "Images" => "picture-o",
     "Unknown" => "question-sign",
     "Kit" => "suitcase",
+    "Kits" => "suitcase",
     "Research Guide" => "paste",
+    "Research Guides" => "paste",
     "Course Guide" => "graduation-cap",
+    "Course Guides" => "graduation-cap",
     "Website" => "desktop",
+    "Websites" => "desktop",
+    "Library Websites" => "desktop",
     "Miscellaneous" => "ellipsis-h",
-    "Object" => "trophy"
+    "Object" => "trophy",
+    "Objects" => "trophy"
   }
 
   def formats_icon_mapping(format)
-    if (icon_mapping = FORMAT_MAPPINGS[format])
-      icon_mapping
-    else
-      'default'
+    ic = 'default'
+    f = format
+    if (icon_mapping = FORMAT_MAPPINGS[f])
+      ic = icon_mapping
     end
+    ic
   end
 
   # Renders the format field values with applicable format icons
@@ -761,14 +792,11 @@ module DisplayHelper
     query_params.delete :counter
     query_params.delete :total
     link_url = url_for(query_params)
-    logger.info query_params.inspect
 
     if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
       opts[:label] ||= t('blacklight.back_to_bookmarks')
       link_url = bookmarks_path
     end
-
-    if link_url.include?('q=') || link_url.include?('/?f%')  || link_url.include?("q_row")
 
     opts[:label] ||= t('blacklight.back_to_search')
 
@@ -776,8 +804,7 @@ module DisplayHelper
     link[:url] = link_url
     link[:label] = opts[:label]
 
-    link
-  end
+    return link
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
@@ -843,15 +870,20 @@ module DisplayHelper
 
   # Overrides original method from facets_helper_behavior.rb
   # Renders a count value for facet limits with comma delimeter
-  def render_facet_count(num)
-    content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
-  end
+  # Removed override, blacklight 5 provides commas
+
+  #def render_facet_count(num)
+   # content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
+    #content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
+  #end
+
+
 
   # Overrides original method from blacklight_helper_behavior.rb
   # -- Updated to handle arrays (multiple fields specified in config)
   # Used for creating a link to the document show action
   def document_show_link_field document=nil
-    blacklight_config.index.show_link.is_a?(Array) ? blacklight_config.index.show_link : blacklight_config.index.show_link.to_sym
+    blacklight_config.index.title_field.is_a?(Array) ? blacklight_config.index.title_field : blacklight_config.index.title_field.to_sym
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
@@ -878,26 +910,27 @@ module DisplayHelper
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
-    render_field_value label
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value label
   end
 
   # Overrides original method from catalog_helper_behavior.rb
   # -- All this just to add commas (via format_num) to total result count
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
-  def render_pagination_info(response, options = {})
-      pagination_info = paginate_params(response)
+  #def render_pagination_info(response, options = {})
+   #   pagination_info = paginate_params(response)
 
    # TODO: i18n the entry_name
-      entry_name = options[:entry_name]
-      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
-      entry_name ||= t('blacklight.entry_name.default')
+   #   entry_name = options[:entry_name]
+   #   entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
+    #  entry_name ||= t('blacklight.entry_name.default')
 
-      case pagination_info.total_count
-        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
-        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => format_num(pagination_info.total_count), :count => pagination_info.num_pages).html_safe
-      end
-  end
+    #  case pagination_info.total_count
+    #    when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+    #    when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+    #    else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => format_num(pagination_info.total_count), :count => pagination_info.num_pages).html_safe
+     # end
+  #end
 
   # Overrides original method from catalog_helper_behavior.rb
   # -- Allow for different default sort when browsing
@@ -980,10 +1013,110 @@ module DisplayHelper
   # -- Replace icon-remove (glyphicon) with appropriate Font Awesome classes
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
-  def render_selected_facet_value(facet_solr_field, item)
-    #Updated class for Bootstrap Blacklight
-    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hide-text'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+
+
+
+
+
+  def render_facet_item(solr_field, item)
+    if solr_field == 'format'
+    format = item.value
+    path = search_action_path(add_facet_params_and_redirect(solr_field, item))
+    if (facet_icon = FORMAT_MAPPINGS[format])
+    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+    end
+    if facet_in_params?( solr_field, item.value )
+     content_tag(:span, :class => "selected") do
+
+
+    content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
+    link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
   end
+
+    else
+      content_tag(:span, :class => "facet-label") do
+      (facet_icon).html_safe + link_to(facet_display_value(solr_field, item), path, :class=>"facet_select")
+    end + render_facet_count(item.hits)
+      end
+
+    else
+     if facet_in_params?( solr_field, item.value )
+
+      content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
+      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
+      else
+      render_facet_value(solr_field, item)
+    end
+
+  end
+
+  end
+
+
+  def render_facet_value(facet_solr_field, item, options ={})
+    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
+    if facet_solr_field != 'format'
+    content_tag(:span,:class=>'facet-label') do
+    link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+    end + render_facet_count(item.hits)
+    else
+    format = item.value
+    if (facet_icon = FORMAT_MAPPINGS[format])
+    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+    end
+    content_tag(:span, :class => "facet-label") do
+    (facet_icon).html_safe +
+
+      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+    end + render_facet_count(item.hits)
+  end
+  end
+
+  #switch to determine if a view is part of the main catalog and should get the header
+  def part_of_catalog?
+    if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
+      request.original_url.include?("request") || params[:controller]=='search_history' ||
+      params[:controller] == 'advanced' || params[:controller]=='aeon' || params[:controller]=='browse'
+      return true
+    end
+  end
+  # deprecated function from blacklight 4 that will live ons
+  def sidebar_items
+      @sidebar_items ||= []
+  end
+
+  def render_extra_head_content
+        @extra_head_content.join("\n").html_safe
+  end
+
+  def render_head_content
+     Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+       render_stylesheet_includes +
+       render_js_includes +
+       render_extra_head_content
+     end +
+     content_for(:head)
+   end
+
+def bento_online_url(url_online_access, url_item)
+    if url_online_access.size > 1
+      url_item
+    else
+      # url_online_access[0]
+      # Remove trailing link label text if it exists
+      link = url_online_access[0]
+      link_end = link.rindex(/\|/).blank? ? link.size : link.rindex(/\|/) -1
+      link[0..link_end]
+    end
+  end
+
+  def is_cataloged(url)
+    if url.nil?
+      false
+    else
+      url.include? "/catalog/"
+    end
+  end
+
 
 end

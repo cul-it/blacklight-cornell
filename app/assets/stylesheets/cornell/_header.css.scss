@@ -2,58 +2,66 @@ header {
   background: white;
   border-bottom: 1px solid $tan;
  	h1 {
-    margin: 10px 0;
-    // font-weight: normal;
+    margin: 0;
     display: inline-block;
     line-height: 1em;
-    font-size: 1.75em;
-  	a { color: $dark-gray; }
-    a:hover {
+    font-size: 30px;
+    font-weight: 700;
+  	a { 
+      color: $dark-gray;}
+    a:hover,
+    a:active,
+    a:focus {
       color: $dark-gray;
       text-decoration: none;
     }
   }
   // Search home button
   .search-home {
-    // float: left;
-    font-size: 1.75em;
+    font-size: 12px;
+    display: block;
+    margin-top: .5em;
+    text-transform: uppercase;
     a {
-      color: #b4b4b4;
+      color: $medium-gray;
     }
     a:hover {
       text-decoration: none;
       color: $medium-gray;
     }
     .divider {
-      color: #eee;
+      color: $light-gray;
       margin: 0 2px 0 8px;
+    }
+    i {
+      margin-right: .25em;
     }
   }
 }
-
-.beta {
-  margin-left: .2em;
-  vertical-align: middle;
-  &:hover { background: $blue; }
+.catalog-name {
+  font-size: 30px;
+  margin-bottom: 5px;
 }
 
+// Links like Search History, Selected Items, etc.
+// --------------------------------------------------//
 ul.blacklight-nav {
-  	font-size: 0.75em;
-  	margin: 15px 0 0 0;
+  	margin: 1em 0 0 0;
+    padding: 0;
   	list-style: none;
-    float: right;
   	li {
       float: left;
-      border-left: 1px solid #ccc
+      border-left: 1px solid #ccc;
+      margin-bottom: .5em;
+      padding: 0 8px;
+      font-size: 11px;
     }
     li:first-child {
       border-left: none;
+      padding-left: 0;
     }
   	a {
     	display: block;
-    	padding: 0 8px;
-    	// color: $pale-gray;
-      // color: #ccc;
     }
     a.user-email,
     a.logout {
@@ -65,105 +73,214 @@ ul.blacklight-nav {
     }
     a.logout {
       font-size: .9em;
-      // color: $light-gray;
     }
    	a:hover {
     	text-decoration: none;
-    	// background: $medium-gray;
-      // color: $white;
-      // @include border-radius(6px);
     }
     a.user-email:hover,
     a.logout:hover {
       background: none;
-      // color: $cornell-primary;
     }
-}
-
-.current-user {
-  float: left;
-  margin-right: 1em;
-  color: $light-gray;
-}
-
-.nav-global {
-  padding-right: 0;
-  text-align: right;
-  .nav { 
-    list-style: none;
-    float: right;
-    li { 
-      float: left;
-      font-size: 12px;
-      border-left: 1px solid $cornell-primary-hover; }
-    li:first-child { border-left: 0; }
-    a { 
-      margin: 0 8px;
-      padding: 0;
-      display: inline-block;
-      color: white; }
-    a:hover { 
-      text-decoration: underline;
-      background: inherit; }
-  } 
-}
-
-// Nav from main site
-// -- see also responsive-480px-max.scss --
-//-----------------------------------------
-.navbar-cul {
-  background: $cornell-primary;
-  @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-  .container {
-    background: $dark-gray;
-    @include border-radius(3px 3px 0 0);
-    -webkit-background-clip: padding-box;
-  }
-  .nav {
-    li {
-      font-size: .875em;
+    .myaccount-link {
       a {
-        padding: 15px 20px;
-        color: #ccc;
-        text-shadow: none;
+        color: $dark-gray;
+        text-transform: uppercase;
+        font-weight: 700;
       }
-      a:hover {
-        color: white;
+      i {
+        margin-right: .5em;
+      }
+    }
+}
+.separator {
+  border-top: 1px solid $medium-gray;
+  margin-top: .5em;
+  padding-top: .5em;
+}
+
+// TODO: Delete in BL5?
+// .current-user {
+//   float: left;
+//   margin-right: 1em;
+//   color: $light-gray;
+// }
+
+// .nav-global {
+//   padding-right: 0;
+//   text-align: right;
+//   .nav { 
+//     list-style: none;
+//     float: right;
+//     li { 
+//       float: left;
+//       font-size: 12px;
+//       border-left: 1px solid $cornell-primary-hover; }
+//     li:first-child { border-left: 0; }
+//     a { 
+//       margin: 0 8px;
+//       padding: 0;
+//       display: inline-block;
+//       color: white; }
+//     a:hover { 
+//       text-decoration: underline;
+//       background: inherit; }
+//   } 
+// }
+
+// Nav from main site 
+//-----------------------------------------
+// .navbar {
+//   margin-bottom: 0;
+//   border: 0;
+//   .container {
+//     padding: 0;
+//   }
+// }
+// .navbar-cul {
+//   background: $cornell-primary;
+//   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
+//   min-height: 0;
+//   .container {
+//     background: $dark-gray;
+//     -webkit-background-clip: padding-box;
+//   }
+//   .nav {
+//     margin-top: 0;
+//     margin-bottom: 0;
+//     li {
+//       a {
+//         padding: 10px 20px;
+//         color: #ccc;
+//         text-shadow: none;
+//       }
+//       a:hover, a:active, a:focus {
+//         color: white;
+//         background: black;
+//       }
+//     }
+//   }
+// }
+// .navbar-static-top {
+//   margin-left: 0;
+//   margin-right: 0;
+// }
+// .navbar-brand { 
+//   color: white;
+//   float: none;
+//   margin: 0;
+//   font-size: 16px;
+// }
+// .navbar-brand:hover { 
+//   text-decoration: none;
+//   color: white;
+// }
+// .navbar-header {
+//   background: $cornell-primary;
+//   //override bootstrap btn styles
+//   .navbar-toggle {
+//     background: $cornell-primary;
+//     margin: 0;
+//     border: 0; 
+//     border-radius: 0;
+//     height: 45px;
+//     -webkit-border-radius: 0;
+//     border-radius: 0;
+//     .icon-bar {
+//       background: white;
+//       -webkit-box-shadow: none;
+//       box-shadow: none;
+//     }
+//   }
+//   .navbar-toggle:hover,
+//   .navbar-toggle:active { background: $cornell-primary-hover; }
+// }
+// .navbar-collapse {
+//   border-top: 0;
+// }
+
+
+// Library menu 
+//-----------------------------------------
+
+.btn-library {
+  background: #b31b1b;
+  color: white;
+  margin-top: .25em;
+  text-transform: uppercase;
+  i {
+    color: white;
+    // margin-right: .5em;
+    font-size: 20px;
+  }
+}
+.btn-library:hover, .btn-library:active, .btn-library:focus {
+  background: $cornell-primary-hover;
+  color: white;
+  box-shadow: none;
+}
+.library-menu {
+  padding: 0;
+  .dropdown-menu {
+    left: auto;
+    right: 0;
+    border-radius: 0;
+    background: rgba($dark-gray, 0.95);
+    a {
+      color: white;
+    }
+  }
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .btn-library {
+    margin-top: 1.25em;
+  }
+  ul.blacklight-nav {
+    float: right;
+    li {
+      font-size: 12px;
+    }
+  }
+  .navbar-cul {
+    .nav {
+      li {
+        a { 
+          padding: 15px 10px;
+          font-size: 13px;
+        }
       }
     }
   }
 }
-.navbar-static-top {
-  margin-left: 0;
-  margin-right: 0;
-}
-.navbar-brand { 
-  color: white;
-  float: none;
-  margin: 0;
-  font-size: 16px;
-}
-.navbar-brand:hover { 
-  text-decoration: none;
-  color: white;
-}
-.navbar-header {
-  background: $cornell-primary;
-  // override bootstrap btn styles
-  .btn-navbar {
-    background: $cornell-primary;
-    margin: 0;
-    border: 0; 
-    border-radius: 0;
-    height: 45px;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    .icon-bar {
-      background: white;
-      -webkit-box-shadow: none;
-      box-shadow: none;
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+  .navbar-cul {
+    .nav {
+      li {
+        a {
+          padding: 15px 20px;
+          font-size: 14px;
+        }
+      }
     }
   }
-  .btn-navbar:hover,
-  .btn-navbar:active { background: $cornell-primary-hover; }
 }
+

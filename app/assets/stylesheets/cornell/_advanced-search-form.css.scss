@@ -1,32 +1,86 @@
-.advanced-search-field {
-  margin-left: .2em;
-  width: auto;
-}
+// .advanced-search-field {
+//   width: auto;
+// }
 .add-row {
-  margin: 0.7em 0;
+  margin: 1em 0;
 }
 #sort { width: auto; }
 .as-tips {
   position:relative;
 	top:-10px;
-	font-size: .85em;
+	font-size: 90%;
   margin-top: 0;
 }
 .add-and-sort label {
   display: inline-block;
   vertical-align: middle;
 }
-.boolean_row {
-	margin-bottom: 0.2em;
+.form-inline {
+  .boolean_row {
+    margin-bottom: 0.2em;
+    margin-top: .75em;
+  }
 }
 .as-examples {
   margin-bottom: 0;
-  color: $light-gray;
+  margin-top: .25em;
 }
 body.blacklight-advanced-index dl.dl-horizontal {
   dt { width: 50px; }
-  dd { margin-left: 65px; }
 }
-.blacklight-advanced {
-  select { font-family: $baseFontFamily; }
+.submit-reset {
+  margin-top: 1.5em;
+}
+.sort-results {
+  font-weight: normal;
+}
+.form-control {
+  width: 25%;
+  display: inline-block;
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: 25%;
+    }
+  }
+  body.blacklight-advanced-index dl.dl-horizontal {
+    dd { margin-left: 65px; }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: 40%;
+    }
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: auto;
+    }
+  }
 }

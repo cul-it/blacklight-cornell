@@ -1,11 +1,17 @@
-<% if query_has_constraints? || params[:range].present? %>
+<% if params[:action] != 'edit' && query_has_constraints? || params[:range].present? %>
   <div class="selected-facets">
-    <span class="constraints-label hide-text"><% t('blacklight.search.filters.title') %></span>
+  	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-secondary" %>
+    <span class="constraints-label hidden"><% t('blacklight.search.filters.title') %></span>
     <%#= debug params[:show_query] %>
     <%if params[:q_row].nil? and params[:f].nil? %>
-    	<%= render_constraints_query(params) %>
-    <%else %>
+    	<%= render_constraints(params) %>
+    <% else %>
        <%= render_advanced_constraints_query(params) %>
+    <% end %>
+    <% if params[:q_row].present? && params[:action] != 'edit'%>
+      <div class="advanced-search-link">
+        <%= link_to 'Modify advanced search', url_for(:controller=>"advanced", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f]), :class=>"btn btn-search" %>
+      </div>
     <% end %>
   </div>
 <% end %>

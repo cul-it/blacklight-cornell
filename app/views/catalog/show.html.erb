@@ -1,12 +1,16 @@
-<% if back_to_catalog_needed && !link_back_to_catalog.nil? %>
-  <%= link_to link_back_to_catalog[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
-    <i class="fa fa-arrow-circle-left"></i> <%= link_back_to_catalog[:label] %>
+<% if back_to_catalog_needed %>
+  <% session[:search][:controller] == 'search' ? link_label = 'Back to results' : '' %>
+  <% link_back = link_back_to_catalog({:label => link_label}) %>
+  <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
+    <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
+      <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
     <% end %>
+  <% end %>
 <% end %>
 
-<%= render :partial => 'search_form' %>
-<% @page_title = raw t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
-<% extra_head_content << render_link_rel_alternates %>
+<%#= render :partial => 'search_form' %>
+<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
+<% content_for(:head) { render_link_rel_alternates } -%>
 <% sidebar_items << render_document_sidebar_partial %>
 
 
@@ -15,11 +19,11 @@
 </div>
 
 <div class="row">
-  <div class="item-pagination span5">
+  <div class="item-pagination col-sm-5">
     <%= render 'previous_next_doc' %>
   </div>
-  <div class="item-tools span7">
-    <ul class="icons-ul" id="item-tools">
+  <div class="item-tools col-sm-7">
+    <ul class="fa-ul" id="item-tools">
       <%= render_document_sidebar_partial %>
     </ul>
   </div>
@@ -33,26 +37,24 @@
 <div class="row">
   <div id="id_current_counter" style="display: none"><% counter = params[:counter] || session[:search][:counter] %><% if !counter.blank? %><%= counter %><% end %></div>
   <%= render :partial => 'show_metadata' %>
-
-  <!-- <div class="well shelf-browser">
-    <h4>Browse by call number:<br>
-      <span class="call-number">[call number]</span></h4>
-    <p>Shelf browser goes here</p>
-  </div> -->
 </div>
 
 <div class="row">
-  <div class="span12">
-    <% if @document.respond_to?(:to_marc) %>
-      <div class="librarian-view"><%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %> | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local">Classic Catalog <i class="fa fa-external-link"></i></a></div>
-    <% end %>
+  <div class="col-sm-12">
+    <div class="librarian-view">
+      <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
+        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
+      <%end%>
+      | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local">Classic Catalog <i class="fa fa-external-link"></i></a>
+    </div>
   </div>
 </div>
 
 <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
-  <!--
-       // COinS, for Zotero among others.
+        <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
+       <!--
+       // COinS, for Zotero among others. DO NOT REMOVE THIS.
        // This document_partial_name(@document) business is not quite right,
        // but has been there for a while.
-  -->
+      -->
 <% end %>

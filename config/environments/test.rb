@@ -11,7 +11,7 @@ BlacklightCornell::Application.configure do
   config.cache_classes = true
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.static_cache_control = "public, max-age=3600"
 
   # Log error messages when you accidentally call methods on nil
@@ -41,5 +41,7 @@ BlacklightCornell::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
 
 end

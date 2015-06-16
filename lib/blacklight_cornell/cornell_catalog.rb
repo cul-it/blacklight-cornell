@@ -13,7 +13,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :search_action_url
+    helper_method :search_action_url, :search_action_path, :search_facet_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     before_filter :add_cjk_params_logic
@@ -28,13 +28,21 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
 
-  def search_action_url
-    url_for(:action => 'index', :only_path => true)
+    def search_action_path *args
 
-  end
+      if args.first.is_a? Hash
+        args.first[:only_path] = true
+      end
+
+      search_action_url *args
+    end
 
   def add_cjk_params_logic
     CatalogController.solr_search_params_logic << :cjk_query_addl_params
+  end
+
+   def append_facet_fields(values)
+    self['facet.field'] += Array(values)
   end
 
   # get search results from the solr index
@@ -53,7 +61,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       query_string = set_advanced_search_params(params)
     end
     # End of secondary parsing
-    
+
     # Journal title search hack.
     if (params[:search_field].present? and params[:search_field] == "journal title") or (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
       if params[:f].nil?
@@ -69,20 +77,20 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         end
         search_session[:f] = params[:f]
     end
-    
+
     #quote the call number
     if params[:search_field] == "call number"
       if !params[:q].nil? and !params[:q].include?('"')
         params[:q] = '"' << params[:q] << '"'
         search_session[:q] = params[:q]
-      end        
+      end
     end
-    
+
     if params[:search_field] != "journal title " and params[:search_field] != "call number"
      if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
        params[:q] = params[:q]
-     else 
-      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank? 
+     else
+      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
           qparam_display = params[:q]
           qarray = params[:q].split
           params[:q] = "("
@@ -102,17 +110,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
      end
     end
     # end of Journal title search hack
-    
+
 #    if params[:search_field] = "call number"
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
     end
-#    Rails.logger.info("BEEVIS = #{params[:q]}")
 
     (@response, @document_list) = get_search_results
-    
+
     if !qparam_display.blank?
       params[:q] = qparam_display
       search_session[:q] = params[:q]
@@ -139,7 +146,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
           params[:q] = query_string
         end
     end
-    
+
     if params[:search_field] == "call number"
       if !params[:q].nil? and params[:q].include?('"')
         params[:q] = params[:q].gsub!('"','')
@@ -173,7 +180,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # get single document from the solr index
     def show
-      @response, @document = get_solr_response_for_doc_id
+      @response, @document = get_solr_response_for_doc_id params[:id]
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
 
@@ -188,6 +195,21 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
+    def track
+      search_session[:counter] = params[:counter]
+      search_session['counter'] = params[:counter]
+      search_session['per_page'] = params[:per_page]
+ 
+      path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
+        URI.parse(params[:redirect]).path
+      else
+        { action: 'show' }
+      end
+      redirect_to path, :status => 303
+    end
+
+
+
     # updates the search counter (allows the show view to paginate)
     def update
       adjust_for_results_view
@@ -196,14 +218,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
     # displays values and pagination links for a single facet field
-    def facet
-      @pagination = get_facet_pagination(params[:id], params)
 
-      respond_to do |format|
-        format.html
-        format.js { render :layout => false }
-      end
-    end
 
     # method to serve up XML OpenSearch description and JSON autocomplete response
     def opensearch
@@ -233,11 +248,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # Added callnumber and location parameters to RecordMailer.email_record() call   jac244
 ##    def email
 ##      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
- 
+
 ##      if request.post?
 ##        if params[:to]
 ##          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
- 
+
 ##          if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
 ##            email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :location=> params[:location] }, url_gen_params)
 ##          else
@@ -261,7 +276,18 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 ##        end
 ##      end
 ##    end
-
+    def sms_action documents
+       to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
+       tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+       tiny = tiny_url(tinyPass)
+       mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
+       print mail.pretty_inspect
+       if mail.respond_to? :deliver_now
+         mail.deliver_now
+       else
+         mail.deliver
+       end
+     end
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def sms
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
@@ -337,7 +363,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # sets up the session[:search] hash if it doesn't already exist
     #def search_session
-    #  session[:search] ||= {} 
+    #  session[:search] ||= {}
       #if session[:search].nil?
       #  session.assign_attributes({:search => {} }, :without_protection => true)
       #  session.save
@@ -375,7 +401,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       unless @searches.collect { |search| search.query_params }.include?(params_copy)
 
        #new_search = Search.create(:query_params => params_copy)
-       logger.debug "es287_debug file:#{__FILE__}:#{__LINE__}:query_params=#{params_copy}\n"
 
        new_search = Search.new
        new_search.assign_attributes({:query_params => params_copy}, :without_protection => true)
@@ -488,7 +513,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
      # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
     end
   end
-  
+
   def cjk_mm_val
     silence_warnings { @@cjk_mm_val = '3<86%'}
   end
@@ -496,7 +521,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   def cjk_mm_qs_params(str)
  #   cjk_mm_val = []
     num_uni = num_cjk_uni(str)
-    if num_uni > 2 
+    if num_uni > 2
       num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size
       if num_non_cjk_tokens > 0
         lower_limit = cjk_mm_val[0].to_i
@@ -509,16 +534,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       {}
     end
   end
-  
+
   def cjk_query_addl_params(solr_params, params)
     if params && params.has_key?(:q)
       q_str = (params[:q] ? params[:q] : '')
       num_uni = num_cjk_uni(q_str)
       if num_uni > 2
         solr_params.merge!(cjk_mm_qs_params(q_str))
-#        Rails.logger.info("SPEZ = #{solr_params}")
       end
-      
+
       if num_uni > 0
         case params[:search_field]
           when 'all_fields', nil
@@ -543,7 +567,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       0
     end
   end
-  
+
   def check_dates(params)
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
@@ -559,7 +583,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         begin_test = swap
       end
       params[:range][:pub_date_facet][:begin] = begin_test
-      params[:range][:pub_date_facet][:end] = end_test      
+      params[:range][:pub_date_facet][:end] = end_test
   end
+
 
 end

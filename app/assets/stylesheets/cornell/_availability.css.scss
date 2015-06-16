@@ -1,0 +1,163 @@
+// AVAILABILITY
+.availability {
+	background: white;
+	margin-bottom: 2em;
+	h3 { 
+		margin-top: 0;
+		margin-bottom: .25em;
+		font-size: 24px;
+	}
+	.worldcat-search {
+		font-size: 14px;
+		display: block;
+		margin-top: 2em;
+		i {
+			color: $light-gray;
+		}
+	}
+	.location {
+		margin-top: 0;
+		margin-bottom: .5em;
+		font-size: 16px;
+		font-weight: 700;
+	}
+	.location-online {
+		color: white;
+		background: $teal;
+		border-color: $teal;
+	}
+	.holding {
+		.group {
+			font-size: 12px;
+		}
+	}
+	.map-it {
+		font-size: 12px;
+		display: inline-block;
+		 }
+	.url_findingaid_display {
+		display: block;
+		margin-bottom: 1em;
+	}
+	.list-unstyled {
+		padding: 0;
+		margin-bottom: 0;
+	}
+	.call-number {
+		margin-bottom: .5em;
+	}
+}
+h3.rare {
+	margin-top: 1.25em;
+	margin-bottom: .5em;
+}
+.label-available {
+	background: $teal;
+	margin-right: .5em;
+	font-size: 90%;
+	i {
+		color: white;
+	}
+}
+.holding,
+.holdings-error {
+	margin-bottom: 1em;
+	border-top: 2px solid $light-tan;
+	padding-top: 1em;
+}
+.holdings-online {
+	padding-top: 1em;
+}
+.holding:first-child {
+	border-top: 0;
+}
+.holding:last-of-type {
+	margin-bottom: 0;
+}
+.location {
+	margin-bottom: 0;
+	// font-size: 16;
+}
+.text-it,
+.map-it {
+	margin-left: .5em;
+	font-size: 12px;
+	font-weight: normal;
+}
+.share-options { min-width: auto; }
+.message {
+	margin: 0 0 .25em 0;
+	line-height: 1.5em;
+	word-wrap: break-word;
+}
+.online-link {
+	margin-bottom: .4em;
+	// font-size: .9em;
+	line-height: 1.2em;
+}
+.main-content {
+	.online-coverage,
+	.online-note {
+		// display: block;
+		margin-left: .5em;
+		// font-size: .85em;
+		line-height: 1.4em;
+		color: $medium-gray;
+		font-size: 85%;
+	}
+}
+
+.access-restriction {
+	display: block;
+	line-height: 1.2em;
+	margin-top: 1em;
+	h5 { 
+		font-weight: 700;
+		margin-bottom: .5em;
+	}
+}
+.item-requests {
+	border-top: 5px solid $light-tan;
+	padding-top: 10px;
+	margin: .75em 0; }
+
+.google-books-link {
+	margin: 1.5em 0 0;
+	padding-top: 1em;
+	border-top: solid 2px #d8d2c9;
+}
+
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .btn-library {
+    margin-top: 1.25em;
+  }
+  ul.blacklight-nav {
+    float: right;
+    li {
+      font-size: 12px;
+    }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+}
+

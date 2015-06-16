@@ -1,0 +1,183 @@
+
+-if @results
+  .row
+    .col-sm-12
+      .well
+        .row
+          %div.col-sm-9
+            = render 'single_search/search_form'
+          %div.advanced-search-link.col-sm-3.text-right
+            = link_to 'Catalog Advanced Search', '/advanced'
+-else
+  .row
+    .col-sm-8.col-sm-offset-2.empty-single-search
+      .well
+        .search-info
+          %a{:class => 'hidden-phone pull-right', "data-toggle" => "tooltip", "data-placement" => "bottom", :title => "Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page."}
+            %i{:class => "fa fa-info-circle"}
+            About this search
+        %h2
+          Search
+        = render 'single_search/search_form'
+        = render 'single_search/search_options'
+-if @top_4_results.present?
+  - @top_4_results.from(0).to(0).each do |key, result|
+    - if !@query.nil? && @results.empty? && @websites.blank? && result.blank?
+      - query = params[:q] || params[:query]
+      - query = query.gsub('&', '%26')
+      %p.no-results
+        Your search returned 0 results. Try searching
+
+        = link_to 'Libraries Worldwide', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc"
+        or
+        = link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend"
+      = render 'single_search/search_options'
+    - if !@results.blank? or !result.blank? or !@websites.blank?
+      .bento_box.row
+        - if @results
+          .col-sm-3
+            %div.top-panel-heading.panel-heading
+              %button.facets-toggle.collapsed{"aria-expanded" => "false", "aria-controls" => "results-collapse", "data-target" => ".results-collapse", "data-toggle" => "collapse", :type => "button"}
+                %span.sr-only Toggle facets
+                %span.icon-bar
+                %span.icon-bar
+                %span.icon-bar
+              %h4
+                All results
+            %div.results-collapse.collapse
+              %div.expand-search
+                - query = params[:q] || params[:query]
+                - query = query.gsub('&', '%26')
+                .panel-group
+                  .panel.panel-default
+                    .panel-heading
+                      %h5.panel-title
+                        Looking for more?
+                    .panel-body
+                      %ul.fa-ul
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to 'View all Catalog results', "/?q=#{query}&search_field=all_fields"
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do
+                            Request from Libraries Worldwide
+                            = precede "(" do
+                              = render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl
+                        %li
+                          %i.fa.fa-arrow-right
+                          = link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend"
+              .panel.panel-default#formats
+                - unless @more_results.length < 3
+                  .panel-heading
+                    %h5.panel-title
+                      Format
+                  .panel-body
+                    %ul#more-results.fa-ul
+                      - @more_results.each do |key, result|
+                        - if !result.empty? and result.total_items > 0
+                          %li
+                            %i{:class => "fa fa-#{formats_icon_mapping(BentoSearch.get_engine(key).configuration.title)}"}
+                            - link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+                            - link_url = ss_uri_encode(link_url)
+                            = link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do
+                              = BentoSearch.get_engine(key).configuration.title
+                              / ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
+                              (#{number_with_delimiter(result.total_items)})
+              .panel.panel-default
+                .panel-heading
+                  %h5.panel-title
+                    Legacy Resource
+                .panel-body
+                  %p
+                    = link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50"
+        .col-sm-9#top
+          #jumpbar.navbar
+            %ul.list-inline
+              %li.top-results
+                Top Results
+              %li
+                - @top_4_results.from(1).to(0).each do |key, result|
+                  /=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  =link_to '#'+key.tr(" ", "_") do
+                    %i.fa.fa-arrow-down
+                    =BentoSearch.get_engine(key).configuration.title
+              %li
+                - @top_4_results.from(0).to(0).each do |key, result|
+                  /=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  -unless result.blank?
+                    =link_to '#'+key do
+                      %i.fa.fa-arrow-down
+                      =BentoSearch.get_engine(key).configuration.title
+              %li
+                - @top_4_results.from(2).to(1).each do |key, result|
+                  /=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  =link_to '#'+key.tr(" ", "_") do
+                    %i.fa.fa-arrow-down
+                    =BentoSearch.get_engine(key).configuration.title
+              %li
+                -unless @websites.blank?
+                  =link_to '#web' do
+                    %i.fa.fa-arrow-down
+                    Library Websites
+          #bt-container
+            - if params[:q] && @ajax_bg_engines
+              - @ajax_bg_engines.each do |engine|
+                .col-sm-6
+                  .bento_compartment{:class => engine}
+                    %h2
+                      =engine.configuration.title
+                    = bento_search engine, :query => params[:q], :load => :ajax_auto
+            - if @results
+              .item.bento1
+                .search-pane
+                  - unless @best_bets.nil?
+                    - alertsArray = []
+                    - @best_bets.each do |b|
+                      - alertsArray << b unless b.blank?
+                    - #alertsArray << $db_recommendation unless $db_recommendation.blank?
+                    - alertsArray.each do |alert|
+                      .best-bet
+                        .heads-up
+                          %i.fa.fa-star
+                          = 'Best Bet'
+                        %h2
+                          = link_to alert['title'], alert['link']
+                    - #this is the first result
+                  - unless @results.blank?
+                    - @top_4_results.from(1).to(0).each do |key, result|
+                      %div{:id => key+"-Bento1"}
+                        = render 'single_search/pane_results', :key => key, :result => result
+                  - else
+                    - @top_4_results.to(0).each do |key, result|
+                      %div{:id => key+"-Bento1"}
+                        = render 'single_search/pane_results', :key => key, :result => result
+              .item.bento2
+                .search-pane
+                  - #this is the second result
+                  -unless @results.blank?
+                    - @top_4_results.to(0).each do |key, result, position|
+                      %div{:id => key+"-Bento2"}
+                        -unless result.nil? or result[0].nil?
+                          = render 'single_search/pane_results', :key => key, :result => result
+                  -else
+                    %div{:class => 'well'}
+                      %p{:class => 'no-results no-margin'}
+                        No results from the Catalog. Try searching
+                        = link_to 'Libraries Worldwide.', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc"
+              .item.bento3
+                .search-pane
+                  - @top_4_results.from(2).to(0).each do |key, result, position|
+                    %div{:id => key+"-Bento3"}
+                      = render 'single_search/pane_results', :key => key, :result => result
+              - #this is the fourth result
+              .item.bento4
+                .search-pane
+                  - @top_4_results.from(3).to(0).each do |key, result, position|
+                    %div{:id => key+"-Bento4"}
+                      = render 'single_search/pane_results', :key => key, :result => result
+
+          .web-pane
+            - if @websites.present?
+              .web-results
+                = render 'single_search/pane_results', :key => 'web', :result => @websites

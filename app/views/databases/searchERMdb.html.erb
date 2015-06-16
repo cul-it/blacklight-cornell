@@ -1,0 +1,270 @@
+<%# Terms of Use page %>
+
+<%= render :partial => 'databases_search_form'  %>
+<div class="row database-subject">
+  <div class="page-title col-sm-12">
+    <div class="return-link">
+      <%= link_to "/databases/" do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Databases
+      <% end %>
+    </div>
+    <h2>
+      <% @db.each do |data| %>
+        <% if data["fulltitle_vern_display"].present? %>
+          <%= data["fulltitle_vern_display"] %>
+        <% else %>
+          <%= data["fulltitle_display"] %>
+        <% end %>
+      <% end %>
+    </h2>
+  </div>
+</div>
+<div class="resources">
+  <div class="document blacklight-database-name clearfix">
+    <div class="document-data">
+      <% @db.each do |data| %>
+        <h4 class="blacklight-title_display">
+          <%= link_to data["url_access_display"][0].split('|')[0] do %>
+            <% if data["fulltitle_vern_display"].present? %>
+              <%= data["fulltitle_vern_display"] %>
+            <% else %>
+              <%= data["fulltitle_display"] %>
+            <% end %>
+          <% end %>
+        </h4>
+        <div class="description">
+          <p>
+            <%= data["summary_display"][0] %>
+          </p>
+        </div>
+        <% if @ermDBResult.present? %>
+          <% @ermDBResult.each do |data| %>
+            <% if data.present? %>
+              <table class="table table-bordered table-striped">
+                <tr>
+                  <th>
+                    License Term
+                  </th>
+                  <th>
+                    Permissions
+                  </th>
+                  <th>
+                    Note
+                  </th>
+                </tr>
+                <% if data['Authorized_Users'].present? || data['Authorized_Users_Note'].present? %>
+                  <tr>
+                    <td>
+                      Authorized Users
+                    </td>
+                    <td>
+                      <%= data['Authorized_Users'].gsub( "|", ", " ) %>
+                    </td>
+                    <td>
+                      <%= data['Authorized_Users_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Concurrent_Users'].present? || data['Concurrent_Users_Note'].present? %>
+                  <tr>
+                    <td>
+                      Concurrent Users
+                    </td>
+                    <td>
+                      <%= data['Concurrent_Users'] %>
+                    </td>
+                    <td>
+                      <%= data['Concurrent_Users_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Fair_Use_Clause_Indicator'].present?  %>
+                  <tr>
+                    <td>
+                      Fair Use Clause Indicator
+                    </td>
+                    <td>
+                      <%= data['Fair_Use_Clause_Indicator'] %>
+                    </td>
+                    <td></td>
+                  </tr>
+                <% end %>
+                <% if data['Digitally_Copy'].present? || data['Digitally_Copy_Note'].present? %>
+                  <tr>
+                    <td>
+                      Digitally Copy
+                    </td>
+                    <td>
+                      <%= data['Digitally_Copy'] %>
+                    </td>
+                    <td>
+                      <%= data['Digitally_Copy_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Scholarly_Sharing'].present? || data['Scholarly_Sharing_Note'].present? %>
+                  <tr>
+                    <td>
+                      Scholarly Sharing
+                    </td>
+                    <td>
+                      <%= data['Scholarly_Sharing'] %>
+                    </td>
+                    <td>
+                      <%= data['Scholarly_Sharing_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['ILL_General'].present? %>
+                  <tr>
+                    <td>
+                      ILL General
+                    </td>
+                    <td>
+                      <%= data['ILL_General'] %>
+                    </td>
+                    <td></td>
+                  </tr>
+                <% end %>
+                <% if data['ILL_Secure_Electronic'].present? %>
+                  <tr>
+                    <td>
+                      ILL Secure Electronic
+                    </td>
+                    <td>
+                      <%= data['ILL_Secure_Electronic'] %>
+                    </td>
+                    <td></td>
+                  </tr>
+                <% end %>
+                <% if data['ILL_Electronic_email'].present? %>
+                  <tr>
+                    <td>
+                      ILL Electronic (email)
+                    </td>
+                    <td>
+                      <%= data['ILL_Electronic_email'] %>
+                    </td>
+                    <td></td>
+                  </tr>
+                <% end %>
+                <% if data['ILL_Record_Keeping'].present? || data['ILL_Record_Keeping_Note'].present? %>
+                  <tr>
+                    <td>
+                      ILL Record Keeping
+                    </td>
+                    <td>
+                      <%= data['ILL_Record_Keeping'] %>
+                    </td>
+                    <td>
+                      <%= data['ILL_Record_Keeping_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Course_Reserve'].present? || data['Course_Reserve_Note'].present? %>
+                  <tr>
+                    <td>
+                      Course Reserve
+                    </td>
+                    <td>
+                      <%= data['Course_Reserve'] %>
+                    </td>
+                    <td>
+                      <%= data['Course_Reserve_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Electronic_Link'].present? || data['Electonic_Link_Note'].present? %>
+                  <tr>
+                    <td>
+                      Electronic Link
+                    </td>
+                    <td>
+                      <%= data['Electronic_Link'] %>
+                    </td>
+                    <td>
+                      <%= data['Electronic_Link_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Course_Pack_Print'].present? %>
+                  <tr>
+                    <td>
+                      Course Pack Print
+                    </td>
+                    <td>
+                      <%= data['Course_Pack_Print'] %>
+                    </td>
+                    <td>
+                      <%= data['Course_Pack_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Course_Pack_Electronic'].present? %>
+                  <tr>
+                    <td>
+                      Course Pack Electronic
+                    </td>
+                    <td>
+                      <%= data['Course_Pack_Electronic'] %>
+                    </td>
+                    <td>
+                      <%= data['Course_Pack_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if data['Other_Use_Restrictions_Public_Note'].present? %>
+                  <tr>
+                    <td>
+                      Other Use Restrictions
+                    </td>
+                    <td colspan="2">
+                      <%= data['Other_Use_Restrictions_Public_Note'] %>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if @defaultRightsText.present? %>
+          <table class="table table-bordered table-striped">
+            <tr>
+              <th>
+                License Term
+              </th>
+              <th>
+                Note
+              </th>
+            </tr>
+            <tr>
+              <td>
+                Authorized Users
+              </td>
+              <td>
+                Faculty, Staff, Students, Walk-in users, Weill Medical 
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Permitted - (Digitally Copy)
+              </td>
+              <td>
+                Authorized Users may electronically display, download, print, and digitally copy a reasonable portion (generally one or two articles or one book chapter) of the Licensed Materials. 
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Restricted - Other Use Restrictions (Public Note) 
+              </td>
+              <td>
+                Authorized users are not permitted to modify or create a derivative work of the Licensed Materials, may not remove, obscure or modify any copyright or other notices included in the Licensed Materials, and may not use the Licensed Materials for commercial purposes, including but not limited to the sale of the Licensed Materials or bulk reproduction or distribution of the Licensed Materials in any form without the prior written permission of Licensor.										
+              </td>
+            </tr>
+          </table>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

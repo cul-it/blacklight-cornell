@@ -1,7 +1,7 @@
 <footer>
   <div class="container">
   	<div class="row">
-  		<div class="span8">
+  		<div class="col-sm-8">
         <h3>Contact Us</h3>
         <ul class="nav footer-nav">
     		  <li><a href="http://www.library.cornell.edu/ask"><i class="fa fa-question"></i>Ask a Librarian</a></li>
@@ -16,23 +16,23 @@
           <li><a href="/databases">Databases</a></li>
           <li><a href="http://erms.library.cornell.edu/">E-journal Titles</a></li>
           <li><a href="http://www.library.cornell.edu/visual-resources">Images</a></li>
-          <li class="visible-phone"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
-          <li class="visible-phone"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
+          <li class="visible-xs"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
+          <li class="visible-xs"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
         </ul>
     	</div>
-    	<div class="span4 feedback-link">
+    	<div class="col-sm-4 feedback-link">
     		<a href="http://www.library.cornell.edu/feedback" class="btn btn-libraries">Feedback</a>
         <p><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release notes</a></p>
         <%= render_solr_core %>
     	</div>
     </div>
     <div class="row footer-copyright">
-      <div class="span8">
+      <div class="col-sm-8">
         <p>&#169; <%= Time.now.strftime("%Y") %> Cornell University Library | <a href="http://www.library.cornell.edu/privacy">Privacy</a></p>
       </div>
-      <div class="span4 social-links">
-        <a class="facebook-button" href="http://www.facebook.com/cornelluniversitylibrary" title="Find us on Facebook"><i class="fa fa-facebook-square" alt="Find us on Facebook"></i></a> 
-        <a class="twitter-button" href="https://twitter.com/intent/follow?original_referer=http%3A%2F%2Fwww.library.cornell.edu%2Findex&amp;region=follow_link&amp;screen_name=Cornell_Library&amp;tw_p=followbutton&amp;variant=2.0" title="Follow us on Twitter"><i class="fa fa-twitter-square" alt="Follow us on Twitter"></i></a>
+      <div class="col-sm-4 social-links">
+        <a class="facebook-button" href="http://www.facebook.com/cornelluniversitylibrary" title="Find us on Facebook"><i class="fa fa-facebook-square" alt="Find us on Facebook"></i><span class="sr-only">Facebook</span></a> 
+        <a class="twitter-button" href="https://twitter.com/intent/follow?original_referer=http%3A%2F%2Fwww.library.cornell.edu%2Findex&amp;region=follow_link&amp;screen_name=Cornell_Library&amp;tw_p=followbutton&amp;variant=2.0" title="Follow us on Twitter"><i class="fa fa-twitter-square" alt="Follow us on Twitter"></i><span class="sr-only">Twitter</span></a>
       </div>
     </div>
   </div>
