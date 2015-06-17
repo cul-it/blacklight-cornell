@@ -13,12 +13,12 @@
 				-if params[:browse_type] == "Author" 
 					.author-works
 						Works by:
-						= link_to '/?q=' + encoded_heading + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
+						= link_to '/?q="' + encoded_heading + '"&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksBy"]
 							Title(s)
 					.author-works
 						Works about:
-						= link_to '/?q=' + encoded_heading + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
+						= link_to '/?q="' + encoded_heading + '"&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 							=works["worksAbout"] 
 							Title(s)
 				-if params[:browse_type] == "Subject"
@@ -26,20 +26,20 @@
 					- if works["worksBy"].present?
 						.author-works
 							Works by:
-							= link_to '/?q=' + encoded_heading + '&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
+							= link_to '/?q="' + encoded_heading + '"&search_field=author_' + search_field(data["headingTypeDesc"]) + '_browse' do
 								=works["worksBy"]
 								Title(s)
 					.author-works
 						-if works["worksAbout"].present?
 							Works about:
-							= link_to '/?q=' + encoded_heading + '&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
+							= link_to '/?q="' + encoded_heading + '"&search_field=subject_' + search_field(data["headingTypeDesc"]) + '_browse' do
 								=works["worksAbout"] 
 								Title(s)
 					
 				-if params[:browse_type] == "Author-Title" 
 					.author-works
 						Works:
-						= link_to '/?q=' + encoded_heading + '&search_field=authortitle_browse' do
+						= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do
 							=data["count"]
 							Title(s)
 
@@ -84,17 +84,17 @@
 									- if params[:browse_type] == "Author"
 										%span.author-works
 											Works by:
-											= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+											= link_to '/?q="' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 												=headingInfo["worksBy"]
 											-if headingInfo["worksAbout"] > 0
 												%span.author-works 
 													Works about:
-													= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+													= link_to '/?q="' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 														=headingInfo["worksAbout"]
 									- if params[:browse_type] == "Subject"
 											
 										- if headingInfo["worksBy"].present?
-											= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+											= link_to '/?q="' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 												%span.author-works 
 													Works by:
 													=headingInfo["worksBy"]
@@ -102,13 +102,13 @@
 										-if headingInfo["worksAbout"].present?
 											%span.author-works 
 												Works about:
-												= link_to '/?q=' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
+												= link_to '/?q="' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=subject_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 													=headingInfo["worksAbout"]
 												
 									- if params[:browse_type] == "Author-Title"
 										%span.author-works 
 											Works:
-											= link_to '/?q=' + data["heading"].gsub('&', '%26').gsub("\"", "'") + '&search_field=authortitle_browse' do
+											= link_to '/?q="' + data["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=authortitle_browse' do
 												=headingInfo["count"]					
 
 
