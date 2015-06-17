@@ -61,9 +61,14 @@
 							=data["heading"]
 						
 						-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
-							= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do
-								%span.label.label-info
-									Info
+							- unless params[:browse_type] == 'Author-Title'
+								= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do
+									%span.label.label-info
+										Info
+							- if params[:browse_type] == 'Author-Title'
+								= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type] do
+									%span.label.label-info
+										Info
 											
 						-if !data["see"].blank?
 							-data["see"].each do |form|
