@@ -178,6 +178,7 @@ form.range_limit {
 	.btn {
 		color: $white;
 		margin-bottom: .25em;
+		white-space: normal; // make long constraints wrap instead of break the layout DISCOVERYACCESS-1846
 	}
 	a:hover {
 		text-decoration: none;
