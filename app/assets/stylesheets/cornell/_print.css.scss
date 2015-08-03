@@ -12,10 +12,6 @@
 
 	// @import 'font-awesome';
 
-	body {
-		font-size: 90%;
-	}
-
 	.main-content {
 		a {
 			border: none;
@@ -73,19 +69,28 @@
 		a { text-decoration: none;}
 	}
 
+
+	// Don't print URLs
+	a[href]:after {
+	    content: ""
+	  }
+	abbr[title]:after {
+	    content: "";
+	  }
+
 	// Print certain URLs
 	// search results: print title and online link 
-	.blacklight-title_display {
-		a[href]:after {
-		content: " (" attr(href) ")"; }
-	}
-	a[href].status-online:after {
-		content: " (" attr(href) ")"; }
+	// .blacklight-title_display {
+	// 	a[href]:after {
+	// 	content: " (" attr(href) ")"; }
+	// }
+	// a[href].status-online:after {
+	// 	content: " (" attr(href) ")"; }
 
 	// item view: print url_access_display, url_findingaid_display, url_bookplate_display, url_other_display
-	a[href].online-access:after,
-	a[href].url_findingaid_display:after {
-		content: " (" attr(href) ")"; }
+	// a[href].online-access:after,
+	// a[href].url_findingaid_display:after {
+	// 	content: " (" attr(href) ")"; }
 
 	// hides covers on results
 	.document {
@@ -95,11 +100,8 @@
 	.blacklight-title_display {
 		margin: .5em 0 0;
 		font-weight: normal;
-		line-height: 1.2em;
-		font-size: 1.1em;
-	}
+		line-height: 1.2em;	}
 	.location { 
-		font-size: 1em;
 		margin-bottom: 0;
 	}
 
@@ -154,4 +156,43 @@
 
 	//remove underlines from links
 	a { text-decoration: none; }
+
+	// Make online labels visible
+	.label-online {
+		color: black;
+		padding: 0;
 	}
+	// Cut spacing in search results
+	body.catalog-index #documents .document, body.bookmarks-index #documents .document {
+		padding: 0 0 .5em 0;
+	}
+	.document-data .status {
+		margin: 0;
+	}
+	// make search results title smaller
+	.blacklight-title_display {
+		font-size: 14px;
+	}
+	.blacklight-title_uniform_display {
+		font-size: 12px;
+		margin-top: 0;
+	}
+	// tighten up spacing around constraints
+	.selected-facets {
+		padding: 0;
+		.btn {
+			padding: 0 .5em 0 0;
+			border: 0;
+		}
+	}
+	// width of each search result
+	.document-data {
+		width: 100%;
+	}
+	// Hide dropdowns on Selected Items
+	.bookmarks {
+		#per_page-dropdown, #sort-dropdown {
+			display: none;
+		}
+	}
+}
