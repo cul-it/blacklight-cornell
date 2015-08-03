@@ -64,6 +64,7 @@ Feature: Search
   @availability
   @clock
   @javascript
+  @wip
   Scenario: Perform a search and see no avail icon 
     Given I am on the home page
     And I fill in the search box with 'Annotated hobbit'
