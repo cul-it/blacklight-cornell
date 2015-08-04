@@ -29,7 +29,9 @@
           <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-thumbnail",  alt: "" %>
           <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
         </div>
-        <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down"></i></a>
+        <div class="item-bookcover">
+          <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down"></i></a>
+        </div>
       </div>
 
       <div class="document item-metadata col-sm-10">
