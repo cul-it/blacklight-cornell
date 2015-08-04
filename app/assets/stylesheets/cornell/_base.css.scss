@@ -154,14 +154,15 @@ h3 { font-size: 20px; line-height: 1.5em;}
 .btn-cul {
 	color: white;
 	background-color: $teal;
-	border-color: $dark-teal;
+	border-color: $teal;
 	background-image: none;
 }
 .btn-cul:hover,
 .btn-cul:active,
 .btn-cul:focus {
 	background-color: $dark-teal;
-	color: white
+	color: white;
+	border-color: $dark-teal;
 }
 .main-content {
 	.btn-cul {

@@ -43,7 +43,6 @@
 	footer,
 	header,
 	.cornell-identity,
-	.map-it,
 	.text-it,
 	.librarian-view,
 	.item-pagination,
@@ -52,11 +51,6 @@
 	.search-widgets,
 	.pagination  {
 		display: none;
-	}
-
-	// Display Cornell logo
-	.cu-logo {
-		img { display: block; }
 	}
 
 	// Use Arial to see if it removes printing issues
@@ -68,7 +62,6 @@
 	.catalog-name {
 		a { text-decoration: none;}
 	}
-
 
 	// Don't print URLs
 	a[href]:after {
@@ -135,7 +128,36 @@
 		margin: 0;
 	}
 
-	.availability { margin-top: 10px; }
+	.availability { 
+		margin: 0;
+		.map-it {
+			display: none;
+		}
+		.holding {
+			.group {
+				font-size: 14px;
+			}
+		}
+		.location {
+			font-size: 13px;
+			margin-bottom: 0;
+		}
+		.worldcat-search {
+			display: none;
+		}
+		.status,
+		.message,
+		.call-number {
+			font-size: 13px;
+			margin-bottom: 0;
+		}
+		.status {
+			margin-top: 0;
+		}
+		.online-link {
+			margin-bottom: 0;
+		}
+	}
 	.availability h3,
 	.availability h4,
 	.availability h5 {
@@ -194,5 +216,24 @@
 		#per_page-dropdown, #sort-dropdown {
 			display: none;
 		}
+	}
+	// spacing on item view
+	.item-metadata {
+		margin-bottom: 0;
+	}
+	.holding, .holdings-online {
+		padding-top: .5em;
+	}
+	.label-available {
+		padding: 0;
+		color: black;
+		border: 0;
+	}
+	.item-metadata {
+		font-size: 13px;
+	}
+	.access-restriction {
+		margin-top: 0;
+		font-size: 13px;
 	}
 }
