@@ -20,6 +20,11 @@
     <link href="<%= opensearch_catalog_url(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag    "application", :media => "all" %>
+    <!--[if lte IE 9]>
+      <style>
+        .ie9-only {display: block;}
+      </style>
+    <![endif]-->
     <%#= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= content_for(:head) %> 
@@ -72,7 +77,7 @@
     <%= javascript_include_tag "application" %>
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
 
-     <!-- Piwik --> 
+    <!-- Piwik --> 
     <script type="text/javascript"> 
       var _paq = _paq || []; 
       _paq.push(["setDocumentTitle", document.domain + "/" + document.title]); 
@@ -91,6 +96,7 @@
     <noscript><p><img src="//webanalytics.library.cornell.edu/piwik.php?idsite=60" style="border:0;" alt="" /></p></noscript> 
     <!-- End Piwik Code -->
    
+    <!-- Anchor scroll for various elements --> 
     <script type="text/javascript">
       $(document).ready(function() {
         //Default
@@ -101,6 +107,7 @@
         $('.search-info a').tooltip();
       });
     </script>
+
   </body>
 </html>
 
