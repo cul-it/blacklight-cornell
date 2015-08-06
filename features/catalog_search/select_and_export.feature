@@ -73,6 +73,7 @@ Feature: Select and export items from the result set
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
 @DISCOVERYACCESS-1633
   Scenario: User sends a record by email
+    Given PENDING 
     Given I request the item view for 8767648
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"
@@ -90,6 +91,7 @@ Feature: Select and export items from the result set
 @select_and_email
   Scenario: Search with 2 results, select, and email them 
     Given I am on the home page
+    Given PENDING 
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
     Then I should get results
