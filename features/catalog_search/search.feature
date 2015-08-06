@@ -24,6 +24,14 @@ Feature: Search
     Then the 'search_field' drop-down should have an option for 'Publisher'
     Then the 'search_field' drop-down should have an option for 'Subject'
 
+  @callnumber
+  Scenario: Perform a search and see call number facet 
+    Given I am on the home page
+    And I fill in the search box with 'biology'
+    And I press 'search'
+    Then I should get results
+    And I should see a facet called 'Call Number' 
+
   @publisher
   Scenario: Perform a search by Publisher
     Given I am on the home page
