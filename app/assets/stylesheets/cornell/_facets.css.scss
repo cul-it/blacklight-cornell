@@ -245,8 +245,29 @@ form.range_limit {
 		margin-bottom: 6px;
 	}
 	ul {
-		margin-top: .25em;
+		margin-top: .5em;
 	}
+}
+// Gem overrides
+#facets ul.facet-hierarchy {
+	margin-left: 0;
+}
+#facets ul.facet-hierarchy ul li {
+	margin-left: 15px;
+}
+#facets ul.facet-hierarchy li.h-node,
+#facets ul.facet-hierarchy li.h-node.twiddle-open {
+	list-style-image: none;
+}
+#facets ul.facet-hierarchy li.h-node:before {
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f196";
+	cursor: pointer;
+	margin-right: 5px;
+}
+#facets ul.facet-hierarchy li.h-node.twiddle-open:before {
+	content: "\f147";
 }
 
 // MEDIA QUERIES
