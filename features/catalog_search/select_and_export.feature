@@ -71,7 +71,6 @@ Feature: Select and export items from the result set
 
 
 # Pending causes an error in jenkins
-if false		
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
 @DISCOVERYACCESS-1633
   Scenario: User sends a record by email
@@ -108,7 +107,6 @@ if false
     Then I should see "Coward" in the email body
     Then I should see "Temporary Location: v.1   Temporarily shelved in Uris Library Reserv" in the email body
     Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
-end
 
 @DISCOVERYACCESS-1670
   Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
