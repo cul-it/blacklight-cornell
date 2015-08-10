@@ -1,20 +1,29 @@
 footer {
-	color: $light-gray;
-	border-top: 10px solid #16524d;
+	color: $medium-gray;
+	border-top: 1px solid #ddd;
 	p {
 		font-size: 12px;
 	}
 	a, a:hover {
-		color: white;
+		color: $dark-gray;
 	}
 	.nav > li > a {
 		padding: 0 10px;
+	}
+	.btn-libraries {
+		background: $teal;
+		border-color: $teal;
+		margin-top: 15px;
+	}
+	.btn-libraries:hover {
+		background: $dark-teal;
+		border-color: $dark-teal;
 	}
 }
 
 .footer-copyright {
 	padding: 1.5em 0;
-	border-top: 1px solid #2d2d2d;
+	border-top: 1px solid #ddd;
 	margin-top: em;
 }
 .social-links {

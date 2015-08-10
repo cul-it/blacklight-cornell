@@ -261,6 +261,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
      config.add_facet_field 'lc_callnum_facet',
+                            if: :expandable_search?,
                            label: 'Call Number',
                            partial: 'blacklight/hierarchy/facet_hierarchy',
                            sort: 'index'
