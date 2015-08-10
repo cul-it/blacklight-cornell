@@ -188,6 +188,7 @@ Feature: Results list
 
   @search_with_view_all_web_match_box_ampersand
   Scenario: Search with view all webs link  with ampersand
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with 'america & nepal & rice & nematode'
     And I press 'Search'
