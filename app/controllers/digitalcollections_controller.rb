@@ -32,7 +32,7 @@ class DigitalcollectionsController < ApplicationController
         Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
         p = {"q" =>params[:q] }
-        Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/culdigreg?q=" + p.to_param)
+        Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/culdigreg?" + p.to_param)
         @digregResultString = dbclnt.get_content("#{solr}/culdigreg?" + p.to_param) 
         if !@digregResultString.nil?
            @digregResponseFull = eval(@digregResultString)
