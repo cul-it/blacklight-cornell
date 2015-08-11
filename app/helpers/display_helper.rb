@@ -1030,7 +1030,7 @@ include ActionView::Helpers::NumberHelper
 
 
     content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
-    link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
+    link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
   end
 
     else
@@ -1043,7 +1043,7 @@ include ActionView::Helpers::NumberHelper
      if facet_in_params?( solr_field, item.value )
 
       content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, '[remove]' + item.value, :class => 'hidden'), remove_facet_params(solr_field, item, params), :class=>"remove")
+      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
       else
       render_facet_value(solr_field, item)
     end
