@@ -206,6 +206,7 @@ Feature: Results list
 
   @search_facet_web_match_box_ampersand
   Scenario: Search and facet webs link with ampersand match
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with 'nepali & language'
     And I press 'Search'
