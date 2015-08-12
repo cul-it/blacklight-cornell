@@ -4,7 +4,10 @@ module Blacklight::Solr::Document::MarcExport
 
 #STANDARD_INFO =  "\n#{__FILE__} #{__LINE__} #{__method__} " 
 
-def setup_pub_info(record)
+# NOTE: all of the functions below are copied and modified from the
+# blacklight-marc gem.
+
+  def setup_pub_info(record)
     text = ''
     pub_info_field = record.find{|f| f.tag == '260'}
     if pub_info_field.nil?
@@ -40,7 +43,50 @@ def setup_pub_info(record)
     clean_end_punctuation(date_value) if date_value
   end
 
+  def get_author_list(record)
+    author_list = []
+    authors_primary = record.find{|f| f.tag == '100'}
+    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+    author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
+    authors_secondary = record.find_all{|f| ('700') === f.tag}
+    if !authors_secondary.nil?
+      authors_secondary.each do |l|
+        author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+      end
+    end
+    
+    author_list.uniq!
+    author_list
+  end
+  
+  # Original comment: 
+  # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
+  def get_all_authors(record)
+    translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
+    primary_authors = []; translators = []; editors = []; compilers = []
+    record.find_all{|f| f.tag === "100" }.each do |field|
+      primary_authors << field["a"] if field["a"]
+    end
+    record.find_all{|f| f.tag === "700" }.each do |field|
+      if field["a"]
+        relators = []
+        relators << clean_end_punctuation(field["e"]) if field["e"]
+        relators << clean_end_punctuation(field["4"]) if field["4"]
+        if relators.include?(translator_code)
+          translators << field["a"]
+        elsif relators.include?(editor_code)
+          editors << field["a"]
+        elsif relators.include?(compiler_code)
+          compilers << field["a"]
+        else
+          primary_authors << field["a"]
+        end
+      end
+    end
+    {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
+  end
 
+  # Original comment: 
   # Main method for defining chicago style citation.  If we don't end up converting to using a citation formatting service
   # we should make this receive a semantic document and not MARC so we can use this with other formats.
   def chicago_citation(marc)
@@ -166,7 +212,7 @@ def setup_pub_info(record)
     citation
   end
 
-
+  # Original comment: 
   # Exports as an OpenURL KEV (key-encoded value) query string.
   # For use to create COinS, among other things. COinS are
   # for Zotero, among other things. TODO: This is wierd and fragile
@@ -225,11 +271,4 @@ def setup_pub_info(record)
 
 	  
 
-end
-
-
-class String
-      def is_number?
-        true if Float(self) rescue false
-      end
 end
