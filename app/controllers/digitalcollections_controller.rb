@@ -23,9 +23,7 @@ class DigitalcollectionsController < ApplicationController
         render "index"
       end
       if !params[:q].nil? and params[:q] != ""
-        Rails.logger.info("Petunia1 = #{params[:q]}")
         #params[:q].gsub!(' ','%20')
-        Rails.logger.info("Petunia2 = #{params[:q]}")
         dbclnt = HTTPClient.new
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
@@ -40,7 +38,6 @@ class DigitalcollectionsController < ApplicationController
         end
         @digregResponse = @digregResponseFull['response']['docs']
         params[:q].gsub!('%20', ' ')
-        Rails.logger.info("Petunia3 = #{params[:q]}")
       end
     end
 end
