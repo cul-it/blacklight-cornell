@@ -57,6 +57,11 @@
 			margin-right: 3px;
 		}
 	}
+	.selected {
+		.facet-label {
+			padding-bottom: 0;
+		}
+	}
 }
 
 // OVERRIDE #FACETS - TODO: do we still need this in BL5?
@@ -77,11 +82,18 @@
 		line-height: 16px;
 		padding-right: 0;
 	}
-	a.remove { padding: 3px 5px; }
+	a.remove { 
+		padding: 0;
+		display: inline-block;
+		margin-bottom: .25em;
+	}
 	a.remove:hover {
 		text-decoration: none;
 		background: white;
 		i { color: $medium-gray; }
+	}
+	a.remove:active, a.remove:focus {
+		border: 0;
 	}
 	span.selected {
 		color: $dark-gray;
@@ -98,14 +110,6 @@
   font-family: $monospace-font-family;
   font-size: 11px;
 }
-
-// Selected facet in sidebar
-// ----------------------------
-// .selected {
-// 	span {
-// 		float: left;
-// 	}
-// }
 
 // PUBLICATION YEAR
 // -----------------------
@@ -245,8 +249,29 @@ form.range_limit {
 		margin-bottom: 6px;
 	}
 	ul {
-		margin-top: .25em;
+		margin-top: .5em;
 	}
+}
+// Gem overrides
+#facets ul.facet-hierarchy {
+	margin-left: 0;
+}
+#facets ul.facet-hierarchy ul li {
+	margin-left: 15px;
+}
+#facets ul.facet-hierarchy li.h-node,
+#facets ul.facet-hierarchy li.h-node.twiddle-open {
+	list-style-image: none;
+}
+#facets ul.facet-hierarchy li.h-node:before {
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f196";
+	cursor: pointer;
+	margin-right: 5px;
+}
+#facets ul.facet-hierarchy li.h-node.twiddle-open:before {
+	content: "\f147";
 }
 
 // MEDIA QUERIES
@@ -291,6 +316,11 @@ form.range_limit {
 			padding-bottom: .5em;
 		}
 	}
+	#facets {
+		a.remove { 
+			display: inline-block;
+		}
+	}
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -308,6 +338,11 @@ form.range_limit {
 		.facet-count {
 			display: table-cell;
 			padding-bottom: 0;
+		}
+	}
+	#facets {
+		a.remove {
+			padding: 3px 5px;
 		}
 	}
 }
