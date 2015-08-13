@@ -6,12 +6,44 @@ require 'stringio'
 # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
 
 def marc_from_xml(string)    
+  # NOTE: somewhere, one of the blacklight gems is changing the parser
+  # used by XMLReader. Unless it's specified here ('rexml'), this function will
+  # fail to produce any output
   reader = MARC::XMLReader.new(StringIO.new(string), :parser => 'rexml')
   reader.each {|rec| return rec }
 end
   
 
 def standard_citation
+"<record>
+  <leader>01182pam a22003014a 4500</leader>
+  <controlfield tag=\"001\">a4802615</controlfield>
+  <controlfield tag=\"003\">SIRSI</controlfield>
+  <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
+  <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
+    <subfield code=\"a\">Apples :</subfield>
+    <subfield code=\"b\">botany, production, and uses /</subfield>
+    <subfield code=\"c\">edited by D.C. Ferree and I.J. Warrington.</subfield>
+  </datafield>
+  <datafield tag=\"260\" ind1=\" \" ind2=\" \">
+    <subfield code=\"a\">Oxon, U.K. ;</subfield>
+    <subfield code=\"a\">Cambridge, MA :</subfield>
+    <subfield code=\"b\">CABI Pub.,</subfield>
+    <subfield code=\"c\">c2003.</subfield>
+  </datafield>
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">Ferree, David C.</subfield>
+    <subfield code=\"q\">(David Curtis),</subfield>
+    <subfield code=\"d\">1943-</subfield>
+  </datafield>
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">Warrington, I. J.</subfield>
+    <subfield code=\"q\">(Ian J.)</subfield>
+  </datafield>
+</record>"
+end
+
+def corporate_author_citation
 "<record>
   <leader>01182pam a22003014a 4500</leader>
   <controlfield tag=\"001\">a4802615</controlfield>
@@ -43,6 +75,7 @@ def standard_citation
   </datafield>
 </record>"
 end
+
 
 def music_record
 "<record>
@@ -119,6 +152,10 @@ def record1_xml
      <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Janetzky, Kurt.</subfield>
      </datafield>
+     <datafield tag=\"110\" ind1=\"1\" ind2=\" \">
+       <subfield code=\"a\">Bobs</subfield>
+       <subfield code=\"b\">Your Uncle</subfield>
+     </datafield>
      <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
        <subfield code=\"a\">The horn /</subfield>
        <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
@@ -130,6 +167,10 @@ def record1_xml
      </datafield>
      <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Brüchle, Bernhard.</subfield>
+     </datafield>
+     <datafield tag=\"710\" ind1=\"1\" ind2=\" \">
+       <subfield code=\"a\">Petunias</subfield>
+       <subfield code=\"b\">Your Aunt</subfield>
      </datafield>
   </record>"
 end
@@ -215,6 +256,10 @@ def section_title_xml
        <subfield code=\"a\">London :</subfield>
        <subfield code=\"b\">Batsford,</subfield>
        <subfield code=\"c\">2001</subfield>
+     </datafield>
+     <datafield tag=\"710\" ind1=\"1\" ind2=\" \">
+       <subfield code=\"a\">Bobs</subfield>
+       <subfield code=\"b\">Your Uncle</subfield>
      </datafield>
      
   </record>"
@@ -493,13 +538,32 @@ describe Blacklight::Solr::Document::MarcExport do
     @record_with_bad_author             = dclass.new( bad_author_xml )
     @special_contributor_no_auth_record = dclass.new( special_contributor_no_author_xml )
     @record_utf8_decomposed             = dclass.new( utf8_decomposed_record_xml )
+    @corporate_author_record            = dclass.new( corporate_author_citation )
 
   end
   
-  describe "export_as_chicago_citation_txt" do
-    it "should handle a typical record correclty" do
+  describe "get all authors", :authors => true do
+    it "should return corporate authors in a record with 110 or 710" do
+      authors = get_all_authors(@corporate_author_record.to_marc)
+      expect(authors[:corporate_authors]).to eq(['Bobs Your Uncle'])
+      authors = get_all_authors(@section_title_record.to_marc)
+      expect(authors[:corporate_authors]).to eq(['Bobs Your Uncle'])
+      authors = get_all_authors(@record_without_245b.to_marc)
+      expect(authors[:corporate_authors]).to eq(['Bobs Your Uncle', 'Petunias Your Aunt'])
+    end
+    it "should return no corporate authors in a record without 110 or 710" do
+      authors = get_all_authors(@typical_record.to_marc)
+      expect(authors[:corporate_authors]).to eq([])
+    end
+  end
+  
+  describe "export_as_chicago_citation_txt", :chicago => true do
+    it "should handle a typical record correctly" do
       expect(@typical_record.export_as_chicago_citation_txt).to eq("Ferree, David C., and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
+    it "should handle a record w/ corporate authors correctly" do
+      expect(@corporate_author_record.export_as_chicago_citation_txt).to eq("Bobs Your Uncle. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
+    end    
     it "should format a record w/o authors correctly" do
       expect(@record_without_authors.export_as_chicago_citation_txt).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971.")
     end
@@ -538,7 +602,7 @@ describe Blacklight::Solr::Document::MarcExport do
     end
   end
   
-  describe "export_as_apa_citation_txt" do
+  describe "export_as_apa_citation_txt", :apa => true do
     it "should format a standard citation correctly" do
       expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C, &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
@@ -561,7 +625,7 @@ describe Blacklight::Solr::Document::MarcExport do
     
   end
   
-  describe "export_as_mla_citation_txt" do
+  describe "export_as_mla_citation_txt", :mla => true do
     it "should format a standard citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt).to eq("Ferree, David C, and I. J Warrington. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
