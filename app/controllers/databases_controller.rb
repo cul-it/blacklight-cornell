@@ -28,8 +28,6 @@ class DatabasesController < ApplicationController
     @subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
-     params[:dbcode] = "booger"
-
     end
 
   def title
