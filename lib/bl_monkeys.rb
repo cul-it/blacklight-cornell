@@ -64,8 +64,13 @@ module Blacklight::Solr::Document::MarcExport
   def get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     primary_authors = []; translators = []; editors = []; compilers = []
+    corporate_authors = []; meeting_authors = []
     record.find_all{|f| f.tag === "100" }.each do |field|
       primary_authors << field["a"] if field["a"]
+    end
+    record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
+      corporate_authors << (field['a'] ? field['a'] : '') + 
+                           (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === "700" }.each do |field|
       if field["a"]
@@ -83,7 +88,7 @@ module Blacklight::Solr::Document::MarcExport
         end
       end
     end
-    {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
+    {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers}
   end
 
   # Original comment: 
