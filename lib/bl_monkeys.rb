@@ -275,7 +275,6 @@ module Blacklight::Solr::Document::MarcExport
     
     #setup formatted author list
     authors = get_all_authors(record)
-    puts authors
     
     # If there are secondary (i.e. from 700 fields) authors, add them to
     # primary authors only if there are no corporate, meeting, or primary authors
@@ -342,29 +341,49 @@ module Blacklight::Solr::Document::MarcExport
    authors_final = []
    
    #setup formatted author list
-   authors = get_author_list(record)
+   authors = get_all_authors(record)
 
-   if authors.length < 4
-     authors.each do |l|
-       if l == authors.first #first
-         authors_final.push(l)
-       elsif l == authors.last #last
-         authors_final.push(", and " + name_reverse(l) + ".")
-       else #all others
-         authors_final.push(", " + name_reverse(l))
-       end
-     end
-     text += authors_final.join
-     unless text.blank?
-       if text[-1,1] != "."
-         text += ". "
-       else
-         text += " "
-       end
-     end
-   else
-     text += authors.first + ", et al. "
+   # If there are secondary (i.e. from 700 fields) authors, add them to
+   # primary authors only if there are no corporate, meeting, or primary authors
+   if !authors[:primary_authors].empty?
+     authors[:primary_authors] += authors[:secondary_authors] unless authors[:secondary_authors].blank?
+   elsif !authors[:secondary_authors].blank?
+     authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? and authors[:meeting_authors].blank?)
    end
+
+   if !authors[:primary_authors].blank?
+     if authors[:primary_authors].length < 4
+       authors[:primary_authors].each do |l|
+         l.gsub!(/\.$/,'')
+         if l == authors[:primary_authors].first #first
+           authors_final.push(l)
+         elsif l == authors[:primary_authors].last #last
+           authors_final.push(", and " + name_reverse(l) + ".")
+         else #all others
+           authors_final.push(", " + name_reverse(l))
+         end
+       end
+       text += authors_final.join
+       unless text.blank?
+         if text[-1,1] != "."
+           text += ". "
+         else
+           text += " "
+         end
+       end
+     else
+       text += authors[:primary_authors].first.gsub!(/\.$/,'') + ", et al. "
+     end
+   # Handling of corporate and meeting authors here is a bit naive — 
+   # assuming that only the first array item is important and ends with
+   # a period
+   elsif !authors[:corporate_authors].blank?
+     text += authors[:corporate_authors][0] + '. '
+   elsif !authors[:meeting_authors].blank?
+     text += authors[:meeting_authors][0] + '. '
+   end
+   
+   
    # setup title
    title = setup_title_info(record)
    if !title.nil?
