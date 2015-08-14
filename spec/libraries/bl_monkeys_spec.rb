@@ -666,7 +666,12 @@ describe Blacklight::Solr::Document::MarcExport do
     it "should format a standard citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt).to eq("Ferree, David C, and I. J Warrington. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
-    
+    it "should format a record w/ corporate authors correctly" do
+      expect(@corporate_author_record.export_as_mla_citation_txt).to eq("Bobs Your Uncle. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
+    end 
+    it "should format a record w/ meeting authors correctly" do
+      expect(@meeting_author_record.export_as_mla_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
+    end  
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_mla_citation_txt).to eq("Janetzky, Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
