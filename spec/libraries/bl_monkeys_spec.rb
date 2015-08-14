@@ -600,11 +600,11 @@ describe Blacklight::Solr::Document::MarcExport do
       expect(@record_without_authors.export_as_chicago_citation_txt).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971.")
     end
     it "should format a citation without a 245b field correctly" do
-      expect(@record_without_245b.export_as_chicago_citation_txt).to eq("Janetzky, Kurt., and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
+      expect(@record_without_245b.export_as_chicago_citation_txt).to eq("Janetzky, Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
     it "should format a citation with 4+ authors correctly" do
       chicago_text = @record_with_10plus_authors.export_as_chicago_citation_txt
-      expect(chicago_text).to eq("Greer, Lowell., Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe,  et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
+      expect(chicago_text).to eq("Greer, Lowell, Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe,  et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
       expect(chicago_text).to match(/John Doe,  et al\./)
       expect(chicago_text).not_to match(/Jane Doe/)
     end
@@ -639,10 +639,10 @@ describe Blacklight::Solr::Document::MarcExport do
       expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C., &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
     it "should format a record w/ corporate authors correctly" do
-      expect(@corporate_author_record.export_as_apa_citation_txt).to eq("Bobs Your Uncle (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
+      expect(@corporate_author_record.export_as_apa_citation_txt).to eq("Bobs Your Uncle. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end 
     it "should format a record w/ meeting authors correctly" do
-      expect(@meeting_author_record.export_as_apa_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
+      expect(@meeting_author_record.export_as_apa_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end  
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_apa_citation_txt).to eq("Janetzky, K., &amp; Brüchle, B. (1988). <i>The horn.</i> London: Batsford.")
@@ -730,7 +730,7 @@ describe Blacklight::Solr::Document::MarcExport do
 
   describe "export_as_refworks_marc_txt" do
     it "should export correctly" do
-      expect(@music_record.export_as_refworks_marc_txt).to eq("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
+      expect(@music_record.export_as_refworks_marc_txt).to eq("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n711 1  International Rutabaga Curling Championships |qIthaca Regional Meeting\n")
     end
     describe "for UTF-8 record" do
       it "should export in Unicode normalized C form" do        

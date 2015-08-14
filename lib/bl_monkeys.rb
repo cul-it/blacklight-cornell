@@ -47,39 +47,6 @@ module Blacklight::Solr::Document::MarcExport
     end
     clean_end_punctuation(date_value) if date_value
   end
-
-  def get_author_list(record)
-    author_list = []
-    primary_authors = []
-    secondary_authors = []
-    corporate_authors = []
-    meeting_authors = []
-    
-    authors_primary = record.find{|f| f.tag == '100'}    
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-    primary_authors.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
-
-    # Look for a 110 or 710
-    corporate = record.find{|f| f.tag == '110' || f.tag == '710' }
-    corporate = (corporate.find{|s| s.code == 'a'}.value + ' ' + corporate.find{|s| s.code == 'b'}.value) unless corporate.nil? rescue ''
-    corporate_authors.push(corporate) unless corporate.nil?
-
-    # Look for a 111 or 711
-    meeting = record.find{|f| f.tag == '111' || f.tag == '711' }
-    meeting = (meeting.find{|s| s.code == 'a'}.value + ' ' + meeting.find{|s| s.code == 'q'}.value) unless meeting.nil? rescue ''
-    meeting_authors.push(meeting) unless meeting.nil?
-    
-    authors_secondary = record.find_all{|f| ('700') === f.tag}
-    if !authors_secondary.nil?
-      authors_secondary.each do |l|
-        secondary_authors.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
-      end
-    end
-    
-    primary_authors.uniq!
-    author_list = [:primary => primary_authors, :secondary => secondary_authors, :corporate => corporate_authors, :meeting => meeting_authors]
-    author_list
-  end
   
   # Original comment: 
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
@@ -114,6 +81,14 @@ module Blacklight::Solr::Document::MarcExport
         end
       end
     end
+
+    primary_authors.each_with_index do |a,i|
+      primary_authors[i] = a.gsub(/[\.,]$/,'')
+    end
+    secondary_authors.each_with_index do |a,i|
+      secondary_authors[i] = a.gsub(/[\.,]$/,'') 
+    end
+
     {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
     :secondary_authors => secondary_authors, :meeting_authors => meeting_authors } 
   end
@@ -308,10 +283,10 @@ module Blacklight::Solr::Document::MarcExport
     
     text += authors_list_final.join
     unless text.blank?
-      if text[-1,1] != ' '
-      #   text += ". "
-      # else
-        text += " "
+      if text[-1,1] == '.'
+        text += ' '
+      elsif text[-2,2] != '. '
+        text += '. '
       end
     end
     
@@ -354,13 +329,13 @@ module Blacklight::Solr::Document::MarcExport
    if !authors[:primary_authors].blank?
      if authors[:primary_authors].length < 4
        authors[:primary_authors].each do |l|
-         l.gsub!(/\.$/,'')
+         l.gsub!(/[\.,]$/,'')
          if l == authors[:primary_authors].first #first
            authors_final.push(l)
          elsif l == authors[:primary_authors].last #last
            authors_final.push(", and " + name_reverse(l) + ".")
          else #all others
-           authors_final.push(", " + name_reverse(l))
+           authors_final.push(", " + name_reverse(l) + '.')
          end
        end
        text += authors_final.join
