@@ -636,9 +636,14 @@ describe Blacklight::Solr::Document::MarcExport do
   
   describe "export_as_apa_citation_txt", :apa => true do
     it "should format a standard citation correctly" do
-      expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C, &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
+      expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C., &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
-    
+    it "should format a record w/ corporate authors correctly" do
+      expect(@corporate_author_record.export_as_apa_citation_txt).to eq("Bobs Your Uncle (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
+    end 
+    it "should format a record w/ meeting authors correctly" do
+      expect(@meeting_author_record.export_as_apa_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
+    end  
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_apa_citation_txt).to eq("Janetzky, K., &amp; Brüchle, B. (1988). <i>The horn.</i> London: Batsford.")
     end
