@@ -36,7 +36,12 @@ module Blacklight::Solr::Document::MarcExport
     end
     if !pub_date.nil?
       if pub_date.find{|s| s.code == 'c'}
-        date_value = pub_date.find{|s| s.code == 'c'}.value.gsub(/[^0-9]|n\.d\./, "")[0,4] unless pub_date.find{|s| s.code == 'c'}.value.gsub(/[^0-9]|n\.d\./, "")[0,4].blank?
+        date_value = pub_date.find{|s| s.code == 'c'}.value
+        if date_value.include? 'n.d.'
+          date_value = 'n.d'
+        elsif !date_value.gsub(/[^0-9]/, '')[0,4].blank?
+          date_value = date_value.gsub(/[^0-9]/, '')[0,4]
+        end
       end
       return nil if date_value.nil?
     end
