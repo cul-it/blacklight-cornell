@@ -67,6 +67,29 @@ def corporate_author_citation
 </record>"
 end
 
+def meeting_author_citation
+"<record>
+  <leader>01182pam a22003014a 4500</leader>
+  <controlfield tag=\"001\">a4802615</controlfield>
+  <controlfield tag=\"003\">SIRSI</controlfield>
+  <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
+  <datafield tag=\"111\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">International Rutabaga Curling Championships</subfield>
+    <subfield code=\"q\">Ithaca Regional Meeting</subfield>
+  </datafield>
+  <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
+    <subfield code=\"a\">Apples :</subfield>
+    <subfield code=\"b\">botany, production, and uses /</subfield>
+    <subfield code=\"c\">edited by D.C. Ferree and I.J. Warrington.</subfield>
+  </datafield>
+  <datafield tag=\"260\" ind1=\" \" ind2=\" \">
+    <subfield code=\"a\">Oxon, U.K. ;</subfield>
+    <subfield code=\"a\">Cambridge, MA :</subfield>
+    <subfield code=\"b\">CABI Pub.,</subfield>
+    <subfield code=\"c\">c2003.</subfield>
+  </datafield>
+</record>"
+end
 
 def music_record
 "<record>
@@ -117,6 +140,10 @@ def music_record
     <subfield code=\"t\">Sonata,</subfield>
     <subfield code=\"m\">horn, piano,</subfield>
     <subfield code=\"r\">F major.</subfield>
+  </datafield>
+  <datafield tag=\"711\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">International Rutabaga Curling Championships</subfield>
+    <subfield code=\"q\">Ithaca Regional Meeting</subfield>
   </datafield>
 </record>"
 end
@@ -530,6 +557,7 @@ describe Blacklight::Solr::Document::MarcExport do
     @special_contributor_no_auth_record = dclass.new( special_contributor_no_author_xml )
     @record_utf8_decomposed             = dclass.new( utf8_decomposed_record_xml )
     @corporate_author_record            = dclass.new( corporate_author_citation )
+    @meeting_author_record              = dclass.new( meeting_author_citation )
 
   end
   
@@ -546,6 +574,16 @@ describe Blacklight::Solr::Document::MarcExport do
       authors = get_all_authors(@typical_record.to_marc)
       expect(authors[:corporate_authors]).to eq([])
     end
+    it "should return meeting authors in a record with 111 or 711" do
+      authors = get_all_authors(@meeting_author_record.to_marc)
+      expect(authors[:meeting_authors]).to eq(['International Rutabaga Curling Championships Ithaca Regional Meeting'])
+      authors = get_all_authors(@music_record.to_marc)
+      expect(authors[:meeting_authors]).to eq(['International Rutabaga Curling Championships Ithaca Regional Meeting'])
+    end
+    it "should return no meeting authors in a record without 111 or 711" do
+      authors = get_all_authors(@typical_record.to_marc)
+      expect(authors[:meeting_authors]).to eq([])  
+    end
   end
   
   describe "export_as_chicago_citation_txt", :chicago => true do
@@ -554,7 +592,10 @@ describe Blacklight::Solr::Document::MarcExport do
     end
     it "should handle a record w/ corporate authors correctly" do
       expect(@corporate_author_record.export_as_chicago_citation_txt).to eq("Bobs Your Uncle. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
-    end    
+    end 
+    it "should handle a record w/ meeting authors correctly" do
+      expect(@meeting_author_record.export_as_chicago_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
+    end     
     it "should format a record w/o authors correctly" do
       expect(@record_without_authors.export_as_chicago_citation_txt).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971.")
     end

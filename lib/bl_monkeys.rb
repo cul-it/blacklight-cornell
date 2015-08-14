@@ -77,6 +77,10 @@ module Blacklight::Solr::Document::MarcExport
       corporate_authors << (field['a'] ? field['a'] : '') + 
                            (field['b'] ? ' ' + field['b'] : '')
     end
+    record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
+      meeting_authors << (field['a'] ? field['a'] : '') + 
+                           (field['q'] ? ' ' + field['q'] : '')
+    end
     record.find_all{|f| f.tag === "700" }.each do |field|
       if field["a"]
         relators = []
@@ -94,7 +98,7 @@ module Blacklight::Solr::Document::MarcExport
       end
     end
     {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
-    :secondary_authors => secondary_authors } 
+    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors } 
   end
 
   # Original comment: 
@@ -157,6 +161,10 @@ module Blacklight::Solr::Document::MarcExport
       # This is a simplistic assumption that the first corp author entry
       # is the only one of interest (and it's not too long)
       author_text << authors[:corporate_authors].first + '.'
+    elsif !authors[:meeting_authors].blank?
+      # This is a simplistic assumption that the first corp author entry
+      # is the only one of interest (and it's not too long)
+      author_text << authors[:meeting_authors].first + '.'
     else
       # Secondary authors: translators, editors, compilers
       temp_authors = []
