@@ -64,7 +64,7 @@ module Blacklight::Solr::Document::MarcExport
   def get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     primary_authors = []; translators = []; editors = []; compilers = []
-    corporate_authors = []; meeting_authors = []
+    corporate_authors = []; meeting_authors = []; secondary_authors = []
     record.find_all{|f| f.tag === "100" }.each do |field|
       primary_authors << field["a"] if field["a"]
     end
@@ -84,11 +84,12 @@ module Blacklight::Solr::Document::MarcExport
         elsif relators.include?(compiler_code)
           compilers << field["a"]
         else
-          primary_authors << field["a"]
+          secondary_authors << field["a"]
         end
       end
     end
-    {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers}
+    {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
+    :secondary_authors => secondary_authors } 
   end
 
   # Original comment: 
@@ -97,9 +98,22 @@ module Blacklight::Solr::Document::MarcExport
   def chicago_citation(marc)
     authors = get_all_authors(marc)    
     author_text = ""
-    unless authors[:primary_authors].blank?
+    
+    # If there are secondary (i.e. from 700 fields) authors, add them to
+    # primary authors only if there are no corporate authors or primary authors
+    if !authors[:primary_authors].blank?
+      authors[:primary_authors] += authors[:secondary_authors] unless authors[:secondary_authors].blank?
+    elsif !authors[:secondary_authors].blank?
+      authors[:primary_authors] = authors[:secondary_authors] if authors[:corporate_authors].blank?
+    end
+    
+    # Work with primary authors first
+    if !authors[:primary_authors].blank?
+      
+      # Handle differently if there are more then 10 authors (use et al.)
       if authors[:primary_authors].length > 10
         authors[:primary_authors].each_with_index do |author,index|
+          # For the first 7 authors...
           if index < 7
             if index == 0
               author_text << "#{author}"
@@ -114,6 +128,7 @@ module Blacklight::Solr::Document::MarcExport
           end
         end
         author_text << " et al."
+      # If there are at least 2 primary authors
       elsif authors[:primary_authors].length > 1
         authors[:primary_authors].each_with_index do |author,index|
           if index == 0
@@ -130,9 +145,15 @@ module Blacklight::Solr::Document::MarcExport
           end 
         end
       else
+        # Only 1 primary author
         author_text << authors[:primary_authors].first
       end
+    elsif !authors[:corporate_authors].blank?
+      # This is a simplistic assumption that the first corp author entry
+      # is the only one of interest (and it's not too long)
+      author_text << authors[:corporate_authors].first + '.'
     else
+      # Secondary authors: translators, editors, compilers
       temp_authors = []
       authors[:translators].each do |translator|
         temp_authors << [translator, "trans."]

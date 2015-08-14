@@ -64,15 +64,6 @@ def corporate_author_citation
     <subfield code=\"b\">CABI Pub.,</subfield>
     <subfield code=\"c\">c2003.</subfield>
   </datafield>
-  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
-    <subfield code=\"a\">Ferree, David C.</subfield>
-    <subfield code=\"q\">(David Curtis),</subfield>
-    <subfield code=\"d\">1943-</subfield>
-  </datafield>
-  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
-    <subfield code=\"a\">Warrington, I. J.</subfield>
-    <subfield code=\"q\">(Ian J.)</subfield>
-  </datafield>
 </record>"
 end
 
