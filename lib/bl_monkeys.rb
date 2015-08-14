@@ -50,17 +50,34 @@ module Blacklight::Solr::Document::MarcExport
 
   def get_author_list(record)
     author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
+    primary_authors = []
+    secondary_authors = []
+    corporate_authors = []
+    meeting_authors = []
+    
+    authors_primary = record.find{|f| f.tag == '100'}    
     author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-    author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
+    primary_authors.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
+
+    # Look for a 110 or 710
+    corporate = record.find{|f| f.tag == '110' || f.tag == '710' }
+    corporate = (corporate.find{|s| s.code == 'a'}.value + ' ' + corporate.find{|s| s.code == 'b'}.value) unless corporate.nil? rescue ''
+    corporate_authors.push(corporate) unless corporate.nil?
+
+    # Look for a 111 or 711
+    meeting = record.find{|f| f.tag == '111' || f.tag == '711' }
+    meeting = (meeting.find{|s| s.code == 'a'}.value + ' ' + meeting.find{|s| s.code == 'q'}.value) unless meeting.nil? rescue ''
+    meeting_authors.push(meeting) unless meeting.nil?
+    
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?
       authors_secondary.each do |l|
-        author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+        secondary_authors.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
       end
     end
     
-    author_list.uniq!
+    primary_authors.uniq!
+    author_list = [:primary => primary_authors, :secondary => secondary_authors, :corporate => corporate_authors, :meeting => meeting_authors]
     author_list
   end
   
@@ -109,11 +126,11 @@ module Blacklight::Solr::Document::MarcExport
     author_text = ""
     
     # If there are secondary (i.e. from 700 fields) authors, add them to
-    # primary authors only if there are no corporate authors or primary authors
+    # primary authors only if there are no corporate, meeting, primary authors
     if !authors[:primary_authors].blank?
       authors[:primary_authors] += authors[:secondary_authors] unless authors[:secondary_authors].blank?
     elsif !authors[:secondary_authors].blank?
-      authors[:primary_authors] = authors[:secondary_authors] if authors[:corporate_authors].blank?
+      authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? and authors[:meeting_authors].blank?)
     end
     
     # Work with primary authors first
@@ -250,6 +267,124 @@ module Blacklight::Solr::Document::MarcExport
     citation << "#{pub_info}." unless pub_info.blank?
     citation
   end
+
+  def apa_citation(record)
+    text = ''
+    authors_list = []
+    authors_list_final = []
+    
+    #setup formatted author list
+    authors = get_all_authors(record)
+    puts authors
+    
+    # If there are secondary (i.e. from 700 fields) authors, add them to
+    # primary authors only if there are no corporate, meeting, or primary authors
+    if !authors[:primary_authors].empty?
+      authors[:primary_authors] += authors[:secondary_authors] unless authors[:secondary_authors].blank?
+    elsif !authors[:secondary_authors].blank?
+      authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? and authors[:meeting_authors].blank?)
+    end
+    
+    if !authors[:primary_authors].blank?
+      authors[:primary_authors].each do |l|
+        authors_list.push(abbreviate_name(l)) unless l.blank?
+      end
+      authors_list.each do |l|
+        if l == authors_list.first #first
+          authors_list_final.push(l.strip)
+        elsif l == authors_list.last #last
+          authors_list_final.push(", &amp; " + l.strip)
+        else #all others
+          authors_list_final.push(", " + l.strip)
+        end
+      end
+    # Handling of corporate and meeting authors here is a bit naive — 
+    # assuming that only the first array item is important and ends with
+    # an unwanted period
+    elsif !authors[:corporate_authors].blank?
+      authors_list_final.push authors[:corporate_authors][0].gsub(/\.$/,'')
+    elsif !authors[:meeting_authors].blank?
+      authors_list_final.push authors[:meeting_authors][0].gsub(/\.$/,'')
+    end
+    
+    text += authors_list_final.join
+    unless text.blank?
+      if text[-1,1] != ' '
+      #   text += ". "
+      # else
+        text += " "
+      end
+    end
+    
+    # Get Pub Date
+    text += "(" + setup_pub_date(record) + "). " unless setup_pub_date(record).nil?
+    
+    # setup title info
+    title = setup_title_info(record)
+    text += "<i>" + title + "</i> " unless title.nil?
+    
+    # Edition
+    edition_data = setup_edition(record)
+    text += edition_data + " " unless edition_data.nil?
+    
+    # Publisher info
+    text += setup_pub_info(record) unless setup_pub_info(record).nil?
+    unless text.blank?
+      if text[-1,1] != "."
+        text += "."
+      end
+    end
+    text
+  end
+  
+  def mla_citation(record)
+   text = ''
+   authors_final = []
+   
+   #setup formatted author list
+   authors = get_author_list(record)
+
+   if authors.length < 4
+     authors.each do |l|
+       if l == authors.first #first
+         authors_final.push(l)
+       elsif l == authors.last #last
+         authors_final.push(", and " + name_reverse(l) + ".")
+       else #all others
+         authors_final.push(", " + name_reverse(l))
+       end
+     end
+     text += authors_final.join
+     unless text.blank?
+       if text[-1,1] != "."
+         text += ". "
+       else
+         text += " "
+       end
+     end
+   else
+     text += authors.first + ", et al. "
+   end
+   # setup title
+   title = setup_title_info(record)
+   if !title.nil?
+     text += "<i>" + mla_citation_title(title) + "</i> "
+   end
+
+   # Edition
+   edition_data = setup_edition(record)
+   text += edition_data + " " unless edition_data.nil?
+   
+   # Publication
+   text += setup_pub_info(record) + ", " unless setup_pub_info(record).nil?
+   
+   # Get Pub Date
+   text += setup_pub_date(record) unless setup_pub_date(record).nil?
+   if text[-1,1] != "."
+     text += "." unless text.nil? or text.blank?
+   end
+   text
+ end
 
   # Original comment: 
   # Exports as an OpenURL KEV (key-encoded value) query string.
