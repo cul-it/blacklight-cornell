@@ -135,9 +135,7 @@ Feature: Item view
   @DISCOVERYACCESS-1659
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
-    Then I should see the label '1941 c. 1 Checked out, due 2016-01-09'  
     Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'  
-    Then I should see the label '1960 c. 1 Checked out, due 2016-01-09'  
     Then I should see the label 'Request'  
 
 
@@ -437,6 +435,20 @@ Feature: Item view
     Given I request the item view for 8881455 
     Then I should see the label 'Language'
 
+ # various boundwith cases
+ @boundwith
+ @DISCOVERYACCESS-1903 
+ @DISCOVERYACCESS-1328 
+  Scenario: Show the record properly an item is bound with another item 
+    Given I request the item view for 28297 
+    Then I should see the label 'Bound with'
+
+ @boundwith
+ @DISCOVERYACCESS-1903 
+ @DISCOVERYACCESS-1328 
+  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
+    Given I request the item view for 118111 
+    Then I should see the label 'Bound with'
 
 
 
