@@ -1,26 +1,21 @@
 <%- unless flash[:success] %>
-<%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :class => "form-horizontal ajax_form", :method => :post do %>
+<%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :class => "ajax_form", :method => :post do %>
 
   <div class="modal-body">
     <%= render :partial=>'/flash_msg' %>
 
 
-    <div class="control-group">
-      <label class="control-label" for="to">
+    <div class="form-group">
+      <label for="to">
         <%= t('blacklight.email.form.to') %>
       </label>
-      <div class="controls">
-
-        <%= text_field_tag :to, params[:to] %><br/>
-      </div>
+      <%= text_field_tag :to, params[:to], :class => "form-control" %><br/>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="message">
+    <div class="form-group">
+      <label for="message">
         <%= t('blacklight.email.form.message') %>
       </label>
-      <div class="controls">
-      <%= text_area_tag :message, params[:message] %>
-       </div>
+      <%= text_area_tag :message, params[:message], :class => "form-control" %>
     </div>
     <% @callNosArray = [] %>
     <% @locationNameArray = [] %>

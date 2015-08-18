@@ -22,6 +22,12 @@
 							=works["worksAbout"] 
 							Title(s)
 				-if params[:browse_type] == "Subject"
+					- if works["works"].present?
+						.author-works
+							Works:
+							= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do
+								=works["works"]
+								Title(s)
 					
 					- if works["worksBy"].present?
 						.author-works
@@ -41,6 +47,11 @@
 						Works:
 						= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do
 							=data["count"]
+							Title(s)
+					.author-works
+						Works About:
+						= link_to '/?q="' + encoded_heading + '"&search_field=subject_work_browse' do
+							=works["worksAbout"] 
 							Title(s)
 
 			- if !data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?
@@ -94,9 +105,9 @@
 									- if params[:browse_type] == "Subject"
 											
 										- if headingInfo["worksBy"].present?
-											= link_to '/?q="' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
-												%span.author-works 
-													Works by:
+											%span.author-works 
+												Works by:
+												= link_to '/?q="' + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + '"&search_field=author_' + search_field(headingInfo["headingTypeDesc"]) + '_browse' do
 													=headingInfo["worksBy"]
 										
 										-if headingInfo["worksAbout"].present?
@@ -136,6 +147,5 @@
 								=t + ':'
 							-d.each do |data|
 								%dd
-									-data = data.titlecase
-									=data
+									=data.humanize
 					

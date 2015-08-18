@@ -1,6 +1,12 @@
-Then /^I should see a facet called '(.*?)'$/ do |facet|
-  within('div.facets') do
+Then /^I (should|should not) see a facet called '(.*?)'$/ do |yesno,facet|
+  if (yesno == 'should')
+    within('div.facets') do
 	page.should have_content(facet)
+    end
+  else  
+    within('div.facets') do
+	page.should_not have_content(facet)
+    end
   end
 end
 
