@@ -327,9 +327,10 @@ module Blacklight::Solr::Document::MarcExport
    end
 
    if !authors[:primary_authors].blank?
+     Rails.logger.warn "mjc12test: auth: #{authors[:primary_authors]}"
      if authors[:primary_authors].length < 4
        authors[:primary_authors].each do |l|
-         l.gsub!(/[\.,]$/,'')
+         l.gsub(/[\.,]$/,'')
          if l == authors[:primary_authors].first #first
            authors_final.push(l)
          elsif l == authors[:primary_authors].last #last
@@ -347,7 +348,7 @@ module Blacklight::Solr::Document::MarcExport
          end
        end
      else
-       text += authors[:primary_authors].first.gsub!(/\.$/,'') + ", et al. "
+       text += authors[:primary_authors].first.gsub(/\.$/,'') + ", et al. "
      end
    # Handling of corporate and meeting authors here is a bit naive — 
    # assuming that only the first array item is important and ends with
