@@ -168,7 +168,9 @@ include ActionView::Helpers::NumberHelper
         @xisbn = JSON.parse(@xisbn)["list"]
         if @xisbn.present?
         @xisbn.each do |wcl_data|
+          if @xisbn.include?("oclcnum")
           oclc_number = wcl_data["oclcnum"][0]
+        end
         end
         end
     end
