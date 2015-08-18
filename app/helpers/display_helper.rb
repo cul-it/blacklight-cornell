@@ -166,11 +166,9 @@ include ActionView::Helpers::NumberHelper
       if wcl_isbn.present? && !oclc_number.present?
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
         @xisbn = JSON.parse(@xisbn)["list"]
-        if @xisbn.present?
+        if @xisbn.present? && @xisbn.include?("oclcnum")
         @xisbn.each do |wcl_data|
-          if @xisbn.include?("oclcnum")
           oclc_number = wcl_data["oclcnum"][0]
-        end
         end
         end
     end
