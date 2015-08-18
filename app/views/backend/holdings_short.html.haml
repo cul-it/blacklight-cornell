@@ -31,7 +31,9 @@
           - location = multiple_locations
       %i{:class => 'fa fa-clock-o', :title => 'Available by request'}
     - else
-      - location = entry['summary']['holdinglocs'][0]
+      -## location = entry['summary']['holdinglocs'][0]
+      - xlocation = entry['records'][0]['location_name']
+      - location = code_to_name(entry['records'][0]['location_name'])
       - callnumber = entry['records'][0]['call_number']
       - if entry['summary']['onotes'].size > 0
         %i{:class => 'fa fa-clock-o', :title => 'On order'}
@@ -39,7 +41,7 @@
         %i{:class => 'fa fa-check', :title => 'On site use'}
         - callnumber = entry['records'][0]['call_number']
         - # %i{:class => 'fa fa-question-circle', :title => 'Status unknown'}
-    %span.location= location
+    %span.location= "#{location}"
     %span.callnumber= callnumber
     - if entry['summary']['onotes'].size > 0
       %span.onotes= "Order Information: " + onotes

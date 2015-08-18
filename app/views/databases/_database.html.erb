@@ -48,7 +48,7 @@
           <% else %>
             <% providercode = data["providercode"][0] %>
           <% end %>
-          <%= link_to 'Terms of Use',"/databases/searchERMdb?id=#{dbid}&dbcode=#{dbcode}&providercode=#{providercode}" %>
+          <%= link_to 'Terms of Use', "/databases/tou/#{dbid}" %>
         </div>
       </div>
     </div>

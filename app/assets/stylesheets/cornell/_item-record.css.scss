@@ -59,7 +59,7 @@ dl.dl-horizontal {
 	// clear: left;
 	// margin-top: 0;
 	dt {
-		width: 115px;
+		width: 150px;
 		display: inline;
 		color: $medium-gray;
 		margin-right: 10px;
@@ -187,6 +187,7 @@ padding-left: 6em;
 // Availability anchor button
 // ----------------------------- //
 .availability-link {
+	margin-top: 1em;
 	i {
 		margin-left: .5em;
 	}
@@ -233,7 +234,7 @@ padding-left: 6em;
 	}
 	dl.dl-horizontal {
 		dd {
-			margin-left: 130px;
+			margin-left: 165px;
 		}
 	}
 	.availability-link {

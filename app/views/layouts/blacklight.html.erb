@@ -6,7 +6,7 @@
 
     <!-- Mobile viewport optimization h5bp.com/ad -->
     <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
     
     <!-- Internet Explorer use the highest version available -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,6 +20,15 @@
     <link href="<%= opensearch_catalog_url(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag    "application", :media => "all" %>
+    
+    <% unless session[:hide_ie9_warning] %>
+    <!--[if lte IE 9]>
+      <style>
+        .ie9-only {display: block;}
+      </style>
+    <![endif]-->
+    <% end %>
+    
     <%#= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= content_for(:head) %> 
@@ -71,6 +80,7 @@
 
     <%= javascript_include_tag "application" %>
     <script src="https://embanner.univcomm.cornell.edu/OWC-emergency-banner.js"></script>
+
     <!-- Piwik --> 
     <script type="text/javascript"> 
       var _paq = _paq || []; 
@@ -89,6 +99,8 @@
     </script> 
     <noscript><p><img src="//webanalytics.library.cornell.edu/piwik.php?idsite=60" style="border:0;" alt="" /></p></noscript> 
     <!-- End Piwik Code -->
+   
+    <!-- Anchor scroll for various elements --> 
     <script type="text/javascript">
       $(document).ready(function() {
         //Default
@@ -99,6 +111,7 @@
         $('.search-info a').tooltip();
       });
     </script>
+
   </body>
 </html>
 

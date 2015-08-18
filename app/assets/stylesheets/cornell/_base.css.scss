@@ -154,14 +154,15 @@ h3 { font-size: 20px; line-height: 1.5em;}
 .btn-cul {
 	color: white;
 	background-color: $teal;
-	border-color: $dark-teal;
+	border-color: $teal;
 	background-image: none;
 }
 .btn-cul:hover,
 .btn-cul:active,
 .btn-cul:focus {
 	background-color: $dark-teal;
-	color: white
+	color: white;
+	border-color: $dark-teal;
 }
 .main-content {
 	.btn-cul {
@@ -207,6 +208,12 @@ h3 { font-size: 20px; line-height: 1.5em;}
 		font-weight: 700;
 		margin: 0;
 	}
+	.form-control {
+		width: 100%;
+	}
+}
+.modal-title {
+	font-size: 24px;
 }
 
 // Miscellaneous
@@ -215,4 +222,9 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	margin: 1em 0;
 	font-size: 12px !important;
 	text-align: right;
+}
+.ie9-only { 
+	display: none;
+	background: white;
+	padding-top: 1em;
 }
