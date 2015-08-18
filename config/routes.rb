@@ -60,8 +60,6 @@ BlacklightCornell::Application.routes.draw do
   get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'
   get '/digitalcollections/searchdigreg/' => 'digitalcollections#searchdigreg', :as => 'digitalcollections_searchdigreg'
 
-  get '/advanced_search', :to =>'advanced_search#index', :as => 'advanced_search_index'
-  get '/edit', :to =>'advanced_search#edit', :as => 'advanced_search_edit'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
