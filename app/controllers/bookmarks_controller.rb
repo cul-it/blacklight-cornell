@@ -29,7 +29,6 @@ class BookmarksController < CatalogController
   end
 
   def update
-    Rails.logger.info("BOOGITY62 = #{params}")
     create
   end
 
@@ -68,8 +67,6 @@ class BookmarksController < CatalogController
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler.
   def create
-    Rails.logger.info("BOOGITY33 = #{params}")
-    Rails.logger.info("BOOGITY4 = YAYS14!")
     num_rows = 0
     if params[:num_rows]
       num_rows = params[:num_rows].to_i
@@ -79,13 +76,11 @@ class BookmarksController < CatalogController
         end
         @bookmarks = ""
         for i in 0..num_rows - 1
-         Rails.logger.info("BOOGITY44 = #{@bookmarks}")
 #         @bookmarks = {"document_id" => params[:doc_ids][i].to_i}
          @bookmarks = [{:document_id => params[:doc_ids][i], :document_type => blacklight_config.solr_document_model.to_s }]
          current_or_guest_user.save! unless current_or_guest_user.persisted?
 
          success = @bookmarks.each do |bookmark|
-          Rails.logger.info("BOOKWORM = #{bookmark}")
           current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
          end
         end
@@ -114,10 +109,8 @@ class BookmarksController < CatalogController
       current_or_guest_user.save! unless current_or_guest_user.persisted?
 
       success = @bookmarks.each do |bookmark|
-        Rails.logger.info("BOOKWORM = #{bookmark.inspect}")
 #        if (!current_or_guest_user.existing_bookmark_for(bookmark[:document_id]))
 #        if (!current_or_guest_user.existing_bookmark_for(params[:id]))
-          Rails.logger.info("BOOMWORM = hey dude")
           bm = current_or_guest_user.bookmarks.new
           bm.assign_attributes(bookmark,:document_type => blacklight_config.solr_document_model.to_s, :without_protection => true)
           bm.save

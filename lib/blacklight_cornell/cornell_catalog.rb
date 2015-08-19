@@ -59,6 +59,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if params[:q_row].present?
       query_string = set_advanced_search_params(params)
+      Rails.logger.info("SugarySnacksNew #{query_string}")
     end
     # End of secondary parsing
 
@@ -117,8 +118,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
     end
-
+    Rails.logger.info("CuckooGoingIn #{params}")
     (@response, @document_list) = get_search_results
+    Rails.logger.info("CuckooComingOut #{params}")
 
     if !qparam_display.blank?
       params[:q] = qparam_display
@@ -199,7 +201,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       search_session[:counter] = params[:counter]
       search_session['counter'] = params[:counter]
       search_session['per_page'] = params[:per_page]
- 
+
       path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
         URI.parse(params[:redirect]).path
       else
