@@ -19,13 +19,21 @@ class DatabasesController < ApplicationController
      p = {"q" => '"' + params[:q] +'"', "wt" => 'ruby',"indent"=>"true"}
      Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databasesBySubject?"+p.to_param)
      @subjectString = clnt.get_content("#{solr}/databasesBySubject?"+p.to_param)
-       @subjectResponse = eval(@subjectString)
+     y = @subjectString.gsub('=>', ':')
+     y = y.gsub('"', '\\"')
+     y = y.gsub("'", '"')
+     @subjectResponse = JSON.parse(y)
+       #@subjectResponse = eval(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
     p = {"q" => '"' + params[:q] +' (Core)"', "wt" => 'ruby',"indent"=>"true"}
     Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databasesBySubject?"+p.to_param)
     @subjectCoreString = clnt.get_content("#{solr}/databasesBySubject?" + p.to_param)
-    @subjectCoreResponse = eval(@subjectCoreString)
+     y = @subjectCoreString.gsub('=>', ':')
+     y = y.gsub('"', '\\"')
+     y = y.gsub("'", '"')
+     @subjectCoreResponse = JSON.parse(y)
+    #@subjectCoreResponse = eval(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
     end
@@ -35,7 +43,11 @@ class DatabasesController < ApplicationController
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
         @aString = clnt.get_content("#{solr}/databaseAlphaBuckets?q=#{params[:alpha]}#")
-        @aResponse = eval(@aString)
+        y = @aString.gsub('=>', ':')
+        y = y.gsub('"', '\\"')
+        y = y.gsub("'", '"')
+        @aResponse = JSON.parse(y)
+     #   @aResponse = eval(@aString)
         @a = @aResponse['response']['docs']
     end
 
@@ -45,7 +57,11 @@ class DatabasesController < ApplicationController
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
         @dbString = clnt.get_content("#{solr}/database?id=#{params[:id]}")
-        @dbResponse = eval(@dbString)
+        y = @dbString.gsub('=>', ':')
+        y = y.gsub('"', '\\"')
+        y = y.gsub("'", '"')
+        @dbResponse = JSON.parse(y)
+        #@dbResponse = eval(@dbString)
         @db = @dbResponse['response']['docs']
     end
 
