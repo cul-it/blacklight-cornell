@@ -111,20 +111,25 @@ module CornellCatalogHelper
       document['bound_with_json'].each do |j|
          @bound_with <<  JSON.parse(j).with_indifferent_access
       end 
-      @bw_map =  make_bw_map(@bound_with)
     end
    
     if !@bound_with.empty?
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bound_with= #{@bound_with.pretty_inspect}"
       ix,bresp =  parse_bwith_status(@bound_with)
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bresp= #{bresp.pretty_inspect}"
+      @bw_map =  make_bw_map(@bound_with,ix)
       kys = response.keys[0]
-      kys2 = bresp.keys[0]
       dbho = @response[kys][kys]['records'][0]['holdings']
-      bwy = bresp[kys2]
+      # there may be one than one bib id -- unlike the 'response'
+      kys2 = bresp.keys[0]
+      #bwy = bresp[kys2]
+      bwy = bresp.values.flatten
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bwy= #{bwy.pretty_inspect}"
       @response[kys][kys]['records'][0]['holdings']  = (dbho << bwy).flatten!
       x2 = items2
       y2 = ix
       items2 = (x2<<y2).flatten
-      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
       @bw_map.each_pair do |k,v|
         mmid = items2.select {|i| (i["item_id"] == k.to_s)}
         mbw = mmid[0]["mfhd_id"]  
@@ -133,24 +138,33 @@ module CornellCatalogHelper
       end
       @reduce_avail = {} 
       @bwy_statuses = {} 
+      @bwy_bibid = '' 
+      @bwy_bibids = {} 
       bw_items_solr = {}
       items2.each do |item|
        bw_items_solr[item["item_id"]] = item
+       if !item["bib_id"].nil? 
+         @bwy_bibid =  item["bib_id"] 
+       end 
       end
+      @bwy_bibids = items2.map { |h| h["bib_id"] }.compact.uniq
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  @bwy_bibids= #{@bwy_bibids.pretty_inspect}"
       bwy.each  do |hol|
+        #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  hol= #{hol.pretty_inspect}"
   	@bwy_statuses[hol[:MFHD_ID]] = [] unless !@bwy_statuses[hol[:MFHD_ID]].nil?
         if @reduce_avail[hol[:MFHD_ID]].nil?
   	  @reduce_avail[hol[:MFHD_ID]] = 0 
         end
   	z = make_substitute(hol,bw_items_solr)	
+        #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  z= #{z.pretty_inspect}"
   	#@bwy_statuses[hol[:MFHD_ID]] << z unless  @bwy_statuses[hol[:MFHD_ID]].includes?('Available') 
   	@bwy_statuses[hol[:MFHD_ID]] << z unless  z == 'Available' 
   	@reduce_avail[hol[:MFHD_ID]] =   @reduce_avail[hol[:MFHD_ID]] + 1  unless z == 'Available' 
       end
 
-      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map master item id to master info = #{@bw_map.pretty_inspect}"
       Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bw to mbw= #{@bound_with_to_mbw.pretty_inspect}"
-      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bw to mbw= #{@bwy_statuses.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bw statuses= #{@bwy_statuses.pretty_inspect}"
       Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) reduce avail = #{@reduce_avail.pretty_inspect}"
       Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) items2 after adding ix= #{items2.pretty_inspect}"
     end
@@ -234,14 +248,18 @@ module CornellCatalogHelper
     #condensed = condensed.merge(over_condensed)
     parse_item_info(condensed,items,notes_by_mid,sumh_by_mid,grouped,bibid,response,over_locs,orders_by_mid)
     condensed_full =  [] 
+    #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) condensed = #{condensed.pretty_inspect}"
     condensed.each_key  do |k| 
-      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) condensed key = #{k.pretty_inspect}"
       mbw = @bound_with_to_mbw[k]
-      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) mbw = #{mbw.pretty_inspect}"
       if !mbw.nil?
-        Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) mbw statuses = #{@bwy_statuses[mbw.to_i].pretty_inspect}"
+        #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) mbw (=#{mbw.pretty_inspect}) statuses = #{@bwy_statuses[mbw.to_i].pretty_inspect}"
         condensed[k]['copies'][0]["boundwith_summary"] =  'Bound with status:' + @bwy_statuses[mbw.to_i].join(',')
-        Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) available = #{condensed[k]['copies'][0]["items"].pretty_inspect}" 
+        #condensed[k]['copies'][0]["boundwith_summary"] =  ('Bound with status:' + @bwy_statuses[mbw.to_i].join(',') + " path for #{@bwy_bibid} " + link_to("Bound with",solr_document_path, id =>@bwy_bibid)).html_safe
+        condensed[k]['copies'][0]["boundwith_summary"] =  ('Bound with status:'+@bwy_statuses[mbw.to_i].join(',')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+#link_to "Profile", controller: "profiles", action: "show", id: @profile
+#link_to "boundwith", controller: "catalogs", action: "show", id: @bwy_bibid
+#link_to "boundwith", controller: "catalogs", action: "show", id: @bwy_bibid
+        #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) available = #{condensed[k]['copies'][0]["items"].pretty_inspect}" 
         if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
           condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
         end
@@ -458,12 +476,15 @@ module CornellCatalogHelper
 
   # make map that relates the bound in mfhd id to the master id 
   # returns map by integer item id containing hash to bw mfhd id.
-  def make_bw_map(bw)
+  def make_bw_map(bw,items)
     bw_map = {} 
     bw.each do  |i| 
       b = {}
       bw_map[i["item_id"]]  = b 
       b[:bw]  = i["mfhd_id"] 
+      yyy =  items.detect {|f| f["item_id"] == i["item_id"].to_s }
+      b[:mbib_id] = yyy["bib_id"]
+      b[:mtitle] = yyy["title"]
     end   
     bw_map
   end
@@ -472,15 +493,17 @@ module CornellCatalogHelper
   #return hash organized by item id.
   #with lower case attribute names to match the item_solr data.
   def flatten_bwith(bw)
-    bkey = bw.keys[0] 
+    bkeys = bw.keys 
     ibw_by_id = [] 
-    if bw[bkey]
-      bw[bkey].each do |record|
-        ibw = {}
-        record.each_pair do |k,v|
-          ibw[k.downcase] = v.to_s;
+    bkeys.each do |bkey| 
+      if bw[bkey]
+        bw[bkey].each do |record|
+          ibw = {}
+          record.each_pair do |k,v|
+            ibw[k.downcase] = v.to_s;
+          end
+          ibw_by_id <<  ibw
         end
-        ibw_by_id <<  ibw
       end
     end
     ibw_by_id
@@ -1147,6 +1170,22 @@ LOC_CODES = {
 
   def code_to_name(code)
     LOC_CODES[code]
+  end
+
+  # Generate a link for the bibid that corresponds to this holding id. 
+  # only generate the link for the corresponding bibid.
+  def bw_link_to_helper(bwi,h,bw_map) 
+    bws = ''
+    bwi.each do |b| 
+      #if ((bw_map.select {|k,v| v[:bw] == h}.first[1][:mbib_id])   == b)
+      if (bw_map.select {|k,v| v[:bw] == h}.values.map {|v| v[:mbib_id]}).include?(b)   
+        mtitles = bw_map.select {|k,v| v[:bw] == h}.values.map {|v| [v[:mbib_id],v[:mtitle]]}   
+        #mtitle  = bw_map.select {|k,v| v[:bw] == h}.first[1][:mtitle]
+        mtitle = mtitles.assoc(b)[1] 
+        bws = bws + ' ' + link_to(t("blacklight.catalog.bound_with") + ": #{mtitle}", solr_document_url(b))
+      end 
+    end
+    bws 
   end
 
 end # End of Module
