@@ -1,7 +1,13 @@
 <% @page_title = "More Search Options - #{application_name}" %>
 
-<h2 class="advanced">Advanced search</h2>
 
+      <div class="search-bar">
+        <div class="container">
+          <%= render :partial => 'shared/search_form' %>
+        </div>
+      </div>
+
+<h2 class="advanced">Advanced search</h2>
 <%= render 'advanced_search_form' %>
 
 <%- sidebar_items << capture do -%>
