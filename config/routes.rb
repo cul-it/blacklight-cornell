@@ -51,15 +51,15 @@ BlacklightCornell::Application.routes.draw do
   get '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
   get '/databases/subject/:q' => 'databases#subject', :as => 'databases_subject'
   get '/databases/show/:id' => 'databases#show', :as => 'databases_show'
-  get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
+# replaced by /databases/tou
+# get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
+  get '/databases/tou/:id' => 'databases#tou', :as => 'databases_tou'
 
   get '/search', :to => 'search#index', :as => 'search_index'
   match "search/:engine", :to => "search#single_search", :as => "single_search", via: [ :get ]
   get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'
   get '/digitalcollections/searchdigreg/' => 'digitalcollections#searchdigreg', :as => 'digitalcollections_searchdigreg'
 
-  get '/advanced_search', :to =>'advanced_search#index', :as => 'advanced_search_index'
-  get '/edit', :to =>'advanced_search#edit', :as => 'advanced_search_edit'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
