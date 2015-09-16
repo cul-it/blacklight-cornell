@@ -2,7 +2,8 @@
   <div class="col-sm-7">
     <div class="well">
       <%= form_tag catalog_index_path, :class => 'advanced form-inline', :method => :get do  %>
-        <%= search_as_hidden_fields(:params => advanced_search_context ) %>
+        <%#= search_as_hidden_fields(:params => advanced_search_context ) %>
+        <%= params.inspect %>
         <div class="query_zone">
           <div class="input_row form-group">
             <label for="q_row" class="sr-only"><%= t('blacklight.search.form.q') %></label>
