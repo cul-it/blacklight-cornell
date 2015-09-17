@@ -166,7 +166,7 @@ include ActionView::Helpers::NumberHelper
       if wcl_isbn.present? && !oclc_number.present?
         @xisbn = HTTPClient.get_content("http://xisbn.worldcat.org/webservices/xid/isbn/#{wcl_isbn}?method=getMetadata&format=json&fl=oclcnum&")
         @xisbn = JSON.parse(@xisbn)["list"]
-        if @xisbn.present?
+        if @xisbn.present? && @xisbn.include?("oclcnum")
         @xisbn.each do |wcl_data|
           oclc_number = wcl_data["oclcnum"][0]
         end
@@ -1076,7 +1076,7 @@ include ActionView::Helpers::NumberHelper
   def part_of_catalog?
     if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
       request.original_url.include?("request") || params[:controller]=='search_history' ||
-      params[:controller] == 'advanced_search' || params[:controller]=='aeon' || params[:controller]=='browse'
+      params[:controller] == 'advanced' || params[:controller]=='aeon' || params[:controller]=='browse'
       return true
     end
   end
