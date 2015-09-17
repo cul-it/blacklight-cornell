@@ -147,5 +147,8 @@
 								=t + ':'
 							-d.each do |data|
 								%dd
-									=data.humanize
+									-if t == "Gender"
+										=data.humanize
+									-else
+										=data
 					

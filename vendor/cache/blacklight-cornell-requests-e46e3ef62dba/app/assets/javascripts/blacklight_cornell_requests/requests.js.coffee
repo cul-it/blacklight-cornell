@@ -83,7 +83,7 @@ requests =
   notifyUser: () ->
     requests.scrollToTop()
     $('.flash_messages').html('
-      <div class="alert alert-error">Please select a new pickup location that does not match the copy location.
+      <div class="alert alert-danger">Please select a new pickup location that does not match the copy location.
        <a class="close" data-dismiss="alert" href="#">×</a>
       </div>')
 
@@ -113,7 +113,7 @@ requests =
       success: (data) ->
         requests.scrollToTop()
         # Flash validation error if present
-        if data.indexOf('alert-error') != -1
+        if data.indexOf('alert-danger') != -1
           $('.flash_messages').replaceWith(data)
 
   # Submit purchase form via AJAX
