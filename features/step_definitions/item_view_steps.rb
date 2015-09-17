@@ -19,9 +19,9 @@ Then /^it should contain "(.*?)" with value "(.*?)"/ do |field, author|
   page.should have_selector(field_to(field), :text => author,:exact =>false )
 end
 
-Then /^it should have link "(.*?)" with value "(.*?)"/ do |field, author|
-  res = page.has_link?(field, :href =>author) 
-  res.should == true 
+Then /^it should have link "(.*?)" with value "(.*?)"/ do |txt, alink|
+  page.should have_link(txt, :href =>alink) 
+  #res.should == true 
 end
 
 Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|

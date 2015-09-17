@@ -54,6 +54,8 @@ group :development, :test do
   gem 'webrat'
   gem 'guard-rspec'
   gem 'poltergeist'
+  gem 'pry'
+  gem 'pry-byebug'
 end
   
 group :test do

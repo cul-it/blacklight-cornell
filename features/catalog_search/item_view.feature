@@ -439,7 +439,7 @@ Feature: Item view
  @boundwith
  @DISCOVERYACCESS-1903 
  @DISCOVERYACCESS-1328 
-  Scenario: Show the record properly an item is bound with another item 
+  Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes 
     Given I request the item view for 28297 
     Then I should see the label 'Bound with'
 
@@ -450,6 +450,39 @@ Feature: Item view
     Given I request the item view for 118111 
     Then I should see the label 'Bound with'
 
+# I am not sure why I have to spell out the link completely here.
+ @boundwith
+ @DISCOVERYACCESS-1903 
+ @DISCOVERYACCESS-1328 
+  Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid 
+    Given I request the item view for 168319 
+    Then I should see the label 'Bound with'
+    And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799">
+    And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299">
+
+
+ @boundwith
+ @DISCOVERYACCESS-1903 
+ @DISCOVERYACCESS-1328 
+  Scenario: Show the record properly when it is bound with another item, one item is bound with another, one is not 
+    Given I request the item view for 211313 
+    Then I should see the label 'Bound with'
+
+ @boundwith
+ @DISCOVERYACCESS-1903 
+ @DISCOVERYACCESS-1328 
+  Scenario: Show the record properly when holding says bound with -- but it an electronic record. 
+    Given I request the item view for 6060112 
+    Then I should see the label 'Bound with'
+
+ @boundwith
+ @DISCOVERYACCESS-1903 
+ @DISCOVERYACCESS-1328 
+  Scenario: Show the record properly when holding has bound with multiple barcodes 
+    Given I request the item view for 3158956
+    Then I should see the label 'Bound with'
+    And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365">
+    And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559">
 
 
   # TODO: need bibids that match these cases
