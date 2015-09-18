@@ -1,18 +1,16 @@
-<% @page_title = "More Search Options - #{application_name}" %>
- 
+<% @page_title = "Advanced Search - #{application_name}" %>
+      <%= hidden_field_tag(:search_field, 'advanced') %>
+      <%= hidden_field_tag(:advanced_query, 'yes') %>
+      <% params[:advanced_query] = 'yes' %>
 
-
-  <div class="search-bar">
-        <div class="container" width="100%">
-          <div class="row">
+      <div class="search-bar">
+        <div class="container">
          <div>
           <%= render :partial => '/shared/search_form' %>
-          </div>
-          </div>
+         </div>
         </div>
-  </div>
-
-          <br>
+      </div>
+<h2 class="advanced">Advanced search</h2>
 <%= render 'advanced_search_form' %>
 
 <%- sidebar_items << capture do -%>
