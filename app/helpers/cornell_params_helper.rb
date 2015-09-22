@@ -63,7 +63,7 @@ module CornellParamsHelper
   end
 
     def solr_search_params(my_params = params || {})
-    Blacklight::Solr::Request.new.tap do |solr_parameters|
+      Blacklight::Solr::Request.new.tap do |solr_parameters|
 
     if !my_params[:q_row].nil?
     solr_search_params_logic.each do |method_name|
@@ -208,6 +208,9 @@ module CornellParamsHelper
     session[:search][:search_field] = my_params[:search_field]
 
   end
+  if my_params[:advanced_query] == 'yes'
+   solr_parameters[:defType] = "lucene"
+  end
   return solr_parameters
  end
 end
@@ -218,19 +221,9 @@ end
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
-  #        q_stringArray[i +1].gsub('"',"")
-  #        newString = "(" + newString + " " + opArray[i] + " "+ q_stringArray[i + 1] + ") "
           newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
-  #        else
-  #           if opArray[i] == "OR"
-  #            newString = newString + " OR " + q_stringArray[i + 1]
-  #           else
-  #            newString = newString + " NOT " + q_stringArray[i + 1]
-  #           end
-  #       end
        end
      else
-   #    params[:sort] = ""
      end
      if !newString.nil?
        newString = newString.gsub('author/creator','author')
@@ -423,13 +416,9 @@ end
    require 'pp'
         @recordLocsNameArray = []
         myhash = {}
-#        Rails.logger.info("Cline122 = #{doc.inspect}")
-#        Rails.logger.info("MishaBarton = #{create_condensed_full(doc)}")
         breakerlength = doc[:holdings_record_display].length
-   #     Rails.logger.info("BeetleJooz = #{tmploc["display"]}")
         i = 0
         doc[:holdings_record_display].each do |hrd|
-#          Rails.logger.info("Beetlejuice = #{hrd}")
          myhash = JSON.parse(hrd)
          if i == breakerlength - 1
            @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
@@ -440,6 +429,7 @@ end
       end
    return @recordLocsNameArray
  end
+
  def getCallNos(doc)
    require 'json'
          @recordCallNumArray = []
@@ -474,12 +464,9 @@ end
         @itemStatusArray = []
 
         @hideArray = []
- #       Rails.logger.info("ClineJohn3 = #{doc[:url_access_display]}")
- #       Rails.logger.info("ClineJohn2 = #{create_condensed_full(doc)}")
         @hideArray = create_condensed_full(doc)
         @hideArray.each do |hidee|
         myhash = {}
- #      Rails.logger.info("ClineJohn53 = #{hidee}")
           myhash = hidee
           if myhash["copies"][0]["items"].size > 0 and myhash["copies"][0]["items"]["Available"].nil? and myhash["location_name"] != "*Networked Resource"
             i = 0
@@ -497,5 +484,432 @@ end
         end
    return @itemStatusArray
  end
+
+def render_constraints_query(my_params = params)
+  if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
+    return super(my_params)
+  else
+    content = ""
+    @advanced_query.keyword_queries.each_pair do |field, query|
+      label = search_field_def_for_key(field)[:label]
+      if query.include?('%26')
+        query.gsub!('%26','&')
+      end
+      content << render_constraint_element(
+        label, query,
+        :remove =>
+          catalog_index_path(remove_advanced_keyword_query(field,my_params))
+      )
+    end
+    if (@advanced_query.keyword_op == "OR" &&
+        @advanced_query.keyword_queries.length > 1)
+      content = '<span class="inclusive_or appliedFilter">' + '<span class="operator">Any of:</span>' + content + '</span>'
+    end
+
+    return content.html_safe
+  end
+end
+
+def deep_copy(o)
+  Marshal.load(Marshal.dump(o))
+end
+
+
+def render_advanced_constraints_query(my_params = params)
+#    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
+  if ( !my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
+    content = ""
+    content << render_advanced_constraints_filters(my_params)
+    return content.html_safe
+  else
+    labels = []
+    values = []
+    q_parts = []
+    new_q_parts = []
+    equalsign = []
+    ampersand = []
+    q_string = my_params["q"]
+    content = ""
+    test = ""
+#      if (@advanced_query.keyword_queries.count == 2)
+    facetparams = ""
+    if (my_params[:f].present?)
+      if(my_params[:f].count > 1)
+      end
+      start1 = "f["
+      next1 = ""
+      count = 0
+      my_params[:f].each do |key, value|
+         next1 = ""
+         next2 = ""
+         start2 = start1 + key + "][]="
+         value.each do |v|
+           next1 =  next1 + start2 + v + "&"
+     #      next2 =  next2 + start2 + v.gsub!('&','%26')
+         end
+         facetparams = facetparams + next1
+      end
+    else
+      facetparams = ""
+    end
+    if !facetparams.nil?
+    test = facetparams.sub!('Kroch Library Rare & Manuscripts', 'Kroch Library Rare %26 Manuscripts')
+    if !test.nil?
+      facetparams = test
+    end
+    end
+    j = 1
+    if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
+     sfr = my_params[:search_field_row][0]
+     new_q_parts[0] = sfr  + "=" + my_params[:q_row][0]
+      for i in 1..my_params[:q_row].count - 1
+        sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
+        n = i.to_s
+        new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
+        new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
+        j = j + 2
+      end
+#        q_parts = q_string.split('&')
+    elsif !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
+     new_q_parts[0] = "q=" << my_params[:q]
+     new_q_parts[1] = "search_field=" << my_params[:search_field]
+    end
+    if (new_q_parts.count == 3 )
+     #  params.delete("advanced_query")
+       0.step(2, 2) do |x|
+         label = ""
+         parts = new_q_parts[x].split('=')
+         if x == 0
+           hold = new_q_parts[2].split('=')
+         else
+           hold = new_q_parts[0].split('=')
+         end
+           querybuttontext = parts[1]
+           if querybuttontext.include?('%26')
+             querybuttontext = querybuttontext.gsub!('%26','&')
+           end
+         if x%2 == 0
+           if x - 1 > 0
+             opval = new_q_parts[x - 1].split('=')
+             label = opval[1] << " "
+             label << search_field_def_for_key(parts[0])[:label]
+           else
+             label = search_field_def_for_key(parts[0])[:label]
+           end
+           if hold[1].include?('&')
+             hold[1] = hold[1].gsub!('&','%26')
+          end
+           removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
+           content << render_constraint_element(label, querybuttontext, :remove => removeString)
+         else
+          content << " " << querybuttontext << " "
+         end
+         #content #<< "".html_safe
+       end
+      unless !my_params[:q].nil?
+         content << render_simple_constraints_filters(params)
+      else
+         content << render_advanced_constraints_filters(params)
+      end
+      return content.html_safe
+    else
+     if (new_q_parts.count <= 2)
+#            parts = q_parts[0].split('=')
+         if !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
+          remove_string = my_params["q"]
+          label = search_field_def_for_key(my_params[:search_field])[:label]
+          if(params[:f].nil?)
+            removeString = "?"
+          else
+            removeString = "?" + facetparams
+          end
+          querybuttontext = my_params["q"]
+          if querybuttontext.include?('%26')
+            querybuttontext = querybuttontext.gsub!('%26','&')
+          end
+          if !test.nil?
+            facetparams = test
+          end
+             if querybuttontext.include?('%26')
+               querybuttontext = querybuttontext.gsub!('%26','&')
+             end
+          content << render_constraint_element(
+             label, querybuttontext,
+             :remove => removeString
+          )
+          end
+          if !my_params[:q].nil?
+            content << render_simple_constraints_filters(my_params)
+          else
+            content << render_constraints_filters(my_params)
+          end
+          return content.html_safe
+     else
+        0.step(my_params[:q_row].count - 1, 1) do |x|
+          label = ""
+          opval = ""
+               remove_indexes = []
+               icount = 0
+               temp_search_field_row = []
+               temp_q_row = []
+               temp_op_row = []
+               temp_boolean_rows = deep_copy(my_params)
+               temp_boolean_row = []
+               for i in 1..temp_boolean_rows[:boolean_row].count
+                 n = i.to_s
+                 temp_boolean_row << temp_boolean_rows[:boolean_row][n.to_sym]
+               end
+               deleted = 0
+               0.step(my_params[:q_row].count - 1, 1) do |y|
+                 if y != x
+                   temp_q_row << my_params[:q_row][y]
+                   temp_op_row << my_params[:op_row][y]
+                   temp_search_field_row << my_params[:search_field_row][y]
+                 else
+                   if y == 0
+                 #    temp_boolean_row.delete_at(0)
+                   else
+                 #    temp_boolean_row.delete_at(y)
+                   end
+                 end
+               end
+                 if x > 0 and x <= temp_boolean_row.count
+                   opval = temp_boolean_row[x -1]
+                   label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
+                 else
+                   label = search_field_def_for_key(my_params[:search_field_row][x])[:label]
+                 end
+
+               autoparam = ""
+               for i in 0..temp_q_row.count - 1
+                 temp_temp_qrow = ''
+                  temp_temp_qrow = temp_q_row[i]
+                  if temp_temp_qrow.include?('&')
+                    temp_temp_qrow = temp_temp_qrow.gsub!('&','%26')
+                  end
+                  autoparam << "q_row[]=" << temp_temp_qrow << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i]
+                  if i < temp_q_row.count - 1
+                    autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
+                  end
+               end
+               querybuttontext = my_params[:q_row][x] #parts[1]
+               if querybuttontext.include?('%26')
+                 querybuttontext = querybuttontext.gsub!('%26','&')
+               end
+               removeString = "catalog?%utf8=E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
+               content << render_constraint_element(
+                 label, querybuttontext,
+                 :remove => "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "&action=index&commit=Search&advanced_query=yes"
+                 )
+
+       end
+       if !my_params[:q].nil?
+         content << render_simple_constraints_filters(my_params)
+       else
+         content << render_advanced_constraints_filters(my_params)
+       end
+       return content.html_safe
+     end
+
+  end
+ end
+end
+
+def render_simple_constraints_filters(my_params = params)
+  return_content = ""
+  if(my_params[:f].present?)
+    my_params[:f].each do |key, value|
+      removeString = makeRemoveString(my_params,key)
+      label =facet_field_labels[key]
+      if value[0].include?('%26')
+        value[0].gsub!('%26','&')
+      end
+      return_content << render_constraint_element(label,
+        value.join(" AND "),
+        :remove => "?" + removeString
+        )
+    end
+  end
+  return return_content.html_safe
+end
+
+
+def render_advanced_constraints_filters(my_params = params)
+  return_content = "" #super(my_params)
+#   if (@advanced_query)
+   if(my_params[:f].present?)
+   # @advanced_query.filters.each_pair do |field, value_list|
+     my_params[:f].each do |key, value|
+#        label = facet_field_labels[field]
+      removeString = makeRemoveString(my_params, key)
+      label = facet_field_labels[key]
+      if value[0].include?('%26')
+        value[0].gsub!('%26','&')
+      end
+      return_content << render_constraint_element(label,
+        value.join(" AND "),
+#          :remove => catalog_index_path( remove_advanced_filter_group(field, my_params) )
+        :remove => "?" + removeString
+#          :remove => "catalog?"
+        )
+    end
+  end
+
+  return return_content.html_safe
+end
+
+
+def makeSimpleRemoveString(my_params, facet_key)
+  removeString = ""
+  fkey = facet_key
+  show_query_string = ""
+  facets = my_params[:f]
+  facets_string = ""
+  if !facets.nil?
+    facets.each do |key, value|
+      if key != fkey
+        for i in 0..value.count - 1 do
+          if value[i].include? 'Kroch Library Rare'
+            value[i] = 'Kroch Library Rare %26 Manuscripts'
+          end
+          facets_string << "f[" << key << "][]=" << value[i] << "&"
+        end
+      end
+    end
+  end
+  if !facets_string.blank?
+    facets_string << "&"
+  end
+  q = my_params[:q]
+  q_string = ""
+  if !q.nil?
+    if q.include?('=')
+     q = q.gsub!('=','%3D')
+    end
+    if q.include?('&')
+     q = q.gsub!('&', '%26')
+    end
+    if q.include?('#')
+      q = q.gsub!('#','%23')
+    end
+    q_string = "q=" << q << "&"
+  else
+    q = ""
+  end
+  search_field = my_params["search_field"]
+  search_field_string = ""
+  if !search_field.nil?
+    search_field_string = "search_field=" << search_field << "&"
+  end
+  search_field_row = my_params["search_field_row"]
+  search_field_row_string = ""
+  if !search_field_row.nil?
+    for i in 0..search_field_row.count - 1
+      search_field_row_string << "search_field_row[]=" << search_field_row[i] << "&"
+    end
+  end
+  unless q.nil?
+    removeString = "q=" + q + "&" +search_field_string + facets_string + "action=index&commit=Search"
+  else
+    removeString = "BULLHOCKEY"
+  end
+  return removeString
+
+end
+
+def makeRemoveString(my_params, facet_key)
+  removeString = ""
+  fkey = facet_key
+  advanced_query = my_params["advanced_query"]
+  advanced_search = my_params["advanced_search"]
+  show_query_string = ""
+  if !advanced_search.nil?
+    advanced_search = "true"
+  else
+    advanced_search = "false"
+  end
+  boolean_row = my_params["boolean_row"]
+  boolean_row_string = ""
+  if !boolean_row.nil?
+   boolean_row.each do |key, value|
+     boolean_row_string << "boolean_row[" + key + "]=" + value + "&"
+   end
+  end
+  if !boolean_row_string.blank?
+    boolean_row_string << "&"
+  end
+  facets = my_params[:f]
+  facets_string = ""
+  if !facets.nil?
+    facets.each do |key, value|
+      if key != fkey
+        for i in 0..value.count - 1 do
+          if value[i].include? 'Kroch Library Rare'
+            value[i] = 'Kroch Library Rare %26 Manuscripts'
+          end
+          facets_string << "f[" << key << "][]=" << value[i] << "&"
+        end
+      end
+    end
+  end
+  if !facets_string.blank?
+    facets_string << "&"
+  end
+  op = my_params["op"]
+  op_string = ""
+  if !op.nil?
+    for i in 0..op.count - 1 do
+      op_string << "op[]=" << op[i] << "&"
+    end
+  end
+  op_row = my_params["op_row"]
+  op_row_string = ""
+  if !op_row.nil?
+    for i in 0..op_row.count - 1 do
+      op_row_string << "op_row[]=" << op_row[i] << "&"
+    end
+  end
+  q = my_params[:q]
+  q_string = ""
+  if !q.nil?
+    if q.include?('=')
+     q = q.gsub!('=','%3D')
+    end
+    if q.include?('&')
+     q = q.gsub!('&', '%26')
+    end
+    q_string = "q=" << q << "&"
+  else
+    q = ""
+  end
+  q_row = my_params["q_row"]
+  q_row_string = ""
+  if !q_row.nil?
+    for i in 0..q_row.count - 1
+      q_row_string << "q_row[]=" << q_row[i] << "&"
+    end
+  end
+  search_field = my_params["search_field"]
+  search_field_string = ""
+  if !search_field.nil?
+    search_field_string = "search_field=" << search_field << "&"
+  end
+  search_field_row = my_params["search_field_row"]
+  search_field_row_string = ""
+  if !search_field_row.nil?
+    for i in 0..search_field_row.count - 1
+      search_field_row_string << "search_field_row[]=" << search_field_row[i] << "&"
+    end
+  end
+  if ((q_row.nil? || q_row.count < 2) && !q.nil?)
+    removeString = "q=" + q + "&" +search_field_string + "action=index&commit=Search"
+  else
+    removeString << "advanced_query=" + advanced_query + "&advanced_search=" + advanced_search + "&" + boolean_row_string +
+                  facets_string + op_string + op_row_string + q_string.html_safe +
+                  q_row_string + search_field_string + search_field_row_string
+  end
+  return removeString
+end
+
 
 end
