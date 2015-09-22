@@ -25,13 +25,9 @@ class DigitalcollectionsController < ApplicationController
         render "index"
       end
       if !params[:q].nil? and params[:q] != ""
-<<<<<<< HEAD
         Rails.logger.debug("#{__FILE__}:#{__LINE__}:params = #{params[:q]}")
         #params[:q].gsub!(' ','%20')
         Rails.logger.debug("#{__FILE__}:#{__LINE__}:params = #{params[:q]}")
-=======
-        #params[:q].gsub!(' ','%20')
->>>>>>> DISCOVERYACCESS-2087
         dbclnt = HTTPClient.new
         Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
@@ -45,10 +41,7 @@ class DigitalcollectionsController < ApplicationController
         end
         @digregResponse = @digregResponseFull['response']['docs']
         params[:q].gsub!('%20', ' ')
-<<<<<<< HEAD
         Rails.logger.debug("#{__FILE__}:#{__LINE__}:params = #{params[:q]}")
-=======
->>>>>>> DISCOVERYACCESS-2087
       end
     end
 end
