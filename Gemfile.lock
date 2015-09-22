@@ -1,13 +1,4 @@
 GIT
-  remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
-  revision: 10a08858ca91a338e7c0f5c5a5b7e232a69e8cad
-  branch: bl5
-  specs:
-    blacklight_cornell_advanced_search (2.1.1)
-      blacklight
-      parslet
-
-GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
   revision: e46e3ef62dba839b85ec160c73143898c531648d
   branch: master
@@ -456,7 +447,6 @@ DEPENDENCIES
   blacklight (= 5.9)
   blacklight-hierarchy
   blacklight-marc
-  blacklight_cornell_advanced_search!
   blacklight_cornell_requests!
   blacklight_google_analytics
   blacklight_range_limit
@@ -490,6 +480,7 @@ DEPENDENCIES
   mysql
   net-ldap
   nokogiri
+  parslet
   poltergeist
   protected_attributes
   rails (= 4.2.1)
