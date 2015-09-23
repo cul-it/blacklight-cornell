@@ -20,7 +20,7 @@ module BlacklightCornellRequests
       # Set up params for BorrowDirect gem
       if Rails.env.production?
         # if this isn't specified, defaults to BD test database
-        BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
+    #    BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
       end
       BorrowDirect::Defaults.library_symbol = "CORNELL"
       BorrowDirect::Defaults.find_item_patron_barcode = patron_barcode(netid)
