@@ -103,7 +103,6 @@ module BlacklightCornellRequests
       bd_params = { :isbn => document[:isbn_display], :title => document[:title_display], :env_http_host => env_http_host }
       self.in_borrow_direct = available_in_bd? self.netid, bd_params
 
-
       # Get item status and location for each item in each holdings record; store in working_items
       # We now have two item arrays! working_items (which eventually gets set in self.items) is a 
       # list of all 'active' items, e.g., those for a particular volume or other set. 
@@ -135,13 +134,13 @@ module BlacklightCornellRequests
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} working items processed. number of items: #{self.items.size} at"+ Time.new.inspect
 
       unless document.nil?
-
         # Iterate through all items and get list of delivery methods
       #  bd_params = { :isbn => document[:isbn_display], :title => document[:title_display], :env_http_host => env_http_host }
         n = 0
         working_items.each do |item|
           n = n + 1
           #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} prepare for deliv options for each item. (#{n})"+ Time.new.inspect
+
           services = get_delivery_options item
           #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} delivoptions for each item. (#{n}) (#{service.inspect})"+ Time.new.inspect
           item[:services] = services
@@ -542,6 +541,7 @@ module BlacklightCornellRequests
     # a note in the holdings record that the item doesn't circulate (even
     # with a different typecode)
     def noncirculating?(item)
+      Rails.logger.warn "mjc12test: item: #{item}"
       # If item is in a temp location, concentrate on that
       if item.key?('temp_location_id') and item['temp_location_id'] > 0
         return (item.key?('temp_location_display_name') and
@@ -983,7 +983,7 @@ module BlacklightCornellRequests
       # Set up params for BorrowDirect gem
       if Rails.env.production?
         # if this isn't specified, defaults to BD test database
-        BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
+        #BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
       end
       BorrowDirect::Defaults.library_symbol = "CORNELL"
       BorrowDirect::Defaults.find_item_patron_barcode = patron_barcode(netid)
