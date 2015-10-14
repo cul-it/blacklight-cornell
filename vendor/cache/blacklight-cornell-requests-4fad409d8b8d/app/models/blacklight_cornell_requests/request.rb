@@ -87,6 +87,8 @@ module BlacklightCornellRequests
       request_options = []
       alternate_options = []
       service = ASK_LIBRARIAN
+      
+      
 
       if self.bibid.nil?
         self.request_options = request_options
@@ -541,16 +543,18 @@ module BlacklightCornellRequests
     # a note in the holdings record that the item doesn't circulate (even
     # with a different typecode)
     def noncirculating?(item)
-      Rails.logger.warn "mjc12test: item: #{item}"
       # If item is in a temp location, concentrate on that
       if item.key?('temp_location_id') and item['temp_location_id'] > 0
         return (item.key?('temp_location_display_name') and
                (item['temp_location_display_name'].include? 'Reserve' or
                 item['temp_location_display_name'].include? 'reserve'))
-      else
+      elsif item['perm_location'].is_a? Hash
         return (item.key?('perm_location') and
                 item['perm_location'].key?('name') and
                 item['perm_location']['name'].include? 'Non-Circulating')
+      else
+        Rails.logger.warn "Odd location code encountered when trying to determine noncirculating status: #{item['perm_location']}"
+        return false
       end
     end
 
