@@ -78,7 +78,7 @@ module AdvancedHelper
         row1 << "<option value=\"" << key << "\">" << value << "</option>"
       end
     end
-    row1 << "</select></div>"
+    row1 << "</select>"
     unless params[:q_row].count < 2
       next2rows = ""
       for i in 1..params[:q_row].count - 1
@@ -118,7 +118,7 @@ module AdvancedHelper
              next2rows << "<option value=\"" << key << "\">" << value << "</option>"
            end
          end
-          next2rows << "</select></div>"
+          next2rows << "</select></div></div>"
       end
     end
     fparams = ""
