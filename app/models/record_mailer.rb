@@ -12,8 +12,6 @@ class RecordMailer < ActionMailer::Base
     @message        = details[:message]
     @callnumber     = details[:callnumber]
     @status         = details[:status]
- #   Rails.logger.info("Clarissa12 = #{@status}")
- #   Rails.logger.info("Clarissa133 = #{@callnumber}")
     @callNumFirst = @callnumber.split('|| ')
     @callnumber = []
     @callNumFirst.each do |calls|
@@ -23,11 +21,9 @@ class RecordMailer < ActionMailer::Base
     @statusFirst = @status.split('|| ')
     @status = []
     @statusFirst.each do |stats|
-  #   Rails.logger.info("Madison = #{stats}")
      @second = stats.split('| ')
      @status << @second
     end
- #    Rails.logger.info("Madison1 = #{@status}")
     @location       = details[:location]
     @locationFirst = @location.split('|| ')
     @location = []

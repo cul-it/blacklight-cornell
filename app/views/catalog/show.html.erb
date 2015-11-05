@@ -1,5 +1,5 @@
 <% if back_to_catalog_needed %>
-  <% session[:search][:controller] == 'search' ? link_label = 'Back to results' : '' %>
+  <% session[:search][:controller] == 'advanced_search' ? link_label = 'Back to results' : '' %>
   <% link_back = link_back_to_catalog({:label => link_label}) %>
   <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
     <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
