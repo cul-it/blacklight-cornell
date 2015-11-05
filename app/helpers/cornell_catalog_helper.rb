@@ -1355,8 +1355,8 @@ LOC_CODES = {
     bwi.each do |b| 
       if (bw_map.select {|_k,v| v[:bw] == h}.values.map {|v| v[:mbib_id]}).include?(b)   
         mtitles = bw_map.select {|_k,v| v[:bw] == h}.values.map {|v| [v[:mbib_id],v[:mtitle],v[:item_enum]]}   
-        mtitle = mtitles.assoc(b)[1]  
-        enums = mtitles.select {|i| i[0] == b }.collect {|z| z[2]}.join(',')
+        mtitle = mtitles.assoc(b)[1] # we only need the title once. 
+        enums = mtitles.select {|i| i[0] == b }.collect {|z| z[2]}.join(',') #we need all the volumes
         bws = bws + '<br/>' + link_to(t("blacklight.catalog.bound_with") + ": #{mtitle} #{enums}", solr_document_url(b))
       end 
     end
