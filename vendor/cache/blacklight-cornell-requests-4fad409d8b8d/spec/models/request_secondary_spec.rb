@@ -339,10 +339,14 @@ describe BlacklightCornellRequests::Request do
 
       let (:request)  { FactoryGirl.create(:request) }
 
+      it "returns false if we have a bad location value" do
+        item = { 'perm_location' => '188' }
+        expect(request.noncirculating?(item)).to be false
+      end
 
       it "returns true if an item is noncirculating in a permanent location" do
-          item = { 'perm_location' => { 'name' => 'Test Place Non-Circulating' } }
-          expect(request.noncirculating?(item)).to be true
+        item = { 'perm_location' => { 'name' => 'Test Place Non-Circulating' } }
+        expect(request.noncirculating?(item)).to be true
       end
 
       it "returns false if an item is circulating in a permanent location" do

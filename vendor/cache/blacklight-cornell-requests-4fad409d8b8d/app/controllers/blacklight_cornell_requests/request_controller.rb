@@ -12,12 +12,20 @@ module BlacklightCornellRequests
       @id = params[:bibid]
       resp, @document = get_solr_response_for_doc_id(@id)
       @document = @document
+      
+
 
       Rails.logger.debug "Viewing item #{@id} (within request controller) - session: #{session}"
 
       req = BlacklightCornellRequests::Request.new(@id)
       req.netid = request.env['REMOTE_USER'] 
       req.netid.sub!('@CORNELL.EDU', '') unless req.netid.nil?
+      
+      params[:volume] = session[:volume]
+      # Reset session var after use so that we don't get weird results if
+      # user goes to another catalog item
+      session[:volume] = nil 
+      
       req.magic_request @document, request.env['HTTP_HOST'], {:target => target, :volume => params[:volume]}
 
       if ! req.service.nil?
@@ -32,7 +40,7 @@ module BlacklightCornellRequests
       @au = req.au
       @isbn = req.isbn
       @ill_link = req.ill_link
-      @pub_info = req.pub_info
+      @pub_info = req.pub_info      
       @volume = params[:volume]
       @netid = req.netid
       @name = get_patron_name req.netid
@@ -148,7 +156,7 @@ module BlacklightCornellRequests
       if params[:library_id].blank?
         errors << I18n.t('requests.errors.library_id.blank')
       end
-
+      
       if errors
         flash[:error] = errors.join('<br/>').html_safe
       end
@@ -218,6 +226,15 @@ module BlacklightCornellRequests
 
       render :partial => '/flash_msg', :layout => false
 
+    end
+    
+    # AJAX responder used with requests.js.coffee to set the volume
+    # when the user selects one in the volume drop-down list
+    def set_volume
+      session[:volume] = params[:volume]
+      respond_to do |format|
+        format.js {render nothing: true}
+      end
     end
 
   end

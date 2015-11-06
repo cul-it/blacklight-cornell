@@ -145,8 +145,12 @@ requests =
         $('#result').html("Your request for " + act_desc + " has " + desc)
 
   redirectVolume: (selectedVolume, requestPath) ->
-    redirectPath = requestPath + '/' + selectedVolume
-    window.location = redirectPath
+    $.ajax
+      url: '/request/volume/set',
+      data: { volume: selectedVolume }                 
+      success: (data, textStatus, jqXHR) ->
+        redirectPath = requestPath# + '/' + selectedVolume
+        window.location = redirectPath
 
   scrollToTop: () ->
     # Make sure we're at the top of the page so the flash messge is visible
