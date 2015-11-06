@@ -1,8 +1,8 @@
 module CornellCatalogHelper
  require "pp"
  require "maybe"
- require 'pry'
- require 'pry-byebug'
+# require 'pry'
+# require 'pry-byebug'
 
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
