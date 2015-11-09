@@ -989,7 +989,8 @@ module BlacklightCornellRequests
         # if this isn't specified, defaults to BD test database
         #BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
       end
-      BorrowDirect::Defaults.library_symbol = "CORNELL"
+      BorrowDirect::Defaults.library_symbol = 'CORNELL'
+      BorrowDirect::Defaults.api_key = ENV['BORROW_DIRECT_API_KEY']
       BorrowDirect::Defaults.find_item_patron_barcode = patron_barcode(netid)
       BorrowDirect::Defaults.timeout = 30 # (seconds)
 
