@@ -18,10 +18,10 @@ class BrowseController < ApplicationController
       start = params[:start]
       if !authq.nil? and authq != "" and browse_type == "Author"
         dbclnt = HTTPClient.new
-        p =  {"q" => '["' + authq.gsub("\\"," ")+'" TO *]' }
+        p =  {"q" => '["' + authq.gsub("\\"," ").gsub('"',' ')+'" TO *]' }
         start = {"start" => start}
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + authq.gsub("\\"," ")+'"}' }
+          p =  {"q" => '[* TO "' + authq.gsub("\\"," ").gsub('"',' ')+'"}' }
           @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
@@ -41,10 +41,10 @@ class BrowseController < ApplicationController
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
-        p =  {"q" => '["' + params[:authq].gsub("\\"," ") +'" TO *]' }
+        p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') + '" TO *]' }
         start = {"start" => params[:start].gsub("\\"," ")}
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ")+'"}' }
+          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
 
           @headingsResultString = dbclnt.get_content(base_solr +"/subject/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
@@ -69,12 +69,12 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:authq].gsub("\\"," ") +'" TO *]' }
+        p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ")+'"}' }
+          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
 
           @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
