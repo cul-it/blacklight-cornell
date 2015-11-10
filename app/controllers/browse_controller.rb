@@ -18,19 +18,17 @@ class BrowseController < ApplicationController
       start = params[:start]
       if !authq.nil? and authq != "" and browse_type == "Author"
         dbclnt = HTTPClient.new
-        p =  {"q" => '["' + authq +'" TO *]' }
+        p =  {"q" => '["' + authq.gsub("\\"," ")+'" TO *]' }
         start = {"start" => start}
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + authq +'"}' }
-          @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?" + p.to_param + '&' + start.to_param  )
+          p =  {"q" => '[* TO "' + authq.gsub("\\"," ")+'"}' }
+          @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr + "/author/browse?" + p.to_param + '&' + start.to_param )
+          @headingsResultString = dbclnt.get_content(base_solr + "/author/browse?&wt=json&" + p.to_param + '&' + start.to_param )
         end
         if !@headingsResultString.nil?
-           y = @headingsResultString.gsub('=>', ':')
-           y = y.gsub('"', '\\"')
-           y = y.gsub("'", '"')
+           y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
            #@headingsResponseFull = eval(@headingsResultString)
         else
@@ -43,20 +41,18 @@ class BrowseController < ApplicationController
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
-        p =  {"q" => '["' + params[:authq] +'" TO *]' }
-        start = {"start" => params[:start]}
+        p =  {"q" => '["' + params[:authq].gsub("\\"," ") +'" TO *]' }
+        start = {"start" => params[:start].gsub("\\"," ")}
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + params[:authq] +'"}' }
+          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ")+'"}' }
 
-          @headingsResultString = dbclnt.get_content(base_solr +"/subject/reverse?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr +"/subject/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr + "/subject/browse?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/subject/browse?&wt=json&" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
-           y = @headingsResultString.gsub('=>', ':')
-           y = y.gsub('"', '\\"')
-           y = y.gsub("'", '"')
+           y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
            #@headingsResponseFull = eval(@headingsResultString)
         else
@@ -73,22 +69,20 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
-        p =  {"q" => '["' + params[:authq] +'" TO *]' }
+        p =  {"q" => '["' + params[:authq].gsub("\\"," ") +'" TO *]' }
         start = {"start" => params[:start]}
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + params[:authq] +'"}' }
+          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ")+'"}' }
 
-          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/reverse?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
-           y = @headingsResultString.gsub('=>', ':')
-           y = y.gsub('"', '\\"')
-           y = y.gsub("'", '"')
+           y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
            #@headingsResponseFull = eval(@headingsResultString)
         else
@@ -106,12 +100,10 @@ class BrowseController < ApplicationController
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
       if !params[:authq].nil? and params[:authq] != ""
         dbclnt = HTTPClient.new
-        p =  {"q" => '"' + params[:authq] +'"' } 
-        @headingsResultString = dbclnt.get_content(base_solr +"/author/browse?" + p.to_param )
+        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' } 
+        @headingsResultString = dbclnt.get_content(base_solr +"/author/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
-           y = @headingsResultString.gsub('=>', ':')
-           y = y.gsub('"', '\\"')
-           y = y.gsub("'", '"')
+           y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
            #@headingsResponseFull = eval(@headingsResultString)
         else
@@ -124,12 +116,10 @@ class BrowseController < ApplicationController
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
-        p =  {"q" => '"' + params[:authq] +'"' } 
-        @headingsResultString = dbclnt.get_content(base_solr +"/subject/browse?" + p.to_param )
+        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' } 
+        @headingsResultString = dbclnt.get_content(base_solr +"/subject/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
-           y = @headingsResultString.gsub('=>', ':')
-           y = y.gsub('"', '\\"')
-           y = y.gsub("'", '"')
+           y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
            #@headingsResponseFull = eval(@headingsResultString)
         else
@@ -141,12 +131,10 @@ class BrowseController < ApplicationController
       end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
         dbclnt = HTTPClient.new
-        p =  {"q" => '"' + params[:authq] +'"' } 
-        @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?" + p.to_param )
+        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' } 
+        @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
-           y = @headingsResultString.gsub('=>', ':')
-           y = y.gsub('"', '\\"')
-           y = y.gsub("'", '"')
+           y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
            #@headingsResponseFull = eval(@headingsResultString)
         else
