@@ -241,7 +241,7 @@ module CornellCatalogHelper
 
       if bound_with? 
         mbw = @bound_with_to_mbw[k]
-        Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
+        Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
         if !mbw.nil?
           condensed[k]['copies'][0]["boundwith_summary"] =  'Bound with status:' + @bwy_statuses[mbw.to_i].join(',')
           condensed[k]['copies'][0]["boundwith_summary"] =  ('Bound with status:'+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
@@ -1254,7 +1254,7 @@ LOC_CODES = {
   def handle_bound_with(response,bibid, items2)
       Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bound_with= #{@bound_with.pretty_inspect}"
       ix,bresp =  parse_bwith_status(@bound_with)
-      #Rails.logger.info "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bresp= #{bresp.pretty_inspect}"
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bresp= #{bresp.pretty_inspect}"
       #bw_map has item ids of target items 
       @bw_map =  make_bw_map(@bound_with,ix)
       kys = response.keys[0]
@@ -1268,7 +1268,7 @@ LOC_CODES = {
       x2 = items2
       y2 = ix
       items2 = (x2<<y2).flatten
-      Rails.logger.info "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
       @bw_map.each_pair do |k,v|
         mmid = items2.select {|i| (i["item_id"] == k.to_s)}
         mbw = mmid[0]["mfhd_id"]  
@@ -1287,8 +1287,8 @@ LOC_CODES = {
        end 
       end
       @bwy_bibids = items2.map { |h| h["bib_id"] }.compact.uniq
-      Rails.logger.info "*****-->es287_debug #{__FILE__} line(#{__LINE__})  @bwy_bibids= #{@bwy_bibids.pretty_inspect}"
-      Rails.logger.info "*****-->es287_debug #{__FILE__} line(#{__LINE__})  bwy= #{bwy.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  @bwy_bibids= #{@bwy_bibids.pretty_inspect}"
+      Rails.logger.debug"*****-->es287_debug #{__FILE__} line(#{__LINE__})  bwy= #{bwy.pretty_inspect}"
       bwy.each  do |hol|
         Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  hol= #{hol.pretty_inspect}"
   	@bwy_statuses[hol[:MFHD_ID]] = [] unless !@bwy_statuses[hol[:MFHD_ID]].nil?
@@ -1296,7 +1296,7 @@ LOC_CODES = {
   	  @reduce_avail[hol[:MFHD_ID]] = 0 
         end
   	z = make_substitute(hol,bw_items_solr)	
-        Rails.logger.info "*****-->es287_debug #{__FILE__} line(#{__LINE__})  z= #{z.pretty_inspect}"
+        Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  z= #{z.pretty_inspect}"
   	#@bwy_statuses[hol[:MFHD_ID]] << z unless  @bwy_statuses[hol[:MFHD_ID]].includes?('Available') 
   	@bwy_statuses[hol[:MFHD_ID]] << z unless  z.include? 'Available' 
   	@reduce_avail[hol[:MFHD_ID]] =   @reduce_avail[hol[:MFHD_ID]] + 1  unless z.include? 'Available' 
