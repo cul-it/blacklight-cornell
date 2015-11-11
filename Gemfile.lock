@@ -1,18 +1,9 @@
 GIT
-  remote: git@github.com:cul-it/blacklight-cornell-advanced-search.git
-  revision: 10a08858ca91a338e7c0f5c5a5b7e232a69e8cad
-  branch: bl5
-  specs:
-    blacklight_cornell_advanced_search (2.1.1)
-      blacklight
-      parslet
-
-GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: e46e3ef62dba839b85ec160c73143898c531648d
-  branch: master
+  revision: 576503cccbfebf1f8ad3d9a722954704e534e544
+  branch: bd_hotfix
   specs:
-    blacklight_cornell_requests (1.1)
+    blacklight_cornell_requests (1.1.4)
       blacklight (= 5.9)
       borrow_direct
       dotenv
@@ -35,6 +26,13 @@ GIT
     blacklight_unapi (0.0.3)
       blacklight (> 3.2)
       rails (~> 4.0)
+
+GIT
+  remote: git@github.com:jrochkind/borrow_direct.git
+  revision: 58cf98ccd6b21e1bd3e8a79dd811609aa7f34f88
+  specs:
+    borrow_direct (1.2.0.pre1)
+      httpclient (~> 2.4)
 
 GEM
   remote: https://rubygems.org/
@@ -123,9 +121,9 @@ GEM
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
-    borrow_direct (1.1.0)
-      httpclient (~> 2.4)
     builder (3.2.2)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
     capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
@@ -154,6 +152,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    columnize (0.9.0)
     confstruct (1.0.1)
       hashie (~> 3.3)
     crack (0.4.2)
@@ -307,6 +306,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.2.0)
+      byebug (~> 5.0)
+      pry (~> 0.10)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -456,12 +458,12 @@ DEPENDENCIES
   blacklight (= 5.9)
   blacklight-hierarchy
   blacklight-marc
-  blacklight_cornell_advanced_search!
   blacklight_cornell_requests!
   blacklight_google_analytics
   blacklight_range_limit
   blacklight_unapi!
   bootstrap-sass
+  borrow_direct!
   capistrano
   capistrano-ext
   capybara
@@ -490,8 +492,11 @@ DEPENDENCIES
   mysql
   net-ldap
   nokogiri
+  parslet
   poltergeist
   protected_attributes
+  pry
+  pry-byebug
   rails (= 4.2.1)
   rb-inotify
   rb-readline (~> 0.4.2)

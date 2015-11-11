@@ -10,13 +10,13 @@
     <%# browse links %>
     <% elsif params[:action] == "index" && params[:controller] == "browse" %>
       <li><a href="/">Search</a></li>
-      <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
+      <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced_search", :action=>"index") %></li>
       <li class="active">Browse</li>
 
     <%# regular search links %>
     <% else %>
       <li class="active">Search</a></li>
-      <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced", :action=>"index") %></li>
+      <li><%= link_to 'Advanced Search', url_for(:controller=>"advanced_search", :action=>"index") %></li>
       <li><a href="/browse">Browse</a></li>
     <% end %>
     

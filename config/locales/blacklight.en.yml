@@ -167,7 +167,7 @@ en:
 
     catalog:
         available: "Available"
-        bound_with: ""
+        bound_with: "This item is bound with another item.  Requests must be made to that item."
         on_order: "On order"
         on_site: "On-site use"
     search:

@@ -1,7 +1,7 @@
 BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
  config.eager_load = false
- #config.eager_load = true 
+ #config.eager_load = true
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -34,7 +34,7 @@ BlacklightCornell::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   #config.active_record.mass_assignment_sanitizer = :strict
-  #config.active_record.mass_assignment_sanitizer = false 
+  #config.active_record.mass_assignment_sanitizer = false
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
@@ -45,8 +45,8 @@ BlacklightCornell::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-  
+
   # this allows WEBrick to handle pipe symbols in query parameters
-URI::DEFAULT_PARSER = 
+URI::DEFAULT_PARSER =
   URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 end

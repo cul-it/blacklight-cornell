@@ -22,12 +22,12 @@
         View
         / = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
         = number_with_delimiter(result.total_items)
-        - if result.total_items > 1
+        - if !result.nil? && result.total_items > 1
           = BentoSearch.get_engine(key).configuration.title
         - else
           -if BentoSearch.get_engine(key).configuration.title != "Theses" && BentoSearch.get_engine(key).configuration.title != "Miscellaneous" && BentoSearch.get_engine(key).configuration.title != "Manuscripts / Archives"
             = BentoSearch.get_engine(key).configuration.title[0...-1]
-          -if BentoSearch.get_engine(key).configuration.title == "Theses"
+          -if BentoSearch.get_engine(key).configuration.title == "Theses" 
             Thesis
           -if BentoSearch.get_engine(key).configuration.title == "Miscellaneous"
             Miscellaneous
