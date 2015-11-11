@@ -117,7 +117,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
     end
-
     (@response, @document_list) = get_search_results
 
     if !qparam_display.blank?
@@ -199,7 +198,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       search_session[:counter] = params[:counter]
       search_session['counter'] = params[:counter]
       search_session['per_page'] = params[:per_page]
- 
+
       path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
         URI.parse(params[:redirect]).path
       else

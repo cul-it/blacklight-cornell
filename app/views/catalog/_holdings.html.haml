@@ -2,6 +2,9 @@
 - pda = 'no'
 - bound_with = false
 - holdings_condensed = create_condensed_full(@document) 
+- bwith = ''
+- if @document['bound_with_json']
+  - bwith = t('blacklight.catalog.bound_with')
 - multi_vol = @document['multivol_b']
 - on_site_count = 0
 - if (!holdings_condensed.nil?) && holdings_condensed.size > 0
@@ -46,11 +49,11 @@
             - unless copy['temp_locations'].nil?
               - copy['temp_locations'].each do |t|
                 .message= t
-            - ['orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+            - ['boundwith_summary','orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
               - unless copy[type].nil?
                 .message= copy[type]
                 - if copy[type] =~ /Bound with:/ 
-                  - bound_with = true
+                  - bound_with = bound_with? 
             - (copy['items'].sort_by{|mess,det| det["status"]}).each do |item|
               -# Handling online link in _show_metadata.html.erb
               - if location != 'Online' and @hide_status.blank?
@@ -61,14 +64,14 @@
                       - message = ''
                     %span{:class => 'label label-available'}
                       %i{:class => 'fa fa-check'}
-                      Available
+                      = I18n.t('blacklight.catalog.available')
                     -if details['count'] == 1 and !( message =~ /Returned/)
                       - message = '1 copy'
                   - elsif details['status'] == 'available'  and noncirc == true 
                     - on_site_count += 1
                     %span{:class => 'label label-available'}
                       %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
-                      Available
+                      = I18n.t('blacklight.catalog.available')
                     - message = I18n.t('blacklight.catalog.on_site')
                   - elsif details['status'] == 'none' && bound_with
                     %i{:class => 'fa', :title => 'Bound with'}
@@ -85,7 +88,7 @@
                         - on_site_count += 1
                         %span{:class => 'label label-available'}
                           %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
-                          Available
+                          = I18n.t('blacklight.catalog.available')
                         - message = I18n.t('blacklight.catalog.on_site')
                       - else 
                         - message = ''
@@ -102,7 +105,7 @@
               %div.status
                 %span{:class => 'label label-available'}
                   %i{:class => 'fa fa-check'}
-                  Available
+                  = I18n.t('blacklight.catalog.available')
                 All other volumes/copies
     - if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare"
       - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")

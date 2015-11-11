@@ -1,6 +1,8 @@
 module CornellCatalogHelper
  require "pp"
  require "maybe"
+# require 'pry'
+# require 'pry-byebug'
 
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
@@ -107,6 +109,22 @@ module CornellCatalogHelper
     bibid = document[:id]
     response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{bibid}")).with_indifferent_access
     @response = response
+
+    @bound_with = [] 
+    @bound_with_to_mbw =  {} 
+    if bound_with?
+      if document['bound_with_json']
+        document['bound_with_json'].each do |j|
+           @bound_with <<  JSON.parse(j).with_indifferent_access
+        end 
+      end
+      if  !@bound_with.empty?
+        items2 = handle_bound_with(response,bibid,items2) 
+      end
+    end
+
+
+
     # items might differ slightly from direct db response.
     # reconcile the two into a grand synthesis of merged info 
     #items  = items2
@@ -217,7 +235,22 @@ module CornellCatalogHelper
     Rails.logger.debug "\nes287_debug orders by hid line #{__FILE__} #{__LINE__} = " + orders_by_mid.inspect 
     parse_item_info(condensed,items,notes_by_mid,sumh_by_mid,grouped,bibid,response,over_locs,orders_by_mid)
     condensed_full =  [] 
+
     condensed.each_key  do |k| 
+#xxxxxxx
+
+      if bound_with? 
+        mbw = @bound_with_to_mbw[k]
+        if !mbw.nil?
+          condensed[k]['copies'][0]["boundwith_summary"] =  'Bound with status:' + @bwy_statuses[mbw.to_i].join(',')
+          condensed[k]['copies'][0]["boundwith_summary"] =  ('Bound with status:'+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
+            condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
+          end
+        end
+      end # bound with
+
+#xxxxxxx
       condensed_full << condensed[k]
     end
     Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed  = " + condensed.inspect 
@@ -527,7 +560,7 @@ module CornellCatalogHelper
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
         end
-        reqs = solri['reqs'] 
+        reqs = solri['reqs'] ? solri['reqs'] : ''  
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} solri = #{solri.inspect}\n"
         Rails.logger.debug "es287_debug #{__FILE__} #{__LINE__} enum = #{enum.inspect}\n"
       end
@@ -535,6 +568,7 @@ module CornellCatalogHelper
       status =  ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr].nil?  ?  "Status #{holding[:ITEM_STATUS].to_s} " : ITEM_STATUS_CODES[holding[:ITEM_STATUS].to_s + norr]['short_message']
       Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} status = #{status.inspect}\n"
       Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} enum = #{enum.inspect}\n"
+      Rails.logger.debug "es287_debug #{__FILE__}:#{__LINE__} reqs = #{reqs.inspect}\n"
       status_text =  status.gsub('%ENUM',enum)
       status_text =  status_text.gsub('%SDATE',sdate)
       status_text =  status_text.gsub('%DATE',date)
@@ -1209,7 +1243,129 @@ LOC_CODES = {
     LOC_CODES[code]
   end
 
-end # End of Module
+  def bound_with?
+      ENV['BOUND_WITH']
+   end
+
+
+  def handle_bound_with(response,bibid, items2)
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bound_with= #{@bound_with.pretty_inspect}"
+      ix,bresp =  parse_bwith_status(@bound_with)
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bresp= #{bresp.pretty_inspect}"
+      @bw_map =  make_bw_map(@bound_with,ix)
+      kys = response.keys[0]
+      dbho = @response[kys][kys]['records'][0]['holdings']
+      # there may be one than one bib id -- unlike the 'response'
+      kys2 = bresp.keys[0]
+      #bwy = bresp[kys2]
+      bwy = bresp.values.map{|i| HashWithIndifferentAccess.new(i[0])}.flatten
+      @response[kys][kys]['records'][0]['holdings']  = (dbho << bwy).flatten!
+      x2 = items2
+      y2 = ix
+      items2 = (x2<<y2).flatten
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
+      @bw_map.each_pair do |k,v|
+        mmid = items2.select {|i| (i["item_id"] == k.to_s)}
+        mbw = mmid[0]["mfhd_id"]  
+        v[:mbw] = mbw
+        @bound_with_to_mbw[v[:bw]] = mbw
+      end
+      @reduce_avail = {} 
+      @bwy_statuses = {} 
+      @bwy_bibid = '' 
+      @bwy_bibids = {} 
+      bw_items_solr = {}
+      items2.each do |item|
+       bw_items_solr[item["item_id"]] = item
+       if !item["bib_id"].nil? 
+         @bwy_bibid =  item["bib_id"] 
+       end 
+      end
+      @bwy_bibids = items2.map { |h| h["bib_id"] }.compact.uniq
+      #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  @bwy_bibids= #{@bwy_bibids.pretty_inspect}"
+      bwy.each  do |hol|
+        #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  hol= #{hol.pretty_inspect}"
+  	@bwy_statuses[hol[:MFHD_ID]] = [] unless !@bwy_statuses[hol[:MFHD_ID]].nil?
+        if @reduce_avail[hol[:MFHD_ID]].nil?
+  	  @reduce_avail[hol[:MFHD_ID]] = 0 
+        end
+  	z = make_substitute(hol,bw_items_solr)	
+        #Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__})  z= #{z.pretty_inspect}"
+  	#@bwy_statuses[hol[:MFHD_ID]] << z unless  @bwy_statuses[hol[:MFHD_ID]].includes?('Available') 
+  	@bwy_statuses[hol[:MFHD_ID]] << z unless  z == 'Available' 
+  	@reduce_avail[hol[:MFHD_ID]] =   @reduce_avail[hol[:MFHD_ID]] + 1  unless z == 'Available' 
+      end
+
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map master item id to master info = #{@bw_map.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bw to mbw= #{@bound_with_to_mbw.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bw statuses= #{@bwy_statuses.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) reduce avail = #{@reduce_avail.pretty_inspect}"
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) items2 after adding ix= #{items2.pretty_inspect}"
+      return items2
+  end
+
+  # make map that relates the bound in mfhd id to the master id 
+  # returns map by integer item id containing hash to bw mfhd id.
+  def make_bw_map(bw,items)
+    bw_map = {} 
+    bw.each do  |i| 
+      b = {}
+      bw_map[i["item_id"]]  = b 
+      b[:bw]  = i["mfhd_id"] 
+      yyy =  items.detect {|f| f["item_id"] == i["item_id"].to_s }
+      b[:mbib_id] = yyy["bib_id"]
+      b[:mtitle] = yyy["title"]
+      b[:item_enum] = yyy["item_enum"]
+    end   
+    bw_map.with_indifferent_access
+  end
+
+  #flatten_bwith(bibid,bw)
+  #return hash organized by item id.
+  #with lower case attribute names to match the item_solr data.
+  def flatten_bwith(bw)
+    bkeys = bw.keys 
+    ibw_by_id = [] 
+    bkeys.each do |bkey| 
+      if bw[bkey]
+        bw[bkey].each do |record|
+          ibw = {}
+          record.each_pair do |k,v|
+            ibw[k.downcase] = v.to_s;
+          end
+          ibw_by_id <<  ibw
+        end
+      end
+    end
+    ibw_by_id
+  end
+  # create table mapping the bw item mfhd id to the master record mfhid 
+   
+  # modify items_solr so it contains the master items -- not the bound with items  
+  def parse_bwith_status(bwith)
+    bstring = bwith.map{|h| h[:item_id]}.join('/')
+    bresp = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/item/#{bstring}")).with_indifferent_access
+    return flatten_bwith(bresp),bresp
+  end
+
+
+
+  def bw_link_to_helper(bwi,h,bw_map) 
+    bws = ''
+    bwi.each do |b| 
+      if (bw_map.select {|_k,v| v[:bw] == h}.values.map {|v| v[:mbib_id]}).include?(b)   
+        mtitles = bw_map.select {|_k,v| v[:bw] == h}.values.map {|v| [v[:mbib_id],v[:mtitle],v[:item_enum]]}   
+        mtitle = mtitles.assoc(b)[1] # we only need the title once. 
+        enums = mtitles.select {|i| i[0] == b }.collect {|z| z[2]}.join(',') #we need all the volumes
+        bws = bws + '<br/>' + link_to(t("blacklight.catalog.bound_with") + ": #{mtitle} #{enums}", solr_document_url(b))
+      end 
+    end
+    bws 
+  end
+
+end 
+
+# End of Module
 
     # this logic is from the voyager_oracle_api status.rb
     # available statuses
