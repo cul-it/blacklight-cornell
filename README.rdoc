@@ -1,7 +1,7 @@
 [![Build Status](https://newjenkins.library.cornell.edu/buildStatus/icon?job=Continuous Test - blacklight-cornell)](https://newjenkins.library.cornell.edu/job/Continuous%20Test%20-%20blacklight-cornell/)
 
 
-== Welcome to Rails
+==  Welcome to Rails
 
 Rails is a web-application framework that includes everything needed to create
 database-backed web applications according to the Model-View-Control pattern.
