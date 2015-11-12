@@ -35,7 +35,9 @@
         </h4>
         <div class="description">
           <p>
-            <%= data["summary_display"][0] %>
+            <% if data["summary_display"].present? %>
+              <%= data["summary_display"][0] %>
+            <% end %>
           </p>
           <p>
             <%= link_to data["url_access_display"][0].split('|')[1],data["url_access_display"][0].split('|')[0] %>
