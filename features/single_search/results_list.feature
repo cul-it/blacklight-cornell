@@ -97,6 +97,7 @@ Feature: Results list
   @search_with_view_all_webs_match_box
   Scenario: Search with view all webs link
     Given I literally go to search
+    Given PENDING
     When I fill in "q" with 'gettysburg address'
     And I press 'Search'
     Then I should get bento results

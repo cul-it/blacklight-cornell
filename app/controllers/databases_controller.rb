@@ -16,24 +16,16 @@ class DatabasesController < ApplicationController
 #     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
      Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
      solr = Blacklight.solr_config[:url]
-     p = {"q" => '"' + params[:q] +'"', "wt" => 'ruby',"indent"=>"true"}
+     p = {"q" => '"' + params[:q] +'"', "wt" => 'json',"indent"=>"true"}
      Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databasesBySubject?"+p.to_param)
-     @subjectString = clnt.get_content("#{solr}/databasesBySubject?"+p.to_param)
-     y = @subjectString.gsub('=>', ':')
-     y = y.gsub('"', '\\"')
-     y = y.gsub("'", '"')
-     @subjectResponse = JSON.parse(y)
-       #@subjectResponse = eval(@subjectString)
+     @subjectString = clnt.get_content("#{solr}/databasesBySubject?wt=json&"+p.to_param)
+     @subjectResponse = JSON.parse(@subjectString)
        @subject = @subjectResponse['response']['docs']
 
-    p = {"q" => '"' + params[:q] +' (Core)"', "wt" => 'ruby',"indent"=>"true"}
+    p = {"q" => '"' + params[:q] +' (Core)"', "wt" => 'json',"indent"=>"true"}
     Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databasesBySubject?"+p.to_param)
     @subjectCoreString = clnt.get_content("#{solr}/databasesBySubject?" + p.to_param)
-     y = @subjectCoreString.gsub('=>', ':')
-     y = y.gsub('"', '\\"')
-     y = y.gsub("'", '"')
-     @subjectCoreResponse = JSON.parse(y)
-    #@subjectCoreResponse = eval(@subjectCoreString)
+     @subjectCoreResponse = JSON.parse(@subjectCoreString)
     @subjectCore = @subjectCoreResponse['response']['docs']
      params[:q].gsub!('%20', ' ')
     end
@@ -42,11 +34,9 @@ class DatabasesController < ApplicationController
         clnt = HTTPClient.new
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
-        @aString = clnt.get_content("#{solr}/databaseAlphaBuckets?q=#{params[:alpha]}#")
-        y = @aString.gsub('=>', ':')
-        y = y.gsub('"', '\\"')
-        y = y.gsub("'", '"')
-        @aResponse = JSON.parse(y)
+        p = {"q" => '"' + params[:alpha] +'"', "wt" => 'json',"indent"=>"true"}
+        @aString = clnt.get_content("#{solr}/databaseAlphaBuckets?" + p.to_param)
+        @aResponse = JSON.parse(@aString)
      #   @aResponse = eval(@aString)
         @a = @aResponse['response']['docs']
     end
@@ -56,11 +46,9 @@ class DatabasesController < ApplicationController
         clnt = HTTPClient.new
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
-        @dbString = clnt.get_content("#{solr}/database?id=#{params[:id]}")
-        y = @dbString.gsub('=>', ':')
-        y = y.gsub('"', '\\"')
-        y = y.gsub("'", '"')
-        @dbResponse = JSON.parse(y)
+        p = {"id" => params[:id], "wt" => 'json',"indent"=>"true"}
+        @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
+        @dbResponse = JSON.parse(dbString)
         #@dbResponse = eval(@dbString)
         @db = @dbResponse['response']['docs']
     end
@@ -77,12 +65,11 @@ class DatabasesController < ApplicationController
         dbclnt = HTTPClient.new
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
-        p = {"q" =>params[:q] , "wt" => 'ruby',"indent"=>"true","defType" =>"dismax"}
+        p = {"q" =>params[:q] , "wt" => 'json',"indent"=>"true","defType" =>"dismax"}
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
-        #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:q] + "&wt=ruby&indent=true&defType=dismax")
         @dbResultString = dbclnt.get_content("#{solr}/databases?" + p.to_param)
         if !@dbResultString.nil?
-           @dbResponseFull = eval(@dbResultString)
+           @dbResponseFull = JSON.parse(@dbResultString)
         else
            @dbResponseFull = eval("Could not find")
         end
@@ -94,6 +81,7 @@ class DatabasesController < ApplicationController
 
 # DO NOT USE this method.  It has been replaced by tou below.  This method relied on passed parameters which supposedly could lead to an SQL injection attack.
 # JAC244 8/13/2015
+  if false
   def searchERMdb
 
     clnt = HTTPClient.new
@@ -126,6 +114,7 @@ class DatabasesController < ApplicationController
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
 
   end
+  end
 
 # Replacement for searchERMdb.  See comment above searchERMdb method.
   def tou
@@ -133,8 +122,9 @@ class DatabasesController < ApplicationController
     clnt = HTTPClient.new
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.solr_config[:url]
-    @dbString = clnt.get_content("#{solr}/database?id=#{params[:id]}")
-    @dbResponse = eval(@dbString)
+    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
+    @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
+    @dbResponse = JSON.parse(@dbString)
     @db = @dbResponse['response']['docs']
     dbcode = @dbResponse['response']['docs'][0]['dbcode']
     providercode = @dbResponse['response']['docs'][0]['providercode']
