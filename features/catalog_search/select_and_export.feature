@@ -75,8 +75,9 @@ Feature: Select and export items from the result set
 # Pending causes an error in jenkins
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
 @DISCOVERYACCESS-1633
+@select_and_email
   Scenario: User sends a record by email
-    Given PENDING 
+    #Given PENDING 
     Given I request the item view for 8767648
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"
@@ -85,7 +86,6 @@ Feature: Select and export items from the result set
     Then "quentin@example.com" receives an email with "Marvel masterworks" in the content 
     Then I should see "Marvel masterworks" in the email body
     Then I should see "Lee, Stan" in the email body
-    Then I should see "Temporary Location: v.1   Temporarily shelved in Uris Library Reserv" in the email body
     Then I should see "Status: available" in the email body
 
 #search for marvel masterworks, and get two results, select, and email them
@@ -93,7 +93,7 @@ Feature: Select and export items from the result set
 @select_and_email
   Scenario: Search with 2 results, select, and email them 
     Given I am on the home page
-    Given PENDING 
+    #Given PENDING 
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
     Then I should get results
@@ -107,10 +107,10 @@ Feature: Select and export items from the result set
     Then "squentin@example.com" receives an email with "Marvel masterworks" in the content 
     Then I should see "Status: available" in the email body
     Then I should see "Coward" in the email body
-    Then I should see "Temporary Location: v.1   Temporarily shelved in Uris Library Reserv" in the email body
     Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
 
 @DISCOVERYACCESS-1670
+@select_and_email
   Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095 
     And click on link "Email"
@@ -122,6 +122,7 @@ Feature: Select and export items from the result set
     Then I should see "Location: Veterinary Library Core Resource (Non-Circulating)" in the email body
   
 @DISCOVERYACCESS-1777
+@select_and_email
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095 
     And click on link "Text"
