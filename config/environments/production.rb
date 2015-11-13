@@ -70,5 +70,18 @@ BlacklightCornell::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  
+  # Settings for the exception_notification gem
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  # :email => {
+  #   :email_prefix => "[ERROR] ",
+  #   :sender_address => %{"notifier" <notifier@example.com>},
+  #   :exception_recipients => %w{mjc12@cornell.edu}
+  # },
+  :hipchat => {
+    :api_token => ENV['HIPCHAT_API_TOKEN'],
+    :api_version => 'v2',
+    :room_name => 'Discovery and Access'
+  }
 
 end
