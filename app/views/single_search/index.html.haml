@@ -142,7 +142,7 @@
                           %i.fa.fa-star
                           = 'Best Bet'
                         %h2
-                          = link_to alert['title'], alert['link']
+                          = link_to alert['title'], alert['link'], :onclick => "javascript:_paq.push(['trackEvent', 'BestBet', 'BentoBox'])"
                     - #this is the first result
                   - unless @results.blank?
                     - @top_4_results.from(1).to(0).each do |key, result|
