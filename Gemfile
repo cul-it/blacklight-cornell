@@ -56,6 +56,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'meta_request'
 end
   
 group :test do
@@ -105,3 +106,5 @@ gem 'celluloid'  # Required for bento_search multisearcher
 #gem 'rest_mollom', :git => 'https://github.com/hernan/rest_mollom.git'
 gem 'mollom'
 #gem 'blacklight-marc'
+gem 'exception_notification'
+gem 'hipchat'
