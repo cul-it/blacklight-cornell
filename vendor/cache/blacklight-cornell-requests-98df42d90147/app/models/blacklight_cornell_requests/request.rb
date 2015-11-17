@@ -985,14 +985,15 @@ module BlacklightCornellRequests
     def available_in_bd? netid, params
 
       # Set up params for BorrowDirect gem
-      if Rails.env.production?
-        # if this isn't specified, defaults to BD test database
-        #BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
-      end
+      BorrowDirect::Defaults.api_key = ENV['BORROW_DIRECT_TEST_API_KEY']
       BorrowDirect::Defaults.library_symbol = 'CORNELL'
-      BorrowDirect::Defaults.api_key = ENV['BORROW_DIRECT_API_KEY']
       BorrowDirect::Defaults.find_item_patron_barcode = patron_barcode(netid)
       BorrowDirect::Defaults.timeout = 30 # (seconds)
+      # if api_base isn't specified, it defaults to BD test database
+      if Rails.env.production?
+        BorrowDirect::Defaults.api_base = BorrowDirect::Defaults::PRODUCTION_API_BASE
+        BorrowDirect::Defaults.api_key = ENV['BORROW_DIRECT_PROD_API_KEY']
+      end
 
       response = nil
       # This block can throw timeout errors if BD takes to long to respond
@@ -1000,6 +1001,7 @@ module BlacklightCornellRequests
         if !params[:isbn].nil?
           # Note: [*<variable>] gives us an array if we don't already have one,
           # which we need for the map.
+
           response = BorrowDirect::FindItem.new.find(:isbn => ([*params[:isbn]].map!{|i| i.clean_isbn}))
         elsif !params[:title].nil?
           response = BorrowDirect::FindItem.new.find(:phrase => params[:title])
@@ -1009,16 +1011,25 @@ module BlacklightCornellRequests
         return response.requestable?
 
       rescue Errno::ECONNREFUSED => e
+        if ENV['ROUTE_EXCEPTIONS_TO_HIPCHAT'] == 'true'
+          ExceptionNotifier.notify_exception(e)
+        end
         Rails.logger.warn 'Requests: Borrow Direct connection was refused'
         Rails.logger.warn e.message
         Rails.logger.warn e.backtrace.inspect
         return false
       rescue BorrowDirect::HttpTimeoutError => e
+        if ENV['ROUTE_EXCEPTIONS_TO_HIPCHAT'] == 'true'
+          ExceptionNotifier.notify_exception(e)
+        end
         Rails.logger.warn 'Requests: Borrow Direct check timed out'
         Rails.logger.warn e.message
         Rails.logger.warn e.backtrace.inspect
         return false
       rescue BorrowDirect::Error => e
+        if ENV['ROUTE_EXCEPTIONS_TO_HIPCHAT'] == 'true'
+          ExceptionNotifier.notify_exception(e)
+        end
         Rails.logger.warn 'Requests: Borrow Direct gave error.'
         Rails.logger.warn e.message
         Rails.logger.warn e.backtrace.inspect
@@ -1052,4 +1063,5 @@ def clean_isbn
   return self.gsub! /[^0-9X]*/, ''
 end
 end
+
 

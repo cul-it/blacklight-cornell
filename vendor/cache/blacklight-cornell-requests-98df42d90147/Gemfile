@@ -8,12 +8,6 @@ gem "thor"
 #gem 'blacklight', '5.9'
 gem 'rails', '~>4.0'
 
-# NOTE: BD should really be specified in the gemspec, but we need a specific
-# git repo branch for now, so we have to make the call here. Once we're back
-# on master, we should be able to remove this call and uncomment the one in
-# the gemspec file
-gem 'borrow_direct', :git => 'git@github.com:jrochkind/borrow_direct.git'
-
 gemspec
 
 # jquery-rails is used by the dummy application
