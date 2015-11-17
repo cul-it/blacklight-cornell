@@ -75,7 +75,7 @@
                     - message = I18n.t('blacklight.catalog.on_site')
                   - elsif details['status'] == 'none' && bound_with
                     %i{:class => 'fa', :title => 'Bound with'}
-                    - message = I18n.t('blacklight.catalog.bound_with')
+                    - message = '' 
                   - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
                     %i{:class => 'fa fa-clock-o', :title => 'On order'}
                     - message = I18n.t('blacklight.catalog.on_order')
