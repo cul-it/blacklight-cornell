@@ -243,8 +243,7 @@ module CornellCatalogHelper
         mbw = @bound_with_to_mbw[k]
         Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
         if !mbw.nil?
-          condensed[k]['copies'][0]["boundwith_summary"] =  'Bound with status:' + @bwy_statuses[mbw.to_i].join(',')
-          condensed[k]['copies'][0]["boundwith_summary"] =  ('Bound with status:'+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          condensed[k]['copies'][0]["boundwith_summary"] =  (t('blacklight.catalog.bound_with_status_label')+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
           if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
             condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
           end
