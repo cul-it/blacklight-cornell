@@ -55,7 +55,6 @@ class BentoSearch::WorldcatSruDcEngine
   def search_implementation(args)
 
     url = construct_query_url(args)
-    Rails.logger.warn "mjc12test: url: #{url} from '#{args}'"
 
     results = BentoSearch::Results.new
 
@@ -74,7 +73,6 @@ class BentoSearch::WorldcatSruDcEngine
     xml = Nokogiri::XML(response.body)
     # namespaces only get in the way
     xml.remove_namespaces!
-
 
     results.total_items = xml.at_xpath("//numberOfRecords").try {|n| n.text.to_i }
 

@@ -35,7 +35,12 @@
         </h4>
         <div class="description">
           <p>
-            <%= data["summary_display"][0] %>
+            <% if data["summary_display"].present? %>
+              <%= data["summary_display"][0] %>
+            <% end %>
+          </p>
+          <p>
+            <%= link_to data["url_access_display"][0].split('|')[1],data["url_access_display"][0].split('|')[0] %>
           </p>
         </div>
         <% if @ermDBResult.present? %>
@@ -242,7 +247,7 @@
                 Authorized Users
               </td>
               <td>
-                Faculty, Staff, Students, Walk-in users, Weill Medical 
+                Faculty, Staff, Students, Walk-in users, Weill Medical
               </td>
             </tr>
             <tr>
@@ -250,15 +255,15 @@
                 Permitted - (Digitally Copy)
               </td>
               <td>
-                Authorized Users may electronically display, download, print, and digitally copy a reasonable portion (generally one or two articles or one book chapter) of the Licensed Materials. 
+                Authorized Users may electronically display, download, print, and digitally copy a reasonable portion (generally one or two articles or one book chapter) of the Licensed Materials.
               </td>
             </tr>
             <tr>
               <td>
-                Restricted - Other Use Restrictions (Public Note) 
+                Restricted - Other Use Restrictions (Public Note)
               </td>
               <td>
-                Authorized users are not permitted to modify or create a derivative work of the Licensed Materials, may not remove, obscure or modify any copyright or other notices included in the Licensed Materials, and may not use the Licensed Materials for commercial purposes, including but not limited to the sale of the Licensed Materials or bulk reproduction or distribution of the Licensed Materials in any form without the prior written permission of Licensor.										
+                Authorized users are not permitted to modify or create a derivative work of the Licensed Materials, may not remove, obscure or modify any copyright or other notices included in the Licensed Materials, and may not use the Licensed Materials for commercial purposes, including but not limited to the sale of the Licensed Materials or bulk reproduction or distribution of the Licensed Materials in any form without the prior written permission of Licensor.
               </td>
             </tr>
           </table>

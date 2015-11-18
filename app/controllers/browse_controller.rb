@@ -21,7 +21,7 @@ class BrowseController < ApplicationController
         p =  {"q" => '["' + authq.gsub("\\"," ").gsub('"',' ')+'" TO *]' }
         start = {"start" => start}
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + authq.gsub("\\"," ").gsub('"',' ')+'"}' }
+          p =  {"q" => '[* TO "' + authq.gsub("\\"," ").gsub('"',' ')+'"]' }
           @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
@@ -74,8 +74,7 @@ class BrowseController < ApplicationController
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         if params[:order] == "reverse"
-          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
-
+          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"]' }
           @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
