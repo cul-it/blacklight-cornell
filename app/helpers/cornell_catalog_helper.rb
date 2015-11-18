@@ -241,9 +241,14 @@ module CornellCatalogHelper
 
       if bound_with? 
         mbw = @bound_with_to_mbw[k]
-        Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
+        Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
         if !mbw.nil?
-          condensed[k]['copies'][0]["boundwith_summary"] =  (t('blacklight.catalog.bound_with_status_label')+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses[mbw.to_i].inspect 
+          if !@bwy_statuses[mbw.to_i].blank?
+              condensed[k]['copies'][0]["boundwith_summary"] =  (t('blacklight.catalog.bound_with_status_label')+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          else     
+              condensed[k]['copies'][0]["boundwith_summary"] =  (bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          end
           if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
             condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
           end
