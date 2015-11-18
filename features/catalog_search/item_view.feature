@@ -448,7 +448,7 @@ Feature: Item view
  @DISCOVERYACCESS-1328 
   Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
     Given I request the item view for 118111 
-    Then I should see the label 'Bound with'
+    Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
  @boundwith
