@@ -156,14 +156,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # Expand search only under certain conditions
     if expandable_search?
       searcher = BentoSearch::MultiSearcher.new(:summon, :worldcat)
-      searcher.search(params[:q], :per_page => 1)
+      query = params[:q].gsub(/&/, '%26')
+      searcher.search(query, :per_page => 1)
 
       @expanded_results = {}
 
       searcher.results.each_pair do |key, result|
         source_results = {
           :count => number_with_delimiter(result.total_items),
-          :url => BentoSearch.get_engine(key).configuration.link + params[:q],
+          :url => BentoSearch.get_engine(key).configuration.link + query,
         }
         @expanded_results[key] = source_results
       end
