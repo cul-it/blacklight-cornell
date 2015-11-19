@@ -1114,7 +1114,7 @@ def bento_online_url(url_online_access, url_item)
     if url.nil?
       false
     else
-      url.include? "/catalog/"
+      (url.include?("/catalog/") && url.include?( "newcatalog"))
     end
   end
 
