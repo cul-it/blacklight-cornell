@@ -48,7 +48,7 @@ class DatabasesController < ApplicationController
         solr = Blacklight.solr_config[:url]
         p = {"id" => params[:id], "wt" => 'json',"indent"=>"true"}
         @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
-        @dbResponse = JSON.parse(dbString)
+        @dbResponse = JSON.parse(@dbString)
         #@dbResponse = eval(@dbString)
         @db = @dbResponse['response']['docs']
     end
