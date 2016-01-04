@@ -76,6 +76,29 @@
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
     <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
+    
+    
+    <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
+    <h3>Also available</h3>
+    <h4>
+    <%= link_to "See all records for this work",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %>
+    </h4>
+    <% end %>
+     <% if !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? %>
+
+    <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
+    Other forms of this work:
+    <ul>
+
+    <% other_forms.each do |link,label| %>
+    <li>
+    <%= link_to link, label %>
+    </li>
+    <% end %>
+    </ul>
+    <%end%>
+
+
     <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
      <% oclc_number=oclc_number_link %>
      <% if oclc_number.present? %>
