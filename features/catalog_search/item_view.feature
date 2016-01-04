@@ -501,3 +501,10 @@ Feature: Item view
   #   Given I request the item view for 4759
   #   Then I should not see the label 'Series Title'
   #   And I should not see the label 'Uniform Title'
+
+@titlelinking
+@DISCOVERYACCESS-1023
+  Scenario: Show links to other formats when they exist
+  Given I request the item view for 4163301
+  Then I should see the label 'See all records for this work'
+
