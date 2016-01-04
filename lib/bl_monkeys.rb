@@ -437,7 +437,9 @@ module Blacklight::Solr::Document::MarcExport
      end
      export_text.html_safe unless export_text.blank?
   end
-
+  def setup_format
+    format
+  end 
 	  
 
 end
