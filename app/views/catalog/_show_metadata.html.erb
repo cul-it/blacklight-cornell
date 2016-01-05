@@ -91,20 +91,16 @@
     <% if !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? %>
 
       <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
-      <!-- <ul>
+       <ul class="list-unstyled">
         <% other_forms.each do |link,label| %>
           <li><%= link_to link, label %></li>
         <% end %>
-      </ul> -->
-      <ul class="list-unstyled">
-        <li><a href="#">The New York times theater reviews</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
-        <li><a href="#">The New York times book review</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
-        <li><a href="#">The New York times</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
-        <li><a href="#">The New York times women's health</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span><span class="label label-online">Online</span></li>
-        <li><a href="#">The New York times</a><span class="format"><i class="fa fa-th"></i>Microform</span><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
-        <li><a href="#">THE NEW YORK TIMES</a> [Shadow Record]</li>
-      </ul>
-    <%end%>
+      </ul> 
+
     <p><%= link_to "See all results",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
+
+
+    <%end%>
+
   </div>
 </div>
