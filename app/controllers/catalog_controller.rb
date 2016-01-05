@@ -190,7 +190,8 @@ class CatalogController < ApplicationController
         'url_access_display' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' },
-        'url_findingaid_display'  => { :label => 'Finding Aid' }
+        'url_findingaid_display'  => { :label => 'Finding Aid' },
+        'other_availability_piped'  => { :label => 'Other Availability' }
 
     }
 
@@ -250,6 +251,7 @@ class CatalogController < ApplicationController
       :include_in_advanced_search => false
     }, :show => true, :include_in_advanced_search => false
 
+    config.add_facet_field 'workid_facet', :show => false
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
@@ -378,6 +380,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+
 
     # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 
