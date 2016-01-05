@@ -76,28 +76,6 @@
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
     <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
-    
-    
-    <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
-    <h3>Also available</h3>
-    <h4>
-    <%= link_to "See all records for this work",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %>
-    </h4>
-    <% end %>
-     <% if !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? %>
-
-    <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
-    Other forms of this work:
-    <ul>
-
-    <% other_forms.each do |link,label| %>
-    <li>
-    <%= link_to link, label %>
-    </li>
-    <% end %>
-    </ul>
-    <%end%>
-
 
     <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
      <% oclc_number=oclc_number_link %>
@@ -105,5 +83,28 @@
         <span class="worldcat-search"><i class="fa fa-arrow-right"></i> <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Search Libraries Worldwide for a print copy</a></span>
         <% end %>
     <% end %>
+  </div>
+  <div class="availability well other-forms">
+    <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
+      <h4>Other forms of this work</h4>
+    <% end %>
+    <% if !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? %>
+
+      <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
+      <!-- <ul>
+        <% other_forms.each do |link,label| %>
+          <li><%= link_to link, label %></li>
+        <% end %>
+      </ul> -->
+      <ul class="list-unstyled">
+        <li><a href="#">The New York times theater reviews</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
+        <li><a href="#">The New York times book review</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
+        <li><a href="#">The New York times</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
+        <li><a href="#">The New York times women's health</a><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span><span class="label label-online">Online</span></li>
+        <li><a href="#">The New York times</a><span class="format"><i class="fa fa-th"></i>Microform</span><span class="format"><i class="fa fa-book-open"></i>Journal/Periodical</span></li>
+        <li><a href="#">THE NEW YORK TIMES</a> [Shadow Record]</li>
+      </ul>
+    <%end%>
+    <p><%= link_to "See all results",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
   </div>
 </div>
