@@ -62,7 +62,6 @@
 									=data["heading"]
 						- else
 							=data["heading"]
-
 						-if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true
 							- unless params[:browse_type] == 'Author-Title'
 								= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do
@@ -72,6 +71,24 @@
 								= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type] do
 									%span.label.label-info
 										Info
+						-if !data["seeAlso"].nil? 
+							-sa=JSON.parse(data["seeAlso"])
+							-if sa.count == 1
+								-sa.each do |r,h|
+									.see-ref
+										%i.fa.fa-arrow-right
+										-if r.blank?
+											See Also:
+										-if !r.blank?
+											=r + ':'
+										-h.each do |headingInfo|
+											=link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do
+												=headingInfo["heading"]
+											= "(" + headingInfo["count"].to_s + ")"	
+											
+									
+
+						
 
 						-if !data["see"].blank?
 							-data["see"].each do |form|

@@ -372,12 +372,22 @@ include ActionView::Helpers::NumberHelper
     end
   end
 
-    def finding_aid(document)
+  def finding_aid(document)
     if document['url_findingaid_display'].present?
       if document['url_findingaid_display'].size > 1
         catalog_path(document)
       else
         render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
+      end
+    end
+  end
+
+  def other_availability(document)
+    if document['other_availability_piped'].present?
+      if document['other_availability_piped'].size > 1
+        catalog_path(document)
+      else
+        render_display_link(:document => document, :field => 'other_availability_piped', :format => 'url')
       end
     end
   end
