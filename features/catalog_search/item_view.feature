@@ -506,5 +506,5 @@ Feature: Item view
 @DISCOVERYACCESS-1023
   Scenario: Show links to other formats when they exist
   Given I request the item view for 4163301
-  Then I should see the label 'Other forms of this work'
+  Then I should see the text 'Other forms of this work'
 
