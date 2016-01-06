@@ -103,6 +103,8 @@ module BlacklightCornellRequests
 
       # Check borrow direct availability
       bd_params = { :isbn => document[:isbn_display], :title => document[:title_display], :env_http_host => env_http_host }
+      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__}  isbn_display=#{document[:isbn_display]} "
+      Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__}  bd_params=#{bd_params} "
       self.in_borrow_direct = available_in_bd? self.netid, bd_params
 
       # Get item status and location for each item in each holdings record; store in working_items
@@ -1002,7 +1004,7 @@ module BlacklightCornellRequests
           # Note: [*<variable>] gives us an array if we don't already have one,
           # which we need for the map.
 
-          response = BorrowDirect::FindItem.new.find(:isbn => ([*params[:isbn]].map!{|i| i.clean_isbn}))
+          response = BorrowDirect::FindItem.new.find(:isbn => ([*params[:isbn]].map!{|i| i = i.clean_isbn}))
         elsif !params[:title].nil?
           response = BorrowDirect::FindItem.new.find(:phrase => params[:title])
         end
@@ -1058,10 +1060,21 @@ module BlacklightCornellRequests
   end
 end
 
+#class String
+#def clean_isbn
+#  return self.gsub! /[^0-9X]*/, ''
+#end
 class String
-def clean_isbn
-  return self.gsub! /[^0-9X]*/, ''
+  def clean_isbn
+    temp = self
+    if self.index(' ')
+      temp   = self[0,self.index(' ')]
+    end
+    temp =  temp.size == 10 ? temp : temp.gsub!(/[^0-9X]*/, '')
+    temp =  temp.size == 13 ? temp : temp.gsub!(/[^0-9X]*/, '')
+    temp
+  end
 end
-end
+
 
 
