@@ -72,17 +72,18 @@
     <% end %>
     <% end %>
   </div>
-  
-  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
+  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
   <div class="availability well other-forms">
     <h4>Other forms of this work</h4>
+     <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
     <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
     <ul class="list-unstyled">
       <% other_forms.each do |link,label| %>
       <li><%= link_to link, label %></li>
       <% end %>
     </ul>
-    <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_facet').blank?  %>
+    <% end %>
+    <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>
     <p><%= link_to "See all results",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
     <% end %>
   </div>
