@@ -1124,7 +1124,8 @@ def bento_online_url(url_online_access, url_item)
     if url.nil?
       false
     else
-      (url.include?("/catalog/") && url.include?( "newcatalog"))
+      #(url.include?("/catalog/") && !url.include?( "library.cornell.edu"))
+      url.starts_with?("/catalog/") 
     end
   end
 
