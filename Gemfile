@@ -11,7 +11,7 @@ gem 'activerecord-session_store'
 gem 'protected_attributes'
 
 gem 'sqlite3'
-gem 'savon', '~> 2.11'
+gem 'savon', '~> 2.3.0'
 gem 'parslet'
 gem 'ultraviolet'
 gem 'mysql'
