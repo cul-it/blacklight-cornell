@@ -12,7 +12,7 @@
   </div>
 
   <% if online_url(document) %>
-    <i class="fa fa-check" title="Available"></i> <a class="status-online label label-online" href="<%= online_url(document) %>">Online</a>
+    <i class="fa fa-check" title="Available"></i> <a class="status-online label label-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', catalog_results', ‘outlink']);">Online</a>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" class="status">
