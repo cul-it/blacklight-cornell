@@ -16,7 +16,7 @@
               <% end %>
             <% end %>
           <% else %>
-            <%= link_to data["url_access_display"][0].split('|')[0] do %>
+            <%= link_to data["url_access_display"][0].split('|')[0], :action => "javascript:_paq.push(['trackEvent', ‘databases', ‘outlink']);" do %>
               <% if data["fulltitle_vern_display"].present? %>
                 <%= data["fulltitle_vern_display"] %>
               <% else %>
