@@ -183,7 +183,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @document = get_solr_response_for_doc_id params[:id]
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
-
+        format.rss  { render :layout => false }
         # Add all dynamically added (such as by document extensions)
         # export formats.
         @document.export_formats.each_key do | format_name |
