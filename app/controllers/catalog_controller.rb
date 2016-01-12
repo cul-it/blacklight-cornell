@@ -477,7 +477,8 @@ class CatalogController < ApplicationController
       field.include_in_simple_select = true
       field.solr_local_parameters = {
         :qf => '$lc_callnum_qf',
-        :pf => '$lc_callnum_pf'
+        :pf => '$lc_callnum_pf',
+        :sort => 'callnum_sort asc, pub_date_sort desc'
       }
     end
     config.add_search_field('series') do |field|
@@ -653,6 +654,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'author_sort desc, title_sort asc', :label => 'author Z-A'
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
+    config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :include_in_advanced_search => false
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
