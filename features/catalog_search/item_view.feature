@@ -484,6 +484,12 @@ Feature: Item view
     And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365">
     And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559">
 
+ @boundwith
+ @DISCOVERYACCESS-2295 
+  Scenario: Show the record properly when a holding has no items 
+    Given I request the item view for 5972895
+    Then I should see the label 'bound with'
+
 
   # TODO: need bibids that match these cases
 
