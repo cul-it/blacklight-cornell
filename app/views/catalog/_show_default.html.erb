@@ -8,13 +8,20 @@
           <%= render_index_field_value :document => document, :field => 'format' %>
         <% elsif display_link? solr_fname -%>
           <%= render_display_link :document => document, :field => solr_fname %>
-        <% elsif  solr_fname == 'author_display' -%>
+        <% elsif  solr_fname == 'author_cts' -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
           <% authname = render_document_show_field_value document, :field => solr_fname %>
-          <a href='/browse/info?q=<%=  authname.split("|")[0] %>&amp;browse_type=Author' class="lightboxLink" id="info" ><span class="label label-info">
+          <% document['author_json'].each do |authority| %>
+          <% heading = JSON.parse(authority) %>
+          <% type = heading['type']  %>
+          <% search =  heading['search1']  %>
+ <a href='#' data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info"><span class="label label-info">
             Info
           </span>
           </a>
+          <% end %>
+       
+         
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
         <% else -%>

@@ -1,12 +1,16 @@
 -if @headingsResponse.present? 
 	.return-link
-		=link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do
-			%i.fa.fa-arrow-circle-left
-			Back to list
+		-if !request.xhr?
+			=link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do
+				%i.fa.fa-arrow-circle-left
+				Back to list
+		-else
+			=link_to "#" do
+				Close
 	- @headingsResponse.each do |data|
 		-encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'")
 		- if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil?
-			%h2
+			%h2.modal-title
 				=data["heading"]
 			-if data["counts_json"].present?
 				-works=JSON.parse(data["counts_json"])
@@ -54,7 +58,7 @@
 							=works["worksAbout"] 
 							Title(s)
 
-			- if !data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?
+			- if (!data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?) && !request.xhr? 
 				%h3
 					Reference Info
 					
@@ -125,20 +129,21 @@
 
 
 
-				-if !data["alternateForm"].nil?
+				-if !data["alternateForm"].nil? && !request.xhr?
 					%dt
 						Alternate form(s):
 					-data["alternateForm"].each do |af|
 						%dd
 							=af
-				-if data["headingTypeDesc"].present?
+				-if data["headingTypeDesc"].present? && !request.xhr?
 					%dt
 						Headings type:
 					%dd
 						=data["headingTypeDesc"]				
 			- if data["mainEntry"] == true  && data["rda_json"].present?
-				%h3
-					Description
+				-if !request.xhr?
+					%h3
+						Description
 				-if data["rda_json"].present?
 					%dl.dl-horizontal
 						-rda=JSON.parse(data["rda_json"])
@@ -151,4 +156,6 @@
 										=data.humanize
 									-else
 										=data
-					
+		-if request.xhr?
+			=link_to "/browse/info?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] do
+				Full record				
