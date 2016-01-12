@@ -114,8 +114,10 @@ class Databases < ActiveRecord::Base
        printCopy = licenseTerms.xpath(sprintf('./%s', "PrintCopy/Content")).inner_text
        printCopyNote = licenseTerms.xpath(sprintf('./%s', "PrintCopyNote/Content")).inner_text
        scholarlySharing = licenseTerms.xpath(sprintf('./%s', "ScholarlySharing/Content")).inner_text
-       scholarlySharingNote = licenseTerms.xpath(sprintf('./%s', "ScholarlySharingNote/Content")).inner_text
-       scholarlySharingNote = "See original XML"
+       scholarlySharingNote = licenseTerms.xpath(sprintf('./%s', "ScholarlySharingNote/Content")).inner_text.gsub!('"','')
+       if scholarlySharingNote.nil?
+         scholarlySharingNote = ""
+       end
        distanceLearning = licenseTerms.xpath(sprintf('./%s', "DistanceLearning/Content")).inner_text
        distanceLearningNote = licenseTerms.xpath(sprintf('./%s', "DistanceLearningNote/Content")).inner_text
        iLLGeneral = licenseTerms.xpath(sprintf('./%s', "ILLGeneral/Content")).inner_text
@@ -173,11 +175,12 @@ class Databases < ActiveRecord::Base
           remoteAccessNote.gsub!('"',' ')
           remoteAccessNote.gsub!("'"," ")
        end
-       otherUseRestrictionsStaffNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsStaffNote/Content")).inner_text
+       otherUseRestrictionsStaffNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsStaffNote/Content")).inner_text.gsub!('"','')
+       if otherUseRestrictionsStaffNote.nil?
+         otherUseRestrictionsStaffNote = ''
+       end
       # otherUseRestrictionsStaffNote = otherUseRestrictionsStaffNote.gsub!('\\\"','')
-      # otherUseRestrictionsStaffNote = otherUseRestrictionsStaffNote.gsub!('"','')
-      otherUseRestrictionsStaffNote = "See original XML"
-      otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
+       otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
        perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
        perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text
@@ -218,8 +221,10 @@ class Databases < ActiveRecord::Base
        postPrintArchiveRestrictionsUnit = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveRestrictionsUnit/Content")).inner_text
        postPrintArchiveNote = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveNote/Content")).inner_text
        incorporationOfImagesFiguresAndTablesRight = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesRight/Content")).inner_text
-       incorporationOfImagesFiguresAndTablesNote = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesNote/Content")).inner_text
-       incorporationOfImagesFiguresAndTablesNote = "See original XML"
+       incorporationOfImagesFiguresAndTablesNote = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesNote/Content")).inner_text.gsub!('"','')
+       if incorporationOfImagesFiguresAndTablesNote.nil?
+         incorporationOfImagesFiguresAndTablesNote = ''
+       end
        publicPerformanceRight = licenseTerms.xpath(sprintf('./%s', "PublicPerformanceRight/Content")).inner_text
        publicPerformanceNote = licenseTerms.xpath(sprintf('./%s', "PublicPerformanceNote/Content")).inner_text
        trainingMaterialsRight = licenseTerms.xpath(sprintf('./%s', "TrainingMaterialsRight/Content")).inner_text
