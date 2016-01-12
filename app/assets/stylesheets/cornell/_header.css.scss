@@ -1,12 +1,14 @@
 header {
   background: white;
   border-bottom: 1px solid $tan;
+  padding: 10px 0;
  	h1 {
     margin: 0;
     display: inline-block;
     line-height: 1em;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
+    text-transform: uppercase;
   	a { 
       color: $dark-gray;}
     a:hover,
@@ -39,8 +41,16 @@ header {
   }
 }
 .catalog-name {
-  font-size: 30px;
-  margin-bottom: 5px;
+  font-family: $font-family-cul;
+}
+.library-link {
+  a {
+    font-size: 18px;
+    color: $dark-gray;
+  }
+  a:hover, a:active, a:focus {
+    color: $dark-gray;
+  }
 }
 
 // Links like Search History, Selected Items, etc.
@@ -97,126 +107,19 @@ ul.blacklight-nav {
   margin-top: .5em;
   padding-top: .5em;
 }
-
-// TODO: Delete in BL5?
-// .current-user {
-//   float: left;
-//   margin-right: 1em;
-//   color: $light-gray;
-// }
-
-// .nav-global {
-//   padding-right: 0;
-//   text-align: right;
-//   .nav { 
-//     list-style: none;
-//     float: right;
-//     li { 
-//       float: left;
-//       font-size: 12px;
-//       border-left: 1px solid $cornell-primary-hover; }
-//     li:first-child { border-left: 0; }
-//     a { 
-//       margin: 0 8px;
-//       padding: 0;
-//       display: inline-block;
-//       color: white; }
-//     a:hover { 
-//       text-decoration: underline;
-//       background: inherit; }
-//   } 
-// }
-
-// Nav from main site 
-//-----------------------------------------
-// .navbar {
-//   margin-bottom: 0;
-//   border: 0;
-//   .container {
-//     padding: 0;
-//   }
-// }
-// .navbar-cul {
-//   background: $cornell-primary;
-//   @include gradient-vertical($cornell-primary,$cornell-primary-hover);
-//   min-height: 0;
-//   .container {
-//     background: $dark-gray;
-//     -webkit-background-clip: padding-box;
-//   }
-//   .nav {
-//     margin-top: 0;
-//     margin-bottom: 0;
-//     li {
-//       a {
-//         padding: 10px 20px;
-//         color: #ccc;
-//         text-shadow: none;
-//       }
-//       a:hover, a:active, a:focus {
-//         color: white;
-//         background: black;
-//       }
-//     }
-//   }
-// }
-// .navbar-static-top {
-//   margin-left: 0;
-//   margin-right: 0;
-// }
-// .navbar-brand { 
-//   color: white;
-//   float: none;
-//   margin: 0;
-//   font-size: 16px;
-// }
-// .navbar-brand:hover { 
-//   text-decoration: none;
-//   color: white;
-// }
-// .navbar-header {
-//   background: $cornell-primary;
-//   //override bootstrap btn styles
-//   .navbar-toggle {
-//     background: $cornell-primary;
-//     margin: 0;
-//     border: 0; 
-//     border-radius: 0;
-//     height: 45px;
-//     -webkit-border-radius: 0;
-//     border-radius: 0;
-//     .icon-bar {
-//       background: white;
-//       -webkit-box-shadow: none;
-//       box-shadow: none;
-//     }
-//   }
-//   .navbar-toggle:hover,
-//   .navbar-toggle:active { background: $cornell-primary-hover; }
-// }
-// .navbar-collapse {
-//   border-top: 0;
-// }
-
-
 // Library menu 
 //-----------------------------------------
 
 .btn-library {
-  background: #b31b1b;
+  background: $cornell-primary;
   color: white;
-  margin-top: .25em;
   text-transform: uppercase;
+  border-radius: 0;
+  margin-top: .25em;
   i {
     color: white;
-    // margin-right: .5em;
     font-size: 20px;
   }
-}
-.btn-library:hover, .btn-library:active, .btn-library:focus {
-  background: $cornell-primary-hover;
-  color: white;
-  box-shadow: none;
 }
 .library-menu {
   padding: 0;
@@ -234,24 +137,8 @@ ul.blacklight-nav {
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
-
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
-
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
+// Small devices (tablets, 768px and up)
 @media (min-width: $screen-sm) { 
-  .btn-library {
-    margin-top: 1.25em;
-  }
   ul.blacklight-nav {
     float: right;
     li {
@@ -270,7 +157,7 @@ ul.blacklight-nav {
   }
 }
 
-/* Medium devices (desktops, 992px and up) */
+// Medium devices (desktops, 992px and up)
 @media (min-width: $screen-md) {
   .navbar-cul {
     .nav {
