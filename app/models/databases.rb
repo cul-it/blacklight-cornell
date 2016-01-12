@@ -1,14 +1,35 @@
 class Databases < ActiveRecord::Base
   require 'dotenv'
+   # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
+    HTTPI.adapter = :net_http
   conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)
   ActiveRecord::Base.establish_connection(
   conf[Rails.env]
   )
   def self.update
     Rails.logger.info("Successfully entered Databases.update #{Time.now}")
+    wsdl_path = 'https://rmws.serialssolutions.com/serialssolutionswebservice/SerialsSolutions360WebService.asmx?wsdl'
     ::Erm_data.delete_all
-    client = Savon.client(wsdl: 'http://rmws.serialssolutions.com/serialssolutionswebservice/SerialsSolutions360WebService.asmx?wsdl') do convert_request_keys_to :none end
-    response2 = client.call(:license_data, message: { request: {op: 'LicenseData', UserName: ENV['ERM_USERNAME'], Password: ENV['ERM_PASSWORD'], LibraryCode: ENV['ERM_LIBCODE']}})
+    client = Savon.client(
+       :read_timeout => 180,
+       :wsdl => wsdl_path,
+       :ssl_verify_mode => :none,
+       :raise_errors => true,
+       :convert_request_keys_to => :none,
+      # :log => true,
+      # :log_level => :debug,
+       :follow_redirects => true,
+       :unwrap => true,
+       :pretty_print_xml => true
+       ) #do convert_request_keys_to :none end
+    #Rails.logger.info("Client = #{client}")
+    
+    response2 = client.call(:license_data, message: { :request => { :LibraryCode => ENV['ERM_LIBCODE'], :UserName => ENV['ERM_USERNAME'], :Password => ENV['ERM_PASSWORD']}})
+    if response2.nil? or response2.blank?
+       Rails.logger.info("Response is nil or blank")
+    else
+       Rails.logger.info("Response has content")
+    end
     response = response2.to_s
     response = response.gsub!('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><LicenseDataResponse xmlns="http://serialssolutions.com/">','')
     response = response.gsub!('</LicenseDataResponse>','')
@@ -94,6 +115,7 @@ class Databases < ActiveRecord::Base
        printCopyNote = licenseTerms.xpath(sprintf('./%s', "PrintCopyNote/Content")).inner_text
        scholarlySharing = licenseTerms.xpath(sprintf('./%s', "ScholarlySharing/Content")).inner_text
        scholarlySharingNote = licenseTerms.xpath(sprintf('./%s', "ScholarlySharingNote/Content")).inner_text
+       scholarlySharingNote = "See original XML"
        distanceLearning = licenseTerms.xpath(sprintf('./%s', "DistanceLearning/Content")).inner_text
        distanceLearningNote = licenseTerms.xpath(sprintf('./%s', "DistanceLearningNote/Content")).inner_text
        iLLGeneral = licenseTerms.xpath(sprintf('./%s', "ILLGeneral/Content")).inner_text
@@ -152,7 +174,10 @@ class Databases < ActiveRecord::Base
           remoteAccessNote.gsub!("'"," ")
        end
        otherUseRestrictionsStaffNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsStaffNote/Content")).inner_text
-       otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
+      # otherUseRestrictionsStaffNote = otherUseRestrictionsStaffNote.gsub!('\\\"','')
+      # otherUseRestrictionsStaffNote = otherUseRestrictionsStaffNote.gsub!('"','')
+      otherUseRestrictionsStaffNote = "See original XML"
+      otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
        perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
        perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text
@@ -164,6 +189,7 @@ class Databases < ActiveRecord::Base
        licensorTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationRight/Content")).inner_text
        licensorTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationCondition/Content")).inner_text
        licensorTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationNote/Content")).inner_text
+       licensorTerminationNote = licensorTerminationNote.gsub('"','')
        licensorNoticePeriodForTerminationNumber = licenseTerms.xpath(sprintf('./%s', "LicensorNoticePeriodForTerminationNumber/Content")).inner_text
        licensorNoticePeriodForTerminationUnit = licenseTerms.xpath(sprintf('./%s', "LicensorNoticePeriodForTerminationUnit/Content")).inner_text
        terminationRightNote = licenseTerms.xpath(sprintf('./%s', "TerminationRightNote/Content")).inner_text
@@ -172,6 +198,7 @@ class Databases < ActiveRecord::Base
        localUseTermsNote = licenseTerms.xpath(sprintf('./%s', "LocalUseTermsNote/Content")).inner_text
        governingLaw = licenseTerms.xpath(sprintf('./%s', "GoverningLaw/Content")).inner_text
        governingJurisdiction = licenseTerms.xpath(sprintf('./%s', "GoverningJurisdiction/Content")).inner_text
+       governingJurisdiction = governingJurisdiction.gsub('"','')
        applicableCopyrightLaw = licenseTerms.xpath(sprintf('./%s', "ApplicableCopyrightLaw/Content")).inner_text
        curePeriodForBreachNumber = licenseTerms.xpath(sprintf('./%s', "CurePeriodForBreachNumber/Content")).inner_text
        curePeriodForBreachUnit = licenseTerms.xpath(sprintf('./%s', "CurePeriodForBreachUnit/Content")).inner_text
@@ -192,6 +219,7 @@ class Databases < ActiveRecord::Base
        postPrintArchiveNote = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveNote/Content")).inner_text
        incorporationOfImagesFiguresAndTablesRight = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesRight/Content")).inner_text
        incorporationOfImagesFiguresAndTablesNote = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesNote/Content")).inner_text
+       incorporationOfImagesFiguresAndTablesNote = "See original XML"
        publicPerformanceRight = licenseTerms.xpath(sprintf('./%s', "PublicPerformanceRight/Content")).inner_text
        publicPerformanceNote = licenseTerms.xpath(sprintf('./%s', "PublicPerformanceNote/Content")).inner_text
        trainingMaterialsRight = licenseTerms.xpath(sprintf('./%s', "TrainingMaterialsRight/Content")).inner_text
@@ -223,7 +251,7 @@ class Databases < ActiveRecord::Base
            resourceValues = " \"" +  collectionName + "\", \"" + libraryCollectionId + "\", \"" + providerName + "\", \"" + providerCode + "\", \"" + databaseName + "\", \"" + databaseCode + "\", \"" + databaseStatus + "\", \"" + titleName + "\", \"" + titleId + "\", \"" + titleStatus + "\", \"" + iSSN + "\", \"" + eISSN + "\", \"" + iSBN + "\", \"" + sSID + "\", \"" + prevailing + "\""
 #           output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
-            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
+#            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
            insert = Erm_data.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1
