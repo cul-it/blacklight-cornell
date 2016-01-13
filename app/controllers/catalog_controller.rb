@@ -20,11 +20,11 @@ class CatalogController < ApplicationController
     eos
   end
 
-  # Tweak search param logic for default sort when browsing
+
+  # Tweak search param logic for default sort when browsing or searching by call number
   # Follow documentation in project wiki
   # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
-  self.solr_search_params_logic << :sortby_title_when_browsing
-
+  self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
 
@@ -478,7 +478,6 @@ class CatalogController < ApplicationController
       field.solr_local_parameters = {
         :qf => '$lc_callnum_qf',
         :pf => '$lc_callnum_pf',
-        :sort => 'callnum_sort asc, pub_date_sort desc'
       }
     end
     config.add_search_field('series') do |field|
@@ -654,7 +653,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'author_sort desc, title_sort asc', :label => 'author Z-A'
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
-    config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :include_in_advanced_search => false
+    config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :callnum_default => true
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

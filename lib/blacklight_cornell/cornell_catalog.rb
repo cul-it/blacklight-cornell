@@ -484,6 +484,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
+  #sort call number searches by call number
+  def sortby_callnum solr_parameters, user_parameters
+    if user_parameters[:search_field] == 'call number'
+      callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
+      solr_parameters[:sort] = callnum_sortby.field
+    end
+  end
+
+
   def tiny_url(uri, options = {})
     defaults = { :validate_uri => false }
     options = defaults.merge options
