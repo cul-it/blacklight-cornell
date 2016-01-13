@@ -6,11 +6,11 @@
 				Back to list
 		-else
 			=link_to "#" do
-				Close
+				x
 	- @headingsResponse.each do |data|
 		-encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'")
 		- if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil?
-			%h2.modal-title
+			%h2
 				=data["heading"]
 			-if data["counts_json"].present?
 				-works=JSON.parse(data["counts_json"])
