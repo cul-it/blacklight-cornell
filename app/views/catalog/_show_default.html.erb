@@ -15,7 +15,7 @@
           <% heading = JSON.parse(authority) %>
           <% type = heading['type']  %>
           <% search =  heading['search1']  %>
- <a href='#' data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info"><span class="label label-info">
+ <a href='#' role="button" tabindex = "0" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info"><span class="label label-info">
             Info
           </span>
           </a>
