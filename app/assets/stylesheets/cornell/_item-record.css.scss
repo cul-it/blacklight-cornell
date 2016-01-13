@@ -193,23 +193,54 @@ padding-left: 6em;
 	}
 }
 
+// Authorities info popup
+// ----------------------------- //
+.item-metadata {
+	.popover {
+		max-width: 100%;
+		h2 {
+			margin: 0 0 .25em 0;
+			font-size: 20px;
+		}
+		.return-link {
+			float: right;
+			a {
+				color: $medium-gray;
+				border: 0;
+				font-weight: 700;
+			}
+			a:hover, a:active, a:focus {
+				color: $light-gray;
+				border: 0;
+			}
+		}
+		.author-works {
+			margin-left: 0;
+			display: block;
+			margin-bottom: .25em;
+		}
+		dl.dl-horizontal {
+			font-size: 90%;
+			dt {
+				display: block;
+				width: 100%;
+				text-align: left;
+				margin: .75em 0 .15em 0;
+				font-weight: 700;
+				color: $dark-gray;
+			}
+			dd {
+				margin-left: 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
-
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
-
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
+// Small devices (tablets, 768px and up)
 @media (min-width: $screen-sm) { 
 	.return-link {
 		font-size: 14px;
@@ -242,7 +273,7 @@ padding-left: 6em;
 		margin: 2em 0;
 	}
 }
-/* Medium devices (desktops, 992px and up) */
+// Medium devices (desktops, 992px and up)
 @media (min-width: $screen-md) { 
 	.cover {
 		.iconcover {
