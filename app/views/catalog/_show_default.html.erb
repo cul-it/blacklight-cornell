@@ -14,7 +14,10 @@
           <% document['author_json'].each do |authority| %>
           <% heading = JSON.parse(authority) %>
           <% type = heading['type']  %>
-          <% search =  heading['search1']  %>
+          <% if heading['search2'].present?  %>
+          <% search = heading['search2'] %>
+          <% else search = heading['search1']  %>
+          <% end %>
  <a href='#' role="button" tabindex = "0" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info"><span class="label label-info">
             Info
           </span>
