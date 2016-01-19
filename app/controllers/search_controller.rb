@@ -39,7 +39,11 @@ class SearchController < ApplicationController
 
           # In order to treat multiple formats separately but only run one Solr query to retrieve
           # them all, we have to store the query result in the custom_data object ...
-          facet_results = @results['solr'][0].custom_data
+          if  !@results['solr'][0].nil? && @results['solr'][0].custom_data
+            facet_results = @results['solr'][0].custom_data
+          else
+            facet_results = {} 
+          end
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
 
