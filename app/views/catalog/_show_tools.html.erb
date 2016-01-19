@@ -54,10 +54,7 @@
     <div class="btn-group">
       <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i>Export <b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
-        <% if bookmarks_index %>
-          <li class="bookmarks-refworks">
-            <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@document_list} %>
-          </li>
+        <% if bookmarks_index  %>
           <li>
             <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => ' '}%>
           </li>
