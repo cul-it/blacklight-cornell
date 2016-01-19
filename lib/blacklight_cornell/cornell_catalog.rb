@@ -241,6 +241,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
         format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+        format.mendeley { render :layout => false } 
       end
     end
 
