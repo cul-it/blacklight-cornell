@@ -237,6 +237,9 @@ padding-left: 6em;
 				}
 			}
 		}
+		.info-button, .info-button:hover, .info-button:active, .info-button:focus {
+			border-bottom: 0;
+		}
 	}
 
 }
