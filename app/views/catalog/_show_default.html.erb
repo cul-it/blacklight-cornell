@@ -8,13 +8,31 @@
           <%= render_index_field_value :document => document, :field => 'format' %>
         <% elsif display_link? solr_fname -%>
           <%= render_display_link :document => document, :field => solr_fname %>
-        <% elsif  solr_fname == 'author_display' -%>
+        <% elsif  solr_fname == 'author_cts' -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
           <% authname = render_document_show_field_value document, :field => solr_fname %>
-          <a href='/browse/info?q=<%=  authname.split("|")[0] %>&amp;browse_type=Author' class="lightboxLink" id="info" ><span class="label label-info">
+          <% document['author_json'].each do |authority| %>
+          <% heading = JSON.parse(authority) %>
+          <% if heading["authorizedForm"] == true %> 
+          <% type = heading['type']  %>
+          <% if heading['search2'].present?  %>
+          <% search = heading['search2'] %>
+          <% else search = heading['search1']  %>
+          <% end %>
+          <%# show heading popover for everything bigger than smartphone %>
+ <a href='#' role="button" tabindex = "0" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button hidden-xs"><span class="label label-info">
             Info
           </span>
           </a>
+          <%# link directly to heading on smartphone %>
+          <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button visible-xs"><span class="label label-info">
+            Info
+          </span>
+          </a>
+          <% end %>
+          <% end %>
+       
+         
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
         <% else -%>
