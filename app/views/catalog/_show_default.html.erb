@@ -13,7 +13,6 @@
           <% authname = render_document_show_field_value document, :field => solr_fname %>
           <% document['author_json'].each do |authority| %>
           <% heading = JSON.parse(authority) %>
-          <%= heading.inspect %>
           <% if heading["authorizedForm"] == true %> 
           <% type = heading['type']  %>
           <% if heading['search2'].present?  %>
