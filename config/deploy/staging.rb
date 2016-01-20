@@ -14,7 +14,7 @@ set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
 
 desc "Tailor solr config to local machine"
 task :tailor_solr_yml, :roles => [ :web ] do
-        run "sed -e s/da-prod-solr1.library.cornell.edu/da-stg-ssolr.library.cornell.edu/ #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/slr.rb  >#{deploy_to}/current/config/solr.yml"
+        run "cat  #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/slr.rb  >#{deploy_to}/current/config/solr.yml"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 end
 
