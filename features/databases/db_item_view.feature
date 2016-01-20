@@ -15,6 +15,7 @@ Feature: Databases List
   	Given I literally go to databases
   	Then I should see the label 'General Interest and Reference Biographies'
 
+
   @mla
   @databases
   Scenario: Make sure list contains known collection 
@@ -23,4 +24,9 @@ Feature: Databases List
         And I press 'search'
   	Then I should see the label 'MLA'
 
+  @DISCOVERYACCESS-2325
+  @databases
+  Scenario: Make sure list contains known collection 
+  	Given I literally go to databases/subject/Images
+  	Then I should see the label 'Utopia'
 
