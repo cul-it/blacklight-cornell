@@ -31,15 +31,17 @@
           <h4 class="blacklight-title_display">
             Access Links
           </h4>
-          <% data["url_access_display"].each do |link| %>
-            <%= link_to link.split('|')[0] do %>
-              <% if data["fulltitle_vern_display"].present? %>
-                <%= data["fulltitle_vern_display"] %>
-              <% else %>
-                <%= link.split('|')[0] %>
+          <% if !data["url_access_display"].nil? %>
+            <% data["url_access_display"].each do |link| %>
+              <%= link_to link.split('|')[0] do %>
+                <% if data["fulltitle_vern_display"].present? %>
+                  <%= data["fulltitle_vern_display"] %>
+                <% else %>
+                  <%= link.split('|')[0] %>
+                <% end %>
               <% end %>
+              <div></div>
             <% end %>
-            <div></div>
           <% end %>
         </div>
         <div class="terms">
