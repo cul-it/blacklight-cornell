@@ -20,7 +20,7 @@ end
 
 desc "Install  (redefine for staging) env -- too sensitive for git - production"
 task :install_env, :roles => [ :app, :db, :web ] do
-        run "cp #{deploy_to}/config/staging.env  #{shared_path}/.env"
+        run "cp #{deploy_to}/config/latest-staging.env  #{shared_path}/.env"
         run "cat #{shared_path}/.env"
 end
 
