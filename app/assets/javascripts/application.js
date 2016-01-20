@@ -11,6 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require bootstrap-sprockets
+
 
 
 
@@ -35,6 +37,7 @@
 
 //= require blacklight_google_analytics
 //= require print_button.js
+//= require pops.js
 //= require jquery.anchorscroll.js
 
 
