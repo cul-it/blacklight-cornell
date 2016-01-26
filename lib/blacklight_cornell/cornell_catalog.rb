@@ -183,7 +183,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @document = get_solr_response_for_doc_id params[:id]
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
-
+        format.rss  { render :layout => false }
         # Add all dynamically added (such as by document extensions)
         # export formats.
         @document.export_formats.each_key do | format_name |
@@ -241,6 +241,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
         format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+        format.mendeley { render :layout => false } 
       end
     end
 
@@ -483,6 +484,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       solr_parameters[:sort] = browsing_sortby.field
     end
   end
+
+  #sort call number searches by call number
+  def sortby_callnum solr_parameters, user_parameters
+    if user_parameters[:search_field] == 'call number'
+      callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
+      solr_parameters[:sort] = callnum_sortby.field
+    end
+  end
+
 
   def tiny_url(uri, options = {})
     defaults = { :validate_uri => false }

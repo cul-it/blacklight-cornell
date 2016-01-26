@@ -142,6 +142,9 @@ class BrowseController < ApplicationController
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
       end
+      respond_to do |format|
+        format.html { render layout: !request.xhr? } #renders naked html if ajax
+      end
     end
 
 end

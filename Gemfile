@@ -11,7 +11,7 @@ gem 'activerecord-session_store'
 gem 'protected_attributes'
 
 gem 'sqlite3'
-gem 'savon', '~> 2.3.0'
+gem 'savon', '~> 2.11.1'
 gem 'parslet'
 gem 'ultraviolet'
 gem 'mysql'
@@ -56,6 +56,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'meta_request'
 end
   
 group :test do
@@ -96,7 +97,7 @@ gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails' 
-gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'bd_hotfix'
+gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
 gem 'borrow_direct', :git => 'git@github.com:jrochkind/borrow_direct.git'
 
 gem 'bento_search'
@@ -105,3 +106,5 @@ gem 'celluloid'  # Required for bento_search multisearcher
 #gem 'rest_mollom', :git => 'https://github.com/hernan/rest_mollom.git'
 gem 'mollom'
 #gem 'blacklight-marc'
+gem 'exception_notification'
+gem 'hipchat'

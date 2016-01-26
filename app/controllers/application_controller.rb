@@ -10,7 +10,8 @@ class ApplicationController < ActionController::Base
 
   layout 'blacklight'
 
-  protect_from_forgery with:  :exception
+  #protect_from_forgery with:  :exception
+  protect_from_forgery with:  :null_session
 
 # An array of strings to be added to HTML HEAD section of view.
 # See ApplicationHelper#render_head_content for details.

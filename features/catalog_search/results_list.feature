@@ -78,6 +78,7 @@ Feature: Results list
 		And the 'sort' select list should have an option for 'title Z-A'
 		And the 'sort' select list should have an option for 'author A-Z'
 		And the 'sort' select list should have an option for 'author Z-A'
+    And the 'sort' select list should have an option for 'call number'
 
 		# Users should be able to select items from the list. But see select_and_export.feature
 		# for more details.
