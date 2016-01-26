@@ -448,7 +448,7 @@ Feature: Item view
  @DISCOVERYACCESS-1328 
   Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
     Given I request the item view for 118111 
-    Then I should see the label 'Bound with'
+    Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
  @boundwith
@@ -484,6 +484,12 @@ Feature: Item view
     And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365">
     And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559">
 
+ @boundwith
+ @DISCOVERYACCESS-2295 
+  Scenario: Show the record properly when a holding has no items 
+    Given I request the item view for 5972895
+    Then I should see the label 'bound with'
+
 
   # TODO: need bibids that match these cases
 
@@ -501,3 +507,10 @@ Feature: Item view
   #   Given I request the item view for 4759
   #   Then I should not see the label 'Series Title'
   #   And I should not see the label 'Uniform Title'
+
+@titlelinking
+@DISCOVERYACCESS-1023
+  Scenario: Show links to other formats when they exist
+  Given I request the item view for 4163301
+  Then I should see the text 'Other forms of this work'
+

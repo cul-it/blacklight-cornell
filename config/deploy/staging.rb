@@ -14,7 +14,13 @@ set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
 
 desc "Tailor solr config to local machine"
 task :tailor_solr_yml, :roles => [ :web ] do
-        run "sed -e s/da-prod-solr1.library.cornell.edu/da-stg-ssolr.library.cornell.edu/ #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/slr.rb  >#{deploy_to}/current/config/solr.yml"
+        run "sed -e 's/stg/prod/g'   #{deploy_to}/current/config/solr.yml >/tmp/slr.rb && sed -e s,//newcatalog,//da-prod-solr, /tmp/slr.rb  >#{deploy_to}/current/config/solr.yml"
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+end
+
+desc "Install  (redefine for staging) env -- too sensitive for git - production"
+task :install_env, :roles => [ :app, :db, :web ] do
+        run "cp #{deploy_to}/config/latest-staging.env  #{shared_path}/.env"
+        run "cat #{shared_path}/.env"
 end
 

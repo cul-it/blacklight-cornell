@@ -241,10 +241,14 @@ module CornellCatalogHelper
 
       if bound_with? 
         mbw = @bound_with_to_mbw[k]
-        Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
+        Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
         if !mbw.nil?
-          condensed[k]['copies'][0]["boundwith_summary"] =  'Bound with status:' + @bwy_statuses[mbw.to_i].join(',')
-          condensed[k]['copies'][0]["boundwith_summary"] =  ('Bound with status:'+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses[mbw.to_i].inspect 
+          if !@bwy_statuses[mbw.to_i].blank?
+              condensed[k]['copies'][0]["boundwith_summary"] =  (t('blacklight.catalog.bound_with_status_label')+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          else     
+              condensed[k]['copies'][0]["boundwith_summary"] =  (bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+          end
           if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
             condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
           end
@@ -1271,6 +1275,8 @@ LOC_CODES = {
       Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) @bw_map= #{@bw_map.pretty_inspect}"
       @bw_map.each_pair do |k,v|
         mmid = items2.select {|i| (i["item_id"] == k.to_s)}
+        Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) mmid = #{mmid.pretty_inspect}"
+        next if mmid.empty?
         mbw = mmid[0]["mfhd_id"]  
         v[:mbw] = mbw
         @bound_with_to_mbw[v[:bw]] = mbw
@@ -1314,11 +1320,16 @@ LOC_CODES = {
   # returns map by integer item id containing hash to bw mfhd id.
   def make_bw_map(bw,items)
     bw_map = {} 
+    Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) items  = #{items.pretty_inspect}"
+    Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) bw  = #{bw.pretty_inspect}"
     bw.each do  |i| 
       b = {}
       bw_map[i["item_id"]]  = b 
       b[:bw]  = i["mfhd_id"] 
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) i  = #{i.pretty_inspect}"
       yyy =  items.detect {|f| f["item_id"] == i["item_id"].to_s }
+      Rails.logger.debug "*****-->es287_debug #{__FILE__} line(#{__LINE__}) yyy  = #{yyy.pretty_inspect}"
+      next if yyy.nil? 
       b[:mbib_id] = yyy["bib_id"]
       b[:mtitle] = yyy["title"]
       b[:item_enum] = yyy["item_enum"]

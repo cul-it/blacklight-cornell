@@ -1,14 +1,15 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: 576503cccbfebf1f8ad3d9a722954704e534e544
-  branch: bd_hotfix
+  revision: 6a13015602a601e3c3bd05557090149195f1db11
+  branch: master
   specs:
-    blacklight_cornell_requests (1.1.4)
+    blacklight_cornell_requests (1.2)
       blacklight (= 5.9)
       borrow_direct
       dotenv
       dotenv-deployment
       dotenv-rails
+      exception_notification
       haml (>= 3.0.0)
       haml-rails
       httpclient
@@ -77,7 +78,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    akami (1.2.2)
+    akami (1.3.1)
       gyoku (>= 0.4.0)
       nokogiri
     appsignal (0.11.11)
@@ -124,6 +125,7 @@ GEM
     builder (3.2.2)
     byebug (5.0.0)
       columnize (= 0.9.0)
+    callsite (0.0.11)
     capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
@@ -188,6 +190,9 @@ GEM
     dotenv-rails (1.0.2)
       dotenv (= 1.0.2)
     erubis (2.7.0)
+    exception_notification (4.1.1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.5.2)
     ffi (1.9.8)
     font-awesome-rails (4.3.0.0)
@@ -195,6 +200,7 @@ GEM
     formatador (0.2.5)
     gherkin (2.12.2)
       multi_json (~> 1.3)
+    git-version-bump (0.15.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     guard (2.12.5)
@@ -214,7 +220,7 @@ GEM
     guard-spork (0.3.2)
       guard (>= 0.8.4)
       spork (>= 0.8.4)
-    gyoku (1.1.1)
+    gyoku (1.3.1)
       builder (>= 2.1.2)
     haml (4.0.6)
       tilt
@@ -227,6 +233,9 @@ GEM
     hashie (3.4.1)
     highline (1.7.2)
     hike (1.2.3)
+    hipchat (1.5.2)
+      httparty
+      mimemagic
     hitimes (1.2.2)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
@@ -234,10 +243,12 @@ GEM
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
     htmlentities (4.3.3)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     httpclient (2.6.0.1)
-    httpi (2.1.1)
+    httpi (2.4.1)
       rack
-      rubyntlm (~> 0.3.2)
     i18n (0.7.0)
     jquery-rails (4.0.3)
       rails-dom-testing (~> 1.0)
@@ -265,13 +276,19 @@ GEM
     marc (1.0.0)
       scrub_rb (>= 1.0.1, < 2)
       unf
+    meta_request (0.3.4)
+      callsite (~> 0.0, >= 0.0.11)
+      rack-contrib (~> 1.1)
+      railties (>= 3.0.0, < 5.0.0)
     method_source (0.8.2)
     mime-types (1.25.1)
+    mimemagic (0.3.0)
     mini_portile (0.6.2)
     minitest (5.7.0)
     mollom (0.2.3)
     multi_json (1.11.2)
     multi_test (0.1.2)
+    multi_xml (0.5.5)
     mysql (2.9.1)
     nenv (0.2.0)
     net-ldap (0.11)
@@ -284,7 +301,7 @@ GEM
       net-ssh (>= 2.6.5)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    nori (2.3.0)
+    nori (2.6.0)
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -310,6 +327,9 @@ GEM
       byebug (~> 5.0)
       pry (~> 0.10)
     rack (1.6.4)
+    rack-contrib (1.4.0)
+      git-version-bump (~> 0.15)
+      rack (~> 1.4)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.1)
@@ -368,7 +388,6 @@ GEM
     rspec-support (3.2.2)
     ruby_parser (3.6.6)
       sexp_processor (~> 4.1)
-    rubyntlm (0.3.4)
     rufus-scheduler (3.1.2)
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
@@ -379,14 +398,14 @@ GEM
       sass (~> 3.2.2)
       sprockets (~> 2.8, < 3.0)
       sprockets-rails (~> 2.0)
-    savon (2.3.3)
-      akami (~> 1.2.0)
+    savon (2.11.1)
+      akami (~> 1.2)
       builder (>= 2.1.2)
-      gyoku (~> 1.1.0)
-      httpi (~> 2.1.0)
+      gyoku (~> 1.2)
+      httpi (~> 2.3)
       nokogiri (>= 1.4.0)
-      nori (~> 2.3.0)
-      wasabi (~> 3.2.2)
+      nori (~> 2.4)
+      wasabi (~> 3.4)
     scrub_rb (1.0.1)
     sexp_processor (4.5.1)
     shellany (0.0.1)
@@ -427,10 +446,9 @@ GEM
     vcr (2.9.3)
     warden (1.2.3)
       rack (>= 1.0)
-    wasabi (3.2.3)
+    wasabi (3.5.0)
       httpi (~> 2.0)
-      mime-types (< 2.0.0)
-      nokogiri (>= 1.4.0)
+      nokogiri (>= 1.4.2)
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -476,11 +494,13 @@ DEPENDENCIES
   devise-guests (~> 0.3)
   dotenv-deployment
   dotenv-rails
+  exception_notification
   font-awesome-rails
   guard-rspec
   guard-spork (= 0.3.2)
   haml
   haml-rails
+  hipchat
   httpclient
   jquery-rails
   jquery-ui-rails
@@ -488,6 +508,7 @@ DEPENDENCIES
   kaminari (= 0.15.0)
   libnotify
   marc
+  meta_request
   mollom
   mysql
   net-ldap
@@ -505,7 +526,7 @@ DEPENDENCIES
   rufus-scheduler
   rvm-capistrano
   sass-rails (~> 4.0)
-  savon (~> 2.3.0)
+  savon (~> 2.11.1)
   spork (= 0.9.0)
   sqlite3
   therubyracer (~> 0.10.2)
