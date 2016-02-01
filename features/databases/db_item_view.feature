@@ -28,5 +28,5 @@ Feature: Databases List
   @databases
   Scenario: Make sure list contains known collection 
   	Given I literally go to databases/subject/Images
-  	Then I should see the label 'Utopia'
+  	Then I should see the label 'ARTstor'
 
