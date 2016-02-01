@@ -115,4 +115,18 @@ dl {
 	line-height: 1.5em;
 }
 
-
+// Browse help text
+// -------------------------
+.browse-tips {
+	h3 {
+		font-size: 14px;
+		font-weight: 700;
+		margin: 0 0 .25em 0;
+	}
+	ul {
+		padding-left: 18px;
+	}
+	li {
+		font-size: 14px;
+	}
+}
