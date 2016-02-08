@@ -6,7 +6,7 @@
     <div class="document blacklight-database-name clearfix">
       <div class="document-data">
         <h4 class="blacklight-title_display">
-          <% if ((!data["url_access_display"].nil? && !data["url_access_display"][1].nil?  && data["url_access_display"][1].present?)||(data["url_access_display"].nil? ) || (data["url_access_display"][1].nil? ))%> 
+          <% if data["url_access_display"].nil? || data["url_access_display"].size == 0  || data["url_access_display"].size > 1 %> 
             <% dbid = data["id"] %>
             <%= link_to "/databases/show/#{dbid}" do %>
               <% if data["fulltitle_vern_display"].present? %>
@@ -16,14 +16,12 @@
               <% end %>
             <% end %>
           <% else %>
-            <% if !data["url_access_display"].nil? %>
               <%= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink']);" do %>
-            <% end %>
-              <% if data["fulltitle_vern_display"].present? %>
-                <%= data["fulltitle_vern_display"] %>
-              <% else %>
-                <%= data["fulltitle_display"] %>
-              <% end %>
+                <% if data["fulltitle_vern_display"].present? %>
+                  <%= data["fulltitle_vern_display"] %>
+                <% else %>
+                  <%= data["fulltitle_display"] %>
+                <% end %>
             <% end %>
           <% end %>
         </h4>
