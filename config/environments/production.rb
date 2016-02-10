@@ -81,7 +81,7 @@ BlacklightCornell::Application.configure do
   :hipchat => {
     :api_token => ENV['HIPCHAT_API_TOKEN'],
     :api_version => 'v2',
-    :room_name => 'Discovery and Access'
+    :room_name => ENV['HIPCHAT_ROOM_NAME']
   }
 
 end
