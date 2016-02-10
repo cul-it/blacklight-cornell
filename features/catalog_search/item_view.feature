@@ -457,8 +457,8 @@ Feature: Item view
   Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid 
     Given I request the item view for 168319 
     Then I should see the label 'Bound with'
-    And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799">
-    And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299">
+    And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
+    And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
 
 
  @boundwith
@@ -481,8 +481,8 @@ Feature: Item view
   Scenario: Show the record properly when holding has bound with multiple barcodes 
     Given I request the item view for 3158956
     Then I should see the label 'Bound with'
-    And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365">
-    And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559">
+    And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365"
+    And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559"
 
  @boundwith
  @DISCOVERYACCESS-2295 

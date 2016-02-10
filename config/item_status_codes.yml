@@ -12,7 +12,7 @@
         -   borrow_direct
         -   ill
 2r:
-    short_message: 'Checked out, due %DATE (Requests: %REQS)'
+    short_message: '%ENUM Checked out, due %DATE (Requests: %REQS)'
     long_message: 'Checked out, due %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
     services:
         -   borrow_direct
@@ -25,7 +25,7 @@
         -   borrow_direct
         -   ill
 3r:
-    short_message: 'Checked out, due %DATE (Requests: %REQS)'
+    short_message: '%ENUM Checked out, due %DATE (Requests: %REQS)'
     long_message: 'Checked out, due %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
     services:
         -   borrow_direct
