@@ -15,10 +15,11 @@ integration:
   url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 development:
-  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  url: http://da-prod-solr1.library.cornell.edu/solr/blacklight2
 
 test: &test
-  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  url: http://da-prod-solr3.library.cornell.edu/solr/blacklight2
+  #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 production:
   url: http://da-stg-solr1.library.cornell.edu/solr/blacklight2
