@@ -125,7 +125,7 @@ Feature: Select and export items from the result set
 @select_and_email
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095 
-    And click on link "Text"
+    And click on first link "Text"
     And I fill in "to" with "6073516271"
     And I select 'Verizon' from the 'carrier' drop-down
     And I press "Send"

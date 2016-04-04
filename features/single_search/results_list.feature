@@ -92,7 +92,7 @@ Feature: Results list
     When I fill in "q" with 'nature'
     And I press 'Search'
     When I follow "link_top_book"
-    And I should see the text "Nature 2012"
+    And I should see the text "Nature / 2012"
 
   @search_with_view_all_webs_match_box
   Scenario: Search with view all webs link
@@ -134,6 +134,7 @@ Feature: Results list
     When I fill in "q" with 'beef'
     And I press 'Search'
     Then I should get bento results
+    Given PENDING
 		Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
 
   @search_with_view_all_books_match_box_with_percent
@@ -143,6 +144,7 @@ Feature: Results list
     When I fill in "q" with 'beef'
     And I press 'Search'
     Then I should get bento results
+    Given PENDING
 		Then box "link_top_book" should match "2" nd "from Catalog" in "page_entries"
 
   @search_with_view_all_computer_file_match_box_with_ampersand

@@ -588,7 +588,7 @@ describe Blacklight::Solr::Document::MarcExport do
   
   describe "export_as_chicago_citation_txt", :chicago => true do
     it "should handle a typical record correctly" do
-      expect(@typical_record.export_as_chicago_citation_txt).to eq("Ferree, David C., and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
+      expect(@typical_record.export_as_chicago_citation_txt).to eq("Ferree, David C, and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
     it "should handle a record w/ corporate authors correctly" do
       expect(@corporate_author_record.export_as_chicago_citation_txt).to eq("Bobs Your Uncle. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
@@ -636,7 +636,7 @@ describe Blacklight::Solr::Document::MarcExport do
   
   describe "export_as_apa_citation_txt", :apa => true do
     it "should format a standard citation correctly" do
-      expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C., &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
+      expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C, &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
     it "should format a record w/ corporate authors correctly" do
       expect(@corporate_author_record.export_as_apa_citation_txt).to eq("Bobs Your Uncle. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
@@ -692,6 +692,7 @@ describe Blacklight::Solr::Document::MarcExport do
   describe "export_as_openurl_ctx_kev" do
     it "should create the appropriate context object for books" do
       record = @typical_record.export_as_openurl_ctx_kev('Book')
+      puts record.inspect
       expect(record).to match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
       expect(record).not_to match(/.*rft.genre=article.*rft.issn=.*/)
     end
