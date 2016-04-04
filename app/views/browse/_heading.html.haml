@@ -55,6 +55,9 @@
 								-elsif data["headingTypeDesc"] == "Work"
 									= link_to '/?q="' + encoded_heading + '"&search_field=subject_work_browse' do
 										=data["heading"]
+								-elsif data["headingTypeDesc"] == "Event"
+									= link_to '/?q="' + encoded_heading + '"&search_field=subject_event_browse' do
+										=data["heading"]
 								-else
 									=data["heading"]
 							-if params[:browse_type] == "Author-Title"
