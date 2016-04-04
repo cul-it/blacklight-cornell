@@ -104,6 +104,7 @@ Feature: Search
     And I should see the "fa-check" class
     And I should see the label 'Multiple locations' 
 
+    #And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
   @search_availability_title_mission_etrangeres_missing
   @multiple
   @availability
@@ -111,7 +112,7 @@ Feature: Search
   Scenario: Perform a title search and see avail icon, avail at  multiple locations 
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
+    And I fill in the search box with 'Atlas des missions de la '
     And I press 'search'
     Then I should get results
     And I should see the "fa-check" class
