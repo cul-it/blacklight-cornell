@@ -8,10 +8,17 @@ module Blacklight::Solr::Document::RIS
   end
 
   def self.register_export_formats(document)
+    document.will_export_as(:ris, "application/x-research-info-systems")
     document.will_export_as(:mendeley, "application/x-research-info-systems")
     document.will_export_as(:zotero, "application/x-research-info-systems")
   end
 
+
+  def export_as_ris
+
+    export_ris
+
+  end
 
   def export_as_mendeley
 

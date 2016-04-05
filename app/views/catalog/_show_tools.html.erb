@@ -58,8 +58,10 @@
           <li>
             <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => ' '}%>
           </li>
+          <li>
+            <%= link_to t('blacklight.tools.mendeley'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'ris'), {:class => ' '}%>
+          </li>
         <% elsif exportable %>
-
           <% if @document.export_formats.keys.include?( :endnote ) %>
             <li>
               <%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %>
@@ -67,7 +69,7 @@
           <% end %>
           <% if @document.export_formats.keys.include?( :mendeley ) %>
             <li>
-              <%= link_to t('blacklight.tools.mendeley'), catalog_path(@document, :format => 'mendeley') %>
+              <%= link_to t('blacklight.tools.mendeley'), catalog_path(@document, :format => 'ris') %>
             </li>
           <% end %>
         <% end %>

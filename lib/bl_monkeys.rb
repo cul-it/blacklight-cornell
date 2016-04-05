@@ -443,3 +443,19 @@ module Blacklight::Solr::Document::MarcExport
 	  
 
 end
+
+
+module BlacklightMarcHelper
+
+
+  # puts together a collection of documents into one ris export string
+  def render_ris_texts(documents)
+    val = ''
+    documents.each do |doc|
+      if doc.exports_as? :ris
+        val += doc.export_as(:ris) + "\n"
+      end
+    end
+    val
+  end
+end
