@@ -72,7 +72,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing :skip => :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+##  config.skip_session_storage = [:http_auth]
 
   # ==> Configuration for :database_authenticatable
   # For bcrypt, this is the cost for hashing the password and defaults to 10. If
@@ -81,7 +81,7 @@ Devise.setup do |config|
   # Limiting the stretches to just one in testing will increase the performance of
   # your test suite dramatically. However, it is STRONGLY RECOMMENDED to not use
   # a value less than 10 in other environments.
-  config.stretches = Rails.env.test? ? 1 : 10
+##  config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
   # config.pepper = "678dc5412d01920598189305de5e8ae370309919afb078a58580399a3ca7d46a0ee5a9cb04695ebec0e0116ab3e83909fd3ba26e4651789cb257d26636cfbd70"
@@ -98,7 +98,7 @@ Devise.setup do |config|
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
   # db field (see migrations). Until confirmed new email is stored in
   # unconfirmed email column, and copied to email column on successful confirmation.
-  config.reconfirmable = true
+##  config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [ :email ]
@@ -128,12 +128,12 @@ Devise.setup do |config|
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
   # DISCOVERYACCESS-2028 - trying to get rid of old sessions
-  config.timeout_in = 30.minutes
+##  config.timeout_in = 30.minutes
   
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false 
   # DISCOVERYACCESS-2028 - trying to get rid of old sessions
-   config.expire_auth_token_on_timeout = true 
+##   config.expire_auth_token_on_timeout = true 
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.

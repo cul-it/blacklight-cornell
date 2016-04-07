@@ -38,7 +38,7 @@ gem 'addressable'
 
 # Gems used only for assets and not required
 # in production environments by default.
-  gem 'sass-rails',   '~> 4.0'
+  gem 'sass-rails',   '~> 5.0'
   gem 'coffee-rails', '~> 4.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -93,7 +93,7 @@ gem 'jquery-ui-rails'
 # To use debugger
 # gem 'debugger'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
-gem 'devise'
+gem 'devise', '~> 3.0'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails' 
