@@ -1413,7 +1413,7 @@ module CornellCatalogHelper
        end
      end
      end
-
+  end
 end 
 
 # End of Module

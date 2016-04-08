@@ -734,7 +734,7 @@ class CatalogController < ApplicationController
         format.html
       end
     end
-
+end
 
   def tou
     test = ""
