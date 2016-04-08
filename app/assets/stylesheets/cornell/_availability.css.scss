@@ -130,6 +130,12 @@ h3.rare {
 	padding-top: 1em;
 	border-top: solid 2px #d8d2c9;
 }
+.holdings {
+	th:first-child,
+	th:nth-child(2) {
+		width: 30%;
+	}
+}
 
 // Other forms
 // ----------------
