@@ -16,97 +16,112 @@
       - if group == "Rare"
         %h3.rare
           = group + " Items"
-    - holdings.each do |entry|
-      - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
-      - callnumber = entry['call_number']
-      - noncirc = false
-      - if location =~ /Non-Circulating/
-        - noncirc = true 
-      - if location =~ /Rare/
-        - noncirc = true 
-      - some_av = 'no'
 
-      .holding
-        - if location != 'Online'  and location != 'Library Technical Services Review Shelves' and @hide_status.blank?
-          %h5.location
-            = location
-            %span.map-it
-              = render_location_link entry['location_code']
+    %table.table.table-striped.table-responsive
+      %thead
+        %tr
+          %th
+            Location
+          %th
+            Call number
+          %th
+            Status
+      %tbody
 
-        -# Only display a real call number
-        - if !callnumber.blank? && !callnumber.include?('No call number') && callnumber == 'Available for the Library to Purchase'
-          - pda = 'yes'
-        - if !callnumber.blank? && !callnumber.include?('No call number') && callnumber != ''
-          .call-number
-            = callnumber
-            - if pda != 'yes' 
-              %span.text-it
-                = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
-                  %i{:class => 'fa fa-mobile'}
-                  = t('blacklight.tools.sms')
-        - entry['copies'].each do |copy|
-          .group
-            - unless copy['temp_locations'].nil?
-              - copy['temp_locations'].each do |t|
-                .message= t
-            - ['boundwith_summary','orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
-              - unless copy[type].nil?
-                .message= copy[type]
-                - if copy[type] =~ /Bound with:/ 
-                  - bound_with = bound_with? 
-            - (copy['items'].sort_by{|mess,det| det["status"]}).each do |item|
-              -# Handling online link in _show_metadata.html.erb
-              - if location != 'Online' and @hide_status.blank?
-                .status
-                  - message, details = item
-                  - if details['status'] == 'available'  and noncirc == false 
-                    - if !( message =~ /Returned/)
-                      - message = ''
-                    %span{:class => 'label label-available'}
-                      %i{:class => 'fa fa-check'}
-                      = I18n.t('blacklight.catalog.available')
-                    -if details['count'] == 1 and !( message =~ /Returned/)
-                      - message = '1 copy'
-                  - elsif details['status'] == 'available'  and noncirc == true 
-                    - on_site_count += 1
-                    %span{:class => 'label label-available'}
-                      %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
-                      = I18n.t('blacklight.catalog.available')
-                    - message = I18n.t('blacklight.catalog.on_site')
-                  - elsif details['status'] == 'none' && bound_with
-                    %i{:class => 'fa', :title => 'Bound with'}
-                    - message = '' 
-                  - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
-                    %i{:class => 'fa fa-clock-o', :title => 'On order'}
-                    - message = I18n.t('blacklight.catalog.on_order')
-                  - elsif details['status'] == 'none'
-                    - if callnumber == 'On Order'  || callnumber.blank? 
-                      %i{:class => 'fa', :title => 'On order'}
-                      - message = ''
-                    - else
-                      - if pda != 'yes'
-                        - on_site_count += 1
-                        %span{:class => 'label label-available'}
-                          %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
-                          = I18n.t('blacklight.catalog.available')
-                        - message = I18n.t('blacklight.catalog.on_site')
-                      - else 
-                        - message = ''
-                  - else
-                    %i{:class => 'fa fa-clock-o'}
-                  = message
-                  - if details['count'] >1 and !multi_vol
-                    #{details['count']} copies
-                  - if details['count'] >1 and multi_vol
-                    #{details['count']} volumes/copies
-                  - if details['status'] == 'some_available'
-                    - some_av = 'yes'
-            -if some_av == 'yes' 
-              %div.status
-                %span{:class => 'label label-available'}
-                  %i{:class => 'fa fa-check'}
-                  = I18n.t('blacklight.catalog.available')
-                All other volumes/copies
+        - holdings.each do |entry|
+          - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
+          - callnumber = entry['call_number']
+          - noncirc = false
+          - if location =~ /Non-Circulating/
+            - noncirc = true 
+          - if location =~ /Rare/
+            - noncirc = true 
+          - some_av = 'no'
+
+          %tr
+            %td
+              - if location != 'Online'  and location != 'Library Technical Services Review Shelves' and @hide_status.blank?
+                .location
+                  = location
+                  %span.map-it
+                    = render_location_link entry['location_code']
+
+            %td
+              -# Only display a real call number
+              - if !callnumber.blank? && !callnumber.include?('No call number') && callnumber == 'Available for the Library to Purchase'
+                - pda = 'yes'
+              - if !callnumber.blank? && !callnumber.include?('No call number') && callnumber != ''
+                .call-number
+                  = callnumber
+                  - if pda != 'yes' 
+                    %span.text-it
+                      = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
+                        %i{:class => 'fa fa-mobile'}
+                        = t('blacklight.tools.sms')
+            %td
+              - entry['copies'].each do |copy|
+                .group
+                  - unless copy['temp_locations'].nil?
+                    - copy['temp_locations'].each do |t|
+                      .message= t
+                  - ['boundwith_summary','orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
+                    - unless copy[type].nil?
+                      .message= copy[type]
+                      - if copy[type] =~ /Bound with:/ 
+                        - bound_with = bound_with? 
+                  - (copy['items'].sort_by{|mess,det| det["status"]}).each do |item|
+                    -# Handling online link in _show_metadata.html.erb
+                    - if location != 'Online' and @hide_status.blank?
+                      .status
+                        - message, details = item
+                        - if details['status'] == 'available'  and noncirc == false 
+                          - if !( message =~ /Returned/)
+                            - message = ''
+                          %span{:class => 'label label-available'}
+                            %i{:class => 'fa fa-check'}
+                            = I18n.t('blacklight.catalog.available')
+                          -if details['count'] == 1 and !( message =~ /Returned/)
+                            - message = '1 copy'
+                        - elsif details['status'] == 'available'  and noncirc == true 
+                          - on_site_count += 1
+                          %span{:class => 'label label-available'}
+                            %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
+                            = I18n.t('blacklight.catalog.available')
+                          - message = I18n.t('blacklight.catalog.on_site')
+                        - elsif details['status'] == 'none' && bound_with
+                          %i{:class => 'fa', :title => 'Bound with'}
+                          - message = '' 
+                        - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
+                          %i{:class => 'fa fa-clock-o', :title => 'On order'}
+                          - message = I18n.t('blacklight.catalog.on_order')
+                        - elsif details['status'] == 'none'
+                          - if callnumber == 'On Order'  || callnumber.blank? 
+                            %i{:class => 'fa', :title => 'On order'}
+                            - message = ''
+                          - else
+                            - if pda != 'yes'
+                              - on_site_count += 1
+                              %span{:class => 'label label-available'}
+                                %i{:class => 'fa fa-check fa-on-site', :title => 'On-site use'}
+                                = I18n.t('blacklight.catalog.available')
+                              - message = I18n.t('blacklight.catalog.on_site')
+                            - else 
+                              - message = ''
+                        - else
+                          %i{:class => 'fa fa-clock-o'}
+                        = message
+                        - if details['count'] >1 and !multi_vol
+                          #{details['count']} copies
+                        - if details['count'] >1 and multi_vol
+                          #{details['count']} volumes/copies
+                        - if details['status'] == 'some_available'
+                          - some_av = 'yes'
+                  -if some_av == 'yes' 
+                    %div.status
+                      %span{:class => 'label label-available'}
+                        %i{:class => 'fa fa-check'}
+                        = I18n.t('blacklight.catalog.available')
+                      All other volumes/copies
     - if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare"
       - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")
       - @group = group
