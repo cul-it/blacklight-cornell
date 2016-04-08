@@ -62,6 +62,12 @@
       <%= access_restrictions %>
     </span>
     <% end %>
+    <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
+    <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
+    <span class="terms-of-use">
+    <a href="/catalog/tou/<%= @document[:id] %>">Terms of use</a>
+    </span>
+    <% end %>
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
     <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>

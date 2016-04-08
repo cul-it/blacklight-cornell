@@ -85,7 +85,7 @@ class DatabasesController < ApplicationController
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.solr_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
+    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
     @db = @dbResponse['response']['docs']
     dbcode = @dbResponse['response']['docs'][0]['dbcode']
