@@ -1383,6 +1383,37 @@ module CornellCatalogHelper
     bws 
   end
 
+    def has_tou?(id)
+    clnt = HTTPClient.new
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+    solr = Blacklight.solr_config[:url]
+    p = {"id" =>id , "wt" => 'json',"indent"=>"true"}
+    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
+    @dbResponse = JSON.parse(@dbString)
+    @db = @dbResponse['response']['docs']
+    if @dbResponse['response']['numFound'] == 0
+      return false
+    else
+    dbcode = @dbResponse['response']['docs'][0]['dbcode']
+    providercode = @dbResponse['response']['docs'][0]['providercode']
+     if dbcode.nil? or dbcode == '' #check for providerCode being nil
+           return false
+     else
+       @ermDBResult = ::Erm_data.where(Database_Code: "\'#{dbcode[0]}\'", Prevailing: 'true')
+       if @ermDBResult.size < 1
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+
+         if @ermDBResult.size < 1
+           return false
+         else
+           return true
+         end
+       else
+         return true
+       end
+     end
+     end
+
 end 
 
 # End of Module
