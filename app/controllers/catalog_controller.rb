@@ -734,6 +734,40 @@ class CatalogController < ApplicationController
         format.html
       end
     end
+end
+
+  def tou
+    test = ""
+    clnt = HTTPClient.new
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+    solr = Blacklight.solr_config[:url]
+    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
+    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
+    @dbResponse = JSON.parse(@dbString)
+    @db = @dbResponse['response']['docs']
+    Rails.logger.info("DB = #{@dbResponse.inspect}")
+  if @dbResponse['response']['numFound'] == 0
+    @defaultRightsText = ''
+   return @defaultRightsText
+  else
+    dbcode = @dbResponse['response']['docs'][0]['dbcode']
+    providercode = @dbResponse['response']['docs'][0]['providercode']
+     @defaultRightsText = ''
+     if dbcode.nil? or dbcode == '' #check for providerCode being nil
+           @defaultRightsText = "Use default rights text"
+     else
+       @ermDBResult = ::Erm_data.where(Database_Code: "\'#{dbcode[0]}\'", Prevailing: 'true')
+       if @ermDBResult.size < 1
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+
+         if @ermDBResult.size < 1
+        #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+          @defaultRightsText = "Use default rights text"
+        end
+       end
+     end
+   @column_names = ::Erm_data.column_names.collect(&:to_sym)
+  end
 
   end
 
