@@ -3,18 +3,14 @@
 <%#= render :partial => 'tou_search_form'  %>
 
 <%#= @db.inspect %>
-<% if has_tou?(@db[0]["id"]) %>
-   <a href=/catalog/tou/<%= @db[0]["id"]%> >ToU</a>
-<% end %>
-
 
 
 <div class="row database-subject">
   <div class="page-title col-sm-12">
     <div class="return-link">
-      <%= link_to "/catalog/" do %>
+      <%= link_to "/catalog/#{@db[0]["id"]}" do %>
         <i class="fa fa-arrow-circle-left"></i>
-        Back to Catalog
+        Back to Item
       <% end %>
     </div>
     <h2>
@@ -54,13 +50,7 @@
             </tr>
           </table>          
      <% end %>
-      <% @db.each do |data| %>
-        <% if data["fulltitle_vern_display"].present? %>
-          <%= data["fulltitle_vern_display"] %>
-        <% else %>
-          <%= data["fulltitle_display"] %>
-        <% end %>
-      <% end %>
+      Terms of use
     </h2>
   </div>
 </div>
@@ -68,14 +58,14 @@
   <div class="document blacklight-database-name clearfix">
     <div class="document-data">
       <% @db.each do |data| %>
-        <h4 class="blacklight-title_display">
-          <%#= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'catalog', 'outlink_tou_title']);" do %>
+       <h4 class="blacklight-title_display">
+          <%= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
             <% if data["fulltitle_vern_display"].present? %>
               <%= data["fulltitle_vern_display"] %>
             <% else %>
               <%= data["fulltitle_display"] %>
             <% end %>
-          <%# end %>
+          <% end %>
         </h4>
         <div class="description">
           <p>
