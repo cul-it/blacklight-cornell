@@ -19,7 +19,6 @@
 		margin-top: 0;
 		margin-bottom: .5em;
 		font-size: 16px;
-		font-weight: 700;
 	}
 	.location-online {
 		color: white;
@@ -58,6 +57,7 @@ h3.rare {
 	background: $teal;
 	margin-right: .5em;
 	font-size: 90%;
+	font-weight: normal;
 	i {
 		color: white;
 	}
@@ -90,8 +90,8 @@ h3.rare {
 }
 .share-options { min-width: auto; }
 .message {
-	margin: 0 0 .25em 0;
-	line-height: 1.5em;
+	margin: 0 0 .5em 0;
+	line-height: 1.4em;
 	word-wrap: break-word;
 }
 .online-link {
