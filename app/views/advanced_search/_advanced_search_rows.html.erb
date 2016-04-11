@@ -15,7 +15,7 @@
       <label for="q_row<%= i %>" class="sr-only"><%= t('blacklight.search.form.q') %></label>
       <%= text_field_tag "q_row[]", nil, :autocapitalize => "off", :id => "q_row#{i}", :class => "form-control" %>
       <label for="op_row<%= i %>" class="sr-only"><%= t('blacklight.search.form.op_row') %></label>
-      <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase'}.sort,'all' || 'phrase'), :class => 'form-control', :id => "op_row#{i}" ) %> in
+      <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase', 'begins_with' => 'begins_with'}.sort,'all' || 'phrase'), :class => 'form-control', :id => "op_row#{i}" ) %> in
       <label for="search_field_advanced<%= i %>" class="sr-only"><%= t('blacklight.search.form.search_field_advanced') %></label>
       <%= select_tag("search_field_row[]", options_for_select(search_fields_for_advanced_search.collect{|key, field_def| [field_def.label, field_def.field]}), :class => 'advanced-search-field form-control', :id => "search_field_advanced#{i}" ) %>
     </div>

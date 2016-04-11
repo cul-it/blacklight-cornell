@@ -103,6 +103,10 @@ module CornellParamsHelper
          if my_params[:op_row][i] == "OR"
           holdarray[1] = parse_query_row(holdarray[1], "OR")
          end
+         Rails.logger.info("BERNIE1 #{my_params[:op_row][i]}")
+         if my_params[:op_row][i] == 'begins_with'
+          holdarray[1] = parse_query_row(holdarray[1], "OR")
+         end
          queryStart = " _query_:\"{!edismax"
          q_string << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
@@ -138,9 +142,16 @@ module CornellParamsHelper
               q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
 
             else
-              q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-              q_string2 << field_name << " = "
-              q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+              if my_params[:op_row][i] == 'begins_with'
+                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                 q_string2 << field_name << " = "
+                 q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"  
+                 Rails.logger.info("BERNIE2 #{q_string_hold}")             
+              else
+                 q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                 q_string2 << field_name << " = "
+                 q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+              end
             end
          end
          if holdarray.count > 1
@@ -152,9 +163,15 @@ module CornellParamsHelper
               holdarray_parse = holdarray[j].split('_query_')
               holdarray[1] = holdarray_parse[0]
               if(j < holdarray.count - 1)
-                    q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                    q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                    q_string2 << holdarray[1]
+                    if my_params[:op_row][i] == 'begins_with'
+                      q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                      q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf" #}" << holdarray[1].chomp("\"") << "\""
+                      q_string2 << holdarray[1]
+                    else
+                      q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                      q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                      q_string2 << holdarray[1]                      
+                    end
               else
                     q_string_hold << "}" << holdarray[1] << "\\\""
                     q_string << "}" << holdarray[1] << "\\\""
