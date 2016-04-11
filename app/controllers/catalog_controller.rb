@@ -26,8 +26,16 @@ class CatalogController < ApplicationController
   # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
   self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   configure_blacklight do |config|
-    ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
 
+    # chris beer recommended for latest version of unapi
+    config.unapi = {
+      'oai_dc_xml' => { :content_type => 'text/xml' } 
+    }
+    config.index.partials << 'microformat'
+    config.show.partials << 'microformat' 
+    # end of unapi config.
+
+    ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
