@@ -24,7 +24,9 @@
         </h4>
         <div class="description">
           <p>
+            <% if data["summary_display"].present? %>
             <%= data["summary_display"][0] %>
+            <% end %>
           </p>
         </div>
         <div class="links">
