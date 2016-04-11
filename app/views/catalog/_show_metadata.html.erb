@@ -78,12 +78,12 @@
     <% end %>
     <% end %>
   </div>
-  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
+  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_json').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
   <div class="availability well other-forms">
     <h4>Other forms of this work</h4>
 
-
-<% @document['other_availability_json'].each do |form| %>
+ <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_json').blank?  %>
+  <% @document['other_availability_json'].each do |form| %>
           <% f = JSON.parse(form) %>
           <div class="other-form">
           <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
@@ -92,9 +92,13 @@
           <span class="other-form-edition"><%= f["edition"] %></span> 
           <span class="other-form-date"><%= f["pub_date"] %> </span>
           </div>
-<% end %>
-    
-  </div>
+  <% end %>
+  <% end %>
+
+     <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>     
+     <p><%= link_to "See all results",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
+     <% end %>
   <%end%>
-  
+    </div>
+
 </div>
