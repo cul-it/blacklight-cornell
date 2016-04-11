@@ -81,17 +81,19 @@
   <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
   <div class="availability well other-forms">
     <h4>Other forms of this work</h4>
-     <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
-    <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
-    <ul class="list-unstyled">
-      <% other_forms.each do |link,label| %>
-      <li><%= link_to link, label %></li>
-      <% end %>
-    </ul>
-    <% end %>
-    <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>
-    <p><%= link_to "See all results",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
-    <% end %>
+
+
+<% @document['other_availability_json'].each do |form| %>
+          <% f = JSON.parse(form) %>
+          <div class="other-form">
+          <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
+          <span class="other-form-format"><i class="fa fa-<%= formats_icon_mapping(f["format"]) %>"></i><%= f["format"] %></span>
+          <% if f["sites"].present? %><span class="status-online label label-online">Online</span><% end %>
+          <span class="other-form-edition"><%= f["edition"] %></span> 
+          <span class="other-form-date"><%= f["pub_date"] %> </span>
+          </div>
+<% end %>
+    
   </div>
   <%end%>
   
