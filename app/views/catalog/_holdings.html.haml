@@ -27,8 +27,7 @@
           %th
             Status
       %tbody
-
-        - holdings.each do |entry|
+        - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
           - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
           - callnumber = entry['call_number']
           - noncirc = false
