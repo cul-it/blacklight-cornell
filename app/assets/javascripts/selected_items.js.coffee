@@ -6,7 +6,7 @@ selectedItems =
   # Pass options to Blacklight bl_checkbox_submit jQuery plugin
   # -- see checkbox_submit.js for details
   overrideBlacklightDefaults: () ->
-    $('form.list_toggle').bl_checkbox_submit
+    $('form.bookmark_toggle').bl_checkbox_submit
       checked_label: "Selected",
       unchecked_label: "Select",
       progress_label: "Saving...",
