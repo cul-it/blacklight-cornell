@@ -19,7 +19,6 @@
 		margin-top: 0;
 		margin-bottom: .5em;
 		font-size: 16px;
-		font-weight: 700;
 	}
 	.location-online {
 		color: white;
@@ -33,8 +32,8 @@
 	}
 	.map-it {
 		font-size: 12px;
-		display: inline-block;
-		 }
+		// display: inline-block;
+	}
 	.url_findingaid_display {
 		display: block;
 		margin-bottom: 1em;
@@ -47,7 +46,7 @@
 		margin-bottom: .5em;
 	}
 	.status {
-		margin: .25em 0 .5em 0;
+		margin: 0 0 .5em 0;
 	}
 }
 h3.rare {
@@ -58,6 +57,7 @@ h3.rare {
 	background: $teal;
 	margin-right: .5em;
 	font-size: 90%;
+	font-weight: normal;
 	i {
 		color: white;
 	}
@@ -86,11 +86,12 @@ h3.rare {
 	margin-left: .5em;
 	font-size: 12px;
 	font-weight: normal;
+	display:block;
 }
 .share-options { min-width: auto; }
 .message {
-	margin: 0 0 .25em 0;
-	line-height: 1.5em;
+	margin: 0 0 .5em 0;
+	line-height: 1.4em;
 	word-wrap: break-word;
 }
 .online-link {
@@ -128,6 +129,12 @@ h3.rare {
 	margin: 1.5em 0 0;
 	padding-top: 1em;
 	border-top: solid 2px #d8d2c9;
+}
+.holdings {
+	th:first-child,
+	th:nth-child(2) {
+		width: 30%;
+	}
 }
 
 // Other forms
