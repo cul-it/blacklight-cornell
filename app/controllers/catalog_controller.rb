@@ -80,8 +80,10 @@ class CatalogController < ApplicationController
             :hierarchical => true
         },
         'subject_json' => {
-            :search_field => 'subject',
-            :sep => ',',
+            :search_field => 'subject_cts_search',
+            :sep => '|',
+            :sep_index => ' ',
+            :sep_display => ' > ',
             :json => true
         },
         'title_uniform_display' => {
@@ -350,8 +352,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
-    config.add_show_field 'subject_cts', :label => 'Subject'
-    config.add_show_field 'subject_json', :label => 'Subject'
+    config.add_show_field 'subject_cts', :label => 'Subject PIPED'
+    config.add_show_field 'subject_json', :label => 'Subject JSON'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
@@ -542,6 +544,16 @@ class CatalogController < ApplicationController
        field.solr_local_parameters = {
          :qf => '$donor_qf',
          :pf => '$donor_pf'
+       }
+    end
+
+    #combined subject CTS field made from the multiple subject browse fields
+    config.add_search_field('subject_cts_search',:label=>'Subject') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => '$subject_cts_qf',
+         :pf => '$subject_cts_pf'
        }
     end
 
