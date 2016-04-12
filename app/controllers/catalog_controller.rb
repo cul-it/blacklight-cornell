@@ -82,7 +82,7 @@ class CatalogController < ApplicationController
         'subject_json' => {
             :search_field => 'subject_cts_search',
             :sep => '|',
-            :sep_index => ' ',
+            :sep_index => ' > ',
             :sep_display => ' > ',
             :json => true
         },
