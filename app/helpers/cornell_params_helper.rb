@@ -316,21 +316,23 @@ end
   def parse_query_row(query, op)
     splitArray = []
     returnstring = ""
-    if query.include?('%26')
-      query.gsub!('%26','&')
-    end
-    query.gsub!("&","%26")
-    if op == "phrase"
-      query.gsub!("\"", "\'")
-#      returnstring << '"' << query << '"'
-      returnstring = query
-    else
-      splitArray = query.split(" ")
-      if splitArray.count > 1
-         returnstring = splitArray.join(' ' + op + ' ')
-      else
-         returnstring = query
-      end
+    if !query.nil?
+     if query.include?('%26')
+       query.gsub!('%26','&')
+     end
+     query.gsub!("&","%26")
+     if op == "phrase"
+       query.gsub!("\"", "\'")
+#       returnstring << '"' << query << '"'
+       returnstring = query
+     else
+       splitArray = query.split(" ")
+       if splitArray.count > 1
+          returnstring = splitArray.join(' ' + op + ' ')
+       else
+          returnstring = query
+       end
+     end
     end
     return returnstring
   end
