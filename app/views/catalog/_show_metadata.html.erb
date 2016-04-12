@@ -22,10 +22,10 @@
       <div class="cover col-sm-2">
         <div class="iconcover bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
           <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-thumbnail",  alt: "" %>
-          <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
+          <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>" aria-hidden="true"></i>
         </div>
         <div class="item-bookcover">
-          <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down"></i></a>
+          <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
         </div>
       </div>
       <div class="document item-metadata col-sm-10">
@@ -74,7 +74,7 @@
     <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
     <% oclc_number=oclc_number_link %>
     <% if oclc_number.present? %>
-    <span class="worldcat-search"><i class="fa fa-arrow-right"></i> <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Search Libraries Worldwide for a print copy</a></span>
+    <span class="worldcat-search"><i class="fa fa-arrow-right" aria-hidden="true"></i> <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Search Libraries Worldwide for a print copy</a></span>
     <% end %>
     <% end %>
   </div>
