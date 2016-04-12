@@ -79,6 +79,11 @@ class CatalogController < ApplicationController
             :sep_display => ' > ',
             :hierarchical => true
         },
+        'subject_json' => {
+            :search_field => 'subject',
+            :sep => ',',
+            :json => true
+        },
         'title_uniform_display' => {
             :search_field => 'title',
             :related_search_field => 'author/creator',
@@ -346,6 +351,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_cts', :label => 'Subject'
+    config.add_show_field 'subject_json', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
