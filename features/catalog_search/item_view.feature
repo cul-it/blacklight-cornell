@@ -135,7 +135,7 @@ Feature: Item view
   @DISCOVERYACCESS-1659
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
-    Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'  
+    Then I should see the label '1950 c. 1 Checked out, due 2016-11-19'  
     Then I should see the label 'Request'  
 
 
@@ -214,7 +214,7 @@ Feature: Item view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728 
-    Then I should see the labels 'Available, c. 1 Unavailable 2013-10-07'
+    Then I should see the labels 'c. 1 Unavailable 2013-10-07'
 
   # Availability for a Missing item Sweetness and power : the place of sugar in modern history  
   @missing
@@ -223,11 +223,11 @@ Feature: Item view
     Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item Jean-Léon Gérôme (status 10) 
+  # Availability for an In transit item mind's new science (status 10) 
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 114103 
+    Given I request the item view for 424344 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item bonsai culture and care 
@@ -291,7 +291,7 @@ Feature: Item view
   @current_issues
   Scenario: As a user I can see the current issues information 
     Given I request the item view for 329763 
-    Then I should see the label 'Current Issues: issue no'
+    Then I should see the label 'Current issue on display'
 
   # Make sure PDA makes some sense  DISCOVERYACCESS-1356
   # Confusing availability labels for 8036458
