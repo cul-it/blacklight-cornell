@@ -36,7 +36,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"HEAR",
   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"MANSCPT", "Map or Globe"=>"MAP", "MGZN"=>"MGZN",
-  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Score"=>"MUSIC", "NEWS"=>"NEWS",
+  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
   "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"SOUND", "Musical Recording"=>"SOUND", 
   "STAND"=>"STAND",
@@ -46,11 +46,14 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   def export_ris
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+    Rails.logger.warn "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
     ty = "TY  - GEN\n"
     fmt = self['format'].first
     if (FACET_TO_RIS_TYPE.keys.include?(fmt))
       ty =  "TY  - #{FACET_TO_RIS_TYPE[fmt]}\n" 
+    end
+    if fmt == 'Book'  && self['online'].first == 'Online'
+      ty = "TY  - EBOOK\n"
     end
     output = ty 
     
@@ -91,13 +94,48 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       self["language_facet"].map{|la|  output += "LA  - #{la}\n" }
     end
     catid   =  self.id 
-    output += "UL  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
-
+    if !self['url_access_display'].blank?
+      ul = self['url_access_display'].first.split('|').first
+      output += "UR  - #{ul}\n"
+    end
+    output += "UR  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    kw =   setup_kw_info(to_marc)
+    kw.each do |k|
+      output +=  "KW  - #{k}" + "\n"
+    end
+    nt =   setup_notes_info(to_marc)
+    nt.each do |n|
+      output +=  "N1  - #{n}" + "\n"
+    end
     # closing tag
-    output += "ER  - "
+    output += "ER  - \n"
+  end
 
-    output
+  def setup_kw_info(record) 
+    text = [] 
+    record.find_all{|f| f.tag === "650" }.each do |field|
+      textstr = ''
+      field.each do  |sf| 
+        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code) 
+       end unless field.indicator2 == '7' 
+       text << textstr
+    end                    
+    text
+  end
 
+  def setup_notes_info(record) 
+    text = [] 
+    record.find_all{|f| f.tag === "500" }.each do |field|
+      textstr = ''
+      field.each do  |sf| 
+        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code) 
+      end 
+      text << textstr
+    end                    
+    record.find_all{|f| f.tag === "505" }.each do |field|
+      text  << field.value
+    end                    
+    text
   end
 
 end
