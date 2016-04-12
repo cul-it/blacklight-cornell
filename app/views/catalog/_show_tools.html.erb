@@ -20,7 +20,7 @@
 <% end %>
 <!-- TODO: TRANSLATE -->
 <% if bookmarks_index || citable %>
-  <% citelink_content =  '<i class="fa fa-pencil"></i>' + t('blacklight.tools.cite') %>
+  <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true"></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
       <%= link_to citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
@@ -35,7 +35,7 @@
 <% end %>
 
 <% if bookmarks_index || emailable %>
-  <% emaillink_content = '<i class="fa fa-envelope"></i>' + t('blacklight.tools.email') %>
+  <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
       <%= link_to  email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
@@ -52,7 +52,7 @@
 <% if bookmarks_index || exportable %>
   <li class="dropdown">
     <div class="btn-group">
-      <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i>Export <b class="caret"></b></a>
+      <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Export <b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
         <% if bookmarks_index  %>
           <li>
