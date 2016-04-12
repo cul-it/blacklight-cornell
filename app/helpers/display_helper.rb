@@ -267,15 +267,16 @@ include ActionView::Helpers::NumberHelper
 
         elsif clickable_setting[:json]
           json_value=''
-            value_array.map do |value|
-            v = JSON.parse(value)
-            if !json_value.empty?
-              json_value << sep_index + v["subject"][0]
-            else
-              json_value << v["subject"][0]
-            end
-            link_to(v["subject"], add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
-          end.join(sep_display).html_safe
+              subject = JSON.parse(value)
+              subject.map do |sub|
+                v = sub["subject"]
+                  if !json_value.empty?
+                  json_value += sep_index + v
+                  else
+                  json_value += v
+                  end
+                link_to(v, add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
+              end.join(sep_display).html_safe
             
          
         elsif clickable_setting[:pair_list]
