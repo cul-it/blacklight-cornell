@@ -253,6 +253,7 @@ include ActionView::Helpers::NumberHelper
             content_tag('span', displayv_searchv[0])
           end
         elsif clickable_setting[:hierarchical]
+          
           # fields such as subject are hierarchical
           hierarchical_value = ''
           value_array.map do |v|
@@ -263,6 +264,20 @@ include ActionView::Helpers::NumberHelper
             end
             link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'), class: "hierarchical")
           end.join(sep_display).html_safe
+
+        elsif clickable_setting[:json]
+          json_value=''
+            value_array.map do |value|
+            v = JSON.parse(value)
+            if !json_value.empty?
+              json_value << sep_index + v["subject"][0]
+            else
+              json_value << v["subject"][0]
+            end
+            link_to(v["subject"], add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
+          end.join(sep_display).html_safe
+            
+         
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
           ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
