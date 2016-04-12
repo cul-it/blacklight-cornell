@@ -21,12 +21,19 @@ VCR.configure do |c|
 end
 if use_mock_and_vcr
 then
-VCR.cucumber_tags do |t|
-  t.tag  '@DISCOVERYACCESS-137'
-  t.tag  '@DISCOVERYACCESS-1430'
-  t.tag  '@availability'
-  t.tag  '@missing'
-  t.tag  '@search_availability_title_mission_etrangeres_missing'
-  t.tag  '@search_availability_annotated_hobbit'
-end
+  VCR.cucumber_tags do |t|
+    t.tag  '@all_select_and_export'
+    t.tag  '@all_search'
+    t.tag  '@all_results_list'
+    t.tag  '@all_item_view'
+    t.tag  '@javascript'
+    t.tag  '@homepage'
+    t.tag  '@holdings'
+    t.tag  '@DISCOVERYACCESS-137'
+    t.tag  '@DISCOVERYACCESS-1430'
+    t.tag  '@availability'
+    t.tag  '@missing'
+    t.tag  '@search_availability_title_mission_etrangeres_missing'
+    t.tag  '@search_availability_annotated_hobbit'
+  end
 end
