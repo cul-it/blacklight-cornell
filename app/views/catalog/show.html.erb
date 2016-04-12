@@ -10,7 +10,14 @@
 
 <%#= render :partial => 'search_form' %>
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
-<% content_for(:head) { render_link_rel_alternates } -%>
+ <% content_for(:head) do -%>
+        <%  render_link_rel_alternates          %>
+        <%= render_opensearch_response_metadata %>
+        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
+        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
+        <%= render_extra_head_content %>
+ <% end -%>
+
 <% sidebar_items << render_document_sidebar_partial %>
 
 
@@ -50,10 +57,10 @@
   </div>
 </div>
 
-<% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
+<% if @document.respond_to?(:zzzexport_as_openurl_ctx_kev) %>
         <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
        <!--
-       // COinS, for Zotero among others. DO NOT REMOVE THIS.
+       // COinS, for Zotero among others. really, this does not work very well. So I removed it.  
        // This document_partial_name(@document) business is not quite right,
        // but has been there for a while.
       -->
