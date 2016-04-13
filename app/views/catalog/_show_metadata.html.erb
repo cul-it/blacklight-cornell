@@ -44,12 +44,22 @@
     <% if online_url(@document) %>
     <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
     <div class="holdings-online">
-      <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
-      <ul class="list-unstyled">
-        <% online_links.each do |link| %>
-        <li class="online-link" ><%= link %></li>
-        <% end %>
-      </ul>
+      <table  class= "table table-striped table-responsive">
+          <thead>
+            <tr> 
+              <th>Available At</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+         <tbody>
+          <% online_links.each do |link| %>
+            <tr>
+              <td><span class="online-link" ><%= link %></span></td>
+              <td><h5 class="location"><i class="fa fa-check"></i> Available online</h5></td>
+            </tr>
+          <% end %>
+         </tbody>
+       </table>
     </div>
     <% end %>
     <div class="holdings" data-bibid="<%= @document.id.to_s %>">
