@@ -87,7 +87,11 @@
           <% f = JSON.parse(form) %>
           <div class="other-form">
           <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
-          <span class="other-form-format"><i class="fa fa-<%= formats_icon_mapping(f["format"]) %>"></i><%= f["format"] %></span>
+          <span class="other-form-format">
+          <% formats = f["format"].split(",") %>
+          <% formats.each do |format| %>
+          <i class="fa fa-<%= formats_icon_mapping(format) %>"></i><%= format %></span>
+          <% end %>
           <% if f["sites"].present? %><span class="status-online label label-online">Online</span><% end %>
           <span class="other-form-edition"><%= f["edition"] %></span> 
           <span class="other-form-date"><%= f["pub_date"] %> </span>
