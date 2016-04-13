@@ -61,6 +61,18 @@ class CatalogController < ApplicationController
             :sep_display => ' / ',
             :pair_list => true
         },
+        'author_json' => {
+            :search_field => 'author_cts_search',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list_json => true
+        },
+        'author_addl_json' => {
+            :search_field => 'author_cts_search',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list_json => true
+        },
         'author_addl_cts' => {
             :search_field => 'author/creator',
             :sep => '|',
@@ -339,6 +351,7 @@ class CatalogController < ApplicationController
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_cts', :label => 'Author, etc.'
+    config.add_show_field 'author_json', :label => 'Author JSON'    
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -544,6 +557,16 @@ class CatalogController < ApplicationController
        field.solr_local_parameters = {
          :qf => '$donor_qf',
          :pf => '$donor_pf'
+       }
+    end
+
+    #combined author CTS field made from the multiple author browse fields
+    config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => '$author_cts_qf',
+         :pf => '$author_cts_pf'
        }
     end
 
