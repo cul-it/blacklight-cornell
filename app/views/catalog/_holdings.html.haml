@@ -22,11 +22,11 @@
         %thead
           %tr
             %th
-              Location
+              = t('blacklight.holdings.loc')
             %th
-              Call number
+              = t('blacklight.holdings.cln')
             %th
-              Status
+              = t('blacklight.holdings.sta')
         %tbody
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
