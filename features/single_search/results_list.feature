@@ -177,14 +177,16 @@ Feature: Results list
     Given I literally go to search
     When I fill in "q" with 'stress testing cardio horse insights'
     And I press 'Search'
+    Given PENDING
     Then I should get bento results
-		Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
+    Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
 
 
   @all_results_list @search_with_view_all_article_match_box
   Scenario: Search with view all article link should match bento box total
     Given I literally go to search
     When I fill in "q" with 'photoplethysmography methodological studies arterial stiffness'
+    Given PENDING
     And I press 'Search'
     Then I should get bento results
 		Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"

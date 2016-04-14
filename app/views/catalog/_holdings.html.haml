@@ -16,17 +16,17 @@
       - if group == "Rare"
         %h3.rare
           = group + " Items"
-    - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource"  
+    - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource" 
     - else
       %table.table.table-striped.table-responsive
         %thead
           %tr
             %th
-              Location
+              = t('blacklight.holdings.loc')
             %th
-              Call number
+              = t('blacklight.holdings.cln')
             %th
-              Status
+              = t('blacklight.holdings.sta')
         %tbody
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
