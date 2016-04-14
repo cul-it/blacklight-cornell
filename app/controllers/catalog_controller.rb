@@ -61,12 +61,24 @@ class CatalogController < ApplicationController
             :sep_display => ' / ',
             :pair_list => true
         },
+        'author_json' => {
+            :search_field => 'author_cts_search',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list_json => true
+        },
+        'author_addl_json' => {
+            :search_field => 'author_cts_search',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list_json => true
+        },
         'author_addl_cts' => {
             :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
-        },
+        },       
         'title_series_cts' => {
           :search_field => 'title',
           :sep => '|',
@@ -78,6 +90,13 @@ class CatalogController < ApplicationController
             :sep_index => ' ',
             :sep_display => ' > ',
             :hierarchical => true
+        },
+        'subject_json' => {
+            :search_field => 'subject_cts_search',
+            :sep => '|',
+            :sep_index => ' > ',
+            :sep_display => ' > ',
+            :json => true
         },
         'title_uniform_display' => {
             :search_field => 'title',
@@ -331,7 +350,7 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_cts', :label => 'Author, etc.'
+    config.add_show_field 'author_json', :label => 'Author, etc.'    
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -345,14 +364,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
-    config.add_show_field 'subject_cts', :label => 'Subject'
+    config.add_show_field 'subject_json', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
-    config.add_show_field 'author_addl_cts', :label => 'Other contributor'
+    config.add_show_field 'author_addl_json', :label => 'Other contributor'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
@@ -536,6 +555,26 @@ class CatalogController < ApplicationController
        field.solr_local_parameters = {
          :qf => '$donor_qf',
          :pf => '$donor_pf'
+       }
+    end
+
+    #combined author CTS field made from the multiple author browse fields
+    config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => '$author_cts_qf',
+         :pf => '$author_cts_pf'
+       }
+    end
+
+    #combined subject CTS field made from the multiple subject browse fields
+    config.add_search_field('subject_cts_search',:label=>'Subject') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => '$subject_cts_qf',
+         :pf => '$subject_cts_pf'
        }
     end
 
