@@ -154,6 +154,8 @@ h3.rare {
 }
 .other-form {
 	margin: 0 0 1em 0;
+	border-bottom: 1px solid $light-tan;
+	padding-bottom: 1em;
 	span {
 		margin: 0 .5em 0 0;
 		font-size: 12px;
@@ -187,12 +189,6 @@ h3.rare {
     li {
       font-size: 12px;
     }
-  }
-  .other-form {
-  	.other-form-title{
-  		display: inline;
-  		margin-bottom: 0;
-  	}
   }
 }
 
