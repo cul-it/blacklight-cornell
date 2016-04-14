@@ -122,7 +122,7 @@ include ActionView::Helpers::NumberHelper
 
   # Build a link to the CUL libraryhours page for the library location in question
   def render_location_link location_code
-    base_url = 'http://www.library.cornell.edu/libraryhours'
+    base_url = 'https://www.library.cornell.edu/libraries/'
     matched_location = nil
     # Test for substring match of location hash key in location_code
     LOCATION_MAPPINGS.each do |key, value|
@@ -132,9 +132,9 @@ include ActionView::Helpers::NumberHelper
       end
     end
 
-    location_url = matched_location.present? ? base_url + '?loc=' + matched_location : base_url
+    location_url = matched_location.present? ? base_url + matched_location : base_url
 
-    link_to('Hours/Map', location_url, {:title => 'Find this location on a map'})
+    link_to('Hours/Map', location_url, {:title => 'See hours and map'})
   end
 
 
@@ -181,25 +181,27 @@ include ActionView::Helpers::NumberHelper
   # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-306 (location codes)
   # -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-408 (site param values)
   LOCATION_MAPPINGS = {
-    'rmc' => 'Rare',
-    'anx' => 'ANNEX',
-    'afr' => 'Africana',
-    'engr' => 'ENGR',
-    'olin' => 'OLIN',
-    'gnva' => 'GENEVA',
-    'ilr' => 'ILR',
-    'fine' => 'FA',
-    'hote' => 'Hotel',
-    'asia' => 'Kroch',
-    'law' => 'Law',
-    'jgsm' => 'JGSM',
-    'mann' => 'MANNLIB',
-    'math' => 'MATH',
-    'phys' => 'PHYSCI',
-    'uris' => 'Uris',
-    'vet' => 'Vet',
-    'orni' => 'Ornithology',
-    'mus' => 'Music'
+    'rmc' => 'rmc',
+    'anx' => 'annex',
+    'afr' => 'africana',
+    'engr' => 'engineering',
+    'olin' => 'olin',
+    'gnva' => 'geneva',
+    'ilr' => 'ilr',
+    'fine' => 'finearts',
+    'hote' => 'hotel',
+    'asia' => 'asia',
+    'was' => 'asia',
+    'ech' => 'asia',
+    'law' => 'law',
+    'jgsm' => 'jgsm',
+    'mann' => 'mann',
+    'math' => 'math',
+    'phys' => 'physicalsciences',
+    'uris' => 'uris',
+    'vet' => 'vet',
+    'orni' => 'ornithology',
+    'mus' => 'music'
   }
 
   def render_clickable_document_show_field_value args

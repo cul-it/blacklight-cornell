@@ -391,7 +391,9 @@ module Blacklight::Solr::Document::MarcExport
   # for now for backwards compatibilty, but should be replaced by
   # just ruby OpenURL. 
   def export_as_openurl_ctx_kev(format = 'book')  
+    Rails.logger.debug "*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} " 
     format = @_source["format_main_facet"]
+    Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} format = #{format}"  
     title = to_marc.find{|field| field.tag == '245'}
     author = to_marc.find{|field| field.tag == '100'}
     corp_author = to_marc.find{|field| field.tag == '110'}
