@@ -62,7 +62,7 @@ Feature: Item view
   Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
     Given I request the item view for 1630516 
     And click on link "19th century"
-    Then it should contain filter "Subject" with value "English > poetry 19th century"
+    Then it should contain filter "Subject" with value "English poetry > 19th century"
 
   # DISCOVERYACCESS-138
   @all_item_view
