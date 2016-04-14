@@ -171,6 +171,10 @@ en:
         on_order: "On order"
         on_site: "On-site use"
         bound_with_status_label: "Bound with:"
+    holdings:
+        loc: "Location"
+        cln: "Call number"
+        sta: "Status"
     search:
       title: 'Search Results | %{application_name}'
       search_results_header: 'Search'
