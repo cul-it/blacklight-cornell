@@ -259,7 +259,7 @@ class CatalogController < ApplicationController
       :include_in_advanced_search => false
     }, :show => true, :include_in_advanced_search => false
 
-    config.add_facet_field 'workid_facet', :show => false
+    config.add_facet_field 'workid_facet', :label => 'Work', :show => false
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
