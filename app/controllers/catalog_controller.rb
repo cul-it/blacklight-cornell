@@ -104,113 +104,6 @@ class CatalogController < ApplicationController
             :sep => '|',
             :key_value => true
         },
-        'continues_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'continues_in_part_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'supersedes_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_in_part_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'continued_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'continued_in_part_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'superseded_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_in_part_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'split_into_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'merger_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'translation_of_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'has_translation_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'other_edition_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'has_supplement_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'supplement_to_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'other_form_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'issued_with_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'included_work_display' => {
-            :search_field => 'title',
-            :related_search_field => 'author/creator',
-            :sep => '|',
-            :key_value => true
-        },
-        'related_work_display' => {
-            :search_field => 'title',
-            :related_search_field => 'author/creator',
-            :sep => '|',
-            :key_value => true
-        }
     }
 
     config.display_link = {
@@ -375,34 +268,34 @@ class CatalogController < ApplicationController
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
-    config.add_show_field 'included_work_display', :label => 'Included work'
-    config.add_show_field 'related_work_display', :label => 'Related Work'
-    config.add_show_field 'title_series_cts', :label => 'Series'
-    config.add_show_field 'continues_display', :label => 'Continues'
-    config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
-    config.add_show_field 'supersedes_display', :label => 'Supersedes'
-    config.add_show_field 'absorbed_display', :label => 'Absorbed'
-    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part'
-    config.add_show_field 'continued_by_display', :label => 'Continued by'
-    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by'
-    config.add_show_field 'superseded_by_display', :label => 'Superseded by'
-    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by'
-    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by'
-    config.add_show_field 'split_into_display', :label => 'Split into'
-    config.add_show_field 'merger_display', :label => 'Merger'
-    config.add_show_field 'translation_of_display', :label => 'Translation of'
-    config.add_show_field 'has_translation_display', :label => 'Has translation'
-    config.add_show_field 'other_edition_display', :label => 'Other edition'
-    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed Selectively By'
-    config.add_show_field 'indexed_by_display', :label => 'Indexed By'
-    config.add_show_field 'references_display', :label => 'References'
-    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its Entity By'
-    config.add_show_field 'in_display', :label => 'In'
-    config.add_show_field 'map_format_display', :label => 'Map Format'
-    config.add_show_field 'has_supplement_display', :label => 'Has supplement'
-    config.add_show_field 'supplement_to_display', :label => 'Supplement to'
-    config.add_show_field 'other_form_display', :label => 'Other form'
-    config.add_show_field 'issued_with_display', :label => 'Issued with'
+    config.add_show_field 'included_work_display', :label => 'Included work', helper_method: :remove_pipe
+    config.add_show_field 'related_work_display', :label => 'Related Work', helper_method: :remove_pipe
+    config.add_show_field 'title_series_cts', :label => 'Series', helper_method: :remove_pipe
+    config.add_show_field 'continues_display', :label => 'Continues', helper_method: :remove_pipe
+    config.add_show_field 'continues_in_part_display', :label => 'Continues in part', helper_method: :remove_pipe
+    config.add_show_field 'supersedes_display', :label => 'Supersedes', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_display', :label => 'Absorbed', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part', helper_method: :remove_pipe
+    config.add_show_field 'continued_by_display', :label => 'Continued by', helper_method: :remove_pipe
+    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by', helper_method: :remove_pipe
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by', helper_method: :remove_pipe
+    config.add_show_field 'split_into_display', :label => 'Split into', helper_method: :remove_pipe
+    config.add_show_field 'merger_display', :label => 'Merger', helper_method: :remove_pipe
+    config.add_show_field 'translation_of_display', :label => 'Translation of', helper_method: :remove_pipe
+    config.add_show_field 'has_translation_display', :label => 'Has translation', helper_method: :remove_pipe
+    config.add_show_field 'other_edition_display', :label => 'Other edition', helper_method: :remove_pipe
+    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed Selectively By', helper_method: :remove_pipe
+    config.add_show_field 'indexed_by_display', :label => 'Indexed By', helper_method: :remove_pipe
+    config.add_show_field 'references_display', :label => 'References', helper_method: :remove_pipe
+    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its Entity By', helper_method: :remove_pipe
+    config.add_show_field 'in_display', :label => 'In', helper_method: :remove_pipe
+    config.add_show_field 'map_format_display', :label => 'Map Format', helper_method: :remove_pipe
+    config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
+    config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
+    config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
+    config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
     config.add_show_field 'notes', :label => 'Notes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
