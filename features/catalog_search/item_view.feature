@@ -221,7 +221,7 @@ Feature: Item view
   @DISCOVERYACCESS-1386 
   Scenario: As a user I can see the information about an ONLINE item, but not the call number 
     Given I request the item view for 5380314  
-    Then I should not see the label 'Call number'
+    Then I should see the label 'Available online'
 
   #see holdings in Classic Catalog, but the space is just blank under “Availability” for this title in New Catalog.
   @availability
