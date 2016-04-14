@@ -47,14 +47,15 @@
       <table  class= "table table-striped table-responsive">
           <thead>
             <tr> 
-              <th>Available At</th>
-              <th>Status</th>
+              <th>Location</th>
+              <th>Call Number</th>
+              <th>Availability</th>
             </tr>
           </thead>
          <tbody>
           <% online_links.each do |link| %>
             <tr>
-              <td><span class="online-link" ><%= link %></span></td>
+              <td colspan="2" ><span class="online-link" ><%= link %></span></td>
               <td><h5 class="location"><i class="fa fa-check"></i> Available online</h5></td>
             </tr>
           <% end %>
