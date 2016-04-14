@@ -167,6 +167,8 @@ h3.rare {
 	.other-form-title {
 		font-size: 110%;
 		color: $gray-dark;
+		display: block;
+		margin-bottom: .25em;
 	}
 	.label-online:hover {
 		background: $teal;
@@ -185,6 +187,12 @@ h3.rare {
     li {
       font-size: 12px;
     }
+  }
+  .other-form {
+  	.other-form-title{
+  		display: inline;
+  		margin-bottom: 0;
+  	}
   }
 }
 
