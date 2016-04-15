@@ -436,6 +436,7 @@ Feature: Item view
     | 115453 | "Chemical Society (Great Britain). Quarterly reviews" | "Title" | "Quarterly reviews" |
 
 
+  @all_item_view
   Scenario Outline: Link to special content when available
     Given I request the item view for <bibid>
     Then I <yesno> see the label <label>
@@ -458,6 +459,7 @@ Feature: Item view
     | 5250067   | should not | 'Description' |
 
   # DISCOVERYACCESS -?
+  @all_item_view
   Scenario: Show the record notes field when available
     Given I request the item view for 4626
     Then it should contain "notes" with value "Notes:"
