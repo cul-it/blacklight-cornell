@@ -1187,5 +1187,10 @@ def bento_online_url(url_online_access, url_item)
     end
   end
 
-
+def remove_pipe args
+  value = args[:value]
+  value.map do |v|
+  v.split('|')[0]
+end
+end
 end
