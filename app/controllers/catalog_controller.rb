@@ -278,7 +278,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part', helper_method: :remove_pipe
     config.add_show_field 'continued_by_display', :label => 'Continued by', helper_method: :remove_pipe
     config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by', helper_method: :remove_pipe
-    config.add_show_field 'superseded_by_display', :label => 'Superseded by', helper_method: :remove_pipe
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by', :helper_method => :remove_pipe
     config.add_show_field 'absorbed_by_display', :label => 'Absorbed by', helper_method: :remove_pipe
     config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by', helper_method: :remove_pipe
     config.add_show_field 'split_into_display', :label => 'Split into', helper_method: :remove_pipe
