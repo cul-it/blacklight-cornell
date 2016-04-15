@@ -83,6 +83,11 @@ module CornellParamsHelper
       end
       for i in 0..my_params[:search_field_row].count - 1
          my_params[:q_row][i].gsub!('”', '"')
+         
+         numquotes = my_params[:q_row][i].count '"'
+         if numquotes == 1
+           my_params[:q_row][i].gsub!('"', '')
+         end
          if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
            if my_params[:q_row][i] == ""
              my_params[:q_row][i] = "blank"
