@@ -253,6 +253,7 @@ include ActionView::Helpers::NumberHelper
             content_tag('span', displayv_searchv[0])
           end
         elsif clickable_setting[:hierarchical]
+          
           # fields such as subject are hierarchical
           hierarchical_value = ''
           value_array.map do |v|
@@ -263,6 +264,21 @@ include ActionView::Helpers::NumberHelper
             end
             link_to(v, add_search_params(args[:field], '"' + hierarchical_value + '"'), class: "hierarchical")
           end.join(sep_display).html_safe
+
+        elsif clickable_setting[:json]
+          json_value=''
+              subject = JSON.parse(value)
+              subject.map do |sub|
+                v = sub["subject"]
+                  if !json_value.empty?
+                  json_value += sep_index + v
+                  else
+                  json_value += v
+                  end
+                link_to(v, add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
+              end.join(sep_display).html_safe
+            
+         
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
           ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
@@ -284,6 +300,46 @@ include ActionView::Helpers::NumberHelper
               link_to(v, add_search_params(args[:field], '"' + v + '"'))
             end.join(sep_display).html_safe
           end
+
+
+
+        elsif clickable_setting[:pair_list_json]
+          ## fields such as title are hierarchical
+          ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
+          # debugger
+          authors = JSON.parse(value)
+          value_array = []
+          if authors["name1"] && authors["search1"]
+            value_array <<  authors["name1"]
+            value_array << authors["search1"]
+          end
+          if authors["name2"] && authors["search2"]
+            value_array << authors["name2"]
+            value_array << authors["search2"]
+          end
+
+          if  value_array.size() > 1
+            # i = 0
+            # value_array.map do |v|
+              # link_to(v, add_search_params(args[:field], '"' + v + '"'))
+            # end.join(sep_display).html_safe
+            i = 0
+            display_list = []
+            while i < value_array.size()
+              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + Maybe(value_array[i+1]).to_s + '"'))
+              i = i + 2
+            end
+            display_list.join(sep_display).html_safe
+
+
+
+
+          else
+            value_array.map do |v|
+              link_to(v, add_search_params(args[:field], '"' + v + '"'))
+            end.join(sep_display).html_safe
+          end
+
         else
           # default behavior to search the text displayed
           value_array.map do |v|
@@ -1131,5 +1187,10 @@ def bento_online_url(url_online_access, url_item)
     end
   end
 
-
+def remove_pipe args
+  value = args[:value]
+  value.map do |v|
+  v.split('|')[0]
+end
+end
 end
