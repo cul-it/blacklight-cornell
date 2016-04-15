@@ -18,34 +18,34 @@
           = group + " Items"
     - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource" 
     - else
-      %table.table.table-striped.table-responsive
-        - if !online_url(@document)
-          %thead
-            %tr
-              %th
-                = t('blacklight.holdings.loc')
-              %th
-                = t('blacklight.holdings.cln')
-              %th
-                = t('blacklight.holdings.sta')
-        %tbody
-          - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
-            - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
-            - callnumber = entry['call_number']
-            - noncirc = false
-            - if location =~ /Non-Circulating/
-              - noncirc = true 
-            - if location =~ /Rare/
-              - noncirc = true 
-            - some_av = 'no'
-            %tr
-              %td
-                = render 'location', :entry => entry, :location => location, :hide_status => @hide_status
-              %td
-                -# Only display a real call number
-                = render 'callnumber',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber
-              %td
-                = render 'status',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber,:noncirc=>noncirc,:some_av =>some_av,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count,:bound_with=>bound_with
+      - # %table.table.table-striped.table-responsive
+      - if !online_url(@document)
+        %thead
+          %tr
+            %th
+              = t('blacklight.holdings.loc')
+            %th
+              = t('blacklight.holdings.cln')
+            %th
+              = t('blacklight.holdings.sta')
+      %tbody
+        - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
+          - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
+          - callnumber = entry['call_number']
+          - noncirc = false
+          - if location =~ /Non-Circulating/
+            - noncirc = true 
+          - if location =~ /Rare/
+            - noncirc = true 
+          - some_av = 'no'
+          %tr
+            %td
+              = render 'location', :entry => entry, :location => location, :hide_status => @hide_status
+            %td
+              -# Only display a real call number
+              = render 'callnumber',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber
+            %td
+              = render 'status',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber,:noncirc=>noncirc,:some_av =>some_av,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count,:bound_with=>bound_with
 
       - # end of table.
       - if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare"
