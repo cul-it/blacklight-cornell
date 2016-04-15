@@ -384,17 +384,14 @@ Feature: Item view
   @linkfield
   Scenario: following linking fields
     Given I request the item view for 115093 
-    Then I should see the label 'Superseded by'
-    And click on link "Nghiên cứu lịch sử."
-    Then it should contain filter "Title" with value "Nghiên cứu lịch sử."
-
+    Then I should see the text 'Superseded by'
+ 
   # DISCOVERYACCESS-230
   @all_item_view
   @linkfields
   Scenario Outline: Display Linking Title Display Fields
     Given I request the item view for <bibid>
-    And click on link <link>
-    Then it should contain filter <filter> with value <value>
+    Then I should see the value <value>
 
   Examples:
     | bibid  | link | filter | value |
