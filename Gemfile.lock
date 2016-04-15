@@ -520,7 +520,7 @@ DEPENDENCIES
   pry-byebug
   rails (= 4.2.1)
   rb-inotify
-  rb-readline (~> 0.4.2)
+  rb-readline
   rspec
   rspec-rails
   rufus-scheduler

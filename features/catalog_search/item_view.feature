@@ -387,11 +387,12 @@ Feature: Item view
     Then I should see the text 'Superseded by'
  
   # DISCOVERYACCESS-230
-  @all_item_view
+  #
   @linkfields
+
   Scenario Outline: Display Linking Title Display Fields
     Given I request the item view for <bibid>
-    Then I should see the value <value>
+    Then I should see the text <value>
 
   Examples:
     | bibid  | link | filter | value |
