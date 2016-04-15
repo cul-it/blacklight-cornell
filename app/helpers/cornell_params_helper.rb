@@ -280,10 +280,16 @@ end
            new_query_string = parse_query_row(query_rowArray[i], op_rowArray[i])
            if rowHash.has_key?(search_field_rowArray[i])
               current_query = rowHash[search_field_rowArray[i]]
+              if params[:boolean_row][n.to_sym].nil?
+                params[:boolean_row][n.to_sym] = "OR"
+              end
               new_query = " " << current_query << " " << params[:boolean_row][n.to_sym] << " " << new_query_string << " "
               rowHash[search_field_rowArray[i]] = new_query
            else
               rowHash[search_field_rowArray[i]] = new_query_string
+              if params[:boolean_row][n.to_sym].nil?
+                params[:boolean_row][n.to_sym] = "OR"
+              end              
               opArray << params[:boolean_row][n.to_sym]
            end
          end
@@ -316,21 +322,23 @@ end
   def parse_query_row(query, op)
     splitArray = []
     returnstring = ""
-    if query.include?('%26')
-      query.gsub!('%26','&')
-    end
-    query.gsub!("&","%26")
-    if op == "phrase"
-      query.gsub!("\"", "\'")
-#      returnstring << '"' << query << '"'
-      returnstring = query
-    else
-      splitArray = query.split(" ")
-      if splitArray.count > 1
-         returnstring = splitArray.join(' ' + op + ' ')
-      else
-         returnstring = query
-      end
+    if !query.nil?
+     if query.include?('%26')
+       query.gsub!('%26','&')
+     end
+     query.gsub!("&","%26")
+     if op == "phrase"
+       query.gsub!("\"", "\'")
+#       returnstring << '"' << query << '"'
+       returnstring = query
+     else
+       splitArray = query.split(" ")
+       if splitArray.count > 1
+          returnstring = splitArray.join(' ' + op + ' ')
+       else
+          returnstring = query
+       end
+     end
     end
     return returnstring
   end
