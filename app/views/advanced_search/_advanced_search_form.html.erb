@@ -11,7 +11,7 @@
 
             <label for="op_row" class="sr-only"><%= t('blacklight.search.form.op_row') %></label>
 
-            <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase', 'begins_with' => 'begins_with'}.sort,'all'), :class => 'form-control', :id =>"op_row" ) %> in
+            <%= select_tag("op_row[]", options_for_select({'all'=>'AND','any'=>'OR', 'phrase' => 'phrase', 'begins with' => 'begins_with'}.sort,'all'), :class => 'form-control', :id =>"op_row" ) %> in
 
             <label for="search_field_advanced" class="sr-only"><%= t('blacklight.search.form.search_field_advanced') %></label>
 
