@@ -753,7 +753,7 @@ end
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
     @db = @dbResponse['response']['docs']
-    Rails.logger.info("DB = #{@dbResponse.inspect}")
+  #  Rails.logger.info("DB = #{@dbResponse.inspect}")
   if @dbResponse['response']['numFound'] == 0
     @defaultRightsText = ''
    return @defaultRightsText
