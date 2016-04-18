@@ -101,7 +101,7 @@ Feature: Select and export items from the result set
 @select_and_email
   Scenario: Search with 2 results, select, and email them 
     Given I am on the home page
-    #Given PENDING 
+    Given PENDING 
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
     Then I should get results
