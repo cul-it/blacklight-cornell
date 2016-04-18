@@ -35,6 +35,7 @@ Feature: Facets
 		#And the 'Call Number' facet should not be open
 		And the 'Library Location' facet should not be open
 
+	@homepage 
 	@nocallnumber 
         @javascript
 	Scenario: Viewing the home page

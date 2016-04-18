@@ -8,6 +8,7 @@
 <div class="row database-subject">
   <div class="page-title col-sm-12">
     <div class="return-link">
+     <% if !@db[0].nil? %>
       <%= link_to "/catalog/#{@db[0]["id"]}" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to Item
@@ -59,6 +60,7 @@
     <div class="document-data">
       <% @db.each do |data| %>
        <h4 class="blacklight-title_display">
+       	<% if !data["url_access_display"].nil? %>
           <%= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
             <% if data["fulltitle_vern_display"].present? %>
               <%= data["fulltitle_vern_display"] %>
@@ -265,6 +267,7 @@
                 <% end %>
               </table>
           <% end %>
+          
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
@@ -302,6 +305,12 @@
             </tr>
           </table>
         <% end %>
+      <% else %>
+        Not an e-book or database record.  Check out why a link was created for this bibID.
+      <% end %>        
+      <% end %>
+      <% else %> 
+        Invalid record ID
       <% end %>
     </div>
   </div>
