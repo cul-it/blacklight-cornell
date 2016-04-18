@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bdtest.relais-host.com/portal-service/user/authentication
+    body:
+      encoding: UTF-8
+      string: '{"ApiKey":"BADAPIKEY","PartnershipId":"BD","UserGroup":"patron","LibrarySymbol":"DUMMY_BD_LIBRARY_SYMBOL","PatronId":"DUMMY_BD_PATRON"}'
+    headers:
+      User-Agent:
+      - ruby borrow_direct gem 1.2.0 (HTTPClient 2.7.1) https://github.com/jrochkind/borrow_direct
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 05 Apr 2016 20:08:12 GMT
+      Content-Type:
+      - application/json
+      Accept-Language:
+      - en
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.1
+      Date:
+      - Tue, 05 Apr 2016 20:08:12 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '76'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"ApiKeyOk":false,"Problem":{"Code":"PUBAZ006","Message":"Invalid API
+        key"}}'
+    http_version: 
+  recorded_at: Tue, 05 Apr 2016 20:08:12 GMT
+recorded_with: VCR 3.0.0

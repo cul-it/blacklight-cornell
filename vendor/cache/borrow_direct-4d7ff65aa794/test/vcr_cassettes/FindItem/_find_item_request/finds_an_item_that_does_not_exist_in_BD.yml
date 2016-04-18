@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bdtest.relais-host.com/portal-service/user/authentication
+    body:
+      encoding: UTF-8
+      string: '{"ApiKey":"DUMMY_BD_API_KEY","PartnershipId":"BD","UserGroup":"patron","LibrarySymbol":"DUMMY_BD_LIBRARY_SYMBOL","PatronId":"DUMMY_BD_PATRON"}'
+    headers:
+      User-Agent:
+      - ruby borrow_direct gem 1.2.0 (HTTPClient 2.7.1) https://github.com/jrochkind/borrow_direct
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 05 Apr 2016 20:07:51 GMT
+      Content-Type:
+      - application/json
+      Accept-Language:
+      - en
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.1
+      Date:
+      - Tue, 05 Apr 2016 20:07:52 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '262'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"AuthorizationId":"vpVmZmZQL9S1gAfdci2N93oC08Q","LibrarySymbol":"DUMMY_BD_LIBRARY_SYMBOL","Iso639_2_LangCode":"ENG","FirstName":"Enrico","LastName":"Silterra","AllowLoanAddRequest":true,"AllowCopyAddRequest":false,"AllowSelDelivLoanChange":true,"AllowSelDelivCopyChange":false}'
+    http_version: 
+  recorded_at: Tue, 05 Apr 2016 20:07:52 GMT
+- request:
+    method: post
+    uri: https://bdtest.relais-host.com/dws/item/available?aid=vpVmZmZQL9S1gAfdci2N93oC08Q
+    body:
+      encoding: UTF-8
+      string: '{"PartnershipId":"BD","ExactSearch":[{"Type":"ISBN","Value":"NO_SUCH_THING"}]}'
+    headers:
+      User-Agent:
+      - ruby borrow_direct gem 1.2.0 (HTTPClient 2.7.1) https://github.com/jrochkind/borrow_direct
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 05 Apr 2016 20:07:52 GMT
+      Content-Type:
+      - application/json
+      Accept-Language:
+      - en
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.1
+      Date:
+      - Tue, 05 Apr 2016 20:08:07 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"Available":false,"SearchTerm":"isbn=NO_SUCH_THING","RequestLink":{"ButtonLink":"https://cornell.hosts.atlas-sys.com/illiad/illiad.dll/OpenURL?genre=Book&sid=BD&HeldLocally=N&rft.title=23%20things%20they%20don%27t%20tell%20you%20about%20capitalism&rft.date=c2010&rft.isbn=9781608191666&rft.isbn=1608191664&rft.dat=730926717&rft.pub=Bloomsbury%20Press%20%3B&rft.place=New%20York","ButtonLabel":"Request","RequestMessage":"Click
+        here to place an Interlibrary Loan request."},"NumberOfRecords":94}'
+    http_version: 
+  recorded_at: Tue, 05 Apr 2016 20:08:07 GMT
+recorded_with: VCR 3.0.0

@@ -29,7 +29,7 @@ gem 'haml'
 gem 'haml-rails'
 gem 'marc'
 gem 'blacklight-marc'
-gem 'rb-readline'#, '~> 0.4.2'
+gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
 #gem 'newrelic_rpm'
 gem 'nokogiri'
@@ -38,7 +38,7 @@ gem 'addressable'
 
 # Gems used only for assets and not required
 # in production environments by default.
-  gem 'sass-rails',   '~> 4.0'
+  gem 'sass-rails',   '~> 5.0'
   gem 'coffee-rails', '~> 4.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes

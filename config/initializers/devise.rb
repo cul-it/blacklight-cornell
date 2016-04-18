@@ -133,7 +133,7 @@ Devise.setup do |config|
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false 
   # DISCOVERYACCESS-2028 - trying to get rid of old sessions
-   config.expire_auth_token_on_timeout = true 
+## commented out for BL 5.16.3   config.expire_auth_token_on_timeout = true 
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
