@@ -268,7 +268,7 @@ GEM
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
-    loofah (2.0.2)
+    loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.9)
     mail (2.6.3)
@@ -283,8 +283,8 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mimemagic (0.3.0)
-    mini_portile (0.6.2)
-    minitest (5.7.0)
+    mini_portile2 (2.0.0)
+    minitest (5.8.4)
     mollom (0.2.3)
     multi_json (1.11.2)
     multi_test (0.1.2)
@@ -299,8 +299,8 @@ GEM
     net-ssh (2.9.2)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
     nori (2.6.0)
     notiffany (0.0.6)
       nenv (~> 0.1)
@@ -345,11 +345,11 @@ GEM
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
-    rails-dom-testing (1.0.6)
+    rails-dom-testing (1.0.7)
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-html-sanitizer (1.0.2)
+    rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     railties (4.2.1)
       actionpack (= 4.2.1)
@@ -361,6 +361,10 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rb-readline (0.5.3)
+    redis (3.3.0)
+    redis-session-store (0.8.1)
+      actionpack (>= 3, < 5.1)
+      redis
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rsolr (1.0.12)
@@ -521,6 +525,7 @@ DEPENDENCIES
   rails (= 4.2.1)
   rb-inotify
   rb-readline
+  redis-session-store
   rspec
   rspec-rails
   rufus-scheduler
