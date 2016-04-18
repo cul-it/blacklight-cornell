@@ -1,0 +1,8 @@
+- if @counter.blank?
+  = link_to catalog_path(@id), { :title => @ti, :class => 'return-link' } do
+    %i.fa.fa-arrow-circle-left
+    Back to item
+- else
+  = link_to catalog_path(@id), { :title => @ti, :class => 'return-link', 'data-counter'.to_sym => @counter } do
+    %i.fa.fa-arrow-circle-left
+    Back to item

@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: "<NETID_URL>?netid=<TEST_NETID>"
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - catalog.library.cornell.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Mar 2015 19:49:13 GMT
+      Server:
+      - Apache/2.2.3 (Red Hat)
+      Content-Length:
+      - '181'
+      Connection:
+      - close
+      Content-Type:
+      - text/plain; charset=ISO-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        {
+        "pid": "<TEST_USER_ID>",
+        "netid": "<TEST_NETID>",
+        "bc": "<TEST_USER_BARCODE>",
+        "inid": "001433955",
+        "last": "<TEST_LASTNAME>",
+        "given": "<TEST_FIRSTNAME>",
+        "host": "database",
+        "group": "STAF",
+        "status": "Active"
+
+        }
+    http_version:
+  recorded_at: Wed, 11 Mar 2015 19:49:13 GMT
+recorded_with: VCR 2.9.3
