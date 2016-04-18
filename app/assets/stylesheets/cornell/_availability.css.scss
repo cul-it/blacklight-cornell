@@ -32,11 +32,11 @@
 	}
 	.map-it {
 		font-size: 12px;
-		// display: inline-block;
 	}
 	.url_findingaid_display {
 		display: block;
 		margin-bottom: 1em;
+		font-size: 16px;
 	}
 	.list-unstyled {
 		padding: 0;
@@ -96,8 +96,12 @@ h3.rare {
 }
 .online-link {
 	margin-bottom: .4em;
-	// font-size: .9em;
 	line-height: 1.2em;
+	font-size: 16px;
+	a {
+		display: inline-block;
+		font-size: 90%;
+	}
 }
 .main-content {
 	.online-coverage,
@@ -132,8 +136,19 @@ h3.rare {
 }
 .holdings {
 	th:first-child,
+	th:nth-child(2),
+	td:first-child,
+	td:nth-child(2) {
+		width: 30%;
+	}
+}
+.holdings-online {
+	th:first-child,
 	th:nth-child(2) {
 		width: 30%;
+	}
+	table {
+		margin-bottom: 1em;
 	}
 }
 
