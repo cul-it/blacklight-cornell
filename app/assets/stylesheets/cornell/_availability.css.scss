@@ -140,33 +140,44 @@ h3.rare {
 // Other forms
 // ----------------
 .other-forms {
-	// background: $pale-gray;
 	h4 {
-		font-weight: 700;
-	}
-	// ul {
-	// 	margin: 0;
-	// 	padding: 0;
-	// 	list-style: none;
-	// }
-	.list-unstyled {
 		margin-bottom: 1em;
-		li {
-			margin-bottom: .25em;
-		}
+		font-size: 20px;
 	}
-	.format {
-		font-size: 11px;
-		margin-left: 1em;
-		color: $medium-gray;
+	.label-online {
+		color: white;
+		font-size: 12px;
+	}
+	p {
+		margin-top: 2em;
+	}
+}
+.other-form {
+	margin: 0 0 .5em 0;
+	border-bottom: 1px solid $light-tan;
+	padding-bottom: .5em;
+	span {
+		margin: 0 .5em 0 0;
+		font-size: 12px;
+		color: $gray;
+	}
+	.other-form-format {
 		i {
 			margin-right: .25em;
 		}
 	}
-	.label-online {
-		margin-left: 1em;
+	.other-form-title {
+		font-size: 110%;
+		color: $gray-dark;
+		display: block;
+		margin-bottom: .25em;
+	}
+	.label-online:hover {
+		background: $teal;
+		pointer: none;
 	}
 }
+
 
 // MEDIA QUERIES
 // -------------------------
