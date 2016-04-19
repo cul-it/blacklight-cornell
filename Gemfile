@@ -35,6 +35,7 @@ gem 'net-ldap'
 gem 'nokogiri'
 gem 'rufus-scheduler'
 gem 'addressable'
+gem 'redis-session-store'
 
 # Gems used only for assets and not required
 # in production environments by default.
