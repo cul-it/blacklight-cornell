@@ -1,9 +1,9 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: 60d8d6ef92b390de0bfa3e1069d09a3437617ae5
-  branch: master
+  revision: 0edf97e004cf3b967f181f9669de30962a63cc45
+  branch: dev
   specs:
-    blacklight_cornell_requests (1.2.2beta)
+    blacklight_cornell_requests (1.2.2)
       blacklight (= 5.9)
       borrow_direct
       dotenv
@@ -386,7 +386,7 @@ GEM
       redis
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rsolr (1.0.12)
+    rsolr (1.0.13)
       builder (>= 2.1.2)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)

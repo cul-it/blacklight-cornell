@@ -24,7 +24,10 @@ module BlacklightCornellRequests
       # if the referer is a different path — i.e., /request/*, then we *do* want to
       # preserve the volume selection; this would be the case if the page is reloaded
       # or the user selects an alternate delivery method for the same item.
-      session[:volume] = nil if request.referer.include? 'catalog'
+      if session[:setvol].nil? && (request.referer.include? 'catalog')
+        session[:volume] = nil 
+      end
+      session[:setvol] = nil
 
       params[:volume] = session[:volume]
       # Reset session var after use so that we don't get weird results if
@@ -236,7 +239,9 @@ module BlacklightCornellRequests
     # AJAX responder used with requests.js.coffee to set the volume
     # when the user selects one in the volume drop-down list
     def set_volume
+      Rails.logger.warn "mjc12test: setvol params: #{params}"
       session[:volume] = params[:volume]
+      session[:setvol] = 1
       respond_to do |format|
         format.js {render nothing: true}
       end
