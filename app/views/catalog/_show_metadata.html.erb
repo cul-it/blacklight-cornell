@@ -22,10 +22,10 @@
       <div class="cover col-sm-2">
         <div class="iconcover bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
           <%= image_tag "cornell/layout/placeholder-item.png" , class: "img-thumbnail",  alt: "" %>
-          <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>"></i>
+          <i class="fa fa-<%= formats_icon_mapping(@document['format'].first) %>" aria-hidden="true"></i>
         </div>
         <div class="item-bookcover">
-          <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down"></i></a>
+          <a class="btn btn-sm btn-cul availability-link" href="#availability">Check availability<i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
         </div>
       </div>
       <div class="document item-metadata col-sm-10">
@@ -44,12 +44,23 @@
     <% if online_url(@document) %>
     <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
     <div class="holdings-online">
-      <h5 class="location"><i class="fa fa-check"></i> Available online</h5>
-      <ul class="list-unstyled">
-        <% online_links.each do |link| %>
-        <li class="online-link" ><%= link %></li>
-        <% end %>
-      </ul>
+      <table  class= "table table-responsive">
+          <thead>
+            <tr> 
+              <th><%= t('blacklight.holdings.loc') %></th>
+              <th><%= t('blacklight.holdings.cln') %></th>
+              <th><%= t('blacklight.holdings.sta') %></th>
+            </tr>
+          </thead>
+         <tbody>
+          <% online_links.each do |link| %>
+            <tr>
+              <td colspan="2" ><span class="online-link"><%= link %></span></td>
+              <td><span class="label label-available"><i class="fa fa-check"></i> Available online</span></td>
+            </tr>
+          <% end %>
+         </tbody>
+       </table>
     </div>
     <% end %>
     <div class="holdings" data-bibid="<%= @document.id.to_s %>">
@@ -62,31 +73,52 @@
       <%= access_restrictions %>
     </span>
     <% end %>
+    <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
+    <% if format == 'Book' && online_url(@document) %>
+    <span class="terms-of-use">
+    <a href="/catalog/tou/<%= @document[:id] %>">Terms of use</a>
+    </span>
+    <% end %>
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
-    <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
-    <% if format == 'Book' && online_url(@document) &&  @group.nil? %>
-    <% oclc_number=oclc_number_link %>
-    <% if oclc_number.present? %>
-    <span class="worldcat-search"><i class="fa fa-arrow-right"></i> <a href="http://cornell.worldcat.org/oclc/<%= oclc_number.gsub(/\(.*?\)/, "") %>/editions?se=loc&editionsView=true">Search Libraries Worldwide for a print copy</a></span>
-    <% end %>
-    <% end %>
   </div>
-  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
+  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_json').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
   <div class="availability well other-forms">
     <h4>Other forms of this work</h4>
-     <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_piped').blank?  %>
-    <% other_forms = render_display_link :document => @document, :field =>  'other_availability_piped', :format => 'raw' %>
-    <ul class="list-unstyled">
-      <% other_forms.each do |link,label| %>
-      <li><%= link_to link, label %></li>
-      <% end %>
-    </ul>
-    <% end %>
-    <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>
-    <p><%= link_to "See all results",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
-    <% end %>
-  </div>
+
+ <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_json').blank?  %>
+  <% @document['other_availability_json'].each do |form| %>
+          <% f = JSON.parse(form) %>
+          <div class="other-form">
+          <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
+          
+          <% formats = f["format"].split(",") %>
+          <% formats.each do |format| %>
+          <span class="other-form-format">
+          <i class="fa fa-<%= formats_icon_mapping(format) %>"></i><%= format %>
+          </span>
+          <% end %>
+          <span class="other-form-date"><%= f["pub_date"] %></span>
+          <span class="other-form-language"><%= f["language"] %></span>
+          <span class="other-form-edition"><%= f["edition"] %></span>
+          <% if f["sites"].present? %>
+            <span class="other-form-online">
+              <span class="status-online label label-online">Online</span>
+              <% if (f["sites"]) != "Online" %>
+                <%= f["sites"] %>
+              <% end %>
+            </span>
+          <% end %>
+          <% if f["libraries"].present? %><span class="other-form-libraries">Location: <%= f["libraries"] %></span><% end %>
+          </div>
+  <% end %>
+  <% end %>
+
+     <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>     
+     <p><%= link_to "See all forms of this work",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
+     <% end %>
   <%end%>
-  
+    </div>
+
 </div>
+

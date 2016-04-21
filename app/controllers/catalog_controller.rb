@@ -26,8 +26,16 @@ class CatalogController < ApplicationController
   # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
   self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   configure_blacklight do |config|
-    ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
 
+    # chris beer recommended for latest version of unapi
+    config.unapi = {
+      'oai_dc_xml' => { :content_type => 'text/xml' } 
+    }
+    config.index.partials << 'microformat'
+    config.show.partials << 'microformat' 
+    # end of unapi config.
+
+    ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
@@ -47,18 +55,43 @@ class CatalogController < ApplicationController
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
     config.display_clickable = {
+
+        'included_work_display' => {       
+           :search_field => 'title',     
+           :related_search_field => 'author/creator',        
+           :sep => '|',      
+           :key_value => true        
+        },        
+        'related_work_display' => {       
+            :search_field => 'title',     
+            :related_search_field => 'author/creator',        
+            :sep => '|',      
+            :key_value => true        
+        },
         'author_cts' => {
             :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
         },
+        'author_json' => {
+            :search_field => 'author_cts_search',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list_json => true
+        },
+        'author_addl_json' => {
+            :search_field => 'author_cts_search',
+            :sep => '|',
+            :sep_display => ' / ',
+            :pair_list_json => true
+        },
         'author_addl_cts' => {
             :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
-        },
+        },       
         'title_series_cts' => {
           :search_field => 'title',
           :sep => '|',
@@ -71,119 +104,19 @@ class CatalogController < ApplicationController
             :sep_display => ' > ',
             :hierarchical => true
         },
+        'subject_json' => {
+            :search_field => 'subject_cts_search',
+            :sep => '|',
+            :sep_index => ' > ',
+            :sep_display => ' > ',
+            :json => true
+        },
         'title_uniform_display' => {
             :search_field => 'title',
             :related_search_field => 'author/creator',
             :sep => '|',
             :key_value => true
         },
-        'continues_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'continues_in_part_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'supersedes_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_in_part_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'continued_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'continued_in_part_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'superseded_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'absorbed_in_part_by_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'split_into_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'merger_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'translation_of_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'has_translation_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'other_edition_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'has_supplement_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'supplement_to_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'other_form_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'issued_with_display' => {
-            :search_field => 'title',
-            :sep => '|',
-            :key_value => true
-        },
-        'included_work_display' => {
-            :search_field => 'title',
-            :related_search_field => 'author/creator',
-            :sep => '|',
-            :key_value => true
-        },
-        'related_work_display' => {
-            :search_field => 'title',
-            :related_search_field => 'author/creator',
-            :sep => '|',
-            :key_value => true
-        }
     }
 
     config.display_link = {
@@ -251,7 +184,7 @@ class CatalogController < ApplicationController
       :include_in_advanced_search => false
     }, :show => true, :include_in_advanced_search => false
 
-    config.add_facet_field 'workid_facet', :show => false
+    config.add_facet_field 'workid_facet', :label => 'Work', :show => false
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
@@ -323,7 +256,7 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_cts', :label => 'Author, etc.'
+    config.add_show_field 'author_json', :label => 'Author, etc.'    
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -337,45 +270,46 @@ class CatalogController < ApplicationController
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
-    config.add_show_field 'subject_cts', :label => 'Subject'
+    config.add_show_field 'subject_json', :label => 'Subject'
     config.add_show_field 'summary_display', :label => 'Summary'
     config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
-    config.add_show_field 'author_addl_cts', :label => 'Other contributor'
+    config.add_show_field 'author_addl_json', :label => 'Other contributor'
     config.add_show_field 'contents_display', :label => 'Table of contents'
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'
     config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'title_series_cts', :label => 'Series'
-    config.add_show_field 'continues_display', :label => 'Continues'
-    config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
-    config.add_show_field 'supersedes_display', :label => 'Supersedes'
-    config.add_show_field 'absorbed_display', :label => 'Absorbed'
-    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part'
-    config.add_show_field 'continued_by_display', :label => 'Continued by'
-    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by'
-    config.add_show_field 'superseded_by_display', :label => 'Superseded by'
-    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by'
-    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by'
-    config.add_show_field 'split_into_display', :label => 'Split into'
-    config.add_show_field 'merger_display', :label => 'Merger'
-    config.add_show_field 'translation_of_display', :label => 'Translation of'
-    config.add_show_field 'has_translation_display', :label => 'Has translation'
-    config.add_show_field 'other_edition_display', :label => 'Other edition'
+    config.add_show_field 'continues_display', :label => 'Continues', helper_method: :remove_pipe
+    config.add_show_field 'continues_in_part_display', :label => 'Continues in part', helper_method: :remove_pipe
+    config.add_show_field 'supersedes_display', :label => 'Supersedes', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_display', :label => 'Absorbed', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part', helper_method: :remove_pipe
+    config.add_show_field 'continued_by_display', :label => 'Continued by', helper_method: :remove_pipe
+    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by', helper_method: :remove_pipe
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by', :helper_method => :remove_pipe
+    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by', helper_method: :remove_pipe
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by', helper_method: :remove_pipe
+    config.add_show_field 'split_into_display', :label => 'Split into', helper_method: :remove_pipe
+    config.add_show_field 'merger_display', :label => 'Merger', helper_method: :remove_pipe
+    config.add_show_field 'merger_of_display', :label => 'Merger of', helper_method: :remove_pipe
+    config.add_show_field 'translation_of_display', :label => 'Translation of', helper_method: :remove_pipe
+    config.add_show_field 'has_translation_display', :label => 'Has translation', helper_method: :remove_pipe
+    config.add_show_field 'other_edition_display', :label => 'Other edition', helper_method: :remove_pipe
     config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed Selectively By'
     config.add_show_field 'indexed_by_display', :label => 'Indexed By'
     config.add_show_field 'references_display', :label => 'References'
     config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its Entity By'
     config.add_show_field 'in_display', :label => 'In'
     config.add_show_field 'map_format_display', :label => 'Map Format'
-    config.add_show_field 'has_supplement_display', :label => 'Has supplement'
-    config.add_show_field 'supplement_to_display', :label => 'Supplement to'
-    config.add_show_field 'other_form_display', :label => 'Other form'
-    config.add_show_field 'issued_with_display', :label => 'Issued with'
+    config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
+    config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
+    config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
+    config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
     config.add_show_field 'notes', :label => 'Notes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
@@ -528,6 +462,26 @@ class CatalogController < ApplicationController
        field.solr_local_parameters = {
          :qf => '$donor_qf',
          :pf => '$donor_pf'
+       }
+    end
+
+    #combined author CTS field made from the multiple author browse fields
+    config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => '$author_cts_qf',
+         :pf => '$author_cts_pf'
+       }
+    end
+
+    #combined subject CTS field made from the multiple subject browse fields
+    config.add_search_field('subject_cts_search',:label=>'Subject') do |field|
+       field.include_in_simple_select = false
+       field.include_in_advanced_search = false
+       field.solr_local_parameters = {
+         :qf => '$subject_cts_qf',
+         :pf => '$subject_cts_pf'
        }
     end
 
@@ -734,6 +688,40 @@ class CatalogController < ApplicationController
         format.html
       end
     end
+end
+
+  def tou
+    test = ""
+    clnt = HTTPClient.new
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+    solr = Blacklight.solr_config[:url]
+    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
+    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
+    @dbResponse = JSON.parse(@dbString)
+    @db = @dbResponse['response']['docs']
+  #  Rails.logger.info("DB = #{@dbResponse.inspect}")
+  if @dbResponse['response']['numFound'] == 0
+    @defaultRightsText = ''
+   return @defaultRightsText
+  else
+    dbcode = @dbResponse['response']['docs'][0]['dbcode']
+    providercode = @dbResponse['response']['docs'][0]['providercode']
+     @defaultRightsText = ''
+     if dbcode.nil? or dbcode == '' #check for providerCode being nil
+           @defaultRightsText = "Use default rights text"
+     else
+       @ermDBResult = ::Erm_data.where(Database_Code: "\'#{dbcode[0]}\'", Prevailing: 'true')
+       if @ermDBResult.size < 1
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+
+         if @ermDBResult.size < 1
+        #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+          @defaultRightsText = "Use default rights text"
+        end
+       end
+     end
+   @column_names = ::Erm_data.column_names.collect(&:to_sym)
+  end
 
   end
 

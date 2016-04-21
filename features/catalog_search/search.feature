@@ -1,10 +1,12 @@
+ @all_search
 @search
 Feature: Search
   In order to find documents
   As a user
   I want to enter terms, select fields, and select number of results per page
 
-  @searchpage
+ @all_search
+   @searchpage
   Scenario: Search Page
     When I go to the catalog page
     Then I should see a search field
@@ -24,7 +26,8 @@ Feature: Search
     Then the 'search_field' drop-down should have an option for 'Publisher'
     Then the 'search_field' drop-down should have an option for 'Subject'
 
-  @callnumber
+ @all_search
+   @callnumber
   Scenario: Perform a search and see call number facet 
     Given I am on the home page
     And I fill in the search box with 'biology'
@@ -32,7 +35,8 @@ Feature: Search
     Then I should get results
     And I should see a facet called 'Call Number' 
 
-  @publisher
+ @all_search
+   @publisher
   Scenario: Perform a search by Publisher
     Given I am on the home page
     And I select 'Publisher' from the 'search_field' drop-down
@@ -42,7 +46,8 @@ Feature: Search
     And it should contain filter "Publisher" with value "Springer"
     And I should see the label 'Springer'
 
-  @peabody
+ @all_search
+   @peabody
   Scenario: Perform a search by author, as author see results 
     Given I am on the home page
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
@@ -50,7 +55,8 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 11'
 
-  @journaltitle
+ @all_search
+   @journaltitle
   Scenario: Perform a search by journaltitle 
     Given I am on the home page
     And I select 'Journal Title' from the 'search_field' drop-down
@@ -59,7 +65,8 @@ Feature: Search
     Then I should get results
     And I should see the label 'of '
 
-  @peabody
+ @all_search
+   @peabody
   Scenario: Perform a search by author, as author see results 
     Given I am on the home page
     And I select 'Author, etc.' from the 'search_field' drop-down
@@ -68,11 +75,12 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 10'
 
-  @search_availability_annotated_hobbit
-  @availability
-  @clock
-  @javascript
-  @wip
+ @all_search
+   @search_availability_annotated_hobbit
+   @availability
+   @clock
+   @javascript
+   @wip
   Scenario: Perform a search and see no avail icon 
     Given I am on the home page
     And I fill in the search box with 'Annotated hobbit'
@@ -80,8 +88,9 @@ Feature: Search
     Then I should get results
     And I should see the "fa-clock-o" class
 
-  @utf8
-  @javascript
+ @all_search
+   @utf8
+   @javascript
   Scenario: Perform a search and see linked fields displayed
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
@@ -91,10 +100,11 @@ Feature: Search
     And I should see the label 'Meiguo xue zhe lun Meiguo Zhongguo xue' 
     And I should see the label '美国学者论美国中国学' 
 
-  @search_availability_title_professional_manager_multiple
-  @multiple
-  @availability
-  @javascript
+ @all_search
+   @search_availability_title_professional_manager_multiple
+   @multiple
+   @availability
+   @javascript
   Scenario: Perform a title search and see avail icon, avail at  multiple locations 
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
@@ -104,14 +114,16 @@ Feature: Search
     And I should see the "fa-check" class
     And I should see the label 'Multiple locations' 
 
-  @search_availability_title_mission_etrangeres_missing
-  @multiple
-  @availability
-  @javascript
+    #And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
+ @all_search
+   @search_availability_title_mission_etrangeres_missing
+   @multiple
+   @availability
+   @javascript
   Scenario: Perform a title search and see avail icon, avail at  multiple locations 
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
+    And I fill in the search box with 'Atlas des missions de la '
     And I press 'search'
     Then I should get results
     And I should see the "fa-check" class
@@ -119,10 +131,11 @@ Feature: Search
 
   # bibid 846380 Tolkien, new critical perspectives
   #   edited by Neil D. Isaacs & Rose A. Zimbardo
-  @search_availability_title_tolkien_critical
-  @multiple
-  @availability
-  @javascript
+ @all_search
+   @search_availability_title_tolkien_critical
+   @multiple
+   @availability
+   @javascript
   Scenario: Perform a title search and see avail icon, avail at  multiple locations 
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down

@@ -391,7 +391,9 @@ module Blacklight::Solr::Document::MarcExport
   # for now for backwards compatibilty, but should be replaced by
   # just ruby OpenURL. 
   def export_as_openurl_ctx_kev(format = 'book')  
+    Rails.logger.debug "*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} " 
     format = @_source["format_main_facet"]
+    Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} format = #{format}"  
     title = to_marc.find{|field| field.tag == '245'}
     author = to_marc.find{|field| field.tag == '100'}
     corp_author = to_marc.find{|field| field.tag == '110'}
@@ -442,4 +444,57 @@ module Blacklight::Solr::Document::MarcExport
   end 
 	  
 
+end
+
+
+module BlacklightMarcHelper
+
+
+  # puts together a collection of documents into one ris export string
+  def render_ris_texts(documents)
+    val = ''
+    documents.each do |doc|
+      if doc.exports_as? :ris
+        val += doc.export_as(:ris) + "\n"
+      end
+    end
+    val
+  end
+end
+
+
+require 'blacklight_range_limit/segment_calculation'
+module BlacklightRangeLimit
+  module ControllerOverride
+  
+    # Action method of our own!
+    # Delivers a _partial_ that's a display of a single fields range facets.
+    # Used when we need a second Solr query to get range facets, after the
+    # first found min/max from result set. 
+    def range_limit
+      solr_field = params[:range_field] # what field to fetch for
+      start = params[:range_start].to_i
+      finish = params[:range_end].to_i
+      
+      solr_params = solr_search_params(params)
+  
+      # Remove all field faceting for efficiency, we won't be using it.
+      solr_params.delete("facet.field")
+      solr_params.delete("facet.field".to_sym)
+      
+      add_range_segments_to_solr!(solr_params, solr_field, start, finish )
+      # We don't need any actual rows or facets, we're just going to look
+      # at the facet.query's
+      solr_params[:rows] = 0
+      solr_params[:facets] = nil
+      solr_params[:qt] ||= blacklight_config.qt
+      # Not really any good way to turn off facet.field's from the solr default,
+      # no big deal it should be well-cached at this point.
+
+      #@response = Blacklight.default_index.connection.get( blacklight_config.solr_path, :params => solr_params )
+      @response = Blacklight.solr.get( blacklight_config.solr_path, :params => solr_params )
+
+      render('blacklight_range_limit/range_segments', :locals => {:solr_field => solr_field}, :layout => !request.xhr?)
+    end
+  end
 end

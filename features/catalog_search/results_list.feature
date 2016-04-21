@@ -5,6 +5,7 @@ Feature: Results list
 	I want to view a list of search results with various options.
 
 	Background:
+        @all_results_list
         @rss
 	Scenario: Empty search
 		Given I am on the home page
@@ -25,6 +26,7 @@ Feature: Results list
 		And the 'per_page' select list should have an option for '50 per page'
 		And the 'per_page' select list should have an option for '100 per page'
 
+        @all_results_list
 	Scenario: Search with no results
 		Given I am on the home page
 		When I fill in the search box with 'awfasdf acawfdfas'
@@ -32,6 +34,7 @@ Feature: Results list
 		#Then there should be 0 search results
 		Then I should not get results
 
+        @all_results_list
 	@next
 	Scenario: Search with results
 		Given I am on the home page
@@ -41,6 +44,7 @@ Feature: Results list
                 Then click on first link "Next »"
 		Then I should get results
 
+        @all_results_list
 	@next_facet
 	Scenario: Search with results
 		Given I am on the home page
@@ -49,6 +53,7 @@ Feature: Results list
 		Then I should get results
                 Then click on first link "more »"
 
+        @all_results_list
 	@getresults
 	Scenario: Search with results
 		Given I am on the home page
@@ -57,6 +62,7 @@ Feature: Results list
 		Then I should get results
 		#Then there should be at least 1 search result
 
+        @all_results_list
 	Scenario: Search with results
 		Given I am on the home page
 		When I fill in the search box with 'biology'
@@ -86,6 +92,7 @@ Feature: Results list
 		And results should have a title field
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
   # DISCOVERYACCESS-?
+        @all_results_list
  @pub_info
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I am on the home page
@@ -146,6 +153,7 @@ Feature: Results list
   #   And the "q" field should not contain "history"
 
   # DISCOVERYACCESS-134
+        @all_results_list
   Scenario: As a user, I can see publication date, publisher and location in one line in items on the query results list.
     Given I am on the home page
     When I fill in the search box with 'Convexity and duality in optimization'
@@ -154,6 +162,7 @@ Feature: Results list
     And it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
   # DISCOVERYACCESS-135
+        @all_results_list
   @DISCOVERYACCESS-135
   Scenario: As a user, I can see the edition of an item in the query results list.
     Given I am on the home page
@@ -164,6 +173,7 @@ Feature: Results list
 
   # DISCOVERYACCESS-344
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
+        @all_results_list
   @discoveryaccess-344
   Scenario: Remove spaces from call number queries in Blacklight
     Given I am on the home page
@@ -174,6 +184,7 @@ Feature: Results list
     And it should have a "title" that looks sort of like "Biology"
 
   # DISCOVERYACCESS-1407
+        @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
@@ -185,6 +196,7 @@ Feature: Results list
     And I should not see the text 'Order Information'
 
   # DISCOVERYACCESS-1407
+        @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
@@ -195,6 +207,7 @@ Feature: Results list
     Then I should get results
     And I should see the text 'Order Information'
 
+        @all_results_list
  @DISCOVERYACCESS-1673
  @catalogresults
  Scenario: Search with results, an item view, make sure we do show link to catalog results
@@ -205,6 +218,7 @@ Feature: Results list
    Then click on link "Marvel masterworks presents the X-men" 
    And I should see the text 'Back to catalog results'
 
+        @all_results_list
  @DISCOVERYACCESS-1673
  Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
    Given I am on the home page

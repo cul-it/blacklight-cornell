@@ -1,0 +1,140 @@
+<div class="headings-list">
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th class="heading-count">
+          Titles
+        </th>
+        <th class="heading-name">
+          Headings
+        </th>
+        <% unless params[:browse_type] == "Author-Title" %>
+          <th class="heading-type">
+            Type
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <% if response.present? %>
+      <% response.each do |data| %>
+        <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
+        <tr>
+          <td>
+            <% if data["count"] > 0 %>
+              <%= data["count"] %>
+            <% end %>
+          </td>
+          <td>
+            <% counts=JSON.parse(data["counts_json"]) %>
+            <% if data["count"] > 0 %>
+              <% if params[:browse_type] == "Author" %>
+                <% if data["headingTypeDesc"] == "Personal Name" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=author_pers_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Corporate Name" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=author_corp_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Event" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=author_event_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% else %>
+                  <%= data["heading"] %><% end %>
+              <% end %>
+              <% if params[:browse_type] == "Subject" %>
+                <% if data["headingTypeDesc"] == "Personal Name" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_pers_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Corporate Name" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_corp_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Geographic Name" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_geo_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Chronological Term" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_era_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Genre/Form Term" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_genr_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Topical Term" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_topic_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Work" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_work_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% elsif data["headingTypeDesc"] == "Event" %>
+                  <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_event_browse' do %>
+                    <%= data["heading"] %><% end %>
+                <% else %>
+                  <%= data["heading"] %><% end %>
+              <% end %>
+              <% if params[:browse_type] == "Author-Title" %>
+                <%= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do %>
+                  <%= data["heading"] %><% end %>
+              <% end %>
+            <% else %>
+              <%= data["heading"] %>
+            <% end %>
+            <% if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true %>
+              <% unless params[:browse_type] == 'Author-Title' %>
+                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do %>
+                  <span class="label label-info">
+                    Info
+                  </span>
+                <% end %>
+              <% end %>
+              <% if params[:browse_type] == 'Author-Title' %>
+                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type] do %>
+                  <span class="label label-info">
+                    Info
+                  </span>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if !data["seeAlso"].nil?  %>
+              <% sa=JSON.parse(data["seeAlso"]) %>
+              <% if sa.count == 1 %>
+                <% sa.each do |r,h| %>
+                  <div class="see-ref">
+                    <i class="fa fa-arrow-right"></i>
+                    <% if r.blank? %>
+                      See Also:
+                    <% end %>
+                    <% if !r.blank? %>
+                      <%= r + ':' %>
+                    <% end %>
+                    <% h.each do |headingInfo| %>
+                      <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
+                        <%= headingInfo["heading"] %><% end %>
+                      <%= "(" + headingInfo["count"].to_s + ")"	 %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if !data["see"].blank? %>
+              <% data["see"].each do |form| %>
+                <% form=JSON.parse(form) %>
+                <% unless form.blank? %>
+                  <div class="see-ref">
+                    <i class="fa fa-arrow-right"></i>
+                    See
+                    <%= link_to '/browse?authq=' + form["heading"].gsub('&', '%26') + '&start=0' +"&browse_type=" + params[:browse_type] do %>
+                      <%= form["heading"] %><% end %>
+                    <div class="see-ref-count">
+                      <%= "(" + form["count"].to_s + ")" %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= data["headingTypeDesc"] %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
