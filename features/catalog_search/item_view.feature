@@ -555,11 +555,19 @@ Feature: Item view
   #   Given I request the item view for 4759
   #   Then I should not see the label 'Series Title'
   #   And I should not see the label 'Uniform Title'
-
-  @all_item_view
+@all_item_view
 @titlelinking
 @DISCOVERYACCESS-1023
   Scenario: Show links to other formats when they exist
   Given I request the item view for 4163301
   Then I should see the text 'Other forms of this work'
+
+# for  Scholastici orthodoxi specimen   --- an EEBO
+@all_item_view
+@tou
+  Scenario: Show links to terms of use on electronic books 
+  Given I request the item view for 8191346
+  Then I should see the text 'Terms of use'
+
+
 
