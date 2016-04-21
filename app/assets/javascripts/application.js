@@ -39,6 +39,7 @@
 //= require print_button.js
 //= require pops.js
 //= require jquery.anchorscroll.js
+//= require browse_placeholder.js
 
 
 

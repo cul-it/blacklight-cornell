@@ -36,12 +36,14 @@ class BrowseController < ApplicationController
         end
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
-        #Rails.logger.info("Petunia3 = #{params[:authq]}")
       end
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
         p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') + '" TO *]' }
+        if params[:start].nil?
+          params[:start] = '0'
+        end
         start = {"start" => params[:start].gsub("\\"," ")}
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
@@ -63,9 +65,6 @@ class BrowseController < ApplicationController
       end
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
-        #Rails.logger.info("Petunia1 = #{params[:authq]}")
-        #params[:authq].gsub!(' ','%20')
-        #Rails.logger.info("Petunia2 = #{params[:authq]}")
         dbclnt = HTTPClient.new
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         #solr = Blacklight.solr_config[:url]
@@ -89,7 +88,6 @@ class BrowseController < ApplicationController
         end
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
-        #Rails.logger.info("Petunia3 = #{params[:authq]}")
       end
 
 
@@ -110,7 +108,6 @@ class BrowseController < ApplicationController
         end
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
-        #Rails.logger.info("Petunia3 = #{params[:authq]}")
       end
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
@@ -126,7 +123,6 @@ class BrowseController < ApplicationController
         end
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
-        #Rails.logger.info("Petunia3 = #{params[:authq]}")
       end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
         dbclnt = HTTPClient.new

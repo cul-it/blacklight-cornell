@@ -54,6 +54,7 @@ BlacklightCornell::Application.routes.draw do
 # replaced by /databases/tou
 # # get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   get '/databases/tou/:id' => 'databases#tou', :as => 'databases_tou'
+  get '/catalog/tou/:id' => 'catalog#tou', :as => 'catalog_tou'
   get '/search', :to => 'search#index', :as => 'search_index'
   match "search/:engine", :to => "search#single_search", :as => "single_search", via: [ :get ]
   get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'

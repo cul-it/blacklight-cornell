@@ -104,7 +104,9 @@ class Databases < ActiveRecord::Base
        authorizedUsers = authUsers.join("| ")
        authorizedUsersNote = licenseTerms.xpath(sprintf('./%s', "AuthorizedUsersNote/Content")).inner_text
        concurrentUsers = licenseTerms.xpath(sprintf('./%s', "ConcurrentUsers/Content")).inner_text
+       concurrentUsers.gsub!('"','')
        concurrentUsersNote = licenseTerms.xpath(sprintf('./%s', "ConcurrentUsersNote/Content")).inner_text
+       concurrentUsersNote.gsub!('"','')
        fairUseClauseIndicator = licenseTerms.xpath(sprintf('./%s', "FairUseClauseIndicator/Content")).inner_text
        databaseProtectionOverrideClauseIndicator = licenseTerms.xpath(sprintf('./%s', "DatabaseProtectionOverrideClauseIndicator/Content")).inner_text
        allRightsReservedIndicator = licenseTerms.xpath(sprintf('./%s', "AllRightsReservedIndicator/Content")).inner_text
@@ -184,7 +186,7 @@ class Databases < ActiveRecord::Base
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
        perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
        perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text
-       licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/CContent")).inner_text
+       licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/Content")).inner_text
        licenseeTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationCondition/Content")).inner_text
        licenseeTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationNote/Content")).inner_text
        licenseeNoticePeriodForTerminationNumber = licenseTerms.xpath(sprintf('./%s', "LicenseeNoticePeriodForTerminationNumber/Content")).inner_text
@@ -265,6 +267,7 @@ class Databases < ActiveRecord::Base
            #puts "No Resources.\n";
  #          output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
+          # puts sql
            insert = Erm_data.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1
