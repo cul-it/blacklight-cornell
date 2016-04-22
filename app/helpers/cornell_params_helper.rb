@@ -358,12 +358,16 @@ end
            query_string << "q="
            query_rowSplitArray = query_rowArray[i].split(" ")
            if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
+             if(op_rowArray[i] == 'begins_with')
+             query_string << query_rowSplitArray[0] << " "
+             else
              query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
+             end
              for j in 1..query_rowSplitArray.count - 2
                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
              end
              query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
-           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
+           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase" )
              query_rowArray[i].gsub!("\"", "\'")
              query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
              query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
