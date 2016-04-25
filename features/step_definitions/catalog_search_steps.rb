@@ -20,7 +20,7 @@ end
 #  page.should have_selector("#{label}")
 #end
 
-Given /^I select '(.*?)' from the '(.*?)' drop\-down$/ do |option, menu|
+Given /^I select ["'](.*?)["'] from the ["'](.*?)["'] drop\-down$/ do |option, menu|
   select(option, :from => menu)
 end
 
