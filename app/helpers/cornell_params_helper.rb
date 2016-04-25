@@ -109,9 +109,9 @@ module CornellParamsHelper
          if my_params[:op_row][i] == "OR"
           holdarray[1] = parse_query_row(holdarray[1], "OR")
          end
-         if my_params[:op_row][i] == 'begins_with'
-          holdarray[1] = parse_query_row(holdarray[1], "OR")
-         end
+     #    if my_params[:op_row][i] == 'begins_with'
+     #     holdarray[1] = parse_query_row(holdarray[1], "OR")
+     #    end
          queryStart = " _query_:\"{!edismax"
          q_string << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
@@ -177,14 +177,14 @@ module CornellParamsHelper
                       q_string2 << holdarray[1]                      
                     end
               else
-                    q_string_hold << "}" << holdarray[1] << "\\\""
-                    q_string << "}" << holdarray[1] << "\\\""
+                    q_string_hold << "}" << holdarray[1] #<< "\\\""
+                    q_string << "}" << holdarray[1] #<< "\\\""
                     q_string2 << holdarray[1] << " "
               end
           end
          else
-                 q_string_hold << "}" << holdarray[1] << "\\\""
-                 q_string << "}" << holdarray[1] << "\\\""
+                 q_string_hold << "}" << holdarray[1] #<< "\\\""
+                 q_string << "}" << holdarray[1] #<< "\\\""
                  q_string2 << holdarray[1]
          end
          if i < my_params[:q_row].count - 1
@@ -331,13 +331,13 @@ end
        query.gsub!('%26','&')
      end
      query.gsub!("&","%26")
-     if op == "phrase"
+     if op == "phrase" or op == "begins_with"
        query.gsub!("\"", "\'")
 #       returnstring << '"' << query << '"'
        returnstring = query
      else
        splitArray = query.split(" ")
-       if splitArray.count > 1
+       if splitArray.count > 1 
           returnstring = splitArray.join(' ' + op + ' ')
        else
           returnstring = query
@@ -376,7 +376,7 @@ end
            end
          end
       end
-     return query_string
+      return query_string
   end
 
   def test_size_param_array(param_array)
