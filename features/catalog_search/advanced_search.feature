@@ -210,6 +210,25 @@ Feature: Search
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 19 of 19'
+    And I should not see the label 'Modify advanced' 
+
+#  
+ @adv_search
+ @all_search
+ @adv_donor
+ @javascript
+  Scenario: Perform an advanced search by donor 
+    When I literally go to advanced 
+    And I fill in "q_row1" with 'Jan'
+    And I select 'all' from the 'op_row' drop-down
+    And I select 'Donor Name' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with 'Olsen'
+    And I select 'all' from the 'op_row2' drop-down
+    And I select 'Donor Name' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label '1 - 19 of 19'
+    And I should see the label 'Modify advanced' 
 
 # Subject Molecular Biology and Recombinant DNA as Subjects 
  @adv_search
@@ -267,3 +286,23 @@ Feature: Search
     Then I should get results
     And I should see the label '1 result'
     And I should see the label 'Yeast molecular biology--recombinant DNA'
+
+#  
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform an advanced search by place of publication 
+    When I literally go to advanced 
+    And I sleep 4 seconds
+    And I fill in "q_row1" with 'yeast'
+    And I select 'all' from the 'op_row' drop-down
+    And I select 'Subject' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with 'Amsterdam'
+    And I select 'all' from the 'op_row2' drop-down
+    And I sleep 4 seconds
+    And I select 'Place Of Publication' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label '1 - 8 of 8'
+    And I should see the label 'Modify advanced' 
