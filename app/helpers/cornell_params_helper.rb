@@ -145,7 +145,11 @@ module CornellParamsHelper
             end
             field_name =  solr_stuff
             if field_name == "journal title"
-              field_name = "title"
+              if my_params[:op_row][i] == 'begins_with'
+                field_name = "title_starts"
+              else
+                field_name = "title"
+              end
               q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
               q_string2 << field_name << " = "
               q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
@@ -154,7 +158,7 @@ module CornellParamsHelper
               if my_params[:op_row][i] == 'begins_with'
                 Rails.logger.info("WEEKEND")
                   q_string << " spellcheck.dictionary=" << field_name << "_starts qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
-                 q_string2 << field_name << " = "
+                 q_string2 << field_name << "_starts"<< " = "
                  q_string_hold << " spellcheck.dictionary=" + field_name + "_starts qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf" 
                 Rails.logger.info("WEEKEND1 = #{q_string_hold}") 
               else
@@ -186,14 +190,15 @@ module CornellParamsHelper
                       q_string2 << holdarray[1]                      
            #         end
               else
-                    q_string_hold << "}" << holdarray[1] << "\\\""
-                    q_string << "}" << holdarray[1] << "\\\""
+                    q_string_hold << "}" << holdarray[1]# << "\\\""
+                    q_string << "}" << holdarray[1]# << "\\\""
                     q_string2 << holdarray[1] << " "
+
               end
           end
          else
-                 q_string_hold << "}" << holdarray[1] << "\\\""
-                 q_string << "}" << holdarray[1] << "\\\""
+                 q_string_hold << "}" << holdarray[1] #<< "\\\""
+                 q_string << "}" << holdarray[1] #<< "\\\""
                  q_string2 << holdarray[1]
 
          end
@@ -206,6 +211,7 @@ module CornellParamsHelper
         q_string2Array << q_string2
         q_string_hold = "";
         q_string2 = "";
+        Rails.logger.info("DWEEZIL = #{q_string2Array}")
       end
 
       test_q_string = groupBools(q_stringArray, opArray)
@@ -243,7 +249,7 @@ module CornellParamsHelper
   if my_params[:advanced_query] == 'yes'
    solr_parameters[:defType] = "lucene"
   end
-  solr_parameters['spellcheck.q'] = "title_start=cat&op[]=AND&subject_start=animal"
+  #solr_parameters['spellcheck.q'] = "title_start=cat&op[]=AND&subject_start=animal"
   Rails.logger.info("CHECKSSOLRSEARCHPARAMS = #{solr_parameters}")
   Rails.logger.info("CHECKSSOLRSEARCHPARAMS1 = #{solr_parameters['spellcheck.q']}")
   return solr_parameters
@@ -256,6 +262,7 @@ end
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
+          Rails.logger.info
           newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
        end
      else
@@ -583,6 +590,7 @@ end
 
 def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
+Rails.logger.info("BERNIERULES1 = #{my_params}")
   if ( !my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
     content = ""
     content << render_advanced_constraints_filters(my_params)
@@ -627,9 +635,15 @@ def render_advanced_constraints_query(my_params = params)
     j = 1
     if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
      sfr = my_params[:search_field_row][0]
+     if my_params[:op_row][0] == "begins_with"
+       sfr = sfr << "_starts"
+     end
      new_q_parts[0] = sfr  + "=" + my_params[:q_row][0]
       for i in 1..my_params[:q_row].count - 1
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
+        if my_params[:search_field_row][i] == "begins_with"
+          sfr = sfr << "_starts"
+        end
         n = i.to_s
         new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
         new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
@@ -666,6 +680,7 @@ def render_advanced_constraints_query(my_params = params)
            if hold[1].include?('&')
              hold[1] = hold[1].gsub!('&','%26')
           end
+           Rails.logger.info("BERNIERULES = #{new_q_parts}")
            removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
            content << render_constraint_element(label, querybuttontext, :remove => removeString)
          else
