@@ -481,13 +481,14 @@ class CatalogController < ApplicationController
 
      config.add_search_field('title_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
+       field.solr_parameters = { :'spellcheck.dictionary' => 'title_starts' }
        field.solr_local_parameters = {
          :qf => '$title_starts_qf',
          :pf => '$title_starts_pf'
        }
     end
 
-    config.add_search_field('journal title_starts') do |field|
+    config.add_search_field('journal title_starts',:include_in_advanced_search => false) do |field|
       field.solr_parameters = { :'format' => "Journal" }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
