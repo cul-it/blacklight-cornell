@@ -56,6 +56,10 @@ Then /I should select checkbox "(.*)"$/i do |target|
   find(:css, "\##{target}").set(true)
 end
 
+Then /I should select radio "(.*)"$/i do |target|
+  page.all(:xpath, "//input[@value='OR']").first.click
+end
+
 
 # Then /I should see a "(.*)" element with "(.*)" = "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, type, selector,comparator, expected_num|
 #   actual_num = page.all("#{target}[#{type}=\"#{selector}\"]").length
