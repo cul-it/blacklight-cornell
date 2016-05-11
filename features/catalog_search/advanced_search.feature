@@ -306,3 +306,38 @@ Feature: Search
     Then I should get results
     And I should see the label '1 - 8 of 8'
     And I should see the label 'Modify advanced' 
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform a 2 row  advanced search by begins with Title 
+    When I literally go to advanced 
+    And I fill in "q_row1" with 'smoke some'
+    And I select 'begins' from the 'op_row' drop-down
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with 'smoke some'
+    And I select 'begins' from the 'op_row2' drop-down
+    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced' 
+    And I should see the label 'Smoke some kill' 
+    And I should see the label '1 - 16 of 16'
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform a 1 row  advanced search by begins with Title 
+    When I literally go to advanced 
+    And I fill in "q_row1" with 'smoke some'
+    And I select 'begins' from the 'op_row' drop-down
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should not see the label 'Modify advanced' 
+    And I should see the label 'Smoke some kill' 
+    And I should see the label '1 - 16 of 16'

@@ -472,7 +472,7 @@ class CatalogController < ApplicationController
    
     config.add_search_field('all_fields_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'all_fields_starts' }
+      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
       field.solr_local_parameters = {
          :qf => '$all_fields_starts',
          :pf => '$all_fields_starts'
@@ -481,7 +481,7 @@ class CatalogController < ApplicationController
 
      config.add_search_field('title_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
-       field.solr_parameters = { :'spellcheck.dictionary' => 'title_starts' }
+       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
        field.solr_local_parameters = {
          :qf => '$title_starts_qf',
          :pf => '$title_starts_pf'
