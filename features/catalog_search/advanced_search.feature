@@ -66,6 +66,7 @@ Feature: Search
     When I literally go to advanced 
     And I fill in "q_row1" with 'biology'
     And I press 'advanced_search'
+    sleep 10
     Then I should get results
     And I should see a facet called 'Call Number' 
 
