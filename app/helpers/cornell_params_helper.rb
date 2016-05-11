@@ -190,15 +190,15 @@ module CornellParamsHelper
                       q_string2 << holdarray[1]                      
            #         end
               else
-                    q_string_hold << "}" << holdarray[1]# << "\\\""
-                    q_string << "}" << holdarray[1]# << "\\\""
+                    q_string_hold << "}" << holdarray[1] << "\\\""
+                    q_string << "}" << holdarray[1] << "\\\""
                     q_string2 << holdarray[1] << " "
 
               end
           end
          else
-                 q_string_hold << "}" << holdarray[1] #<< "\\\""
-                 q_string << "}" << holdarray[1] #<< "\\\""
+                 q_string_hold << "}" << holdarray[1] << "\\\""
+                 q_string << "}" << holdarray[1] << "\\\""
                  q_string2 << holdarray[1]
 
          end
@@ -211,8 +211,9 @@ module CornellParamsHelper
         q_string2Array << q_string2
         q_string_hold = "";
         q_string2 = "";
-        Rails.logger.info("DWEEZIL = #{q_string2Array}")
+
       end
+ 
 
       test_q_string = groupBools(q_stringArray, opArray)
       test_q_string2 = groupBools(q_string2Array, opArray)
@@ -335,7 +336,11 @@ end
           if opArray[i].nil?
             opArray[i] = 'AND'
           end
-          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
+          if opArray[i] == "begins_with"
+            query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
+          else
+            query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
+          end
          else
           query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
          end
@@ -382,28 +387,31 @@ end
     query_string = ""
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
-    Rails.logger.info("JACIII = #{params[:op_row]}")
+ 
     if params[:op_row][0] == "begins_with"
       params[:search_field_row][0] = params[:search_field_row][0] + "_starts"
       search_field_rowArray = params[:search_field_row]
-      Rails.logger.info("JACYOUDUMBASS")
+  
     else
-    Rails.logger.info("JACIV = #{params[:search_field_row]}")
-    search_field_rowArray = params[:search_field_row]
+     search_field_rowArray = params[:search_field_row]
     end
-    Rails.logger.info("JACII = #{search_field_rowArray}")
       for i in 0..query_rowArray.count - 1
          if query_rowArray[i] != ""
            query_string << "q="
            query_rowSplitArray = query_rowArray[i].split(" ")
            if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
-             if(op_rowArray[i] == 'begins_with')
+             if op_rowArray[i] == 'begins_with'
+           
              query_string << query_rowSplitArray[0] << " "
              else
-             query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
+             query_string << query_rowSplitArray[0] << " " #<< op_rowArray[i] << " "
              end
              for j in 1..query_rowSplitArray.count - 2
-               query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+               if !op_rowArray[i] == 'begins_with'
+                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+               else
+                query_string << query_rowSplitArray[j] << " "
+               end
              end
              query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
            elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase" )
