@@ -22,6 +22,7 @@ end
 if use_mock_and_vcr
 then
   VCR.cucumber_tags do |t|
+    t.tag  '@begins_with'
     t.tag  '@all_select_and_export'
     t.tag  '@all_search'
     t.tag  '@all_results_list'
