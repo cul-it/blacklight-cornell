@@ -29,6 +29,7 @@ class BookmarksController < CatalogController
   end
 
   def update
+    Appsignal.increment_counter('bookmark_update', 1)
     create
   end
 
@@ -37,6 +38,7 @@ class BookmarksController < CatalogController
 #     @bookmarks = current_or_guest_user.bookmarks
 #    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
     bookmarks_id_ordered = []
+    Appsignal.increment_counter('bookmark_show', 1)
     @bookmarks = current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
     @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, bookmark_ids)
