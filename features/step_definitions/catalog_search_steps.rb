@@ -20,8 +20,9 @@ end
 #  page.should have_selector("#{label}")
 #end
 
-Given /^I select '(.*?)' from the '(.*?)' drop\-down$/ do |option, menu|
-  select(option, :from => menu)
+Given /^I select ["'](.*?)["'] from the ["'](.*?)["'] drop\-down$/ do |option, menu|
+  #select(option, :from => menu)
+  find('#' + menu).find(:option,"#{option}").select_option
 end
 
 # Then /^I should not see the "([^\"]*)" element$/ do |id|

@@ -1,0 +1,362 @@
+.facets {
+	background: white;
+	h5 {
+		line-height: 1.2em;
+		font-size: 14px;
+		cursor: pointer;
+		color: $dark-gray;
+		i {
+			float: right;
+			margin-right: 0;
+			color: $light-gray;
+		}
+	}
+	ul {
+		margin: 0 0 5px 10px;
+		padding: 0;
+		list-style: none;
+	}
+	li {
+		font-size: 12px;
+		color: $medium-gray;
+		padding-right: 50px;
+	}
+	p {
+		margin: 0 0 .25em;
+		border-bottom: 1px solid $light-tan;
+    	padding: 0 0 .25em 0;
+	}
+	i { 
+		color: $dark-gray;
+	}
+	.navbar {
+		margin-bottom: 0;
+		padding: 0 0 5px 10px;
+	}
+	a:hover { background: white; }
+	.top-panel-heading {
+		padding: 0;
+		border-radius: 0;
+		border: 0 !important;
+		overflow: hidden;
+	}
+	.panel-heading{
+		a {
+			border-bottom: 0;
+			background-color: inherit;
+			text-decoration: none;
+		}
+	}
+}
+.facet-values {
+	.facet-label {
+		text-indent: 0;
+		padding-left: 0;
+		word-break: normal;
+		i {
+			margin-right: 3px;
+		}
+	}
+	.selected {
+		.facet-label {
+			padding-bottom: 0;
+		}
+	}
+}
+
+// OVERRIDE #FACETS - TODO: do we still need this in BL5?
+// -------------------------
+
+#sidebar {
+	padding-bottom: 0;
+}
+#facets {
+	padding-bottom: 0;
+	ul {
+		margin-left: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	li {
+		margin-right: 0;
+		line-height: 16px;
+		padding-right: 0;
+	}
+	a.remove { 
+		padding: 0;
+		display: inline-block;
+		margin-bottom: .25em;
+	}
+	a.remove:hover {
+		text-decoration: none;
+		background: white;
+		i { color: $medium-gray; }
+	}
+	a.remove:active, a.remove:focus {
+		border: 0;
+	}
+	span.selected {
+		color: $dark-gray;
+	}
+	h5 + div { padding-bottom: .5em; }
+	.top-panel-heading {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
+// TODO: ".count" may not be used in BL5
+.facet-count,
+.count {
+  font-family: $monospace-font-family;
+  font-size: 11px;
+}
+
+// PUBLICATION YEAR
+// -----------------------
+
+.limit_content {
+	margin-right: 10px;
+	.subsection { margin-top: .5em; }
+}
+.blacklight-pub_date_facet {
+	form { margin-bottom: 1.2em; }
+	.count {
+		text-align: right;
+		float: right;
+		color: $light-gray; }
+	.tickLabel { font-size: 0.875em; }
+	.missing,
+	.range_limit {
+		i { font-size: 0.75em; }
+	}
+	.limit_content {
+		.count { font-size: 0.75em; }
+	}
+	.limit_content {
+		.missing {
+			.count { font-size: 1em; }
+		}
+	}
+}
+form.range_limit {
+	input.range_begin,
+	input.range_end {
+		padding: 1px 3px;
+		width: 3em;
+	}
+}
+.navbar {
+	.blacklight-pub_date_facet {
+		.btn, .btn-group {
+			margin-top: 0;
+			font-size: 0.75em;
+			padding: 1px 6px;
+		}
+	}
+}
+.ui-slider {
+	margin: 0 0 0 .6em !important;
+	width: 89% !important;
+}
+.hover_legend { padding: 0; }
+// add a little space above the unknown value in pub year facet
+.blacklight-pub_date_facet {
+	.missing.subsection {
+		margin-top: 20px;
+	}
+}
+
+// Constraints
+// -----------------------
+
+.selected-facets {
+	clear: both;
+	padding: 1.5em 0;
+
+	.btn-info {
+		text-align: left;
+		background: $teal;
+		border-color: $teal;
+		i { margin: .1em 0 0 .5em; }
+	}
+	.btn {
+		color: $white;
+		margin-bottom: .25em;
+		white-space: normal; // make long constraints wrap instead of break the layout DISCOVERYACCESS-1846
+	}
+	a:hover {
+		text-decoration: none;
+	}
+}
+.selected-facet {
+	padding: 0 10px;
+	background: $cornell-blue;
+	border: 1px solid $cornell-blue-border;
+	font-size: 0.875em;
+	margin: 0 .5em .5em 0;
+	color: #fff;
+	display: inline-block;
+	-webkit-border-radius: 20px;
+	-moz-border-tradius: 20px;
+	border-radius: 20px;
+}
+
+.constraints-bar {
+	background: white;
+}
+
+// Active facet panel
+// -----------------------
+
+.panel-success > .panel-heading, .facet_limit-active > .panel-heading {
+	background-color: #dff0d8;
+}
+
+// Facet button on mobile
+// ---------------------------
+.facets-toggle,
+.facets-toggle:hover
+.facets-toggle:active,
+.facets-toggle:focus {
+	border-radius: 0;
+	border: 1px solid $tan;
+	padding: 10px;
+	clear: both;
+	margin: 0;
+}
+.facets-toggle {
+	i {
+		margin-right: 0;
+		color: $dark-gray;
+	}
+}
+
+// More facets modal
+// ---------------------------
+// Add this to account for icons in the format facet
+.modal-dialog {
+	.facet-values {
+		padding-left: 15px;
+	}
+}
+
+// Hierarchical call number facet
+// ------------------------------------
+.facet-hierarchy {
+	li,
+	.facet_select,
+	.selected {
+		margin-bottom: 6px;
+	}
+	ul {
+		margin-top: .5em;
+	}
+}
+// Gem overrides
+#facets ul.facet-hierarchy {
+	margin-left: 0;
+}
+#facets ul.facet-hierarchy ul li {
+	margin-left: 15px;
+}
+#facets ul.facet-hierarchy li.h-node,
+#facets ul.facet-hierarchy li.h-node.twiddle-open {
+	list-style-image: none;
+}
+#facets ul.facet-hierarchy li.h-node:before {
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f196";
+	cursor: pointer;
+	margin-right: 5px;
+}
+#facets ul.facet-hierarchy li.h-node.twiddle-open:before {
+	content: "\f147";
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+	.facets {
+		.top-panel-heading {
+			h4 {
+				padding-left: 0;
+				font-size: 18px;
+			}	
+		}
+		h5 {
+			font-size: 12px;
+		}
+		li {
+			font-size: 11px;
+		}
+	}
+	.facet-values {
+		.facet-label {
+			display: block;
+			padding-bottom: 0;
+		}
+		.facet-count {
+			display: inline-block;
+			padding-bottom: .5em;
+		}
+	}
+	#facets {
+		a.remove { 
+			display: inline-block;
+		}
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+	.facets {
+		h5 {
+			font-size: 14px;
+		}
+	}
+	.facet-values {
+		.facet-label {
+			display: table-cell;
+			padding-bottom: 6px;
+		}
+		.facet-count {
+			display: table-cell;
+			padding-bottom: 0;
+		}
+	}
+	#facets {
+		a.remove {
+			padding: 3px 5px;
+		}
+	}
+}
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: $screen-lg) {
+	.facets {
+		li {
+			font-size: 12px;
+		}
+	}
+}
+
+
+
+
+
+

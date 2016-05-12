@@ -1,0 +1,213 @@
+// AVAILABILITY
+.availability {
+	background: white;
+	margin-bottom: 2em;
+	h3 { 
+		margin-top: 0;
+		margin-bottom: .25em;
+		font-size: 24px;
+	}
+	.worldcat-search {
+		font-size: 14px;
+		display: block;
+		margin-top: 2em;
+		i {
+			color: $light-gray;
+		}
+	}
+	.location {
+		margin-top: 0;
+		margin-bottom: .5em;
+		font-size: 16px;
+	}
+	.location-online {
+		color: white;
+		background: $teal;
+		border-color: $teal;
+	}
+	.holding {
+		.group {
+			font-size: 12px;
+		}
+	}
+	.map-it {
+		font-size: 12px;
+	}
+	.url_findingaid_display {
+		display: block;
+		margin-bottom: 1em;
+		font-size: 16px;
+	}
+	.list-unstyled {
+		padding: 0;
+		margin-bottom: 0;
+	}
+	.call-number {
+		margin-bottom: .5em;
+	}
+	.status {
+		margin: 0 0 .5em 0;
+	}
+}
+h3.rare {
+	margin-top: 1.25em;
+	margin-bottom: .5em;
+}
+.label-available {
+	background: $teal;
+	margin-right: .5em;
+	font-size: 90%;
+	font-weight: normal;
+	i {
+		color: white;
+	}
+}
+.holding,
+.holdings-error {
+	margin-bottom: 1em;
+	border-top: 2px solid $light-tan;
+	padding-top: 1em;
+}
+.holdings-online {
+	padding-top: 1em;
+}
+.holding:first-child {
+	border-top: 0;
+}
+.holding:last-of-type {
+	margin-bottom: 0;
+}
+.location {
+	margin-bottom: 0;
+	// font-size: 16;
+}
+.text-it,
+.map-it {
+	margin-left: .5em;
+	font-size: 12px;
+	font-weight: normal;
+	display:block;
+}
+.share-options { min-width: auto; }
+.message {
+	margin: 0 0 .5em 0;
+	line-height: 1.4em;
+	word-wrap: break-word;
+}
+.online-link {
+	margin-bottom: .4em;
+	line-height: 1.2em;
+	font-size: 16px;
+	a {
+		display: inline-block;
+		font-size: 90%;
+	}
+}
+.main-content {
+	.online-coverage,
+	.online-note {
+		// display: block;
+		margin-left: .5em;
+		// font-size: .85em;
+		line-height: 1.4em;
+		color: $medium-gray;
+		font-size: 85%;
+	}
+}
+
+.access-restriction {
+	display: block;
+	line-height: 1.2em;
+	margin-top: 1em;
+	h5 { 
+		font-weight: 700;
+		margin-bottom: .5em;
+	}
+}
+.item-requests {
+	border-top: 5px solid $light-tan;
+	padding-top: 10px;
+	margin: .75em 0; }
+
+.google-books-link {
+	margin: 1.5em 0 0;
+	padding-top: 1em;
+	border-top: solid 2px #d8d2c9;
+}
+.holdings {
+	th:first-child,
+	th:nth-child(2),
+	td:first-child,
+	td:nth-child(2) {
+		width: 30%;
+	}
+}
+.holdings-online {
+	th:first-child,
+	th:nth-child(2) {
+		width: 30%;
+	}
+	table {
+		margin-bottom: 1em;
+	}
+}
+
+// Other forms
+// ----------------
+.other-forms {
+	h4 {
+		margin-bottom: 1em;
+		font-size: 20px;
+	}
+	.label-online {
+		color: white;
+		font-size: 12px;
+	}
+	p {
+		margin-top: 2em;
+	}
+}
+.other-form {
+	margin: 0 0 .5em 0;
+	border-bottom: 1px solid $light-tan;
+	padding-bottom: .5em;
+	span {
+		margin: 0 .5em 0 0;
+		font-size: 12px;
+		color: $gray;
+	}
+	.other-form-format {
+		i {
+			margin-right: .25em;
+		}
+	}
+	.other-form-title {
+		font-size: 110%;
+		color: $gray-dark;
+		display: block;
+		margin-bottom: .25em;
+	}
+	.label-online:hover {
+		background: $teal;
+		pointer: none;
+	}
+}
+
+
+// MEDIA QUERIES
+// -------------------------
+
+// Small devices (tablets, 768px and up)
+@media (min-width: $screen-sm) { 
+  ul.blacklight-nav {
+    float: right;
+    li {
+      font-size: 12px;
+    }
+  }
+}
+
+// Medium devices (desktops, 992px and up)
+// @media (min-width: $screen-md) {
+// }
+

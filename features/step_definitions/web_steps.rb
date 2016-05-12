@@ -24,6 +24,10 @@ When /^(?:|I )press "([^"]*)"$/ do |button|
   end
 end
 
+When /^(?:|I )select radio "([^"]*)"$/ do |button|
+    choose(button)
+end
+
 When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
 end
