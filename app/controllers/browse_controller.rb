@@ -13,6 +13,7 @@ class BrowseController < ApplicationController
         base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
 
+      Appsignal.increment_counter('browse_index', 1)
       authq = params[:authq]
       browse_type = params[:browse_type]
       start = params[:start]
@@ -94,6 +95,7 @@ class BrowseController < ApplicationController
     end
     def info
         base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
+        Appsignal.increment_counter('browse_info', 1)
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
       if !params[:authq].nil? and params[:authq] != ""
         dbclnt = HTTPClient.new

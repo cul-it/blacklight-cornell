@@ -15,6 +15,7 @@ class DatabasesController < ApplicationController
     #params[:q].gsub!(' ','%20')
 #     @anthroString = clnt.get_content("http://da-dev-solr.library.cornell.edu/solr/blacklight/select?q=%22anthropology+%28core%29%22&wt=ruby&indent=true") # do |chunk|
      Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+     Appsignal.increment_counter('db_search_subject', 1)
      solr = Blacklight.solr_config[:url]
      p = {"q" => '"' + params[:q] +'"', "wt" => 'json',"indent"=>"true"}
      Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databasesBySubject?"+p.to_param)
@@ -33,6 +34,7 @@ class DatabasesController < ApplicationController
   def title
         clnt = HTTPClient.new
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+        Appsignal.increment_counter('db_search_title', 1)
         solr = Blacklight.solr_config[:url]
         p = {"q" => '"' + params[:alpha] +'"', "wt" => 'json',"indent"=>"true"}
         @aString = clnt.get_content("#{solr}/databaseAlphaBuckets?" + p.to_param)
@@ -44,6 +46,7 @@ class DatabasesController < ApplicationController
 
       def show
         clnt = HTTPClient.new
+        Appsignal.increment_counter('db_search_show', 1)
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
         solr = Blacklight.solr_config[:url]
         p = {"id" => params[:id], "wt" => 'json',"indent"=>"true"}

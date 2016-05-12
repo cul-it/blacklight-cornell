@@ -10,6 +10,7 @@ class SearchController < ApplicationController
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
 
     #  @catalog_host = get_catalog_host(request.host)
+     Appsignal.increment_counter('search_index', 1)
 
       unless params["q"].nil?
   		    @query = params['q']
@@ -85,6 +86,7 @@ class SearchController < ApplicationController
   end
 
   def single_search
+   Appsignal.increment_counter('single_search_index', 1)
     begin
       @engine = BentoSearch.get_engine(params[:engine])
     rescue BentoSearch::NoSuchEngine => e
