@@ -1,0 +1,295 @@
+// Return to catalog link
+//----------------------------//
+.return-link {
+	display: inline-block;
+	margin-bottom: .6em;
+	font-size: 12px;
+}
+
+.document-header {
+	margin-bottom: 1.5em;
+}
+
+h3.subtitle,
+h3.responsibility {
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 1.2em;
+	margin-bottom: 1em;
+}
+h3.responsibility {
+	color: $medium-gray;
+}
+
+.cover {
+	margin-bottom: 1.5em;
+	height: auto;
+	.iconcover {
+		width: 100%;
+		i {
+			font-size: 3em;
+			margin-left: 0;
+		}
+	}
+}
+
+.item-metadata {
+	float: left;
+	// width: 79%;
+	margin-bottom: 20px;
+}
+
+// OVERRIDE CORE STYLES
+.document {
+	border-bottom: none;
+	clear: none;
+	padding-bottom: 0;
+}
+#document {
+	 margin-top: 1.5em;
+	 h2 {
+	 	line-height: 32px;
+	 	margin-top: 0; }
+}
+label.toggle_bookmark { 
+	min-width: 4em;
+	margin-right: 1.5em;
+}
+dl.dl-horizontal {
+	// clear: left;
+	// margin-top: 0;
+	dt {
+		width: 150px;
+		display: inline;
+		color: $medium-gray;
+		margin-right: 10px;
+		font-weight: normal;
+		overflow: visible;
+		text-overflow: inherit;
+		white-space: normal;
+		}
+	dd {
+		ul {
+			list-style: none;
+			margin: 0;
+		}
+		// Fix to keep dd aligned with long dt that wraps
+		// -- can't use .clearfix because we only want to clear left
+		&:after {
+			display: table;
+			content: "";
+			clear: left;
+		}
+	}
+}
+
+dd.blacklight-notes {
+	// -ms-word-break: break-all; - remove this style to fix word wrap bug in IE 8/9/10 (DNA 741)
+	// word-break: break-all; - remove this style to fix word wrap bug in Firefox (DNA 741)
+	/* Non standard for webkit */
+	word-wrap: break-word;
+	word-break:break-word;
+	overflow-wrap:break-word;
+	-webkit-hyphens: auto;
+  	hyphens: auto;
+  	// display: table; - remove this because it causes IE 9 and 10 to have a smaller width for metadata display for this field. Wasted space.
+}
+
+.active-hierarchy {
+	color: $dark-gray;
+	text-decoration: underline;
+}
+
+// Item tools
+// -------------------------
+
+.item-tools {
+	ul {
+		margin-left: 0;
+		list-style: none;
+		padding-left: 0;
+	}
+	li {
+		font-size: 0.875em;
+		float: left;
+		margin-right: .5em;
+	}
+	li:last-child {
+		margin-right: 0;
+	}
+	label { font-size: 1em; }
+	form { margin: 0; }
+	.form-inline .checkbox,
+	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
+	.dropdown-menu {
+		min-width: 3em;
+		li {
+			float: none;
+			margin: 0;
+			font-size: 1em;
+		}
+	}
+	i { margin-right: 3px; }
+	.selected-box { margin-right: 1em; }
+	// override button group border radius
+	.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle), .btn-group > .facets-toggle:first-child:not(:last-child):not(.dropdown-toggle) {
+		border-radius: 3px;
+	}
+	a {
+		color: $dark-gray;
+	}
+}
+.main-content {
+	.item-tools {
+		a, a:hover {
+			border: 1px solid $databases-light-gray;
+		}
+		.dropdown-menu {
+			a, a:hover {
+				border: none;
+			}
+		}
+	}
+}
+.item-pagination {
+	margin-bottom: 2.2em;
+	font-size: 0.875em;
+}
+
+// Librarian view
+// -------------------------
+
+.librarian-view { font-size: 12px; }
+#marc_view { font-family: courier, monospace; }
+#marc_view .field { clear: both; }
+#marc_view .tag { 
+	float: left;
+	margin-right: 5px;
+}
+#marc_view .ind1,
+#marc_view .ind2 {
+	width: 20px;
+	display: inline; 
+	float: left;
+}
+#marc_view .subfields { 
+padding-left: 6em;
+}
+
+// Captcha
+// -------------------------
+
+#captcha_form {
+	#request-submit { display: block; }
+}
+
+// Availability anchor button
+// ----------------------------- //
+.availability-link {
+	margin-top: 1em;
+	i {
+		margin-left: .5em;
+	}
+}
+
+// Authorities info popup
+// ----------------------------- //
+#document {
+	.item-metadata {
+		.popover {
+			max-width: 100%;
+			h2 {
+				margin: 0 0 .5em 0;
+				font-size: 18px;
+				line-height: 1.2em;
+			}
+			.return-link {
+				float: right;
+				a {
+					color: $medium-gray;
+					border: 0;
+					font-weight: 700;
+				}
+				a:hover, a:active, a:focus {
+					color: $light-gray;
+					border: 0;
+				}
+			}
+			.author-works {
+				margin-left: 0;
+				display: block;
+				margin-bottom: .25em;
+			}
+			dl.dl-horizontal {
+				font-size: 90%;
+				dt {
+					display: block;
+					width: 100%;
+					text-align: left;
+					margin: .75em 0 .15em 0;
+					font-weight: 700;
+					color: $dark-gray;
+				}
+				dd {
+					margin-left: 0;
+					margin-bottom: 0;
+				}
+			}
+		}
+		.info-button, .info-button:hover, .info-button:active, .info-button:focus {
+			border-bottom: 0;
+		}
+	}
+
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+// Small devices (tablets, 768px and up)
+@media (min-width: $screen-sm) { 
+	.return-link {
+		font-size: 14px;
+	}
+	.item-tools {
+		ul {
+			float: right;
+		}
+	}
+	#document {
+		margin-top: 0;
+	}
+	.cover {
+		float: left;
+		text-align: center;
+		.iconcover {
+			height: 140px;
+			i {
+				top: -110px;
+			}
+		}
+	}
+	dl.dl-horizontal {
+		dd {
+			margin-left: 165px;
+		}
+	}
+	.availability-link {
+		font-size: 10px;
+		margin: 2em 0;
+	}
+}
+// Medium devices (desktops, 992px and up)
+@media (min-width: $screen-md) { 
+	.cover {
+		.iconcover {
+			height: 200px;
+			i {
+				top: -130px;
+			}
+		}
+	}
+	.availability-link {
+		font-size: 12px;
+	}
+}

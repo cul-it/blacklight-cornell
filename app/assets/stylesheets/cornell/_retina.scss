@@ -1,0 +1,8 @@
+@media only screen and (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi) {
+  /* High-res styles go here */
+  .cu-logo {
+		background: image-url("cornell/layout/cul-logo-red-2x.png") no-repeat 0 0;
+		background-size: 300px 75px;
+		width: 300px;
+	}
+}

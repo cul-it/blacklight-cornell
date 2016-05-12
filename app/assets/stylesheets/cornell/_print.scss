@@ -1,0 +1,245 @@
+@media print {
+	body {
+		font-family: helvetica, arial, sans-serif;
+	}
+	.search-home {
+		display: none !important;
+	}
+
+
+
+	// BL4 print styles
+
+	// @import 'font-awesome';
+
+	.main-content {
+		a {
+			border: none;
+		}
+	}
+
+
+	// Hide this stuff - TODO: some of these selectors may have been used in BL4, but not needed in BL5
+
+	#skiptocontent,
+	.nav-global,
+	#insignia-link,
+	.unit-signature-links,
+	.navbar,
+	.search-home,
+	.blacklight-nav,
+	.facets,
+	.search-bar,
+	.expand-search,
+	.results-info .dropdown,
+	.select-all,
+	.select-item,
+	.top-content-title,
+	.return-link,
+	.item-tools,
+	.holdings .btn,
+	.iconcover,
+	.cover,
+	footer,
+	header,
+	.cornell-identity,
+	.text-it,
+	.librarian-view,
+	.item-pagination,
+	.clear-bookmarks,
+	#startOverLink,
+	.search-widgets,
+	.pagination  {
+		display: none;
+	}
+
+	// Use Arial to see if it removes printing issues
+	body {
+	  font-family: sans-serif;
+	}
+
+	// Remove Catalog header link
+	.catalog-name {
+		a { text-decoration: none;}
+	}
+
+	// Don't print URLs
+	a[href]:after {
+	    content: ""
+	  }
+	abbr[title]:after {
+	    content: "";
+	  }
+
+	// Print certain URLs
+	// search results: print title and online link 
+	// .blacklight-title_display {
+	// 	a[href]:after {
+	// 	content: " (" attr(href) ")"; }
+	// }
+	// a[href].status-online:after {
+	// 	content: " (" attr(href) ")"; }
+
+	// item view: print url_access_display, url_findingaid_display, url_bookplate_display, url_other_display
+	// a[href].online-access:after,
+	// a[href].url_findingaid_display:after {
+	// 	content: " (" attr(href) ")"; }
+
+	// hides covers on results
+	.document {
+		.iconcover, .bookcover { display: none; } 
+	}
+
+	.blacklight-title_display {
+		margin: .5em 0 0;
+		font-weight: normal;
+		line-height: 1.2em;	}
+	.location { 
+		margin-bottom: 0;
+	}
+
+	// modal
+	.modal {
+		margin-top: 0 !important;
+	}
+	.modal-header button { display: none; }
+	// print  librarian view in monospace font
+	#marc_view { font-family: courier, monospace; }
+	#marc_view .field { clear: both; }
+	#marc_view .tag { 
+		float: left;
+		margin-right: 10px;
+	}
+	#marc_view .ind1,
+	#marc_view .ind2 {
+		margin-right: 10px;
+		width: 20px;
+		display: inline; 
+		float: left;
+	}
+	#marc_view .subfields { 
+		display: inline; 
+		float: left;
+		width: 550px;
+	}
+
+	.print-only { display: block; }
+	#document h2, #document h3 {
+		margin: 0;
+	}
+
+	.availability { 
+		margin: 0;
+		.map-it {
+			display: none;
+		}
+		.holding {
+			.group {
+				font-size: 14px;
+			}
+		}
+		.location {
+			font-size: 13px;
+			margin-bottom: 0;
+		}
+		.worldcat-search {
+			display: none;
+		}
+		.status,
+		.message,
+		.call-number {
+			font-size: 13px;
+			margin-bottom: 0;
+		}
+		.status {
+			margin-top: 0;
+		}
+		.online-link {
+			margin-bottom: 0;
+		}
+	}
+	.availability h3,
+	.availability h4,
+	.availability h5 {
+		margin: 0;
+	}
+	.availability .unstyled {
+		list-style: none;
+		margin: 0 0 .25em;
+		padding: 0;
+	}
+	.availability.well {
+		padding: 0;
+		border: 0;
+	}
+	.item-requests {
+		border-top: 0;
+	}
+
+	//remove underlines from links
+	a { text-decoration: none; }
+
+	// Make online labels visible
+	.label-online {
+		color: black;
+		padding: 0;
+	}
+	// Cut spacing in search results
+	body.catalog-index #documents .document, body.bookmarks-index #documents .document {
+		padding: 0 0 .5em 0;
+	}
+	.document-data .status {
+		margin: 0;
+	}
+	// make search results title smaller
+	.blacklight-title_display {
+		font-size: 14px;
+	}
+	.blacklight-title_uniform_display {
+		font-size: 12px;
+		margin-top: 0;
+	}
+	// tighten up spacing around constraints
+	.selected-facets {
+		padding: 0;
+		.btn {
+			padding: 0 .5em 0 0;
+			border: 0;
+		}
+	}
+	// width of each search result
+	.document-data {
+		width: 100%;
+	}
+	// Hide dropdowns on Selected Items
+	.bookmarks {
+		#per_page-dropdown, #sort-dropdown {
+			display: none;
+		}
+	}
+	// spacing on item view
+	.item-metadata {
+		margin-bottom: 0;
+	}
+	.holding, .holdings-online {
+		padding-top: .5em;
+	}
+	.label-available {
+		padding: 0;
+		color: black;
+		border: 0;
+	}
+	.item-metadata {
+		font-size: 13px;
+	}
+	.access-restriction {
+		margin-top: 0;
+		font-size: 13px;
+	}
+	h2 {
+		font-size: 18px;
+	}
+	.availability h3 {
+		font-size: 18px;
+	}
+}

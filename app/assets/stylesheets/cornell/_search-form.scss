@@ -1,0 +1,169 @@
+.search-bar {
+  background: $light-tan;
+  padding: 1em 0 .5em 0;
+  // header in place of search box used on browse interface
+  h2 {
+    margin: 0;
+    a, a:hover, a:active, a:focus {
+      color: $dark-gray;
+      text-decoration: none;
+    }
+  }
+}
+
+.search-form { margin: 0 0 .1em 0; }
+.search-options { margin-left: 0; }
+input.search-query {
+  width: 93%;
+  padding-right: 0;
+  padding-left: 15px;
+}
+.start-over {
+  display: block;
+  font-size: 14px;
+  padding: 6px 12px 6px 0;
+  float: left;
+  margin-right: 1em;
+}
+.results-info {
+  margin: 0;
+  padding-bottom: .2em;
+  border-bottom: solid 5px $light-tan;
+}
+.results-per-page-form {
+  margin: 0;
+  label {
+    display: inline;
+    margin-left: .5em;
+  }
+}
+.results-pagination {
+  margin: .1em 0 0 1em;
+}
+.results-sortby-form,
+.results-view {
+  float: right;
+}
+.results-sortby-form {
+  margin: 0 1em 0 0;
+}
+#search_field {
+  float: left;
+  font-family: $font-family-base; // See cul-bootstrap-loader.css.scss for details
+}
+p.suggest {
+  font-size:.8em;
+  margin-top: 15px; }
+
+div.search-tools > h2 {line-height: 1em}
+
+.search-tools {
+  .form-inline {
+    .form-group {
+      padding-left: 0;
+    }
+    .form-control {
+      width: 100%;
+    }
+  }
+}
+.btn-search,
+.btn-search:hover,
+.btn-search:active,
+.btn-search:focus {
+  background: $medium-gray;
+  color: white;
+}
+
+// Advanced search - TODO: combine with AS CSS partial when that is brought into app
+// ------------------------------------------------------------------------------ //
+h2.advanced-search { margin: 0; }
+.advanced-facets { margin-bottom: 10px; }
+.advanced-search-link {
+  margin-top: .5em;
+}
+
+// Search navigation
+// --------------------- //
+.search-nav {
+  margin-top: 1.5em;
+  li {
+    border-left: 1px solid $dark-tan;
+    font-size: 11px;
+    padding: 0 .5em;
+    a {
+      color: $dark-gray;
+      font-weight: 700;
+      text-transform: uppercase;
+      i {
+        margin-right: .5em;
+      }
+    }
+    .tips-link {
+      font-weight: normal;
+      color: $link-primary;
+      text-transform: none;
+    }
+  }
+  li:first-child {
+    border-left: 0;
+    padding-left: 0;
+    a {
+      padding-left: 0;
+    }
+  }
+  li:last-child {
+    padding-right: 0;
+  }
+  .nav > li > a {
+    padding: 0;
+  }
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
+
+  // /* Small devices (tablets, 768px and up) */
+  // @media (min-width: @screen-sm) { ... }
+
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
+
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .search-bar {
+    padding-bottom: 1em;
+  }
+  .search-nav {
+    margin-top: .5em;
+    .nav {
+      float: right;
+    }
+    li {
+      font-size: 13px;
+    }
+  }
+  .advanced-search-link {
+    float: right;
+    margin-top: 0;
+  }
+  .search-nav {
+    padding-left: 0;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) {
+  .search-nav {
+    padding-left: 15px;
+  }
+}
+
+

@@ -59,6 +59,7 @@ module CornellParamsHelper
              params["action"] = "index"
              params["controller"] = "catalog"
        end
+       Rails.logger.info("CHECKSETADVANCEDSEARCPARAMS = #{query_string}")
      return query_string
   end
 
@@ -102,6 +103,9 @@ module CornellParamsHelper
          if my_params[:search_field_row][i] == 'journal title'
            params['format'] = "Journal"
          end
+    #     if my_params[:op_row][i] == "begins_with"
+    #       my_params[:search_field_row][i] = my_params[:search_field_row][i] + "_starts"
+    #     end
          pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
          returned_query = ParsingNesting::Tree.parse(newpass)
          newstring = returned_query.to_query(pass_param)
@@ -109,9 +113,9 @@ module CornellParamsHelper
          if my_params[:op_row][i] == "OR"
           holdarray[1] = parse_query_row(holdarray[1], "OR")
          end
-         if my_params[:op_row][i] == 'begins_with'
-          holdarray[1] = parse_query_row(holdarray[1], "OR")
-         end
+     #    if my_params[:op_row][i] == 'begins_with'
+     #     holdarray[1] = parse_query_row(holdarray[1], "OR")
+     #    end
          queryStart = " _query_:\"{!edismax"
          q_string << " _query_:\"{!edismax" # spellcheck.dictionary=" + blacklight_config.search_field['#{field_queryArray[0]}'] + " qf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_qf pf=$" + blacklight_config.search_field['#{field_queryArray[0]}'] + "_pf}" + blacklight_config.search_field['#{field_queryArray[1]}'] + "\""
          q_string2 << ""
@@ -141,16 +145,22 @@ module CornellParamsHelper
             end
             field_name =  solr_stuff
             if field_name == "journal title"
-              field_name = "title"
+              if my_params[:op_row][i] == 'begins_with'
+                field_name = "title_starts"
+              else
+                field_name = "title"
+              end
               q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
               q_string2 << field_name << " = "
               q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
 
             else
               if my_params[:op_row][i] == 'begins_with'
-                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
-                 q_string2 << field_name << " = "
-                 q_string_hold << " spellcheck.dictionary=" + field_name + " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"  
+                Rails.logger.info("WEEKEND")
+                  q_string << " spellcheck.dictionary=" << field_name << "_starts qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                 q_string2 << field_name << "_starts"<< " = "
+                 q_string_hold << " spellcheck.dictionary=" + field_name + "_starts qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf" 
+                Rails.logger.info("WEEKEND1 = #{q_string_hold}") 
               else
                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                  q_string2 << field_name << " = "
@@ -166,26 +176,31 @@ module CornellParamsHelper
           for j in 1..holdarray.count - 1
               holdarray_parse = holdarray[j].split('_query_')
               holdarray[1] = holdarray_parse[0]
+              Rails.logger.info("WEEKEND1.5 = #{holdarray[1]}")
               if(j < holdarray.count - 1)
-                    if my_params[:op_row][i] == 'begins_with'
-                      q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
-                      q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf" #}" << holdarray[1].chomp("\"") << "\""
-                      q_string2 << holdarray[1]
-                    else
+           #         if my_params[:op_row][i] == 'begins_with'
+           #           Rails.logger.info("WEEKEND2 = #{q_string_hold}")
+           #           q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+           #           q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+           #           q_string2 << holdarray[1]
+                      Rails.logger.info("WEEKEND3 = #{q_string_hold}")
+           #         else
                       q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                       q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
                       q_string2 << holdarray[1]                      
-                    end
+           #         end
               else
                     q_string_hold << "}" << holdarray[1] << "\\\""
                     q_string << "}" << holdarray[1] << "\\\""
                     q_string2 << holdarray[1] << " "
+
               end
           end
          else
                  q_string_hold << "}" << holdarray[1] << "\\\""
                  q_string << "}" << holdarray[1] << "\\\""
                  q_string2 << holdarray[1]
+
          end
          if i < my_params[:q_row].count - 1
            q_string_hold << " "
@@ -196,7 +211,9 @@ module CornellParamsHelper
         q_string2Array << q_string2
         q_string_hold = "";
         q_string2 = "";
+
       end
+ 
 
       test_q_string = groupBools(q_stringArray, opArray)
       test_q_string2 = groupBools(q_string2Array, opArray)
@@ -204,6 +221,7 @@ module CornellParamsHelper
 #        solr_parameters[:sort] = "score desc, title_sort asc"
       end
        solr_parameters[:q] = test_q_string
+       Rails.logger.info("FRANCES = #{test_q_string}")
       params[:show_query] = test_q_string2
   end
   else
@@ -227,11 +245,14 @@ module CornellParamsHelper
      my_params[:search_field] = my_params["search_field"]
      params[:search_field] = my_params[:search_field]
     session[:search][:search_field] = my_params[:search_field]
-
+    
   end
   if my_params[:advanced_query] == 'yes'
    solr_parameters[:defType] = "lucene"
   end
+  #solr_parameters['spellcheck.q'] = "title_start=cat&op[]=AND&subject_start=animal"
+  Rails.logger.info("CHECKSSOLRSEARCHPARAMS = #{solr_parameters}")
+  Rails.logger.info("CHECKSSOLRSEARCHPARAMS1 = #{solr_parameters['spellcheck.q']}")
   return solr_parameters
  end
 end
@@ -242,6 +263,7 @@ end
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
+          Rails.logger.info
           newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
        end
      else
@@ -258,6 +280,8 @@ end
      if newString.include?('%26')
        newString.gsub!('%26','&')
      end
+    # newString = "_query_:{!edismax spellcheck.dictionary=title_starts qf=$title_starts_qf pf=$title_starts_pf}rat\"\"  OR  _query_:{!edismax spellcheck.dictionary=subject_starts qf=$subject_starts_qf pf=$subject_starts_pf}war\"\""
+     Rails.logger.info("CHECKGROUPBOOLS = #{newString}")
      return newString
   end
 
@@ -269,11 +293,16 @@ end
     new_query_string = ""
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
+#    if params[:op_row] == "begins_with"
+#      params[:search_field_row] = params[:search_field_row] + "_starts"
+#    end
     search_field_rowArray = params[:search_field_row]
     if query_rowArray.count > 1
 #first row
        if query_rowArray[0] != ""
+         Rails.logger.info("JAC3 = #{query_rowArray}")
          new_query_string = parse_query_row(query_rowArray[0], op_rowArray[0])
+         Rails.logger.info("JAC4 = #{new_query_string}")
          rowHash[search_field_rowArray[0]] = new_query_string
          new_query_string = ""
        end
@@ -307,7 +336,11 @@ end
           if opArray[i].nil?
             opArray[i] = 'AND'
           end
-          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
+          if opArray[i] == "begins_with"
+            query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
+          else
+            query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
+          end
          else
           query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
          end
@@ -320,6 +353,7 @@ end
          params.delete("advanced_query")
        end
     end
+    Rails.logger.info("CHECKMASSAGEPARAMS = #{query_string_two}")
    return query_string_two
   end
 
@@ -331,19 +365,20 @@ end
        query.gsub!('%26','&')
      end
      query.gsub!("&","%26")
-     if op == "phrase"
+     if op == "phrase" or op == "begins_with"
        query.gsub!("\"", "\'")
 #       returnstring << '"' << query << '"'
        returnstring = query
      else
        splitArray = query.split(" ")
-       if splitArray.count > 1
+       if splitArray.count > 1 
           returnstring = splitArray.join(' ' + op + ' ')
        else
           returnstring = query
        end
      end
     end
+    Rails.logger.info("CHECKPARSEQUERYROW = #{returnstring}")
     return returnstring
   end
 
@@ -352,18 +387,34 @@ end
     query_string = ""
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
-    search_field_rowArray = params[:search_field_row]
+ 
+    if params[:op_row][0] == "begins_with"
+      params[:search_field_row][0] = params[:search_field_row][0] + "_starts"
+      search_field_rowArray = params[:search_field_row]
+  
+    else
+     search_field_rowArray = params[:search_field_row]
+    end
       for i in 0..query_rowArray.count - 1
          if query_rowArray[i] != ""
            query_string << "q="
            query_rowSplitArray = query_rowArray[i].split(" ")
            if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
-             query_string << query_rowSplitArray[0] << " " << op_rowArray[i] << " "
+             if op_rowArray[i] == 'begins_with'
+           
+             query_string << query_rowSplitArray[0] << " "
+             else
+             query_string << query_rowSplitArray[0] << " " #<< op_rowArray[i] << " "
+             end
              for j in 1..query_rowSplitArray.count - 2
-               query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+               if !op_rowArray[i] == 'begins_with'
+                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+               else
+                query_string << query_rowSplitArray[j] << " "
+               end
              end
              query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
-           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase")
+           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase" )
              query_rowArray[i].gsub!("\"", "\'")
              query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
              query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
@@ -372,7 +423,8 @@ end
            end
          end
       end
-     return query_string
+      Rails.logger.info("CHECKPARSESINGLE = #{query_string}")
+      return query_string
   end
 
   def test_size_param_array(param_array)
@@ -546,6 +598,7 @@ end
 
 def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
+Rails.logger.info("BERNIERULES1 = #{my_params}")
   if ( !my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
     content = ""
     content << render_advanced_constraints_filters(my_params)
@@ -590,9 +643,15 @@ def render_advanced_constraints_query(my_params = params)
     j = 1
     if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
      sfr = my_params[:search_field_row][0]
+     if my_params[:op_row][0] == "begins_with"
+       sfr = sfr << "_starts"
+     end
      new_q_parts[0] = sfr  + "=" + my_params[:q_row][0]
       for i in 1..my_params[:q_row].count - 1
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
+        if my_params[:search_field_row][i] == "begins_with"
+          sfr = sfr << "_starts"
+        end
         n = i.to_s
         new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
         new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
@@ -623,11 +682,13 @@ def render_advanced_constraints_query(my_params = params)
              label = opval[1] << " "
              label << search_field_def_for_key(parts[0])[:label]
            else
+             Rails.logger.info("BERNIE = #{parts}")
              label = search_field_def_for_key(parts[0])[:label]
            end
            if hold[1].include?('&')
              hold[1] = hold[1].gsub!('&','%26')
           end
+           Rails.logger.info("BERNIERULES = #{new_q_parts}")
            removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
            content << render_constraint_element(label, querybuttontext, :remove => removeString)
          else

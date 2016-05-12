@@ -1,0 +1,90 @@
+// .advanced-search-field {
+//   width: auto;
+// }
+.add-row {
+  margin: 1em 0;
+}
+#sort { width: auto; }
+.as-tips {
+  position:relative;
+	top:-10px;
+	font-size: 90%;
+  margin-top: 0;
+}
+.add-and-sort label {
+  display: inline-block;
+  vertical-align: middle;
+}
+.form-inline {
+  .boolean_row {
+    margin-bottom: 0.2em;
+    margin-top: .75em;
+    width: 100%;
+  }
+}
+.as-examples {
+  margin-bottom: 0;
+  margin-top: .25em;
+}
+body.blacklight-advanced-index dl.dl-horizontal {
+  dt { width: 50px; }
+}
+.submit-reset {
+  margin-top: 1.5em;
+}
+.sort-results {
+  font-weight: normal;
+}
+// TODO, 8/5/15 mhk33: This is too global a style and is messing with other forms on the site
+.form-control {
+  width: 25%;
+  display: inline-block;
+}
+
+.advanced_search {
+  .main-content {
+    padding-top: 2em;
+  }
+}
+
+// radio buttons spacing for operators
+.advanced {
+  .radio-inline {
+    input {
+      margin-right: .25em;
+    }
+  }
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: 25%;
+    }
+  }
+  body.blacklight-advanced-index dl.dl-horizontal {
+    dd { margin-left: 65px; }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: 40%;
+    }
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg) { 
+  .form-inline {
+    .advanced-search-field.form-control {
+      width: auto;
+    }
+  }
+}

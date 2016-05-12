@@ -1,0 +1,95 @@
+// Custom styles for digital collections pages 
+// ----------------------------------------------
+
+.digitalcollections-search {
+	margin-top: 20px;
+	h2 {
+		font-weight: normal;
+		color: $dark-gray;
+		line-height: 1.1em
+	}
+	.form-group { padding-left: 0; }
+	p {
+		font-size: 14px;
+	}
+	form {
+		margin-bottom:0px;
+	}
+	.well {
+		.row {
+			margin-left: 0;
+		}
+	}
+}
+
+.digital-collections {
+	.document {
+		border-bottom: 1px solid $light-tan;
+	}
+}
+  // // Nav and dropdown links in navbar
+  // .nav-collapse .nav > li > a,
+  // .nav-collapse .dropdown-menu a {
+  //   padding: 9px 15px;
+  //   font-weight: bold;
+  //   color: $navbarLinkColor;
+  //   @include border-radius(3px);
+  // }
+
+
+.blacklight-digitalcollections-name {
+	padding-top: 15px;
+	h3 { margin-bottom: 20px; }
+	h3:first-child { margin-top: 0; }
+	.document-data { 
+		width: 100%;
+		padding: 0 0 15px 0;
+	}
+	td,th {
+		font-size:14px;
+	}
+	.description {
+		p { 
+			font-size: 14px;
+			line-height: 1.6em;
+		}
+
+	}
+	.blacklight-title_display {
+		margin: 0 0 .5em;
+		font-weight: normal;
+		line-height: 1.2em;
+		// font-size: 1.1em;
+		font-size: 20px;
+		i { 
+			font-size: 12px;
+			margin-left: 5px;
+		}
+	}
+}
+.blacklight-database-name:first-child {
+	padding-top: 0;
+}
+
+.catalog-link {
+	list-style: none;
+	margin: 0;
+	font-size: 12px;
+	li {
+		float: left;
+		border-left: 1px solid $databases-light-gray;
+		padding: 0 6px;
+	}
+	li:first-child {
+		border: 0;
+		padding-left: 0;
+	}
+}
+.blacklight-digitalcollections {
+	.return-link {
+		margin-bottom: 2em;
+	}
+	.mobile-search-btn {
+		margin-left: 5px;
+	}
+}

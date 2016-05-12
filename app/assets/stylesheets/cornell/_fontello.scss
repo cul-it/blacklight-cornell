@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+$fontelloPath: "fontello" !default;
+
+@font-face {
+  font-family: "fontello";
+  src: url(font-path("#{$fontelloPath}.eot"));
+  src: url(font-path("#{$fontelloPath}.eot?#iefix")) format("embedded-opentype"), url(font-path("#{$fontelloPath}.woff")) format("woff"), url(font-path("#{$fontelloPath}.ttf")) format("truetype"), url(font-path("#{$fontelloPath}.svg#fontello")) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+// TODO: rename 'fa' to something like 'fontello
+.fa-book-open:before      { font-family: "fontello";  content: "\1f4d6"; }
+.fa-database:before       { font-family: "fontello";  content: "\e754"; }
+.fa-graduation-cap:before { font-family: "fontello";  content: "\1f393"; }
+.fa-musical-score:before  { font-family: "fontello";  content: "\1f3b5"; }
+.fa-newspaper:before      { font-family: "fontello";  content: "\e735"; }
+.fa-popup:before          { font-family: "fontello";  content: "\e74c"; }
