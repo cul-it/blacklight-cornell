@@ -4,6 +4,7 @@ class AeonController < ApplicationController
   include Blacklight::Catalog
   
   def request_aeon
+    Appsignal.increment_counter('aeon_request', 1)
     resp, document = get_solr_response_for_doc_id(params[:bibid])
     aeon = Aeon.new
     request_options, target, @holdings = aeon.request_aeon document, params
