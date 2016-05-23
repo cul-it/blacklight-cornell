@@ -1,5 +1,10 @@
 # Release Notes - blacklight-cornell-requests
 
+## v1.2.3
+
+### Bug fixes
+- RMC items no longer appear in the volume selection list
+
 ## v1.2.2
 
 ### Enhancements
@@ -8,7 +13,6 @@
 - Added item location to copy selection view (DISCOVERYACCESS-2278)
 
 ### Bug fixes
-- Users no longer get stuck in a loop when trying to request different volumes from a single record (DISCOVERYACCESS-2438)
 
 
 ## v1.2.1

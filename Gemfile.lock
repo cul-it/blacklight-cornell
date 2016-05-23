@@ -1,9 +1,9 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: a2b8124e7ab84c3a628ad56d13fe023e705add38
+  revision: bdc836f99ba30f26d4899f2a957a94c264126d6b 
   branch: master
   specs:
-    blacklight_cornell_requests (1.2.2)
+    blacklight_cornell_requests (1.2.3)
       blacklight (= 5.9)
       borrow_direct
       dotenv
@@ -412,8 +412,6 @@ GEM
     ruby_parser (3.8.1)
       sexp_processor (~> 4.1)
     rufus-scheduler (3.2.0)
-    rvm-capistrano (1.5.6)
-      capistrano (~> 2.15.4)
     safe_yaml (1.0.4)
     sass (3.4.22)
     sass-rails (5.0.4)
@@ -547,7 +545,6 @@ DEPENDENCIES
   rspec
   rspec-rails
   rufus-scheduler
-  rvm-capistrano
   sass-rails (~> 5.0)
   savon (~> 2.11.1)
   spork (= 0.9.0)
@@ -560,3 +557,9 @@ DEPENDENCIES
   webmock
   webrat
   yaml_db
+
+RUBY VERSION
+   ruby 2.1.5p273
+
+BUNDLED WITH
+   1.12.4

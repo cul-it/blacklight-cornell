@@ -265,11 +265,20 @@ module BlacklightCornellRequests
       num_chron = 0
       num_year = 0
       
+      # Skip items if they're in RMC - they shouldn't appear in the list
+      items.delete_if do |item|
+        item['perm_location'].present? && 
+        item['perm_location']['code'].present? &&
+        item['perm_location']['code'].include?('rmc')
+      end
+      
       ## take first integer from each of enum, chron and year
       ## if not populated, use big number to rank low
       ## if the field is blank, use 'z' to rank low
       ## record number of occurances for each of the 
       items.each do |item|
+        
+        Rails.logger.warn "mjc12test: item: #{item}"
         
         # item[:numeric_enumeration] = item[:item_enum][/\d+/]  
         enums = item[:item_enum].scan(/\d+/)  
