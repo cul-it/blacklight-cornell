@@ -87,9 +87,9 @@ gem 'jquery-ui-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
+ gem 'rvm-capistrano'
  gem 'capistrano'
  gem 'capistrano-ext'
- #gem 'rvm-capistrano'
 
 # To use debugger
 # gem 'debugger'
