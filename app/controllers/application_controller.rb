@@ -4,10 +4,6 @@ class ApplicationController < ActionController::Base
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
 
-  # Inject GA tracking js into head here instead of CatalogController so every
-  # page in the app is tracked
-  include BlacklightGoogleAnalytics::ControllerExtraHead
-
   layout 'blacklight'
 
   #protect_from_forgery with:  :exception

@@ -35,7 +35,6 @@
 //= require spin.min.js
 //= require jquery.spin.js
 
-//= require blacklight_google_analytics
 //= require print_button.js
 //= require pops.js
 //= require jquery.anchorscroll.js
