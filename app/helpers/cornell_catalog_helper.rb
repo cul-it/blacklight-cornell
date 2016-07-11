@@ -110,6 +110,8 @@ module CornellCatalogHelper
     bibid = document[:id]
     response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{bibid}")).with_indifferent_access
     @response = response
+    # Store the response in the session for use by the request engine
+    session[:holdings_status_short] = response
 
     @bound_with = [] 
     @bound_with_to_mbw =  {} 
