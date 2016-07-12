@@ -54,10 +54,12 @@
         .item-requests
           - counter = params[:counter] || session[:search][:counter]
           - if counter.blank?
-            =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
+            =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
           - else
-            =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
-  
+            =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+          - # only display request scan button for items not at RMC
+          - if (group == "Circulating" && on_site_count <= holdings.count)
+            =link_to 'Request scan of article/chapter', 'https://cornell.hosts.atlas-sys.com/illiad/', { :title => 'Request scan', :class => 'btn btn-default'}
   
   
   
