@@ -127,7 +127,12 @@ h3.rare {
 .item-requests {
 	border-top: 5px solid $light-tan;
 	padding-top: 10px;
-	margin: .75em 0; }
+	margin: .75em 0;
+	// Request scan button
+	.btn {
+		margin-bottom: 5px;
+	}
+}
 
 .google-books-link {
 	margin: 1.5em 0 0;
@@ -204,6 +209,11 @@ h3.rare {
     li {
       font-size: 12px;
     }
+  }
+  .item-requests {
+  	.btn-default {
+		margin-left: 10px;
+	}
   }
 }
 
