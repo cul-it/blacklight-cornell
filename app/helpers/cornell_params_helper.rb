@@ -29,6 +29,7 @@ module CornellParamsHelper
                params[:q] = query_string
                search_session[:q] = query_string
                search_session[:search_field] = "advanced"
+
              else
                params[:q] = params["q"]
                search_session[:q] = params[:q]
@@ -221,6 +222,8 @@ module CornellParamsHelper
 #        solr_parameters[:sort] = "score desc, title_sort asc"
       end
        solr_parameters[:q] = test_q_string
+      solr_parameters[:'spellcheck.q'] = params[:q_row].join(" ")
+
        Rails.logger.info("FRANCES = #{test_q_string}")
       params[:show_query] = test_q_string2
   end
