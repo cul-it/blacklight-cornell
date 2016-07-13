@@ -341,3 +341,18 @@ Feature: Search
     And I should not see the label 'Modify advanced' 
     And I should see the label 'Smoke some kill' 
     And I should see the label '1 - 16 of 16'
+
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform a 2 row  advanced search with a spelling error 
+    When I literally go to advanced 
+    And I fill in "q_row1" with 'socccer'
+    And I fill in "q_row2" with 'encyclopedia'
+    And I press 'advanced_search'
+    Then I should get results
+    And I should not see the label 'searched' 
+    And I should see the label 'soccer' 
