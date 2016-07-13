@@ -211,17 +211,15 @@
           <dl class="dl-horizontal">
             <% rda=JSON.parse(data["rda_json"]) %>
             <% rda.each do |t,d| %>
+              <% unless t == "Gender" %>
               <dt>
                 <%= t + ':' %>
               </dt>
               <% d.each do |data| %>
                 <dd>
-                  <% if t == "Gender" %>
-                    <%= data.humanize %>
-                  <% else %>
-                    <%= data %>
-                  <% end %>
+                  <%= data %>
                 </dd>
+                <% end %>
               <% end %>
             <% end %>
           </dl>
