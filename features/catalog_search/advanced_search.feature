@@ -343,6 +343,7 @@ Feature: Search
     And I should see the label '1 - 16 of 16'
 
 
+ @wip
  @begins_with
  @adv_search
  @all_search
