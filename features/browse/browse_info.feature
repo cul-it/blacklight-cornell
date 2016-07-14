@@ -1,5 +1,5 @@
 # encoding: UTF-8
-Feature: Browse search 
+Feature: Browse info  
   In order to get information about authorities 
   As a user
   I want to view specific author and subject authority records
