@@ -10,10 +10,11 @@ class BrowseController < ApplicationController
    @heading='Browse'
   end
     def index
-        base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
+#        base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
+        base_solr = "http://da-stg-ssolr.library.cornell.edu/solr/blacklight"
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
 
-      Appsignal.increment_counter('browse_index', 1)
+#      Appsignal.increment_counter('browse_index', 1)
       authq = params[:authq]
       browse_type = params[:browse_type]
       start = params[:start]

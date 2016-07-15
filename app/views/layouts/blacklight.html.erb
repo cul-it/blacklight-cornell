@@ -45,21 +45,21 @@
 
   <%= render partial: 'shared/ajax_modal' %>
 
-    <% if part_of_catalog? %>
+    <%# if part_of_catalog? %>
       <div class="search-bar">
         <div class="container">
           <%= render :partial => 'shared/search_form' %>
         </div>
       </div>
-    <% end %>
+    <%# end %>
 
-    <% if part_of_catalog? %>
+    <%# if part_of_catalog? %>
       <div class="constraints-bar">
         <div class="container">
           <%= render :partial => "catalog/constraints" %>
         </div>
       </div>
-    <% end %>
+    <%# end %>
 
     <section class="main-content" id="maincontent">
       <div class="container" id="main-container">

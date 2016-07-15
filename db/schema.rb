@@ -13,20 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150507152505) do
 
-  create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
-    t.integer "CIRC_GROUP_ID"
-    t.integer "LOCATION_ID"
-    t.string  "PICKUP_LOCATION", limit: 1
-  end
-
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl"
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id"
-
-  create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
     t.string   "document_id"

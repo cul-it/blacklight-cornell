@@ -3,7 +3,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-  include Blacklight::SolrHelper
+#  include Blacklight::Solr  #Helper
+#  include Blacklight::SolrHelper
   include CornellCatalogHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
@@ -38,7 +39,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
   def add_cjk_params_logic
-    CatalogController.solr_search_params_logic << :cjk_query_addl_params
+    SearchBuilder.default_processor_chain << :cjk_query_addl_params
   end
 
    def append_facet_fields(values)
@@ -117,8 +118,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     if num_cjk_uni(params[:q]) > 0
       cjk_query_addl_params({}, params)
     end
-    (@response, @document_list) = get_search_results
-
+    (@response, @document_list) = search_results(params)
     if !qparam_display.blank?
       params[:q] = qparam_display
       search_session[:q] = params[:q]
@@ -180,17 +180,18 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # get single document from the solr index
     def show
-      @response, @document = get_solr_response_for_doc_id params[:id]
+#      @response, @document = get_solr_response_for_doc_id params[:id]
+      @response, @document = search_results(params)
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
         format.rss  { render :layout => false }
         # Add all dynamically added (such as by document extensions)
         # export formats.
-        @document.export_formats.each_key do | format_name |
+#        @document.export_formats.each_key do | format_name |
           # It's important that the argument to send be a symbol;
           # if it's a string, it makes Rails unhappy for unclear reasons.
-          format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
-        end
+#          format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
+#        end
 
       end
     end
@@ -352,7 +353,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     def setup_document_by_counter(counter)
       return if counter < 1 || session[:search].blank?
       search = session[:search] || {}
-      get_single_doc_via_search(counter, search)
+#      get_single_doc_via_search(counter, search)
     end
 
     def setup_previous_document
@@ -411,7 +412,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         session[:history].unshift(new_search.id)
         # Only keep most recent X searches in history, for performance.
         # both database (fetching em all), and cookies (session is in cookie)
-        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
+#        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
       end
     end
 
@@ -477,22 +478,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   # solr_search_params_logic methods take two arguments
   # @param [Hash] solr_parameters a hash of parameters to be sent to Solr (via RSolr)
   # @param [Hash] user_parameters a hash of user-supplied parameters (often via `params`)
-  def sortby_title_when_browsing solr_parameters, user_parameters
-    # if no search term is submitted and user hasn't specified a sort
-    # assume browsing and use the browsing sort field
-    if user_parameters[:q].blank? and user_parameters[:sort].blank?
-      browsing_sortby =  blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
-      solr_parameters[:sort] = browsing_sortby.field
-    end
-  end
-
-  #sort call number searches by call number
-  def sortby_callnum solr_parameters, user_parameters
-    if user_parameters[:search_field] == 'call number'
-      callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
-      solr_parameters[:sort] = callnum_sortby.field
-    end
-  end
 
 
   def tiny_url(uri, options = {})
@@ -546,30 +531,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
-  def cjk_query_addl_params(solr_params, params)
-    if params && params.has_key?(:q)
-      q_str = (params[:q] ? params[:q] : '')
-      num_uni = num_cjk_uni(q_str)
-      if num_uni > 2
-        solr_params.merge!(cjk_mm_qs_params(q_str))
-      end
-
-      if num_uni > 0
-        case params[:search_field]
-          when 'all_fields', nil
-           solr_params[:q] = "{!qf=$qf pf=$pf pf3=$pf3 pf2=$pf2}#{q_str}"
-          when 'title'
-           solr_params[:q] = "{!qf=$title_qf pf=$title_pf pf3=$title_pf3 pf2=$title_pf2}#{q_str}"
-          when 'author/creator'
-           solr_params[:q] = "{!qf=$author_qf pf=$author_pf pf3=$pf3_author_pf3 pf2=$author_pf2}#{q_str}"
-          when 'journal title'
-           solr_params[:q] = "{!qf=$journal_qf pf=$journal_pf pf3=$journal_pf3 pf2=$journal_pf2}#{q_str}"
-          when 'subject'
-           solr_params[:q] = "{!qf=$subject_qf pf=$subject_pf pf3=$subject_pf3 pf2=$subject_pf2}#{q_str}"
-        end
-      end
-    end
-  end
 
   def num_cjk_uni(str)
     if str
@@ -578,6 +539,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       0
     end
   end
+
 
   def check_dates(params)
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil

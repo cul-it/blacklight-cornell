@@ -1,24 +1,6 @@
-<% if back_to_catalog_needed %>
-  <% session[:search][:controller] == 'advanced_search' ? link_label = 'Back to results' : '' %>
-  <% link_back = link_back_to_catalog({:label => link_label}) %>
-  <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
-    <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
-      <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
-    <% end %>
-  <% end %>
-<% end %>
 
-<%#= render :partial => 'search_form' %>
-<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
- <% content_for(:head) do -%>
-        <%  render_link_rel_alternates          %>
-        <%= render_opensearch_response_metadata %>
-        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
-        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
-        <%= render_extra_head_content %>
- <% end -%>
 
-<% sidebar_items << render_document_sidebar_partial %>
+<%# sidebar_items << render_document_sidebar_partial %>
 
 
 <div class="show">
@@ -27,23 +9,23 @@
 
 <div class="row">
   <div class="item-pagination col-sm-5">
-    <%= render 'previous_next_doc' %>
+    <%#= render 'previous_next_doc' %>
   </div>
   <div class="item-tools col-sm-7">
     <ul class="fa-ul" id="item-tools">
-      <%= render_document_sidebar_partial %>
+      <%#= render_document_sidebar_partial %>
     </ul>
   </div>
 </div>
 
-<% Rails.logger.debug "Viewing item #{@document.id} - session: #{session} " %>
+<%# Rails.logger.debug "Viewing item #{@document.id} - session: #{session} " %>
 <% if params[:flash] == 'success' %>
   <%- flash.now[:success]  = 'Your request was submitted successfully.' %>
 <% end %>
 
 <div class="row">
   <div id="id_current_counter" style="display: none"><% counter = params[:counter] || session[:search][:counter] %><% if !counter.blank? %><%= counter %><% end %></div>
-  <%= render :partial => 'show_metadata' %>
+  <%#= render :partial => 'show_metadata' %>
 </div>
 
 <div class="row">
@@ -52,7 +34,6 @@
       <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
         <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
       <%end%>
-      | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local" onclick="javascript:_paq.push(['trackEvent', 'catalog_item', 'classic_link']);">Classic Catalog <i class="fa fa-external-link"></i></a>
     </div>
   </div>
 </div>

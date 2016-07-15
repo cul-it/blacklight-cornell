@@ -30,7 +30,6 @@
 //= require blacklight/blacklight
 //= require_tree .
 //
-//= require blacklight_cornell_requests
 //
 //= require spin.min.js
 //= require jquery.spin.js

@@ -1,13 +1,44 @@
 BlacklightCornell::Application.routes.draw do
 
-  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
   Blacklight::Marc.add_routes(self)
+  mount Blacklight::Engine => '/'
 
-  root :to => "catalog#index"
+  root to: "catalog#index"
+  concern :searchable, Blacklight::Routes::Searchable.new
 
-  Blacklight.add_routes(self)
+resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
+  concerns :searchable
+end
 
+  concern :exportable, Blacklight::Routes::Exportable.new
+
+resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
+  concerns :exportable
+end
+
+resources :bookmarks do
+  concerns :exportable
+
+  collection do
+    delete 'clear'
+  end
+end
+
+#  root to: "catalog#index"
+#  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+
+##figure out how to replace this ->  Blacklight::Marc.add_routes(self)
+
+#  root :to => "catalog#index"
+
+  #Blacklight.add_routes(self)
+#  mount Blacklight::Engine => '/'
+#  concern :searchable, Blacklight::Routes::Searchable.new
+#  
+#  resource :catalog, only: [:index], controller: 'catalog' do
+#   concerns :searchable
+#  end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
@@ -122,5 +153,5 @@ BlacklightCornell::Application.routes.draw do
 
 
 
-  mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
+#  mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
 end

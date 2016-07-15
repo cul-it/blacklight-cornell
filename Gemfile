@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
-ruby "2.1.5"
+ruby "2.2.3"
 
 gem 'rails', '4.2.1'
 gem "dotenv-rails"
 gem "dotenv-deployment"
-gem 'appsignal'
+#gem 'appsignal'
 
 # added for rails 4.
 gem 'activerecord-session_store'
@@ -16,7 +16,8 @@ gem 'parslet'
 gem 'ultraviolet'
 gem 'mysql'
 gem 'yaml_db'
-gem 'blacklight', '5.9'
+gem 'blacklight', '6.3.1'
+#gem 'rsolr'
 gem 'blacklight_range_limit'
 gem 'blacklight_unapi', :git => 'git@github.com:cul-it/blacklight-unapi', :branch => 'rails4'
 gem 'kaminari', '0.15.0'
@@ -97,7 +98,7 @@ gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails' 
-gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
+#gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
 gem 'borrow_direct', :git => 'git@github.com:jrochkind/borrow_direct.git'
 
 gem 'bento_search'
@@ -108,3 +109,7 @@ gem 'mollom'
 #gem 'blacklight-marc'
 gem 'exception_notification'
 gem 'hipchat'
+
+gem 'solr_wrapper', '>= 0.3'
+gem 'rsolr', '~> 1.0.6'
+gem 'globalid'

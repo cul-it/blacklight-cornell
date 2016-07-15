@@ -1,6 +1,6 @@
-include Blacklight::Solr::Document::MarcExport
+#include Blacklight::Solr::Document::MarcExport
 
-module Blacklight::Solr::Document::MarcExport
+module Blacklight::Solr #::Document::MarcExport
 
 #STANDARD_INFO =  "\n#{__FILE__} #{__LINE__} #{__method__} " 
 

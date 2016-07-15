@@ -17,7 +17,7 @@ class AdvancedSearchController < ApplicationController
 
   def index
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-      Appsignal.increment_counter('adv_search_index', 1)
+#      Appsignal.increment_counter('adv_search_index', 1)
     #  @catalog_host = get_catalog_host(request.host)
 
       unless params["q"].nil?
