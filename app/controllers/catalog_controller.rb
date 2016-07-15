@@ -37,7 +37,7 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       rows: 10
     }
-    config.unapi = { 
+    config.unapi = {
       'oai_dc_xml' => { :content_type => 'text/xml'}
     }
     config.index.partials << 'microformat'
@@ -91,21 +91,40 @@ class CatalogController < ApplicationController
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
-    config.add_facet_field 'format', label: 'Format'
-    config.add_facet_field 'pub_date', label: 'Publication Year', single: true
-    config.add_facet_field 'subject_topic_facet', label: 'Topic', limit: 20, index_range: 'A'..'Z'
-    config.add_facet_field 'language_facet', label: 'Language', limit: true
-    config.add_facet_field 'lc_1letter_facet', label: 'Call Number'
-    config.add_facet_field 'subject_geo_facet', label: 'Region'
-    config.add_facet_field 'subject_era_facet', label: 'Era'
+    config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
+       config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
+       config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5
+       config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
+         :num_segments => 6,
+         :assumed_boundaries => [1300, Time.now.year + 1],
+         :segments => true,
+         :include_in_advanced_search => false
+       }, :show => true, :include_in_advanced_search => false
 
-    config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
+       config.add_facet_field 'workid_facet', :label => 'Work', :show => false
+       config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
+       config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
+       config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
+       config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5
+       config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5
+       config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
+       config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
+       config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
+       config.add_facet_field 'hierarchy_facet', :hierarchy => true
+       config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+        config.add_facet_field 'lc_callnum_facet',
+                               if: :expandable_search?,
+                              label: 'Call Number',
+                              partial: 'blacklight/hierarchy/facet_hierarchy',
+                              sort: 'index'
+       config.facet_display = {
+         :hierarchy => {
+           'lc_callnum' => [['facet'], ':']
+         }
+     }
 
-    config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-       :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
-       :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
-       :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
-    }
+       config.add_facet_field 'collection', :show => false
+
 
 
     # Have BL send all facet field names to Solr, which has been the default

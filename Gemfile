@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.2.3"
+ruby "2.2.5"
 
 gem 'rails', '4.2.1'
 gem "dotenv-rails"
@@ -43,7 +43,7 @@ gem 'redis-session-store'
   gem 'coffee-rails', '~> 4.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-   gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+   gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 
@@ -59,13 +59,13 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'meta_request'
 end
-  
+
 group :test do
   gem 'capybara'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
-  gem 'rb-inotify'
-  gem 'libnotify'
+  gem 'rb-inotify', :require => false
+  gem 'libnotify', :require => false
   # Spork support
   gem 'guard-spork', '0.3.2'
   gem 'spork', '0.9.0'
@@ -97,7 +97,7 @@ gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
-gem 'font-awesome-rails' 
+gem 'font-awesome-rails'
 #gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
 gem 'borrow_direct', :git => 'git@github.com:jrochkind/borrow_direct.git'
 
