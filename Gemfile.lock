@@ -268,7 +268,7 @@ GEM
     libnotify (0.9.1)
       ffi (>= 1.0.11)
     library_stdnums (1.4.1)
-    libv8 (3.3.10.4)
+    libv8 (3.16.14.15)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -376,6 +376,7 @@ GEM
     redis-session-store (0.9.1)
       actionpack (>= 3, < 5.1)
       redis (~> 3)
+    ref (2.0.0)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
     rsolr (1.0.13)
@@ -447,8 +448,9 @@ GEM
       json
     textpow (1.4.0)
       plist (>= 3.0.1)
-    therubyracer (0.10.2)
-      libv8 (~> 3.3.10)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
@@ -566,7 +568,7 @@ DEPENDENCIES
   solr_wrapper (>= 0.3)
   spork (= 0.9.0)
   sqlite3
-  therubyracer (~> 0.10.2)
+  therubyracer (~> 0.12.2)
   uglifier (>= 1.0.3)
   ultraviolet
   unicode
@@ -575,5 +577,8 @@ DEPENDENCIES
   webrat
   yaml_db
 
+RUBY VERSION
+   ruby 2.2.5p319
+
 BUNDLED WITH
-   1.11.2
+   1.12.5
