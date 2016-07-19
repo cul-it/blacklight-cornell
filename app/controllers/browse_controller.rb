@@ -5,7 +5,7 @@ class BrowseController < ApplicationController
   #include BlacklightUnapi::ControllerExtension
   before_filter :heading
   #attr_accessible :authq, :start, :order, :browse_type
-  
+
   def heading
    @heading='Browse'
   end
@@ -97,12 +97,16 @@ class BrowseController < ApplicationController
 
     end
     def info
+      if !params[:authq].present? || !params[:browse_type].present? 
+        flash.now[:error] = "Please enter a complete query."
+        render "index"
+      else
         base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
         Appsignal.increment_counter('browse_info', 1)
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
       if !params[:authq].nil? and params[:authq] != ""
         dbclnt = HTTPClient.new
-        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' } 
+        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
         @headingsResultString = dbclnt.get_content(base_solr +"/author/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -117,7 +121,7 @@ class BrowseController < ApplicationController
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
-        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' } 
+        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
         @headingsResultString = dbclnt.get_content(base_solr +"/subject/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -131,7 +135,7 @@ class BrowseController < ApplicationController
       end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
         dbclnt = HTTPClient.new
-        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' } 
+        p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
         @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -147,5 +151,5 @@ class BrowseController < ApplicationController
         format.html { render layout: !request.xhr? } #renders naked html if ajax
       end
     end
-
+end
 end
