@@ -59,10 +59,10 @@ class DatabasesController < ApplicationController
 
 
    def searchdb
-      if params[:q].nil? or params[:q] == ""
+      if params[:q].nil? or params[:q] == "" or params[:q] == "+" or params[:q] == "-"
         flash.now[:error] = "Please enter a query."
         render "index"
-      end
+      else
       if !params[:q].nil? and params[:q] != ""
         #params[:q].gsub!(' ','%20')
         dbclnt = HTTPClient.new
@@ -80,7 +80,7 @@ class DatabasesController < ApplicationController
         params[:q].gsub!('%20', ' ')
       end
     end
-
+end
 
   def tou
 

@@ -963,14 +963,13 @@ include ActionView::Helpers::NumberHelper
       title = doc.get(opts[:label][0], :sep => nil)
       subtitle = doc.get(opts[:label][1], :sep => nil)
       fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
-
-      english = subtitle.present? ? title + ' : ' + subtitle : title
+      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
 
       # If title is missing, fall back to document id (bibid) as last resort
       label ||= english.present? ? english : doc.id
 
       # If we have a non-Roman script alternative, prepend it
-      if fulltitle_vern.present?
+      if fulltitle_vern.present? && english.present?
         label.prepend(fulltitle_vern + ' / ')
       end
     end

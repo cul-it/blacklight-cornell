@@ -110,6 +110,8 @@ module CornellCatalogHelper
     bibid = document[:id]
     response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{bibid}")).with_indifferent_access
     @response = response
+    # Store the response in the session for use by the request engine
+    session[:holdings_status_short] = response
 
     @bound_with = [] 
     @bound_with_to_mbw =  {} 
@@ -123,9 +125,6 @@ module CornellCatalogHelper
         items2 = handle_bound_with(response,bibid,items2) 
       end
     end
-
-
-
     # items might differ slightly from direct db response.
     # reconcile the two into a grand synthesis of merged info 
     #items  = items2
@@ -167,17 +166,14 @@ module CornellCatalogHelper
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
           Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
-          callnumber = "" 
-          callnumber = hrdJSON["callnos"][0] unless  hrdJSON["callnos"].blank?    
+          callnumber = hrdJSON["callnos"].blank? ? "" : hrdJSON["callnos"][0] 
           id = hrdJSON[:id]
           hrds[id]  =  hrdJSON
           notes = hrdJSON[:notes]
-          #summary_holdings = recent_holdings = suppl_holdings = index_holdings = [] 
           summary_holdings = hrdJSON[:holdings_desc]
           recent_holdings = hrdJSON[:recent_holdings_desc]
           suppl_holdings = hrdJSON[:supplemental_holdings_desc]
           index_holdings = hrdJSON[:index_holdings_desc]
-          #Rails.logger.debug "\nes287_debug notes  = " + notes.inspect 
           Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} summary holdings  = " + summary_holdings.inspect 
           coder = HTMLEntities.new
           hrdJSON[:locations].each do |loc|
@@ -185,13 +181,16 @@ module CornellCatalogHelper
             dispname = loc[:name] 
             oneloc["location_name"] = dispname 
             oneloc["location_code"] = loc[:code]
-            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = " + loc[:code] 
+            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = #{loc[:code]}" 
+            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} callnumber  = #{callnumber}"
             oneloc["holding_id"] = [id] 
             mfhd_id = id.to_i 
             oneloc["call_number"] = callnumber
-            if callnumber.blank?  && !@current_hldgs.nil? && !@current_hldgs['call_number'].blank?
-              oneloc["call_number"] = @current_hldgs['call_number']
-            end
+            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
+            #if callnumber.blank?  && !@current_hldgs.nil? && !@current_hldgs['call_number'].blank?
+            #  oneloc["call_number"] = @current_hldgs['call_number']
+            #end
+            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
             oneloc["copies"] = []
             oneloc["notes"] = "Notes: " + notes.join(' ') unless notes.blank? 
             notes_by_mid[id.to_s] = oneloc["notes"]
@@ -218,7 +217,7 @@ module CornellCatalogHelper
 		    end
 		    oneloc["indexes"]="Indexes: " + index_holdings.join(' ') unless index_holdings.blank? 
 		    sumh_by_mid[id.to_s] = oneloc["summary_holdings"] 
-		    Rails.logger.debug "\nes287_debug oneloc = " + oneloc.inspect 
+		    Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc = " + oneloc.inspect 
 		    Rails.logger.debug "\nes287_debug dispname = " + dispname 
 		    if condensed[id.to_s].blank?    
 		      condensed[id.to_s]  =  oneloc
