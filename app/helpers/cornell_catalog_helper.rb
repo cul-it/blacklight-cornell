@@ -1415,8 +1415,13 @@ module CornellCatalogHelper
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
   def request_path(group,id,aeon_codes,document)
-    aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-    aeon_req.gsub!('~libid~',aeon_codes.join('|'))
+   
+    if ENV['AEON_REQUEST'].blank?
+      aeon_req = '/aeon/~id~' 
+    else 
+      aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
+      aeon_req.gsub!('~libid~',aeon_codes.join('|'))
+    end
     if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]
       Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
