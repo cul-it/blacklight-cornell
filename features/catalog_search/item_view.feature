@@ -27,7 +27,7 @@ Feature: Item view
   Scenario: View an items holdings, and request from aeon
     Given I request the item view for 2083253 
         #And click on link "Request for Reading Room Delivery"
-        Then it should have link "Request for Reading Room Delivery" with value "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx"  
+        Then it should have link "Request item for Reading Room Delivery" with value "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="  
   @all_item_view
   @aeon
   #Scenario: View an items holdings, and request from aeon
@@ -538,10 +538,11 @@ Feature: Item view
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
 
-  @all_item_view
-    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such. 
-    Given I request the item view for 293396 
-    Then I should see the label 'Popular Reading Area'
+#  @popular
+#  @all_item_view
+#    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such. 
+#    Given I request the item view for 293396 
+#    Then I should see the label 'Popular Reading Area'
 
 
 

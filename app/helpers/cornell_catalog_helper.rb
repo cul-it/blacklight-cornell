@@ -303,6 +303,7 @@ module CornellCatalogHelper
 	      Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__} #{__method__} h callno = #{h['call_number'][0]}"
               if h['call_number'].blank?
                 clnt = HTTPClient.new
+                begin
                 mfhd_json= JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/mfhd/#{h['holding_id'][0]}"))
 	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} mfhd_json=#{mfhd_json.inspect}"
                 xml_str = mfhd_json["records"][0]['mfhd']
@@ -312,6 +313,8 @@ module CornellCatalogHelper
                 k_value =  k_parse.xpath("//datafield[@tag='852']/subfield[@code='k']/text()").to_s
 	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} k_value=#{k_value.inspect}"
                 h['call_number'] = k_value unless k_value.blank? 
+                rescue 
+                end
               end
             end
           condensed_full
@@ -1414,11 +1417,11 @@ module CornellCatalogHelper
   def request_path(group,id,aeon_codes,document)
     aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
     aeon_req.gsub!('~libid~',aeon_codes.join('|'))
-    if document['url_findingaid_display'].size > 0
+    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]
       Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
     end
-    aeon_req.gsub!('~fa~',finding_a)
+    aeon_req.gsub!('~fa~',"#{finding_a}")
     (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") : aeon_req
   end
     
