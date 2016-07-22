@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'spork'
+#require 'spork'
 require 'webmock/rspec'
 
 #uncomment the following line to use spork with the debugger
@@ -36,7 +36,7 @@ require 'webmock/rspec'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 
-Spork.prefork do
+#Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
   # need to restart spork for it take effect.
@@ -79,12 +79,12 @@ Spork.prefork do
   
   end
 
-end
+#end
 
-Spork.each_run do
+#Spork.each_run do
   # This code will be run each time you run your specs.
 
-end
+#end
 
 
 

@@ -1,6 +1,8 @@
 - some_av = 'no'
 - pda = 'no'
 - bound_with = false
+- aeon_codes = []
+- reading = ''
 - holdings_condensed = create_condensed_full(@document) 
 - bwith = ''
 - if @document['bound_with_json']
@@ -13,7 +15,9 @@
   - grouped_holdings.each do |group, holdings|
     - # Render group headings only if we have multiple groups
     - if multiple_groups
+      - reading = ''
       - if group == "Rare"
+        -  reading = ' for Reading Room Delivery'
         %h3.rare
           = group + " Items"
     - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource" 
@@ -30,13 +34,16 @@
                 = t('blacklight.holdings.sta')
         %tbody
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
+            -  reading = ''
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
             - callnumber = entry['call_number']
             - noncirc = false
             - if location =~ /Non-Circulating/
               - noncirc = true 
             - if location =~ /Rare/
+              - reading = ' for Reading Room Delivery'
               - noncirc = true 
+              - aeon_codes << entry['location_code'] unless aeon_codes.include?(entry['location_code'])
             - some_av = 'no'
             %tr
               %td
@@ -49,14 +56,15 @@
   
       - # end of table.
       - if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare"
-        - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")
+        - # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}"
+        -  request_context_path = request_path(group,params[:id],aeon_codes,@document)
         - @group = group
         .item-requests
           - counter = params[:counter] || session[:search][:counter]
           - if counter.blank?
-            =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
+            =link_to "Request#{reading}" , request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
           - else
-            =link_to 'Request', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+            =link_to "Request#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
   
   
   

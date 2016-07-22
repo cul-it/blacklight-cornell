@@ -20,7 +20,7 @@ Then /^it should contain "(.*?)" with value "(.*?)"$/ do |field, author|
 end
 
 Then /^it should have link "(.*?)" with value "(.*?)"$/ do |txt, alink|
-  page.should have_link(txt, :href =>alink) 
+  expect(page).to have_link(txt, :href =>alink) 
   #res.should == true 
 end
 
