@@ -26,19 +26,19 @@ Feature: Item view
   @aeon
   Scenario: View an items holdings, and request from aeon
     Given I request the item view for 2083253 
-        And click on link "Request"
-        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+        #And click on link "Request for Reading Room Delivery"
+        Then it should have link "Request for Reading Room Delivery" with value "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx"  
   @all_item_view
   @aeon
-  Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253 
-        And click on link "Request"
-        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+  #Scenario: View an items holdings, and request from aeon
+  #  Given I request the item view for 2083253 
+  #      And click on link "Request for Reading Room Delivery"
+  #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
   @all_item_view
   @aeon
-  Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253 
-        Then it should have link "Request" with value "/aeon/2083253"  
+  #Scenario: View an items holdings, and request from aeon
+  #  Given I request the item view for 2083253 
+  #      Then it should have link "Request for Reading Room Delivery" with value "/aeon/2083253"  
 
   # DISCOVERYACCESS-136
   @all_item_view
@@ -79,23 +79,23 @@ Feature: Item view
 
   @aeon
   @all_item_view
-  Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253 
-        And click on link "Request"
-        Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+  #Scenario: View an items holdings, and request from aeon
+  #  Given I request the item view for 2083253 
+  #      And click on link "Request"
+  #      Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
 
   @aeon
   @all_item_view
-  Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253 
-        And click on link "Request"
-        Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
+  #Scenario: View an items holdings, and request from aeon
+  #  Given I request the item view for 2083253 
+  #      And click on link "Request"
+  #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
 
   @aeon
   @all_item_view
-  Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253 
-        Then it should have link "Request" with value "/aeon/2083253"  
+  #Scenario: View an items holdings, and request from aeon
+  #  Given I request the item view for 2083253 
+  #      Then it should have link "Request" with value "/aeon/2083253"  
 
 
   # DISCOVERYACCESS-136
@@ -537,6 +537,12 @@ Feature: Item view
   Scenario: Show the record properly when a holding has no items 
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
+
+  @all_item_view
+    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such. 
+    Given I request the item view for 293396 
+    Then I should see the label 'Popular Reading Area'
+
 
 
   # TODO: need bibids that match these cases

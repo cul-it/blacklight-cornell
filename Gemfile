@@ -66,8 +66,8 @@ group :test do
   gem 'rb-inotify'
   gem 'libnotify'
   # Spork support
-  gem 'guard-spork', '0.3.2'
-  gem 'spork', '0.9.0'
+  #gem 'guard-spork', '0.3.2'
+  #gem 'spork', '0.9.0'
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'

@@ -289,9 +289,33 @@ module CornellCatalogHelper
 	    else
 	      ycondensed_full = collapse_locs(zcondensed_full)
 	    end
+
+	    ycondensed_full = missing_call_no(ycondensed_full)
+
 	    Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
 	    ycondensed_full
 	  end
+
+	  def missing_call_no(condensed_full)
+	    Rails.logger.debug "\nes287_debug #### #{__FILE__}:#{__LINE__} #{__method__} condensed_full= #{condensed_full.inspect}"
+	    condensed_full.each  do |h| 
+	      Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__} #{__method__} h mfhdid = #{h['holding_id']}"
+	      Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__} #{__method__} h callno = #{h['call_number'][0]}"
+              if h['call_number'].blank?
+                clnt = HTTPClient.new
+                mfhd_json= JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/mfhd/#{h['holding_id'][0]}"))
+	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} mfhd_json=#{mfhd_json.inspect}"
+                xml_str = mfhd_json["records"][0]['mfhd']
+	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} xml_str=#{xml_str.inspect}"
+                k_parse = Nokogiri.XML(xml_str)
+                k_parse.remove_namespaces!
+                k_value =  k_parse.xpath("//datafield[@tag='852']/subfield[@code='k']/text()").to_s
+	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} k_value=#{k_value.inspect}"
+                h['call_number'] = k_value unless k_value.blank? 
+              end
+            end
+          condensed_full
+          end
 
 	  def parse_item_locs(bibid,response)
 	    locnames_by_lid = {}
@@ -1386,7 +1410,19 @@ module CornellCatalogHelper
     bws 
   end
 
-    def has_tou?(id)
+# (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
+  def request_path(group,id,aeon_codes,document)
+    aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
+    aeon_req.gsub!('~libid~',aeon_codes.join('|'))
+    if document['url_findingaid_display'].size > 0
+      finding_a = (document['url_findingaid_display'][0]).split('|')[0]
+      Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
+    end
+    aeon_req.gsub!('~fa~',finding_a)
+    (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") : aeon_req
+  end
+    
+  def has_tou?(id)
     clnt = HTTPClient.new
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.solr_config[:url]
