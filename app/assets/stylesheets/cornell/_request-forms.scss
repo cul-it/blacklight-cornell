@@ -72,6 +72,14 @@ div.request-options div.accordion-body .span4 {
   padding-top: 7px;
 }
 
+// ILL link on volume select
+.ill-link {
+  margin-top: 2em;
+  padding-top: 1em;
+  padding-bottom: .5em;
+  background: $light-tan;
+}
+
 
 // Aeon screen
 // --------------------//
@@ -120,6 +128,16 @@ div.request-options div.accordion-body .span4 {
   h3 {  
     margin-top: 2em;
     font-size: 18px;
+  }
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+// Small devices (tablets, 768px and up)
+@media (min-width: $screen-sm) { 
+  .ill-link {
+    margin-top: 0;
   }
 }
  

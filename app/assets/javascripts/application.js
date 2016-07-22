@@ -39,6 +39,7 @@
 //= require pops.js
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
+//= require accessibility.js
 
 
 
