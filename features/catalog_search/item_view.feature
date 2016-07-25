@@ -538,11 +538,11 @@ Feature: Item view
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
 
-#  @popular
-#  @all_item_view
-#    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such. 
-#    Given I request the item view for 293396 
-#    Then I should see the label 'Popular Reading Area'
+  @popular
+  @all_item_view
+    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such. 
+    Given I request the item view for 293396 
+    Then I should see the label 'Popular Reading Area'
 
 
 
