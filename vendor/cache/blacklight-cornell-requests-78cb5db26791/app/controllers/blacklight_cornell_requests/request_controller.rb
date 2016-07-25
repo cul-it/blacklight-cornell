@@ -15,7 +15,16 @@ module BlacklightCornellRequests
 
       Rails.logger.debug "Viewing item #{@id} (within request controller) - session: #{session}"
 
-      req = BlacklightCornellRequests::Request.new(@id)
+      # If the holdings data has been stored in the session (:holdings_status_short), 
+      # we'll pass it in to the request to be reused instead of making
+      # the expensive holdings service call again. As soon as it's used, the session
+      # data gets cleared so that we don't end up passing stale session data for a different
+      # bibid into the request next time (if someone manipulates the URL instead of following
+      # the normal catalog path). A better way of handling this might be to compare the
+      # bibid and the key of the holdings data, which should be the same.
+      session_holdings = session[:holdings_status_short]
+      session[:holdings_status_short] = nil 
+      req = BlacklightCornellRequests::Request.new(@id, session_holdings)
       req.netid = request.env['REMOTE_USER']
       req.netid.sub!('@CORNELL.EDU', '') unless req.netid.nil?
 
@@ -24,7 +33,7 @@ module BlacklightCornellRequests
       # if the referer is a different path — i.e., /request/*, then we *do* want to
       # preserve the volume selection; this would be the case if the page is reloaded
       # or the user selects an alternate delivery method for the same item.
-      if session[:setvol].nil? && (request.referer.include? 'catalog')
+      if session[:setvol].nil? && (request.referer && request.referer.include?('catalog'))
         session[:volume] = nil 
       end
       session[:setvol] = nil
@@ -33,6 +42,13 @@ module BlacklightCornellRequests
       # Reset session var after use so that we don't get weird results if
       # user goes to another catalog item
       session[:volume] = nil
+      
+      # If there's a URL-based volume present, that overrides the session data (this
+      # should only happen now if someone is linking into requests from outside the main
+      # catalog).
+      if params[:enum] || params[:chron] || params[:year]
+        params[:volume] = "|#{params[:enum]}|#{params[:chron]}|#{params[:year]}|"        
+      end
 
       req.magic_request @document, request.env['HTTP_HOST'], {:target => target, :volume => params[:volume]}
 

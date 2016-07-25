@@ -62,14 +62,21 @@ module BlacklightCornellRequests
     attr_accessor :LOST_LIBRARY_APPLIED, :LOST_SYSTEM_APPLIED, :LOST, :CLAIMS_RETURNED, :DAMAGED
     attr_accessor :WITHDRAWN, :AT_BINDERY, :CATALOG_REVIEW, :CIRCULATION_REVIEW, :SCHEDULED, :IN_PROCESS
     attr_accessor :CALL_SLIP_REQUEST, :SHORT_LOAN_REQUEST, :REMOTE_STORAGE_REQUEST, :REQUESTED
+    attr_reader :holdings_status_short
+    
     validates_presence_of :bibid
     def save(validate = true)
       validate ? valid? : true
     end
 
-    def initialize(bibid)
+    # The holdings_status_short parameter is used to pass in the saved result of a 
+    # call to the status_short method of the holdings service, usually stored in the
+    # session. Since session ordinarily can't be accessed from a model, we have to
+    # pass it in here and hang on to it
+    def initialize(bibid, holdings_status_short = nil)
       self.bibid = bibid
       @bd = nil
+      @holdings_status_short = holdings_status_short
     end
 
     def save!
@@ -87,8 +94,6 @@ module BlacklightCornellRequests
       request_options = []
       alternate_options = []
       service = ASK_LIBRARIAN
-      
-      
 
       if self.bibid.nil?
         self.request_options = request_options
@@ -211,7 +216,9 @@ module BlacklightCornellRequests
       end
 
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} self request options: #{self.request_options}"
-      if  working_items.size < 1 
+      
+      # This is presumably just for PDA records, so limit it to that condition
+      if self.document[:url_pda_display] && working_items.size < 1 
         hld_entry = {:service => HOLD, :location => '', :status => ''}
         request_options.push hld_entry
       end
@@ -278,7 +285,7 @@ module BlacklightCornellRequests
       ## record number of occurances for each of the 
       items.each do |item|
         
-        Rails.logger.warn "mjc12test: item: #{item}"
+      #  Rails.logger.warn "mjc12test: item: #{item}"
         
         # item[:numeric_enumeration] = item[:item_enum][/\d+/]  
         enums = item[:item_enum].scan(/\d+/)  
@@ -403,16 +410,26 @@ module BlacklightCornellRequests
       #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{holdings.inspect}"
       return nil unless self.bibid
 
-      response = parseJSON(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{self.bibid}"))
+      response = nil
+      if @holdings_status_short
+        response = @holdings_status_short
+      else
+        response = parseJSON(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{self.bibid}"))
+      end
       #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{response.inspect}"
       
-      if response[self.bibid.to_s] and response[self.bibid.to_s][self.bibid.to_s] and response[self.bibid.to_s][self.bibid.to_s][:records]
+      bib = self.bibid.to_s
+      if response[bib] && 
+         response[bib][bib] && 
+         response[bib][bib][:records]
         statuses = {}
         call_numbers = {}
-        response[self.bibid.to_s][self.bibid.to_s]['records'].each do |record|
-          if record[:bibid].to_s == self.bibid.to_s
+        # Cycle through all the holdings records and populate statuses and
+        # call_numbers arrays
+        response[bib][bib][:records].each do |record|
+          if record[:bibid].to_s == bib
             record[:holdings].each do |holding|
-              statuses[holding[:ITEM_ID].to_s] = holding[:ITEM_STATUS]
+              statuses[holding[:ITEM_ID].to_s]     = holding[:ITEM_STATUS]
               call_numbers[holding[:ITEM_ID].to_s] = holding[:DISPLAY_CALL_NO]
             end
           end
@@ -420,31 +437,37 @@ module BlacklightCornellRequests
         
         #Rails.logger.debug "es287_log: #{__FILE__} #{__LINE__} #{call_numbers.inspect}"
         location_seen = Hash.new
-        location_ids = Array.new
+        location_ids  = Array.new
         ## assume there is one holdings location per bibid
-        locations = Hash.new
-        call_number = ''
+        locations     = Hash.new
+        call_number   = ''
+        
+        # store a hash of locations {:number => :name} from the holdings record display
         document[:holdings_record_display].each do |hrd|
           hrdJSON = parseJSON hrd
           hrdJSON[:locations].each do |loc|
             locations[loc[:number].to_s] = loc[:name]
           end
-        end if document[:holdings_record_display]
+        end if document[:holdings_record_display] # ??
+        
         holdings.each do |holding|
-          holding[:status] = item_status statuses[holding['item_id'].to_s]
-          holding[:call_number] = item_status call_numbers[holding['item_id'].to_s]
+          holding[:status]      = item_status statuses[holding['item_id'].to_s]
+          # This doesn't do anything — calling item_status on a call number only
+          # returns the same call number.
+          #  holding[:call_number] = item_status call_numbers[holding['item_id'].to_s]
+          holding[:call_number] = call_numbers[holding['item_id'].to_s]
+          
+          # Pick a location to use - either perm_location or temp_location
           location = holding[:perm_location]
           if location.is_a?(Hash)
             location = location['number'].to_s 
           end
           if holding[:temp_location].is_a?(Hash)
             temp_location_s = holding[:temp_location]['number'].to_s 
-            temp_location =  holding[:temp_location]
+            temp_location   = holding[:temp_location]
           else 
             temp_location_s = holding[:temp_location]
           end
-
-          #if holding[:temp_location].to_s == '0'
           if temp_location_s == '0'
             # use holdings location
             holding[:location] = locations[holding[:perm_location].to_s]
@@ -455,13 +478,13 @@ module BlacklightCornellRequests
               tempLocJSON = temp_location 
               holding[:location] = tempLocJSON[:name]
             else
-             Rails.logger.warn "#{__FILE__}:#{__LINE__} Cannot use temp location (not a hash) Your solr database is not up to date.: #{temp_location.inspect}"
+              Rails.logger.warn "#{__FILE__}:#{__LINE__} Cannot use temp location (not a hash) Your solr database is not up to date.: #{temp_location.inspect}"
             end
           end
           
           # Rails.logger.info "sk274_log: holding: #{holding.inspect}"
-          location_seen[location] = 1 unless location_seen[location]
-          exclude_location_list = Array.new
+          location_seen[location] = location_seen[location] || 1
+          exclude_location_list   = Array.new
           
           if location_seen[location] == 1
             circ_group_id = Circ_policy_locs.select('CIRC_GROUP_ID').where( 'location_id' =>  location )
@@ -475,31 +498,30 @@ module BlacklightCornellRequests
             ## Law group can deliver to itself
             ## Others can't deliver to itself
             # logger.debug "sk274_log: " + circ_group_id.inspect
+            
             # there might not be an entry in this table  
-            if !circ_group_id.blank? 
-              res  = circ_group_id[0]['CIRC_GROUP_ID']
-              circ_group_id[0]['CIRC_GROUP_ID'] = res.nil? ? 0 : Float(circ_group_id[0]['CIRC_GROUP_ID'])
-              if circ_group_id[0]['CIRC_GROUP_ID'] == 3 || circ_group_id[0]['CIRC_GROUP_ID'] == 19
+            if circ_group_id.present? 
+              group = circ_group_id[0]['CIRC_GROUP_ID']
+              group = group.nil? ? 0 : Float(group)
+              
+              case group
+              when 3, 19
                 ## include both group id if Olin or Uris
                 circ_group_id = [3, 19]
                 # logger.debug "sk274_log: Olin or Uris detected"
-              elsif circ_group_id[0]['CIRC_GROUP_ID'] == 5
-                ## skip annex next time
+              when 5, 14
+                # 5 is annex and 14 is law
+                ## skip annex/law next time
                 # logger.debug "sk274_log: Annex detected, skipping"
                 location_seen[location] = exclude_location_list
                 holding[:exclude_location_id] = exclude_location_list
                 next
-              elsif circ_group_id[0]['CIRC_GROUP_ID'] == 14 
-                ## skip law library next time
-                # logger.debug "sk274_log: Library detected, skipping"
-                location_seen[location] = exclude_location_list
-                holding[:exclude_location_id] = exclude_location_list
-                next
               end
+              
               # logger.debug "sk274_log: circ group id: " + circ_group_id.inspect
               locs = Circ_policy_locs.select('location_id').where( :circ_group_id =>  circ_group_id, :pickup_location => 'Y' )
               locs.each do |loc|
-                exclude_location_list.push loc['location_id']
+                exclude_location_list.push loc['LOCATION_ID']
               end
               location_seen[location] = exclude_location_list
             end
@@ -641,18 +663,57 @@ module BlacklightCornellRequests
       return options
 
     end
+    
+    # Given an item hash, return a location (either temp or permanent if no temp)
+    def get_location(item)
+      
+      location = item[:perm_location]
+      location = location['number'].to_s if location.is_a?(Hash)
+      
+      if item[:temp_location].is_a?(Hash)
+        temp_location_s = item[:temp_location]['number'].to_s 
+        temp_location   = item[:temp_location]
+      else 
+        temp_location_s = item[:temp_location]
+      end
+      
+      if temp_location_s == '0'
+        # use holdings location
+        return location
+      else
+        # use temp location
+        #tempLocJSON = parseJSON holding[:temp_location]
+        return item[:temp_location]['number'].to_s if temp_location.is_a?(Hash)
+
+        # If nothing else works
+        Rails.logger.warn "#{__FILE__}:#{__LINE__} Cannot use temp location (not a hash) Your solr database is not up to date.: #{temp_location.inspect}"
+        return nil
+
+      end
+      
+    end
+    
+    # TODO: is 88 the only location for music?
+    def at_music_library?(item)
+      %w[88 90 91 92 93 179].include? get_location(item)
+    end
+    
+    # Test for new item type, "unbound" (#39). Can do hold and recall, but not L2L
+    def unbound_type?(item_type)
+      item_type == '39'
+    end
 
     # Determine delivery options for a single item if the patron is a Cornell affiliate
     def get_cornell_delivery_options item
-      typeCode = (item[:temp_item_type_id].blank? or item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
+      typeCode = (item[:temp_item_type_id].blank? || item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
       item_loan_type = loan_type typeCode
       request_options = []
-
+      
       # Borrow direct check where appropriate:
       #   item type is noncirculating,
       #   item is not at bindery
       #   item status is charged, lost, or missing
-      if (item_loan_type == 'nocirc' or noncirculating? item) or
+      if (item_loan_type == 'nocirc' || noncirculating?(item)) ||
         (! [AT_BINDERY, NOT_CHARGED].include?(item[:status]))
         #if available_in_bd? self.netid, params
         if self.in_borrow_direct
@@ -660,51 +721,65 @@ module BlacklightCornellRequests
         end
       end
 
-      # Document delivery should be available for all items - see DISCOVERYACCESS-1149
+      # Document delivery should be available for all items - see DISCOVERYACCESS-1257
       # But with a few exceptions!
       if docdel_eligible? item
         request_options.push( {:service => DOCUMENT_DELIVERY })
       end
+      
       Rails.logger.debug "mjc12test: loantype: #{item_loan_type}, status: #{item[:status ]}"
       # Check the rest of the cases
-      if item_loan_type == 'nocirc' or noncirculating? item
-        return request_options.push({:service => ILL, 
-                                     :location => item[:location]})
-      elsif item_loan_type == 'regular' and item[:status] == NOT_CHARGED
-        return request_options.push({:service => L2L, 
-                                     :location => item[:location] } )
-      elsif item_loan_type == 'regular' and item[:status] ==  CHARGED
-        return request_options.push({:service => ILL, 
-                                     :location => item[:location]},
-                                    {:service => RECALL,
-                                     :location => item[:location]},
-                                    {:service => HOLD, 
-                                     :location => item[:location], 
-                                     :status => item[:status]})
-      elsif item_loan_type == 'regular' and
-            [IN_TRANSIT_DISCHARGED, IN_TRANSIT_ON_HOLD].include? item[:status]
-        return request_options.push({:service => RECALL,
-                                     :location => item[:location]},
-                                    {:service => HOLD,
-                                     :location => item[:location]})
-      elsif (['regular','day'].include? item_loan_type) and 
-            ([MISSING, LOST].include? item[:status])
-        return request_options.push({:service => PURCHASE, 
-                                     :location => item[:location]},
-                                    {:service => ILL,
-                                     :location => item[:location]})
-      elsif item_loan_type == 'day' and item[:status] == CHARGED
-        return request_options.push({:service => ILL, 
-                                     :location => item[:location] },
-                                    {:service => HOLD, 
-                                     :location => item[:location], 
-                                     :status => item[:status] } )
-      elsif item_loan_type == 'day' and item[:status] == NOT_CHARGED
+      if item_loan_type == 'nocirc' || 
+         noncirculating?(item)
+        request_options.push({:service => ILL, 
+                              :location => item[:location]})
+      elsif item_loan_type == 'regular' && 
+            item[:status] == NOT_CHARGED &&
+            !at_music_library?(item) &&
+            !unbound_type?(typeCode)
+        request_options.push({:service => L2L, 
+                              :location => item[:location] } )                              
+      elsif item_loan_type == 'regular' && 
+            item[:status] ==  CHARGED
+        request_options.push({:service => ILL, 
+                              :location => item[:location]})
+        unless at_music_library?(item)
+          request_options.push({:service => RECALL,
+                                :location => item[:location]},
+                               {:service => HOLD, 
+                                :location => item[:location], 
+                                :status => item[:status]})
+        end
+      elsif item_loan_type == 'regular' &&
+            [IN_TRANSIT_DISCHARGED, IN_TRANSIT_ON_HOLD].include?(item[:status]) &&
+            !at_music_library?(item)
+        request_options.push({:service => RECALL,
+                              :location => item[:location]},
+                             {:service => HOLD,
+                              :location => item[:location]})
+      elsif ['regular','day'].include?(item_loan_type) && 
+            [MISSING, LOST].include?(item[:status])
+        request_options.push({:service => PURCHASE, 
+                              :location => item[:location]},
+                             {:service => ILL,
+                              :location => item[:location]})
+      elsif item_loan_type == 'day' && 
+            item[:status] == CHARGED
+        request_options.push({:service => ILL, 
+                              :location => item[:location] })
+        unless at_music_library?(item)
+          request_options.push({:service => HOLD, 
+                                :location => item[:location], 
+                                :status => item[:status]   })
+        end
+      elsif item_loan_type == 'day' && 
+            item[:status] == NOT_CHARGED
         if Request.no_l2l_day_loan_types.include? typeCode
-          return request_options
-        else
-          return request_options.push( {:service => L2L, 
-                                        :location => item[:location] } )
+          #return request_options
+        elsif !at_music_library?(item) &&
+              !unbound_type?(item)
+          request_options.push( {:service => L2L, 
+                                 :location => item[:location] } )
         end
       elsif item_loan_type == 'minute'
         return request_options.push( {:service => ASK_CIRCULATION, 
@@ -712,24 +787,24 @@ module BlacklightCornellRequests
       elsif item[:status] == AT_BINDERY
         return request_options.push( {:service => ILL, 
                                       :location => item[:location] } )
-      else
-        return request_options
       end
-
+      
+      request_options
+      
     end
 
     # Determine delivery options for a single item if the patron is a guest (non-Cornell)
     def get_guest_delivery_options item
-      typeCode = (item[:temp_item_type_id].blank? or item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
+      typeCode = (item[:temp_item_type_id].blank? || item[:temp_item_type_id] == '0') ? item[:item_type_id] : item[:temp_item_type_id]
       item_loan_type = loan_type typeCode
 
       if noncirculating? item 
         []
-      elsif item[:status] == NOT_CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day') 
-        [ { :service => L2L, :location => item[:location] } ] unless no_l2l_day_loan_types? item_loan_type
-      elsif item[:status] == CHARGED and (item_loan_type == 'regular' or item_loan_type == 'day')
+      elsif item[:status] == NOT_CHARGED && (item_loan_type == 'regular' || item_loan_type == 'day') 
+        [ { :service => L2L, :location => item[:location] } ] unless (no_l2l_day_loan_types?(item_loan_type) || at_music_library?(item) || unbound_type?(typeCode))
+      elsif item[:status] == CHARGED && (item_loan_type == 'regular' || item_loan_type == 'day') && !at_music_library?(item)
         [ { :service => HOLD, :location => item[:location], :status => item[:itemStatus] } ]
-      elsif item_loan_type == 'minute' and (item[:status] == NOT_CHARGED or item[:status] == CHARGED)
+      elsif item_loan_type == 'minute' && (item[:status] == NOT_CHARGED || item[:status] == CHARGED)
         [ { :service => ASK_CIRCULATION, :location => item[:location] } ]
       else
         # default case covers:
@@ -750,6 +825,11 @@ module BlacklightCornellRequests
     # This is based on library location and item format
     def docdel_eligible? item
 
+      # Pretty much everything at the Annex should be requestable through DD
+      # (DISCOVERYACCESS-1257)
+      annex_locations = %w[3 14 19 20 21 22 23 24 26 38 39 41 44 52 60 64 71 72 82 89 101 116 123 134 140 151 168 170 173 178 210 231 236]
+      return true if annex_locations.include? get_location(item)
+
       # Specifically exclude based on item_type
       eligible_formats = ['Book', 
                           'Image', 
@@ -758,6 +838,7 @@ module BlacklightCornellRequests
                           'Musical Recording', 
                           'Musical Score', 
                           'Non-musical Recording', 
+                          'Journal/Periodical',
                           'Research Guide', 
                           'Thesis']
 
@@ -875,7 +956,7 @@ module BlacklightCornellRequests
         ill_link = ill_link + "&rft_id=urn%3AISBN%3A#{isbns}"
       end
       if !self.ti.blank?
-        ill_link = ill_link + "&rft.btitle=#{CGI.escape(self.ti)}"
+        ill_link = ill_link + "&rft.title=#{CGI.escape(self.ti)}"
       end
       if !document[:author_display].blank?
         ill_link = ill_link + "&rft.aulast=#{document[:author_display]}"
@@ -941,6 +1022,7 @@ module BlacklightCornellRequests
         #return { :error => I18n.t('requests.errors.holding_id.blank') }
         return { :error => 'test' }
       end
+
 
       # Use the VoyagerRequest class to submit the request while bypassing the holdings service
       v = VoyagerRequest.new(self.bibid, {:holdings_url => Rails.configuration.voyager_get_holds, :request_url => Rails.configuration.voyager_req_holds,:rest_url => Rails.configuration.voyager_req_holds_rest})

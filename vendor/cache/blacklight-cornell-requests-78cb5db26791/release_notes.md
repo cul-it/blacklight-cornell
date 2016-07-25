@@ -1,5 +1,18 @@
 # Release Notes - blacklight-cornell-requests
 
+## v1.2.4
+
+### Enhancements
+- Greatly improved request page load time (DISCOVERYACCESS-2684)
+- Added ILL link to volume select screen (DISCOVERYACCESS-2703)
+- Restored volume selection via URL parameters (GH #62)
+- Document Delivery now appears as an option for periodicals and all Annex items (DISCOVERYACCESS-1257) - Added support for item type 39 ('unbound') (DISCOVERYACCESS-1085 ; GH #36)
+
+### Bug fixes
+- Ensured that invalid pickup locations wouldn't appear as options in the location select list ( DISCOVERYACCESS-2682)
+- Removed hold option for records without any item records (e.g., current newspapers) (DISCOVERYACCESS-1477)
+- Voyager requests (L2L, hold, recall) are now excluded for items at the Music library (DISCOVERYACCESS-1381)
+
 ## v1.2.3
 
 ### Bug fixes
