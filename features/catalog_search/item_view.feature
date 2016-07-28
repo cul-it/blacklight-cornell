@@ -364,7 +364,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the how many copies are available 
     Given I request the item view for 7728655 
-    Then I should see the label 'Text Available 1 copy'
+    Then I should see the label 'Available 3 copies'
 
   @uniformtitle
   @all_item_view
