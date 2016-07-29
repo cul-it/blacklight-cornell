@@ -1,5 +1,4 @@
-module DisplayHelper
-include ActionView::Helpers::NumberHelper
+module DisplayHelper include ActionView::Helpers::NumberHelper
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -537,7 +536,7 @@ include ActionView::Helpers::NumberHelper
     "Music - Recording" => "music_recording",
     "Music - Score" => "music",
     "Journal/Periodical" => "serial",
-    "Journal/Periodical" => "journal",
+    #"Journal/Periodical" => "journal",
     "Manuscript/Archive" => "manuscript_archive",
     "Newspaper" => "newspaper",
     "Video" => "video",

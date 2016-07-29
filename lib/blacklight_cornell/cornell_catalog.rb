@@ -118,6 +118,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       cjk_query_addl_params({}, params)
     end
     (@response, @document_list) = get_search_results
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
 
     if !qparam_display.blank?
       params[:q] = qparam_display
