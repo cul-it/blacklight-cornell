@@ -85,7 +85,7 @@ module CornellParamsHelper
       end
       for i in 0..my_params[:search_field_row].count - 1
          my_params[:q_row][i].gsub!('”', '"')
-         
+
          numquotes = my_params[:q_row][i].count '"'
          if numquotes == 1
            my_params[:q_row][i].gsub!('"', '')
@@ -160,8 +160,8 @@ module CornellParamsHelper
                 Rails.logger.info("WEEKEND")
                   q_string << " spellcheck.dictionary=" << field_name << "_starts qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
                  q_string2 << field_name << "_starts"<< " = "
-                 q_string_hold << " spellcheck.dictionary=" + field_name + "_starts qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf" 
-                Rails.logger.info("WEEKEND1 = #{q_string_hold}") 
+                 q_string_hold << " spellcheck.dictionary=" + field_name + "_starts qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
+                Rails.logger.info("WEEKEND1 = #{q_string_hold}")
               else
                  q_string << " spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                  q_string2 << field_name << " = "
@@ -188,7 +188,7 @@ module CornellParamsHelper
            #         else
                       q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                       q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax spellcheck.dictionary=" << field_name << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                      q_string2 << holdarray[1]                      
+                      q_string2 << holdarray[1]
            #         end
               else
                     q_string_hold << "}" << holdarray[1] << "\\\""
@@ -214,7 +214,7 @@ module CornellParamsHelper
         q_string2 = "";
 
       end
- 
+
 
       test_q_string = groupBools(q_stringArray, opArray)
       test_q_string2 = groupBools(q_string2Array, opArray)
@@ -222,8 +222,9 @@ module CornellParamsHelper
 #        solr_parameters[:sort] = "score desc, title_sort asc"
       end
        solr_parameters[:q] = test_q_string
-      solr_parameters[:'spellcheck.q'] = params[:q_row].join(" ")
-
+       if params[:q_row].present?
+         solr_parameters[:'spellcheck.q'] = params[:q_row].join(" ")
+       end
        Rails.logger.info("FRANCES = #{test_q_string}")
       params[:show_query] = test_q_string2
   end
@@ -248,7 +249,7 @@ module CornellParamsHelper
      my_params[:search_field] = my_params["search_field"]
      params[:search_field] = my_params[:search_field]
     session[:search][:search_field] = my_params[:search_field]
-    
+
   end
   if my_params[:advanced_query] == 'yes'
    solr_parameters[:defType] = "lucene"
@@ -325,7 +326,7 @@ end
               rowHash[search_field_rowArray[i]] = new_query_string
               if params[:boolean_row][n.to_sym].nil?
                 params[:boolean_row][n.to_sym] = "OR"
-              end              
+              end
               opArray << params[:boolean_row][n.to_sym]
            end
          end
@@ -374,7 +375,7 @@ end
        returnstring = query
      else
        splitArray = query.split(" ")
-       if splitArray.count > 1 
+       if splitArray.count > 1
           returnstring = splitArray.join(' ' + op + ' ')
        else
           returnstring = query
@@ -390,11 +391,11 @@ end
     query_string = ""
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
- 
+
     if params[:op_row][0] == "begins_with"
       params[:search_field_row][0] = params[:search_field_row][0] + "_starts"
       search_field_rowArray = params[:search_field_row]
-  
+
     else
      search_field_rowArray = params[:search_field_row]
     end
@@ -404,7 +405,7 @@ end
            query_rowSplitArray = query_rowArray[i].split(" ")
            if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
              if op_rowArray[i] == 'begins_with'
-           
+
              query_string << query_rowSplitArray[0] << " "
              else
              query_string << query_rowSplitArray[0] << " " #<< op_rowArray[i] << " "
