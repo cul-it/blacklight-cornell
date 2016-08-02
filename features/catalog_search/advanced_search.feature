@@ -357,3 +357,35 @@ Feature: Search
     And I press 'advanced_search'
     Then I should not see the label 'searched'
     And I should see the label 'soccer'
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform a 1 row  advanced search by begins with Title
+    When I literally go to advanced
+    And I fill in "q_row1" with 'we were feminists'
+    And I select 'begins' from the 'op_row' drop-down
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should not see the label 'Modify advanced'
+    And I should see the label 'We were Feminists'
+    And I should see the label '1 - '
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform a 1 row  advanced search by begins with Title
+    When I literally go to advanced
+    And I fill in "q_row1" with 'we were feminists'
+    And I select 'begins' from the 'op_row' drop-down
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should not see the label 'Modify advanced'
+    And I should see the label 'We were Feminists'
+    And I should see the label '1 - '
+    And click on link "Click : when we knew we were feminists"
