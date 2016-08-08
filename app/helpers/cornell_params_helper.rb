@@ -63,8 +63,17 @@ module CornellParamsHelper
        Rails.logger.info("CHECKSETADVANCEDSEARCPARAMS = #{query_string}")
      return query_string
   end
+  
+  def parse_for_stemming(params)
+    query_string = params[:q]
+    space_count = query_string.scan(/ /).count
+    dubquote_count = query_string.scan(/\"/).count
+    Rails.logger.info("STEM = #{dubquote_count}")
+    Rails.logger.info("STEMspace = #{space_count}")
+    return query_string
+  end
 
-    def solr_search_params(my_params = params || {})
+  def solr_search_params(my_params = params || {})
       Blacklight::Solr::Request.new.tap do |solr_parameters|
 
     if !my_params[:q_row].nil?
