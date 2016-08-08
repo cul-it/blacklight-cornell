@@ -59,6 +59,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if params[:q_row].present?
       query_string = set_advanced_search_params(params)
+    else
+      query_string = parse_for_stemming(params)
     end
     # End of secondary parsing
 
