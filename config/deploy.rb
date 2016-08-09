@@ -8,11 +8,11 @@ set :scm_verbose, true
 #set :user, "es287"
 set :user, "rails"
 set :default_environment, {
-  'PATH' => "/usr/local/rvm/gems/ruby-2.1.5/bin:/usr/local/rvm/gems/ruby-2.1.5@global/bin:/usr/local/rvm/rubies/ruby-2.1.5/bin:/usr/local/rvm/bin:$PATH",
-  'RUBY_VERSION' => "ruby 2.1.5",
-  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.1.5",
-  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.1.5:/usr/local/rvm/gems/ruby-2.1.5@global",
-#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.1.5@global/gems/bundler-1.3.5/",  # If you are using bundler.
+  'PATH' => "/usr/local/rvm/gems/ruby-2.2.5/bin:/usr/local/rvm/gems/ruby-2.2.5@global/bin:/usr/local/rvm/rubies/ruby-2.2.5/bin:/usr/local/rvm/bin:$PATH",
+  'RUBY_VERSION' => "ruby 2.2.5",
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.2.5",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.2.5:/usr/local/rvm/gems/ruby-2.2.5@global",
+#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.2.5@global/gems/bundler-1.3.5/",  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 #Deploy to may vary depending on target stage
@@ -29,7 +29,7 @@ set :bundle_flags,    "--local --deployment "
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
-set :stages, ["integration","development", "staging", "production"]
+set :stages, ["integration","development", "staging", "production","production-new"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
 
@@ -130,7 +130,7 @@ desc "Guarantee app signal environment -- too sensitive for git"
 task :export_app_yml, :roles => [ :app, :db, :web ] do
          rails_env = fetch(:rails_env, "production")
          #run "cd  #{deploy_to}/current/ ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; echo $APPSIGNAL_PUSH_API_KEY ; bundle exec bin/appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
-	run "cd  #{current_path} ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; erb config/appsignal.yml > a ; mv a config/appsignal.yml;  cat config/appsignal.yml ;  echo $APPSIGNAL_PUSH_API_KEY ; appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
+	run "cd  #{current_path} ; pwd ; export `grep APPSIGNAL_PUSH_API_KEY  .env`  ; erb config/appsignal.yml > a ; mv a config/appsignal.yml;  cat config/appsignal.yml ;  echo $APPSIGNAL_PUSH_API_KEY ; bundle exec appsignal notify_of_deploy --user=jenkins  --revision=#{ENV['GIT_COMMIT']} --environment=#{stage} --name=BlacklightCornell "
 end
 
 #after :deploy, "fix_file_permissions"
