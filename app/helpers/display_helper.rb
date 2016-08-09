@@ -1,5 +1,4 @@
-module DisplayHelper
-include ActionView::Helpers::NumberHelper
+module DisplayHelper include ActionView::Helpers::NumberHelper
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -109,7 +108,7 @@ include ActionView::Helpers::NumberHelper
       if metadata.present?
         label = metadata[0]
       end
-      link_to(process_online_title(label), url.html_safe, {:class => 'online-access'})
+      link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
     if render_format == 'raw'
@@ -253,7 +252,7 @@ include ActionView::Helpers::NumberHelper
             content_tag('span', displayv_searchv[0])
           end
         elsif clickable_setting[:hierarchical]
-          
+
           # fields such as subject are hierarchical
           hierarchical_value = ''
           value_array.map do |v|
@@ -277,8 +276,8 @@ include ActionView::Helpers::NumberHelper
                   end
                 link_to(v, add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
               end.join(sep_display).html_safe
-            
-         
+
+
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
           ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
@@ -537,7 +536,7 @@ include ActionView::Helpers::NumberHelper
     "Music - Recording" => "music_recording",
     "Music - Score" => "music",
     "Journal/Periodical" => "serial",
-    "Journal/Periodical" => "journal",
+    #"Journal/Periodical" => "journal",
     "Manuscript/Archive" => "manuscript_archive",
     "Newspaper" => "newspaper",
     "Video" => "video",
@@ -1182,7 +1181,7 @@ def bento_online_url(url_online_access, url_item)
       false
     else
       #(url.include?("/catalog/") && !url.include?( "library.cornell.edu"))
-      url.starts_with?("/catalog/") 
+      url.starts_with?("/catalog/")
     end
   end
 

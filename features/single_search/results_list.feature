@@ -92,7 +92,7 @@ Feature: Results list
     When I fill in "q" with 'nature'
     And I press 'Search'
     When I follow "link_top_book"
-    And I should see the text "Nature / 2012"
+    And I should see the text "Altering nature c2008"
 
   @all_results_list @search_with_view_all_webs_match_box
   Scenario: Search with view all webs link

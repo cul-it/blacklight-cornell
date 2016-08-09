@@ -51,7 +51,7 @@ Feature: Results list
 		When I fill in the search box with 'biology'
 		And I press 'search'
 		Then I should get results
-                Then click on first link "more »"
+                Then click on first link "Next »"
 
         @all_results_list
 	@getresults

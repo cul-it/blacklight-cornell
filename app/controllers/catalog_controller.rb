@@ -219,7 +219,7 @@ class CatalogController < ApplicationController
     # config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
 
     config.default_solr_params[:'facet.field'] = config.facet_fields.keys
-    config.add_facet_fields_to_solr_request!
+    #config.add_facet_fields_to_solr_request!
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -740,6 +740,8 @@ class CatalogController < ApplicationController
   def email
 
     @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
 
     if request.post?
