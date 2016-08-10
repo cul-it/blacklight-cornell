@@ -125,6 +125,9 @@ module CornellCatalogHelper
         items2 = handle_bound_with(response,bibid,items2) 
       end
     end
+
+
+
     # items might differ slightly from direct db response.
     # reconcile the two into a grand synthesis of merged info 
     #items  = items2
@@ -166,14 +169,17 @@ module CornellCatalogHelper
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
           Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
-          callnumber = hrdJSON["callnos"].blank? ? "" : hrdJSON["callnos"][0] 
+          callnumber = "" 
+          callnumber = hrdJSON["callnos"][0] unless  hrdJSON["callnos"].blank?    
           id = hrdJSON[:id]
           hrds[id]  =  hrdJSON
           notes = hrdJSON[:notes]
+          #summary_holdings = recent_holdings = suppl_holdings = index_holdings = [] 
           summary_holdings = hrdJSON[:holdings_desc]
           recent_holdings = hrdJSON[:recent_holdings_desc]
           suppl_holdings = hrdJSON[:supplemental_holdings_desc]
           index_holdings = hrdJSON[:index_holdings_desc]
+          #Rails.logger.debug "\nes287_debug notes  = " + notes.inspect 
           Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} summary holdings  = " + summary_holdings.inspect 
           coder = HTMLEntities.new
           hrdJSON[:locations].each do |loc|
@@ -181,16 +187,13 @@ module CornellCatalogHelper
             dispname = loc[:name] 
             oneloc["location_name"] = dispname 
             oneloc["location_code"] = loc[:code]
-            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = #{loc[:code]}" 
-            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} callnumber  = #{callnumber}"
+            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = " + loc[:code] 
             oneloc["holding_id"] = [id] 
             mfhd_id = id.to_i 
             oneloc["call_number"] = callnumber
-            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
-            #if callnumber.blank?  && !@current_hldgs.nil? && !@current_hldgs['call_number'].blank?
-            #  oneloc["call_number"] = @current_hldgs['call_number']
-            #end
-            Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
+            if callnumber.blank?  && !@current_hldgs.nil? && !@current_hldgs['call_number'].blank?
+              oneloc["call_number"] = @current_hldgs['call_number']
+            end
             oneloc["copies"] = []
             oneloc["notes"] = "Notes: " + notes.join(' ') unless notes.blank? 
             notes_by_mid[id.to_s] = oneloc["notes"]
@@ -217,7 +220,7 @@ module CornellCatalogHelper
 		    end
 		    oneloc["indexes"]="Indexes: " + index_holdings.join(' ') unless index_holdings.blank? 
 		    sumh_by_mid[id.to_s] = oneloc["summary_holdings"] 
-		    Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc = " + oneloc.inspect 
+		    Rails.logger.debug "\nes287_debug oneloc = " + oneloc.inspect 
 		    Rails.logger.debug "\nes287_debug dispname = " + dispname 
 		    if condensed[id.to_s].blank?    
 		      condensed[id.to_s]  =  oneloc
@@ -289,36 +292,9 @@ module CornellCatalogHelper
 	    else
 	      ycondensed_full = collapse_locs(zcondensed_full)
 	    end
-
-	    ycondensed_full = missing_call_no(ycondensed_full)
-
 	    Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
 	    ycondensed_full
 	  end
-
-	  def missing_call_no(condensed_full)
-	    Rails.logger.debug "\nes287_debug #### #{__FILE__}:#{__LINE__} #{__method__} condensed_full= #{condensed_full.inspect}"
-	    condensed_full.each  do |h| 
-	      Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__} #{__method__} h mfhdid = #{h['holding_id']}"
-	      Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__} #{__method__} h callno = #{h['call_number'][0]}"
-              if h['call_number'].blank?
-                clnt = HTTPClient.new
-                begin
-                mfhd_json= JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/mfhd/#{h['holding_id'][0]}"))
-	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} mfhd_json=#{mfhd_json.inspect}"
-                xml_str = mfhd_json["records"][0]['mfhd']
-	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} xml_str=#{xml_str.inspect}"
-                k_parse = Nokogiri.XML(xml_str)
-                k_parse.remove_namespaces!
-                k_value =  k_parse.xpath("//datafield[@tag='852']/subfield[@code='k']/text()").to_s
-	        Rails.logger.debug "\nes287_debug #{__FILE__}:#{__LINE__}:#{__method__} k_value=#{k_value.inspect}"
-                h['call_number'] = k_value unless k_value.blank? 
-                rescue 
-                end
-              end
-            end
-          condensed_full
-          end
 
 	  def parse_item_locs(bibid,response)
 	    locnames_by_lid = {}
@@ -1413,24 +1389,7 @@ module CornellCatalogHelper
     bws 
   end
 
-# (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
-  def request_path(group,id,aeon_codes,document)
-   
-    if ENV['AEON_REQUEST'].blank?
-      aeon_req = '/aeon/~id~' 
-    else 
-      aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-      aeon_req.gsub!('~libid~',aeon_codes.join('|'))
-    end
-    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
-      finding_a = (document['url_findingaid_display'][0]).split('|')[0]
-      Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
-    end
-    aeon_req.gsub!('~fa~',"#{finding_a}")
-    (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") : aeon_req
-  end
-    
-  def has_tou?(id)
+    def has_tou?(id)
     clnt = HTTPClient.new
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.solr_config[:url]
@@ -1462,6 +1421,27 @@ module CornellCatalogHelper
      end
   end
 end 
+
+# Determine whether the request button should be shown at all on an item record page,
+# based on whether there are any requestable items in the holdings
+def show_request_button?(holdings)
+  holdings.each do |h|
+  #  Rails.logger.warn "mjc12test: testing: got items #{h['copies']}"
+  end
+  return holdings.any? do |h|
+    h['copies'].any? { |c| c['Available'] }
+  end
+end
+
+# Determine whether the "request a scan" button should appear. Only show it
+# if the item is not on reserve
+def show_scan_button?(document)
+  @document['item_record_display'].each do |d|
+    # This may be a naive test for reserves...
+    return false if d.include?(',res') || d.include?('oclc,afrp')
+  end
+  true
+end
 
 # End of Module
 
