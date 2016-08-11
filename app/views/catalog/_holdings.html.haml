@@ -7,6 +7,7 @@
   - bwith = t('blacklight.catalog.bound_with')
 - multi_vol = @document['multivol_b']
 - on_site_count = 0
+- reserve_item = false
 - if (!holdings_condensed.nil?) && holdings_condensed.size > 0
   - grouped_holdings = group_holdings(holdings_condensed)
   - multiple_groups = grouped_holdings.size > 1
@@ -30,6 +31,7 @@
                 = t('blacklight.holdings.sta')
         %tbody
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
+            - reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve'))
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
             - callnumber = entry['call_number']
             - noncirc = false
@@ -58,7 +60,7 @@
           - else
             =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
           - # only display request scan button for items not at RMC
-          - if (group == "Circulating" && on_site_count <= holdings.count && show_scan_button?(@document))
+          - if (group == "Circulating" && on_site_count <= holdings.count && !reserve_item)
             - ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fnewcatalog.library.cornell.edu'
             - ill_title = "#{@title}" + (@subtitle.present? ? ": #{@subtitle}" : '')
             - ill_isbn = @document[:isbn_display] ? @document[:isbn_display][0] : ''

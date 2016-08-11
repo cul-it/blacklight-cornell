@@ -1433,16 +1433,6 @@ def show_request_button?(holdings)
   end
 end
 
-# Determine whether the "request a scan" button should appear. Only show it
-# if the item is not on reserve
-def show_scan_button?(document)
-  @document['item_record_display'].each do |d|
-    # This may be a naive test for reserves...
-    return false if d.include?(',res') || d.include?('oclc,afrp')
-  end
-  true
-end
-
 # End of Module
 
     # this logic is from the voyager_oracle_api status.rb
