@@ -66,61 +66,87 @@ module CornellParamsHelper
   
   def parse_for_stemming(params)
     query_string = params[:q]
-    if query_string =~ /^\".*\"$/
-      Rails.logger.info("STEMfullstringquoted = #{query_string}")
-      return query_string
-    else 
-      unless query_string.nil?
-        space_count = query_string.scan(/ /).count
-        dubquote_count = query_string.scan(/\"/).count
-        if dubquote_count % 2 != 0
-           query_string = query_string + '"'
-        end
-        stringChars = query_string.chars
-        i = -1
-        allquotes = []
-        while i = query_string.index('"', i+1)
-          allquotes << i
-        end
-        q_row = []
-        querystringcount = stringChars.count
-        if allquotes.count > 0
-         startnum = 0
-         endcount = allquotes.count - 1
-         params[:q_row] = []
-#         params[:q_row] = query_string.scan(/".*?"/)
-         allquotes.each_slice(2) do |a, b|
-           if startnum == 0 and query_string[0] != '"'
-             params[:q_row] << query_string[0..a-2]
-             params[:q_row] << query_string[a..b]
-             startnum = b
-           #  next
-           else
-            if startnum < a 
-              params[:q_row] << query_string[startnum+2..a-1]
-            else
-              params[:q_row] << query_string[a..b]
-            end
-            startnum = b
-           # next
-           end
-           if b == allquotes[allquotes.count - 1]
-             if b < querystringcount
-               params[:q_row] << query_string[b+2..querystringcount -1]
-             end
-           end
-         end
-         quote_location = query_string.index(/\"/)
-         Rails.logger.info("STEM = #{query_string[0]}")
-         Rails.logger.info("STEMspace = #{space_count}")
-         Rails.logger.info("STEMwhere = #{quote_location}")
-         Rails.logger.info("STEMChars = #{stringChars}") 
-         Rails.logger.info("STEMQuotLocs = #{allquotes}") 
-         Rails.logger.info("STEMQ_ROW = #{params[:q_row]}")
+    search_field = params[:search_field]
+#    unless query_string.nil?
+     if query_string =~ /^\".*\"$/ or query_string.include?('"')
+       Rails.logger.info("STEMfullstringquoted = #{query_string}")
+       params[:search_field] = params[:search_field] + '_quote'
+       return query_string
+     else 
+       unless query_string.nil?
+         params[:q_row] = parse_stem(query_string)
+         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
        end
+       return query_string       
+     end
+#    end
+  end
+  
+  def parse_stem(query_string)
+    string_chars = query_string.chars
+    Rails.logger.info("PARSER = #{string_chars}")
+    quoteFlag = 0
+    wordArray = []
+#   if !query_string == /^\".*\"$/ # query_string.include?('"')
+   if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
+    Rails.logger.info("POOP #{query_string}")
+    search_field = params[:search_field]
+    params[:q_row] = []
+    params[:search_field_row] = []
+    params[:op_row] = []
+    params[:op] = []
+    params[:boolean_row] = {}
+    string_chars.each do |i|
+      if i == '"'
+        if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
+          wordArray << i
+          params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
+          params[:op_row] << "phrase"
+          params[:search_field_row] << search_field + "_quote"
+          quoteFlag = 0 #reset quote flag
+          wordArray = [] #clear out wordArray
+        else # must be left hand quote
+          if !wordArray.empty?
+            params[:q_row] << wordArray.join.strip
+            params[:op_row] << "AND"
+            params[:search_field_row] << search_field
+            wordArray = []
+          end
+          quoteFlag = 1
+          wordArray << i
+        end
+      else
+        wordArray << i
       end
-      return query_string
     end
+    if !wordArray.empty?
+      if quoteFlag == 1
+        wordArray << '"'
+        params[:q_row] << wordArray.join.strip
+        params[:op_row] << "phrase"
+        params[:search_field] << search_field + "_quote"
+        wordArray = []
+      else 
+        if quoteFlag == 0
+          params[:q_row] << wordArray.join.strip
+           params[:op_row] << "AND"
+          params[:search_field_row] << search_field 
+         wordArray = []
+        end
+      end
+    end 
+    times = params[:q_row].count
+    for j in 1..times -1
+      x = j
+      n = x.to_s
+      params[:boolean_row]["#{j}"] = "AND"
+      params[:op][j - 1] = "AND"
+    end
+    Rails.logger.info("PUTREFY = #{params}")
+    return params[:q_row]
+   else
+     return query_string
+   end
   end
 
   def solr_search_params(my_params = params || {})
