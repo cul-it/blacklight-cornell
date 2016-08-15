@@ -3,12 +3,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-  include Blacklight::SolrHelper
+#  include Blacklight::SolrHelper
   include CornellCatalogHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
 #  include ActsAsTinyURL
-  SearchHistoryWindow = 12 # how many searches to save in session history
+Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
@@ -16,7 +16,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     helper_method :search_action_url, :search_action_path, :search_facet_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
-    before_filter :add_cjk_params_logic
     after_filter :set_additional_search_session_values, :only=>:index
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -113,7 +112,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
 
-    (@response, @document_list) = get_search_results
+
+(@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
 
