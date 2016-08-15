@@ -21,16 +21,16 @@ module NavigationHelpers
 
       
     when /the catalog page/
-      catalog_index_path
+      search_facet_catalog_path
       
     when /the folder page/
       folder_index_path
          
     when /the document page for id (.+)/ 
-      catalog_path($1)
+      facet_catalog_path($1)
       
     when /the facet page for "([^\"]*)"/
-      catalog_facet_path($1)
+      facet_facet_catalog_path($1)
       
     when /the search page/
       search_index_path
