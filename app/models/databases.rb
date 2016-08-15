@@ -185,7 +185,8 @@ class Databases < ActiveRecord::Base
        otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
        perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
-       perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text
+       perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text.gsub('"','\\"')
+       perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text.gsub('"','\\"')
        licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/Content")).inner_text
        licenseeTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationCondition/Content")).inner_text
        licenseeTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationNote/Content")).inner_text

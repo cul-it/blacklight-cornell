@@ -581,6 +581,17 @@ class CatalogController < ApplicationController
     
 # end of begins_with declares
 
+# start of quot declares
+    config.add_search_field('title_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$title_quot_qf',
+         :pf => '$title_quot_pf'
+       }
+    end
+    
+# end of quot declares.
+
     #combined author CTS field made from the multiple author browse fields
     config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
