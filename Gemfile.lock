@@ -100,22 +100,28 @@ GEM
       openurl (>= 0.3.1, < 1.1)
       rails (>= 3.2.3, < 5)
       summon
-    blacklight (5.16.3)
+    blacklight (6.3.1)
       bootstrap-sass (~> 3.2)
       deprecation
+      globalid
       kaminari (>= 0.15)
       nokogiri (~> 1.6)
-      rails (>= 3.2.6, < 5)
-      rsolr (~> 1.0.11)
-    blacklight-hierarchy (0.1.1)
-      blacklight (~> 5, < 6)
+      rails (>= 4.2, < 6)
+      rsolr (~> 1.0, >= 1.0.6)
+      twitter-typeahead-rails (~> 0.11)
+    blacklight-hierarchy (0.2.0)
+      blacklight (>= 6.0.0.pre3, < 7)
+      jquery-rails
       rails (~> 4.1)
-    blacklight-marc (5.10.0)
-      blacklight (~> 5.10)
+    blacklight-marc (6.1.0)
+      blacklight (~> 6.1)
+      library_stdnums
       marc (>= 0.4.3, < 1.1)
+      marc-fastxmlwriter
       rails
-    blacklight_range_limit (5.2.0)
-      blacklight (~> 5.15)
+      traject (~> 2.1)
+    blacklight_range_limit (6.0.0)
+      blacklight (>= 6.0.0.pre2, < 7)
       jquery-rails
       rails (>= 3.0, < 5.0)
     blankslate (3.1.3)
@@ -203,6 +209,7 @@ GEM
     devise-guests (0.5.0)
       devise
     diff-lcs (1.2.5)
+    dot-properties (0.1.3)
     dotenv (2.1.1)
     dotenv-deployment (0.0.2)
     dotenv-rails (2.1.1)
@@ -278,6 +285,7 @@ GEM
     language_list (1.1.0)
     libnotify (0.9.1)
       ffi (>= 1.0.11)
+    library_stdnums (1.4.1)
     libv8 (3.16.14.15)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -291,6 +299,8 @@ GEM
     marc (1.0.0)
       scrub_rb (>= 1.0.1, < 2)
       unf
+    marc-fastxmlwriter (1.0.0)
+      marc (~> 1.0)
     meta_request (0.4.0)
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (~> 1.1)
@@ -386,7 +396,7 @@ GEM
     ref (2.0.0)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
-    rsolr (1.0.13)
+    rsolr (1.1.1)
       builder (>= 2.1.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -456,6 +466,19 @@ GEM
     tilt (2.0.5)
     timers (4.1.1)
       hitimes
+    traject (2.3.1)
+      concurrent-ruby (>= 0.8.0)
+      dot-properties (>= 0.1.1)
+      hashie (~> 3.1)
+      httpclient (~> 2.5)
+      marc (~> 1.0)
+      marc-fastxmlwriter (~> 1.0)
+      slop (>= 3.4.5, < 4.0)
+      yell
+    twitter-typeahead-rails (0.11.1)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.1)
@@ -488,6 +511,7 @@ GEM
     yaml_db (0.4.0)
       rails (>= 3.0, < 5.1)
       rake (>= 0.8.7)
+    yell (2.0.6)
 
 PLATFORMS
   ruby
@@ -497,7 +521,7 @@ DEPENDENCIES
   addressable
   appsignal
   bento_search
-  blacklight (= 5.16.3)
+  blacklight (= 6.3.1)
   blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
@@ -544,6 +568,7 @@ DEPENDENCIES
   rb-inotify
   rb-readline (~> 0.5.x)
   redis-session-store
+  rsolr
   rspec
   rspec-rails
   rufus-scheduler

@@ -16,7 +16,7 @@ gem 'parslet'
 gem 'ultraviolet'
 gem 'mysql'
 gem 'yaml_db'
-gem 'blacklight', '5.16.3'
+gem 'blacklight', '6.3.1'
 gem 'blacklight_range_limit'
 gem 'blacklight_unapi', :git => 'git@github.com:cul-it/blacklight-unapi', :branch => 'rails4'
 gem 'kaminari', '0.15.0'
@@ -35,7 +35,7 @@ gem 'nokogiri'
 gem 'rufus-scheduler'
 gem 'addressable'
 gem 'redis-session-store'
-
+gem 'rsolr'
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
