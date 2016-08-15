@@ -583,7 +583,7 @@ def render_constraints_query(my_params = params)
       content << render_constraint_element(
         label, query,
         :remove =>
-          catalog_index_path(remove_advanced_keyword_query(field,my_params))
+          search_facet_catalog_path(remove_advanced_keyword_query(field,my_params))
       )
     end
     if (@advanced_query.keyword_op == "OR" &&
@@ -842,7 +842,7 @@ def render_advanced_constraints_filters(my_params = params)
       end
       return_content << render_constraint_element(label,
         value.join(" AND "),
-#          :remove => catalog_index_path( remove_advanced_filter_group(field, my_params) )
+#          :remove => search_facet_catalog_path( remove_advanced_filter_group(field, my_params) )
         :remove => "?" + removeString
 #          :remove => "catalog?"
         )

@@ -25,7 +25,7 @@
           .call-number
             = callnumber
             %span.text-it
-              = link_to sms_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
+              = link_to sms_facet_catalog_path(:id => params[:id], :location => location, :callnumber => callnumber), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink'} do
                 %i{:class => 'fa fa-mobile'}
                 = t('blacklight.tools.sms')
         - entry['copies'].each do |copy|

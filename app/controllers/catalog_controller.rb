@@ -21,18 +21,15 @@ class CatalogController < ApplicationController
   end
 
 
-  # Tweak search param logic for default sort when browsing or searching by call number
-  # Follow documentation in project wiki
-  # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
-  self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
+
   configure_blacklight do |config|
 
     # chris beer recommended for latest version of unapi
     config.unapi = {
-      'oai_dc_xml' => { :content_type => 'text/xml' } 
+      'oai_dc_xml' => { :content_type => 'text/xml' }
     }
     config.index.partials << 'microformat'
-    config.show.partials << 'microformat' 
+    config.show.partials << 'microformat'
     # end of unapi config.
 
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
@@ -56,17 +53,17 @@ class CatalogController < ApplicationController
     ## target index field is searched when this link is clicked
     config.display_clickable = {
 
-        'included_work_display' => {       
-           :search_field => 'title',     
-           :related_search_field => 'author/creator',        
-           :sep => '|',      
-           :key_value => true        
-        },        
-        'related_work_display' => {       
-            :search_field => 'title',     
-            :related_search_field => 'author/creator',        
-            :sep => '|',      
-            :key_value => true        
+        'included_work_display' => {
+           :search_field => 'title',
+           :related_search_field => 'author/creator',
+           :sep => '|',
+           :key_value => true
+        },
+        'related_work_display' => {
+            :search_field => 'title',
+            :related_search_field => 'author/creator',
+            :sep => '|',
+            :key_value => true
         },
         'author_cts' => {
             :search_field => 'author/creator',
@@ -91,7 +88,7 @@ class CatalogController < ApplicationController
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
-        },       
+        },
         'title_series_cts' => {
           :search_field => 'title',
           :sep => '|',
@@ -256,7 +253,7 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_json', :label => 'Author, etc.'    
+    config.add_show_field 'author_json', :label => 'Author, etc.'
     config.add_show_field 'format', :label => 'Format'
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -422,8 +419,8 @@ class CatalogController < ApplicationController
          :pf => '$series_pf'
        }
     end
-    
-  
+
+
     config.add_search_field('publisher') do |field|
       # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
       field.solr_local_parameters = {
@@ -466,10 +463,10 @@ class CatalogController < ApplicationController
          :pf => '$donor_pf'
        }
     end
-    
+
 
 # Begins with search fields
-   
+
     config.add_search_field('all_fields_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
@@ -497,7 +494,7 @@ class CatalogController < ApplicationController
         :search_field => "journal title"
       }
     end
-    
+
     config.add_search_field('author/creator_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
@@ -506,7 +503,7 @@ class CatalogController < ApplicationController
         :pf => '$author_starts_pf'
       }
     end
-    
+
     config.add_search_field('subject_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -578,7 +575,7 @@ class CatalogController < ApplicationController
          :pf => '$donor_starts_pf'
        }
     end
-    
+
 # end of begins_with declares
 
     #combined author CTS field made from the multiple author browse fields
@@ -795,7 +792,7 @@ class CatalogController < ApplicationController
         email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
-        redirect_to catalog_path(params[:id]) unless request.xhr?
+        redirect_to facet_catalog_path(params[:id]) unless request.xhr?
       end
 
     end  # request.post?

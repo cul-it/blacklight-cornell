@@ -6,7 +6,26 @@ BlacklightCornell::Application.routes.draw do
 
   root :to => "catalog#index"
 
-  Blacklight.add_routes(self)
+  mount Blacklight::Engine => '/'
+
+concern :searchable, Blacklight::Routes::Searchable.new
+concern :exportable, Blacklight::Routes::Exportable.new
+
+resource :catalog, only: [:index], controller: 'catalog' do
+  concerns :searchable
+end
+
+resources :solr_documents, only: [:show], controller: 'catalog' do
+  concerns :exportable
+end
+
+resources :bookmarks do
+  concerns :exportable
+
+  collection do
+    delete 'clear'
+  end
+end
 
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
