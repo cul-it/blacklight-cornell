@@ -1012,22 +1012,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end
   end
 
-  # Shadow record sniffer
-  def is_shadow_record(document)
-    if defined? document.to_marc
-      fields = document.to_marc.find_all{|f| ('948') === f.tag }
 
-      fields.each do |field|
-        field.each do |sub|
-          if h(sub.code) === 'h' and h(sub.value) === 'PUBLIC SERVICES SHADOW RECORD'
-            return true
-          end
-        end
-      end
-
-      return false
-    end
-  end
 
   # To vernaculate or not...that is the question
   def the_vernaculator(engl, vern)
@@ -1040,7 +1025,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Display the Solr core for everything but production instance
   def render_solr_core
     unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
-      core = Blacklight.solr_config[:url]
+      core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/http:\/\//) + 7
       display = '<p>Solr core: ' + core[start..-1] + '</p>'

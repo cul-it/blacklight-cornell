@@ -3,7 +3,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
 
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
-  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :cjk_query_addl_params]
+  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum]
 
   def sortby_title_when_browsing user_parameters
     # if no search term is submitted and user hasn't specified a sort
@@ -23,9 +23,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
 
-  if num_cjk_uni(params[:q]) > 0
-    cjk_query_addl_params({}, params)
-  end
+
 
   def cjk_query_addl_params(params)
     if params && params.has_key?(:q)
@@ -35,6 +33,10 @@ class SearchBuilder < Blacklight::SearchBuilder
         solr_params.merge!(cjk_mm_qs_params(q_str))
       end
 
+      if num_cjk_uni(params[:q]) > 0
+        cjk_query_addl_params({}, params)
+      end
+      
       if num_uni > 0
         case params[:search_field]
           when 'all_fields', nil
