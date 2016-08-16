@@ -2,6 +2,7 @@
 class CatalogController < ApplicationController
 #  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
+  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
 #  include BlacklightCornellAdvancedSearch::ParseBasicQ
@@ -18,6 +19,10 @@ class CatalogController < ApplicationController
     ******************************************************************************
 
     eos
+  end
+
+  def repository_class
+    Blacklight::Solr::Repository
   end
 
 
@@ -808,13 +813,13 @@ end
   def tou
     test = ""
     clnt = HTTPClient.new
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+    #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.solr_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
     @db = @dbResponse['response']['docs']
-  #  Rails.logger.info("DB = #{@dbResponse.inspect}")
+    #Rails.logger.info("DB = #{@dbResponse.inspect}")
   if @dbResponse['response']['numFound'] == 0
     @defaultRightsText = ''
    return @defaultRightsText
