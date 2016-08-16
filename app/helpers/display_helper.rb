@@ -138,7 +138,8 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
 
  def oclc_number_link
-    id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
+    presenter = Blacklight::ShowPresenter.new(@document, self)
+    id_display = presenter.field_value 'other_id_display'
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
         oclc_number = id_display.split(",")[0]
@@ -153,7 +154,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       end
 
       if !oclc_number.present?
-        wcl_isbn = render_document_show_field_value :document => @document, :field => 'isbn_display'
+        wcl_isbn = presenter.field_value 'isbn_display'
         if wcl_isbn.include? ("<")
           wcl_isbn = wcl_isbn.split("<")[0]
         end
