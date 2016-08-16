@@ -6,7 +6,7 @@
   <p><%=t('blacklight.search_history.no_history')%></p>
 <%- else -%>
     <p>
-    <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') } %>
+    <%= link_to t('blacklight.search_history.clear.action_title'), blacklight.clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') } %>
     </p>
   <h3><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search_history">
