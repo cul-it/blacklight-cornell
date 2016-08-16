@@ -39,7 +39,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+  #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
 
     newval = nil
     unless value.nil?
@@ -70,7 +70,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
 
     newval = nil
     unless value.nil?
@@ -96,7 +96,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
-    links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -206,7 +206,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_clickable_document_show_field_value args
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     value = args[:value]
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
 
     value = [value] unless value.is_a? Array
@@ -422,7 +422,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def online_url(document)
     if document['url_access_display'].present?
       if document['url_access_display'].size > 1
-        catalog_path(document)
+        facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
       end
@@ -432,7 +432,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def finding_aid(document)
     if document['url_findingaid_display'].present?
       if document['url_findingaid_display'].size > 1
-        catalog_path(document)
+        facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
       end
@@ -442,7 +442,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def other_availability(document)
     if document['other_availability_piped'].present?
       if document['other_availability_piped'].size > 1
-        catalog_path(document)
+        facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'other_availability_piped', :format => 'url')
       end
@@ -832,7 +832,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
         }
       else
         context = {
-          :url => catalog_path(document),
+          :url => facet_catalog_path(document),
           :data_counter => session[:search][:counter].to_i
         }
       end
@@ -956,12 +956,38 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
-  def render_document_index_label doc, opts
+  #
+# Render the document index heading
+#
+# @param [SolrDocument] doc
+# @param [Hash] opts (deprecated)
+# @option opts [Symbol] :label Render the given field from the document
+# @option opts [Proc] :label Evaluate the given proc
+# @option opts [String] :label Render the given string
+# @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+  def render_document_index_label doc, field, opts = {}
+    Deprecation.warn self, "render_document_index_label is deprecated"
+    if field.kind_of? Hash
+      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
+      field = field[:label]
+    end
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    presenter(doc).render_document_index_label field, opts
+  end
+
+
+
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Renders label for link to document using 'title : subtitle' if subtitle exists
+  # Also handle non-Roman script alternatives (vernacular) for title and subtitle
+  def _cornell_render_document_index_label doc, opts
+    opts[:value]
     label = nil
     if opts[:label].is_a?(Array)
-      title = doc.get(opts[:label][0], :sep => nil)
-      subtitle = doc.get(opts[:label][1], :sep => nil)
-      fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
+      title = doc.fetch(opts[:label][0], :sep => nil)
+      subtitle = doc.fetch(opts[:label][1], :sep => nil)
+      fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
       english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
 
       # If title is missing, fall back to document id (bibid) as last resort
@@ -972,7 +998,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
         label.prepend(fulltitle_vern + ' / ')
       end
     end
-    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
+    label ||= doc.fetch(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
@@ -1012,22 +1038,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end
   end
 
-  # Shadow record sniffer
-  def is_shadow_record(document)
-    if defined? document.to_marc
-      fields = document.to_marc.find_all{|f| ('948') === f.tag }
 
-      fields.each do |field|
-        field.each do |sub|
-          if h(sub.code) === 'h' and h(sub.value) === 'PUBLIC SERVICES SHADOW RECORD'
-            return true
-          end
-        end
-      end
-
-      return false
-    end
-  end
 
   # To vernaculate or not...that is the question
   def the_vernaculator(engl, vern)
@@ -1040,7 +1051,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Display the Solr core for everything but production instance
   def render_solr_core
     unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
-      core = Blacklight.solr_config[:url]
+      core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/http:\/\//) + 7
       display = '<p>Solr core: ' + core[start..-1] + '</p>'

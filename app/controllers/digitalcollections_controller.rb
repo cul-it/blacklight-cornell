@@ -4,7 +4,7 @@ class DigitalcollectionsController < ApplicationController
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
   before_filter :heading
-  
+
   def heading
    @heading='Cornell Digital Collections'
   end
@@ -12,9 +12,9 @@ class DigitalcollectionsController < ApplicationController
    def index
      clnt = HTTPClient.new
     #params[:q].gsub!(' ','%20')
-    base_solr = Blacklight.solr_config[:url]
+    base_solr = Blacklight.connection_config[:url]
     Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
-     @digRegString = clnt.get_content("#{base_solr}/culdigreg?q=*") 
+     @digRegString = clnt.get_content("#{base_solr}/culdigreg?q=*")
      @digRegResponse = eval(@digRegString)
      @digReg = @digRegResponse['response']['docs']
     end
@@ -29,11 +29,11 @@ class DigitalcollectionsController < ApplicationController
         #params[:q].gsub!(' ','%20')
         Rails.logger.debug("#{__FILE__}:#{__LINE__}:params = #{params[:q]}")
         dbclnt = HTTPClient.new
-        Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-        solr = Blacklight.solr_config[:url]
+        Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
+        solr = Blacklight.connection_config[:url]
         p = {"q" =>params[:q] }
         Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/culdigreg?" + p.to_param)
-        @digregResultString = dbclnt.get_content("#{solr}/culdigreg?" + p.to_param) 
+        @digregResultString = dbclnt.get_content("#{solr}/culdigreg?" + p.to_param)
         if !@digregResultString.nil?
            @digregResponseFull = eval(@digregResultString)
         else
