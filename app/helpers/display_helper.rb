@@ -971,7 +971,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
       field = field[:label]
     end
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
     presenter(doc).render_document_index_label field, opts
   end
 

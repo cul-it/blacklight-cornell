@@ -6,7 +6,8 @@ class BookmarksController < CatalogController
   ##
   # Give Bookmarks access to the CatalogController configuration
   include Blacklight::Configurable
-  include Blacklight::SolrHelper
+#  include Blacklight::SolrHelper
+  include Blacklight::SearchHelper
 
   copy_blacklight_config_from(CatalogController)
   @bookmarks = ""
@@ -23,7 +24,7 @@ class BookmarksController < CatalogController
     @bookmarks = current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
 
-    @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, bookmark_ids)
+    @response, @document_list = fetch(bookmark_ids)
     params[:view] = "index"
     params[:controller] = "bookmarks"
   end
