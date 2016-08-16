@@ -5,10 +5,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::Configurable
 #  include Blacklight::SolrHelper
   include CornellCatalogHelper
+  include Blacklight::SearchHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
 #  include ActsAsTinyURL
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
+
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
@@ -26,6 +28,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # Example, when the standard query parser is used, and a user submits a "bad" query.
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
+
+
 
     def search_action_path *args
 
@@ -113,9 +117,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #    end
 
 
-(@response, @document_list) = search_results(params)
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
+    (@response, @document_list) = search_results(params)
+    #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
+    #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
 
     if !qparam_display.blank?
       params[:q] = qparam_display
