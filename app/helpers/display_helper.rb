@@ -1042,8 +1042,11 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
   # To vernaculate or not...that is the question
   def the_vernaculator(engl, vern)
-    display = render_document_show_field_value :document => @document, :field => engl
-    vernacular = render_document_show_field_value :document => @document, :field => vern
+    presenter = Blacklight::ShowPresenter.new(@document, self)
+    #display = render_document_show_field_value :document => @document, :field => engl
+    display = presenter.field_value engl
+    #vernacular = render_document_show_field_value :document => @document, :field => vern
+    vernacular = presenter.field_value vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
   end
