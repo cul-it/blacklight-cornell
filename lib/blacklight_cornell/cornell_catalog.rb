@@ -176,22 +176,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
 
-    # get single document from the solr index
-    def show
-      @response, @document = get_solr_response_for_doc_id params[:id]
-      respond_to do |format|
-        format.html {setup_next_and_previous_documents}
-        format.rss  { render :layout => false }
-        # Add all dynamically added (such as by document extensions)
-        # export formats.
-        @document.export_formats.each_key do | format_name |
-          # It's important that the argument to send be a symbol;
-          # if it's a string, it makes Rails unhappy for unclear reasons.
-          format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
-        end
 
-      end
-    end
 
     def track
       search_session[:counter] = params[:counter]
@@ -325,8 +310,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
 
+
     def librarian_view
-      @response, @document = get_solr_response_for_doc_id
+      @response, @document = fetch params[:id]
 
       respond_to do |format|
         format.html
@@ -341,25 +327,23 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # calls setup_previous_document then setup_next_document.
     # used in the show action for single view pagination.
-    def setup_next_and_previous_documents
-      setup_previous_document
-      setup_next_document
-    end
+
+    #These don't work any more
+  #  def setup_next_and_previous_documents
+  #    setup_previous_document
+  #    setup_next_document
+  #  end
 
     # gets a document based on its position within a resultset
-    def setup_document_by_counter(counter)
-      return if counter < 1 || session[:search].blank?
-      search = session[:search] || {}
-      get_single_doc_via_search(counter, search)
-    end
 
-    def setup_previous_document
-      @previous_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i - 1) : nil
-    end
 
-    def setup_next_document
-      @next_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i + 1) : nil
-    end
+  #  def setup_previous_document
+  #    @previous_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i - 1) : nil
+#    end
+
+  #  def setup_next_document
+  #    @next_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i + 1) : nil
+  #  end
 
     # sets up the session[:search] hash if it doesn't already exist
     #def search_session

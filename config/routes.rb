@@ -1,4 +1,5 @@
 BlacklightCornell::Application.routes.draw do
+  concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
   match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
@@ -8,15 +9,17 @@ BlacklightCornell::Application.routes.draw do
 
   mount Blacklight::Engine => '/'
 
-concern :searchable, Blacklight::Routes::Searchable.new
-concern :exportable, Blacklight::Routes::Exportable.new
+  concern :searchable, Blacklight::Routes::Searchable.new
+  concern :exportable, Blacklight::Routes::Exportable.new
 
-resource :catalog, only: [:index], controller: 'catalog' do
-  concerns :searchable
-end
+  resource :catalog, only: [:index], controller: 'catalog' do
+    concerns :searchable
+    concerns :range_searchable
 
-resources :solr_documents, only: [:show], controller: 'catalog' do
-  concerns :exportable
+  end
+
+resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
+      concerns :exportable
 end
 
 resources :bookmarks do
