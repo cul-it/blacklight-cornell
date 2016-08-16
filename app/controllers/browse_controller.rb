@@ -10,7 +10,7 @@ class BrowseController < ApplicationController
    @heading='Browse'
   end
     def index
-        base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
+        base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
 
       Appsignal.increment_counter('browse_index', 1)
@@ -97,11 +97,11 @@ class BrowseController < ApplicationController
 
     end
     def info
-      if !params[:authq].present? || !params[:browse_type].present? 
+      if !params[:authq].present? || !params[:browse_type].present?
         flash.now[:error] = "Please enter a complete query."
         render "index"
       else
-        base_solr = Blacklight.solr_config[:url].gsub(/\/solr\/.*/,'/solr')
+        base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
         Appsignal.increment_counter('browse_info', 1)
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
       if !params[:authq].nil? and params[:authq] != ""
