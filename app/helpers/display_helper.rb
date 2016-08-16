@@ -889,7 +889,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   end
 
   def is_exportable document
-    if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
+    if (document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote) || document.export_formats.keys.include?(:ris))
       return true
     end
   end
