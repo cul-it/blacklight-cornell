@@ -1,16 +1,18 @@
 class BackendController < ApplicationController
-  include Blacklight::SolrHelper
-  
+  #include Blacklight::SolrHelper
+  include Blacklight::SearchHelper
+
   def holdings
     ActiveSupport::Notifications.instrument( 'backend.retrieve', :name => category) do
       @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
-    end 
+    end
     ActiveSupport::Notifications.instrument( 'backend.retrieve_raw', :name => category) do
       @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
-    end 
+    end
     @id = params[:id]
-    
-    resp, document = get_solr_response_for_doc_id(@id)
+
+    #resp, document = get_solr_response_for_doc_id(@id)
+    resp, document = fetch (@id)
     if document['url_pda_display'].present?
       @holdings['condensed_holdings_full'].each do |chf|
         chf['location_name'] = ''
@@ -18,10 +20,10 @@ class BackendController < ApplicationController
       end
       @hide_status = true
     end
-    
-    # logger.debug  "getting info for #{params[:id]} from" 
+
+    # logger.debug  "getting info for #{params[:id]} from"
     # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-#    logger.debug @holdings 
+#    logger.debug @holdings
     # logger.debug @holdings_detail
     # logger.debug session.inspect
     session[:holdings] = @holdings
@@ -35,14 +37,14 @@ class BackendController < ApplicationController
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
     @id = params[:id]
-    # logger.debug  "getting info for #{params[:id]} from" 
+    # logger.debug  "getting info for #{params[:id]} from"
     # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-    # logger.debug @holdings 
+    # logger.debug @holdings
     # logger.debug session.inspect
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
     # logger.debug session.inspect
-    render :json => @holdings_detail  
+    render :json => @holdings_detail
     #render "backend/holdings", :layout => false
   end
 
@@ -71,14 +73,14 @@ class BackendController < ApplicationController
     @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
     @id = params[:id]
-    # logger.debug  "getting info for #{params[:id]} from" 
+    # logger.debug  "getting info for #{params[:id]} from"
     # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-    # logger.debug @holdings 
+    # logger.debug @holdings
     # logger.debug session.inspect
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
     # logger.debug session.inspect
-    #render :json => @holdings_detail  
+    #render :json => @holdings_detail
     render "backend/holdings_short", :layout => false
   end
 
@@ -95,7 +97,7 @@ class BackendController < ApplicationController
     session[:feedback_form_email] = params["email"]
     begin
       FeedbackNotifier.send_feedback(params).deliver
-  
+
       render :text => "success"
     rescue Exception => e
       logger.info e.backtrace
@@ -121,28 +123,28 @@ class BackendController < ApplicationController
     rescue Exception => e
       logger.warn("exception retrieving google book search: #{e.message}")
     end
-    
+
     render :json => results
   end
-  
-  def blacklight_solr
-    @solr ||=  RSolr.connect(blacklight_solr_config)
-  end
 
-  def blacklight_solr_config
-    Blacklight.solr_config
-  end
-  
+#  def blacklight_solr
+#    @solr ||=  RSolr.connect(blacklight_solr_config)
+#  end
+
+#  def blacklight_solr_config
+#    Blacklight.solr_config
+#  end
+
   # This acts as a receiver for a JavaScript notification that a user has dismissed
   # the ie9-only warning that appears at the top of catalog pages. We want to
   # remember that so that the warning doesn't keep appearing during the user's
   # session. (This only affects users on IE9 browsers)
   def dismiss_ie9_warning
-    
+
     respond_to do |format|
-      format.js { render nothing: true } 
+      format.js { render nothing: true }
     end
-    
+
     session[:hide_ie9_warning] = true
   end
 
