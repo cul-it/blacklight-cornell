@@ -2,7 +2,6 @@
   <div id="doc_<%= @document.id.to_s.parameterize %>">
     <% # bookmark/folder functions -%>
     <div class="document-header">
-      <%= '<span class="shadow-record label label-info">Shadow Record</span>'.html_safe if is_shadow_record(@document) %>
       <%
       @title = the_vernaculator('title_display', 'title_vern_display')
       @subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
@@ -46,7 +45,7 @@
     <div class="holdings-online">
       <table  class= "table table-responsive">
           <thead>
-            <tr> 
+            <tr>
               <th><%= t('blacklight.holdings.loc') %></th>
               <th><%= t('blacklight.holdings.cln') %></th>
               <th><%= t('blacklight.holdings.sta') %></th>
@@ -90,8 +89,8 @@
   <% @document['other_availability_json'].each do |form| %>
           <% f = JSON.parse(form) %>
           <div class="other-form">
-          <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
-          
+          <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span>
+
           <% formats = f["format"].split(",") %>
           <% formats.each do |format| %>
           <span class="other-form-format">
@@ -114,11 +113,10 @@
   <% end %>
   <% end %>
 
-     <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>     
+     <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>
      <p><%= link_to "See all forms of this work",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
      <% end %>
   <%end%>
     </div>
 
 </div>
-

@@ -39,7 +39,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+  #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
 
     newval = nil
     unless value.nil?
@@ -70,7 +70,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
 
     newval = nil
     unless value.nil?
@@ -96,7 +96,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
-    links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -206,7 +206,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_clickable_document_show_field_value args
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     value = args[:value]
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
 
     value = [value] unless value.is_a? Array
@@ -956,13 +956,14 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
-  def render_document_index_label doc, opts
+  def render_document_index_label( doc, opts)
+    opts[:value]
     label = nil
     if opts[:label].is_a?(Array)
-      title = doc.get(opts[:label][0], :sep => nil)
-      subtitle = doc.get(opts[:label][1], :sep => nil)
-      fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
-      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
+      title = doc.fetch(opts[:label][0], :sep => nil)
+      subtitle = doc.fetch(opts[:label][1], :sep => nil)
+      fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
+      english = title.present? && subtitle.present? ? title[0] + ' : ' + subtitle[0] : title[0]
 
       # If title is missing, fall back to document id (bibid) as last resort
       label ||= english.present? ? english : doc.id
@@ -972,7 +973,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
         label.prepend(fulltitle_vern + ' / ')
       end
     end
-    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
+    label ||= doc.fetch(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
