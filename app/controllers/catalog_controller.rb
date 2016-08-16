@@ -740,8 +740,8 @@ class CatalogController < ApplicationController
   def email
 
     @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
+    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
+    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
 
     if request.post?
