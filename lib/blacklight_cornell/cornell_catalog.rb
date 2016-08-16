@@ -188,6 +188,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
       format.rss  { render :layout => false }
+      format.ris      { render "ris", :layout => false }
       #format.ris      { render "ris", :layout => false }
       # Add all dynamically added (such as by document extensions)
       # export formats.
@@ -246,7 +247,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @response, @documents = fetch(params[:id])
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.mendeley { render :layout => false }
         format.ris      { render "ris", :layout => false }
       end
     end
