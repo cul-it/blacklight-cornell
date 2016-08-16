@@ -1,23 +1,20 @@
 - some_av = 'no'
 - pda = 'no'
 - bound_with = false
-- aeon_codes = []
-- reading = ''
 - holdings_condensed = create_condensed_full(@document) 
 - bwith = ''
 - if @document['bound_with_json']
   - bwith = t('blacklight.catalog.bound_with')
 - multi_vol = @document['multivol_b']
 - on_site_count = 0
+- reserve_item = false
 - if (!holdings_condensed.nil?) && holdings_condensed.size > 0
   - grouped_holdings = group_holdings(holdings_condensed)
   - multiple_groups = grouped_holdings.size > 1
   - grouped_holdings.each do |group, holdings|
     - # Render group headings only if we have multiple groups
     - if multiple_groups
-      - reading = ''
       - if group == "Rare"
-        -  reading = ' for Reading Room Delivery'
         %h3.rare
           = group + " Items"
     - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource" 
@@ -34,16 +31,14 @@
                 = t('blacklight.holdings.sta')
         %tbody
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
-            -  reading = ''
+            - reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve'))
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
             - callnumber = entry['call_number']
             - noncirc = false
             - if location =~ /Non-Circulating/
               - noncirc = true 
             - if location =~ /Rare/
-              - reading = ' for Reading Room Delivery'
               - noncirc = true 
-              - aeon_codes << entry['location_code'] unless aeon_codes.include?(entry['location_code'])
             - some_av = 'no'
             %tr
               %td
@@ -56,17 +51,16 @@
   
       - # end of table.
       - if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare"
-        - # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}"
-        -  request_context_path = request_path(group,params[:id],aeon_codes,@document)
+        - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")
         - @group = group
         .item-requests
           - counter = params[:counter] || session[:search][:counter]
           - if counter.blank?
-            =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
+            =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
           - else
-            =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+            =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
           - # only display request scan button for items not at RMC
-          - if (group == "Circulating" && on_site_count <= holdings.count)
+          - if (group == "Circulating" && on_site_count <= holdings.count && !reserve_item)
             - ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fnewcatalog.library.cornell.edu'
             - ill_title = "#{@title}" + (@subtitle.present? ? ": #{@subtitle}" : '')
             - ill_isbn = @document[:isbn_display] ? @document[:isbn_display][0] : ''
