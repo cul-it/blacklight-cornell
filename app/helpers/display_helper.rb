@@ -956,7 +956,32 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
-  def render_document_index_label( doc, opts)
+  #
+# Render the document index heading
+#
+# @param [SolrDocument] doc
+# @param [Hash] opts (deprecated)
+# @option opts [Symbol] :label Render the given field from the document
+# @option opts [Proc] :label Evaluate the given proc
+# @option opts [String] :label Render the given string
+# @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+  def render_document_index_label doc, field, opts = {}
+    Deprecation.warn self, "render_document_index_label is deprecated"
+    if field.kind_of? Hash
+      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
+      field = field[:label]
+    end
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    presenter(doc).render_document_index_label field, opts
+  end
+
+
+
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Renders label for link to document using 'title : subtitle' if subtitle exists
+  # Also handle non-Roman script alternatives (vernacular) for title and subtitle
+  def _cornell_render_document_index_label doc, opts
     opts[:value]
     label = nil
     if opts[:label].is_a?(Array)
