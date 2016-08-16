@@ -510,7 +510,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     format = [format] unless format.is_a? Array
     format.map do |f|
       icon = '<i class="fa fa-' + formats_icon_mapping(f) + '"></i> '
-      f.prepend(icon).html_safe unless f.nil?
+      f.prepend(icon).html_safe
     end
   end
 
@@ -988,7 +988,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       title = doc.fetch(opts[:label][0], :sep => nil)
       subtitle = doc.fetch(opts[:label][1], :sep => nil)
       fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
-      english = title.present? && subtitle.present? ? title[0] + ' : ' + subtitle[0] : title[0]
+      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
 
       # If title is missing, fall back to document id (bibid) as last resort
       label ||= english.present? ? english : doc.id
