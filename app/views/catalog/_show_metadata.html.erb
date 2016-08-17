@@ -5,7 +5,7 @@
       <%
       @title = the_vernaculator('title_display', 'title_vern_display')
       @subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
-      responsibility = render_document_show_field_value :document => @document, :field => 'title_responsibility_display'
+      responsibility = field_value 'title_responsibility_display'
       %>
       <% if @title.present? %>
       <h2><%= @title %></h2>
@@ -45,7 +45,7 @@
     <div class="holdings-online">
       <table  class= "table table-responsive">
           <thead>
-            <tr>
+            <tr> 
               <th><%= t('blacklight.holdings.loc') %></th>
               <th><%= t('blacklight.holdings.cln') %></th>
               <th><%= t('blacklight.holdings.sta') %></th>
@@ -65,14 +65,14 @@
     <div class="holdings" data-bibid="<%= @document.id.to_s %>">
       <%= render "holdings"  %>
     </div>
-    <% access_restrictions = render_document_show_field_value :document => @document, :field => 'restrictions_display' %>
+    <% access_restrictions = field_value 'restrictions_display' %>
     <% if access_restrictions.present? %>
     <span class="access-restriction">
       <h5>Restrictions</h5>
       <%= access_restrictions %>
     </span>
     <% end %>
-    <% format = render_document_show_field_value(:document => @document, :field => 'format').split(" ")[3] %>
+    <% format = field_value('format').split(" ")[3] %>
     <% if format == 'Book' && online_url(@document) %>
     <span class="terms-of-use">
     <a href="/catalog/tou/<%= @document[:id] %>">Terms of use</a>
@@ -81,16 +81,16 @@
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
   </div>
-  <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_json').blank? || !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?   %>
+  <% if  field_value('other_availability_json').present? || field_value('workid_display').present?   %>
   <div class="availability well other-forms">
     <h4>Other forms of this work</h4>
 
- <% if  !render_document_show_field_value(:document => @document, :field =>  'other_availability_json').blank?  %>
+ <% if  field_value('other_availability_json').present?  %>
   <% @document['other_availability_json'].each do |form| %>
           <% f = JSON.parse(form) %>
           <div class="other-form">
-          <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span>
-
+          <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
+          
           <% formats = f["format"].split(",") %>
           <% formats.each do |format| %>
           <span class="other-form-format">
@@ -113,10 +113,11 @@
   <% end %>
   <% end %>
 
-     <% if  !render_document_show_field_value(:document => @document, :field =>  'workid_display').blank?  %>
-     <p><%= link_to "See all forms of this work",'/?f[workid_facet][]='+render_document_show_field_value(:document => @document, :field => 'workid_facet') %></p>
+     <% if field_value('workid_display').present?  %>     
+     <p><%= link_to "See all forms of this work",'/?f[workid_facet][]=' + field_value('workid_facet') %></p>
      <% end %>
   <%end%>
     </div>
 
 </div>
+
