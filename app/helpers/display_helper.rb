@@ -58,6 +58,35 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     dp.render_field_value newval
   end
 
+  # for display of | delimited fields
+  # only displays the string before the first |
+  # otherwise, it does same as render_index_field_value
+  def render_pair_delimited_index_field_value args
+    value = args[:value]
+
+    if args[:field] and blacklight_config.index_fields[args[:field]]
+      field_config = blacklight_config.index_fields[args[:field]]
+      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+    end
+
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+
+    newval = nil
+    unless value.nil?
+      value_array = value.split('|')
+      vals = []
+      i = 0
+      value_array.each do |v|
+        vals.push v if i % 2 == 0
+        i = i + 1
+      end
+      newval = vals.join(' / ')
+    end
+
+    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp.render_field_value newval
+  end
 
   # :format arg specifies what should be returned
   # * the raw array (url_access_display in availability on item page)
@@ -860,7 +889,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   end
 
   def is_exportable document
-    if (document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote) || document.export_formats.keys.include?(:ris))
+    if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
       return true
     end
   end
@@ -943,7 +972,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
       field = field[:label]
     end
-    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
     presenter(doc).render_document_index_label field, opts
   end
 
@@ -1014,13 +1043,19 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
   # To vernaculate or not...that is the question
   def the_vernaculator(engl, vern)
-    presenter = Blacklight::ShowPresenter.new(@document, self)
+    #presenter = Blacklight::ShowPresenter.new(@document, self)
     #display = render_document_show_field_value :document => @document, :field => engl
-    display = presenter.field_value engl
+    display = field_value engl
     #vernacular = render_document_show_field_value :document => @document, :field => vern
-    vernacular = presenter.field_value vern
+    vernacular = field_value vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
+  end
+  
+  # Helper method to replace render_document_show_field_value with something that's
+  # a little easier to call from a view. Requires a field name from the solr doc
+  def field_value(field)
+    Blacklight::ShowPresenter.new(@document, self).field_value field
   end
 
   # Display the Solr core for everything but production instance
