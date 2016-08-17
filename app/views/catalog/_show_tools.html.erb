@@ -23,9 +23,10 @@
   <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true"></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to citation_solr_document_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
+      <%= link_to "/bookmarks/citation", {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
         <%= citelink_content.html_safe %>
       <% end %>
+
     <% elsif citable %>
       <%= link_to citation_solr_document_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-default btn-xs'} do %>
         <%= citelink_content.html_safe %>
