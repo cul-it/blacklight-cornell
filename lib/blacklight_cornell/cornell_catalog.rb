@@ -183,9 +183,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   # get single document from the solr index
   def show
     @response, @document = fetch params[:id]
+    @documents = [ @document ]
     respond_to do |format|
+      format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
       format.rss  { render :layout => false }
+      format.ris      { render "ris", :layout => false }
+      #format.ris      { render "ris", :layout => false }
       # Add all dynamically added (such as by document extensions)
       # export formats.
 #        @document.export_formats.each_key do | format_name |
@@ -236,14 +240,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # citation action
     def citation
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = fetch(params[:id])
     end
     # grabs a bunch of documents to export to endnote
     def endnote
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = fetch(params[:id])
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.mendeley { render :layout => false }
         format.ris      { render "ris", :layout => false }
       end
     end
