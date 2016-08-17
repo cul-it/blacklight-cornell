@@ -55,6 +55,8 @@ class CatalogController < ApplicationController
         'format' => 1
     }
 
+    config.per_page = [20,50,100]
+
     ## list of clickable display fields mapped to target index field
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
@@ -155,9 +157,7 @@ class CatalogController < ApplicationController
     config.index.title_field = 'title_display' #, 'subtitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
     config.index.display_type_field = 'format'
 
-    # solr field configuration for document/show views
-    config.show.title_field = 'title_display'
-    config.show.display_type_field = 'format'
+
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
