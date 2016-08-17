@@ -40,10 +40,3 @@
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require accessibility.js
-
-
-
-// For blacklight_range_limit built-in JS, if you don't want it you don't need
-// this:
-//= require 'blacklight_range_limit'
-
