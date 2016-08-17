@@ -33,4 +33,6 @@ class SolrDocument
   # Recommendation: Use field names from Dublin Core
   use_extension( Blacklight::Document::DublinCore)
 
+  use_extension( Blacklight::Solr::Document::RIS )
+
 end
