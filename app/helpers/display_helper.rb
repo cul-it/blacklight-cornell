@@ -58,9 +58,6 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     dp.render_field_value newval
   end
 
-  # for display of | delimited fields
-  # only displays the string before the first |
-  # otherwise, it does same as render_index_field_value
 
   # :format arg specifies what should be returned
   # * the raw array (url_access_display in availability on item page)
