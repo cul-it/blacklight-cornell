@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
+
+  include BlacklightRangeLimit::ControllerOverride
 #  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
   include Blacklight::SearchHelper
