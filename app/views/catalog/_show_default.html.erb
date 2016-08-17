@@ -10,7 +10,7 @@
           <%= render_display_link :document => document, :field => solr_fname %>
         <% elsif  solr_fname == 'author_json' -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
-          <% authname = render_document_show_field_value document, :field => solr_fname %>
+          <% authname = field_value solr_fname %>
           <% document['author_json'].each do |authority| %>
           <% heading = JSON.parse(authority) %>
           <% if heading["authorizedForm"] == true %> 
@@ -36,7 +36,7 @@
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
         <% else -%>
-          <%= render_document_show_field_value document, :field => solr_fname %>
+          <%= field_value solr_fname %>
         <% end -%>
       </dd>
     <% end -%>
