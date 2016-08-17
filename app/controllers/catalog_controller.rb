@@ -55,6 +55,8 @@ class CatalogController < ApplicationController
         'format' => 1
     }
 
+    config.per_page = [20,50,100]
+
     ## list of clickable display fields mapped to target index field
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
