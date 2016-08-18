@@ -96,10 +96,12 @@ module CornellParamsHelper
     params[:op_row] = []
     params[:op] = []
     params[:boolean_row] = {}
+    params[:q] = ""
     string_chars.each do |i|
       if i == '"'
         if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
           wordArray << i
+          params[:q] << i
           params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
           params[:op_row] << "phrase"
           params[:search_field_row] << search_field + "_quote"
@@ -114,20 +116,26 @@ module CornellParamsHelper
           end
           quoteFlag = 1
           wordArray << i
+          params[:q] << i
         end
       else
         wordArray << i
+        params[:q] << i
       end
     end
     if !wordArray.empty?
       if quoteFlag == 1
         wordArray << '"'
+        params[:q]<< '"'
+        Rails.logger.info("GLADYS = #{wordArray}")
         params[:q_row] << wordArray.join.strip
         params[:op_row] << "phrase"
-        params[:search_field] << search_field + "_quote"
+        params[:search_field_row] << search_field + "_quote"
         wordArray = []
+        quoteFlag = 0
       else 
         if quoteFlag == 0
+        Rails.logger.info("GLADYS1 = #{wordArray}")
           params[:q_row] << wordArray.join.strip
            params[:op_row] << "AND"
           params[:search_field_row] << search_field 
@@ -142,8 +150,8 @@ module CornellParamsHelper
       params[:boolean_row]["#{j}"] = "AND"
       params[:op][j - 1] = "AND"
     end
-    Rails.logger.info("PUTREFY = #{params}")
-    return params[:q_row]
+    Rails.logger.info("PUTREFLIP = #{params}")
+    return params
    else
      return query_string
    end
