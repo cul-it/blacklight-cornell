@@ -1,7 +1,7 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
   revision: 2f35c3580b99e7170ccf87f9521c608b3f3aaa52
-  branch: bl6
+  branch: BL6
   specs:
     blacklight_cornell_requests (1.3beta)
       blacklight (>= 5.9)
@@ -21,8 +21,8 @@ GIT
 
 GIT
   remote: git@github.com:cul-it/blacklight-unapi
-  revision: 7ea111503796d95adc1dcc78dfbfae88d879dd39
-  branch: rails4
+  revision: 18d6543d31a8cf4f2589acf295f6e655c7928af6
+  branch: BL6
   specs:
     blacklight_unapi (0.0.3)
       blacklight (> 3.2)

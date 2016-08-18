@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
+  include BlacklightRangeLimit::RangeLimitBuilder
+
 
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum]
