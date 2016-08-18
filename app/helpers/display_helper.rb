@@ -801,27 +801,6 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     return !session[:search].blank?
   end
 
-  # The following two methods override originals from blacklight_helper_behavior.rb
-  # -- Needed to handle the logic between bookmarks and search results
-  def link_to_previous_document(previous_document)
-    context = bookmark_or_not(previous_document)
-    context_path = context.present? ? context[:url] : previous_document
-    context_counter = context.present? ? context[:data_counter] : nil
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), context_path, :class => "previous", :rel => 'prev', :'data-counter' => context_counter.present? ? context_counter - 1 : nil do
-      content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
-    end
-  end
-
-  # Overrides original method from blacklight_helper_behavior.rb
-  # -- See comment on previous method for more background info
-  def link_to_next_document(next_document)
-    context = bookmark_or_not(next_document)
-    context_path = context.present? ? context[:url] : next_document
-    context_counter = context.present? ? context[:data_counter] : nil
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), context_path, :class => "next", :rel => 'next', :'data-counter' => context_counter.present? ? context_counter + 1 : nil do
-      content_tag :span, raw(t('views.pagination.next')), :class => 'next'
-    end
-  end
 
   # set URL & counter for previous/next link_to depending on current controller
   def bookmark_or_not(document)
