@@ -8,6 +8,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::SearchHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
+  include Blacklight::SearchContext
 #  include ActsAsTinyURL
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -199,6 +200,20 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #        end
 
     end
+  end
+
+  def setup_next_and_previous_documents
+    query_params = session[:search] ? session[:search].dup : {}
+    if search_session['counter'] 
+      index = search_session['counter'].to_i - 1
+      response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
+      search_session['total'] = response.total
+      @search_context_response = response
+      @previous_document = documents.first
+      @next_document = documents.last
+    end
+  rescue Blacklight::Exceptions::InvalidRequest => e
+    logger.warn "Unable to setup next and previous documents: #{e}"
   end
 
     def track
