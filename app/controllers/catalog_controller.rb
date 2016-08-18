@@ -154,7 +154,7 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.title_field = 'title_display' #, 'subtitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
+    config.index.title_field = 'title_display', 'subtitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
     config.index.display_type_field = 'format'
 
     # solr field configuration for document/show views
