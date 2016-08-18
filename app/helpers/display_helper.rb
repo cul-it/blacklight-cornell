@@ -1001,9 +1001,13 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     #     label.prepend(fulltitle_vern + ' / ')
     #   end
     # end
-    
-    
+
     # Rewriting because we can't get the above to work properly....
+    label = nil
+    title = doc['title_display']
+    subtitle = doc['subtitle_display']
+    vern = doc['fulltitle_vern_display']
+    
     if title.present?
       label = title
     end
