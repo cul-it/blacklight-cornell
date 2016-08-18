@@ -842,7 +842,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
     opts[:label] ||= blacklight_config.index.show_link.to_sym
-    label = render_document_index_label doc, opts
+    label = _cornell_render_document_index_label doc, opts
     if params[:controller] == 'bookmarks'
       docID = doc.id
       link_to label, '/bookmarks/' + docID
@@ -982,26 +982,46 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   def _cornell_render_document_index_label doc, opts
-    opts[:value]
-    label = nil
-    if opts[:label].is_a?(Array)
-      title = doc.fetch(opts[:label][0], :sep => nil)
-      subtitle = doc.fetch(opts[:label][1], :sep => nil)
-      fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
-      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
-
-      # If title is missing, fall back to document id (bibid) as last resort
-      label ||= english.present? ? english : doc.id
-
-      # If we have a non-Roman script alternative, prepend it
-      if fulltitle_vern.present? && english.present?
-        label.prepend(fulltitle_vern + ' / ')
-      end
+    #opts[:value]
+    # label = nil
+    # if opts[:label].is_a?(Array)
+    #   title = doc.fetch(opts[:label][0], :sep => nil)
+    #   Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
+    #   subtitle = doc.fetch(opts[:label][1], :sep => nil)
+    #   fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
+    #   
+    #   Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
+    #   english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
+    # 
+    #   # If title is missing, fall back to document id (bibid) as last resort
+    #   label ||= english.present? ? english : doc.id
+    # 
+    #   # If we have a non-Roman script alternative, prepend it
+    #   if fulltitle_vern.present? && english.present?
+    #     label.prepend(fulltitle_vern + ' / ')
+    #   end
+    # end
+    
+    
+    # Rewriting because we can't get the above to work properly....
+    if title.present?
+      label = title
     end
-    label ||= doc.fetch(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
-    label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
-    label ||= opts[:label] if opts[:label].is_a? String
-    label ||= doc.id
+    if subtitle.present?
+      label += ' : ' + subtitle
+    end
+    if vern.present?
+      label = vern + ' / ' + label
+    end
+    
+    label ||= doc['id']
+    
+    # This is a bit arcane, copied from the blacklight gem, so we're not sure we need it.
+    # label ||= doc.fetch(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
+    # label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
+    # label ||= opts[:label] if opts[:label].is_a? String
+    # label ||= doc.id
+    
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     dp.render_field_value label
   end
