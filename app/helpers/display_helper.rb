@@ -1,4 +1,7 @@
-module DisplayHelper include ActionView::Helpers::NumberHelper
+module DisplayHelper 
+include ActionView::Helpers::NumberHelper
+include Blacklight::CornellUrlHelperBehavior
+
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -1069,6 +1072,52 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def field_value(field)
     Blacklight::ShowPresenter.new(@document, self).field_value field
   end
+##########
+ def cornell_params_for_search(*args, &block)
+      source_params, params_to_merge = case args.length
+      when 0
+        search_state.params_for_search
+      when 1
+        search_state.params_for_search(args.first)
+      when 2
+        Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
+      else
+        raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
+      end
+    end
+
+    def cornell_sanitize_search_params(source_params)
+      Blacklight::Parameters.sanitize(source_params)
+    end
+    deprecation_deprecate :sanitize_search_params
+
+    def cornell_reset_search_params(source_params)
+      Blacklight::SearchState.new(source_params, blacklight_config).send(:reset_search_params)
+    end
+
+    def cornell_add_facet_params(field, item, source_params = nil)
+      if source_params
+
+        Blacklight::SearchState.new(source_params, blacklight_config).add_facet_params(field, item)
+      else
+        search_state.add_facet_params(field, item)
+      end
+    end
+
+    def cornell_remove_facet_params(field, item, source_params = nil)
+      if source_params
+        Blacklight::SearchState.new(source_params, blacklight_config).remove_facet_params(field, item)
+      else
+        search_state.remove_facet_params(field, item)
+      end
+    end
+
+    def cornell_add_facet_params_and_redirect(field, item)
+      search_state.add_facet_params_and_redirect(field, item)
+    end
+
+
+##########
 
   # Display the Solr core for everything but production instance
   def render_solr_core
@@ -1120,7 +1169,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_facet_item(solr_field, item)
     if solr_field == 'format'
       format = item.value
-      path = search_action_path(add_facet_params_and_redirect(solr_field, item))
+      path = search_action_path(cornell_add_facet_params_and_redirect(solr_field, item))
       if (facet_icon = FORMAT_MAPPINGS[format])
         facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
       end
@@ -1148,7 +1197,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
 
   def render_facet_value(facet_solr_field, item, options ={})
-    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
+    path = search_action_path(cornell_add_facet_params_and_redirect(facet_solr_field, item))
     if facet_solr_field != 'format'
       content_tag(:span,:class=>'facet-label') do
         link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")

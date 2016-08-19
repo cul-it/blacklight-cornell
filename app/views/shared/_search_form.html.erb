@@ -6,7 +6,7 @@
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
     <%= form_tag search_catalog_path, :method => :get, :class => 'search-form form-inline' do %>
-      <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)).html_safe %>
+      <%= render_hash_as_hidden_fields(cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8)).html_safe %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-xs-6">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
