@@ -123,7 +123,9 @@ include ActionView::Helpers::NumberHelper
       return value
     else
       dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-      dp.render_field_value value
+      fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
+      #dp.render_field_value value
+      fp.render
     end
   end
 
@@ -1175,7 +1177,7 @@ include ActionView::Helpers::NumberHelper
       if facet_in_params?( solr_field, item.value )
         content_tag(:span, :class => "selected") do
           content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
-          link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
+          link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), cornell_remove_facet_params(solr_field, item, params), :class=>"remove")
         end
       else
         content_tag(:span, :class => "facet-label") do
