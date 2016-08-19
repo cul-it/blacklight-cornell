@@ -1,6 +1,5 @@
 module DisplayHelper 
 include ActionView::Helpers::NumberHelper
-include Blacklight::CornellUrlHelperBehavior
 
 
   def render_first_available_partial(partials, options)
