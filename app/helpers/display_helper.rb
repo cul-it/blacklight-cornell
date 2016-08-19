@@ -990,6 +990,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
     # Rewriting because we can't get the above to work properly....
     label = nil
+    field = "title"
     title = doc['title_display']
     subtitle = doc['subtitle_display']
     vern = doc['fulltitle_vern_display']
@@ -1012,8 +1013,10 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     # label ||= opts[:label] if opts[:label].is_a? String
     # label ||= doc.id
     
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    dp.render_field_value label
+    #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    #dp.render_field_value label
+    fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
+    fp.render
   end
 
   # Overrides original method from catalog_helper_behavior.rb
