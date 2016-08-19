@@ -1186,7 +1186,7 @@ include Blacklight::CornellUrlHelperBehavior
     else
       if facet_in_params?( solr_field, item.value )
         content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
-        link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
+        link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), cornell_remove_facet_params(solr_field, item, params), :class=>"remove")
       else
         render_facet_value(solr_field, item)
       end
