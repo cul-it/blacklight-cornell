@@ -31,6 +31,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_delimited_index_field_value args
+    require 'pp'
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -55,7 +56,13 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end
 
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    dp.render_field_value newval
+    #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
+    #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
+    #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
+    fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
+    #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
+    #dp.render_field_value newval
+    fp.render
   end
 
   # for display of | delimited fields
@@ -967,13 +974,13 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 # @option opts [String] :label Render the given string
 # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
   def render_document_index_label doc, field, opts = {}
-    Deprecation.warn self, "render_document_index_label is deprecated"
+    #Deprecation.warn self, "render_document_index_label is deprecated"
     if field.kind_of? Hash
-      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
+    #  Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
       field = field[:label]
     end
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
-    presenter(doc).render_document_index_label field, opts
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    presenter(doc).label field, opts
   end
 
 
@@ -1158,6 +1165,26 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end + render_facet_count(item.hits)
   end
   end
+#
+#  simple_ are versions of deprecated functions
+#
+  def simple_render_index_field_value *args
+    simple_render_field_value(*args)
+  end
+
+  def simple_render_field_value(*args)
+    options = args.extract_options!
+    document = args.shift || options[:document]
+    field = args.shift || options[:field]
+    presenter(document).field_value field, options.except(:document, :field)
+  end
+
+  def simple_render_document_index_label(*args)
+    label(*args)
+  end
+
+
+
 
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
