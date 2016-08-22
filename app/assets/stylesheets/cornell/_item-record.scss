@@ -16,6 +16,7 @@ h3.responsibility {
 	font-weight: normal;
 	line-height: 1.2em;
 	margin-bottom: 1em;
+	margin-top: 0;
 }
 h3.responsibility {
 	color: $medium-gray;
@@ -203,7 +204,7 @@ padding-left: 6em;
 		.popover {
 			max-width: 100%;
 			h2 {
-				margin: 0 0 .5em 0;
+				margin: 0 0 .25em 0;
 				font-size: 18px;
 				line-height: 1.2em;
 			}
