@@ -364,7 +364,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the how many copies are available 
     Given I request the item view for 7728655 
-    Then I should see the label 'Available 3 copies'
+    Then I should see the label 'Available 1 copy'
 
   @uniformtitle
   @all_item_view
@@ -464,7 +464,7 @@ Feature: Item view
   Scenario: Show the record notes field when available
     Given I request the item view for 4626
     Then it should contain "notes" with value "Notes:"
-    Then it should contain "notes" with value "Includes indexes.Bibliography: p. 360-363."
+    Then it should contain "notes" with value "Includes indexes. and Bibliography: p. 360-363."
 
     Given I request the item view for 4629
     Then I should not see the label 'Notes'

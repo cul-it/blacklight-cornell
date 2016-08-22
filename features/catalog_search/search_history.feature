@@ -8,7 +8,7 @@ Feature: Search History list
 	Scenario: No History 
 		Given I am on the home page
                 Then click on first link "Search History"
-                And I should see the text 'Your recent searches'
+                And I should see the text 'You have no search history.'
 
         @all_search 
         @history
