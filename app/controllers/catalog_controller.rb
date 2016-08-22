@@ -745,7 +745,10 @@ class CatalogController < ApplicationController
   # (in order to add Mollom/CAPTCHA integration)
   def email
 
-    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+    #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+    @response, @documents = fetch params[:id]
+    #Rails.logger.warn "mjc12test: got back #{@documents}"
+    @documents = [@documents]
     #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
     #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
