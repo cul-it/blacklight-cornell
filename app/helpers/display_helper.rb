@@ -1,4 +1,6 @@
-module DisplayHelper include ActionView::Helpers::NumberHelper
+module DisplayHelper 
+include ActionView::Helpers::NumberHelper
+
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -30,6 +32,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_delimited_index_field_value args
+    require 'pp'
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -54,7 +57,13 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end
 
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    dp.render_field_value newval
+    #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
+    #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
+    #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
+    fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
+    #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
+    #dp.render_field_value newval
+    fp.render
   end
 
   # for display of | delimited fields
@@ -114,7 +123,9 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       return value
     else
       dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-      dp.render_field_value value
+      fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
+      #dp.render_field_value value
+      fp.render
     end
   end
 
@@ -801,27 +812,6 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     return !session[:search].blank?
   end
 
-  # The following two methods override originals from blacklight_helper_behavior.rb
-  # -- Needed to handle the logic between bookmarks and search results
-  def link_to_previous_document(previous_document)
-    context = bookmark_or_not(previous_document)
-    context_path = context.present? ? context[:url] : previous_document
-    context_counter = context.present? ? context[:data_counter] : nil
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), context_path, :class => "previous", :rel => 'prev', :'data-counter' => context_counter.present? ? context_counter - 1 : nil do
-      content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
-    end
-  end
-
-  # Overrides original method from blacklight_helper_behavior.rb
-  # -- See comment on previous method for more background info
-  def link_to_next_document(next_document)
-    context = bookmark_or_not(next_document)
-    context_path = context.present? ? context[:url] : next_document
-    context_counter = context.present? ? context[:data_counter] : nil
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), context_path, :class => "next", :rel => 'next', :'data-counter' => context_counter.present? ? context_counter + 1 : nil do
-      content_tag :span, raw(t('views.pagination.next')), :class => 'next'
-    end
-  end
 
   # set URL & counter for previous/next link_to depending on current controller
   def bookmark_or_not(document)
@@ -966,13 +956,13 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 # @option opts [String] :label Render the given string
 # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
   def render_document_index_label doc, field, opts = {}
-    Deprecation.warn self, "render_document_index_label is deprecated"
+    #Deprecation.warn self, "render_document_index_label is deprecated"
     if field.kind_of? Hash
-      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
+    #  Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
       field = field[:label]
     end
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
-    presenter(doc).render_document_index_label field, opts
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    presenter(doc).label field, opts
   end
 
 
@@ -1004,6 +994,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
     # Rewriting because we can't get the above to work properly....
     label = nil
+    field = "title"
     title = doc['title_display']
     subtitle = doc['subtitle_display']
     vern = doc['fulltitle_vern_display']
@@ -1026,8 +1017,10 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     # label ||= opts[:label] if opts[:label].is_a? String
     # label ||= doc.id
     
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    dp.render_field_value label
+    #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    #dp.render_field_value label
+    fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
+    fp.render
   end
 
   # Overrides original method from catalog_helper_behavior.rb
@@ -1080,6 +1073,52 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def field_value(field)
     Blacklight::ShowPresenter.new(@document, self).field_value field
   end
+##########
+ def cornell_params_for_search(*args, &block)
+      source_params, params_to_merge = case args.length
+      when 0
+        search_state.params_for_search
+      when 1
+        search_state.params_for_search(args.first)
+      when 2
+        Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
+      else
+        raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
+      end
+    end
+
+    def cornell_sanitize_search_params(source_params)
+      Blacklight::Parameters.sanitize(source_params)
+    end
+    deprecation_deprecate :sanitize_search_params
+
+    def cornell_reset_search_params(source_params)
+      Blacklight::SearchState.new(source_params, blacklight_config).send(:reset_search_params)
+    end
+
+    def cornell_add_facet_params(field, item, source_params = nil)
+      if source_params
+
+        Blacklight::SearchState.new(source_params, blacklight_config).add_facet_params(field, item)
+      else
+        search_state.add_facet_params(field, item)
+      end
+    end
+
+    def cornell_remove_facet_params(field, item, source_params = nil)
+      if source_params
+        Blacklight::SearchState.new(source_params, blacklight_config).remove_facet_params(field, item)
+      else
+        search_state.remove_facet_params(field, item)
+      end
+    end
+
+    def cornell_add_facet_params_and_redirect(field, item)
+      search_state.add_facet_params_and_redirect(field, item)
+    end
+
+
+##########
 
   # Display the Solr core for everything but production instance
   def render_solr_core
@@ -1131,14 +1170,14 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_facet_item(solr_field, item)
     if solr_field == 'format'
       format = item.value
-      path = search_action_path(add_facet_params_and_redirect(solr_field, item))
+      path = search_action_path(cornell_add_facet_params_and_redirect(solr_field, item))
       if (facet_icon = FORMAT_MAPPINGS[format])
         facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
       end
       if facet_in_params?( solr_field, item.value )
         content_tag(:span, :class => "selected") do
           content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
-          link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
+          link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), cornell_remove_facet_params(solr_field, item, params), :class=>"remove")
         end
       else
         content_tag(:span, :class => "facet-label") do
@@ -1148,7 +1187,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     else
       if facet_in_params?( solr_field, item.value )
         content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
-        link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
+        link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), cornell_remove_facet_params(solr_field, item, params), :class=>"remove")
       else
         render_facet_value(solr_field, item)
       end
@@ -1159,7 +1198,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
 
   def render_facet_value(facet_solr_field, item, options ={})
-    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
+    path = search_action_path(cornell_add_facet_params_and_redirect(facet_solr_field, item))
     if facet_solr_field != 'format'
       content_tag(:span,:class=>'facet-label') do
         link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
@@ -1176,6 +1215,26 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       end + render_facet_count(item.hits)
     end
   end
+#
+#  simple_ are versions of deprecated functions
+#
+  def simple_render_index_field_value *args
+    simple_render_field_value(*args)
+  end
+
+  def simple_render_field_value(*args)
+    options = args.extract_options!
+    document = args.shift || options[:document]
+    field = args.shift || options[:field]
+    presenter(document).field_value field, options.except(:document, :field)
+  end
+
+  def simple_render_document_index_label(*args)
+    label(*args)
+  end
+
+
+
 
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
