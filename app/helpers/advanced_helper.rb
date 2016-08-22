@@ -133,7 +133,7 @@ module AdvancedHelper
     return word.html_safe
   end
   def search_as_hidden_fields(options={})
-    my_params = params_for_search({:omit_keys => [:page]}.merge(options))
+    my_params = cornell_params_for_search({:omit_keys => [:page]}.merge(options))
 
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
     return hash_as_hidden_fields(my_params)

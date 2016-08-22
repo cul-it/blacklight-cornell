@@ -5,7 +5,7 @@
 	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label document, :field => solr_fname %></dt>
       <dd class="blacklight-<%= solr_fname.parameterize %>">
         <% if display_icon? solr_fname -%>
-          <%= render_index_field_value :document => document, :field => 'format' %>
+          <%= simple_render_index_field_value :document => document, :field => 'format' %>
         <% elsif display_link? solr_fname -%>
           <%= render_display_link :document => document, :field => solr_fname %>
         <% elsif  solr_fname == 'author_json' -%>
