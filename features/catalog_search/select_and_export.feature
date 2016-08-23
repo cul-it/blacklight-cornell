@@ -31,7 +31,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8125253
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA Wake, William, et al. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
+    Then I should see the label 'MLA Wake, William. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
 
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
@@ -75,7 +75,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 5558811
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA Company for Propagation of the Gospel in New England and the Parts Adjacent in America.. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685'
+    Then I should see the label 'MLA Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament'
 
 
 # Pending causes an error in jenkins
