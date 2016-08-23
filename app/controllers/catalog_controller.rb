@@ -745,10 +745,14 @@ class CatalogController < ApplicationController
   # (in order to add Mollom/CAPTCHA integration)
   def email
 
+    # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
+    # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
+    docs = params[:id].split '/'
+    
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-    @response, @documents = fetch params[:id]
-    #Rails.logger.warn "mjc12test: got back #{@documents}"
-    @documents = [@documents]
+    @response, @documents = fetch docs
+
+  #  @documents = [@documents]
     #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
     #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
