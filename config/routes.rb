@@ -56,7 +56,7 @@ end
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
 
   resources :catalog, only:  [:post, :get]
-  get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
+  get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
