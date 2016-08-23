@@ -75,7 +75,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 5558811
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA Company for Propagation of the Gospel in New England and the Parts Adjacent in America.. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685'
+    Then I should see the label 'MLA Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament'
 
 
 # Pending causes an error in jenkins
