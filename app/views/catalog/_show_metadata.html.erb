@@ -72,8 +72,7 @@
       <%= access_restrictions %>
     </span>
     <% end %>
-    <% format = field_value('format').split(" ")[3] %>
-    <% if format == 'Book' && online_url(@document) %>
+    <% if field_value('format') == 'Book' && online_url(@document) %>
     <span class="terms-of-use">
     <a href="/catalog/tou/<%= @document[:id] %>">Terms of use</a>
     </span>
