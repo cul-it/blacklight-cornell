@@ -53,7 +53,7 @@ BlacklightCornell::Application.configure do
   config.assets.debug = true
   
   # this allows WEBrick to handle pipe symbols in query parameters
-URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
+#URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 
 # Settings for the exception_notification gem
 #Rails.application.config.middleware.use ExceptionNotification::Rack,
