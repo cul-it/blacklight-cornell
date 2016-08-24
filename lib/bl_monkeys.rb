@@ -1,4 +1,5 @@
 #include Blacklight::Solr::Document::MarcExport
+if false
 
 module Blacklight::Solr #::Document::MarcExport
 
@@ -446,6 +447,7 @@ module Blacklight::Solr #::Document::MarcExport
 
 end
 
+end
 
 module BlacklightMarcHelper
 
