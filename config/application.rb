@@ -1,7 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'celluloid/autostart'
+#require 'celluloid/autostart'
+require 'celluloid/current'
 
 # Load defaults from config/*.env in config
 # Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)
@@ -16,7 +17,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 require File.expand_path('../../lib/james_monkeys', __FILE__)
-require File.expand_path('../../lib/bl_monkeys', __FILE__)
+#require File.expand_path('../../lib/bl_monkeys', __FILE__)
 module BlacklightCornell
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
