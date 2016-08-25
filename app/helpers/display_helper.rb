@@ -14,15 +14,7 @@ include ActionView::Helpers::NumberHelper
     raise "No partials found from #{partials.inspect}"
   end
 
-  def presenter_class
-    MultilineDisplayPresenterClass
-  end
-  
-  class MultilineDisplayPresenterClass < Blacklight::DocumentPresenter
-    def field_value_separator
-      "<br />".html_safe
-    end
-  end
+
 
   def field_value_separator
     '<br />'
@@ -1284,11 +1276,7 @@ include ActionView::Helpers::NumberHelper
     end
   end
 
-  def remove_pipe args
-    value = args[:value]
-    value.map do |v|
-    v.split('|')[0]
+  def remove_pipe field
+    field_value(field).split('|')[0]
   end
-  
-end
 end
