@@ -33,7 +33,7 @@ class DatabasesController < ApplicationController
 
   def title
         clnt = HTTPClient.new
-        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config[:url].inspect}")
         Appsignal.increment_counter('db_search_title', 1)
         solr = Blacklight.connection_config[:url]
         p = {"q" => '"' + params[:alpha] +'"', "wt" => 'json',"indent"=>"true"}
@@ -47,7 +47,7 @@ class DatabasesController < ApplicationController
       def show
         clnt = HTTPClient.new
         Appsignal.increment_counter('db_search_show', 1)
-        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config[:url].inspect}")
         solr = Blacklight.connection_config[:url]
         p = {"id" => params[:id], "wt" => 'json',"indent"=>"true"}
         @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
@@ -66,7 +66,7 @@ class DatabasesController < ApplicationController
       if !params[:q].nil? and params[:q] != ""
         #params[:q].gsub!(' ','%20')
         dbclnt = HTTPClient.new
-        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config[:url].inspect}")
         solr = Blacklight.connection_config[:url]
         p = {"q" =>params[:q] , "wt" => 'json',"indent"=>"true","defType" =>"dismax"}
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)

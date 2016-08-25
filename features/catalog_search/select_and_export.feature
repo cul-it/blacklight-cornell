@@ -83,13 +83,15 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @DISCOVERYACCESS-1633
 @select_and_email
+@javascript
   Scenario: User sends a record by email
     #Given PENDING 
     Given I request the item view for 8767648
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"
+    And I sleep 2 seconds
     And I press "Send"
-    #And I sleep 2 seconds
+    And I sleep 2 seconds
     Then "quentin@example.com" receives an email with "Marvel masterworks" in the content 
     Then I should see "Marvel masterworks" in the email body
     Then I should see "Lee, Stan" in the email body
@@ -120,12 +122,12 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @DISCOVERYACCESS-1670
 @select_and_email
+@javascript
   Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095 
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"
     And I press "Send"
-    Given PENDING 
     And I sleep 2 seconds
     Then "quentin@example.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
     Then I should see "Shelter medicine for veterinarians and staff" in the email body
@@ -134,6 +136,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @DISCOVERYACCESS-1777
 @select_and_email
+@javascript
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095 
     And click on first link "Text"

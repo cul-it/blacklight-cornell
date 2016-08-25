@@ -1,4 +1,5 @@
 #include Blacklight::Solr::Document::MarcExport
+if false
 
 module Blacklight::Solr #::Document::MarcExport
 
@@ -446,6 +447,7 @@ module Blacklight::Solr #::Document::MarcExport
 
 end
 
+end
 
 module BlacklightMarcHelper
 
@@ -461,3 +463,12 @@ module BlacklightMarcHelper
     val
   end
 end
+
+# need not to fail when uri contains | 
+# This overrides the DEFAULT_PARSER with the UNRESERVED key, including '|'
+# # DEFAULT_PARSER is used everywhere, so its better to override it once
+ module URI
+   remove_const :DEFAULT_PARSER
+   unreserved = REGEXP::PATTERN::UNRESERVED
+   DEFAULT_PARSER = Parser.new(:UNRESERVED => unreserved + "|")
+ end
