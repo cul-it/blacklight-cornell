@@ -24,38 +24,45 @@ include ActionView::Helpers::NumberHelper
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_delimited_index_field_value args
-    require 'pp'
-    value = args[:value]
-
-    if args[:field] and blacklight_config.index_fields[args[:field]]
-      field_config = blacklight_config.index_fields[args[:field]]
-      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
-    end
-
-  #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
-
-    newval = nil
-    unless value.nil?
-      if value.class == Array
-        newval = Array.new
-        value.each do |v|
-          newval.push (v.split('|'))[0] unless v.blank?
-        end
-      else
-        ## string?
-        newval = (value.split('|'))[0] unless value.blank?
-      end
-    end
-
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
-    #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
-    #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
-    fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
-    #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
-    #dp.render_field_value newval
-    fp.render
+    
+    # NOTE: this is only used for title_uniform_display at the moment, so 
+    # no need to check other things. Probably this should be rewritten as
+    # a presenter method
+    uniform_title = args[:document][:title_uniform_display]
+    uniform_title ? uniform_title[0].split('|')[0] : ''
+  #   
+  #   require 'pp'
+  #   value = args[:value]
+  # 
+  #   if args[:field] and blacklight_config.index_fields[args[:field]]
+  #     field_config = blacklight_config.index_fields[args[:field]]
+  #     value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+  #     value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+  #   end
+  # 
+  # #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
+  # 
+  #   newval = nil
+  #   unless value.nil?
+  #     if value.class == Array
+  #       newval = Array.new
+  #       value.each do |v|
+  #         newval.push (v.split('|'))[0] unless v.blank?
+  #       end
+  #     else
+  #       ## string?
+  #       newval = (value.split('|'))[0] unless value.blank?
+  #     end
+  #   end
+  # 
+  #   dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+  #   #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
+  #   #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
+  #   #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
+  #   fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
+  #   #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
+  #   #dp.render_field_value newval
+  #   fp.render
   end
 
   # for display of | delimited fields
