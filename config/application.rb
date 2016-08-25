@@ -1,7 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'celluloid/autostart'
+#require 'celluloid/autostart'
+require 'celluloid/current'
 
 # Load defaults from config/*.env in config
 # Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)

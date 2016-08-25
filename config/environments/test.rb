@@ -6,7 +6,7 @@ BlacklightCornell::Application.configure do
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  config.cache_classes = true 
 
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
@@ -17,12 +17,16 @@ BlacklightCornell::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.smtp_settings = {
-    :address => 'localhost',
-    :domain => 'cornell.edu',
-    :user_name => 'culsearch@cornell.edu'
-  }
+
+  config.action_mailer.delivery_method = :test
+  #config.action_mailer.delivery_method = :sendmail
+  #config.action_mailer.smtp_settings = {
+  #  :address => 'localhost',
+  #  :domain => 'cornell.edu',
+  #  :user_name => 'culsearch@cornell.edu'
+  #}
+  config.action_mailer.default_url_options = { host: 'localhost', 
+                                             port: 3001 }
 
   # Print deprecation notices to the Rails logger
   #config.active_support.deprecation = :log
@@ -49,7 +53,7 @@ BlacklightCornell::Application.configure do
   config.assets.debug = true
   
   # this allows WEBrick to handle pipe symbols in query parameters
-URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
+#URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 
 # Settings for the exception_notification gem
 #Rails.application.config.middleware.use ExceptionNotification::Rack,
@@ -64,3 +68,4 @@ URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRES
 #   :room_name => 'Discovery and Access'
 # }
 end
+
