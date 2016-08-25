@@ -581,7 +581,7 @@ Feature: Item view
   Then I should not see the text 'Print version: Marji, Majed. Learn to program with Scratch : a visual introduction to programming with games, art, science, and math. San Francisco, California : No Starch Press, c2014 2013043492|'
 
 @insert_line_breaks
-  Scenario: Show other form fields without their piped values
+  Scenario: Show table of contents with line breaks and not commas
   Given I request the item view for 9493653
   Then I should not see the text 'Volunteer's dilemma,'
 
