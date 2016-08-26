@@ -581,6 +581,115 @@ class CatalogController < ApplicationController
     
 # end of begins_with declares
 
+# start of quot declares
+    config.add_search_field('title_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$title_quot_qf',
+         :pf => '$title_quot_pf'
+       }
+    end
+
+    config.add_search_field('publisher_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$publisher_quot_qf',
+         :pf => '$publisher_quot_pf'
+       }
+    end
+    config.add_search_field('all_fields_quote',:include_in_advanced_search => false) do |field|
+      field.include_in_simple_select = false
+      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
+      field.solr_local_parameters = {
+         :qf => '$all_fields_quot',
+         :pf => '$all_fields_quot'
+      }
+    end
+
+    config.add_search_field('journal title_quote',:include_in_advanced_search => false) do |field|
+      field.solr_parameters = { :'format' => "Journal" }
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+        :qf => '$title_quot_qf',
+        :pf => '$title_quot_pf',
+        :search_field => "journal title"
+      }
+    end
+    
+    config.add_search_field('author/creator_quote',:include_in_advanced_search => false) do |field|
+      field.include_in_simple_select = false
+      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+      field.solr_local_parameters = {
+        :qf => '$author_quot_qf',
+        :pf => '$author_quot_pf'
+      }
+    end
+    
+    config.add_search_field('subject_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$subject_quot_qf',
+         :pf => '$subject_quot_pf'
+       }
+    end
+
+    config.add_search_field('call number_quote', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+        :qf => '$lc_callnum_quot_qf',
+        :pf => '$lc_callnum_quot_pf',
+      }
+    end
+
+    config.add_search_field('series_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$series_quot_qf',
+         :pf => '$series_quot_pf'
+       }
+    end
+
+    config.add_search_field('place of publication_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$pubplace_quot_qf',
+         :pf => '$pubplace_quot_pf'
+       }
+    end
+
+    config.add_search_field('publisher number/other identifier_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$number_quot_qf',
+         :pf => '$number_quot_pf'
+       }
+    end
+
+    config.add_search_field('isbn/issn_quote', :label => 'ISBN/ISSN Quoted',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$isbnissn_quot_qf',
+         :pf => '$isbnissn_quot_pf'
+       }
+    end
+    config.add_search_field('notes_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$notes_quot_qf',
+         :pf => '$notes_quot_pf'
+       }
+    end
+    config.add_search_field('donor name_quote',:include_in_advanced_search => false) do |field|
+       field.include_in_simple_select = false
+       field.solr_local_parameters = {
+         :qf => '$donor_quot_qf',
+         :pf => '$donor_quot_pf'
+       }
+    end
+    
+# end of quot declares.
+
     #combined author CTS field made from the multiple author browse fields
     config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false

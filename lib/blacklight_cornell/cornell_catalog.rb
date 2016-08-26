@@ -59,7 +59,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if params[:q_row].present?
       query_string = set_advanced_search_params(params)
+    else
+      if !params[:q].nil? and !params[:q].blank?
+       query_string = parse_stem(params[:q])
+       if params[:q_row].present?
+       query_string = set_advanced_search_params(params)
+       end
+      end
     end
+    Rails.logger.info("QUERY_STRING = #{query_string}")
+    Rails.logger.info("QUERY_STRINGParams = #{params}")
     # End of secondary parsing
 
     # Journal title search hack.
