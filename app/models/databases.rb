@@ -257,7 +257,7 @@ class Databases < ActiveRecord::Base
            prevailing =  resource.xpath(sprintf('./%s',"Prevailing")).inner_text
            resourceNames = " Collection_Name, Collection_ID, Provider_Name, Provider_Code, Database_Name, Database_Code, Database_Status, Title_Name, Title_ID, Title_Status, ISSN, eISSN, ISBN, SSID, Prevailing"
            resourceValues = " \"" +  collectionName + "\", \"" + libraryCollectionId + "\", \"" + providerName + "\", \"" + providerCode + "\", \"" + databaseName + "\", \"" + databaseCode + "\", \"" + databaseStatus + "\", \"" + titleName + "\", \"" + titleId + "\", \"" + titleStatus + "\", \"" + iSSN + "\", \"" + eISSN + "\", \"" + iSBN + "\", \"" + sSID + "\", \"" + prevailing + "\""
-#           output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
+      #     output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
 #            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
            insert = Erm_data.connection.raw_connection.prepare(sql)
@@ -266,7 +266,7 @@ class Databases < ActiveRecord::Base
          end
        else
            #puts "No Resources.\n";
- #          output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
+#           output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
           # puts sql
            insert = Erm_data.connection.raw_connection.prepare(sql)
