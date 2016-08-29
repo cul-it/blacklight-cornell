@@ -25,7 +25,7 @@ test: &test
   url: http://dasolr.library.cornell.edu/solr/blacklight2
 
 production:
-  url: http://da-stg-solr1.library.cornell.edu/solr/blacklight2
+  url: http://dasolr.library.cornell.edu/solr/blacklight2
   #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 cucumber:
