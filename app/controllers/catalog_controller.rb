@@ -937,7 +937,7 @@ end
      if dbcode.nil? or dbcode == '' #check for providerCode being nil
            @defaultRightsText = "Use default rights text"
      else
-       @ermDBResult = ::Erm_data.where(Database_Code: "\'#{dbcode[0]}\'", Prevailing: 'true')
+       @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode , Prevailing: 'true')
        if @ermDBResult.size < 1
          @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
