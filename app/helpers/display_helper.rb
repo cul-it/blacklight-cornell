@@ -1285,7 +1285,6 @@ include ActionView::Helpers::NumberHelper
 
   def remove_pipe field
     Rails.logger.debug "\n*************es287_debug field_value(field)  = #{__FILE__} #{__LINE__}  #{field_value(field).inspect}\n"
-    #field_value(field).split('|')[0].html_safe
-    field_value(field).split('|').join("<br/>").html_safe
+    (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
   end
 end
