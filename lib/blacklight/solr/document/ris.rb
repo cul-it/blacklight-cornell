@@ -93,7 +93,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     if !self["language_facet"].blank?
       self["language_facet"].map{|la|  output += "LA  - #{la}\n" }
     end
-    catid   =  self.id 
+
     if !self['url_access_display'].blank?
       ul = self['url_access_display'].first.split('|').first
       output += "UR  - #{ul}\n"
