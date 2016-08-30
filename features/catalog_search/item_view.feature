@@ -505,7 +505,8 @@ Feature: Item view
     And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
 
 
-  @all_item_view
+
+ @all_item_view
  @boundwith
  @DISCOVERYACCESS-1903 
  @DISCOVERYACCESS-1328 
@@ -585,5 +586,14 @@ Feature: Item view
   Given I request the item view for 9493653
   Then I should not see the text 'Volunteer's dilemma,'
 
-
+#Kramer family papers
+#1939-2009
+  @all_item_view
+  @finding_aid
+  @DISCOVERYACCESS-2817 
+  Scenario: Show link to finding aid when present 
+    Given I request the item view for 2070362
+    Then I should see the label 'Finding aid'
+    Then I should see the label 'Folder listing'
+    And it should have link "Finding aid" with value "http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM03970"
 

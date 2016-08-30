@@ -103,6 +103,7 @@ include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
+    #binding.pry 
     links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     render_format = args[:format] ? args[:format] : 'default'
 
@@ -118,13 +119,20 @@ include ActionView::Helpers::NumberHelper
       link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
     if render_format == 'raw'
       return value
     else
       dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
       fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
       #dp.render_field_value value
+      if label  == 'Finding aid'
+      return value[0]
+      else
       fp.render
+      end
     end
   end
 
