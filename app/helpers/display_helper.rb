@@ -133,7 +133,7 @@ include ActionView::Helpers::NumberHelper
           return value[0]
         when 'url_bookplate_display' 
           Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
-          return value.join(',').html_safe
+          return value.uniq.join(',').html_safe
         else  
           fp.render
         end
@@ -1296,7 +1296,6 @@ include ActionView::Helpers::NumberHelper
   end
 
   def remove_pipe field
-    Rails.logger.debug "\n*************es287_debug field_value(field)  = #{__FILE__} #{__LINE__}  #{field_value(field).inspect}\n"
     (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
   end
 end
