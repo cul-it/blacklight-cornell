@@ -103,7 +103,6 @@ include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
-    #binding.pry 
     links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     render_format = args[:format] ? args[:format] : 'default'
 
