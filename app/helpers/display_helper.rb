@@ -103,7 +103,9 @@ include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -124,14 +126,17 @@ include ActionView::Helpers::NumberHelper
     if render_format == 'raw'
       return value
     else
-      dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
       fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
       #dp.render_field_value value
-      if label  == 'Finding aid'
-      return value[0]
-      else
-      fp.render
-      end
+      case  args[:field]  
+        when'url_findingaid_display'
+          return value[0]
+        when 'url_bookplate_display' 
+          Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+          return value.join(',').html_safe
+        else  
+          fp.render
+        end
     end
   end
 
