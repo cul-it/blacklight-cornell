@@ -17,12 +17,12 @@ integration:
 
 development:
   #url: http://da-prod-solr1.library.cornell.edu/solr/blacklight2
-  url: http://dasolr.library.cornell.edu/solr/blacklight2
+  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 #  url: http://da-dev-solr.library.cornell.edu/solr/test
 
 test: &test
   #url: http://da-prod-solr3.library.cornell.edu/solr/blacklight2
-  url: http://dasolr.library.cornell.edu/solr/blacklight2
+  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 production:
   url: http://da-stg-solr1.library.cornell.edu/solr/blacklight2
