@@ -2,12 +2,10 @@
 class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
-#  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
   include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-#  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
   # Ensure that the configuration file is present
   begin
@@ -821,7 +819,6 @@ class CatalogController < ApplicationController
 end
 
   def tou
-    test = ""
     clnt = HTTPClient.new
     #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.connection_config[:url]
