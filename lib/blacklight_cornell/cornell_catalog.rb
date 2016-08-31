@@ -113,19 +113,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     # end of Journal title search hack
 
-#    if params[:search_field] = "call number"
-#      params[:q] = "\"" << params[:q] << "\""
-#    end
-
+##    if params[:search_field] = "call number"
+##      params[:q] = "\"" << params[:q] << "\""
+##    end
 
     (@response, @document_list) = search_results(params)
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
 
-    if !qparam_display.blank?
-      params[:q] = qparam_display
-      search_session[:q] = params[:q]
-    end
     if params.nil? || params[:f].nil?
       @filters = []
     else
@@ -178,6 +173,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
     end
+    
+     if !params[:q_row].nil?       
+       params[:show_query] = make_show_query(params)
+     end
+#    if !qparam_display.blank?
+#      params[:q] = qparam_display
+      search_session[:q] = params[:show_query]
+#    end
+
   end
 
 

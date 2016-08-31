@@ -1,3 +1,6 @@
+<%#= params.inspect%>
+<%params[:y] = params[:q] %>
+<% params[:q] = params[:show_query]%>
 <% if params[:action] != 'edit' && query_has_constraints? || params[:range].present? %>
   <div class="selected-facets">
   	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-secondary" %>
@@ -14,4 +17,5 @@
       </div>
     <% end %>
   </div>
+  <% params[:q] = params[:y]%>
 <% end %>
