@@ -87,13 +87,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         search_session[:q] = params[:q]
       end
     end
-
     if params[:search_field] != "journal title " and params[:search_field] != "call number"
      if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
        params[:q] = params[:q]
      else
       if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
           qparam_display = params[:q]
+          params[:qdisplay] = params[:q]
           qarray = params[:q].split
           params[:q] = "("
           if qarray.size == 1
@@ -106,10 +106,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
           end#encoding: UTF-8
       else
         if params[:q].nil? or params[:q].blank?
-          params[:q] = params[:q]
+          params[:q] = qparam_display
         end
       end
      end
+    
     end
     # end of Journal title search hack
 
@@ -141,6 +142,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     else
         if params[:q].nil?
           params[:q] = query_string
+
         end
     end
 
@@ -176,11 +178,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     
      if !params[:q_row].nil?       
        params[:show_query] = make_show_query(params)
+       search_session[:q] = params[:show_query]
      end
-#    if !qparam_display.blank?
-#      params[:q] = qparam_display
+    if !qparam_display.blank?
+      params[:q] = qparam_display
       search_session[:q] = params[:show_query]
-#    end
+    end
 
   end
 
