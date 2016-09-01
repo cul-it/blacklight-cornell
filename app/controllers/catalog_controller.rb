@@ -820,7 +820,8 @@ end
     test = ""
     clnt = HTTPClient.new
     #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-    solr = Blacklight.solr_config[:url]
+    solr = Blacklight.connection_config[:url]
+    #solr = Blacklight.solr_url
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
@@ -836,7 +837,7 @@ end
      if dbcode.nil? or dbcode == '' #check for providerCode being nil
            @defaultRightsText = "Use default rights text"
      else
-       @ermDBResult = ::Erm_data.where(Database_Code: "\'#{dbcode[0]}\'", Prevailing: 'true')
+       @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
        if @ermDBResult.size < 1
          @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
