@@ -39,7 +39,7 @@
   <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to  email_solr_document_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
+      <%= link_to ('/catalog/' + @bookmarks.collect {|doc| doc.document_id}.join('|')+'/email'), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
