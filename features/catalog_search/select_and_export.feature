@@ -97,18 +97,18 @@ Feature: Select and export items from the result set
     Then I should see "Lee, Stan" in the email body
     Then I should see "Status: available" in the email body
 
+#    Given PENDING 
 #search for marvel masterworks, and get two results, select, and email them
 @all_select_and_export
 @javascript
 @select_and_email
   Scenario: Search with 2 results, select, and email them 
     Given I am on the home page
-    Given PENDING 
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
     Then I should get results
-    Then I should select checkbox "toggle_list_8767648"
-    Then I should select checkbox "toggle_list_1947165"
+    Then I should select checkbox "toggle_bookmark_8767648"
+    Then I should select checkbox "toggle_bookmark_1947165"
     Then click on link "Selected Items"
     And click on link "Email"
     And I fill in "to" with "squentin@example.com"
