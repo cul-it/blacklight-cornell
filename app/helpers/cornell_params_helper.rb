@@ -554,10 +554,33 @@ end
    return @itemStatusArray
  end
 
-def render_constraints_query(my_params = params)
+  def render_constraints_xxcts(my_params = params)
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
+    my_params[:q]  = my_params[:y]
+    content = ""
+    content << render_advanced_constraints_filters(my_params)
+    return content.html_safe
+  end
+
+  def render_constraints_cts(my_params = params)
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
+    field = params[:search_field]
+    label = search_field_def_for_key(field)[:label]
+    query = params[:y]
+    content = ""
+    content << render_constraint_element(label, query,
+          :remove => "?#{field}") 
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} content =  #{content.inspect}")
+    content.html_safe
+  end
+
+  def render_constraints_query(my_params = params)
+  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
   if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
-    return super(my_params)
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} super =  #{super.inspect}")
+    return  super(my_params)
   else
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
     content = ""
     @advanced_query.keyword_queries.each_pair do |field, query|
       label = search_field_def_for_key(field)[:label]
@@ -574,9 +597,9 @@ def render_constraints_query(my_params = params)
         @advanced_query.keyword_queries.length > 1)
       content = '<span class="inclusive_or appliedFilter">' + '<span class="operator">Any of:</span>' + content + '</span>'
     end
-
     return content.html_safe
   end
+ 
 end
 
 def deep_copy(o)
@@ -586,6 +609,7 @@ end
 
 def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
+  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
   if ( !my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
     content = ""
     content << render_advanced_constraints_filters(my_params)
@@ -997,5 +1021,16 @@ def make_show_query(params)
   end
   params[:show_query] = showquery
 end
+
+ ##
+  # Check if the query has any constraints defined (a query, facet, etc)
+  #
+  # @param [Hash] query parameters
+  # @return [Boolean]
+  def query_has_constraints?(localized_params = params)
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} params = #{localized_params.inspect}")
+    #!(localized_params[:q].blank? and localized_params[:f].blank?)
+    !(localized_params[:q].blank? and localized_params[:f].blank? and localized_params[:click_to_search].blank?)
+  end
 
 end
