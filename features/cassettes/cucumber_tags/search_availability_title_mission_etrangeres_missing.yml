@@ -2862,4 +2862,129 @@ http_interactions:
         cnJlY3RseVNwZWxsZWQnLHRydWVdfX0K
     http_version: 
   recorded_at: Thu, 25 Aug 2016 19:15:12 GMT
+- request:
+    method: get
+    uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22(%2BAtlas%22%20AND%20srw.kw%20=%20%22%2Bdes%22%20AND%20srw.kw%20=%20%22%2Bmissions%22%20AND%20srw.kw%20=%20%22%2Bde%22%20AND%20srw.kw%20=%20%22%2Bla%22%20AND%20srw.kw%20=%20%22)%22%20AND%20srw.kw%20=%20%22OR%22%20AND%20srw.kw%20=%20%22Atlas%20des%20missions%20de%20la%20%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.3, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 06 Sep 2016 15:03:57 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 06 Sep 2016 15:03:57 GMT
+      Server:
+      - Apache
+      Content-Length:
+      - '1053'
+      Content-Type:
+      - text/xml;charset=utf-8
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" ?><?xml-stylesheet type="text/xsl" href="/webservices/catalog/xsl/searchRetrieveResponse.xsl"?><searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+        <version>1.1</version>
+        <numberOfRecords>0</numberOfRecords>
+        <diagnostics><diagnostic xmlns="http://www.loc.gov/zing/srw/diagnostic/">
+          <uri>info:srw/diagnostic/1/27</uri>
+          <details>srw.kw</details>
+          <message>The index [srw.kw] did not include a searchable value</message>
+          </diagnostic>
+        </diagnostics>
+        <echoedSearchRetrieveRequest>
+        <maximumRecords>1</maximumRecords><query>srw.kw = &quot;(+Atlas&quot; AND srw.kw = &quot;+des&quot; AND srw.kw = &quot;+missions&quot; AND srw.kw = &quot;+de&quot; AND srw.kw = &quot;+la&quot; AND srw.kw = &quot;)&quot; AND srw.kw = &quot;OR&quot; AND srw.kw = &quot;Atlas des missions de la &quot;</query><recordSchema>info:srw/schema/1/dc</recordSchema><servicelevel>full</servicelevel><wskey>ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4</wskey></echoedSearchRetrieveRequest>
+        </searchRetrieveResponse>
+    http_version: 
+  recorded_at: Tue, 06 Sep 2016 15:03:57 GMT
+- request:
+    method: get
+    uri: http://api.summon.serialssolutions.com/2.0.0/search?s.cmd=setHoldingsOnly(true)&s.he=__BENTO_HL_END__&s.hs=__BENTO_HL_START__&s.ps=1&s.q=%5C(%5C%2BAtlas%20%5C%2Bdes%20%5C%2Bmissions%20%5C%2Bde%20%5C%2Bla%20%5C)%20OR%20%22Atlas%20des%20missions%20de%20la%20%22
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.3, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - application/json
+      Date:
+      - Tue, 06 Sep 2016 15:03:57 GMT
+      Content-Type:
+      - application/x-www-form-urlencoded; charset=utf8
+      X-Summon-Date:
+      - Tue, 06 Sep 2016 15:03:57 GMT
+      Authorization:
+      - Summon cornell;e4CJQ20FFQINQukg5u+idF5H47I=
+      Host:
+      - api.summon.serialssolutions.com:80
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Datacenter:
+      - IAD1
+      Date:
+      - Tue, 06 Sep 2016 15:04:00 GMT
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"version": "2.0.0","sessionId": "58b2f7aa-7790-4ad9-ae05-f62101c514b9","elapsedQueryTime":
+        2012,"queryTime": 2006,"totalRequestTime": 2028,"pageCount": 6264,"recordCount":
+        6264,"query": {"queryString": "s.hs=__BENTO_HL_START__&s.ho=t&s.ps=1&s.q=%5C%28%5C%2BAtlas+%5C%2Bdes+%5C%2Bmissions+%5C%2Bde+%5C%2Bla+%5C%29+OR+%22Atlas+des+missions+de+la+%22&s.he=__BENTO_HL_END__&s.fvf=ContentType%2CJournal+Article%2Cf&s.fvf=ContentType%2CJournal+%2F+eJournal%2Cf&s.fvf=ContentType%2CBook+Chapter%2Cf","pageNumber":
+        1,"pageSize": 1,"highlightStartDelimiter": "__BENTO_HL_START__","highlightEndDelimiter":
+        "__BENTO_HL_END__","isHoldingsOnlyEnabled": true,"textQueries": [{"textQuery":
+        "(+Atlas +des +missions +de +la) OR \"Atlas des missions de la \"","removeCommand":
+        "removeTextQuery(\\(+Atlas +des +missions +de +la\\) OR \"Atlas des missions
+        de la \")"}],"searchTerms": [],"textFilters": [],"rangeFilters": [],"facetValueFilters":
+        [{"fieldName": "ContentType","value": "Journal Article","isNegated": false,"removeCommand":
+        "removeFacetValueFilter(ContentType,Journal Article)","negateCommand": "negateFacetValueFilter(ContentType,Journal
+        Article)"},{"fieldName": "ContentType","value": "Journal / eJournal","isNegated":
+        false,"removeCommand": "removeFacetValueFilter(ContentType,Journal / eJournal)","negateCommand":
+        "negateFacetValueFilter(ContentType,Journal / eJournal)"},{"fieldName": "ContentType","value":
+        "Book Chapter","isNegated": false,"removeCommand": "removeFacetValueFilter(ContentType,Book
+        Chapter)","negateCommand": "negateFacetValueFilter(ContentType,Book Chapter)"}],"inclusiveFacetValueFilters":
+        [],"facetValueGroupFilters": [],"facetFields": [],"rangeFacetFields": [],"sort":
+        []},"facetFields": [],"rangeFacetFields": [],"didYouMeanSuggestions": [],"recommendationLists":
+        {"database": [{"title": "FRANCIS","description": "","link": "http://cornell.summon.serialssolutions.com/2.0.0/link/dbrecommender/AAAkNThiMmY3YWEtNzc5MC00YWQ5LWFlMDUtZjYyMTAxYzUxNGI5AQAKVlA1UVc0VUY1WAIAbWh0dHA6Ly9wcm94eS5saWJyYXJ5LmNvcm5lbGwuZWR1L2xvZ2luP3VybD1odHRwOi8vc2VhcmNoLmVic2NvaG9zdC5jb20vbG9naW4uYXNweD9wcm9maWxlPWVob3N0JmRlZmF1bHRkYj1mY3MDAAEwBAAHRlJBTkNJUwUACGRhdGFiYXNl","score":
+        "46.82036"},{"title": "Humanities International Index","description": "","link":
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/dbrecommender/AAAkNThiMmY3YWEtNzc5MC00YWQ5LWFlMDUtZjYyMTAxYzUxNGI5AQAKVlA1UVc0VUY1WAIAfWh0dHA6Ly9wcm94eS5saWJyYXJ5LmNvcm5lbGwuZWR1L2xvZ2luP3VybD1odHRwOi8vc2VhcmNoLmVic2NvaG9zdC5jb20vbG9naW4uYXNweD9hdXRodHlwZT1pcCx1aWQmcHJvZmlsZT1laG9zdCZkZWZhdWx0ZGI9aGdoAwABMAQAHkh1bWFuaXRpZXMgSW50ZXJuYXRpb25hbCBJbmRleAUACGRhdGFiYXNl","score":
+        "30.589346"}]},"documents": [{"hasFullText": true,"isFullTextHit": false,"isPrint":
+        false,"inHoldings": true,"openUrl": "ctx_ver=Z39.88-2004&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rfr_id=info%3Asid%2Fsummon.serialssolutions.com&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=article&rft.atitle=Atlas+des+Missions&rft.jtitle=Revue+du+Monde+Musulman&rft.au=R.+M.+M&rft.date=1911-01-01&rft.pub=P.+Geuthner&rft.issn=0750-7631&rft.volume=16&rft.issue=11&rft.spage=265","link":
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwpV3dS8MwEA8qKL6IX-DHhIK-ldS1a9r6OLXbHrY5Z_14C9mSwkAZtI1_v5csXauDofgSShpCud_lvnp3QeiKRBMvDRnDqpcd9hm_wUw0CU4D8C_cKajoie6uPyKPr_5zh7xVt2aAizlXGcFVFtA8U-keWu4qX93cKXX9b7BhDuBWxbN_AHy5KUzAM8AOIwAP46-gbxdgEttc5PZgppJcTUCubMMtPqWwuVTHmcOhlrl8_6h4ZOzYA8fESPmiPE7XxNWjASPH7gpZqGKZmiABqwCDHHG_Sb2gjq5bl2EB2QQnNlKu7LjbX0asmoFqd6d__pYbrigwrZWTfbRnzGmrvSDCAdpIs0O0U-ZZH6EXSm_jYfJAe336lIDxTqmmTm06Ht5Taq2uA_pZJf1-Lj9Gl504uevh8ruoASanYNmAs-yDqm6dIAssK2DMaUBC7vmtKGTg10bcZdMoZdz33FPUWLfF2frX52i3QqeBtopMigu0bbj5Cypx-CM","DatabaseTitle":
+        ["Periodicals Index Online Segment 06","Periodicals Index Online Segment 33","Periodicals
+        Index Online Segment 02","Periodicals Index Online"],"Volume": ["16"],"Language":
+        ["French"],"Author": ["R. M. M"],"PublicationPlace": ["Paris"],"Score": ["67.890495"],"IsPeerReviewed":
+        ["false"],"DBID": ["JQCIK","FBAQO","FUVTR","K30"],"PublicationDate": ["19110101"],"PublicationDate_xml":
+        [{"text": "19110101","month": "01","year": "1911","day": "01"}],"PublicationCentury":
+        ["1900"],"Publisher": ["P. Geuthner"],"SourceType": ["Aggregation Database"],"Publisher_xml":
+        [{"name": "P. Geuthner"}],"PQPubID": ["1817121"],"URI": ["http://search.proquest.com/docview/1294024123"],"IsScholarly":
+        ["false"],"ID": ["FETCH-proquest_journals_12940241233"],"PublicationTitle":
+        ["Revue du Monde Musulman"],"Issue": ["11"],"Discipline": ["Religion"],"PublicationYear":
+        ["1911"],"PublicationPlace_xml": [{"name": "Paris"}],"PQID": ["1294024123"],"MergedId":
+        ["FETCHMERGED-proquest_journals_12940241233"],"Author_xml": [{"sequence":
+        "1","fullname": "R. M. M"}],"PublicationDecade": ["1910"],"ContentType": ["Journal
+        Article"],"Title": ["__BENTO_HL_START__Atlas__BENTO_HL_END__ __BENTO_HL_START__des
+        Missions__BENTO_HL_END__"],"ISSN": ["0750-7631"],"SSID": ["ssj0000608286"],"StartPage":
+        ["265"],"thumbnail_l": ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/lc.gif&issn=0750-7631&client=summon"],"thumbnail_m":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/mc.gif&issn=0750-7631&client=summon"],"thumbnail_s":
+        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/sc.gif&issn=0750-7631&client=summon"],"LinkModel":
+        ["OpenURL"],"BookMark": ["ePnHCXMwYwEde2lqoAtMt4YcsMEOAzPQSWlmnAxCjiXARqFCSmqxgm8m-NyJYm4GZTfXEGcPXVhRGA8NxeJ4YF0E7N6YAAtXY-JUAQAPYiNi"],"DatabaseName":
+        ["Periodicals Index Online Segment 33","Periodicals Index Online Segment 02","Periodicals
+        Index Online Segment 06","Periodicals Index Online"]}],"rollups": {"image":
+        {},"reference": {},"newspaper": {}}}'
+    http_version: 
+  recorded_at: Tue, 06 Sep 2016 15:04:00 GMT
 recorded_with: VCR 3.0.3
