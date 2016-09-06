@@ -2,12 +2,10 @@
 class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
-#  include Blacklight::Marc::Catalog
   include Blacklight::Catalog
   include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-#  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
   # Ensure that the configuration file is present
   begin
@@ -747,7 +745,8 @@ class CatalogController < ApplicationController
 
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
-    docs = params[:id].split '/'
+    #docs = params[:id].split '/'
+    docs = params[:id].split '|'
     
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     @response, @documents = fetch docs
@@ -821,7 +820,6 @@ class CatalogController < ApplicationController
 end
 
   def tou
-    test = ""
     clnt = HTTPClient.new
     #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.connection_config[:url]
@@ -840,9 +838,9 @@ end
      if dbcode.nil? or dbcode == '' #check for providerCode being nil
            @defaultRightsText = "Use default rights text"
      else
-       @ermDBResult = ::Erm_data.where(Database_Code: "\'#{dbcode[0]}\'", Prevailing: 'true')
+       @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
        if @ermDBResult.size < 1
-         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
          if @ermDBResult.size < 1
         #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"

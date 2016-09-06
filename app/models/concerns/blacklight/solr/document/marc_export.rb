@@ -192,7 +192,6 @@ module Blacklight::Solr::Document::MarcExport
   protected
  
  def chicago_citation(marc)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     authors = get_all_authors(marc)
     author_text = ""
 

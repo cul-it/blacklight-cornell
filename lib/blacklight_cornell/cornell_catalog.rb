@@ -38,12 +38,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         args.first[:only_path] = true
       end
 
-      search_action_url *args
+      search_action_url(*args)
     end
 
 
 
-   def append_facet_fields(values)
+  def append_facet_fields(values)
     self['facet.field'] += Array(values)
   end
 
@@ -57,7 +57,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       check_dates(params)
     end
     # params.delete("q_row")
-    qparam_display = ""
+    qparam_display = ''
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if params[:q_row].present?
       query_string = set_advanced_search_params(params)
@@ -65,37 +65,37 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # End of secondary parsing
 
     # Journal title search hack.
-    if (params[:search_field].present? and params[:search_field] == "journal title") or (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
+    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
       if params[:f].nil?
-        params[:f] = {"format" => ["Journal/Periodical"]}
+        params[:f] = {'format' => ['Journal/Periodical']}
       end
-        params[:f].merge("format" => ["Journal/Periodical"])
+        params[:f].merge('format' => ['Journal/Periodical'])
         # unless(!params[:q])
 #        params[:q] = params[:q]
-        if (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
-          params[:search_field] = "advanced"
+        if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+          params[:search_field] = 'advanced'
         else
-          params[:search_field] = "journal title"
+          params[:search_field] = 'journal title'
         end
         search_session[:f] = params[:f]
     end
 
     #quote the call number
-    if params[:search_field] == "call number"
+    if params[:search_field] == 'call number'
       if !params[:q].nil? and !params[:q].include?('"')
         params[:q] = '"' << params[:q] << '"'
         search_session[:q] = params[:q]
       end
     end
-
-    if params[:search_field] != "journal title " and params[:search_field] != "call number"
+    if params[:search_field] != 'journal title ' and params[:search_field] != 'call number'
      if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
        params[:q] = params[:q]
      else
       if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
           qparam_display = params[:q]
+          params[:qdisplay] = params[:q]
           qarray = params[:q].split
-          params[:q] = "("
+          params[:q] = '('
           if qarray.size == 1
             params[:q] << '+' << qarray[0] << ') OR "' << qarray[0] << '"'
           else
@@ -106,26 +106,22 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
           end#encoding: UTF-8
       else
         if params[:q].nil? or params[:q].blank?
-          params[:q] = params[:q]
+          params[:q] = qparam_display
         end
       end
      end
+    
     end
     # end of Journal title search hack
 
-#    if params[:search_field] = "call number"
-#      params[:q] = "\"" << params[:q] << "\""
-#    end
-
+##    if params[:search_field] = "call number"
+##      params[:q] = "\"" << params[:q] << "\""
+##    end
 
     (@response, @document_list) = search_results(params)
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
 
-    if !qparam_display.blank?
-      params[:q] = qparam_display
-      search_session[:q] = params[:q]
-    end
     if params.nil? || params[:f].nil?
       @filters = []
     else
@@ -133,9 +129,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 
     # clean up search_field and q params.  May be able to remove this
-    if params[:search_field] == "journal title"
+    if params[:search_field] == 'journal title'
        if params[:q].nil?
-         params[:search_field] = ""
+         params[:search_field] = ''
        end
     end
 
@@ -146,10 +142,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     else
         if params[:q].nil?
           params[:q] = query_string
+
         end
     end
 
-    if params[:search_field] == "call number"
+    if params[:search_field] == 'call number'
       if !params[:q].nil? and params[:q].include?('"')
         params[:q] = params[:q].gsub!('"','')
       end
@@ -178,6 +175,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
     end
+    
+     if !params[:q_row].nil?       
+       params[:show_query] = make_show_query(params)
+       search_session[:q] = params[:show_query]
+     end
+    if !qparam_display.blank?
+      params[:q] = qparam_display
+      search_session[:q] = params[:show_query]
+    end
+
   end
 
 
@@ -189,7 +196,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
       format.rss  { render :layout => false }
-      format.ris      { render "ris", :layout => false }
+      format.ris      { render 'ris', :layout => false }
       #format.ris      { render "ris", :layout => false }
       # Add all dynamically added (such as by document extensions)
       # export formats.
@@ -221,11 +228,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session['counter'] = params[:counter]
       search_session['per_page'] = params[:per_page]
 
-      path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
-        URI.parse(params[:redirect]).path
-      else
-        { action: 'show' }
-      end
+      path = 
+        if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
+          URI.parse(params[:redirect]).path
+        else
+          { action: 'show' }
+        end
       redirect_to path, :status => 303
     end
 
@@ -235,7 +243,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def update
       adjust_for_results_view
       session[:search][:counter] = params[:counter]
-      redirect_to :action => "show"
+      redirect_to :action => 'show'
     end
 
     # displays values and pagination links for a single facet field
@@ -262,7 +270,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @response, @documents = fetch(params[:id])
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.ris      { render "ris", :layout => false }
+        format.ris      { render 'ris', :layout => false }
       end
     end
 
@@ -298,7 +306,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 ##        end
 ##      end
 ##    end
-    def sms_action documents
+     def sms_action documents
        to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
        tinyPass = request.protocol + request.host_with_port + facet_catalog_path(params['id'])
        tiny = tiny_url(tinyPass)
@@ -335,7 +343,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
         unless flash[:error]
           email.deliver
-          flash[:success] = "Text sent"
+          flash[:success] = 'Text sent'
           redirect_to facet_catalog_path(params['id']) unless request.xhr?
         end
       end
@@ -404,7 +412,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
-        session[:search][key.to_sym] = value unless ["commit", "counter"].include?(key.to_s) ||
+        session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
     end
@@ -444,7 +452,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # we need to know if we are viewing the item as part of search results so we know whether to
     # include certain partials or not
     def adjust_for_results_view
-      if params[:results_view] == "false"
+      if params[:results_view] == 'false'
         session[:search][:results_view] = false
       else
         session[:search][:results_view] = true
@@ -461,7 +469,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
         # If there are errors coming from the index page, we want to trap those sensibly
         if flash[:notice] == flash_notice
-         logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
+         logger.error 'Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception'
           raise exception
         end
 
@@ -474,13 +482,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
     def invalid_solr_id_error
-      if Rails.env == "development"
+      if Rails.env == 'development'
         render # will give us the stack trace
       else
         flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
         params.delete(:id)
         index
-        render "index", :status => 404
+        render 'index', :status => 404
       end
     end
 

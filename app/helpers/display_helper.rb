@@ -24,38 +24,45 @@ include ActionView::Helpers::NumberHelper
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_delimited_index_field_value args
-    require 'pp'
-    value = args[:value]
-
-    if args[:field] and blacklight_config.index_fields[args[:field]]
-      field_config = blacklight_config.index_fields[args[:field]]
-      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
-    end
-
-  #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
-
-    newval = nil
-    unless value.nil?
-      if value.class == Array
-        newval = Array.new
-        value.each do |v|
-          newval.push (v.split('|'))[0] unless v.blank?
-        end
-      else
-        ## string?
-        newval = (value.split('|'))[0] unless value.blank?
-      end
-    end
-
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
-    #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
-    #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
-    fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
-    #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
-    #dp.render_field_value newval
-    fp.render
+    
+    # NOTE: this is only used for title_uniform_display at the moment, so 
+    # no need to check other things. Probably this should be rewritten as
+    # a presenter method
+    uniform_title = args[:document][:title_uniform_display]
+    uniform_title ? uniform_title[0].split('|')[0] : ''
+  #   
+  #   require 'pp'
+  #   value = args[:value]
+  # 
+  #   if args[:field] and blacklight_config.index_fields[args[:field]]
+  #     field_config = blacklight_config.index_fields[args[:field]]
+  #     value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+  #     value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+  #   end
+  # 
+  # #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
+  # 
+  #   newval = nil
+  #   unless value.nil?
+  #     if value.class == Array
+  #       newval = Array.new
+  #       value.each do |v|
+  #         newval.push (v.split('|'))[0] unless v.blank?
+  #       end
+  #     else
+  #       ## string?
+  #       newval = (value.split('|'))[0] unless value.blank?
+  #     end
+  #   end
+  # 
+  #   dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+  #   #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
+  #   #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
+  #   #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
+  #   fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
+  #   #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
+  #   #dp.render_field_value newval
+  #   fp.render
   end
 
   # for display of | delimited fields
@@ -96,7 +103,9 @@ include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -111,13 +120,23 @@ include ActionView::Helpers::NumberHelper
       link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
     if render_format == 'raw'
       return value
     else
-      dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
       fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
       #dp.render_field_value value
-      fp.render
+      case  args[:field]  
+        when'url_findingaid_display'
+          return value[0]
+        when 'url_bookplate_display' 
+          Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+          return value.uniq.join(',').html_safe
+        else  
+          fp.render
+        end
     end
   end
 
@@ -1277,8 +1296,6 @@ include ActionView::Helpers::NumberHelper
   end
 
   def remove_pipe field
-    Rails.logger.debug "\n*************es287_debug field_value(field)  = #{__FILE__} #{__LINE__}  #{field_value(field).inspect}\n"
-    #field_value(field).split('|')[0].html_safe
-    field_value(field).split('|').join("<br/>").html_safe
+    (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
   end
 end
