@@ -1029,8 +1029,10 @@ end
   # @return [Boolean]
   def query_has_constraints?(localized_params = params)
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} params = #{localized_params.inspect}")
-    #!(localized_params[:q].blank? and localized_params[:f].blank?)
-    !(localized_params[:q].blank? and localized_params[:f].blank? and localized_params[:click_to_search].blank?)
+    #y = !(localized_params[:q].blank? and localized_params[:f].blank?)
+    y = !(localized_params[:q].blank? and localized_params[:f].blank? and localized_params[:click_to_search].blank?) || (!localized_params[:search_field].blank? and (localized_params[:search_field] != 'all_fields'))
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} y  = #{y.inspect}")
+    y
   end
 
 end
