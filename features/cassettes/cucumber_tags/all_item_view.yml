@@ -30963,4 +30963,668 @@ http_interactions:
         code=''h''>No call number</subfield></datafield></record>","encoding":"UTF-8"}]}'
     http_version: 
   recorded_at: Thu, 25 Aug 2016 12:56:02 GMT
+- request:
+    method: get
+    uri: http://dasolr.library.cornell.edu/solr/blacklight2/select?id=2070362&qt=document&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 00:41:34 GMT
+      Last-Modified:
+      - Tue, 30 Aug 2016 00:12:45 GMT
+      Etag:
+      - '"ODIyMTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'status'=>0,'QTime'=>17,'params'=>{'fl'=>'*','echoParams'=>'all','q'=>'{!raw f=id v=$id}','rows'=>'1','id'=>'2070362','qt'=>'document','wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=>[{'multivol_b'=>true,'item_display'=>['8651037|2505538','8649532|6318480|20091005154148','3860764|2505538|20091003154434','3860766|2505538|20091003154301','6099851|2505538|20050328130847','8651038|2505538|20091003154945','8948994|6318480|20120403111019'],'holdings_display'=>['6318480|20120403142826','2505538|20060712164801'],'holdings_record_display'=>['{"id":"6318480","modified_date":"20120403142826","copy_number":null,"callnos":["Archives 3970"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"}]}','{"id":"2505538","modified_date":"20060712164801","copy_number":null,"callnos":["3970"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"rmc,anx","number":203,"name":"Kroch Library Rare & Manuscripts (Request in advance)","library":"Kroch Library Rare & Manuscripts"}]}'],'item_record_display'=>['{"historical_browses":"0","modify_location_id":"","short_loan_charges":"0","freetext":"","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"0","reserve_charges":"0","pieces":"1","item_sequence_number":"4","historical_bookings":"0","price":"0","modify_operator_id":"","magnetic_media":"N","spine_label":"ANNEX","recalls_placed":"0","create_date":"2009-10-03 15:43:49.0","media_type_id":"0","item_barcode":"31924112451319","perm_location":{"code":"rmc,anx","number":203,"name":"Kroch Library Rare & Manuscripts (Request in advance)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"8651037","chron":"","holds_placed":"0","create_location_id":"187","temp_location":"0","on_reserve":"N","sensitize":"Y","item_enum":"BOX  5","temp_item_type_id":"0","mfhd_id":"2505538","modify_date":"","create_operator_id":"cmr12"}','{"historical_browses":"0","modify_location_id":"187","short_loan_charges":"0","freetext":"","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"0","reserve_charges":"0","pieces":"1","item_sequence_number":"1","historical_bookings":"0","price":"0","modify_operator_id":"cmr12","magnetic_media":"N","spine_label":"K-143-J-2-A","recalls_placed":"0","create_date":"2009-10-01 09:12:23.0","media_type_id":"0","item_barcode":"31924112450733","perm_location":{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"8649532","chron":"","holds_placed":"0","create_location_id":"187","temp_location":"0","on_reserve":"N","sensitize":"Y","item_enum":"BOX  1","temp_item_type_id":"0","mfhd_id":"6318480","modify_date":"2009-10-05 15:41:48.0","create_operator_id":"jcp8"}','{"historical_browses":"4","modify_location_id":"187","short_loan_charges":"0","freetext":"","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"2","reserve_charges":"0","pieces":"1","item_sequence_number":"2","historical_bookings":"0","price":"0","modify_operator_id":"cmr12","magnetic_media":"N","spine_label":"ANNEX","recalls_placed":"0","create_date":"2000-05-31 00:00:00.0","media_type_id":"0","item_barcode":"31924079150656","perm_location":{"code":"rmc,anx","number":203,"name":"Kroch Library Rare & Manuscripts (Request in advance)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"3860764","chron":"","holds_placed":"0","create_location_id":"0","temp_location":"0","on_reserve":"N","sensitize":"Y","item_enum":"BOX  3","temp_item_type_id":"0","mfhd_id":"2505538","modify_date":"2009-10-03 15:44:34.0","create_operator_id":""}','{"historical_browses":"6","modify_location_id":"187","short_loan_charges":"0","freetext":"","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"4","reserve_charges":"0","pieces":"1","item_sequence_number":"5","historical_bookings":"0","price":"0","modify_operator_id":"cmr12","magnetic_media":"N","spine_label":"ANNEX","recalls_placed":"0","create_date":"2000-05-31 00:00:00.0","media_type_id":"0","item_barcode":"31924065316311","perm_location":{"code":"rmc,anx","number":203,"name":"Kroch Library Rare & Manuscripts (Request in advance)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"3860766","chron":"","holds_placed":"0","create_location_id":"0","temp_location":"0","on_reserve":"N","sensitize":"Y","item_enum":"BOX  6","temp_item_type_id":"0","mfhd_id":"2505538","modify_date":"2009-10-03 15:43:01.0","create_operator_id":""}','{"historical_browses":"2","modify_location_id":"100","short_loan_charges":"0","freetext":"","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"1","reserve_charges":"0","pieces":"1","item_sequence_number":"3","historical_bookings":"0","price":"0","modify_operator_id":"es254","magnetic_media":"N","spine_label":"ANNEX","recalls_placed":"0","create_date":"2001-07-16 16:09:23.0","media_type_id":"0","item_barcode":"31924065349403","perm_location":{"code":"rmc,anx","number":203,"name":"Kroch Library Rare & Manuscripts (Request in advance)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"6099851","chron":"","holds_placed":"0","create_location_id":"187","temp_location":"0","on_reserve":"N","sensitize":"Y","item_enum":"BOX  4","temp_item_type_id":"0","mfhd_id":"2505538","modify_date":"2005-03-28 13:08:47.0","create_operator_id":"cmr12"}','{"historical_browses":"4","modify_location_id":"187","short_loan_charges":"0","freetext":"","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"2","reserve_charges":"0","pieces":"1","item_sequence_number":"0","historical_bookings":"0","price":"0","modify_operator_id":"cmr12","magnetic_media":"N","spine_label":"ANNEX","recalls_placed":"0","create_date":"2009-10-03 15:45:20.0","media_type_id":"0","item_barcode":"31924112451301","perm_location":{"code":"rmc,anx","number":203,"name":"Kroch Library Rare & Manuscripts (Request in advance)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"8651038","chron":"","holds_placed":"0","create_location_id":"187","temp_location":"0","on_reserve":"N","sensitize":"Y","item_enum":"BOX  2","temp_item_type_id":"0","mfhd_id":"2505538","modify_date":"2009-10-03 15:49:45.0","create_operator_id":"cmr12"}','{"historical_browses":"0","modify_location_id":"187","short_loan_charges":"0","freetext":"Ordre National de la Legion D\'Honneur, Kramer 2009","item_type_name":"nocirc","year":"","item_type_id":"9","caption":"","historical_charges":"0","reserve_charges":"0","pieces":"1","item_sequence_number":"3","historical_bookings":"0","price":"0","modify_operator_id":"jtc46","magnetic_media":"N","spine_label":"K-107-B-7","recalls_placed":"0","create_date":"2011-06-01 12:25:46.0","media_type_id":"0","item_barcode":"31924070748672","perm_location":{"code":"rmc","number":87,"name":"Kroch Library Rare & Manuscripts (Non-Circulating)","library":"Kroch Library Rare & Manuscripts"},"copy_number":"1","item_id":"8948994","chron":"FOLDER","holds_placed":"0","create_location_id":"187","temp_location":"0","on_reserve":"N","sensitize":"N","item_enum":"BOX  88","temp_item_type_id":"0","mfhd_id":"6318480","modify_date":"2012-04-03 11:10:19.0","create_operator_id":"cmr12"}'],'other_id_display'=>['(CStRLIN)NYCV84A810','(CStRLIN)NYCV84-A810','(OCoLC)64072444','2070362'],'bibid_display'=>['2070362|20141130233820'],'marc_display'=>'<?xml version=\'1.0\' encoding=\'UTF-8\'?><record xmlns="http://www.loc.gov/MARC21/slim"><leader>03312cpcaa2200577   4500</leader><controlfield tag="001">2070362</controlfield><controlfield tag="005">20141130233820.0</controlfield><controlfield tag="008">840608i19392009nyu                 eng d</controlfield><datafield tag="035" ind1=" " ind2=" "><subfield code="a">(CStRLIN)NYCV84A810</subfield></datafield><datafield tag="035" ind1=" " ind2=" "><subfield code="a">(CStRLIN)NYCV84-A810</subfield></datafield><datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)64072444</subfield></datafield><datafield tag="035" ind1=" " ind2=" "><subfield code="a">2070362</subfield></datafield><datafield tag="040" ind1=" " ind2=" "><subfield code="a">NIC</subfield><subfield code="c">NIC</subfield><subfield code="e">appm</subfield><subfield code="d">NIC</subfield><subfield code="d">NIC</subfield></datafield><datafield tag="100" ind1="3" ind2=" "><subfield code="a">Kramer family.</subfield></datafield><datafield tag="245" ind1="0" ind2="0"><subfield code="a">Kramer family papers,</subfield><subfield code="f">1939-2009.</subfield></datafield><datafield tag="300" ind1=" " ind2=" "><subfield code="a">5.5 cubic ft.</subfield></datafield><datafield tag="545" ind1=" " ind2=" "><subfield code="a">Samuel Kramer of Ithaca, New York married Anne Gudis of Newark, New Jersey. Sam served in the United States Army during World War II. In 2009, he was recognized for his wartime service by being named a Chevalier of the Legion of Honor by the French government. Sam and Anne had two sons, Kevin and Jeffrey, and a daughter, Michele. Kevin attended Cornell University and the Institute of European Studies in Vienna, Austria. Jeffrey earned a Master\'s Degree in Hospital Administration from Cornell University in 1973. He served aboard the U.S.S. Nimitz at the time of the aborted rescue mission of the U.S. hostages in Iran in 1980.</subfield></datafield><datafield tag="520" ind1=" " ind2=" "><subfield code="a">Family papers comprise correspondence and greeting cards, including letters written to the Kramer family from Kevin Kramer while in Vienna; pictures, letters, and diaries relating to Jeffrey A. Kramer\'s service aboard the U.S.S. Nimitz; papers concerning Samuel Kramer\'s World War II service and his selection to the French Legion of Honor, including his 2009 certificate from the Legion; and Anne Gudis\' and Samuel\'s war-time correspondence.</subfield></datafield><datafield tag="520" ind1="8" ind2=" "><subfield code="a">Also, papers, research materials, notes, clippings, and correspondence relating to the history of the Ithaca Jewish community.</subfield></datafield><datafield tag="555" ind1="0" ind2=" "><subfield code="a">Folder listing.</subfield></datafield><datafield tag="524" ind1=" " ind2=" "><subfield code="a">Kramer Family Papers, #3970.  Division of Rare and Manuscript Collections, Cornell University Library.</subfield></datafield><datafield tag="600" ind1="1" ind2="0"><subfield code="a">Kramer, Anne G.</subfield></datafield><datafield tag="600" ind1="1" ind2="0"><subfield code="a">Kramer, Jeffrey A.</subfield></datafield><datafield tag="600" ind1="1" ind2="0"><subfield code="a">Kramer, Kevin Leslie.</subfield></datafield><datafield tag="600" ind1="1" ind2="0"><subfield code="a">Kramer, Samuel J.</subfield></datafield><datafield tag="600" ind1="3" ind2="0"><subfield code="a">Cramer family</subfield></datafield><datafield tag="610" ind1="2" ind2="0"><subfield code="a">Nimitz (Ship).</subfield></datafield><datafield tag="650" ind1=" " ind2="0"><subfield code="a">Families</subfield><subfield code="z">New York (State)</subfield><subfield code="z">Ithaca.</subfield></datafield><datafield tag="650" ind1=" " ind2="0"><subfield code="a">Iran Hostage Crisis, 1979-1981</subfield><subfield code="v">Personal narratives.</subfield></datafield><datafield tag="650" ind1=" " ind2="0"><subfield code="a">Jews</subfield><subfield code="z">New York (State)</subfield><subfield code="z">Ithaca.</subfield></datafield><datafield tag="650" ind1=" " ind2="0"><subfield code="a">World War, 1939-1945.</subfield></datafield><datafield tag="650" ind1=" " ind2="0"><subfield code="a">Families</subfield><subfield code="z">Virginia</subfield><subfield code="z">Virginia Beach.</subfield></datafield><datafield tag="651" ind1=" " ind2="0"><subfield code="a">Ithaca (N.Y.)</subfield><subfield code="x">Religious life and customs.</subfield></datafield><datafield tag="655" ind1=" " ind2="7"><subfield code="a">Photographs.</subfield><subfield code="2">aat</subfield></datafield><datafield tag="600" ind1="3" ind2="7"><subfield code="a">Cramer family</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst00214553</subfield></datafield><datafield tag="600" ind1="1" ind2="7"><subfield code="a">Kramer, Anne G.</subfield><subfield code="2">fast/NIC/NAC</subfield></datafield><datafield tag="600" ind1="1" ind2="7"><subfield code="a">Kramer, Jeffrey A.</subfield><subfield code="2">fast/NIC/NAC</subfield></datafield><datafield tag="600" ind1="1" ind2="7"><subfield code="a">Kramer, Kevin Leslie</subfield><subfield code="2">fast/NIC/NAC</subfield></datafield><datafield tag="600" ind1="1" ind2="7"><subfield code="a">Kramer, Samuel J.</subfield><subfield code="2">fast/NIC/NAC</subfield></datafield><datafield tag="611" ind1="2" ind2="7"><subfield code="a">Iran Hostage Crisis (1979-1981)</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst00978765</subfield></datafield><datafield tag="611" ind1="2" ind2="7"><subfield code="a">World War (1939-1945)</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst01180924</subfield></datafield><datafield tag="648" ind1=" " ind2="7"><subfield code="a">1939 - 1981</subfield><subfield code="2">fast</subfield></datafield><datafield tag="650" ind1=" " ind2="7"><subfield code="a">Families</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst01728849</subfield></datafield><datafield tag="650" ind1=" " ind2="7"><subfield code="a">Jews</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst00983135</subfield></datafield><datafield tag="651" ind1=" " ind2="7"><subfield code="a">New York (State)</subfield><subfield code="z">Ithaca</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst01205507</subfield></datafield><datafield tag="651" ind1=" " ind2="7"><subfield code="a">Virginia</subfield><subfield code="z">Virginia Beach</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst01208712</subfield></datafield><datafield tag="655" ind1=" " ind2="7"><subfield code="a">Personal narratives</subfield><subfield code="2">fast</subfield><subfield code="0">(OCoLC)fst01423843</subfield></datafield><datafield tag="856" ind1="4" ind2="2"><subfield code="3">Finding aid</subfield><subfield code="u">http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM03970</subfield></datafield><datafield tag="948" ind1="3" ind2=" "><subfield code="a">20070525</subfield><subfield code="h">RLINAMC</subfield><subfield code="i">RLINAMC1.mrc</subfield></datafield><datafield tag="948" ind1="2" ind2=" "><subfield code="a">20120403</subfield><subfield code="b">m</subfield><subfield code="d">jtc46</subfield><subfield code="e">rmc</subfield></datafield><datafield tag="948" ind1="2" ind2=" "><subfield code="a">20141130</subfield><subfield code="b">m</subfield><subfield code="d">batch</subfield><subfield code="e">lts</subfield><subfield code="x">addfast</subfield></datafield></record>','id'=>'2070362','type'=>'Catalog','source'=>'Voyager','format'=>['Manuscript/Archive'],'database_b'=>false,'format_main_facet'=>'Manuscript/Archive','language_facet'=>['English'],'language_display'=>['English'],'callnum_sort'=>'3970','pub_date_facet'=>1939,'pub_date_sort'=>1939,'author_json'=>['{"search1":"Kramer family.","authorizedForm":false,"type":"Personal Name","name1":"Kramer family."}'],'authortitle_filing'=>['kramer family 0000 kramer family papers'],'title_2letter_s'=>['kr'],'author_cts'=>['Kramer family.|Kramer family.'],'title_1letter_s'=>['k'],'fulltitle_display'=>'Kramer family papers, 1939-2009','opensearch_display'=>['Kramer family papers, 1939-2009','Kramer family.','Kramer, Anne G.','Kramer, Jeffrey A.','Kramer, Kevin Leslie.','Kramer, Samuel J.','Cramer family','Cramer family','Kramer, Anne G.','Kramer, Jeffrey A.','Kramer, Kevin Leslie','Kramer, Samuel J.','Nimitz (Ship).','Iran Hostage Crisis (1979-1981)','World War (1939-1945)','Families','Iran Hostage Crisis, 1979-1981','Jews','World War, 1939-1945.','Families','Families','Jews','Ithaca (N.Y.)','New York (State)','Virginia','Photographs.','Personal narratives','Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J','Cramer family','Nimitz (Ship)','Families > New York (State) > Ithaca','Iran Hostage Crisis, 1979-1981 > Personal narratives','Jews > New York (State) > Ithaca','World War, 1939-1945','Families > Virginia > Virginia Beach','Ithaca (N.Y.) > Religious life and customs','Photographs','Cramer family','Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J','Iran Hostage Crisis (1979-1981)','World War (1939-1945)','1939 - 1981','Families','Jews','New York (State) > Ithaca','Virginia > Virginia Beach','Personal narratives'],'authortitle_facet'=>['Kramer family. | Kramer family papers'],'title_display'=>'Kramer family papers','author_display'=>'Kramer family.','subtitle_display'=>'1939-2009','author_facet'=>['Kramer family'],'author_pers_filing'=>['kramer family'],'url_findingaid_display'=>['http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM03970|Finding aid'],'online'=>['At the Library','At the Library'],'location_facet'=>['Kroch Library Rare & Manuscripts'],'location_display'=>['Kroch Library Rare & Manuscripts (Request in advance)','Kroch Library Rare & Manuscripts (Non-Circulating)'],'cite_as_display'=>['Kramer Family Papers, #3970.  Division of Rare and Manuscript Collections, Cornell University Library.'],'finding_aids_display'=>['Folder listing.'],'historical_note_display'=>['Samuel Kramer of Ithaca, New York married Anne Gudis of Newark, New Jersey. Sam served in the United States Army during World War II. In 2009, he was recognized for his wartime service by being named a Chevalier of the Legion of Honor by the French government. Sam and Anne had two sons, Kevin and Jeffrey, and a daughter, Michele. Kevin attended Cornell University and the Institute of European Studies in Vienna, Austria. Jeffrey earned a Master\'s Degree in Hospital Administration from Cornell University in 1973. He served aboard the U.S.S. Nimitz at the time of the aborted rescue mission of the U.S. hostages in Iran in 1980.'],'summary_display'=>['Family papers comprise correspondence and greeting cards, including letters written to the Kramer family from Kevin Kramer while in Vienna; pictures, letters, and diaries relating to Jeffrey A. Kramer\'s service aboard the U.S.S. Nimitz; papers concerning Samuel Kramer\'s World War II service and his selection to the French Legion of Honor, including his 2009 certificate from the Legion; and Anne Gudis\' and Samuel\'s war-time correspondence.','Also, papers, research materials, notes, clippings, and correspondence relating to the history of the Ithaca Jewish community.'],'description_display'=>['5.5 cubic ft.'],'subject_pers_facet'=>['Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J','Cramer family','Cramer family','Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J'],'subject_era_facet'=>['1939 - 1981'],'subject_corp_facet'=>['Nimitz (Ship)'],'subject_genr_filing'=>['photographs','personal narratives'],'fast_genre_facet'=>['Personal narratives'],'subject_display'=>['Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J','Cramer family','Nimitz (Ship)','Families > New York (State) > Ithaca','Iran Hostage Crisis, 1979-1981 > Personal narratives','Jews > New York (State) > Ithaca','World War, 1939-1945','Families > Virginia > Virginia Beach','Ithaca (N.Y.) > Religious life and customs','Photographs'],'subject_topic_filing'=>['families 0000 new york state','families 0000 new york state 0000 ithaca','families','iran hostage crisis 1979 1981 0000 personal narratives','iran hostage crisis 1979 1981','jews 0000 new york state','jews 0000 new york state 0000 ithaca','jews','world war 1939 1945','families 0000 virginia','families','families 0000 virginia 0000 virginia beach','families','jews'],'subject_era_filing'=>['1939 1981'],'subject_geo_filing'=>['ithaca ny','ithaca ny 0000 religious life and customs','new york state','new york state 0000 ithaca','virginia','virginia 0000 virginia beach'],'subject_corp_filing'=>['nimitz ship'],'subject_geo_facet'=>['Ithaca (N.Y.)','Ithaca (N.Y.) > Religious life and customs','New York (State)','New York (State) > Ithaca','Virginia','Virginia > Virginia Beach'],'subject_event_filing'=>['iran hostage crisis 1979 1981','world war 1939 1945'],'subject_cts'=>['Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J','Cramer family','Nimitz (Ship)','Families|New York (State)|Ithaca','Iran Hostage Crisis, 1979-1981|Personal narratives','Jews|New York (State)|Ithaca','World War, 1939-1945','Families|Virginia|Virginia Beach','Ithaca (N.Y.)|Religious life and customs','Photographs'],'subject_json'=>['[{"subject":"Kramer, Anne G.","authorized":false,"type":"Personal Name"}]','[{"subject":"Kramer, Jeffrey A.","authorized":false,"type":"Personal Name"}]','[{"subject":"Kramer, Kevin Leslie.","authorized":false,"type":"Personal Name"}]','[{"subject":"Kramer, Samuel J.","authorized":false,"type":"Personal Name"}]','[{"subject":"Cramer family","authorized":true,"type":"Personal Name"}]','[{"subject":"Nimitz (Ship).","authorized":false,"type":"Corporate Name"}]','[{"subject":"Families","authorized":true,"type":"Topical Term"},{"subject":"New York (State)","authorized":false},{"subject":"Ithaca.","authorized":false}]','[{"subject":"Iran Hostage Crisis, 1979-1981","authorized":true,"type":"Topical Term"},{"subject":"Personal narratives.","authorized":false}]','[{"subject":"Jews","authorized":true,"type":"Topical Term"},{"subject":"New York (State)","authorized":false},{"subject":"Ithaca.","authorized":false}]','[{"subject":"World War, 1939-1945.","authorized":true,"type":"Topical Term"}]','[{"subject":"Families","authorized":true,"type":"Topical Term"},{"subject":"Virginia","authorized":false},{"subject":"Virginia Beach.","authorized":false}]','[{"subject":"Ithaca (N.Y.)","authorized":true,"type":"Geographic Name"},{"subject":"Religious life and customs.","authorized":false}]','[{"subject":"Photographs.","authorized":false,"type":"Genre/Form Term"}]'],'fast_b'=>true,'fast_topic_facet'=>['Cramer family','Kramer, Anne G','Kramer, Jeffrey A','Kramer, Kevin Leslie','Kramer, Samuel J','Iran Hostage Crisis (1979-1981)','World War (1939-1945)','Families','Jews'],'subject_pers_filing'=>['kramer anne g','kramer jeffrey a','kramer kevin leslie','kramer samuel j','cramer family','cramer family','kramer anne g','kramer jeffrey a','kramer kevin leslie','kramer samuel j'],'subject_event_facet'=>['Iran Hostage Crisis (1979-1981)','World War (1939-1945)'],'fast_geo_facet'=>['New York (State) > Ithaca','Virginia > Virginia Beach'],'subject_topic_facet'=>['Families > New York (State)','Families > New York (State) > Ithaca','Families','Iran Hostage Crisis, 1979-1981 > Personal narratives','Iran Hostage Crisis, 1979-1981','Jews > New York (State)','Jews > New York (State) > Ithaca','Jews','World War, 1939-1945','Families > Virginia','Families','Families > Virginia > Virginia Beach','Families','Jews'],'subject_genr_facet'=>['Photographs','Personal narratives'],'fast_era_facet'=>['1939 - 1981'],'workid_facet'=>['48086290'],'_version_'=>1543176312501305344,'timestamp'=>'2016-08-20T10:06:52.008Z'}]}}
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 00:41:34 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/status_short/2070362
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.2, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 30 Aug 2016 00:41:36 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 00:41:36 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings-int.library.cornell.edu/holdings/status_short/2070362
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '254'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings-int.library.cornell.edu/holdings/status_short/2070362">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 00:41:36 GMT
+- request:
+    method: get
+    uri: https://holdings-int.library.cornell.edu/holdings/status_short/2070362
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.2, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 30 Aug 2016 00:41:36 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 00:41:36 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"efd5ca21a52e63f3124176f2cd40981d"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 3ee06e92935a383e6a35fb0a35c907ba
+      X-Runtime:
+      - '0.224512'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"2070362":{"2070362":{"records":[{"bibid":"2070362","call_number":"3970","statuses":{"2505538":"available","6318480":"available"},"holdings":[{"BIB_ID":2070362,"MFHD_ID":2505538,"ITEM_ID":3860764,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"3970","LOCATION_ID":203,"LOCATION_CODE":"rmc,anx","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2014-09-20T08:44:45-04:00","PERM_LOCATION":203,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","PERM_LOCATION_CODE":"rmc,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  3","CHRON":null},{"BIB_ID":2070362,"MFHD_ID":2505538,"ITEM_ID":3860766,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"3970","LOCATION_ID":203,"LOCATION_CODE":"rmc,anx","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2011-04-11T05:30:26-04:00","PERM_LOCATION":203,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","PERM_LOCATION_CODE":"rmc,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  6","CHRON":null},{"BIB_ID":2070362,"MFHD_ID":2505538,"ITEM_ID":6099851,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"3970","LOCATION_ID":203,"LOCATION_CODE":"rmc,anx","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2009-10-10T08:35:06-04:00","PERM_LOCATION":203,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","PERM_LOCATION_CODE":"rmc,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  4","CHRON":null},{"BIB_ID":2070362,"MFHD_ID":2505538,"ITEM_ID":8651037,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"3970","LOCATION_ID":203,"LOCATION_CODE":"rmc,anx","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2009-10-03T15:43:49-04:00","PERM_LOCATION":203,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","PERM_LOCATION_CODE":"rmc,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  5","CHRON":null},{"BIB_ID":2070362,"MFHD_ID":2505538,"ITEM_ID":8651038,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"3970","LOCATION_ID":203,"LOCATION_CODE":"rmc,anx","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2014-08-26T05:39:14-04:00","PERM_LOCATION":203,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","PERM_LOCATION_CODE":"rmc,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  2","CHRON":null},{"BIB_ID":2070362,"MFHD_ID":6318480,"ITEM_ID":8649532,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"Archives
+        3970","LOCATION_ID":87,"LOCATION_CODE":"rmc","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2009-10-01T09:12:23-04:00","PERM_LOCATION":87,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","PERM_LOCATION_CODE":"rmc","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  1","CHRON":null},{"BIB_ID":2070362,"MFHD_ID":6318480,"ITEM_ID":8948994,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"Archives
+        3970","LOCATION_ID":87,"LOCATION_CODE":"rmc","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2011-06-01T12:25:46-04:00","PERM_LOCATION":87,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","PERM_LOCATION_CODE":"rmc","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"BOX  88","CHRON":"FOLDER"}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Library
+        Annex","Kroch Library Rare & Manuscripts (Non-Circulating)"],"locnumber":2,"status":["avail"],"avail_at":{"Kroch
+        Library Rare & Manuscripts (Request in advance)":"3970","Kroch Library Rare
+        & Manuscripts (Non-Circulating)":"Archives 3970"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 00:41:41 GMT
+- request:
+    method: get
+    uri: http://dasolr.library.cornell.edu/solr/blacklight2/select?id=8948570&qt=document&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 05:34:36 GMT
+      Last-Modified:
+      - Tue, 30 Aug 2016 00:12:45 GMT
+      Etag:
+      - '"ODIyMTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'status'=>0,'QTime'=>0,'params'=>{'fl'=>'*','echoParams'=>'all','q'=>'{!raw f=id v=$id}','rows'=>'1','id'=>'8948570','qt'=>'document','wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=>[{'item_record_display'=>['{"sensitize":"N","spine_label":"","magnetic_media":"N","recalls_placed":"0","temp_location":"0","item_barcode":"31924121586824","historical_browses":"1","item_enum":"","item_sequence_number":"1","historical_charges":"1","create_date":"2015-08-04 09:10:41.0","copy_number":"1","create_location_id":"153","mfhd_id":"9286307","short_loan_charges":"0","chron":"","reserve_charges":"0","year":"","modify_location_id":"","media_type_id":"0","create_operator_id":"ma225","historical_bookings":"0","holds_placed":"0","perm_location":{"code":"math","number":81,"name":"Mathematics Library (Malott Hall)","library":"Mathematics Library"},"modify_date":"","temp_item_type_id":"0","caption":"","on_reserve":"N","pieces":"1","item_type_id":"3","price":"0","item_type_name":"book","item_id":"9778553","freetext":"","modify_operator_id":""}'],'holdings_display'=>['9286307|20150928123441'],'multivol_b'=>false,'holdings_record_display'=>['{"id":"9286307","modified_date":"20150928123441","copy_number":null,"callnos":["QA537 .K34 2015"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"math","number":81,"name":"Mathematics Library (Malott Hall)","library":"Mathematics Library"}]}'],'item_display'=>['9778553|9286307'],'lc_controlnum_display'=>['2015413985'],'lc_controlnum_s'=>['2015413985'],'other_id_display'=>['(OCoLC)881094746','8948570'],'id'=>'8948570','marc_display'=>'<?xml version=\'1.0\' encoding=\'UTF-8\'?><record xmlns="http://www.loc.gov/MARC21/slim"><leader>01957cam a2200361Ii 4500</leader><controlfield tag="001">8948570</controlfield><controlfield tag="005">20160111125147.0</controlfield><controlfield tag="008">140605s2015    nyua          000 0 eng d</controlfield><datafield tag="010" ind1=" " ind2=" "><subfield code="a">  2015413985</subfield></datafield><datafield tag="015" ind1=" " ind2=" "><subfield code="a">GBB504223</subfield><subfield code="2">bnb</subfield></datafield><datafield tag="016" ind1="7" ind2=" "><subfield code="a">017009091</subfield><subfield code="2">Uk</subfield></datafield><datafield tag="020" ind1=" " ind2=" "><subfield code="a">9780486789675 (pbk.)</subfield></datafield><datafield tag="020" ind1=" " ind2=" "><subfield code="a">0486789675 (pbk.)</subfield></datafield><datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)881094746</subfield></datafield><datafield tag="035" ind1=" " ind2=" "><subfield code="a">8948570</subfield></datafield><datafield tag="040" ind1=" " ind2=" "><subfield code="a">YDXCP</subfield><subfield code="b">eng</subfield><subfield code="e">rda</subfield><subfield code="c">YDXCP</subfield><subfield code="d">BTCTA</subfield><subfield code="d">BDX</subfield><subfield code="d">OCLCQ</subfield><subfield code="d">GK8</subfield><subfield code="d">UKMGB</subfield><subfield code="d">GK8</subfield><subfield code="d">JHE</subfield><subfield code="d">DLC</subfield><subfield code="d">OCLCO</subfield></datafield><datafield tag="050" ind1=" " ind2="4"><subfield code="a">QA537</subfield><subfield code="b">.K34 2015</subfield></datafield><datafield tag="082" ind1="0" ind2="4"><subfield code="a">516.24076</subfield><subfield code="2">23</subfield></datafield><datafield tag="100" ind1="1" ind2=" "><subfield code="a">Kahn, David S.,</subfield><subfield code="e">author.</subfield></datafield><datafield tag="245" ind1="1" ind2="0"><subfield code="a">Attacking trigonometry problems /</subfield><subfield code="c">David S. Kahn.</subfield></datafield><datafield tag="264" ind1=" " ind2="1"><subfield code="a">Mineola, New York :</subfield><subfield code="b">Dover Publications,</subfield><subfield code="c">2015.</subfield></datafield><datafield tag="300" ind1=" " ind2=" "><subfield code="a">168 pages :</subfield><subfield code="b">illustrations ;</subfield><subfield code="c">22 cm.</subfield></datafield><datafield tag="336" ind1=" " ind2=" "><subfield code="a">text</subfield><subfield code="b">txt</subfield><subfield code="2">rdacontent</subfield></datafield><datafield tag="337" ind1=" " ind2=" "><subfield code="a">unmediated</subfield><subfield code="b">n</subfield><subfield code="2">rdamedia</subfield></datafield><datafield tag="338" ind1=" " ind2=" "><subfield code="a">volume</subfield><subfield code="b">nc</subfield><subfield code="2">rdacarrier</subfield></datafield><datafield tag="490" ind1="1" ind2=" "><subfield code="a">Dover books on mathematics</subfield></datafield><datafield tag="520" ind1=" " ind2=" "><subfield code="a">"This volume offers a concise, highly focused review of what high school and beginning college undergraduates need to know to successfully solve the trigonometry problems they will encounter on exams. Rigorously tested examples and coherent, to-the-point explanations are presented in an accessible form and will provide valuable assistance in conquering this challenging subject. Rather than serving as a text or treatise, the book focuses on the essentials of trigonometry. All fourteen sections are organized in a manner that allows readers to advance sequentially or to skip around. The approach encourages memorization of ratios and formulas, and the practice problems offer ample opportunities to become comfortable with applying the trig ratios to a variety of settings."--Back cover.</subfield></datafield><datafield tag="650" ind1=" " ind2="0"><subfield code="a">Trigonometry</subfield><subfield code="v">Problems, exercises, etc.</subfield></datafield><datafield tag="655" ind1=" " ind2="7"><subfield code="a">Problems and exercises.</subfield><subfield code="2">lcgft</subfield></datafield><datafield tag="830" ind1=" " ind2="0"><subfield code="a">Dover books on mathematics</subfield></datafield><datafield tag="902" ind1=" " ind2=" "><subfield code="a">pfnd</subfield><subfield code="b">Hurwitz</subfield><subfield code="b">Leslie</subfield></datafield><datafield tag="948" ind1="0" ind2=" "><subfield code="a">20150804</subfield><subfield code="b">r</subfield><subfield code="d">ma225</subfield><subfield code="e">lts</subfield></datafield><datafield tag="948" ind1="1" ind2=" "><subfield code="a">20150804</subfield><subfield code="b">f</subfield><subfield code="d">ma225</subfield><subfield code="e">lts</subfield></datafield></record>','bibid_display'=>['8948570|20160111125147'],'source'=>'Voyager','type'=>'Catalog','database_b'=>false,'format'=>['Book'],'format_main_facet'=>'Book','language_facet'=>['English'],'language_display'=>['English'],'lc_callnum_facet'=>['Q - Science','Q - Science:QA - Mathematics:QA440-699 - Geometry.  Trigonometry.  Topology','Q - Science:QA - Mathematics'],'callnum_sort'=>'QA537 .K34 2015','pub_date_facet'=>2015,'pub_date_sort'=>2015,'pub_date_display'=>['2015'],'pubplace_display'=>['Mineola, New York :'],'publisher_display'=>['Dover Publications,'],'pub_info_display'=>['Mineola, New York : Dover Publications, 2015.'],'opensearch_display'=>['Dover books on mathematics','Dover books on mathematics','Dover books on mathematics','Attacking trigonometry problems','Kahn, David S., author.','Trigonometry','Problems and exercises.','Trigonometry > Problems, exercises, etc','Problems and exercises'],'title_series_cts'=>['Dover books on mathematics|Dover books on mathematics'],'title_series_display'=>['Dover books on mathematics'],'author_display'=>'Kahn, David S.,  author','authortitle_facet'=>['Kahn, David S. | Attacking trigonometry problems'],'title_1letter_s'=>['a'],'title_2letter_s'=>['at'],'author_json'=>['{"type":"Personal Name","search1":"Kahn, David S.,","name1":"Kahn, David S.,  author","authorizedForm":true}'],'title_display'=>'Attacking trigonometry problems','author_cts'=>['Kahn, David S.,  author|Kahn, David S.,'],'title_responsibility_display'=>['David S. Kahn.'],'authortitle_filing'=>['kahn david s 0000 attacking trigonometry problems'],'fulltitle_display'=>'Attacking trigonometry problems','author_facet'=>['Kahn, David S'],'author_pers_filing'=>['kahn david s'],'url_bookplate_display'=>['http://plates.library.cornell.edu/donor/DNR00451|In memory of Albert Leskowitz.'],'location_facet'=>['Mathematics Library'],'location_display'=>['Mathematics Library (Malott Hall)'],'online'=>['At the Library'],'summary_display'=>['"This volume offers a concise, highly focused review of what high school and beginning college undergraduates need to know to successfully solve the trigonometry problems they will encounter on exams. Rigorously tested examples and coherent, to-the-point explanations are presented in an accessible form and will provide valuable assistance in conquering this challenging subject. Rather than serving as a text or treatise, the book focuses on the essentials of trigonometry. All fourteen sections are organized in a manner that allows readers to advance sequentially or to skip around. The approach encourages memorization of ratios and formulas, and the practice problems offer ample opportunities to become comfortable with applying the trig ratios to a variety of settings."--Back cover.'],'description_display'=>['168 pages : illustrations ; 22 cm.'],'subject_content_facet'=>['Non-Fiction (books)'],'fast_b'=>false,'subject_genr_facet'=>['Problems and exercises'],'subject_genr_filing'=>['problems and exercises'],'subject_display'=>['Trigonometry > Problems, exercises, etc','Problems and exercises'],'subject_topic_facet'=>['Trigonometry > Problems, exercises, etc','Trigonometry'],'subject_cts'=>['Trigonometry|Problems, exercises, etc','Problems and exercises'],'subject_topic_filing'=>['trigonometry 0000 problems exercises etc','trigonometry'],'subject_json'=>['[{"authorized":true,"subject":"Trigonometry","type":"Topical Term"},{"authorized":true,"subject":"Problems, exercises, etc."}]','[{"authorized":true,"subject":"Problems and exercises.","type":"Genre/Form Term"}]'],'acquired_month'=>'201508','acquired'=>20150804,'donor_display'=>['Hurwitz Leslie'],'isbn_display'=>['9780486789675 (pbk.)','0486789675 (pbk.)'],'isbn_t'=>['9780486789675 (pbk.)','0486789675 (pbk.)'],'workid_facet'=>['2523462641'],'_version_'=>1541276924520693760,'timestamp'=>'2016-07-30T10:56:55.935Z'}]}}
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 05:34:36 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/status_short/8948570
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.2, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 30 Aug 2016 05:34:37 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 05:34:37 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings-int.library.cornell.edu/holdings/status_short/8948570
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '254'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings-int.library.cornell.edu/holdings/status_short/8948570">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 05:34:37 GMT
+- request:
+    method: get
+    uri: https://holdings-int.library.cornell.edu/holdings/status_short/8948570
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.2, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 30 Aug 2016 05:34:37 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 05:34:37 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"00202faeb606152c043a9f4cd851ad11"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 430475d8455607b157a6291aaf477e97
+      X-Runtime:
+      - '0.996149'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"8948570":{"8948570":{"records":[{"bibid":"8948570","call_number":"QA537
+        .K34 2015","statuses":{"9286307":"available"},"holdings":[{"BIB_ID":8948570,"MFHD_ID":9286307,"ITEM_ID":9778553,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"QA537
+        .K34 2015","LOCATION_ID":81,"LOCATION_CODE":"math","LOCATION_DISPLAY_NAME":"Mathematics
+        Library (Malott Hall)","OQUANTITY":1,"ODATE":"2015-07-08T11:41:26-04:00","LINE_ITEM_STATUS":1,"LINE_ITEM_ID":712434,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2015-08-31T05:37:39-04:00","PERM_LOCATION":81,"PERM_LOCATION_DISPLAY_NAME":"Mathematics
+        Library (Malott Hall)","PERM_LOCATION_CODE":"math","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":1,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Mathematics
+        Library (Malott Hall)"],"locnumber":1,"status":["avail"],"avail_at":{"Mathematics
+        Library (Malott Hall)":"QA537 .K34 2015"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 05:34:41 GMT
+- request:
+    method: get
+    uri: http://dasolr.library.cornell.edu/solr/blacklight2/select?id=4473308&qt=document&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 14:42:39 GMT
+      Last-Modified:
+      - Tue, 30 Aug 2016 14:00:01 GMT
+      Etag:
+      - '"ODUyMTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9Pnsnc3RhdHVzJz0+MCwnUVRpbWUnPT4wLCdw
+        YXJhbXMnPT57J2ZsJz0+JyonLCdlY2hvUGFyYW1zJz0+J2FsbCcsJ3EnPT4n
+        eyFyYXcgZj1pZCB2PSRpZH0nLCdyb3dzJz0+JzEnLCdpZCc9Pic0NDczMzA4
+        JywncXQnPT4nZG9jdW1lbnQnLCd3dCc9PidydWJ5J319LCdyZXNwb25zZSc9
+        PnsnbnVtRm91bmQnPT4xLCdzdGFydCc9PjAsJ2RvY3MnPT5beydtdWx0aXZv
+        bF9iJz0+ZmFsc2UsJ2l0ZW1fZGlzcGxheSc9PlsnNjU2OTI0NXw1MDA0NDg4
+        fDIwMTQwODI2MTMxMDA5J10sJ2hvbGRpbmdzX2Rpc3BsYXknPT5bJzUwMDQ0
+        ODh8MjAxMTA4MTYwMzU0MjcnXSwnaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXkn
+        PT5bJ3siaWQiOiI1MDA0NDg4IiwibW9kaWZpZWRfZGF0ZSI6IjIwMTEwODE2
+        MDM1NDI3IiwiY29weV9udW1iZXIiOm51bGwsImNhbGxub3MiOlsiUmFyZSBC
+        b29rcyBCWDgwNjkgLkEyIDE1MzEgdGlueSJdLCJub3RlcyI6W10sImhvbGRp
+        bmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBs
+        ZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVz
+        YyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6InJtYyIsIm51bWJlciI6ODcs
+        Im5hbWUiOiJLcm9jaCBMaWJyYXJ5IFJhcmUgJiBNYW51c2NyaXB0cyAoTm9u
+        LUNpcmN1bGF0aW5nKSIsImxpYnJhcnkiOiJLcm9jaCBMaWJyYXJ5IFJhcmUg
+        JiBNYW51c2NyaXB0cyJ9XX0nXSwnaXRlbV9yZWNvcmRfZGlzcGxheSc9Plsn
+        eyJoaXN0b3JpY2FsX2Jyb3dzZXMiOiIwIiwibW9kaWZ5X2xvY2F0aW9uX2lk
+        IjoiMTAwIiwic2hvcnRfbG9hbl9jaGFyZ2VzIjoiMCIsImZyZWV0ZXh0Ijoi
+        IiwiaXRlbV90eXBlX25hbWUiOiJub2NpcmMiLCJ5ZWFyIjoiIiwiaXRlbV90
+        eXBlX2lkIjoiOSIsImNhcHRpb24iOiIiLCJoaXN0b3JpY2FsX2NoYXJnZXMi
+        OiIwIiwicmVzZXJ2ZV9jaGFyZ2VzIjoiMCIsInBpZWNlcyI6IjEiLCJpdGVt
+        X3NlcXVlbmNlX251bWJlciI6IjEiLCJoaXN0b3JpY2FsX2Jvb2tpbmdzIjoi
+        MCIsInByaWNlIjoiMCIsIm1vZGlmeV9vcGVyYXRvcl9pZCI6Im52MTkiLCJt
+        YWduZXRpY19tZWRpYSI6Ik4iLCJzcGluZV9sYWJlbCI6IiIsInJlY2FsbHNf
+        cGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMi0xMi0xMyAxNTozMTo0
+        Ni4wIiwibWVkaWFfdHlwZV9pZCI6IjAiLCJpdGVtX2JhcmNvZGUiOiIzMTky
+        NDA5NTMxMTkxMCIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6InJtYyIsIm51
+        bWJlciI6ODcsIm5hbWUiOiJLcm9jaCBMaWJyYXJ5IFJhcmUgJiBNYW51c2Ny
+        aXB0cyAoTm9uLUNpcmN1bGF0aW5nKSIsImxpYnJhcnkiOiJLcm9jaCBMaWJy
+        YXJ5IFJhcmUgJiBNYW51c2NyaXB0cyJ9LCJjb3B5X251bWJlciI6IjEiLCJp
+        dGVtX2lkIjoiNjU2OTI0NSIsImNocm9uIjoiIiwiaG9sZHNfcGxhY2VkIjoi
+        MCIsImNyZWF0ZV9sb2NhdGlvbl9pZCI6IjE4NyIsInRlbXBfbG9jYXRpb24i
+        OiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJzZW5zaXRpemUiOiJZIiwiaXRlbV9l
+        bnVtIjoiIiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwibWZoZF9pZCI6IjUw
+        MDQ0ODgiLCJtb2RpZnlfZGF0ZSI6IjIwMTQtMDgtMjYgMTM6MTA6MDkuMCIs
+        ImNyZWF0ZV9vcGVyYXRvcl9pZCI6ImxiYjQifSddLCdvdGhlcl9pZF9kaXNw
+        bGF5Jz0+Wyc0NDczMzA4JywnKE9Db0xDKTYzOTA1MTk0J10sJ2JpYmlkX2Rp
+        c3BsYXknPT5bJzQ0NzMzMDh8MjAxNTEyMTYxODQwMjEnXSwnbWFyY19kaXNw
+        bGF5Jz0+Jzw/eG1sIHZlcnNpb249XCcxLjBcJyBlbmNvZGluZz1cJ1VURi04
+        XCc/PjxyZWNvcmQgeG1sbnM9Imh0dHA6Ly93d3cubG9jLmdvdi9NQVJDMjEv
+        c2xpbSI+PGxlYWRlcj4wMTY1N2NhbSBhMjIwMDM4NSBhIDQ1MDA8L2xlYWRl
+        cj48Y29udHJvbGZpZWxkIHRhZz0iMDAxIj40NDczMzA4PC9jb250cm9sZmll
+        bGQ+PGNvbnRyb2xmaWVsZCB0YWc9IjAwNSI+MjAxNTEyMTYxODQwMjEuMDwv
+        Y29udHJvbGZpZWxkPjxjb250cm9sZmllbGQgdGFnPSIwMDgiPjkwMTEyOXMx
+        NTMxICAgIGd3ICAgICAgICAgICAgMDAwIDAgbGF0IGM8L2NvbnRyb2xmaWVs
+        ZD48ZGF0YWZpZWxkIHRhZz0iMDM1IiBpbmQxPSIgIiBpbmQyPSIgIj48c3Vi
+        ZmllbGQgY29kZT0iYSI+NDQ3MzMwODwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+
+        PGRhdGFmaWVsZCB0YWc9IjAzNSIgaW5kMT0iICIgaW5kMj0iICI+PHN1YmZp
+        ZWxkIGNvZGU9ImEiPihPQ29MQyk2MzkwNTE5NDwvc3ViZmllbGQ+PC9kYXRh
+        ZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjA0MCIgaW5kMT0iICIgaW5kMj0iICI+
+        PHN1YmZpZWxkIGNvZGU9ImEiPldFTDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNv
+        ZGU9ImMiPldFTDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImQiPkNHVTwv
+        c3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImQiPkNTdFJMSU48L3N1YmZpZWxk
+        PjxzdWJmaWVsZCBjb2RlPSJkIj5OSUM8L3N1YmZpZWxkPjwvZGF0YWZpZWxk
+        PjxkYXRhZmllbGQgdGFnPSIwNDIiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJm
+        aWVsZCBjb2RlPSJhIj5wY2M8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRh
+        ZmllbGQgdGFnPSIxMzAiIGluZDE9IjAiIGluZDI9IiAiPjxzdWJmaWVsZCBj
+        b2RlPSJhIj5BdWdzYnVyZyBDb25mZXNzaW9uLjwvc3ViZmllbGQ+PC9kYXRh
+        ZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjI0NSIgaW5kMT0iMSIgaW5kMj0iMCI+
+        PHN1YmZpZWxkIGNvZGU9ImEiPkNvbmZlc3NpbyBmaWRlaSBleGhpYml0YSBp
+        bnZpY3Rpc3MuIGltcC4gQ2Fyb2xvIFYuIENhZXNhcmkgQXVnLiBpbiBjb21p
+        Y2lqcyBBdWd1c3RhZS4gQW5ubyBNRFhYWCA7IEFkZGl0YSBlc3QgQXBvbG9n
+        aWEgY29bbl1mZXNzaW9uaXMgOyBQc2FsbSAxMTkgOyBFdCBsb3F1ZWJhciBk
+        ZSB0ZXN0aW1vbmlpcyB0dWlzIGluIGNvbnNwZWN0dSBSZWd1bSwgJmFtcDsg
+        bm9uIGNvbnN1bmRlYmFyLjwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFm
+        aWVsZCB0YWc9IjI2MCIgaW5kMT0iICIgaW5kMj0iICI+PHN1YmZpZWxkIGNv
+        ZGU9ImEiPlZWaXRlYmVyZ2FlIDo8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2Rl
+        PSJiIj5bSW1wcmVzc3ZtIC4uLiBwZXIgR2VvcmdpdW0gUmhhdSw8L3N1YmZp
+        ZWxkPjxzdWJmaWVsZCBjb2RlPSJjIj4xNTMxXTwvc3ViZmllbGQ+PC9kYXRh
+        ZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjMwMCIgaW5kMT0iICIgaW5kMj0iICI+
+        PHN1YmZpZWxkIGNvZGU9ImEiPlszNl0sIDY0LCBbMTIzXSBsZWF2ZXMgOzwv
+        c3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImMiPjE0IGNtLiAoNHRvKTwvc3Vi
+        ZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjUwMCIgaW5kMT0i
+        ICIgaW5kMj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPlNpZ25hdHVyZXM6IEEt
+        ReKBtCBG4oG2IEfCsiBo4oG0IEktTuKBtCBPwrIgcOKBtCBRLVZ24oG0IChW
+        djQgYmxhbmssIHdhbnRpbmcpLjwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRh
+        dGFmaWVsZCB0YWc9IjUwMCIgaW5kMT0iICIgaW5kMj0iICI+PHN1YmZpZWxk
+        IGNvZGU9ImEiPkltcHJpbnQgZnJvbSBjb2xvcGhvbi48L3N1YmZpZWxkPjwv
+        ZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI1MDAiIGluZDE9IiAiIGluZDI9
+        IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5BcG9sb2dpYSBDb25mZXNzaW9uaXMs
+        IGJ5IFBoaWxpcHAgTWVsYW5jdGhvbiwgaGFzIHNwZWNpYWwgdGl0bGUgcGFn
+        ZS48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI1MDAi
+        IGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5UaXRsZXMg
+        d2l0aGluIG9ybmFtZW50YWwgYm9yZGVyczsgaW5pdGlhbHMuPC9zdWJmaWVs
+        ZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iNTEwIiBpbmQxPSI0IiBp
+        bmQyPSIgIj48c3ViZmllbGQgY29kZT0iYSI+RmV1ZXJsZWluLDwvc3ViZmll
+        bGQ+PHN1YmZpZWxkIGNvZGU9ImMiPm4uIDI1My48L3N1YmZpZWxkPjwvZGF0
+        YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI1MTAiIGluZDE9IjQiIGluZDI9IiAi
+        PjxzdWJmaWVsZCBjb2RlPSJhIj5Pd3N0aWVuLDwvc3ViZmllbGQ+PHN1YmZp
+        ZWxkIGNvZGU9ImMiPm5vLiA2MjUuPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48
+        ZGF0YWZpZWxkIHRhZz0iNTEwIiBpbmQxPSI0IiBpbmQyPSIgIj48c3ViZmll
+        bGQgY29kZT0iYSI+V2ViZXIsPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0i
+        YyI+cC4gNi01NC48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQg
+        dGFnPSI2NTAiIGluZDE9IiAiIGluZDI9IjAiPjxzdWJmaWVsZCBjb2RlPSJh
+        Ij5UaGVvbG9neSwgRG9jdHJpbmFsLjwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+
+        PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5kMT0iICIgaW5kMj0iMCI+PHN1YmZp
+        ZWxkIGNvZGU9ImEiPkx1dGhlcmFuIENodXJjaDwvc3ViZmllbGQ+PHN1YmZp
+        ZWxkIGNvZGU9InYiPkNvbnRyb3ZlcnNpYWwgbGl0ZXJhdHVyZS48L3N1YmZp
+        ZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTAiIGluZDE9IiAi
+        IGluZDI9IjQiPjxzdWJmaWVsZCBjb2RlPSJhIj4xNTMxPC9zdWJmaWVsZD48
+        L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iNjUxIiBpbmQxPSIgIiBpbmQy
+        PSI0Ij48c3ViZmllbGQgY29kZT0iYSI+V2l0dGVuYmVyZyAoR2VybWFueSk8
+        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJ2Ij5JbXByaW50cyAoR2Vvcmcg
+        UmhhdSk8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2
+        NTAiIGluZDE9IiAiIGluZDI9IjciPjxzdWJmaWVsZCBjb2RlPSJhIj5MdXRo
+        ZXJhbiBDaHVyY2g8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSIyIj5mYXN0
+        PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMCI+KE9Db0xDKWZzdDAxMDAz
+        OTk2PC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iNjUw
+        IiBpbmQxPSIgIiBpbmQyPSI3Ij48c3ViZmllbGQgY29kZT0iYSI+VGhlb2xv
+        Z3ksIERvY3RyaW5hbDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjIiPmZh
+        c3Q8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSIwIj4oT0NvTEMpZnN0MDEx
+        NDk2MTc8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2
+        NTUiIGluZDE9IiAiIGluZDI9IjciPjxzdWJmaWVsZCBjb2RlPSJhIj5Db250
+        cm92ZXJzaWFsIGxpdGVyYXR1cmU8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2Rl
+        PSIyIj5mYXN0PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMCI+KE9Db0xD
+        KWZzdDAxNDIzOTA3PC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxk
+        IHRhZz0iNzAwIiBpbmQxPSIxIiBpbmQyPSIyIj48c3ViZmllbGQgY29kZT0i
+        YSI+TWVsYW5jaHRob24sIFBoaWxpcHAsPC9zdWJmaWVsZD48c3ViZmllbGQg
+        Y29kZT0iZCI+MTQ5Ny0xNTYwLjwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9
+        InQiPkFwb2xvZ2lhIGNvbmZlc3Npb25pcyBBdWd1c3RhbmFlLjwvc3ViZmll
+        bGQ+PHN1YmZpZWxkIGNvZGU9ImYiPjE1MzEuPC9zdWJmaWVsZD48L2RhdGFm
+        aWVsZD48ZGF0YWZpZWxkIHRhZz0iOTAyIiBpbmQxPSIgIiBpbmQyPSIgIj48
+        c3ViZmllbGQgY29kZT0iYSI+cGZuZDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNv
+        ZGU9ImIiPkRlYW48L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJiIj5LYXVm
+        Zm1hbm48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI5
+        NDgiIGluZDE9IjEiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4yMDAy
+        MTIxMzwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImIiPmM8L3N1YmZpZWxk
+        PjxzdWJmaWVsZCBjb2RlPSJkIj5sYmI0PC9zdWJmaWVsZD48c3ViZmllbGQg
+        Y29kZT0iZSI+cm1jPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iZiI+Pzwv
+        c3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImgiPj88L3N1YmZpZWxkPjwvZGF0
+        YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI5NDgiIGluZDE9IjIiIGluZDI9IiAi
+        PjxzdWJmaWVsZCBjb2RlPSJhIj4yMDE0MTIyNjwvc3ViZmllbGQ+PHN1YmZp
+        ZWxkIGNvZGU9ImIiPm08L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJkIj5i
+        YXRjaDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImUiPmx0czwvc3ViZmll
+        bGQ+PHN1YmZpZWxkIGNvZGU9IngiPmFkZGZhc3Q8L3N1YmZpZWxkPjwvZGF0
+        YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI5NTAiIGluZDE9IiAiIGluZDI9IiAi
+        PjxzdWJmaWVsZCBjb2RlPSJhIj5CWDgwNjk8L3N1YmZpZWxkPjxzdWJmaWVs
+        ZCBjb2RlPSJiIj4uQTIgMTUzMTwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9
+        ImwiPnJtYzwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PC9yZWNvcmQ+JywnaWQn
+        PT4nNDQ3MzMwOCcsJ3R5cGUnPT4nQ2F0YWxvZycsJ3NvdXJjZSc9PidWb3lh
+        Z2VyJywnZm9ybWF0Jz0+WydCb29rJ10sJ2RhdGFiYXNlX2InPT5mYWxzZSwn
+        Zm9ybWF0X21haW5fZmFjZXQnPT4nQm9vaycsJ2xhbmd1YWdlX2ZhY2V0Jz0+
+        WydMYXRpbiddLCdsYW5ndWFnZV9kaXNwbGF5Jz0+WydMYXRpbiddLCdsY19j
+        YWxsbnVtX2ZhY2V0Jz0+WydCIC0gUGhpbG9zb3BoeSwgUHN5Y2hvbG9neSwg
+        UmVsaWdpb24nLCdCIC0gUGhpbG9zb3BoeSwgUHN5Y2hvbG9neSwgUmVsaWdp
+        b246QlggLSBDaHJpc3RpYW4gRGVub21pbmF0aW9uczpCWDQ4MDAtOTk5OSAt
+        IFByb3Rlc3RhbnRpc20nLCdCIC0gUGhpbG9zb3BoeSwgUHN5Y2hvbG9neSwg
+        UmVsaWdpb246QlggLSBDaHJpc3RpYW4gRGVub21pbmF0aW9ucycsJ0IgLSBQ
+        aGlsb3NvcGh5LCBQc3ljaG9sb2d5LCBSZWxpZ2lvbjpCWCAtIENocmlzdGlh
+        biBEZW5vbWluYXRpb25zOkJYNDgwMC05OTk5IC0gUHJvdGVzdGFudGlzbTpC
+        WDYxMDEtOTk5OSAtIE90aGVyIFByb3Rlc3RhbnQgZGVub21pbmF0aW9ucycs
+        J0IgLSBQaGlsb3NvcGh5LCBQc3ljaG9sb2d5LCBSZWxpZ2lvbjpCWCAtIENo
+        cmlzdGlhbiBEZW5vbWluYXRpb25zOkJYNDgwMC05OTk5IC0gUHJvdGVzdGFu
+        dGlzbTpCWDYxMDEtOTk5OSAtIE90aGVyIFByb3Rlc3RhbnQgZGVub21pbmF0
+        aW9uczpCWDgwMDEtODA4MCAtIEx1dGhlcmFuIGNodXJjaGVzJ10sJ2NhbGxu
+        dW1fc29ydCc9PidCWDgwNjkgLkEyIDE1MzEnLCdwdWJfZGF0ZV9kaXNwbGF5
+        Jz0+WycxNTMxJ10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTUzMSwncHViX2RhdGVf
+        c29ydCc9PjE1MzEsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ1ZWaXRlYmVyZ2Fl
+        IDogW0ltcHJlc3N2bSAuLi4gcGVyIEdlb3JnaXVtIFJoYXUsIDE1MzFdJ10s
+        J3B1Ymxpc2hlcl9kaXNwbGF5Jz0+WydbSW1wcmVzc3ZtIC4uLiBwZXIgR2Vv
+        cmdpdW0gUmhhdSddLCdwdWJwbGFjZV9kaXNwbGF5Jz0+WydWVml0ZWJlcmdh
+        ZSddLCd0aXRsZV91bmlmb3JtX2Rpc3BsYXknPT5bJ0F1Z3NidXJnIENvbmZl
+        c3Npb24ufEF1Z3NidXJnIENvbmZlc3Npb24uJ10sJ2luY2x1ZGVkX3dvcmtf
+        ZGlzcGxheSc9PlsnTWVsYW5jaHRob24sIFBoaWxpcHAsIDE0OTctMTU2MC4g
+        QXBvbG9naWEgY29uZmVzc2lvbmlzIEF1Z3VzdGFuYWUuIDE1MzEufEFwb2xv
+        Z2lhIGNvbmZlc3Npb25pcyBBdWd1c3RhbmFlLnxNZWxhbmNodGhvbiwgUGhp
+        bGlwcCwgMTQ5Ny0xNTYwLiddLCdhdXRob3J0aXRsZV9maWxpbmcnPT5bJ21l
+        bGFuY2h0aG9uIHBoaWxpcHAgMTQ5NyAxNTYwIDAwMDAgYXBvbG9naWEgY29u
+        ZmVzc2lvbmlzIGF1Z3VzdGFuYWUnXSwnYXV0aG9ydGl0bGVfZmFjZXQnPT5b
+        J01lbGFuY2h0aG9uLCBQaGlsaXBwLCAxNDk3LTE1NjAuIHwgQXBvbG9naWEg
+        Y29uZmVzc2lvbmlzIEF1Z3VzdGFuYWUnXSwndGl0bGVfMmxldHRlcl9zJz0+
+        WydjbyddLCd0aXRsZV9kaXNwbGF5Jz0+J0NvbmZlc3NpbyBmaWRlaSBleGhp
+        Yml0YSBpbnZpY3Rpc3MuIGltcC4gQ2Fyb2xvIFYuIENhZXNhcmkgQXVnLiBp
+        biBjb21pY2lqcyBBdWd1c3RhZS4gQW5ubyBNRFhYWCA7IEFkZGl0YSBlc3Qg
+        QXBvbG9naWEgY29bbl1mZXNzaW9uaXMgOyBQc2FsbSAxMTkgOyBFdCBsb3F1
+        ZWJhciBkZSB0ZXN0aW1vbmlpcyB0dWlzIGluIGNvbnNwZWN0dSBSZWd1bSwg
+        JiBub24gY29uc3VuZGViYXInLCd0aXRsZV8xbGV0dGVyX3MnPT5bJ2MnXSwn
+        ZnVsbHRpdGxlX2Rpc3BsYXknPT4nQ29uZmVzc2lvIGZpZGVpIGV4aGliaXRh
+        IGludmljdGlzcy4gaW1wLiBDYXJvbG8gVi4gQ2Flc2FyaSBBdWcuIGluIGNv
+        bWljaWpzIEF1Z3VzdGFlLiBBbm5vIE1EWFhYIDsgQWRkaXRhIGVzdCBBcG9s
+        b2dpYSBjb1tuXWZlc3Npb25pcyA7IFBzYWxtIDExOSA7IEV0IGxvcXVlYmFy
+        IGRlIHRlc3RpbW9uaWlzIHR1aXMgaW4gY29uc3BlY3R1IFJlZ3VtLCAmIG5v
+        biBjb25zdW5kZWJhcicsJ29wZW5zZWFyY2hfZGlzcGxheSc9PlsnQ29uZmVz
+        c2lvIGZpZGVpIGV4aGliaXRhIGludmljdGlzcy4gaW1wLiBDYXJvbG8gVi4g
+        Q2Flc2FyaSBBdWcuIGluIGNvbWljaWpzIEF1Z3VzdGFlLiBBbm5vIE1EWFhY
+        IDsgQWRkaXRhIGVzdCBBcG9sb2dpYSBjb1tuXWZlc3Npb25pcyA7IFBzYWxt
+        IDExOSA7IEV0IGxvcXVlYmFyIGRlIHRlc3RpbW9uaWlzIHR1aXMgaW4gY29u
+        c3BlY3R1IFJlZ3VtLCAmIG5vbiBjb25zdW5kZWJhcicsJ01lbGFuY2h0aG9u
+        LCBQaGlsaXBwLCAxNDk3LTE1NjAuJywnVGhlb2xvZ3ksIERvY3RyaW5hbC4n
+        LCdMdXRoZXJhbiBDaHVyY2gnLCcxNTMxJywnTHV0aGVyYW4gQ2h1cmNoJywn
+        VGhlb2xvZ3ksIERvY3RyaW5hbCcsJ1dpdHRlbmJlcmcgKEdlcm1hbnkpJywn
+        Q29udHJvdmVyc2lhbCBsaXRlcmF0dXJlJywnVGhlb2xvZ3ksIERvY3RyaW5h
+        bCcsJ0x1dGhlcmFuIENodXJjaCA+IENvbnRyb3ZlcnNpYWwgbGl0ZXJhdHVy
+        ZScsJzE1MzEnLCdXaXR0ZW5iZXJnIChHZXJtYW55KSA+IEltcHJpbnRzIChH
+        ZW9yZyBSaGF1KScsJ0x1dGhlcmFuIENodXJjaCcsJ1RoZW9sb2d5LCBEb2N0
+        cmluYWwnLCdDb250cm92ZXJzaWFsIGxpdGVyYXR1cmUnXSwndXJsX2Jvb2tw
+        bGF0ZV9kaXNwbGF5Jz0+WydodHRwOi8vcGxhdGVzLmxpYnJhcnkuY29ybmVs
+        bC5lZHUvZG9ub3IvRE5SMDAzODZ8VGhlIEV1Z2VuZSBNLiBLYXVmbWFubiwg
+        SnIuIEVuZG93bWVudCBGdW5kLicsJ2h0dHA6Ly9wbGF0ZXMubGlicmFyeS5j
+        b3JuZWxsLmVkdS9kb25vci9ETlIwMDM3M3xUaGUgQXJ0aHVyIEguIGFuZCBN
+        YXJ5IE1hcmRlbiBEZWFuIEJvb2sgRnVuZC4nXSwnb25saW5lJz0+WydBdCB0
+        aGUgTGlicmFyeSddLCdsb2NhdGlvbl9mYWNldCc9PlsnS3JvY2ggTGlicmFy
+        eSBSYXJlICYgTWFudXNjcmlwdHMnXSwnbG9jYXRpb25fZGlzcGxheSc9Plsn
+        S3JvY2ggTGlicmFyeSBSYXJlICYgTWFudXNjcmlwdHMgKE5vbi1DaXJjdWxh
+        dGluZyknXSwncmVmZXJlbmNlc19kaXNwbGF5Jz0+WydGZXVlcmxlaW4sIG4u
+        IDI1My4nLCdPd3N0aWVuLCBuby4gNjI1LicsJ1dlYmVyLCBwLiA2LTU0Lidd
+        LCdub3Rlcyc9PlsnU2lnbmF0dXJlczogQS1F4oG0IEbigbYgR8KyIGjigbQg
+        SS1O4oG0IE/CsiBw4oG0IFEtVnbigbQgKFZ2NCBibGFuaywgd2FudGluZyku
+        JywnSW1wcmludCBmcm9tIGNvbG9waG9uLicsJ0Fwb2xvZ2lhIENvbmZlc3Np
+        b25pcywgYnkgUGhpbGlwcCBNZWxhbmN0aG9uLCBoYXMgc3BlY2lhbCB0aXRs
+        ZSBwYWdlLicsJ1RpdGxlcyB3aXRoaW4gb3JuYW1lbnRhbCBib3JkZXJzOyBp
+        bml0aWFscy4nLCdGZXVlcmxlaW4sIG4uIDI1My4nLCdPd3N0aWVuLCBuby4g
+        NjI1LicsJ1dlYmVyLCBwLiA2LTU0LiddLCdkZXNjcmlwdGlvbl9kaXNwbGF5
+        Jz0+WydbMzZdLCA2NCwgWzEyM10gbGVhdmVzIDsgMTQgY20uICg0dG8pJ10s
+        J3N1YmplY3RfY29udGVudF9mYWNldCc9PlsnTm9uLUZpY3Rpb24gKGJvb2tz
+        KSddLCdmYXN0X2InPT50cnVlLCdmYXN0X3RvcGljX2ZhY2V0Jz0+WydMdXRo
+        ZXJhbiBDaHVyY2gnLCdUaGVvbG9neSwgRG9jdHJpbmFsJ10sJ3N1YmplY3Rf
+        Z2Vucl9maWxpbmcnPT5bJ2NvbnRyb3ZlcnNpYWwgbGl0ZXJhdHVyZSddLCdz
+        dWJqZWN0X3RvcGljX2ZhY2V0Jz0+WydUaGVvbG9neSwgRG9jdHJpbmFsJywn
+        THV0aGVyYW4gQ2h1cmNoID4gQ29udHJvdmVyc2lhbCBsaXRlcmF0dXJlJywn
+        THV0aGVyYW4gQ2h1cmNoJywnMTUzMScsJ0x1dGhlcmFuIENodXJjaCcsJ1Ro
+        ZW9sb2d5LCBEb2N0cmluYWwnXSwnc3ViamVjdF9nZW5yX2ZhY2V0Jz0+WydD
+        b250cm92ZXJzaWFsIGxpdGVyYXR1cmUnXSwnZmFzdF9nZW5yZV9mYWNldCc9
+        PlsnQ29udHJvdmVyc2lhbCBsaXRlcmF0dXJlJ10sJ3N1YmplY3RfZGlzcGxh
+        eSc9PlsnVGhlb2xvZ3ksIERvY3RyaW5hbCcsJ0x1dGhlcmFuIENodXJjaCA+
+        IENvbnRyb3ZlcnNpYWwgbGl0ZXJhdHVyZScsJzE1MzEnLCdXaXR0ZW5iZXJn
+        IChHZXJtYW55KSA+IEltcHJpbnRzIChHZW9yZyBSaGF1KSddLCdzdWJqZWN0
+        X3RvcGljX2ZpbGluZyc9PlsndGhlb2xvZ3kgZG9jdHJpbmFsJywnbHV0aGVy
+        YW4gY2h1cmNoIDAwMDAgY29udHJvdmVyc2lhbCBsaXRlcmF0dXJlJywnbHV0
+        aGVyYW4gY2h1cmNoJywnMTUzMScsJ2x1dGhlcmFuIGNodXJjaCcsJ3RoZW9s
+        b2d5IGRvY3RyaW5hbCddLCdzdWJqZWN0X2dlb19maWxpbmcnPT5bJ3dpdHRl
+        bmJlcmcgZ2VybWFueScsJ3dpdHRlbmJlcmcgZ2VybWFueSAwMDAwIGltcHJp
+        bnRzIGdlb3JnIHJoYXUnXSwnc3ViamVjdF9nZW9fZmFjZXQnPT5bJ1dpdHRl
+        bmJlcmcgKEdlcm1hbnkpJywnV2l0dGVuYmVyZyAoR2VybWFueSkgPiBJbXBy
+        aW50cyAoR2VvcmcgUmhhdSknXSwnc3ViamVjdF9jdHMnPT5bJ1RoZW9sb2d5
+        LCBEb2N0cmluYWwnLCdMdXRoZXJhbiBDaHVyY2h8Q29udHJvdmVyc2lhbCBs
+        aXRlcmF0dXJlJywnMTUzMScsJ1dpdHRlbmJlcmcgKEdlcm1hbnkpfEltcHJp
+        bnRzIChHZW9yZyBSaGF1KSddLCdzdWJqZWN0X2pzb24nPT5bJ1t7InN1Ympl
+        Y3QiOiJUaGVvbG9neSwgRG9jdHJpbmFsLiIsImF1dGhvcml6ZWQiOnRydWUs
+        InR5cGUiOiJUb3BpY2FsIFRlcm0ifV0nLCdbeyJzdWJqZWN0IjoiTHV0aGVy
+        YW4gQ2h1cmNoIiwiYXV0aG9yaXplZCI6dHJ1ZSwidHlwZSI6IlRvcGljYWwg
+        VGVybSJ9LHsic3ViamVjdCI6IkNvbnRyb3ZlcnNpYWwgbGl0ZXJhdHVyZS4i
+        LCJhdXRob3JpemVkIjpmYWxzZX1dJywnW3sic3ViamVjdCI6IjE1MzEiLCJh
+        dXRob3JpemVkIjpmYWxzZSwidHlwZSI6IlRvcGljYWwgVGVybSJ9XScsJ1t7
+        InN1YmplY3QiOiJXaXR0ZW5iZXJnIChHZXJtYW55KSIsImF1dGhvcml6ZWQi
+        OmZhbHNlLCJ0eXBlIjoiR2VvZ3JhcGhpYyBOYW1lIn0seyJzdWJqZWN0Ijoi
+        SW1wcmludHMgKEdlb3JnIFJoYXUpIiwiYXV0aG9yaXplZCI6ZmFsc2V9XSdd
+        LCdkb25vcl9kaXNwbGF5Jz0+WydEZWFuIEthdWZmbWFubiddLCd3b3JraWRf
+        ZmFjZXQnPT5bJzE4MDc2OTY0NTAnXSwnX3ZlcnNpb25fJz0+MTU0MzMxOTI5
+        Nzc3OTA0MDI1NiwndGltZXN0YW1wJz0+JzIwMTYtMDgtMjFUMjM6NTk6Mjku
+        MDk2Wid9XX19Cg==
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 14:42:39 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/status_short/4473308
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.2, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 30 Aug 2016 14:42:40 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 14:42:40 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings-int.library.cornell.edu/holdings/status_short/4473308
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '254'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings-int.library.cornell.edu/holdings/status_short/4473308">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 14:42:40 GMT
+- request:
+    method: get
+    uri: https://holdings-int.library.cornell.edu/holdings/status_short/4473308
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.2, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 30 Aug 2016 14:42:40 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 30 Aug 2016 14:42:40 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"bed948225b88acfd9bb7301e9c83fa45"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 28b07801d81ff2962dafa380b88f74cd
+      X-Runtime:
+      - '0.034262'
+      X-Powered-By:
+      - Phusion Passenger 4.0.42
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"4473308":{"4473308":{"records":[{"bibid":"4473308","call_number":"Rare
+        Books BX8069 .A2 1531 tiny","statuses":{"5004488":"available"},"holdings":[{"BIB_ID":4473308,"MFHD_ID":5004488,"ITEM_ID":6569245,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"Rare
+        Books BX8069 .A2 1531 tiny","LOCATION_ID":87,"LOCATION_CODE":"rmc","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","OQUANTITY":1,"ODATE":"2003-07-01T15:52:03-04:00","LINE_ITEM_STATUS":1,"LINE_ITEM_ID":243639,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2002-12-13T15:31:46-04:00","PERM_LOCATION":87,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Non-Circulating)","PERM_LOCATION_CODE":"rmc","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":1,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Kroch
+        Library Rare & Manuscripts (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Kroch
+        Library Rare & Manuscripts (Non-Circulating)":"Rare Books BX8069 .A2 1531
+        tiny"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Tue, 30 Aug 2016 14:42:40 GMT
 recorded_with: VCR 3.0.3

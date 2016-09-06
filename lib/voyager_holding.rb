@@ -69,7 +69,7 @@ class Holding
 
   def parse_raw_data!(raw_data)
     statuses = ["not_available", "checked_out", "non_circulating", "available"]
-    raw_data["holdings"].each_pair do |holding_id, holding|
+    raw_data["holdings"].each_pair do |_holding_id, holding|
       holding["items"].each do |item|
         case  item["code"]
         when "1"
@@ -118,6 +118,20 @@ class Holding
     results
   end
 
+  class << self
+  private 
+  def http_client_with_cookies
+    hc = HTTPClient.new
+
+    cookie_directory = File.dirname(COOKIE_STORE)
+    FileUtils.mkdir_p(cookie_directory)
+
+    hc.set_cookie_store(COOKIE_STORE)
+    yield hc
+    hc.cookie_manager.save_all_cookies(true)
+  end
+  end
+
   private
 
   def http_client
@@ -129,16 +143,6 @@ class Holding
       end
     end
   end
-
-  def self.http_client_with_cookies
-    hc = HTTPClient.new
-
-    cookie_directory = File.dirname(COOKIE_STORE)
-    FileUtils.mkdir_p(cookie_directory)
-
-    hc.set_cookie_store(COOKIE_STORE)
-    yield hc
-    hc.cookie_manager.save_all_cookies(true)
-  end
+ 
 end
 

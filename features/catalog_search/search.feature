@@ -35,9 +35,10 @@ Feature: Search
     Then I should get results
     And I should see a facet called 'Call Number' 
 
- @all_search
+#Make sure constraint box appears
+   @all_search
    @publisher
-  Scenario: Perform a search by Publisher
+  Scenario: Perform a search by Publisher 
     Given I am on the home page
     And I select 'Publisher' from the 'search_field' drop-down
     And I fill in the search box with 'Springer'
@@ -45,6 +46,28 @@ Feature: Search
     Then I should get results
     And it should contain filter "Publisher" with value "Springer"
     And I should see the label 'Springer'
+
+   @all_search
+   @author
+  Scenario: Perform a search by Author 
+    Given I am on the home page
+    And I select 'Author, etc.' from the 'search_field' drop-down
+    And I fill in the search box with 'Sun Tzu'
+    And I press 'search'
+    Then I should get results
+    And it should contain filter "Author, etc." with value "Sun Tzu"
+    And I should see the label 'Sun Tzu'
+
+   @all_search
+   @title
+  Scenario: Perform a search by Title 
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with 'The complete works of Artemus Ward'
+    And I press 'search'
+    Then I should get results
+    And it should contain filter "Title" with value "The complete works of Artemus Ward"
+    And I should see the label 'The complete works of Artemus Ward'
 
  @all_search
    @peabody

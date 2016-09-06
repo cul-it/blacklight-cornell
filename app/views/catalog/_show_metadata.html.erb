@@ -35,7 +35,7 @@
   <div class="availability well" id="availability">
     <h3>Availability</h3>
     <% if finding_aid(@document) %>
-    <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display' %>
+    <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
     <% if url_findingaid_display.present? %>
     <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
     <% end %>
