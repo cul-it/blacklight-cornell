@@ -81,7 +81,7 @@ class SearchController < ApplicationController
       # session[:search][:counter] = ?
       # session[:search][:total] = ?
 
-      Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
+      #Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
       render 'single_search/index'
   end
 
@@ -185,10 +185,10 @@ class SearchController < ApplicationController
       "search/web?q=#{zq}"
     elsif engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
-      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.cmd=setFacetValueFilters(ContentType,Journal+Article)&s.q=#{query}"
+      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Journal+Article&s.q=#{query}"
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
-      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.cmd=setFacetValueFilters(ContentType,Newspaper+Article)&s.q=#{query}"
+      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
