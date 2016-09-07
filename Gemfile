@@ -107,4 +107,4 @@ gem 'celluloid'  # Required for bento_search multisearcher
 gem 'mollom'
 #gem 'blacklight-marc'
 gem 'exception_notification'
-gem 'hipchat'
+#gem 'hipchat'
