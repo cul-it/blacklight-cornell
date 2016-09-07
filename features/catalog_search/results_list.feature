@@ -229,3 +229,10 @@ Feature: Results list
    Then I request the item view for 2083253
    And I should not see the text 'catalog results'
 
+@DISCOVERYACCESS-2829
+        @all_results_list
+ Scenario: Search with results, make sure that there is a count associated with Libraries worldwide 
+   Given I am on the home page
+   When I fill in the search box with 'United States Cavalry'
+   And I press 'search'
+   Then I should see the text 'Request from Libraries Worldwide (23,'
