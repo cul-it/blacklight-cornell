@@ -156,7 +156,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # Expand search only under certain conditions
     if expandable_search?
       searcher = BentoSearch::MultiSearcher.new(:summon, :worldcat)
-      query = params[:q].gsub(/&/, '%26')
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
+      query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} query = #{query.inspect}"
       searcher.search(query, :per_page => 1)
 
       @expanded_results = {}
