@@ -238,7 +238,7 @@ en:
       rss_feed: 'RSS for results'
       atom_feed: 'Atom for results'
       fields:
-        default: 'Keyword'
+        default: 'Advanced Search'
       bookmarks:
         present: "Selected"
         absent: "Select"
