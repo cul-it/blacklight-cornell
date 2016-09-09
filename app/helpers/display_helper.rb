@@ -859,7 +859,12 @@ include ActionView::Helpers::NumberHelper
     query_params = session[:search] ? session[:search].dup : {}
     query_params.delete :counter
     query_params.delete :total
-    link_url = url_for(query_params)
+    if params[:controller] == 'search_history'
+      link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
+      #link_url = url_for(query_params)
+    else
+      link_url = url_for(query_params)
+    end 
 
     if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
       opts[:label] ||= t('blacklight.back_to_bookmarks')
