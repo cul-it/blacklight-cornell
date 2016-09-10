@@ -94,7 +94,7 @@ Feature: Search
     And I select 'Author, etc.' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label 'of 10'
+    And I should see the label 'of 1'
 
 # Combinatorial Algorithms, Algorithmic Press
  @adv_search

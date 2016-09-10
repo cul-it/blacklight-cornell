@@ -76,7 +76,7 @@ Feature: Search
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 11'
+    And I should see the label 'of 1'
 
  @all_search
    @journaltitle
@@ -96,7 +96,7 @@ Feature: Search
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 10'
+    And I should see the label 'of 1'
 
  @all_search
    @search_availability_annotated_hobbit
