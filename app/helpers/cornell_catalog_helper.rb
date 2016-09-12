@@ -1418,6 +1418,8 @@ module CornellCatalogHelper
    
     if ENV['AEON_REQUEST'].blank?
       aeon_req = '/aeon/~id~' 
+      aeon_req.gsub!('~id~',id.to_s)
+      aeon_req.gsub!('~libid~',aeon_codes.join('|'))
     else 
       aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
       aeon_req.gsub!('~libid~',aeon_codes.join('|'))
