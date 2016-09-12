@@ -233,7 +233,7 @@ module BlacklightCornellRequests
         if response[:failure].blank?
           # Note: the :flash=>'success' in this case is not setting the actual flash message,
           # but instead specifying a URL parameter that acts as a flag in Blacklight's show.html.erb view.
-          render js: "window.location = '#{Rails.application.routes.url_helpers.catalog_path(params[:bibid], :flash=>'success')}'"
+          render js: "window.location = '#{Rails.application.routes.url_helpers.solr_document_path(params[:bibid], :flash=>'success')}'"
           return
         else
           Rails.logger.info "Response: was failure" + response[:failure].inspect
