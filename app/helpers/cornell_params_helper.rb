@@ -63,6 +63,100 @@ module CornellParamsHelper
      return query_string
   end
 
+  def parse_for_stemming(params)
+    query_string = params[:q]
+    search_field = params[:search_field]
+#    unless query_string.nil?
+     if query_string =~ /^\".*\"$/ or query_string.include?('"')
+       Rails.logger.info("STEMfullstringquoted = #{query_string}")
+       params[:search_field] = params[:search_field] + '_quote'
+       return query_string
+     else 
+       unless query_string.nil?
+         params[:q_row] = parse_stem(query_string)
+         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
+       end
+       return query_string       
+     end
+#    end
+  end
+  
+  def parse_stem(query_string)
+    string_chars = query_string.chars
+    Rails.logger.info("PARSER = #{string_chars}")
+    quoteFlag = 0
+    wordArray = []
+#   if !query_string == /^\".*\"$/ # query_string.include?('"')
+   if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
+    Rails.logger.info("POOP #{query_string}")
+    search_field = params[:search_field]
+    params[:q_row] = []
+    params[:search_field_row] = []
+    params[:op_row] = []
+    params[:op] = []
+    params[:boolean_row] = {}
+    params[:q] = ""
+    string_chars.each do |i|
+      if i == '"'
+        if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
+          wordArray << i
+          params[:q] << i
+          params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
+          params[:op_row] << "phrase"
+          params[:search_field_row] << search_field + "_quote"
+          quoteFlag = 0 #reset quote flag
+          wordArray = [] #clear out wordArray
+        else # must be left hand quote
+          if !wordArray.empty?
+            params[:q_row] << wordArray.join.strip
+            params[:op_row] << "AND"
+            params[:search_field_row] << search_field
+            wordArray = []
+          end
+          quoteFlag = 1
+          wordArray << i
+          params[:q] << i
+        end
+      else
+        wordArray << i
+        params[:q] << i
+      end
+    end
+    if !wordArray.empty?
+      if quoteFlag == 1
+        wordArray << '"'
+        params[:q]<< '"'
+        Rails.logger.info("GLADYS = #{wordArray}")
+        params[:q_row] << wordArray.join.strip
+        params[:op_row] << "phrase"
+        params[:search_field_row] << search_field + "_quote"
+        wordArray = []
+        quoteFlag = 0
+      else 
+        if quoteFlag == 0
+        Rails.logger.info("GLADYS1 = #{wordArray}")
+          params[:q_row] << wordArray.join.strip
+           params[:op_row] << "AND"
+          params[:search_field_row] << search_field 
+         wordArray = []
+        end
+      end
+    end 
+    times = params[:q_row].count
+    for j in 1..times -1
+      x = j
+      n = x.to_s
+      params[:boolean_row]["#{j}"] = "AND"
+      params[:op][j - 1] = "AND"
+    end
+    Rails.logger.info("PUTREFLIP = #{params}")
+    return params
+   else
+     return query_string
+   end
+  end
+
+
     def solr_search_params(my_params = params || {})
       Blacklight::Solr::Request.new.tap do |solr_parameters|
 
