@@ -548,7 +548,7 @@ end
        end
      end
      finalcheck = params[:q_row].count.to_s
-     if params[:boolean_row].has_key?(finalcheck.to_sym)
+     if params[:boolean_row] && params[:boolean_row].has_key?(finalcheck.to_sym)
        params[:boolean_row].delete(finalcheck.to_sym)
      end
  end
