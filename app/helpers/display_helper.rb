@@ -1233,7 +1233,51 @@ include ActionView::Helpers::NumberHelper
     label(*args)
   end
 
-
+  # Advanced Search History and Advanced Saved Searches display
+  def link_to_previous_advanced_search(params)
+    link_to(parseHistoryShowString(params), parseHistoryQueryString(params))
+  end
+  
+  def parseHistoryShowString(params)
+    showText = ''
+    sf_row = params[:search_field_row]
+    q_row = params[:q_row]
+    b_row = params[:boolean_row]
+    i = 0
+    num = sf_row.length
+    
+    while i < num do 
+      if i > 0
+        showText = showText + " " + "#{b_row[i.to_s.to_sym]}" + " " + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
+      else
+        showText = showText + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
+      end
+      i += 1
+    end
+    return showText
+  end
+  
+  def parseHistoryQueryString(params)
+    start = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
+    finish = "&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&commit=Search"
+    linkText = ''
+    q_row = params[:q_row]
+    op_row = params[:op_row]
+    sf_row = params[:search_field_row]
+    b_row = params[:boolean_row]
+    i = 0
+    num = q_row.length
+    while i < num do
+      if i > 0
+        linkText = linkText + "&boolean_row[#{i}]=" + "#{b_row[i.to_s.to_sym]}" + "&q_row[]=" + q_row[i] + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
+      else
+        linkText = linkText + "&q_row[]=" + q_row[i] + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
+      end
+      i += 1
+    end
+    linkText = start + linkText + finish
+    return linkText
+  end
 
 
   #switch to determine if a view is part of the main catalog and should get the header
