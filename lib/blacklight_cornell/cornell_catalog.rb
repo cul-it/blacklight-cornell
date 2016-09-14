@@ -440,6 +440,11 @@ Rails.logger.info("BLAKELIB = #{params}")
         session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
+      session[:gearch] = {}
+      params.each_pair do |key, value|
+        session[:gearch][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
+          value.blank?
+      end
     end
 
     # Saves the current search (if it does not already exist) as a models/search object
