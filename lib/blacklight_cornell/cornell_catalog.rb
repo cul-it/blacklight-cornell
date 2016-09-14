@@ -129,9 +129,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     # end of Journal title search hack
 
-    if params[:search_field] = "call number"
-      params[:q] = "\"" << params[:q] << "\""
-    end
+#    if params[:search_field] = "call number"
+#      params[:q] = "\"" << params[:q] << "\""
+#    end
 #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
 Rails.logger.info("BLAKELIB = #{params}")
     (@response, @document_list) = search_results(params)
