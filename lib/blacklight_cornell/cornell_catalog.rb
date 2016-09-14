@@ -19,6 +19,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     helper_method :search_action_url, :search_action_path, :search_facet_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
+#    before_filter :add_cjk_params_logic
     after_filter :set_additional_search_session_values, :only=>:index
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -61,8 +62,22 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if params[:q_row].present?
       query_string = set_advanced_search_params(params)
-    end
-    # End of secondary parsing
+    else
+       if !params[:q].nil? and !params[:q].blank?
+         query_string = parse_stem(params[:q])
+         if params[:q_row].present?
+         query_string = set_advanced_search_params(params)
+         end
+        end
+      end
+#      params = {"utf8"=>"✓", "q_row"=>["bauhaus", "history", "design"], "op_row"=>["AND", "AND", "AND"], "search_field_row"=>["subject", "title", "title"], "boolean_row"=>{"1"=>"AND", "2"=>"OR"}, "sort"=>"score desc, pub_date_sort desc, title_sort asc", "search_field"=>"advanced", "advanced_query"=>"yes", "commit"=>"Search", "controller"=>"catalog", "action"=>"index", "advanced_search"=>true, "op"=>["AND", "OR"], "subject"=>"bauhaus", "title"=>"design", "q"=>"subject=bauhaus&op[]=AND&title= history&op[]=OR&title=design "}
+ #     query_string = "subject=bauhaus&op[]=AND&title=history&op[]=OR&title=design"
+      Rails.logger.info("QUERY_STRING = #{query_string}")
+      Rails.logger.info("QUERY_STRINGParams = #{params}")
+      # End of secondary parsing
+       
+     
+      #end of secondary parsing
 
     # Journal title search hack.
     if (params[:search_field].present? and params[:search_field] == "journal title") or (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
@@ -114,10 +129,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     # end of Journal title search hack
 
-##    if params[:search_field] = "call number"
-##      params[:q] = "\"" << params[:q] << "\""
-##    end
-
+    if params[:search_field] = "call number"
+      params[:q] = "\"" << params[:q] << "\""
+    end
+#    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
+Rails.logger.info("BLAKELIB = #{params}")
     (@response, @document_list) = search_results(params)
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
