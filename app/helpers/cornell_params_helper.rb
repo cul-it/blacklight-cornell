@@ -669,9 +669,9 @@ end
   end
 
   def render_constraints_query(my_params = params)
-  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
+  Rails.logger.info("es287_debug ---> #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
   if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} super =  #{super.inspect}")
+    Rails.logger.info("es287_debug---> #{__FILE__}:#{__LINE__} super =  #{super.inspect}")
     return  super(my_params)
   else
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
@@ -705,10 +705,12 @@ def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
   Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
   if ( !my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
     content = ""
     content << render_advanced_constraints_filters(my_params)
     return content.html_safe
   else
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
     labels = []
     values = []
     q_parts = []
