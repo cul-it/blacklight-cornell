@@ -134,6 +134,8 @@ include ActionView::Helpers::NumberHelper
         when 'url_bookplate_display' 
           Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
           return value.uniq.join(',').html_safe
+        when 'url_other_display'
+          return value[0]
         else  
           fp.render
         end
