@@ -617,3 +617,11 @@ Feature: Item view
     Then I should see the label 'Bookplate'
     And it should have link "The Eugene M. Kaufmann, Jr. Endowment Fund." with value "http://plates.library.cornell.edu/donor/DNR00386"
     And it should have link "The Arthur H. and Mary Marden Dean Book Fund." with value "http://plates.library.cornell.edu/donor/DNR00373"
+
+
+  @all_item_view
+  @DISCOVERYACCESS-2881 
+  Scenario: Show link to other online content 
+    Given I request the item view for 3602582 
+    Then I should see the label 'Other online content'
+    And it should have link "Other online content" with value "http://hdl.handle.net/1813/43326"
