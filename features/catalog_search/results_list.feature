@@ -183,6 +183,18 @@ Feature: Results list
     Then I should get results
     And it should have a "title" that looks sort of like "Biology"
 
+  # DISCOVERYACCESS-2879
+  @discoveryaccess-2879
+  Scenario: Online links in search results should go to item view when there is more than one online link
+    Given I am on the home page
+    When I fill in the search box with 'financial times'
+    And I select 'Journal Title' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    And it should have link "Online" with value "/catalog/5374340"
+
+
+
   # DISCOVERYACCESS-1407
         @all_results_list
   @DISCOVERYACCESS-1407
