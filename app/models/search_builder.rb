@@ -41,8 +41,9 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
+ Rails.logger.info("SPANKYbefore = #{blacklight_params}")
       my_params = make_adv_query(blacklight_params)
- 
+ Rails.logger.info("SPANKY = #{my_params}")
       user_parameters[:q] = my_params[:q]
 #      user_parameters[:show_query] = 'title = water AND subject = ice' #my_params[:show_query]
 #      params[:q] = my_params[:q]
@@ -520,9 +521,10 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
        my_params[:q] = test_q_string
        if my_params[:q_row].present?
- #     solr_parameters[:'spellcheck.q'] = params[:q_row].join(" ")
+ #     solr_parameters[:'spellcheck.dictionary'] = params[:q_row].join(" ")
     end
-      my_params[:show_query] = test_q_string2
+      my_params[:show_query] = test_q_string2.gsub!('(', '')
+      my_params[:show_query] = my_params[:show_query].gsub!(')','')
   end
   else
 #     solr_parameters[:q] = my_params[:q]
@@ -550,25 +552,34 @@ class SearchBuilder < Blacklight::SearchBuilder
   if my_params[:advanced_query] == 'yes'
 #   solr_parameters[:defType] = "lucene"
   end
-  #solr_parameters['spellcheck.q'] = "title_start=cat&op[]=AND&subject_start=animal"
-#  Rails.logger.info("CHECKSSOLRSEARCHPARAMS1 = #{solr_parameters['spellcheck.q']}")
+  #solr_parameters['spellcheck.dictionary'] = "title_start=cat&op[]=AND&subject_start=animal"
+#  my_params["q"] = "( _query_:\"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus\" AND ( _query_:\"{!edismax qf=$title_qf pf=$title_pf}history\"))" # OR (_query_:\"{!edismax qf=$title_qf pf=$title_pf}design\" OR ( _query_:\"{!edismax qf=$title_qf pf=$title_pf}box\"))))" # OR  (_query_:\"{!edismax qf=$subject_qf pf=$subject_pf}archive\"))))"
+#  my_params["q"] = "( _query_:\"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus\" AND  _query_:\"{!edismax qf=$title_qf pf=$title_pf}box\")" # OR  (_query_:\"{!edismax qf=$subject_qf pf=$subject_pf}archive\"))))"
   return my_params
 end
 
   def groupBools(q_stringArray, opArray)
      grouped = []
-     newString = ""
+     rightParens = opArray.length
+     closingparens = ""
+     i = 1
+     while i <= rightParens do
+       closingparens = closingparens + ")"
+       i += 1
+     end
+     newString = q_stringArray.flatten
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
 
-          newString = newString + " " + opArray[i] + " "+ q_stringArray[i + 1]
+          newString = newString + " " + opArray[i] + " ( "+ q_stringArray[i + 1]
        end
      else
      end
      if !newString.nil?
        newString = newString.gsub('author/creator','author')
      end
+     newString = newString + closingparens
      #newString = newString.gsub('"',"")
 #     newString =  "_query_:{!edismax}bauhaus  AND ( _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}architecture  NOT  _query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}graphic design )"
 #     newString =  "_query_:{!edismax qf=$lc_callnum_qf pf=$lc_callnum_pf}\"PQ7798.416.A43\"\" AND  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}\"00\""
@@ -578,7 +589,9 @@ end
      if newString.include?('%26')
        newString.gsub!('%26','&')
      end
+     
     # newString = "_query_:{!edismax spellcheck.dictionary=title_starts qf=$title_starts_qf pf=$title_starts_pf}rat\"\"  OR  _query_:{!edismax spellcheck.dictionary=subject_starts qf=$subject_starts_qf pf=$subject_starts_pf}war\"\""
+ #    newString = "_query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bauhaus\"\"  AND  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}history\"\"" #  OR  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}design\"\""
      return newString
   end
   

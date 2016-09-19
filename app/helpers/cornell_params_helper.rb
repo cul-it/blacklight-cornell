@@ -814,64 +814,77 @@ def render_advanced_constraints_query(my_params = params)
           end
           return content.html_safe
      else
+        temp_boolean_rows = deep_copy(my_params)
         0.step(my_params[:q_row].count - 1, 1) do |x|
           label = ""
           opval = ""
-               remove_indexes = []
-               icount = 0
-               temp_search_field_row = []
-               temp_q_row = []
-               temp_op_row = []
-               temp_boolean_rows = deep_copy(my_params)
-               temp_boolean_row = []
-               for i in 1..temp_boolean_rows[:boolean_row].count
-                 n = i.to_s
-                 temp_boolean_row << temp_boolean_rows[:boolean_row][n.to_sym]
-               end
-               deleted = 0
-               0.step(my_params[:q_row].count - 1, 1) do |y|
-                 if y != x
-                   temp_q_row << my_params[:q_row][y]
-                   temp_op_row << my_params[:op_row][y]
-                   temp_search_field_row << my_params[:search_field_row][y]
-                 else
-                   if y == 0
-                 #    temp_boolean_row.delete_at(0)
-                   else
-                 #    temp_boolean_row.delete_at(y)
-                   end
-                 end
-               end
-                 if x > 0 and x <= temp_boolean_row.count
-                   opval = temp_boolean_row[x -1]
+          remove_indexes = []
+          icount = 0
+          temp_search_field_row = []
+          temp_q_row = []
+          temp_op_row = []
+          temp_boolean_row = []
+          deleted = 0
+          0.step(my_params[:q_row].count - 1, 1) do |y|
+             if y != x
+                 temp_q_row << my_params[:q_row][y]
+                 temp_op_row << my_params[:op_row][y]
+                 temp_search_field_row << my_params[:search_field_row][y]
+              end
+
+              end
+              if x == 0
+                2.step(temp_boolean_rows[:boolean_row].count, 1) do |br|
+                  ss = br.to_s
+                  temp_boolean_row << temp_boolean_rows[:boolean_row][ss.to_sym]
+                end
+              else
+                1.step(temp_boolean_rows[:boolean_row].count, 1) do |br|
+                  if x != br
+                   ss = br.to_s
+                   temp_boolean_row << temp_boolean_rows[:boolean_row][ss.to_sym]
+                  end
+                end
+              end
+                
+               if x >= 1 and x <= temp_boolean_rows.count
+                   opval = temp_boolean_row[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
-                 else
+               else
                    label = search_field_def_for_key(my_params[:search_field_row][x])[:label]
-                 end
+               end
 
                autoparam = ""
-               for i in 0..temp_q_row.count - 1
-                 temp_temp_qrow = ''
-                  temp_temp_qrow = temp_q_row[i]
-                  if temp_temp_qrow.include?('&')
-                    temp_temp_qrow = temp_temp_qrow.gsub!('&','%26')
+               
+                   
+               autoparam = ""
+               for qp in 0..temp_q_row.length - 1
+                  
+                  autoparam << "q_row[]=" << temp_q_row[qp] << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
+                  if qp < temp_q_row.length - 1
+                    autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_row[qp] << "&"
                   end
-                  autoparam << "q_row[]=" << temp_temp_qrow << "&op_row[]=" << temp_op_row[i] << "&search_field_row[]=" << temp_search_field_row[i]
-                  if i < temp_q_row.count - 1
-                    autoparam << "&boolean_row[#{i + 1}]=" << temp_boolean_row[i] << "&"
-                  end
+
+                 
+                 
                end
                querybuttontext = my_params[:q_row][x] #parts[1]
                if querybuttontext.include?('%26')
                  querybuttontext = querybuttontext.gsub!('%26','&')
                end
-               removeString = "catalog?%utf8=E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
+               removeString = "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "action=index&commit=Search&advanced_query=yes"
+               if x > 0
+                 s = x.to_s
+                 label = temp_boolean_rows[:boolean_row][s.to_sym] + " " + label
+               end
                content << render_constraint_element(
                  label, querybuttontext,
-                 :remove => "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "&action=index&commit=Search&advanced_query=yes"
+#                 :remove => "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "&action=index&commit=Search&advanced_query=yes"
+                 :remove => removeString #"catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "&action=index&commit=Search&advanced_query=yes"
                  )
 
        end
+       
        if !my_params[:q].nil?
          content << render_simple_constraints_filters(my_params)
        else
