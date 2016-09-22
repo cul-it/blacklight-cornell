@@ -25,7 +25,9 @@
       <% end -%>
         
         <%#= render :partial => 'search_form' %>
-            <%#= render :partial => 'did_you_mean' %>
+          <%if params[:q_row].nil? %>
+            <%= render :partial => 'did_you_mean' %>
+          <% end %>
 
         <%if @response.total_count < 1 && !@expanded_results.nil?%>
         <p>Your search returned 0 results. Try searching 
