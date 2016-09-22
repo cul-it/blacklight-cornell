@@ -41,9 +41,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
- Rails.logger.info("SPANKYbefore = #{blacklight_params}")
       my_params = make_adv_query(blacklight_params)
- Rails.logger.info("SPANKY = #{my_params}")
       user_parameters[:q] = my_params[:q]
 #      user_parameters[:show_query] = 'title = water AND subject = ice' #my_params[:show_query]
 #      params[:q] = my_params[:q]
