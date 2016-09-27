@@ -26,27 +26,14 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   def advsearch user_parameters
 
-#    make_adv_query(blacklight_params)
     query_string = ""
- #    user_params =  {"utf8"=>"✓", "omit_keys"=>["page"], "params"=>{"advanced_query"=>"yes"},
- #   "q_row"=>["wink", "pink"], "op_row"=>["AND", "AND"], "search_field_row"=>["all_fields", "all_fields"], 
- #"boolean_row"=>{"1"=>"OR"}, "sort"=>"score desc, pub_date_sort desc, title_sort asc", "search_field"=>"advanced", 
- #"commit"=>"Search", "controller"=>"catalog", "action"=>"index", "advanced_search"=>true, "advanced_query"=>"yes", "op"=>["OR"], "all_fields"=>"pink",
- # "defType"=>"lucene", 
- #"q"=>"_query_:\"{!edismax qf=$title_qf pf=$title_pf}wink\" OR _query_:\"{!edismax qf=$all_fields_qf pf=$all_fields_pf}pink &search_field=all_fields"}
-#    user_parameters[:defType] = "lucene"
-#    user_parameters[:q] = '_query_:"{!edismax qf=$title_qf pf=$title_pf}hot" AND _query_:"{!edismax qf=$title_qf pf=$title_pf}pink"'
-#    user_parameters[:search_field] = "all_fields"
     qparam_display = ""
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
       my_params = make_adv_query(blacklight_params)
+      user_parameters["spellcheck.q"]= blacklight_params["show_query"]      
       user_parameters[:q] = my_params[:q]
-#      user_parameters[:show_query] = 'title = water AND subject = ice' #my_params[:show_query]
-#      params[:q] = my_params[:q]
-#      params = my_params
-#      user_parameters[:q] = '_query_:"{!edismax spellcheck.dictionary=all_fields qf=$all_fields_qf pf=$all_fields_pf}mark"  AND  _query_:"{!edismax spellcheck.dictionary=author qf=$author_qf pf=$author_pf}twain"'
     end
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
