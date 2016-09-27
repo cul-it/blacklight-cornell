@@ -45,9 +45,7 @@
       <% end %>
 
       <%= render :partial => "constraints" %>
-      <% if params[:q_row].nil? %>
       <%= render :partial => 'did_you_mean' %>
-      <% end %>
     </div>
 
     <%# Offer search expansion only under certain conditions %>
