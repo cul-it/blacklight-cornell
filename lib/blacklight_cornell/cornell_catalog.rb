@@ -448,28 +448,30 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # Saves the current search (if it does not already exist) as a models/search object
     # then adds the id of the search object to session[:history]
+    
+    #jac244 Commented out code because it was creating 2 entries in search history 9/27/2016
     def save_current_search_params
       # If it's got anything other than controller, action, total, we
       # consider it an actual search to be saved. Can't predict exactly
       # what the keys for a search will be, due to possible extra plugins.
-      return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
-      params_copy_h = search_session.clone # don't think we need a deep copy for this
-      params_copy_h.delete(:page)
-      params_copy =  ActiveSupport::HashWithIndifferentAccess.new(params_copy_h)
+#      return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
+#      params_copy_h = search_session.clone # don't think we need a deep copy for this
+#      params_copy_h.delete(:page)
+#      params_copy =  ActiveSupport::HashWithIndifferentAccess.new(params_copy_h)
 
-      unless @searches.collect { |search| search.query_params }.include?(params_copy)
+#      unless @searches.collect { |search| search.query_params }.include?(params_copy)
 
        #new_search = Search.create(:query_params => params_copy)
 
-       new_search = Search.new
-       new_search.assign_attributes({:query_params => params_copy}, :without_protection => true)
-       new_search.save
+#       new_search = Search.new
+#       new_search.assign_attributes({:query_params => params_copy}, :without_protection => true)
+#       new_search.save
 
-        session[:history].unshift(new_search.id)
+#        session[:history].unshift(new_search.id)
         # Only keep most recent X searches in history, for performance.
         # both database (fetching em all), and cookies (session is in cookie)
-        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
-      end
+#        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
+#      end
     end
 
     # sets some additional search metadata so that the show view can display it.
