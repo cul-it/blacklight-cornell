@@ -1,4 +1,4 @@
-<%#= params.inspect%>
+<%#= params[:q].inspect%>
 <%params[:y] = params[:q] %>
 <% params[:q] = params[:show_query] if  params[:show_query]%>
 <% if params[:action] != 'edit' && query_has_constraints? || params[:range].present? %>
