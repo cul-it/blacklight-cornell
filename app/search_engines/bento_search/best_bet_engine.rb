@@ -16,13 +16,20 @@ class BentoSearch::BestBetEngine
     bento_results = BentoSearch::Results.new
     q = args[:oq].gsub(" ","%20")
     Rails.logger.debug "mjc12test: #{__FILE__} #{__LINE__} url parameter: #{q}"
-    best_bet = JSON.load(open("http://bestbets.library.cornell.edu/match/#{q}"))
+    best_bet = [] 
+    begin 
+      best_bet = JSON.load(open("https://bestbets.library.cornell.edu/match/#{q}"))
+    rescue Exception => e 
+      best_bet = [] 
+      result = BentoSearch::ResultItem.new
+      Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
+    end
     Rails.logger.debug "mjc12test: #{__FILE__} #{__LINE__} got back: #{best_bet}"
+    result = BentoSearch::ResultItem.new
 
     # Because all our facets are packaged in a single query, we have to treat this as a single result
     # in order to have bento_search process it correctly. We'll split up into different facets
     # once we get back to the controller!
-    result = BentoSearch::ResultItem.new
 
     # If there is a best bet, it should look like this:
     # [{"id"=>1, "name"=>"Oxford English Dictionary", 
