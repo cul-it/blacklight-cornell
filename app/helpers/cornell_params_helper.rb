@@ -750,15 +750,15 @@ def render_advanced_constraints_query(my_params = params)
     j = 1
     if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
      sfr = my_params[:search_field_row][0]
-     if my_params[:op_row][0] == "begins_with"
-       sfr = sfr << "_starts"
-     end
+#     if my_params[:op_row][0] == "begins_with"
+#       sfr = sfr << "_starts"
+#     end
      new_q_parts[0] = sfr  + "=" + my_params[:q_row][0]
       for i in 1..my_params[:q_row].count - 1
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
-        if my_params[:search_field_row][i] == "begins_with"
-          sfr = sfr << "_starts"
-        end
+#        if my_params[:search_field_row][i] == "begins_with"
+#          sfr = sfr << "_starts"
+#        end
         n = i.to_s
         new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
         new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
