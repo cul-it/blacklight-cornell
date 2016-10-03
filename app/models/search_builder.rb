@@ -481,7 +481,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               holdarray[1] = holdarray_parse[0]
 
               if(j < holdarray.count - 1)
-                    if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' || my_params[:op_row][i] == 'phrase'
+                    if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' #|| my_params[:op_row][i] == 'phrase'
                       Rails.logger.info("WEEKEND2 = #{q_string_hold}")
                       holdarray[1] = holdarray[1].gsub!('"','')
                       q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
@@ -494,7 +494,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                       q_string2 << holdarray[1]
                     end
               else
-                if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' || my_params[:op_row][i] == 'phrase'
+                if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' # || my_params[:op_row][i] == 'phrase'
                       holdarray[1] = holdarray[1].gsub!('"','')
                     q_string_hold << "}\"\"" << holdarray[1] << "\""
                     q_string << "}\\\"" << holdarray[1]  << "\\\"\"\""
