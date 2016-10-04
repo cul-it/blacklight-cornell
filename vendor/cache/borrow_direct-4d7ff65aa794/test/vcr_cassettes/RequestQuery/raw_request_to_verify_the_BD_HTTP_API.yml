@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bdtest.relais-host.com/portal-service/user/authentication
+    body:
+      encoding: UTF-8
+      string: '{"ApiKey":"DUMMY_BD_API_KEY","PartnershipId":"BD","UserGroup":"patron","LibrarySymbol":"DUMMY_BD_LIBRARY_SYMBOL","PatronId":"DUMMY_BD_PATRON"}'
+    headers:
+      User-Agent:
+      - ruby borrow_direct gem 1.2.0 (HTTPClient 2.7.1) https://github.com/jrochkind/borrow_direct
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 06 Apr 2016 14:33:01 GMT
+      Content-Type:
+      - application/json
+      Accept-Language:
+      - en
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.1
+      Date:
+      - Wed, 06 Apr 2016 14:33:03 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '262'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"AuthorizationId":"ZJ-RuSPQedj_crF5ftjwNkf-1Kg","LibrarySymbol":"DUMMY_BD_LIBRARY_SYMBOL","Iso639_2_LangCode":"ENG","FirstName":"Enrico","LastName":"Silterra","AllowLoanAddRequest":true,"AllowCopyAddRequest":false,"AllowSelDelivLoanChange":true,"AllowSelDelivCopyChange":false}'
+    http_version: 
+  recorded_at: Wed, 06 Apr 2016 14:33:03 GMT
+- request:
+    method: get
+    uri: https://bdtest.relais-host.com/portal-service/request/query/my?aid=ZJ-RuSPQedj_crF5ftjwNkf-1Kg&fullRecord=0&type=open
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - ruby borrow_direct gem 1.2.0 (HTTPClient 2.7.1) https://github.com/jrochkind/borrow_direct
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 06 Apr 2016 14:33:03 GMT
+      Content-Type:
+      - application/json
+      Accept-Language:
+      - en
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.1
+      Date:
+      - Wed, 06 Apr 2016 14:33:03 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '4657'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"MyRequestRecords":[{"RequestNumber":"COR-99003270","Title":"HARRY
+        POTTER AND THE CHAMBER OF SECRETS","DateSubmitted":"Apr 06, 2016 10:30 AM","ISO8601DateSubmitted":"20160406103038","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:30 AM","ISO8601RequestStatusDate":"20160406103004"},{"RequestNumber":"COR-99003269","Title":"CHOMSKY","DateSubmitted":"Apr
+        06, 2016 10:28 AM","ISO8601DateSubmitted":"20160406102859","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:30 AM","ISO8601RequestStatusDate":"20160406103004"},{"RequestNumber":"COR-99003268","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:27 AM","ISO8601DateSubmitted":"20160406102729","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:30 AM","ISO8601RequestStatusDate":"20160406103004"},{"RequestNumber":"COR-99003267","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:26 AM","ISO8601DateSubmitted":"20160406102641","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:25 AM","ISO8601RequestStatusDate":"20160406102504"},{"RequestNumber":"COR-99003266","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:26 AM","ISO8601DateSubmitted":"20160406102600","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:25 AM","ISO8601RequestStatusDate":"20160406102504"},{"RequestNumber":"COR-99003265","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:24 AM","ISO8601DateSubmitted":"20160406102447","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:25 AM","ISO8601RequestStatusDate":"20160406102504"},{"RequestNumber":"COR-99003264","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:24 AM","ISO8601DateSubmitted":"20160406102407","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:25 AM","ISO8601RequestStatusDate":"20160406102503"},{"RequestNumber":"COR-99003263","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:19 AM","ISO8601DateSubmitted":"20160406101901","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:20 AM","ISO8601RequestStatusDate":"20160406102004"},{"RequestNumber":"COR-99003262","Title":"HARRY
+        POTTER AND THE DEATHLY HALLOWS","DateSubmitted":"Apr 06, 2016 10:18 AM","ISO8601DateSubmitted":"20160406101811","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        06, 2016 10:20 AM","ISO8601RequestStatusDate":"20160406102003"},{"RequestNumber":"COR-99003261","Title":"CHOMSKY","DateSubmitted":"Apr
+        05, 2016 04:27 PM","ISO8601DateSubmitted":"20160405162713","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Apr
+        05, 2016 04:25 PM","ISO8601RequestStatusDate":"20160405162504"},{"RequestNumber":"COR-99001045","Title":"FREAKONOMICS","Author":"Levitt,
+        Steven D","DateSubmitted":"Mar 18, 2015 01:49 PM","ISO8601DateSubmitted":"20150318134940","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Mar
+        18, 2015 01:50 PM","ISO8601RequestStatusDate":"20150318135004"},{"RequestNumber":"COR-99001044","Title":"FREAKONOMICS","Author":"Levitt,
+        Steven D","DateSubmitted":"Mar 18, 2015 01:03 PM","ISO8601DateSubmitted":"20150318130303","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Mar
+        18, 2015 01:05 PM","ISO8601RequestStatusDate":"20150318130503"},{"RequestNumber":"COR-99001043","Title":"FREAKONOMICS","Author":"Levitt,
+        Steven D","DateSubmitted":"Mar 18, 2015 12:49 PM","ISO8601DateSubmitted":"20150318124920","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Mar
+        18, 2015 12:50 PM","ISO8601RequestStatusDate":"20150318125003"},{"RequestNumber":"COR-99001041","Title":"SUPERMAN","Author":"Verheiden,
+        Mark","DateSubmitted":"Mar 18, 2015 11:27 AM","ISO8601DateSubmitted":"20150318112742","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Feb
+        22, 2016 01:35 PM","ISO8601RequestStatusDate":"20160222133523"},{"RequestNumber":"COR-99001040","Title":"SUPERMAN","Author":"Verheiden,
+        Mark","DateSubmitted":"Mar 18, 2015 09:49 AM","ISO8601DateSubmitted":"20150318094937","AllowRenew":false,"AllowCancel":true,"RequestStatus":"ENTERED","RequestStatusDate":"Feb
+        22, 2016 01:35 PM","ISO8601RequestStatusDate":"20160222133520"}]}'
+    http_version: 
+  recorded_at: Wed, 06 Apr 2016 14:33:03 GMT
+recorded_with: VCR 3.0.0

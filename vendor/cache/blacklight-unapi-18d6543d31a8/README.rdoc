@@ -1,0 +1,100 @@
+BlacklightUnapi: unAPI provider plugin for Blacklight
+
+= Description
+
+The BlacklightUnapi plugin provides an unapi endpoint for Blacklight records. unAPI is a tiny HTTP API for the few basic operations necessary to copy discrete, identified content from any kind of web application.
+
+unAPI is a tiny HTTP API any web application may use to co-publish discretely identified objects in both HTML pages and disparate bare object formats. It consists of three parts: an identifier microformat, an HTML autodiscovery link, and three HTTP interface functions, two of which have a standardized response format. [http://unapi.info/](http://unapi.info/).
+
+= Requirements
+
+A Rails app using Blacklight >3.x.
+
+= Installation
+
+Add
+
+    gem "blacklight_unapi"
+
+to your Gemfile and run "bundle install".
+
+Then, run "rails generate blacklight_unapi" to install the unAPI configuration and hooks into the CatalogController. 
+
+= Configuration
+
+See ./config/initializers/blacklight_config for unAPI configuration options, where you can list the default set of document formats (which must be available for every document served).
+
+Out of the box, only the OAI Dublin Core XML format is advertised as it can be be automatically generated from the Blacklight "semantic fields" configuration. Other common export formats must be defined within the Blacklight configuration.  Implementors SHOULD customize this list using the [[Blacklight.config[:unapi]|https://github.com/projectblacklight/blacklight/blob/master/config/initializers/blacklight_config.rb#L263]] hash, which is formatted as the [Blacklight::Solr::Document#export_formats](https://github.com/projectblacklight/blacklight/blob/master/lib/blacklight/solr/document.rb#L155) output, e.g.:
+
+    config[:unapi] = {
+      'oai_dc_xml' => { :content_type => 'text/xml' }, 
+      'marc' => { :content_type => 'application/marc' },
+      'jpg' => { :content_type => 'image/jpg' }  
+    }
+
+== Injection
+
+This plugin assumes it is in a Blacklight Rails app, uses Blacklight methods, Rails methods, and standard ruby module includes to inject it's behaviors into the app.  
+
+You can turn off this injection if you like, although it will make the plugin less (or non-) functional unless you manually do similar injection. See lib/blacklight_unapi.rb#inject! to see exactly what's going on. 
+
+In any initializer, you can set:
+
+  BlacklightUnapi.omit_inject = true
+
+to turn off all injection. The plugin will be completely non-functional if you do this, of course. But perhaps you could try to re-use some of it's classes in a non-Blacklight, highly hacked Blacklight, or even non-Rails application this way. 
+
+You can also turn off injection of individual components, which could be more useful:
+   
+  BlacklightUnapi.omit_inject = {
+    :routes => false,  
+  }
+
+== API Requests
+
+=== /catalog/unapi 
+
+Provides a list of object formats available for all objects. 
+
+
+  <?xml version="1.0" encoding="UTF-8"?> 
+  <formats> 
+    <format type="text/xml" name="oai_dc_xml"/> 
+  </formats> 
+
+
+  Source: [[http://demo.projectblacklight.org/catalog/unapi]]
+
+=== /catalog/unapi?id=IDENTIFIER 
+
+Provides a list of object formats available for the object identified by "IDENTIFIER". The object formats are generated from the Document Extension Framework [Blacklight::Solr::Document#export_formats](https://github.com/projectblacklight/blacklight/blob/master/lib/blacklight/solr/document.rb#L155).
+
+In the future, Blacklight may provide mechanisms within the Document Extension Framework for filtering the list of object formats (see [CODEBASE-301](http://jira.projectblacklight.org/jira/browse/CODEBASE-301)). In the meantime, to filter this list of object formats, implementors are encouraged to override [./app/views/catalog/unapi.xml.builder](https://github.com/projectblacklight/blacklight/blob/master/app/views/catalog/unapi.xml.builder) (or CatalogController#unapi) locally.
+
+
+  <?xml version="1.0" encoding="UTF-8"?> 
+  <formats id="u1"> 
+    <format type="text/plain" name="refworks_marc_txt"/> 
+    <format type="text/xml" name="dc_xml"/> 
+    <format type="application/x-endnote-refer" name="endnote"/> 
+    <format type="application/xml" name="xml"/> 
+    <format type="text/xml" name="oai_dc_xml"/> 
+    <format type="application/marc" name="marc"/> 
+    <format type="application/x-openurl-ctx-kev" name="openurl_ctx_kev"/> 
+    <format type="application/marcxml+xml" name="marcxml"/> 
+  </formats> 
+
+
+  Source:  [[http://demo.projectblacklight.org/catalog/unapi?id=u1]]
+
+=== /catalog/unapi?id=IDENTIFIER&format=FORMAT 
+
+Provides the raw "FORMAT" representation for the object identified by "IDENTIFIER"
+
+
+  <oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd"     xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:language>English</dc:language><dc:title>The book of the dance in the   20th century selections from the Jane Bourne Parton collection of books on the dance</dc:title><dc:format>Book</dc:format>  </oai_dc:dc>
+
+
+  Source:   [[http://demo.projectblacklight.org/catalog/unapi?id=u1&format=oai_dc_xml]]
+
+
