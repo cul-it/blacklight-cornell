@@ -40,7 +40,11 @@ body.bookmarks-index #documents .document {
 	margin: 0 0 .5em 0;
 	font-weight: normal;
 	line-height: 1.2em;
-	font-size: 20px;
+	font-size: 16px;
+	a {
+		font-size: 18px;
+		margin-left: .25em;
+	}
 }
 
 // Item data
