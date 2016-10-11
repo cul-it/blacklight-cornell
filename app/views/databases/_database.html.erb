@@ -1,7 +1,6 @@
 <%# Database document display within lists %>
 
 <% if response.present?  %>
-<%= response.inspect %>
   <% response.each do |data| %>
     <% dbid = data["id"] %>
     <div class="document blacklight-database-name clearfix">
