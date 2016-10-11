@@ -913,7 +913,7 @@ class CatalogController < ApplicationController
         email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
-        redirect_to facet_catalog_path(params[:id]) unless request.xhr?
+        redirect_to solr_document_path(params[:id]) unless request.xhr?
       end
 
     end  # request.post?
