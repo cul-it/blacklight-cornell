@@ -87,7 +87,7 @@ GEM
       rack
       thread_safe
     arel (6.0.3)
-    autoprefixer-rails (6.5.0.1)
+    autoprefixer-rails (6.5.0.2)
       execjs
     bcrypt (3.1.11)
     bento_search (1.6.0)
@@ -100,7 +100,7 @@ GEM
       openurl (>= 0.3.1, < 1.1)
       rails (>= 3.2.3, < 6)
       summon
-    blacklight (6.3.1)
+    blacklight (6.7.1)
       bootstrap-sass (~> 3.2)
       deprecation
       globalid
@@ -108,7 +108,7 @@ GEM
       nokogiri (~> 1.6)
       rails (>= 4.2, < 6)
       rsolr (~> 1.0, >= 1.0.6)
-      twitter-typeahead-rails (~> 0.11)
+      twitter-typeahead-rails (= 0.11.1.pre.corejavascript)
     blacklight-hierarchy (0.2.0)
       blacklight (>= 6.0.0.pre3, < 7)
       jquery-rails
@@ -139,7 +139,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
-    capybara (2.9.2)
+    capybara (2.10.1)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -319,9 +319,8 @@ GEM
     net-ssh (3.2.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    nokogiri (1.6.8)
+    nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
     nori (2.6.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -332,7 +331,6 @@ GEM
     orm_adapter (0.5.0)
     parslet (1.7.1)
       blankslate (>= 2.0, <= 4.0)
-    pkg-config (1.1.7)
     plist (3.2.0)
     poltergeist (1.10.0)
       capybara (~> 2.1)
@@ -412,8 +410,8 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    ruby_dep (1.4.0)
-    ruby_parser (3.8.2)
+    ruby_dep (1.5.0)
+    ruby_parser (3.8.3)
       sexp_processor (~> 4.1)
     rufus-scheduler (3.2.2)
     rvm-capistrano (1.5.6)
@@ -446,7 +444,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.11)
+    sqlite3 (1.3.12)
     summon (2.0.5)
       json
     textpow (1.4.0)
@@ -468,7 +466,7 @@ GEM
       marc-fastxmlwriter (~> 1.0)
       slop (>= 3.4.5, < 4.0)
       yell
-    twitter-typeahead-rails (0.11.1)
+    twitter-typeahead-rails (0.11.1.pre.corejavascript)
       actionpack (>= 3.1)
       jquery-rails
       railties (>= 3.1)
@@ -514,7 +512,7 @@ DEPENDENCIES
   addressable
   appsignal
   bento_search
-  blacklight (= 6.3.1)
+  blacklight (= 6.7.1)
   blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
