@@ -40,6 +40,8 @@
         <%else%>
 
         <%= render 'sort_and_per_page' %>
+        <%= render 'select_all' %>
+
         <h2 class="hidden"><%= t('blacklight.search.search_results') %></h2>
         <%= render_document_index %>
         <%= render 'results_pagination' %>
