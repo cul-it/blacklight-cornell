@@ -163,7 +163,9 @@
                   -else
                     %div{:class => 'well'}
                       %p{:class => 'no-results no-margin'}
-                        No results from the Catalog. Try searching
+                        No results from the 
+                        = link_to 'Catalog.', "https://newcatalog.library.cornell.edu"
+                        Try searching
                         = link_to 'Libraries Worldwide.', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc"
               .item.bento3
                 .search-pane
