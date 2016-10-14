@@ -648,3 +648,17 @@ Feature: Item view
     Then I should see the label 'On-site use'
     Then I should see the label 'Request'  
 
+
+  # The New York times 
+  # bibid 1545844 
+  @all_item_view
+  @availability
+  @javascript
+  @bibid1545844
+  @DISCOVERYACCESS-1380
+  Scenario: As a user I can see the availability for an item 
+    Given I request the item view for 1545844 
+    Then I should see the label 'On-site use'
+    Then I should not see the label 'Request item'  
+
+
