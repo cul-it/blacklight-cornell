@@ -159,6 +159,21 @@ include ActionView::Helpers::NumberHelper
     link_to('Hours/Map', location_url, {:title => 'See hours and map'})
   end
 
+  def render_special_location_link location_code
+    base_url = 'https://www.library.cornell.edu/libraries/'
+    matched_location = nil
+    # Test for substring match of location hash key in location_code
+    LOCATION_MAPPINGS.each do |key, value|
+      if location_code.include?(key)
+        matched_location = value
+        break # Break on first match to ensure RMC (followed by Annex) is properly identified
+      end
+    end
+
+    location_url = matched_location.present? ? matched_location : base_url
+
+    link_to('Info', location_url, {:title => 'See hours and map'})
+  end
 
  def oclc_number_link
     presenter = Blacklight::ShowPresenter.new(@document, self)
@@ -220,6 +235,7 @@ include ActionView::Helpers::NumberHelper
     'jgsm' => 'jgsm',
     'mann' => 'mann',
     'math' => 'math',
+    'Spacecraft Planetary Imaging Facility 317 Space Science Bldg' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
     'phys' => 'physicalsciences',
     'uris' => 'uris',
     'vet' => 'vet',
