@@ -25,7 +25,7 @@
       <% end -%>
         
         <%#= render :partial => 'search_form' %>
-        <% unless (request.referer).include?("browse") || params[:click_to_search]=='true' %>
+        <% unless ((request.referer).present? && (request.referer).include?("browse")) || params[:click_to_search]=='true' %>
         <%= render :partial => 'did_you_mean' %>
         <% end %>
 
