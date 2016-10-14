@@ -26,14 +26,7 @@ Feature: Facets
 		And the 'Access' facet should not be open
 		# DISCOVERYACCESS-? 'Format' facet should always be open
 		And the 'Format' facet should be open
-		And the 'Author, etc.' facet should not be open
-		And the 'Publication Year' facet should not be open
 		And the 'Language' facet should not be open
-		And the 'Subject/Genre' facet should not be open
-		And the 'Subject: Region' facet should not be open
-		And the 'Subject: Era' facet should not be open
-		And the 'Fiction/Non-Fiction' facet should not be open
-		#And the 'Call Number' facet should not be open
 		And the 'Library Location' facet should not be open
 
 	@homepage 
