@@ -42,6 +42,8 @@
             - noncirc = false
             - if location =~ /Non-Circulating/
               - noncirc = true 
+            - if location =~ /Spacecraft Planetary Imaging Facility/
+              - noncirc = true 
             - if location =~ /Rare/
               - reading = ' for Reading Room Delivery'
               - noncirc = true 
