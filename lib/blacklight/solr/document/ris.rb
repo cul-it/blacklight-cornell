@@ -1,7 +1,7 @@
 # This module registers the RIS export format with the system so that we
 # can offer export options for Mendeley and Zotero.
 module Blacklight::Solr::Document::RIS
-  
+
   def self.extended(document)
     # Register our exportable formats
     Blacklight::Solr::Document::RIS.register_export_formats( document )
@@ -38,7 +38,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"MANSCPT", "Map or Globe"=>"MAP", "MGZN"=>"MGZN",
   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
-  "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"SOUND", "Musical Recording"=>"SOUND", 
+  "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"SOUND", "Musical Recording"=>"SOUND",
   "STAND"=>"STAND",
   "STAT"=>"STAT", "THES"=>"THES", "UNPB"=>"UNPB", "Video"=>"VIDEO"
   }
@@ -50,13 +50,13 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     ty = "TY  - GEN\n"
     fmt = self['format'].first
     if (FACET_TO_RIS_TYPE.keys.include?(fmt))
-      ty =  "TY  - #{FACET_TO_RIS_TYPE[fmt]}\n" 
+      ty =  "TY  - #{FACET_TO_RIS_TYPE[fmt]}\n"
     end
-    if fmt == 'Book'  && self['online'].first == 'Online'
+    if fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
       ty = "TY  - EBOOK\n"
     end
-    output = ty 
-    
+    output = ty
+
     # Handle title
     output += "TI  - #{clean_end_punctuation(setup_title_info(to_marc))}\n"
 
@@ -89,7 +89,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     # edition
     et =  setup_edition(to_marc)
     output += "ET  - #{et}\n" unless et.blank?
-    # language 
+    # language
     if !self["language_facet"].blank?
       self["language_facet"].map{|la|  output += "LA  - #{la}\n" }
     end
@@ -111,30 +111,30 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     output += "ER  - \n"
   end
 
-  def setup_kw_info(record) 
-    text = [] 
+  def setup_kw_info(record)
+    text = []
     record.find_all{|f| f.tag === "650" }.each do |field|
       textstr = ''
-      field.each do  |sf| 
-        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code) 
-       end unless field.indicator2 == '7' 
+      field.each do  |sf|
+        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
+       end unless field.indicator2 == '7'
        text << textstr
-    end                    
+    end
     text
   end
 
-  def setup_notes_info(record) 
-    text = [] 
+  def setup_notes_info(record)
+    text = []
     record.find_all{|f| f.tag === "500" }.each do |field|
       textstr = ''
-      field.each do  |sf| 
-        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code) 
-      end 
+      field.each do  |sf|
+        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
+      end
       text << textstr
-    end                    
+    end
     record.find_all{|f| f.tag === "505" }.each do |field|
       text  << field.value
-    end                    
+    end
     text
   end
 
