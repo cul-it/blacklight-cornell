@@ -11,12 +11,14 @@
   <h3><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search_history">
     <%- @searches.each_with_index do |search,index| -%>
-      <%-unless search.query_params[:q].nil? || !link_to_previous_search(search.query_params).include?("span") %>
+    <!-- display searches unless they are advanced searches -->
+      <%-unless !link_to_previous_search(search.query_params).include?("span") || search.query_params["advanced_query"] == "yes" %>
         <%= content_tag :tr, :id => "document_#{index + 1}" do %>
           <td class="query"><span><%= link_to_previous_search(search.query_params) %></span></td>
         <% end #content_tag %>
       <%end %>
       <%-unless search.query_params["q_row"].nil? %>
+      <!-- display advanced searches -->
       <%#= search.query_params = search.query_params.to_hash() %>
         <%= content_tag :tr, :id => "document_#{index + 1}" do %>
           <td class="query"><span><%= link_to_previous_advanced_search(search.query_params) %></span></td>

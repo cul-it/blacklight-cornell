@@ -127,7 +127,18 @@ body.bookmarks-index #documents .document {
 	border-bottom: 5px solid $light-tan;
 }
 .search-widgets {
-	float: none !important;
+	float: left;
+}
+.search-filter {
+	.select_all.btn {
+		padding: 5px 12px 4px 12px;
+		font-size: 12px;
+		margin-left: .5em;
+		margin-top: 0;
+	}
+	.select_all.checkbox {
+			display: inline-block;
+	}
 }
 
 // Select / bookmarks
@@ -198,9 +209,9 @@ h4.suggest {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm) { 
-	.search-widgets {
-		float: right !important;
-	}
+	// .search-widgets {
+	// 	float: right !important;
+	// }
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}
@@ -225,6 +236,9 @@ h4.suggest {
 	}
 	.document-data {
 		width: 83%;
+	}
+	.search-filter {
+		float: right;
 	}
 }
 

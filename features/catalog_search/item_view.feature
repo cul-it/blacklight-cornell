@@ -634,3 +634,17 @@ Feature: Item view
     Then I should see the label 'Other online content'
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
+
+  # availability -- Spacecraft Planetary Imaging Facilty  
+  # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
+  # bibid 9264410
+  @all_item_view
+  @availability
+  @javascript
+  @bibid9264410
+  @DISCOVERYACCESS-2855
+  Scenario: As a user I can see the availability for an item 
+    Given I request the item view for 1902405 
+    Then I should see the label 'On-site use'
+    Then I should see the label 'Request'  
+
