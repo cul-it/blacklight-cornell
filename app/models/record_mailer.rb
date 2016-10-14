@@ -12,11 +12,13 @@ class RecordMailer < ActionMailer::Base
     @message        = details[:message]
     @callnumber     = details[:callnumber]
     @status         = details[:status]
-    @callNumFirst = @callnumber.split('|| ')
+    @callNumFirst = @callnumber.present? ? @callnumber.split('|| ') : nil
     @callnumber = []
-    @callNumFirst.each do |calls|
-      @second = calls.split('| ')
-      @callnumber << @second
+    if @callNumFirst != nil
+      @callNumFirst.each do |calls|
+        @second = calls.split('| ')
+        @callnumber << @second
+      end
     end
     @statusFirst = @status.split('|| ')
     @status = []
