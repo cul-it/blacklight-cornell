@@ -60,23 +60,20 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # params.delete("q_row")
     qparam_display = ''
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
-    if params[:q_row].present?
-      query_string = set_advanced_search_params(params)
-    else
-       if !params[:q].nil? and !params[:q].blank?
-         query_string = parse_stem(params[:q])
-         if params[:q_row].present?
-         query_string = set_advanced_search_params(params)
-         end
-        end
-      end
-#      params = {"utf8"=>"✓", "q_row"=>["bauhaus", "history", "design"], "op_row"=>["AND", "AND", "AND"], "search_field_row"=>["subject", "title", "title"], "boolean_row"=>{"1"=>"AND", "2"=>"OR"}, "sort"=>"score desc, pub_date_sort desc, title_sort asc", "search_field"=>"advanced", "advanced_query"=>"yes", "commit"=>"Search", "controller"=>"catalog", "action"=>"index", "advanced_search"=>true, "op"=>["AND", "OR"], "subject"=>"bauhaus", "title"=>"design", "q"=>"subject=bauhaus&op[]=AND&title= history&op[]=OR&title=design "}
- #     query_string = "subject=bauhaus&op[]=AND&title=history&op[]=OR&title=design"
-      Rails.logger.info("QUERY_STRING = #{query_string}")
-      Rails.logger.info("QUERY_STRINGParams = #{params}")
+ #   if params[:q_row].present?
+ #     query_string = set_advanced_search_params(params)
+ #   else
+ #      if !params[:q].nil? and !params[:q].blank?
+ #        query_string = parse_stem(params[:q])
+ #        if params[:q_row].present?
+ #        query_string = set_advanced_search_params(params)
+ #        end
+ #       end
+ #     end
       # End of secondary parsing
        
-     
+#       params["spellcheck.maxResultsForSuggest"] = 1      
+#     params["spellcheck.q"]= "subject=bauhaus"  
       #end of secondary parsing
 
     # Journal title search hack.
