@@ -274,6 +274,11 @@ form.range_limit {
 	content: "\f147";
 }
 
+// Facet toggle
+.panel-heading.collapse-toggle .panel-title:after {
+	padding-top: .25em;
+}
+
 // MEDIA QUERIES
 // -------------------------
 
