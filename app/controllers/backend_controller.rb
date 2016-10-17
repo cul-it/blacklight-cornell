@@ -3,14 +3,9 @@ class BackendController < ApplicationController
   include Blacklight::SearchHelper
 
   def holdings
-    ActiveSupport::Notifications.instrument( 'backend.retrieve', :name => "holdings 6 1") do
       @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
-    end
-    ActiveSupport::Notifications.instrument( 'backend.retrieve_raw', :name => "holdings 6 2) do
       @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
-    end
     @id = params[:id]
-
     #resp, document = get_solr_response_for_doc_id(@id)
     resp, document = fetch (@id)
     if document['url_pda_display'].present?
