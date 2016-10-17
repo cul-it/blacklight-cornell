@@ -27,7 +27,7 @@ module CornellCatalogHelper
       grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
       #if holding['location_code'].include?('rmc')
-      if aeon_eligible? holding['location_code']
+      if Location::aeon_eligible? holding['location_code']
         grouped['Rare'] << holding
       elsif holding['location_name'].include?('*Networked Resource')
         grouped['*Online'] << holding
@@ -95,7 +95,7 @@ module CornellCatalogHelper
     'hote,rare'
   ]
 
-  def aeon_eligible?(lib)
+  def xx_aeon_eligible?(lib)
     return AEON_SITES.include?(lib)
   end
 
@@ -165,7 +165,7 @@ module CornellCatalogHelper
     hrds = {}
     ##Rails.logger.debug "\nes287_debug raw holding data #{__LINE__}   = " 
     document[:holdings_record_display].each do |hrd|
-        ##Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.inspect 
+          Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.pretty_inspect 
     end  if document[:holdings_record_display]
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
