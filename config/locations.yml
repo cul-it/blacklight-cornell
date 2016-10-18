@@ -1,0 +1,1459 @@
+locations:
+  afr:
+    code: afr
+    display_name: "Africana Library (Africana Center)"
+    voyager_id: 2
+    rmc_aeon: false
+    hours_page: "afr"
+  afr_anx:
+    code: afr,anx
+    display_name: "Library Annex"
+    voyager_id: 3
+    rmc_aeon: false
+    hours_page: "afr_anx"
+  afr_res:
+    code: afr,res
+    display_name: "Africana Library Reserve"
+    voyager_id: 4
+    rmc_aeon: false
+    hours_page: "afr_res"
+  afr_ref:
+    code: afr,ref
+    display_name: "Africana Library Reference ( Non-Circulating)"
+    voyager_id: 5
+    rmc_aeon: false
+    hours_page: "afr_ref"
+  agen:
+    code: agen
+    display_name: "Ag Engineering Library (Riley Robb Hall) (Dept. use only)"
+    voyager_id: 6
+    rmc_aeon: false
+    hours_page: "agen"
+  bioc:
+    code: bioc
+    display_name: "Biochem Reading Room (Biotech Building) (Dept. use only)"
+    voyager_id: 8
+    rmc_aeon: false
+    hours_page: "bioc"
+  cise:
+    code: cise
+    display_name: "CISER Data Archive"
+    voyager_id: 9
+    rmc_aeon: false
+    hours_page: "cise"
+  cons:
+    code: cons
+    display_name: "Preservation Department (B32 Olin)"
+    voyager_id: 10
+    rmc_aeon: false
+    hours_page: "cons"
+  cons_lab:
+    code: cons,lab
+    display_name: "Conservation Laboratory (Library Annex)"
+    voyager_id: 11
+    rmc_aeon: false
+    hours_page: "cons_lab"
+  cons_opt:
+    code: cons,opt
+    display_name: ""
+    voyager_id: 12
+    rmc_aeon: false
+    hours_page: "cons_opt"
+  ech:
+    code: ech
+    display_name: "Kroch Library Asia"
+    voyager_id: 13
+    rmc_aeon: false
+    hours_page: "ech"
+  ech_anx:
+    code: ech,anx
+    display_name: "Library Annex"
+    voyager_id: 14
+    rmc_aeon: false
+    hours_page: "ech_anx"
+  ech_av:
+    code: ech,av
+    display_name: "Uris Library Asia A/V"
+    voyager_id: 15
+    rmc_aeon: false
+    hours_page: "ech_av"
+  ech_str1:
+    code: ech,str1
+    display_name: "Request at Olin Circulation Desk"
+    voyager_id: 16
+    rmc_aeon: false
+    hours_page: "ech_str1"
+  ech_rare:
+    code: ech,rare
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 17
+    rmc_aeon: true
+    hours_page: "ech_rare"
+  ech_ref:
+    code: ech,ref
+    display_name: "Kroch Library Asia Reference (Non-Circulating)"
+    voyager_id: 18
+    rmc_aeon: false
+    hours_page: "ech_ref"
+  engr:
+    code: engr
+    display_name: "Library Annex"
+    voyager_id: 19
+    rmc_aeon: false
+    hours_page: "engr"
+  engr_ref:
+    code: engr,ref
+    display_name: "Library Annex"
+    voyager_id: 20
+    rmc_aeon: false
+    hours_page: "engr_ref"
+  engr_anx:
+    code: engr,anx
+    display_name: "Library Annex"
+    voyager_id: 21
+    rmc_aeon: false
+    hours_page: "engr_anx"
+  engr_base:
+    code: engr,base
+    display_name: "Library Annex"
+    voyager_id: 22
+    rmc_aeon: false
+    hours_page: "engr_base"
+  engr_res:
+    code: engr,res
+    display_name: "Library Annex"
+    voyager_id: 23
+    rmc_aeon: false
+    hours_page: "engr_res"
+  engr_wpe:
+    code: engr,wpe
+    display_name: "Library Annex"
+    voyager_id: 24
+    rmc_aeon: false
+    hours_page: "engr_wpe"
+  ent:
+    code: ent
+    display_name: "Mann Library New Book Shelf"
+    voyager_id: 25
+    rmc_aeon: false
+    hours_page: "ent"
+  ent_anx:
+    code: ent,anx
+    display_name: "Library Annex"
+    voyager_id: 26
+    rmc_aeon: false
+    hours_page: "ent_anx"
+  ent_rar2:
+    code: ent,rar2
+    display_name: "Entomology Library Rare (Non-Circulating)"
+    voyager_id: 27
+    rmc_aeon: false
+    hours_page: "ent_rar2"
+  ent_rare:
+    code: ent,rare
+    display_name: "Entomology Library Rare (Non-Circulating)"
+    voyager_id: 28
+    rmc_aeon: false
+    hours_page: "ent_rare"
+  ent_res:
+    code: ent,res
+    display_name: "Entomology Library Reserve"
+    voyager_id: 29
+    rmc_aeon: false
+    hours_page: "ent_res"
+  ent_ref:
+    code: ent,ref
+    display_name: "Entomology Library Reference (Non-Circulating)"
+    voyager_id: 30
+    rmc_aeon: false
+    hours_page: "ent_ref"
+  fine:
+    code: fine
+    display_name: "Fine Arts Library (Rand Hall)"
+    voyager_id: 31
+    rmc_aeon: false
+    hours_page: "fine"
+  fine_anx:
+    code: fine,anx
+    display_name: "Library Annex"
+    voyager_id: 32
+    rmc_aeon: false
+    hours_page: "fine_anx"
+  fine_res:
+    code: fine,res
+    display_name: "Fine Arts Library Reserve"
+    voyager_id: 33
+    rmc_aeon: false
+    hours_page: "fine_res"
+  fine_lock:
+    code: fine,lock
+    display_name: "Fine Arts Library (Ask at Circulation)"
+    voyager_id: 34
+    rmc_aeon: false
+    hours_page: "fine_lock"
+  fine_nine:
+    code: fine,nine
+    display_name: "Fine Arts Library (Ask at Circulation)"
+    voyager_id: 35
+    rmc_aeon: false
+    hours_page: "fine_nine"
+  fine_ref:
+    code: fine,ref
+    display_name: "Fine Arts Library Reference (Non-Circulating)"
+    voyager_id: 36
+    rmc_aeon: false
+    hours_page: "fine_ref"
+  food:
+    code: food
+    display_name: "Food Science Library (Stocking Hall) (Dept. use only)"
+    voyager_id: 37
+    rmc_aeon: false
+    hours_page: "food"
+  gnva:
+    code: gnva
+    display_name: "Library Annex"
+    voyager_id: 38
+    rmc_aeon: false
+    hours_page: "gnva"
+  gnva_anx:
+    code: gnva,anx
+    display_name: "Library Annex"
+    voyager_id: 39
+    rmc_aeon: false
+    hours_page: "gnva_anx"
+  gnva_rare:
+    code: gnva,rare
+    display_name: "Mann Library Special Collections (Non-Circulating)"
+    voyager_id: 40
+    rmc_aeon: false
+    hours_page: "gnva_rare"
+  gnva_ref:
+    code: gnva,ref
+    display_name: "Library Annex"
+    voyager_id: 41
+    rmc_aeon: false
+    hours_page: "gnva_ref"
+  hote:
+    code: hote
+    display_name: "ILR Library (Ives Hall)"
+    voyager_id: 43
+    rmc_aeon: false
+    hours_page: "hote"
+  hote_anx:
+    code: hote,anx
+    display_name: "Library Annex"
+    voyager_id: 44
+    rmc_aeon: false
+    hours_page: "hote_anx"
+  hote_rare:
+    code: hote,rare
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 45
+    rmc_aeon: true
+    hours_page: "hote_rare"
+  hote_ref:
+    code: hote,ref
+    display_name: "ILR Library Reference (Non-Circulating)"
+    voyager_id: 46
+    rmc_aeon: false
+    hours_page: "hote_ref"
+  hote_res:
+    code: hote,res
+    display_name: "Nestle Library Reserve"
+    voyager_id: 47
+    rmc_aeon: false
+    hours_page: "hote_res"
+  rmc_hsci:
+    code: rmc,hsci
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 48
+    rmc_aeon: true
+    hours_page: "rmc_hsci"
+  rmc_ref:
+    code: rmc,ref
+    display_name: "Kroch Library Rare & Manuscripts Reference (Non-Circulating)"
+    voyager_id: 49
+    rmc_aeon: false
+    hours_page: "rmc_ref"
+  rmc_ice:
+    code: rmc,ice
+    display_name: "Olin Library"
+    voyager_id: 50
+    rmc_aeon: false
+    hours_page: "rmc_ice"
+  ilr:
+    code: ilr
+    display_name: "ILR Library (Ives Hall)"
+    voyager_id: 51
+    rmc_aeon: false
+    hours_page: "ilr"
+  ilr_anx:
+    code: ilr,anx
+    display_name: "Library Annex"
+    voyager_id: 52
+    rmc_aeon: false
+    hours_page: "ilr_anx"
+  ilr_ref:
+    code: ilr,ref
+    display_name: "ILR Library Reference (Non-Circulating)"
+    voyager_id: 53
+    rmc_aeon: false
+    hours_page: "ilr_ref"
+  ilr_kanx:
+    code: ilr,kanx
+    display_name: "ILR Library Kheel Center (Request in advance)"
+    voyager_id: 54
+    rmc_aeon: false
+    hours_page: "ilr_kanx"
+  ilr_lmdc:
+    code: ilr,lmdc
+    display_name: "ILR Library Kheel Center"
+    voyager_id: 55
+    rmc_aeon: false
+    hours_page: "ilr_lmdc"
+  ilr_lmdr:
+    code: ilr,lmdr
+    display_name: "ILR Library Kheel Center Reference"
+    voyager_id: 56
+    rmc_aeon: false
+    hours_page: "ilr_lmdr"
+  ilr_rare:
+    code: ilr,rare
+    display_name: "ILR Library Kheel Center"
+    voyager_id: 57
+    rmc_aeon: false
+    hours_page: "ilr_rare"
+  ilr_res:
+    code: ilr,res
+    display_name: "ILR Library Reserve"
+    voyager_id: 58
+    rmc_aeon: false
+    hours_page: "ilr_res"
+  jgsm:
+    code: jgsm
+    display_name: "ILR Library (Ives Hall)"
+    voyager_id: 59
+    rmc_aeon: false
+    hours_page: "jgsm"
+  jgsm_anx:
+    code: jgsm,anx
+    display_name: "Library Annex"
+    voyager_id: 60
+    rmc_aeon: false
+    hours_page: "jgsm_anx"
+  jgsm_res:
+    code: jgsm,res
+    display_name: "Sage Hall Management Library Reserve"
+    voyager_id: 61
+    rmc_aeon: false
+    hours_page: "jgsm_res"
+  jgsm_ref:
+    code: jgsm,ref
+    display_name: "ILR Library Reference (Non-Circulating)"
+    voyager_id: 62
+    rmc_aeon: false
+    hours_page: "jgsm_ref"
+  law:
+    code: law
+    display_name: "Law Library (Myron Taylor Hall)"
+    voyager_id: 63
+    rmc_aeon: false
+    hours_page: "law"
+  law_anx:
+    code: law,anx
+    display_name: "Library Annex"
+    voyager_id: 64
+    rmc_aeon: false
+    hours_page: "law_anx"
+  law_ref:
+    code: law,ref
+    display_name: "Law Library Reference (Non-Circulating)"
+    voyager_id: 65
+    rmc_aeon: false
+    hours_page: "law_ref"
+  law_lega:
+    code: law,lega
+    display_name: "Legal Aid Clinic"
+    voyager_id: 66
+    rmc_aeon: false
+    hours_page: "law_lega"
+  law_res:
+    code: law,res
+    display_name: "Law Library Reserve"
+    voyager_id: 67
+    rmc_aeon: false
+    hours_page: "law_res"
+  law_ts:
+    code: law,ts
+    display_name: "Law Library Technical Services"
+    voyager_id: 68
+    rmc_aeon: false
+    hours_page: "law_ts"
+  mann:
+    code: mann
+    display_name: "Mann Library"
+    voyager_id: 69
+    rmc_aeon: false
+    hours_page: "mann"
+  mann_ts:
+    code: mann,ts
+    display_name: "Mann Library Technical Services (Non-Circulating)"
+    voyager_id: 70
+    rmc_aeon: false
+    hours_page: "mann_ts"
+  mann_anx:
+    code: mann,anx
+    display_name: "Library Annex"
+    voyager_id: 71
+    rmc_aeon: false
+    hours_page: "mann_anx"
+  mann_anxt:
+    code: mann,anxt
+    display_name: "Library Annex"
+    voyager_id: 72
+    rmc_aeon: false
+    hours_page: "mann_anxt"
+  mann_spec:
+    code: mann,spec
+    display_name: "Mann Library Special Collections (Non-Circulating)"
+    voyager_id: 73
+    rmc_aeon: false
+    hours_page: "mann_spec"
+  mann_cd:
+    code: mann,cd
+    display_name: "Mann Library Collection Development (Non-Circulating)"
+    voyager_id: 74
+    rmc_aeon: false
+    hours_page: "mann_cd"
+  mann_ref:
+    code: mann,ref
+    display_name: "Mann Library Reference (Non-Circulating)"
+    voyager_id: 75
+    rmc_aeon: false
+    hours_page: "mann_ref"
+  mann_gate:
+    code: mann,gate
+    display_name: "Networked Resource"
+    voyager_id: 76
+    rmc_aeon: false
+    hours_page: "mann_gate"
+  mann_hort:
+    code: mann,hort
+    display_name: "Bailey Hortorium (ask at Mann Library Circulation)"
+    voyager_id: 77
+    rmc_aeon: false
+    hours_page: "mann_hort"
+  mann_href:
+    code: mann,href
+    display_name: "Bailey Hortorium Reference (Non-Circulating)"
+    voyager_id: 78
+    rmc_aeon: false
+    hours_page: "mann_href"
+  mann_res:
+    code: mann,res
+    display_name: "Mann Library Reserve"
+    voyager_id: 79
+    rmc_aeon: false
+    hours_page: "mann_res"
+  maps:
+    code: maps
+    display_name: "Olin Library Maps (Non-Circulating)"
+    voyager_id: 80
+    rmc_aeon: false
+    hours_page: "maps"
+  math:
+    code: math
+    display_name: "Mathematics Library (Malott Hall)"
+    voyager_id: 81
+    rmc_aeon: false
+    hours_page: "math"
+  math_anx:
+    code: math,anx
+    display_name: "Library Annex"
+    voyager_id: 82
+    rmc_aeon: false
+    hours_page: "math_anx"
+  math_desk:
+    code: math,desk
+    display_name: "Mathematics Library (Circulation Desk)"
+    voyager_id: 83
+    rmc_aeon: false
+    hours_page: "math_desk"
+  math_ref:
+    code: math,ref
+    display_name: "Mathematics Library Reference (Non-Circulating)"
+    voyager_id: 84
+    rmc_aeon: false
+    hours_page: "math_ref"
+  math_lock:
+    code: math,lock
+    display_name: "Mathematics Library Locked Press"
+    voyager_id: 85
+    rmc_aeon: false
+    hours_page: "math_lock"
+  math_res:
+    code: math,res
+    display_name: "Mathematics Library Reserve"
+    voyager_id: 86
+    rmc_aeon: false
+    hours_page: "math_res"
+  rmc:
+    code: rmc
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 87
+    rmc_aeon: true
+    hours_page: "rmc"
+  mus:
+    code: mus
+    display_name: "Cox Library of Music (Lincoln Hall)"
+    voyager_id: 88
+    rmc_aeon: false
+    hours_page: "mus"
+  mus_anx:
+    code: mus,anx
+    display_name: "Library Annex"
+    voyager_id: 89
+    rmc_aeon: false
+    hours_page: "mus_anx"
+  mus_av:
+    code: mus,av
+    display_name: "Music Library A/V (Non-Circulating)"
+    voyager_id: 90
+    rmc_aeon: false
+    hours_page: "mus_av"
+  mus_lock:
+    code: mus,lock
+    display_name: "Music Library Locked Press (Reference Desk)"
+    voyager_id: 91
+    rmc_aeon: false
+    hours_page: "mus_lock"
+  mus_res:
+    code: mus,res
+    display_name: "Music Library Reserve"
+    voyager_id: 92
+    rmc_aeon: false
+    hours_page: "mus_res"
+  mus_ref:
+    code: mus,ref
+    display_name: "Music Library Reference (Non-Circulating)"
+    voyager_id: 93
+    rmc_aeon: false
+    hours_page: "mus_ref"
+  nus:
+    code: nus
+    display_name: ""
+    voyager_id: 94
+    rmc_aeon: false
+    hours_page: "nus"
+  oclc_afrp:
+    code: oclc,afrp
+    display_name: "Africana Library Reserve"
+    voyager_id: 95
+    rmc_aeon: false
+    hours_page: "oclc_afrp"
+  oclc_echm:
+    code: oclc,echm
+    display_name: "Kroch Library Asia"
+    voyager_id: 96
+    rmc_aeon: false
+    hours_page: "oclc_echm"
+  oclc_olim:
+    code: oclc,olim
+    display_name: "Olin Library"
+    voyager_id: 97
+    rmc_aeon: false
+    hours_page: "oclc_olim"
+  oclc_olir:
+    code: oclc,olir
+    display_name: "Olin Library Reference (Non-Circulating)"
+    voyager_id: 98
+    rmc_aeon: false
+    hours_page: "oclc_olir"
+  olin:
+    code: olin
+    display_name: "Olin Library"
+    voyager_id: 99
+    rmc_aeon: false
+    hours_page: "olin"
+  cts:
+    code: cts
+    display_name: ""
+    voyager_id: 100
+    rmc_aeon: false
+    hours_page: "cts"
+  olin_anx:
+    code: olin,anx
+    display_name: "Library Annex"
+    voyager_id: 101
+    rmc_aeon: false
+    hours_page: "olin_anx"
+  olin_str1:
+    code: olin,str1
+    display_name: "Request at Olin Circulation Desk"
+    voyager_id: 102
+    rmc_aeon: false
+    hours_page: "olin_str1"
+  olin_ref:
+    code: olin,ref
+    display_name: "Olin Library Reference (Non-Circulating)"
+    voyager_id: 103
+    rmc_aeon: false
+    hours_page: "olin_ref"
+  olin_605:
+    code: olin,605
+    display_name: "Olin Library Room 604-605 (Non-Circulating)"
+    voyager_id: 104
+    rmc_aeon: false
+    hours_page: "olin_605"
+  olin_301:
+    code: olin,301
+    display_name: "Olin Library Room 301 (Non-Circulating)"
+    voyager_id: 105
+    rmc_aeon: false
+    hours_page: "olin_301"
+  olin_305:
+    code: olin,305
+    display_name: "Olin Library Room 305 (Non-Circulating)"
+    voyager_id: 106
+    rmc_aeon: false
+    hours_page: "olin_305"
+  olin_401:
+    code: olin,401
+    display_name: "Olin Library Room 401 (Non-Circulating)"
+    voyager_id: 107
+    rmc_aeon: false
+    hours_page: "olin_401"
+  olin_404:
+    code: olin,404
+    display_name: "Olin Library Room 404 (Non-Circulating)"
+    voyager_id: 108
+    rmc_aeon: false
+    hours_page: "olin_404"
+  olin_405:
+    code: olin,405
+    display_name: "Olin Library Room 405 (Non-Circulating)"
+    voyager_id: 109
+    rmc_aeon: false
+    hours_page: "olin_405"
+  olin_601:
+    code: olin,601
+    display_name: "Olin Library Room 601 (Non-Circulating)"
+    voyager_id: 110
+    rmc_aeon: false
+    hours_page: "olin_601"
+  olin_604:
+    code: olin,604
+    display_name: "Olin Library Room 604-605 (Non-Circulating)"
+    voyager_id: 111
+    rmc_aeon: false
+    hours_page: "olin_604"
+  olin_str2:
+    code: olin,str2
+    display_name: "Special Location -- Ask at Olin Circulation Desk"
+    voyager_id: 112
+    rmc_aeon: false
+    hours_page: "olin_str2"
+  orni:
+    code: orni
+    display_name: "Adelson Library (Lab of Ornithology)"
+    voyager_id: 113
+    rmc_aeon: false
+    hours_page: "orni"
+  orni_ref:
+    code: orni,ref
+    display_name: "Adelson Library Reference (Lab of Ornithology)"
+    voyager_id: 114
+    rmc_aeon: false
+    hours_page: "orni_ref"
+  phys:
+    code: phys
+    display_name: "Spacecraft Planetary Imaging Facility (Non-Circulating)"
+    voyager_id: 115
+    rmc_aeon: false
+    hours_page: "phys"
+  phys_anx:
+    code: phys,anx
+    display_name: "Library Annex"
+    voyager_id: 116
+    rmc_aeon: false
+    hours_page: "phys_anx"
+  phys_ref:
+    code: phys,ref
+    display_name: "Physical Sciences Library Reference (Non-Circulating)"
+    voyager_id: 117
+    rmc_aeon: false
+    hours_page: "phys_ref"
+  phys_res:
+    code: phys,res
+    display_name: "Physical Sciences Reserve"
+    voyager_id: 119
+    rmc_aeon: false
+    hours_page: "phys_res"
+  cts_rev:
+    code: cts,rev
+    display_name: "Library Technical Services Review Shelves"
+    voyager_id: 120
+    rmc_aeon: false
+    hours_page: "cts_rev"
+  rmc_icer:
+    code: rmc,icer
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 121
+    rmc_aeon: true
+    hours_page: "rmc_icer"
+  sasa:
+    code: sasa
+    display_name: "Kroch Library Asia"
+    voyager_id: 122
+    rmc_aeon: false
+    hours_page: "sasa"
+  sasa_anx:
+    code: sasa,anx
+    display_name: "Library Annex"
+    voyager_id: 123
+    rmc_aeon: false
+    hours_page: "sasa_anx"
+  sasa_av:
+    code: sasa,av
+    display_name: "Uris Library Asia A/V"
+    voyager_id: 124
+    rmc_aeon: false
+    hours_page: "sasa_av"
+  sasa_str1:
+    code: sasa,str1
+    display_name: "Request at Olin Circulation Desk"
+    voyager_id: 125
+    rmc_aeon: false
+    hours_page: "sasa_str1"
+  sasa_rare:
+    code: sasa,rare
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 126
+    rmc_aeon: true
+    hours_page: "sasa_rare"
+  sasa_ref:
+    code: sasa,ref
+    display_name: "Kroch Library Asia Reference (Non-Circulating)"
+    voyager_id: 127
+    rmc_aeon: false
+    hours_page: "sasa_ref"
+  serv_remo:
+    code: serv,remo
+    display_name: "*Networked Resource"
+    voyager_id: 128
+    rmc_aeon: false
+    hours_page: "serv_remo"
+  uris:
+    code: uris
+    display_name: "Uris Library"
+    voyager_id: 129
+    rmc_aeon: false
+    hours_page: "uris"
+  uris_res2:
+    code: uris,res2
+    display_name: "Uris Library Reserve Willis Room"
+    voyager_id: 130
+    rmc_aeon: false
+    hours_page: "uris_res2"
+  uris_ref:
+    code: uris,ref
+    display_name: "Uris Library Reference (Non-Circulating)"
+    voyager_id: 131
+    rmc_aeon: false
+    hours_page: "uris_ref"
+  uris_res:
+    code: uris,res
+    display_name: "Uris Library Reserve"
+    voyager_id: 132
+    rmc_aeon: false
+    hours_page: "uris_res"
+  vet:
+    code: vet
+    display_name: "Veterinary Library (Schurman Hall)"
+    voyager_id: 133
+    rmc_aeon: false
+    hours_page: "vet"
+  vet_anx:
+    code: vet,anx
+    display_name: "Library Annex"
+    voyager_id: 134
+    rmc_aeon: false
+    hours_page: "vet_anx"
+  vet_core:
+    code: vet,core
+    display_name: "Veterinary Library Core Resource (Non-Circulating)"
+    voyager_id: 135
+    rmc_aeon: false
+    hours_page: "vet_core"
+  vet_res:
+    code: vet,res
+    display_name: "Veterinary Library Reserve"
+    voyager_id: 136
+    rmc_aeon: false
+    hours_page: "vet_res"
+  vet_rare:
+    code: vet,rare
+    display_name: "Veterinary Library Rare Books (Non-Circulating)"
+    voyager_id: 137
+    rmc_aeon: false
+    hours_page: "vet_rare"
+  vet_ref:
+    code: vet,ref
+    display_name: "Veterinary Library Reference (Non-Circulating)"
+    voyager_id: 138
+    rmc_aeon: false
+    hours_page: "vet_ref"
+  was:
+    code: was
+    display_name: "Kroch Library Asia"
+    voyager_id: 139
+    rmc_aeon: false
+    hours_page: "was"
+  was_anx:
+    code: was,anx
+    display_name: "Library Annex"
+    voyager_id: 140
+    rmc_aeon: false
+    hours_page: "was_anx"
+  was_av:
+    code: was,av
+    display_name: "Uris Library Asia A/V"
+    voyager_id: 141
+    rmc_aeon: false
+    hours_page: "was_av"
+  was_str1:
+    code: was,str1
+    display_name: "Request at Olin Circulation Desk"
+    voyager_id: 142
+    rmc_aeon: false
+    hours_page: "was_str1"
+  was_rare:
+    code: was,rare
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 143
+    rmc_aeon: true
+    hours_page: "was_rare"
+  was_ref:
+    code: was,ref
+    display_name: "Kroch Library Asia Reference (Non-Circulating)"
+    voyager_id: 144
+    rmc_aeon: false
+    hours_page: "was_ref"
+  ilr_mcs:
+    code: ilr,mcs
+    display_name: "ILR Multi-Copy Storage"
+    voyager_id: 147
+    rmc_aeon: false
+    hours_page: "ilr_mcs"
+  afr_circ:
+    code: afr,circ
+    display_name: ""
+    voyager_id: 149
+    rmc_aeon: false
+    hours_page: "afr_circ"
+  afr_proc:
+    code: afr,proc
+    display_name: ""
+    voyager_id: 150
+    rmc_aeon: false
+    hours_page: "afr_proc"
+  anx_circ:
+    code: anx,circ
+    display_name: ""
+    voyager_id: 151
+    rmc_aeon: false
+    hours_page: "anx_circ"
+  ech_proc:
+    code: ech,proc
+    display_name: ""
+    voyager_id: 152
+    rmc_aeon: false
+    hours_page: "ech_proc"
+  cts_acq:
+    code: cts,acq
+    display_name: ""
+    voyager_id: 153
+    rmc_aeon: false
+    hours_page: "cts_acq"
+  cts_appr:
+    code: cts,appr
+    display_name: ""
+    voyager_id: 154
+    rmc_aeon: false
+    hours_page: "cts_appr"
+  cts_doc:
+    code: cts,doc
+    display_name: ""
+    voyager_id: 155
+    rmc_aeon: false
+    hours_page: "cts_doc"
+  cts_sto:
+    code: cts,sto
+    display_name: ""
+    voyager_id: 156
+    rmc_aeon: false
+    hours_page: "cts_sto"
+  engr_circ:
+    code: engr,circ
+    display_name: ""
+    voyager_id: 157
+    rmc_aeon: false
+    hours_page: "engr_circ"
+  engr_proc:
+    code: engr,proc
+    display_name: ""
+    voyager_id: 158
+    rmc_aeon: false
+    hours_page: "engr_proc"
+  ent_circ:
+    code: ent,circ
+    display_name: ""
+    voyager_id: 159
+    rmc_aeon: false
+    hours_page: "ent_circ"
+  fine_circ:
+    code: fine,circ
+    display_name: ""
+    voyager_id: 160
+    rmc_aeon: false
+    hours_page: "fine_circ"
+  fine_proc:
+    code: fine,proc
+    display_name: ""
+    voyager_id: 161
+    rmc_aeon: false
+    hours_page: "fine_proc"
+  gnva_circ:
+    code: gnva,circ
+    display_name: ""
+    voyager_id: 162
+    rmc_aeon: false
+    hours_page: "gnva_circ"
+  gnva_proc:
+    code: gnva,proc
+    display_name: ""
+    voyager_id: 163
+    rmc_aeon: false
+    hours_page: "gnva_proc"
+  gift_exch:
+    code: gift,exch
+    display_name: ""
+    voyager_id: 164
+    rmc_aeon: false
+    hours_page: "gift_exch"
+  hote_circ:
+    code: hote,circ
+    display_name: ""
+    voyager_id: 165
+    rmc_aeon: false
+    hours_page: "hote_circ"
+  hote_proc:
+    code: hote,proc
+    display_name: ""
+    voyager_id: 166
+    rmc_aeon: false
+    hours_page: "hote_proc"
+  ilr_circ:
+    code: ilr,circ
+    display_name: ""
+    voyager_id: 167
+    rmc_aeon: false
+    hours_page: "ilr_circ"
+  ilr_ts:
+    code: ilr,ts
+    display_name: "Library Annex"
+    voyager_id: 168
+    rmc_aeon: false
+    hours_page: "ilr_ts"
+  jgsm_circ:
+    code: jgsm,circ
+    display_name: ""
+    voyager_id: 169
+    rmc_aeon: false
+    hours_page: "jgsm_circ"
+  jgsm_proc:
+    code: jgsm,proc
+    display_name: "Library Annex"
+    voyager_id: 170
+    rmc_aeon: false
+    hours_page: "jgsm_proc"
+  law_circ:
+    code: law,circ
+    display_name: ""
+    voyager_id: 171
+    rmc_aeon: false
+    hours_page: "law_circ"
+  mann_circ:
+    code: mann,circ
+    display_name: ""
+    voyager_id: 172
+    rmc_aeon: false
+    hours_page: "mann_circ"
+  mann_doc:
+    code: mann,doc
+    display_name: "Library Annex"
+    voyager_id: 173
+    rmc_aeon: false
+    hours_page: "mann_doc"
+  mann_ser:
+    code: mann,ser
+    display_name: ""
+    voyager_id: 174
+    rmc_aeon: false
+    hours_page: "mann_ser"
+  maps_proc:
+    code: maps,proc
+    display_name: ""
+    voyager_id: 175
+    rmc_aeon: false
+    hours_page: "maps_proc"
+  math_circ:
+    code: math,circ
+    display_name: ""
+    voyager_id: 176
+    rmc_aeon: false
+    hours_page: "math_circ"
+  math_proc:
+    code: math,proc
+    display_name: ""
+    voyager_id: 177
+    rmc_aeon: false
+    hours_page: "math_proc"
+  mus_ts:
+    code: mus,ts
+    display_name: "Library Annex"
+    voyager_id: 178
+    rmc_aeon: false
+    hours_page: "mus_ts"
+  mus_circ:
+    code: mus,circ
+    display_name: ""
+    voyager_id: 179
+    rmc_aeon: false
+    hours_page: "mus_circ"
+  mann_ils:
+    code: mann,ils
+    display_name: ""
+    voyager_id: 180
+    rmc_aeon: false
+    hours_page: "mann_ils"
+  olin_circ:
+    code: olin,circ
+    display_name: ""
+    voyager_id: 181
+    rmc_aeon: false
+    hours_page: "olin_circ"
+  olin_ils:
+    code: olin,ils
+    display_name: ""
+    voyager_id: 182
+    rmc_aeon: false
+    hours_page: "olin_ils"
+  oku_proc:
+    code: oku,proc
+    display_name: ""
+    voyager_id: 183
+    rmc_aeon: false
+    hours_page: "oku_proc"
+  phys_circ:
+    code: phys,circ
+    display_name: ""
+    voyager_id: 184
+    rmc_aeon: false
+    hours_page: "phys_circ"
+  phys_proc:
+    code: phys,proc
+    display_name: ""
+    voyager_id: 185
+    rmc_aeon: false
+    hours_page: "phys_proc"
+  rmc_circ:
+    code: rmc,circ
+    display_name: ""
+    voyager_id: 186
+    rmc_aeon: false
+    hours_page: "rmc_circ"
+  rmc_ts:
+    code: rmc,ts
+    display_name: ""
+    voyager_id: 187
+    rmc_aeon: false
+    hours_page: "rmc_ts"
+  uris_circ:
+    code: uris,circ
+    display_name: ""
+    voyager_id: 188
+    rmc_aeon: false
+    hours_page: "uris_circ"
+  vet_circ:
+    code: vet,circ
+    display_name: ""
+    voyager_id: 189
+    rmc_aeon: false
+    hours_page: "vet_circ"
+  vet_proc:
+    code: vet,proc
+    display_name: ""
+    voyager_id: 190
+    rmc_aeon: false
+    hours_page: "vet_proc"
+  was_proc:
+    code: was,proc
+    display_name: ""
+    voyager_id: 191
+    rmc_aeon: false
+    hours_page: "was_proc"
+  bind_circ:
+    code: bind,circ
+    display_name: ""
+    voyager_id: 192
+    rmc_aeon: false
+    hours_page: "bind_circ"
+  acct_endw:
+    code: acct,endw
+    display_name: ""
+    voyager_id: 193
+    rmc_aeon: false
+    hours_page: "acct_endw"
+  acct_mann:
+    code: acct,mann
+    display_name: ""
+    voyager_id: 194
+    rmc_aeon: false
+    hours_page: "acct_mann"
+  acct_ilr:
+    code: acct,ilr
+    display_name: ""
+    voyager_id: 195
+    rmc_aeon: false
+    hours_page: "acct_ilr"
+  acct_gnva:
+    code: acct,gnva
+    display_name: ""
+    voyager_id: 196
+    rmc_aeon: false
+    hours_page: "acct_gnva"
+  acct_hote:
+    code: acct,hote
+    display_name: ""
+    voyager_id: 197
+    rmc_aeon: false
+    hours_page: "acct_hote"
+  acct_vet:
+    code: acct,vet
+    display_name: ""
+    voyager_id: 198
+    rmc_aeon: false
+    hours_page: "acct_vet"
+  cts_ser:
+    code: cts,ser
+    display_name: ""
+    voyager_id: 199
+    rmc_aeon: false
+    hours_page: "cts_ser"
+  AA:
+    code: AA
+    display_name: ""
+    voyager_id: 200
+    rmc_aeon: false
+    hours_page: "AA"
+  dum_ord:
+    code: dum,ord
+    display_name: ""
+    voyager_id: 201
+    rmc_aeon: false
+    hours_page: "dum_ord"
+  asia_res:
+    code: asia,res
+    display_name: "Asia Reserve, Severinghouse Reading Rm., Kroch Library"
+    voyager_id: 202
+    rmc_aeon: false
+    hours_page: "asia_res"
+  rmc_anx:
+    code: rmc,anx
+    display_name: "Kroch Library Rare & Manuscripts (Request in advance)"
+    voyager_id: 203
+    rmc_aeon: true
+    hours_page: "rmc_anx"
+  gnva_res:
+    code: gnva,res
+    display_name: "Geneva Library Reserve"
+    voyager_id: 204
+    rmc_aeon: false
+    hours_page: "gnva_res"
+  vet_comp:
+    code: vet,comp
+    display_name: "Companion Animal Hospital Collection (Departmental use only)"
+    voyager_id: 205
+    rmc_aeon: false
+    hours_page: "vet_comp"
+  vet_equ:
+    code: vet,equ
+    display_name: "Equine Farm Animal Collection (Departmental use only)"
+    voyager_id: 206
+    rmc_aeon: false
+    hours_page: "vet_equ"
+  olin_self:
+    code: olin,self
+    display_name: ""
+    voyager_id: 207
+    rmc_aeon: false
+    hours_page: "olin_self"
+  uris_self:
+    code: uris,self
+    display_name: ""
+    voyager_id: 208
+    rmc_aeon: false
+    hours_page: "uris_self"
+  hote_self:
+    code: hote,self
+    display_name: ""
+    voyager_id: 209
+    rmc_aeon: false
+    hours_page: "hote_self"
+  uris_anx:
+    code: uris,anx
+    display_name: "Library Annex"
+    voyager_id: 210
+    rmc_aeon: false
+    hours_page: "uris_anx"
+  vet_crar:
+    code: vet,crar
+    display_name: "Center for Animal Resources and Education (Dept. use only)"
+    voyager_id: 211
+    rmc_aeon: false
+    hours_page: "vet_crar"
+  vet_oph:
+    code: vet,oph
+    display_name: "Clinical Ophthalmology Collection (Departmental use only)"
+    voyager_id: 212
+    rmc_aeon: false
+    hours_page: "vet_oph"
+  bd:
+    code: bd
+    display_name: ""
+    voyager_id: 213
+    rmc_aeon: false
+    hours_page: "bd"
+  olin_602:
+    code: olin,602
+    display_name: "Olin Library Room 602 (Non-Circulating)"
+    voyager_id: 214
+    rmc_aeon: false
+    hours_page: "olin_602"
+  dcap:
+    code: dcap
+    display_name: "DCAPS (106G Olin)"
+    voyager_id: 215
+    rmc_aeon: false
+    hours_page: "dcap"
+  olin_av:
+    code: olin,av
+    display_name: "Olin Library"
+    voyager_id: 216
+    rmc_aeon: false
+    hours_page: "olin_av"
+  engr_self:
+    code: engr,self
+    display_name: ""
+    voyager_id: 217
+    rmc_aeon: false
+    hours_page: "engr_self"
+  orni_proc:
+    code: orni,proc
+    display_name: ""
+    voyager_id: 218
+    rmc_aeon: false
+    hours_page: "orni_proc"
+  orni_circ:
+    code: orni,circ
+    display_name: ""
+    voyager_id: 219
+    rmc_aeon: false
+    hours_page: "orni_circ"
+  olin_res:
+    code: olin,res
+    display_name: "Olin Library Reserve"
+    voyager_id: 220
+    rmc_aeon: false
+    hours_page: "olin_res"
+  ilr_ranx:
+    code: ilr,ranx
+    display_name: "Request at ILR Circulation Desk"
+    voyager_id: 221
+    rmc_aeon: false
+    hours_page: "ilr_ranx"
+  orni_cumv:
+    code: orni,cumv
+    display_name: "Museum of Vertebrates (Lab of Ornithology) (non-circulating)"
+    voyager_id: 222
+    rmc_aeon: false
+    hours_page: "orni_cumv"
+  vet_path:
+    code: vet,path
+    display_name: "Anatomic Pathology Collection (Departmental use only)"
+    voyager_id: 223
+    rmc_aeon: false
+    hours_page: "vet_path"
+  ZZ:
+    code: ZZ
+    display_name: ""
+    voyager_id: 224
+    rmc_aeon: false
+    hours_page: "ZZ"
+  lts_ersm:
+    code: lts,ersm
+    display_name: "LTS E-Resources and Serials Management"
+    voyager_id: 225
+    rmc_aeon: false
+    hours_page: "lts_ersm"
+  vet_feli:
+    code: vet,feli
+    display_name: "Cornell Feline Health Center (Department use only)"
+    voyager_id: 226
+    rmc_aeon: false
+    hours_page: "vet_feli"
+  orni_mac:
+    code: orni,mac
+    display_name: "Macaulay Library (Lab of Ornithology) (Non-circulating)"
+    voyager_id: 227
+    rmc_aeon: false
+    hours_page: "orni_mac"
+  YY:
+    code: YY
+    display_name: ""
+    voyager_id: 228
+    rmc_aeon: false
+    hours_page: "YY"
+  maps_anx:
+    code: maps,anx
+    display_name: "Map Storage (Request in Advance at Map Room, Olin Library)"
+    voyager_id: 229
+    rmc_aeon: false
+    hours_page: "maps_anx"
+  maps_circ:
+    code: maps,circ
+    display_name: ""
+    voyager_id: 230
+    rmc_aeon: false
+    hours_page: "maps_circ"
+  orni_anx:
+    code: orni,anx
+    display_name: "Library Annex"
+    voyager_id: 231
+    rmc_aeon: false
+    hours_page: "orni_anx"
+  sasa_ranx:
+    code: sasa,ranx
+    display_name: "Kroch Library Rare & Manuscripts (Request in advance)"
+    voyager_id: 232
+    rmc_aeon: true
+    hours_page: "sasa_ranx"
+  ech_ranx:
+    code: ech,ranx
+    display_name: "Kroch Library Rare & Manuscripts (Request in advance)"
+    voyager_id: 233
+    rmc_aeon: true
+    hours_page: "ech_ranx"
+  was_ranx:
+    code: was,ranx
+    display_name: "Kroch Library Rare & Manuscripts (Request in advance)"
+    voyager_id: 234
+    rmc_aeon: true
+    hours_page: "was_ranx"
+  asia:
+    code: asia
+    display_name: "Kroch Library Asia"
+    voyager_id: 235
+    rmc_aeon: false
+    hours_page: "asia"
+  asia_anx:
+    code: asia,anx
+    display_name: "Library Annex"
+    voyager_id: 236
+    rmc_aeon: false
+    hours_page: "asia_anx"
+  asia_av:
+    code: asia,av
+    display_name: "Uris Library Asia A/V"
+    voyager_id: 237
+    rmc_aeon: false
+    hours_page: "asia_av"
+  asia_rare:
+    code: asia,rare
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 238
+    rmc_aeon: false
+    hours_page: "asia_rare"
+  asia_ref:
+    code: asia,ref
+    display_name: "Kroch Library Asia Reference (Non-Circulating)"
+    voyager_id: 239
+    rmc_aeon: false
+    hours_page: "asia_ref"
+  asia_ranx:
+    code: asia,ranx
+    display_name: "Kroch Library Rare & Manuscripts (Request in advance)"
+    voyager_id: 240
+    rmc_aeon: false
+    hours_page: "asia_ranx"
+  mgmt_circ:
+    code: mgmt,circ
+    display_name: ""
+    voyager_id: 241
+    rmc_aeon: false
+    hours_page: "mgmt_circ"
+  law_self:
+    code: law,self
+    display_name: ""
+    voyager_id: 242
+    rmc_aeon: false
+    hours_page: "law_self"
+  lawr:
+    code: lawr
+    display_name: "Law Library (Myron Taylor Hall) Rare Books "
+    voyager_id: 243
+    rmc_aeon: true
+    hours_page: "lawr"
+  lawr_anx:
+    code: lawr,anx
+    display_name: "Law Library Rare--Request in advance at Law Circulation Desk"
+    voyager_id: 244
+    rmc_aeon: false
+    hours_page: "lawr_anx"
+  jgsm_ref2:
+    code: jgsm,ref2
+    display_name: "Sage Hall Management Library Reference (Non-Circulating)"
+    voyager_id: 245
+    rmc_aeon: false
+    hours_page: "jgsm_ref2"
+  nest_circ:
+    code: nest,circ
+    display_name: ""
+    voyager_id: 246
+    rmc_aeon: false
+    hours_page: "nest_circ"
+  olin_501:
+    code: olin,501
+    display_name: "Olin Library Graduate Study Room 501, Request at Circulation"
+    voyager_id: 247
+    rmc_aeon: false
+    hours_page: "olin_501"
+  XX:
+    code: XX
+    display_name: ""
+    voyager_id: 248
+    rmc_aeon: false
+    hours_page: "XX"
+  WW:
+    code: WW
+    display_name: ""
+    voyager_id: 249
+    rmc_aeon: false
+    hours_page: "WW"
+  VV:
+    code: VV
+    display_name: ""
+    voyager_id: 250
+    rmc_aeon: false
+    hours_page: "VV"

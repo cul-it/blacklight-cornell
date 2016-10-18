@@ -3,14 +3,9 @@ class BackendController < ApplicationController
   include Blacklight::SearchHelper
 
   def holdings
-    ActiveSupport::Notifications.instrument( 'backend.retrieve', :name => category) do
       @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
-    end
-    ActiveSupport::Notifications.instrument( 'backend.retrieve_raw', :name => category) do
       @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
-    end
     @id = params[:id]
-
     #resp, document = get_solr_response_for_doc_id(@id)
     resp, document = fetch (@id)
     if document['url_pda_display'].present?
@@ -55,7 +50,7 @@ class BackendController < ApplicationController
     @mid = params[:id]
      logger.debug  "es287_debug #{__FILE__}:#{__LINE__} getting info (Multi bibid) for #{params[:id]} from"
      logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
-     logger.debug @holdings
+     logger.debug "es287_debug #{__FILE__}:#{__LINE__} @mholdings_detail = #{@mholdings_detail.inspect}"
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
     rendera = {};

@@ -1,255 +1,39 @@
-# require 'spec_helper'
+ require 'spec_helper'
 # require 'backend_controller'
 
-# module Blacklight
+describe BackendController, :type => :controller  do
+  describe "GET 'holdings_short" do
+    it "returns a successful 200 response" do
+       get :holdings_short, format: :json, :id =>"1449"
+      expect(response).to be_success
+    end
+  end
 
-# 	describe BackendController, "requesting an item" do
+  describe "GET 'holdings_short'" do
+    before { get :holdings_short , :id => "1449" }
+    it "Gives back JSON" do
+      #expect(response).to render_template("holdings_short")
+      parsed_body = JSON.parse(response.body)
+      expect(parsed_body['1449']['records'][0]['bibid']).to  eq("1449")
+      expect(parsed_body['1449']['records'][0]['holding_id']).to  eq("5817")
+    end
+  end
 
-# 		def holdings_json_helper status
+  describe "GET 'holdings_shorthm" do
+    it "returns a successful 200 response" do
+       get :holdings_shorthm, format: :html, :id =>"1449"
+      expect(response).to be_success
+    end
+  end
 
-# 			holdings_hash = Hash.new
-
-# 			if status == 'available'
-#  				holdings_hash = {
-#   "1419" =>  {
-#     "condensed_holdings_full" => [ {
-#       "location_name" =>  "*Networked Resource", "call_number" =>  "No call number", "status" =>  "none", "holding_id" => [ "6181953"], "copies" => [ {
-#         "items" =>  {
-#           "Status unknown" =>  {
-#             "status" =>  "none", "count" =>  1
-#           }
-#         },
-#         "notes" =>  "Notes: For holdings, check resource."
-#       }], "services" => []
-#     }, {
-#       "location_name" =>  "Law Library (Myron Taylor Hall)", "call_number" =>  "KF4627 .S43 1962", "status" =>  "available", "holding_id" => [ "5777", "5778"], "copies" => [ {
-#         "items" =>  {
-#           "Not Charged" =>  {
-#             "status" =>  "available", "count" =>  1
-#           }
-#         },
-#         "summary_holdings" =>  "Library has: v.1-2"
-#       },
-#       {
-#         "items" =>  {
-#           "Not Charged" =>  {
-#             "status" =>  "available", "count" =>  1
-#           }
-#         },
-#         "summary_holdings" =>  "Library has: v.1-2"
-#       }], "services" => []
-#     }, {
-#       "location_name" =>  "Library Annex", "call_number" =>  "QB281 .S39", "status" =>  "available", "holding_id" => [ "5779"], "copies" => [ {
-#         "items" =>  {
-#           "Not Charged" =>  {
-#             "status" =>  "available", "count" =>  1
-#           }
-#         },
-#         "summary_holdings" =>  "Library has: v.2"
-#       }], "services" => []
-#     }, {
-#       "location_name" =>  "Olin Library", "call_number" =>  "Oversize HD205 1962 .S52 +", "status" =>  "available", "holding_id" => [ "5248430", "5248433"], "copies" => [ {
-#         "items" =>  {
-#           "Not Charged" =>  {
-#             "status" =>  "available", "count" =>  1
-#           }
-#         },
-#         "summary_holdings" =>  "Library has: v.1-2"
-#       }, {
-#         "items" =>  {
-#           "Not Charged" =>  {
-#             "status" =>  "available", "count" =>  1
-#           }
-#         },
-#         "summary_holdings" =>  "Library has: v.1-2"
-#       }], "services" => []
-#     }]
-#   }
-# }
-#       elsif status == 'not_available'
-#       	holdings_hash = {
-#   "1419" =>  {
-#     "condensed_holdings_full" => [ {
-#       "location_name" =>  "Olin", "call_number" =>  "qx1", "status" =>  "not_available", "holding_id" => [ "6181953"], "copies" => [ {
-#         "items" =>  {
-#           "Checked out, due 2012-10-26" =>  {
-#             "status" =>  "not_available", "count" =>  1
-#           }
-#         },
-#         "notes" =>  "Notes: For holdings, check resource."
-#       }], "services" => ['recall_hold', 'borrow_direct', 'ill']
-#     }]
-#   }
-# }
-#      	elsif status == 'missing'
-#      		holdings_hash = {
-#   "1419" =>  {
-#     "condensed_holdings_full" => [ {
-#       "location_name" =>  "Olin", "call_number" =>  "qx1", "status" =>  "missing", "holding_id" => [ "6181953"], "copies" => [ {
-#         "items" =>  {
-#           "Missing" =>  {
-#             "status" =>  "missing", "count" =>  1
-#           }
-#         },
-#         "notes" =>  "Notes: For holdings, check resource."
-#       }], "services" => []
-#     }]
-#   }
-# }
-# 			end
-# 			holdings_hash
-# 		end
-
-# 		describe "request_item" do
-
-# 			context "item status is available" do
-
-# 				before {
-# 					@bc = BackendController.new
-# 					@bc.stub(:get_patron_type => 'cornell')
-# 					@bc.stub(:get_holdings).and_return(holdings_json_helper 'available')
-# 				}
-
-# 				context "loan type is regular" do
-# 					before {
-# 						@bc.stub(:get_item_type   => 'regular')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns L2L for service" do
-# 						@result[:service].should eq('l2l')
-# 					end
-
-# 					it "returns the holdings ID for the available item" do
-# 					  @result[:holding_id].should eq('5777')
-# 					end
-
-#   				it "returns the location for the availble item" do
-# 				  	@result[:location].should eq('Law Library (Myron Taylor Hall)')
-# 				  end
-# 				end
-
-# 				context "loan type is day" do
-# 					before {
-# 						@bc.stub(:get_item_type   => 'day')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns L2L for service" do
-# 						@result[:service].should eq('l2l')
-# 					end
-
-# 					it "returns the holdings ID for the available item" do
-# 					  @result[:holding_id].should eq('5777')
-# 					end
-
-#   				it "returns the location for the availble item" do
-# 				  	@result[:location].should eq('Law Library (Myron Taylor Hall)')
-# 				  end
-# 				end
-
-# 				context "loan type is minute" do
-# 					before {
-# 						@bc.stub(:get_item_type   => 'minute')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns ask for service" do
-# 						@result[:service].should eq('ask')
-# 					end
-# 				end
-# 			end
-
-# 			context "item status is charged" do
-# 				before {
-# 					@bc = BackendController.new
-# 					@bc.stub(:get_holdings).and_return(holdings_json_helper 'not_available')
-# 				}
-
-# 				context "item type is regular" do
-# 					before {
-# 						@bc.stub(:get_item_type   => 'regular')
-# 					}
-
-# 					context "patron type is student/faculty" do
-# 						before {
-# 							@bc.stub(:get_patron_type   => 'cornell')
-# 							@result = @bc._request_item('1419', 'gid-silterrae')
-# 						}
-
-# 						it "returns bd for service" do
-# 	  						@result[:service].should eq('bd')
-#   						end
-# 					end
-
-# 					context "patron type is guest" do
-# 						before {
-# 							@bc.stub(:get_patron_type   => 'guest')
-# 							@result = @bc._request_item('1419', 'gid-silterrae')
-# 						}
-
-# 						it "returns hold for service" do
-# 	  						@result[:service].should eq('hold')
-#   						end
-# 					end
-# 				end
-
-# 				context "item type is day" do
-# 					before {
-# 						@bc.stub(:get_item_type   => 'day')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns hold for service" do
-# 						@result[:service].should eq('hold')
-# 					end
-# 				end
-
-# 				context "item type is minute" do
-# 					before {
-# 						@bc.stub(:get_item_type   => 'minute')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns ask for service" do
-# 						@result[:service].should eq('ask')
-# 					end
-# 				end
-# 			end
-
-# 			context "item status is missing/lost" do
-# 				before {
-# 					@bc = BackendController.new
-# 					@bc.stub(:get_holdings).and_return(holdings_json_helper 'missing')
-# 				}
-
-# 				context "patron type is student/faculty" do
-# 					before {
-# 						@bc.stub(:get_patron_type   => 'cornell')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns BD for service" do
-# 						@result[:service].should eq('bd')
-# 					end
-# 				end
-
-# 				context "patron type is guest" do
-# 					before {
-# 						@bc.stub(:get_patron_type => 'guest')
-# 						@result = @bc._request_item('1419', 'gid-silterrae')
-# 					}
-
-# 					it "returns ask for service" do
-# 						@result[:service].should eq('ask')
-# 					end
-# 				end
-
-# 			end
-
-# 		end
+  describe "GET 'holdings_shorthm'" do
+    before { get :holdings_shorthm , :id => "1449" }
+    it "renders the holdings_short template" do
+      #expect(response).to render_template("holdings_short")
+      expect(response).to render_template("backend/holdings_short")
+    end
+  end
 
 
 
-# 	end
-# end
+end
