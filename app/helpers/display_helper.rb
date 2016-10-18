@@ -236,6 +236,7 @@ include ActionView::Helpers::NumberHelper
     'mann' => 'mann',
     'math' => 'math',
     'Spacecraft Planetary Imaging Facility 317 Space Science Bldg' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
+    'Spacecraft Planetary Imaging Facility (Non-Circulating)' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
     'phys' => 'physicalsciences',
     'uris' => 'uris',
     'vet' => 'vet',
