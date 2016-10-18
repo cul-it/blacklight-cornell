@@ -249,12 +249,12 @@ Feature: Item view
     Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item mind's new science (status 10) 
+  # Availability for an In transit item Mac OS X Tiger in a nutshell (status 10) 
   @all_item_view
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 424344 
+    Given I request the item view for 5729532 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item bonsai culture and care 
