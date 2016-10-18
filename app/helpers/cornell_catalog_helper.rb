@@ -27,6 +27,7 @@ module CornellCatalogHelper
       grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
       #if holding['location_code'].include?('rmc')
+      Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  holding = #{holding.pretty_inspect}"
       if Location::aeon_eligible? holding['location_code']
         grouped['Rare'] << holding
       elsif holding['location_name'].include?('*Networked Resource')

@@ -147,9 +147,10 @@ Feature: Item view
   @javascript
   @bibid1902405
   @DISCOVERYACCESS-1659
+  @request
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
-    Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'
+    Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
     Then I should see the label 'Request'  
 
 
@@ -160,6 +161,7 @@ Feature: Item view
   @all_item_view
   @availability
   @DISCOVERYACCESS-988
+  @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 44112 
     Then I should not see the label 'Temporarily shelved'
@@ -169,6 +171,7 @@ Feature: Item view
   @availability
   @DISCOVERYACCESS-988
   @nomusic
+  @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 2269649 
     Then I should not see the label 'Music Library Reserve'
@@ -644,9 +647,9 @@ Feature: Item view
   @bibid9264410
   @DISCOVERYACCESS-2855
   Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 1902405 
+    Given I request the item view for 9264410
     Then I should see the label 'On-site use'
-    Then I should see the label 'Request'  
+    And I should not see the label 'Request item'
 
 
   # The New York times 
@@ -659,6 +662,6 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1545844 
     Then I should see the label 'On-site use'
-    Then I should not see the label 'Request item'  
+    Then I should not see the label 'Request item'
 
 
