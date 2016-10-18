@@ -2,7 +2,7 @@
   .location
     = location
     %span.map-it
-      -if entry['location_name'] == "Spacecraft Planetary Imaging Facility 317 Space Science Bldg"
+      -if entry['location_name'].include?("Spacecraft Planetary Imaging Facility")
         = render_special_location_link entry['location_name']
       -else
         = render_location_link entry['location_code']
