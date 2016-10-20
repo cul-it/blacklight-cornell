@@ -144,6 +144,11 @@ include ActionView::Helpers::NumberHelper
 
   # Build a link to the CUL libraryhours page for the library location in question
   def render_location_link location_code
+    loc_url = Location::help_page(location_code)
+    link_to('Hours/Map', loc_url, {:title => 'See hours and map'})
+  end
+
+  def yy_render_location_link location_code
     base_url = 'https://www.library.cornell.edu/libraries/'
     matched_location = nil
     # Test for substring match of location hash key in location_code
@@ -153,9 +158,16 @@ include ActionView::Helpers::NumberHelper
         break # Break on first match to ensure RMC (followed by Annex) is properly identified
       end
     end
-
-    location_url = matched_location.present? ? base_url + matched_location : base_url
-
+    #location_url = matched_location.present? ? base_url + matched_location : base_url
+    location_url = 
+     case 
+       when matched_location.present? && matched_location.include?('http:')
+         matched_location
+       when matched_location.present? && !matched_location.include?('http:')
+         base_url + matched_location
+       else
+         base_url
+     end     
     link_to('Hours/Map', location_url, {:title => 'See hours and map'})
   end
 
@@ -237,7 +249,7 @@ include ActionView::Helpers::NumberHelper
     'math' => 'math',
     'Spacecraft Planetary Imaging Facility 317 Space Science Bldg' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
     'Spacecraft Planetary Imaging Facility (Non-Circulating)' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
-    'phys' => 'physicalsciences',
+    'phys' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
     'uris' => 'uris',
     'vet' => 'vet',
     'orni' => 'ornithology',
