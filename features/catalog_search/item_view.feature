@@ -650,6 +650,8 @@ Feature: Item view
     Given I request the item view for 9264410
     Then I should see the label 'On-site use'
     And I should not see the label 'Request item'
+    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
+
 
 
   # The New York times 
@@ -662,6 +664,11 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1545844 
     Then I should see the label 'On-site use'
-    Then I should not see the label 'Request item'
+    Then I should see the label 'Request item'
 
-
+  @aeon
+  @all_item_view
+  Scenario: View an items holdings, and have pointer to RMC help page. 
+    Given I request the item view for 2083253 
+        Then I should see the label 'On-site use'
+        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"

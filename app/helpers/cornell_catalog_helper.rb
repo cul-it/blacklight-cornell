@@ -116,7 +116,8 @@ module CornellCatalogHelper
     @response = response
     # Store the response in the session for use by the request engine
     session[:holdings_status_short] = response
-    @request_ok = requestable?(bibid,response) 
+    @request_ok = true
+    #@request_ok = requestable?(bibid,response) 
     Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  @request_ok = #{@request_ok.pretty_inspect}"
     @bound_with = [] 
     @bound_with_to_mbw =  {} 
