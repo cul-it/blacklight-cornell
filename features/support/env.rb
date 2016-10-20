@@ -114,10 +114,15 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
-Before do
-  ActiveRecord::FixtureSet.reset_cache
-  fixtures_folder = File.join(Rails.root, 'spec', 'fixtures')
-  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
-  ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
-end
 
+#Before do
+#  ActiveRecord::FixtureSet.reset_cache
+#  fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
+#  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+#  ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
+#end
+#Seed the DB
+ActiveRecord::Fixtures.reset_cache  
+fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
+fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
