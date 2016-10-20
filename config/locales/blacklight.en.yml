@@ -248,3 +248,9 @@ en:
       default: 'entry'
 
     did_you_mean: 'Did you mean to type: %{options}?'
+
+  support:
+    array:
+      words_connector: " <br /> "
+      two_words_connector: " <br /> "
+      last_word_connector: "<br />"
