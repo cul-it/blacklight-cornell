@@ -147,9 +147,10 @@ Feature: Item view
   @javascript
   @bibid1902405
   @DISCOVERYACCESS-1659
+  @request
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
-    Then I should see the label '1950 c. 1 Checked out, due 2016-01-09'
+    Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
     Then I should see the label 'Request'  
 
 
@@ -160,6 +161,7 @@ Feature: Item view
   @all_item_view
   @availability
   @DISCOVERYACCESS-988
+  @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 44112 
     Then I should not see the label 'Temporarily shelved'
@@ -169,6 +171,7 @@ Feature: Item view
   @availability
   @DISCOVERYACCESS-988
   @nomusic
+  @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
     Given I request the item view for 2269649 
     Then I should not see the label 'Music Library Reserve'
@@ -246,12 +249,12 @@ Feature: Item view
     Given I request the item view for 18583 
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item mind's new science (status 10) 
+  # Availability for an In transit item Mac OS X Tiger in a nutshell (status 10) 
   @all_item_view
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 424344 
+    Given I request the item view for 5729532 
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item bonsai culture and care 
@@ -634,3 +637,31 @@ Feature: Item view
     Then I should see the label 'Other online content'
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
+
+  # availability -- Spacecraft Planetary Imaging Facilty  
+  # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
+  # bibid 9264410
+  @all_item_view
+  @availability
+  @javascript
+  @bibid9264410
+  @DISCOVERYACCESS-2855
+  Scenario: As a user I can see the availability for an item 
+    Given I request the item view for 9264410
+    Then I should see the label 'On-site use'
+    And I should not see the label 'Request item'
+
+
+  # The New York times 
+  # bibid 1545844 
+  @all_item_view
+  @availability
+  @javascript
+  @bibid1545844
+  @DISCOVERYACCESS-1380
+  Scenario: As a user I can see the availability for an item 
+    Given I request the item view for 1545844 
+    Then I should see the label 'On-site use'
+    Then I should not see the label 'Request item'
+
+

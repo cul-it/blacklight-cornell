@@ -60,6 +60,14 @@
           <%= link_to 'Terms of Use',"/databases/tou/#{dbid}" %>
         </div>
       </div>
+      <% if data["sixfivethree"].present? %>
+        <p>
+          Subject(s): 
+          <% data["sixfivethree"].each do |s| %>
+          <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
+          <% end %>
+           </p>
+          <% end %>
     </div>
   <% end %>
 </div>

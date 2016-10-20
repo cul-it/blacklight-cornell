@@ -1,15 +1,17 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 require 'bl_monkeys'
 require 'stringio'
 
 # NOTE: most of these functions and tests are copied directly from 
-# the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
+# # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
 
 def marc_from_xml(string)    
   # NOTE: somewhere, one of the blacklight gems is changing the parser
-  # used by XMLReader. Unless it's specified here ('rexml'), this function will
-  # fail to produce any output
-  reader = MARC::XMLReader.new(StringIO.new(string), :parser => 'rexml')
+  #   # used by XMLReader. Unless it's specified here ('rexml'), this function will
+  #     # fail to produce any output
+  #
+  reader = MARC::XMLReader.new(StringIO.new(string),:parser => 'rexml')
   reader.each {|rec| return rec }
 end
   
@@ -20,73 +22,34 @@ def standard_citation
   <controlfield tag=\"001\">a4802615</controlfield>
   <controlfield tag=\"003\">SIRSI</controlfield>
   <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
+
+  <datafield tag=\"110\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">Bobs</subfield>
+    <subfield code=\"b\">Your Uncle</subfield>
+  </datafield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Apples :</subfield>
     <subfield code=\"b\">botany, production, and uses /</subfield>
     <subfield code=\"c\">edited by D.C. Ferree and I.J. Warrington.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">Oxon, U.K. ;</subfield>
     <subfield code=\"a\">Cambridge, MA :</subfield>
     <subfield code=\"b\">CABI Pub.,</subfield>
     <subfield code=\"c\">c2003.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Ferree, David C.</subfield>
     <subfield code=\"q\">(David Curtis),</subfield>
     <subfield code=\"d\">1943-</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Warrington, I. J.</subfield>
     <subfield code=\"q\">(Ian J.)</subfield>
-  </datafield>
-</record>"
-end
-
-def corporate_author_citation
-"<record>
-  <leader>01182pam a22003014a 4500</leader>
-  <controlfield tag=\"001\">a4802615</controlfield>
-  <controlfield tag=\"003\">SIRSI</controlfield>
-  <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
-  <datafield tag=\"110\" ind1=\"1\" ind2=\" \">
-    <subfield code=\"a\">Bobs</subfield>
-    <subfield code=\"b\">Your Uncle</subfield>
-  </datafield>
-  <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
-    <subfield code=\"a\">Apples :</subfield>
-    <subfield code=\"b\">botany, production, and uses /</subfield>
-    <subfield code=\"c\">edited by D.C. Ferree and I.J. Warrington.</subfield>
-  </datafield>
-  <datafield tag=\"260\" ind1=\" \" ind2=\" \">
-    <subfield code=\"a\">Oxon, U.K. ;</subfield>
-    <subfield code=\"a\">Cambridge, MA :</subfield>
-    <subfield code=\"b\">CABI Pub.,</subfield>
-    <subfield code=\"c\">c2003.</subfield>
-  </datafield>
-</record>"
-end
-
-def meeting_author_citation
-"<record>
-  <leader>01182pam a22003014a 4500</leader>
-  <controlfield tag=\"001\">a4802615</controlfield>
-  <controlfield tag=\"003\">SIRSI</controlfield>
-  <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
-  <datafield tag=\"111\" ind1=\"1\" ind2=\" \">
-    <subfield code=\"a\">International Rutabaga Curling Championships</subfield>
-    <subfield code=\"q\">Ithaca Regional Meeting</subfield>
-  </datafield>
-  <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
-    <subfield code=\"a\">Apples :</subfield>
-    <subfield code=\"b\">botany, production, and uses /</subfield>
-    <subfield code=\"c\">edited by D.C. Ferree and I.J. Warrington.</subfield>
-  </datafield>
-  <datafield tag=\"260\" ind1=\" \" ind2=\" \">
-    <subfield code=\"a\">Oxon, U.K. ;</subfield>
-    <subfield code=\"a\">Cambridge, MA :</subfield>
-    <subfield code=\"b\">CABI Pub.,</subfield>
-    <subfield code=\"c\">c2003.</subfield>
   </datafield>
 </record>"
 end
@@ -98,26 +61,32 @@ def music_record
   <controlfield tag=\"003\">SIRSI</controlfield>
   <controlfield tag=\"007\">sd fungnnmmned</controlfield>
   <controlfield tag=\"008\">020117p20011990xxuzz    h              d</controlfield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Music for horn</subfield>
     <subfield code=\"h\">[sound recording] /</subfield>
     <subfield code=\"c\">Brahms, Beethoven, von Krufft.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">[United States] :</subfield>
     <subfield code=\"b\">Harmonia Mundi USA,</subfield>
     <subfield code=\"c\">p2001.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Greer, Lowell.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Lubin, Steven.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Chase, Stephanie,</subfield>
     <subfield code=\"d\">1957-</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
     <subfield code=\"a\">Brahms, Johannes,</subfield>
     <subfield code=\"d\">1833-1897.</subfield>
@@ -126,6 +95,7 @@ def music_record
     <subfield code=\"n\">op. 40,</subfield>
     <subfield code=\"r\">E? major.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
     <subfield code=\"a\">Beethoven, Ludwig van,</subfield>
     <subfield code=\"d\">1770-1827.</subfield>
@@ -134,16 +104,13 @@ def music_record
     <subfield code=\"n\">op. 17,</subfield>
     <subfield code=\"r\">F major.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
     <subfield code=\"a\">Krufft, Nikolaus von,</subfield>
     <subfield code=\"d\">1779-1818.</subfield>
     <subfield code=\"t\">Sonata,</subfield>
     <subfield code=\"m\">horn, piano,</subfield>
     <subfield code=\"r\">F major.</subfield>
-  </datafield>
-  <datafield tag=\"711\" ind1=\"1\" ind2=\" \">
-    <subfield code=\"a\">International Rutabaga Curling Championships</subfield>
-    <subfield code=\"q\">Ithaca Regional Meeting</subfield>
   </datafield>
 </record>"
 end
@@ -167,28 +134,24 @@ def record1_xml
      <controlfield tag=\"001\">a1711966</controlfield>
      <controlfield tag=\"003\">SIRSI</controlfield>
      <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+
      <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Janetzky, Kurt.</subfield>
      </datafield>
-     <datafield tag=\"110\" ind1=\"1\" ind2=\" \">
-       <subfield code=\"a\">Bobs</subfield>
-       <subfield code=\"b\">Your Uncle</subfield>
-     </datafield>
+
      <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
        <subfield code=\"a\">The horn /</subfield>
        <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
      </datafield>
+
      <datafield tag=\"260\" ind1=\" \" ind2=\" \">
        <subfield code=\"a\">London :</subfield>
        <subfield code=\"b\">Batsford,</subfield>
        <subfield code=\"c\">1988.</subfield>
      </datafield>
+
      <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Brüchle, Bernhard.</subfield>
-     </datafield>
-     <datafield tag=\"710\" ind1=\"1\" ind2=\" \">
-       <subfield code=\"a\">Petunias</subfield>
-       <subfield code=\"b\">Your Aunt</subfield>
      </datafield>
   </record>"
 end
@@ -200,9 +163,11 @@ def record2_xml
   <controlfield tag=\"001\">a543347</controlfield>
   <controlfield tag=\"003\">SIRSI</controlfield>
   <controlfield tag=\"008\">730111s1971    ohu      b    000 0 eng  </controlfield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Final report to the Honorable John J. Gilligan, Governor.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">[Columbus,</subfield>
     <subfield code=\"b\">Printed by the State of Ohio, Dept. of Urban Affairs,</subfield>
@@ -217,13 +182,16 @@ def year_range_xml
      <controlfield tag=\"001\">a1711966</controlfield>
      <controlfield tag=\"003\">SIRSI</controlfield>
      <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+
      <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Schmoe, Joe</subfield>
      </datafield>
+
      <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
        <subfield code=\"a\">Main title /</subfield>
        <subfield code=\"c\">Subtitle</subfield>
      </datafield>
+
      <datafield tag=\"260\" ind1=\" \" ind2=\" \">
        <subfield code=\"a\">London :</subfield>
        <subfield code=\"b\">Batsford,</subfield>
@@ -239,13 +207,16 @@ def no_date_xml
      <controlfield tag=\"001\">a1711966</controlfield>
      <controlfield tag=\"003\">SIRSI</controlfield>
      <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+
      <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Schmoe, Joe</subfield>
      </datafield>
+
      <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
        <subfield code=\"a\">Main title /</subfield>
        <subfield code=\"c\">Subtitle</subfield>
      </datafield>
+
      <datafield tag=\"260\" ind1=\" \" ind2=\" \">
        <subfield code=\"a\">London :</subfield>
        <subfield code=\"b\">Batsford,</subfield>
@@ -261,23 +232,22 @@ def section_title_xml
      <controlfield tag=\"001\">a1711966</controlfield>
      <controlfield tag=\"003\">SIRSI</controlfield>
      <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+
      <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Schmoe, Joe</subfield>
      </datafield>
+
      <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
        <subfield code=\"a\">Main title /</subfield>
        <subfield code=\"b\">Subtitle</subfield>
        <subfield code=\"n\">Number of part.</subfield>
        <subfield code=\"p\">Name of part.</subfield>
      </datafield>
+
      <datafield tag=\"260\" ind1=\" \" ind2=\" \">
        <subfield code=\"a\">London :</subfield>
        <subfield code=\"b\">Batsford,</subfield>
        <subfield code=\"c\">2001</subfield>
-     </datafield>
-     <datafield tag=\"710\" ind1=\"1\" ind2=\" \">
-       <subfield code=\"a\">Bobs</subfield>
-       <subfield code=\"b\">Your Uncle</subfield>
      </datafield>
      
   </record>"
@@ -287,9 +257,11 @@ def dissertation_note_xml
 "<record>
   <leader>00903nam a2200253   4500</leader>
   <controlfield tag=\"008\">730111s1971    ohu      b    000 0 eng  </controlfield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Thesis on some subject.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"c\">2009</subfield>
   </datafield>
@@ -312,6 +284,7 @@ def special_contributor_with_author_xml
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Title of item.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">Publisher</subfield>
     <subfield code=\"b\">Place</subfield>
@@ -348,6 +321,7 @@ def three_authors_xml
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Title of item.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">Publisher</subfield>
     <subfield code=\"b\">Place</subfield>
@@ -373,6 +347,7 @@ def special_contributor_no_author_xml
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Title of item.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">Publisher</subfield>
     <subfield code=\"b\">Place</subfield>
@@ -405,26 +380,32 @@ def record3_xml
   <controlfield tag=\"003\">SIRSI</controlfield>
   <controlfield tag=\"007\">sd fungnnmmned</controlfield>
   <controlfield tag=\"008\">020117p20011990xxuzz    h              d</controlfield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Music for horn</subfield>
     <subfield code=\"h\">[sound recording] /</subfield>
     <subfield code=\"c\">Brahms, Beethoven, von Krufft.</subfield>
   </datafield>
+
   <datafield tag=\"260\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">[United States] :</subfield>
     <subfield code=\"b\">Harmonia Mundi USA,</subfield>
     <subfield code=\"c\">p2001.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Greer, Lowell.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Lubin, Steven.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Chase, Stephanie,</subfield>
     <subfield code=\"d\">1957-</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
     <subfield code=\"a\">Brahms, Johannes,</subfield>
     <subfield code=\"d\">1833-1897.</subfield>
@@ -433,6 +414,7 @@ def record3_xml
     <subfield code=\"n\">op. 40,</subfield>
     <subfield code=\"r\">E? major.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
     <subfield code=\"a\">Beethoven, Ludwig van,</subfield>
     <subfield code=\"d\">1770-1827.</subfield>
@@ -441,6 +423,7 @@ def record3_xml
     <subfield code=\"n\">op. 17,</subfield>
     <subfield code=\"r\">F major.</subfield>
   </datafield>
+
   <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
     <subfield code=\"a\">Krufft, Nikolaus von,</subfield>
     <subfield code=\"d\">1779-1818.</subfield>
@@ -483,22 +466,27 @@ def no_good_data_xml
   <datafield tag=\"024\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">713746703721</subfield>
   </datafield>
+
   <datafield tag=\"028\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">HCX 3957037</subfield>
     <subfield code=\"b\">Harmonia Mundi USA</subfield>
   </datafield>
+
   <datafield tag=\"033\" ind1=\"2\" ind2=\"0\">
     <subfield code=\"a\">19901203</subfield>
     <subfield code=\"a\">19901206</subfield>
   </datafield>
+
   <datafield tag=\"035\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">(OCoLC-M)48807235</subfield>
   </datafield>
+
   <datafield tag=\"040\" ind1=\" \" ind2=\" \">
     <subfield code=\"a\">WC4</subfield>
     <subfield code=\"c\">WC4</subfield>
     <subfield code=\"d\">CSt</subfield>
   </datafield>
+
   <datafield tag=\"041\" ind1=\"0\" ind2=\" \">
     <subfield code=\"g\">engfre</subfield>
   </datafield>
@@ -512,18 +500,22 @@ def bad_author_xml
      <controlfield tag=\"001\">a1711966</controlfield>
      <controlfield tag=\"003\">SIRSI</controlfield>
      <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+
      <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\"></subfield>
      </datafield>
+
      <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
        <subfield code=\"a\">The horn /</subfield>
        <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
      </datafield>
+
      <datafield tag=\"260\" ind1=\" \" ind2=\" \">
        <subfield code=\"a\">London :</subfield>
        <subfield code=\"b\">Batsford,</subfield>
        <subfield code=\"c\">1988.</subfield>
      </datafield>
+
      <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Brüchle, Bernhard.</subfield>
      </datafield>
@@ -556,55 +548,22 @@ describe Blacklight::Solr::Document::MarcExport do
     @record_with_bad_author             = dclass.new( bad_author_xml )
     @special_contributor_no_auth_record = dclass.new( special_contributor_no_author_xml )
     @record_utf8_decomposed             = dclass.new( utf8_decomposed_record_xml )
-    @corporate_author_record            = dclass.new( corporate_author_citation )
-    @meeting_author_record              = dclass.new( meeting_author_citation )
 
   end
   
-  describe "get all authors", :authors => true do
-    it "should return corporate authors in a record with 110 or 710" do
-      authors = get_all_authors(@corporate_author_record.to_marc)
-      expect(authors[:corporate_authors]).to eq(['Bobs Your Uncle'])
-      authors = get_all_authors(@section_title_record.to_marc)
-      expect(authors[:corporate_authors]).to eq(['Bobs Your Uncle'])
-      authors = get_all_authors(@record_without_245b.to_marc)
-      expect(authors[:corporate_authors]).to eq(['Bobs Your Uncle', 'Petunias Your Aunt'])
+  describe "export_as_chicago_citation_txt" do
+    it "should handle a typical record correclty" do
+      expect(@typical_record.export_as_chicago_citation_txt).to eq("Ferree, David C., and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
-    it "should return no corporate authors in a record without 110 or 710" do
-      authors = get_all_authors(@typical_record.to_marc)
-      expect(authors[:corporate_authors]).to eq([])
-    end
-    it "should return meeting authors in a record with 111 or 711" do
-      authors = get_all_authors(@meeting_author_record.to_marc)
-      expect(authors[:meeting_authors]).to eq(['International Rutabaga Curling Championships Ithaca Regional Meeting'])
-      authors = get_all_authors(@music_record.to_marc)
-      expect(authors[:meeting_authors]).to eq(['International Rutabaga Curling Championships Ithaca Regional Meeting'])
-    end
-    it "should return no meeting authors in a record without 111 or 711" do
-      authors = get_all_authors(@typical_record.to_marc)
-      expect(authors[:meeting_authors]).to eq([])  
-    end
-  end
-  
-  describe "export_as_chicago_citation_txt", :chicago => true do
-    it "should handle a typical record correctly" do
-      expect(@typical_record.export_as_chicago_citation_txt).to eq("Ferree, David C, and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
-    end
-    it "should handle a record w/ corporate authors correctly" do
-      expect(@corporate_author_record.export_as_chicago_citation_txt).to eq("Bobs Your Uncle. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
-    end 
-    it "should handle a record w/ meeting authors correctly" do
-      expect(@meeting_author_record.export_as_chicago_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
-    end     
     it "should format a record w/o authors correctly" do
       expect(@record_without_authors.export_as_chicago_citation_txt).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971.")
     end
     it "should format a citation without a 245b field correctly" do
-      expect(@record_without_245b.export_as_chicago_citation_txt).to eq("Janetzky, Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
+      expect(@record_without_245b.export_as_chicago_citation_txt).to eq("Janetzky, Kurt., and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
     it "should format a citation with 4+ authors correctly" do
       chicago_text = @record_with_10plus_authors.export_as_chicago_citation_txt
-      expect(chicago_text).to eq("Greer, Lowell, Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe,  et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
+      expect(chicago_text).to eq("Greer, Lowell., Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe,  et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
       expect(chicago_text).to match(/John Doe,  et al\./)
       expect(chicago_text).not_to match(/Jane Doe/)
     end
@@ -634,16 +593,11 @@ describe Blacklight::Solr::Document::MarcExport do
     end
   end
   
-  describe "export_as_apa_citation_txt", :apa => true do
+  describe "export_as_apa_citation_txt" do
     it "should format a standard citation correctly" do
       expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C, &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
-    it "should format a record w/ corporate authors correctly" do
-      expect(@corporate_author_record.export_as_apa_citation_txt).to eq("Bobs Your Uncle. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
-    end 
-    it "should format a record w/ meeting authors correctly" do
-      expect(@meeting_author_record.export_as_apa_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
-    end  
+    
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_apa_citation_txt).to eq("Janetzky, K., &amp; Brüchle, B. (1988). <i>The horn.</i> London: Batsford.")
     end
@@ -662,16 +616,11 @@ describe Blacklight::Solr::Document::MarcExport do
     
   end
   
-  describe "export_as_mla_citation_txt", :mla => true do
+  describe "export_as_mla_citation_txt" do
     it "should format a standard citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt).to eq("Ferree, David C, and I. J Warrington. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
-    it "should format a record w/ corporate authors correctly" do
-      expect(@corporate_author_record.export_as_mla_citation_txt).to eq("Bobs Your Uncle. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
-    end 
-    it "should format a record w/ meeting authors correctly" do
-      expect(@meeting_author_record.export_as_mla_citation_txt).to eq("International Rutabaga Curling Championships Ithaca Regional Meeting. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
-    end  
+    
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_mla_citation_txt).to eq("Janetzky, Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
@@ -692,7 +641,6 @@ describe Blacklight::Solr::Document::MarcExport do
   describe "export_as_openurl_ctx_kev" do
     it "should create the appropriate context object for books" do
       record = @typical_record.export_as_openurl_ctx_kev('Book')
-      puts record.inspect
       expect(record).to match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
       expect(record).not_to match(/.*rft.genre=article.*rft.issn=.*/)
     end
@@ -731,7 +679,7 @@ describe Blacklight::Solr::Document::MarcExport do
 
   describe "export_as_refworks_marc_txt" do
     it "should export correctly" do
-      expect(@music_record.export_as_refworks_marc_txt).to eq("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n711 1  International Rutabaga Curling Championships |qIthaca Regional Meeting\n")
+      expect(@music_record.export_as_refworks_marc_txt).to eq("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
     end
     describe "for UTF-8 record" do
       it "should export in Unicode normalized C form" do        

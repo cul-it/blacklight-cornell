@@ -104,17 +104,27 @@
                     <% if !r.blank? %>
                       <%= r + ':' %>
                     <% end %>
-                    <div class="columns">
-                      <ul>
-                        <% h.each do |headingInfo| %>
-                          <li>
-                            <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
-                              <%= headingInfo["heading"] %><% end %>
-                            <%= "(" + headingInfo["count"].to_s + ")"	 %>
-                          </li>
-                        <% end %>
-                      </ul>
-                    </div>
+                    <% unless params[:browse_type] == "Author-Title" %>
+                      <div class="columns">
+                        <ul>
+                          <% h.each do |headingInfo| %>
+                            <li>
+                              <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
+                                <%= headingInfo["heading"] %><% end %>
+                              <%= "(" + headingInfo["count"].to_s + ")"	 %>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                    <% else %>
+                      <% h.each do |headingInfo| %>
+                        <div class="see-also-author-title">
+                          <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
+                                <%= headingInfo["heading"] %><% end %>
+                              <%= "(" + headingInfo["count"].to_s + ")"  %>
+                        </div>
+                      <% end %>
+                    <% end %>
                   </div>
                 <% end %>
               <% end %>

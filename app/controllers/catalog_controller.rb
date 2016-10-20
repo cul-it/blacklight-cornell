@@ -180,27 +180,26 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
-    config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5
+    config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
       :segments => true,
       :include_in_advanced_search => false
-    }, :show => true, :include_in_advanced_search => false
+    }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
-    config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
-    config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5
-    config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5
-    config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
+    config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
-    config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
      config.add_facet_field 'lc_callnum_facet',
-                            if: :expandable_search?,
+                            if: :has_search_parameters?,
                            label: 'Call Number',
                            partial: 'blacklight/hierarchy/facet_hierarchy',
                            sort: 'index'
@@ -304,12 +303,12 @@ class CatalogController < ApplicationController
     config.add_show_field 'translation_of_display', :label => 'Translation of', helper_method: :remove_pipe
     config.add_show_field 'has_translation_display', :label => 'Has translation', helper_method: :remove_pipe
     config.add_show_field 'other_edition_display', :label => 'Other edition', helper_method: :remove_pipe
-    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed Selectively By'
-    config.add_show_field 'indexed_by_display', :label => 'Indexed By'
+    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed selectively by'
+    config.add_show_field 'indexed_by_display', :label => 'Indexed by'
     config.add_show_field 'references_display', :label => 'References'
-    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its Entity By'
+    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its entirety by'
     config.add_show_field 'in_display', :label => 'In'
-    config.add_show_field 'map_format_display', :label => 'Map Format'
+    config.add_show_field 'map_format_display', :label => 'Map format'
     config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
     config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
     config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe

@@ -20,8 +20,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8392067 
     And click on link "Cite"
-    And I sleep 2 seconds
-    Then I should see the label 'MLA Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
+    Then in modal '#ajax-modal' I should see label 'MLA Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
 
 # roman numerals need to be properly eliminated from the date field.
 @all_select_and_export
@@ -95,7 +94,7 @@ Feature: Select and export items from the result set
     Then "quentin@example.com" receives an email with "Marvel masterworks" in the content 
     Then I should see "Marvel masterworks" in the email body
     Then I should see "Lee, Stan" in the email body
-    Then I should see "Status: available" in the email body
+    Then I should see "Status: v.1   c. 1 Checked out, due 2017-09-29" in the email body
 
 #    Given PENDING 
 #search for marvel masterworks, and get two results, select, and email them

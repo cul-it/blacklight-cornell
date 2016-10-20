@@ -56,3 +56,10 @@ Then /^I (should|should not) see the labels '(.*?)'$/ do |yesno, llist|
         end
   end
 end
+
+Then(/^in modal ['"](.*?)['"] I should see label ['"](.*?)['"]$/) do |modal,label|
+  within(modal) do
+    page.should have_content(label) # async
+  end
+
+end
