@@ -462,12 +462,13 @@ Feature: Item view
     | 4626  | should     | 'Description' |
     | 5250067   | should not | 'Description' |
 
-  # DISCOVERYACCESS -?
+  @DISCOVERYACCESS-2968
   @all_item_view
+
   Scenario: Show the record notes field when available
     Given I request the item view for 4626
     Then it should contain "notes" with value "Notes:"
-    Then it should contain "notes" with value "Includes indexes. and Bibliography: p. 360-363."
+    Then it should contain "notes" with value "Includes indexes. Bibliography: p. 360-363."
 
     Given I request the item view for 4629
     Then I should not see the label 'Notes'
