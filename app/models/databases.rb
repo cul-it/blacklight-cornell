@@ -186,6 +186,10 @@ class Databases < ActiveRecord::Base
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
        perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
        perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text
+       if !perpetualAccessNote.blank?
+         perpetualAccessNote.gsub!('"',' ')
+         perpetualAccessNote.gsub!("'"," ")
+       end
        licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/Content")).inner_text
        licenseeTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationCondition/Content")).inner_text
        licenseeTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationNote/Content")).inner_text
@@ -265,7 +269,7 @@ class Databases < ActiveRecord::Base
          end
        else
            #puts "No Resources.\n";
- #          output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
+#           output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
           # puts sql
            insert = Erm_data.connection.raw_connection.prepare(sql)

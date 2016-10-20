@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CornellCatalogHelper
  require "pp"
  require "maybe"
@@ -14,7 +15,7 @@ module CornellCatalogHelper
     # Trim leading and trailing text
     # Reformat coverage dates to simply mm/yy (drop day) and wrap in span for display
     title_dirty = ERB::Util.html_escape(title)
-    title_clean = title_dirty.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to full text\.$/, '').gsub(/(:\s)(\d{1,2}\/\d{4}\sto\s.{0,})/, ' <span class="online-coverage">(\2)</span>')
+    title_clean = title_dirty.to_s.gsub(/^Full text available from /, '').gsub(/(\d{1,2})\/\d{1,2}(\/\d{4})/, '\1\2').gsub(/\sConnect to (full )?text\.$/, '').gsub(/(:\s)(.*)/, ' <span class="online-coverage">(\2)</span>')
     # Address the Factiva links that come with a lengthy note
     title_clean.to_s.gsub(/(Please check resource for coverage or contact a librarian for assistance.)$/, '<span class="online-note">\1</span>').html_safe
   end
@@ -26,7 +27,8 @@ module CornellCatalogHelper
       grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
       #if holding['location_code'].include?('rmc')
-      if aeon_eligible? holding['location_code']
+      Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  holding = #{holding.pretty_inspect}"
+      if Location::aeon_eligible? holding['location_code']
         grouped['Rare'] << holding
       elsif holding['location_name'].include?('*Networked Resource')
         grouped['*Online'] << holding
@@ -94,13 +96,14 @@ module CornellCatalogHelper
     'hote,rare'
   ]
 
-  def aeon_eligible?(lib)
+  def xx_aeon_eligible?(lib)
     return AEON_SITES.include?(lib)
   end
 
   # Using data from solr, and from oracle -- create the condensed_full structure
   # needed by the display logic.
   def create_condensed_full(document)
+    require 'pp'
     # the beginnings of this code due to sk274, then mangled to try to
     # simulate the behavior of the holding server
     # when called with .../retrieve/bibid to produce a condensed_holdings_full structure.
@@ -109,10 +112,12 @@ module CornellCatalogHelper
     items2 = document[:item_record_display].present? ? document[:item_record_display].map { |item| JSON.parse(item).with_indifferent_access } : Array.new
     bibid = document[:id]
     response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{bibid}")).with_indifferent_access
+    Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  response = #{response.pretty_inspect}"
     @response = response
     # Store the response in the session for use by the request engine
     session[:holdings_status_short] = response
-
+    @request_ok = requestable?(bibid,response) 
+    Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  @request_ok = #{@request_ok.pretty_inspect}"
     @bound_with = [] 
     @bound_with_to_mbw =  {} 
     if bound_with?
@@ -161,7 +166,7 @@ module CornellCatalogHelper
     hrds = {}
     ##Rails.logger.debug "\nes287_debug raw holding data #{__LINE__}   = " 
     document[:holdings_record_display].each do |hrd|
-        ##Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.inspect 
+          Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.pretty_inspect 
     end  if document[:holdings_record_display]
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
@@ -1463,6 +1468,37 @@ module CornellCatalogHelper
      end
      end
   end
+
+ def requestable?(bibid,response) 
+    if !response[bibid][bibid]["records"].blank?
+      statuses = response[bibid][bibid]["records"][0]["statuses"]
+      Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  statuses = #{statuses.pretty_inspect}"
+      #binding.pry
+      return statuses.values.uniq.join == 'none' ? false : true
+    else
+      return false
+     end
+ end
+   
+# response = {"1545844"=>
+#  {"1545844"=>
+#    {"records"=>
+#      [{"bibid"=>"1545844",
+#        "call_number"=>"No call number",
+#        "statuses"=>
+#         {"1884857"=>"none",
+#          "1884858"=>"none",
+#          "1884860"=>"none",
+#          "1884861"=>"none",
+#          "1884862"=>"none",
+#          "1884863"=>"none",
+#          "1884865"=>"none",
+#          "1884868"=>"none",
+#          "1884869"=>"none",
+#          "1884870"=>"none",
+#          "7329671"=>"none"},
+
+
 end 
 
 # End of Module

@@ -19,3 +19,12 @@ Feature: Search History list
                 Then click on first link "Search History"
                 And I should see the text 'Your recent searches'
                 And I should see the text 'biology'
+
+        @all_search 
+        @history
+	Scenario: See search history for searches with only facets
+		Given I am on the home page
+		Then click on first link "Online"
+                Then click on first link "Search History"
+                And I should see the text 'Your recent searches'
+                And I should see the text 'Online'
