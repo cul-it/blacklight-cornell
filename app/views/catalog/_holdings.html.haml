@@ -21,7 +21,7 @@
         -  reading = ' for Reading Room Delivery'
         %h3.rare
           = group + " Items"
-    - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource" 
+    - if holdings.size == 1 and ( holdings[0]["location_name"].include?("Networked Resource") or  holdings[0]["location_name"] == "") 
     - else
       %table.table.table-responsive
         - if !online_url(@document)
