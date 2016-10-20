@@ -1,4 +1,6 @@
 class Location < ActiveRecord::Base
+  attr_accessible :code,:voyager_id,:display_name,:hours_page,:rmc_aeon
+
 
   def self.help_page(code)
    base_url = 'https://www.library.cornell.edu/libraries/'
