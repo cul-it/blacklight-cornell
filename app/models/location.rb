@@ -4,6 +4,7 @@ class Location < ActiveRecord::Base
 
   def self.help_page(code)
    base_url = 'https://www.library.cornell.edu/libraries/'
+   code.delete!(' ')
     rec = where("code = ?", code).first
     rec ?  rec.hours_page  : base_url
     location_url =
@@ -20,11 +21,13 @@ class Location < ActiveRecord::Base
 
   def self.aeon_eligible?(code)
     ret = false 
+    code.delete!(' ')
     rec = where("code = ?", code).first
     rec ?  rec.rmc_aeon : ret
   end
 
   def aeon_eligible?(code)
+    code.delete!(' ')
     return where("code = ?", code).rmc_aeon 
   end
 end
