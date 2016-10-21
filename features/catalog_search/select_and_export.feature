@@ -102,6 +102,7 @@ Feature: Select and export items from the result set
 @javascript
 @select_and_email
   Scenario: Search with 2 results, select, and email them 
+    Given PENDING 
     Given I am on the home page
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
