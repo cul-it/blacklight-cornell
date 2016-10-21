@@ -1380,4 +1380,16 @@ include ActionView::Helpers::NumberHelper
   def remove_pipe field
     (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
   end
+
+  def html_safe field
+    require 'htmlentities'
+    coder = HTMLEntities.new
+    result =[]
+    field[:value].each do |r|    
+      r = coder.decode(r) 
+      r = ERB::Util.html_escape(r)
+      result << r
+    end
+    result = result.to_sentence.html_safe
+  end
 end
