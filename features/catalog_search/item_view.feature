@@ -642,6 +642,7 @@ Feature: Item view
   # availability -- Spacecraft Planetary Imaging Facilty  
   # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
   # bibid 9264410
+  @hours-page
   @all_item_view
   @availability
   @javascript
@@ -667,9 +668,18 @@ Feature: Item view
     Then I should see the label 'On-site use'
     Then I should see the label 'Request item'
 
-  @aeon
+  @hours-page
+  @on-site-use
   @all_item_view
   Scenario: View an items holdings, and have pointer to RMC help page. 
     Given I request the item view for 2083253 
         Then I should see the label 'On-site use'
         And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+
+  @hours-page
+  @on-site-use
+  @all_item_view
+  Scenario: View an hotel items holdings, and have pointer to ILR help page. 
+    Given I request the item view for 330333 
+        Then I should see the label 'On-site use'
+        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/ilr"
