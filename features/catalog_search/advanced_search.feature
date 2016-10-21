@@ -210,7 +210,7 @@ Feature: Search
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 19 of 19'
-    And I should not see the label 'Modify advanced'
+    #And I should not see the label 'Modify advanced'
 
 #
  @adv_search
@@ -338,7 +338,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should not see the label 'Modify advanced'
+    #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 - '
 
@@ -370,7 +370,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should not see the label 'Modify advanced'
+    #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 - '
  @begins_with
@@ -385,7 +385,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should not see the label 'Modify advanced'
+    #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 - '
     And click on link "Click : when we knew we were feminists"
