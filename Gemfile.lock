@@ -36,7 +36,7 @@ GIT
       httpclient (~> 2.4)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.2.1)
       actionpack (= 4.2.1)
@@ -537,6 +537,7 @@ DEPENDENCIES
   guard-rspec
   haml
   haml-rails
+  htmlentities
   httpclient
   jquery-rails
   jquery-ui-rails
