@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 ruby "2.2.5"
 
 gem 'rails', '4.2.1'
@@ -22,6 +22,7 @@ gem 'blacklight_unapi', :git => 'git@github.com:cul-it/blacklight-unapi', :branc
 gem 'kaminari', '0.15.0'
 
 gem 'blacklight-hierarchy'
+gem 'htmlentities'
 gem 'json'
 gem 'httpclient'
 gem 'haml'
