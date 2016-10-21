@@ -366,6 +366,7 @@ Feature: Item view
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the how many copies are available 
+   Given PENDING 
     Given I request the item view for 7728655 
     Then I should see the label 'Available 1 copy'
 
