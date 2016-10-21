@@ -274,7 +274,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_json', :label => 'Subject'
-    config.add_show_field 'summary_display', :label => 'Summary'
+    config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
     config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
     config.add_show_field 'issn_display', :label => 'ISSN'
@@ -313,7 +313,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
     config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
     config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
-    config.add_show_field 'notes', :label => 'Notes'
+    config.add_show_field 'notes', :label => 'Notes', helper_method: :html_safe
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
