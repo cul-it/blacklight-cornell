@@ -1,11 +1,24 @@
 # Release Notes - blacklight-cornell-requests
 
+## v1.3.1
+
+### Enhancements
+- "Document Delivery" labels changed to "ScanIt" (DISCOVERYACCESS-2705)
+- Delivery methods can now be individually disabled by using the ENV file configuration (#80)
+
+### Bug fixes
+- Fixed a TypeError bug (DISCOVERYACCESS-2766)
+- Fix bug where a single multivol_b item (a bound-with) goes into an endless loop upon request (#74)
+
 ## v1.3
 - Engine updated for compatibility with Blacklight 6
 - Fixed a bug that prevented reserve items from being requested through BD
 
+## v1.2.7
+- Fixed a bug preventing reserve items from being requested through Borrow Direct
+
 ## v1.2.6
-  - Added a check for empty circ_policy_locs database table with AppSignal integration
+- Added a check for empty circ_policy_locs database table with AppSignal integration
 
 ## v1.2.5
 

@@ -10,19 +10,19 @@ module BlacklightCornellRequests
      @data = data
     end
   end
-  
+
   class RequestController < ApplicationController
 
     include Blacklight::Catalog # needed for "fetch", replaces "include SolrHelper"
     include Cornell::LDAP
-    
-    # This may seem redundant, but it makes it easier to fetch the document from 
+
+    # This may seem redundant, but it makes it easier to fetch the document from
     # various model classes
     def get_solr_doc doc_id
       resp, document = fetch doc_id
       document
     end
-        
+
     def magic_request target=''
 
       @id = params[:bibid]
@@ -30,9 +30,9 @@ module BlacklightCornellRequests
       @document = @document
 
       Rails.logger.debug "Viewing item #{@id} (within request controller) - session: #{session}"
-      
+
       # Do a check to see whether the circ_policy_locs table is populated — for some
-      # bizarre reason, it has been turning up empty in production. 
+      # bizarre reason, it has been turning up empty in production.
       begin
         if Circ_policy_locs.count() < 1
           raise BlacklightCornellRequests::RequestDatabaseException, 'circ_policy_locs table has less than one row'
@@ -42,7 +42,7 @@ module BlacklightCornellRequests
         Appsignal.add_exception(e)
       end
 
-      # If the holdings data has been stored in the session (:holdings_status_short), 
+      # If the holdings data has been stored in the session (:holdings_status_short),
       # we'll pass it in to the request to be reused instead of making
       # the expensive holdings service call again. As soon as it's used, the session
       # data gets cleared so that we don't end up passing stale session data for a different
@@ -50,7 +50,7 @@ module BlacklightCornellRequests
       # the normal catalog path). A better way of handling this might be to compare the
       # bibid and the key of the holdings data, which should be the same.
       session_holdings = session[:holdings_status_short]
-      session[:holdings_status_short] = nil 
+      session[:holdings_status_short] = nil
       req = BlacklightCornellRequests::Request.new(@id, session_holdings)
       req.netid = request.env['REMOTE_USER']
       req.netid.sub!('@CORNELL.EDU', '') unless req.netid.nil?
@@ -61,7 +61,7 @@ module BlacklightCornellRequests
       # preserve the volume selection; this would be the case if the page is reloaded
       # or the user selects an alternate delivery method for the same item.
       if session[:setvol].nil? && (request.referer && request.referer.include?('catalog'))
-        session[:volume] = nil 
+        session[:volume] = nil
       end
       session[:setvol] = nil
 
@@ -69,12 +69,12 @@ module BlacklightCornellRequests
       # Reset session var after use so that we don't get weird results if
       # user goes to another catalog item
       session[:volume] = nil
-      
+
       # If there's a URL-based volume present, that overrides the session data (this
       # should only happen now if someone is linking into requests from outside the main
       # catalog).
       if params[:enum] || params[:chron] || params[:year]
-        params[:volume] = "|#{params[:enum]}|#{params[:chron]}|#{params[:year]}|"        
+        params[:volume] = "|#{params[:enum]}|#{params[:chron]}|#{params[:year]}|"
       end
 
       req.magic_request @document, request.env['HTTP_HOST'], {:target => target, :volume => params[:volume]}
@@ -119,7 +119,9 @@ module BlacklightCornellRequests
         else
           # a bit hacky solution here to get to request path
           # will need more rails compliant solution down the road...
-          redirect_to '/request' + request.env['PATH_INFO'] + "/#{req.volumes[req.volumes.keys[0]]}"
+          # modified to use new volume specification schema
+          enum, chron, year = req.volumes[req.volumes.keys[0]][1..-1].split /\|/
+          redirect_to '/request' + request.env['PATH_INFO'] + "?enum=#{enum}&chron=#{chron}&year=#{year}" #{}"/#{req.volumes[req.volumes.keys[0]]}"
           return
         end
       elsif req.request_options.present?
