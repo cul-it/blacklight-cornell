@@ -171,7 +171,7 @@ module CornellCatalogHelper
     end  if document[:holdings_record_display]
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
-          ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
+          Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
           callnumber = hrdJSON["callnos"].blank? ? "" : hrdJSON["callnos"][0] 
           id = hrdJSON[:id]
           hrds[id]  =  hrdJSON
@@ -186,10 +186,11 @@ module CornellCatalogHelper
             oneloc = {} 
             dispname = loc[:name] 
             oneloc["location_name"] = dispname 
-            oneloc["location_code"] = loc[:code]
+            oneloc["location_code"] = loc[:code].gsub(' ','')
             ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = #{loc[:code]}" 
             ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} callnumber  = #{callnumber}"
             oneloc["holding_id"] = [id] 
+            oneloc["location_id"] = loc[:number] 
             mfhd_id = id.to_i 
             oneloc["call_number"] = callnumber
             ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
