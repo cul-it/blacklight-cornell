@@ -12,14 +12,14 @@ afr_anx:
     rmc_aeon: false
     hours_page: "annex"
 
-rmc::
+rmc:
     code: rmc
     display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
     voyager_id: 87
     rmc_aeon: true
     hours_page: "rmc"
 
-afr_res::
+afr_res:
     code: afr,res
     display_name: "Africana Library Reserve"
     voyager_id: 4
@@ -40,3 +40,9 @@ rmc_anx:
     rmc_aeon: true
     hours_page: "rmc"
 
+hote:
+    code: hote
+    display_name: "ILR Library (Ives Hall)"
+    voyager_id: 43
+    rmc_aeon: false
+    hours_page: "ilr"

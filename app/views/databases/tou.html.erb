@@ -231,6 +231,14 @@
                 <% end %>
               </table>
           <% end %>
+           <% if data["sixfivethree"].present? %>
+        <p>
+          Subject(s): 
+          <% data["sixfivethree"].each do |s| %>
+          <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
+          <% end %>
+           </p>
+          <% end %>
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
@@ -277,6 +285,8 @@
            </p>
           <% end %>
       <% end %>
+
+      
     </div>
   </div>
 </div>

@@ -238,7 +238,7 @@ locations:
     display_name: "ILR Library (Ives Hall)"
     voyager_id: 43
     rmc_aeon: false
-    hours_page: "hotel"
+    hours_page: "ilr"
   hote_anx:
     code: hote,anx
     display_name: "Library Annex"

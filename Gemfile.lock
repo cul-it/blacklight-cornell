@@ -537,6 +537,7 @@ DEPENDENCIES
   guard-rspec
   haml
   haml-rails
+  htmlentities
   httpclient
   jquery-rails
   jquery-ui-rails

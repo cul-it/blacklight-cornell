@@ -12,7 +12,7 @@ if ENV['REDIS_SESSION_HOST']
   key: '_blacklightcornell_session',
   redis: {
     db: 2,
-    expire_after: 10.minutes,
+    expire_after: 4.hours,
     key_prefix: 'blacklightcornell:session:',
 #    host: 'newcatalog-test.49jyrp.0001.use1.cache.amazonaws.com', # Redis host name, default is localhost
     host: ENV['REDIS_SESSION_HOST'],
