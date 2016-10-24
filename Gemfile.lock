@@ -1,9 +1,9 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: 0d862efbefd24a0496711babf1e95f93e9feab5b
-  branch: BL6
+  revision: f351b2b3b1f429f4dd4dacba01fecfaed0f80a10
+  branch: master
   specs:
-    blacklight_cornell_requests (1.3)
+    blacklight_cornell_requests (1.3.1)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -577,7 +577,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 2.1.5p273
+   ruby 2.2.5p319
 
 BUNDLED WITH
-   1.12.5
+   1.13.2
