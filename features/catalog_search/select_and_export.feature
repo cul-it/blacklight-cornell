@@ -137,6 +137,7 @@ Feature: Select and export items from the result set
 @DISCOVERYACCESS-1777
 @select_and_email
 @javascript
+@popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095 
     And click on first link "Text"
@@ -147,42 +148,3 @@ Feature: Select and export items from the result set
     Then "6073516271@vtext.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
     Then I should see "Shelter medicine for veterinarians and staff" in the email body
   
-
-@javascript
-  Scenario: User select an item for list, and then see item in list. 
-    Given I request the item view for 7981095 
-    And click on link "Selected Items"
-    And I confirm popup "Clear selected items"
-    Then I should see the label 'You have no selected items'
-    Given I request the item view for 7981095 
-    Then I should select checkbox "toggle_bookmark_7981095"
-    And click on link "Selected Items"
-    Then I should see the label 'Shelter medicine for veterinarians and staff'
-
-# there is a popup dialog, but poltergeist auto clicks okay, 
-@javascript
-  Scenario: User select an item for list, and then clears list. 
-    Given I request the item view for 7981095 
-    And click on link "Selected Items"
-    And I confirm popup "Clear selected items"
-    Then I should see the label 'You have no selected items'
-    Given I request the item view for 7981095 
-    Then I should select checkbox "toggle_bookmark_7981095"
-    And click on link "Selected Items"
-    Then I should see the label 'Shelter medicine for veterinarians and staff'
-    And I confirm popup "Clear selected items"
-    Then I should see the label 'You have no selected items'
-
-# there is a popup dialog, but poltergeist auto clicks okay, 
-@javascript
-  Scenario: User select an item for list, and then clears list. 
-    Given I request the item view for 7981095 
-    And click on link "Selected Items"
-    And I confirm popup "Clear selected items"
-    Then I should see the label 'You have no selected items'
-    Given I request the item view for 7981095 
-    Then I should select checkbox "toggle_bookmark_7981095"
-    And click on link "Selected Items"
-    Then I should see the label 'Shelter medicine for veterinarians and staff'
-    And I cancel popup "Clear selected items"
-    Then I should see the label '1 result'
