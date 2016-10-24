@@ -150,7 +150,7 @@ Feature: Item view
   @request
   Scenario: As a user I can see the availability for an item 
     Given I request the item view for 1902405 
-    Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
+    #Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
     Then I should see the label 'Request'  
 
 
@@ -366,6 +366,7 @@ Feature: Item view
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the how many copies are available 
+   Given PENDING 
     Given I request the item view for 7728655 
     Then I should see the label 'Available 1 copy'
 
@@ -462,12 +463,13 @@ Feature: Item view
     | 4626  | should     | 'Description' |
     | 5250067   | should not | 'Description' |
 
-  # DISCOVERYACCESS -?
+  @DISCOVERYACCESS-2968
   @all_item_view
+
   Scenario: Show the record notes field when available
     Given I request the item view for 4626
     Then it should contain "notes" with value "Notes:"
-    Then it should contain "notes" with value "Includes indexes. and Bibliography: p. 360-363."
+    Then it should contain "notes" with value "Includes indexes. Bibliography: p. 360-363."
 
     Given I request the item view for 4629
     Then I should not see the label 'Notes'
@@ -641,6 +643,7 @@ Feature: Item view
   # availability -- Spacecraft Planetary Imaging Facilty  
   # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
   # bibid 9264410
+  @hours-page
   @all_item_view
   @availability
   @javascript
@@ -666,9 +669,18 @@ Feature: Item view
     Then I should see the label 'On-site use'
     Then I should see the label 'Request item'
 
-  @aeon
+  @hours-page
+  @on-site-use
   @all_item_view
   Scenario: View an items holdings, and have pointer to RMC help page. 
     Given I request the item view for 2083253 
         Then I should see the label 'On-site use'
         And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+
+  @hours-page
+  @on-site-use
+  @all_item_view
+  Scenario: View an hotel items holdings, and have pointer to ILR help page. 
+    Given I request the item view for 330333 
+        Then I should see the label 'On-site use'
+        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/ilr"

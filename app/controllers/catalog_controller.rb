@@ -274,14 +274,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_json', :label => 'Subject'
-    config.add_show_field 'summary_display', :label => 'Summary', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
-    config.add_show_field 'description_display', :label => 'Description', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
+    config.add_show_field 'description_display', :label => 'Description'
     #config.add_show_field 'isbn_t', :label => 'ISBN'
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
     config.add_show_field 'author_addl_json', :label => 'Other contributor'
-    config.add_show_field 'contents_display', :label => 'Table of contents', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :html_safe
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'
@@ -313,7 +313,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
     config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
     config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
-    config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'notes', :label => 'Notes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
