@@ -232,7 +232,7 @@
               </table>
               <% if data["sixfivethree"].present? %>
         <p>
-         First Subject(s): 
+         Subject(s): 
           <% data["sixfivethree"].each do |s| %>
           <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
           <% end %>
@@ -280,7 +280,7 @@
         <% end %>
         <% if data["sixfivethree"].present? %>
         <p>
-          Second Subject(s): 
+          Subject(s): 
           <% data["sixfivethree"].each do |s| %>
           <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
           <% end %>
