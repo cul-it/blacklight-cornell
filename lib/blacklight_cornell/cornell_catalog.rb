@@ -170,6 +170,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @expanded_results [key] =  { :count => 0 , :url => '' }
     end
     # Expand search only under certain conditions
+    tmp = BentoSearch::Results.new
     if !(params[:search_field] == 'call number')
     if expandable_search?
       searcher = BentoSearch::MultiSearcher.new(:summon, :worldcat)
@@ -181,7 +182,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
       @expanded_results = {}
 
-      tmp = BentoSearch::Results.new
 
       searcher.results.each_pair do |key, result|
         source_results = {
