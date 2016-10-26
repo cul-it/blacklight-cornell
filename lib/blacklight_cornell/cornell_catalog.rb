@@ -181,6 +181,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
       @expanded_results = {}
 
+      tmp = BentoSearch::Results.new
+
       searcher.results.each_pair do |key, result|
         source_results = {
           :count => number_with_delimiter(result.total_items),
