@@ -38,9 +38,18 @@
               <%= data["summary_display"][0] %>
             <% end %>
           </p>
-          <p>
+           <p>
             <%= link_to data["url_access_display"][0].split('|')[1],data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
           </p>
+           <% if data['sixfivethree'].present? %>
+              <p>
+                Subject(s): 
+                <% data["sixfivethree"].each do |s| %>
+                  <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
+                <% end %>
+              </p>
+            <% end %>
+         
         </div>
         <% if @ermDBResult.present? %>
           <% data = @ermDBResult[0] %>
@@ -229,15 +238,8 @@
                 </tr>
               <% end %>
             </table>
-            <% if data["sixfivethree"].present? %>
-              <p>
-                Subject(s): 
-                <% data["sixfivethree"].each do |s| %>
-                  <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
-                <% end %>
-              </p>
-            <% end %>
-          <% end %>
+            
+          <% end %>           
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
@@ -274,14 +276,6 @@
               </td>
             </tr>
           </table>
-        <% end %>
-        <% if data["sixfivethree"].present? %>
-          <p>
-            Subject(s): 
-          <% data["sixfivethree"].each do |s| %>
-              <%= link_to s,"/databases/subject/#{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
-            <% end %>
-          </p>
         <% end %>
       <% end %>
     </div>
