@@ -6,7 +6,8 @@
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
 # WAS
-if ENV['REDIS_SESSION_HOST']
+
+if ENV['REDIS_SESSION_HOST'] && (ENV['RAILS_ENV'] == 'production')
   ActiveRecord::SessionStore::Session.attr_accessible :data, :session_id
   BlacklightCornell::Application.config.session_store :redis_session_store, {
   key: '_blacklightcornell_session',
