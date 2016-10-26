@@ -121,6 +121,8 @@ Before do
   fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
+  sql = 'delete from sessions;'
+  ActiveRecord::Base.connection.execute(sql)
 end
 # OR do this, but not both.
 #Seed the DB
