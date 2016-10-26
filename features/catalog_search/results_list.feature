@@ -28,6 +28,7 @@ Feature: Results list
 
         @all_results_list
 	Scenario: Search with no results
+                Given PENDING
 		Given I am on the home page
 		When I fill in the search box with 'awfasdf acawfdfas'
 		And I press 'search'
