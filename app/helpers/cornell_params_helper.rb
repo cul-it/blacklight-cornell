@@ -2,160 +2,255 @@ module CornellParamsHelper
 
 
 
-#   def set_advanced_search_params(params)
-#         # Use :advanced_search param as trustworthy indicator of search type
-#         removeBlanks(params)
-#         counter = test_size_param_array(params[:q_row])
-#         if counter > 1
-#            query_string = massage_params(params)
-#            params[:advanced_search] = true
-#            params["advanced_query"] = "yes"
-#             holdparams = []
-#             terms = []
-#             ops = 0
-#             params["op"] = []
-##             holdparams = query_string.split("&")
-#             for i in 0..params[:q_row].count - 1
-#               search_session[params[:search_field_row][i]] = params[:q_row][i]
-#               params[params[:search_field_row][i]] = params[:q_row][i]
-#             end
-#             for i in 1..params[:boolean_row].count
-#               n = i.to_s
-#               params["op"][i-1] = params[:boolean_row][n.to_sym]
-#             end
-##             if holdparams.count > 2
-#             if params[:q_row].count > 1
-#               params["search_field"] = "advanced"
-#               params[:q] = query_string
-#               search_session[:q] = query_string
-#               search_session[:search_field] = "advanced"
+   def set_advanced_search_params(params)
+         # Use :advanced_search param as trustworthy indicator of search type
+         removeBlanks(params)
+         counter = test_size_param_array(params[:q_row])
+         if counter > 1
+            query_string = massage_params(params)
+            params[:advanced_search] = true
+            params["advanced_query"] = "yes"
+             holdparams = []
+             terms = []
+             ops = 0
+             params["op"] = []
+#             holdparams = query_string.split("&")
+             for i in 0..params[:q_row].count - 1
+               search_session[params[:search_field_row][i]] = params[:q_row][i]
+               params[params[:search_field_row][i]] = params[:q_row][i]
+             end
+             for i in 1..params[:boolean_row].count
+               n = i.to_s
+               params["op"][i-1] = params[:boolean_row][n.to_sym]
+             end
+#             if holdparams.count > 2
+             if params[:q_row].count > 1
+               params["search_field"] = "advanced"
+               params[:q] = query_string
+               search_session[:q] = query_string
+               search_session[:search_field] = "advanced"
 
-#             else
-#               params[:q] = params["q"]
-#               search_session[:q] = params[:q]
-#               params[:search_field] = params["search_field"]
-#               search_session[:search_field] = params[:search_field]
-#             end
-#             params["commit"] = "Search"
-##             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-#             params["action"] = "index"
-#             params["controller"] = "catalog"
-#       else
-#            params.delete(:advanced_search)
-#            params.delete("advanced_query")
-#            query_string = parse_single(params)
-#            holdparams = query_string.split("&")
-#            for i in 0..holdparams.count - 1
-#              terms = holdparams[i].split("=")
-#              params[terms[0]] = terms[1]
-#              search_session[terms[0]] = terms[1]
-#              session[:search][:"#{terms[0]}"] = terms[1]
-#              session[:search][:search_field] = params[:search_field_row][0]
-#            end
-#           #  params[:q] = query_string
-#             params.delete("q_row")
-#             params.delete("op_row")
-#             params.delete("search_field_row")
-#             params["commit"] = "Search"
-#             params["action"] = "index"
-#             params["controller"] = "catalog"
-#       end
-#     return query_string
-#  end
+             else
+               params[:q] = params["q"]
+               search_session[:q] = params[:q]
+               params[:search_field] = params["search_field"]
+               search_session[:search_field] = params[:search_field]
+             end
+             params["commit"] = "Search"
+             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+             params["action"] = "index"
+             params["controller"] = "catalog"
+       else
+            params.delete(:advanced_search)
+            params.delete("advanced_query")
+            query_string = parse_single(params)
+            holdparams = query_string.split("&")
+            for i in 0..holdparams.count - 1
+              terms = holdparams[i].split("=")
+              params[terms[0]] = terms[1]
+              search_session[terms[0]] = terms[1]
+              session[:search][:"#{terms[0]}"] = terms[1]
+              session[:search][:search_field] = params[:search_field_row][0]
+            end
+           #  params[:q] = query_string
+             params.delete("q_row")
+             params.delete("op_row")
+             params.delete("search_field_row")
+             params["commit"] = "Search"
+             params["action"] = "index"
+             params["controller"] = "catalog"
+       end
+     return query_string
+  end
 
-#  def parse_for_stemming(params)
-#    query_string = params[:q]
-#    search_field = params[:search_field]
-##    unless query_string.nil?
-#     if query_string =~ /^\".*\"$/ or query_string.include?('"')
-#       Rails.logger.info("STEMfullstringquoted = #{query_string}")
-#       params[:search_field] = params[:search_field] + '_quote'
-#       return query_string
-#     else 
-#       unless query_string.nil?
-#         params[:q_row] = parse_stem(query_string)
-#         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
-#       end
-#       return query_string       
+  def parse_for_stemming(params)
+    query_string = params[:q]
+    search_field = params[:search_field]
+#    unless query_string.nil?
+     if query_string =~ /^\".*\"$/ or query_string.include?('"')
+       Rails.logger.info("STEMfullstringquoted = #{query_string}")
+       params[:search_field] = params[:search_field] + '_quote'
+       return query_string
+     else 
+       unless query_string.nil?
+         params[:q_row] = parse_stem(query_string)
+         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
+       end
+       return query_string       
+     end
+#    end
+  end
+ 
+  def parse_stem(query_string)
+    string_chars = query_string.chars
+    Rails.logger.info("PARSER = #{string_chars}")
+    quoteFlag = 0
+    wordArray = []
+#   if !query_string == /^\".*\"$/ # query_string.include?('"')
+   if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
+    Rails.logger.info("POOP #{query_string}")
+    search_field = params[:search_field]
+    params[:q_row] = []
+    params[:search_field_row] = []
+    params[:op_row] = []
+    params[:op] = []
+    params[:boolean_row] = {}
+    params[:q] = ""
+    string_chars.each do |i|
+      if i == '"'
+        if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
+          wordArray << i
+          params[:q] << i
+          params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
+          params[:op_row] << "phrase"
+          params[:search_field_row] << search_field + "_quote"
+          quoteFlag = 0 #reset quote flag
+          wordArray = [] #clear out wordArray
+        else # must be left hand quote
+          if !wordArray.empty?
+            params[:q_row] << wordArray.join.strip
+            params[:op_row] << "AND"
+            params[:search_field_row] << search_field
+            wordArray = []
+          end
+          quoteFlag = 1
+          wordArray << i
+          params[:q] << i
+        end
+      else
+        wordArray << i
+        params[:q] << i
+      end
+    end
+    if !wordArray.empty?
+      if quoteFlag == 1
+        wordArray << '"'
+        params[:q]<< '"'
+        Rails.logger.info("GLADYS = #{wordArray}")
+        params[:q_row] << wordArray.join.strip
+        params[:op_row] << "phrase"
+        params[:search_field_row] << search_field + "_quote"
+        wordArray = []
+        quoteFlag = 0
+      else 
+        if quoteFlag == 0
+        Rails.logger.info("GLADYS1 = #{wordArray}")
+          params[:q_row] << wordArray.join.strip
+           params[:op_row] << "AND"
+          params[:search_field_row] << search_field 
+         wordArray = []
+        end
+      end
+    end 
+    times = params[:q_row].count
+    for j in 1..times -1
+      x = j
+      n = x.to_s
+      params[:boolean_row]["#{j}"] = "AND"
+      params[:op][j - 1] = "AND"
+    end
+    Rails.logger.info("PUTREFLIP = #{params}")
+    return params
+   else
+     return query_string
+   end
+  end
+
+  def parse_single(params)
+    query_string = ""
+    query_rowArray = params[:q_row]
+    op_rowArray = params[:op_row]
+
+    if params[:op_row][0] == "begins_with"
+      params[:search_field_row][0] = params[:search_field_row][0] + "_starts"
+      search_field_rowArray = params[:search_field_row]
+
+    else
+     search_field_rowArray = params[:search_field_row]
+    end
+      for i in 0..query_rowArray.count - 1
+         if query_rowArray[i] != ""
+           query_string << "q="
+           query_rowSplitArray = query_rowArray[i].split(" ")
+           if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
+             if op_rowArray[i] == 'begins_with'
+
+             query_string << query_rowSplitArray[0] << " "
+             else
+             query_string << query_rowSplitArray[0] << " " #<< op_rowArray[i] << " "
+             end
+             for j in 1..query_rowSplitArray.count - 2
+               if !op_rowArray[i] == 'begins_with'
+                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+               else
+                query_string << query_rowSplitArray[j] << " "
+               end
+             end
+             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
+           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase" )
+             query_rowArray[i].gsub!("\"", "\'")
+             query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
+             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
+           else
+             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
+           end
+         end
+      end
+      Rails.logger.info("CHECKPARSESINGLE = #{query_string}")
+      return query_string
+   end
+
+  def test_size_param_array(param_array)
+    countit = 0
+    for i in 0..param_array.count - 1
+       unless param_array[i] == "" and !param_array[i].nil?
+        countit = countit + 1
+       end
+    end
+    return countit
+end
+
+def removeBlanks(params)
+     queryRowArray = [] #params[:q_row]
+     booleanRowArray = [] #params[:boolean_row]
+     subjectFieldArray = [] #params[:search_field_row]
+     opRowArray = [] #params[:op_row]
+     qrowSize = params[:q_row].count
+     booleanRowCount = 1
+     qrowIndexes = []
+     boolHoldHash = {}
+     Rails.logger.info("PHIN = #{params[:boolean_row]}")
+     Rails.logger.info("QROWSIZE = #{qrowSize}")
+     for i in 0..qrowSize - 1 
+       n = (i + 1).to_s
+       if params[:q_row][i] != ""
+         qrowIndexes << i
+         queryRowArray << params[:q_row][i]
+         opRowArray <<  params[:op_row][i]
+         subjectFieldArray << params[:search_field_row][i]
+       end
+       if qrowIndexes[0] == 0
+         for i in 1..qrowIndexes.count - 1
+           n = qrowIndexes[i].to_s
+           boolHoldHash["#{booleanRowCount}"] = params[:boolean_row][n.to_sym]
+           booleanRowCount = booleanRowCount + 1
+         end
+       else
+ #not sure if needed yet      
+       end
+    end
+     params[:q_row] = queryRowArray
+     params[:op_row] = opRowArray
+     params[:search_field_row] = subjectFieldArray
+     params[:boolean_row] = boolHoldHash
+#     params[:boolean_row] = {"1"=>"OR", "2"=>"OR"}
+#     finalcheck = params[:q_row].count.to_s
+#     if !params[:boolean_row].nil? and params[:boolean_row].has_key?(finalcheck.to_sym)
+#       params[:boolean_row].delete(finalcheck.to_sym)
 #     end
-##    end
-#  end
-  
-#  def parse_stem(query_string)
-#    string_chars = query_string.chars
-#    Rails.logger.info("PARSER = #{string_chars}")
-#    quoteFlag = 0
-#    wordArray = []
-##   if !query_string == /^\".*\"$/ # query_string.include?('"')
-#   if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
-#    Rails.logger.info("POOP #{query_string}")
-#    search_field = params[:search_field]
-#    params[:q_row] = []
-#    params[:search_field_row] = []
-#    params[:op_row] = []
-#    params[:op] = []
-#    params[:boolean_row] = {}
-#    params[:q] = ""
-#    string_chars.each do |i|
-#      if i == '"'
-#        if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
-#          wordArray << i
-#          params[:q] << i
-#          params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
-#          params[:op_row] << "phrase"
-#          params[:search_field_row] << search_field + "_quote"
-#          quoteFlag = 0 #reset quote flag
-#          wordArray = [] #clear out wordArray
-#        else # must be left hand quote
-#          if !wordArray.empty?
-#            params[:q_row] << wordArray.join.strip
-#            params[:op_row] << "AND"
-#            params[:search_field_row] << search_field
-#            wordArray = []
-#          end
-#          quoteFlag = 1
-#          wordArray << i
-#          params[:q] << i
-#        end
-#      else
-#        wordArray << i
-#        params[:q] << i
-#      end
-#    end
-#    if !wordArray.empty?
-#      if quoteFlag == 1
-#        wordArray << '"'
-#        params[:q]<< '"'
-#        Rails.logger.info("GLADYS = #{wordArray}")
-#        params[:q_row] << wordArray.join.strip
-#        params[:op_row] << "phrase"
-#        params[:search_field_row] << search_field + "_quote"
-#        wordArray = []
-#        quoteFlag = 0
-#      else 
-#        if quoteFlag == 0
-#        Rails.logger.info("GLADYS1 = #{wordArray}")
-#          params[:q_row] << wordArray.join.strip
-#           params[:op_row] << "AND"
-#          params[:search_field_row] << search_field 
-#         wordArray = []
-#        end
-#      end
-#    end 
-#    times = params[:q_row].count
-#    for j in 1..times -1
-#      x = j
-#      n = x.to_s
-#      params[:boolean_row]["#{j}"] = "AND"
-#      params[:op][j - 1] = "AND"
-#    end
-#    Rails.logger.info("PUTREFLIP = #{params}")
-#    return params
-#   else
-#     return query_string
-#   end
-#  end
-
+     Rails.logger.info("REMOVINGPH = #{params}")
+     return params
+end
 
  def getTempLocations(doc)
    require 'json'
@@ -307,14 +402,58 @@ end
 
 def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
-  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
-  if ( !my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
+  Rails.logger.info("ROCKOZ =  #{my_params}")
+  my_params = removeBlanks(my_params)
+  Rails.logger.info("ROCKOZ1 = #{my_params}")
+  if my_params[:search_field] == 'advanced'
+    my_params.delete(:q)
+  end
+# my_params[:q] = ''
+#  my_params[:show_query] = ''
+  if ( my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
+    Rails.logger.info("ROCKO2 =  #{my_params.inspect}")
     content = ""
     content << render_advanced_constraints_filters(my_params)
     return content.html_safe
   else
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
+    if my_params[:q_row].nil?
+      content = ""
+      content << render_constraints(my_params)
+      return content.html_safe
+    end
+    if my_params[:q_row].count == 1
+      Rails.logger.info("ROCKOVA = #{my_params}")
+      my_params[:search_field] = my_params[:search_field_row][0]
+      my_params[:q] = my_params[:q_row][0]
+      hold_q_row = my_params[:q_row][0]
+      hold_search_field_row = my_params[:search_field_row][0]
+      hold_oprow = my_params[:op_row][0]
+      my_params.delete("advanced_query")
+      my_params.delete("q_row")
+      my_params.delete("op_row")
+      my_params.delete(:search_field_row)
+      my_params.delete(:show_query)
+      my_params.delete(:y)
+      my_params.delete(:sort)
+      my_params.delete(:search_field)
+      my_params.delete(:boolean_row)
+      my_params[:search_field] = hold_search_field_row
+      content = ""
+      Rails.logger.info("ROCKOVA22 = #{my_params}")
+      content << render_constraints(my_params)
+      my_params[:q_row] = []
+      my_params[:search_field_row] = []
+      my_params[:op_row] = []
+      my_params[:q_row][0] = hold_q_row
+      my_params[:search_field_row][0] = hold_search_field_row
+      my_params[:op_row][0] = hold_oprow
+      my_params[:boolean_row] = {"1" => "AND"}
+      return content.html_safe
+    end
+    Rails.logger.info("MY_PARAMS =  #{my_params.inspect}")
+    if my_params[:boolean_row] == {}
+     my_params[:boolean_row] = {"1" => "AND"}
+    end
     labels = []
     values = []
     q_parts = []
@@ -353,6 +492,8 @@ def render_advanced_constraints_query(my_params = params)
     end
     j = 1
     if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
+          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
+
      sfr = my_params[:search_field_row][0]
 #     if my_params[:op_row][0] == "begins_with"
 #       sfr = sfr << "_starts"
@@ -364,14 +505,19 @@ def render_advanced_constraints_query(my_params = params)
 #          sfr = sfr << "_starts"
 #        end
         n = i.to_s
-        new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
-        new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
+        if !my_params[:boolean_row].nil?
+          if !my_params[:boolean_row][n.to_sym].nil?
+            new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
+            new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
+          end
+        end
         j = j + 2
       end
 #        q_parts = q_string.split('&')
     elsif !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
      new_q_parts[0] = "q=" << my_params[:q]
      new_q_parts[1] = "search_field=" << my_params[:search_field]
+          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
     end
     if (new_q_parts.count == 3 )
      #  params.delete("advanced_query")
@@ -423,6 +569,7 @@ def render_advanced_constraints_query(my_params = params)
 #            parts = q_parts[0].split('=')
          if !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
           remove_string = my_params["q"]
+          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
           label = search_field_def_for_key(my_params[:search_field])[:label]
           if(params[:f].nil?)
             removeString = "?"
@@ -483,11 +630,13 @@ def render_advanced_constraints_query(my_params = params)
                   end
                 end
               end
+          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
                 
                if x >= 1 and x <= temp_boolean_rows.count
                    opval = temp_boolean_row[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
                else
+                 Rails.logger.info("WINKY")
                    label = search_field_def_for_key(my_params[:search_field_row][x])[:label]
                end
 
@@ -738,7 +887,7 @@ def make_show_query(params)
 #  params[:show_query] = 'title = water AND subject = ice'
   for i in 0..params[:search_field_row].count - 1
     showquery = params[:search_field_row][i] + " = " + params[:q_row][i] 
-    if !params[:boolean_row][i+1].nil?
+    if !params[:boolean_row].nil? and !params[:boolean_row][i+1].nil?
       showquery = showquery + " " + params[:boolean_row][i+1] + " "
     end
   end
