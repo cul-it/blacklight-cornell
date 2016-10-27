@@ -320,96 +320,80 @@ class SearchBuilder < Blacklight::SearchBuilder
     return countit
   end
 
- def removeBlanks(params)
-     queryRowArray = params[:q_row]
-     booleanRowArray = params[:boolean_row]
-     subjectFieldArray = params[:search_field_row]
-     opRowArray = params[:op_row]
+def removeBlanks(params)
+     queryRowArray = [] #params[:q_row]
+     booleanRowArray = [] #params[:boolean_row]
+     subjectFieldArray = [] #params[:search_field_row]
+     opRowArray = [] #params[:op_row]
+     boolHoldHash = {}
+     qrowIndexes = []
+     Rails.logger.info("SBIN = #{params[:boolean_row]}")
      qrowSize = params[:q_row].count
-     for i in 1..qrowSize - 1
-       n = i.to_s
-       if queryRowArray[i] == ""
-         params[:q_row].delete_at(i)
-         params[:op_row].delete_at(i)
-         params[:search_field_row].delete_at(i)
-         j = i+1
-         nextKey = j.to_s
-         onemore = ""
-         if params[:boolean_row].has_key?(nextKey.to_sym)
-           for k in i..qrowSize - 2
-             l = k.to_s
-             m = k + 1
-             onemore = m.to_s
-             params[:boolean_row][l.to_sym] = params[:boolean_row][onemore.to_sym]
-           end
-           params[:boolean_row].delete(onemore.to_sym)
-         else
-           params[:boolean_row].delete(n.to_sym)
-         end
+     booleanRowCount = 1
+     Rails.logger.info("QROWSIZE = #{qrowSize}")
+     for i in 0..qrowSize - 1 
+       n = (i + 1).to_s
+       if params[:q_row][i] != ""
+         qrowIndexes << i
+         queryRowArray << params[:q_row][i]
+         opRowArray <<  params[:op_row][i]
+         subjectFieldArray << params[:search_field_row][i]
        end
-     end
-     finalcheck = params[:q_row].count.to_s
-     if params[:boolean_row].has_key?(finalcheck.to_sym)
-       params[:boolean_row].delete(finalcheck.to_sym)
-     end
- end
+       if qrowIndexes[0] == 0
+         for i in 1..qrowIndexes.count - 1
+           n = qrowIndexes[i].to_s
+           boolHoldHash["#{booleanRowCount}"] = params[:boolean_row][n.to_sym]
+           booleanRowCount = booleanRowCount + 1
+         end
+       else
+ #not sure if needed yet      
+       end
+    end
+     params[:q_row] = queryRowArray
+     params[:op_row] = opRowArray
+     params[:search_field_row] = subjectFieldArray
+     params[:boolean_row] = boolHoldHash
+
+     return params
+end
 
     def make_adv_query(my_params = params || {})
-#      Blacklight::Solr::Request.new.tap do |solr_parameters|
-
+# Check to make sure this is an AS
+     # IF 1
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
-#    solr_search_params_logic.each do |method_name|
-#      send(method_name, solr_parameters, my_params)
-#    end
-          q_string = ""
-          q_string2 = ""
-          q_string_hold = ""
-          q_stringArray = []
-          q_string2Array = []
-          opArray = []
-          newOpArray = []
-          Rails.logger.info("SELETEFROMHASH = #{my_params[:boolean_row]}")
-          Rails.logger.info("SELETEFROMHASH = #{blacklight_params}")
-         if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?
-              #convert hash to array The front end numbers boolean_row differently than the search_field, q_row arrays.
-           for k in 0..my_params[:boolean_row].count - 1
-              realsub = k + 1;
-              n = realsub.to_s
-              opArray[k] = my_params[:boolean_row][n.to_sym]
-           end
-           Rails.logger.info("OPARRATE = #{opArray}")
-           for i in 0..my_params[:q_row].count - 1
-             if my_params[:q_row][i] == ''
-               if i == my_params[:q_row].count - 1
-                 opArray.delete_at(i)
-               else
-                 opArray.delete_at(i - 1)
-               end
-             end
-             i = i + 1
-             
-           end
-          Rails.logger.info("GELETEFROMHASH1 = #{my_params[:boolean_row]}")           
-          Rails.logger.info("GELETEFROMHASH12 = #{blacklight_params[:boolean_row]}")           
-           Rails.logger.info("OPARRATE1 = #{opArray}")
-                #loop on the search_fields checking the q_rows for crappy user input.
-           for i in 0..my_params[:search_field_row].count - 1
-              #skip over blank query rows
-              if my_params[:q_row][i].blank? || my_params[:q_row][i] == "" || my_params[:q_row].nil?
-      #           my_params[:q_row].delete_at(i)
-      #           if i == my_params[:q_row].count - 1
-      #             opArray.delete_at(i - 1)
-      #           else
-      #             opArray.delete_at(i)
-      #           end
-                 boolkey = i + 1
-                 n = boolkey.to_s
- #                my_params[:boolean_row] = my_params[:boolean_row].except!(n.to_sym)
- #                my_params[:boolean_row] = reorderBooleanRow(my_params[:boolean_row])          
-                 Rails.logger.info("DELETEFROMHASH2= #{my_params[:boolean_row]}") 
-                 next
-              end
-                 #or dimwits cutting and pasting the quotes we are checking for in the next line
+# Remove any blank rows in AS
+       my_params = removeBlanks(my_params)
+       # IF 1.1
+       Rails.logger.info("MAQ = #{my_params}")
+       if my_params[:boolean_row].nil?
+         Rails.logger.info("MAQ2 = #{my_params}")
+         my_params = makesingle(my_params)
+         Rails.logger.info("MAQ3 = #{my_params}")         
+# If reduction results in only one row return to cornell_catalog.rb
+#         my_params[:boolean_row] = {"1" => "AND"}
+         Rails.logger.info("MAQ4 = #{my_params}")
+         return my_params
+       # end IF 1.1
+       end
+       
+       q_string = ""
+       q_string2 = ""
+       q_string_hold = ""
+       q_stringArray = []
+       q_string2Array = []
+       opArray = []
+       newOpArray = []
+       # IF 1.2
+       if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?
+          #convert hash to array The front end numbers boolean_row differently than the search_field, q_row arrays.
+          for k in 0..my_params[:boolean_row].count - 1
+             realsub = k + 1;
+             n = realsub.to_s
+             opArray[k] = my_params[:boolean_row][n.to_sym]
+          end
+          #loop on the search_fields checking the q_rows for crappy user input.
+          for i in 0..my_params[:search_field_row].count - 1
+              #or dimwits cutting and pasting the quotes we are checking for in the next line
               my_params[:q_row][i].gsub!('”', '"')
               #count to see if someone did not close their quotes 
               numquotes = my_params[:q_row][i].count '"'
@@ -419,33 +403,25 @@ class SearchBuilder < Blacklight::SearchBuilder
               end
          
               if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
-                  #shouldn't need since adding next on line 381
-                  #  if my_params[:q_row][i] == ""
-                  #    my_params[:q_row][i] = "blank"
-                  #  end
+                  numquotes = my_params[:q_row][i].count '"'
+                  if numquotes > 0
+                    my_params[:q_row][i].gsub!('"', '')
+                  end
                   newpass = '"' + my_params[:q_row][i] + '"'
               else
-                  #shouldn't need since adding next on line 381
-                  #  if my_params[:q_row][i] == ""
-                  #    my_params[:q_row][i] = "blank"
-                  #  end
                 newpass = my_params[:q_row][i]
               end
               if my_params[:search_field_row][i] == 'journal title'
                 my_params['format'] = "Journal"
               end
-              if my_params[:op_row][i] == "begins_with"
-                my_params[:search_field_row][i] = my_params[:search_field_row][i] + "_starts"
-              end
+#              if my_params[:op_row][i] == "begins_with"
+#                my_params[:search_field_row][i] = my_params[:search_field_row][i] + "_starts"
+#              end
               #looks like this block is unecessary
               pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
-              Rails.logger.info("PASSPARAM = #{pass_param}")
-              Rails.logger.info("PASSPARAM1 = #{newpass}")
               returned_query = ParsingNesting::Tree.parse(newpass)
               newstring = returned_query.to_query(pass_param)
-              Rails.logger.info("PASSPARAM2 = #{newstring}")
               holdarray = newstring.split('}')
-              Rails.logger.info("HOLDSARRAY = #{holdarray}")
               if my_params[:op_row][i] == "OR"
                 holdarray[1] = parse_query_row(holdarray[1], "OR")
               end
@@ -458,19 +434,21 @@ class SearchBuilder < Blacklight::SearchBuilder
               q_string_hold = q_string_hold + " _query_:\"{!edismax " 
 
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
-
+              Rails.logger.info("FIELDERNAMES = #{fieldNames}")
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
                 if solr_stuff == "call number"
                   solr_stuff = "lc_callnum"
                 end
+                Rails.logger.info("PLACEOF = #{solr_stuff}")
                 if solr_stuff == "place of publication"
                   solr_stuff = "pubplace"
+                  Rails.logger.info("PLACEOF1 = #{solr_stuff}")
                 end
                 if solr_stuff == "publisher number/other identifier"
                   solr_stuff = "number"
                 end
-                if solr_stuff == "ISBN/ISSN"
+                if solr_stuff == "isbn/issn"
                   solr_stuff = "isbnissn"
                 end
                 if solr_stuff == "donor name"
@@ -480,6 +458,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                   solr_stuff = "journal title"
                 end
                 field_name =  solr_stuff
+                Rails.logger.info("WATTS = #{field_name}")
                 if field_name == "journal title"
                     if my_params[:op_row][i] == 'begins_with'
                       field_name = "title_starts"
@@ -496,14 +475,19 @@ class SearchBuilder < Blacklight::SearchBuilder
                       q_string << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
                       q_string2 << field_name << "_starts"<< " = "
                       q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
-                      Rails.logger.info("BERNICE2 = #{q_string}")
                   else
                       q_string << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
                       q_string2 << field_name << " = "
                       q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
                   end
                 end
+                      Rails.logger.info("BERNICE2Z = #{q_string}")
+
               end #of if
+    #   if my_params[:q_row].count == 1
+
+ #        my_params[:q] = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\""
+    #   end
               if holdarray.count > 1 #D
                 if field_name.nil?
                   field_name = 'all_fields'
@@ -512,14 +496,13 @@ class SearchBuilder < Blacklight::SearchBuilder
                 for j in 1..holdarray.count - 1
                    holdarray_parse = holdarray[j].split('_query_')
                    holdarray[1] = holdarray_parse[0]
-
+                   Rails.logger.info("GASTLY = #{holdarray}")
                    if(j < holdarray.count - 1)
                       if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' #|| my_params[:op_row][i] == 'phrase'
-                        Rails.logger.info("WEEKEND2 = #{q_string_hold}")
-                        holdarray[1] = holdarray[1].gsub!('"','')
-                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                        q_string << "}\\\"\"" << holdarray[1] << "\\\"\"\" _query_:\\\"{!edismax  qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                        Rails.logger.info("BERNICE3 = #{q_string}")
+                        holdarray[1].gsub!('"','')
+                        holdarray[1].gsub!('\\','')
+                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                        q_string << "}\\\\\\\"" << holdarray[1] << "\\\\\\\" _query_:\\\"{!edismax  qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf" #}" << holdarray[1].chomp("\"") << "\""
                         q_string2 << holdarray[1]
                       else
                         q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
@@ -528,9 +511,11 @@ class SearchBuilder < Blacklight::SearchBuilder
                       end
                    else
                      if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' # || my_params[:op_row][i] == 'phrase'
-                       holdarray[1] = holdarray[1].gsub!('"','')
-                       q_string_hold << "}\"\"" << holdarray[1] << "\""
-                       q_string << "}\\\"" << holdarray[1]  << "\\\"\"\""
+                       holdarray[1].gsub!('"','')
+                       holdarray[1].gsub!('\\','')
+                       Rails.logger.info("CLEANSTRING = #{holdarray[1]}")
+                       q_string_hold << "}\"" << holdarray[1] << "\""
+                       q_string << "}\\\"" << holdarray[1]  << "\\\"\""  #  \\\"design\\\"\"
                        Rails.logger.info("BERNICE4.1 = #{q_string}")
                        q_string2 << holdarray[1] << " "
                      else
@@ -544,10 +529,9 @@ class SearchBuilder < Blacklight::SearchBuilder
                    end
                 end
               else #D
-                q_string_hold << "}" << holdarray[1] #<< "\""
-                q_string << "}" << holdarray[1] #<< "\""
-                Rails.logger.info("BERNICE5 = #{q_string}")
-                q_string2 << holdarray[1]
+                q_string_hold << "}" #<< holdarray[1] #<< "\""
+                q_string << "}" #<< holdarray[1] #<< "\""
+               # q_string2 = q_string2 #<< holdarray[1]
 
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
@@ -559,23 +543,20 @@ class SearchBuilder < Blacklight::SearchBuilder
               q_string2Array << q_string2
               q_string_hold = "";
               q_string2 = "";
-              Rails.logger.info("BERNICE31.1 = #{q_string}")
 
            end #of For C
            #fix opArray
-            
-           Rails.logger.info("BERNICE31.5 = #{opArray.count}")
+ 
            test_q_string = groupBools(q_stringArray, opArray)
            test_q_string2 = groupBools(q_string2Array, opArray)
-           Rails.logger.info("BERNICE32 = #{test_q_string}")
+     #      test_q_string = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\""
            if test_q_string == ""
              #        solr_parameters[:sort] = "score desc, title_sort asc"
            end
-           my_params[:q] = test_q_string
+           my_params[:q] = q_string #"_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"1451621175\\\"\" OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")" #q_string
            if my_params[:q_row].present?
              #     solr_parameters[:'spellcheck.dictionary'] = params[:q_row].join(" ")
            end
-           Rails.logger.info("BERNICE6 = #{test_q_string2}")
            my_params[:show_query] = test_q_string2.gsub!('(', '')
            if !my_params[:show_query].nil?
              my_params[:show_query] = my_params[:show_query].gsub!(')','')
@@ -583,6 +564,7 @@ class SearchBuilder < Blacklight::SearchBuilder
            end
          end #B
        else #A
+         
          #      solr_parameters[:q] = my_params[:q]
          if params[:search_field] == "call number" and !my_params[:q].nil? and !my_params[:q].include?('"')
            params[:q] = '"' + my_params[:q] + '"'
@@ -615,10 +597,84 @@ class SearchBuilder < Blacklight::SearchBuilder
        #  my_params["q"] = "( _query_:\"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus\" AND ( _query_:\"{!edismax qf=$title_qf pf=$title_pf}history\"))" # OR (_query_:\"{!edismax qf=$title_qf pf=$title_pf}design\" OR ( _query_:\"{!edismax qf=$title_qf pf=$title_pf}box\"))))" # OR  (_query_:\"{!edismax qf=$subject_qf pf=$subject_pf}archive\"))))"
        #  my_params["q"] = "( _query_:\"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus\" AND  _query_:\"{!edismax qf=$title_qf pf=$title_pf}box\")" # OR  (_query_:\"{!edismax qf=$subject_qf pf=$subject_pf}archive\"))))"
        #   my_params["q"] = "(_query_:\"{!edismax qf=$title_starts_qf pf=$title_starts_pf}\\\"Norwegians\\\"\" AND ( _query_:\"{!edismax qf=$number_qf pf=$number_pf}6889976\"))"
-       Rails.logger.info("Mononoke #{my_params}")
+#       my_params["q"] =  "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"1451621175\\\"\" OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
+#       my_params["q"] =  "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"N332G33B44\\\"\""
+       Rails.logger.info("Mononoke1 #{my_params}")
+#       my_params["q"] = " _query_:\"{!edismax  qf=$title_qf pf=$title_pf}design\" AND ( _query_:\"{!edismax  qf=$subject_qf pf=$subject_pf}bauhaus\" OR  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}frogs\")"
+#       my_params["q"] = " _query_:\"{!edismax  qf=$title_starts_qf pf=$title_starts_pf}\\\"design\\\"\"  AND  _query_:\"{!edismax  qf=$subject_qf pf=$subject_pf}bauhaus\""
+          Rails.logger.info("ROCKOABBA = #{my_params}")
        return my_params
   end  #def
+  
+  def makesingle(my_params)
+    op_name = my_params[:op_row][0]
+    query = my_params[:q_row][0]
+    field_name = my_params[:search_field_row][0]
+    Rails.logger.info("BOOGIE = #{op_name}")
+    op_name = my_params[:op_row][0]
+    query = "_query_:\\\"{!edismax "
+    
+              fieldNames = blacklight_config.search_fields["#{field_name}"]
+              if !fieldNames.nil?
+                solr_stuff = fieldNames["key"]
+                if solr_stuff == "call number"
+                  solr_stuff = "lc_callnum"
+                end
+                if solr_stuff == "place of publication"
+                  solr_stuff = "pubplace"
+                end
+                if solr_stuff == "publisher number/other identifier"
+                  solr_stuff = "number"
+                end
+                if solr_stuff == "isbn/issn"
+                  solr_stuff = "isbnissn"
+                end
+                if solr_stuff == "donor name"
+                  solr_stuff = "donor"
+                end
+                if solr_stuff == "journal title"
+                  solr_stuff = "journal title"
+                end
+                field_name =  solr_stuff
+                if field_name == "journal title"
+                    if my_params[:op_row][i] == 'begins_with'
+                      field_name = "title_starts"
+                    else
+                      field_name = "title"
+                    end
+                    query << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+                   # q_string2 << field_name << " = "
+                   # q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
+  
+                else
+                  if op_name == 'begins_with'
+                      Rails.logger.info("BERNICESINGLE = #{op_name}")
+                      query << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                  #    q_string2 << field_name << "_starts"<< " = "
+                  #    q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
+                  #    Rails.logger.info("BERNICE2 = #{q_string}")
+                  else
+                      query << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                    #  q_string2 << field_name << " = "
+                    #  q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+                  end
+                end
 
+              end 
+          if my_params[:q_row].count == 1
+            Rails.logger.info("DIANNA")
+            querystring = my_params[:q_row][0]
+            if field_name == "lc_callnum"
+              query = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"" + querystring + "\\\" "
+            else   
+              query = query << "}" + querystring + "\""
+            end
+            Rails.logger.info("MAKESINGLE = #{query}")
+            my_params[:q] = query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
+          end
+    return my_params
+  
+  end
   def groupBools(q_stringArray, opArray)
      grouped = []
 #     rightParens = opArray.length
