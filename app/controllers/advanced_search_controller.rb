@@ -10,6 +10,7 @@ class AdvancedSearchController < ApplicationController
       if params[:q_row][i].include?('%26')
         params[:q_row][i] = params[:q_row][i].gsub!('%26', '&')
       end
+      i = i + 1
     end
     end
     return params
