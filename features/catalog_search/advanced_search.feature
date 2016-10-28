@@ -325,7 +325,7 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'We were Feminists Once'
-    And I should see the label '1 - '
+    And I should see the label '1 result'
 
  @begins_with
  @adv_search
@@ -341,7 +341,7 @@ Feature: Search
     Then I should get results
     #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
-    And I should see the label '1 - '
+    And I should see the label '1 result'
 
 
  @wip
@@ -373,7 +373,7 @@ Feature: Search
     Then I should get results
     #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
-    And I should see the label '1 - '
+    And I should see the label '1 result'
  @begins_with
  @adv_search
  @all_search
@@ -388,5 +388,4 @@ Feature: Search
     Then I should get results
     #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
-    And I should see the label '1 - '
-    And click on link "Click : when we knew we were feminists"
+    And I should see the label '1 result'
