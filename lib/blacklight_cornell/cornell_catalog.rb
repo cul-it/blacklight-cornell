@@ -130,6 +130,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
 #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
+
+    Rails.logger.info("BRUDDER = #{params}")
+
     (@response, @document_list) = search_results(params)
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
@@ -147,16 +150,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        end
     end
 
-    if params[:q_row].present?
-       if params[:q].nil?
-        params[:q] = query_string
-       end
-    else
+#    if params[:q_row].present?
+#       if params[:q].nil?
+#        params[:q] = query_string
+#       end
+#    else
         if params[:q].nil?
-          params[:q] = query_string
-
+          if !params[:search_field].nil?
+             params.delete(:search_field)
+         end
         end
-    end
 
     if params[:search_field] == 'call number'
       if !params[:q].nil? and params[:q].include?('"')
