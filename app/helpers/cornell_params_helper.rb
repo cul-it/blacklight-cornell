@@ -403,7 +403,9 @@ end
 def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
   Rails.logger.info("ROCKOZ =  #{my_params}")
-  my_params = removeBlanks(my_params)
+  if my_params[:q_row]
+    my_params = removeBlanks(my_params)
+  end
   Rails.logger.info("ROCKOZ1 = #{my_params}")
   if my_params[:search_field] == 'advanced'
     my_params.delete(:q)
