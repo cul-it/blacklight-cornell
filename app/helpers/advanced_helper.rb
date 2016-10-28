@@ -50,6 +50,12 @@ module AdvancedHelper
   end
 
   def render_edited_advanced_search(params)
+    Rails.logger.info("CUBONE = #{params}")
+    query = ""
+    if params[:boolean_row].nil?
+      params[:boolean_row] = {"1"=>"AND"}
+    end
+    Rails.logger.info("REAS = #{params}")
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author/Creator"], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
@@ -58,7 +64,18 @@ module AdvancedHelper
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
     row1 = ""
-    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\" value=\""  << params[:q_row][0] << "\" /> "
+    if params[:q_row][0].include? ' '
+      Rails.logger.info("CUBONE3")
+      query = "\"" + params[:q_row][0] + "\""
+    else
+      query = params[:q_row][0]
+    end
+#    params[:q_row][0].gsub!('\\\"','')
+    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\"" 
+    row1 << " value="  
+    row1 << query #params[:q_row][0] 
+    row1 << " /> "
+Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
     row1 << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
@@ -120,7 +137,45 @@ module AdvancedHelper
          end
           next2rows << "</select></div></div>"
       end
+    else
+      next2rows = ""
+      next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
+      boolean_row_values.each do |key, value|
+           n = 1.to_s
+           if key == params[:boolean_row][n.to_sym]
+             next2rows << "<label class=\"radio-inline\">"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
+             next2rows << "</label>"
+           else
+             next2rows << "<label class=\"radio-inline\">"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" <<  value << " "
+             next2rows << "</label>"
+           end
+      end
+      next2rows << "</select></div></div>"
+      next2rows << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\" value=\""  <<  "\" /> "
+      next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
+      next2rows << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
+      boolean_values.each do |key, value|
+      if key == params[:op_row][0]
+        next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+      else
+        next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+      end
     end
+    next2rows << "</select> in "
+    next2rows << "<label for=\"search_field_row\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>"
+    next2rows << "<select class=\"advanced-search-field form-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
+    subject_values.each do |key, value|
+      if key == params[:search_field_row][0]
+        next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+      else
+        next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+      end
+    end
+    next2rows << "</select>"
+    end
+
     fparams = ""
     unless params[:f].nil?
        params[:f].each do |key, value|
@@ -132,6 +187,8 @@ module AdvancedHelper
     word << row1 << next2rows << fparams
     return word.html_safe
   end
+  
+  
   def search_as_hidden_fields(options={})
     my_params = cornell_params_for_search({:omit_keys => [:page]}.merge(options))
 
