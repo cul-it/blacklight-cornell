@@ -27,7 +27,7 @@ module CornellCatalogHelper
       grouped['*Online'] = [] if grouped ['*Online'].nil?
       grouped['Rare'] = [] if grouped['Rare'].nil?
       #if holding['location_code'].include?('rmc')
-      Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  holding = #{holding.pretty_inspect}"
+      ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  holding = #{holding.pretty_inspect}"
       if Location::aeon_eligible? holding['location_code']
         grouped['Rare'] << holding
       elsif holding['location_name'].include?('*Networked Resource')
@@ -112,13 +112,13 @@ module CornellCatalogHelper
     items2 = document[:item_record_display].present? ? document[:item_record_display].map { |item| JSON.parse(item).with_indifferent_access } : Array.new
     bibid = document[:id]
     response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{bibid}")).with_indifferent_access
-    Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  response = #{response.pretty_inspect}"
+    ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  response = #{response.pretty_inspect}"
     @response = response
     # Store the response in the session for use by the request engine
     session[:holdings_status_short] = response
     @request_ok = true
     #@request_ok = requestable?(bibid,response) 
-    Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  @request_ok = #{@request_ok.pretty_inspect}"
+    ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  @request_ok = #{@request_ok.pretty_inspect}"
     @bound_with = [] 
     @bound_with_to_mbw =  {} 
     if bound_with?
@@ -167,11 +167,11 @@ module CornellCatalogHelper
     hrds = {}
     ##Rails.logger.debug "\nes287_debug raw holding data #{__LINE__}   = " 
     document[:holdings_record_display].each do |hrd|
-          Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.pretty_inspect 
+          ##Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.pretty_inspect 
     end  if document[:holdings_record_display]
     document[:holdings_record_display].each do |hrd|
           hrdJSON = JSON.parse(hrd).with_indifferent_access
-          Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
+          ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
           callnumber = hrdJSON["callnos"].blank? ? "" : hrdJSON["callnos"][0] 
           id = hrdJSON[:id]
           hrds[id]  =  hrdJSON
@@ -188,6 +188,7 @@ module CornellCatalogHelper
             oneloc["location_name"] = dispname 
             oneloc["location_code"] = loc[:code].gsub(' ','')
             ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = #{loc[:code]}" 
+            ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location name  = #{dispname}" 
             ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} callnumber  = #{callnumber}"
             oneloc["holding_id"] = [id] 
             oneloc["location_id"] = loc[:number] 
@@ -297,6 +298,7 @@ module CornellCatalogHelper
 	      ycondensed_full = collapse_locs(zcondensed_full)
 	    end
 
+	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
 	    ycondensed_full = missing_call_no(ycondensed_full)
 
 	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
@@ -893,7 +895,7 @@ module CornellCatalogHelper
 	    iarray.each do |ite|
 	      items << JSON.parse(ite)
 	    end 
-	    ##Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) items=#{items}\n"  
+	    ##Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) items=#{items.pretty_inspect}\n"  
 	    ##Rails.logger.debug "\nes287_debug fix_perm: #{__FILE__} line(#{__LINE__}) items=#{items}\n"  
 	    # from response create an array of items similar to that of solr 
 	    items_db = []  
@@ -921,11 +923,6 @@ module CornellCatalogHelper
 	      end
 	     end
 	    end
-	#es287_debug fix_perm: /libweb/dev/git-src/wtf/blacklight-cornell-dev2/app/helpers/cornell_catalog_helper.rb line(756) items=[{"sensitize"=>"Y", "spine_label"=>"", "magnetic_media"=>"N", "recalls_placed"=>"0", "temp_location"=>{"code"=>"uris,res", "number"=>132, "name"=>"Uris Library Reserve", "library"=>"Uris Library"}, "item_barcode"=>"31924009465034", "historical_browses"=>"12", "item_enum"=>"", "item_sequence_number"=>"1", "historical_charges"=>"55", "create_date"=>"2000-05-31 00:00:00.0", "copy_number"=>"1", "create_location_id"=>"0", "mfhd_id"=>"881500", "short_loan_charges"=>"0", "chron"=>"", "reserve_charges"=>"0", "year"=>"", "modify_location_id"=>"188", "media_type_id"=>"0", "create_operator_id"=>"", "historical_bookings"=>"0", "holds_placed"=>"0", "perm_location"=>{"code"=>"olin", "number"=>99, "name"=>"Olin Library", "library"=>"Olin Library"}, "modify_date"=>"2014-09-26 20:23:03.0", "temp_item_type_id"=>"26", "caption"=>"", "on_reserve"=>"N", "pieces"=>"1", "item_type_id"=>"3", "price"=>"0", "item_type_name"=>"book", "item_id"=>"1914113", "freetext"=>"", "modify_operator_id"=>"tbs23"}]
-
-
-	#es287_debug fix_permtemps: /libweb/dev/git-src/wtf/blacklight-cornell-dev2/app/helpers/cornell_catalog_helper.rb line(768) items_db=[{"BIB_ID"=>723323, "MFHD_ID"=>881500, "ITEM_ID"=>1914113, "ITEM_STATUS"=>1, "DISPLAY_CALL_NO"=>"PR115 .G46", "LOCATION_ID"=>99, "LOCATION_CODE"=>"olin", "LOCATION_DISPLAY_NAME"=>"Olin Library", "OQUANTITY"=>nil, "ODATE"=>nil, "LINE_ITEM_STATUS"=>nil, "LINE_ITEM_ID"=>nil, "TEMP_LOCATION_DISPLAY_NAME"=>nil, "TEMP_LOCATION_CODE"=>nil, "TEMP_LOCATION_ID"=>0, "ITEM_STATUS_DATE"=>"2014-12-27T08:39:17-05:00", "PERM_LOCATION"=>99, "PERM_LOCATION_DISPLAY_NAME"=>"Olin Library", "PERM_LOCATION_CODE"=>"olin", "CURRENT_DUE_DATE"=>nil, "HOLDS_PLACED"=>0, "RECALLS_PLACED"=>0, "PO_TYPE"=>nil}]
-
 
 	    ##Rails.logger.debug "\nes287_debug #{__method__.to_s}: #{__FILE__} line(#{__LINE__}) items_db=#{items_db.inspect}\n"
 	    # for each holding record, count the items 
@@ -941,14 +938,15 @@ module CornellCatalogHelper
 	      imc = im.count
 	      im2 = items2.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
 	      imc2 = im2.count
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{im2.count}\n"  
+	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.pretty_inspect} and count for this holding = #{im.count}\n"  
+	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.pretty_inspect} and count for this holding = #{im2.count}\n"  
 	      tm = im.select {|i| i['temp_location'] && !i['temp_location']['code'].blank? }
 	      pm = im2.select {|i| !i['perm_location']['code'].blank? }
 	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching temp=#{tm.inspect} and count with temps= #{tm.count}\n"  
 	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching perm=#{pm.inspect} and count with perms= #{pm.count}\n"  
 	      pl = (pm.select {|i| !i['perm_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'perm_location'}}
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pl=#{pl.inspect}\n"  
+              pl.uniq!
+	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pl=#{pl.pretty_inspect}\n"  
 	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
 	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{im2.count}\n"  
 	      tl = (tm.select {|i| !i['temp_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'temp_location'}}
@@ -958,10 +956,12 @@ module CornellCatalogHelper
 	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pm count=#{pm.count} and count for this holding = #{imc2}\n"  
 	      #select from items array those with matching mfhd_id and a temp loc, and count them. how many items on this mfhd with a temp location?
 	      if pm.count > 0 and pm.count == imc2 and tm.count == 0 
-		loc2['location_name'] = pl[0]['perm_location']['name'] 
-		loc2['location_code'] = pl[0]['perm_location']['code'] 
-		loc2['copies'][0].delete('temp_locations')
-		 ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) over rode based on pm pmcount = #{imc2}\n"  
+                if pl.size == 1
+		  loc2['location_name'] = pl[0]['perm_location']['name'] 
+		  loc2['location_code'] = pl[0]['perm_location']['code'] 
+		  loc2['copies'][0].delete('temp_locations')
+                end
+		##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__})overrode based on pm pmcount = #{imc2}\n"  
 	      end
 	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) tm count=#{tm.count} and count for this holding = #{imc}\n"  
 	      if tm.count > 0 and tm.count == imc  
@@ -1474,8 +1474,7 @@ module CornellCatalogHelper
  def requestable?(bibid,response) 
     if !response[bibid][bibid]["records"].blank?
       statuses = response[bibid][bibid]["records"][0]["statuses"]
-      Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  statuses = #{statuses.pretty_inspect}"
-      #binding.pry
+      ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  statuses = #{statuses.pretty_inspect}"
       return statuses.values.uniq.join == 'none' ? false : true
     else
       return false
