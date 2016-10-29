@@ -241,12 +241,12 @@ Feature: Item view
     Given I request the item view for 2144728 
     Then I should see the labels 'c. 1 Unavailable 2013-10-07'
 
-  # Availability for a Missing item Sweetness and power : the place of sugar in modern history  
+  # Availability for a Missing item Municipal innovations 
   @all_item_view
   @missing
   @availability 
   Scenario: As a user I can see the availability for a Missing item
-    Given I request the item view for 18583 
+    Given I request the item view for 306998 
     Then I should see the labels 'Missing'
 
   # Availability for an In transit item Mac OS X Tiger in a nutshell (status 10) 
