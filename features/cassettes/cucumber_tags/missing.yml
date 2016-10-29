@@ -1092,4 +1092,63 @@ http_interactions:
         MC4yODhaJ31dfX0K
     http_version: 
   recorded_at: Wed, 17 Aug 2016 16:13:50 GMT
+- request:
+    method: get
+    uri: http://es287-dev.library.cornell.edu:8989/holdings/status_short/18583
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 25 Oct 2016 17:28:43 GMT
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"c7639a2e62f0ed15d2a1b280a91eff6c"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 91b127e0df773e2303cc837bcb5e564e
+      X-Runtime:
+      - '0.086033'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.2.5/2016-04-26)
+      Date:
+      - Tue, 25 Oct 2016 17:28:43 GMT
+      Content-Length:
+      - '2349'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"18583":{"18583":{"records":[{"bibid":"18583","call_number":"GT2869
+        .M66","statuses":{"86":"unavailable","29015":"available","29017":"unavailable"},"holdings":[{"BIB_ID":18583,"MFHD_ID":86,"ITEM_ID":89,"ITEM_STATUS":12,"DISPLAY_CALL_NO":"GT2869
+        .M66","LOCATION_ID":99,"LOCATION_CODE":"olin","LOCATION_DISPLAY_NAME":"Olin
+        Library","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2014-07-22T15:56:39-04:00","PERM_LOCATION":99,"PERM_LOCATION_DISPLAY_NAME":"Olin
+        Library","PERM_LOCATION_CODE":"olin","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null},{"BIB_ID":18583,"MFHD_ID":29015,"ITEM_ID":45646,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"GT2869
+        .M56 1985","LOCATION_ID":43,"LOCATION_CODE":"hote","LOCATION_DISPLAY_NAME":"ILR
+        Library (Ives Hall)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":"Uris
+        Library Reserve","TEMP_LOCATION_CODE":"uris,res","TEMP_LOCATION_ID":132,"ITEM_STATUS_DATE":"2016-08-27T16:44:54-04:00","PERM_LOCATION":43,"PERM_LOCATION_DISPLAY_NAME":"ILR
+        Library (Ives Hall)","PERM_LOCATION_CODE":"hote","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null},{"BIB_ID":18583,"MFHD_ID":29017,"ITEM_ID":45648,"ITEM_STATUS":2,"DISPLAY_CALL_NO":"GT2869
+        .M56x 1985","LOCATION_ID":2,"LOCATION_CODE":"afr","LOCATION_DISPLAY_NAME":"Africana
+        Library (Africana Center)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2016-10-20T18:44:54-04:00","PERM_LOCATION":2,"PERM_LOCATION_DISPLAY_NAME":"Africana
+        Library (Africana Center)","PERM_LOCATION_CODE":"afr","CURRENT_DUE_DATE":"2016-12-01T23:00:00-04:00","HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Olin
+        Library","Uris Library Reserve","Africana Library (Africana Center)"],"locnumber":3,"status":["avail"],"avail_at":{"Uris
+        Library Reserve":"GT2869 .M56 1985"},"not_avail_at":{"Olin Library":"GT2869
+        .M66","Africana Library (Africana Center)":"GT2869 .M56x 1985"},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Tue, 25 Oct 2016 17:28:43 GMT
 recorded_with: VCR 3.0.3
