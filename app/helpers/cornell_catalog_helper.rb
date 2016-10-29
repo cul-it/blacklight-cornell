@@ -930,30 +930,17 @@ module CornellCatalogHelper
 	    items2 = Marshal.load( Marshal.dump(items) )
 	    con_full.each do |loc|
 	      loc2 = loc
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc.inspect}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) location=#{loc['location_name']} callnumber=#{loc['call_number']} holding_id=#{loc['holding_id'][0]}\n"  
 	      #select from items array those with matching mfhd_id, and count them. how many items on this mfhd?
 	      # we have to check against data directly from the db as solr might be out of date.
 	      im = items_db.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
 	      imc = im.count
 	      im2 = items2.select {|i| i['mfhd_id'] == loc['holding_id'][0] }
 	      imc2 = im2.count
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.pretty_inspect} and count for this holding = #{im.count}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.pretty_inspect} and count for this holding = #{im2.count}\n"  
 	      tm = im.select {|i| i['temp_location'] && !i['temp_location']['code'].blank? }
 	      pm = im2.select {|i| !i['perm_location']['code'].blank? }
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching temp=#{tm.inspect} and count with temps= #{tm.count}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching perm=#{pm.inspect} and count with perms= #{pm.count}\n"  
 	      pl = (pm.select {|i| !i['perm_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'perm_location'}}
               pl.uniq!
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pl=#{pl.pretty_inspect}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{im.count}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{im2.count}\n"  
 	      tl = (tm.select {|i| !i['temp_location']['code'].blank?  }).each{|x| x.keep_if{|k,v| k== 'temp_location'}}
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) tl=#{tl.inspect}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items matching=#{im.inspect} and count for this holding = #{imc}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) items2matching=#{im2.inspect} and count for this holding = #{imc2}\n"  
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) pm count=#{pm.count} and count for this holding = #{imc2}\n"  
 	      #select from items array those with matching mfhd_id and a temp loc, and count them. how many items on this mfhd with a temp location?
 	      if pm.count > 0 and pm.count == imc2 and tm.count == 0 
                 if pl.size == 1
@@ -961,19 +948,14 @@ module CornellCatalogHelper
 		  loc2['location_code'] = pl[0]['perm_location']['code'] 
 		  loc2['copies'][0].delete('temp_locations')
                 end
-		##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__})overrode based on pm pmcount = #{imc2}\n"  
 	      end
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) tm count=#{tm.count} and count for this holding = #{imc}\n"  
 	      if tm.count > 0 and tm.count == imc  
 		loc2['location_name'] = tl[0]['temp_location']['name'] 
 		loc2['location_code'] = tl[0]['temp_location']['code'] 
 		loc2['copies'][0].delete('temp_locations')
-		 ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) over rode based on tm pmcount = #{imc}\n"  
 	      end
-	      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) loc2=#{loc2.inspect}\n"  
 	      cond2 << loc2 
 	    end
-	    ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) cond2=#{cond2.inspect}\n"  
 	    cond2 
 	  end
 	  # when all items on holding have the same temp location, 
