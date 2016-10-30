@@ -1,3 +1,4 @@
+# encoding: utf8
 Feature: Results list
 
 	In order to find items that I search for
@@ -249,3 +250,19 @@ Feature: Results list
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
    Then I should see the text 'Request from Libraries Worldwide (23,'
+
+@all_results_list
+@next_facet
+@javascript
+  Scenario: Search with results, 
+    Given I am on the home page
+    When I fill in the search box with 'We were feminists'
+    And I press 'search'
+    Then I should get results
+    Then I should see the text 'Click : '
+    Then click on first link "Click : when we knew we were feminists" 
+    Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
+    Then click on first link "Next »"
+    Then I should see the text 'From Riot Grrrl to CoverGirl®, the Buying and Selling of a Political Movement'
+
+
