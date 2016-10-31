@@ -205,8 +205,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        search_session[:q] = params[:show_query]
      end
     if !qparam_display.blank?
+#      params[:q] = qparam_display
+#      search_session[:q] = params[:show_query]
       params[:q] = qparam_display
-      search_session[:q] = params[:show_query]
+      search_session[:q] = params[:q] 
+      params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
 
   end
@@ -235,6 +238,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   def setup_next_and_previous_documents
     query_params = session[:search] ? session[:search].dup : {}
+    Rails.logger.info("SQUIRTLE = #{query_params[:qdisplay]}")
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
       response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
