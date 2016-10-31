@@ -1,0 +1,79 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 60,
+      "fingerprint": "214e078d81e28a61aeffd369d08c178d4b9738057e7c64c962c44337f03115b6",
+      "message": "Potentially dangerous attribute available for mass assignment",
+      "file": "app/models/location.rb",
+      "line": null,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": ":voyager_id",
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "Location"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 60,
+      "fingerprint": "65432a25d6f006a5e58a744f07ec94ac40988653cc11067b58043a5575e272cf",
+      "message": "Potentially dangerous attribute available for mass assignment",
+      "file": "app/models/bookmark.rb",
+      "line": null,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": ":document_id",
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "Bookmark"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Dangerous Eval",
+      "warning_code": 13,
+      "fingerprint": "90c67e5c25a830a3a3a1090dfb8bdbb4f564aebbb266207d3b9d541366611f47",
+      "message": "User input in eval",
+      "file": "app/controllers/digitalcollections_controller.rb",
+      "line": 40,
+      "link": "http://brakemanscanner.org/docs/warning_types/dangerous_eval/",
+      "code": "eval(HTTPClient.new.get_content((\"#{Blacklight.connection_config[:url]}/culdigreg?\" + { \"q\" => params[:q] }.to_param)))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DigitalcollectionsController",
+        "method": "searchdigreg"
+      },
+      "user_input": "params[:q]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Request Forgery",
+      "warning_code": 86,
+      "fingerprint": "9e450b4277235e592c083dc95e4902a07537932fa4f1bfb631d7b2438066564d",
+      "message": "protect_from_forgery should be configured with 'with: :exception'",
+      "file": "app/controllers/application_controller.rb",
+      "line": 10,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross-site_request_forgery/",
+      "code": "protect_from_forgery(:with => :null_session)",
+      "render_path": null,
+      "location": {
+        "type": "controller",
+        "controller": "ApplicationController"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": "just want to ignore this."
+    }
+  ],
+  "updated": "2016-10-31 13:48:06 -0400",
+  "brakeman_version": "3.4.0"
+}
