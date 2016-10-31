@@ -263,6 +263,6 @@ Feature: Results list
     Then click on first link "Click : when we knew we were feminists" 
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'From Riot Grrrl to CoverGirl®, the Buying and Selling of a Political Movement'
+    Then I should see the text 'from Riot Grrrl to CoverGirl®, the Buying and Selling of a Political Movement'
 
 
