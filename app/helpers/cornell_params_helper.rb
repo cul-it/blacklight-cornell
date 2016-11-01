@@ -68,13 +68,11 @@ module CornellParamsHelper
     search_field = params[:search_field]
 #    unless query_string.nil?
      if query_string =~ /^\".*\"$/ or query_string.include?('"')
-       Rails.logger.info("STEMfullstringquoted = #{query_string}")
        params[:search_field] = params[:search_field] + '_quote'
        return query_string
      else 
        unless query_string.nil?
          params[:q_row] = parse_stem(query_string)
-         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
        end
        return query_string       
      end
@@ -83,12 +81,10 @@ module CornellParamsHelper
  
   def parse_stem(query_string)
     string_chars = query_string.chars
-    Rails.logger.info("PARSER = #{string_chars}")
     quoteFlag = 0
     wordArray = []
 #   if !query_string == /^\".*\"$/ # query_string.include?('"')
    if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
-    Rails.logger.info("POOP #{query_string}")
     search_field = params[:search_field]
     params[:q_row] = []
     params[:search_field_row] = []
@@ -126,7 +122,6 @@ module CornellParamsHelper
       if quoteFlag == 1
         wordArray << '"'
         params[:q]<< '"'
-        Rails.logger.info("GLADYS = #{wordArray}")
         params[:q_row] << wordArray.join.strip
         params[:op_row] << "phrase"
         params[:search_field_row] << search_field + "_quote"
@@ -134,7 +129,6 @@ module CornellParamsHelper
         quoteFlag = 0
       else 
         if quoteFlag == 0
-        Rails.logger.info("GLADYS1 = #{wordArray}")
           params[:q_row] << wordArray.join.strip
            params[:op_row] << "AND"
           params[:search_field_row] << search_field 
@@ -149,7 +143,6 @@ module CornellParamsHelper
       params[:boolean_row]["#{j}"] = "AND"
       params[:op][j - 1] = "AND"
     end
-    Rails.logger.info("PUTREFLIP = #{params}")
     return params
    else
      return query_string
@@ -196,7 +189,6 @@ module CornellParamsHelper
            end
          end
       end
-      Rails.logger.info("CHECKPARSESINGLE = #{query_string}")
       return query_string
    end
 
@@ -219,8 +211,6 @@ def removeBlanks(params)
      booleanRowCount = 1
      qrowIndexes = []
      boolHoldHash = {}
-     Rails.logger.info("PHIN = #{params[:boolean_row]}")
-     Rails.logger.info("QROWSIZE = #{qrowSize}")
      for i in 0..qrowSize - 1 
        n = (i + 1).to_s
        if params[:q_row][i] != ""
@@ -248,7 +238,6 @@ def removeBlanks(params)
 #     if !params[:boolean_row].nil? and params[:boolean_row].has_key?(finalcheck.to_sym)
 #       params[:boolean_row].delete(finalcheck.to_sym)
 #     end
-     Rails.logger.info("REMOVINGPH = #{params}")
      return params
 end
 
@@ -402,18 +391,16 @@ end
 
 def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
-  Rails.logger.info("ROCKOZ =  #{my_params}")
-  if my_params[:q_row]
-    my_params = removeBlanks(my_params)
+
+  if !my_params[:q_row].nil?
+     my_params = removeBlanks(my_params)
   end
-  Rails.logger.info("ROCKOZ1 = #{my_params}")
   if my_params[:search_field] == 'advanced'
     my_params.delete(:q)
   end
 # my_params[:q] = ''
 #  my_params[:show_query] = ''
   if ( my_params["q_row"].nil? and ( my_params["q"].nil? || my_params["q"].blank?))
-    Rails.logger.info("ROCKO2 =  #{my_params.inspect}")
     content = ""
     content << render_advanced_constraints_filters(my_params)
     return content.html_safe
@@ -424,7 +411,6 @@ def render_advanced_constraints_query(my_params = params)
       return content.html_safe
     end
     if my_params[:q_row].count == 1
-      Rails.logger.info("ROCKOVA = #{my_params}")
       my_params[:search_field] = my_params[:search_field_row][0]
       my_params[:q] = my_params[:q_row][0]
       hold_q_row = my_params[:q_row][0]
@@ -441,7 +427,6 @@ def render_advanced_constraints_query(my_params = params)
       my_params.delete(:boolean_row)
       my_params[:search_field] = hold_search_field_row
       content = ""
-      Rails.logger.info("ROCKOVA22 = #{my_params}")
       content << render_constraints(my_params)
       my_params[:q_row] = []
       my_params[:search_field_row] = []
@@ -452,7 +437,6 @@ def render_advanced_constraints_query(my_params = params)
       my_params[:boolean_row] = {"1" => "AND"}
       return content.html_safe
     end
-    Rails.logger.info("MY_PARAMS =  #{my_params.inspect}")
     if my_params[:boolean_row] == {}
      my_params[:boolean_row] = {"1" => "AND"}
     end
@@ -494,7 +478,6 @@ def render_advanced_constraints_query(my_params = params)
     end
     j = 1
     if (!my_params[:search_field_row].nil? and my_params[:search_field] == 'advanced')
-          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
 
      sfr = my_params[:search_field_row][0]
 #     if my_params[:op_row][0] == "begins_with"
@@ -519,11 +502,9 @@ def render_advanced_constraints_query(my_params = params)
     elsif !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
      new_q_parts[0] = "q=" << my_params[:q]
      new_q_parts[1] = "search_field=" << my_params[:search_field]
-          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
     end
     if (new_q_parts.count == 3 )
      #  params.delete("advanced_query")
-     Rails.logger.info("QPARTS = #{new_q_parts}")
        0.step(2, 2) do |x|
          label = ""
          parts = new_q_parts[x].split('=')
@@ -571,7 +552,6 @@ def render_advanced_constraints_query(my_params = params)
 #            parts = q_parts[0].split('=')
          if !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
           remove_string = my_params["q"]
-          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
           label = search_field_def_for_key(my_params[:search_field])[:label]
           if(params[:f].nil?)
             removeString = "?"
@@ -632,13 +612,11 @@ def render_advanced_constraints_query(my_params = params)
                   end
                 end
               end
-          Rails.logger.info("SEARCHFIELDLABEL = #{my_params}")
                 
                if x >= 1 and x <= temp_boolean_rows.count
                    opval = temp_boolean_row[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
                else
-                 Rails.logger.info("WINKY")
                    label = search_field_def_for_key(my_params[:search_field_row][x])[:label]
                end
 
