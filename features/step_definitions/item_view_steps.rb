@@ -19,7 +19,8 @@ Then /^it should contain "(.*?)" with value "(.*?)"$/ do |field, author|
   page.should have_selector(field_to(field), :text => author,:exact =>false )
 end
 
-Then /^it should have link "(.*?)" with value "(.*?)"$/ do |txt, alink|
+Then /^it should have link ["'](.*?)["'] with value ["'](.*?)["']$/ do |txt, alink|
+  #print page.html
   expect(page).to have_link(txt, :href =>alink) 
   #res.should == true 
 end
