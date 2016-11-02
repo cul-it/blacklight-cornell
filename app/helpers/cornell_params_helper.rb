@@ -337,7 +337,6 @@ end
  end
 
   def render_constraints_xxcts(my_params = params)
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
     my_params[:q]  = my_params[:y]
     content = ""
     content << render_advanced_constraints_filters(my_params)
@@ -345,24 +344,19 @@ end
   end
 
   def render_constraints_cts(my_params = params)
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
     field = params[:search_field]
     label = search_field_def_for_key(field)[:label]
     query = params[:y]
     content = ""
     content << render_constraint_element(label, query,
           :remove => "?#{field}") 
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} content =  #{content.inspect}")
     content.html_safe
   end
 
   def render_constraints_query(my_params = params)
-  Rails.logger.info("es287_debug ---> #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
   if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
-    Rails.logger.info("es287_debug---> #{__FILE__}:#{__LINE__} super =  #{super.inspect}")
     return  super(my_params)
   else
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} my_params =  #{my_params.inspect}")
     content = ""
     @advanced_query.keyword_queries.each_pair do |field, query|
       label = search_field_def_for_key(field)[:label]
@@ -483,7 +477,7 @@ def render_advanced_constraints_query(my_params = params)
 #     if my_params[:op_row][0] == "begins_with"
 #       sfr = sfr << "_starts"
 #     end
-     new_q_parts[0] = sfr  + "=" + my_params[:q_row][0]
+      new_q_parts[0] = sfr  + "=" + my_params[:q_row][0]
       for i in 1..my_params[:q_row].count - 1
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
 #        if my_params[:search_field_row][i] == "begins_with"
@@ -500,7 +494,7 @@ def render_advanced_constraints_query(my_params = params)
       end
 #        q_parts = q_string.split('&')
     elsif !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
-     new_q_parts[0] = "q=" << my_params[:q]
+     new_q_parts[0] = "q=" << CGI.escape(my_params[:q])
      new_q_parts[1] = "search_field=" << my_params[:search_field]
     end
     if (new_q_parts.count == 3 )
@@ -534,7 +528,7 @@ def render_advanced_constraints_query(my_params = params)
            if hold[1].include?('&')
              hold[1] = hold[1].gsub!('&','%26')
           end
-           removeString = "catalog?&q=" + hold[1] + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
+           removeString = "catalog?&q=" + CGI.escape(hold[1]) + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
            content << render_constraint_element(label, querybuttontext, :remove => removeString)
          else
           content << " " << querybuttontext << " "
@@ -626,7 +620,7 @@ def render_advanced_constraints_query(my_params = params)
                autoparam = ""
                for qp in 0..temp_q_row.length - 1
                   
-                  autoparam << "q_row[]=" << temp_q_row[qp] << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
+                  autoparam << "q_row[]=" << CGI.escape(temp_q_row[qp]) << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
                   if qp < temp_q_row.length - 1
                     autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_row[qp] << "&"
                   end
@@ -638,7 +632,7 @@ def render_advanced_constraints_query(my_params = params)
                if querybuttontext.include?('%26')
                  querybuttontext = querybuttontext.gsub!('%26','&')
                end
-               removeString = "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "search_field=advanced&action=index&commit=Search&advanced_query=yes"
+               removeString = "catalog?utf8=%E2%9C%93&" + autoparam + "&" + (CGI.escape(facetparams)) + "search_field=advanced&action=index&commit=Search&advanced_query=yes"
                if x > 0
                  s = x.to_s
                  label = temp_boolean_rows[:boolean_row][s.to_sym] + " " + label
@@ -740,7 +734,7 @@ def makeSimpleRemoveString(my_params, facet_key)
     if q.include?('#')
       q = q.gsub!('#','%23')
     end
-    q_string = "q=" << q << "&"
+    q_string = "q=" << CGI.escape(q) << "&"
   else
     q = ""
   end
@@ -757,7 +751,7 @@ def makeSimpleRemoveString(my_params, facet_key)
     end
   end
   unless q.nil?
-    removeString = "q=" + q + "&" +search_field_string + facets_string + "action=index&commit=Search"
+    removeString = "q=" + CGI.escape(q) + "&" +search_field_string + facets_string + "action=index&commit=Search"
   else
     removeString = "BULLHOCKEY"
   end
@@ -826,7 +820,7 @@ def makeRemoveString(my_params, facet_key)
     if q.include?('&')
      q = q.gsub!('&', '%26')
     end
-    q_string = "q=" << q << "&"
+    q_string = "q=" << CGI.escape(q) << "&"
   else
     q = ""
   end
@@ -834,7 +828,7 @@ def makeRemoveString(my_params, facet_key)
   q_row_string = ""
   if !q_row.nil?
     for i in 0..q_row.count - 1
-      q_row_string << "q_row[]=" << q_row[i] << "&"
+      q_row_string << "q_row[]=" << CGI.escape(q_row[i]) << "&"
     end
   end
   search_field = my_params["search_field"]
@@ -850,7 +844,7 @@ def makeRemoveString(my_params, facet_key)
     end
   end
   if ((q_row.nil? || q_row.count < 2) && !q.nil?)
-    removeString = "q=" + q + "&" +search_field_string + "action=index&commit=Search"
+    removeString = "q=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
   else
     if advanced_query.nil?
       advanced_query = "yes"
@@ -880,10 +874,8 @@ end
   # @param [Hash] query parameters
   # @return [Boolean]
   def query_has_constraints?(localized_params = params)
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} params = #{localized_params.inspect}")
     #y = !(localized_params[:q].blank? and localized_params[:f].blank?)
     y = !(localized_params[:q].blank? and localized_params[:f].blank? and localized_params[:click_to_search].blank?) || (!localized_params[:search_field].blank? and (localized_params[:search_field] != 'all_fields'))
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} y  = #{y.inspect}")
     y
   end
 

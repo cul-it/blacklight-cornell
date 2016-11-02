@@ -1318,9 +1318,9 @@ include ActionView::Helpers::NumberHelper
     num = q_row.length
     while i < num do
       if i > 0
-        linkText = linkText + "&boolean_row[#{i}]=" + "#{b_row[i.to_s.to_sym]}" + "&q_row[]=" + q_row[i] + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
+        linkText = linkText + "&boolean_row[#{i}]=" + "#{b_row[i.to_s.to_sym]}" + "&q_row[]=" + CGI.escape(q_row[i])+ "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
       else
-        linkText = linkText + "&q_row[]=" + q_row[i] + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
+        linkText = linkText + "&q_row[]=" + CGI.escape(q_row[i]) + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
       end
       i += 1
     end

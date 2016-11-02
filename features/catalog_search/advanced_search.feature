@@ -374,6 +374,7 @@ Feature: Search
     #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 result'
+
  @begins_with
  @adv_search
  @all_search
@@ -389,3 +390,51 @@ Feature: Search
     #And I should not see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 result'
+
+
+
+ @adv_search
+ @all_search
+ @adv_title_percent
+ @javascript
+  Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
+    When I literally go to advanced
+    And I fill in "q_row1" with 'beef'
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with '100%'
+    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    Then it should have link "Title: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
+    #Then it should have link "Title: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
+    Then click on first link "Title: beef"
+
+ @adv_search
+ @all_search
+ @adv_title_percent
+ @javascript
+  Scenario: Perform a 2 row  advanced search with Title with percent that must be url encoded.
+    When I literally go to advanced
+    And I fill in "q_row1" with 'beef'
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with '100%'
+    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced'
+    And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    Then click on first link "Institutional meat purchase specifications for fresh beef"
+    And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    Then click on first link "Next »"
+    And I should see the label 'A sea-fight'
+    Then click on first link "Previous"
+    And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    And I should see the label 'Back to catalog results'
+    Then click on first link "Back to catalog results"
+    And I should see the label '1 - 4 of 4'
+    Then click on first link "Search History"
+    And I should see the label 'Title: beef AND Title: 100%'
+    Then click on first link "Title: beef AND Title: 100%"
+    And I should see the label '1 - 4 of 4'
+    Then click on first link "Title: beef"
+    And I should see the label '1 - 20 of'
