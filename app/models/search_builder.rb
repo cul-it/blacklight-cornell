@@ -25,18 +25,21 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def advsearch user_parameters
-
     query_string = ""
     qparam_display = ""
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
       my_params = make_adv_query(blacklight_params)
-      user_parameters["spellcheck.maxResultsForSuggest"] = 1 
-      user_parameters["spellcheck.q"]= blacklight_params["show_query"]      
+      user_parameters["spellcheck.maxResultsForSuggest"] = 1
+      spellstring = ""
+      blacklight_params[:q_row].each do |term|
+        spellstring << term << ' '
+      end
+        user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       user_parameters[:q] = my_params[:q]
       user_parameters[:search_field] = "advanced"
-      Rails.logger.info("BERNICE30 = #{user_parameters[:q]}")
+#      Rails.logger.info("BERNICE30 = #{user_parameters}")
     end
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
@@ -306,7 +309,6 @@ class SearchBuilder < Blacklight::SearchBuilder
            end
          end
       end
-      Rails.logger.info("BERNICE24 = #{query_string}")
       return query_string
   end
 
@@ -327,10 +329,8 @@ def removeBlanks(params)
      opRowArray = [] #params[:op_row]
      boolHoldHash = {}
      qrowIndexes = []
-     Rails.logger.info("SBIN = #{params[:boolean_row]}")
      qrowSize = params[:q_row].count
      booleanRowCount = 1
-     Rails.logger.info("QROWSIZE = #{qrowSize}")
      for i in 0..qrowSize - 1 
        n = (i + 1).to_s
        if params[:q_row][i] != ""
@@ -364,14 +364,10 @@ end
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
        # IF 1.1
-       Rails.logger.info("MAQ = #{my_params}")
        if my_params[:boolean_row].nil?
-         Rails.logger.info("MAQ2 = #{my_params}")
          my_params = makesingle(my_params)
-         Rails.logger.info("MAQ3 = #{my_params}")         
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
-         Rails.logger.info("MAQ4 = #{my_params}")
          return my_params
        # end IF 1.1
        end
@@ -434,16 +430,16 @@ end
               q_string_hold = q_string_hold + " _query_:\"{!edismax " 
 
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
-              Rails.logger.info("FIELDERNAMES = #{fieldNames}")
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
+                if solr_stuff == "author/creator"
+                  solr_stuff = "author"
+                end
                 if solr_stuff == "call number"
                   solr_stuff = "lc_callnum"
                 end
-                Rails.logger.info("PLACEOF = #{solr_stuff}")
                 if solr_stuff == "place of publication"
                   solr_stuff = "pubplace"
-                  Rails.logger.info("PLACEOF1 = #{solr_stuff}")
                 end
                 if solr_stuff == "publisher number/other identifier"
                   solr_stuff = "number"
@@ -458,7 +454,6 @@ end
                   solr_stuff = "journal title"
                 end
                 field_name =  solr_stuff
-                Rails.logger.info("WATTS = #{field_name}")
                 if field_name == "journal title"
                     if my_params[:op_row][i] == 'begins_with'
                       field_name = "title_starts"
@@ -471,17 +466,29 @@ end
   
                 else
                   if my_params[:op_row][i] == 'begins_with'
-                      Rails.logger.info("BERNICE = #{my_params[:op_row]}")
-                      q_string << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                      q_string << " qf=$" 
+                      if field_name == 'all_fields'
+                        q_string << "starts_qf pf=$starts_pf"
+                        q_string_hold << q_string
+                      else
+                        q_string << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                        q_string_hold << q_string
+                      end
                       q_string2 << field_name << "_starts"<< " = "
-                      q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
+                  #    q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
                   else
-                      q_string << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                      q_string << " qf=$" 
+                      if field_name == 'all_fields'
+                        q_string << "qf pf=$pf"
+                        q_string_hold << q_string
+                      else
+                        q_string << field_name << "_qf pf=$" << field_name << "_pf"
+                        q_string_hold << q_string
+                      end
                       q_string2 << field_name << " = "
-                      q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+                 #     q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
                   end
                 end
-                      Rails.logger.info("BERNICE2Z = #{q_string}")
 
               end #of if
     #   if my_params[:q_row].count == 1
@@ -496,32 +503,48 @@ end
                 for j in 1..holdarray.count - 1
                    holdarray_parse = holdarray[j].split('_query_')
                    holdarray[1] = holdarray_parse[0]
-                   Rails.logger.info("GASTLY = #{holdarray}")
                    if(j < holdarray.count - 1)
                       if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' #|| my_params[:op_row][i] == 'phrase'
                         holdarray[1].gsub!('"','')
                         holdarray[1].gsub!('\\','')
-                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
-                        q_string << "}\\\\\\\"" << holdarray[1] << "\\\\\\\" _query_:\\\"{!edismax  qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf" #}" << holdarray[1].chomp("\"") << "\""
+                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" 
+                        if field_name == 'all_fields'
+                          q_string_hold << "starts_qf pf=$starts_pf"
+                        else
+                          q_string_hold << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                        end
+                        q_string << "}\\\\\\\"" << holdarray[1] << "\\\\\\\" _query_:\\\"{!edismax  qf=$"
+                        if field_name == 'all_fields'
+                          q_string << "starts_qf pf=$starts_pf"
+                        else
+                          q_string << field_name << "_starts_qf pf=$" << field_name << "_starts_pf" #}" << holdarray[1].chomp("\"") << "\""
+                        end
                         q_string2 << holdarray[1]
                       else
-                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
-                        q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax qf=$" << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" 
+                        if field_name == 'all_fields'
+                          q_string_hold << "qf pf=$pf"
+                        else
+                          q_string_hold << field_name << "_qf pf=$" << field_name << "_pf"
+                        end
+                        q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax qf=$" 
+                        if field_name == "all_fields"
+                          q_string << "qf pf=$pf"
+                        else
+                          q_string << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
+                        end
                         q_string2 << holdarray[1]
                       end
                    else
                      if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' # || my_params[:op_row][i] == 'phrase'
                        holdarray[1].gsub!('"','')
                        holdarray[1].gsub!('\\','')
-                       Rails.logger.info("CLEANSTRING = #{holdarray[1]}")
                        q_string_hold << "}\"" << holdarray[1] << "\""
                        q_string << "}\\\"" << holdarray[1]  << "\\\"\""  #  \\\"design\\\"\"
-                       Rails.logger.info("BERNICE4.1 = #{q_string}")
                        q_string2 << holdarray[1] << " "
                      else
                        q_string_hold << "}" << holdarray[1] #<< "\""
                        q_string << "}" << holdarray[1] #<< "\""
-                       Rails.logger.info("BERNICE4 = #{q_string}")
                        q_string2 << holdarray[1] << " "
                     
                      end
@@ -599,10 +622,8 @@ end
        #   my_params["q"] = "(_query_:\"{!edismax qf=$title_starts_qf pf=$title_starts_pf}\\\"Norwegians\\\"\" AND ( _query_:\"{!edismax qf=$number_qf pf=$number_pf}6889976\"))"
 #       my_params["q"] =  "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"1451621175\\\"\" OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
 #       my_params["q"] =  "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"N332G33B44\\\"\""
-       Rails.logger.info("Mononoke1 #{my_params}")
 #       my_params["q"] = " _query_:\"{!edismax  qf=$title_qf pf=$title_pf}design\" AND ( _query_:\"{!edismax  qf=$subject_qf pf=$subject_pf}bauhaus\" OR  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}frogs\")"
 #       my_params["q"] = " _query_:\"{!edismax  qf=$title_starts_qf pf=$title_starts_pf}\\\"design\\\"\"  AND  _query_:\"{!edismax  qf=$subject_qf pf=$subject_pf}bauhaus\""
-          Rails.logger.info("ROCKOABBA = #{my_params}")
        return my_params
   end  #def
   
@@ -610,13 +631,15 @@ end
     op_name = my_params[:op_row][0]
     query = my_params[:q_row][0]
     field_name = my_params[:search_field_row][0]
-    Rails.logger.info("BOOGIE = #{op_name}")
     op_name = my_params[:op_row][0]
     query = "_query_:\\\"{!edismax "
     
               fieldNames = blacklight_config.search_fields["#{field_name}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
+                if solr_stuff == "author/creator"
+                  solr_stuff = "author"
+                end
                 if solr_stuff == "call number"
                   solr_stuff = "lc_callnum"
                 end
@@ -642,19 +665,33 @@ end
                     else
                       field_name = "title"
                     end
-                    query << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+                    query << " qf=$" 
+                    if field_name == 'all_fields'
+                      query << "qf pf=$pf"
+                    else
+                      query << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+                    end
                    # q_string2 << field_name << " = "
                    # q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
   
                 else
                   if op_name == 'begins_with'
-                      Rails.logger.info("BERNICESINGLE = #{op_name}")
-                      query << " qf=$" << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                      query << " qf=$" 
+                      if field_name == 'all_fields'
+                        query << "starts_qf pf=$starts_pf"
+                      else
+                        query << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                      end
                   #    q_string2 << field_name << "_starts"<< " = "
                   #    q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
                   #    Rails.logger.info("BERNICE2 = #{q_string}")
                   else
-                      query << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf"
+                      query << " qf=$" 
+                      if field_name == 'all_fields'
+                        query << "qf pf=$pf"
+                      else
+                        query << field_name << "_qf pf=$" << field_name << "_pf"
+                      end
                     #  q_string2 << field_name << " = "
                     #  q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
                   end
@@ -662,14 +699,12 @@ end
 
               end 
           if my_params[:q_row].count == 1
-            Rails.logger.info("DIANNA")
             querystring = my_params[:q_row][0]
             if field_name == "lc_callnum"
               query = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"" + querystring + "\\\" "
             else   
               query = query << "}" + querystring + "\""
             end
-            Rails.logger.info("MAKESINGLE = #{query}")
             my_params[:q] = query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
     return my_params
@@ -720,7 +755,6 @@ end
      if newString.include?('%26')
        newString.gsub!('%26','&')
      end
-     Rails.logger.info("FLATTER1.5 = #{newString}")
     # newString = "_query_:{!edismax spellcheck.dictionary=title_starts qf=$title_starts_qf pf=$title_starts_pf}rat\"\"  OR  _query_:{!edismax spellcheck.dictionary=subject_starts qf=$subject_starts_qf pf=$subject_starts_pf}war\"\""
  #    newString = "_query_:{!edismax spellcheck.dictionary=subject qf=$subject_qf pf=$subject_pf}bauhaus\"\"  AND  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}history\"\"" #  OR  _query_:{!edismax spellcheck.dictionary=title qf=$title_qf pf=$title_pf}design\"\""
      return newString
@@ -825,7 +859,6 @@ end
       n = newKey.to_s
       newHash[n.to_sym] = value
       newKey = newKey + 1
-      Rails.logger.info("NEWLYHASHED = #{newHash}")
     end
    return newHash
   end
