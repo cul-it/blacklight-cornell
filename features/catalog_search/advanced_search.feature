@@ -246,7 +246,7 @@ Feature: Search
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 14 of 14'
+    And I should see the label '1 - 12 of 12'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
