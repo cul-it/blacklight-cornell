@@ -11,4 +11,9 @@
         %input{ :type => 'hidden', :name => 'id', :id => 'id', :value => @email_params[:id] }
         %input{ :type => 'hidden', :name => 'mollom_session', :id => 'mollom_session', :value => @captcha['session_id']}
         %input{ :type => 'hidden', :name => 'carrier', :id => 'carrier', :value => @email_params[:carrier] }
+        %input{ :type => 'hidden', :name => 'location', :id => 'location' , :value => @email_params[:params][:location] }
+        %input{ :type => 'hidden', :name => 'status', :id => 'status', :value => @email_params[:params][:itemStatus]}
+        %input{ :type => 'hidden', :name => 'templocation', :id => 'templocation', :value => @email_params[:params][:templocation]}
+        %input{ :type => 'hidden', :name => 'callnumber', :id => 'callnumber', :value => @email_params[:params][:callnumber]}
+        
         %input#request-submit.btn.btn-default(type='submit' name='submit' value='Submit')

@@ -12,6 +12,19 @@ class RecordMailer < ActionMailer::Base
     @message        = details[:message]
     @callnumber     = details[:callnumber]
     @status         = details[:status]
+    if @callnumber.nil?
+      @callnumber = params["callnumber"]
+    end
+    if @status.nil?
+      @status = params["status"]
+    end
+    if details[:location].nil?
+      details[:location] = params["location"]
+    end
+    if details[:templocation].nil?
+      details[:templocation] = params["templocation"]
+    end
+
     @callNumFirst = @callnumber.present? ? @callnumber.split('|| ') : nil
     @callnumber = []
     if @callNumFirst != nil
@@ -33,7 +46,6 @@ class RecordMailer < ActionMailer::Base
       @second = locs.split('| ')
       @location << @second
     end
-
     @templocation = details[:templocation]
     @tempLocationFirst = @templocation.split('|| ')
     @templocation = []
