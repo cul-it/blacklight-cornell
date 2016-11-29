@@ -7,9 +7,6 @@ class RecordMailer < ActionMailer::Base
 
 #    subject = I18n.t('blacklight.email.text.subject', :count => documents.length, :title => (documents.first.to_semantic_values[:title] rescue 'N/A') )
     subject = "Item(s) from the Cornell University Library Catalog"
-    Rails.logger.info("SWITCH = #{params}")
-    Rails.logger.info("SWITCH1 = #{details}")
-    Rails.logger.info("SWITCH2 = #{url_gen_params}")
 
     @documents      = documents
     @message        = details[:message]
