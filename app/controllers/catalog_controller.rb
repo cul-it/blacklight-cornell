@@ -864,14 +864,20 @@ class CatalogController < ApplicationController
     if request.post?
       # First check to see whether we're here as the result of an attempt to solve a CAPTCHA
       if params[:captcha_response]
-        @@mollom ||= Mollom.new({:public_key => ENV['mollom_public_key'], :private_key => ENV['mollom_private_key']})
-        captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
+        begin
+           @@mollom ||= Mollom.new({:public_key => ENV['MOLLOM_PUBLIC_KEY'], :private_key => ENV['MOLLOM_PRIVATE_KEY']})
+           captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
+        rescue
+          captcha_ok = true
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}          
+          email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+        end
+          
       end
 
       #
       if params[:to] 
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-        Rails.logger.info()
       #  result = nil
         # Check for valid email address
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
@@ -885,7 +891,7 @@ class CatalogController < ApplicationController
                 if result.ham?
                     # Content is okay, we can proceed with the email
                     email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-                elsif result.unsure? #spam?
+                elsif result.unsure? || result.spam? #spam?
                     # This is definite spam (according to Mollom)
                   #  captcha_ok = false
                     flash[:error] = 'Spam!'
@@ -904,7 +910,7 @@ class CatalogController < ApplicationController
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
       end
 
-      if !captcha_ok and ((!result.nil? and result.unsure?) or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
+      if !captcha_ok and ((!result.nil? and (result.unsure? || result.spam?)) or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
         @captcha = @@mollom.image_captcha
         # Need to pass through the message form elements in order to retain them in the next POST (from CAPTCHA submission)
         @email_params = { :to => params[:to], :message => params[:message], :id => params['id'], :params => params }
