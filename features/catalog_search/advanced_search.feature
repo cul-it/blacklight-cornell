@@ -196,7 +196,7 @@ Feature: Search
     And I select 'phrase' from the 'op_row2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 result'
+    And I should see the label '1 - 8 of 8'
 
 #
  @adv_search
