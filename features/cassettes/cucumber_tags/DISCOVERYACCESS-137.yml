@@ -12865,4 +12865,341 @@ http_interactions:
         LHRydWVdfX0K
     http_version: 
   recorded_at: Tue, 25 Oct 2016 17:28:32 GMT
+- request:
+    method: get
+    uri: http://da-dev-solr.library.cornell.edu/solr/test/select?id=1630516&qt=document&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 29 Nov 2016 16:54:07 GMT
+      Last-Modified:
+      - Tue, 29 Nov 2016 16:48:26 GMT
+      Etag:
+      - '"OWJiMDgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '10619'
+      Via:
+      - 1.1 da-dev-solr.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9Pnsnc3RhdHVzJz0+MCwnUVRpbWUnPT4xNiwn
+        cGFyYW1zJz0+eydxJz0+J3shcmF3IGY9aWQgdj0kaWR9JywncXQnPT4nZG9j
+        dW1lbnQnLCdlY2hvUGFyYW1zJz0+J2FsbCcsJ2ZsJz0+JyonLCdpZCc9Picx
+        NjMwNTE2Jywncm93cyc9PicxJywnd3QnPT4ncnVieSd9fSwncmVzcG9uc2Un
+        PT57J251bUZvdW5kJz0+MSwnc3RhcnQnPT4wLCdkb2NzJz0+W3snbXVsdGl2
+        b2xfYic9PmZhbHNlLCdpdGVtX2Rpc3BsYXknPT5bJzMyMDU4NjR8MTk3ODE5
+        OCcsJzMyMDU4NjV8MTk3ODE5OSddLCdob2xkaW5nc19kaXNwbGF5Jz0+Wycx
+        OTc4MTk5JywnMTk3ODE5OCddLCdob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9
+        PlsneyJpZCI6IjE5NzgxOTkiLCJtb2RpZmllZF9kYXRlIjpudWxsLCJjb3B5
+        X251bWJlciI6bnVsbCwiY2FsbG5vcyI6WyJQUjExOTUuQzQ1NSBBNjIiXSwi
+        bm90ZXMiOltdLCJob2xkaW5nc19kZXNjIjpbXSwicmVjZW50X2hvbGRpbmdz
+        X2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzYyI6W10sImlu
+        ZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMiOlt7ImNvZGUiOiJp
+        bHIsYW54IiwibnVtYmVyIjo1MiwibmFtZSI6IkxpYnJhcnkgQW5uZXgiLCJs
+        aWJyYXJ5IjoiTGlicmFyeSBBbm5leCJ9XX0nLCd7ImlkIjoiMTk3ODE5OCIs
+        Im1vZGlmaWVkX2RhdGUiOm51bGwsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxs
+        bm9zIjpbIlBSMTE5NS5DNDU1IEE2MiJdLCJub3RlcyI6W10sImhvbGRpbmdz
+        X2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBsZW1l
+        bnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6
+        W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im9saW4sYW54IiwibnVtYmVyIjox
+        MDEsIm5hbWUiOiJMaWJyYXJ5IEFubmV4IiwibGlicmFyeSI6IkxpYnJhcnkg
+        QW5uZXgifV19J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5bJ3siY29weV9u
+        dW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwiaXRlbV9pZCI6
+        IjMyMDU4NjQiLCJ5ZWFyIjoiIiwiaXRlbV90eXBlX2lkIjoiMyIsImNocm9u
+        IjoiIiwiY2FwdGlvbiI6IiIsImhvbGRzX3BsYWNlZCI6IjAiLCJ0ZW1wX2xv
+        Y2F0aW9uIjoiMCIsIm9uX3Jlc2VydmUiOiJOIiwiaXRlbV9lbnVtIjoiIiwi
+        aXRlbV9zZXF1ZW5jZV9udW1iZXIiOiIxIiwidGVtcF9pdGVtX3R5cGVfaWQi
+        OiIwIiwibWZoZF9pZCI6IjE5NzgxOTgiLCJyZWNhbGxzX3BsYWNlZCI6IjAi
+        LCJjcmVhdGVfZGF0ZSI6IjIwMDAtMDUtMzEgMDA6MDA6MDAuMCIsIml0ZW1f
+        YmFyY29kZSI6IjMxOTI0MDUyOTEzMjk0IiwibW9kaWZ5X2RhdGUiOiIiLCJw
+        ZXJtX2xvY2F0aW9uIjp7ImNvZGUiOiJvbGluLGFueCIsIm51bWJlciI6MTAx
+        LCJuYW1lIjoiTGlicmFyeSBBbm5leCIsImxpYnJhcnkiOiJMaWJyYXJ5IEFu
+        bmV4In19JywneyJjb3B5X251bWJlciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6
+        ImJvb2siLCJpdGVtX2lkIjoiMzIwNTg2NSIsInllYXIiOiIiLCJpdGVtX3R5
+        cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxh
+        Y2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4i
+        LCJpdGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0
+        ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiMTk3ODE5OSIsInJl
+        Y2FsbHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMC0wNS0zMSAw
+        MDowMDowMC4wIiwiaXRlbV9iYXJjb2RlIjoiMzE5MjQwNTQ1ODI2MTgiLCJt
+        b2RpZnlfZGF0ZSI6IiIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6Imlscixh
+        bngiLCJudW1iZXIiOjUyLCJuYW1lIjoiTGlicmFyeSBBbm5leCIsImxpYnJh
+        cnkiOiJMaWJyYXJ5IEFubmV4In19J10sJ2xjX2NvbnRyb2xudW1fZGlzcGxh
+        eSc9PlsnODgwNDU3MjInXSwnbGNfY29udHJvbG51bV9zJz0+Wyc4ODA0NTcy
+        MiddLCdvdGhlcl9pZF9kaXNwbGF5Jz0+WycoT0NvTEMpMTg3NDExMDQnLCcx
+        NjMwNTE2J10sJ2JpYmlkX2Rpc3BsYXknPT5bJzE2MzA1MTZ8MjAxNTA1MzEx
+        NjIyMTInXSwnbWFyY19kaXNwbGF5Jz0+Jzw/eG1sIHZlcnNpb249XCcxLjBc
+        JyBlbmNvZGluZz1cJ1VURi04XCc/PjxyZWNvcmQgeG1sbnM9Imh0dHA6Ly93
+        d3cubG9jLmdvdi9NQVJDMjEvc2xpbSI+PGxlYWRlcj4wMTM4OGNhbSBhMjIw
+        MDM4NSBhIDQ1MDA8L2xlYWRlcj48Y29udHJvbGZpZWxkIHRhZz0iMDAxIj4x
+        NjMwNTE2PC9jb250cm9sZmllbGQ+PGNvbnRyb2xmaWVsZCB0YWc9IjAwNSI+
+        MjAxNTA1MzExNjIyMTIuMDwvY29udHJvbGZpZWxkPjxjb250cm9sZmllbGQg
+        dGFnPSIwMDgiPjg4MTAyNXMxOTg5wqDCoMKgwqBuanXCoMKgwqDCoMKgwqBi
+        wqDCoMKgwqAwMDHCoDDCoGVuZ8KgwqA8L2NvbnRyb2xmaWVsZD48ZGF0YWZp
+        ZWxkIHRhZz0iMDEwIiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29k
+        ZT0iYSI+ICAgODgwNDU3MjIgPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0
+        YWZpZWxkIHRhZz0iMDIwIiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQg
+        Y29kZT0iYSI+MDgzODYzMzQ1NSAoYWxrLiBwYXBlcik8L3N1YmZpZWxkPjwv
+        ZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIwMzUiIGluZDE9IiAiIGluZDI9
+        IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4oT0NvTEMpMTg3NDExMDQ8L3N1YmZp
+        ZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIwMzUiIGluZDE9IiAi
+        IGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4xNjMwNTE2PC9zdWJmaWVs
+        ZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iMDQwIiBpbmQxPSIgIiBp
+        bmQyPSIgIj48c3ViZmllbGQgY29kZT0iZCI+TklDPC9zdWJmaWVsZD48L2Rh
+        dGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iMDUwIiBpbmQxPSIwIiBpbmQyPSIg
+        Ij48c3ViZmllbGQgY29kZT0iYSI+UFIxMTk1LkM0NTU8L3N1YmZpZWxkPjxz
+        dWJmaWVsZCBjb2RlPSJiIj5BODQgMTk4OTwvc3ViZmllbGQ+PC9kYXRhZmll
+        bGQ+PGRhdGFmaWVsZCB0YWc9IjA4MiIgaW5kMT0iMCIgaW5kMj0iICI+PHN1
+        YmZpZWxkIGNvZGU9ImEiPjgyMS8uOC8wODAzNTg8L3N1YmZpZWxkPjxzdWJm
+        aWVsZCBjb2RlPSIyIj4xOTwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFm
+        aWVsZCB0YWc9IjI0NSIgaW5kMT0iMCIgaW5kMj0iMyI+PHN1YmZpZWxkIGNv
+        ZGU9ImEiPkFuIEFudGhvbG9neSBvZiBDaGFydGlzdCBwb2V0cnkgOjwvc3Vi
+        ZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImIiPnBvZXRyeSBvZiB0aGUgQnJpdGlz
+        aCB3b3JraW5nIGNsYXNzLCAxODMwcy0xODUwcyAvPC9zdWJmaWVsZD48c3Vi
+        ZmllbGQgY29kZT0iYyI+ZWRpdGVkIGJ5IFBldGVyIFNjaGVja25lci48L3N1
+        YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIyNjAiIGluZDE9
+        IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5SdXRoZXJmb3JkIFtO
+        LkouXSA6PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iYiI+RmFpcmxlaWdo
+        IERpY2tpbnNvbiBVbml2ZXJzaXR5IFByZXNzLDwvc3ViZmllbGQ+PHN1YmZp
+        ZWxkIGNvZGU9ImMiPmMxOTg5Ljwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRh
+        dGFmaWVsZCB0YWc9IjMwMCIgaW5kMT0iICIgaW5kMj0iICI+PHN1YmZpZWxk
+        IGNvZGU9ImEiPjM1MyBwLiA7PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0i
+        YyI+MjUgY20uPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRh
+        Zz0iNTA0IiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0iYSI+
+        QmlibGlvZ3JhcGh5OiBwLiAzNDYtMzUwLjwvc3ViZmllbGQ+PC9kYXRhZmll
+        bGQ+PGRhdGFmaWVsZCB0YWc9IjUwMCIgaW5kMT0iICIgaW5kMj0iICI+PHN1
+        YmZpZWxkIGNvZGU9ImEiPkluY2x1ZGVzIGluZGV4Ljwvc3ViZmllbGQ+PC9k
+        YXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5kMT0iICIgaW5kMj0i
+        MCI+PHN1YmZpZWxkIGNvZGU9ImEiPkVuZ2xpc2ggcG9ldHJ5PC9zdWJmaWVs
+        ZD48c3ViZmllbGQgY29kZT0ieSI+MTl0aCBjZW50dXJ5Ljwvc3ViZmllbGQ+
+        PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5kMT0iICIgaW5k
+        Mj0iMCI+PHN1YmZpZWxkIGNvZGU9ImEiPkNoYXJ0aXNtPC9zdWJmaWVsZD48
+        c3ViZmllbGQgY29kZT0ieCI+UG9ldHJ5Ljwvc3ViZmllbGQ+PC9kYXRhZmll
+        bGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5kMT0iICIgaW5kMj0iMCI+PHN1
+        YmZpZWxkIGNvZGU9ImEiPlBvbGl0aWNhbCBwb2V0cnksIEVuZ2xpc2guPC9z
+        dWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iNjUwIiBpbmQx
+        PSIgIiBpbmQyPSIwIj48c3ViZmllbGQgY29kZT0iYSI+V29ya2luZyBjbGFz
+        czwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IngiPlBvZXRyeS48L3N1YmZp
+        ZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTAiIGluZDE9IiAi
+        IGluZDI9IjAiPjxzdWJmaWVsZCBjb2RlPSJhIj5Xb3JraW5nIGNsYXNzIHdy
+        aXRpbmdzLCBFbmdsaXNoLjwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFm
+        aWVsZCB0YWc9IjY0OCIgaW5kMT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNv
+        ZGU9ImEiPjE4MDAgLSAxODk5PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0i
+        MiI+ZmFzdDwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9
+        IjY1MCIgaW5kMT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9ImEiPkNo
+        YXJ0aXNtPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMiI+ZmFzdDwvc3Vi
+        ZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29MQylmc3QwMDg1MjU0MDwv
+        c3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5k
+        MT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9ImEiPkVuZ2xpc2ggcG9l
+        dHJ5PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMiI+ZmFzdDwvc3ViZmll
+        bGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29MQylmc3QwMDkxMjI3ODwvc3Vi
+        ZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5kMT0i
+        ICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9ImEiPlBvbGl0aWNhbCBwb2V0
+        cnksIEVuZ2xpc2g8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSIyIj5mYXN0
+        PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMCI+KE9Db0xDKWZzdDAxMDY5
+        NTQwPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iNjUw
+        IiBpbmQxPSIgIiBpbmQyPSI3Ij48c3ViZmllbGQgY29kZT0iYSI+V29ya2lu
+        ZyBjbGFzczwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjIiPmZhc3Q8L3N1
+        YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSIwIj4oT0NvTEMpZnN0MDExODA0MTg8
+        L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTAiIGlu
+        ZDE9IiAiIGluZDI9IjciPjxzdWJmaWVsZCBjb2RlPSJhIj5Xb3JraW5nIGNs
+        YXNzIHdyaXRpbmdzLCBFbmdsaXNoPC9zdWJmaWVsZD48c3ViZmllbGQgY29k
+        ZT0iMiI+ZmFzdDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29M
+        Qylmc3QwMTE4MDYxMTwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVs
+        ZCB0YWc9IjY1NSIgaW5kMT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9
+        ImEiPlBvZXRyeTwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjIiPmZhc3Q8
+        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSIwIj4oT0NvTEMpZnN0MDE0MjM4
+        Mjg8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI3MDAi
+        IGluZDE9IjEiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5TY2hlY2tu
+        ZXIsIFBldGVyLDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImQiPjE5NDMt
+        PC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iOTA1IiBp
+        bmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0iYSI+MTk5MDA4MjQx
+        MjAwMDAuMDwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9
+        Ijk0OCIgaW5kMT0iMiIgaW5kMj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPjIw
+        MTQxMTI0PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iYiI+bTwvc3ViZmll
+        bGQ+PHN1YmZpZWxkIGNvZGU9ImQiPmJhdGNoPC9zdWJmaWVsZD48c3ViZmll
+        bGQgY29kZT0iZSI+bHRzPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0ieCI+
+        YWRkZmFzdDwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PC9yZWNvcmQ+JywnaWQn
+        PT4nMTYzMDUxNicsJ3R5cGUnPT4nQ2F0YWxvZycsJ3NvdXJjZSc9PidWb3lh
+        Z2VyJywnZm9ybWF0Jz0+WydCb29rJ10sJ2RhdGFiYXNlX2InPT5mYWxzZSwn
+        Zm9ybWF0X21haW5fZmFjZXQnPT4nQm9vaycsJ2xhbmd1YWdlX2ZhY2V0Jz0+
+        WydFbmdsaXNoJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0VuZ2xpc2gnXSwn
+        bGNfY2FsbG51bV9mYWNldCc9PlsnUCAtIExhbmd1YWdlICYgTGl0ZXJhdHVy
+        ZScsJ1AgLSBMYW5ndWFnZSAmIExpdGVyYXR1cmU6UFIgLSBFbmdsaXNoIExp
+        dGVyYXR1cmU6UFIxMDk4LTEzNjkgLSBDb2xsZWN0aW9ucyBvZiBFbmdsaXNo
+        IGxpdGVyYXR1cmUnLCdQIC0gTGFuZ3VhZ2UgJiBMaXRlcmF0dXJlOlBSIC0g
+        RW5nbGlzaCBMaXRlcmF0dXJlJywnUCAtIExhbmd1YWdlICYgTGl0ZXJhdHVy
+        ZTpQUiAtIEVuZ2xpc2ggTGl0ZXJhdHVyZTpQUjEwOTgtMTM2OSAtIENvbGxl
+        Y3Rpb25zIG9mIEVuZ2xpc2ggbGl0ZXJhdHVyZTpQUjExNzAtMTIyOCAtIFBv
+        ZXRyeSddLCdjYWxsbnVtX3NvcnQnPT4nUFIxMTk1LkM0NTUgQTYyJywncHVi
+        X2RhdGVfZGlzcGxheSc9PlsnYzE5ODknXSwncHViX2RhdGVfZmFjZXQnPT4x
+        OTg5LCdwdWJfZGF0ZV9zb3J0Jz0+MTk4OSwncHViX2luZm9fZGlzcGxheSc9
+        PlsnUnV0aGVyZm9yZCBbTi5KLl0gOiBGYWlybGVpZ2ggRGlja2luc29uIFVu
+        aXZlcnNpdHkgUHJlc3MsIGMxOTg5LiddLCdwdWJsaXNoZXJfZGlzcGxheSc9
+        PlsnRmFpcmxlaWdoIERpY2tpbnNvbiBVbml2ZXJzaXR5IFByZXNzJ10sJ3B1
+        YnBsYWNlX2Rpc3BsYXknPT5bJ1J1dGhlcmZvcmQgW04uSi5dJ10sJ2F1dGhv
+        cl9hZGRsX2pzb24nPT5bJ3sic2VhcmNoMSI6IlNjaGVja25lciwgUGV0ZXIs
+        IDE5NDMtIiwiYXV0aG9yaXplZEZvcm0iOnRydWUsInR5cGUiOiJQZXJzb25h
+        bCBOYW1lIiwibmFtZTEiOiJTY2hlY2tuZXIsIFBldGVyLCAxOTQzLSJ9J10s
+        J2F1dGhvcl9mYWNldCc9PlsnU2NoZWNrbmVyLCBQZXRlciwgMTk0My0nXSwn
+        YXV0aG9yX2FkZGxfY3RzJz0+WydTY2hlY2tuZXIsIFBldGVyLCAxOTQzLXxT
+        Y2hlY2tuZXIsIFBldGVyLCAxOTQzLSddLCdhdXRob3JfcGVyc19maWxpbmcn
+        PT5bJ3NjaGVja25lciBwZXRlciAxOTQzJ10sJ2F1dGhvcl9hZGRsX2Rpc3Bs
+        YXknPT5bJ1NjaGVja25lciwgUGV0ZXIsIDE5NDMtJ10sJ3RpdGxlXzJsZXR0
+        ZXJfcyc9PlsnYW4nXSwndGl0bGVfZGlzcGxheSc9PidBbiBBbnRob2xvZ3kg
+        b2YgQ2hhcnRpc3QgcG9ldHJ5JywndGl0bGVfMWxldHRlcl9zJz0+WydhJ10s
+        J3N1YnRpdGxlX2Rpc3BsYXknPT4ncG9ldHJ5IG9mIHRoZSBCcml0aXNoIHdv
+        cmtpbmcgY2xhc3MsIDE4MzBzLTE4NTBzJywnZnVsbHRpdGxlX2Rpc3BsYXkn
+        PT4nQW4gQW50aG9sb2d5IG9mIENoYXJ0aXN0IHBvZXRyeSA6IHBvZXRyeSBv
+        ZiB0aGUgQnJpdGlzaCB3b3JraW5nIGNsYXNzLCAxODMwcy0xODUwcycsJ29w
+        ZW5zZWFyY2hfZGlzcGxheSc9PlsnQW4gQW50aG9sb2d5IG9mIENoYXJ0aXN0
+        IHBvZXRyeSA6IHBvZXRyeSBvZiB0aGUgQnJpdGlzaCB3b3JraW5nIGNsYXNz
+        LCAxODMwcy0xODUwcycsJ1NjaGVja25lciwgUGV0ZXIsIDE5NDMtJywnRW5n
+        bGlzaCBwb2V0cnknLCdDaGFydGlzbScsJ1BvbGl0aWNhbCBwb2V0cnksIEVu
+        Z2xpc2guJywnV29ya2luZyBjbGFzcycsJ1dvcmtpbmcgY2xhc3Mgd3JpdGlu
+        Z3MsIEVuZ2xpc2guJywnQ2hhcnRpc20nLCdFbmdsaXNoIHBvZXRyeScsJ1Bv
+        bGl0aWNhbCBwb2V0cnksIEVuZ2xpc2gnLCdXb3JraW5nIGNsYXNzJywnV29y
+        a2luZyBjbGFzcyB3cml0aW5ncywgRW5nbGlzaCcsJ1BvZXRyeScsJ0VuZ2xp
+        c2ggcG9ldHJ5ID4gMTl0aCBjZW50dXJ5JywnQ2hhcnRpc20gPiBQb2V0cnkn
+        LCdQb2xpdGljYWwgcG9ldHJ5LCBFbmdsaXNoJywnV29ya2luZyBjbGFzcyA+
+        IFBvZXRyeScsJ1dvcmtpbmcgY2xhc3Mgd3JpdGluZ3MsIEVuZ2xpc2gnLCcx
+        ODAwIC0gMTg5OScsJ0NoYXJ0aXNtJywnRW5nbGlzaCBwb2V0cnknLCdQb2xp
+        dGljYWwgcG9ldHJ5LCBFbmdsaXNoJywnV29ya2luZyBjbGFzcycsJ1dvcmtp
+        bmcgY2xhc3Mgd3JpdGluZ3MsIEVuZ2xpc2gnLCdQb2V0cnknXSwndGl0bGVf
+        cmVzcG9uc2liaWxpdHlfZGlzcGxheSc9PlsnZWRpdGVkIGJ5IFBldGVyIFNj
+        aGVja25lci4nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeScsJ0F0IHRo
+        ZSBMaWJyYXJ5J10sJ2xvY2F0aW9uX2ZhY2V0Jz0+WydMaWJyYXJ5IEFubmV4
+        J10sJ2xvY2F0aW9uX2Rpc3BsYXknPT5bJ0xpYnJhcnkgQW5uZXgnXSwnbm90
+        ZXMnPT5bJ0luY2x1ZGVzIGluZGV4LicsJ0JpYmxpb2dyYXBoeTogcC4gMzQ2
+        LTM1MC4nXSwnZGVzY3JpcHRpb25fZGlzcGxheSc9PlsnMzUzIHAuIDsgMjUg
+        Y20uJ10sJ3N1YmplY3RfY29udGVudF9mYWNldCc9PlsnTm9uLUZpY3Rpb24g
+        KGJvb2tzKSddLCdzdWJqZWN0X2VyYV9mYWNldCc9PlsnMTgwMCAtIDE4OTkn
+        XSwnZmFzdF9iJz0+dHJ1ZSwnZmFzdF90b3BpY19mYWNldCc9PlsnQ2hhcnRp
+        c20nLCdFbmdsaXNoIHBvZXRyeScsJ1BvbGl0aWNhbCBwb2V0cnksIEVuZ2xp
+        c2gnLCdXb3JraW5nIGNsYXNzJywnV29ya2luZyBjbGFzcyB3cml0aW5ncywg
+        RW5nbGlzaCddLCdzdWJqZWN0X2dlbnJfZmlsaW5nJz0+Wydwb2V0cnknXSwn
+        c3ViamVjdF90b3BpY19mYWNldCc9PlsnRW5nbGlzaCBwb2V0cnknLCdFbmds
+        aXNoIHBvZXRyeSA+IDE5dGggY2VudHVyeScsJ0NoYXJ0aXNtID4gUG9ldHJ5
+        JywnQ2hhcnRpc20nLCdQb2xpdGljYWwgcG9ldHJ5LCBFbmdsaXNoJywnV29y
+        a2luZyBjbGFzcycsJ1dvcmtpbmcgY2xhc3MgPiBQb2V0cnknLCdXb3JraW5n
+        IGNsYXNzIHdyaXRpbmdzLCBFbmdsaXNoJywnQ2hhcnRpc20nLCdFbmdsaXNo
+        IHBvZXRyeScsJ1BvbGl0aWNhbCBwb2V0cnksIEVuZ2xpc2gnLCdXb3JraW5n
+        IGNsYXNzJywnV29ya2luZyBjbGFzcyB3cml0aW5ncywgRW5nbGlzaCddLCdz
+        dWJqZWN0X2dlbnJfZmFjZXQnPT5bJ1BvZXRyeSddLCdmYXN0X2dlbnJlX2Zh
+        Y2V0Jz0+WydQb2V0cnknXSwnc3ViamVjdF90b3BpY19maWxpbmcnPT5bJ2Vu
+        Z2xpc2ggcG9ldHJ5JywnZW5nbGlzaCBwb2V0cnkgMDAwMCAxOXRoIGNlbnR1
+        cnknLCdjaGFydGlzbSAwMDAwIHBvZXRyeScsJ2NoYXJ0aXNtJywncG9saXRp
+        Y2FsIHBvZXRyeSBlbmdsaXNoJywnd29ya2luZyBjbGFzcycsJ3dvcmtpbmcg
+        Y2xhc3MgMDAwMCBwb2V0cnknLCd3b3JraW5nIGNsYXNzIHdyaXRpbmdzIGVu
+        Z2xpc2gnLCdjaGFydGlzbScsJ2VuZ2xpc2ggcG9ldHJ5JywncG9saXRpY2Fs
+        IHBvZXRyeSBlbmdsaXNoJywnd29ya2luZyBjbGFzcycsJ3dvcmtpbmcgY2xh
+        c3Mgd3JpdGluZ3MgZW5nbGlzaCddLCdzdWJqZWN0X2Rpc3BsYXknPT5bJ0Vu
+        Z2xpc2ggcG9ldHJ5ID4gMTl0aCBjZW50dXJ5JywnQ2hhcnRpc20gPiBQb2V0
+        cnknLCdQb2xpdGljYWwgcG9ldHJ5LCBFbmdsaXNoJywnV29ya2luZyBjbGFz
+        cyA+IFBvZXRyeScsJ1dvcmtpbmcgY2xhc3Mgd3JpdGluZ3MsIEVuZ2xpc2gn
+        XSwnZmFzdF9lcmFfZmFjZXQnPT5bJzE4MDAgLSAxODk5J10sJ3N1YmplY3Rf
+        ZXJhX2ZpbGluZyc9PlsnMTgwMCAxODk5J10sJ3N1YmplY3RfY3RzJz0+WydF
+        bmdsaXNoIHBvZXRyeXwxOXRoIGNlbnR1cnknLCdDaGFydGlzbXxQb2V0cnkn
+        LCdQb2xpdGljYWwgcG9ldHJ5LCBFbmdsaXNoJywnV29ya2luZyBjbGFzc3xQ
+        b2V0cnknLCdXb3JraW5nIGNsYXNzIHdyaXRpbmdzLCBFbmdsaXNoJ10sJ3N1
+        YmplY3RfanNvbic9PlsnW3sic3ViamVjdCI6IkVuZ2xpc2ggcG9ldHJ5Iiwi
+        YXV0aG9yaXplZCI6dHJ1ZSwidHlwZSI6IlRvcGljYWwgVGVybSJ9LHsic3Vi
+        amVjdCI6IjE5dGggY2VudHVyeS4iLCJhdXRob3JpemVkIjp0cnVlfV0nLCdb
+        eyJzdWJqZWN0IjoiQ2hhcnRpc20iLCJhdXRob3JpemVkIjp0cnVlLCJ0eXBl
+        IjoiVG9waWNhbCBUZXJtIn0seyJzdWJqZWN0IjoiUG9ldHJ5LiIsImF1dGhv
+        cml6ZWQiOmZhbHNlfV0nLCdbeyJzdWJqZWN0IjoiUG9saXRpY2FsIHBvZXRy
+        eSwgRW5nbGlzaC4iLCJhdXRob3JpemVkIjp0cnVlLCJ0eXBlIjoiVG9waWNh
+        bCBUZXJtIn1dJywnW3sic3ViamVjdCI6IldvcmtpbmcgY2xhc3MiLCJhdXRo
+        b3JpemVkIjp0cnVlLCJ0eXBlIjoiVG9waWNhbCBUZXJtIn0seyJzdWJqZWN0
+        IjoiUG9ldHJ5LiIsImF1dGhvcml6ZWQiOnRydWV9XScsJ1t7InN1YmplY3Qi
+        OiJXb3JraW5nIGNsYXNzIHdyaXRpbmdzLCBFbmdsaXNoLiIsImF1dGhvcml6
+        ZWQiOnRydWUsInR5cGUiOiJUb3BpY2FsIFRlcm0ifV0nXSwnaXNibl9kaXNw
+        bGF5Jz0+WycwODM4NjMzNDU1IChhbGsuIHBhcGVyKSddLCdpc2JuX3QnPT5b
+        JzA4Mzg2MzM0NTUgKGFsay4gcGFwZXIpJ10sJ3dvcmtpZF9mYWNldCc9Plsn
+        ODM2NzM3NjkxJ10sJ192ZXJzaW9uXyc9PjE1NDU2NDg3NzA0OTM5NzI0ODAs
+        J3RpbWVzdGFtcCc9PicyMDE2LTA5LTE2VDE3OjA1OjMzLjA4MVonfV19fQo=
+    http_version: 
+  recorded_at: Tue, 29 Nov 2016 16:54:07 GMT
+- request:
+    method: get
+    uri: http://da-dev-solr.library.cornell.edu/solr/test/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&q=%7B!qf=$subject_cts_qf%20pf=$subject_cts_pf%7D%22English%20poetry%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=%22English%20poetry%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 29 Nov 2016 16:54:08 GMT
+      Last-Modified:
+      - Tue, 29 Nov 2016 16:48:26 GMT
+      Etag:
+      - '"OWJiMDgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Via:
+      - 1.1 da-dev-solr.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'status'=>0,'QTime'=>3098,'params'=>{'f.subject_content_facet.facet.limit'=>'6','f.author_facet.facet.limit'=>'6','facet.field'=>['online','format','author_facet','pub_date_facet','workid_facet','language_facet','fast_topic_facet','fast_geo_facet','fast_era_facet','fast_genre_facet','subject_content_facet','lc_alpha_facet','location_facet','hierarchy_facet','authortitle_facet','lc_callnum_facet','collection'],'qt'=>'search','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score desc, pub_date_sort desc, title_sort asc','rows'=>'20','f.online.facet.limit'=>'3','q'=>'{!qf=$subject_cts_qf pf=$subject_cts_pf}"English poetry"','defType'=>'edismax','spellcheck.q'=>'"English poetry"','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','stats'=>'true','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet'}},'response'=>{'numFound'=>638,'start'=>0,'maxScore'=>25.573963,'docs'=>[{'holdings_record_display'=>['{"id":"8139182","modified_date":"20120716170228","copy_number":null,"callnos":["PS3501.S475 Z72 2012"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"9134555","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"8139182","recalls_placed":"0","create_date":"2012-07-16 17:04:01.0","item_barcode":"31924116500269","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['(OCoLC)766317529','7721055'],'id'=>'7721055','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['c2012'],'pub_date_facet'=>2012,'pub_info_display'=>['Edinburgh : Edinburgh University Press, c2012.'],'fulltitle_display'=>'John Ashbery and English poetry','title_display'=>'John Ashbery and English poetry','author_display'=>'Hickman, Ben, 1983-','online'=>['At the Library'],'score'=>25.573963},{'holdings_record_display'=>['{"id":"7297024","modified_date":"20110815093757","copy_number":null,"callnos":["PR508.C68 O954 2009"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"8754279","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"7297024","recalls_placed":"0","create_date":"2010-05-03 13:24:01.0","item_barcode":"31924111300087","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['6854928','(OCoLC)492093026'],'id'=>'6854928','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2009'],'pub_date_facet'=>2009,'pub_info_display'=>['Heidelberg : Winter, 2009.'],'title_display'=>'Ovid\'s Metamorphoses in English poetry','fulltitle_display'=>'Ovid\'s Metamorphoses in English poetry','online'=>['At the Library'],'score'=>24.611614},{'holdings_record_display'=>['{"id":"9022581","modified_date":"20141017165715","copy_number":null,"callnos":["PR508.M9 O36 2014"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"9518988","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"9022581","recalls_placed":"0","create_date":"2014-10-17 16:57:30.0","item_barcode":"31924120880996","modify_date":"2014-10-17 16:58:07.0","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['(OCoLC)869726228','8649392'],'id'=>'8649392','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2014'],'pub_date_facet'=>2014,'pub_info_display'=>['Oxford : Oxford University Press, 2014.'],'edition_display'=>['First edition.'],'fulltitle_display'=>'English poetry and Old Norse myth : a history','title_display'=>'English poetry and Old Norse myth','author_display'=>'O\'Donoghue, Heather.','subtitle_display'=>'a history','online'=>['At the Library'],'score'=>24.113329},{'holdings_record_display'=>['{"id":"8606082","modified_date":"20130801112440","copy_number":null,"callnos":["PR313 .C648 2013"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"9307444","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"8606082","recalls_placed":"0","create_date":"2013-08-01 11:25:00.0","item_barcode":"31924119015026","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['(OCoLC)814271065','8215834'],'id'=>'8215834','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2013'],'pub_date_facet'=>2013,'pub_info_display'=>['Cambridge : D.S. Brewer, 2013.'],'title_display'=>'A companion to fifteenth-century English poetry','fulltitle_display'=>'A companion to fifteenth-century English poetry','online'=>['At the Library'],'score'=>23.850157},{'holdings_record_display'=>['{"id":"8841024","modified_date":"20140429151431","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked Resource","library":""}]}'],'other_id_display'=>['(OCoLC)845328404','8459993'],'id'=>'8459993','format'=>['Book'],'online'=>['Online'],'language_display'=>['English'],'pub_date_display'=>['2013'],'pub_date_facet'=>2013,'pub_info_display'=>['Rochester, N.Y. : Boydell & Brewer, 2013.'],'title_display'=>'A companion to fifteenth-century English poetry','fulltitle_display'=>'A companion to fifteenth-century English poetry','url_access_display'=>['http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://www.jstor.org/stable/10.7722/j.ctt31ngz0|JSTOR Connect to full text. Access limited to authorized subscribers.'],'score'=>23.850157},{'holdings_record_display'=>['{"id":"8692043","modified_date":"20131212154232","copy_number":null,"callnos":["PR502 .A88 2013"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'online'=>['At the Library'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"9373868","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"8692043","recalls_placed":"0","create_date":"2013-12-12 15:42:46.0","item_barcode":"31924119606394","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['(OCoLC)841671968','8305473'],'id'=>'8305473','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2013'],'pub_date_facet'=>2013,'pub_info_display'=>['Oxford : Oxford University Press, 2013.'],'edition_display'=>['1st ed.'],'fulltitle_display'=>'Moving words : forms of English poetry','title_display'=>'Moving words','author_display'=>'Attridge, Derek,  author','subtitle_display'=>'forms of English poetry','score'=>23.850157},{'holdings_record_display'=>['{"id":"8182457","modified_date":"20120810111340","copy_number":null,"callnos":["PR201 .H37 2012"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"9145068","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"8182457","recalls_placed":"0","create_date":"2012-08-10 11:13:56.0","item_barcode":"31924116794284","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['(OCoLC)773672071','7767896'],'id'=>'7767896','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2012'],'pub_date_facet'=>2012,'pub_info_display'=>['Woodbridge : D.S. Brewer, 2012.'],'fulltitle_display'=>'Cognitive approaches to Old English poetry','title_display'=>'Cognitive approaches to Old English poetry','author_display'=>'Harbus, A. (Antonina)','online'=>['At the Library'],'score'=>23.577051},{'holdings_record_display'=>['{"id":"8647217","modified_date":"20131101163734","copy_number":null,"callnos":["PR9495.23 .H37 2012"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"9355645","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"8647217","recalls_placed":"0","create_date":"2013-11-01 16:37:51.0","item_barcode":"31924119664765","modify_date":"","perm_location":{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}}'],'other_id_display'=>['(OCoLC)813669581','(POOF)18060','8258687'],'id'=>'8258687','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2012'],'pub_date_facet'=>2012,'pub_info_display'=>['Noida : HarperCollins Publishers, a joint venture with The India Today Group, 2012.'],'title_display'=>'The Harpercollins book of English poetry','fulltitle_display'=>'The Harpercollins book of English poetry','online'=>['At the Library'],'score'=>23.577051},{'holdings_record_display'=>['{"id":"7399671","modified_date":"20110815192707","copy_number":null,"callnos":["PR502 .C36 2010"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"8801222","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"7399671","recalls_placed":"0","create_date":"2010-08-12 07:37:33.0","item_barcode":"31924112129980","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['6959578','(OCoLC)456170461'],'id'=>'6959578','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2010'],'pub_date_facet'=>2010,'pub_info_display'=>['Cambridge, UK ; New York : Cambridge University Press, 2010.'],'title_display'=>'The Cambridge history of English poetry','fulltitle_display'=>'The Cambridge history of English poetry','online'=>['At the Library'],'score'=>22.997826},{'holdings_record_display'=>['{"id":"7927014","modified_date":"20111014095239","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked Resource","library":""}]}'],'other_id_display'=>['(WaSeSS)OCM1ssj0000509915','(WaSeSS)ssj0000509915','(OCoLC)746764123','7501644'],'id'=>'7501644','format'=>['Book'],'online'=>['Online'],'language_display'=>['English'],'pub_date_display'=>['2010'],'pub_date_facet'=>2010,'pub_info_display'=>['Cambridge, UK ; New York : Cambridge University Press, 2010.'],'title_display'=>'The Cambridge history of English poetry','fulltitle_display'=>'The Cambridge history of English poetry','url_access_display'=>['http://proxy.library.cornell.edu/login?url=http://dx.doi.org/10.1017/CHOL9780521883061|Full text available from Cambridge Histories Online Connect to text.'],'score'=>22.997826},{'holdings_record_display'=>['{"id":"7272411","modified_date":"20100302095539","copy_number":null,"callnos":["PR9490.5 .B57 2009"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"8724925","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"7272411","recalls_placed":"0","create_date":"2010-03-02 09:55:43.0","item_barcode":"31924111194621","modify_date":"","perm_location":{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}}'],'other_id_display'=>['6829990','(OCoLC)387067973'],'id'=>'6829990','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2009'],'pub_date_facet'=>2009,'pub_info_display'=>['Shimla : Indian Institute of Advanced Study, 2009.'],'fulltitle_display'=>'Representations of a culture in Indian English poetry','title_display'=>'Representations of a culture in Indian English poetry','author_display'=>'Biswas, Mita.','online'=>['At the Library'],'score'=>22.689846},{'holdings_record_display'=>['{"id":"7238146","modified_date":"20100108103248","copy_number":null,"callnos":["PR545.V4 C66 2009"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"8699661","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"7238146","recalls_placed":"0","create_date":"2010-01-08 10:33:07.0","item_barcode":"31924111087916","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['6795320','(OCoLC)299151050'],'id'=>'6795320','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['c2009'],'pub_date_facet'=>2009,'pub_info_display'=>['Newark : University of Delaware Press, c2009.'],'fulltitle_display'=>'Wit\'s voices : intonation in seventeenth-century English poetry','title_display'=>'Wit\'s voices','author_display'=>'Cooper, John R. (John Rex), 1932-','subtitle_display'=>'intonation in seventeenth-century English poetry','online'=>['At the Library'],'score'=>22.689846},{'holdings_record_display'=>['{"id":"7137598","modified_date":"20090918161913","copy_number":null,"callnos":["PR9495.7 .B879 2007"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"8643634","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"7137598","recalls_placed":"0","create_date":"2009-09-18 16:19:32.0","item_barcode":"31924110795287","modify_date":"","perm_location":{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}}'],'other_id_display'=>['6693512','(OCoLC)289070896'],'id'=>'6693512','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['c2007'],'pub_date_facet'=>2007,'pub_info_display'=>['Pondicherry : Busy Bee Books, c2007.'],'title_display'=>'Busy Bee Book of contemporary Indian English poetry','fulltitle_display'=>'Busy Bee Book of contemporary Indian English poetry','online'=>['At the Library'],'score'=>22.031532},{'holdings_record_display'=>['{"id":"6679049","modified_date":"20080221131137","copy_number":null,"callnos":["PR603 .C36 2007"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"8236300","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"6679049","recalls_placed":"0","create_date":"2008-02-21 13:12:01.0","item_barcode":"31924108004742","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['6224255','(OCoLC)166626208'],'id'=>'6224255','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2007'],'pub_date_facet'=>2007,'pub_info_display'=>['Cambridge ; New York : Cambridge University Press, 2007.'],'title_display'=>'The Cambridge companion to twentieth-century English poetry','fulltitle_display'=>'The Cambridge companion to twentieth-century English poetry','online'=>['At the Library'],'score'=>22.031532},{'holdings_record_display'=>['{"id":"8802066","modified_date":"20140314093651","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked Resource","library":""}]}'],'other_id_display'=>['(WaSeSS)OCM1ssj0000371850','(WaSeSS)ssj0000371850','(OCoLC)608462062','8418764'],'id'=>'8418764','format'=>['Book'],'online'=>['Online'],'language_display'=>['English'],'pub_date_display'=>['2007'],'pub_date_facet'=>2007,'pub_info_display'=>['Cambridge ; New York : Cambridge University Press, 2007.'],'title_display'=>'The Cambridge companion to twentieth-century English poetry','fulltitle_display'=>'The Cambridge companion to twentieth-century English poetry','url_access_display'=>['http://proxy.library.cornell.edu/login?url=http://literature.proquest.com/ShowJournalArticles.do?area=cambridgeCompanion&journalName=The%20Cambridge%20Companion%20to%20Twentieth-Century%20English%20Poetry|Full text available from Literature Online (LION) Connect to text.'],'score'=>22.031532},{'holdings_record_display'=>['{"id":"6385855","modified_date":"20061103112140","copy_number":null,"callnos":["PR533 .E17 2007"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"7911056","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"6385855","recalls_placed":"0","create_date":"2006-11-03 11:21:54.0","item_barcode":"31924104689835","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['5918892','(OCoLC)64084860'],'id'=>'5918892','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2007'],'pub_date_facet'=>2007,'pub_info_display'=>['New York : Oxford University Press, 2007.'],'title_display'=>'Early modern English poetry','subtitle_display'=>'a critical companion','fulltitle_display'=>'Early modern English poetry : a critical companion','online'=>['At the Library'],'score'=>22.031532},{'holdings_record_display'=>['{"id":"5042307","modified_date":"20110815180526","copy_number":null,"callnos":["PR201 .S93x 2002"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"6700842","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"5042307","recalls_placed":"0","create_date":"2003-04-21 13:53:03.0","item_barcode":"31924096713098","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['4516866','(OCoLC)47938739'],'id'=>'4516866','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2002'],'pub_date_facet'=>2002,'pub_info_display'=>['Exeter : University of Exeter Press, 2002.'],'edition_display'=>['Rev. and updated ed.'],'fulltitle_display'=>'English poetry before Chaucer','title_display'=>'English poetry before Chaucer','author_display'=>'Swanton, Michael, 1939-','online'=>['At the Library'],'score'=>21.76304},{'holdings_record_display'=>['{"id":"5274235","modified_date":"20030723130714","copy_number":null,"callnos":["PR9490.2 .S87x 2002"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}]}'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"6812177","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"5274235","recalls_placed":"0","create_date":"2003-07-23 13:07:20.0","item_barcode":"31924096870930","modify_date":"","perm_location":{"code":"sasa","number":122,"name":"Kroch Library Asia","library":"Kroch Library Asia"}}'],'other_id_display'=>['4761981','(OCoLC)51163394'],'id'=>'4761981','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2002'],'pub_date_facet'=>2002,'pub_info_display'=>['New Delhi : Sarup & Sons, 2002.'],'edition_display'=>['1st ed.'],'fulltitle_display'=>'Indian English poetry : new perspectives','title_display'=>'Indian English poetry','author_display'=>'Surendran, K. V.','subtitle_display'=>'new perspectives','online'=>['At the Library'],'score'=>21.76304},{'holdings_record_display'=>['{"id":"5065417","modified_date":"20030217081448","copy_number":null,"callnos":["PR502 .F46 2002"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'online'=>['At the Library'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"6626547","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"5065417","recalls_placed":"0","create_date":"2003-02-17 11:24:07.0","item_barcode":"31924096080456","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['4539254','(OCoLC)49719313'],'id'=>'4539254','format'=>['Book'],'language_display'=>['English'],'pub_date_display'=>['2002'],'pub_date_facet'=>2002,'pub_info_display'=>['New York : Farrar, Straus and Giroux, 2002.'],'edition_display'=>['1st American ed.'],'fulltitle_display'=>'An introduction to English poetry','title_display'=>'An introduction to English poetry','author_display'=>'Fenton, James, 1949-','score'=>21.76304},{'holdings_record_display'=>['{"id":"6252733","modified_date":"20110815181516","copy_number":null,"callnos":["PR1508 .N36 2006"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}]}'],'online'=>['At the Library'],'item_record_display'=>['{"copy_number":"1","item_type_name":"book","item_id":"7799325","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"6252733","recalls_placed":"0","create_date":"2006-06-06 14:13:55.0","item_barcode":"31924102918012","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin Library","library":"Olin Library"}}'],'other_id_display'=>['5752380','(OCoLC)62226487'],'id'=>'5752380','format'=>['Book'],'language_display'=>['Translated from the Old English.'],'pub_date_display'=>['2006'],'pub_date_facet'=>2006,'pub_info_display'=>['Hockwold-cum-Wilton, England : Anglo-Saxon Books, 2006.'],'fulltitle_display'=>'A departed music : readings in Old English poetry','title_display'=>'A departed music','author_display'=>'Nash, Walter.','subtitle_display'=>'readings in Old English poetry','score'=>21.678465}]},'facet_counts'=>{'facet_queries'=>{},'facet_fields'=>{'online'=>['At the Library',522,'Online',118],'format'=>['Book',631,'Thesis',30,'Microform',22,'Non-musical Recording',3,'Musical Recording',2,'Computer File',1,'Database',1],'author_facet'=>['Percy, Thomas, 1729-1811',29,'Bysshe, Edward, active 1702-1712',28,'Wordsworth Collection',21,'Bush, Douglas, 1896-1983',9,'Tomkins, Thomas, 1743-1816',9,'St. John, Cynthia Morgan, 1852-1919',8],'pub_date_facet'=>['1993',13,'1999',12,'1922',9,'1962',9,'1967',9,'1986',9,'2002',9,'1909',8,'1950',8,'1961',8],'workid_facet'=>['814084576',16,'1384643',14,'2564798417',11,'862944363',8,'19752845',5,'1305291',4,'1398939',4,'521778',4,'1025157',3,'104250402',3],'language_facet'=>['English',627,'German',3,'English, Old (ca. 450-1100)',1],'fast_topic_facet'=>['English poetry',306,'English poetry > Old English',62,'English poetry > Early modern',61,'English language > Versification',32,'English poetry > Middle English',27,'Ballads, English',19],'fast_geo_facet'=>['England',26,'Great Britain',26,'England > Exeter',2,'Connecticut > New Haven',1,'England > Oxford',1,'France',1],'fast_era_facet'=>['1500 - 1700',59,'450 - 1100',53,'1900 - 1999',52,'1700 - 1799',28,'1800 - 1899',20,'1700 - 1899',19],'fast_genre_facet'=>['Criticism, interpretation, etc',366,'History',30,'Bibliography',14,'Early works',11,'Translations',11,'Glossaries, vocabularies, etc',8],'subject_content_facet'=>['Non-Fiction (books)',549],'lc_alpha_facet'=>[],'location_facet'=>['Olin Library',264,'Library Annex',154,'Kroch Library Rare & Manuscripts',95,'Kroch Library Asia',19,'Uris Library',17,'Music Library',3],'hierarchy_facet'=>[],'authortitle_facet'=>['Bysshe, Edward, active 1702-1712 | art of English poetry',24,'Percy, Thomas, 1729-1811 | Reliques of ancient English poetry',13,'Leavis, F. R. (Frank Raymond), 1895-1978 | Revaluation',5,'Bush, Douglas, 1896-1983 | Mythology and the romantic tradition in English poetry',4,'Reynolds, Myra. | treatment of nature in English poetry between Pope and Wordsworth',4,'Warton, Thomas, 1728-1790 | history of English poetry',4,'Aikin, John, 1747-1822 | Letters to a young lady on a course of English poetry',3,'Ellis, George, 1753-1815 | Specimens of the early English poets',3,'Goodridge, John. | Rural life in eighteenth-century English poetry',3,'Graves, Robert, 1895-1985 | On English poetry',3],'lc_callnum_facet'=>['A - General',49,'A - General:AC - Collections, Series, Collected works',46,'A - General:AC - Collections, Series, Collected works:AC1-195 - Collections of monographs, essays, etc.',46,'A - General:AC - Collections, Series, Collected works:AC1-195 - Collections of monographs, essays, etc.:AC1-8 - American and English',46,'A - General:AS - Academies & Learned Societies',3,'D - World History',2,'D - World History:DA-DR - Europe',2,'D - World History:DA-DR - Europe:DA - Great Britain',2,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England',2,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA28-592 - History',1,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA28-592 - History:DA129-592 - By period',1,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA28-592 - History:DA129-592 - By period:DA129-260 - Early and medieval to 1485',1,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA28-592 - History:DA129-592 - By period:DA129-260 - Early and medieval to 1485:DA140-199 - Celts.  Romans.  Saxons.  Danes.  Normans',1,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA670-690 - Local history and description',1,'D - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA670-690 - Local history and description:DA670 - Counties, regions, etc., A-Z',1,'H - Social Sciences',1,'H - Social Sciences:HV - Social Pathologym Social & Public Welfare, Criminology',1,'H - Social Sciences:HV - Social Pathologym Social & Public Welfare, Criminology:HV697-4959 - Protection, assistance and relief',1,'H - Social Sciences:HV - Social Pathologym Social & Public Welfare, Criminology:HV697-4959 - Protection, assistance and relief:HV4701-4890.9 - Protection of animals.  Animal rights.  Animal welfare',1,'M - Music',4,'M - Music:ML - Literature on music',4,'M - Music:ML - Literature on music:ML1-5 - Periodicals. Serials',1,'M - Music:ML - Literature on music:ML3800-3923 - Philosophical, societal, and physiological aspects, physics and acoustics of music.',4,'M - Music:ML - Literature on music:ML3800-3923 - Philosophical, societal, and physiological aspects, physics and acoustics of music.:ML3845-3877 - Aesthetics',4,'P - Language & Literature',514,'P - Language & Literature:P - Philology & Linguistics',1,'P - Language & Literature:P - Philology & Linguistics:P1-85 - General',1,'P - Language & Literature:PA - Greek & Latin Language & Literature',3,'P - Language & Literature:PA - Greek & Latin Language & Literature:PA1-199 - Classical philology',1,'P - Language & Literature:PA - Greek & Latin Language & Literature:PA2001-2915 - Latin philology and language',1,'P - Language & Literature:PA - Greek & Latin Language & Literature:PA6000-6971 - Roman literature',2,'P - Language & Literature:PA - Greek & Latin Language & Literature:PA6000-6971 - Roman literature:PA6155-6191 - Translations',1,'P - Language & Literature:PA - Greek & Latin Language & Literature:PA6000-6971 - Roman literature:PA6202-6971 - Individual authors',1,'P - Language & Literature:PB - Modern Languages, Celtic & Pict Languages',1,'P - Language & Literature:PB - Modern Languages, Celtic & Pict Languages:PB1001-3029 - Celtic languages and literature',1,'P - Language & Literature:PB - Modern Languages, Celtic & Pict Languages:PB1001-3029 - Celtic languages and literature:PB1201-1449 - Irish',1,'P - Language & Literature:PC - Romance Languages',1,'P - Language & Literature:PC - Romance Languages:PC2001-3761 - French',1,'P - Language & Literature:PD - Germanic Languages',2,'P - Language & Literature:PD - Germanic Languages:PD1-780 - General',2,'P - Language & Literature:PE - English Languages',23,'P - Language & Literature:PE - English Languages:PE1001-1693 - Modern English',14,'P - Language & Literature:PE - English Languages:PE101-458 - Anglo-Saxon.  Old English',4,'P - Language & Literature:PE - English Languages:PE501-693 - Middle English',1,'P - Language & Literature:PK - Indo-Iranian Philology and Literature',2,'P - Language & Literature:PK - Indo-Iranian Philology and Literature:PK101-2899 - Indo-Aryan languages',2,'P - Language & Literature:PK - Indo-Iranian Philology and Literature:PK101-2899 - Indo-Aryan languages:PK1501-2899 - Modern Indo-Aryan languages',1,'P - Language & Literature:PK - Indo-Iranian Philology and Literature:PK101-2899 - Indo-Aryan languages:PK1501-2899 - Modern Indo-Aryan languages:PK1550-2899 - Particular languages and dialects',1,'P - Language & Literature:PK - Indo-Iranian Philology and Literature:PK101-2899 - Indo-Aryan languages:PK1501-2899 - Modern Indo-Aryan languages:PK1550-2899 - Particular languages and dialects:PK1931-2212 - Hindi, Urdu, Hindustani languages and literatures',1,'P - Language & Literature:PK - Indo-Iranian Philology and Literature:PK101-2899 - Indo-Aryan languages:PK1501-2899 - Modern Indo-Aryan languages:PK1550-2899 - Particular languages and dialects:PK1931-2212 - Hindi, Urdu, Hindustani languages and literatures:PK2030-2142 - Hindi, Hindustani literatures',1,'P - Language & Literature:PK - Indo-Iranian Philology and Literature:PK101-2899 - Indo-Aryan languages:PK401-976 - Sanskrit',1,'P - Language & Literature:PN - Literature (General)',21,'P - Language & Literature:PN - Literature (General):PN1010-1525 - Poetry',2,'P - Language & Literature:PN - Literature (General):PN1010-1525 - Poetry:PN1031-1049 - Theory, philosophy, relations, etc.',1,'P - Language & Literature:PN - Literature (General):PN1010-1525 - Poetry:PN1110-1279 - History and criticism',1,'P - Language & Literature:PN - Literature (General):PN441-1009.5 - Literary history',2,'P - Language & Literature:PN - Literature (General):PN441-1009.5 - Literary history:PN610-779 - By period',1,'P - Language & Literature:PN - Literature (General):PN441-1009.5 - Literary history:PN610-779 - By period:PN695-779 - Modern',1,'P - Language & Literature:PN - Literature (General):PN45-57 - Theory.  Philosophy.  Esthetics',2,'P - Language & Literature:PN - Literature (General):PN6010-6790 - Collections of general literature',14,'P - Language & Literature:PN - Literature (General):PN6010-6790 - Collections of general literature:PN6080-6095 - Quotations',13,'P - Language & Literature:PN - Literature (General):PN6010-6790 - Collections of general literature:PN6080-6095 - Quotations:PN6081-6084 - English',13,'P - Language & Literature:PN - Literature (General):PN6010-6790 - Collections of general literature:PN6146.5-6231 - Wit and humor',1,'P - Language & Literature:PN - Literature (General):PN80-99 - Criticism',1,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature',5,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ1-3999 - French literature',3,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ1-3999 - French literature:PQ1-771 - History and criticism',1,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ1-3999 - French literature:PQ1-771 - History and criticism:PQ400-491 - Poetry',1,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ1-3999 - French literature:PQ1300-1595 - Old French literature',1,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ1-3999 - French literature:PQ1300-1595 - Old French literature:PQ1551-1595 - (14th-) 15th century (to ca. 1525)',1,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ1-3999 - French literature:PQ781-841 - Folk literature',1,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ4001-5999 - Italian literature',2,'P - Language & Literature:PQ - French, Italian, Spanish & Portuguese Literature:PQ4001-5999 - Italian literature:PQ4265-4556 - Individual authors and works to 1400',2,'P - Language & Literature:PR - English Literature',457,'P - Language & Literature:PR - English Literature:PR1-56 - Literary history and criticism',1,'P - Language & Literature:PR - English Literature:PR1098-1369 - Collections of English literature',78,'P - Language & Literature:PR - English Literature:PR1098-1369 - Collections of English literature:PR1119-1151 - By period',3,'P - Language & Literature:PR - English Literature:PR1098-1369 - Collections of English literature:PR1170-1228 - Poetry',72,'P - Language & Literature:PR - English Literature:PR125-138.5 - Relations to other literatures and countries',3,'P - Language & Literature:PR - English Literature:PR1490-1799 - Anglo-Saxon literature',12,'P - Language & Literature:PR - English Literature:PR161-488 - By period',67,'P - Language & Literature:PR - English Literature:PR161-488 - By period:PR171-236 - Anglo-Saxon (Beginnings through 1066)',42,'P - Language & Literature:PR - English Literature:PR161-488 - By period:PR251-369 - Medieval.  Middle English (1066-1500)',17,'P - Language & Literature:PR - English Literature:PR161-488 - By period:PR401-488 - Modern',7,'P - Language & Literature:PR - English Literature:PR161-488 - By period:PR401-488 - Modern:PR431-439 - 17th century',2,'P - Language & Literature:PR - English Literature:PR161-488 - By period:PR401-488 - Modern:PR441-449 - 18th century',1,'P - Language & Literature:PR - English Literature:PR161-488 - By period:PR401-488 - Modern:PR471-479 - 20th century',1,'P - Language & Literature:PR - English Literature:PR1803-2165 - Anglo-Norman period.  Early English.  Middle',3,'P - Language & Literature:PR - English Literature:PR2199-3195 - English renaissance (1500-1640)',2,'P - Language & Literature:PR - English Literature:PR3291-3785 - 17th and 18th centuries (1640-1770)',12,'P - Language & Literature:PR - English Literature:PR3991-5990 - 19th century, 1770/1800-1890/1900',8,'P - Language & Literature:PR - English Literature:PR500-614 - Poetry',240,'P - Language & Literature:PR - English Literature:PR500-614 - Poetry:PR521-614 - By period',116,'P - Language & Literature:PR - English Literature:PR6000-6049 - 1900-1960',2,'P - Language & Literature:PR - English Literature:PR8309-9680 - English literature (Provincial, local, etc.)',22,'P - Language & Literature:PR - English Literature:PR931-938 - Wit and humor',2,'P - Language & Literature:PS - Americal Literature',4,'P - Language & Literature:PS - Americal Literature:PS1-3576 - American literature',4,'P - Language & Literature:PS - Americal Literature:PS1-3576 - American literature:PS700-3576 - Individual authors',4,'P - Language & Literature:PS - Americal Literature:PS1-3576 - American literature:PS700-3576 - Individual authors:PS3500-3549 - 1900-1960',3,'P - Language & Literature:PS - Americal Literature:PS1-3576 - American literature:PS700-3576 - Individual authors:PS3550-3576 - 1961-2000',1,'P - Language & Literature:PT - Germanic & Scandinavian Literature',3,'P - Language & Literature:PT - Germanic & Scandinavian Literature:PT7101-7338 - Old Norse literature (Old Icelandic and Old Norwegian)',3,'P - Language & Literature:PT - Germanic & Scandinavian Literature:PT7101-7338 - Old Norse literature (Old Icelandic and Old Norwegian):PT7101-7211 - Literary history and criticism',3,'P - Language & Literature:PT - Germanic & Scandinavian Literature:PT7101-7338 - Old Norse literature (Old Icelandic and Old Norwegian):PT7101-7211 - Literary history and criticism:PT7170-7176 - Poetry',1,'Q - Science',1,'Q - Science:Q - Science (General)',1,'Q - Science:Q - Science (General):Q1-295 - General',1,'Z - Bibliography, Library Science, Information Resources',23,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources',23,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z1001-1121 - General bibliography',2,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z116-659 - Book industries and trade',2,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z116-659 - Book industries and trade:Z278-549 - Bookselling and publishing',2,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z1201-4980 - National bibliography',14,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z1201-4980 - National bibliography:Z1201-1946 - America',1,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z1201-4980 - National bibliography:Z2000-2959 - Europe',13,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z1201-4980 - National bibliography:Z3501-3975 - Africa',1,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z5051-7999 - Subject bibliography',4,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z662-1000.5 - Libraries',1,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z662-1000.5 - Libraries:Z881-977 - Library catalogs and bulletins',1,'Z - Bibliography, Library Science, Information Resources:Z - Bibliography, Library Science, Information Resources:Z8001-8999 - Personal bibliography',1],'collection'=>[]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>1655.0,'max'=>2014.0,'count'=>633,'missing'=>5,'sum'=>1216968.0,'sumOfSquares'=>2.344146794E9,'mean'=>1922.5402843601896,'stddev'=>84.16369318883787}}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}
+    http_version: 
+  recorded_at: Tue, 29 Nov 2016 16:54:11 GMT
+- request:
+    method: get
+    uri: http://da-dev-solr.library.cornell.edu/solr/test/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&q=%7B!qf=$subject_cts_qf%20pf=$subject_cts_pf%7D%22English%20poetry%20%3E%2019th%20century.%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.q=%22English%20poetry%20%3E%2019th%20century.%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 29 Nov 2016 16:54:13 GMT
+      Last-Modified:
+      - Tue, 29 Nov 2016 16:48:26 GMT
+      Etag:
+      - '"OWJiMDgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '2114'
+      Via:
+      - 1.1 da-dev-solr.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'status'=>0,'QTime'=>2614,'params'=>{'f.subject_content_facet.facet.limit'=>'6','f.author_facet.facet.limit'=>'6','facet.field'=>['online','format','author_facet','pub_date_facet','workid_facet','language_facet','fast_topic_facet','fast_geo_facet','fast_era_facet','fast_genre_facet','subject_content_facet','lc_alpha_facet','location_facet','hierarchy_facet','authortitle_facet','lc_callnum_facet','collection'],'qt'=>'search','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score desc, pub_date_sort desc, title_sort asc','rows'=>'20','f.online.facet.limit'=>'3','q'=>'{!qf=$subject_cts_qf pf=$subject_cts_pf}"English poetry > 19th century."','defType'=>'edismax','spellcheck.q'=>'"English poetry > 19th century."','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','stats'=>'true','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6','stats.field'=>'pub_date_facet'}},'response'=>{'numFound'=>0,'start'=>0,'maxScore'=>0.0,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{},'facet_fields'=>{'online'=>[],'format'=>[],'author_facet'=>[],'pub_date_facet'=>[],'workid_facet'=>[],'language_facet'=>[],'fast_topic_facet'=>[],'fast_geo_facet'=>[],'fast_era_facet'=>[],'fast_genre_facet'=>[],'subject_content_facet'=>[],'lc_alpha_facet'=>[],'location_facet'=>[],'hierarchy_facet'=>[],'authortitle_facet'=>[],'lc_callnum_facet'=>[],'collection'=>[]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'stats'=>{'stats_fields'=>{'pub_date_facet'=>{'min'=>nil,'max'=>nil,'count'=>0,'missing'=>0,'sum'=>0.0,'sumOfSquares'=>0.0,'mean'=>(0.0/0.0),'stddev'=>0.0}}},'spellcheck'=>{'suggestions'=>['19th',{'numFound'=>4,'startOffset'=>18,'endOffset'=>22,'origFreq'=>123339,'suggestion'=>[{'word'=>'1999','freq'=>408419},{'word'=>'1949','freq'=>248986},{'word'=>'1990','freq'=>131014},{'word'=>'1939','freq'=>130737}]}],'correctlySpelled'=>false}}
+    http_version: 
+  recorded_at: Tue, 29 Nov 2016 16:54:16 GMT
 recorded_with: VCR 3.0.3
