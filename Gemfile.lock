@@ -100,14 +100,14 @@ GEM
       openurl (>= 0.3.1, < 1.1)
       rails (>= 3.2.3, < 6)
       summon
-    blacklight (6.7.1)
+    blacklight (6.7.2)
       bootstrap-sass (~> 3.2)
       deprecation
       globalid
       kaminari (>= 0.15)
       nokogiri (~> 1.6)
       rails (>= 4.2, < 6)
-      rsolr (~> 1.0, >= 1.0.6)
+      rsolr (>= 1.0.6, < 3)
       twitter-typeahead-rails (= 0.11.1.pre.corejavascript)
     blacklight-hierarchy (1.0.0)
       blacklight (~> 6.0)
@@ -512,7 +512,7 @@ DEPENDENCIES
   addressable
   appsignal
   bento_search
-  blacklight (= 6.7.1)
+  blacklight (= 6.7.2)
   blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
