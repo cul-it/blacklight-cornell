@@ -1,0 +1,292 @@
+<% if @results %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="well">
+        <div class="row">
+          <div class="col-sm-9">
+            <%= render 'single_search/search_form' %>
+          </div>
+          <div class="advanced-search-link col-sm-3 text-right">
+            <%= link_to 'Catalog Advanced Search', '/advanced' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2 empty-single-search">
+      <div class="well">
+        <div class="search-info">
+          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page.">
+            <i class="fa fa-info-circle"></i>
+            About this search
+          </a>
+        </div>
+        <h2>
+          Search
+        </h2>
+        <%= render 'single_search/search_form' %>
+        <%= render 'single_search/search_options' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @top_4_results.present? %>
+  <% @top_4_results.from(0).to(0).each do |key, result| %>
+    <% if !@query.nil? && @results.empty? && @websites.blank? && result.blank? %>
+      <% query = params[:q] || params[:query] %>
+      <% query = query.gsub('&', '%26') %>
+      <p class="no-results">
+        Your search returned 0 results. Try searching
+        <%= link_to 'Libraries Worldwide', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
+        or
+        <%= link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend" %>
+      </p>
+      <%= render 'single_search/search_options' %>
+    <% end %>
+    <% if !@results.blank? or !result.blank? or !@websites.blank? %>
+      <div class="bento_box row">
+        <% if @results %>
+          <div class="col-sm-3">
+            <div class="top-panel-heading panel-heading">
+              <button aria-controls="results-collapse" aria-expanded="false" class="facets-toggle collapsed" data-target=".results-collapse" data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle facets</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <h4>
+                All results
+              </h4>
+            </div>
+            <div class="results-collapse collapse">
+              <div class="expand-search">
+                <% query = params[:q] || params[:query] %>
+                <% query = query.gsub('&', '%26') %>
+                <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                        Looking for more?
+                      </h5>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="fa-ul">
+                        <li>
+                          <i class="fa fa-arrow-right"></i>
+                          <%= link_to 'View all Catalog results', "/?q=#{query}&search_field=all_fields" %>
+                        </li>
+                        <li>
+                          <i class="fa fa-arrow-right"></i>
+                          <%= link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
+                            Request from Libraries Worldwide
+                              <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
+                          <% end %>
+                        </li>
+                        <li>
+                          <i class="fa fa-arrow-right"></i>
+                          <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default" id="formats">
+                <% unless @more_results.length < 3 %>
+                  <div class="panel-heading">
+                    <h5 class="panel-title">
+                      Format
+                    </h5>
+                  </div>
+                  <div class="panel-body">
+                    <ul class="fa-ul" id="more-results">
+                      <% @more_results.each do |key, result| %>
+                        <% if !result.empty? and result.total_items > 0 %>
+                          <li>
+                            <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
+                            <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
+                            <% link_url = ss_uri_encode(link_url) %>
+                            <%= link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do %>
+                              <%= BentoSearch.get_engine(key).configuration.title %>
+                              <!-- ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
+                              -->
+                              (<%= number_with_delimiter(result.total_items) %>)
+                            <% end %>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5 class="panel-title">
+                    Legacy Resource
+                  </h5>
+                </div>
+                <div class="panel-body">
+                  <p>
+                    <%= link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50" %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="col-sm-9" id="top">
+          <div class="navbar" id="jumpbar">
+            <ul class="list-inline">
+              <li class="top-results">
+                Top Results
+              </li>
+              <li>
+                <% @top_4_results.from(1).to(0).each do |key, result| %>
+                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  -->
+                  <%= link_to '#'+key.tr(" ", "_") do %>
+                    <i class="fa fa-arrow-down"></i>
+                    <%= BentoSearch.get_engine(key).configuration.title %>
+                  <% end %>
+                <% end %>
+              </li>
+              <li>
+                <% @top_4_results.from(0).to(0).each do |key, result| %>
+                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  -->
+                  <% unless result.blank? %>
+                    <%= link_to '#'+key do %>
+                      <i class="fa fa-arrow-down"></i>
+                      <%= BentoSearch.get_engine(key).configuration.title %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </li>
+              <li>
+                <% @top_4_results.from(2).to(1).each do |key, result| %>
+                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
+                  -->
+                  <%= link_to '#'+key.tr(" ", "_") do %>
+                    <i class="fa fa-arrow-down"></i>
+                    <%= BentoSearch.get_engine(key).configuration.title %>
+                  <% end %>
+                <% end %>
+              </li>
+              <li>
+                <% unless @websites.blank? %>
+                  <%= link_to '#web' do %>
+                    <i class="fa fa-arrow-down"></i>
+                    Library Websites
+                  <% end %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+          <div id="bt-container">
+            <% if params[:q] && @ajax_bg_engines %>
+              <% @ajax_bg_engines.each do |engine| %>
+                <div class="col-sm-6">
+                  <div class="<%= engine %> bento_compartment">
+                    <h2>
+                      <%= engine.configuration.title %>
+                    </h2>
+                    <%= bento_search engine, :query => params[:q], :load => :ajax_auto %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+            <% if @results %>
+              <div class="item bento1">
+                <div class="search-pane">
+                  <% unless @best_bets.nil? %>
+                    <% alertsArray = [] %>
+                    <% @best_bets.each do |b| %>
+                      <% alertsArray << b unless b.blank? %>
+                    <% end %>
+                    <% #alertsArray << $db_recommendation unless $db_recommendation.blank? %>
+                    <% alertsArray.each do |alert| %>
+                      <div class="best-bet">
+                        <div class="heads-up">
+                          <i class="fa fa-star"></i>
+                          <%= 'Best Bet' %>
+                        </div>
+                        <h2>
+                          <%= link_to alert['title'], alert['link'], :onclick => "javascript:_paq.push(['trackEvent', 'BestBet', 'BentoBox'])" %>
+                        </h2>
+                      </div>
+                    <% end %>
+                    <% #this is the first result %>
+                  <% end %>
+                  <% unless @results.blank? %>
+                    <% @top_4_results.from(1).to(0).each do |key, result| %>
+                      <div id="<%= key+"-Bento1" %>">
+                        <%= render 'single_search/pane_results', :key => key, :result => result %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <% @top_4_results.to(0).each do |key, result| %>
+                      <div id="<%= key+"-Bento1" %>">
+                        <%= render 'single_search/pane_results', :key => key, :result => result %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="item bento2">
+                <div class="search-pane">
+                  <% #this is the second result %>
+                  <% unless @results.blank? %>
+                    <% @top_4_results.to(0).each do |key, result, position| %>
+                      <div id="<%= key+"-Bento2" %>">
+                        <% unless result.nil? or result[0].nil? %>
+                          <%= render 'single_search/pane_results', :key => key, :result => result %>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="well">
+                      <p class="no-results no-margin">
+                        No results from the
+                        <%= link_to 'Catalog.', "https://newcatalog.library.cornell.edu" %>
+                        Try searching
+                        <%= link_to 'Libraries Worldwide.', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
+                      </p>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="item bento3">
+                <div class="search-pane">
+                  <% @top_4_results.from(2).to(0).each do |key, result, position| %>
+                    <div id="<%= key+"-Bento3" %>">
+                      <%= render 'single_search/pane_results', :key => key, :result => result %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <% #this is the fourth result %>
+              <div class="item bento4">
+                <div class="search-pane">
+                  <% @top_4_results.from(3).to(0).each do |key, result, position| %>
+                    <div id="<%= key+"-Bento4" %>">
+                      <%= render 'single_search/pane_results', :key => key, :result => result %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="web-pane">
+            <% if @websites.present? %>
+              <div class="web-results">
+                <%= render 'single_search/pane_results', :key => 'web', :result => @websites %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
