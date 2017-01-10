@@ -61,6 +61,9 @@ url(//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400itali
 // -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-622
 $font-family-base: $realBaseFontFamily;
 
+$font-family-serif: 'Source Serif Pro', serif; @import
+url(//fonts.googleapis.com/css?family=Source+Serif+Pro);
+
 // Monospace font for facet counts
 $monospace-font-family:       Droid Sans Mono;    @import
 url(//fonts.googleapis.com/css?family=Droid+Sans+Mono);

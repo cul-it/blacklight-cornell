@@ -44,6 +44,10 @@
 	}
 	.call-number {
 		margin-bottom: .5em;
+		font-family: courier, monospace;
+		span {
+			font-family: $realBaseFontFamily;
+		}
 	}
 	.status {
 		margin: 0 0 .5em 0;
