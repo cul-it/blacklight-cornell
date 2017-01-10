@@ -956,7 +956,7 @@ end
      else
        @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
        if @ermDBResult.size < 1
-         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
          if @ermDBResult.size < 1
         #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
