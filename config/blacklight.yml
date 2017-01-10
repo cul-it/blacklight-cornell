@@ -9,6 +9,7 @@
 # however you want.
 # jetty_path is only required for rake tasks that need to know
 # how to start up solr, generally for automated testing.
+# 
 
 integration:
   #url: http://da-dev-solr.library.cornell.edu/solr/blacklight
