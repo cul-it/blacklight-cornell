@@ -20,5 +20,7 @@
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" class="status">
+  <% if !online_url(document) %>
     <span class="preloader">Checking availability</span>
+  <% end %>
   </div>

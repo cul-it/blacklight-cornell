@@ -472,6 +472,13 @@ include ActionView::Helpers::NumberHelper
     return blacklight_config.display_link[field] != nil
   end
 
+  def is_online? document
+    ( document['url_access_display'].present?  && document['url_access_display'].size > 0) ?
+        true 
+      : 
+        false
+  end
+
   def online_url(document)
     if document['url_access_display'].present?
       if document['url_access_display'].size > 1

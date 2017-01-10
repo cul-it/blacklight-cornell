@@ -23,15 +23,15 @@ holdings =
   loadSpinner: () ->
     # Search results view
     this.resultsAvailability.each ->
-      elWidth = $(this).width()
-      $.fn.spin.presets.holdings =
-        lines: 9,
-        length: 3,
-        width: 2,
-        radius: 3,
-        top: 2,
-        left: elWidth + 5
-      $(this).spin('holdings')
+        elWidth = $(this).width()
+        $.fn.spin.presets.holdings =
+          lines: 9,
+          length: 3,
+          width: 2,
+          radius: 3,
+          top: 2,
+          left: elWidth + 5
+        $(this).spin('holdings')
 
     # Item view
     this.availabilityHeading.each ->
@@ -57,7 +57,8 @@ holdings =
     n = 0
     $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
       bibId = $(this).data('bibid')
-      if  bibId?
+      online = $(this).data('online')
+      if  bibId? and online == 'no'
         tibids.push bibId
         n++
       if ((n % batchf) == 0)
