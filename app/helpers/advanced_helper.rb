@@ -235,24 +235,6 @@ Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
     name
   end
   
-    def link_back_to_catalog(opts={:label=>nil})
-    query_params = session[:search] ? session[:search].dup : {}
-    query_params.delete :counter
-    query_params.delete :total
-    link_url = url_for(query_params)
-
-    if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
-      opts[:label] ||= t('blacklight.back_to_bookmarks')
-      link_url = bookmarks_path
-    end
-
-    opts[:label] ||= t('blacklight.back_to_search')
-
-    link = {}
-    link[:url] = link_url
-    link[:label] = opts[:label]
-
-    return link
-  end
+    
 
 end
