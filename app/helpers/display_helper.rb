@@ -894,7 +894,7 @@ include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
   def link_back_to_catalog(opts={:label=>nil})
-    query_params = session[:gearch] ? session[:gearch].dup : {}
+    query_params = session[:search] ? session[:search].dup : {}
     Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
     Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} gearch =  #{query_params.inspect}")
     query_params.delete :counter
