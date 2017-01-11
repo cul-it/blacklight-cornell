@@ -72,7 +72,7 @@ class SearchController < ApplicationController
           @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet') , display_type, @scores
       end
       if session[:search].nil?
-	session[:search] = {}
+	      session[:search] = {}
       end
       session[:search][:q] = @query
       session[:search][:search_field] = 'all_fields'
@@ -300,4 +300,6 @@ class SearchController < ApplicationController
     end
   end
 
+
+ 
 end
