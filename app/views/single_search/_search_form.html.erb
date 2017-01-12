@@ -1,0 +1,14 @@
+<form action="/search" class="form-inline single-search" id="search" method="get">
+  <div class="form-group">
+    <label class="sr-only" for="q">
+      Search
+    </label>
+    <input class="search-query form-control col-xs-6" type='text' name='q' id='q' value='<%= @query %>' placeholder='Books, articles, databases, journals and more' autocapitalize='off'>
+  </div>
+  <button class="btn btn-search" id="search-btn" type="submit">
+    <i class="fa fa-search fa-inverse"></i>
+    <span class="sr-only">
+      Search
+    </span>
+  </button>
+</form>
