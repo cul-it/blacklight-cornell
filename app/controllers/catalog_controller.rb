@@ -309,11 +309,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its entirety by'
     config.add_show_field 'in_display', :label => 'In'
     config.add_show_field 'map_format_display', :label => 'Map format'
+    config.add_show_field 'instrumentation_display', :label => 'Instrumentation'
     config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
     config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
     config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
     config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
     config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'thesis_display', :label => 'Thesis'
+    config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
@@ -956,7 +959,7 @@ end
      else
        @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
        if @ermDBResult.size < 1
-         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
          if @ermDBResult.size < 1
         #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
