@@ -1,10 +1,10 @@
 function sessionAlert() {
     bootbox.confirm({
-    message: "Press OK to refresh session. Otherwise it will reset in 30 seconds.",
+    message: "Press OK to refresh session. Otherwise it will reset in 2 minutes.",
     backdrop: true,
     buttons: {
         confirm: {
-            label: 'Yes',
+            label: 'OK',
             className: 'btn-success'
         },
         cancel: {
@@ -17,4 +17,6 @@ function sessionAlert() {
     }
 });
 }
-window.setTimeout(sessionAlert, (1000*60*60*4)-(30*1000));
+window.setTimeout(sessionAlert, (1000*60*60*4)-(120*1000));
+// for testing
+//window.setTimeout(sessionAlert, (1000*30)-(0));
