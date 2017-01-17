@@ -40,3 +40,5 @@
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require accessibility.js
+//= require jquery.waypointz.js
+//= require zz_inview.js
