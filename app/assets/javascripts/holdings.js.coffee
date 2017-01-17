@@ -5,7 +5,15 @@
   for (p in o) if (Object.prototype.hasOwnProperty.call(o,p)) k.push(p);
   return k;
 }
+function checkVisible(elm) {
+  var rect = elm.getBoundingClientRect();
+  var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+  return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+}
 `
+
+inviews = []
+
 holdings =
   # Initial setup
   onLoad: () ->
@@ -45,14 +53,37 @@ holdings =
         left: headingWidth - (headingWidth/3)
       $(this).spin('holdings')
 
+  loadHoldingsShortmInv: (id) ->
+    $.ajax
+      dataType: "json"
+      url: '/backend/holdings_shorthm/' + id
+      success: (data) ->
+        bids = Object.keys(data)
+        console.log("ids results = "+id) 
+        inv = (i for i in inviews when i.bibs is id)[0]
+        if inv
+          console.log("matched object  = "+Object.keys(inv)) 
+        if inv && inv.waypoint
+          console.log("matched object  = "+Object.keys(inv.waypoint)) 
+        if inv && inv.waypoint
+          inv.waypoint.destroy()
+        for i in bids
+          $('#blacklight-avail-'+i).html(data[i])
+      error: (data) ->
+        # If holdings service is unavailable, create array of batched bibs
+        # from original string sent to service
+        bids = id.split('/')
+        $.each bids, (i, bibid) ->
+          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
+
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
     # Using body class as selector to make these triggers page specific
     # appears to be an acceptable approach (one of several) in Rails 3
     # with Assets Pipeline. More info here:
     # http://railsapps.github.com/rails-javascript-include-external.html
-    bibids = []
     tibids = []
+    that = this
     batchf = 4
     n = 0
     $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
@@ -60,15 +91,38 @@ holdings =
       online = $(this).data('online')
       if  bibId? and online == 'no'
         tibids.push bibId
+        that = this 
         n++
-      if ((n % batchf) == 0)
-        bibids.push tibids
+      if ((n % batchf) == 0 )
+        $(this).data("showbibs",tibids.join('/')) 
+        first = tibids[0]
+        showbibs =  $(this).data("showbibs") 
+        console.log("Loop counter=" + " " + n + ". showbibibs= " + showbibs) 
         tibids = []
+        if (showbibs != '')
+          if (checkVisible(this))
+            holdings.loadHoldingsShortmInv(showbibs)
+          else
+            inview = new Waypoint.Inview({
+              element: $('#blacklight-avail-'+first)
+              entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
+            })
+            inviews.push { bibs: showbibs, waypoint: inview} 
+    # remainder that were not processed in above  loop
     if tibids.length > 0
-      bibids.push tibids
-    for b in bibids
-      if b.length > 0
-        holdings.loadHoldingsShortm (b.join('/'))
+      $(that).data("showbibs",tibids.join('/')) 
+      showbibs =  $(that).data("showbibs") 
+      console.log("Left over:" + showbibs) 
+      first = tibids[0]
+      tibids = []
+      if (showbibs != '')
+        inview = new Waypoint.Inview({
+          element: $('#blacklight-avail-'+first)
+          entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
+         })
+        inviews.push { bibs: showbibs, waypoint: inview} 
+    for b  in  inviews 
+      console.log("inviews  = " + b.bibs + " waypoint=" + b.waypoint) 
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()
@@ -99,6 +153,7 @@ holdings =
       complete: (data) ->
         # Stop and remove the spinner
         holdings.resultsAvailability.spin(false)
+
 
   loadHoldingsShortm: (id) ->
     $.ajax
