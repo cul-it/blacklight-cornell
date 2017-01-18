@@ -25,6 +25,15 @@ class CatalogController < ApplicationController
     Blacklight::Solr::Repository
   end
 
+  before_action :authorize_email_use!, only: :email
+  
+  def authorize_email_use!  
+    if request.env['REMOTE_USER'].present?
+      flash[:error] = "You must be authenticated via CUWebAuth to use email"
+    #  redirect_to solr_document_path(params[:id]) #unless request.xhr?
+      render :partial => 'catalog/email_cuwebauth'
+    end
+  end
 
 
   configure_blacklight do |config|
@@ -851,7 +860,7 @@ class CatalogController < ApplicationController
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def email
-    Rails.logger.info("BUTTERBALL")
+
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
     #docs = params[:id].split '/'
