@@ -52,7 +52,7 @@
             - some_av = 'no'
             %tr
               %td
-                = render 'location', :entry => entry, :location => location, :hide_status => @hide_status
+                = render 'location', :entry => entry, :location => location, :hide_status => @hide_status, :callnumber => callnumber
               %td
                 -# Only display a real call number
                 = render 'callnumber',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber
