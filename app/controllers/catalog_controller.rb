@@ -20,17 +20,22 @@ class CatalogController < ApplicationController
 
     eos
   end
- 
+
   def repository_class
     Blacklight::Solr::Repository
   end
 
   before_action :authorize_email_use!, only: :email
-  
-  def authorize_email_use!  
-    if request.env['REMOTE_USER'].present?
-      flash[:error] = "You must be authenticated via CUWebAuth to use email"
-    #  redirect_to solr_document_path(params[:id]) #unless request.xhr?
+
+  # This is used to protect the email function by limiting it to only Cornell
+  # users. If not signed in, the user is prompted to click a link that redirects
+  # through a CUWebAuth-protected route. The partial that's rendered doesn't
+  # seem to actually appear anywhere (not sure why), but rendering 'nothing'
+  # instead doesn't let the email modal appear either.
+  def authorize_email_use!
+    unless session[:cu_authenticated_user]
+      flash[:error] = "You must be authenticated via CUWebAuth to use email. Cl\
+ick <a href='/backend/cuwebauth'>here</a>.".html_safe
       render :partial => 'catalog/email_cuwebauth'
     end
   end
@@ -865,7 +870,7 @@ class CatalogController < ApplicationController
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
     #docs = params[:id].split '/'
     docs = params[:id].split '|'
-    
+
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     @response, @documents = fetch docs
 
@@ -881,14 +886,14 @@ class CatalogController < ApplicationController
            captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
         rescue
           captcha_ok = true
-          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}          
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
         end
-          
+
       end
 
       #
-      if params[:to] 
+      if params[:to]
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       #  result = nil
         # Check for valid email address
