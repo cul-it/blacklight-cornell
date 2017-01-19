@@ -39,6 +39,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       user_parameters[:q] = my_params[:q]
       user_parameters[:search_field] = "advanced"
+      user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
       Rails.logger.info("FINISH4 = #{user_parameters}")
     end
@@ -449,6 +450,9 @@ end
                 end
                 if solr_stuff == "journal title"
                   solr_stuff = "journal title"
+                end
+                if solr_stuff == "notes"
+                  solr_stuff = "notes_qf"
                 end
                 field_name =  solr_stuff
                 if field_name == "journal title"
