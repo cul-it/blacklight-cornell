@@ -36,6 +36,10 @@ class CatalogController < ApplicationController
     unless session[:cu_authenticated_user]
       flash[:error] = "You must be authenticated via CUWebAuth to use email. Cl\
 ick <a href='/backend/cuwebauth'>here</a>.".html_safe
+      # This is a bit of an ugly hack to get us back to where we started after
+      # the authentication
+      session[:cuwebauth_return_path] = params['id'].include?('|') ? '/bookmarks' : "/catalog/#{params[:id]}"
+
       render :partial => 'catalog/email_cuwebauth'
     end
   end
@@ -865,6 +869,8 @@ ick <a href='/backend/cuwebauth'>here</a>.".html_safe
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def email
+
+    Rails.logger.debug "mjc12test: entering email"
 
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"

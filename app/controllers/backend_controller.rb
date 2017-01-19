@@ -148,7 +148,7 @@ class BackendController < ApplicationController
   # and sends you back to wherever you came from.
   def authenticate_cuwebauth
     session[:cu_authenticated_user] = request.env['REMOTE_USER']
-    redirect_to :back, :alert => "You have been authenticated as #{request.env['REMOTE_USER']}"
+    redirect_to session[:cuwebauth_return_path], :alert => "You have been authenticated as #{request.env['REMOTE_USER']}"
   end
 
 end
