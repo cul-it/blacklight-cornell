@@ -54,7 +54,7 @@ end
 #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here:
   #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
-  get 'catalog/cuwebauth' => 'catalog#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
+  get 'backend/cuwebauth' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
