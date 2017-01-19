@@ -30,7 +30,9 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
+      Rails.logger.info("GOOGOO = #{blacklight_params}")
       my_params = make_adv_query(blacklight_params)
+      Rails.logger.info("GOOGOO1 = #{my_params}")
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
       blacklight_params[:q_row].each do |term|
@@ -362,14 +364,18 @@ end
     def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
+     Rails.logger.info("GOOGOO2 = #{my_params[:boolean_row]}")
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
-       my_params = removeBlanks(my_params)
+     #  my_params = removeBlanks(my_params)
+     Rails.logger.info("GOOGOO3 = #{my_params[:boolean_row]}")
+       
        # IF 1.1
        if my_params[:boolean_row].nil?
          my_params = makesingle(my_params)
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
+         my_params[:boolean_row] = blacklight_params[:boolean_row]
          return my_params
        # end IF 1.1
        end
@@ -557,7 +563,7 @@ end
                    Rails.logger.info("OPARRAYL = #{i}")
                 Rails.logger.info("OPARRAYM = #{opArray[i]}")
 
-                solr6query << " " + opArray[i + 1] + " "
+                solr6query << " " + opArray[i] + " "
               end
               q_string2Array << q_string2
               q_string2 = "";
