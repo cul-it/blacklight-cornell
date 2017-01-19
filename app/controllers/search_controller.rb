@@ -31,7 +31,7 @@ class SearchController < ApplicationController
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
+          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles, :digitalCollections)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results
 
@@ -140,6 +140,7 @@ class SearchController < ApplicationController
     # Remove websites from top 4 logic
     @websites = results.delete('web')
     @summonArticles = results.delete('summonArticles')
+    @digitalCollections = results.delete('digitalCollections')
 
     # Top 2 are books and articles, regardless of display_type
     top1 << ['summon_bento', results.delete('summon_bento')]
