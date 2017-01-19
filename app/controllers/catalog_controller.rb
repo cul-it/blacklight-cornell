@@ -33,12 +33,12 @@ class CatalogController < ApplicationController
   # seem to actually appear anywhere (not sure why), but rendering 'nothing'
   # instead doesn't let the email modal appear either.
   def authorize_email_use!
-    unless session[:cu_authenticated_user]
+    unless session[:cu_authenticated_user].present?
       flash[:error] = "You must be authenticated via CUWebAuth to use email. Cl\
 ick <a href='/backend/cuwebauth'>here</a>.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
-      session[:cuwebauth_return_path] = params['id'].include?('|') ? '/bookmarks' : "/catalog/#{params[:id]}"
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
 
       render :partial => 'catalog/email_cuwebauth'
     end
