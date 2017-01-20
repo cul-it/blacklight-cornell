@@ -149,7 +149,7 @@ class BackendController < ApplicationController
   def authenticate_cuwebauth
     session[:cu_authenticated_user] = request.env['REMOTE_USER']
     if session[:cu_authenticated_user].present?
-      redirect_to session[:cuwebauth_return_path], :alert => "You logged in as #{request.env['REMOTE_USER']}"
+      redirect_to session[:cuwebauth_return_path], :alert => "You are logged in as #{request.env['REMOTE_USER']}"
     else
       redirect_to session[:cuwebauth_return_path], :alert => "Authentication failed"
     end
