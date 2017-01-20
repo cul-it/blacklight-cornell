@@ -34,7 +34,7 @@
             %i{:class => 'fa fa-clock-o', :title => 'On order'}
             - message = I18n.t('blacklight.catalog.on_order')
           - elsif details['status'] == 'none'
-            - if callnumber == 'On Order'  || callnumber.blank? 
+            - if callnumber == 'On Order'  || callnumber.blank? || callnumber == 'Available for the Library to Purchase'
               %i{:class => 'fa', :title => 'On order'}
               - message = ''
             - else

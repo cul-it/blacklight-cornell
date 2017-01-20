@@ -69,6 +69,9 @@ require 'capybara/email'
 Capybara.default_selector = :css
 # by default, uses selenium for javascript, but using poltergeist allows using phantomjs
 require 'capybara/poltergeist'
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {debug: false})
+end
 Capybara.javascript_driver = :poltergeist
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 

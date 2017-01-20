@@ -112,9 +112,9 @@ en:
       clear: 'Clear'
 
     citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
+      mla: 'MLA 7th ed.'
+      apa: 'APA 6th ed.'
+      chicago: 'Chicago 16th ed.'
 
     email:
       form:
