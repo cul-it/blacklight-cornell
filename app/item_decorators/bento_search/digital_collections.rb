@@ -1,5 +1,5 @@
 module BentoSearch
-  class StandardDecorator < DecoratorBase
+  class DigitalCollections < StandardDecorator
 
 
     # convenience method that returns true if any of the keys
@@ -169,7 +169,7 @@ module BentoSearch
       return value.blank? ? nil : value
     end
 
-    
+
 
     # outputs a date for display, from #publication_date or #year.
     # Uses it's own logic to decide whether to output entire date or just
