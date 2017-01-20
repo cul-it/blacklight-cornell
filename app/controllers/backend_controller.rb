@@ -43,14 +43,14 @@ class BackendController < ApplicationController
     #render "backend/holdings", :layout => false
   end
 
- def holdings_shorthm
+  def holdings_shorthm
     #@holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
     @mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))
     #@mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{params[:id]}"))
     @mid = params[:id]
-     logger.debug  "es287_debug #{__FILE__}:#{__LINE__} getting info (Multi bibid) for #{params[:id]} from"
-     logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
-     logger.debug "es287_debug #{__FILE__}:#{__LINE__} @mholdings_detail = #{@mholdings_detail.inspect}"
+     #logger.debug  "es287_debug #{__FILE__}:#{__LINE__} getting info (Multi bibid) for #{params[:id]} from"
+     #logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
+     #logger.debug "es287_debug #{__FILE__}:#{__LINE__} @mholdings_detail = #{@mholdings_detail.inspect}"
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
     rendera = {};
@@ -141,6 +141,18 @@ class BackendController < ApplicationController
     end
 
     session[:hide_ie9_warning] = true
+  end
+
+  # The route /backend/cuwebauth should exist and be protected by CUWebAuth.
+  # This corresponding method simply sets a session variable with the netid
+  # and sends you back to wherever you came from.
+  def authenticate_cuwebauth
+    session[:cu_authenticated_user] = request.env['REMOTE_USER']
+    if session[:cu_authenticated_user].present?
+      redirect_to session[:cuwebauth_return_path], :alert => "You have been authenticated as #{request.env['REMOTE_USER']}"
+    else
+      redirect_to session[:cuwebauth_return_path], :alert => "Authentication failed"
+    end
   end
 
 end
