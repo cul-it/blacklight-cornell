@@ -57,7 +57,7 @@ class SearchBuilder < Blacklight::SearchBuilder
            blacklight_params[:search_field] = 'author'
         end
         blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
-        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+    #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
       end
