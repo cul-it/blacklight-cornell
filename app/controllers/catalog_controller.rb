@@ -20,11 +20,29 @@ class CatalogController < ApplicationController
 
     eos
   end
- 
+
   def repository_class
     Blacklight::Solr::Repository
   end
 
+  before_action :authorize_email_use!, only: :email
+
+  # This is used to protect the email function by limiting it to only Cornell
+  # users. If not signed in, the user is prompted to click a link that redirects
+  # through a CUWebAuth-protected route. The partial that's rendered doesn't
+  # seem to actually appear anywhere (not sure why), but rendering 'nothing'
+  # instead doesn't let the email modal appear either.
+  def authorize_email_use!
+    unless session[:cu_authenticated_user].present?
+      flash[:error] = "You must be authenticated via CUWebAuth to use email. Cl\
+ick <a href='/backend/cuwebauth'>here</a>.".html_safe
+      # This is a bit of an ugly hack to get us back to where we started after
+      # the authentication
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+
+      render :partial => 'catalog/email_cuwebauth'
+    end
+  end
 
 
   configure_blacklight do |config|
@@ -851,12 +869,14 @@ class CatalogController < ApplicationController
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def email
-    Rails.logger.info("BUTTERBALL")
+
+    Rails.logger.debug "mjc12test: entering email"
+
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
     #docs = params[:id].split '/'
     docs = params[:id].split '|'
-    
+
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     @response, @documents = fetch docs
 
@@ -872,14 +892,14 @@ class CatalogController < ApplicationController
            captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
         rescue
           captcha_ok = true
-          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}          
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
         end
-          
+
       end
 
       #
-      if params[:to] 
+      if params[:to]
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       #  result = nil
         # Check for valid email address
