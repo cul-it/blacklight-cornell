@@ -33,6 +33,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       Rails.logger.info("GOOGOO = #{blacklight_params}")
       my_params = make_adv_query(blacklight_params)
       Rails.logger.info("GOOGOO1 = #{my_params}")
+      #blacklight_params = my_params
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
       blacklight_params[:q_row].each do |term|
@@ -326,7 +327,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     return countit
   end
 
-def removeBlanks(params)
+def oldremoveBlanks(params)
      queryRowArray = [] #params[:q_row]
      booleanRowArray = [] #params[:boolean_row]
      subjectFieldArray = [] #params[:search_field_row]
@@ -360,15 +361,56 @@ def removeBlanks(params)
 
      return params
 end
-
+    def removeBlanks(my_params = params || {} )
+       testQRow = [] #my_params[:q_row]
+       testOpRow = []
+       testSFRow = []
+       testBRow = []
+       for i in 0..my_params[:q_row].count - 1
+          if my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?
+             testQRow << my_params[:q_row][i]
+             testOpRow << my_params[:op_row][i]
+             testSFRow << my_params[:search_field_row][i]
+          end
+       end
+       for i in 1..my_params[:boolean_row].count 
+          if !my_params[:q_row][i - 1].blank? and !my_params[:q_row][i - 1].nil?
+            if !my_params[:q_row][i].nil? and !my_params[:q_row][i].blank?
+              testBRow << my_params[:boolean_row][i.to_s.to_sym]
+            end
+         # else
+         #   testBRow << my_params[:boolean_row][i.to_s.to_sym]
+          end
+       end
+        Rails.logger.info("TESTBROW = #{testBRow}")
+        Rails.logger.info("TESTBROWq = #{testQRow}")
+        Rails.logger.info("TESTBROWo = #{testOpRow}")
+        Rails.logger.info("TESTBROWs = #{testSFRow}")
+        my_params[:q_row] = testQRow
+        my_params[:op_row] = testOpRow
+        my_params[:search_field_row] = testSFRow
+        my_params[:boolean_row] = testBRow
+       return my_params
+     end
     def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
-     Rails.logger.info("GOOGOO2 = #{my_params[:boolean_row]}")
+     Rails.logger.info("GOOGOO2 = #{my_params}")
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
-     #  my_params = removeBlanks(my_params)
+       my_params = removeBlanks(my_params)
+       blacklight_params = my_params
+       Rails.logger.info("MYPARAMS1 = #{my_params}")
+       newMyParams = {}
+       for i in 0..my_params[:boolean_row].count - 1
+         n = i + 1
+         n = n.to_s.to_sym
+         newMyParams[n] = my_params[:boolean_row][i]
+       end
+       my_params[:boolean_row] = newMyParams
      Rails.logger.info("GOOGOO3 = #{my_params[:boolean_row]}")
+     Rails.logger.info("GOOGOO2 = #{my_params}")
+     Rails.logger.info("GOOGOO3 = #{blacklight_params}")
        
        # IF 1.1
        if my_params[:boolean_row].nil?
