@@ -53,6 +53,10 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
         end
+        if blacklight_params[:search_field] == 'author/creator'
+           blacklight_params[:search_field] = 'author'
+        end
+        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
         blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
