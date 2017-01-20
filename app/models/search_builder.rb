@@ -45,9 +45,19 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
       Rails.logger.info("FINISH4 = #{user_parameters}")
-    end
+    else 
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
+     
+      if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
+        if blacklight_params[:search_field] == 'call number'
+           blacklight_params[:search_field] = 'lc_callnum'
+        end
+        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+        user_parameters[:q] = blacklight_params[:q]
+        Rails.logger.info("BPS = #{blacklight_params}")
+      end
+    end
   end
 
 
