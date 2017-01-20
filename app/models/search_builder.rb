@@ -590,7 +590,7 @@ end
                         Rails.logger.info("WOOK = #{tokenArray}")
                         Rails.logger.info("WOOK1 = #{tokenArray.size}")
                        q_string2 << holdarray[1] << " "
-                       solr6query << field_name + ":" + holdarray[1] 
+                       solr6query << " " + field_name + ":" + holdarray[1] 
                      end
                      end
 
