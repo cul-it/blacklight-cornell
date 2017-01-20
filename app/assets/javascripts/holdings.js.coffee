@@ -59,12 +59,7 @@ holdings =
       url: '/backend/holdings_shorthm/' + id
       success: (data) ->
         bids = Object.keys(data)
-        console.log("ids results = "+id) 
         inv = (i for i in inviews when i.bibs is id)[0]
-        if inv
-          console.log("matched object  = "+Object.keys(inv)) 
-        if inv && inv.waypoint
-          console.log("matched object  = "+Object.keys(inv.waypoint)) 
         if inv && inv.waypoint
           inv.waypoint.destroy()
         for i in bids
@@ -97,7 +92,6 @@ holdings =
         $(this).data("showbibs",tibids.join('/')) 
         first = tibids[0]
         showbibs =  $(this).data("showbibs") 
-        console.log("Loop counter=" + " " + n + ". showbibibs= " + showbibs) 
         tibids = []
         if (showbibs != '')
           if (checkVisible(this))
@@ -112,7 +106,6 @@ holdings =
     if tibids.length > 0
       $(that).data("showbibs",tibids.join('/')) 
       showbibs =  $(that).data("showbibs") 
-      console.log("Left over:" + showbibs) 
       first = tibids[0]
       tibids = []
       if (showbibs != '')
@@ -121,8 +114,6 @@ holdings =
           entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
          })
         inviews.push { bibs: showbibs, waypoint: inview} 
-    for b  in  inviews 
-      console.log("inviews  = " + b.bibs + " waypoint=" + b.waypoint) 
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()
