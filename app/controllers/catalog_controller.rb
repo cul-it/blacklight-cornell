@@ -34,8 +34,7 @@ class CatalogController < ApplicationController
   # instead doesn't let the email modal appear either.
   def authorize_email_use!
     unless session[:cu_authenticated_user].present?
-      flash[:error] = "You must be authenticated via CUWebAuth to use email. Cl\
-ick <a href='/backend/cuwebauth'>here</a>.".html_safe
+      flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
       session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
