@@ -387,7 +387,7 @@ def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
 
   if !my_params[:q_row].nil?
-     my_params = removeBlanks(my_params)
+   #  my_params = removeBlanks(my_params)
   end
   if my_params[:search_field] == 'advanced'
     my_params.delete(:q)

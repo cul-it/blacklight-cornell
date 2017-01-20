@@ -30,7 +30,9 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
+      Rails.logger.info("GOOGOO = #{blacklight_params}")
       my_params = make_adv_query(blacklight_params)
+      Rails.logger.info("GOOGOO1 = #{my_params}")
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
       blacklight_params[:q_row].each do |term|
@@ -39,6 +41,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       user_parameters[:q] = my_params[:q]
       user_parameters[:search_field] = "advanced"
+      user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
       Rails.logger.info("FINISH4 = #{user_parameters}")
     end
@@ -361,14 +364,18 @@ end
     def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
+     Rails.logger.info("GOOGOO2 = #{my_params[:boolean_row]}")
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
-       my_params = removeBlanks(my_params)
+     #  my_params = removeBlanks(my_params)
+     Rails.logger.info("GOOGOO3 = #{my_params[:boolean_row]}")
+       
        # IF 1.1
        if my_params[:boolean_row].nil?
          my_params = makesingle(my_params)
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
+         my_params[:boolean_row] = blacklight_params[:boolean_row]
          return my_params
        # end IF 1.1
        end
@@ -418,9 +425,9 @@ end
               Rails.logger.info("FINISH0 = #{newstring}")
               holdarray = newstring.split('}')
               holdarray[1] = holdarray[1].chomp('"')
-              if my_params[:op_row][i] == "OR"
-                holdarray[1] = parse_query_row(holdarray[1], "OR")
-              end
+           #   if my_params[:op_row][i] == "OR"
+           #     holdarray[1] = parse_query_row(holdarray[1], "OR")
+           #   end
               #    if my_params[:op_row][i] == 'begins_with'
               #     holdarray[1] = parse_query_row(holdarray[1], "OR")
               #    end
@@ -450,6 +457,9 @@ end
                 if solr_stuff == "journal title"
                   solr_stuff = "journal title"
                 end
+                if solr_stuff == "notes"
+                  solr_stuff = "notes_qf"
+                end
                 field_name =  solr_stuff
                 if field_name == "journal title"
                     if my_params[:op_row][i] == 'begins_with'
@@ -462,13 +472,15 @@ end
                 else
                   if my_params[:op_row][i] == 'begins_with'
                       if field_name == 'all_fields'
-                            solr6query << " all_fields_starts:"
+                         field_name = " starts:"
+                         solr6query << field_name 
+                      else
+                        q_string2 << field_name << "_starts"<< " = "
+                        solr6query << " " << field_name << "_starts:"
                       end
-                      q_string2 << field_name << "_starts"<< " = "
-                      solr6query << " " << field_name << "_starts:"
                   else
                       q_string2 << field_name << " = "
-                      solr6query << field_name << ":"
+           #           solr6query << field_name << ":"
                   end
                 end
 
@@ -479,6 +491,7 @@ end
                 end
 
                 for j in 1..holdarray.count - 1
+                   opfill = ""
                    holdarray_parse = holdarray[j].split('_query_')
                    holdarray[1] = holdarray_parse[0]
                    if(j < holdarray.count - 1)
@@ -486,18 +499,57 @@ end
                         holdarray[1].gsub!('"','')
                         holdarray[1].gsub!('\\','')
                         q_string2 << holdarray[1]
+                        solr6query << "\"" + holdarray[1] + "\""
                       else
-                        q_string2 << holdarray[1]
+                        tokenArray = holdarray[1].split(" ")
+                        if tokenArray.size > 1
+                          newTerm = " ("
+                          if my_params[:op_row][i] == "AND"
+                            opfill = "AND"
+                          else
+                            opfill = "OR"
+                          end
+                          for k in 0..tokenArray.size - 2
+                                newTerm << field_name + ":" + tokenArray[k] + " " + opfill + " "
+                          end
+                          newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
+                          Rails.logger.info("WOOK = #{newTerm}")
+                          q_string2 << holdarray[1]
+                          solr6query << newTerm
+                        else
+                          q_string2 << holdarray[1]
+                          solr6query << field_name + ":" + holdarray[1] 
+                      end
                       end
                    else
                      if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' # || my_params[:op_row][i] == 'phrase'
                        holdarray[1].gsub!('"','')
                        holdarray[1].gsub!('\\','')
                        q_string2 << holdarray[1] << " "
+                       solr6query << "\"" + holdarray[1] + "\""
                      else
+                       tokenArray = holdarray[1].split(" ")
+                        if tokenArray.size > 1
+                          newTerm = " ("
+                          if my_params[:op_row][i] == "AND"
+                            opfill = "AND"
+                          else
+                            opfill = "OR"
+                          end
+                          for k in 0..tokenArray.size - 2
+                                newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
+                          end
+                          newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                          Rails.logger.info("WOOK = #{newTerm}")
+                          q_string2 << holdarray[1]
+                          solr6query << newTerm
+                        else
+
+                        Rails.logger.info("WOOK = #{tokenArray}")
+                        Rails.logger.info("WOOK1 = #{tokenArray.size}")
                        q_string2 << holdarray[1] << " "
-                       solr6query << holdarray[1]
-                    
+                       solr6query << field_name + ":" + holdarray[1] 
+                     end
                      end
 
                    end
@@ -508,6 +560,9 @@ end
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
                 q_string2 << " "
+                   Rails.logger.info("OPARRAYL = #{i}")
+                Rails.logger.info("OPARRAYM = #{opArray[i]}")
+
                 solr6query << " " + opArray[i] + " "
               end
               q_string2Array << q_string2
@@ -515,9 +570,10 @@ end
 
            end #of For C
            #fix opArray
- 
+        #   opArray = opArray.shift
         ####   test_q_string = groupBools(q_stringArray, opArray)
           test_q_string2 = groupBools(q_string2Array, opArray)
+        #  test_q_string2 = solr6query
            my_params[:show_query] = test_q_string2.gsub!('(', '')
            if !my_params[:show_query].nil?
              my_params[:show_query] = my_params[:show_query].gsub!(')','')
@@ -555,9 +611,13 @@ end
    #  my_params["q"] = "(+title:bauhaus) NOT (+subject:design)"  
     # my_params["q"] = "(title:bauhaus)OR (subject:design)"  
    #  my_params["q"] = "mm=1&q.op=OR&q=(title:bauhaus) OR subject:design"  
+   #  my_params["q"] = "title_starts:\"South\" NOT title_starts:\"South Africa\" NOT title_starts:\"South Carolina\""
+   #  my_params["q"] = "title:Minnesota AND  (author:Office OR author:of OR author:Personnel OR author:Management) NOT title_starts:\"small\""
      Rails.logger.info("FINISH1 = #{solr6query}")    
      Rails.logger.info("FINISH2 = #{my_params["q"]}")    
-    my_params["q"] = solr6query 
+
+
+     my_params["q"] = solr6query 
        return my_params
 
   end  #def
