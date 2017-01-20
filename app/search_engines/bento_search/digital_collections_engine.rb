@@ -31,8 +31,15 @@ class BentoSearch::DigitalCollectionsEngine
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
-      item.title = i['title_tesim'].to_s
-     
+      item.title = i['title_tesim'][0].to_s
+      if i['note_tesim'].present?
+      item.abstract = i['note_tesim'][0].to_s
+      elsif i['description_tesim'].present?
+        item.abstract = i['description_tesim'][0].to_s
+      end
+      if i['media_URL_size_0_tesim'].present?
+        item.format_str = i['media_URL_size_0_tesim'][0].to_s
+        end
       item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
       bento_results << item
     end

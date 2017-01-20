@@ -111,6 +111,7 @@ end
 BentoSearch.register_engine('digitalCollections') do |conf|
 	conf.engine = 'BentoSearch::DigitalCollectionsEngine'
 	conf.title = 'Digital Collections'
+	conf.for_display = {:decorator => "DigitalCollections"}
 end
 
 BentoSearch.register_engine('web') do |conf|
