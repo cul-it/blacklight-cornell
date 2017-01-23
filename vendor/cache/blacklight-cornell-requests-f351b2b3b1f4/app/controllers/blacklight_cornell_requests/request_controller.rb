@@ -60,7 +60,7 @@ module BlacklightCornellRequests
       # if the referer is a different path — i.e., /request/*, then we *do* want to
       # preserve the volume selection; this would be the case if the page is reloaded
       # or the user selects an alternate delivery method for the same item.
-      if session[:setvol].nil? && (request.referer && request.referer.include?('catalog'))
+      if session[:setvol].nil? && (request.referer && request.referer.include?('/catalog/'))
         session[:volume] = nil
       end
       session[:setvol] = nil
