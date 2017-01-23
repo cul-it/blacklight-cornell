@@ -124,6 +124,7 @@ Feature: Select and export items from the result set
 @select_and_email
 @javascript
   Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
+    Given PENDING 
     Given I request the item view for 7981095 
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"
