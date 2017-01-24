@@ -84,6 +84,8 @@ holdings =
     $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
       bibId = $(this).data('bibid')
       online = $(this).data('online')
+      if !online?
+        online = 'no' 
       if  bibId? and online == 'no'
         tibids.push bibId
         that = this 
