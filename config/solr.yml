@@ -11,23 +11,25 @@
 # how to start up solr, generally for automated testing.
 
 integration:
-  url: http://dasolr.library.cornell.edu/solr/blacklight2
+  url: http://da-dev-solr.library.cornell.edu/solr/test
+  #url: http://dasolr.library.cornell.edu/solr/blacklight2
   #url: http://da-dev-solr.library.cornell.edu/solr/blacklight
   #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
-  #url: http://da-dev-solr.library.cornell.edu/solr/test
 
 development:
-  url: http://da-prod-solr1.library.cornell.edu/solr/blacklight2
+#  url: http://da-prod-solr1.library.cornell.edu/solr/blacklight2
 #  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
   url: http://da-dev-solr.library.cornell.edu/solr/test
 
 test: &test
+  url: http://da-dev-solr.library.cornell.edu/solr/test
   #url: http://da-prod-solr3.library.cornell.edu/solr/blacklight2
-  url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
 
 production:
-  url: http://dasolr.library.cornell.edu/solr/blacklight2
+  #url: http://dasolr.library.cornell.edu/solr/blacklight2
   #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  url: http://da-dev-solr.library.cornell.edu/solr/test
 
 cucumber:
   <<: *test
