@@ -301,6 +301,18 @@ class SearchController < ApplicationController
     end
   end
 
-
- 
+  # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
+  def self.transform_query search_query
+    # Don't do anything for already-quoted queries or single-term queries
+    if search_query !~ /[\"\'].*?[\"\']/ and
+        search_query !~/[AND|OR|NOT]/ 
+        #search_query =~ /\w.+?\s\w.+?/
+      # create modified query: (+x +y +z) OR "x y z"
+      new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
+      # (have to use double quotes; single returns an incorrect result set from Solr!)
+      "(#{new_query}) OR \"#{search_query}\""
+    else
+      search_query
+    end
+  end
 end
