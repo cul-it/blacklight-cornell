@@ -202,7 +202,8 @@ class SearchController < ApplicationController
       else
          query = query.gsub('&','%26')
         #"#{cat_url}/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
-        "/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
+        #"/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
+        "/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}"
       end
     end
   end
