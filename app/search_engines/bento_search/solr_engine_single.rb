@@ -13,14 +13,16 @@ class BentoSearch::SolrEngineSingle
 
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort
-    Rails.logger.debug("mjc12test: BlacklightEngine2 search called. Query is #{args[:query]}}")
+    Rails.logger.debug("mjc12test: #{self.class.name} called. Query is #{args[:query]}}")
     bento_results = BentoSearch::Results.new
-
+    # solr search must be transformed to match simple search transformation.
+    q = SearchController.transform_query args[:query] 
+    Rails.logger.debug("mjc12test: BentoSearch::SolrEngineSingle called. #{__FILE__} #{__LINE__} transformed q = #{q}")
     #solr = RSolr.connect :url => 'http://da-prod-solr1.library.cornell.edu/solr/blacklight'
-    Rails.logger.debug("mjc12test: BlacklightEngine2 search called. #{__FILE__} #{__LINE__} url is #{configuration.solr_url}")
+    Rails.logger.debug("mjc12test: #{self.class.name} #{__FILE__} #{__LINE__} url is #{configuration.solr_url}")
     solr = RSolr.connect :url => configuration.solr_url
     solr_response = solr.get 'select', :params => {
-                                        :q => args[:query],
+                                        :q => q,
                                         #:fq => "format:\"#{format}\"",
                                        # :rows => args[:per_page],
                                         :rows => 20, # from sample single query; should set this dynamically?
@@ -30,11 +32,11 @@ class BentoSearch::SolrEngineSingle
                                         'group.ngroups' => 'true',
                                         :sort => 'score desc, pub_date_sort desc, title_sort asc', 
                                         :fl => 'id,pub_date_display,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,url_access_display',
-                                        :mm => '1'
+                                        :mm => 1 
                                         #:defType => 'edismax'
                                        }
 
-    Rails.logger.debug("mjc12test: BlacklightEngine2 search called. #{__FILE__} #{__LINE__} response is #{solr_response.inspect}")
+    Rails.logger.debug("mjc12test: BlacklightEngine2 search called. #{__FILE__} #{__LINE__} solr_response #{solr_response}")
     # Because all our facets are packaged in a single query, we have to treat this as a single result
     # in order to have bento_search process it correctly. We'll split up into different facets
     # once we get back to the controller!
