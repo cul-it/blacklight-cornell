@@ -56,6 +56,9 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'author/creator'
            blacklight_params[:search_field] = 'author'
         end
+        if blacklight_params[:search_field] == 'all_fields'
+           blacklight_params[:search_field] = ''
+        end
         blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
         user_parameters[:q] = blacklight_params[:q]

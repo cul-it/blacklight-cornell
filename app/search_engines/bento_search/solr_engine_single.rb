@@ -30,9 +30,11 @@ class BentoSearch::SolrEngineSingle
                                         'group.ngroups' => 'true',
                                         :sort => 'score desc, pub_date_sort desc, title_sort asc', 
                                         :fl => 'id,pub_date_display,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,url_access_display',
-                                        :defType => 'edismax'
+                                        :mm => '1'
+                                        #:defType => 'edismax'
                                        }
 
+    Rails.logger.debug("mjc12test: BlacklightEngine2 search called. #{__FILE__} #{__LINE__} response is #{solr_response.inspect}")
     # Because all our facets are packaged in a single query, we have to treat this as a single result
     # in order to have bento_search process it correctly. We'll split up into different facets
     # once we get back to the controller!
