@@ -74,7 +74,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         end
         search_session[:f] = params[:f]
     end
-
+    fieldname = ''
+    if params[:search_field] == 'call number'
+      fieldname = 'lc_callnum'
+    end
+    if params[:search_field] == 'author/creator'
+      fieldname = 'author' 
+    end
+    if params[:search_field] == 'all fields'
+      fieldname = ''
+    end
     #quote the call number
     if params[:search_field] == 'call number'
       params[:search_field] = 'lc_callnum'
@@ -93,12 +102,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
           qarray = params[:q].split
           params[:q] = '('
           if qarray.size == 1
-            params[:q] << '+' << qarray[0] << ') OR "' << qarray[0] << '"'
+            params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
           else
             qarray.each do |bits|
-              params[:q] << '+' << bits << ' '
+              params[:q] << '+' << fieldname << ':' << bits << ' '
             end
-            params[:q] << ') OR "' << qparam_display << '"'
+            params[:q] << ') OR "' << fieldname << ':' << qparam_display << '"'
           end#encoding: UTF-8
       else
         if params[:q].nil? or params[:q].blank?
@@ -117,6 +126,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if params[:search_field] == "all_fields"
        params[:search_field] = ''
     end
+    Rails.logger.info("BLANKY = #{params}")
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
