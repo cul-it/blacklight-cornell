@@ -219,6 +219,7 @@ Feature: Results list
     Given I am on the home page
     When I fill in the search box with '"head of the saint"'
     And I press 'search'
+    And I sleep 4 seconds
     Then I should get results
     And I should see the text 'Order Information'
 
