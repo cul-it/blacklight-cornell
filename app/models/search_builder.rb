@@ -438,13 +438,13 @@ end
          newMyParams[n] = my_params[:boolean_row][i]
        end
        my_params[:boolean_row] = newMyParams
-       
        # IF 1.1
-       if my_params[:boolean_row] == {}
+       if my_params[:boolean_row] == {} or my_params[:boolean_row].nil?
          my_params = makesingle(my_params)
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
         # my_params[:boolean_row] = blacklight_params[:boolean_row]
+       #  my_params[:q] = "((+Bibliotheca +Instituti +Historici) OR \"Bibliotheca Instituti Historici\")"
          return my_params
        # end IF 1.1
        end
@@ -565,7 +565,7 @@ end
                    holdarray_parse = holdarray[j].split('_query_')
                    holdarray[1] = holdarray_parse[0]
                    if(j < holdarray.count - 1)
-                      if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' #|| my_params[:op_row][i] == 'phrase'
+                      if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' || my_params[:op_row][i] == 'phrase'
                         holdarray[1].gsub!('"','')
                         holdarray[1].gsub!('\\','')
                         q_string2 << holdarray[1]
@@ -603,11 +603,15 @@ end
                       end
                       end
                    else
-                     if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' # || my_params[:op_row][i] == 'phrase'
+                     if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number'  || my_params[:op_row][i] == 'phrase'
                        holdarray[1].gsub!('"','')
                        holdarray[1].gsub!('\\','')
                        q_string2 << holdarray[1] << " "
-                       solr6query << "\"" + holdarray[1] + "\""
+                       if field_name == ''
+                          solr6query << "\"" + holdarray[1] + "\""
+                       else
+                          solr6query << field_name + ":\"" + holdarray[1] + "\""
+                       end
                      else
                        tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
@@ -701,9 +705,8 @@ end
    #  my_params["q"] = "title_starts:\"South\" NOT title_starts:\"South Africa\" NOT title_starts:\"South Carolina\""
    #  my_params["q"] = "title:Minnesota AND  (author:Office OR author:of OR author:Personnel OR author:Management) NOT title_starts:\"small\""
   #   my_params["q"] = "+marvel +masterworks"
+  #  solr6query = "(notes:English, AND notes:German, AND notes:Italian, AND notes:Latin, AND notes:or AND notes:Portugese)" # AND ((+Bibliotheca +Instituti +Historici) OR \\\"Bibliotheca Instituti Historici\\\")" 
      Rails.logger.info("FINISH1 = #{solr6query}")    
-     Rails.logger.info("FINISH2 = #{my_params["q"]}")    
-     
 
      my_params["q"] = solr6query 
        return my_params
@@ -741,22 +744,26 @@ end
                 if solr_stuff == "journal title"
                   solr_stuff = "journal title"
                 end
+                if solr_stuff == "notes"
+                  solr_stuff = "notes_qf"
+                end
                 if solr_stuff == "all_fields"
                   solr_stuff = ''
                 end
                 field_name =  solr_stuff
                 if field_name == "journal title"
-                    if my_params[:op_row][i] == 'begins_with'
-                      field_name = "title_starts"
+                   # if my_params[:op_row][i] == 'begins_with'
+                    if op_name == 'begins_with'
+                      field_name = "title_starts:"
                     else
-                      field_name = "title"
+                      field_name = "title:"
                     end
                     
-                    if field_name == 'all_fields'
-                      query << ""
-                    else
-                      query << field_name << ":" << field_name << " format=Journal"
-                    end
+            #        if field_name == 'all_fields'
+            #          query << ""
+            #        else
+            #          query << field_name << ":" << query << " format=Journal"
+            #        end
                    # q_string2 << field_name << " = "
                    # q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
   
@@ -781,18 +788,20 @@ end
               end 
           if my_params[:q_row].count == 1
             querystring = my_params[:q_row][0]
-            if field_name == "lc_callnum"
+            if field_name == "lc_callnum" or op_name == "phrase" or op_name == "begins_with"
               query = "\"" + querystring + "\" "
             else   
               query = query << querystring 
             end
             my_params[:q] = query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
-   #    my_params.delete(:q_row)
-   #    my_params.delete(:op_row)
-   #    my_params.delete(:search_field_row)
-   #    my_params.delete(:boolean_row)
+       my_params.delete(:q_row)
+       my_params.delete(:op_row)
+       my_params.delete(:search_field_row)
+       my_params.delete(:boolean_row)
    #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
+        my_params[:mm] = 1
+       # blacklight_params = my_params
     return my_params
   
   end
