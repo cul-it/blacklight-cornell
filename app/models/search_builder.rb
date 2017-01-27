@@ -30,21 +30,22 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
-      Rails.logger.info("GOOGOO = #{blacklight_params}")
       my_params = make_adv_query(blacklight_params)
-      Rails.logger.info("GOOGOO1 = #{my_params}")
       #blacklight_params = my_params
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
+      if !my_params[:q_row].nil?
       blacklight_params[:q_row].each do |term|
         spellstring << term << ' '
       end
+      
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
+      else
+      end
       user_parameters[:q] = my_params[:q]
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
-      Rails.logger.info("FINISH4 = #{user_parameters}")
     else 
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
@@ -56,13 +57,16 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'author/creator'
            blacklight_params[:search_field] = 'author'
         end
-        if blacklight_params[:search_field] == 'all_fields'
-           blacklight_params[:search_field] = ''
+        if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
+          blacklight_params[:q] = blacklight_params[:q]
+        else
+          blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
         end
-        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
-    #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+    #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
+        blacklight_params[:search_field] = ''
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
+        user_parameters["mm"] = "1"
       end
     end
   end
@@ -390,19 +394,29 @@ end
              testSFRow << my_params[:search_field_row][i]
           end
        end
-       for i in 1..my_params[:boolean_row].count 
-          if !my_params[:q_row][i - 1].blank? and !my_params[:q_row][i - 1].nil?
-            if !my_params[:q_row][i].nil? and !my_params[:q_row][i].blank?
-              testBRow << my_params[:boolean_row][i.to_s.to_sym]
+       hasNonBlankcount = 0
+       for i in 0..my_params[:q_row].count - 1  
+          if my_params[:q_row][i].blank? or my_params[:q_row][i].nil?
+          #  if i == 0
+          #    next
+          #  end
+          #  if i == my_params[:q_row].count - 1
+              next
+          #  end
+          else
+            hasNonBlankcount = hasNonBlankcount + 1
+            if i == my_params[:q_row].count - 1 and  hasNonBlankcount > 0
+                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
             end
-         # else
-         #   testBRow << my_params[:boolean_row][i.to_s.to_sym]
+            if i != my_params[:q_row].count - 1 and (hasNonBlankcount > 0 and my_params[:q_row][i + 1].blank?) 
+                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
+            end
           end
        end
-        Rails.logger.info("TESTBROW = #{testBRow}")
-        Rails.logger.info("TESTBROWq = #{testQRow}")
-        Rails.logger.info("TESTBROWo = #{testOpRow}")
-        Rails.logger.info("TESTBROWs = #{testSFRow}")
         my_params[:q_row] = testQRow
         my_params[:op_row] = testOpRow
         my_params[:search_field_row] = testSFRow
@@ -412,12 +426,10 @@ end
     def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
-     Rails.logger.info("GOOGOO2 = #{my_params}")
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
        blacklight_params = my_params
-       Rails.logger.info("MYPARAMS1 = #{my_params}")
        newMyParams = {}
        for i in 0..my_params[:boolean_row].count - 1
          n = i + 1
@@ -425,16 +437,13 @@ end
          newMyParams[n] = my_params[:boolean_row][i]
        end
        my_params[:boolean_row] = newMyParams
-     Rails.logger.info("GOOGOO3 = #{my_params[:boolean_row]}")
-     Rails.logger.info("GOOGOO2 = #{my_params}")
-     Rails.logger.info("GOOGOO3 = #{blacklight_params}")
        
        # IF 1.1
-       if my_params[:boolean_row].nil?
+       if my_params[:boolean_row] == {}
          my_params = makesingle(my_params)
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
-         my_params[:boolean_row] = blacklight_params[:boolean_row]
+        # my_params[:boolean_row] = blacklight_params[:boolean_row]
          return my_params
        # end IF 1.1
        end
@@ -481,7 +490,6 @@ end
               pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
               returned_query = ParsingNesting::Tree.parse(newpass)
               newstring = returned_query.to_query(pass_param)
-              Rails.logger.info("FINISH0 = #{newstring}")
               holdarray = newstring.split('}')
               holdarray[1] = holdarray[1].chomp('"')
            #   if my_params[:op_row][i] == "OR"
@@ -519,6 +527,9 @@ end
                 if solr_stuff == "notes"
                   solr_stuff = "notes_qf"
                 end
+                if solr_stuff == "all_fields"
+                  solr_stuff = ""
+                end
                 field_name =  solr_stuff
                 if field_name == "journal title"
                     if my_params[:op_row][i] == 'begins_with'
@@ -530,7 +541,7 @@ end
   
                 else
                   if my_params[:op_row][i] == 'begins_with'
-                      if field_name == 'all_fields'
+                      if field_name == ''
                          field_name = " starts:"
                          solr6query << field_name 
                       else
@@ -546,9 +557,8 @@ end
               end #of if
               if holdarray.count > 1 #D
                 if field_name.nil?
-                  field_name = 'all_fields'
+                  field_name = ''
                 end
-
                 for j in 1..holdarray.count - 1
                    opfill = ""
                    holdarray_parse = holdarray[j].split('_query_')
@@ -569,15 +579,26 @@ end
                             opfill = "OR"
                           end
                           for k in 0..tokenArray.size - 2
+                               if field_name == ''
+                                newTerm << field_name + tokenArray[k] + " " + opfill + " "
+                              else
                                 newTerm << field_name + ":" + tokenArray[k] + " " + opfill + " "
+                              end
                           end
+                          if field_name == ''
+                          newTerm << + tokenArray[tokenArray.size - 1] + ")"
+                          else
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
-                          Rails.logger.info("WOOK = #{newTerm}")
+                          end
                           q_string2 << holdarray[1]
                           solr6query << newTerm
                         else
                           q_string2 << holdarray[1]
+                          if field_name == ''
+                          solr6query << field_name  + holdarray[1] 
+                          else
                           solr6query << field_name + ":" + holdarray[1] 
+                          end
                       end
                       end
                    else
@@ -596,18 +617,27 @@ end
                             opfill = "OR"
                           end
                           for k in 0..tokenArray.size - 2
+                               if field_name == ''
+                                newTerm << field_name + tokenArray[k] + " " +opfill + " "
+                               else
                                 newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
+                               end
                           end
+                          if field_name == ''
+                          newTerm <<  tokenArray[tokenArray.size - 1] + ")"
+                          else
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
-                          Rails.logger.info("WOOK = #{newTerm}")
+                          end
                           q_string2 << holdarray[1]
                           solr6query << newTerm
                         else
 
-                        Rails.logger.info("WOOK = #{tokenArray}")
-                        Rails.logger.info("WOOK1 = #{tokenArray.size}")
                        q_string2 << holdarray[1] << " "
-                       solr6query << " " + field_name + ":" + holdarray[1] 
+                       if field_name == ''
+                       solr6query << " " + holdarray[1] 
+                       else
+                        solr6query << " " + field_name + ":" + holdarray[1]
+                       end 
                      end
                      end
 
@@ -619,8 +649,6 @@ end
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
                 q_string2 << " "
-                   Rails.logger.info("OPARRAYL = #{i}")
-                Rails.logger.info("OPARRAYM = #{opArray[i]}")
 
                 solr6query << " " + opArray[i] + " "
               end
@@ -640,7 +668,6 @@ end
            end
          end #B
        else #A
-         
          if params[:search_field] == "call number" and !my_params[:q].nil? and !my_params[:q].include?('"')
            params[:q] = '"' + my_params[:q] + '"'
          end
@@ -672,9 +699,10 @@ end
    #  my_params["q"] = "mm=1&q.op=OR&q=(title:bauhaus) OR subject:design"  
    #  my_params["q"] = "title_starts:\"South\" NOT title_starts:\"South Africa\" NOT title_starts:\"South Carolina\""
    #  my_params["q"] = "title:Minnesota AND  (author:Office OR author:of OR author:Personnel OR author:Management) NOT title_starts:\"small\""
+  #   my_params["q"] = "+marvel +masterworks"
      Rails.logger.info("FINISH1 = #{solr6query}")    
      Rails.logger.info("FINISH2 = #{my_params["q"]}")    
-
+     
 
      my_params["q"] = solr6query 
        return my_params
@@ -686,7 +714,7 @@ end
     query = my_params[:q_row][0]
     field_name = my_params[:search_field_row][0]
     op_name = my_params[:op_row][0]
-    query = "_query_:\\\"{!edismax "
+    query = ""
     
               fieldNames = blacklight_config.search_fields["#{field_name}"]
               if !fieldNames.nil?
@@ -712,6 +740,9 @@ end
                 if solr_stuff == "journal title"
                   solr_stuff = "journal title"
                 end
+                if solr_stuff == "all_fields"
+                  solr_stuff = ''
+                end
                 field_name =  solr_stuff
                 if field_name == "journal title"
                     if my_params[:op_row][i] == 'begins_with'
@@ -719,35 +750,30 @@ end
                     else
                       field_name = "title"
                     end
-                    query << " qf=$" 
+                    
                     if field_name == 'all_fields'
-                      query << "qf pf=$pf"
+                      query << ""
                     else
-                      query << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+                      query << field_name << ":" << field_name << " format=Journal"
                     end
                    # q_string2 << field_name << " = "
                    # q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
   
                 else
                   if op_name == 'begins_with'
-                      query << " qf=$" 
+                      query << "" 
                       if field_name == 'all_fields'
-                        query << "starts_qf pf=$starts_pf"
+                        query << "starts:"
                       else
-                        query << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                        query << field_name << "_starts:"
                       end
-                  #    q_string2 << field_name << "_starts"<< " = "
-                  #    q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
-                  #    Rails.logger.info("BERNICE2 = #{q_string}")
                   else
-                      query << " qf=$" 
+                      query << "" 
                       if field_name == 'all_fields'
-                        query << "qf pf=$pf"
+                        query << ""
                       else
-                        query << field_name << "_qf pf=$" << field_name << "_pf"
+                        query << field_name << ":"
                       end
-                    #  q_string2 << field_name << " = "
-                    #  q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
                   end
                 end
 
@@ -755,28 +781,23 @@ end
           if my_params[:q_row].count == 1
             querystring = my_params[:q_row][0]
             if field_name == "lc_callnum"
-              query = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"" + querystring + "\\\" "
+              query = "\"" + querystring + "\" "
             else   
-              query = query << "}" + querystring + "\""
+              query = query << querystring 
             end
             my_params[:q] = query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
+   #    my_params.delete(:q_row)
+   #    my_params.delete(:op_row)
+   #    my_params.delete(:search_field_row)
+   #    my_params.delete(:boolean_row)
+   #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
     return my_params
   
   end
   def groupBools(q_stringArray, opArray)
      grouped = []
-#     rightParens = opArray.length
-#     closingparens = ""
-#     i = 1
-#     Rails.logger.info("OPARRAY = #{opArray}")
-#     while i <= rightParens do
-#       closingparens = closingparens + ")"
-#       i += 1
-#     end
- #    Rails.logger.info("FLATTER0 = #{q_stringArray}")
      newString = q_stringArray.flatten
- #    Rails.logger.info("FLATTER = #{newString}")
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
@@ -814,98 +835,7 @@ end
      return newString
   end
 
-#  def parse_for_stemming(params)
-#    query_string = params[:q]
-#    search_field = params[:search_field]
-##    unless query_string.nil?
-#     if query_string =~ /^\".*\"$/ or query_string.include?('"')
-#       Rails.logger.info("STEMfullstringquoted = #{query_string}")
-#       params[:search_field] = params[:search_field] + '_quote'
-#       return query_string
-#     else 
-#       unless query_string.nil?
-#         params[:q_row] = parse_stem(query_string)
-#         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
-#       end
-#       return query_string       
-#     end
-##    end
-#  end
   
-#  def parse_stem(query_string)
-#    string_chars = query_string.chars
-#    Rails.logger.info("PARSER = #{string_chars}")
-#    quoteFlag = 0
-#    wordArray = []
-##   if !query_string == /^\".*\"$/ # query_string.include?('"')
-#   if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
-#    Rails.logger.info("POOP #{query_string}")
-#    search_field = params[:search_field]
-#    params[:q_row] = []
-#    params[:search_field_row] = []
-#    params[:op_row] = []
-#    params[:op] = []
-#    params[:boolean_row] = {}
-#    params[:q] = ""
-#    string_chars.each do |i|
-#      if i == '"'
-#        if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
-#          wordArray << i
-#          params[:q] << i
-#          params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
-#          params[:op_row] << "phrase"
-#          params[:search_field_row] << search_field + "_quote"
-#          quoteFlag = 0 #reset quote flag
-#          wordArray = [] #clear out wordArray
-#        else # must be left hand quote
-#          if !wordArray.empty?
-#            params[:q_row] << wordArray.join.strip
-#            params[:op_row] << "AND"
-#            params[:search_field_row] << search_field
-#            wordArray = []
-#          end
-#          quoteFlag = 1
-#          wordArray << i
-#          params[:q] << i
-#        end
-#      else
-#        wordArray << i
-#        params[:q] << i
-#      end
-#    end
-#    if !wordArray.empty?
-#      if quoteFlag == 1
-#        wordArray << '"'
-#        params[:q]<< '"'
-#        Rails.logger.info("GLADYS = #{wordArray}")
-#        params[:q_row] << wordArray.join.strip
-#        params[:op_row] << "phrase"
-#        params[:search_field_row] << search_field + "_quote"
-#        wordArray = []
-#        quoteFlag = 0
-#      else 
-#        if quoteFlag == 0
-#        Rails.logger.info("GLADYS1 = #{wordArray}")
-#          params[:q_row] << wordArray.join.strip
-#           params[:op_row] << "AND"
-#          params[:search_field_row] << search_field 
-#         wordArray = []
-#        end
-#      end
-#    end 
-#    times = params[:q_row].count
-#    for j in 1..times -1
-#      x = j
-#      n = x.to_s
-#      params[:boolean_row]["#{j}"] = "AND"
-#      params[:op][j - 1] = "AND"
-#    end
-#    Rails.logger.info("PUTREFLIP = #{params}")
-#    return params
-#   else
-#     return query_string
-#   end
-#  end
   def reorderBooleanRow(paramshash) 
     newHash = {}
     newKey = 1
