@@ -15,6 +15,10 @@ Then /^click on first link "(.*?)"$/ do |link|
   l.click 
 end
 
+Then /^results should contain "(.*?)" with value "(.*?)"$/ do |field, author|
+  page.should have_selector(field_result_to(field), :text => author,:exact =>false )
+end
+
 Then /^it should contain "(.*?)" with value "(.*?)"$/ do |field, author|
   page.should have_selector(field_to(field), :text => author,:exact =>false )
 end
@@ -27,6 +31,10 @@ end
 
 Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
   page.should have_selector(field_to(field), :text => author,:exact =>false)
+end
+
+Then /^results should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
+  page.should have_selector(field_result_to(field), :text => author,:exact =>false)
 end
 
 Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|

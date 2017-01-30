@@ -46,7 +46,7 @@ Feature: Item view
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
-    Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+    Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
   @all_item_view
@@ -104,7 +104,7 @@ Feature: Item view
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
-    Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+    Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-138
   @all_item_view
@@ -189,11 +189,11 @@ Feature: Item view
   #  Given I request the item view for 44112 
   #  Then I should see the label '2 volumes'
 
-  # Availability for an on order item. "Problems for the mathematical olympiads" 
+  # Availability for an on order item. "the head of the saint / Socorro Acioli" 
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an item on order 
-    Given I request the item view for 8052244 
+    Given I request the item view for 9756432 
     Then I should see the label 'Copy Ordered'
 
   # On the other hand some subscriptions remain "on order" for years, and should NOT 
