@@ -85,12 +85,12 @@ class CatalogController < ApplicationController
         },
         'related_work_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'title',
             :sep => '|',
             :key_value => true
         },
         'author_cts' => {
-            :search_field => 'author/creator',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
@@ -108,18 +108,18 @@ class CatalogController < ApplicationController
             :pair_list_json => true
         },
         'author_addl_cts' => {
-            :search_field => 'author/creator',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
         },
         'title_series_cts' => {
-          :search_field => 'title',
+          :search_field => 'series',
           :sep => '|',
           :key_value => true
         },
         'subject_cts' => {
-            :search_field => 'subject',
+            :search_field => 'subject_cts',
             :sep => '|',
             :sep_index => ' ',
             :sep_display => ' > ',
@@ -134,7 +134,7 @@ class CatalogController < ApplicationController
         },
         'title_uniform_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'title',
             :sep => '|',
             :key_value => true
         },
@@ -712,7 +712,7 @@ class CatalogController < ApplicationController
 
 
     #combined author CTS field made from the multiple author browse fields
-    config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
+    config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
@@ -722,7 +722,7 @@ class CatalogController < ApplicationController
     end
 
     #combined subject CTS field made from the multiple subject browse fields
-    config.add_search_field('subject_cts_search',:label=>'Subject') do |field|
+    config.add_search_field('subject_cts',:label=>'Subject') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
