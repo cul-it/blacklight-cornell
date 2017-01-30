@@ -189,11 +189,11 @@ Feature: Item view
   #  Given I request the item view for 44112 
   #  Then I should see the label '2 volumes'
 
-  # Availability for an on order item. "the head of the saint / Socorro Acioli" 
+  # Availability for an on order item. "Roads to paradise : eschatology and concepts"
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an item on order 
-    Given I request the item view for 9756432 
+    Given I request the item view for 9717170 
     Then I should see the label 'Copy Ordered'
 
   # On the other hand some subscriptions remain "on order" for years, and should NOT 
