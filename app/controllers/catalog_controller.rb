@@ -79,13 +79,13 @@ class CatalogController < ApplicationController
             :pair_list => true
         },
         'author_json' => {
-            :search_field => 'author_cts',
+            :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list_json => true
         },
         'author_addl_json' => {
-            :search_field => 'author_cts',
+            :search_field => 'author/creator',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list_json => true
@@ -97,7 +97,7 @@ class CatalogController < ApplicationController
             :pair_list => true
         },
         'title_series_cts' => {
-          :search_field => 'title',
+          :search_field => 'series',
           :sep => '|',
           :key_value => true
         },
@@ -109,7 +109,7 @@ class CatalogController < ApplicationController
             :hierarchical => true
         },
         'subject_json' => {
-            :search_field => 'subject_cts',
+            :search_field => 'subject',
             :sep => '|',
             :sep_index => ' > ',
             :sep_display => ' > ',
