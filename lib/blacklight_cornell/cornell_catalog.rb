@@ -342,7 +342,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 ##    end
      def sms_action documents
        to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-       tinyPass = request.protocol + request.host_with_port + facet_catalog_path(params['id'])
+       tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
        tiny = tiny_url(tinyPass)
        mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
        print mail.pretty_inspect
@@ -357,7 +357,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        tinyPass = request.protocol + request.host_with_port + facet_catalog_path(params['id'])
+        tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
         tiny = tiny_url(tinyPass)
         if params[:to]
           phone_num = params[:to].gsub(/[^\d]/, '')
