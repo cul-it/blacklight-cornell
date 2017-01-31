@@ -58,7 +58,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       check_dates(params)
     end
     qparam_display = ''
-
+    fieldname = ''
     # Journal title search hack.
     if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
       if params[:f].nil?
@@ -77,13 +77,18 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     fieldname = ''
     if params[:search_field] == 'call number'
       fieldname = 'lc_callnum'
-    end
-    if params[:search_field] == 'author/creator'
+    else
+     if params[:search_field] == 'author/creator'
       fieldname = 'author' 
+     else
+       if params[:search_field] == 'all_fields'
+         fieldname = ''
+       else
+         fieldname = params[:search_field]
+       end
+     end
     end
-    if params[:search_field] == 'all fields'
-      fieldname = ''
-    end
+    
     #quote the call number
     if params[:search_field] == 'call number'
       params[:search_field] = 'lc_callnum'
@@ -92,22 +97,36 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         search_session[:q] = params[:q]
       end
     end
-    if params[:search_field] != 'journal title ' and params[:search_field] != 'call number'
+    if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
      if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
        params[:q] = params[:q]
      else
-      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
+      Rails.logger.info("BOODY = #{params[:search_field]}")
+      if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
           qparam_display = params[:q]
           params[:qdisplay] = params[:q]
           qarray = params[:q].split
+          Rails.logger.info("SUBJECT = #{fieldname}")
           params[:q] = '('
           if qarray.size == 1
-            params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+            if fieldname == ''
+              params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
+            else
+              params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+            end
           else
             qarray.each do |bits|
-              params[:q] << '+' << fieldname << ':' << bits << ' '
+              if fieldname == ''
+                 params[:q] << '+' << bits << ' '
+              else
+                 params[:q] << '+' << fieldname << ':' << bits << ' '
+              end
             end
-            params[:q] << ') OR "' << fieldname << ':' << qparam_display << '"'
+            if fieldname == ''
+              params[:q] << ') OR "' << qparam_display << '"'
+            else
+              params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+            end
           end#encoding: UTF-8
       else
         if params[:q].nil? or params[:q].blank?
@@ -123,9 +142,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #      params[:q] = "\"" << params[:q] << "\""
 #    end
 #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
+#    params[:q] = '((notes_qf:"English, German, Italian, Latin, or Portugese" AND "Bibliotheca Instituti Historici") OR ("turkeys" NOT "spam"))'
     if params[:search_field] == "all_fields"
        params[:search_field] = ''
     end
+#    blacklight_params = params
     Rails.logger.info("BLANKY = #{params}")
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
