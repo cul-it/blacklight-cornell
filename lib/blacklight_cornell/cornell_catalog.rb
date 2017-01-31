@@ -146,7 +146,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 #    blacklight_params = params
     blank_search = 0
-    if params[:q].nil? or params[:search_field]  == ""
+    if params[:q].nil? and  params[:search_field]  == ""
       blank_search = 1
       params[:q] = "*"
       params[:mm] = 1
