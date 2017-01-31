@@ -101,8 +101,7 @@ Feature: Results list
     And I fill in the search box with 'architecture'
     And I press 'search'
     Then I should get results
-    # Note: this is record 1346, which appears as the first search result currently
-    Then results should have a "pub_info" that looks sort of like "London : Thames & Hudson"
+    Then results should have a "pub_info" that looks sort of like "London : Laurence King Publishing Feb. 2010"
 
 
 
