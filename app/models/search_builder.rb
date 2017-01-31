@@ -28,6 +28,9 @@ class SearchBuilder < Blacklight::SearchBuilder
     query_string = ""
     qparam_display = ""
     my_params = {}
+    Rails.logger.info("UPS = #{user_parameters}")
+    Rails.logger.info("UPS1 = #{blacklight_params}")
+
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
       my_params = make_adv_query(blacklight_params)
@@ -42,14 +45,18 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
       end
-      user_parameters[:q] = my_params[:q]
+      Rails.logger.info("UPT = #{user_parameters}")
+      Rails.logger.info("UPT1 = #{blacklight_params}")
+      user_parameters[:q] = blacklight_params[:q]
+ #     blacklight_params[:q] = user_parameters[:q]
+      
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
     else 
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
-     
+      Rails.logger.info("DOUBTER = #{blacklight_params}")
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
@@ -57,13 +64,19 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'author/creator'
            blacklight_params[:search_field] = 'author'
         end
+        Rails.logger.info("DOUBTER03 = #{blacklight_params}")
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
-          blacklight_params[:q] = blacklight_params[:q]
+        blacklight_params[:q] = blacklight_params[:q]
+          Rails.logger.info("DOUBTER04 = #{blacklight_params}")
         else
-          blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+        Rails.logger.info("DOUBTER05 = #{blacklight_params}")
+#        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+        blacklight_params[:q] = blacklight_params[:q]
+        Rails.logger.info("DOUBTER1 = #{blacklight_params}")
         end
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
         blacklight_params[:search_field] = ''
+        Rails.logger.info("Porky = #{blacklight_params[:q]}")
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
         user_parameters["mm"] = "1"
@@ -348,45 +361,12 @@ class SearchBuilder < Blacklight::SearchBuilder
     return countit
   end
 
-def oldremoveBlanks(params)
-     queryRowArray = [] #params[:q_row]
-     booleanRowArray = [] #params[:boolean_row]
-     subjectFieldArray = [] #params[:search_field_row]
-     opRowArray = [] #params[:op_row]
-     boolHoldHash = {}
-     qrowIndexes = []
-     qrowSize = params[:q_row].count
-     booleanRowCount = 1
-     for i in 0..qrowSize - 1 
-       n = (i + 1).to_s
-       if params[:q_row][i] != ""
-         qrowIndexes << i
-         queryRowArray << params[:q_row][i]
-         opRowArray <<  params[:op_row][i]
-         subjectFieldArray << params[:search_field_row][i]
-       end
-       if qrowIndexes[0] == 0
-         for i in 1..qrowIndexes.count - 1
-           n = qrowIndexes[i].to_s
-           boolHoldHash["#{booleanRowCount}"] = params[:boolean_row][n.to_sym]
-           booleanRowCount = booleanRowCount + 1
-         end
-       else
- #not sure if needed yet      
-       end
-    end
-     params[:q_row] = queryRowArray
-     params[:op_row] = opRowArray
-     params[:search_field_row] = subjectFieldArray
-     params[:boolean_row] = boolHoldHash
-
-     return params
-end
     def removeBlanks(my_params = params || {} )
        testQRow = [] #my_params[:q_row]
        testOpRow = []
        testSFRow = []
        testBRow = []
+       Rails.logger.info("RBB = #{my_params}")
        for i in 0..my_params[:q_row].count - 1
           if my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?
              testQRow << my_params[:q_row][i]
@@ -405,12 +385,12 @@ end
           #  end
           else
             hasNonBlankcount = hasNonBlankcount + 1
-            if i == my_params[:q_row].count - 1 and  hasNonBlankcount > 0
+            if i == my_params[:q_row].count - 1 and  hasNonBlankcount > 1
                 if !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end
-            if i != my_params[:q_row].count - 1 and (hasNonBlankcount > 0 and my_params[:q_row][i + 1].blank?) 
+            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
                 if !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
@@ -421,14 +401,17 @@ end
         my_params[:op_row] = testOpRow
         my_params[:search_field_row] = testSFRow
         my_params[:boolean_row] = testBRow
+        Rails.logger.info("RBB1 = #{my_params}")
        return my_params
      end
-    def make_adv_query(my_params = params || {})
+
+   def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
+       Rails.logger.info("REMOVAL1 = #{my_params}")
        blacklight_params = my_params
        newMyParams = {}
        for i in 0..my_params[:boolean_row].count - 1
@@ -485,7 +468,7 @@ end
                 newpass = my_params[:q_row][i]
               end
               if my_params[:search_field_row][i] == 'journal title'
-                my_params['format'] = "Journal"
+                my_params['format'] = "Journal/Periodical"
               end
               pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
               returned_query = ParsingNesting::Tree.parse(newpass)
@@ -522,7 +505,7 @@ end
                   solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
-                  solr_stuff = "journal title"
+                  solr_stuff = "journal"
                 end
                 if solr_stuff == "notes"
                   solr_stuff = "notes_qf"
@@ -531,7 +514,7 @@ end
                   solr_stuff = ""
                 end
                 field_name =  solr_stuff
-                if field_name == "journal title"
+                if field_name == "journal"
                     if my_params[:op_row][i] == 'begins_with'
                       field_name = "title_starts"
                     else
@@ -786,13 +769,36 @@ end
 
               end 
           if my_params[:q_row].count == 1
-            querystring = my_params[:q_row][0]
+            qarray = my_params[:q_row][0].split
+            newq = '('
+            if qarray.size == 1
+               if field_name == ''
+                 newq << qarray[0] << ') OR "' << qarray[0] << '"'
+               else
+                 newq << '+' << field_name << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+               end
+            else
+               qarray.each do |bits|
+                  if field_name == ''
+                     newq << '+' << bits << ' '
+                  else
+                     newq << '+' << field_name << ':' << bits << ' '
+                  end
+               end
+               if field_name == ''
+                  newq << ') OR "' << my_params[:q_row][0] << '"'
+               else
+                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+               end
+          end#encoding: UTF-8
+  
+            querystring = newq #my_params[:q_row][0]
             if field_name == "lc_callnum" or op_name == "phrase" or op_name == "begins_with"
               query = "\"" + querystring + "\" "
             else   
               query = query << querystring 
             end
-            my_params[:q] = query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
+            my_params[:q] = newq #query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
        my_params.delete(:q_row)
        my_params.delete(:op_row)
@@ -801,6 +807,7 @@ end
    #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
         my_params[:mm] = 1
        # blacklight_params = my_params
+          Rails.logger.info("FINISHER = #{my_params}")
     return my_params
   
   end
