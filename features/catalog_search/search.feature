@@ -134,6 +134,7 @@ Feature: Search
     And I fill in the search box with '"The Professional Manager"'
     And I press 'search'
     Then I should get results
+    And I sleep 5 seconds
     And I should see the "fa-check" class
     And I should see the label 'Multiple locations' 
 
