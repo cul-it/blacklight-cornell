@@ -216,7 +216,7 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order
     Given I am on the home page
-    When I fill in the search box with '"head of the saint"'
+    When I fill in the search box with '"Deconstructing the High line"'
     And I press 'search'
     And I sleep 4 seconds
     Then I should get results
