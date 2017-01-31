@@ -28,8 +28,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     query_string = ""
     qparam_display = ""
     my_params = {}
-    Rails.logger.info("UPS = #{user_parameters}")
-    Rails.logger.info("UPS1 = #{blacklight_params}")
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
@@ -45,8 +43,6 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
       end
-      Rails.logger.info("UPT = #{user_parameters}")
-      Rails.logger.info("UPT1 = #{blacklight_params}")
       user_parameters[:q] = blacklight_params[:q]
  #     blacklight_params[:q] = user_parameters[:q]
       
@@ -56,7 +52,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     else 
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
-      Rails.logger.info("DOUBTER = #{blacklight_params}")
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
@@ -64,19 +59,14 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'author/creator'
            blacklight_params[:search_field] = 'author'
         end
-        Rails.logger.info("DOUBTER03 = #{blacklight_params}")
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
         blacklight_params[:q] = blacklight_params[:q]
-          Rails.logger.info("DOUBTER04 = #{blacklight_params}")
         else
-        Rails.logger.info("DOUBTER05 = #{blacklight_params}")
 #        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
         blacklight_params[:q] = blacklight_params[:q]
-        Rails.logger.info("DOUBTER1 = #{blacklight_params}")
         end
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
         blacklight_params[:search_field] = ''
-        Rails.logger.info("Porky = #{blacklight_params[:q]}")
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
         user_parameters["mm"] = "1"
@@ -366,7 +356,6 @@ class SearchBuilder < Blacklight::SearchBuilder
        testOpRow = []
        testSFRow = []
        testBRow = []
-       Rails.logger.info("RBB = #{my_params}")
        for i in 0..my_params[:q_row].count - 1
           if my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?
              testQRow << my_params[:q_row][i]
@@ -401,7 +390,6 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:op_row] = testOpRow
         my_params[:search_field_row] = testSFRow
         my_params[:boolean_row] = testBRow
-        Rails.logger.info("RBB1 = #{my_params}")
        return my_params
      end
 
@@ -411,7 +399,6 @@ class SearchBuilder < Blacklight::SearchBuilder
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
-       Rails.logger.info("REMOVAL1 = #{my_params}")
        blacklight_params = my_params
        newMyParams = {}
        for i in 0..my_params[:boolean_row].count - 1
@@ -775,7 +762,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                if field_name == ''
                  newq << qarray[0] << ') OR "' << qarray[0] << '"'
                else
-                 newq << '+' << field_name << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                 newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
                end
             else
                qarray.each do |bits|
