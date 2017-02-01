@@ -572,14 +572,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                       end
                       end
                    else
-                     if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number'  || my_params[:op_row][i] == 'phrase'
+                     if my_params[:op_row][i] == 'begins_with' or my_params[:search_field_row][i] == 'call number' or my_params[:op_row][i] == 'phrase'
                        holdarray[1].gsub!('"','')
                        holdarray[1].gsub!('\\','')
                        q_string2 << holdarray[1] << " "
                        if field_name == ''
                           solr6query << "\"" + holdarray[1] + "\""
                        else
-                          solr6query << field_name + ":\"" + holdarray[1] + "\""
+                          solr6query << "\"" + holdarray[1] + "\""
                        end
                      else
                        tokenArray = holdarray[1].split(" ")
@@ -757,14 +757,29 @@ class SearchBuilder < Blacklight::SearchBuilder
               end 
           if my_params[:q_row].count == 1
             qarray = my_params[:q_row][0].split
+            if op_name == 'begins_with'
+              if field_name == ''
+                field_name == 'starts'
+              else
+                field_name = field_name + '_starts'
+              end
+            else
+            end
             newq = '('
             if qarray.size == 1
                if field_name == ''
                  newq << qarray[0] << ') OR "' << qarray[0] << '"'
-               else
-                 newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+               else 
+                 if op_name == 'begins_with' or op_name = 'phrase' or field_name = 'lc_callnum'
+                   newq << '+' << field_name << ':"' << qarray[0] << '") OR ' << field_name << ':"' << qarray[0] << '"'
+                 else
+                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                 end
                end
             else
+              if op_name == 'begins_with' or op_name = 'phrase' or field_name = 'lc_callnum'
+                newq << '+' << field_name << ':"' << my_params[:q_row][0] << '") OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+              else  
                qarray.each do |bits|
                   if field_name == ''
                      newq << '+' << bits << ' '
@@ -777,14 +792,15 @@ class SearchBuilder < Blacklight::SearchBuilder
                else
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
                end
+            end
           end#encoding: UTF-8
   
-            querystring = newq #my_params[:q_row][0]
-            if field_name == "lc_callnum" or op_name == "phrase" or op_name == "begins_with"
-              query = "\"" + querystring + "\" "
-            else   
-              query = query << querystring 
-            end
+#            querystring = newq #my_params[:q_row][0]
+#            if field_name == "lc_callnum" or op_name == "phrase" or op_name == "begins_with"
+#              query = "\"" + querystring + "\" "
+#            else   
+#              query = query << querystring 
+#            end
             my_params[:q] = newq #query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
        my_params.delete(:q_row)
