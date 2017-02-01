@@ -16,11 +16,11 @@ Then /^click on first link "(.*?)"$/ do |link|
 end
 
 Then /^results should contain "(.*?)" with value "(.*?)"$/ do |field, author|
-  page.should have_selector(field_result_to(field), :text => author,:exact =>false )
+  page.should have_selector(field_to(field), :text => author,:exact =>false )
 end
 
 Then /^it should contain "(.*?)" with value "(.*?)"$/ do |field, author|
-  page.should have_selector(field_to(field), :text => author,:exact =>false )
+  page.should have_selector(field_result_to(field), :text => author,:exact =>false )
 end
 
 Then /^it should have link ["'](.*?)["'] with value ["'](.*?)["']$/ do |txt, alink|
