@@ -145,23 +145,24 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:search_field] = ''
     end
 #    blacklight_params = params
-    blank_search = 0
-    if params[:q].nil? and  params[:search_field]  == ""
-      blank_search = 1
-      params[:q] = "*"
-      params[:mm] = 1
-      params[:search_field] = "*"
-    end
+    #trying to restore default blank simple search behavior
+   # blank_search = 0
+   # if params[:q].nil? or params[:q]  == ' ' 
+   #   blank_search = 1
+   #   params[:q] = "*"
+   #   params[:mm] = 1
+   #   params[:search_field] = "all_fields"
+   # end
     Rails.logger.info("BLANKY = #{params}")
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
-    if blank_search == 1
-      blank_search = 0
-      params[:q] = ''
-      params[:qdisplay] = ''
+   # if blank_search == 1
+   #   blank_search = 0
+   #   params[:q] = '*'
+   #   params[:qdisplay] = ''
 #      params[:mm] = 1
-    end
+   # end
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
@@ -194,7 +195,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
              params.delete(:search_field)
          end
         end
-
     if params[:search_field] == 'call number'
       if !params[:q].nil? and params[:q].include?('"')
         params[:q] = params[:q].gsub!('"','')
@@ -203,6 +203,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if params[:search_field] == 'all_fields'
       params[:search_field] = ''
     end
+if params[:search_field] == 'lc_callnum'
+  params[:search_field] = 'call number'
+end
     # end of cleanup of search_field and q params
 
     @expanded_results = {}
