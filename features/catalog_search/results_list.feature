@@ -101,7 +101,7 @@ Feature: Results list
     And I fill in the search box with 'architecture'
     And I press 'search'
     Then I should get results
-    Then results should have a "pub_info" that looks sort of like "London : Laurence King Publishing Feb. 2010"
+    Then results should have a "pub_info" that looks sort of like "Boca Raton, Florida"
 
 
 
@@ -250,7 +250,7 @@ Feature: Results list
    Given I am on the home page
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide (24,'
+   Then I should see the text 'Request from Libraries Worldwide (23,'
 
 @all_results_list
 @next_facet
