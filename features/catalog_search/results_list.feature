@@ -9,6 +9,7 @@ Feature: Results list
         @all_results_list
         @rss
 	Scenario: Empty search
+                Given PENDING
 		Given I am on the home page
 		And I press 'search'
 
