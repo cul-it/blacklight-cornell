@@ -770,14 +770,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                if field_name == ''
                  newq << qarray[0] << ') OR "' << qarray[0] << '"'
                else 
-                 if op_name == 'begins_with' or op_name = 'phrase' or field_name = 'lc_callnum'
+                 if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
                    newq << '+' << field_name << ':"' << qarray[0] << '") OR ' << field_name << ':"' << qarray[0] << '"'
                  else
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
                  end
                end
             else
-              if op_name == 'begins_with' or op_name = 'phrase' or field_name = 'lc_callnum'
+              if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
                 newq << '+' << field_name << ':"' << my_params[:q_row][0] << '") OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
               else  
                qarray.each do |bits|
