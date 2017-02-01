@@ -351,7 +351,6 @@ end
     if field == 'lc_callnum'
       field = 'call number'
     end
-    Rails.logger.info("BOOGIE = #{field}")
     label = search_field_def_for_key(field)[:label]
     query = params[:y]
     content = ""
