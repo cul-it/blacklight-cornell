@@ -70,7 +70,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
           params[:search_field] = 'advanced'
         else
-          params[:search_field] = 'journal title'
+          params[:search_field] = 'title'
         end
         search_session[:f] = params[:f]
     end
