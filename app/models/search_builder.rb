@@ -45,7 +45,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
       user_parameters[:q] = blacklight_params[:q]
  #     blacklight_params[:q] = user_parameters[:q]
-      
+      Rails.logger.info("BPQ = #{user_parameters}")
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
@@ -135,66 +135,66 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
   end
 
-   def set_advanced_search_params(params)
-         # Use :advanced_search param as trustworthy indicator of search type
-         removeBlanks(params)
-         counter = test_size_param_array(params[:q_row])
-         if counter > 1
-            query_string = massage_params(params)
-            params[:advanced_search] = true
-            params["advanced_query"] = "yes"
-             holdparams = []
-             terms = []
-             ops = 0
-             params["op"] = []
-#             holdparams = query_string.split("&")
-             for i in 0..params[:q_row].count - 1
-               search_session[params[:search_field_row][i]] = params[:q_row][i]
-               params[params[:search_field_row][i]] = params[:q_row][i]
-             end
-             for i in 1..params[:boolean_row].count
-               n = i.to_s
-               params["op"][i-1] = params[:boolean_row][n.to_sym]
-             end
-#             if holdparams.count > 2
-             if params[:q_row].count > 1
-               params["search_field"] = "advanced"
-               params[:q] = query_string
-               search_session[:q] = query_string
-               search_session[:search_field] = "advanced"
+#   def set_advanced_search_params(params)
+#         # Use :advanced_search param as trustworthy indicator of search type
+#         removeBlanks(params)
+#         counter = test_size_param_array(params[:q_row])
+#         if counter > 1
+#            query_string = massage_params(params)
+#            params[:advanced_search] = true
+#            params["advanced_query"] = "yes"
+#             holdparams = []
+#             terms = []
+#             ops = 0
+#             params["op"] = []
+##             holdparams = query_string.split("&")
+#             for i in 0..params[:q_row].count - 1
+#               search_session[params[:search_field_row][i]] = params[:q_row][i]
+#               params[params[:search_field_row][i]] = params[:q_row][i]
+#             end
+#             for i in 1..params[:boolean_row].count
+#               n = i.to_s
+#               params["op"][i-1] = params[:boolean_row][n.to_sym]
+#             end
+##             if holdparams.count > 2
+#             if params[:q_row].count > 1
+#               params["search_field"] = "advanced"
+#               params[:q] = query_string
+#               search_session[:q] = query_string
+#               search_session[:search_field] = "advanced"
 
-             else
-               params[:q] = params["q"]
-               search_session[:q] = params[:q]
-               params[:search_field] = params["search_field"]
-               search_session[:search_field] = params[:search_field]
-             end
-             params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-             params["action"] = "index"
-             params["controller"] = "catalog"
-       else
-            params.delete(:advanced_search)
-            params.delete("advanced_query")
-            query_string = parse_single(params)
-            holdparams = query_string.split("&")
-            for i in 0..holdparams.count - 1
-              terms = holdparams[i].split("=")
-              params[terms[0]] = terms[1]
-              search_session[terms[0]] = terms[1]
-              session[:search][:"#{terms[0]}"] = terms[1]
-              session[:search][:search_field] = params[:search_field_row][0]
-            end
-           #  params[:q] = query_string
-             params.delete("q_row")
-             params.delete("op_row")
-             params.delete("search_field_row")
-             params["commit"] = "Search"
-             params["action"] = "index"
-             params["controller"] = "catalog"
-       end
-     return query_string
-  end
+#             else
+#               params[:q] = params["q"]
+#               search_session[:q] = params[:q]
+#               params[:search_field] = params["search_field"]
+#               search_session[:search_field] = params[:search_field]
+#             end
+#             params["commit"] = "Search"
+##             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+#             params["action"] = "index"
+#             params["controller"] = "catalog"
+#       else
+#            params.delete(:advanced_search)
+#            params.delete("advanced_query")
+#            query_string = parse_single(params)
+#            holdparams = query_string.split("&")
+#            for i in 0..holdparams.count - 1
+#              terms = holdparams[i].split("=")
+#              params[terms[0]] = terms[1]
+#              search_session[terms[0]] = terms[1]
+#              session[:search][:"#{terms[0]}"] = terms[1]
+#              session[:search][:search_field] = params[:search_field_row][0]
+#            end
+#           #  params[:q] = query_string
+#             params.delete("q_row")
+#             params.delete("op_row")
+#             params.delete("search_field_row")
+#             params["commit"] = "Search"
+#             params["action"] = "index"
+#             params["controller"] = "catalog"
+#       end
+#     return query_string
+#  end
 
   def test_size_param_array(param_array)
     countit = 0
@@ -502,27 +502,34 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
                 field_name =  solr_stuff
                 if field_name == "journal"
-                    if my_params[:op_row][i] == 'begins_with'
-                      field_name = "title_starts"
-                    else
-                      field_name = "title"
-                    end
-                    q_string2 << field_name << " = "
-  
-                else
-                  if my_params[:op_row][i] == 'begins_with'
-                      if field_name == ''
-                         field_name = " starts:"
-                         solr6query << field_name 
-                      else
-                        q_string2 << field_name << "_starts"<< " = "
-                        solr6query << " " << field_name << "_starts:"
-                      end
+                     field_name = "title"
+                end
+#                    q_string2 << field_name << " = "
+                if my_params[:op_row][i] == 'begins_with'
+                  if field_name == ""
+                    field_name = 'starts:'
                   else
-                      q_string2 << field_name << " = "
-           #           solr6query << field_name << ":"
+                    if field_name == 'notes_qf'
+                       field_name = 'notes_starts:'
+                    else
+                       field_name = field_name + '_starts:'
+                    end
                   end
                 end
+                if my_params[:op_row][i] == 'phrase'
+                  if field_name == ""
+                    field_name = 'quoted:'
+                  else
+                    if field_name == 'notes_qf'
+                      field_name = 'notes_quoted:'
+                    else
+                      field_name = field_name +  '_quoted:'
+                    end
+                  end
+                end
+                      q_string2 << field_name << " = "
+                      solr6query << field_name #<< ":"
+
 
               end #of if
               if holdarray.count > 1 #D
@@ -771,14 +778,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                  newq << qarray[0] << ') OR "' << qarray[0] << '"'
                else 
                  if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
-                   newq << '+' << field_name << ':"' << qarray[0] << '") OR ' << field_name << ':"' << qarray[0] << '"'
+                   newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
                  else
-                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                   newq << '+' << field_name << "" << qarray[0] << ') OR ' << field_name << '"' << qarray[0] << '"'
                  end
                end
             else
               if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
-                newq << '+' << field_name << ':"' << my_params[:q_row][0] << '") OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
               else  
                qarray.each do |bits|
                   if field_name == ''
@@ -790,7 +797,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                if field_name == ''
                   newq << ') OR "' << my_params[:q_row][0] << '"'
                else
-                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                  newq << ') OR ' << field_name << '"' << my_params[:q_row][0] << '"'
                end
             end
           end#encoding: UTF-8
