@@ -60,6 +60,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     qparam_display = ''
     fieldname = ''
     # Journal title search hack.
+    if params[:search_field].nil?
+      params[:search_field] = 'all_fields'
+    end
     if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
       if params[:f].nil?
         params[:f] = {'format' => ['Journal/Periodical']}
