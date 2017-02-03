@@ -519,16 +519,18 @@ class SearchBuilder < Blacklight::SearchBuilder
                 if my_params[:op_row][i] == 'phrase'
                   if field_name == ""
                     field_name = 'quoted:'
+                      solr6query << field_name #<< ":"
                   else
                     if field_name == 'notes_qf'
                       field_name = 'notes_quoted:'
+                      solr6query << field_name #<< ":"
                     else
                       field_name = field_name +  '_quoted:'
+                      solr6query << field_name #<< ":"
                     end
                   end
                 end
                       q_string2 << field_name << " = "
-                      solr6query << field_name #<< ":"
 
 
               end #of if
@@ -586,7 +588,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                        if field_name == ''
                           solr6query << "\"" + holdarray[1] + "\""
                        else
-                          solr6query << "\"" + holdarray[1] + "\""
+                          solr6query << field_name << "\"" + holdarray[1] + "\""
                        end
                      else
                        tokenArray = holdarray[1].split(" ")
@@ -700,28 +702,28 @@ class SearchBuilder < Blacklight::SearchBuilder
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
                 if solr_stuff == "author/creator"
-                  solr_stuff = "author"
+                  solr_stuff = "author:"
                 end
                 if solr_stuff == "call number"
-                  solr_stuff = "lc_callnum"
+                  solr_stuff = "lc_callnum:"
                 end
                 if solr_stuff == "place of publication"
-                  solr_stuff = "pubplace"
+                  solr_stuff = "pubplace:"
                 end
                 if solr_stuff == "publisher number/other identifier"
-                  solr_stuff = "number"
+                  solr_stuff = "number:"
                 end
                 if solr_stuff == "isbn/issn"
-                  solr_stuff = "isbnissn"
+                  solr_stuff = "isbnissn:"
                 end
                 if solr_stuff == "donor name"
-                  solr_stuff = "donor"
+                  solr_stuff = "donor:"
                 end
                 if solr_stuff == "journal title"
-                  solr_stuff = "journal title"
+                  solr_stuff = "journal title:"
                 end
                 if solr_stuff == "notes"
-                  solr_stuff = "notes_qf"
+                  solr_stuff = "notes_qf:"
                 end
                 if solr_stuff == "all_fields"
                   solr_stuff = ''
@@ -791,7 +793,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                   if field_name == ''
                      newq << '+' << bits << ' '
                   else
-                     newq << '+' << field_name << ':' << bits << ' '
+                     newq << '+' << field_name << bits << ' '
                   end
                end
                if field_name == ''
