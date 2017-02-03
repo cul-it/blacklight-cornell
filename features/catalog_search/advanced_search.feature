@@ -58,6 +58,25 @@ Feature: Search
     And I should see the label '1 - 20 of'
     And I should see the label 'OR Publisher: algorithmics'
 
+# Combinatorial Algorithms, Algorithmic Press
+  @adv_search
+  @all_search
+  @searchpage
+  @javascript
+  Scenario: Advanced search with title NOT publisher 
+    When I literally go to advanced
+    And the page title should be "Advanced Search - Cornell University Library Catalog"
+    And I should see a stylesheet
+    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    Then I should select radio "NOT"
+    And I fill in "q_row2" with 'algorithmics'
+    And I select 'Publisher' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label '1 - 20 of'
+    And I should see the label 'NOT Publisher: algorithmics'
+
  @adv_search
  @all_search
  @callnumber
