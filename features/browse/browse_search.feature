@@ -33,7 +33,7 @@ Feature: Browse search
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)'
     Then click on link "Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)"
     And I should get results
-    Then I should see the label '1 - 2 of 2'
+    Then I should see the label '1 - 5 of 5'
 
   @browse
   Scenario: Search for author-title combination
