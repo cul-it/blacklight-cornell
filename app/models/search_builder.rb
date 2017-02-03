@@ -519,16 +519,18 @@ class SearchBuilder < Blacklight::SearchBuilder
                 if my_params[:op_row][i] == 'phrase'
                   if field_name == ""
                     field_name = 'quoted:'
+                      solr6query << field_name #<< ":"
                   else
                     if field_name == 'notes_qf'
                       field_name = 'notes_quoted:'
+                      solr6query << field_name #<< ":"
                     else
                       field_name = field_name +  '_quoted:'
+                      solr6query << field_name #<< ":"
                     end
                   end
                 end
                       q_string2 << field_name << " = "
-                      solr6query << field_name #<< ":"
 
 
               end #of if
