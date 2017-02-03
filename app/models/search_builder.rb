@@ -588,7 +588,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                        if field_name == ''
                           solr6query << "\"" + holdarray[1] + "\""
                        else
-                          solr6query << "\"" + holdarray[1] + "\""
+                          solr6query << field_name << "\"" + holdarray[1] + "\""
                        end
                      else
                        tokenArray = holdarray[1].split(" ")
