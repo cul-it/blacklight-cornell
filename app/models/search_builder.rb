@@ -492,7 +492,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                   solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
-                  solr_stuff = "journal"
+                  solr_stuff = "title"
                 end
                 if solr_stuff == "notes"
                   solr_stuff = "notes_qf"
@@ -501,9 +501,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                   solr_stuff = ""
                 end
                 field_name =  solr_stuff
-                if field_name == "journal"
-                     field_name = "title"
-                end
 #                    q_string2 << field_name << " = "
                 if my_params[:op_row][i] == 'begins_with'
                   if field_name == ""
@@ -519,14 +516,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                 if my_params[:op_row][i] == 'phrase'
                   if field_name == ""
                     field_name = 'quoted:'
-                      solr6query << field_name #<< ":"
+#                      solr6query << field_name #<< ":"
                   else
                     if field_name == 'notes_qf'
                       field_name = 'notes_quoted:'
-                      solr6query << field_name #<< ":"
+#                      solr6query << field_name #<< ":"
                     else
                       field_name = field_name +  '_quoted:'
-                      solr6query << field_name #<< ":"
+#                      solr6query << field_name #<< ":"
                     end
                   end
                 end
@@ -685,7 +682,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   #   my_params["q"] = "+marvel +masterworks"
   #  solr6query = "(notes:English, AND notes:German, AND notes:Italian, AND notes:Latin, AND notes:or AND notes:Portugese)" # AND ((+Bibliotheca +Instituti +Historici) OR \\\"Bibliotheca Instituti Historici\\\")" 
      Rails.logger.info("FINISH1 = #{solr6query}")    
-
      my_params["q"] = solr6query 
        return my_params
 
@@ -702,104 +698,153 @@ class SearchBuilder < Blacklight::SearchBuilder
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
                 if solr_stuff == "author/creator"
-                  solr_stuff = "author:"
+                  solr_stuff = "author"
                 end
                 if solr_stuff == "call number"
-                  solr_stuff = "lc_callnum:"
+                  solr_stuff = "lc_callnum"
                 end
                 if solr_stuff == "place of publication"
-                  solr_stuff = "pubplace:"
+                  solr_stuff = "pubplace"
                 end
                 if solr_stuff == "publisher number/other identifier"
-                  solr_stuff = "number:"
+                  solr_stuff = "number"
                 end
                 if solr_stuff == "isbn/issn"
-                  solr_stuff = "isbnissn:"
+                  solr_stuff = "isbnissn"
                 end
                 if solr_stuff == "donor name"
-                  solr_stuff = "donor:"
+                  solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
-                  solr_stuff = "journal title:"
+                  solr_stuff = "title"
                 end
                 if solr_stuff == "notes"
-                  solr_stuff = "notes_qf:"
+                  solr_stuff = "notes_qf"
+                end
+                if solr_stuff == "series"
+                  solr_stuff = "series"
                 end
                 if solr_stuff == "all_fields"
                   solr_stuff = ''
                 end
-                field_name =  solr_stuff
-                if field_name == "journal title"
-                   # if my_params[:op_row][i] == 'begins_with'
-                    if op_name == 'begins_with'
-                      field_name = "title_starts:"
+                field_name = solr_stuff
+                if op_name == 'begins_with'
+                    query << "" 
+                    if field_name == 'all_fields'
+                       query << "starts:"
                     else
-                      field_name = "title:"
+                      if field_name == 'notes_qf'
+                       query << 'notes_starts:'
+                      else
+                       query << field_name << "_starts:"
+                      end
                     end
-                    
-            #        if field_name == 'all_fields'
-            #          query << ""
-            #        else
-            #          query << field_name << ":" << query << " format=Journal"
-            #        end
-                   # q_string2 << field_name << " = "
-                   # q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
-  
-                else
-                  if op_name == 'begins_with'
+                 else
+                    if op_name == 'phrase' 
                       query << "" 
-                      if field_name == 'all_fields'
-                        query << "starts:"
+                      if field_name == ''
+                        query << "quoted:"
                       else
-                        query << field_name << "_starts:"
+                        if field_name == 'notes_qf'
+                          query << 'notes_quoted:'
+                        else
+                          if field_name != 'lc_callnum'
+                            query << field_name << "_quoted:"
+                          end
+                        end
                       end
-                  else
-                      query << "" 
-                      if field_name == 'all_fields'
-                        query << ""
-                      else
-                        query << field_name << ":"
-                      end
+                    else
+                        query << field_name << ':'
+                    end
                   end
                 end
-
-              end 
           if my_params[:q_row].count == 1
             qarray = my_params[:q_row][0].split
-            if op_name == 'begins_with'
-              if field_name == ''
-                field_name == 'starts'
-              else
-                field_name = field_name + '_starts'
-              end
-            else
-            end
             newq = '('
             if qarray.size == 1
-               if field_name == ''
+               if field_name == '' and (op_name != 'begins_with' and op_name != 'phrase')
                  newq << qarray[0] << ') OR "' << qarray[0] << '"'
                else 
-                 if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
+                 if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum:'
+                   if op_name == 'begins_with'
+                      if field_name == ''
+                         field_name = 'starts:'
+                      else
+                        if field_name == 'notes_qf'
+                          field_name = 'notes_starts:'
+                        else
+                         field_name = field_name + '_starts:'
+                        end
+                      end
+                   else
+                      if op_name == 'phrase'
+                        if field_name == ''
+                           field_name = 'quoted:'
+                        else
+                           if field_name == 'notes_qf'
+                              field_name = 'notes_quoted:'
+                           else
+                            if field_name != 'lc_callnum'
+                             field_name = field_name + '_quoted:'
+                            else
+                             field_name = field_name + ':'
+                            end
+                           end
+                        end
+                      else
+                       field_name = field_name + ':'
+                      end
+                   end
+                      
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
                  else
-                   newq << '+' << field_name << "" << qarray[0] << ') OR ' << field_name << '"' << qarray[0] << '"'
+                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
                  end
                end
             else
-              if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
+              if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'  
+               if op_name == 'begins_with'
+                  if field_name == ''
+                     field_name = 'starts:'
+                  else
+                    if field_name = 'notes_qf'
+                      field_name = 'notes_starts:'
+                    else
+                     field_name = field_name + '_starts:'
+                    end
+                  end
+               else
+                  if op_name == 'phrase'
+                     if field_name == ''
+                        field_name = 'quoted:'
+                     else
+                       if field_name == 'notes_qf'
+                          field_name = 'notes_quoted:'
+                       else
+                        if field_name != 'lc_callnum'
+                         field_name = field_name + '_quoted:'
+                        else
+                         field_name = field_name + ':'
+                        end
+                       end
+                     end
+                  else
+                      field_name = field_name + ':'
+                  end
+               end
                 newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
               else  
                qarray.each do |bits|
                   if field_name == ''
                      newq << '+' << bits << ' '
                   else
-                     newq << '+' << field_name << bits << ' '
+                     newq << '+' << field_name << ':' << bits << ' '
                   end
                end
                if field_name == ''
                   newq << ') OR "' << my_params[:q_row][0] << '"'
                else
-                  newq << ') OR ' << field_name << '"' << my_params[:q_row][0] << '"'
+                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
                end
             end
           end#encoding: UTF-8
