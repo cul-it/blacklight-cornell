@@ -807,7 +807,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                   if field_name == ''
                      field_name = 'starts:'
                   else
-                    if field_name = 'notes_qf'
+                    if field_name == 'notes_qf'
                       field_name = 'notes_starts:'
                     else
                      field_name = field_name + '_starts:'
