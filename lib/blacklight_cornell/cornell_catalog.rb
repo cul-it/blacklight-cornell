@@ -52,120 +52,22 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def index
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-
     # @bookmarks = current_or_guest_user.bookmarks
-    if (!params[:range].nil?)
-      check_dates(params)
-    end
-    qparam_display = ''
-    fieldname = ''
-    # Journal title search hack.
-    if params[:search_field].nil?
-      params[:search_field] = 'all_fields'
-    end
-    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
-      if params[:f].nil?
-        params[:f] = {'format' => ['Journal/Periodical']}
-      end
-        params[:f].merge('format' => ['Journal/Periodical'])
-        # unless(!params[:q])
-#        params[:q] = params[:q]
-        if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
-          params[:search_field] = 'advanced'
-        else
-          params[:search_field] = 'title'
-        end
-        search_session[:f] = params[:f]
-    end
-    fieldname = ''
-    if params[:search_field] == 'call number'
-      fieldname = 'lc_callnum'
-    else
-     if params[:search_field] == 'author/creator'
-      fieldname = 'author' 
-     else
-       if params[:search_field] == 'all_fields'
-         fieldname = ''
-       else
-         fieldname = params[:search_field]
-       end
-     end
-    end
     
-    #quote the call number
-    if params[:search_field] == 'call number'
-      params[:search_field] = 'lc_callnum'
-      if !params[:q].nil? and !params[:q].include?('"')
-        params[:q] = '"' << params[:q] << '"'
-        search_session[:q] = params[:q]
-      end
-    end
-    if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
-     if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
-       params[:q] = params[:q]
-     else
-      if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
-          qparam_display = params[:q]
-          params[:qdisplay] = params[:q]
-          qarray = params[:q].split
-          params[:q] = '('
-          if qarray.size == 1
-            if fieldname == ''
-              params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
-            else
-              params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
-            end
-          else
-            qarray.each do |bits|
-              if fieldname == ''
-                 params[:q] << '+' << bits << ' '
-              else
-                 params[:q] << '+' << fieldname << ':' << bits << ' '
-              end
-            end
-            if fieldname == ''
-              params[:q] << ') OR "' << qparam_display << '"'
-            else
-              params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
-            end
-          end#encoding: UTF-8
-      else
-        if params[:q].nil? or params[:q].blank?
-          params[:q] = qparam_display
-        end
-      end
-     end
+    # make sure we are not going directly to home page
     
+      if (!params[:range].nil?)
+        check_dates(params)
+      end
+    if !params[:q].blank? and !params[:search_field].blank?
+       check_params(params)
     end
-    # end of Journal title search hack
-
-#    if params[:search_field] = "call number"
-#      params[:q] = "\"" << params[:q] << "\""
-#    end
-#    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
-#    params[:q] = '((notes_qf:"English, German, Italian, Latin, or Portugese" AND "Bibliotheca Instituti Historici") OR ("turkeys" NOT "spam"))'
-    if params[:search_field] == "all_fields"
-       params[:search_field] = ''
-    end
-#    blacklight_params = params
-    #trying to restore default blank simple search behavior
-   # blank_search = 0
-   # if params[:q].nil? or params[:q]  == ' ' 
-   #   blank_search = 1
-   #   params[:q] = "*"
-   #   params[:mm] = 1
-   #   params[:search_field] = "all_fields"
-   # end
-    Rails.logger.info("BLANKY = #{params}")
+      Rails.logger.info("BLANKY2 = #{params}")
+ 
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
-   # if blank_search == 1
-   #   blank_search = 0
-   #   params[:q] = '*'
-   #   params[:qdisplay] = ''
-#      params[:mm] = 1
-   # end
+
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
@@ -182,34 +84,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 
     # clean up search_field and q params.  May be able to remove this
-    if params[:search_field] == 'journal title'
-       if params[:q].nil?
-         params[:search_field] = ''
-       end
-    end
-
-#    if params[:q_row].present?
-#       if params[:q].nil?
-#        params[:q] = query_string
-#       end
-#    else
-        if params[:q].nil?
-          if !params[:search_field].nil?
-             params.delete(:search_field)
-         end
-        end
-    if params[:search_field] == 'call number'
-      if !params[:q].nil? and params[:q].include?('"')
-        params[:q] = params[:q].gsub!('"','')
-      end
-    end
-    if params[:search_field] == 'all_fields'
-      params[:search_field] = ''
-    end
-if params[:search_field] == 'lc_callnum'
-  params[:search_field] = 'call number'
-end
-    # end of cleanup of search_field and q params
+    cleanup_params(params)
 
     @expanded_results = {}
     ['worldcat', 'summon'].each do |key|
@@ -249,12 +124,12 @@ end
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
-    if !qparam_display.blank?
+    if !params[:qdisplay].blank?
+      params[:q] = params[:qdisplay]
+      search_session[:q] = params[:show_query]
 #      params[:q] = qparam_display
-#      search_session[:q] = params[:show_query]
-      params[:q] = qparam_display
       search_session[:q] = params[:q] 
-#      params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
+      params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
 
   end
@@ -640,5 +515,139 @@ end
       params[:range][:pub_date_facet][:end] = end_test
   end
 
+  def check_params(params)
+    qparam_display = ''
+    fieldname = ''
+
+    # Journal title search hack.
+    if params[:search_field].nil?
+      params[:search_field] = 'all_fields'
+    end
+    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+      if params[:f].nil?
+        params[:f] = {'format' => ['Journal/Periodical']}
+      end
+      params[:f].merge('format' => ['Journal/Periodical'])
+      # unless(!params[:q])
+      #params[:q] = params[:q]
+      if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+        params[:search_field] = 'advanced'
+      else
+        params[:search_field] = 'title'
+      end
+      search_session[:f] = params[:f]
+    end
+    fieldname = ''
+    if params[:search_field] == 'call number'
+      fieldname = 'lc_callnum'
+    else
+      if params[:search_field] == 'author/creator'
+        fieldname = 'author' 
+      else
+        if params[:search_field] == 'all_fields'
+          fieldname = ''
+        else
+          fieldname = params[:search_field]
+        end
+      end
+    end
+    # end of Journal title search hack
+  
+    #quote the call number
+    if params[:search_field] == 'call number'
+       params[:search_field] = 'lc_callnum'
+       if !params[:q].nil? and !params[:q].include?('"')
+          params[:q] = '"' << params[:q] << '"'
+          search_session[:q] = params[:q]
+       end
+    end
+    if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
+       if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+          params[:q] = params[:q]
+       else
+          if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
+             qparam_display = params[:q]
+             params[:qdisplay] = params[:q]
+             qarray = params[:q].split
+             params[:q] = '('
+             if qarray.size == 1
+                if fieldname == ''
+                   params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
+                else
+                   params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                end
+             else
+                qarray.each do |bits|
+                   if fieldname == ''
+                      params[:q] << '+' << bits << ' '
+                   else
+                      params[:q] << '+' << fieldname << ':' << bits << ' '
+                   end
+                end
+                if fieldname == ''
+                   params[:q] << ') OR "' << qparam_display << '"'
+                else
+                   params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+                end
+             end
+          else
+             if params[:q].nil? or params[:q].blank?
+                params[:q] = qparam_display
+             end
+          end
+       end    
+    end
+
+    #    if params[:search_field] = "call number"
+    #      params[:q] = "\"" << params[:q] << "\""
+    #    end
+    #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
+    #    params[:q] = '((notes_qf:"English, German, Italian, Latin, or Portugese" AND "Bibliotheca Instituti Historici") OR ("turkeys" NOT "spam"))'
+    if params[:search_field] == "all_fields" and params[:q]
+      params[:search_field] = 'all_fields'
+    end
+
+    #    if params[:q].blank?
+    #      params[:q] = '*'
+    #    end 
+   return params
+  end
+  
+  def cleanup_params(params)
+    qparam_display = params[:qdisplay]
+    query_string = params[:q]
+    fieldname = ''
+    if params[:search_field] == 'journal title'
+       if params[:q].nil?
+         params[:search_field] = ''
+       end
+    end
+
+    if params[:q_row].present?
+       if params[:q].nil?
+        params[:q] = query_string
+       end
+    else
+        if params[:q].nil?
+          if !params[:search_field].nil?
+             params.delete(:search_field)
+         end
+       end
+    end
+    if params[:search_field] == 'call number'
+      if !params[:q].nil? and params[:q].include?('"')
+        params[:q] = params[:q].gsub!('"','')
+      end
+    end
+ #   if params[:search_field] == 'all_fields'
+ #     params[:search_field] = ''
+ #   end
+    if params[:search_field] == 'lc_callnum'
+      params[:search_field] = 'call number'
+    end
+    # end of cleanup of search_field and q params
+
+    return params 
+  end
 
 end
