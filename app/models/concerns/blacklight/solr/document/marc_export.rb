@@ -34,6 +34,7 @@ module Blacklight::Solr::Document::MarcExport
   # is in-line with what we had before, but at least now attached
   # to the document extension where it belongs. 
   def export_as_apa_citation_txt
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     apa_citation( to_marc )
   end
   
@@ -42,6 +43,7 @@ module Blacklight::Solr::Document::MarcExport
   end
   
   def export_as_chicago_citation_txt
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     chicago_citation( to_marc )
   end
 
@@ -466,6 +468,7 @@ module Blacklight::Solr::Document::MarcExport
   
   
   def mla_citation(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_final = []
     
@@ -605,6 +608,7 @@ module Blacklight::Solr::Document::MarcExport
   # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     primary_authors = []; translators = []; editors = []; compilers = []
     corporate_authors = []; meeting_authors = []; secondary_authors = []
@@ -643,8 +647,10 @@ module Blacklight::Solr::Document::MarcExport
       secondary_authors[i] = a.gsub(/[\.,]$/,'')
     end
 
-    {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
+    ret = {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
     :secondary_authors => secondary_authors, :meeting_authors => meeting_authors }
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ret = #{ret.inspect}")
+    ret
   end
 
 
@@ -733,7 +739,7 @@ module Blacklight::Solr::Document::MarcExport
   end
   
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
-  def get_all_authors(record)
+  def old_get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     primary_authors = []; translators = []; editors = []; compilers = []
     record.find_all{|f| f.tag === "100" }.each do |field|
