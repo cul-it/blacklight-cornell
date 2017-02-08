@@ -76,7 +76,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       end
     end
 
-    if !corp_author.empty?
+    if !corp_authors.empty?
       output += "AU  - #{corp_authors[0]}\n"
       if corp_authors.length > 1
         for i in 1..corp_authors.length
