@@ -194,6 +194,7 @@ module Blacklight::Solr::Document::MarcExport
   protected
  
  def chicago_citation(marc)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     authors = get_all_authors(marc)
     author_text = ""
 
@@ -202,7 +203,7 @@ module Blacklight::Solr::Document::MarcExport
     if !authors[:primary_authors].blank?
       authors[:primary_authors] += authors[:secondary_authors] unless authors[:secondary_authors].blank?
     elsif !authors[:secondary_authors].blank?
-      authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? and authors[:meeting_authors].blank?)
+      authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? or  authors[:meeting_authors].blank?)
     end
 
     # Work with primary authors first
@@ -616,7 +617,7 @@ module Blacklight::Solr::Document::MarcExport
       primary_authors << field["a"] if field["a"]
     end
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      corporate_authors << (field['a'] ? field['a'] : '') +
+      corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
