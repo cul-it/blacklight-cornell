@@ -717,6 +717,10 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
                 if solr_stuff == "journal title"
                   solr_stuff = "title"
+                  format = []
+                  format << "Journal/Periodical"
+                  my_params[:f] = format
+                  
                 end
                 if solr_stuff == "notes"
                   solr_stuff = "notes_qf"
