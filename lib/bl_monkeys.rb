@@ -447,7 +447,7 @@ module Blacklight::Solr #::Document::MarcExport
 
 end
 
-end
+end # of if false.
 
 module BlacklightMarcHelper
 

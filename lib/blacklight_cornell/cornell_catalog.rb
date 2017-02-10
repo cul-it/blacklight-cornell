@@ -139,6 +139,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def show
     @response, @document = fetch params[:id]
     @documents = [ @document ]
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     respond_to do |format|
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
