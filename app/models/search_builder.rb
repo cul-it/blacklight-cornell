@@ -426,6 +426,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        opArray = []
        newOpArray = []
        solr6query = ""
+       journal_title_flag = 0
        # IF 1.2
        if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?
           #convert hash to array The front end numbers boolean_row differently than the search_field, q_row arrays.
@@ -493,6 +494,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
                 if solr_stuff == "journal title"
                   solr_stuff = "title"
+                  journal_title_flag = 1
                 end
                 if solr_stuff == "notes"
                   solr_stuff = "notes_qf"
@@ -540,11 +542,16 @@ class SearchBuilder < Blacklight::SearchBuilder
                    holdarray_parse = holdarray[j].split('_query_')
                    holdarray[1] = holdarray_parse[0]
                    if(j < holdarray.count - 1)
-                      if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' || my_params[:op_row][i] == 'phrase'
+                      if my_params[:op_row][i] == 'begins_with' or my_params[:search_field_row][i] == 'call number' or my_params[:op_row][i] == 'phrase'
                         holdarray[1].gsub!('"','')
                         holdarray[1].gsub!('\\','')
-                        q_string2 << holdarray[1]
+                        q_string2 << holdarray[1] 
+                        if journal_title_flag == 1
+                        solr6query = '(' + solr6query
+                        solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical)"'
+                        else
                         solr6query << "\"" + holdarray[1] + "\""
+                        end
                       else
                         tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
@@ -567,13 +574,23 @@ class SearchBuilder < Blacklight::SearchBuilder
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
                           end
                           q_string2 << holdarray[1]
-                          solr6query << newTerm
+                          if journal_title_flag == 1
+                            solr6query = '(' + solr6query
+                            solr6query << newTerm << ') AND format:"Journal/Periodical)"'
+                          else
+                            solr6query << newTerm
+                          end
                         else
                           q_string2 << holdarray[1]
                           if field_name == ''
                           solr6query << field_name  + holdarray[1] 
                           else
-                          solr6query << field_name + ":" + holdarray[1] 
+                            if journal_title_flag == 1
+                              solr6query = '(' + solr6query
+                              solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
+                            else
+                              solr6query << field_name + ":" + holdarray[1] 
+                            end
                           end
                       end
                       end
@@ -585,7 +602,11 @@ class SearchBuilder < Blacklight::SearchBuilder
                        if field_name == ''
                           solr6query << "\"" + holdarray[1] + "\""
                        else
+                          if journal_title_flag == 1
+                          solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                          else
                           solr6query << field_name << "\"" + holdarray[1] + "\""
+                          end
                        end
                      else
                        tokenArray = holdarray[1].split(" ")
@@ -609,14 +630,22 @@ class SearchBuilder < Blacklight::SearchBuilder
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
                           end
                           q_string2 << holdarray[1]
+                          if journal_title_flag == 1
+                          solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                          else
                           solr6query << newTerm
+                          end
                         else
 
                        q_string2 << holdarray[1] << " "
                        if field_name == ''
                        solr6query << " " + holdarray[1] 
                        else
+                        if journal_title_flag == 1
+                        solr6query << " " + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                        else
                         solr6query << " " + field_name + ":" + holdarray[1]
+                        end
                        end 
                      end
                      end
@@ -629,12 +658,15 @@ class SearchBuilder < Blacklight::SearchBuilder
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
                 q_string2 << " "
-
+                if journal_title_flag == 1
+                solr6query << " " + opArray[i] + " ("
+                else
                 solr6query << " " + opArray[i] + " "
+                end  
               end
+              
               q_string2Array << q_string2
               q_string2 = "";
-
            end #of For C
            #fix opArray
         #   opArray = opArray.shift
@@ -681,8 +713,12 @@ class SearchBuilder < Blacklight::SearchBuilder
    #  my_params["q"] = "title:Minnesota AND  (author:Office OR author:of OR author:Personnel OR author:Management) NOT title_starts:\"small\""
   #   my_params["q"] = "+marvel +masterworks"
   #  solr6query = "(notes:English, AND notes:German, AND notes:Italian, AND notes:Latin, AND notes:or AND notes:Portugese)" # AND ((+Bibliotheca +Instituti +Historici) OR \\\"Bibliotheca Instituti Historici\\\")" 
+    #solr6query = '(title_starts:"Science advances" AND format:"Journal/Periodical") OR (title_starts:"advances" AND format:"Journal/Periodical")'  
+         if journal_title_flag == 1
+           solr6query = '(' + solr6query
+         end
      Rails.logger.info("FINISH1 = #{solr6query}")    
-     my_params["q"] = solr6query 
+         my_params["q"] = solr6query 
        return my_params
 
   end  #def
@@ -693,7 +729,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     field_name = my_params[:search_field_row][0]
     op_name = my_params[:op_row][0]
     query = ""
-    
+    journal_title_flag = 0    
               fieldNames = blacklight_config.search_fields["#{field_name}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -716,11 +752,12 @@ class SearchBuilder < Blacklight::SearchBuilder
                   solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
+                  my_params[:f] = {}
                   solr_stuff = "title"
                   format = []
                   format << "Journal/Periodical"
-                  my_params[:f] = format
-                  
+                  my_params[:f][:format] = format
+                  journal_title_flag = 1
                 end
                 if solr_stuff == "notes"
                   solr_stuff = "notes_qf"
@@ -800,9 +837,19 @@ class SearchBuilder < Blacklight::SearchBuilder
                       end
                    end
                       
+                   if journal_title_flag == 1
+                   newq = '(' + newq
+                   newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   else
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
+                   end
                  else
+                   if journal_title_flag == 1
+                   newq = '(' + newq
+                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   else
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                   end
                  end
                end
             else
@@ -835,8 +882,13 @@ class SearchBuilder < Blacklight::SearchBuilder
                   else
                       field_name = field_name + ':'
                   end
-               end
+               end 
+               if journal_title_flag == 1 
+                newq = '(' + newq
+                newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+               else
                 newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
+               end
               else  
                qarray.each do |bits|
                   if field_name == ''
@@ -848,7 +900,12 @@ class SearchBuilder < Blacklight::SearchBuilder
                if field_name == ''
                   newq << ') OR "' << my_params[:q_row][0] << '"'
                else
+                 if journal_title_flag == 1
+                  newq = '(' + newq
+                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                 else
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                 end
                end
             end
           end#encoding: UTF-8
@@ -867,7 +924,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        my_params.delete(:boolean_row)
    #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
         my_params[:mm] = 1
-       # blacklight_params = my_params
+        blacklight_params = my_params
           Rails.logger.info("FINISHER = #{my_params}")
     return my_params
   
