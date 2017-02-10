@@ -111,7 +111,6 @@ Feature: Search
  @publisher
  @javascript
   Scenario: Perform an advanced search by Publisher
-    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'biology'
     And I select 'Title' from the 'search_field_advanced' drop-down
@@ -140,7 +139,6 @@ Feature: Search
  @peabody
  @javascript
   Scenario: Perform an advanced search by call number
-    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'QA76.6 .C85 1972'
     And I select 'phrase' from the 'op_row' drop-down
