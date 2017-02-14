@@ -557,10 +557,17 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     #quote the call number
     if params[:search_field] == 'call number'
        params[:search_field] = 'lc_callnum'
-       if !params[:q].nil? and !params[:q].include?('"')
-          params[:q] = '"' << params[:q] << '"'
-          search_session[:q] = params[:q]
-       end
+       if !params[:q].nil?
+         search_session[:q] = params[:q]
+         params[:qdisplay] = params[:q]
+         if !params[:q].include?('"')
+           params[:q] = '"' << params[:q] << '"'
+         end
+         params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+       else
+         params[:q] =  '' or params[:q].nil?
+         params[:search_field] = 'all_fields'
+       end     
     end
     if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
        if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
