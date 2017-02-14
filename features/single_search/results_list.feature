@@ -227,4 +227,15 @@ Feature: Results list
     And I press 'Search'
     And I sleep 8 seconds
     Then I should get bento results
-		Then box "link_top_website" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_website" should match "0" th "from Catalog" in "page_entries"
+
+# Combinatorial Algorithms, Algorithmic Press
+@all_results_list
+@javascript
+  Scenario: Perform an search with a call number
+    Given I literally go to search
+    When I fill in "q" with 'QA76.6 .C85 1972'
+    And I press 'search'
+    Then I should get bento results
+    And I should see the text "Combinatorial Algorithms"
+

@@ -267,4 +267,12 @@ Feature: Results list
     Then click on first link "Next »"
     Then I should see the text 'accidental feminist how Elizabeth Taylor raised our consciousness'
 
-
+# Combinatorial Algorithms, Algorithmic Press
+@all_results_list
+@javascript
+  Scenario: Perform an All field search with a call number
+    Given I am on the home page
+    When I fill in the search box with 'QA76.6 .C85 1972'
+    And I press 'search'
+    Then I should get results
+    And I should see the label '1 result'
