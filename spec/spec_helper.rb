@@ -1,4 +1,7 @@
 require 'rubygems'
+
+#  require 'simplecov'
+#  SimpleCov.start
 #require 'spork'
 require 'webmock/rspec'
 

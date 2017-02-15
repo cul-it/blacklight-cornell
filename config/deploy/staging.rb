@@ -4,7 +4,7 @@ role :app, "newcatalog-stg.library.cornell.edu"
 role :web, "newcatalog-stg.library.cornell.edu" 
 role :db,  "newcatalog-stg.library.cornell.edu", :primary => true
 
-set :deploy_to, "/libweb/#{user}/blacklight-cornell"
+set :deploy_to, "/cul/web/newcatalog-stg.library.cornell.edu/rails-app"	
 #set :deploy_to, "/users/#{user}/blacklight-cornell"
 # actually this is a tag
 #set :branch, "staging-publicbeta-0.2"
@@ -20,7 +20,7 @@ end
 
 desc "Install  (redefine for staging) env -- too sensitive for git - production"
 task :install_env, :roles => [ :app, :db, :web ] do
-        run "cp #{deploy_to}/config/latest-staging.env  #{shared_path}/.env"
+        run "cp #{deploy_to}/../conf/latest-staging.env  #{shared_path}/.env"
         run "cat #{shared_path}/.env"
 end
 

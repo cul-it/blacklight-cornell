@@ -26,7 +26,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Search Page
+  Scenario: Advanced search with title AND publisher 
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -44,7 +44,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Search Page
+  Scenario: Advanced search with title OR publisher 
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -57,6 +57,43 @@ Feature: Search
     Then I should get results
     And I should see the label '1 - 20 of'
     And I should see the label 'OR Publisher: algorithmics'
+
+# Combinatorial Algorithms, Algorithmic Press
+  @adv_search
+  @all_search
+  @searchpage
+  @javascript
+  Scenario: Advanced search with title NOT publisher 
+    When I literally go to advanced
+    And the page title should be "Advanced Search - Cornell University Library Catalog"
+    And I should see a stylesheet
+    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    Then I should select radio "NOT"
+    And I fill in "q_row2" with 'springer'
+    And I select 'Publisher' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label '1 - 20 of'
+    And I should see the label 'NOT Publisher: springer'
+
+# Combinatorial Algorithms, Algorithmic Press
+  @adv_search
+  @all_search
+  @searchpage
+  @javascript
+  Scenario: Advanced search with title NOT publisher 
+    When I literally go to advanced
+    And the page title should be "Advanced Search - Cornell University Library Catalog"
+    And I should see a stylesheet
+    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I select 'Title' from the 'search_field_advanced' drop-down
+    Then I should select radio "NOT"
+    And I fill in "q_row2" with 'springer'
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label '1 - 20 of'
 
  @adv_search
  @all_search
@@ -102,7 +139,6 @@ Feature: Search
  @peabody
  @javascript
   Scenario: Perform an advanced search by call number
-    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'QA76.6 .C85 1972'
     And I select 'phrase' from the 'op_row' drop-down
@@ -196,7 +232,7 @@ Feature: Search
     And I select 'phrase' from the 'op_row2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 8 of 8'
+    And I should see the label '1 result'
 
 #
  @adv_search
@@ -246,7 +282,7 @@ Feature: Search
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 14 of 14'
+    And I should see the label '1 - 12 of 12'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -358,40 +394,6 @@ Feature: Search
     And I press 'advanced_search'
     Then I should not see the label 'searched'
     And I should see the label 'soccer'
-
- @begins_with
- @adv_search
- @all_search
- @adv_place
- @javascript
-  Scenario: Perform a 1 row  advanced search by begins with Title
-    When I literally go to advanced
-    And I fill in "q_row1" with 'we were feminists'
-    And I select 'begins' from the 'op_row' drop-down
-    And I select 'Title' from the 'search_field_advanced' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-    #And I should not see the label 'Modify advanced'
-    And I should see the label 'We were Feminists'
-    And I should see the label '1 result'
-
- @begins_with
- @adv_search
- @all_search
- @adv_place
- @javascript
-  Scenario: Perform a 1 row  advanced search by begins with Title
-    When I literally go to advanced
-    And I fill in "q_row1" with 'we were feminists'
-    And I select 'begins' from the 'op_row' drop-down
-    And I select 'Title' from the 'search_field_advanced' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-    #And I should not see the label 'Modify advanced'
-    And I should see the label 'We were Feminists'
-    And I should see the label '1 result'
-
-
 
  @adv_search
  @all_search

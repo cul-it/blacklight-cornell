@@ -101,8 +101,8 @@ Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
       for i in 1..params[:q_row].count - 1
          next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
          boolean_row_values.each do |key, value|
-           n = i.to_s
-           if key == params[:boolean_row][n.to_sym]
+           n = i - 1 #= i.to_s
+           if key == params[:boolean_row][n]
              next2rows << "<label class=\"radio-inline\">"
              next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
              next2rows << "</label>"

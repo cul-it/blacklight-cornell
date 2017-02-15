@@ -32,6 +32,25 @@ Feature: Select and export items from the result set
     And I sleep 2 seconds
     Then I should see the label 'Wake, William. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
 
+@all_select_and_export
+@citations
+@javascript
+  Scenario: User needs to cite a record by a corporate author. # Geology report / corp author.
+    Given I request the item view for 393971
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'Chicago 16th ed. Memorial University of Newfoundland. Geology Report. St. John'
+
+@javascript
+@all_select_and_export
+@citations
+@javascript
+@DISCOVERYACCESS-3175
+  Scenario: User needs to cite a record by a editors. #  Fashion game changers 
+    Given I request the item view for 9448862 
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'Chicago 16th ed. Godtsenhoven, Karen van, Miren Arzalluz, and Kaat Debo. Fashion Game Changers: Reinventing the 20th-Century Silhouette. London: Bloomsbury Visual Arts'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -124,6 +143,7 @@ Feature: Select and export items from the result set
 @select_and_email
 @javascript
   Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
+    Given PENDING 
     Given I request the item view for 7981095 
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"

@@ -3313,4 +3313,587 @@ http_interactions:
         G1046.E4 I59 ++"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
   recorded_at: Wed, 26 Oct 2016 14:56:27 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b3/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 31 Jan 2017 21:03:32 GMT
+      Last-Modified:
+      - Tue, 31 Jan 2017 21:03:25 GMT
+      Etag:
+      - '"ZjNiMDAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '7578'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjE2NTQsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
+        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
+        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
+        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
+        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
+        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
+        bGNoZWNrLnEnPT4nKCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTpt
+        aXNzaW9ucyArdGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGU6IkF0bGFz
+        IGRlcyBtaXNzaW9ucyBkZSBsYSAiJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZh
+        Y2V0LnNvcnQnPT4naW5kZXgnLCdzdGF0cyc9Pid0cnVlJywnd3QnPT4ncnVi
+        eScsJ2YuZmFzdF9nZW5yZV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5m
+        b3JtYXQuZmFjZXQubGltaXQnPT4nMTEnLCdzdGF0cy5maWVsZCc9PidwdWJf
+        ZGF0ZV9mYWNldCcsJ21tJz0+JzEnLCdmLmF1dGhvcl9mYWNldC5mYWNldC5s
+        aW1pdCc9Pic2JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zvcm1hdCcs
+        J2F1dGhvcl9mYWNldCcsJ3B1Yl9kYXRlX2ZhY2V0Jywnd29ya2lkX2ZhY2V0
+        JywnbGFuZ3VhZ2VfZmFjZXQnLCdmYXN0X3RvcGljX2ZhY2V0JywnZmFzdF9n
+        ZW9fZmFjZXQnLCdmYXN0X2VyYV9mYWNldCcsJ2Zhc3RfZ2VucmVfZmFjZXQn
+        LCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnLCdsY19hbHBoYV9mYWNldCcsJ2xv
+        Y2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0JywnYXV0aG9ydGl0bGVf
+        ZmFjZXQnLCdsY19jYWxsbnVtX2ZhY2V0JywnY29sbGVjdGlvbiddLCdxdCc9
+        PidzZWFyY2gnLCdmLmxjX2NhbGxudW1fZmFjZXQuZmFjZXQubGltaXQnPT4n
+        LTEnLCdzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQgZGVzYywg
+        dGl0bGVfc29ydCBhc2MnLCdyb3dzJz0+JzIwJywncSc9PicoK3RpdGxlOkF0
+        bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1pc3Npb25zICt0aXRsZTpkZSArdGl0
+        bGU6bGEgKSBPUiB0aXRsZToiQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhICIn
+        LCdmLmZhc3RfZXJhX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdmLmZhc3Rf
+        dG9waWNfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2ZhY2V0Jz0+J3RydWUn
+        LCdmLmxhbmd1YWdlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnfX0sJ3Jlc3Bv
+        bnNlJz0+eydudW1Gb3VuZCc9PjIsJ3N0YXJ0Jz0+MCwnbWF4U2NvcmUnPT4x
+        NTIxMS4zNTMsJ2RvY3MnPT5beydob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9
+        PlsneyJpZCI6IjE1NjUwOSIsIm1vZGlmaWVkX2RhdGUiOiIyMDEyMTAwMzEz
+        Mjc1MiIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIk92ZXJzaXpl
+        IEcyMjA5LkU0IEwzNyArKysiXSwibm90ZXMiOlsiRm9saW8uIl0sImhvbGRp
+        bmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBs
+        ZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVz
+        YyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hcHMiLCJudW1iZXIiOjgw
+        LCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1hcHMgKE5vbi1DaXJjdWxhdGluZyki
+        LCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5In1dfSddLCdvbmxpbmUnPT5bJ0F0
+        IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5bJ3siY29w
+        eV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwiaXRlbV9p
+        ZCI6IjI2MjI1NCIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hy
+        b24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBf
+        bG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiIi
+        LCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9p
+        ZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5IiwicmVjYWxsc19wbGFjZWQiOiIw
+        IiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAwOjAwLjAiLCJpdGVt
+        X2JhcmNvZGUiOiIzMTkyNDA4MzUzMjU4NCIsIm1vZGlmeV9kYXRlIjoiMjAx
+        Mi0xMC0wMyAxMzoyODowOC4wIiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoi
+        bWFwcyIsIm51bWJlciI6ODAsIm5hbWUiOiJPbGluIExpYnJhcnkgTWFwcyAo
+        Tm9uLUNpcmN1bGF0aW5nKSIsImxpYnJhcnkiOiJPbGluIExpYnJhcnkifX0n
+        XSwnb3RoZXJfaWRfZGlzcGxheSc9PlsnKENTdFJMSU4pTllDWDExNzE2ODZC
+        JywnKE5JQylub3Rpc0FBTjA2MzUnLCcxMTkxNjInLCcoT0NvTEMpMTE3MTY4
+        NiddLCdpZCc9PicxMTkxNjInLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3Vh
+        Z2VfZGlzcGxheSc9PlsnRnJlbmNoJ10sJ3B1Yl9kYXRlX2Rpc3BsYXknPT5b
+        JzE4OTAnXSwncHViX2RhdGVfZmFjZXQnPT4xODkwLCdwdWJfaW5mb19kaXNw
+        bGF5Jz0+WydMaWxsZSA6IFNvY2nDqXTDqSBkZSBTYWludC1BdWd1c3RpbiBE
+        ZXNjbMOpZSBkZSBCcm91d2VyIDE4OTAuJ10sJ2Z1bGx0aXRsZV9kaXNwbGF5
+        Jz0+J0F0bGFzIGRlcyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVzIE1p
+        c3Npb25zLUV0cmFuZ8OocmVzIDogMjcgY2FydGVzIGVuIDUgY291bGV1cnMg
+        YWNjb21wYWduw6llcyBkZSAyNyBub3RpY2VzIGfDqW9ncmFwaGlxdWVzIGV0
+        IGhpc3RvcmlxdWVzJywndGl0bGVfZGlzcGxheSc9PidBdGxhcyBkZXMgbWlz
+        c2lvbnMgZGUgbGEgU29jacOpdMOpIGRlcyBNaXNzaW9ucy1FdHJhbmfDqHJl
+        cycsJ2F1dGhvcl9kaXNwbGF5Jz0+J0xhdW5heSwgQWRyaWVuLCAxODUzLTE5
+        MjcnLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+JzI3IGNhcnRlcyBlbiA1IGNvdWxl
+        dXJzIGFjY29tcGFnbsOpZXMgZGUgMjcgbm90aWNlcyBnw6lvZ3JhcGhpcXVl
+        cyBldCBoaXN0b3JpcXVlcycsJ3Njb3JlJz0+MTUyMTEuMzUzfSx7J2hvbGRp
+        bmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoiNDg1MTc5OCIsIm1vZGlm
+        aWVkX2RhdGUiOiIyMDAyMDcxMTExNDAxMyIsImNvcHlfbnVtYmVyIjpudWxs
+        LCJjYWxsbm9zIjpbIk92ZXJzaXplIEYyODA4IC5DMzUgKysiXSwibm90ZXMi
+        OlsiTGlicmFyeSBsYWNrcyB0ZXh0IHZvbC47IGhhcyBhdGxhcyBvbmx5LiJd
+        LCJob2xkaW5nc19kZXNjIjpbImF0bGFzIl0sInJlY2VudF9ob2xkaW5nc19k
+        ZXNjIjpbXSwic3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2MiOltdLCJpbmRl
+        eF9ob2xkaW5nc19kZXNjIjpbXSwibG9jYXRpb25zIjpbeyJjb2RlIjoibWFu
+        biIsIm51bWJlciI6NjksIm5hbWUiOiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5
+        IjoiTWFubiBMaWJyYXJ5In1dfSddLCdpdGVtX3JlY29yZF9kaXNwbGF5Jz0+
+        Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0ZW1fdHlwZV9uYW1lIjoiYm9vayIs
+        Iml0ZW1faWQiOiI2NDE0MjAyIiwieWVhciI6IiIsIml0ZW1fdHlwZV9pZCI6
+        IjMiLCJjaHJvbiI6IiIsImNhcHRpb24iOiIiLCJob2xkc19wbGFjZWQiOiIw
+        IiwidGVtcF9sb2NhdGlvbiI6IjAiLCJvbl9yZXNlcnZlIjoiTiIsIml0ZW1f
+        ZW51bSI6IkF0bGFzIiwiaXRlbV9zZXF1ZW5jZV9udW1iZXIiOiIxIiwidGVt
+        cF9pdGVtX3R5cGVfaWQiOiIwIiwibWZoZF9pZCI6IjQ4NTE3OTgiLCJyZWNh
+        bGxzX3BsYWNlZCI6IjAiLCJjcmVhdGVfZGF0ZSI6IjIwMDItMDctMTEgMTY6
+        MTc6MDUuMCIsIml0ZW1fYmFyY29kZSI6IjMxOTI0MDg2NzU1Nzk0IiwibW9k
+        aWZ5X2RhdGUiOiIiLCJwZXJtX2xvY2F0aW9uIjp7ImNvZGUiOiJtYW5uIiwi
+        bnVtYmVyIjo2OSwibmFtZSI6Ik1hbm4gTGlicmFyeSIsImxpYnJhcnkiOiJN
+        YW5uIExpYnJhcnkifX0nXSwnb3RoZXJfaWRfZGlzcGxheSc9PlsnKE5OQylu
+        b3Rpc0FSSzAyOTknLCcoQ1N0UkxJTilOWUNHQVJLMDI5OS1CJywnKE9Db0xD
+        KTY3MjY2NzAnLCc0MzAzNzIxJ10sJ2lkJz0+JzQzMDM3MjEnLCdmb3JtYXQn
+        PT5bJ0Jvb2snXSwnbGFuZ3VhZ2VfZGlzcGxheSc9PlsnRnJlbmNoJ10sJ3B1
+        Yl9kYXRlX2Rpc3BsYXknPT5bJzE4ODknXSwncHViX2RhdGVfZmFjZXQnPT4x
+        ODg5LCdwdWJfaW5mb19kaXNwbGF5Jz0+WydQYXJpcyBbU2NlYXV4LCBJbXBy
+        LiBDaGFyYWlyZSBldCBGaWxzLCAxODg5XSddLCdmdWxsdGl0bGVfZGlzcGxh
+        eSc9PidNaXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6lyaXF1ZSBk
+        dSBTdWQ6IHJhcHBvcnQgYXUgbWluaXN0cmUgZHUgY29tbWVyY2UgZXQgZGUg
+        bGnMk25kdXN0cmllLCBhdmVjIGF0bGFzIMOpY29ub21pcXVlIGFubmV4ZTsg
+        bGnMk21taWdyYXRpb24gZXVyb3DDqWVubmUsIGxlIGNvbW1lcmNlIGV0IGxh
+        zJNncmljdWx0dXJlIMOgIExhIFBsYXRhLCAxODg2LTE4ODgnLCd0aXRsZV9k
+        aXNwbGF5Jz0+J01pc3Npb24gZGUgTS4gQ2FsdmV0IGRhbnMgbEHMk23DqXJp
+        cXVlIGR1IFN1ZCcsJ2F1dGhvcl9kaXNwbGF5Jz0+J0NhbHZldCwgQS4nLCdz
+        dWJ0aXRsZV9kaXNwbGF5Jz0+J3JhcHBvcnQgYXUgbWluaXN0cmUgZHUgY29t
+        bWVyY2UgZXQgZGUgbGnMk25kdXN0cmllLCBhdmVjIGF0bGFzIMOpY29ub21p
+        cXVlIGFubmV4ZTsgbGnMk21taWdyYXRpb24gZXVyb3DDqWVubmUsIGxlIGNv
+        bW1lcmNlIGV0IGxhzJNncmljdWx0dXJlIMOgIExhIFBsYXRhLCAxODg2LTE4
+        ODgnLCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ3Njb3JlJz0+NDU4
+        Ni41Mzl9XX0sJ2ZhY2V0X2NvdW50cyc9PnsnZmFjZXRfcXVlcmllcyc9Pnt9
+        LCdmYWNldF9maWVsZHMnPT57J29ubGluZSc9PlsnQXQgdGhlIExpYnJhcnkn
+        LDJdLCdmb3JtYXQnPT5bJ0Jvb2snLDJdLCdhdXRob3JfZmFjZXQnPT5bJ0Nh
+        bHZldCwgQScsMSwnTGF1bmF5LCBBZHJpZW4sIDE4NTMtMTkyNycsMSwnTWlz
+        c2lvbnMgw6l0cmFuZ8OocmVzIGRlIFBhcmlzJywxXSwncHViX2RhdGVfZmFj
+        ZXQnPT5bJzE4ODknLDEsJzE4OTAnLDFdLCd3b3JraWRfZmFjZXQnPT5bJzIx
+        MTI4NjQnLDEsJzk4ODk2MjYyNScsMV0sJ2xhbmd1YWdlX2ZhY2V0Jz0+WydG
+        cmVuY2gnLDJdLCdmYXN0X3RvcGljX2ZhY2V0Jz0+WydBZ3JpY3VsdHVyZSA+
+        IEVjb25vbWljIGFzcGVjdHMnLDEsJ0NhdGhvbGljIENodXJjaCcsMSwnQ29t
+        bWVyY2UnLDEsJ01pc3Npb25zJywxLCdNaXNzaW9ucyDDqXRyYW5nw6hyZXMg
+        ZGUgUGFyaXMnLDEsJ01pc3Npb25zLCBGcmVuY2gnLDFdLCdmYXN0X2dlb19m
+        YWNldCc9PlsnQXJnZW50aW5hJywxLCdBc2lhJywxLCdQYXJhZ3VheScsMSwn
+        VXJ1Z3VheScsMV0sJ2Zhc3RfZXJhX2ZhY2V0Jz0+W10sJ2Zhc3RfZ2VucmVf
+        ZmFjZXQnPT5bJ0F0bGFzZXMnLDEsJ0hpc3RvcnknLDEsJ01hcHMnLDFdLCdz
+        dWJqZWN0X2NvbnRlbnRfZmFjZXQnPT5bJ05vbi1GaWN0aW9uIChib29rcykn
+        LDJdLCdsY19hbHBoYV9mYWNldCc9PltdLCdsb2NhdGlvbl9mYWNldCc9Plsn
+        TWFubiBMaWJyYXJ5JywxLCdPbGluIExpYnJhcnknLDFdLCdoaWVyYXJjaHlf
+        ZmFjZXQnPT5bXSwnYXV0aG9ydGl0bGVfZmFjZXQnPT5bJ0NhbHZldCwgQS4g
+        fCBNaXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6lyaXF1ZSBkdSBT
+        dWQnLDEsJ0xhdW5heSwgQWRyaWVuLCAxODUzLTE5MjcgfCBBdGxhcyBkZXMg
+        bWlzc2lvbnMgZGUgbGEgU29jacOpdMOpIGRlcyBNaXNzaW9ucy1FdHJhbmfD
+        qHJlcycsMV0sJ2xjX2NhbGxudW1fZmFjZXQnPT5bJ0UtRiAtIEhpc3Rvcnkg
+        b2YgdGhlIEFtZXJpY2FzJywxLCdFLUYgLSBIaXN0b3J5IG9mIHRoZSBBbWVy
+        aWNhczpGMTIwMS0zNzk5IC0gTGF0aW4gQW1lcmljYS4gU3BhbmlzaCBBbWVy
+        aWNhJywxLCdFLUYgLSBIaXN0b3J5IG9mIHRoZSBBbWVyaWNhczpGMTIwMS0z
+        Nzk5IC0gTGF0aW4gQW1lcmljYS4gU3BhbmlzaCBBbWVyaWNhOkYyMjAxLTM3
+        OTkgLSBTb3V0aCBBbWVyaWNhJywxLCdFLUYgLSBIaXN0b3J5IG9mIHRoZSBB
+        bWVyaWNhczpGMTIwMS0zNzk5IC0gTGF0aW4gQW1lcmljYS4gU3BhbmlzaCBB
+        bWVyaWNhOkYyMjAxLTM3OTkgLSBTb3V0aCBBbWVyaWNhOkYyODAxLTMwMjEg
+        LSBBcmdlbnRpbmEnLDEsJ0cgLSBHZW9ncmFwaHksIEFudGhyb3BvbG9neSwg
+        UmVjcmVhdGlvbicsMSwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBS
+        ZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdlbmVyYWwpJywxLCdHIC0gR2Vv
+        Z3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBo
+        eSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXMnLDEsJ0cgLSBHZW9n
+        cmFwaHksIEFudGhyb3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5
+        IChHZW5lcmFsKTpHMTAwMC0zMTIyIC0gQXRsYXNlczpHMTEwMC0zMTAyIC0g
+        QnkgcmVnaW9uIG9yIGNvdW50cnknLDEsJ0cgLSBHZW9ncmFwaHksIEFudGhy
+        b3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFsKTpH
+        MTAwMC0zMTIyIC0gQXRsYXNlczpHMTEwMC0zMTAyIC0gQnkgcmVnaW9uIG9y
+        IGNvdW50cnk6RzE3ODAtMjc5OSAtIEVhc3Rlcm4gSGVtaXNwaGVyZS4gRXVy
+        YXNpYSwgQWZyaWNhLCBldGMuJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9w
+        b2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEw
+        MDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEwMiAtIEJ5IHJlZ2lvbiBvciBj
+        b3VudHJ5OkcxNzgwLTI3OTkgLSBFYXN0ZXJuIEhlbWlzcGhlcmUuIEV1cmFz
+        aWEsIEFmcmljYSwgZXRjLjpHMjIwMC0yNDQ0Ljg0IC0gQXNpYScsMV0sJ2Nv
+        bGxlY3Rpb24nPT5bXX0sJ2ZhY2V0X3Jhbmdlcyc9Pnt9LCdmYWNldF9pbnRl
+        cnZhbHMnPT57fSwnZmFjZXRfaGVhdG1hcHMnPT57fX0sJ3N0YXRzJz0+eydz
+        dGF0c19maWVsZHMnPT57J3B1Yl9kYXRlX2ZhY2V0Jz0+eydtaW4nPT4xODg5
+        LjAsJ21heCc9PjE4OTAuMCwnY291bnQnPT4yLCdtaXNzaW5nJz0+MCwnc3Vt
+        Jz0+Mzc3OS4wLCdzdW1PZlNxdWFyZXMnPT43MTQwNDIxLjAsJ21lYW4nPT4x
+        ODg5LjUsJ3N0ZGRldic9PjAuNzA3MTA2NzgxMTg2NTQ3Nn19fSwnc3BlbGxj
+        aGVjayc9Pnsnc3VnZ2VzdGlvbnMnPT5bJ3RpdGxlOmRlcycseydudW1Gb3Vu
+        ZCc9PjEsJ3N0YXJ0T2Zmc2V0Jz0+MTUsJ2VuZE9mZnNldCc9PjI0LCdvcmln
+        RnJlcSc9PjAsJ3N1Z2dlc3Rpb24nPT5beyd3b3JkJz0+J3RpdGxlcGFnZXMn
+        LCdmcmVxJz0+NH1dfSwndGl0bGU6bWlzc2lvbnMnLHsnbnVtRm91bmQnPT4x
+        LCdzdGFydE9mZnNldCc9PjI2LCdlbmRPZmZzZXQnPT40MCwnb3JpZ0ZyZXEn
+        PT4wLCdzdWdnZXN0aW9uJz0+W3snd29yZCc9PidpbnRlcm1pc3Npb25zJywn
+        ZnJlcSc9PjZ9XX0sJ3RpdGxlOmRlJyx7J251bUZvdW5kJz0+MSwnc3RhcnRP
+        ZmZzZXQnPT40MiwnZW5kT2Zmc2V0Jz0+NTAsJ29yaWdGcmVxJz0+MCwnc3Vn
+        Z2VzdGlvbic9Plt7J3dvcmQnPT4ndGl0bGVkJywnZnJlcSc9Pjc3fV19LCdt
+        aXNzaW9ucycseydudW1Gb3VuZCc9PjEsJ3N0YXJ0T2Zmc2V0Jz0+ODMsJ2Vu
+        ZE9mZnNldCc9PjkxLCdvcmlnRnJlcSc9PjM2MjUsJ3N1Z2dlc3Rpb24nPT5b
+        eyd3b3JkJz0+J21pc3Npb24nLCdmcmVxJz0+Njc0MX1dfV0sJ2NvcnJlY3Rs
+        eVNwZWxsZWQnPT50cnVlfX0K
+    http_version: 
+  recorded_at: Tue, 31 Jan 2017 21:03:33 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b3/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 01 Feb 2017 15:57:53 GMT
+      Last-Modified:
+      - Wed, 01 Feb 2017 15:54:42 GMT
+      Etag:
+      - '"NWI3MDAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1598'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>5677,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889 TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'Atlas des missions de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>17,'start'=>0,'maxScore'=>2947910.0,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889 TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',16,'Image',1],'online'=>['At the Library',15,'Online',3],'language_facet'=>['French',16,'English',1],'location_facet'=>['Kroch Library Rare & Manuscripts',5,'Olin Library',5,'Kroch Library Asia',3,'Library Annex',3,'Mann Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>['missions',{'numFound'=>1,'startOffset'=>10,'endOffset'=>18,'origFreq'=>3641,'suggestion'=>[{'word'=>'mission','freq'=>6776}]}],'correctlySpelled'=>true}}
+    http_version: 
+  recorded_at: Wed, 01 Feb 2017 15:57:59 GMT
+- request:
+    method: get
+    uri: http://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 01 Feb 2017 15:57:59 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 01 Feb 2017 15:57:59 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '267'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 01 Feb 2017 15:57:59 GMT
+- request:
+    method: get
+    uri: https://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 01 Feb 2017 15:57:59 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 01 Feb 2017 15:57:59 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"0656101347c85c347269f703611fa254"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 338e44868e5e270c8dc061f79beb8464
+      X-Runtime:
+      - '0.161778'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"119162":{"119162":{"records":[{"bibid":"119162","holding_id":"156509","location_name":"maps","call_number":"Oversize
+        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/119162/items/262254","itemid":"262254","permLocation":"Olin
+        Library Maps (Non-Circulating)","location_id":"80","tempLocation":"","location":"Olin
+        Library Maps (Non-Circulating)","callNumber":"Oversize G2209.E4 L37 +++","copy":"c.
+        1","itemBarcode":"31924083532584","enumeration":"","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"80"},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library Maps (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Olin
+        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"not_avail_at":{},"onotes":[]}}},"4303721":{"4303721":{"records":[{"bibid":"4303721","holding_id":"4851798","location_name":"mann","call_number":"Oversize
+        F2808 .C35 ++","shelving_title":"","summary_holdings":["atlas"],"supplements":[],"indexes":[],"notes":["Library
+        lacks text vol.; has atlas only."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{"itemdata":[{"href":"http://catalog.library.cornell.edu:7074/vxws/record/4303721/items/6414202","itemid":"6414202","permLocation":"Mann
+        Library","location_id":"69","tempLocation":"","location":"Mann Library","callNumber":"Oversize
+        F2808 .C35 ++","copy":"c. 1","itemBarcode":"31924086755794","enumeration":"Atlas","chron":"","year":"","caption":"","freeText":"","typeCode":"3","typeDesc":"book","tempType":"0","itemStatus":"Not
+        Charged","spineLabel":"","itemNote":"0","onReserve":"N"}],"status":"available","messages":[{"status_code":"Not
+        Charged","short_message":"Not Charged","long_message":"Not Charged"}],"location_id":"69"},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Mann
+        Library"],"locnumber":1,"status":["avail"],"avail_at":{"Mann Library":"Oversize
+        F2808 .C35 ++"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 01 Feb 2017 15:57:59 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b3/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 03 Feb 2017 13:29:12 GMT
+      Last-Modified:
+      - Fri, 03 Feb 2017 13:26:02 GMT
+      Etag:
+      - '"ZjgyODAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '7583'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjE3NjAsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
+        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
+        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
+        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
+        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
+        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
+        bGNoZWNrLnEnPT4nKCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTpt
+        aXNzaW9ucyArdGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGU6IkF0bGFz
+        IGRlcyBtaXNzaW9ucyBkZSBsYSAiJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZh
+        Y2V0LnNvcnQnPT4naW5kZXgnLCdzdGF0cyc9Pid0cnVlJywnd3QnPT4ncnVi
+        eScsJ2YuZmFzdF9nZW5yZV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5m
+        b3JtYXQuZmFjZXQubGltaXQnPT4nMTEnLCdzdGF0cy5maWVsZCc9PidwdWJf
+        ZGF0ZV9mYWNldCcsJ21tJz0+JzEnLCdmLmF1dGhvcl9mYWNldC5mYWNldC5s
+        aW1pdCc9Pic2JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zvcm1hdCcs
+        J2F1dGhvcl9mYWNldCcsJ3B1Yl9kYXRlX2ZhY2V0Jywnd29ya2lkX2ZhY2V0
+        JywnbGFuZ3VhZ2VfZmFjZXQnLCdmYXN0X3RvcGljX2ZhY2V0JywnZmFzdF9n
+        ZW9fZmFjZXQnLCdmYXN0X2VyYV9mYWNldCcsJ2Zhc3RfZ2VucmVfZmFjZXQn
+        LCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnLCdsY19hbHBoYV9mYWNldCcsJ2xv
+        Y2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0JywnYXV0aG9ydGl0bGVf
+        ZmFjZXQnLCdsY19jYWxsbnVtX2ZhY2V0JywnY29sbGVjdGlvbiddLCdxdCc9
+        PidzZWFyY2gnLCdmLmxjX2NhbGxudW1fZmFjZXQuZmFjZXQubGltaXQnPT4n
+        LTEnLCdzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQgZGVzYywg
+        dGl0bGVfc29ydCBhc2MnLCdyb3dzJz0+JzIwJywncSc9Pid0aXRsZTooK3Rp
+        dGxlOkF0bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1pc3Npb25zICt0aXRsZTpk
+        ZSArdGl0bGU6bGEgKSBPUiB0aXRsZToiQXRsYXMgZGVzIG1pc3Npb25zIGRl
+        IGxhICInLCdmLmZhc3RfZXJhX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdm
+        LmZhc3RfdG9waWNfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2ZhY2V0Jz0+
+        J3RydWUnLCdmLmxhbmd1YWdlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnfX0s
+        J3Jlc3BvbnNlJz0+eydudW1Gb3VuZCc9PjIsJ3N0YXJ0Jz0+MCwnbWF4U2Nv
+        cmUnPT4yODA2OS4xNCwnZG9jcyc9Plt7J2hvbGRpbmdzX3JlY29yZF9kaXNw
+        bGF5Jz0+Wyd7ImlkIjoiMTU2NTA5IiwibW9kaWZpZWRfZGF0ZSI6IjIwMTIx
+        MDAzMTMyNzUyIiwiY29weV9udW1iZXIiOm51bGwsImNhbGxub3MiOlsiT3Zl
+        cnNpemUgRzIyMDkuRTQgTDM3ICsrKyJdLCJub3RlcyI6WyJGb2xpby4iXSwi
+        aG9sZGluZ3NfZGVzYyI6W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwi
+        c3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5n
+        c19kZXNjIjpbXSwibG9jYXRpb25zIjpbeyJjb2RlIjoibWFwcyIsIm51bWJl
+        ciI6ODAsIm5hbWUiOiJPbGluIExpYnJhcnkgTWFwcyAoTm9uLUNpcmN1bGF0
+        aW5nKSIsImxpYnJhcnkiOiJPbGluIExpYnJhcnkifV19J10sJ29ubGluZSc9
+        PlsnQXQgdGhlIExpYnJhcnknXSwnaXRlbV9yZWNvcmRfZGlzcGxheSc9Plsn
+        eyJjb3B5X251bWJlciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJvb2siLCJp
+        dGVtX2lkIjoiMjYyMjU0IiwieWVhciI6IiIsIml0ZW1fdHlwZV9pZCI6IjMi
+        LCJjaHJvbiI6IiIsImNhcHRpb24iOiIiLCJob2xkc19wbGFjZWQiOiIwIiwi
+        dGVtcF9sb2NhdGlvbiI6IjAiLCJvbl9yZXNlcnZlIjoiTiIsIml0ZW1fZW51
+        bSI6IiIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsInRlbXBfaXRlbV90
+        eXBlX2lkIjoiMCIsIm1maGRfaWQiOiIxNTY1MDkiLCJyZWNhbGxzX3BsYWNl
+        ZCI6IjAiLCJjcmVhdGVfZGF0ZSI6IjIwMDAtMDUtMzEgMDA6MDA6MDAuMCIs
+        Iml0ZW1fYmFyY29kZSI6IjMxOTI0MDgzNTMyNTg0IiwibW9kaWZ5X2RhdGUi
+        OiIyMDEyLTEwLTAzIDEzOjI4OjA4LjAiLCJwZXJtX2xvY2F0aW9uIjp7ImNv
+        ZGUiOiJtYXBzIiwibnVtYmVyIjo4MCwibmFtZSI6Ik9saW4gTGlicmFyeSBN
+        YXBzIChOb24tQ2lyY3VsYXRpbmcpIiwibGlicmFyeSI6Ik9saW4gTGlicmFy
+        eSJ9fSddLCdvdGhlcl9pZF9kaXNwbGF5Jz0+WycoQ1N0UkxJTilOWUNYMTE3
+        MTY4NkInLCcoTklDKW5vdGlzQUFOMDYzNScsJzExOTE2MicsJyhPQ29MQykx
+        MTcxNjg2J10sJ2lkJz0+JzExOTE2MicsJ2Zvcm1hdCc9PlsnQm9vayddLCds
+        YW5ndWFnZV9kaXNwbGF5Jz0+WydGcmVuY2gnXSwncHViX2RhdGVfZGlzcGxh
+        eSc9PlsnMTg5MCddLCdwdWJfZGF0ZV9mYWNldCc9PjE4OTAsJ3B1Yl9pbmZv
+        X2Rpc3BsYXknPT5bJ0xpbGxlIDogU29jacOpdMOpIGRlIFNhaW50LUF1Z3Vz
+        dGluIERlc2Nsw6llIGRlIEJyb3V3ZXIgMTg5MC4nXSwnZnVsbHRpdGxlX2Rp
+        c3BsYXknPT4nQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBk
+        ZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMgOiAyNyBjYXJ0ZXMgZW4gNSBjb3Vs
+        ZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGljZXMgZ8Opb2dyYXBoaXF1
+        ZXMgZXQgaGlzdG9yaXF1ZXMnLCd0aXRsZV9kaXNwbGF5Jz0+J0F0bGFzIGRl
+        cyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0cmFu
+        Z8OocmVzJywnYXV0aG9yX2Rpc3BsYXknPT4nTGF1bmF5LCBBZHJpZW4sIDE4
+        NTMtMTkyNycsJ3N1YnRpdGxlX2Rpc3BsYXknPT4nMjcgY2FydGVzIGVuIDUg
+        Y291bGV1cnMgYWNjb21wYWduw6llcyBkZSAyNyBub3RpY2VzIGfDqW9ncmFw
+        aGlxdWVzIGV0IGhpc3RvcmlxdWVzJywnc2NvcmUnPT4yODA2OS4xNH0seydo
+        b2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjQ4NTE3OTgiLCJt
+        b2RpZmllZF9kYXRlIjoiMjAwMjA3MTExMTQwMTMiLCJjb3B5X251bWJlciI6
+        bnVsbCwiY2FsbG5vcyI6WyJPdmVyc2l6ZSBGMjgwOCAuQzM1ICsrIl0sIm5v
+        dGVzIjpbIkxpYnJhcnkgbGFja3MgdGV4dCB2b2wuOyBoYXMgYXRsYXMgb25s
+        eS4iXSwiaG9sZGluZ3NfZGVzYyI6WyJhdGxhcyJdLCJyZWNlbnRfaG9sZGlu
+        Z3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwi
+        aW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6
+        Im1hbm4iLCJudW1iZXIiOjY5LCJuYW1lIjoiTWFubiBMaWJyYXJ5IiwibGli
+        cmFyeSI6Ik1hbm4gTGlicmFyeSJ9XX0nXSwnaXRlbV9yZWNvcmRfZGlzcGxh
+        eSc9PlsneyJjb3B5X251bWJlciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJv
+        b2siLCJpdGVtX2lkIjoiNjQxNDIwMiIsInllYXIiOiIiLCJpdGVtX3R5cGVf
+        aWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2Vk
+        IjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJp
+        dGVtX2VudW0iOiJBdGxhcyIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIs
+        InRlbXBfaXRlbV90eXBlX2lkIjoiMCIsIm1maGRfaWQiOiI0ODUxNzk4Iiwi
+        cmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAyLTA3LTEx
+        IDE2OjE3OjA1LjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4Njc1NTc5NCIs
+        Im1vZGlmeV9kYXRlIjoiIiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoibWFu
+        biIsIm51bWJlciI6NjksIm5hbWUiOiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5
+        IjoiTWFubiBMaWJyYXJ5In19J10sJ290aGVyX2lkX2Rpc3BsYXknPT5bJyhO
+        TkMpbm90aXNBUkswMjk5JywnKENTdFJMSU4pTllDR0FSSzAyOTktQicsJyhP
+        Q29MQyk2NzI2NjcwJywnNDMwMzcyMSddLCdpZCc9Pic0MzAzNzIxJywnZm9y
+        bWF0Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaCdd
+        LCdwdWJfZGF0ZV9kaXNwbGF5Jz0+WycxODg5J10sJ3B1Yl9kYXRlX2ZhY2V0
+        Jz0+MTg4OSwncHViX2luZm9fZGlzcGxheSc9PlsnUGFyaXMgW1NjZWF1eCwg
+        SW1wci4gQ2hhcmFpcmUgZXQgRmlscywgMTg4OV0nXSwnZnVsbHRpdGxlX2Rp
+        c3BsYXknPT4nTWlzc2lvbiBkZSBNLiBDYWx2ZXQgZGFucyBsQcyTbcOpcmlx
+        dWUgZHUgU3VkOiByYXBwb3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0
+        IGRlIGxpzJNuZHVzdHJpZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5l
+        eGU7IGxpzJNtbWlncmF0aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBl
+        dCBsYcyTZ3JpY3VsdHVyZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4JywndGl0
+        bGVfZGlzcGxheSc9PidNaXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNt
+        w6lyaXF1ZSBkdSBTdWQnLCdhdXRob3JfZGlzcGxheSc9PidDYWx2ZXQsIEEu
+        Jywnc3VidGl0bGVfZGlzcGxheSc9PidyYXBwb3J0IGF1IG1pbmlzdHJlIGR1
+        IGNvbW1lcmNlIGV0IGRlIGxpzJNuZHVzdHJpZSwgYXZlYyBhdGxhcyDDqWNv
+        bm9taXF1ZSBhbm5leGU7IGxpzJNtbWlncmF0aW9uIGV1cm9ww6llbm5lLCBs
+        ZSBjb21tZXJjZSBldCBsYcyTZ3JpY3VsdHVyZSDDoCBMYSBQbGF0YSwgMTg4
+        Ni0xODg4Jywnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdzY29yZSc9
+        PjExNDA2LjM4N31dfSwnZmFjZXRfY291bnRzJz0+eydmYWNldF9xdWVyaWVz
+        Jz0+e30sJ2ZhY2V0X2ZpZWxkcyc9Pnsnb25saW5lJz0+WydBdCB0aGUgTGli
+        cmFyeScsMl0sJ2Zvcm1hdCc9PlsnQm9vaycsMl0sJ2F1dGhvcl9mYWNldCc9
+        PlsnQ2FsdmV0LCBBJywxLCdMYXVuYXksIEFkcmllbiwgMTg1My0xOTI3Jywx
+        LCdNaXNzaW9ucyDDqXRyYW5nw6hyZXMgZGUgUGFyaXMnLDFdLCdwdWJfZGF0
+        ZV9mYWNldCc9PlsnMTg4OScsMSwnMTg5MCcsMV0sJ3dvcmtpZF9mYWNldCc9
+        PlsnMjExMjg2NCcsMSwnOTg4OTYyNjI1JywxXSwnbGFuZ3VhZ2VfZmFjZXQn
+        PT5bJ0ZyZW5jaCcsMl0sJ2Zhc3RfdG9waWNfZmFjZXQnPT5bJ0FncmljdWx0
+        dXJlID4gRWNvbm9taWMgYXNwZWN0cycsMSwnQ2F0aG9saWMgQ2h1cmNoJywx
+        LCdDb21tZXJjZScsMSwnTWlzc2lvbnMnLDEsJ01pc3Npb25zIMOpdHJhbmfD
+        qHJlcyBkZSBQYXJpcycsMSwnTWlzc2lvbnMsIEZyZW5jaCcsMV0sJ2Zhc3Rf
+        Z2VvX2ZhY2V0Jz0+WydBcmdlbnRpbmEnLDEsJ0FzaWEnLDEsJ1BhcmFndWF5
+        JywxLCdVcnVndWF5JywxXSwnZmFzdF9lcmFfZmFjZXQnPT5bXSwnZmFzdF9n
+        ZW5yZV9mYWNldCc9PlsnQXRsYXNlcycsMSwnSGlzdG9yeScsMSwnTWFwcycs
+        MV0sJ3N1YmplY3RfY29udGVudF9mYWNldCc9PlsnTm9uLUZpY3Rpb24gKGJv
+        b2tzKScsMl0sJ2xjX2FscGhhX2ZhY2V0Jz0+W10sJ2xvY2F0aW9uX2ZhY2V0
+        Jz0+WydNYW5uIExpYnJhcnknLDEsJ09saW4gTGlicmFyeScsMV0sJ2hpZXJh
+        cmNoeV9mYWNldCc9PltdLCdhdXRob3J0aXRsZV9mYWNldCc9PlsnQ2FsdmV0
+        LCBBLiB8IE1pc3Npb24gZGUgTS4gQ2FsdmV0IGRhbnMgbEHMk23DqXJpcXVl
+        IGR1IFN1ZCcsMSwnTGF1bmF5LCBBZHJpZW4sIDE4NTMtMTkyNyB8IEF0bGFz
+        IGRlcyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0
+        cmFuZ8OocmVzJywxXSwnbGNfY2FsbG51bV9mYWNldCc9PlsnRS1GIC0gSGlz
+        dG9yeSBvZiB0aGUgQW1lcmljYXMnLDEsJ0UtRiAtIEhpc3Rvcnkgb2YgdGhl
+        IEFtZXJpY2FzOkYxMjAxLTM3OTkgLSBMYXRpbiBBbWVyaWNhLiBTcGFuaXNo
+        IEFtZXJpY2EnLDEsJ0UtRiAtIEhpc3Rvcnkgb2YgdGhlIEFtZXJpY2FzOkYx
+        MjAxLTM3OTkgLSBMYXRpbiBBbWVyaWNhLiBTcGFuaXNoIEFtZXJpY2E6RjIy
+        MDEtMzc5OSAtIFNvdXRoIEFtZXJpY2EnLDEsJ0UtRiAtIEhpc3Rvcnkgb2Yg
+        dGhlIEFtZXJpY2FzOkYxMjAxLTM3OTkgLSBMYXRpbiBBbWVyaWNhLiBTcGFu
+        aXNoIEFtZXJpY2E6RjIyMDEtMzc5OSAtIFNvdXRoIEFtZXJpY2E6RjI4MDEt
+        MzAyMSAtIEFyZ2VudGluYScsMSwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9s
+        b2d5LCBSZWNyZWF0aW9uJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xv
+        Z3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCknLDEsJ0cg
+        LSBHZW9ncmFwaHksIEFudGhyb3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2Vv
+        Z3JhcGh5IChHZW5lcmFsKTpHMTAwMC0zMTIyIC0gQXRsYXNlcycsMSwnRyAt
+        IEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9n
+        cmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMx
+        MDIgLSBCeSByZWdpb24gb3IgY291bnRyeScsMSwnRyAtIEdlb2dyYXBoeSwg
+        QW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdlbmVy
+        YWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMxMDIgLSBCeSByZWdp
+        b24gb3IgY291bnRyeTpHMTc4MC0yNzk5IC0gRWFzdGVybiBIZW1pc3BoZXJl
+        LiBFdXJhc2lhLCBBZnJpY2EsIGV0Yy4nLDEsJ0cgLSBHZW9ncmFwaHksIEFu
+        dGhyb3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFs
+        KTpHMTAwMC0zMTIyIC0gQXRsYXNlczpHMTEwMC0zMTAyIC0gQnkgcmVnaW9u
+        IG9yIGNvdW50cnk6RzE3ODAtMjc5OSAtIEVhc3Rlcm4gSGVtaXNwaGVyZS4g
+        RXVyYXNpYSwgQWZyaWNhLCBldGMuOkcyMjAwLTI0NDQuODQgLSBBc2lhJywx
+        XSwnY29sbGVjdGlvbic9PltdfSwnZmFjZXRfcmFuZ2VzJz0+e30sJ2ZhY2V0
+        X2ludGVydmFscyc9Pnt9LCdmYWNldF9oZWF0bWFwcyc9Pnt9fSwnc3RhdHMn
+        PT57J3N0YXRzX2ZpZWxkcyc9PnsncHViX2RhdGVfZmFjZXQnPT57J21pbic9
+        PjE4ODkuMCwnbWF4Jz0+MTg5MC4wLCdjb3VudCc9PjIsJ21pc3NpbmcnPT4w
+        LCdzdW0nPT4zNzc5LjAsJ3N1bU9mU3F1YXJlcyc9PjcxNDA0MjEuMCwnbWVh
+        bic9PjE4ODkuNSwnc3RkZGV2Jz0+MC43MDcxMDY3ODExODY1NDc2fX19LCdz
+        cGVsbGNoZWNrJz0+eydzdWdnZXN0aW9ucyc9PlsndGl0bGU6ZGVzJyx7J251
+        bUZvdW5kJz0+MSwnc3RhcnRPZmZzZXQnPT4xNSwnZW5kT2Zmc2V0Jz0+MjQs
+        J29yaWdGcmVxJz0+MCwnc3VnZ2VzdGlvbic9Plt7J3dvcmQnPT4ndGl0bGVw
+        YWdlcycsJ2ZyZXEnPT40fV19LCd0aXRsZTptaXNzaW9ucycseydudW1Gb3Vu
+        ZCc9PjEsJ3N0YXJ0T2Zmc2V0Jz0+MjYsJ2VuZE9mZnNldCc9PjQwLCdvcmln
+        RnJlcSc9PjAsJ3N1Z2dlc3Rpb24nPT5beyd3b3JkJz0+J2ludGVybWlzc2lv
+        bnMnLCdmcmVxJz0+Nn1dfSwndGl0bGU6ZGUnLHsnbnVtRm91bmQnPT4xLCdz
+        dGFydE9mZnNldCc9PjQyLCdlbmRPZmZzZXQnPT41MCwnb3JpZ0ZyZXEnPT4w
+        LCdzdWdnZXN0aW9uJz0+W3snd29yZCc9Pid0aXRsZWQnLCdmcmVxJz0+Nzl9
+        XX0sJ21pc3Npb25zJyx7J251bUZvdW5kJz0+MSwnc3RhcnRPZmZzZXQnPT44
+        MywnZW5kT2Zmc2V0Jz0+OTEsJ29yaWdGcmVxJz0+MzY2MCwnc3VnZ2VzdGlv
+        bic9Plt7J3dvcmQnPT4nbWlzc2lvbicsJ2ZyZXEnPT42NzgyfV19XSwnY29y
+        cmVjdGx5U3BlbGxlZCc9PnRydWV9fQo=
+    http_version: 
+  recorded_at: Fri, 03 Feb 2017 13:29:14 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b3/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=title:Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 03 Feb 2017 15:24:50 GMT
+      Last-Modified:
+      - Fri, 03 Feb 2017 15:24:17 GMT
+      Etag:
+      - '"NmQyODAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1567'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>4801,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889 TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1912034.0,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889 TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>['missions',{'numFound'=>1,'startOffset'=>10,'endOffset'=>18,'origFreq'=>3668,'suggestion'=>[{'word'=>'mission','freq'=>6800}]}],'correctlySpelled'=>true}}
+    http_version: 
+  recorded_at: Fri, 03 Feb 2017 15:24:55 GMT
 recorded_with: VCR 3.0.3

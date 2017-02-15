@@ -28,21 +28,50 @@ class SearchBuilder < Blacklight::SearchBuilder
     query_string = ""
     qparam_display = ""
     my_params = {}
+
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present?
       my_params = make_adv_query(blacklight_params)
+      #blacklight_params = my_params
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
+      if !my_params[:q_row].nil?
       blacklight_params[:q_row].each do |term|
         spellstring << term << ' '
       end
+      
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
-      user_parameters[:q] = my_params[:q]
+      else
+      end
+      user_parameters[:q] = blacklight_params[:q]
+ #     blacklight_params[:q] = user_parameters[:q]
+      Rails.logger.info("BPQ = #{user_parameters}")
       user_parameters[:search_field] = "advanced"
-#      Rails.logger.info("BERNICE30 = #{user_parameters}")
-    end
+      user_parameters["mm"] = "1"
+      user_parameters["defType"] = "edismax"
+    else 
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
+      if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
+        if blacklight_params[:search_field] == 'call number'
+           blacklight_params[:search_field] = 'lc_callnum'
+        end
+        if blacklight_params[:search_field] == 'author/creator'
+           blacklight_params[:search_field] = 'author'
+        end
+        if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
+        blacklight_params[:q] = blacklight_params[:q]
+        else
+        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+     #   blacklight_params[:q] = blacklight_params[:q]
+        end
+    #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
+        blacklight_params[:search_field] = ''
+        user_parameters[:q] = blacklight_params[:q]
+        Rails.logger.info("BPS = #{blacklight_params}")
+        user_parameters["mm"] = "1"
+      end
+    end
   end
 
 
@@ -106,66 +135,66 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
   end
 
-   def set_advanced_search_params(params)
-         # Use :advanced_search param as trustworthy indicator of search type
-         removeBlanks(params)
-         counter = test_size_param_array(params[:q_row])
-         if counter > 1
-            query_string = massage_params(params)
-            params[:advanced_search] = true
-            params["advanced_query"] = "yes"
-             holdparams = []
-             terms = []
-             ops = 0
-             params["op"] = []
-#             holdparams = query_string.split("&")
-             for i in 0..params[:q_row].count - 1
-               search_session[params[:search_field_row][i]] = params[:q_row][i]
-               params[params[:search_field_row][i]] = params[:q_row][i]
-             end
-             for i in 1..params[:boolean_row].count
-               n = i.to_s
-               params["op"][i-1] = params[:boolean_row][n.to_sym]
-             end
-#             if holdparams.count > 2
-             if params[:q_row].count > 1
-               params["search_field"] = "advanced"
-               params[:q] = query_string
-               search_session[:q] = query_string
-               search_session[:search_field] = "advanced"
+#   def set_advanced_search_params(params)
+#         # Use :advanced_search param as trustworthy indicator of search type
+#         removeBlanks(params)
+#         counter = test_size_param_array(params[:q_row])
+#         if counter > 1
+#            query_string = massage_params(params)
+#            params[:advanced_search] = true
+#            params["advanced_query"] = "yes"
+#             holdparams = []
+#             terms = []
+#             ops = 0
+#             params["op"] = []
+##             holdparams = query_string.split("&")
+#             for i in 0..params[:q_row].count - 1
+#               search_session[params[:search_field_row][i]] = params[:q_row][i]
+#               params[params[:search_field_row][i]] = params[:q_row][i]
+#             end
+#             for i in 1..params[:boolean_row].count
+#               n = i.to_s
+#               params["op"][i-1] = params[:boolean_row][n.to_sym]
+#             end
+##             if holdparams.count > 2
+#             if params[:q_row].count > 1
+#               params["search_field"] = "advanced"
+#               params[:q] = query_string
+#               search_session[:q] = query_string
+#               search_session[:search_field] = "advanced"
 
-             else
-               params[:q] = params["q"]
-               search_session[:q] = params[:q]
-               params[:search_field] = params["search_field"]
-               search_session[:search_field] = params[:search_field]
-             end
-             params["commit"] = "Search"
-#             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-             params["action"] = "index"
-             params["controller"] = "catalog"
-       else
-            params.delete(:advanced_search)
-            params.delete("advanced_query")
-            query_string = parse_single(params)
-            holdparams = query_string.split("&")
-            for i in 0..holdparams.count - 1
-              terms = holdparams[i].split("=")
-              params[terms[0]] = terms[1]
-              search_session[terms[0]] = terms[1]
-              session[:search][:"#{terms[0]}"] = terms[1]
-              session[:search][:search_field] = params[:search_field_row][0]
-            end
-           #  params[:q] = query_string
-             params.delete("q_row")
-             params.delete("op_row")
-             params.delete("search_field_row")
-             params["commit"] = "Search"
-             params["action"] = "index"
-             params["controller"] = "catalog"
-       end
-     return query_string
-  end
+#             else
+#               params[:q] = params["q"]
+#               search_session[:q] = params[:q]
+#               params[:search_field] = params["search_field"]
+#               search_session[:search_field] = params[:search_field]
+#             end
+#             params["commit"] = "Search"
+##             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
+#             params["action"] = "index"
+#             params["controller"] = "catalog"
+#       else
+#            params.delete(:advanced_search)
+#            params.delete("advanced_query")
+#            query_string = parse_single(params)
+#            holdparams = query_string.split("&")
+#            for i in 0..holdparams.count - 1
+#              terms = holdparams[i].split("=")
+#              params[terms[0]] = terms[1]
+#              search_session[terms[0]] = terms[1]
+#              session[:search][:"#{terms[0]}"] = terms[1]
+#              session[:search][:search_field] = params[:search_field_row][0]
+#            end
+#           #  params[:q] = query_string
+#             params.delete("q_row")
+#             params.delete("op_row")
+#             params.delete("search_field_row")
+#             params["commit"] = "Search"
+#             params["action"] = "index"
+#             params["controller"] = "catalog"
+#       end
+#     return query_string
+#  end
 
   def test_size_param_array(param_array)
     countit = 0
@@ -322,52 +351,69 @@ class SearchBuilder < Blacklight::SearchBuilder
     return countit
   end
 
-def removeBlanks(params)
-     queryRowArray = [] #params[:q_row]
-     booleanRowArray = [] #params[:boolean_row]
-     subjectFieldArray = [] #params[:search_field_row]
-     opRowArray = [] #params[:op_row]
-     boolHoldHash = {}
-     qrowIndexes = []
-     qrowSize = params[:q_row].count
-     booleanRowCount = 1
-     for i in 0..qrowSize - 1 
-       n = (i + 1).to_s
-       if params[:q_row][i] != ""
-         qrowIndexes << i
-         queryRowArray << params[:q_row][i]
-         opRowArray <<  params[:op_row][i]
-         subjectFieldArray << params[:search_field_row][i]
+    def removeBlanks(my_params = params || {} )
+       testQRow = [] #my_params[:q_row]
+       testOpRow = []
+       testSFRow = []
+       testBRow = []
+       for i in 0..my_params[:q_row].count - 1
+          if my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?
+             testQRow << my_params[:q_row][i]
+             testOpRow << my_params[:op_row][i]
+             testSFRow << my_params[:search_field_row][i]
+          end
        end
-       if qrowIndexes[0] == 0
-         for i in 1..qrowIndexes.count - 1
-           n = qrowIndexes[i].to_s
-           boolHoldHash["#{booleanRowCount}"] = params[:boolean_row][n.to_sym]
-           booleanRowCount = booleanRowCount + 1
-         end
-       else
- #not sure if needed yet      
+       hasNonBlankcount = 0
+       for i in 0..my_params[:q_row].count - 1  
+          if my_params[:q_row][i].blank? or my_params[:q_row][i].nil?
+          #  if i == 0
+          #    next
+          #  end
+          #  if i == my_params[:q_row].count - 1
+              next
+          #  end
+          else
+            hasNonBlankcount = hasNonBlankcount + 1
+            if i == my_params[:q_row].count - 1 and  hasNonBlankcount > 1
+                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
+            end
+            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
+            end
+          end
        end
-    end
-     params[:q_row] = queryRowArray
-     params[:op_row] = opRowArray
-     params[:search_field_row] = subjectFieldArray
-     params[:boolean_row] = boolHoldHash
+        my_params[:q_row] = testQRow
+        my_params[:op_row] = testOpRow
+        my_params[:search_field_row] = testSFRow
+        my_params[:boolean_row] = testBRow
+       return my_params
+     end
 
-     return params
-end
-
-    def make_adv_query(my_params = params || {})
+   def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
      if !my_params[:q_row].nil? || !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
+       blacklight_params = my_params
+       newMyParams = {}
+       for i in 0..my_params[:boolean_row].count - 1
+         n = i + 1
+         n = n.to_s.to_sym
+         newMyParams[n] = my_params[:boolean_row][i]
+       end
+       my_params[:boolean_row] = newMyParams
        # IF 1.1
-       if my_params[:boolean_row].nil?
+       if my_params[:boolean_row] == {} or my_params[:boolean_row].nil?
          my_params = makesingle(my_params)
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
+        # my_params[:boolean_row] = blacklight_params[:boolean_row]
+       #  my_params[:q] = "((+Bibliotheca +Instituti +Historici) OR \"Bibliotheca Instituti Historici\")"
          return my_params
        # end IF 1.1
        end
@@ -379,6 +425,8 @@ end
        q_string2Array = []
        opArray = []
        newOpArray = []
+       solr6query = ""
+       journal_title_flag = 0
        # IF 1.2
        if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?
           #convert hash to array The front end numbers boolean_row differently than the search_field, q_row arrays.
@@ -408,26 +456,20 @@ end
                 newpass = my_params[:q_row][i]
               end
               if my_params[:search_field_row][i] == 'journal title'
-                my_params['format'] = "Journal"
+                my_params['format'] = "Journal/Periodical"
               end
-#              if my_params[:op_row][i] == "begins_with"
-#                my_params[:search_field_row][i] = my_params[:search_field_row][i] + "_starts"
-#              end
-              #looks like this block is unecessary
               pass_param = { my_params[:search_field_row][i] => my_params[:q_row][i]}
               returned_query = ParsingNesting::Tree.parse(newpass)
               newstring = returned_query.to_query(pass_param)
               holdarray = newstring.split('}')
-              if my_params[:op_row][i] == "OR"
-                holdarray[1] = parse_query_row(holdarray[1], "OR")
-              end
+              holdarray[1] = holdarray[1].chomp('"')
+           #   if my_params[:op_row][i] == "OR"
+           #     holdarray[1] = parse_query_row(holdarray[1], "OR")
+           #   end
               #    if my_params[:op_row][i] == 'begins_with'
               #     holdarray[1] = parse_query_row(holdarray[1], "OR")
               #    end
-              queryStart = " _query_:\"{!edismax "
-              q_string = q_string  + " _query_:\"{!edismax " 
               q_string2 = q_string2 +  ""
-              q_string_hold = q_string_hold + " _query_:\"{!edismax " 
 
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
               if !fieldNames.nil?
@@ -451,135 +493,186 @@ end
                   solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
-                  solr_stuff = "journal title"
+                  solr_stuff = "title"
+                  journal_title_flag = 1
+                end
+                if solr_stuff == "notes"
+                  solr_stuff = "notes_qf"
+                end
+                if solr_stuff == "all_fields"
+                  solr_stuff = ""
                 end
                 field_name =  solr_stuff
-                if field_name == "journal title"
-                    if my_params[:op_row][i] == 'begins_with'
-                      field_name = "title_starts"
-                    else
-                      field_name = "title"
-                    end
-                    q_string << " qf=$" << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
-                    q_string2 << field_name << " = "
-                    q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
-  
-                else
-                  if my_params[:op_row][i] == 'begins_with'
-                      q_string << " qf=$" 
-                      if field_name == 'all_fields'
-                        q_string << "starts_qf pf=$starts_pf"
-                        q_string_hold << q_string
-                      else
-                        q_string << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
-                        q_string_hold << q_string
-                      end
-                      q_string2 << field_name << "_starts"<< " = "
-                  #    q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
+#                    q_string2 << field_name << " = "
+                if my_params[:op_row][i] == 'begins_with'
+                  if field_name == ""
+                    field_name = 'starts:'
                   else
-                      q_string << " qf=$" 
-                      if field_name == 'all_fields'
-                        q_string << "qf pf=$pf"
-                        q_string_hold << q_string
-                      else
-                        q_string << field_name << "_qf pf=$" << field_name << "_pf"
-                        q_string_hold << q_string
-                      end
-                      q_string2 << field_name << " = "
-                 #     q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+                    if field_name == 'notes_qf'
+                       field_name = 'notes_starts:'
+                    else
+                       field_name = field_name + '_starts:'
+                    end
                   end
                 end
+                if my_params[:op_row][i] == 'phrase'
+                  if field_name == ""
+                    field_name = 'quoted:'
+#                      solr6query << field_name #<< ":"
+                  else
+                    if field_name == 'notes_qf'
+                      field_name = 'notes_quoted:'
+#                      solr6query << field_name #<< ":"
+                    else
+                      field_name = field_name +  '_quoted:'
+#                      solr6query << field_name #<< ":"
+                    end
+                  end
+                end
+                      q_string2 << field_name << " = "
+
 
               end #of if
-    #   if my_params[:q_row].count == 1
-
- #        my_params[:q] = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\""
-    #   end
               if holdarray.count > 1 #D
                 if field_name.nil?
-                  field_name = 'all_fields'
+                  field_name = ''
                 end
-
                 for j in 1..holdarray.count - 1
+                   opfill = ""
                    holdarray_parse = holdarray[j].split('_query_')
                    holdarray[1] = holdarray_parse[0]
                    if(j < holdarray.count - 1)
-                      if my_params[:op_row][i] == 'begins_with' || my_params[:search_field_row][i] == 'call number' #|| my_params[:op_row][i] == 'phrase'
+                      if my_params[:op_row][i] == 'begins_with' or my_params[:search_field_row][i] == 'call number' or my_params[:op_row][i] == 'phrase'
                         holdarray[1].gsub!('"','')
                         holdarray[1].gsub!('\\','')
-                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" 
-                        if field_name == 'all_fields'
-                          q_string_hold << "starts_qf pf=$starts_pf"
+                        q_string2 << holdarray[1] 
+                        if journal_title_flag == 1
+                        solr6query = '(' + solr6query
+                        solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical)"'
                         else
-                          q_string_hold << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                        solr6query << "\"" + holdarray[1] + "\""
                         end
-                        q_string << "}\\\\\\\"" << holdarray[1] << "\\\\\\\" _query_:\\\"{!edismax  qf=$"
-                        if field_name == 'all_fields'
-                          q_string << "starts_qf pf=$starts_pf"
-                        else
-                          q_string << field_name << "_starts_qf pf=$" << field_name << "_starts_pf" #}" << holdarray[1].chomp("\"") << "\""
-                        end
-                        q_string2 << holdarray[1]
                       else
-                        q_string_hold << "}" << holdarray[1] << " _query_:\\\"{!edismax  qf=$" 
-                        if field_name == 'all_fields'
-                          q_string_hold << "qf pf=$pf"
+                        tokenArray = holdarray[1].split(" ")
+                        if tokenArray.size > 1
+                          newTerm = " ("
+                          if my_params[:op_row][i] == "AND"
+                            opfill = "AND"
+                          else
+                            opfill = "OR"
+                          end
+                          for k in 0..tokenArray.size - 2
+                               if field_name == ''
+                                newTerm << field_name + tokenArray[k] + " " + opfill + " "
+                              else
+                                newTerm << field_name + ":" + tokenArray[k] + " " + opfill + " "
+                              end
+                          end
+                          if field_name == ''
+                          newTerm << + tokenArray[tokenArray.size - 1] + ")"
+                          else
+                          newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
+                          end
+                          q_string2 << holdarray[1]
+                          if journal_title_flag == 1
+                            solr6query = '(' + solr6query
+                            solr6query << newTerm << ') AND format:"Journal/Periodical)"'
+                          else
+                            solr6query << newTerm
+                          end
                         else
-                          q_string_hold << field_name << "_qf pf=$" << field_name << "_pf"
-                        end
-                        q_string << "}" << holdarray[1] << " _query_:\\\"{!edismax qf=$" 
-                        if field_name == "all_fields"
-                          q_string << "qf pf=$pf"
-                        else
-                          q_string << field_name << "_qf pf=$" << field_name << "_pf" #}" << holdarray[1].chomp("\"") << "\""
-                        end
-                        q_string2 << holdarray[1]
+                          q_string2 << holdarray[1]
+                          if field_name == ''
+                          solr6query << field_name  + holdarray[1] 
+                          else
+                            if journal_title_flag == 1
+                              solr6query = '(' + solr6query
+                              solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
+                            else
+                              solr6query << field_name + ":" + holdarray[1] 
+                            end
+                          end
+                      end
                       end
                    else
-                     if my_params[:op_row][i] == 'begins_with'|| my_params[:search_field_row][i] == 'call number' # || my_params[:op_row][i] == 'phrase'
+                     if my_params[:op_row][i] == 'begins_with' or my_params[:search_field_row][i] == 'call number' or my_params[:op_row][i] == 'phrase'
                        holdarray[1].gsub!('"','')
                        holdarray[1].gsub!('\\','')
-                       q_string_hold << "}\"" << holdarray[1] << "\""
-                       q_string << "}\\\"" << holdarray[1]  << "\\\"\""  #  \\\"design\\\"\"
                        q_string2 << holdarray[1] << " "
+                       if field_name == ''
+                          solr6query << "\"" + holdarray[1] + "\""
+                       else
+                          if journal_title_flag == 1
+                          solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                          else
+                          solr6query << field_name << "\"" + holdarray[1] + "\""
+                          end
+                       end
                      else
-                       q_string_hold << "}" << holdarray[1] #<< "\""
-                       q_string << "}" << holdarray[1] #<< "\""
+                       tokenArray = holdarray[1].split(" ")
+                        if tokenArray.size > 1
+                          newTerm = " ("
+                          if my_params[:op_row][i] == "AND"
+                            opfill = "AND"
+                          else
+                            opfill = "OR"
+                          end
+                          for k in 0..tokenArray.size - 2
+                               if field_name == ''
+                                newTerm << field_name + tokenArray[k] + " " +opfill + " "
+                               else
+                                newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
+                               end
+                          end
+                          if field_name == ''
+                          newTerm <<  tokenArray[tokenArray.size - 1] + ")"
+                          else
+                          newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                          end
+                          q_string2 << holdarray[1]
+                          if journal_title_flag == 1
+                          solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                          else
+                          solr6query << newTerm
+                          end
+                        else
+
                        q_string2 << holdarray[1] << " "
-                    
+                       if field_name == ''
+                       solr6query << " " + holdarray[1] 
+                       else
+                        if journal_title_flag == 1
+                        solr6query << " " + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                        else
+                        solr6query << " " + field_name + ":" + holdarray[1]
+                        end
+                       end 
+                     end
                      end
 
                    end
                 end
               else #D
-                q_string_hold << "}" #<< holdarray[1] #<< "\""
-                q_string << "}" #<< holdarray[1] #<< "\""
-               # q_string2 = q_string2 #<< holdarray[1]
+                q_string2 = q_string2 #<< holdarray[1]
 
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
-                q_string_hold << " "
-                q_string << " " <<  opArray[i] << " "
                 q_string2 << " "
+                if journal_title_flag == 1
+                solr6query << " " + opArray[i] + " ("
+                else
+                solr6query << " " + opArray[i] + " "
+                end  
               end
-              q_stringArray << q_string_hold
+              
               q_string2Array << q_string2
-              q_string_hold = "";
               q_string2 = "";
-
            end #of For C
            #fix opArray
- 
-           test_q_string = groupBools(q_stringArray, opArray)
-           test_q_string2 = groupBools(q_string2Array, opArray)
-     #      test_q_string = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\""
-           if test_q_string == ""
-             #        solr_parameters[:sort] = "score desc, title_sort asc"
-           end
-           my_params[:q] = q_string #"_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"1451621175\\\"\" OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")" #q_string
-           if my_params[:q_row].present?
-             #     solr_parameters[:'spellcheck.dictionary'] = params[:q_row].join(" ")
-           end
+        #   opArray = opArray.shift
+        ####   test_q_string = groupBools(q_stringArray, opArray)
+          test_q_string2 = groupBools(q_string2Array, opArray)
+        #  test_q_string2 = solr6query
            my_params[:show_query] = test_q_string2.gsub!('(', '')
            if !my_params[:show_query].nil?
              my_params[:show_query] = my_params[:show_query].gsub!(')','')
@@ -587,14 +680,9 @@ end
            end
          end #B
        else #A
-         
-         #      solr_parameters[:q] = my_params[:q]
          if params[:search_field] == "call number" and !my_params[:q].nil? and !my_params[:q].include?('"')
            params[:q] = '"' + my_params[:q] + '"'
          end
-         #   solr_search_params_logic.each do |method_name|
-         #     send(method_name, solr_parameters, my_params)
-         #   end
          session[:search][:q] = my_params[:q]
          session[:search][:counter] = my_params[:counter]
          session[:search][:search_field] = my_params[:search_field]
@@ -616,15 +704,23 @@ end
        if my_params[:show_query].nil? && !test_q_string2.nil?
         my_params[:show_query] = test_q_string2
        end
-       #solr_parameters['spellcheck.dictionary'] = "title_start=cat&op[]=AND&subject_start=animal"
-       #  my_params["q"] = "( _query_:\"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus\" AND ( _query_:\"{!edismax qf=$title_qf pf=$title_pf}history\"))" # OR (_query_:\"{!edismax qf=$title_qf pf=$title_pf}design\" OR ( _query_:\"{!edismax qf=$title_qf pf=$title_pf}box\"))))" # OR  (_query_:\"{!edismax qf=$subject_qf pf=$subject_pf}archive\"))))"
-       #  my_params["q"] = "( _query_:\"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus\" AND  _query_:\"{!edismax qf=$title_qf pf=$title_pf}box\")" # OR  (_query_:\"{!edismax qf=$subject_qf pf=$subject_pf}archive\"))))"
-       #   my_params["q"] = "(_query_:\"{!edismax qf=$title_starts_qf pf=$title_starts_pf}\\\"Norwegians\\\"\" AND ( _query_:\"{!edismax qf=$number_qf pf=$number_pf}6889976\"))"
-#       my_params["q"] =  "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"1451621175\\\"\" OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
-#       my_params["q"] =  "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\\\"N332G33B44\\\"\""
-#       my_params["q"] = " _query_:\"{!edismax  qf=$title_qf pf=$title_pf}design\" AND ( _query_:\"{!edismax  qf=$subject_qf pf=$subject_pf}bauhaus\" OR  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}frogs\")"
-#       my_params["q"] = " _query_:\"{!edismax  qf=$title_starts_qf pf=$title_starts_pf}\\\"design\\\"\"  AND  _query_:\"{!edismax  qf=$subject_qf pf=$subject_pf}bauhaus\""
+   #  my_params["q"] = "+title:either/or AND author:Kierkegaard"  
+   #  my_params["q"] = "title:bauhaus OR subject:design"  
+   #  my_params["q"] = "(+title:bauhaus) NOT (+subject:design)"  
+    # my_params["q"] = "(title:bauhaus)OR (subject:design)"  
+   #  my_params["q"] = "mm=1&q.op=OR&q=(title:bauhaus) OR subject:design"  
+   #  my_params["q"] = "title_starts:\"South\" NOT title_starts:\"South Africa\" NOT title_starts:\"South Carolina\""
+   #  my_params["q"] = "title:Minnesota AND  (author:Office OR author:of OR author:Personnel OR author:Management) NOT title_starts:\"small\""
+  #   my_params["q"] = "+marvel +masterworks"
+  #  solr6query = "(notes:English, AND notes:German, AND notes:Italian, AND notes:Latin, AND notes:or AND notes:Portugese)" # AND ((+Bibliotheca +Instituti +Historici) OR \\\"Bibliotheca Instituti Historici\\\")" 
+    #solr6query = '(title_starts:"Science advances" AND format:"Journal/Periodical") OR (title_starts:"advances" AND format:"Journal/Periodical")'  
+         if journal_title_flag == 1
+           solr6query = '(' + solr6query
+         end
+     Rails.logger.info("FINISH1 = #{solr6query}")    
+         my_params["q"] = solr6query 
        return my_params
+
   end  #def
   
   def makesingle(my_params)
@@ -632,8 +728,8 @@ end
     query = my_params[:q_row][0]
     field_name = my_params[:search_field_row][0]
     op_name = my_params[:op_row][0]
-    query = "_query_:\\\"{!edismax "
-    
+    query = ""
+    journal_title_flag = 0    
               fieldNames = blacklight_config.search_fields["#{field_name}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -656,73 +752,186 @@ end
                   solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
-                  solr_stuff = "journal title"
+                  my_params[:f] = {}
+                  solr_stuff = "title"
+                  format = []
+                  format << "Journal/Periodical"
+                  my_params[:f][:format] = format
+                  journal_title_flag = 1
                 end
-                field_name =  solr_stuff
-                if field_name == "journal title"
-                    if my_params[:op_row][i] == 'begins_with'
-                      field_name = "title_starts"
-                    else
-                      field_name = "title"
-                    end
-                    query << " qf=$" 
+                if solr_stuff == "notes"
+                  solr_stuff = "notes_qf"
+                end
+                if solr_stuff == "series"
+                  solr_stuff = "series"
+                end
+                if solr_stuff == "all_fields"
+                  solr_stuff = ''
+                end
+                field_name = solr_stuff
+                if op_name == 'begins_with'
+                    query << "" 
                     if field_name == 'all_fields'
-                      query << "qf pf=$pf"
+                       query << "starts:"
                     else
-                      query << field_name << "_qf pf=$" << field_name << "_pf format=Journal"
+                      if field_name == 'notes_qf'
+                       query << 'notes_starts:'
+                      else
+                       query << field_name << "_starts:"
+                      end
                     end
-                   # q_string2 << field_name << " = "
-                   # q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf format=Journal"
-  
-                else
-                  if op_name == 'begins_with'
-                      query << " qf=$" 
-                      if field_name == 'all_fields'
-                        query << "starts_qf pf=$starts_pf"
+                 else
+                    if op_name == 'phrase' 
+                      query << "" 
+                      if field_name == ''
+                        query << "quoted:"
                       else
-                        query << field_name << "_starts_qf pf=$" << field_name << "_starts_pf"
+                        if field_name == 'notes_qf'
+                          query << 'notes_quoted:'
+                        else
+                          if field_name != 'lc_callnum'
+                            query << field_name << "_quoted:"
+                          end
+                        end
                       end
-                  #    q_string2 << field_name << "_starts"<< " = "
-                  #    q_string_hold << " qf=$" + field_name + "_starts_qf pf=$" + field_name + "_starts_pf"
-                  #    Rails.logger.info("BERNICE2 = #{q_string}")
-                  else
-                      query << " qf=$" 
-                      if field_name == 'all_fields'
-                        query << "qf pf=$pf"
-                      else
-                        query << field_name << "_qf pf=$" << field_name << "_pf"
-                      end
-                    #  q_string2 << field_name << " = "
-                    #  q_string_hold << " qf=$" + field_name + "_qf pf=$" + field_name + "_pf"
+                    else
+                        query << field_name << ':'
+                    end
                   end
                 end
-
-              end 
           if my_params[:q_row].count == 1
-            querystring = my_params[:q_row][0]
-            if field_name == "lc_callnum"
-              query = "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"" + querystring + "\\\" "
-            else   
-              query = query << "}" + querystring + "\""
+            qarray = my_params[:q_row][0].split
+            newq = '('
+            if qarray.size == 1
+               if field_name == '' and (op_name != 'begins_with' and op_name != 'phrase')
+                 newq << qarray[0] << ') OR "' << qarray[0] << '"'
+               else 
+                 if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum:'
+                   if op_name == 'begins_with'
+                      if field_name == ''
+                         field_name = 'starts:'
+                      else
+                        if field_name == 'notes_qf'
+                          field_name = 'notes_starts:'
+                        else
+                         field_name = field_name + '_starts:'
+                        end
+                      end
+                   else
+                      if op_name == 'phrase'
+                        if field_name == ''
+                           field_name = 'quoted:'
+                        else
+                           if field_name == 'notes_qf'
+                              field_name = 'notes_quoted:'
+                           else
+                            if field_name != 'lc_callnum'
+                             field_name = field_name + '_quoted:'
+                            else
+                             field_name = field_name + ':'
+                            end
+                           end
+                        end
+                      else
+                       field_name = field_name + ':'
+                      end
+                   end
+                      
+                   if journal_title_flag == 1
+                   newq = '(' + newq
+                   newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   else
+                   newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
+                   end
+                 else
+                   if journal_title_flag == 1
+                   newq = '(' + newq
+                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   else
+                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                   end
+                 end
+               end
+            else
+              if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'  
+               if op_name == 'begins_with'
+                  if field_name == ''
+                     field_name = 'starts:'
+                  else
+                    if field_name == 'notes_qf'
+                      field_name = 'notes_starts:'
+                    else
+                     field_name = field_name + '_starts:'
+                    end
+                  end
+               else
+                  if op_name == 'phrase'
+                     if field_name == ''
+                        field_name = 'quoted:'
+                     else
+                       if field_name == 'notes_qf'
+                          field_name = 'notes_quoted:'
+                       else
+                        if field_name != 'lc_callnum'
+                         field_name = field_name + '_quoted:'
+                        else
+                         field_name = field_name + ':'
+                        end
+                       end
+                     end
+                  else
+                      field_name = field_name + ':'
+                  end
+               end 
+               if journal_title_flag == 1 
+                newq = '(' + newq
+                newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+               else
+                newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
+               end
+              else  
+               qarray.each do |bits|
+                  if field_name == ''
+                     newq << '+' << bits << ' '
+                  else
+                     newq << '+' << field_name << ':' << bits << ' '
+                  end
+               end
+               if field_name == ''
+                  newq << ') OR "' << my_params[:q_row][0] << '"'
+               else
+                 if journal_title_flag == 1
+                  newq = '(' + newq
+                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                 else
+                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                 end
+               end
             end
-            my_params[:q] = query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
+          end#encoding: UTF-8
+  
+#            querystring = newq #my_params[:q_row][0]
+#            if field_name == "lc_callnum" or op_name == "phrase" or op_name == "begins_with"
+#              query = "\"" + querystring + "\" "
+#            else   
+#              query = query << querystring 
+#            end
+            my_params[:q] = newq #query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
+       my_params.delete(:q_row)
+       my_params.delete(:op_row)
+       my_params.delete(:search_field_row)
+       my_params.delete(:boolean_row)
+   #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
+        my_params[:mm] = 1
+        blacklight_params = my_params
+          Rails.logger.info("FINISHER = #{my_params}")
     return my_params
   
   end
   def groupBools(q_stringArray, opArray)
      grouped = []
-#     rightParens = opArray.length
-#     closingparens = ""
-#     i = 1
-#     Rails.logger.info("OPARRAY = #{opArray}")
-#     while i <= rightParens do
-#       closingparens = closingparens + ")"
-#       i += 1
-#     end
- #    Rails.logger.info("FLATTER0 = #{q_stringArray}")
      newString = q_stringArray.flatten
- #    Rails.logger.info("FLATTER = #{newString}")
      if !q_stringArray.nil?
        newString = q_stringArray[0];
        for i in 0..opArray.count - 1
@@ -760,98 +969,7 @@ end
      return newString
   end
 
-#  def parse_for_stemming(params)
-#    query_string = params[:q]
-#    search_field = params[:search_field]
-##    unless query_string.nil?
-#     if query_string =~ /^\".*\"$/ or query_string.include?('"')
-#       Rails.logger.info("STEMfullstringquoted = #{query_string}")
-#       params[:search_field] = params[:search_field] + '_quote'
-#       return query_string
-#     else 
-#       unless query_string.nil?
-#         params[:q_row] = parse_stem(query_string)
-#         Rails.logger.info("PARSER Returned = #{params[:q_row]}")
-#       end
-#       return query_string       
-#     end
-##    end
-#  end
   
-#  def parse_stem(query_string)
-#    string_chars = query_string.chars
-#    Rails.logger.info("PARSER = #{string_chars}")
-#    quoteFlag = 0
-#    wordArray = []
-##   if !query_string == /^\".*\"$/ # query_string.include?('"')
-#   if !(query_string.start_with?('"') and query_string.end_with?('"')) #.*\"$/ # query_string.include?('"')
-#    Rails.logger.info("POOP #{query_string}")
-#    search_field = params[:search_field]
-#    params[:q_row] = []
-#    params[:search_field_row] = []
-#    params[:op_row] = []
-#    params[:op] = []
-#    params[:boolean_row] = {}
-#    params[:q] = ""
-#    string_chars.each do |i|
-#      if i == '"'
-#        if quoteFlag == 1  #left hand quote already encountered this must be right hand quote
-#          wordArray << i
-#          params[:q] << i
-#          params[:q_row] << wordArray.join.strip  #right hand quote means end of section add to params[:q_row]
-#          params[:op_row] << "phrase"
-#          params[:search_field_row] << search_field + "_quote"
-#          quoteFlag = 0 #reset quote flag
-#          wordArray = [] #clear out wordArray
-#        else # must be left hand quote
-#          if !wordArray.empty?
-#            params[:q_row] << wordArray.join.strip
-#            params[:op_row] << "AND"
-#            params[:search_field_row] << search_field
-#            wordArray = []
-#          end
-#          quoteFlag = 1
-#          wordArray << i
-#          params[:q] << i
-#        end
-#      else
-#        wordArray << i
-#        params[:q] << i
-#      end
-#    end
-#    if !wordArray.empty?
-#      if quoteFlag == 1
-#        wordArray << '"'
-#        params[:q]<< '"'
-#        Rails.logger.info("GLADYS = #{wordArray}")
-#        params[:q_row] << wordArray.join.strip
-#        params[:op_row] << "phrase"
-#        params[:search_field_row] << search_field + "_quote"
-#        wordArray = []
-#        quoteFlag = 0
-#      else 
-#        if quoteFlag == 0
-#        Rails.logger.info("GLADYS1 = #{wordArray}")
-#          params[:q_row] << wordArray.join.strip
-#           params[:op_row] << "AND"
-#          params[:search_field_row] << search_field 
-#         wordArray = []
-#        end
-#      end
-#    end 
-#    times = params[:q_row].count
-#    for j in 1..times -1
-#      x = j
-#      n = x.to_s
-#      params[:boolean_row]["#{j}"] = "AND"
-#      params[:op][j - 1] = "AND"
-#    end
-#    Rails.logger.info("PUTREFLIP = #{params}")
-#    return params
-#   else
-#     return query_string
-#   end
-#  end
   def reorderBooleanRow(paramshash) 
     newHash = {}
     newKey = 1

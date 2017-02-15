@@ -24,4 +24,6 @@ config/database.yml
 public/assets
 # Ignore ENV file.
 /.env
+# ignore coverage tests
+coverage
 
