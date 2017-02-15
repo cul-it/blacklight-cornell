@@ -57,7 +57,14 @@ Then /I should select checkbox "(.*)"$/i do |target|
 end
 
 Then /I should select radio "(.*)"$/i do |target|
-  page.all(:xpath, "//input[@value='OR']").first.click
+  case target 
+    when 'OR'
+      page.all(:xpath, "//input[@value='OR']").first.click
+    when 'AND'
+      page.all(:xpath, "//input[@value='AND']").first.click
+    when 'NOT'
+      page.all(:xpath, "//input[@value='NOT']").first.click
+  end
 end
 
 

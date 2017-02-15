@@ -1,5 +1,8 @@
 # Release Notes - blacklight-cornell-requests
 
+## v1.3.2
+- Fixed a bug that caused a recall request to loop back to the volume selection screen (DISCOVERYACCESS-2471)
+
 ## v1.3.1
 
 ### Enhancements

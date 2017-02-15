@@ -202,7 +202,49 @@ module CornellParamsHelper
     return countit
 end
 
-def removeBlanks(params)
+    def removeBlanks(my_params = params || {} )
+       testQRow = [] #my_params[:q_row]
+       testOpRow = []
+       testSFRow = []
+       testBRow = []
+       for i in 0..my_params[:q_row].count - 1
+          if my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?
+             testQRow << my_params[:q_row][i]
+             testOpRow << my_params[:op_row][i]
+             testSFRow << my_params[:search_field_row][i]
+          end
+       end
+       hasNonBlankcount = 0
+       for i in 0..my_params[:q_row].count - 1
+          if my_params[:q_row][i].blank? or my_params[:q_row][i].nil?
+          #  if i == 0
+          #    next
+          #  end
+          #  if i == my_params[:q_row].count - 1
+            next
+          #  end
+          else
+            hasNonBlankcount = hasNonBlankcount + 1
+            if i == my_params[:q_row].count - 1 and  hasNonBlankcount > 1
+                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
+            end
+            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
+            end
+          end
+       end
+        my_params[:q_row] = testQRow
+        my_params[:op_row] = testOpRow
+        my_params[:search_field_row] = testSFRow
+        my_params[:boolean_row] = testBRow
+       return my_params
+     end
+
+def oldRemoveBlanks(params)
      queryRowArray = [] #params[:q_row]
      booleanRowArray = [] #params[:boolean_row]
      subjectFieldArray = [] #params[:search_field_row]
@@ -210,7 +252,7 @@ def removeBlanks(params)
      qrowSize = params[:q_row].count
      booleanRowCount = 1
      qrowIndexes = []
-     boolHoldHash = {}
+     boolHoldHash =  params[:boolean_row]
      for i in 0..qrowSize - 1 
        n = (i + 1).to_s
        if params[:q_row][i] != ""
@@ -345,6 +387,12 @@ end
 
   def render_constraints_cts(my_params = params)
     field = params[:search_field]
+    if field == ''
+      field = "all_fields"
+    end
+    if field == 'lc_callnum'
+      field = 'call number'
+    end
     label = search_field_def_for_key(field)[:label]
     query = params[:y]
     content = ""
@@ -387,7 +435,10 @@ def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
 
   if !my_params[:q_row].nil?
+     Rails.logger.info("ZYZ = #{my_params}")
      my_params = removeBlanks(my_params)
+     Rails.logger.info("ZYZ = #{my_params}")
+     
   end
   if my_params[:search_field] == 'advanced'
     my_params.delete(:q)
@@ -482,11 +533,12 @@ def render_advanced_constraints_query(my_params = params)
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
 #        if my_params[:search_field_row][i] == "begins_with"
 #          sfr = sfr << "_starts"
-#        end
-        n = i.to_s
+#    
+        n = i - 1        
+       # n = n.to_s
         if !my_params[:boolean_row].nil?
-          if !my_params[:boolean_row][n.to_sym].nil?
-            new_q_parts[j] = "op[]=" << my_params[:boolean_row][n.to_sym]
+          if !my_params[:boolean_row][n].nil?
+            new_q_parts[j] = "op[]=" << my_params[:boolean_row][n]
             new_q_parts[j+1] =  sfr + "=" + my_params[:q_row][i]
           end
         end
@@ -574,7 +626,7 @@ def render_advanced_constraints_query(my_params = params)
           end
           return content.html_safe
      else
-        temp_boolean_rows = deep_copy(my_params)
+        temp_boolean_rows = my_params[:boolean_row]
         0.step(my_params[:q_row].count - 1, 1) do |x|
           label = ""
           opval = ""
@@ -593,22 +645,23 @@ def render_advanced_constraints_query(my_params = params)
               end
 
               end
-              if x == 0
-                2.step(temp_boolean_rows[:boolean_row].count, 1) do |br|
-                  ss = br.to_s
-                  temp_boolean_row << temp_boolean_rows[:boolean_row][ss.to_sym]
-                end
-              else
-                1.step(temp_boolean_rows[:boolean_row].count, 1) do |br|
-                  if x != br
-                   ss = br.to_s
-                   temp_boolean_row << temp_boolean_rows[:boolean_row][ss.to_sym]
-                  end
-                end
-              end
+   #           if x == 0
+   #             2.step(temp_boolean_rows[:boolean_row].count, 1) do |br|
+   #               ss = br.to_s
+   #               temp_boolean_row << temp_boolean_rows[:boolean_row][ss.to_sym]
+   #             end
+   #           else
+   #             1.step(temp_boolean_rows[:boolean_row].count, 1) do |br|
+   #               if x != br
+   #                ss = br.to_s
+   #                temp_boolean_row << temp_boolean_rows[:boolean_row][ss.to_sym]
+   #               end
+   #             end
+   #           end
                 
-               if x >= 1 and x <= temp_boolean_rows.count
-                   opval = temp_boolean_row[x]
+               if x >= 0 and x <= temp_boolean_rows.count
+                   Rails.logger.info("CONSTRAINTSZ = #{temp_boolean_rows}")
+                   opval = temp_boolean_rows[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
                else
                    label = search_field_def_for_key(my_params[:search_field_row][x])[:label]
@@ -622,7 +675,8 @@ def render_advanced_constraints_query(my_params = params)
                   
                   autoparam << "q_row[]=" << CGI.escape(temp_q_row[qp]) << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
                   if qp < temp_q_row.length - 1
-                    autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_row[qp] << "&"
+                    Rails.logger.info("ASDF = #{temp_boolean_rows}")
+                    autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_rows[qp] << "&"
                   end
 
                  
@@ -635,7 +689,7 @@ def render_advanced_constraints_query(my_params = params)
                removeString = "catalog?utf8=%E2%9C%93&" + autoparam + "&" + (CGI.escape(facetparams)) + "search_field=advanced&action=index&commit=Search&advanced_query=yes"
                if x > 0
                  s = x.to_s
-                 label = temp_boolean_rows[:boolean_row][s.to_sym] + " " + label
+                 label = temp_boolean_rows[x - 1].to_s + " " + label
                end
                content << render_constraint_element(
                  label, querybuttontext,

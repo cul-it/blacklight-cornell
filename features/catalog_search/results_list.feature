@@ -9,6 +9,7 @@ Feature: Results list
         @all_results_list
         @rss
 	Scenario: Empty search
+                Given PENDING
 		Given I am on the home page
 		And I press 'search'
 
@@ -101,8 +102,7 @@ Feature: Results list
     And I fill in the search box with 'architecture'
     And I press 'search'
     Then I should get results
-    # Note: this is record 1346, which appears as the first search result currently
-    Then results should have a "pub_info" that looks sort of like "London : Thames & Hudson"
+    Then results should have a "pub_info" that looks sort of like "Boca Raton, Florida"
 
 
 
@@ -217,8 +217,9 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order
     Given I am on the home page
-    When I fill in the search box with '"head of the saint"'
+    When I fill in the search box with '"Deconstructing the High line"'
     And I press 'search'
+    And I sleep 4 seconds
     Then I should get results
     And I should see the text 'Order Information'
 
@@ -264,6 +265,14 @@ Feature: Results list
     Then click on first link "Click : when we knew we were feminists" 
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'from Riot Grrrl to CoverGirl®, the Buying and Selling of a Political Movement'
+    Then I should see the text 'accidental feminist how Elizabeth Taylor raised our consciousness'
 
-
+# Combinatorial Algorithms, Algorithmic Press
+@all_results_list
+@javascript
+  Scenario: Perform an All field search with a call number
+    Given I am on the home page
+    When I fill in the search box with 'QA76.6 .C85 1972'
+    And I press 'search'
+    Then I should get results
+    And I should see the label '1 result'

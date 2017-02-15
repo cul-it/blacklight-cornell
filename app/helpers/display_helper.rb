@@ -679,10 +679,13 @@ include ActionView::Helpers::NumberHelper
         out << s[0]
       else
 
+
+         Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
+
         case category
         when :all
           q = '"' + s[1] + '"'
-          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => q, :search_field => "all_fields", :commit => "search"))
+          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => q, :commit => "search"))
         when :author
           # s[2] is not nil when data is from an 880 field (vernacular)
           # temp workaround until we can get 880 authors into the author facet
