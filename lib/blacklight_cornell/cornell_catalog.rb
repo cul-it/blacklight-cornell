@@ -55,19 +55,32 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # @bookmarks = current_or_guest_user.bookmarks
     
     # make sure we are not going directly to home page
-    
-      if (!params[:range].nil?)
+    temp_searchfield = ''
+    if (!params[:range].nil?)
         check_dates(params)
-      end
-    if !params[:q].blank? and !params[:search_field].blank?
+    end
+    if ( !params[:q].blank?) and !params[:search_field].blank?
        check_params(params)
+    else
+      if params[:search_field].blank?
+        temp_search_field = 'all_fields'
+        params[:search_field] = 'all_fields'
+      else
+        temp_search_field = params[:search_field]
+      end
+      params[:qdisplay] = ''
+      params[:search_field] = 'all_fields'      
     end
       Rails.logger.info("BLANKY2 = #{params}")
  
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
-
+    
+    if temp_search_field != ''
+      params[:search_field] = temp_search_field
+    end
+    
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
