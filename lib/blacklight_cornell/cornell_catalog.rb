@@ -59,7 +59,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if (!params[:range].nil?)
         check_dates(params)
     end
-    if ( !params[:q].blank?) and !params[:search_field].blank?
+    if ( !params[:q].blank?) and !params[:search_field].blank? and !params[:search_field].include? '_cts'
        check_params(params)
     else
       if params[:search_field].blank?
@@ -667,7 +667,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       params[:search_field] = 'call number'
     end
     # end of cleanup of search_field and q params
-
+    Rails.logger.info("BPP = #{params}")
     return params 
   end
 
