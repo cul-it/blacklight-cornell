@@ -59,9 +59,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if (!params[:range].nil?)
         check_dates(params)
     end
-    if ( !params[:q].blank?) and !params[:search_field].blank? and !params[:search_field].include? '_cts'
+    if  !params[:q].blank? and !params[:search_field].blank? and !params[:search_field].include? '_cts'
+       Rails.logger.info("PEEK1 = #{params}")
        check_params(params)
+       Rails.logger.info("PEEK2 = #{params}")
+       temp_searchfield = params[:search_field]
     else
+       Rails.logger.info("PEEK3 = #{params}")
       if params[:search_field].blank?
         temp_search_field = 'all_fields'
         params[:search_field] = 'all_fields'
@@ -70,6 +74,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
       params[:qdisplay] = ''
       params[:search_field] = 'all_fields'      
+       Rails.logger.info("PEEK4 = #{params}")
     end
       Rails.logger.info("BLANKY2 = #{params}")
  
@@ -77,9 +82,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     
-    if temp_search_field != ''
-      params[:search_field] = temp_search_field
-    end
+ #   if temp_searchfield != ''
+ #     params[:search_field] = temp_searchfield
+ #   end
     
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
@@ -566,7 +571,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
     # end of Journal title search hack
-  
+    Rails.logger.info("WENDY = #{params}") 
     #quote the call number
     if params[:search_field] == 'call number'
        params[:search_field] = 'lc_callnum'
@@ -624,9 +629,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     #    end
     #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
     #    params[:q] = '((notes_qf:"English, German, Italian, Latin, or Portugese" AND "Bibliotheca Instituti Historici") OR ("turkeys" NOT "spam"))'
-    if params[:search_field] == "all_fields" and params[:q]
-      params[:search_field] = 'all_fields'
-    end
+ #   if params[:search_field] == "all_fields" and params[:q]
+#      params[:search_field] = 'all_fields'
+#    end
+    Rails.logger.info("WENDY2 = #{params}") 
 
     #    if params[:q].blank?
     #      params[:q] = '*'
