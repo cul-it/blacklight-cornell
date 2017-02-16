@@ -244,44 +244,7 @@ end
        return my_params
      end
 
-def oldRemoveBlanks(params)
-     queryRowArray = [] #params[:q_row]
-     booleanRowArray = [] #params[:boolean_row]
-     subjectFieldArray = [] #params[:search_field_row]
-     opRowArray = [] #params[:op_row]
-     qrowSize = params[:q_row].count
-     booleanRowCount = 1
-     qrowIndexes = []
-     boolHoldHash =  params[:boolean_row]
-     for i in 0..qrowSize - 1 
-       n = (i + 1).to_s
-       if params[:q_row][i] != ""
-         qrowIndexes << i
-         queryRowArray << params[:q_row][i]
-         opRowArray <<  params[:op_row][i]
-         subjectFieldArray << params[:search_field_row][i]
-       end
-       if qrowIndexes[0] == 0
-         for i in 1..qrowIndexes.count - 1
-           n = qrowIndexes[i].to_s
-           boolHoldHash["#{booleanRowCount}"] = params[:boolean_row][n.to_sym]
-           booleanRowCount = booleanRowCount + 1
-         end
-       else
- #not sure if needed yet      
-       end
-    end
-     params[:q_row] = queryRowArray
-     params[:op_row] = opRowArray
-     params[:search_field_row] = subjectFieldArray
-     params[:boolean_row] = boolHoldHash
-#     params[:boolean_row] = {"1"=>"OR", "2"=>"OR"}
-#     finalcheck = params[:q_row].count.to_s
-#     if !params[:boolean_row].nil? and params[:boolean_row].has_key?(finalcheck.to_sym)
-#       params[:boolean_row].delete(finalcheck.to_sym)
-#     end
-     return params
-end
+
 
  def getTempLocations(doc)
    require 'json'

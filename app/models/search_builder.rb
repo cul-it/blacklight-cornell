@@ -552,6 +552,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                         if journal_title_flag == 1
                         solr6query = '(' + solr6query
                         solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical)"'
+                        journal_title_flag = 0
                         else
                         solr6query << "\"" + holdarray[1] + "\""
                         end
@@ -580,6 +581,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           if journal_title_flag == 1
                             solr6query = '(' + solr6query
                             solr6query << newTerm << ') AND format:"Journal/Periodical)"'
+                            journal_title_flag = 0
                           else
                             solr6query << newTerm
                           end
@@ -591,6 +593,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                             if journal_title_flag == 1
                               solr6query = '(' + solr6query
                               solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
+                              journal_title_flag = 0
                             else
                               solr6query << field_name + ":" + holdarray[1] 
                             end
@@ -607,6 +610,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                        else
                           if journal_title_flag == 1
                           solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                          journal_title_flag = 0
                           else
                           solr6query << field_name << "\"" + holdarray[1] + "\""
                           end
@@ -635,6 +639,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
                           solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                          journal_title_flag = 0
                           else
                           solr6query << newTerm
                           end
@@ -645,7 +650,8 @@ class SearchBuilder < Blacklight::SearchBuilder
                        solr6query << " " + holdarray[1] 
                        else
                         if journal_title_flag == 1
-                        solr6query << " " + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                        solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                        journal_title_flag = 0
                         else
                         solr6query << " " + field_name + ":" + holdarray[1]
                         end
@@ -843,6 +849,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                    if journal_title_flag == 1
                    newq = '(' + newq
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   journal_title_flag = 0
                    else
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
                    end
@@ -850,6 +857,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                    if journal_title_flag == 1
                    newq = '(' + newq
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   journal_title_flag = 0
                    else
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
                    end
@@ -889,6 +897,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                if journal_title_flag == 1 
                 newq = '(' + newq
                 newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                journal_title_flag = 0
                else
                 newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
                end
@@ -906,6 +915,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  if journal_title_flag == 1
                   newq = '(' + newq
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                  journal_title_flag = 0
                  else
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
                  end

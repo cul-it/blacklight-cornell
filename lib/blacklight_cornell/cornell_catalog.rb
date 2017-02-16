@@ -55,26 +55,19 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # @bookmarks = current_or_guest_user.bookmarks
     
     # make sure we are not going directly to home page
-    temp_searchfield = ''
+    temp_search_field = ''
     if (!params[:range].nil?)
         check_dates(params)
     end
-    if  !params[:q].blank? and !params[:search_field].blank? and !params[:search_field].include? '_cts'
-       Rails.logger.info("PEEK1 = #{params}")
+    temp_search_field = ''
+    if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
        check_params(params)
-       Rails.logger.info("PEEK2 = #{params}")
-       temp_searchfield = params[:search_field]
     else
-       Rails.logger.info("PEEK3 = #{params}")
-      if params[:search_field].blank?
-        temp_search_field = 'all_fields'
-        params[:search_field] = 'all_fields'
-      else
+      if params[:q].blank?
         temp_search_field = params[:search_field]
+        params[:search_field] = 'all_fields'
       end
-      params[:qdisplay] = ''
-      params[:search_field] = 'all_fields'      
-       Rails.logger.info("PEEK4 = #{params}")
+
     end
       Rails.logger.info("BLANKY2 = #{params}")
  
@@ -82,9 +75,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     
- #   if temp_searchfield != ''
- #     params[:search_field] = temp_searchfield
- #   end
+    if temp_search_field != ''
+      params[:search_field] = temp_search_field
+    end
     
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
