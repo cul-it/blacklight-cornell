@@ -2,9 +2,14 @@ Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )fill in "([^"]*)" with ["']([^"]*)["']$/ do |field, value|
+When /^(?:|I )fill in "([^"]*)" with ['"]([^'"]*)['"]$/ do |field, value|
   fill_in(field, :with => value)
 end
+
+When /^(?:|I )fill in "([^"]*)" with quoted ['"]([^'"]*)['"]$/ do |field, value|
+  fill_in(field, :with => '"' + value + '"')
+end
+
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
 
