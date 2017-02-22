@@ -770,7 +770,7 @@ def makeSimpleRemoveString(my_params, facet_key)
   unless q.nil?
     removeString = "q=" + CGI.escape(q) + "&" +search_field_string + facets_string + "action=index&commit=Search"
   else
-    removeString = "BULLHOCKEY"
+    removeString = ""
   end
   return removeString
 
