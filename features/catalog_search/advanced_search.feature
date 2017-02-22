@@ -73,6 +73,7 @@ Feature: Search
     And I fill in "q_row2" with 'springer'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
+    And I sleep 4 seconds
     Then I should get results
     And I should see the label '1 - 20 of'
     And I should see the label 'NOT Publisher: springer'
