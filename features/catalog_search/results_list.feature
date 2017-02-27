@@ -286,6 +286,7 @@ Feature: Results list
     And I select 'Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
+    And I sleep 4 seconds
     Then I should see the text 'Lighting Up and'
     Then click on first link "Lighting Up" 
     Then click on first link "Next »"
