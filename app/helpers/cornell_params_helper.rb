@@ -789,7 +789,7 @@ def makeRemoveString(my_params, facet_key)
   end
   boolean_row = my_params["boolean_row"]
   boolean_row_string = ""
-  if !boolean_row.nil? or boolean_row.count < 1
+  if !boolean_row.nil? and boolean_row.count < 1
    boolean_row.each do |key, value|
      if !key.nil? and !value.nil?
      boolean_row_string << "boolean_row[" + key + "]=" + value + "&"
