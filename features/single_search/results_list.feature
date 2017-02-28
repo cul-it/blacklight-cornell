@@ -238,6 +238,7 @@ Feature: Results list
     Given I literally go to search
     When I fill in "q" with 'QA76.6 .C85 1972'
     And I press 'search'
+    And I sleep 8 seconds
     Given I literally go to search
     When I fill in "q" with 'QA76.6 .C85 1972'
     And I press 'search'
