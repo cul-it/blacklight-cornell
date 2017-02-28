@@ -276,3 +276,20 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And I should see the label '1 result'
+
+@all_results_list
+@next_facet
+@javascript
+  Scenario: Search with results, 
+    Given I am on the home page
+    When I fill in the search box with 'cigarette prices'
+    And I select 'Title' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    And I sleep 4 seconds
+    Then I should see the text 'Lighting Up and'
+    Then click on first link "Lighting Up" 
+    Then click on first link "Next »"
+    Then I should see the text 'Cigarette Excise Taxation The Impact of Tax Structure'
+    Then click on first link "Previous"
+    Then I should see the text 'Lighting Up and'
