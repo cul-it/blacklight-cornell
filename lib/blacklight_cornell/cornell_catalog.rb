@@ -50,6 +50,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
     # @bookmarks = current_or_guest_user.bookmarks
@@ -70,6 +71,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     end
       Rails.logger.info("BLANKY2 = #{params}")
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
  
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -170,8 +172,19 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   def setup_next_and_previous_documents
     query_params = session[:search] ? session[:search].dup : {}
+
+    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
+       check_params(query_params)
+    else
+      if query_params[:q].blank?
+        temp_search_field = query_params[:search_field]
+        query_params[:search_field] = 'all_fields'
+      end
+    end
+
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
       @search_context_response = response
@@ -564,6 +577,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
     # end of Journal title search hack
+<<<<<<< HEAD
+=======
+    Rails.logger.info("WENDY = #{params}") 
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+>>>>>>> 6bf184f819bfd84b83e08bbdbcc04458fc6f3c48
     #quote the call number
     if params[:search_field] == 'call number'
        params[:search_field] = 'lc_callnum'
