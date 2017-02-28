@@ -8,6 +8,8 @@ class SearchBuilder < Blacklight::SearchBuilder
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
 
   def sortby_title_when_browsing user_parameters
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
     # if no search term is submitted and user hasn't specified a sort
     # assume browsing and use the browsing sort field
     if user_parameters[:q].blank? and user_parameters[:sort].blank?
@@ -18,13 +20,20 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   #sort call number searches by call number
   def sortby_callnum user_parameters
-    if user_parameters[:search_field] == 'call number'
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
+    if blacklight_params[:search_field] == 'lc_callnum'
+    #if user_parameters[:search_field] == 'call number'
       callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
-      solr_parameters[:sort] = callnum_sortby.field
+      #solr_parameters[:sort] = callnum_sortby.field
+      user_parameters[:sort] = callnum_sortby.field
+      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     end
   end
 
   def advsearch user_parameters
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
     query_string = ""
     qparam_display = ""
     my_params = {}
