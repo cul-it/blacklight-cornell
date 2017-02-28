@@ -408,7 +408,7 @@ class SearchBuilder < Blacklight::SearchBuilder
    def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
-     if !my_params[:q_row].nil? || !my_params[:q_row].blank?
+     if !my_params[:q_row].nil? and !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
        blacklight_params = my_params
