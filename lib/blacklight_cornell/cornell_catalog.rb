@@ -56,6 +56,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # @bookmarks = current_or_guest_user.bookmarks
     
     # make sure we are not going directly to home page
+   search_session[:per_page] = params[:per_page]
     temp_search_field = ''
     if (!params[:range].nil?)
         check_dates(params)
@@ -198,7 +199,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def track
       search_session[:counter] = params[:counter]
       search_session['counter'] = params[:counter]
-      search_session['per_page'] = params[:per_page]
+      #search_session[:per_page] = params[:per_page]
 
       path = 
         if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)

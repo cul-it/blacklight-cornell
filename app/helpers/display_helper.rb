@@ -103,9 +103,9 @@ include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -120,9 +120,9 @@ include ActionView::Helpers::NumberHelper
       link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
     if render_format == 'raw'
       return value
     else
@@ -900,13 +900,14 @@ include ActionView::Helpers::NumberHelper
   def link_back_to_catalog(opts={:label=>nil})
     query_params = session[:search] ? session[:search].dup : {}
     Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
-    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} gearch =  #{query_params.inspect}")
+    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} query_params =  #{query_params.inspect}")
     query_params.delete :counter
     query_params.delete :total
     if params[:controller] == 'search_history'
       link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
       #link_url = url_for(query_params)
     else
+      Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} qp =  #{query_params.inspect}")
       link_url = url_for(query_params)
     end 
 
