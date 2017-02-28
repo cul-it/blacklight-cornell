@@ -564,7 +564,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
     # end of Journal title search hack
-    Rails.logger.info("WENDY = #{params}") 
     #quote the call number
     if params[:search_field] == 'call number'
        params[:search_field] = 'lc_callnum'
@@ -625,7 +624,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
  #   if params[:search_field] == "all_fields" and params[:q]
 #      params[:search_field] = 'all_fields'
 #    end
-    Rails.logger.info("WENDY2 = #{params}") 
 
     #    if params[:q].blank?
     #      params[:q] = '*'
@@ -666,7 +664,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       params[:search_field] = 'call number'
     end
     # end of cleanup of search_field and q params
-    Rails.logger.info("BPP = #{params}")
     return params 
   end
 
