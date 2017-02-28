@@ -143,9 +143,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session[:q] = params[:show_query]
 #      params[:q] = qparam_display
       search_session[:q] = params[:q] 
-      params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
+ #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
-
+    Rails.logger.info("PASSA = #{params}")
   end
 
 
@@ -188,6 +188,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
+      search_session['per_page'] = query_params[:per_page]
       @search_context_response = response
       @previous_document = documents.first
       @next_document = documents.last
