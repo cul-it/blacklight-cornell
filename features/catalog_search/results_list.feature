@@ -1,4 +1,4 @@
-# encoding: utf8
+# encoding: utf-8
 Feature: Results list
 
 	In order to find items that I search for
@@ -293,3 +293,17 @@ Feature: Results list
     Then I should see the text 'Cigarette Excise Taxation The Impact of Tax Structure'
     Then click on first link "Previous"
     Then I should see the text 'Lighting Up and'
+
+# Combinatorial Algorithms, Algorithmic Press
+# # the selected sort field is visible, the unselected is not visible,though present in the html.
+@all_results_list
+@javascript
+  Scenario: Perform an call number search, and confirm that the search order has switched to 'sort by call number'
+    Given I am on the home page
+    When I fill in the search box with 'QA76.6'
+    And I select 'Call Number' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    Then I should not see the text 'relevance' 
+    Then I should see the text 'Sort by call number'
+
