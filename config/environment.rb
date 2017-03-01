@@ -23,3 +23,9 @@ BlacklightCornellRequests.config do |config|
   config.borrow_direct_webservices_host = "http://localhost"
   config.borrow_direct_webservices_port = 9004
 end
+
+class Logger
+  def format_message(severity, timestamp, progname, msg)
+    "[#{timestamp}] #{severity}  (#{$$}) #{msg}\n"
+  end
+end
