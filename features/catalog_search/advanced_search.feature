@@ -413,6 +413,7 @@ Feature: Search
     #Then it should have link "Title: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
     Then click on first link "Title: beef"
 
+
  @adv_search
  @all_search
  @adv_title_percent
@@ -442,3 +443,16 @@ Feature: Search
     And I should see the label '1 - 4 of 4'
     Then click on first link "Title: beef"
     And I should see the label '1 - 20 of'
+
+ # DISCOVERYACCESS3298
+ @adv_search
+ @all_search
+ @adv_title_percent
+ @javascript
+  Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
+    When I literally go to advanced
+    And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
+    And I fill in "q_row2" with 'sargent, charles sprague'
+    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
