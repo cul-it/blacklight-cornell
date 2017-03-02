@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'pry'
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
