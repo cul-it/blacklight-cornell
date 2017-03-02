@@ -507,14 +507,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
   def generate_uri(uri)
-    require 'pp'
+    Appsignal.increment_counter('item_sms', 1)
     confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
     if !confirmed_uri.blank?
+      uri_parsed = confirmed_uri
       shorten = Rails.application.config.url_shorten
       logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
-      #shorten = ENV["URL_SHORTEN"]
-      uri_parsed = confirmed_uri
-      if !shorten.nil? 
+      if !shorten.empty? 
         escaped_uri = URI.escape("#{shorten}#{confirmed_uri}")
         begin 
           uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
