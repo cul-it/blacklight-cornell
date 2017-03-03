@@ -79,7 +79,7 @@ module BlacklightCornell
     config.assets.version = '1.0'
   end
 end
-
+if true 
 # Monkey patch
 module Blacklight::SearchFields
   # Looks up a search field blacklight_config hash from search_field_list having
@@ -97,4 +97,22 @@ module Blacklight::SearchFields
   end
 
 
-end
+  # Shortcut for commonly needed operation, look up display
+  # label for the key specified. Returns "Keyword" if a label
+  # can't be found. 
+  def label_for_search_field(key)
+    field_def = search_field_def_for_key(key)
+    if field_def && field_def.label
+       field_def.label
+    else
+       I18n.t('blacklight.search.fields.default')
+    end            
+  end
+
+end # if module SearchFields
+
+end # if  false
+
+
+
+
