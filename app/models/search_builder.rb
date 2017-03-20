@@ -483,7 +483,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               #     holdarray[1] = parse_query_row(holdarray[1], "OR")
               #    end
               q_string2 = q_string2 +  ""
-
+              Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__}  = #{q_string2}")    
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -524,25 +524,27 @@ class SearchBuilder < Blacklight::SearchBuilder
                     if field_name == 'notes_qf'
                        field_name = 'notes_starts:'
                     else
-                       field_name = field_name + '_starts:'
+                       field_name = field_name + '_starts'
                     end
                   end
                 end
                 if my_params[:op_row][i] == 'phrase'
                   if field_name == ""
-                    field_name = 'quoted:'
+                    field_name = 'quoted'
 #                      solr6query << field_name #<< ":"
                   else
                     if field_name == 'notes_qf'
-                      field_name = 'notes_quoted:'
+                      field_name = 'notes_quoted'
 #                      solr6query << field_name #<< ":"
                     else
-                      field_name = field_name +  '_quoted:'
+                      field_name = field_name +  '_quoted'
 #                      solr6query << field_name #<< ":"
                     end
                   end
                 end
                       q_string2 << field_name << " = "
+      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} q_string2  = #{q_string2}")    
+      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} solr6query  = #{solr6query}")    
 
 
               end #of if
@@ -586,6 +588,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                             newTerm << + tokenArray[tokenArray.size - 1] + ")"
                           else
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
+      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} newTerm  = #{newTerm}")    
                           end
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
@@ -949,6 +952,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:mm] = 1
         blacklight_params = my_params
           Rails.logger.info("FINISHER = #{my_params}")
+    Rails.logger.info("#{_FILE__} #{__LINE__} {__method__}  = #{q_string2}")    
     return my_params
   
   end
