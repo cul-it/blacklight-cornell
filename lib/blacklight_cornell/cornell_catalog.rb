@@ -507,10 +507,23 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
   def generate_uri(uri)
+    Appsignal.increment_counter('item_sms', 1)
     confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
     if !confirmed_uri.blank?
-      escaped_uri = URI.escape("http://tinyurl.com/api-create.php?url=#{confirmed_uri}")
-      uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+      uri_parsed = confirmed_uri
+      shorten = Rails.application.config.url_shorten
+      logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
+      if !shorten.empty? 
+        escaped_uri = URI.escape("#{shorten}#{confirmed_uri}")
+        begin 
+          uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+          #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
+        rescue StandardError  => e
+          logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
+          Appsignal.send_error(e)
+          uri_parsed = confirmed_uri 
+         end
+      end
       return uri_parsed
     else
      # needs error checking.
