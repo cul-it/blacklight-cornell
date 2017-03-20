@@ -103,9 +103,9 @@ include ActionView::Helpers::NumberHelper
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -120,9 +120,9 @@ include ActionView::Helpers::NumberHelper
       link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
     if render_format == 'raw'
       return value
     else
@@ -900,13 +900,14 @@ include ActionView::Helpers::NumberHelper
   def link_back_to_catalog(opts={:label=>nil})
     query_params = session[:search] ? session[:search].dup : {}
     Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
-    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} gearch =  #{query_params.inspect}")
+    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} query_params =  #{query_params.inspect}")
     query_params.delete :counter
     query_params.delete :total
     if params[:controller] == 'search_history'
       link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
       #link_url = url_for(query_params)
     else
+      Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} qp =  #{query_params.inspect}")
       link_url = url_for(query_params)
     end 
 
@@ -1391,6 +1392,42 @@ include ActionView::Helpers::NumberHelper
   def remove_pipe field
     (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
   end
+
+  def random_image
+    require 'open-uri'
+    require 'nokogiri'
+    addr = "https://www.flickr.com/explore/interesting/7days/"
+    ptag = ".Photo"
+    doc = Nokogiri::HTML(open( addr ))
+    photo = (doc.css( ptag )).first
+    p_src = photo.css("img").first.attr("src")
+    p_src
+  end
+
+  def xrandom_image
+    require 'open-uri'
+    require 'nokogiri'
+    q = random_quote
+    t = q.split()
+    t = t.max_by(&:length)
+    addr = "https://www.flickr.com/photos/tags/#{t}"
+    ptag = ".Photo"
+    doc = Nokogiri::HTML(open( addr ))
+    photo = (doc.css( ptag )).first
+    p_src = photo.css("img").first.attr("src")
+    p_src
+  end
+
+  def random_quote
+    adr = 'http://api.forismatic.com/api/1.0/'
+    fmt = 'json'
+    language = 'en'
+    key = ''
+    jquote = HTTPClient.get_content("#{adr}?method=getQuote&key=&format=json&lang=en&clientApplication=gooz")
+    author = JSON.parse(jquote)["quoteAuthor"]
+    quote = JSON.parse(jquote)["quoteText"] +  " -- " + author
+  end
+
 
   def html_safe field
     require 'htmlentities'

@@ -230,12 +230,33 @@ Feature: Results list
     Then box "link_top_website" should match "0" th "from Catalog" in "page_entries"
 
 # Combinatorial Algorithms, Algorithmic Press
+# there is duplicate code here to defeat the 'circular dependency' problem,
+# which sometimes results in false failures.
 @all_results_list
 @javascript
-  Scenario: Perform an search with a call number
+  Scenario: Perform an search with an unquoted call number
     Given I literally go to search
     When I fill in "q" with 'QA76.6 .C85 1972'
     And I press 'search'
+    And I sleep 8 seconds
+    Given I literally go to search
+    When I fill in "q" with 'QA76.6 .C85 1972'
+    And I press 'search'
+    And I sleep 8 seconds
     Then I should get bento results
-    And I should see the text "Combinatorial Algorithms"
+    And I should see the text "Combinatorial algorithms"
 
+# Combinatorial Algorithms, Algorithmic Press
+# there is duplicate code here to defeat the 'circular dependency' problem,
+# which sometimes results in false failures.
+@all_results_list
+@javascript
+  Scenario: Perform an search with a quoted call number
+    Given I literally go to search
+    When I fill in "q" with quoted 'QA76.6 .C85 1972'
+    And I press 'search'
+    Given I literally go to search
+    When I fill in "q" with quoted 'QA76.6 .C85 1972'
+    And I press 'search'
+    Then I should get bento results
+    And I should see the text "Combinatorial algorithms"

@@ -231,9 +231,13 @@ end
                 end
             end
             if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+              if my_params[:boolean_row].nil?
+                my_params[:boolean_row] = {"1" => "AND"}
+              else
                 if !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
+              end
             end
           end
        end
@@ -244,44 +248,7 @@ end
        return my_params
      end
 
-def oldRemoveBlanks(params)
-     queryRowArray = [] #params[:q_row]
-     booleanRowArray = [] #params[:boolean_row]
-     subjectFieldArray = [] #params[:search_field_row]
-     opRowArray = [] #params[:op_row]
-     qrowSize = params[:q_row].count
-     booleanRowCount = 1
-     qrowIndexes = []
-     boolHoldHash =  params[:boolean_row]
-     for i in 0..qrowSize - 1 
-       n = (i + 1).to_s
-       if params[:q_row][i] != ""
-         qrowIndexes << i
-         queryRowArray << params[:q_row][i]
-         opRowArray <<  params[:op_row][i]
-         subjectFieldArray << params[:search_field_row][i]
-       end
-       if qrowIndexes[0] == 0
-         for i in 1..qrowIndexes.count - 1
-           n = qrowIndexes[i].to_s
-           boolHoldHash["#{booleanRowCount}"] = params[:boolean_row][n.to_sym]
-           booleanRowCount = booleanRowCount + 1
-         end
-       else
- #not sure if needed yet      
-       end
-    end
-     params[:q_row] = queryRowArray
-     params[:op_row] = opRowArray
-     params[:search_field_row] = subjectFieldArray
-     params[:boolean_row] = boolHoldHash
-#     params[:boolean_row] = {"1"=>"OR", "2"=>"OR"}
-#     finalcheck = params[:q_row].count.to_s
-#     if !params[:boolean_row].nil? and params[:boolean_row].has_key?(finalcheck.to_sym)
-#       params[:boolean_row].delete(finalcheck.to_sym)
-#     end
-     return params
-end
+
 
  def getTempLocations(doc)
    require 'json'
@@ -435,9 +402,7 @@ def render_advanced_constraints_query(my_params = params)
 #    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
 
   if !my_params[:q_row].nil?
-     Rails.logger.info("ZYZ = #{my_params}")
      my_params = removeBlanks(my_params)
-     Rails.logger.info("ZYZ = #{my_params}")
      
   end
   if my_params[:search_field] == 'advanced'
@@ -660,7 +625,6 @@ def render_advanced_constraints_query(my_params = params)
    #           end
                 
                if x >= 0 and x <= temp_boolean_rows.count
-                   Rails.logger.info("CONSTRAINTSZ = #{temp_boolean_rows}")
                    opval = temp_boolean_rows[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
                else
@@ -675,7 +639,6 @@ def render_advanced_constraints_query(my_params = params)
                   
                   autoparam << "q_row[]=" << CGI.escape(temp_q_row[qp]) << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
                   if qp < temp_q_row.length - 1
-                    Rails.logger.info("ASDF = #{temp_boolean_rows}")
                     autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_rows[qp] << "&"
                   end
 
@@ -807,7 +770,7 @@ def makeSimpleRemoveString(my_params, facet_key)
   unless q.nil?
     removeString = "q=" + CGI.escape(q) + "&" +search_field_string + facets_string + "action=index&commit=Search"
   else
-    removeString = "BULLHOCKEY"
+    removeString = ""
   end
   return removeString
 
@@ -826,10 +789,14 @@ def makeRemoveString(my_params, facet_key)
   end
   boolean_row = my_params["boolean_row"]
   boolean_row_string = ""
-  if !boolean_row.nil?
+  if !boolean_row.nil? and boolean_row.count < 1
    boolean_row.each do |key, value|
+     if !key.nil? and !value.nil?
      boolean_row_string << "boolean_row[" + key + "]=" + value + "&"
+     end
    end
+  else
+    boolean_row_string = "boolean_row[1]=AND"
   end
   if !boolean_row_string.blank?
     boolean_row_string << "&"

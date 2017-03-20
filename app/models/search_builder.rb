@@ -8,6 +8,8 @@ class SearchBuilder < Blacklight::SearchBuilder
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
 
   def sortby_title_when_browsing user_parameters
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
     # if no search term is submitted and user hasn't specified a sort
     # assume browsing and use the browsing sort field
     if user_parameters[:q].blank? and user_parameters[:sort].blank?
@@ -18,13 +20,20 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   #sort call number searches by call number
   def sortby_callnum user_parameters
-    if user_parameters[:search_field] == 'call number'
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
+    if blacklight_params[:search_field] == 'lc_callnum'
+    #if user_parameters[:search_field] == 'call number'
       callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
-      solr_parameters[:sort] = callnum_sortby.field
+      #solr_parameters[:sort] = callnum_sortby.field
+      user_parameters[:sort] = callnum_sortby.field
+      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     end
   end
 
   def advsearch user_parameters
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
     query_string = ""
     qparam_display = ""
     my_params = {}
@@ -50,6 +59,9 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
     else 
+      if blacklight_params[:q].nil?
+        blacklight_params[:q] = ''
+      end
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
@@ -66,7 +78,7 @@ class SearchBuilder < Blacklight::SearchBuilder
      #   blacklight_params[:q] = blacklight_params[:q]
         end
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
-        blacklight_params[:search_field] = ''
+       # blacklight_params[:search_field] = ''
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
         user_parameters["mm"] = "1"
@@ -396,7 +408,7 @@ class SearchBuilder < Blacklight::SearchBuilder
    def make_adv_query(my_params = params || {})
 # Check to make sure this is an AS
      # IF 1
-     if !my_params[:q_row].nil? || !my_params[:q_row].blank?
+     if !my_params[:q_row].nil? and !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
        blacklight_params = my_params
@@ -445,6 +457,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               if numquotes == 1
                  my_params[:q_row][i].gsub!('"', '')
               end
+              my_params[:q_row][i].gsub!(/[()]/, '')
          
               if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
                   numquotes = my_params[:q_row][i].count '"'
@@ -549,6 +562,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                         if journal_title_flag == 1
                         solr6query = '(' + solr6query
                         solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical)"'
+                        journal_title_flag = 0
                         else
                         solr6query << "\"" + holdarray[1] + "\""
                         end
@@ -569,7 +583,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                               end
                           end
                           if field_name == ''
-                          newTerm << + tokenArray[tokenArray.size - 1] + ")"
+                            newTerm << + tokenArray[tokenArray.size - 1] + ")"
                           else
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
                           end
@@ -577,6 +591,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           if journal_title_flag == 1
                             solr6query = '(' + solr6query
                             solr6query << newTerm << ') AND format:"Journal/Periodical)"'
+                            journal_title_flag = 0
                           else
                             solr6query << newTerm
                           end
@@ -588,6 +603,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                             if journal_title_flag == 1
                               solr6query = '(' + solr6query
                               solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
+                              journal_title_flag = 0
                             else
                               solr6query << field_name + ":" + holdarray[1] 
                             end
@@ -603,9 +619,10 @@ class SearchBuilder < Blacklight::SearchBuilder
                           solr6query << "\"" + holdarray[1] + "\""
                        else
                           if journal_title_flag == 1
-                          solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                            solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                            journal_title_flag = 0
                           else
-                          solr6query << field_name << "\"" + holdarray[1] + "\""
+                            solr6query << field_name << ":\"" + holdarray[1] + "\""
                           end
                        end
                      else
@@ -625,15 +642,16 @@ class SearchBuilder < Blacklight::SearchBuilder
                                end
                           end
                           if field_name == ''
-                          newTerm <<  tokenArray[tokenArray.size - 1] + ")"
+                            newTerm <<  tokenArray[tokenArray.size - 1] + ")"
                           else
-                          newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                            newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
                           end
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
-                          solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                            solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                            journal_title_flag = 0
                           else
-                          solr6query << newTerm
+                            solr6query << newTerm
                           end
                         else
 
@@ -642,9 +660,10 @@ class SearchBuilder < Blacklight::SearchBuilder
                        solr6query << " " + holdarray[1] 
                        else
                         if journal_title_flag == 1
-                        solr6query << " " + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                          solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                          journal_title_flag = 0
                         else
-                        solr6query << " " + field_name + ":" + holdarray[1]
+                          solr6query << " " + field_name + ":" + holdarray[1]
                         end
                        end 
                      end
@@ -840,6 +859,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                    if journal_title_flag == 1
                    newq = '(' + newq
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   journal_title_flag = 0
                    else
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
                    end
@@ -847,6 +867,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                    if journal_title_flag == 1
                    newq = '(' + newq
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '") AND format:"Journal/Periodical"'
+                   journal_title_flag = 0
                    else
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
                    end
@@ -886,6 +907,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                if journal_title_flag == 1 
                 newq = '(' + newq
                 newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                journal_title_flag = 0
                else
                 newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
                end
@@ -903,6 +925,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  if journal_title_flag == 1
                   newq = '(' + newq
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                  journal_title_flag = 0
                  else
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
                  end
