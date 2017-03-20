@@ -50,28 +50,29 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
     # @bookmarks = current_or_guest_user.bookmarks
     
     # make sure we are not going directly to home page
-    temp_searchfield = ''
+   search_session[:per_page] = params[:per_page]
+    temp_search_field = ''
     if (!params[:range].nil?)
         check_dates(params)
     end
-    if ( !params[:q].blank?) and !params[:search_field].blank?
+    temp_search_field = ''
+    if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
        check_params(params)
     else
-      if params[:search_field].blank?
-        temp_search_field = 'all_fields'
-        params[:search_field] = 'all_fields'
-      else
+      if params[:q].blank?
         temp_search_field = params[:search_field]
+        params[:search_field] = 'all_fields'
       end
-      params[:qdisplay] = ''
-      params[:search_field] = 'all_fields'      
+
     end
       Rails.logger.info("BLANKY2 = #{params}")
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
  
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -142,9 +143,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session[:q] = params[:show_query]
 #      params[:q] = qparam_display
       search_session[:q] = params[:q] 
-      params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
+ #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
-
+    Rails.logger.info("PASSA = #{params}")
   end
 
 
@@ -172,10 +173,22 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   def setup_next_and_previous_documents
     query_params = session[:search] ? session[:search].dup : {}
+
+    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
+       check_params(query_params)
+    else
+      if query_params[:q].blank?
+        temp_search_field = query_params[:search_field]
+        query_params[:search_field] = 'all_fields'
+      end
+    end
+
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
+      search_session['per_page'] = query_params[:per_page]
       @search_context_response = response
       @previous_document = documents.first
       @next_document = documents.last
@@ -187,7 +200,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def track
       search_session[:counter] = params[:counter]
       search_session['counter'] = params[:counter]
-      search_session['per_page'] = params[:per_page]
+      #search_session[:per_page] = params[:per_page]
 
       path = 
         if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
@@ -494,10 +507,23 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
   def generate_uri(uri)
+    Appsignal.increment_counter('item_sms', 1)
     confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
     if !confirmed_uri.blank?
-      escaped_uri = URI.escape("http://tinyurl.com/api-create.php?url=#{confirmed_uri}")
-      uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+      uri_parsed = confirmed_uri
+      shorten = Rails.application.config.url_shorten
+      logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
+      if !shorten.empty? 
+        escaped_uri = URI.escape("#{shorten}#{confirmed_uri}")
+        begin 
+          uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+          #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
+        rescue StandardError  => e
+          logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
+          Appsignal.send_error(e)
+          uri_parsed = confirmed_uri 
+         end
+      end
       return uri_parsed
     else
      # needs error checking.
@@ -566,7 +592,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
     # end of Journal title search hack
-  
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     #quote the call number
     if params[:search_field] == 'call number'
        params[:search_field] = 'lc_callnum'
@@ -576,7 +602,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
          if !params[:q].include?('"')
            params[:q] = '"' << params[:q] << '"'
          end
-         params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+        # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
        else
          params[:q] =  '' or params[:q].nil?
          params[:search_field] = 'all_fields'
@@ -624,9 +650,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     #    end
     #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
     #    params[:q] = '((notes_qf:"English, German, Italian, Latin, or Portugese" AND "Bibliotheca Instituti Historici") OR ("turkeys" NOT "spam"))'
-    if params[:search_field] == "all_fields" and params[:q]
-      params[:search_field] = 'all_fields'
-    end
+ #   if params[:search_field] == "all_fields" and params[:q]
+#      params[:search_field] = 'all_fields'
+#    end
 
     #    if params[:q].blank?
     #      params[:q] = '*'
@@ -667,7 +693,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       params[:search_field] = 'call number'
     end
     # end of cleanup of search_field and q params
-
     return params 
   end
 

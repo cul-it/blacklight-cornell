@@ -305,7 +305,7 @@ class SearchController < ApplicationController
   def self.transform_query search_query
     # Don't do anything for already-quoted queries or single-term queries
     if search_query !~ /[\"\'].*?[\"\']/ and
-        search_query !~/[AND|OR|NOT]/ 
+        search_query !~ /AND|OR|NOT/ 
         #search_query =~ /\w.+?\s\w.+?/
       # create modified query: (+x +y +z) OR "x y z"
       new_query = search_query.split.map {|w| "+#{w}"}.join(' ')

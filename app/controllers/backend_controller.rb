@@ -3,10 +3,18 @@ class BackendController < ApplicationController
   include Blacklight::SearchHelper
 
   def holdings
+    begin 
       @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
+    rescue StandardError
+      @holdings = {} 
+      @holdings['condensed_holdings_full'] =  {}
+    end
+    begin 
       @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_raw/#{params[:id]}"))[params[:id]]
+    rescue StandardError
+      @mholdings = {} 
+    end
     @id = params[:id]
-    #resp, document = get_solr_response_for_doc_id(@id)
     resp, document = fetch (@id)
     if document['url_pda_display'].present?
       @holdings['condensed_holdings_full'].each do |chf|
@@ -16,21 +24,23 @@ class BackendController < ApplicationController
       @hide_status = true
     end
 
-    # logger.debug  "getting info for #{params[:id]} from"
-    # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
-#    logger.debug @holdings
-    # logger.debug @holdings_detail
-    # logger.debug session.inspect
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
-    # logger.debug session.inspect
-    #render :text => @txt.to_s  + @t.to_s
     render "backend/holdings", :layout => false
   end
 
   def holdings_short
-    @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
-    @holdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
+    begin 
+      @holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
+    rescue StandardError
+      @holdings = {} 
+      @holdings['condensed_holdings_full'] = {} 
+    end
+    begin 
+      @holdings_detail=JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))[params[:id]]
+    rescue StandardError
+      @holdings_detail = {} 
+    end
     @id = params[:id]
     # logger.debug  "getting info for #{params[:id]} from"
     # logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"
@@ -44,13 +54,12 @@ class BackendController < ApplicationController
   end
 
   def holdings_shorthm
-    #@holdings = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve/#{params[:id]}"))[params[:id]]
+    logger.debug "es287 #{__FILE__}:#{__LINE__} " + Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"
     @mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))
-    #@mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{params[:id]}"))
     @mid = params[:id]
-     #logger.debug  "es287_debug #{__FILE__}:#{__LINE__} getting info (Multi bibid) for #{params[:id]} from"
-     #logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
-     #logger.debug "es287_debug #{__FILE__}:#{__LINE__} @mholdings_detail = #{@mholdings_detail.inspect}"
+    logger.debug  "es287_debug #{__FILE__}:#{__LINE__} getting info (Multi bibid) for #{params[:id]} from"
+    logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
+    logger.debug "es287_debug #{__FILE__}:#{__LINE__} @mholdings_detail = #{@mholdings_detail.inspect}"
     session[:holdings] = @holdings
     session[:holdings_detail] = @holdings_detail
     rendera = {};
