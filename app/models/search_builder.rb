@@ -952,7 +952,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:mm] = 1
         blacklight_params = my_params
           Rails.logger.info("FINISHER = #{my_params}")
-    Rails.logger.info("#{_FILE__} #{__LINE__} {__method__}  = #{q_string2}")    
+    Rails.logger.info("#{__FILE__} #{__LINE__} {__method__}  = #{q_string2}")    
     return my_params
   
   end
