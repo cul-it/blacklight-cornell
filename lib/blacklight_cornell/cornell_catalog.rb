@@ -589,7 +589,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
          if !params[:q].include?('"')
            params[:q] = '"' << params[:q] << '"'
          end
-         params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+        # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
        else
          params[:q] =  '' or params[:q].nil?
          params[:search_field] = 'all_fields'
