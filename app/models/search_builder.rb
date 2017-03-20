@@ -457,6 +457,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               if numquotes == 1
                  my_params[:q_row][i].gsub!('"', '')
               end
+              my_params[:q_row][i].gsub!(/[()]/, '')
          
               if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
                   numquotes = my_params[:q_row][i].count '"'
@@ -582,7 +583,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                               end
                           end
                           if field_name == ''
-                          newTerm << + tokenArray[tokenArray.size - 1] + ")"
+                            newTerm << + tokenArray[tokenArray.size - 1] + ")"
                           else
                           newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
                           end
