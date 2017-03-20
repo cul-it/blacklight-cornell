@@ -42,3 +42,4 @@
 //= require accessibility.js
 //= require jquery.waypointz.js
 //= require zz_inview.js
+//= require tooltip.js
