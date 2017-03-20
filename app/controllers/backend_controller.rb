@@ -54,8 +54,10 @@ class BackendController < ApplicationController
   end
 
   def holdings_shorthm
+   #Accept-Encoding: gzip, deflate
+    extheader = { 'Accept-Encoding' => 'gzip, deflate' }
     logger.debug "es287 #{__FILE__}:#{__LINE__} " + Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"
-    @mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}"))
+    @mholdings_detail = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{params[:id]}",extheader))
     @mid = params[:id]
     logger.debug  "es287_debug #{__FILE__}:#{__LINE__} getting info (Multi bibid) for #{params[:id]} from"
     logger.debug Rails.configuration.voyager_holdings + "/holdings/retrieve_detail_short/#{@mid}"
