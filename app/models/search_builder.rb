@@ -386,16 +386,16 @@ class SearchBuilder < Blacklight::SearchBuilder
           #  end
           else
             hasNonBlankcount = hasNonBlankcount + 1
-            if i == my_params[:q_row].count - 1 and  hasNonBlankcount > 1
+            if i == my_params[:q_row].count - 1 #and  hasNonBlankcount > 1
                 if !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end
-            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
-                if !my_params[:boolean_row][i.to_s.to_sym].nil?
-                testBRow << my_params[:boolean_row][i.to_s.to_sym]
-                end
-            end
+ #           if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+ #               if !my_params[:boolean_row][i.to_s.to_sym].nil?
+ #               testBRow << my_params[:boolean_row][i.to_s.to_sym]
+ #               end
+ #           end
           end
        end
         my_params[:q_row] = testQRow
@@ -522,7 +522,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                     field_name = 'starts:'
                   else
                     if field_name == 'notes_qf'
-                       field_name = 'notes_starts:'
+                       field_name = 'notes_starts'
                     else
                        field_name = field_name + '_starts:'
                     end
@@ -530,14 +530,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
                 if my_params[:op_row][i] == 'phrase'
                   if field_name == ""
-                    field_name = 'quoted:'
+                    field_name = 'quoted'
 #                      solr6query << field_name #<< ":"
                   else
                     if field_name == 'notes_qf'
                       field_name = 'notes_quoted:'
 #                      solr6query << field_name #<< ":"
                     else
-                      field_name = field_name +  '_quoted:'
+                      field_name = field_name +  '_quoted'
 #                      solr6query << field_name #<< ":"
                     end
                   end
