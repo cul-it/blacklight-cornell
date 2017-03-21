@@ -59,6 +59,7 @@ class DatabasesController < ApplicationController
 
 
    def searchdb
+       Appsignal.increment_counter('db_search_db', 1)
       if params[:q].nil? or params[:q] == "" or params[:q] == "+" or params[:q] == "-"
         flash.now[:error] = "Please enter a query."
         render "index"
@@ -85,6 +86,7 @@ end
   def tou
 
     clnt = HTTPClient.new
+    Appsignal.increment_counter('db_tou', 1)
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
     solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
@@ -98,9 +100,12 @@ end
            @defaultRightsText = "Use default rights text"
      else
        @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
+       Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
        if @ermDBResult.size < 1
-         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
-
+         #@ermDBResult = ::Erm_data.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
+         @ermDBResult = ::Erm_data.where(Database_Code: ['',nil], Provider_Code: providercode[0], Prevailing: 'true')
+         #@ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with no db code  = #{@ermDBResult.inspect}")
          if @ermDBResult.size < 1
            @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
          end
