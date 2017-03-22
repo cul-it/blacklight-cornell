@@ -434,7 +434,7 @@ def render_advanced_constraints_query(my_params = params)
       my_params.delete(:y)
       my_params.delete(:sort)
       my_params.delete(:search_field)
-      my_params.delete(:boolean_row)
+ #     my_params.delete(:boolean_row)
       my_params[:search_field] = hold_search_field_row
       content = ""
       content << render_constraints(my_params)
@@ -444,11 +444,11 @@ def render_advanced_constraints_query(my_params = params)
       my_params[:q_row][0] = hold_q_row
       my_params[:search_field_row][0] = hold_search_field_row
       my_params[:op_row][0] = hold_oprow
-      my_params[:boolean_row] = {"1" => "AND"}
+ #     my_params[:boolean_row] = {"1" => "AND"}
       return content.html_safe
     end
     if my_params[:boolean_row] == {}
-     my_params[:boolean_row] = {"1" => "AND"}
+  #   my_params[:boolean_row] = {"1" => "AND"}
     end
     labels = []
     values = []
@@ -789,14 +789,17 @@ def makeRemoveString(my_params, facet_key)
   end
   boolean_row = my_params["boolean_row"]
   boolean_row_string = ""
-  if !boolean_row.nil? and boolean_row.count < 1
+  if !boolean_row.nil? #and boolean_row.count >= 1
    boolean_row.each do |key, value|
      if !key.nil? and !value.nil?
      boolean_row_string << "boolean_row[" + key + "]=" + value + "&"
+     else
+      boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][0] + "&"
      end
    end
+    
   else
-    boolean_row_string = "boolean_row[1]=AND"
+    boolean_row_string = "boolean_row[1]=" + my_params["boolean_row"]
   end
   if !boolean_row_string.blank?
     boolean_row_string << "&"

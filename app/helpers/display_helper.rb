@@ -1393,6 +1393,42 @@ include ActionView::Helpers::NumberHelper
     (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
   end
 
+  def random_image
+    require 'open-uri'
+    require 'nokogiri'
+    addr = "https://www.flickr.com/explore/interesting/7days/"
+    ptag = ".Photo"
+    doc = Nokogiri::HTML(open( addr ))
+    photo = (doc.css( ptag )).first
+    p_src = photo.css("img").first.attr("src")
+    p_src
+  end
+
+  def xrandom_image
+    require 'open-uri'
+    require 'nokogiri'
+    q = random_quote
+    t = q.split()
+    t = t.max_by(&:length)
+    addr = "https://www.flickr.com/photos/tags/#{t}"
+    ptag = ".Photo"
+    doc = Nokogiri::HTML(open( addr ))
+    photo = (doc.css( ptag )).first
+    p_src = photo.css("img").first.attr("src")
+    p_src
+  end
+
+  def random_quote
+    adr = 'http://api.forismatic.com/api/1.0/'
+    fmt = 'json'
+    language = 'en'
+    key = ''
+    jquote = HTTPClient.get_content("#{adr}?method=getQuote&key=&format=json&lang=en&clientApplication=gooz")
+    author = JSON.parse(jquote)["quoteAuthor"]
+    quote = JSON.parse(jquote)["quoteText"] +  " -- " + author
+  end
+
+
   def html_safe field
     require 'htmlentities'
     coder = HTMLEntities.new
