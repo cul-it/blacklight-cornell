@@ -326,6 +326,29 @@ Feature: Search
     And I should see the label '1 result'
     And I should see the label 'Yeast molecular biology--recombinant DNA'
 
+#  fungi, recombinant dna, any publisher 
+ @adv_search
+ @all_search
+ @adv_subject
+ @javascript
+  Scenario: Perform an advanced search by all fields, all fields, phrase, and publisher any 
+    When I literally go to advanced
+    And I fill in "q_row1" with 'fungi'
+    And I select 'all' from the 'op_row' drop-down
+    And I select 'All Fields' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with 'Recombinant Dna'
+    And I select 'phrase' from the 'op_row2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And click on link "add-row"
+    And I sleep 4 seconds
+    And I fill in "q_row3" with 'Food Products Press'
+    And I select 'any' from the 'op_row3' drop-down
+    And I select 'Publisher' from the 'search_field_advanced3' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    #And I should see the label '1 result'
+    #And I should see the label 'Yeast molecular biology--recombinant DNA'
+
 #
  @adv_search
  @all_search

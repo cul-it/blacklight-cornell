@@ -92,6 +92,11 @@ h3.rare {
 	font-weight: normal;
 	display:block;
 }
+.text-it {
+	.tooltip-inner {
+		padding: 5px 10px;
+	}
+}
 .share-options { min-width: auto; }
 .message {
 	margin: 0 0 .5em 0;
@@ -161,6 +166,14 @@ h3.rare {
 	}
 }
 
+#request-loading-spinner {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 2em;
+	height: 2em;
+}
+
 // Other forms
 // ----------------
 .other-forms {
@@ -216,7 +229,7 @@ h3.rare {
   }
   .item-requests {
   	.btn-default {
-		margin-left: 10px;
+		//margin-left: 10px;
 	}
   }
 }

@@ -68,9 +68,10 @@
           - counter = params[:counter] || session[:search][:counter]
           - if @request_ok
             - if counter.blank?
-              =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
+              =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } 
             - else
               =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+            %span{:id => 'request-loading-spinner'}
           - # only display request scan button for items not at RMC
           - if (group == "Circulating" && on_site_count <= holdings.count && !reserve_item)
             - ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fnewcatalog.library.cornell.edu'
