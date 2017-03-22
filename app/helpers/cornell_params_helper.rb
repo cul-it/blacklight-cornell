@@ -799,7 +799,7 @@ def makeRemoveString(my_params, facet_key)
    end
     
   else
-    boolean_row_string = "boolean_row[1]=" + my_params["boolean_row"]
+    boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
   end
   if !boolean_row_string.blank?
     boolean_row_string << "&"
