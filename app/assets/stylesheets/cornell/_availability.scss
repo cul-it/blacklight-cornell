@@ -166,6 +166,14 @@ h3.rare {
 	}
 }
 
+#request-loading-spinner {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 2em;
+	height: 2em;
+}
+
 // Other forms
 // ----------------
 .other-forms {
@@ -221,7 +229,7 @@ h3.rare {
   }
   .item-requests {
   	.btn-default {
-		margin-left: 10px;
+		//margin-left: 10px;
 	}
   }
 }
