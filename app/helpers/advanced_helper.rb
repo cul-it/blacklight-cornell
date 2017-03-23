@@ -50,12 +50,10 @@ module AdvancedHelper
   end
 
   def render_edited_advanced_search(params)
-    Rails.logger.info("CUBONE = #{params}")
     query = ""
     if params[:boolean_row].nil?
       params[:boolean_row] = {"1"=>"AND"}
     end
-    Rails.logger.info("REAS = #{params}")
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author/Creator"], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
@@ -65,7 +63,6 @@ module AdvancedHelper
     word = ""
     row1 = ""
     if params[:q_row][0].include? ' '
-      Rails.logger.info("CUBONE3")
       query = "\"" + params[:q_row][0] + "\""
     else
       query = params[:q_row][0]
@@ -75,7 +72,6 @@ module AdvancedHelper
     row1 << " value="  
     row1 << query #params[:q_row][0] 
     row1 << " /> "
-Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
     row1 << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
