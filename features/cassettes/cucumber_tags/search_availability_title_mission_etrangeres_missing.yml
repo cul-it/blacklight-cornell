@@ -3896,4 +3896,48 @@ http_interactions:
         {'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>4801,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889 TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1912034.0,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889 TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>['missions',{'numFound'=>1,'startOffset'=>10,'endOffset'=>18,'origFreq'=>3668,'suggestion'=>[{'word'=>'mission','freq'=>6800}]}],'correctlySpelled'=>true}}
     http_version: 
   recorded_at: Fri, 03 Feb 2017 15:24:55 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip,%20deflate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Thu, 23 Mar 2017 17:20:54 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Thu, 23 Mar 2017 17:20:54 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C+deflate
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '304'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C+deflate">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Thu, 23 Mar 2017 17:20:54 GMT
 recorded_with: VCR 3.0.3
