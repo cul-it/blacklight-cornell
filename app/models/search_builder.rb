@@ -22,11 +22,10 @@ class SearchBuilder < Blacklight::SearchBuilder
   def sortby_callnum user_parameters
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
-    if blacklight_params[:search_field] == 'lc_callnum'
-    #if user_parameters[:search_field] == 'call number'
-#      callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
+    if blacklight_params[:search_field] == 'lc_callnum' && blacklight_params[:sort].nil?
+       callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
       #solr_parameters[:sort] = callnum_sortby.field
-#      user_parameters[:sort] = callnum_sortby.field
+       user_parameters[:sort] = callnum_sortby.field
       Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     end
   end
