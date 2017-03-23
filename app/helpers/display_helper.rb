@@ -1301,12 +1301,14 @@ include ActionView::Helpers::NumberHelper
   
   def parseHistoryShowString(params)
     showText = ''
+ 
     sf_row = params[:search_field_row]
     q_row = params[:q_row]
     b_row = params[:boolean_row]
+
     i = 0
     num = sf_row.length
-    
+
     while i < num do 
       if i > 0
         showText = showText + " " + "#{b_row[i.to_s.to_sym]}" + " " + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
@@ -1315,17 +1317,34 @@ include ActionView::Helpers::NumberHelper
       end
       i += 1
     end
+    ## Sends 'correct' q param to link_link_to_previous_search 
+    params[:q] = showText
+    ## Uses overridden render_search_to_s_q(params) function below originally from app/helper/blacklight/search_history_constraints_helper_behavior.rb
+    showText = link_to_previous_search(params)
+ 
+    
     return showText
   end
   
   def parseHistoryQueryString(params)
     start = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
-    finish = "&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&commit=Search"
+    if params[:sort].nil?
+      finish = "&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&commit=Search"
+    else 
+      finish = "&" + params[:sort]
+    end
     linkText = ''
+    f_linkText = ''
     q_row = params[:q_row]
     op_row = params[:op_row]
     sf_row = params[:search_field_row]
     b_row = params[:boolean_row]
+    if !params[:f].nil?
+      f_row = params[:f]
+    else
+      f_row = {}
+    end  
+    
     i = 0
     num = q_row.length
     while i < num do
@@ -1336,7 +1355,12 @@ include ActionView::Helpers::NumberHelper
       end
       i += 1
     end
-    linkText = start + linkText + finish
+    f_row.each do | key, value |    
+       value.each do |text|
+         f_linkText = f_linkText + "&f[" + key + "][]=" + text
+       end
+    end    
+    linkText = start + linkText + f_linkText + finish
     return linkText
   end
 
@@ -1439,5 +1463,17 @@ include ActionView::Helpers::NumberHelper
       result << r
     end
     result = result.to_sentence.html_safe
+  end
+  
+# Render the search query constraint
+  def render_search_to_s_q(params)
+    return "".html_safe if params['q'].blank?
+    if params[:q_row].nil?
+  
+      label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+    else
+      label = ""
+    end
+    render_search_to_s_element(label , render_filter_value(params['q']) )
   end
 end
