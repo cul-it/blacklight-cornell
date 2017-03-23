@@ -196,6 +196,7 @@ Feature: Item view
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an item on order 
+   Given PENDING 
     Given I request the item view for 9717170 
     Then I should see the label 'Copy Ordered'
 
