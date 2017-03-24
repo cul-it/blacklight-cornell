@@ -587,7 +587,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         if params[:search_field] == 'all_fields'
           fieldname = ''
         else
-          fieldname = params[:search_field]
+          if params[:search_field] == 'publisher number/other identifier'
+            fieldname = 'number'
+            params[:search_field] = 'number'
+          else
+           fieldname = params[:search_field]
+          end
         end
       end
     end
@@ -691,6 +696,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
  #   end
     if params[:search_field] == 'lc_callnum'
       params[:search_field] = 'call number'
+    end
+    if params[:search_field] == 'number'
+      params[:search_field] = 'publisher number/other identifier'
     end
     # end of cleanup of search_field and q params
     return params 
