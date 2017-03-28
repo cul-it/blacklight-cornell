@@ -13,27 +13,6 @@ body.bookmarks-index #documents .document {
 	}
 }
 
-// Icon cover
-// ------------------------------------------
-
-// .iconcover {
-// 	// float: left; 
-// 	// width: 75px; 
-// 	// margin-right: 1em; 
-// 	// height: 100px;
-// 	text-align: center;
-// 	// width: 50px;
-// 	height: auto;
-// 	i { 
-// 		font-size: 24px;
-// 		color: $dark-tan;
-// 		margin-left: 2px;
-// 		position: relative;
-// 		top: -50px
-
-// 	}
-// }
-
 // Title
 // ------------------------------------------
 .blacklight-title_display {
@@ -49,8 +28,6 @@ body.bookmarks-index #documents .document {
 // Item data
 // ------------------------------------------
 .document-data {
-	// float: left;
-	// width: 75%;
 	span {
 		font-size: 12px;
 		margin-bottom: .5em;
@@ -164,6 +141,9 @@ body.bookmarks-index #documents .document {
 		padding-top: 0;
 	}
 }
+.select-item {
+	margin-top: 1em;
+}
 
 // Search history
 // ------------------------------------------
@@ -193,24 +173,8 @@ h4.suggest {
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
-
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
-
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
+// Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm) { 
-	// .search-widgets {
-	// 	float: right !important;
-	// }
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}
@@ -221,36 +185,18 @@ h4.suggest {
 			height: auto;
 		}
 	}
-	// .iconcover {
-	// 	// width: 75px; 
-	// 	// height: 100px;
-	// 	i {
-	// 		margin-left: 4px;
-	// 		top: -70px;
-	// 	}
-	// }
-	// .select-item {
-	// 	float: right;
-	// 	margin-left: 30px;
-	// }
-	// .document-data {
-	// 	width: 83%;
-	// }
 	.search-filter {
 		float: right;
 	}
+	.select-item {
+		margin-top: 0;
+	}
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) {
-	// .document-data {
-	// 	width: 87%;
-	// }
-}
+// Medium devices (desktops, 992px and up)
+// @media (min-width: $screen-md) {
+// }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg) {
-	// .document-data {
-	// 	width: 89%;
-	// }
-}
+// Large devices (large desktops, 1200px and up)
+// @media (min-width: $screen-lg) {
+// }

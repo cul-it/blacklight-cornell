@@ -21,22 +21,28 @@ h3.responsibility {
 	color: $medium-gray;
 }
 
-.cover {
-	margin-bottom: 1.5em;
-	height: auto;
-	.iconcover {
-		width: 100%;
-		i {
-			font-size: 3em;
-			margin-left: 0;
-		}
-	}
+// .cover {
+// 	margin-bottom: 1.5em;
+// 	height: auto;
+// 	// .iconcover {
+// 	// 	width: 100%;
+// 	// 	i {
+// 	// 		font-size: 3em;
+// 	// 		margin-left: 0;
+// 	// 	}
+// 	// }
+// }
+
+.catalog-show .bookcover {
+	margin-bottom: 1em;
 }
 
 .item-metadata {
 	float: left;
-	// width: 79%;
 	margin-bottom: 20px;
+}
+.item-cover {
+	margin: 0 0 2em 2em;
 }
 
 // OVERRIDE CORE STYLES
@@ -189,12 +195,11 @@ padding-left: 6em;
 
 // Availability anchor button
 // ----------------------------- //
-.availability-link {
-	margin-top: 1em;
-	i {
-		margin-left: .5em;
-	}
-}
+// .availability-link {
+// 	i {
+// 		margin-left: .5em;
+// 	}
+// }
 
 // Authorities info popup
 // ----------------------------- //
@@ -264,36 +269,36 @@ padding-left: 6em;
 		margin-top: 0;
 	}
 	.cover {
-		float: left;
+		// float: left;
 		text-align: center;
-		.iconcover {
-			height: 140px;
-			i {
-				top: -110px;
-			}
-		}
+		// .iconcover {
+		// 	height: 140px;
+		// 	i {
+		// 		top: -110px;
+		// 	}
+		// }
 	}
 	dl.dl-horizontal {
 		dd {
 			margin-left: 165px;
 		}
 	}
-	.availability-link {
-		font-size: 10px;
-		margin: 2em 0;
-	}
+	// .availability-link {
+	// 	// font-size: 10px;
+	// 	margin: 0 0 2em 0;
+	// }
 }
 // Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) { 
-	.cover {
-		.iconcover {
-			height: 200px;
-			i {
-				top: -130px;
-			}
-		}
-	}
-	.availability-link {
-		font-size: 12px;
-	}
-}
+// @media (min-width: $screen-md) { 
+// 	// .cover {
+// 	// 	.iconcover {
+// 	// 		height: 200px;
+// 	// 		i {
+// 	// 			top: -130px;
+// 	// 		}
+// 	// 	}
+// 	// }
+// 	// .availability-link {
+// 	// 	font-size: 12px;
+// 	// }
+// }
