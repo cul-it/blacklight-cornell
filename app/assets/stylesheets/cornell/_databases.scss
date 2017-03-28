@@ -66,6 +66,9 @@
 			font-size: 12px;
 			margin-left: 5px;
 		}
+		a {
+			margin-left: 0;
+		}
 	}
 }
 .blacklight-database-name:first-child {
@@ -144,16 +147,6 @@
 		}
 	}
 }
-.resources {
-	h3 {
-		margin-top: 0;
-	}
-}
-// .resources-core {
-// 	h3 { 
-// 		font-weight: 700;
-// 	}
-// }
 .resources-all, .resource {
 	.document-data:first-child { border-top: 0; }
 }
