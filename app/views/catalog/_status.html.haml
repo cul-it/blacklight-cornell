@@ -30,7 +30,7 @@
           - elsif details['status'] == 'none' && bound_with
             %i{:class => 'fa', :title => 'Bound with'}
             - message = '' 
-          - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
+          - elsif details['status'] == 'none' && not(copy["orders"].blank?) &&  not(copy["orders"] =~ /Received/) 
             %i{:class => 'fa fa-clock-o', :title => 'On order'}
             - message = I18n.t('blacklight.catalog.on_order')
           - elsif details['status'] == 'none'
