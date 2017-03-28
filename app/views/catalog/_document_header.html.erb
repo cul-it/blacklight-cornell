@@ -1,6 +1,3 @@
-<%# bookmark functions for items/docs -%>
-<%= render_index_doc_actions document, :wrapping_class => "select-item" %>
-
 <%# main title container for doc partial view -%>
 <h2 class="blacklight-title_display">
   <%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %>
