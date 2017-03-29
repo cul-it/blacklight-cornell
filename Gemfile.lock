@@ -36,7 +36,7 @@ GIT
       httpclient (~> 2.4)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (4.2.7.1)
       actionpack (= 4.2.7.1)
