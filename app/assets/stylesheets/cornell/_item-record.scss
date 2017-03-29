@@ -21,18 +21,6 @@ h3.responsibility {
 	color: $medium-gray;
 }
 
-// .cover {
-// 	margin-bottom: 1.5em;
-// 	height: auto;
-// 	// .iconcover {
-// 	// 	width: 100%;
-// 	// 	i {
-// 	// 		font-size: 3em;
-// 	// 		margin-left: 0;
-// 	// 	}
-// 	// }
-// }
-
 .catalog-show .bookcover {
 	margin-bottom: 1em;
 }
@@ -72,8 +60,6 @@ label.toggle_bookmark {
 	margin-right: 1.5em;
 }
 dl.dl-horizontal {
-	// clear: left;
-	// margin-top: 0;
 	dt {
 		width: 150px;
 		display: inline;
@@ -129,6 +115,7 @@ dd.blacklight-notes {
 		font-size: 0.875em;
 		float: left;
 		margin-right: .5em;
+		margin-bottom: 6px;
 	}
 	li:last-child {
 		margin-right: 0;
@@ -270,37 +257,15 @@ padding-left: 6em;
 	#document {
 		margin-top: 0;
 	}
-	.cover {
-		// float: left;
-		text-align: center;
-		// .iconcover {
-		// 	height: 140px;
-		// 	i {
-		// 		top: -110px;
-		// 	}
-		// }
-	}
+	// .cover {
+	// 	text-align: center;
+	// }
 	dl.dl-horizontal {
 		dd {
 			margin-left: 165px;
 		}
 	}
-	// .availability-link {
-	// 	// font-size: 10px;
-	// 	margin: 0 0 2em 0;
-	// }
 }
 // Medium devices (desktops, 992px and up)
 // @media (min-width: $screen-md) { 
-// 	// .cover {
-// 	// 	.iconcover {
-// 	// 		height: 200px;
-// 	// 		i {
-// 	// 			top: -130px;
-// 	// 		}
-// 	// 	}
-// 	// }
-// 	// .availability-link {
-// 	// 	font-size: 12px;
-// 	// }
 // }

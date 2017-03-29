@@ -8,7 +8,7 @@ body.bookmarks-index #documents .document {
 	img {
 		float: left;
 		margin-right: 1em;
-		width: 50px;
+		width: 75px;
 		height: auto;
 	}
 }
@@ -93,6 +93,7 @@ body.bookmarks-index #documents .document {
 #sort-dropdown,
 #per_page-dropdown {
 	font-size: 12px;
+	margin-bottom: 5px;
 	.btn {
 		font-size: inherit;
 	}
@@ -178,24 +179,17 @@ h4.suggest {
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}
-	body.catalog-index #documents .document,
-	body.bookmarks-index #documents .document {
-		img {
-			width: 75px;
-			height: auto;
-		}
-	}
-	.search-filter {
-		float: right;
-	}
 	.select-item {
 		margin-top: 0;
 	}
 }
 
 // Medium devices (desktops, 992px and up)
-// @media (min-width: $screen-md) {
-// }
+@media (min-width: $screen-md) {
+	.search-filter {
+		float: right;
+	}
+}
 
 // Large devices (large desktops, 1200px and up)
 // @media (min-width: $screen-lg) {
