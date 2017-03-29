@@ -43,6 +43,16 @@ h3.responsibility {
 }
 .item-cover {
 	margin: 0 0 2em 2em;
+	text-align: center;
+}
+
+// Availability anchor button
+// ----------------------------- //
+.availability-link {
+	display: block;
+	i {
+		margin-left: .5em;
+	}
 }
 
 // OVERRIDE CORE STYLES
@@ -192,14 +202,6 @@ padding-left: 6em;
 #captcha_form {
 	#request-submit { display: block; }
 }
-
-// Availability anchor button
-// ----------------------------- //
-// .availability-link {
-// 	i {
-// 		margin-left: .5em;
-// 	}
-// }
 
 // Authorities info popup
 // ----------------------------- //
