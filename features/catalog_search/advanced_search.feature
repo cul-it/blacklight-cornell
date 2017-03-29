@@ -403,7 +403,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should not see the label 'Modify advanced'
+    And I should see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 result'
 
@@ -491,7 +491,7 @@ Feature: Search
  @javascript
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with 'varieties of capitalism'
+    And I fill in "q_row1" with quoted 'varieties of capitalism'
     And I select 'begins' from the 'op_row' drop-down
     And I press 'advanced_search'
     Then I should get results
