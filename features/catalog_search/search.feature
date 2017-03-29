@@ -165,6 +165,7 @@ Feature: Search
     And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with 'Tolkien, new critical perspectives'
     And I press 'search'
+    And I sleep 1 seconds
     Then I should get results
     And I should see the "fa-clock-o" class
     And I should see the label 'Olin Library' 
