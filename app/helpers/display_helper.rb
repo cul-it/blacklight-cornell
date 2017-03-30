@@ -100,6 +100,32 @@ include ActionView::Helpers::NumberHelper
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
+
+  def render_json_display_link args
+    label = blacklight_config.display_link[args[:field]][:label]
+    links = args[:value]
+    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+    render_format = args[:format] ? args[:format] : 'default'
+      #Check to see whether there is metadata at the end of the link
+      value = links.map do |link|
+      l = JSON.parse(link)
+      if !l["description"].present? && render_format == 'url'
+        return l["url"].html_safe
+      end
+      if l["description"].present?
+        label = l["description"]
+      end
+      link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
+    end
+
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
+    if render_format == 'raw'
+      return value
+    end
+  end
+
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
@@ -562,6 +588,20 @@ include ActionView::Helpers::NumberHelper
       ic = icon_mapping
     end
     ic
+  end
+  def remove_pipe field
+    (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
+  end
+
+  def render_show_format_value field
+    formats = []
+    field[:value].map do |f|
+    # Convert format to array in case it's a string (it shouldn't be)
+        icon = '<i class="fa fa-' + formats_icon_mapping(f) + '"></i> '
+        f.prepend(icon) unless f.nil?
+        formats << f
+      end
+      formats.join('<br>').html_safe
   end
 
   # Renders the format field values with applicable format icons
