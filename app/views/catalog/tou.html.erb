@@ -2,8 +2,9 @@
 
 <%#= render :partial => 'tou_search_form'  %>
 
-<%#= @db.inspect %>
+<%#= @dbResponse.inspect %>
 
+<!-- get params. compare to codes in bib. display code that matches by calling tou helper -->
 
 <div class="row database-subject">
   <div class="page-title col-sm-12">
@@ -80,6 +81,8 @@
           </p>
         </div>
         <% if @ermDBResult.present? %>
+                  <%@ermDBResult.inspect %>
+
           <% data = @ermDBResult[0] %>
             <% if data.present? %>
               <table class="table table-bordered table-striped">

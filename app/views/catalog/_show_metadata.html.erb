@@ -46,7 +46,6 @@
     <%  if holdings_condensed[0]['summary_holdings'] %>
       <% summary_holdings=(holdings_condensed[0]['summary_holdings'].html_safe + "<br/>".html_safe).html_safe%>
     <%  end %>
-    <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
     <div class="holdings-online">
       <table  class= "table table-responsive">
           <thead>
@@ -57,14 +56,27 @@
             </tr>
           </thead>
          <tbody>
-          <% online_links.each do |link| %>
+          <% if  field_value('url_access_json').present?  %>
+            <% @document['url_access_json'].each do |link| %>
+            <% l = JSON.parse(link) %>
+            <% if l["description"].present? %>
+              <% label = l["description"] %>
+              <% else %>
+              <% label = blacklight_config.display_link[args[:field]][:label] %>
+              <% end %>
             <tr>
-              <td colspan="2" ><span class="online-link"><%= link %></span></td>
+              <td colspan="2" ><span class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %></span></td>
               <td>
                  <span><%= summary_holdings.html_safe %></span>
                  <span class="label label-available"><i class="fa fa-check"></i> Available online</span>
+                 <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
+                    <span class="terms-of-use">
+                      <a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a>
+                    </span>
+                  <% end %>
               </td>
             </tr>
+            <% end %>
           <% end %>
          </tbody>
        </table>
@@ -80,11 +92,7 @@
       <%= access_restrictions %>
     </span>
     <% end %>
-    <% if (field_value('format') == 'Book' || field_value('format') == 'Journal/Periodical') && online_url(@document) %>
-    <span class="terms-of-use">
-    <a href="/catalog/tou/<%= @document[:id] %>">Terms of use</a>
-    </span>
-    <% end %>
+    
     <span class="blacklight-url_access_display"></span>
     <%= @hide_status %>
   </div>
