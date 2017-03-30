@@ -29,6 +29,9 @@ bookcovers =
         thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
         $("##{divId}").replaceWith ->
           '<img class="bookcover img-thumbnail" alt="" src="' + thumbnail + '">'
+      else 
+        $("##{divId}").replaceWith ->
+          ''
 
   # Retrieve covers via Google API
   fetchCovers: () ->
@@ -51,6 +54,9 @@ bookcovers =
         thumbnail = values.thumbnail_url.replace('zoom=5','zoom=1')
         $("##{divId}").replaceWith ->
           '<img class="bookcover img-thumbnail" alt="" src="' + thumbnail + '">'
+      else
+        $("##{divId}").replaceWith ->
+          ''
 
 $(document).ready ->
   bookcovers.onLoad()
