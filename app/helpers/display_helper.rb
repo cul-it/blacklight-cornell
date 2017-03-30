@@ -589,9 +589,7 @@ include ActionView::Helpers::NumberHelper
     end
     ic
   end
-  def remove_pipe field
-    (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
-  end
+ 
 
   def render_show_format_value field
     formats = []
