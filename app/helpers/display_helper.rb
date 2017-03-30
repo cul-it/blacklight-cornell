@@ -100,6 +100,32 @@ include ActionView::Helpers::NumberHelper
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
+
+  def render_json_display_link args
+    label = blacklight_config.display_link[args[:field]][:label]
+    links = args[:value]
+    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+    render_format = args[:format] ? args[:format] : 'default'
+      #Check to see whether there is metadata at the end of the link
+      value = links.map do |link|
+      l = JSON.parse(link)
+      if !l["description"].present? && render_format == 'url'
+        return l["url"].html_safe
+      end
+      if l["description"].present?
+        label = l["description"]
+      end
+      link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
+    end
+
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
+    if render_format == 'raw'
+      return value
+    end
+  end
+
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
