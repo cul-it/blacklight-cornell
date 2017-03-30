@@ -278,7 +278,7 @@ class CatalogController < ApplicationController
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_json', :label => 'Author, etc.'
-    config.add_show_field 'format', :label => 'Format'
+    config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
