@@ -54,13 +54,13 @@
             -   borrow_direct
             -   ill
 6n:
-        short_message: '%ENUM Checked out, due %DATE (Requests: %REQS)'
-        long_message: 'Checked out, due %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
+        short_message: '%ENUM Hold Request (Requests: %REQS)'
+        long_message: '%ENUM Checked out, due %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
 #        short_message: 'Requests: %REQS'
 #        long_message: 'Requests: %REQS'
 6r:
-        short_message: 'Checked out, due %DATE (Requests: %REQS)'
-        long_message: 'Checked out, due %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
+        short_message: '%ENUM Hold Request  (Requests: %REQS)'
+        long_message: '%ENUM Checked out, due %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
         services:
             -   borrow_direct
             -   ill
@@ -123,7 +123,7 @@
             -   borrow_direct
             -   ill
 12r:
-        short_message: 'Missing %SDATE (Requests: %REQS)'
+        short_message: '%ENUM Missing %SDATE (Requests: %REQS)'
         long_message: 'Missing %DATE (Requests: %REQS). Try Borrow Direct or ILL.'
         services:
             -   borrow_direct

@@ -4,11 +4,8 @@
     <% if document.has? solr_fname  -%>
 	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label document, :field => solr_fname %></dt>
       <dd class="blacklight-<%= solr_fname.parameterize %>">
-        <% if display_icon? solr_fname -%>
-          <%= simple_render_index_field_value :document => document, :field => 'format' %>
-        <% elsif display_link? solr_fname -%>
-          <%= render_display_link :document => document, :field => solr_fname %>
-        <% elsif  solr_fname == 'author_json' -%>
+       
+        <% if  solr_fname == 'author_json' -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
           <% authname = field_value solr_fname %>
           <% document['author_json'].each do |authority| %>
@@ -32,9 +29,12 @@
           <% end %>
           <% end %>
        
-         
+          <% elsif display_link? solr_fname -%>   
+           <%= render_display_link :document => document, :field => solr_fname %>
+
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
+        
         <% else -%>
           <%= field_value solr_fname %>
         <% end -%>

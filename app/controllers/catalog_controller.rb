@@ -279,7 +279,7 @@ class CatalogController < ApplicationController
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_json', :label => 'Author, etc.'
-    config.add_show_field 'format', :label => 'Format'
+    config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
@@ -979,14 +979,13 @@ end
             if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]      
                 @defaultRightsText = ''
                 @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
+               
                 if @ermDBResult.size < 1
-                    @ermDBResult = ::Erm_data.where("Provider_Code = \'#{l["providercode"]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
-                    if @ermDBResult.size < 1
             #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
                     @defaultRightsText = "Use default rights text"
                     end
-                end
+               
             end
         end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)

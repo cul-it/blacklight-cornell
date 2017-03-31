@@ -6,6 +6,7 @@ Feature: Search
   As a user
   I want to enter terms, select terms for fields fields, and select number of results per page
 
+
   @all_search
   @adv_search
   @searchpage
@@ -388,6 +389,8 @@ Feature: Search
     And I should see the label 'We were Feminists Once'
     And I should see the label '1 result'
 
+
+
  @begins_with
  @adv_search
  @all_search
@@ -400,7 +403,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    #And I should not see the label 'Modify advanced'
+    And I should see the label 'Modify advanced'
     And I should see the label 'We were Feminists'
     And I should see the label '1 result'
 
@@ -419,6 +422,30 @@ Feature: Search
     And I press 'advanced_search'
     Then I should not see the label 'searched'
     And I should see the label 'soccer'
+
+ @all_search
+ @adv_place
+ @javascript
+ @DISCOVERYACCESS-3350
+  Scenario: Perform a 2 row  advanced search with a blank in one field. 
+    When I literally go to advanced
+    And I fill in "q_row1" with ' '
+    And I fill in "q_row2" with 'we were once'
+    And click on link "add-row"
+    And I sleep 4 seconds
+    And I fill in "q_row3" with ' '
+    And I press 'advanced_search'
+    Then I should not see the label 'searched'
+
+ @javascript
+ @DISCOVERYACCESS-3350
+  Scenario: Perform a 2 row  advanced search with a blank in one field. 
+    Given PENDING 
+    When I literally go to advanced
+    And I fill in "q_row1" with ' '
+    And I fill in "q_row2" with 'we were once'
+    And I press 'advanced_search'
+    Then I should not see the label 'searched'
 
  @adv_search
  @all_search
@@ -479,3 +506,18 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
+    
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+  Scenario: Perform a 1 row  advanced search by begins with Title
+    When I literally go to advanced
+    And I fill in "q_row1" with quoted 'varieties of capitalism'
+    And I select 'begins' from the 'op_row' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced'
+    And I should see the label 'Varieties of capitalism and business history'

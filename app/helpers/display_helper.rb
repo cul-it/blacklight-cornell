@@ -589,6 +589,18 @@ include ActionView::Helpers::NumberHelper
     end
     ic
   end
+ 
+
+  def render_show_format_value field
+    formats = []
+    field[:value].map do |f|
+    # Convert format to array in case it's a string (it shouldn't be)
+        icon = '<i class="fa fa-' + formats_icon_mapping(f) + '"></i> '
+        f.prepend(icon) unless f.nil?
+        formats << f
+      end
+      formats.join('<br>').html_safe
+  end
 
   # Renders the format field values with applicable format icons
   def render_format_value args
