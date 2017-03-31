@@ -423,6 +423,30 @@ Feature: Search
     Then I should not see the label 'searched'
     And I should see the label 'soccer'
 
+ @all_search
+ @adv_place
+ @javascript
+ @DISCOVERYACCESS-3350
+  Scenario: Perform a 2 row  advanced search with a blank in one field. 
+    When I literally go to advanced
+    And I fill in "q_row1" with ' '
+    And I fill in "q_row2" with 'we were once'
+    And click on link "add-row"
+    And I sleep 4 seconds
+    And I fill in "q_row3" with ' '
+    And I press 'advanced_search'
+    Then I should not see the label 'searched'
+
+ @javascript
+ @DISCOVERYACCESS-3350
+  Scenario: Perform a 2 row  advanced search with a blank in one field. 
+    Given PENDING 
+    When I literally go to advanced
+    And I fill in "q_row1" with ' '
+    And I fill in "q_row2" with 'we were once'
+    And I press 'advanced_search'
+    Then I should not see the label 'searched'
+
  @adv_search
  @all_search
  @adv_title_percent
