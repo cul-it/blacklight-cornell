@@ -62,7 +62,7 @@ module AdvancedHelper
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
     row1 = ""
-    if params[:q_row][0].include? ' '
+    if params[:q_row][0].include? ' ' and !(params[:q_row][0].start_with? '"' and params[:q_row][0].end_with? '"')
       query = "\"" + params[:q_row][0] + "\""
     #  query = params[:q_row][0]
     else
