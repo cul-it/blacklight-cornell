@@ -146,7 +146,7 @@ module AdvancedHelper
       next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
       boolean_row_values.each do |key, value|
            n = 1.to_s
-           if key == params[:boolean_row][n.to_sym]
+           if key == params[:boolean_row][1]
              next2rows << "<label class=\"radio-inline\">"
              next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
              next2rows << "</label>"
