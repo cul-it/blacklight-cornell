@@ -1,6 +1,7 @@
 -if @selected_volume.present?
 	%select#volume-selection.form-control{:name => "volume-selection", :data =>{:request_path =>magic_request_path(@id)}}
 		=options_for_select(@volumes, selected = @selected_volume)
+	%span{:id => 'request-loading-spinner'}
 
 -else
 	= render :partial => 'shared/back_to_item'
@@ -15,6 +16,7 @@
 						Select volume
 					%select#volume-selection.form-control{@volumes, :name => "volume-selection", :data =>{:request_path =>magic_request_path(@id)}}
 						=options_for_select({'Choose a volume...' => ''}.merge(@volumes), selected = @selected_volume)
+					%span{:id => 'request-loading-spinner'}
 			%div.col-sm-3.ill-link
 				%p
 					%strong

@@ -8,14 +8,13 @@
         Select a copy:
       -elsif (@iis.length == 1)
         This copy:
-    -if @iis.length > 1 
-      .col-sm-10
+    .col-sm-10
+      -if @iis.length > 1  
         .radio
           %label{ :for => "copy-any"}
             %input(id="copy-any" class="copy-select" type="radio" name="holding_id" value="any" data-exclude-location="[]")
             Any Copy
-    -@iis.each do |copyn, copyd|
-      .col-sm-10
+      -@iis.each do |copyn, copyd|
         .radio
           %label{ :for => "copy-#{copyn}"}
             -if (@iis.length == 1)

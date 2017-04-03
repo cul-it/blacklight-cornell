@@ -8,7 +8,7 @@
   %div.well
     %h2.blacklight-title_display.item-title-request
       =title
-    %div.request-author 
+    %div.request-author
       =show_presenter(@document).field_value 'title_responsibility_display'
     %form#req.l2l-request.form-horizontal{:method => 'post', :action => make_voyager_request_path({:bibid =>@id})}
       -if @volumes.present? && @volumes.count > 1

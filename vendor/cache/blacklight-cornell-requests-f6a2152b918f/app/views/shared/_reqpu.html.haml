@@ -1,3 +1,4 @@
+- special_d = parsed_special_delivery(@fod_data)
 .form-group
   %label.control-label.col-sm-2{:for => "pickup-locations"} Pick up at:
   .col-sm-10
@@ -5,8 +6,8 @@
       %option(value='') -- Select a location --
       %option(value="149") Africana Circulation
       %option(value="151") Annex Circulation
-      %option(value="249") Cornell in Washington
-      %option(value="224") Faculty Department Office
+      -# - if special_d[:fod]
+      %option(value='224') Faculty Department Office
       %option(value="160") Fine Arts Circulation
       %option(value="162") Geneva Circulation
       %option(value="167") ILR Circulation
@@ -15,10 +16,11 @@
       %option(value="172") Mann Circulation
       %option(value="176") Math Circulation
       %option(value="179") Music Circulation
-      %option(value="228") NYC-AAP Remote Program
-      %option(value="250") NYC-CFEM Remote Program
-      %option(value="248") NYC-Tech Campus
       %option(value="181") Olin Circulation
       %option(value="219") Ornithology Circulation
+      - if special_d && special_d[:fod] == false
+        %option(value='#{special_d[:code]}') #{special_d[:value]}
       %option(value="188") Uris Circulation
       %option(value="189") Vet Circulation
+- if special_d[:code].present?
+  %p NOTE: You are eligible for #{@fod_data['program']['name']} delivery. Select "#{special_d[:fod] ? 'Faculty Department Office' : 'Special Program Delivery'}" from the list above.

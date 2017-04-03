@@ -30,6 +30,12 @@ requests =
 
     # Listener for volume selection
     $('#volume-selection').change ->
+      $.fn.spin.presets.requesting =
+        lines: 9,
+        length: 3,
+        width: 2,
+        radius: 6,
+      $('#request-loading-spinner').spin('requesting')
       requestPath = $(this).data('request-path')
       requests.redirectVolume($(this).val(), requestPath)
       return false

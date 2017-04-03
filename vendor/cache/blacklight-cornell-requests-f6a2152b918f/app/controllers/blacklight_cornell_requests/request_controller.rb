@@ -95,6 +95,7 @@ module BlacklightCornellRequests
       @volume = params[:volume]
       @netid = req.netid
       @name = get_patron_name req.netid
+      @fod_data = req.fod_data
 
       @iis = ActiveSupport::HashWithIndifferentAccess.new
       if !@document[:url_pda_display].blank? && !@document[:url_pda_display][0].blank?

@@ -62,7 +62,7 @@ module BlacklightCornellRequests
     attr_accessor :LOST_LIBRARY_APPLIED, :LOST_SYSTEM_APPLIED, :LOST, :CLAIMS_RETURNED, :DAMAGED
     attr_accessor :WITHDRAWN, :AT_BINDERY, :CATALOG_REVIEW, :CIRCULATION_REVIEW, :SCHEDULED, :IN_PROCESS
     attr_accessor :CALL_SLIP_REQUEST, :SHORT_LOAN_REQUEST, :REMOTE_STORAGE_REQUEST, :REQUESTED
-    attr_reader :holdings_status_short
+    attr_reader :holdings_status_short, :fod_data
 
     validates_presence_of :bibid
     def save(validate = true)
@@ -138,6 +138,8 @@ module BlacklightCornellRequests
 
       self.items = working_items
       self.document = document
+      @fod_data = get_fod_data @netid
+      #Rails.logger.debug "mjc12test: fod_data: #{@fod_data}"
 
       #Rails.logger.debug "es287_log :#{__FILE__}:#{__LINE__} working items processed. number of items: #{self.items.size} at"+ Time.new.inspect
 
@@ -287,7 +289,7 @@ module BlacklightCornellRequests
       ## record number of occurances for each of the
       items.each do |item|
 
-      #  Rails.logger.warn "mjc12test: item: #{item}"
+      #Rails.logger.warn "mjc12test: item: #{item}"
 
         # item[:numeric_enumeration] = item[:item_enum][/\d+/]
         enums = item[:item_enum].scan(/\d+/)
@@ -368,24 +370,7 @@ module BlacklightCornellRequests
         c = item[:chron]
         y = item[:year]
 
-        next if e.blank? and c.blank? and y.blank?
-
-        # if e.present? and c.blank? and y.blank?
-          # volumes[e] = "|#{e}|||"
-        # elsif c.present? and e.blank? and y.blank?
-          # volumes[c] = "||#{c}||"
-        # elsif y.present? and e.blank? and c.blank?
-          # volumes[y] = "|||#{y}|"
-        # else
-          # label = ''
-          # [e, c, y].each do |element|
-            # if element.present?
-              # label += ' - ' unless label == ''
-              # label += element
-            # end
-          # end
-          # volumes[label] = "|#{e}|#{c}|#{y}|"
-        # end
+        next if e.blank? && c.blank? && y.blank?
 
         label = ''
         [e, c, y].each do |element|
@@ -394,6 +379,15 @@ module BlacklightCornellRequests
             label += element
           end
         end
+        
+        # Affix an indicator to the label in the select list for
+        # items that are on reserve or otherwise noncirculating
+        if on_reserve?(item)
+          label += ' (on reserve)'
+        elsif noncirculating?(item)
+          label += ' (non-circulating)'
+        end
+        
         volumes[label] = "|#{e}|#{c}|#{y}|"
 
       end
@@ -578,11 +572,16 @@ module BlacklightCornellRequests
     # a note in the holdings record that the item doesn't circulate (even
     # with a different typecode)
     def noncirculating?(item)
+      #Rails.logger.debug "mjc12test: checking noncirculating - #{item}"
+
       # If item is in a temp location, concentrate on that
       if item.key?('temp_location_id') and item['temp_location_id'] > 0
         return (item.key?('temp_location_display_name') and
                (item['temp_location_display_name'].include? 'Reserve' or
                 item['temp_location_display_name'].include? 'reserve'))
+      elsif item['temp_location'].is_a? Hash
+        return (item['temp_location'].key?('name') && 
+                item['temp_location']['name'].include?('Non-Circulating'))
       elsif item['perm_location'].is_a? Hash
         return (item.key?('perm_location') and
                 item['perm_location'].key?('name') and
@@ -592,15 +591,9 @@ module BlacklightCornellRequests
         return false
       end
     end
-    
-    def on_reserve?(item)
-      item['temp_location']     &&
-      item['temp_location']['name'] &&
-      (item['temp_location']['name'].include?('Reserve') ||
-       item['temp_location']['name'].include?('reserve') )
-    end
 
     def on_reserve?(item)
+      #Rails.logger.debug "mjc12test: checking on_reserve - #{item}"
       item['temp_location']     &&
       item['temp_location']['name'] &&
       (item['temp_location']['name'].include?('Reserve') ||
@@ -756,7 +749,7 @@ module BlacklightCornellRequests
         request_options.push( {:service => DOCUMENT_DELIVERY })
       end
 
-      Rails.logger.debug "mjc12test: loantype: #{item_loan_type}, status: #{item[:status ]}"
+      #Rails.logger.debug "mjc12test: loantype: #{item_loan_type}, status: #{item[:status ]}"
       # Check the rest of the cases
       if item_loan_type == 'nocirc' ||
          noncirculating?(item)
@@ -854,7 +847,7 @@ module BlacklightCornellRequests
     # Determine whether document delivery should be available for a given item
     # This is based on library location and item format
     def docdel_eligible? item
-      
+
       return false if ENV['DISABLE_DOCUMENT_DELIVERY'].present?
 
       # Pretty much everything at the Annex should be requestable through DD
@@ -1089,7 +1082,7 @@ module BlacklightCornellRequests
     # params = { :isbn, :title }
     # ISBN is best, but title will work if ISBN isn't available.
     def available_in_bd? netid, params
-      
+
       # Don't bother if BD has been disabled in .env
       return false if ENV['DISABLE_BORROW_DIRECT'].present?
 
@@ -1161,6 +1154,21 @@ module BlacklightCornellRequests
       # Return the barcode
       JSON.parse(response.body)['bc']
 
+    end
+
+    # Get information about FOD/remote prgram delivery eligibility
+    def get_fod_data(netid)
+      
+      return {} unless ENV['FOD_DB_URL'].present?
+      
+      begin
+        uri = URI.parse(ENV['FOD_DB_URL'] + "?netid=#{netid}")
+        # response = Net::HTTP.get_response(uri)
+        JSON.parse(open(uri, :read_timeout => 5))
+      rescue OpenURI::HTTPError, Net::ReadTimeout
+        Rails.logger.warn("Warning: Unable to retrieve FOD/remote program eligibility data (from #{uri})")
+        return {}
+      end
     end
 
   end
