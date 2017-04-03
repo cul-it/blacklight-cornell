@@ -979,13 +979,15 @@ end
             if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]      
                 @defaultRightsText = ''
                 @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
-               
+            
                 if @ermDBResult.size < 1
+                    @ermDBResult = ::Erm_data.where("Provider_Code = \'#{l["providercode"]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
+                    if @ermDBResult.size < 1
             #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
                     @defaultRightsText = "Use default rights text"
                     end
-               
+                end
             end
         end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
