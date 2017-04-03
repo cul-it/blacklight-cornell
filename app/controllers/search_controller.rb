@@ -255,9 +255,11 @@ class SearchController < ApplicationController
         item.link = "/catalog/#{d['id']}"
         if d['url_access_display']
           item.custom_data = {
-            'url_online_access' => d['url_access_display']
+            'url_online_access' => d['url_access_display'],
           }
+
         end
+        item.format = d['format']
         bento_set << item
 
         # The first search result should have the maximum relevancy score. Save this for later
