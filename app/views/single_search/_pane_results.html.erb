@@ -19,7 +19,7 @@
     <% link_url = request.protocol + request.host_with_port + '/' + link_url %>
   <% end %>
   <% if result %>
-    <%= bento_search result %>
+    <%= bento_search result  %>
     <% link_url = ss_uri_encode(link_url) %>
     <div class="view-all">
       <%= link_to link_url, :class => "btn btn-default", :id => "link_top_" + downcast(key) do %>

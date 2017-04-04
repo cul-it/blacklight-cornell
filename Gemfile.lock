@@ -1,9 +1,9 @@
 GIT
   remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: f6a2152b918f73ef7d0eb22ced557f609a086380
+  revision: c76559bcf0f5af3adfdea60acdfeb42e18d1c6b4
   branch: master
   specs:
-    blacklight_cornell_requests (1.3.2)
+    blacklight_cornell_requests (1.4.0)
       blacklight (>= 5.9)
       borrow_direct
       dotenv

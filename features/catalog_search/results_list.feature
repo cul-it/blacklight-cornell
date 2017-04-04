@@ -99,10 +99,10 @@ Feature: Results list
  @pub_info
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I am on the home page
-    And I fill in the search box with 'architecture'
+    And I fill in the search box with 'encyclopedia of islamic architecture'
     And I press 'search'
     Then I should get results
-    Then results should have a "pub_info" that looks sort of like "Boca Raton, Florida"
+    Then results should have a "pub_info" that looks sort of like "[Cairo] : Maktabat al-Dār al-ʻArabīyah lil-Kitāb, 1999"
 
 
 
@@ -265,7 +265,7 @@ Feature: Results list
     Then click on first link "Click : when we knew we were feminists" 
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'accidental feminist how Elizabeth Taylor raised our consciousness'
+    Then I should see the text 'introducing feminist theology Val Webb'
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
@@ -290,7 +290,7 @@ Feature: Results list
     Then I should see the text 'Lighting Up and'
     Then click on first link "Lighting Up" 
     Then click on first link "Next »"
-    Then I should see the text 'Cigarette Excise Taxation The Impact of Tax Structure'
+    Then I should see the text 'Heterogeneity of the Cigarette Price Effect on Body Mass Index'
     Then click on first link "Previous"
     Then I should see the text 'Lighting Up and'
 

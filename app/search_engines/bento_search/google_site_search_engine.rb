@@ -87,6 +87,7 @@ class BentoSearch::GoogleSiteSearchEngine
 
       # we won't bother generating openurls for google hits, not useful
       item.openurl_disabled = true
+      item.format= "web"
 
       results << item
     end
