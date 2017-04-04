@@ -352,7 +352,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see exactly what copy is available 
     Given I request the item view for 1535861
-    Then I should see the label '1 copy'
+    Then I should see the label '1 Checked out'
 
   # DISCOVERYACCESS-1409 -- this record returns we are sorry 
   # thai language material
