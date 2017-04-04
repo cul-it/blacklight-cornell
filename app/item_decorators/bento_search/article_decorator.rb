@@ -26,5 +26,6 @@ module BentoSearch
       summary = nil
      
     end
+
 end
 end
