@@ -12,7 +12,7 @@
 # 
 
 integration:
-  url: http://da-prod-solr7.library.cornell.edu/solr/b3
+  url: http://da-prod-solr7.library.cornell.edu/solr/b4
   #url: http://da-dev-solr.library.cornell.edu/solr/test
   #url: http://dasolr.library.cornell.edu/solr/blacklight2
   #url: http://da-dev-solr.library.cornell.edu/solr/blacklight
