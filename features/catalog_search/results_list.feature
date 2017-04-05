@@ -285,6 +285,7 @@ Feature: Results list
     When I fill in the search box with 'cigarette prices'
     And I select 'Title' from the 'search_field' drop-down
     And I press 'search'
+    And I sleep 10 seconds
     Then I should get results
     And I sleep 4 seconds
     Then I should see the text 'Lighting Up and'
