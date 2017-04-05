@@ -58,7 +58,7 @@
             <% if l["description"].present? %>
               <% label = l["description"] %>
               <% else %>
-              <% label = blacklight_config.display_link[args[:field]][:label] %>
+              <% label = t('blacklight.url.message')  %> 
               <% end %>
             <tr>
               <td colspan="2" ><span class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %></span></td>
