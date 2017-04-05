@@ -1,0 +1,26 @@
+-if @selected_volume.present?
+	%select#volume-selection.form-control{:name => "volume-selection", :data =>{:request_path =>magic_request_path(@id)}}
+		=options_for_select(@volumes, selected = @selected_volume)
+	%span{:id => 'request-loading-spinner'}
+
+-else
+	= render :partial => 'shared/back_to_item'
+	%h2 Select a Volume
+	%div.well
+		%div.row
+			%div.col-sm-8
+				%h3.item-title-request.blacklight-title_display
+					=@ti
+				%div#per_page_dropdown.dropdown
+					%label.sr-only{:for => "volume-selection"}
+						Select volume
+					%select#volume-selection.form-control{@volumes, :name => "volume-selection", :data =>{:request_path =>magic_request_path(@id)}}
+						=options_for_select({'Choose a volume...' => ''}.merge(@volumes), selected = @selected_volume)
+					%span{:id => 'request-loading-spinner'}
+			%div.col-sm-3.ill-link
+				%p
+					%strong
+						Don't see the volume you're looking for?
+					Try
+					%a{:href => @ill_link}
+						Interlibrary Loan
