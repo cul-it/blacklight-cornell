@@ -1,7 +1,7 @@
 <div class="databases-search">
   <div class="well clearfix">
     <div class="row">
-      <p>Search top databases by name or broad subject terms</p>
+      <p>Search for top databases by name or broad subject terms</p>
       <div class="search-tools">
         <%= form_tag '/databases/searchdb', :method => :get, :class => 'form-inline' do %>
           <%= render_hash_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
