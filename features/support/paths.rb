@@ -19,7 +19,7 @@ module NavigationHelpers
     when /the home\s?page/
       root_path
 
-
+    
     when /the catalog page/
       search_catalog_path
 
