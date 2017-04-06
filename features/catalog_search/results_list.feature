@@ -265,7 +265,7 @@ Feature: Results list
     Then click on first link "Click : when we knew we were feminists" 
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'Involvement and Ideologies of Black Mothers'
+    Then I should see the text 'The accidental feminist'
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
