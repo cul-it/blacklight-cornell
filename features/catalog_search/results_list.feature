@@ -266,7 +266,7 @@ Feature: Results list
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'The accidental feminist'
+    Then I should see the text 'We Can Speak for Ourselves'
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
