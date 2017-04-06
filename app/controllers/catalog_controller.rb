@@ -142,7 +142,6 @@ class CatalogController < ApplicationController
 
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
-        'url_access_json' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
@@ -958,42 +957,41 @@ class CatalogController < ApplicationController
     end
 end
 
-  def tou
+def tou
     clnt = HTTPClient.new
     #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/select?qt=document&id=#{params[:id]}&wt=json&fl=id,fulltitle_display,title_display,subtitle_display,fulltitle_vern_display,summary_display,sixfivethree,url_access_display,title_other_display,dbcode,providercode,url_access_json")
+    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
-    @db = @dbResponse['response']['docs'][0]
-    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
-
+    @db = @dbResponse['response']['docs']
     #Rails.logger.info("DB = #{@dbResponse.inspect}")
+  if @dbResponse['response']['numFound'] == 0
+    @defaultRightsText = ''
+   return @defaultRightsText
+  else
+    dbcode = @dbResponse['response']['docs'][0]['dbcode']
+    providercode = @dbResponse['response']['docs'][0]['providercode']
+     @defaultRightsText = ''
+     if dbcode.nil? or dbcode == '' #check for providerCode being nil
+           @defaultRightsText = "Use default rights text"
+     else
+       @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
+       if @ermDBResult.size < 1
+     #@ermDBResult = ::Erm_data.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
+         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
-    if @dbResponse['response']['numFound'] == 0
-        @defaultRightsText = ''
-        return @defaultRightsText
-    else
-        @dblinks.each do |link|
-            l = JSON.parse(link)
-            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]      
-                @defaultRightsText = ''
-                @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
-            
-                if @ermDBResult.size < 1
-                    @ermDBResult = ::Erm_data.where("Provider_Code = \'#{l["providercode"]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
-
-                    if @ermDBResult.size < 1
-            #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
-                    @defaultRightsText = "Use default rights text"
-                    end
-                end
-            end
+         if @ermDBResult.size < 1
+        #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+          @defaultRightsText = "Use default rights text"
         end
+       end
+     end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
   end
 
   end
+
 
 
 
