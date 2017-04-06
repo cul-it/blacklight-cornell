@@ -263,6 +263,7 @@ Feature: Results list
     Then I should get results
     Then I should see the text 'Click : '
     Then click on first link "Click : when we knew we were feminists" 
+    And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
     Then I should see the text 'The accidental feminist'

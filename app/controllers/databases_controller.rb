@@ -100,7 +100,7 @@ end
            @defaultRightsText = "Use default rights text"
      else
        @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
-       Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
+       #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
        if @ermDBResult.size < 1
          #@ermDBResult = ::Erm_data.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
          @ermDBResult = ::Erm_data.where(Database_Code: ['',nil], Provider_Code: providercode[0], Prevailing: 'true')
