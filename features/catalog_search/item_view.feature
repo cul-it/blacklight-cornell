@@ -675,6 +675,21 @@ Feature: Item view
     And I should not see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
 
+  # availability -- Spacecraft Planetary Imaging Facilty , and also another library. 
+  # make sure we do NOT block request button just because SPIF.
+  # Born a universe Hans Gennow 
+  # bibid 9203210 
+  @all_item_view
+  @availability
+  @javascript
+  @bibid/9203210
+  @DISCOVERYACCESS-3413
+  Scenario: As a user I can see the availability for an item 
+    Given I request the item view for 9203210 
+    Then I should see the label 'On-site use'
+    And I should see the label 'Request item'
+    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
+
 
 
   # The New York times 
