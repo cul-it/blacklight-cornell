@@ -976,22 +976,40 @@ end
     else
         @dblinks.each do |link|
             l = JSON.parse(link)
-            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]      
+            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode] 
                 @defaultRightsText = ''
-                @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
-            
+                @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
                 if @ermDBResult.size < 1
-                    @ermDBResult = ::Erm_data.where("Provider_Code = \'#{l["providercode"]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
-
-                    if @ermDBResult.size < 1
-            #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
-                    @defaultRightsText = "Use default rights text"
-                    end
+                   @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
+                   if @ermDBResult.size < 1
+                      @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
+                      if @ermDBResult.size < 1
+                         @ermDBResult = ::Erm_data.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
+                         if @ermDBResult.size < 1
+                                  #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+                                  @defaultRightsText = "Use default rights text"
+                         else
+                           @db = [l]
+                           #return @ermDBResult
+                           break
+                         end
+                      else
+                        @db = [l]
+                       break
+                      end
+                   else
+                     @db = [l]
+                     break
+                   end
+                else
+                  @db = [l]
+                  break
                 end
             end
-        end
-   @column_names = ::Erm_data.column_names.collect(&:to_sym)
-  end
+            @db = [l]
+        end   
+    @column_names = ::Erm_data.column_names.collect(&:to_sym)
+    end
 
   end
 

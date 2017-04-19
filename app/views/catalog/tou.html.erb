@@ -3,6 +3,9 @@
 <%#= render :partial => 'tou_search_form'  %>
 
 <%#= @dbResponse.inspect %>
+<%#= @ermDBResult[0].inspect %>
+<%#= @db.inspect %>
+
 
 <!-- get params. compare to codes in bib. display code that matches by calling tou helper -->
 <div class="row database-subject">
@@ -59,13 +62,14 @@
   <div class="document blacklight-database-name clearfix">
     <div class="document-data">
       <% @db.each do |data| %>
+      <%#= data.inspect %>
        <h4 class="blacklight-title_display">
-       	<% if !data["url_access_display"].nil? %>
-          <%= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
-            <% if data["fulltitle_vern_display"].present? %>
-              <%= data["fulltitle_vern_display"] %>
+       	<% if !data["url"].nil? %>
+          <%= link_to data["url"], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
+            <% if data["description"].present? %>
+              <%= data["description"] %>
             <% else %>
-              <%= data["fulltitle_display"] %>
+              <%= data["url"] %>
             <% end %>
           <% end %>
         </h4>
@@ -76,11 +80,11 @@
             <% end %>
           </p>
           <p>
-            <%#= link_to data["url_access_display"][0].split('|')[1],data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'catalog', 'outlink_tou_url']);" %>
+            <%#= link_to data["url"][0].split('|')[1],data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'catalog', 'outlink_tou_url']);" %>
           </p>
         </div>
         <% if @ermDBResult.present? %>
-
+            <%#= @ermDBResult.inspect %>
           <% data = @ermDBResult[0] %>
             <% if data.present? %>
               <table class="table table-bordered table-striped">
