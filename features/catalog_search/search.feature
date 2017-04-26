@@ -69,7 +69,17 @@ Feature: Search
     And it should contain filter "Title" with value "The complete works of Artemus Ward"
     And I should see the label 'The complete works of Artemus Ward'
 
- @all_search
+   @all_search
+   @title
+  Scenario: Perform a search by Title with a colon
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with 'ethnoarchaeology:'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'of 46'
+
+   @all_search
    @peabody
   Scenario: Perform a search by author, as author see results 
     Given I am on the home page
