@@ -562,11 +562,13 @@ Feature: Item view
     Given I request the item view for 8797135 
     Then I should see the label 'Library has: 17th and 18th century Burney collection'
 
+  # TODO: need bibids that match these cases
 # this item is an ordered item, received, and no item record. 
 # (I don't really know what ought to be displayed.)
   @DISCOVERYACCESS-3243
   @all_item_view
     Scenario: Show the status properly for a received item, with no item record. 
+   Given PENDING 
     Given I request the item view for 9763600 
     Then I should see the label 'On-site use'
     Then I should not see the label 'On order'
