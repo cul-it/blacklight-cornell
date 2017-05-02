@@ -33,6 +33,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   def advsearch user_parameters
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
+    Rails.logger.info("SQUERCH = #{blacklight_params}")
     query_string = ""
     qparam_display = ""
     my_params = {}
@@ -78,6 +79,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         end
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
+#        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
         user_parameters[:q] = blacklight_params[:q]
         Rails.logger.info("BPS = #{blacklight_params}")
         user_parameters["mm"] = "1"
@@ -457,6 +459,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  my_params[:q_row][i].gsub!('"', '')
               end
               my_params[:q_row][i].gsub!(/[()]/, '')
+              my_params[:q_row][i].gsub!(':','\:')
          
               if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
                   numquotes = my_params[:q_row][i].count '"'
@@ -821,6 +824,9 @@ class SearchBuilder < Blacklight::SearchBuilder
             qarray = my_params[:q_row][0].split
             newq = '('
             if qarray.size == 1
+              if qarray[0].include?(':')
+                qarray[0].gsub!(':','\:')
+              end
                if field_name == '' and (op_name != 'begins_with' and op_name != 'phrase')
                  newq << qarray[0] << ') OR "' << qarray[0] << '"'
                else 
@@ -920,6 +926,9 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
               else  
                qarray.each do |bits|
+                 if bits.include?(':')
+                   bits.gsub!(':','\:')
+                 end
                   if field_name == ''
                      newq << '+' << bits << ' '
                   else

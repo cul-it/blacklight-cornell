@@ -46,7 +46,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   def export_ris
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
-    Rails.logger.warn "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
     ty = "TY  - GEN\n"
     fmt = self['format'].first
     if (FACET_TO_RIS_TYPE.keys.include?(fmt))

@@ -1249,10 +1249,10 @@ locations:
     hours_page: ""
   olin_av:
     code: olin,av
-    display_name: "Olin Library"
+    display_name: "Library Annex"
     voyager_id: 216
     rmc_aeon: false
-    hours_page: "olin"
+    hours_page: "annex"
   engr_self:
     code: engr,self
     display_name: ""

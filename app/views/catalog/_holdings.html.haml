@@ -34,17 +34,21 @@
               %th
                 = t('blacklight.holdings.sta')
         %tbody
+          - not_spif = 0 
+          - spif = 0 
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
             - reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve'))
             -  reading = ''
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
             - callnumber = entry['call_number']
             - noncirc = false
+            - if location !~ /Spacecraft Planetary Imaging Facility/
+              - not_spif += 1 
             - if location =~ /Non-Circulating/
               - noncirc = true 
             - if location =~ /Spacecraft Planetary Imaging Facility/
               - noncirc = true 
-              - @request_ok = false
+              - spif += 1 
             - if location =~ /Rare/
               - reading = ' for Reading Room Delivery'
               - noncirc = true 
@@ -66,7 +70,7 @@
         - @group = group
         .item-requests
           - counter = params[:counter] || session[:search][:counter]
-          - if @request_ok
+          - if (not_spif > 0)   
             - if counter.blank?
               =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } 
             - else

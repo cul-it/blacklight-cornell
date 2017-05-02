@@ -266,7 +266,7 @@ Feature: Results list
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'The accidental feminist'
+    Then I should see the text 'We Can Speak for Ourselves'
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
@@ -291,8 +291,9 @@ Feature: Results list
     And I sleep 4 seconds
     Then I should see the text 'Lighting Up and'
     Then click on first link "Lighting Up" 
+    And I sleep 4 seconds
     Then click on first link "Next »"
-    Then I should see the text 'Heterogeneity of the Cigarette Price Effect on Body Mass Index'
+    Then I should see the text 'Cigarette Predatory Pricing Task Force'
     Then click on first link "Previous"
     Then I should see the text 'Lighting Up and'
 
