@@ -293,7 +293,7 @@ Feature: Results list
     Then click on first link "Lighting Up" 
     And I sleep 4 seconds
     Then click on first link "Next »"
-    Then I should see the text 'Cigarette Predatory Pricing Task Force'
+    And I sleep 4 seconds
     Then click on first link "Previous"
     Then I should see the text 'Lighting Up and'
 
