@@ -142,7 +142,6 @@ class CatalogController < ApplicationController
 
     config.display_link = {
         'url_access_display' => { :label => 'Access content' },
-        'url_access_json' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
@@ -958,17 +957,16 @@ class CatalogController < ApplicationController
     end
 end
 
-  def tou
+def tou
     clnt = HTTPClient.new
     #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/select?qt=document&id=#{params[:id]}&wt=json&fl=id,fulltitle_display,title_display,subtitle_display,fulltitle_vern_display,summary_display,sixfivethree,url_access_display,title_other_display,dbcode,providercode,url_access_json")
+    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
-    @db = @dbResponse['response']['docs'][0]
-    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
-
+    @db = @dbResponse['response']['docs']
     #Rails.logger.info("DB = #{@dbResponse.inspect}")
+
 
     if @dbResponse['response']['numFound'] == 0
         @defaultRightsText = ''
@@ -1012,6 +1010,7 @@ end
     end
 
   end
+
 
 
 

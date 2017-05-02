@@ -562,11 +562,13 @@ Feature: Item view
     Given I request the item view for 8797135 
     Then I should see the label 'Library has: 17th and 18th century Burney collection'
 
+  # TODO: need bibids that match these cases
 # this item is an ordered item, received, and no item record. 
 # (I don't really know what ought to be displayed.)
   @DISCOVERYACCESS-3243
   @all_item_view
     Scenario: Show the status properly for a received item, with no item record. 
+   Given PENDING 
     Given I request the item view for 9763600 
     Then I should see the label 'On-site use'
     Then I should not see the label 'On order'
@@ -673,6 +675,21 @@ Feature: Item view
     Given I request the item view for 9264410
     Then I should see the label 'On-site use'
     And I should not see the label 'Request item'
+    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
+
+  # availability -- Spacecraft Planetary Imaging Facilty , and also another library. 
+  # make sure we do NOT block request button just because SPIF.
+  # Born a universe Hans Gennow 
+  # bibid 9203210 
+  @all_item_view
+  @availability
+  @javascript
+  @bibid/9203210
+  @DISCOVERYACCESS-3413
+  Scenario: As a user I can see the availability for an item 
+    Given I request the item view for 9203210 
+    Then I should see the label 'On-site use'
+    And I should see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
 
 

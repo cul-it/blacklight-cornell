@@ -623,6 +623,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
              qarray = params[:q].split
              params[:q] = '('
              if qarray.size == 1
+                if qarray[0].include?(':')
+                  qarray[0].gsub!(':','\:')
+                end
                 if fieldname == ''
                    params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
                 else
@@ -630,6 +633,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
                 end
              else
                 qarray.each do |bits|
+                   if bits.include?(':')
+                     bits.gsub!(':','\\:')
+                   end
                    if fieldname == ''
                       params[:q] << '+' << bits << ' '
                    else
@@ -662,6 +668,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     #    if params[:q].blank?
     #      params[:q] = '*'
     #    end 
+   Rails.logger.info("SQUELCH = #{params[:q]}")
    return params
   end
   
