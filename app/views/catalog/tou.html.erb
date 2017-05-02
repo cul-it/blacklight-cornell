@@ -12,7 +12,7 @@
   <div class="page-title col-sm-12">
     <div class="return-link">
      <% if !@db[0].nil? %>
-      <%= link_to "/catalog/#{@db[0]["id"]}" do %>
+      <%= link_to "/catalog/#{params["id"]}" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to Item
       <% end %>

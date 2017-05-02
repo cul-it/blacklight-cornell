@@ -964,7 +964,8 @@ def tou
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
-    @db = @dbResponse['response']['docs']
+    @db = @dbResponse['response']['docs'][0]
+    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     #Rails.logger.info("DB = #{@dbResponse.inspect}")
 
 
