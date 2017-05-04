@@ -397,6 +397,7 @@ Feature: Item view
   # DISCOVERYACCESS-230
   #
   @linkfields
+  @all_item_view
 
   Scenario Outline: Display Linking Title Display Fields
     Given I request the item view for <bibid>
@@ -603,12 +604,26 @@ Feature: Item view
   Scenario: Show links to terms of use on electronic books 
   Given I request the item view for 8191346
   Then I should see the text 'Terms of use'
+
+# Forró and redemptive regionalism from the Brazilian northeast
+@tou 
+@all_item_view
+  Scenario: Show links to multiple terms of use on electronic books
+  Given I request the item view for 9724377 
+  Then I should see the text 'Terms of use'
+  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AKXHO"
+  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AAGPP"
+  And click on first link "Terms of use"
+  Then I should see the text 'Course Reserves by link only'
+
 @remove_pipe
+@all_item_view
   Scenario: Show other form fields without their piped values
   Given I request the item view for 8877499
   Then I should not see the text 'Print version: Marji, Majed. Learn to program with Scratch : a visual introduction to programming with games, art, science, and math. San Francisco, California : No Starch Press, c2014 2013043492|'
 
 @insert_line_breaks
+@all_item_view
   Scenario: Show table of contents with line breaks and not commas
   Given I request the item view for 9493653
   Then I should not see the text 'Volunteer's dilemma,'

@@ -9,8 +9,8 @@ VCR.configure do |c|
     then  
       # your HTTP request service. You can also use fakeweb, typhoeus, and more
       c.hook_into :webmock
-      #c.allow_http_connections_when_no_cassette = false # This means that we *always* have to use VCR for HTTP
-      c.allow_http_connections_when_no_cassette = true # This means that we don't *always* have to use VCR for HTTP, only when we want
+      c.allow_http_connections_when_no_cassette = false # This means that we *always* have to use VCR for HTTP
+      #c.allow_http_connections_when_no_cassette = true # This means that we don't *always* have to use VCR for HTTP, only when we want
     else 
       VCR.turn_off!
       WebMock.allow_net_connect!
@@ -22,6 +22,8 @@ end
 if use_mock_and_vcr
 then
   VCR.cucumber_tags do |t|
+    t.tag  '@tou'
+    t.tag  '@linkfields'
     t.tag  '@begins_with'
     t.tag  '@all_select_and_export'
     t.tag  '@all_search'

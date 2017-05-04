@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013183052) do
+ActiveRecord::Schema.define(version: 20170419111048) do
 
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID",   limit: 4
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.string  "PICKUP_LOCATION", limit: 1
   end
 
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl", using: :btree
-  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id", using: :btree
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl"
+  add_index "blacklight_cornell_requests_circ_policy_locs", ["LOCATION_ID"], name: "key_location_id"
 
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
     t.datetime "created_at"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.string   "document_type", limit: 255
   end
 
-  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
+  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id"
 
   create_table "erm_data", id: false, force: :cascade do |t|
     t.integer  "id",                                               limit: 4
@@ -83,14 +83,14 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.text     "Template_Note",                                    limit: 65535
     t.string   "Authorized_Users",                                 limit: 256
     t.text     "Authorized_Users_Note",                            limit: 65535
-    t.binary   "Concurrent_Users",                                 limit: 65535
+    t.binary   "Concurrent_Users"
     t.text     "Concurrent_Users_Note",                            limit: 65535
     t.string   "Fair_Use_Clause_Indicator",                        limit: 256
     t.string   "Database_Protection_Override_Clause_Indicator",    limit: 16
     t.string   "All_Rights_Reserved_Indicator",                    limit: 16
     t.string   "Citation_Requirement_Detail",                      limit: 256
     t.string   "Digitally_Copy",                                   limit: 256
-    t.binary   "Digitally_Copy_Note",                              limit: 65535
+    t.binary   "Digitally_Copy_Note"
     t.string   "Print_Copy",                                       limit: 256
     t.string   "Print_Copy_Note",                                  limit: 256
     t.string   "Scholarly_Sharing",                                limit: 128
@@ -108,14 +108,14 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.string   "Electronic_Link_Note",                             limit: 256
     t.string   "Course_Pack_Print",                                limit: 128
     t.string   "Course_Pack_Electronic",                           limit: 128
-    t.binary   "Course_Pack_Note",                                 limit: 65535
+    t.binary   "Course_Pack_Note"
     t.string   "Remote_Access",                                    limit: 128
     t.string   "Remote_Access_Note",                               limit: 256
-    t.binary   "Other_Use_Restrictions_Staff_Note",                limit: 65535
+    t.binary   "Other_Use_Restrictions_Staff_Note"
     t.string   "Other_Use_Restrictions_Public_Note",               limit: 256
     t.string   "Perpetual_Access_Right",                           limit: 128
     t.text     "Perpetual_Access_Note",                            limit: 65535
-    t.binary   "Perpetual_Access_Holdings",                        limit: 65535
+    t.binary   "Perpetual_Access_Holdings"
     t.string   "Licensee_Termination_Right",                       limit: 128
     t.string   "Licensee_Termination_Condition",                   limit: 128
     t.string   "Licensee_Termination_Note",                        limit: 256
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.string   "Licensor_Termination_Note",                        limit: 256
     t.string   "Licensor_Notice_Period_For_Termination_Number",    limit: 128
     t.string   "Licensor_Notice_Period_For_Termination_Unit",      limit: 256
-    t.binary   "Termination_Right_Note",                           limit: 65535
+    t.binary   "Termination_Right_Note"
     t.string   "Termination_Requirements",                         limit: 256
     t.string   "Termination_Requirements_Note",                    limit: 256
     t.string   "Terms_Note",                                       limit: 256
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.string   "Post_Print_Archive_Conditions",                    limit: 256
     t.string   "Post_Print_Archive_Restrictions_Number",           limit: 128
     t.string   "Post_Print_Archive_Restrictions_Unit",             limit: 128
-    t.binary   "Post_Print_Archive_Note",                          limit: 65535
+    t.binary   "Post_Print_Archive_Note"
     t.string   "Incorporation_Of_Images_Figures_And_Tables_Right", limit: 256
     t.text     "Incorporation_Of_Images_Figures_And_Tables_Note",  limit: 65535
     t.string   "Public_Performance_Right",                         limit: 256
@@ -170,8 +170,8 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.datetime "updated_at",               null: false
   end
 
-  add_index "locations", ["code"], name: "index_locations_on_code", unique: true, using: :btree
-  add_index "locations", ["voyager_id"], name: "index_locations_on_voyager_id", unique: true, using: :btree
+  add_index "locations", ["code"], name: "index_locations_on_code", unique: true
+  add_index "locations", ["voyager_id"], name: "index_locations_on_voyager_id", unique: true
 
   create_table "models", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -188,8 +188,8 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.datetime "updated_at",                                      null: false
   end
 
-  add_index "models", ["email"], name: "index_models_on_email", unique: true, using: :btree
-  add_index "models", ["reset_password_token"], name: "index_models_on_reset_password_token", unique: true, using: :btree
+  add_index "models", ["email"], name: "index_models_on_email", unique: true
+  add_index "models", ["reset_password_token"], name: "index_models_on_reset_password_token", unique: true
 
   create_table "searches", force: :cascade do |t|
     t.text     "query_params", limit: 65535
@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.string   "user_type",    limit: 255
   end
 
-  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
+  add_index "searches", ["user_id"], name: "index_searches_on_user_id"
 
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", limit: 255,        null: false
@@ -208,8 +208,8 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "",    null: false
@@ -227,7 +227,7 @@ ActiveRecord::Schema.define(version: 20161013183052) do
     t.boolean  "guest",                              default: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

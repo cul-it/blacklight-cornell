@@ -4223,4 +4223,58 @@ http_interactions:
         F2808 .C35 ++"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
   recorded_at: Wed, 26 Apr 2017 16:21:47 GMT
+- request:
+    method: get
+    uri: http://es287-dev.library.cornell.edu:8988/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip,%20deflate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 02 May 2017 19:53:44 GMT
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"404bd3e756db2e3bae530a68ed386c8b"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 3f90774ad82b4b27db8e6ef4aff12d34
+      X-Runtime:
+      - '1.909091'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.2.5/2016-04-26)
+      Date:
+      - Tue, 02 May 2017 19:53:46 GMT
+      Content-Length:
+      - '1158'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"119162":{"119162":{"records":[{"bibid":"119162","holding_id":"156509","location_name":"maps","call_number":"Oversize
+        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library Maps (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Olin
+        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"not_avail_at":{},"onotes":[]}}},"4303721":{"4303721":{"records":[{"bibid":"4303721","holding_id":"4851798","location_name":"mann","call_number":"Oversize
+        F2808 .C35 ++","shelving_title":"","summary_holdings":["atlas"],"supplements":[],"indexes":[],"notes":["Library
+        lacks text vol.; has atlas only."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Mann
+        Library"],"locnumber":1,"status":["avail"],"avail_at":{"Mann Library":"Oversize
+        F2808 .C35 ++"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Tue, 02 May 2017 19:53:46 GMT
 recorded_with: VCR 3.0.3
