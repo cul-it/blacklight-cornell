@@ -134,3 +134,5 @@ end
 #fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
 #fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
 #ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
+@all_item_view
+@all_item_view

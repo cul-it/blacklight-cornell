@@ -155,7 +155,7 @@ Feature: Results list
   #   And the "q" field should not contain "history"
 
   # DISCOVERYACCESS-134
-        @all_results_list
+  @all_results_list
   Scenario: As a user, I can see publication date, publisher and location in one line in items on the query results list.
     Given I am on the home page
     When I fill in the search box with 'Convexity and duality in optimization'
@@ -164,7 +164,7 @@ Feature: Results list
     And it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
   # DISCOVERYACCESS-135
-        @all_results_list
+  @all_results_list
   @DISCOVERYACCESS-135
   Scenario: As a user, I can see the edition of an item in the query results list.
     Given I am on the home page
@@ -175,7 +175,7 @@ Feature: Results list
 
   # DISCOVERYACCESS-344
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
-        @all_results_list
+  @all_results_list
   @discoveryaccess-344
   Scenario: Remove spaces from call number queries in Blacklight
     Given I am on the home page
@@ -187,6 +187,7 @@ Feature: Results list
 
   # DISCOVERYACCESS-2879
   @discoveryaccess-2879
+  @all_results_list
   Scenario: Online links in search results should go to item view when there is more than one online link
     Given I am on the home page
     When I fill in the search box with 'financial times'
@@ -198,7 +199,7 @@ Feature: Results list
 
 
   # DISCOVERYACCESS-1407
-        @all_results_list
+  @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
@@ -223,7 +224,7 @@ Feature: Results list
     Then I should get results
     And I should see the text 'Order Information'
 
-        @all_results_list
+ @all_results_list
  @DISCOVERYACCESS-1673
  @catalogresults
  Scenario: Search with results, an item view, make sure we do show link to catalog results
@@ -234,7 +235,7 @@ Feature: Results list
    Then click on link "Marvel masterworks presents the X-men" 
    And I should see the text 'Back to catalog results'
 
-        @all_results_list
+ @all_results_list
  @DISCOVERYACCESS-1673
  Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
    Given I am on the home page
@@ -245,13 +246,13 @@ Feature: Results list
    Then I request the item view for 2083253
    And I should not see the text 'catalog results'
 
-@DISCOVERYACCESS-2829
-        @all_results_list
+ @DISCOVERYACCESS-2829
+  @all_results_list
  Scenario: Search with results, make sure that there is a count associated with Libraries worldwide 
    Given I am on the home page
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide (23,'
+   Then I should see the text 'Request from Libraries Worldwide (24,'
 
 @all_results_list
 @next_facet

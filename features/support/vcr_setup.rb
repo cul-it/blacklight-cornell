@@ -22,6 +22,9 @@ end
 if use_mock_and_vcr
 then
   VCR.cucumber_tags do |t|
+    t.tag  '@databases'
+    t.tag  '@digitalcollections'
+    t.tag  '@browse'
     t.tag  '@tou'
     t.tag  '@linkfields'
     t.tag  '@begins_with'

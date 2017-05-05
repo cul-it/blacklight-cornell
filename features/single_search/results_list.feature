@@ -84,7 +84,7 @@ Feature: Results list
     And I press 'Search'
     Then I should get bento results
     When I follow "link_top_web"
-    And I should see the text "National Beef Packing Co"
+    And I should see the text "National Daily Cattle and Beef Summary"
 
   @all_results_list @search_with_view_all_books
   Scenario: Search with view all books link
