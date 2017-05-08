@@ -1,5 +1,6 @@
 require 'vcr'
 #use_mock_and_vcr = false 
+# only matters that env variables is set, does not matter what value is.
 use_mock_and_vcr = ENV['VCR_USE_MOCK_AND_VCR'] ? true : false  
 VCR.configure do |c|
   #the directory where your cassettes will be saved
