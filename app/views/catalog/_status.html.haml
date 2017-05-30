@@ -5,7 +5,7 @@
         .message= t
     - ['boundwith_summary','orders','summary_holdings','supplements','indexes','notes','reproduction_note','current_issues'].each do |type|
       - unless copy[type].nil?
-        .message= copy[type]
+        .message= copy[type] unless copy[type] =~ /Received/
         - if copy[type] =~ /Bound with:/ 
           - bound_with = bound_with? 
     - (copy['items'].sort_by{|mess,det| det["status"]}).each do |item|
@@ -30,11 +30,11 @@
           - elsif details['status'] == 'none' && bound_with
             %i{:class => 'fa', :title => 'Bound with'}
             - message = '' 
-          - elsif details['status'] == 'none' && not(copy["orders"].blank?) 
+          - elsif details['status'] == 'none' && not(copy['orders'].blank?) &&  not(copy['orders'] =~ /Received/) 
             %i{:class => 'fa fa-clock-o', :title => 'On order'}
             - message = I18n.t('blacklight.catalog.on_order')
           - elsif details['status'] == 'none'
-            - if callnumber == 'On Order'  || callnumber.blank? 
+            - if callnumber == 'On Order'  || callnumber.blank? || callnumber == 'Available for the Library to Purchase'
               %i{:class => 'fa', :title => 'On order'}
               - message = ''
             - else

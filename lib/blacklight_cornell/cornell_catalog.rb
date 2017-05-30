@@ -3,12 +3,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-  include Blacklight::SolrHelper
+#  include Blacklight::SolrHelper
   include CornellCatalogHelper
+  include Blacklight::SearchHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
+  include Blacklight::SearchContext
 #  include ActsAsTinyURL
-  SearchHistoryWindow = 12 # how many searches to save in session history
+Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
+
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
@@ -16,7 +19,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     helper_method :search_action_url, :search_action_path, :search_facet_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
-    before_filter :add_cjk_params_logic
+#    before_filter :add_cjk_params_logic
     after_filter :set_additional_search_session_values, :only=>:index
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -28,111 +31,65 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
 
+
+
     def search_action_path *args
 
       if args.first.is_a? Hash
         args.first[:only_path] = true
       end
 
-      search_action_url *args
+      search_action_url(*args)
     end
 
-  def add_cjk_params_logic
-    CatalogController.solr_search_params_logic << :cjk_query_addl_params
-  end
 
-   def append_facet_fields(values)
+
+  def append_facet_fields(values)
     self['facet.field'] += Array(values)
   end
 
   # get search results from the solr index
   def index
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-
     # @bookmarks = current_or_guest_user.bookmarks
+    
+    # make sure we are not going directly to home page
+   search_session[:per_page] = params[:per_page]
+    temp_search_field = ''
     if (!params[:range].nil?)
-      check_dates(params)
+        check_dates(params)
     end
-    # params.delete("q_row")
-    qparam_display = ""
-    # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
-    if params[:q_row].present?
-      query_string = set_advanced_search_params(params)
+    temp_search_field = ''
+    if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
+       check_params(params)
     else
-      if !params[:q].nil? and !params[:q].blank?
-       query_string = parse_stem(params[:q])
-       if params[:q_row].present?
-       query_string = set_advanced_search_params(params)
-       end
+      if params[:q].blank?
+        temp_search_field = params[:search_field]
+        params[:search_field] = 'all_fields'
       end
-    end
-    Rails.logger.info("QUERY_STRING = #{query_string}")
-    Rails.logger.info("QUERY_STRINGParams = #{params}")
-    # End of secondary parsing
 
-    # Journal title search hack.
-    if (params[:search_field].present? and params[:search_field] == "journal title") or (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
-      if params[:f].nil?
-        params[:f] = {"format" => ["Journal/Periodical"]}
-      end
-        params[:f].merge("format" => ["Journal/Periodical"])
-        # unless(!params[:q])
-#        params[:q] = params[:q]
-        if (params[:search_field_row].present? and params[:search_field_row].index("journal title"))
-          params[:search_field] = "advanced"
-        else
-          params[:search_field] = "journal title"
-        end
-        search_session[:f] = params[:f]
     end
-
-    #quote the call number
-    if params[:search_field] == "call number"
-      if !params[:q].nil? and !params[:q].include?('"')
-        params[:q] = '"' << params[:q] << '"'
-        search_session[:q] = params[:q]
-      end
+      Rails.logger.info("BLANKY2 = #{params}")
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+ 
+    (@response, @document_list) = search_results(params)
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
+    #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
+    
+    if temp_search_field != ''
+      params[:search_field] = temp_search_field
     end
-
-    if params[:search_field] != "journal title " and params[:search_field] != "call number"
-     if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
-       params[:q] = params[:q]
-     else
-      if !params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?
-          qparam_display = params[:q]
-          qarray = params[:q].split
-          params[:q] = "("
-          if qarray.size == 1
-            params[:q] << '+' << qarray[0] << ') OR "' << qarray[0] << '"'
-          else
-            qarray.each do |bits|
-              params[:q] << '+' << bits << ' '
-            end
-            params[:q] << ') OR "' << qparam_display << '"'
-          end#encoding: UTF-8
-      else
-        if params[:q].nil? or params[:q].blank?
-          params[:q] = params[:q]
-        end
-      end
-     end
-    end
-    # end of Journal title search hack
-
-#    if params[:search_field] = "call number"
-#      params[:q] = "\"" << params[:q] << "\""
-#    end
-    if num_cjk_uni(params[:q]) > 0
-      cjk_query_addl_params({}, params)
-    end
-    (@response, @document_list) = get_search_results
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response.inspect}"
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
-
-    if !qparam_display.blank?
-      params[:q] = qparam_display
-      search_session[:q] = params[:q]
+    
+    if @response[:responseHeader][:q_row].nil?
+#     params.delete(:q_row)
+#     params[:q] = @response[:responseHeader][:q]
+#     params[:search_field] = ''
+#     params[:advanced_query] = ''
+#     params[:commit] = "Search"
+#     params[:controller] = "catalog"
+#     params[:action] = "index"
     end
     if params.nil? || params[:f].nil?
       @filters = []
@@ -141,36 +98,25 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
     # clean up search_field and q params.  May be able to remove this
-    if params[:search_field] == "journal title"
-       if params[:q].nil?
-         params[:search_field] = ""
-       end
-    end
+    cleanup_params(params)
 
-    if params[:q_row].present?
-       if params[:q].nil?
-        params[:q] = query_string
-       end
-    else
-        if params[:q].nil?
-          params[:q] = query_string
-        end
+    @expanded_results = {}
+    ['worldcat', 'summon'].each do |key|
+      @expanded_results [key] =  { :count => 0 , :url => '' }
     end
-
-    if params[:search_field] == "call number"
-      if !params[:q].nil? and params[:q].include?('"')
-        params[:q] = params[:q].gsub!('"','')
-      end
-    end
-    # end of cleanup of search_field and q params
-
     # Expand search only under certain conditions
+    tmp = BentoSearch::Results.new
+    if !(params[:search_field] == 'call number')
     if expandable_search?
       searcher = BentoSearch::MultiSearcher.new(:summon, :worldcat)
-      query = params[:q].gsub(/&/, '%26')
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
+      query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} query = #{query.inspect}"
       searcher.search(query, :per_page => 1)
 
       @expanded_results = {}
+
 
       searcher.results.each_pair do |key, result|
         source_results = {
@@ -180,42 +126,88 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         @expanded_results[key] = source_results
       end
     end
+    end
 
     respond_to do |format|
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
     end
+    
+     if !params[:q_row].nil?       
+       params[:show_query] = make_show_query(params)
+       search_session[:q] = params[:show_query]
+     end
+    if !params[:qdisplay].blank?
+      params[:q] = params[:qdisplay]
+      search_session[:q] = params[:show_query]
+#      params[:q] = qparam_display
+      search_session[:q] = params[:q] 
+ #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
+    end
+    Rails.logger.info("PASSA = #{params}")
   end
 
 
-    # get single document from the solr index
-    def show
-      @response, @document = get_solr_response_for_doc_id params[:id]
-      respond_to do |format|
-        format.html {setup_next_and_previous_documents}
-        format.rss  { render :layout => false }
-        # Add all dynamically added (such as by document extensions)
-        # export formats.
-        @document.export_formats.each_key do | format_name |
-          # It's important that the argument to send be a symbol;
-          # if it's a string, it makes Rails unhappy for unclear reasons.
-          format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
-        end
+  # get single document from the solr index
+  def show
+    @response, @document = fetch params[:id]
+    @documents = [ @document ]
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+    respond_to do |format|
+      format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.html {setup_next_and_previous_documents}
+      format.rss  { render :layout => false }
+      format.ris      { render 'ris', :layout => false }
+      #format.ris      { render "ris", :layout => false }
+      # Add all dynamically added (such as by document extensions)
+      # export formats.
+      @document.export_formats.each_key do | format_name |
+        # It's important that the argument to send be a symbol;
+        # if it's a string, it makes Rails unhappy for unclear reasons.
+         format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
+      end
 
+    end
+  end
+
+  def setup_next_and_previous_documents
+    query_params = session[:search] ? session[:search].dup : {}
+
+    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
+       check_params(query_params)
+    else
+      if query_params[:q].blank?
+        temp_search_field = query_params[:search_field]
+        query_params[:search_field] = 'all_fields'
       end
     end
+
+    if search_session['counter'] 
+      index = search_session['counter'].to_i - 1
+      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
+      response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
+      search_session['total'] = response.total
+      search_session['per_page'] = query_params[:per_page]
+      @search_context_response = response
+      @previous_document = documents.first
+      @next_document = documents.last
+    end
+  rescue Blacklight::Exceptions::InvalidRequest => e
+    logger.warn "Unable to setup next and previous documents: #{e}"
+  end
 
     def track
       search_session[:counter] = params[:counter]
       search_session['counter'] = params[:counter]
-      search_session['per_page'] = params[:per_page]
+      #search_session[:per_page] = params[:per_page]
 
-      path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
-        URI.parse(params[:redirect]).path
-      else
-        { action: 'show' }
-      end
+      path = 
+        if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
+          URI.parse(params[:redirect]).path
+        else
+          { action: 'show' }
+        end
       redirect_to path, :status => 303
     end
 
@@ -225,7 +217,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     def update
       adjust_for_results_view
       session[:search][:counter] = params[:counter]
-      redirect_to :action => "show"
+      redirect_to :action => 'show'
     end
 
     # displays values and pagination links for a single facet field
@@ -245,15 +237,14 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # citation action
     def citation
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = fetch(params[:id])
     end
     # grabs a bunch of documents to export to endnote
     def endnote
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = fetch(params[:id])
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.mendeley { render :layout => false } 
-        format.ris      { render "ris", :layout => false } 
+        format.ris      { render 'ris', :layout => false }
       end
     end
 
@@ -278,7 +269,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 ##        unless flash[:error]
 ##          email.deliver
 ##          flash[:success] = "Email sent"
-##          redirect_to catalog_path(params['id']) unless request.xhr?
+##          redirect_to facet_catalog_path(params['id']) unless request.xhr?
 ##        end
 ##      end
 
@@ -289,9 +280,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 ##        end
 ##      end
 ##    end
-    def sms_action documents
+     def sms_action documents
        to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-       tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+       tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
        tiny = tiny_url(tinyPass)
        mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
        print mail.pretty_inspect
@@ -306,7 +297,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        tinyPass = request.protocol + request.host_with_port + catalog_path(params['id'])
+        tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
         tiny = tiny_url(tinyPass)
         if params[:to]
           phone_num = params[:to].gsub(/[^\d]/, '')
@@ -326,8 +317,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
         unless flash[:error]
           email.deliver
-          flash[:success] = "Text sent"
-          redirect_to catalog_path(params['id']) unless request.xhr?
+          flash[:success] = 'Text sent'
+          redirect_to facet_catalog_path(params['id']) unless request.xhr?
         end
       end
       unless !request.xhr? && flash[:success]
@@ -338,8 +329,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
+
     def librarian_view
-      @response, @document = get_solr_response_for_doc_id
+      @response, @document = fetch params[:id]
 
       respond_to do |format|
         format.html
@@ -354,25 +346,23 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # calls setup_previous_document then setup_next_document.
     # used in the show action for single view pagination.
-    def setup_next_and_previous_documents
-      setup_previous_document
-      setup_next_document
-    end
+
+    #These don't work any more
+  #  def setup_next_and_previous_documents
+  #    setup_previous_document
+  #    setup_next_document
+  #  end
 
     # gets a document based on its position within a resultset
-    def setup_document_by_counter(counter)
-      return if counter < 1 || session[:search].blank?
-      search = session[:search] || {}
-      get_single_doc_via_search(counter, search)
-    end
 
-    def setup_previous_document
-      @previous_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i - 1) : nil
-    end
 
-    def setup_next_document
-      @next_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i + 1) : nil
-    end
+  #  def setup_previous_document
+  #    @previous_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i - 1) : nil
+#    end
+
+  #  def setup_next_document
+  #    @next_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i + 1) : nil
+  #  end
 
     # sets up the session[:search] hash if it doesn't already exist
     #def search_session
@@ -396,34 +386,42 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
-        session[:search][key.to_sym] = value unless ["commit", "counter"].include?(key.to_s) ||
+        session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
+          value.blank?
+      end
+      session[:gearch] = {}
+      params.each_pair do |key, value|
+        session[:gearch][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
     end
 
     # Saves the current search (if it does not already exist) as a models/search object
-    # then adds the id of the serach object to session[:history]
+    # then adds the id of the search object to session[:history]
+    
+    #jac244 Commented out code because it was creating 2 entries in search history 9/27/2016
     def save_current_search_params
       # If it's got anything other than controller, action, total, we
       # consider it an actual search to be saved. Can't predict exactly
       # what the keys for a search will be, due to possible extra plugins.
-      return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
-      params_copy = search_session.clone # don't think we need a deep copy for this
-      params_copy.delete(:page)
+#      return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == []
+#      params_copy_h = search_session.clone # don't think we need a deep copy for this
+#      params_copy_h.delete(:page)
+#      params_copy =  ActiveSupport::HashWithIndifferentAccess.new(params_copy_h)
 
-      unless @searches.collect { |search| search.query_params }.include?(params_copy)
+#      unless @searches.collect { |search| search.query_params }.include?(params_copy)
 
        #new_search = Search.create(:query_params => params_copy)
 
-       new_search = Search.new
-       new_search.assign_attributes({:query_params => params_copy}, :without_protection => true)
-       new_search.save
+#       new_search = Search.new
+#       new_search.assign_attributes({:query_params => params_copy}, :without_protection => true)
+#       new_search.save
 
-        session[:history].unshift(new_search.id)
+#        session[:history].unshift(new_search.id)
         # Only keep most recent X searches in history, for performance.
         # both database (fetching em all), and cookies (session is in cookie)
-        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
-      end
+#        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
+#      end
     end
 
     # sets some additional search metadata so that the show view can display it.
@@ -436,7 +434,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # we need to know if we are viewing the item as part of search results so we know whether to
     # include certain partials or not
     def adjust_for_results_view
-      if params[:results_view] == "false"
+      if params[:results_view] == 'false'
         session[:search][:results_view] = false
       else
         session[:search][:results_view] = true
@@ -453,7 +451,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
         # If there are errors coming from the index page, we want to trap those sensibly
         if flash[:notice] == flash_notice
-         logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
+         logger.error 'Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception'
           raise exception
         end
 
@@ -466,13 +464,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
     def invalid_solr_id_error
-      if Rails.env == "development"
+      if Rails.env == 'development'
         render # will give us the stack trace
       else
         flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
         params.delete(:id)
         index
-        render "index", :status => 404
+        render 'index', :status => 404
       end
     end
 
@@ -488,22 +486,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   # solr_search_params_logic methods take two arguments
   # @param [Hash] solr_parameters a hash of parameters to be sent to Solr (via RSolr)
   # @param [Hash] user_parameters a hash of user-supplied parameters (often via `params`)
-  def sortby_title_when_browsing solr_parameters, user_parameters
-    # if no search term is submitted and user hasn't specified a sort
-    # assume browsing and use the browsing sort field
-    if user_parameters[:q].blank? and user_parameters[:sort].blank?
-      browsing_sortby =  blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
-      solr_parameters[:sort] = browsing_sortby.field
-    end
-  end
-
-  #sort call number searches by call number
-  def sortby_callnum solr_parameters, user_parameters
-    if user_parameters[:search_field] == 'call number'
-      callnum_sortby =  blacklight_config.sort_fields.values.select { |field| field.callnum_default == true }.first
-      solr_parameters[:sort] = callnum_sortby.field
-    end
-  end
 
 
   def tiny_url(uri, options = {})
@@ -525,10 +507,23 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   end
 
   def generate_uri(uri)
+    Appsignal.increment_counter('item_sms', 1)
     confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
     if !confirmed_uri.blank?
-      escaped_uri = URI.escape("http://tinyurl.com/api-create.php?url=#{confirmed_uri}")
-      uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+      uri_parsed = confirmed_uri
+      shorten = Rails.application.config.url_shorten
+      logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
+      if !shorten.empty? 
+        escaped_uri = URI.escape("#{shorten}#{confirmed_uri}")
+        begin 
+          uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+          #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
+        rescue StandardError  => e
+          logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
+          Appsignal.send_error(e)
+          uri_parsed = confirmed_uri 
+         end
+      end
       return uri_parsed
     else
      # needs error checking.
@@ -540,55 +535,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     silence_warnings { @@cjk_mm_val = '3<86%'}
   end
 
-  def cjk_mm_qs_params(str)
- #   cjk_mm_val = []
-    num_uni = num_cjk_uni(str)
-    if num_uni > 2
-      num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size
-      if num_non_cjk_tokens > 0
-        lower_limit = cjk_mm_val[0].to_i
-        mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
-        {'mm' => mm, 'qs' => 0}
-      else
-        {'mm' => cjk_mm_val, 'qs' => 0}
-      end
-    else
-      {}
-    end
-  end
 
-  def cjk_query_addl_params(solr_params, params)
-    if params && params.has_key?(:q)
-      q_str = (params[:q] ? params[:q] : '')
-      num_uni = num_cjk_uni(q_str)
-      if num_uni > 2
-        solr_params.merge!(cjk_mm_qs_params(q_str))
-      end
-
-      if num_uni > 0
-        case params[:search_field]
-          when 'all_fields', nil
-           solr_params[:q] = "{!qf=$qf pf=$pf pf3=$pf3 pf2=$pf2}#{q_str}"
-          when 'title'
-           solr_params[:q] = "{!qf=$title_qf pf=$title_pf pf3=$title_pf3 pf2=$title_pf2}#{q_str}"
-          when 'author/creator'
-           solr_params[:q] = "{!qf=$author_qf pf=$author_pf pf3=$pf3_author_pf3 pf2=$author_pf2}#{q_str}"
-          when 'journal title'
-           solr_params[:q] = "{!qf=$journal_qf pf=$journal_pf pf3=$journal_pf3 pf2=$journal_pf2}#{q_str}"
-          when 'subject'
-           solr_params[:q] = "{!qf=$subject_qf pf=$subject_pf pf3=$subject_pf3 pf2=$subject_pf2}#{q_str}"
-        end
-      end
-    end
-  end
-
-  def num_cjk_uni(str)
-    if str
-      str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
-    else
-      0
-    end
-  end
 
   def check_dates(params)
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
@@ -608,5 +555,160 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       params[:range][:pub_date_facet][:end] = end_test
   end
 
+  def check_params(params)
+    qparam_display = ''
+    fieldname = ''
+
+    # Journal title search hack.
+    if params[:search_field].nil?
+      params[:search_field] = 'all_fields'
+    end
+    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+      if params[:f].nil?
+        params[:f] = {'format' => ['Journal/Periodical']}
+      end
+      params[:f].merge('format' => ['Journal/Periodical'])
+      # unless(!params[:q])
+      #params[:q] = params[:q]
+      if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+        params[:search_field] = 'advanced'
+      else
+        params[:search_field] = 'title'
+      end
+      search_session[:f] = params[:f]
+    end
+    fieldname = ''
+    if params[:search_field] == 'call number'
+      fieldname = 'lc_callnum'
+    else
+      if params[:search_field] == 'author/creator'
+        fieldname = 'author' 
+      else
+        if params[:search_field] == 'all_fields'
+          fieldname = ''
+        else
+          if params[:search_field] == 'publisher number/other identifier'
+            fieldname = 'number'
+            params[:search_field] = 'number'
+          else
+           fieldname = params[:search_field]
+          end
+        end
+      end
+    end
+    # end of Journal title search hack
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+    #quote the call number
+    if params[:search_field] == 'call number'
+       params[:search_field] = 'lc_callnum'
+       if !params[:q].nil?
+         search_session[:q] = params[:q]
+         params[:qdisplay] = params[:q]
+         if !params[:q].include?('"')
+           params[:q] = '"' << params[:q] << '"'
+         end
+        # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+       else
+         params[:q] =  '' or params[:q].nil?
+         params[:search_field] = 'all_fields'
+       end     
+    end
+    if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
+       if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+          params[:q] = params[:q]
+       else
+          if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
+             qparam_display = params[:q]
+             params[:qdisplay] = params[:q]
+             qarray = params[:q].split
+             params[:q] = '('
+             if qarray.size == 1
+                if qarray[0].include?(':')
+                  qarray[0].gsub!(':','\:')
+                end
+                if fieldname == ''
+                   params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
+                else
+                   params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                end
+             else
+                qarray.each do |bits|
+                   if bits.include?(':')
+                     bits.gsub!(':','\\:')
+                   end
+                   if fieldname == ''
+                      params[:q] << '+' << bits << ' '
+                   else
+                      params[:q] << '+' << fieldname << ':' << bits << ' '
+                   end
+                end
+                if fieldname == ''
+                   params[:q] << ') OR "' << qparam_display << '"'
+                else
+                   params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+                end
+             end
+          else
+             if params[:q].nil? or params[:q].blank?
+                params[:q] = qparam_display
+             end
+          end
+       end    
+    end
+
+    #    if params[:search_field] = "call number"
+    #      params[:q] = "\"" << params[:q] << "\""
+    #    end
+    #    params[:q] = ' _query_:"{!edismax qf=$subject_qf pf=$subject_pf}bauhaus"  AND  _query_:"{!edismax qf=$title_qf pf=$title_pf}history"  OR  _query_:"{!edismax qf=$all_fields_qf pf=$all_fields_pf}design"'
+    #    params[:q] = '((notes_qf:"English, German, Italian, Latin, or Portugese" AND "Bibliotheca Instituti Historici") OR ("turkeys" NOT "spam"))'
+ #   if params[:search_field] == "all_fields" and params[:q]
+#      params[:search_field] = 'all_fields'
+#    end
+
+    #    if params[:q].blank?
+    #      params[:q] = '*'
+    #    end 
+   Rails.logger.info("SQUELCH = #{params[:q]}")
+   return params
+  end
+  
+  def cleanup_params(params)
+    qparam_display = params[:qdisplay]
+    query_string = params[:q]
+    fieldname = ''
+    if params[:search_field] == 'journal title'
+       if params[:q].nil?
+         params[:search_field] = ''
+       end
+    end
+
+    if params[:q_row].present?
+       if params[:q].nil?
+        params[:q] = query_string
+       end
+    else
+        if params[:q].nil?
+          if !params[:search_field].nil?
+             params.delete(:search_field)
+         end
+       end
+    end
+    if params[:search_field] == 'call number'
+      if !params[:q].nil? and params[:q].include?('"')
+        params[:q] = params[:q].gsub!('"','')
+      end
+    end
+ #   if params[:search_field] == 'all_fields'
+ #     params[:search_field] = ''
+ #   end
+    if params[:search_field] == 'lc_callnum'
+      params[:search_field] = 'call number'
+    end
+    if params[:search_field] == 'number'
+      params[:search_field] = 'publisher number/other identifier'
+    end
+    # end of cleanup of search_field and q params
+    return params 
+  end
 
 end

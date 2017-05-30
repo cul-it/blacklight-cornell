@@ -112,9 +112,9 @@ en:
       clear: 'Clear'
 
     citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
+      mla: 'MLA 7th ed.'
+      apa: 'APA 6th ed.'
+      chicago: 'Chicago 16th ed.'
 
     email:
       form:
@@ -171,6 +171,8 @@ en:
         on_order: "On order"
         on_site: "On-site use"
         bound_with_status_label: "Bound with:"
+    url:
+        message: "Available online"
     holdings:
         loc: "Location"
         cln: "Call number"
@@ -238,7 +240,7 @@ en:
       rss_feed: 'RSS for results'
       atom_feed: 'Atom for results'
       fields:
-        default: 'Keyword'
+        default: 'Advanced Search'
       bookmarks:
         present: "Selected"
         absent: "Select"
@@ -248,3 +250,9 @@ en:
       default: 'entry'
 
     did_you_mean: 'Did you mean to type: %{options}?'
+
+  support:
+    array:
+      words_connector: " <br /> "
+      two_words_connector: " <br /> "
+      last_word_connector: "<br />"

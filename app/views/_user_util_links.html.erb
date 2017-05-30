@@ -1,25 +1,22 @@
 <div class="col-sm-7 col-md-6">
-  <ul class="blacklight-nav">
-    <% if current_or_guest_user %>
-    <%  @bookmarks = current_or_guest_user.bookmarks %>
-      <li>
-        <%= link_to bookmarks_path do %>
-          <%= t('blacklight.header_links.bookmarks') %>
-          <span data-role='bookmark-counter' id="bookmarks-count">
-            <%- unless @bookmarks.nil? %>
-              <%- @bookmarks.collect %>
-              <%- unless @bookmarks.count < 1 %>
-                (<%= @bookmarks.count %>)
-              <%- end %>
-            <%- end %>
-          </span>
+    <ul class="blacklight-nav">
+        <% if current_or_guest_user %>
+        <%  @bookmarks = current_or_guest_user.bookmarks %>
+        <li>
+            <%= link_to bookmarks_path, id:'bookmarks_nav' do %>
+            <%= t('blacklight.header_links.bookmarks') %>
+            (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+            <% end %>
+        </li>
         <% end %>
-      </li>
-    <% end %>
-    <li><%= link_to t('blacklight.header_links.search_history'), search_history_path %></li>
-    <!-- <li class="hidden-xs"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
+        <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
+        <!-- <li class="hidden-xs"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
     <li class="hidden-xs"><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li> -->
-    <li><a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a></li>
-    <li class="hidden-xs"><a href="http://www.library.cornell.edu/ask">Ask a Librarian</a></li>
-  </ul>
+        <li>
+            <a href="http://www.library.cornell.edu/help/catalog" class="tips-link">Search Tips</a>
+        </li>
+        <li class="hidden-xs">
+            <a href="http://www.library.cornell.edu/ask">Ask a Librarian</a>
+        </li>
+    </ul>
 </div>

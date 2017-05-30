@@ -2,9 +2,14 @@ Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )fill in "([^"]*)" with ["']([^"]*)["']$/ do |field, value|
+When /^(?:|I )fill in "([^"]*)" with ['"]([^'"]*)['"]$/ do |field, value|
   fill_in(field, :with => value)
 end
+
+When /^(?:|I )fill in "([^"]*)" with quoted ['"]([^'"]*)['"]$/ do |field, value|
+  fill_in(field, :with => '"' + value + '"')
+end
+
 
 When /^(?:|I )press '([^"]*)'$/ do |button|
 
@@ -60,3 +65,23 @@ end
 Then(/^I sleep (\d+) seconds$/) do |wait_seconds|
   sleep wait_seconds.to_i 
 end
+
+When /^I accept popup$/ do
+  page.evaluate_script('window.confirm = function() { return true; }')
+  #page.driver.browser.switch_to.alert.accept    
+end
+
+When /^I dismiss popup$/ do
+  page.evaluate_script('window.confirm = function() { return false; }')
+  page.dismiss_confirm { click_link "Delete" }
+  #page.driver.browser.switch_to.alert.dismiss
+end
+
+When /^(?:|I )cancel popup "([^"]*)"$/ do |link|
+  page.dismiss_confirm { click_link link }
+end
+
+When /^(?:|I )confirm popup "([^"]*)"$/ do |link|
+  page.accept_confirm { click_link link }
+end
+

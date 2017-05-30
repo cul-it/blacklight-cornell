@@ -1,4 +1,5 @@
 BlacklightCornell::Application.routes.draw do
+  concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
   match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
@@ -6,7 +7,28 @@ BlacklightCornell::Application.routes.draw do
 
   root :to => "catalog#index"
 
-  Blacklight.add_routes(self)
+  mount Blacklight::Engine => '/'
+
+  concern :searchable, Blacklight::Routes::Searchable.new
+  concern :exportable, Blacklight::Routes::Exportable.new
+
+  resource :catalog, only: [:index], controller: 'catalog' do
+    concerns :searchable
+    concerns :range_searchable
+
+  end
+
+resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
+      concerns :exportable
+end
+
+resources :bookmarks do
+  concerns :exportable
+
+  collection do
+    delete 'clear'
+  end
+end
 
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
@@ -32,9 +54,10 @@ BlacklightCornell::Application.routes.draw do
 #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here:
   #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
+  get 'backend/cuwebauth' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
 
   resources :catalog, only:  [:post, :get]
-  get 'catalog/email' => 'catalog#email', :as => 'xcatalog_email', :via => :post
+  get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
@@ -54,7 +77,8 @@ BlacklightCornell::Application.routes.draw do
 # replaced by /databases/tou
 # # get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   get '/databases/tou/:id' => 'databases#tou', :as => 'databases_tou'
-  get '/catalog/tou/:id' => 'catalog#tou', :as => 'catalog_tou'
+  get '/catalog/tou/:id/:providercode/:dbcode' => 'catalog#tou', :as => 'catalog_tou'
+
   get '/search', :to => 'search#index', :as => 'search_index'
   match "search/:engine", :to => "search#single_search", :as => "single_search", via: [ :get ]
   get '/digitalcollections' => 'digitalcollections#index', :as => 'digitalcollections_index'

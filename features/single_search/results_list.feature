@@ -84,7 +84,7 @@ Feature: Results list
     And I press 'Search'
     Then I should get bento results
     When I follow "link_top_web"
-    And I should see the text "National Beef Packing Co"
+    And I should see the text "National Daily Cattle and Beef Summary"
 
   @all_results_list @search_with_view_all_books
   Scenario: Search with view all books link
@@ -92,6 +92,7 @@ Feature: Results list
     When I fill in "q" with 'nature'
     And I press 'Search'
     When I follow "link_top_book"
+    Given PENDING
     And I should see the text "Altering nature c2008"
 
   @all_results_list @search_with_view_all_webs_match_box
@@ -108,6 +109,7 @@ Feature: Results list
     Given I literally go to search
     When I fill in "q" with 'nature morte'
     And I press 'Search'
+    Given PENDING
 		# Then I should get bento results
 		Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page_entries"
 
@@ -223,5 +225,38 @@ Feature: Results list
     Given I literally go to search
     When I fill in "q" with 'natural hazard statistics'
     And I press 'Search'
+    And I sleep 8 seconds
     Then I should get bento results
-		Then box "link_top_website" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_website" should match "0" th "from Catalog" in "page_entries"
+
+# Combinatorial Algorithms, Algorithmic Press
+# there is duplicate code here to defeat the 'circular dependency' problem,
+# which sometimes results in false failures.
+@all_results_list
+@javascript
+  Scenario: Perform an search with an unquoted call number
+    Given I literally go to search
+    When I fill in "q" with 'QA76.6 .C85 1972'
+    And I press 'search'
+    And I sleep 8 seconds
+    Given I literally go to search
+    When I fill in "q" with 'QA76.6 .C85 1972'
+    And I press 'search'
+    And I sleep 8 seconds
+    Then I should get bento results
+    And I should see the text "Combinatorial algorithms"
+
+# Combinatorial Algorithms, Algorithmic Press
+# there is duplicate code here to defeat the 'circular dependency' problem,
+# which sometimes results in false failures.
+@all_results_list
+@javascript
+  Scenario: Perform an search with a quoted call number
+    Given I literally go to search
+    When I fill in "q" with quoted 'QA76.6 .C85 1972'
+    And I press 'search'
+    Given I literally go to search
+    When I fill in "q" with quoted 'QA76.6 .C85 1972'
+    And I press 'search'
+    Then I should get bento results
+    And I should see the text "Combinatorial algorithms"

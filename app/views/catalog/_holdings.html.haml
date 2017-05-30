@@ -1,6 +1,8 @@
 - some_av = 'no'
 - pda = 'no'
 - bound_with = false
+- aeon_codes = []
+- reading = ''
 - holdings_condensed = create_condensed_full(@document) 
 - bwith = ''
 - if @document['bound_with_json']
@@ -14,10 +16,12 @@
   - grouped_holdings.each do |group, holdings|
     - # Render group headings only if we have multiple groups
     - if multiple_groups
+      - reading = ''
       - if group == "Rare"
+        -  reading = ' for Reading Room Delivery'
         %h3.rare
           = group + " Items"
-    - if holdings.size == 1 and holdings[0]["location_name"] == "*Networked Resource" 
+    - if holdings.size == 1 and ( holdings[0]["location_name"].include?("Networked Resource") or  holdings[0]["location_name"] == "") 
     - else
       %table.table.table-responsive
         - if !online_url(@document)
@@ -30,19 +34,29 @@
               %th
                 = t('blacklight.holdings.sta')
         %tbody
+          - not_spif = 0 
+          - spif = 0 
           - holdings.sort_by{|holding| holding["location_name"]}.each do |entry|
             - reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve'))
+            -  reading = ''
             - location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name']
             - callnumber = entry['call_number']
             - noncirc = false
+            - if location !~ /Spacecraft Planetary Imaging Facility/
+              - not_spif += 1 
             - if location =~ /Non-Circulating/
               - noncirc = true 
-            - if location =~ /Rare/
+            - if location =~ /Spacecraft Planetary Imaging Facility/
               - noncirc = true 
+              - spif += 1 
+            - if location =~ /Rare/
+              - reading = ' for Reading Room Delivery'
+              - noncirc = true 
+              - aeon_codes << entry['location_code'] unless aeon_codes.include?(entry['location_code'])
             - some_av = 'no'
             %tr
               %td
-                = render 'location', :entry => entry, :location => location, :hide_status => @hide_status
+                = render 'location', :entry => entry, :location => location, :hide_status => @hide_status, :callnumber => callnumber
               %td
                 -# Only display a real call number
                 = render 'callnumber',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber
@@ -51,14 +65,17 @@
   
       - # end of table.
       - if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare"
-        - request_context_path = group == "Circulating" ? blacklight_cornell_request.magic_request_path("#{params[:id]}") : request_aeon_path("#{params[:id]}")
+        - # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}"
+        -  request_context_path = request_path(group,params[:id],aeon_codes,@document)
         - @group = group
         .item-requests
           - counter = params[:counter] || session[:search][:counter]
-          - if counter.blank?
-            =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger' }
-          - else
-            =link_to 'Request item', request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+          - if (not_spif > 0)   
+            - if counter.blank?
+              =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } 
+            - else
+              =link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' }
+            %span{:id => 'request-loading-spinner'}
           - # only display request scan button for items not at RMC
           - if (group == "Circulating" && on_site_count <= holdings.count && !reserve_item)
             - ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fnewcatalog.library.cornell.edu'

@@ -1,14 +1,14 @@
 BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  #config.eager_load = false
-  config.eager_load = true
+  config.eager_load = false
+  #`config.eager_load = true
 
   # Code is not reloaded between requests
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = false 
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -36,7 +36,7 @@ BlacklightCornell::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :warn
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -72,16 +72,16 @@ BlacklightCornell::Application.configure do
   config.active_support.deprecation = :notify
   
   # Settings for the exception_notification gem
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  #Rails.application.config.middleware.use ExceptionNotification::Rack,
   # :email => {
   #   :email_prefix => "[ERROR] ",
   #   :sender_address => %{"notifier" <notifier@example.com>},
   #   :exception_recipients => %w{mjc12@cornell.edu}
   # },
-  :hipchat => {
-    :api_token => ENV['HIPCHAT_API_TOKEN'],
-    :api_version => 'v2',
-    :room_name => ENV['HIPCHAT_ROOM_NAME']
-  }
+  #:hipchat => {
+  #  :api_token => ENV['HIPCHAT_API_TOKEN'],
+  #  :api_version => 'v2',
+  #  :room_name => ENV['HIPCHAT_ROOM_NAME']
+  #}
 
 end

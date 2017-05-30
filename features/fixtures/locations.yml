@@ -1,0 +1,48 @@
+afr:
+    code: afr
+    display_name: "Africana Library (Africana Center)"
+    voyager_id: 2
+    rmc_aeon: false
+    hours_page: "africana"
+
+afr_anx:
+    code: afr,anx
+    display_name: "Library Annex"
+    voyager_id: 3
+    rmc_aeon: false
+    hours_page: "annex"
+
+rmc:
+    code: rmc
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 87
+    rmc_aeon: true
+    hours_page: "rmc"
+
+afr_res:
+    code: afr,res
+    display_name: "Africana Library Reserve"
+    voyager_id: 4
+    rmc_aeon: false
+    hours_page: "africana"
+
+phys:
+    code: phys
+    display_name: "Spacecraft Planetary Imaging Facility (Non-Circulating)"
+    voyager_id: 115
+    rmc_aeon: false
+    hours_page: "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
+
+rmc_anx:
+    code: "rmc,anx"
+    display_name: "Kroch Library Rare & Manuscripts (Non-Circulating)"
+    voyager_id: 203 
+    rmc_aeon: true
+    hours_page: "rmc"
+
+hote:
+    code: hote
+    display_name: "ILR Library (Ives Hall)"
+    voyager_id: 43
+    rmc_aeon: false
+    hours_page: "ilr"

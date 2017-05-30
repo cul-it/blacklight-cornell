@@ -1,4 +1,6 @@
-module DisplayHelper include ActionView::Helpers::NumberHelper
+module DisplayHelper 
+include ActionView::Helpers::NumberHelper
+
 
   def render_first_available_partial(partials, options)
     partials.each do |partial|
@@ -10,18 +12,9 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end
 
     raise "No partials found from #{partials.inspect}"
-
-
   end
 
-  def presenter_class
-    MultilineDisplayPresenterClass
-  end
-  class MultilineDisplayPresenterClass < Blacklight::DocumentPresenter
-    def field_value_separator
-      "<br />".html_safe
-    end
-  end
+
 
   def field_value_separator
     '<br />'
@@ -31,31 +24,45 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_delimited_index_field_value args
-    value = args[:value]
-
-    if args[:field] and blacklight_config.index_fields[args[:field]]
-      field_config = blacklight_config.index_fields[args[:field]]
-      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
-    end
-
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
-
-    newval = nil
-    unless value.nil?
-      if value.class == Array
-        newval = Array.new
-        value.each do |v|
-          newval.push (v.split('|'))[0] unless v.blank?
-        end
-      else
-        ## string?
-        newval = (value.split('|'))[0] unless value.blank?
-      end
-    end
-
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    dp.render_field_value newval
+    
+    # NOTE: this is only used for title_uniform_display at the moment, so 
+    # no need to check other things. Probably this should be rewritten as
+    # a presenter method
+    uniform_title = args[:document][:title_uniform_display]
+    uniform_title ? uniform_title[0].split('|')[0] : ''
+  #   
+  #   require 'pp'
+  #   value = args[:value]
+  # 
+  #   if args[:field] and blacklight_config.index_fields[args[:field]]
+  #     field_config = blacklight_config.index_fields[args[:field]]
+  #     value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
+  #     value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+  #   end
+  # 
+  # #  value ||= args[:document].fetch(args[:field], :sep => 'nil') if args[:document] and args[:field]
+  # 
+  #   newval = nil
+  #   unless value.nil?
+  #     if value.class == Array
+  #       newval = Array.new
+  #       value.each do |v|
+  #         newval.push (v.split('|'))[0] unless v.blank?
+  #       end
+  #     else
+  #       ## string?
+  #       newval = (value.split('|'))[0] unless value.blank?
+  #     end
+  #   end
+  # 
+  #   dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+  #   #Rails.logger.debug "\n*************es287_debug self = #{__FILE__} #{__LINE__}  #{self.pretty_inspect}\n"
+  #   #Rails.logger.debug "\n*************es287_debug blacklight_config = #{__FILE__} #{__LINE__}  #{blacklight_config.pretty_inspect}\n"
+  #   #Rails.logger.debug "\n*************es287_debug args =#{__FILE__} #{__LINE__}  #{args.pretty_inspect}\n"
+  #   fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => newval)
+  #   #Rails.logger.debug "\n*************es287_debug fp = #{__FILE__} #{__LINE__}  #{fp.pretty_inspect}\n"
+  #   #dp.render_field_value newval
+  #   fp.render
   end
 
   # for display of | delimited fields
@@ -70,7 +77,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
 
     newval = nil
     unless value.nil?
@@ -93,10 +100,15 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
+
+  
+
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
     links = args[:value]
-    links ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
+    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
     render_format = args[:format] ? args[:format] : 'default'
 
     value = links.map do |link|
@@ -111,16 +123,58 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
     if render_format == 'raw'
       return value
     else
-      dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-      dp.render_field_value value
+      fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
+      #dp.render_field_value value
+      case  args[:field]  
+        when'url_findingaid_display'
+          return value[0]
+        when 'url_bookplate_display' 
+          Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
+          return value.uniq.join(',').html_safe
+        when 'url_other_display'
+          return value.join('<br>').html_safe
+        else  
+          fp.render
+        end
     end
   end
 
   # Build a link to the CUL libraryhours page for the library location in question
   def render_location_link location_code
+    loc_url = Location::help_page(location_code)
+    link_to('Hours/Map', loc_url, {:title => 'See hours and map'})
+  end
+
+  def yy_render_location_link location_code
+    base_url = 'https://www.library.cornell.edu/libraries/'
+    matched_location = nil
+    # Test for substring match of location hash key in location_code
+    LOCATION_MAPPINGS.each do |key, value|
+      if location_code.include?(key)
+        matched_location = value
+        break # Break on first match to ensure RMC (followed by Annex) is properly identified
+      end
+    end
+    #location_url = matched_location.present? ? base_url + matched_location : base_url
+    location_url = 
+     case 
+       when matched_location.present? && matched_location.include?('http:')
+         matched_location
+       when matched_location.present? && !matched_location.include?('http:')
+         base_url + matched_location
+       else
+         base_url
+     end     
+    link_to('Hours/Map', location_url, {:title => 'See hours and map'})
+  end
+
+  def render_special_location_link location_code
     base_url = 'https://www.library.cornell.edu/libraries/'
     matched_location = nil
     # Test for substring match of location hash key in location_code
@@ -131,14 +185,14 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       end
     end
 
-    location_url = matched_location.present? ? base_url + matched_location : base_url
+    location_url = matched_location.present? ? matched_location : base_url
 
-    link_to('Hours/Map', location_url, {:title => 'See hours and map'})
+    link_to('Info', location_url, {:title => 'See hours and map'})
   end
 
-
  def oclc_number_link
-    id_display = render_document_show_field_value :document => @document, :field => 'other_id_display'
+    presenter = Blacklight::ShowPresenter.new(@document, self)
+    id_display = presenter.field_value 'other_id_display'
     if id_display.present?
       if id_display.start_with? "(OCoLC)"
         oclc_number = id_display.split(",")[0]
@@ -153,7 +207,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       end
 
       if !oclc_number.present?
-        wcl_isbn = render_document_show_field_value :document => @document, :field => 'isbn_display'
+        wcl_isbn = presenter.field_value 'isbn_display'
         if wcl_isbn.include? ("<")
           wcl_isbn = wcl_isbn.split("<")[0]
         end
@@ -196,7 +250,9 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     'jgsm' => 'jgsm',
     'mann' => 'mann',
     'math' => 'math',
-    'phys' => 'physicalsciences',
+    'Spacecraft Planetary Imaging Facility 317 Space Science Bldg' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
+    'Spacecraft Planetary Imaging Facility (Non-Circulating)' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
+    'phys' => "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9",
     'uris' => 'uris',
     'vet' => 'vet',
     'orni' => 'ornithology',
@@ -206,7 +262,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def render_clickable_document_show_field_value args
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     value = args[:value]
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
 
     value = [value] unless value.is_a? Array
@@ -419,10 +475,18 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     return blacklight_config.display_link[field] != nil
   end
 
+  def is_online? document
+   Rails.logger.debug("es287_debug @@@@ #{__FILE__}:#{__LINE__} url =  #{document['url_access_display'].inspect}")
+    ( document['url_access_display'].present?  && document['url_access_display'].size > 0) ?
+        true 
+      : 
+        false
+  end
+
   def online_url(document)
     if document['url_access_display'].present?
       if document['url_access_display'].size > 1
-        catalog_path(document)
+        solr_document_path(document)
       else
         render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
       end
@@ -432,7 +496,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def finding_aid(document)
     if document['url_findingaid_display'].present?
       if document['url_findingaid_display'].size > 1
-        catalog_path(document)
+        facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
       end
@@ -442,7 +506,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   def other_availability(document)
     if document['other_availability_piped'].present?
       if document['other_availability_piped'].size > 1
-        catalog_path(document)
+        facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'other_availability_piped', :format => 'url')
       end
@@ -501,6 +565,18 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       ic = icon_mapping
     end
     ic
+  end
+ 
+
+  def render_show_format_value field
+    formats = []
+    field[:value].map do |f|
+    # Convert format to array in case it's a string (it shouldn't be)
+        icon = '<i class="fa fa-' + formats_icon_mapping(f) + '"></i> '
+        f.prepend(icon) unless f.nil?
+        formats << f
+      end
+      formats.join('<br>').html_safe
   end
 
   # Renders the format field values with applicable format icons
@@ -618,10 +694,13 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
         out << s[0]
       else
 
+
+         Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
+
         case category
         when :all
           q = '"' + s[1] + '"'
-          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => q, :search_field => "all_fields", :commit => "search"))
+          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => q, :commit => "search"))
         when :author
           # s[2] is not nil when data is from an 880 field (vernacular)
           # temp workaround until we can get 880 authors into the author facet
@@ -801,27 +880,6 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     return !session[:search].blank?
   end
 
-  # The following two methods override originals from blacklight_helper_behavior.rb
-  # -- Needed to handle the logic between bookmarks and search results
-  def link_to_previous_document(previous_document)
-    context = bookmark_or_not(previous_document)
-    context_path = context.present? ? context[:url] : previous_document
-    context_counter = context.present? ? context[:data_counter] : nil
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), context_path, :class => "previous", :rel => 'prev', :'data-counter' => context_counter.present? ? context_counter - 1 : nil do
-      content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
-    end
-  end
-
-  # Overrides original method from blacklight_helper_behavior.rb
-  # -- See comment on previous method for more background info
-  def link_to_next_document(next_document)
-    context = bookmark_or_not(next_document)
-    context_path = context.present? ? context[:url] : next_document
-    context_counter = context.present? ? context[:data_counter] : nil
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), context_path, :class => "next", :rel => 'next', :'data-counter' => context_counter.present? ? context_counter + 1 : nil do
-      content_tag :span, raw(t('views.pagination.next')), :class => 'next'
-    end
-  end
 
   # set URL & counter for previous/next link_to depending on current controller
   def bookmark_or_not(document)
@@ -832,7 +890,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
         }
       else
         context = {
-          :url => catalog_path(document),
+          :url => facet_catalog_path(document),
           :data_counter => session[:search][:counter].to_i
         }
       end
@@ -842,7 +900,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
     opts[:label] ||= blacklight_config.index.show_link.to_sym
-    label = render_document_index_label doc, opts
+    label = _cornell_render_document_index_label doc, opts
     if params[:controller] == 'bookmarks'
       docID = doc.id
       link_to label, '/bookmarks/' + docID
@@ -856,9 +914,17 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
   def link_back_to_catalog(opts={:label=>nil})
     query_params = session[:search] ? session[:search].dup : {}
+    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
+    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} query_params =  #{query_params.inspect}")
     query_params.delete :counter
     query_params.delete :total
-    link_url = url_for(query_params)
+    if params[:controller] == 'search_history'
+      link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
+      #link_url = url_for(query_params)
+    else
+      Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} qp =  #{query_params.inspect}")
+      link_url = url_for(query_params)
+    end 
 
     if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
       opts[:label] ||= t('blacklight.back_to_bookmarks')
@@ -956,28 +1022,81 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
-  def render_document_index_label doc, opts
-    label = nil
-    if opts[:label].is_a?(Array)
-      title = doc.get(opts[:label][0], :sep => nil)
-      subtitle = doc.get(opts[:label][1], :sep => nil)
-      fulltitle_vern = doc.get(opts[:label][2], :sep => nil)
-      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
-
-      # If title is missing, fall back to document id (bibid) as last resort
-      label ||= english.present? ? english : doc.id
-
-      # If we have a non-Roman script alternative, prepend it
-      if fulltitle_vern.present? && english.present?
-        label.prepend(fulltitle_vern + ' / ')
-      end
+  #
+# Render the document index heading
+#
+# @param [SolrDocument] doc
+# @param [Hash] opts (deprecated)
+# @option opts [Symbol] :label Render the given field from the document
+# @option opts [Proc] :label Evaluate the given proc
+# @option opts [String] :label Render the given string
+# @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+  def render_document_index_label doc, field, opts = {}
+    #Deprecation.warn self, "render_document_index_label is deprecated"
+    if field.kind_of? Hash
+    #  Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
+      field = field[:label]
     end
-    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
-    label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
-    label ||= opts[:label] if opts[:label].is_a? String
-    label ||= doc.id
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    dp.render_field_value label
+    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
+    presenter(doc).label field, opts
+  end
+
+
+
+
+  # Overrides original method from blacklight_helper_behavior.rb
+  # Renders label for link to document using 'title : subtitle' if subtitle exists
+  # Also handle non-Roman script alternatives (vernacular) for title and subtitle
+  def _cornell_render_document_index_label doc, opts
+    #opts[:value]
+    # label = nil
+    # if opts[:label].is_a?(Array)
+    #   title = doc.fetch(opts[:label][0], :sep => nil)
+    #   Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
+    #   subtitle = doc.fetch(opts[:label][1], :sep => nil)
+    #   fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
+    #   
+    #   Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
+    #   english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
+    # 
+    #   # If title is missing, fall back to document id (bibid) as last resort
+    #   label ||= english.present? ? english : doc.id
+    # 
+    #   # If we have a non-Roman script alternative, prepend it
+    #   if fulltitle_vern.present? && english.present?
+    #     label.prepend(fulltitle_vern + ' / ')
+    #   end
+    # end
+
+    # Rewriting because we can't get the above to work properly....
+    label = nil
+    field = "title"
+    title = doc['title_display']
+    subtitle = doc['subtitle_display']
+    vern = doc['fulltitle_vern_display']
+    
+    if title.present?
+      label = title
+    end
+    if subtitle.present?
+      label += ' : ' + subtitle
+    end
+    if vern.present?
+      label = vern + ' / ' + label
+    end
+    
+    label ||= doc['id']
+    
+    # This is a bit arcane, copied from the blacklight gem, so we're not sure we need it.
+    # label ||= doc.fetch(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
+    # label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
+    # label ||= opts[:label] if opts[:label].is_a? String
+    # label ||= doc.id
+    
+    #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    #dp.render_field_value label
+    fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
+    fp.render
   end
 
   # Overrides original method from catalog_helper_behavior.rb
@@ -1012,35 +1131,75 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
     end
   end
 
-  # Shadow record sniffer
-  def is_shadow_record(document)
-    if defined? document.to_marc
-      fields = document.to_marc.find_all{|f| ('948') === f.tag }
 
-      fields.each do |field|
-        field.each do |sub|
-          if h(sub.code) === 'h' and h(sub.value) === 'PUBLIC SERVICES SHADOW RECORD'
-            return true
-          end
-        end
-      end
-
-      return false
-    end
-  end
 
   # To vernaculate or not...that is the question
   def the_vernaculator(engl, vern)
-    display = render_document_show_field_value :document => @document, :field => engl
-    vernacular = render_document_show_field_value :document => @document, :field => vern
+    #presenter = Blacklight::ShowPresenter.new(@document, self)
+    #display = render_document_show_field_value :document => @document, :field => engl
+    display = field_value engl
+    #vernacular = render_document_show_field_value :document => @document, :field => vern
+    vernacular = field_value vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
   end
+  
+  # Helper method to replace render_document_show_field_value with something that's
+  # a little easier to call from a view. Requires a field name from the solr doc
+  def field_value(field)
+    Blacklight::ShowPresenter.new(@document, self).field_value field
+  end
+##########
+ def cornell_params_for_search(*args, &block)
+      source_params, params_to_merge = case args.length
+      when 0
+        search_state.params_for_search
+      when 1
+        search_state.params_for_search(args.first)
+      when 2
+        Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
+      else
+        raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
+      end
+    end
+
+    def cornell_sanitize_search_params(source_params)
+      Blacklight::Parameters.sanitize(source_params)
+    end
+    deprecation_deprecate :sanitize_search_params
+
+    def cornell_reset_search_params(source_params)
+      Blacklight::SearchState.new(source_params, blacklight_config).send(:reset_search_params)
+    end
+
+    def cornell_add_facet_params(field, item, source_params = nil)
+      if source_params
+
+        Blacklight::SearchState.new(source_params, blacklight_config).add_facet_params(field, item)
+      else
+        search_state.add_facet_params(field, item)
+      end
+    end
+
+    def cornell_remove_facet_params(field, item, source_params = nil)
+      if source_params
+        Blacklight::SearchState.new(source_params, blacklight_config).remove_facet_params(field, item)
+      else
+        search_state.remove_facet_params(field, item)
+      end
+    end
+
+    def cornell_add_facet_params_and_redirect(field, item)
+      search_state.add_facet_params_and_redirect(field, item)
+    end
+
+
+##########
 
   # Display the Solr core for everything but production instance
   def render_solr_core
     unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
-      core = Blacklight.solr_config[:url]
+      core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/http:\/\//) + 7
       display = '<p>Solr core: ' + core[start..-1] + '</p>'
@@ -1086,57 +1245,140 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
 
   def render_facet_item(solr_field, item)
     if solr_field == 'format'
-    format = item.value
-    path = search_action_path(add_facet_params_and_redirect(solr_field, item))
-    if (facet_icon = FORMAT_MAPPINGS[format])
-    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
-    end
-    if facet_in_params?( solr_field, item.value )
-     content_tag(:span, :class => "selected") do
-
-
-    content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
-    link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
-  end
-
+      format = item.value
+      path = search_action_path(cornell_add_facet_params_and_redirect(solr_field, item))
+      if (facet_icon = FORMAT_MAPPINGS[format])
+        facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+      end
+      if facet_in_params?( solr_field, item.value )
+        content_tag(:span, :class => "selected") do
+          content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true))  +
+          link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), cornell_remove_facet_params(solr_field, item, params), :class=>"remove")
+        end
+      else
+        content_tag(:span, :class => "facet-label") do
+          (facet_icon).html_safe + link_to(facet_display_value(solr_field, item), path, :class=>"facet_select")
+        end + render_facet_count(item.hits)
+      end
     else
-      content_tag(:span, :class => "facet-label") do
-      (facet_icon).html_safe + link_to(facet_display_value(solr_field, item), path, :class=>"facet_select")
-    end + render_facet_count(item.hits)
+      if facet_in_params?( solr_field, item.value )
+        content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
+        link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), cornell_remove_facet_params(solr_field, item, params), :class=>"remove")
+      else
+        render_facet_value(solr_field, item)
       end
 
-    else
-     if facet_in_params?( solr_field, item.value )
-
-      content_tag(:span, render_facet_value(solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "fa fa-times") + content_tag(:span, ' [remove]'), remove_facet_params(solr_field, item, params), :class=>"remove")
-      else
-      render_facet_value(solr_field, item)
     end
-
-  end
 
   end
 
 
   def render_facet_value(facet_solr_field, item, options ={})
-    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
+    path = search_action_path(cornell_add_facet_params_and_redirect(facet_solr_field, item))
     if facet_solr_field != 'format'
-    content_tag(:span,:class=>'facet-label') do
-    link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
-    end + render_facet_count(item.hits)
+      content_tag(:span,:class=>'facet-label') do
+        link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+      end + render_facet_count(item.hits)
     else
-    format = item.value
-    if (facet_icon = FORMAT_MAPPINGS[format])
-    facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
-    end
-    content_tag(:span, :class => "facet-label") do
-    (facet_icon).html_safe +
+      format = item.value
+      if (facet_icon = FORMAT_MAPPINGS[format])
+        facet_icon = '<i class="fa fa-' + facet_icon + '"></i> '
+      end
+      content_tag(:span, :class => "facet-label") do
+        (facet_icon).html_safe +
 
-      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
-    end + render_facet_count(item.hits)
+        link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+      end + render_facet_count(item.hits)
+    end
   end
+#
+#  simple_ are versions of deprecated functions
+#
+  def simple_render_index_field_value *args
+    simple_render_field_value(*args)
   end
+
+  def simple_render_field_value(*args)
+    options = args.extract_options!
+    document = args.shift || options[:document]
+    field = args.shift || options[:field]
+    presenter(document).field_value field, options.except(:document, :field)
+  end
+
+  def simple_render_document_index_label(*args)
+    label(*args)
+  end
+
+  # Advanced Search History and Advanced Saved Searches display
+  def link_to_previous_advanced_search(params)
+    link_to(parseHistoryShowString(params), parseHistoryQueryString(params))
+  end
+  
+  def parseHistoryShowString(params)
+    showText = ''
+ 
+    sf_row = params[:search_field_row]
+    q_row = params[:q_row]
+    b_row = params[:boolean_row]
+
+    i = 0
+    num = sf_row.length
+
+    while i < num do 
+      if i > 0
+        showText = showText + " " + "#{b_row[i.to_s.to_sym]}" + " " + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
+      else
+        showText = showText + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
+      end
+      i += 1
+    end
+    ## Sends 'correct' q param to link_link_to_previous_search 
+    params[:q] = showText
+    ## Uses overridden render_search_to_s_q(params) function below originally from app/helper/blacklight/search_history_constraints_helper_behavior.rb
+    showText = link_to_previous_search(params)
+ 
+    
+    return showText
+  end
+  
+  def parseHistoryQueryString(params)
+    start = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
+    if params[:sort].nil?
+      finish = "&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&commit=Search"
+    else 
+      finish = "&" + params[:sort]
+    end
+    linkText = ''
+    f_linkText = ''
+    q_row = params[:q_row]
+    op_row = params[:op_row]
+    sf_row = params[:search_field_row]
+    b_row = params[:boolean_row]
+    if !params[:f].nil?
+      f_row = params[:f]
+    else
+      f_row = {}
+    end  
+    
+    i = 0
+    num = q_row.length
+    while i < num do
+      if i > 0
+        linkText = linkText + "&boolean_row[#{i}]=" + "#{b_row[i.to_s.to_sym]}" + "&q_row[]=" + CGI.escape(q_row[i])+ "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
+      else
+        linkText = linkText + "&q_row[]=" + CGI.escape(q_row[i]) + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
+      end
+      i += 1
+    end
+    f_row.each do | key, value |    
+       value.each do |text|
+         f_linkText = f_linkText + "&f[" + key + "][]=" + text
+       end
+    end    
+    linkText = start + linkText + f_linkText + finish
+    return linkText
+  end
+
 
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
@@ -1146,13 +1388,14 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
       return true
     end
   end
-  # deprecated function from blacklight 4 that will live ons
+  
+  # deprecated function from blacklight 4 that will live on
   def sidebar_items
-      @sidebar_items ||= []
+    @sidebar_items ||= []
   end
 
   def render_extra_head_content
-        @extra_head_content.join("\n").html_safe
+    @extra_head_content.join("\n").html_safe
   end
 
   def render_head_content
@@ -1164,7 +1407,7 @@ module DisplayHelper include ActionView::Helpers::NumberHelper
      content_for(:head)
    end
 
-def bento_online_url(url_online_access, url_item)
+  def bento_online_url(url_online_access, url_item)
     if url_online_access.size > 1
       url_item
     else
@@ -1185,10 +1428,67 @@ def bento_online_url(url_online_access, url_item)
     end
   end
 
-def remove_pipe args
-  value = args[:value]
-  value.map do |v|
-  v.split('|')[0]
-end
-end
+  def remove_pipe field
+    (field[:value].collect { | i | i.split('|')[0] }.join (field_value_separator)).html_safe
+  end
+
+  def random_image
+    require 'open-uri'
+    require 'nokogiri'
+    addr = "https://www.flickr.com/explore/interesting/7days/"
+    ptag = ".Photo"
+    doc = Nokogiri::HTML(open( addr ))
+    photo = (doc.css( ptag )).first
+    p_src = photo.css("img").first.attr("src")
+    p_src
+  end
+
+  def xrandom_image
+    require 'open-uri'
+    require 'nokogiri'
+    q = random_quote
+    t = q.split()
+    t = t.max_by(&:length)
+    addr = "https://www.flickr.com/photos/tags/#{t}"
+    ptag = ".Photo"
+    doc = Nokogiri::HTML(open( addr ))
+    photo = (doc.css( ptag )).first
+    p_src = photo.css("img").first.attr("src")
+    p_src
+  end
+
+  def random_quote
+    adr = 'http://api.forismatic.com/api/1.0/'
+    fmt = 'json'
+    language = 'en'
+    key = ''
+    jquote = HTTPClient.get_content("#{adr}?method=getQuote&key=&format=json&lang=en&clientApplication=gooz")
+    author = JSON.parse(jquote)["quoteAuthor"]
+    quote = JSON.parse(jquote)["quoteText"] +  " -- " + author
+  end
+
+
+  def html_safe field
+    require 'htmlentities'
+    coder = HTMLEntities.new
+    result =[]
+    field[:value].each do |r|    
+      r = coder.decode(r) 
+      r = ERB::Util.html_escape(r)
+      result << r
+    end
+    result = result.to_sentence.html_safe
+  end
+  
+# Render the search query constraint
+  def render_search_to_s_q(params)
+    return "".html_safe if params['q'].blank?
+    if params[:q_row].nil?
+  
+      label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+    else
+      label = ""
+    end
+    render_search_to_s_element(label , render_filter_value(params['q']) )
+  end
 end

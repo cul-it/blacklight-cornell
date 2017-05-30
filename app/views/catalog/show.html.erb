@@ -46,21 +46,19 @@
   <%= render :partial => 'show_metadata' %>
 </div>
 
-<div class="row">
-  <div class="col-sm-12">
-    <div class="librarian-view">
-      <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
-        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
-      <%end%>
-      | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local" onclick="javascript:_paq.push(['trackEvent', 'catalog_item', 'classic_link']);">Classic Catalog <i class="fa fa-external-link"></i></a>
-    </div>
+<div class="col-sm-12">
+  <div class="librarian-view">
+    <% if respond_to? :solr_document_path and @document.respond_to?(:to_marc) %>
+      <%= link_to t('blacklight.tools.librarian_view'), librarian_view_solr_document_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
+    <%end%>
+    | <a href="https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?BBID=<%= @document.id %>&DB=local" onclick="javascript:_paq.push(['trackEvent', 'catalog_item', 'classic_link']);">Classic Catalog <i class="fa fa-external-link"></i></a>
   </div>
 </div>
 
 <% if @document.respond_to?(:zzzexport_as_openurl_ctx_kev) %>
         <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
        <!--
-       // COinS, for Zotero among others. really, this does not work very well. So I removed it.  
+       // COinS, for Zotero among others. really, this does not work very well. So I removed it.
        // This document_partial_name(@document) business is not quite right,
        // but has been there for a while.
       -->

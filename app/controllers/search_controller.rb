@@ -72,7 +72,7 @@ class SearchController < ApplicationController
           @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet') , display_type, @scores
       end
       if session[:search].nil?
-	session[:search] = {}
+	      session[:search] = {}
       end
       session[:search][:q] = @query
       session[:search][:search_field] = 'all_fields'
@@ -81,7 +81,7 @@ class SearchController < ApplicationController
       # session[:search][:counter] = ?
       # session[:search][:total] = ?
 
-      Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
+      #Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
       render 'single_search/index'
   end
 
@@ -185,10 +185,10 @@ class SearchController < ApplicationController
       "search/web?q=#{zq}"
     elsif engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
-      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.cmd=setFacetValueFilters(ContentType,Journal+Article)&s.q=#{query}"
+      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Journal+Article&s.q=#{query}"
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
-      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.cmd=setFacetValueFilters(ContentType,Newspaper+Article)&s.q=#{query}"
+      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
@@ -203,6 +203,7 @@ class SearchController < ApplicationController
          query = query.gsub('&','%26')
         #"#{cat_url}/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
         "/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
+        #"/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}"
       end
     end
   end
@@ -254,9 +255,11 @@ class SearchController < ApplicationController
         item.link = "/catalog/#{d['id']}"
         if d['url_access_display']
           item.custom_data = {
-            'url_online_access' => d['url_access_display']
+            'url_online_access' => d['url_access_display'],
           }
+
         end
+        item.format = d['format']
         bento_set << item
 
         # The first search result should have the maximum relevancy score. Save this for later
@@ -300,4 +303,18 @@ class SearchController < ApplicationController
     end
   end
 
+  # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
+  def self.transform_query search_query
+    # Don't do anything for already-quoted queries or single-term queries
+    if search_query !~ /[\"\'].*?[\"\']/ and
+        search_query !~ /AND|OR|NOT/ 
+        #search_query =~ /\w.+?\s\w.+?/
+      # create modified query: (+x +y +z) OR "x y z"
+      new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
+      # (have to use double quotes; single returns an incorrect result set from Solr!)
+      "(#{new_query}) OR \"#{search_query}\""
+    else
+      search_query
+    end
+  end
 end

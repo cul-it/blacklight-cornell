@@ -1,0 +1,1389 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/select?mm=1&rows=10&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:56:02 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:55:15 GMT
+      Etag:
+      - '"YmUzZjgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '12320'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjQ3NywncGFyYW1zJz0+eydtbSc9PicxJywncm93
+        cyc9PicxMCcsJ3d0Jz0+J3J1YnknfX0sJ3Jlc3BvbnNlJz0+eydudW1Gb3Vu
+        ZCc9Pjc2OTQyMjYsJ3N0YXJ0Jz0+MCwnbWF4U2NvcmUnPT4yLjI2NTQ3NjUs
+        J2RvY3MnPT5beydob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6
+        IjEwMTU0MDA5IiwibW9kaWZpZWRfZGF0ZSI6IjIwMTcwMjI3MTcyNDQ0Iiwi
+        Y29weV9udW1iZXIiOm51bGwsImNhbGxub3MiOltdLCJub3RlcyI6W10sImhv
+        bGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1
+        cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3Nf
+        ZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hbm4iLCJudW1iZXIi
+        OjY5LCJuYW1lIjoiTWFubiBMaWJyYXJ5IiwibGlicmFyeSI6Ik1hbm4gTGli
+        cmFyeSJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdpZCc9
+        Pic5ODMzNjI1JywnZm9ybWF0Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3Bs
+        YXknPT5bJ0VuZ2xpc2gnXSwncHViX2RhdGVfZGlzcGxheSc9PlsnMjAxOCdd
+        LCdwdWJfZGF0ZV9mYWNldCc9PjIwMTgsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5b
+        J1NhbiBEaWVnbyBFbHNldmllciBTY2llbmNlIFB1Ymxpc2hpbmcgQ28gSW5j
+        IDIwMTgnXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nVW5kZXJzdGFuZGluZyBG
+        b29kIFN5c3RlbXMgOiBBZ3JpY3VsdHVyZSwgRm9vZCBTY2llbmNlLCBhbmQg
+        TnV0cml0aW9uIGluIHRoZSBVbml0ZWQgU3RhdGVzJywndGl0bGVfZGlzcGxh
+        eSc9PidVbmRlcnN0YW5kaW5nIEZvb2QgU3lzdGVtcycsJ2F1dGhvcl9kaXNw
+        bGF5Jz0+J01hY0RvbmFsZCwgUnV0aCcsJ3N1YnRpdGxlX2Rpc3BsYXknPT4n
+        QWdyaWN1bHR1cmUsIEZvb2QgU2NpZW5jZSwgYW5kIE51dHJpdGlvbiBpbiB0
+        aGUgVW5pdGVkIFN0YXRlcycsJ290aGVyX2lkX2Rpc3BsYXknPT5bJzk4MzM2
+        MjUnXSwnc2NvcmUnPT4yLjI2NTQ3NjV9LHsnaG9sZGluZ3NfcmVjb3JkX2Rp
+        c3BsYXknPT5bJ3siaWQiOiIxMDIwMDg0NiIsIm1vZGlmaWVkX2RhdGUiOiIy
+        MDE3MDQxMTEzNTcxOSIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpu
+        dWxsLCJub3RlcyI6W10sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9s
+        ZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpb
+        XSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29k
+        ZSI6InNlcnYscmVtbyIsIm51bWJlciI6MTI4LCJuYW1lIjoiKk5ldHdvcmtl
+        ZCBSZXNvdXJjZSIsImxpYnJhcnkiOm51bGx9XX0nXSwnaWQnPT4nOTg4MTkw
+        NycsJ2Zvcm1hdCc9PlsnQm9vayddLCdvbmxpbmUnPT5bJ09ubGluZSddLCds
+        YW5ndWFnZV9kaXNwbGF5Jz0+WydFbmdsaXNoJ10sJ3B1Yl9kYXRlX2Rpc3Bs
+        YXknPT5bJzIwMTgnXSwncHViX2RhdGVfZmFjZXQnPT4yMDE4LCdwdWJfaW5m
+        b19kaXNwbGF5Jz0+WydCdXJsaW5ndG9uLCBNYXNzYWNodXNldHRzIDogSm9u
+        ZXMgJiBCYXJ0bGV0dCBMZWFybmluZywgMjAxOC4nXSwnZnVsbHRpdGxlX2Rp
+        c3BsYXknPT4nQysrIHBsdXMgZGF0YSBzdHJ1Y3R1cmVzJywndGl0bGVfZGlz
+        cGxheSc9PidDKysgcGx1cyBkYXRhIHN0cnVjdHVyZXMnLCdhdXRob3JfZGlz
+        cGxheSc9PidEYWxlLCBOZWxsIChOZWxsIEIuKSwgIGF1dGhvcicsJ2VkaXRp
+        b25fZGlzcGxheSc9PlsnU2l4dGggZWRpdGlvbi4nXSwnb3RoZXJfaWRfZGlz
+        cGxheSc9PlsnKFdhU2VTUylPQ00xc3NpYjAyNzM4MzU0MycsJyhPQ29MQyk5
+        NzM0OTU1ODAnLCc5ODgxOTA3J10sJ3VybF9hY2Nlc3NfanNvbic9PlsneyJw
+        cm92aWRlcmNvZGUiOiJQUlZQUVUiLCJkYmNvZGUiOiJEUlUiLCJkZXNjcmlw
+        dGlvbiI6IkZ1bGwgdGV4dCBhdmFpbGFibGUgZnJvbSBTYWZhcmkgVGVjaG5p
+        Y2FsIEJvb2tzIENvbm5lY3QgdG8gdGV4dC4iLCJzc2lkIjoic3NpYjAyNzM4
+        MzU0MyIsInVybCI6Imh0dHA6Ly9wcm94eS5saWJyYXJ5LmNvcm5lbGwuZWR1
+        L2xvZ2luP3VybD1odHRwOi8vcHJvcXVlc3Quc2FmYXJpYm9va3NvbmxpbmUu
+        Y29tLzk3ODEyODQwODkxOTYifSddLCd1cmxfYWNjZXNzX2Rpc3BsYXknPT5b
+        J2h0dHA6Ly9wcm94eS5saWJyYXJ5LmNvcm5lbGwuZWR1L2xvZ2luP3VybD1o
+        dHRwOi8vcHJvcXVlc3Quc2FmYXJpYm9va3NvbmxpbmUuY29tLzk3ODEyODQw
+        ODkxOTZ8RnVsbCB0ZXh0IGF2YWlsYWJsZSBmcm9tIFNhZmFyaSBUZWNobmlj
+        YWwgQm9va3MgQ29ubmVjdCB0byB0ZXh0LiddLCdzY29yZSc9PjIuMjY1NDc2
+        NX0seydob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6Ijk5OTQ3
+        NDQiLCJtb2RpZmllZF9kYXRlIjoiMjAxNjA5MTYxNjU0NDIiLCJjb3B5X251
+        bWJlciI6bnVsbCwiY2FsbG5vcyI6WyJBdmFpbGFibGUgZm9yIHRoZSBMaWJy
+        YXJ5IHRvIFB1cmNoYXNlIl0sIm5vdGVzIjpbXSwiaG9sZGluZ3NfZGVzYyI6
+        W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxlbWVudGFsX2hv
+        bGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNjIjpbXSwibG9j
+        YXRpb25zIjpbeyJjb2RlIjoiY3RzLHJldiIsIm51bWJlciI6MTIwLCJuYW1l
+        IjoiTGlicmFyeSBUZWNobmljYWwgU2VydmljZXMgUmV2aWV3IFNoZWx2ZXMi
+        LCJsaWJyYXJ5IjpudWxsfV19J10sJ2lkJz0+Jzk2NjcyODQnLCdmb3JtYXQn
+        PT5bJ0Jvb2snXSwnbGFuZ3VhZ2VfZGlzcGxheSc9PlsnRW5nbGlzaCddLCdw
+        dWJfZGF0ZV9kaXNwbGF5Jz0+WycyMDE4J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+
+        MjAxOCwncHViX2luZm9fZGlzcGxheSc9PlsnTmV3IFlvcmssIE5ZIDogQ2Ft
+        YnJpZGdlIFVuaXZlcnNpdHkgUHJlc3MsIDIwMTguJ10sJ2Z1bGx0aXRsZV9k
+        aXNwbGF5Jz0+J01pY3JvY2xpbWF0ZSBhbmQgbG9jYWwgY2xpbWF0ZScsJ3Rp
+        dGxlX2Rpc3BsYXknPT4nTWljcm9jbGltYXRlIGFuZCBsb2NhbCBjbGltYXRl
+        JywnYXV0aG9yX2Rpc3BsYXknPT4nQmFycnksIFJvZ2VyIEcuIChSb2dlciBH
+        cmFoYW0pLCAxOTM1LScsJ290aGVyX2lkX2Rpc3BsYXknPT5bJyhDYU9ORkpD
+        KWNvdTMzMTE0OTEyJywnKERMQyljb3UzMzExNDkxMicsJzk2NjcyODQnLCco
+        T0NvTEMpOTM0OTQxNjI2J10sJ3Njb3JlJz0+Mi4yNjU0NzY1fSx7J2hvbGRp
+        bmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoiMTAxNDMwNjMiLCJtb2Rp
+        ZmllZF9kYXRlIjoiMjAxNzAyMTQxNDI2MjAiLCJjb3B5X251bWJlciI6bnVs
+        bCwiY2FsbG5vcyI6bnVsbCwibm90ZXMiOltdLCJob2xkaW5nc19kZXNjIjpb
+        XSwicmVjZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9s
+        ZGluZ3NfZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2Nh
+        dGlvbnMiOlt7ImNvZGUiOiJzZXJ2LHJlbW8iLCJudW1iZXIiOjEyOCwibmFt
+        ZSI6IipOZXR3b3JrZWQgUmVzb3VyY2UiLCJsaWJyYXJ5IjpudWxsfV19J10s
+        J2lkJz0+Jzk4MjE3ODQnLCdmb3JtYXQnPT5bJ0Jvb2snXSwnb25saW5lJz0+
+        WydPbmxpbmUnXSwnbGFuZ3VhZ2VfZGlzcGxheSc9PlsnRW5nbGlzaCddLCdw
+        dWJfZGF0ZV9mYWNldCc9PjIwMTgsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ0Jv
+        Y2EgUmF0b24gOiBBdWVyYmFjaCBQdWJsaXNoZXJzLCBJbmNvcnBvcmF0ZWQg
+        RmxvcmVuY2UgOiBUYXlsb3IgJiBGcmFuY2lzIEdyb3VwIFtEaXN0cmlidXRv
+        cl0nXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nSW5maW5pQmFuZCcsJ3RpdGxl
+        X2Rpc3BsYXknPT4nSW5maW5pQmFuZCcsJ2F1dGhvcl9kaXNwbGF5Jz0+J0Rl
+        bWluZywgRGF2aWQgQS4sICBhdXRob3InLCdvdGhlcl9pZF9kaXNwbGF5Jz0+
+        WycoV2FTZVNTKU9DTTFzc2liMDI2MzU2NjkwJywnOTgyMTc4NCcsJyhPQ29M
+        Qyk5NzI1Nzc5MTUnXSwndXJsX2FjY2Vzc19qc29uJz0+Wyd7InByb3ZpZGVy
+        Y29kZSI6IlBSVkFHSyIsImRiY29kZSI6IkJNTyIsImRlc2NyaXB0aW9uIjoi
+        RnVsbCB0ZXh0IGF2YWlsYWJsZSBmcm9tIEVOR25ldEJBU0UgQ29ubmVjdCB0
+        byB0ZXh0LiIsInNzaWQiOiJzc2liMDI2MzU2NjkwIiwidXJsIjoiaHR0cDov
+        L3Byb3h5LmxpYnJhcnkuY29ybmVsbC5lZHUvbG9naW4/dXJsPWh0dHA6Ly93
+        d3cuY3JjbmV0YmFzZS5jb20vaXNibi85NzgtMS00OTg3LTA5ODktNyJ9J10s
+        J3VybF9hY2Nlc3NfZGlzcGxheSc9PlsnaHR0cDovL3Byb3h5LmxpYnJhcnku
+        Y29ybmVsbC5lZHUvbG9naW4/dXJsPWh0dHA6Ly93d3cuY3JjbmV0YmFzZS5j
+        b20vaXNibi85NzgtMS00OTg3LTA5ODktN3xGdWxsIHRleHQgYXZhaWxhYmxl
+        IGZyb20gRU5HbmV0QkFTRSBDb25uZWN0IHRvIHRleHQuJ10sJ3Njb3JlJz0+
+        Mi4yNjU0NzY1fSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7Imlk
+        IjoiMTAxNTc2NzYiLCJtb2RpZmllZF9kYXRlIjoiMjAxNzAzMDgwODQ5MjQi
+        LCJjb3B5X251bWJlciI6bnVsbCwiY2FsbG5vcyI6W10sIm5vdGVzIjpbXSwi
+        aG9sZGluZ3NfZGVzYyI6W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwi
+        c3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5n
+        c19kZXNjIjpbXSwibG9jYXRpb25zIjpbeyJjb2RlIjoib2xpbiIsIm51bWJl
+        ciI6OTksIm5hbWUiOiJPbGluIExpYnJhcnkiLCJsaWJyYXJ5IjoiT2xpbiBM
+        aWJyYXJ5In1dfSddLCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2lk
+        Jz0+Jzk4Mzc0NDUnLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3VhZ2VfZGlz
+        cGxheSc9PlsnRW5nbGlzaCddLCdwdWJfZGF0ZV9kaXNwbGF5Jz0+WycyMDE4
+        J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MjAxOCwncHViX2luZm9fZGlzcGxheSc9
+        PlsnVG9yb250byA6IFZpbnRhZ2UgQ2FuYWRhLCAyMDE4LiddLCdmdWxsdGl0
+        bGVfZGlzcGxheSc9PidBIGJvbGQgYW5kIGRhbmdlcm91cyBmYW1pbHkgOiB0
+        aGUgcmVtYXJrYWJsZSBzdG9yeSBvZiBhbiBJdGFsaWFuIG1vdGhlciwgaGVy
+        IHRocmVlIHNvbnMsIGFuZCB0aGUgZmlnaHQgYWdhaW5zdCBmYXNjaXNtJywn
+        dGl0bGVfZGlzcGxheSc9PidBIGJvbGQgYW5kIGRhbmdlcm91cyBmYW1pbHkn
+        LCdhdXRob3JfZGlzcGxheSc9PidNb29yZWhlYWQsIENhcm9saW5lLCAgYXV0
+        aG9yJywnc3VidGl0bGVfZGlzcGxheSc9Pid0aGUgcmVtYXJrYWJsZSBzdG9y
+        eSBvZiBhbiBJdGFsaWFuIG1vdGhlciwgaGVyIHRocmVlIHNvbnMsIGFuZCB0
+        aGUgZmlnaHQgYWdhaW5zdCBmYXNjaXNtJywnb3RoZXJfaWRfZGlzcGxheSc9
+        PlsnKENhT05GSkMpNjEzNjI0ODUnLCc5ODM3NDQ1J10sJ3Njb3JlJz0+Mi4y
+        NjU0NzY1fSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoi
+        MTAxODcxNTAiLCJtb2RpZmllZF9kYXRlIjoiMjAxNzAzMzExNzA5MTkiLCJj
+        b3B5X251bWJlciI6bnVsbCwiY2FsbG5vcyI6WyJPbiBvcmRlciJdLCJub3Rl
+        cyI6W10sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVz
+        YyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhf
+        aG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6ImxhdyIs
+        Im51bWJlciI6NjMsIm5hbWUiOiJMYXcgTGlicmFyeSAoTXlyb24gVGF5bG9y
+        IEhhbGwpIiwibGlicmFyeSI6IkxhdyBMaWJyYXJ5In1dfSddLCdvbmxpbmUn
+        PT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2lkJz0+Jzk4Njc1NzInLCdmb3JtYXQn
+        PT5bJ0Jvb2snXSwnbGFuZ3VhZ2VfZGlzcGxheSc9PlsnRW5nbGlzaCddLCdw
+        dWJfZGF0ZV9kaXNwbGF5Jz0+WydbMjAxOF0nXSwncHViX2RhdGVfZmFjZXQn
+        PT4yMDE4LCdwdWJfaW5mb19kaXNwbGF5Jz0+WydOZXcgWW9yayA6IEFicmFt
+        cyBCb29rcyBmb3IgWW91bmcgUmVhZGVycywgWzIwMThdJ10sJ2Z1bGx0aXRs
+        ZV9kaXNwbGF5Jz0+J1J1dGggQmFkZXIgR2luc2J1cmcgOiB0aGUgY2FzZSBv
+        ZiBSLkIuRy4gdnMuIGluZXF1YWxpdHknLCd0aXRsZV9kaXNwbGF5Jz0+J1J1
+        dGggQmFkZXIgR2luc2J1cmcnLCdhdXRob3JfZGlzcGxheSc9PidXaW50ZXIs
+        IEpvbmFoLCAxOTYyLSBhdXRob3InLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+J3Ro
+        ZSBjYXNlIG9mIFIuQi5HLiB2cy4gaW5lcXVhbGl0eScsJ290aGVyX2lkX2Rp
+        c3BsYXknPT5bJyhPQ29MQyk5NTg1ODU4OTcnLCc5ODY3NTcyJ10sJ3Njb3Jl
+        Jz0+Mi4yNjU0NzY1fSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7
+        ImlkIjoiMTAxMTI3MjciLCJtb2RpZmllZF9kYXRlIjoiMjAxNzAzMDcxMzU1
+        MjUiLCJjb3B5X251bWJlciI6bnVsbCwiY2FsbG5vcyI6WyJONTMwMCAuUzky
+        MyAyMDE4Il0sIm5vdGVzIjpbXSwiaG9sZGluZ3NfZGVzYyI6W10sInJlY2Vu
+        dF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rl
+        c2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNjIjpbXSwibG9jYXRpb25zIjpb
+        eyJjb2RlIjoiZmluZSIsIm51bWJlciI6MzEsIm5hbWUiOiJGaW5lIEFydHMg
+        TGlicmFyeSAoUmFuZCBIYWxsKSIsImxpYnJhcnkiOiJGaW5lIEFydHMgTGli
+        cmFyeSJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdpdGVt
+        X3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0ZW1f
+        dHlwZV9uYW1lIjoiYm9vayIsIml0ZW1faWQiOiIxMDE2MDg4NSIsInllYXIi
+        OiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoi
+        IiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25f
+        cmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251
+        bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoi
+        MTAxMTI3MjciLCJyZWNhbGxzX3BsYWNlZCI6IjAiLCJjcmVhdGVfZGF0ZSI6
+        IjIwMTctMDMtMDcgMTM6NTU6NDUuMCIsIml0ZW1fYmFyY29kZSI6IjMxOTI0
+        MTIzNzM4NDA3IiwibW9kaWZ5X2RhdGUiOiIiLCJwZXJtX2xvY2F0aW9uIjp7
+        ImNvZGUiOiJmaW5lIiwibnVtYmVyIjozMSwibmFtZSI6IkZpbmUgQXJ0cyBM
+        aWJyYXJ5IChSYW5kIEhhbGwpIiwibGlicmFyeSI6IkZpbmUgQXJ0cyBMaWJy
+        YXJ5In19J10sJ2lkJz0+Jzk3OTEyNDYnLCdmb3JtYXQnPT5bJ0Jvb2snXSwn
+        bGFuZ3VhZ2VfZGlzcGxheSc9PlsnRW5nbGlzaCddLCdwdWJfZGF0ZV9kaXNw
+        bGF5Jz0+WydbMjAxOF0nXSwncHViX2RhdGVfZmFjZXQnPT4yMDE4LCdwdWJf
+        aW5mb19kaXNwbGF5Jz0+WydVcHBlciBTYWRkbGUgUml2ZXIgOiBQZWFyc29u
+        LCBbMjAxOF0nXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nQXJ0IGhpc3Rvcnkn
+        LCd0aXRsZV9kaXNwbGF5Jz0+J0FydCBoaXN0b3J5JywnYXV0aG9yX2Rpc3Bs
+        YXknPT4nU3Rva3N0YWQsIE1hcmlseW4sIDE5MjktMjAxNiwgYXV0aG9yJywn
+        ZWRpdGlvbl9kaXNwbGF5Jz0+WydTaXh0aCBlZGl0aW9uLiddLCdvdGhlcl9p
+        ZF9kaXNwbGF5Jz0+WycoQ2FPTkZKQyk2MTIyNzk4NicsJyhPQ29MQyk5NTM5
+        Mjc2MDcnLCc5NzkxMjQ2J10sJ3Njb3JlJz0+Mi4yNjU0NzY1fSx7J2hvbGRp
+        bmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoiMTAxNDQ2MjIiLCJtb2Rp
+        ZmllZF9kYXRlIjoiMjAxNzAyMTQxNDMyNDUiLCJjb3B5X251bWJlciI6bnVs
+        bCwiY2FsbG5vcyI6bnVsbCwibm90ZXMiOltdLCJob2xkaW5nc19kZXNjIjpb
+        XSwicmVjZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9s
+        ZGluZ3NfZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2Nh
+        dGlvbnMiOlt7ImNvZGUiOiJzZXJ2LHJlbW8iLCJudW1iZXIiOjEyOCwibmFt
+        ZSI6IipOZXR3b3JrZWQgUmVzb3VyY2UiLCJsaWJyYXJ5IjpudWxsfV19J10s
+        J2lkJz0+Jzk4MjMzNDQnLCdmb3JtYXQnPT5bJ0Jvb2snXSwnb25saW5lJz0+
+        WydPbmxpbmUnXSwncHViX2RhdGVfZGlzcGxheSc9PlsnMjAxOCddLCdwdWJf
+        ZGF0ZV9mYWNldCc9PjIwMTgsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ1tTLmwu
+        XSA6IEdhbGUsIDIwMTguJ10sJ3RpdGxlX2Rpc3BsYXknPT4nTWFya2V0IFNo
+        YXJlIFJlcG9ydGVyJywnZnVsbHRpdGxlX2Rpc3BsYXknPT4nTWFya2V0IFNo
+        YXJlIFJlcG9ydGVyJywnb3RoZXJfaWRfZGlzcGxheSc9PlsnKFdhU2VTUylP
+        Q00xc3NpYjAyNjMxMzE1NScsJzk4MjMzNDQnLCcoT0NvTEMpMjYyNDUzMzE0
+        J10sJ3VybF9hY2Nlc3NfanNvbic9PlsneyJwcm92aWRlcmNvZGUiOiJQUlZH
+        SVQiLCJkYmNvZGUiOiJYSTciLCJkZXNjcmlwdGlvbiI6IkZ1bGwgdGV4dCBh
+        dmFpbGFibGUgZnJvbSBCdXNpbmVzcyBJbnNpZ2h0czogRXNzZW50aWFscyBD
+        b25uZWN0IHRvIHRleHQuIiwic3NpZCI6InNzaWIwMjYzMTMxNTUiLCJ1cmwi
+        OiJodHRwOi8vcHJveHkubGlicmFyeS5jb3JuZWxsLmVkdS9sb2dpbj91cmw9
+        aHR0cDovL2xpbmsuZ2FsZWdyb3VwLmNvbS9hcHBzL3B1Yi8xTkpKL0JJRT9z
+        aWQ9a2JhcnQ/JnU9bnlzbF9zY19jb3JubCJ9J10sJ3VybF9hY2Nlc3NfZGlz
+        cGxheSc9PlsnaHR0cDovL3Byb3h5LmxpYnJhcnkuY29ybmVsbC5lZHUvbG9n
+        aW4/dXJsPWh0dHA6Ly9saW5rLmdhbGVncm91cC5jb20vYXBwcy9wdWIvMU5K
+        Si9CSUU/c2lkPWtiYXJ0PyZ1PW55c2xfc2NfY29ybmx8RnVsbCB0ZXh0IGF2
+        YWlsYWJsZSBmcm9tIEJ1c2luZXNzIEluc2lnaHRzOiBFc3NlbnRpYWxzIENv
+        bm5lY3QgdG8gdGV4dC4nXSwnc2NvcmUnPT4yLjI2NTQ3NjV9LHsnaG9sZGlu
+        Z3NfcmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiIxMDA4MTYzMyIsIm1vZGlm
+        aWVkX2RhdGUiOiIyMDE3MDExMjE0NTMwMyIsImNvcHlfbnVtYmVyIjpudWxs
+        LCJjYWxsbm9zIjpudWxsLCJub3RlcyI6W10sImhvbGRpbmdzX2Rlc2MiOltd
+        LCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xk
+        aW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0
+        aW9ucyI6W3siY29kZSI6InNlcnYscmVtbyIsIm51bWJlciI6MTI4LCJuYW1l
+        IjoiKk5ldHdvcmtlZCBSZXNvdXJjZSIsImxpYnJhcnkiOm51bGx9XX0nXSwn
+        aWQnPT4nOTc1OTA1MycsJ2Zvcm1hdCc9PlsnQm9vayddLCdvbmxpbmUnPT5b
+        J09ubGluZSddLCdwdWJfZGF0ZV9kaXNwbGF5Jz0+WycyMDE4J10sJ3B1Yl9k
+        YXRlX2ZhY2V0Jz0+MjAxOCwncHViX2luZm9fZGlzcGxheSc9PlsnW1MubC5d
+        IDogT3hmb3JkIFVuaXZlcnNpdHkgUHJlc3MsIDIwMTguJ10sJ3RpdGxlX2Rp
+        c3BsYXknPT4nT3hmb3JkIEhhbmRib29rIG9mIEluZGlhbiBQaGlsb3NvcGh5
+        JywnZnVsbHRpdGxlX2Rpc3BsYXknPT4nT3hmb3JkIEhhbmRib29rIG9mIElu
+        ZGlhbiBQaGlsb3NvcGh5Jywnb3RoZXJfaWRfZGlzcGxheSc9PlsnKFdhU2VT
+        UylPQ00xc3NpYjAyNjI2NTE3NCcsJzk3NTkwNTMnLCcoT0NvTEMpOTM4MDIz
+        MDI3J10sJ3VybF9hY2Nlc3NfanNvbic9PlsneyJwcm92aWRlcmNvZGUiOiJQ
+        UlZBU0wiLCJkYmNvZGUiOiIzWTYiLCJkZXNjcmlwdGlvbiI6IkZ1bGwgdGV4
+        dCBhdmFpbGFibGUgZnJvbSBPeGZvcmQgSGFuZGJvb2tzIE9ubGluZSBDb25u
+        ZWN0IHRvIHRleHQuIiwic3NpZCI6InNzaWIwMjYyNjUxNzQiLCJ1cmwiOiJo
+        dHRwOi8vcHJveHkubGlicmFyeS5jb3JuZWxsLmVkdS9sb2dpbj91cmw9aHR0
+        cDovL3d3dy5veGZvcmRoYW5kYm9va3MuY29tL3ZpZXcvMTAuMTA5My9veGZv
+        cmRoYi85NzgwMTk5MzE0NjIxLjAwMS4wMDAxL294Zm9yZGhiLTk3ODAxOTkz
+        MTQ2MjEifSddLCd1cmxfYWNjZXNzX2Rpc3BsYXknPT5bJ2h0dHA6Ly9wcm94
+        eS5saWJyYXJ5LmNvcm5lbGwuZWR1L2xvZ2luP3VybD1odHRwOi8vd3d3Lm94
+        Zm9yZGhhbmRib29rcy5jb20vdmlldy8xMC4xMDkzL294Zm9yZGhiLzk3ODAx
+        OTkzMTQ2MjEuMDAxLjAwMDEvb3hmb3JkaGItOTc4MDE5OTMxNDYyMXxGdWxs
+        IHRleHQgYXZhaWxhYmxlIGZyb20gT3hmb3JkIEhhbmRib29rcyBPbmxpbmUg
+        Q29ubmVjdCB0byB0ZXh0LiddLCdzY29yZSc9PjIuMjY1NDc2NX0seydob2xk
+        aW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjEwMTgxNjA1IiwibW9k
+        aWZpZWRfZGF0ZSI6IjIwMTcwNDA3MTE1NDI2IiwiY29weV9udW1iZXIiOm51
+        bGwsImNhbGxub3MiOlsiSFE3NjkgLkg0NzMgMjAxNyJdLCJub3RlcyI6W10s
+        ImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10s
+        InN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGlu
+        Z3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hbm4iLCJudW1i
+        ZXIiOjY5LCJuYW1lIjoiTWFubiBMaWJyYXJ5IiwibGlicmFyeSI6Ik1hbm4g
+        TGlicmFyeSJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdp
+        dGVtX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0
+        ZW1fdHlwZV9uYW1lIjoiYm9vayIsIml0ZW1faWQiOiIxMDIzOTcwMyIsInll
+        YXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9u
+        IjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOnsiY29k
+        ZSI6ImVudCIsIm51bWJlciI6MjUsIm5hbWUiOiJNYW5uIExpYnJhcnkgTmV3
+        IEJvb2sgU2hlbGYiLCJsaWJyYXJ5IjoiTWFubiBMaWJyYXJ5In0sIm9uX3Jl
+        c2VydmUiOiJOIiwiaXRlbV9lbnVtIjoiIiwiaXRlbV9zZXF1ZW5jZV9udW1i
+        ZXIiOiIxIiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwibWZoZF9pZCI6IjEw
+        MTgxNjA1IiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIy
+        MDE3LTA0LTA3IDExOjU1OjE1LjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDEy
+        MzcyNzA3OSIsIm1vZGlmeV9kYXRlIjoiMjAxNy0wNC0yMyAxNzoyMzo1MS4w
+        IiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoibWFubiIsIm51bWJlciI6Njks
+        Im5hbWUiOiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5IjoiTWFubiBMaWJyYXJ5
+        In19J10sJ2lkJz0+Jzk4NjIwMDQnLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFu
+        Z3VhZ2VfZGlzcGxheSc9PlsnRW5nbGlzaCddLCdwdWJfZGF0ZV9kaXNwbGF5
+        Jz0+WyfCqTIwMTgnXSwncHViX2RhdGVfZmFjZXQnPT4yMDE4LCdwdWJfaW5m
+        b19kaXNwbGF5Jz0+WydOZXcgWW9yayA6IFBlYXJzb24sIMKpMjAxOC4nXSwn
+        ZnVsbHRpdGxlX2Rpc3BsYXknPT4nUGFyZW50LWNoaWxkIHJlbGF0aW9ucyA6
+        IGNvbnRleHQsIHJlc2VhcmNoLCBhbmQgYXBwbGljYXRpb24nLCd0aXRsZV9k
+        aXNwbGF5Jz0+J1BhcmVudC1jaGlsZCByZWxhdGlvbnMnLCdhdXRob3JfZGlz
+        cGxheSc9PidIZWF0aCwgUGh5bGxpcy4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+
+        J2NvbnRleHQsIHJlc2VhcmNoLCBhbmQgYXBwbGljYXRpb24nLCdlZGl0aW9u
+        X2Rpc3BsYXknPT5bJzR0aCBlZC4nXSwnb3RoZXJfaWRfZGlzcGxheSc9Plsn
+        OTg2MjAwNCcsJyhPQ29MQyk5NzYwMjg0MjYnXSwnc2NvcmUnPT4yLjI2NTQ3
+        NjV9XX0sJ2ZhY2V0X2NvdW50cyc9PnsnZmFjZXRfcXVlcmllcyc9Pnt9LCdm
+        YWNldF9maWVsZHMnPT57J2Zvcm1hdCc9PlsnQm9vaycsNjc4ODk1NSwnSm91
+        cm5hbC9QZXJpb2RpY2FsJywzODc2NjYsJ01pY3JvZm9ybScsMzU1NTg2LCdU
+        aGVzaXMnLDE5OTgyNSwnTXVzaWNhbCBSZWNvcmRpbmcnLDE5OTYyMywnTXVz
+        aWNhbCBTY29yZScsOTY3NjYsJ1ZpZGVvJyw5MjQ2MCwnTWFwIG9yIEdsb2Jl
+        Jyw2NDM4MSwnTWFudXNjcmlwdC9BcmNoaXZlJywxNTcyOSwnTm9uLW11c2lj
+        YWwgUmVjb3JkaW5nJyw5OTIzXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFy
+        eScsNTgwMjI1NywnT25saW5lJywxOTgwOTY3XSwnbGFuZ3VhZ2VfZmFjZXQn
+        PT5bJ0VuZ2xpc2gnLDQ3NDM2NzYsJ0dlcm1hbicsNTQyNDA3LCdGcmVuY2gn
+        LDMzMjQ5MSwnU3BhbmlzaCcsMjg0NjA4LCdDaGluZXNlJywyNjM1NzIsJ1J1
+        c3NpYW4nLDE4MDQ5NSwnSXRhbGlhbicsMTQ4OTU5LCdJbmRvbmVzaWFuJywx
+        MzQ3NjEsJ0phcGFuZXNlJywxMDE2MDcsJ1ZpZXRuYW1lc2UnLDcyODk1XSwn
+        bG9jYXRpb25fZmFjZXQnPT5bJ0xpYnJhcnkgQW5uZXgnLDIyNjQyNzAsJ09s
+        aW4gTGlicmFyeScsMTcxOTg1OCwnS3JvY2ggTGlicmFyeSBBc2lhJyw1OTQ1
+        NjAsJ0tyb2NoIExpYnJhcnkgUmFyZSAmIE1hbnVzY3JpcHRzJyw1MDE0NDks
+        J0xhdyBMaWJyYXJ5JywxOTc2NDEsJ011c2ljIExpYnJhcnknLDE5NzA1Mywn
+        TWFubiBMaWJyYXJ5JywxNjcxNTcsJ1VyaXMgTGlicmFyeScsMTQ5NTIxLCdJ
+        TFIgTGlicmFyeScsMTEwMDg2LCdGaW5lIEFydHMgTGlicmFyeScsODA1MDRd
+        fSwnZmFjZXRfcmFuZ2VzJz0+e30sJ2ZhY2V0X2ludGVydmFscyc9Pnt9LCdm
+        YWNldF9oZWF0bWFwcyc9Pnt9fSwnc3BlbGxjaGVjayc9Pnsnc3VnZ2VzdGlv
+        bnMnPT5bXSwnY29ycmVjdGx5U3BlbGxlZCc9PnRydWV9fQo=
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:56:03 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Fri, 05 May 2017 14:56:04 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:56:04 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:55:15 GMT
+      Etag:
+      - '"YmUzZjgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '22886'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":91,
+            "params":{
+              "q":"\"Anthropology\"",
+              "indent":"true",
+              "wt":["json",
+                "json"]}},
+          "response":{"numFound":18,"start":0,"docs":[
+              {
+                "id":"5928394",
+                "title_display":"Africa-wide",
+                "subtitle_display":"NiPAD",
+                "fulltitle_display":"Africa-wide : NiPAD",
+                "summary_display":["Africa-wide NiPAD is an index covering material on Africa  from the 19th century to the present, including: African studies abstracts  (1994- ), Africa Institute (1981- ), Southern African database (1961- ),  School of Oriental and African Studies Library catalogue: Africa (1989- ),  NAMLIT (19th century- ), Don Africana collection (16th century- ) Campbell  collections of the University of Natal, Killie Campbell Africana Library  (19th century- ), Business & industry: Africa (1994- ), Natural and cultural  history Africa (1960- ), African periodicals exhibit catalogue (1997),  Bibliography on contemporary African politics and development (1981-1992),  International library of African music, Database of Swiss theses and  dissertations (1897-1996) ; Index to South African periodicals  (1987-present), the South African national bibliography (1988-present),  National English Literary Museum (1990-present, retrospective to the 19th  cent.), Knipkat from the Nasionale Afrikaanse Letterkunde Museum en  Navorsingsentrum, Witwatersrand University Management Research Reports  (1970-present), The Centre for Rural Legal Studies Database (1987 and  earlier to present), South African Legal Abbreviations, and others."],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"KSC\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/5928394\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5928394|Connect to full text."],
+                "sixfivethree":["World Regions and Diasporas",
+                  "Middle East and Africa",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "Social Sciences"]},
+              {
+                "id":"361525",
+                "title_display":"Bibliography of Asian studies",
+                "fulltitle_display":"Bibliography of Asian studies",
+                "summary_display":["This on-line version of the Bibliography of Asian Studies (BAS) contains over 750,000 records on all subjects (especially in the humanities and the social sciences) pertaining to East, Southeast, and South Asia published worldwide from 1971 to the present. Through the 1991 printed volume, the BAS included citations to Western-language periodical articles, monographs, chapters in edited volumes, conference proceedings, anthologies, and Festschriften, etc. Monographs published since 1992, however, have not been added to the database, and users seeking such monographs are urged to consult other general resources and databases such as OCLC."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/abp0999"],
+                "url_access_json":["{\"providercode\":\"PRVAYN\",\"dbcode\":\"AOL\",\"url\":\"http://resolver.library.cornell.edu/misc/abp0999\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "South and Southeast Asia",
+                  "East Asia",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "History",
+                  "Linguistics, Language and Literature",
+                  "Social Sciences",
+                  "Sociology and Rural Development"]},
+              {
+                "id":"5510969",
+                "title_display":"Bibliography of native North Americans",
+                "fulltitle_display":"Bibliography of native North Americans",
+                "summary_display":["Bibliography of Native North Americans (BNNA) is a bibliographic database covering all aspects of native North American culture, history, and life. This resource covers a wide range of topics including archaeology, multicultural relations, gaming, governance, legend, and literacy. BNNA contains more than 80,000 citations for books, essays, journal articles, and government documents of the United States and Canada. Dates of coverage for included content range from the sixteenth century to the present."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5510969"],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"BBL\",\"url\":\"http://resolver.library.cornell.edu/misc/5510969\"}"],
+                "sixfivethree":["Anthropology",
+                  "Arts and Humanities",
+                  "History",
+                  "Linguistics, Language and Literature",
+                  "Social Sciences",
+                  "Sociology and Rural Development"]},
+              {
+                "id":"5745591",
+                "title_display":"Billie Jean Isbell Andean collection",
+                "subtitle_display":"images from the Andes",
+                "fulltitle_display":"Billie Jean Isbell Andean collection : images from the Andes",
+                "summary_display":["This collection of materials is derived from Professor Billie Jean Isbell's 40 years of research in the Andes, primarily in the southern Andean department of Ayacucho and specifically in the village of Chuschi, Peru, and the surrounding region of the River Pampas Valley. Included in this collection are approximately 1500 photographs, thirteen songs, Professor Isbell's ethnography, To Defend Ourselves: Ecology and Ritual in an Andean Village, as well as selected publications."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5745591\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5745591|Digital collection"],
+                "sixfivethree":["Anthropology",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"3511317",
+                "title_display":"Chicano database",
+                "fulltitle_display":"Chicano database",
+                "summary_display":["Produced by the Ethnic Studies Library at the University of California, Berkeley, this bibliographic index covers a wide range of materials focused on the Mexican-American and Chicano experience, as well as the broader Latino experience of Puerto Ricans, Cuban Americans and Central American immigrants since 1992. Its content is designed to further research, teaching and scholarship for Chicano studies programs and extended ethnic studies curricula, giving researchers targeted access to materials that explore the broad dimensions of class, race and gender within the Chicano and Latino U.S. experience."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3511317"],
+                "url_access_json":["{\"providercode\":\"PRVOCL\",\"dbcode\":\"AWZ\",\"url\":\"http://resolver.library.cornell.edu/misc/3511317\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "Latin America",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "History",
+                  "Social Sciences",
+                  "Sociology and Rural Development"]},
+              {
+                "id":"5616639",
+                "title_display":"Digital Himalaya",
+                "fulltitle_display":"Digital Himalaya",
+                "summary_display":["The Digital Himalaya project was conceived of as a strategy for archiving and making available valuable ethnographic materials such as films in various formats, still photographs, sound recordings, field notes and rare journals from the Himalayan region. Based jointly at the Department of Social Anthropology at Cambridge University and the Anthropology Department at Cornell University, the project began in December 2000."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5616639"],
+                "url_access_json":["{\"providercode\":\"PRVPBV\",\"dbcode\":\"4J8\",\"url\":\"http://resolver.library.cornell.edu/misc/5616639\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "South and Southeast Asia",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "Social Sciences"]},
+              {
+                "id":"3850195",
+                "title_display":"eHRAF world cultures",
+                "fulltitle_display":"eHRAF world cultures",
+                "summary_display":["A systematically organized collection of thousands of books and articles on cultures from all regions of the world; provides information on particular cultures, ethnic groups, or immigrant groups, their beliefs and superstitions, or subjects such as political structure, architecture, kinship units, or settlement patterns.  The information is organized by cultures and ethnic groups and the full-text documents are subject-indexed at the paragraph level."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3850195"],
+                "url_access_json":["{\"providercode\":\"PRVAKW\",\"dbcode\":\"BJI\",\"url\":\"http://resolver.library.cornell.edu/misc/3850195\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "General Resources",
+                  "Anthropology",
+                  "Social Sciences"]},
+              {
+                "id":"4126053",
+                "title_display":"Gnomon online",
+                "subtitle_display":"the Eichstätt information system for classical studies",
+                "fulltitle_display":"Gnomon online : the Eichstätt information system for classical studies",
+                "summary_display":["This online index provides access to a selection of the material in the print periodical (Gnomon: kritische Zeitschrift für die gesamte klassische Altertumswissenschaft) and to the CD-ROM (Gnomon Bibliographische Datenbank) which it supplements, particularly for the years since 1998. The online version also indexes the holdings of Eichstätt University Library and recent acquisitions of the Bayerische Staatsbibliothek in classics and classical studies."],
+                "url_access_json":["{\"providercode\":\"PRVBQV\",\"dbcode\":\"GQN\",\"description\":\"English version Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/4126053\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/4126053|English version Connect to full text."],
+                "sixfivethree":["Anthropology",
+                  "Art and Architecture",
+                  "Arts and Humanities",
+                  "Social Sciences"]},
+              {
+                "id":"3982638",
+                "title_display":"Hmong Cultural Center",
+                "fulltitle_display":"Hmong Cultural Center",
+                "summary_display":["The mission of the Hmong Cultural Center is to promote the personal development of children, youth and adults through Hmong cultural education while providing resources that enhance cross-cultural understanding between Hmong and non-Hmong people. The center's website includes information about Hmong heritage and culture, the educational and citizenship programs of the center, and access to the online catalog of the center's Resource Centre, intended to be a comprehensive depository of Hmong-related information for both the Hmong and larger communities."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3982638"],
+                "url_access_json":["{\"url\":\"http://resolver.library.cornell.edu/misc/3982638\"}"],
+                "sixfivethree":["Anthropology",
+                  "Social Sciences"]},
+              {
+                "id":"7550733",
+                "title_display":"International bibliography of the social sciences",
+                "subtitle_display":"IBSS",
+                "fulltitle_display":"International bibliography of the social sciences : IBSS",
+                "summary_display":["This database includes over two million bibliographic references to journal articles and to books, reviews and selected chapters dating back to 1951. It is unique in its broad coverage of international material and incorporates over 100 languages and countries. Over 2,800 journals are regularly indexed and some 7,000 books are included each year."],
+                "url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"8BJ \",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/7550733\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/7550733|Connect to full text."],
+                "sixfivethree":["Social Sciences",
+                  "Sociology and Rural Development",
+                  "Anthropology",
+                  "Economics"]},
+              {
+                "id":"2900365",
+                "title_display":"JSTOR",
+                "fulltitle_display":"JSTOR",
+                "summary_display":["Provides page images of back issues of the core scholarly journals in the humanities, social sciences, and basic sciences from the earliest issues to within a few years of current publication. Users may browse by journal title or discipline, or may search the full-text or citations/abstracts. New issues of existing titles and new titles are added approximately on a weekly basis."],
+                "url_access_display":["http://resolver.library.cornell.edu/jsto/2900365"],
+                "url_access_json":["{\"providercode\":\"PRVJST\",\"url\":\"http://resolver.library.cornell.edu/jsto/2900365\"}"],
+                "sixfivethree":["Anthropology",
+                  "Art and Architecture",
+                  "Arts and Humanities",
+                  "Economics",
+                  "Education",
+                  "General Interest and Reference",
+                  "Linguistics, Language and Literature",
+                  "Math and Statistics",
+                  "Music",
+                  "Philosophy and Religion",
+                  "Physics and Astronomy",
+                  "Science and Technology",
+                  "Social Sciences",
+                  "Sociology and Rural Development"]},
+              {
+                "id":"5695501",
+                "title_display":"Middle Eastern & Central Asian Studies",
+                "fulltitle_display":"Middle Eastern & Central Asian Studies",
+                "summary_display":["\"MECAS is a systematic and non-evaluative bibliographic index of research, policy and scholarly discourse on the countries and peoples of the Middle East, Central Asia and North Africa. This database contains more than 332,790 records and coverage spans from 1900 and earlier to present. Over 12,000 records of recently published and grey literature are added annually. Subject coverage includes: political affairs & law, international relations, economic affairs - business & industry, cultural heritage, arts & humanities, society & social welfare, ethnic diversity & anthropology, significant religious events & movements and recent history (1900 - present) & archaeology. MECAS includes the following: Middle East Bibliography (1946 - 2001), Middle East Book Bibliographies, Theses & Dissertations, MECAS Citations Database and School of Oriental & African Studies (SOAS) Library Catalogue (1900 - present).\"--About the Database page."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5695501"],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CWM\",\"url\":\"http://resolver.library.cornell.edu/misc/5695501\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "Middle East and Africa",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "History",
+                  "Social Sciences"]},
+              {
+                "id":"3936938",
+                "title_display":"PASCAL FRANCIS",
+                "fulltitle_display":"PASCAL FRANCIS",
+                "summary_display":["The site offers  free access to a searchable archive of two databases, FRANCIS (1972-2015) and PASCAL (1984-2015). FRANCIS covers 15 disciplines in human and social sciences with 2.6 million bibliographic references since 1972. PASCAL gathers 20 million bibliographic references in science, technology, and medicine. Emphasis on European academic journals."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3936938"],
+                "url_access_json":["{\"providercode\":\"PRVERU\",\"url\":\"http://resolver.library.cornell.edu/misc/3936938\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "Anthropology",
+                  "Linguistics, Language and Literature",
+                  "Philosophy and Religion",
+                  "Psychology",
+                  "Science and Technology",
+                  "Social Sciences",
+                  "Sociology and Rural Development"]},
+              {
+                "id":"3932995",
+                "title_display":"RAMBI",
+                "subtitle_display":"index of articles on Jewish studies  = Reshimat ma'amarim be-mada'e ha-Yahadut",
+                "fulltitle_display":"RAMBI : index of articles on Jewish studies  = Reshimat ma'amarim be-mada'e ha-Yahadut",
+                "summary_display":["Selective bibliography of articles in the various fields of Jewish studies and in the study of Eretz Israel. Material listed in Rambi is compiled from thousands of periodicals and from collections of articles - in Hebrew, Yiddish, and European languages- mainly from the holdings of the Jewish National and University Library, a world center for research on the Jewish people and Eretz Israel. The main criterion for inclusion in the bibliography is that the article be based on scientific research, or contain important information for such research."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3932995"],
+                "url_access_json":["{\"providercode\":\"PRVBIS\",\"dbcode\":\"DLS\",\"url\":\"http://resolver.library.cornell.edu/misc/3932995\"}"],
+                "sixfivethree":["Anthropology",
+                  "Arts and Humanities",
+                  "Government, Law and Public Policy",
+                  "Philosophy and Religion (Core)",
+                  "Social Sciences",
+                  "Sociology and Rural Development"]},
+              {
+                "id":"3131835",
+                "title_display":"Sociological abstracts",
+                "fulltitle_display":"Sociological abstracts",
+                "summary_display":["Abstracts and indexes the international literature in sociology and related disciplines in the social and behavioral sciences. Provides citations from 1963 to the present, and abstracts since 1974, to journal articles, conference papers, books, and dissertations. Subjects covered include community development, culture and social structure, demography and human biology, environmental interactions, family and social welfare, health and medicine and law, religion and science, social psychology and group interactions, welfare services, and women's studies."],
+                "url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"7U4\",\"description\":\"Connect to full text\",\"url\":\"http://resolver.library.cornell.edu/misc/3131835\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3131835|Connect to full text"],
+                "sixfivethree":["Anthropology",
+                  "Government, Law and Public Policy",
+                  "Human Resources, Labor & Employment",
+                  "Population and Demography",
+                  "Social Sciences",
+                  "Sociology and Rural Development (Core)"]},
+              {
+                "id":"3846681",
+                "title_display":"South East Asian images & texts project",
+                "subtitle_display":"SEAiT",
+                "fulltitle_display":"South East Asian images & texts project : SEAiT",
+                "summary_display":["A digital archive of historical photography for Southeast Asia, drawing scattered historical photographs of Southeast Asia into a single accessible source and a standard digital format. The archive incorporates elements from a broad spectrum of social sciences, including history, geography, anthropology and political science.  Includes a text-based search engine."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3846681"],
+                "url_access_json":["{\"url\":\"http://resolver.library.cornell.edu/misc/3846681\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "South and Southeast Asia",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "Social Sciences"]},
+              {
+                "id":"5745579",
+                "title_display":"Southeast Asia visions",
+                "subtitle_display":"a collection of historic travel narratives",
+                "fulltitle_display":"Southeast Asia visions : a collection of historic travel narratives",
+                "summary_display":["Southeast Asia Visions, a collection of European travel accounts of pre-modern Southeast Asia from Cornell University Library's John M. Echols Collection. The site provides online access to more than 350 books and journal articles written in English and French. The works in the collection were selected for the quality of their first-hand observations and, together, provide a comprehensive representation of Southeast Asia. Along with their narratives, these accounts include some 10,000 images, drawings, photographs, prints and maps, many of them in color. The objectives of this project are both to meet the curricular needs of courses taught at Cornell University and to make these texts and images accessible via the Internet to students and scholars worldwide. It presents scholars an excellent opportunity to look anew at pre-modern Southeast Asia."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5745579"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4E9\",\"url\":\"http://resolver.library.cornell.edu/misc/5745579\"}"],
+                "sixfivethree":["World Regions and Diasporas",
+                  "South and Southeast Asia",
+                  "Anthropology",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Social Sciences"]},
+              {
+                "id":"3072002",
+                "title_display":"Web of science",
+                "fulltitle_display":"Web of science",
+                "summary_display":["Web of Science - All Databases indexes core journal articles, conference proceedings, data sets, and other resources in the sciences, social sciences, arts, and humanities."],
+                "url_access_json":["{\"providercode\":\"PRVTRE\",\"dbcode\":\"EGQ\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/apz6164\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/apz6164|Connect to full text."],
+                "sixfivethree":["Agriculture (Core)",
+                  "Anthropology",
+                  "Art and Architecture",
+                  "Arts and Humanities",
+                  "Biology (Core)",
+                  "Chemistry (Core)",
+                  "Communications",
+                  "Computers and Information Science",
+                  "Economics",
+                  "Education",
+                  "Engineering (Core)",
+                  "Environment and Natural Resources (Core)",
+                  "Food and Nutrition",
+                  "Geography, Maps and Spatial Data",
+                  "Geology",
+                  "Government, Law and Public Policy",
+                  "History",
+                  "Human Resources, Labor & Employment (Core)",
+                  "Library and Information Science",
+                  "Linguistics, Language and Literature",
+                  "Math and Statistics",
+                  "Medicine - Human and Veterinary (Core)",
+                  "Music",
+                  "Philosophy and Religion",
+                  "Physics and Astronomy",
+                  "Population and Demography",
+                  "Psychology",
+                  "Science and Technology",
+                  "Social Sciences",
+                  "Sociology and Rural Development",
+                  "Theater, Film and Television"]}]
+          }}
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:56:04 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Fri, 05 May 2017 14:56:04 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:56:04 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:55:15 GMT
+      Etag:
+      - '"YmUzZjgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '5125'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":14,
+            "params":{
+              "q":"\"Anthropology (Core)\"",
+              "indent":"true",
+              "wt":"json"}},
+          "response":{"numFound":4,"start":0,"docs":[
+              {
+                "id":"4481177",
+                "title_display":"AnthropologyPlus",
+                "fulltitle_display":"AnthropologyPlus",
+                "summary_display":["\"As a compilation of the Anthropological Index and Anthropological Literature databases, Anthropology Plus is the world's most comprehensive index of bibliographic materials covering the fields of anthropology, archaeology, and related interdisciplinary research.   This database offers worldwide indexing of all core periodical and lesser-known journals from the early 19th century to today, providing extensive indexing of journal articles, reports, commentaries, edited works and obituaries in the fields of social, cultural, physical, biological and linguistic anthropology, ethnology, archaeology, folklore, material culture, interdisciplinary studies, etc.\"",
+                  "\"Subject coverage includes: anthropology, archaeology, art history, demography, economics, ethnology, folklore, human ecology, linguistics, linguistics and literature, material culture, museum studies, primatology, psychology, religious studies, sociological anthropology, and much more.\""],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/4481177"],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"UW3\",\"url\":\"http://resolver.library.cornell.edu/misc/4481177\"}"],
+                "sixfivethree":["Social Sciences",
+                  "Anthropology (Core)"]},
+              {
+                "id":"5366869",
+                "title_display":"AnthroSource",
+                "fulltitle_display":"AnthroSource",
+                "summary_display":["Current issues of Association journals and bulletins, plus searchable archived issues of all the Association's publications,  <1888-2003>. Covers political, medical, cultural, and legal anthropology; ethnology; education; humanism; archaeology; nutrition; gender issues; and linguistics."],
+                "url_access_json":["{\"providercode\":\"PRVACL\",\"dbcode\":\"RCZ\",\"description\":\"Connect to AnthroSource.\",\"url\":\"http://resolver.library.cornell.edu/misc/5366869\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5366869|Connect to AnthroSource."],
+                "providercode":["PRVACL"],
+                "dbcode":["RCZ"],
+                "sixfivethree":["Social Sciences",
+                  "Anthropology (Core)"]},
+              {
+                "id":"5821896",
+                "title_display":"SocINDEX with full text",
+                "fulltitle_display":"SocINDEX with full text",
+                "summary_display":["SocINDEX has been expanded into a database called Sociology Source Ultimate which includes greater coverage of peer-reviewed journals, international resources and open access titles.  Provides citations and direct links to the texts of journal articles, book chapters and conference proceedings, some as far back as 1880. Comprehensive coverage encompassing sub-disciplines and related areas of the social sciences, including labor, crime, demography, economic sociology, immigration, ethnic, racial and gender studies, family, political sociology, religion, development, social psychology, social structure, social work, socio-cultural anthropology, social history, theory, methodology, and more."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5821896"],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"ESI\",\"url\":\"http://resolver.library.cornell.edu/misc/5821896\"}"],
+                "sixfivethree":["Social Sciences",
+                  "Anthropology (Core)",
+                  "Human Resources, Labor & Employment",
+                  "Population and Demography",
+                  "Sociology and Rural Development (Core)"]},
+              {
+                "id":"9794017",
+                "title_display":"Sociology source ultimate",
+                "fulltitle_display":"Sociology source ultimate",
+                "summary_display":["Sociology Source Ultimate is an expanded version of SocINDEX, including greater coverage of peer-reviewed journals, international resources and open access titles. Provides citations and direct links to the texts of journal articles, book chapters and conference proceedings, some as far back as 1880. Comprehensive coverage encompassing sub-disciplines and related areas of the social sciences, including labor, crime, demography, economic sociology, immigration, ethnic, racial and gender studies, family, political sociology, religion, development, social psychology, social structure, social work, socio-cultural anthropology, social history, theory, methodology, and more."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/9794017"],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"ADZJE\",\"url\":\"http://resolver.library.cornell.edu/misc/9794017\"}"],
+                "sixfivethree":["Social Sciences",
+                  "Anthropology (Core)",
+                  "Human Resources, Labor & Employment",
+                  "Population and Demography",
+                  "Sociology and Rural Development (Core)"]}]
+          }}
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:56:04 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/database?id=5366869&indent=true&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Fri, 05 May 2017 14:56:04 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:56:04 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:55:15 GMT
+      Etag:
+      - '"YmUzZjgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1266'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":9,
+            "params":{
+              "indent":"true",
+              "id":"5366869",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"maxScore":13.826419,"docs":[
+              {
+                "id":"5366869",
+                "title_other_display":["Navigation bar title: AS anthrosource",
+                  "Home page presentation title: Welcome to AnthroSource",
+                  "Anthro source"],
+                "title_display":"AnthroSource",
+                "fulltitle_display":"AnthroSource",
+                "summary_display":["Current issues of Association journals and bulletins, plus searchable archived issues of all the Association's publications,  <1888-2003>. Covers political, medical, cultural, and legal anthropology; ethnology; education; humanism; archaeology; nutrition; gender issues; and linguistics."],
+                "url_access_json":["{\"providercode\":\"PRVACL\",\"dbcode\":\"RCZ\",\"description\":\"Connect to AnthroSource.\",\"url\":\"http://resolver.library.cornell.edu/misc/5366869\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5366869|Connect to AnthroSource."],
+                "providercode":["PRVACL"],
+                "dbcode":["RCZ"],
+                "sixfivethree":["Social Sciences",
+                  "Anthropology (Core)"]}]
+          }}
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:56:04 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/databases?defType=dismax&indent=true&q=MLA&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Fri, 05 May 2017 14:57:07 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:57:07 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:56:11 GMT
+      Etag:
+      - '"MTNmODAwMDAwMDAwMDAwU29scg=="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '3067'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":748,
+            "params":{
+              "q":"MLA",
+              "defType":"dismax",
+              "indent":"true",
+              "wt":"json"}},
+          "response":{"numFound":3,"start":0,"maxScore":1678569.2,"docs":[
+              {
+                "id":"2477233",
+                "title_display":"MLA international bibliography",
+                "fulltitle_display":"MLA international bibliography",
+                "summary_display":["Provides access to citations of journal articles, books, and dissertations published on modern languages, literatures, folklore, and linguistics. Coverage is international and subjects include literature, language and linguistics, literary theory, dramatic arts, folklore, and film since 1963. Special features include the full text of the original article for some citations and a collection of images consisting of photographs, maps, and flags."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/amk3488"],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CXG\",\"url\":\"http://resolver.library.cornell.edu/misc/amk3488\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "Linguistics, Language and Literature (Core)",
+                  "Theater, Film and Television (Core)"]},
+              {
+                "id":"6961751",
+                "title_display":"MLA directory of periodicals",
+                "fulltitle_display":"MLA directory of periodicals",
+                "summary_display":["Presents detailed information on more than 7,100 periodicals in the areas of literature, language, linguistics, and folklore, with 4,400 currently indexed in the MLA International Bibliography. The entries list editorial addresses, phone numbers, fax numbers, e-mail addresses, frequency of publication, descriptions of the periodicals' scopes, circulation figures, subscription prices and addresses, advertising information, and submission guidelines."],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CXE\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/6961751\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/6961751|Connect to full text."],
+                "sixfivethree":["General Interest and Reference",
+                  "Directories"]},
+              {
+                "id":"8492010",
+                "title_display":"Ebscohost",
+                "fulltitle_display":"Ebscohost",
+                "summary_display":["A cross-searchable collection of over fifty EBSCO databases covering a wide variety of subjects. The content is nearly all articles, but the EBSCO eBooks Collection is also included in the search."],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"description\":\"Connect to full text via the EBSCOhost Web search interface.\",\"url\":\"http://resolver.library.cornell.edu/misc/8492010\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/8492010|Connect to full text via the EBSCOhost Web search interface."],
+                "sixfivethree":["General Interest and Reference",
+                  "Newspapers, Magazines and Current Events"]}]
+          }}
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:57:08 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/databasesBySubject?indent=true&q=%22Images%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Fri, 05 May 2017 14:57:12 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:57:12 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:57:04 GMT
+      Etag:
+      - '"YTEzZjgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":342,
+            "params":{
+              "q":"\"Images\"",
+              "indent":"true",
+              "wt":["json",
+                "json"]}},
+          "response":{"numFound":35,"start":0,"docs":[
+              {
+                "id":"6041418",
+                "title_display":"Ad*Access",
+                "fulltitle_display":"Ad*Access",
+                "summary_display":["Presents images and database information for over 7,000 advertisements printed in U.S. and Canadian newspapers and magazines between 1911 and 1955. Concentrates on five main subject areas: radio, television, transportation, beauty and hygiene, and World War II, providing a view of a number of major campaigns and companies through images preserved in the J. Walter Thompson Company Competitive Advertisements Collection of the John W. Hartman Center for Sales, Advertising, and Marketing History in Duke University's Rare Book, Manuscript, and Special Collections Library."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/6041418"],
+                "url_access_json":["{\"providercode\":\"PRVAGZ\",\"dbcode\":\"4ED\",\"url\":\"http://resolver.library.cornell.edu/misc/6041418\"}"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"4077228",
+                "title_display":"Andrew D. White architectural photographs collection",
+                "fulltitle_display":"Andrew D. White architectural photographs collection",
+                "summary_display":["The Division of Rare and Manuscript Collections, Cornell University Library is home to this collection of over 13,000 nineteenth- and early twentieth-century photographs of architecture from around the world. It was established in 1871 beginning with several thousand images from Andrew Dickson White's personal architectural library."],
+                "url_access_json":["{\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/4077228\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/4077228|Digital collection"],
+                "sixfivethree":["Art and Architecture",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"8917262",
+                "title_display":"Arkyves",
+                "subtitle_display":"reference tool for the history of culture",
+                "fulltitle_display":"Arkyves : reference tool for the history of culture",
+                "summary_display":["Arkyves is both a unique database of images and texts and a meeting place for everyone who wants to study imagery and publish about it. All visual and textual sources are made accessible with the help of the multilingual vocabulary for cultural content of the Iconclass system. By using this system it has been made possible to find and retrieve images and texts from various sources on a specific topic. By using Arkyves it is currently possible to access more than 500.000 images, texts, etc. from libraries and museums in many countries among them the Rijksmuseum in Amsterdam, the Netherlands Institute for Art History (RKD), the Herzog August Bibliothek in Wolfenbüttel, and the university libraries of Milan, Utrecht and Glasgow."],
+                "url_access_json":["{\"providercode\":\"PRVFUA\",\"dbcode\":\"IM1\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/8917262\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/8917262|Connect to full text."],
+                "sixfivethree":["Arts and Humanities",
+                  "Art and Architecture",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"8872116",
+                "title_display":"Art Museum Image Gallery",
+                "fulltitle_display":"Art Museum Image Gallery",
+                "summary_display":["\"Over 96,000 high-quality images with a full description. Many include curatorial text, provenance data, detail or multiple views for many images, and related multimedia where available. Presents a broad range of time and place -- spans artistic creation from 3000 B.C. to the present, with art from the cultures of Africa, Asia, Europe, and the Americas, including Native American and Meso-American peoples. Coverage of both fine and decorative art: painting, sculpture, drawings, prints, photographs, textiles, costumes, jewelry, ceramics, furniture, glass, books and manuscripts, archaeological finds, and more.\"--Product description."],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"QF1\",\"description\":\"Connect to database.\",\"url\":\"http://resolver.library.cornell.edu/misc/8872116\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/8872116|Connect to database."],
+                "sixfivethree":["Arts and Humanities",
+                  "Art and Architecture",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5861952",
+                "title_display":"Artefacts Canada",
+                "subtitle_display":"Humanities",
+                "fulltitle_display":"Artefacts Canada. Humanities",
+                "summary_display":["Artefacts Canada: Humanities contains almost 4 million object records and 400,000 images from hundreds of museums across the country. Have a look and you will find treasures from disciplines such as archaeology, decorative arts, fine arts, ethnology, and history."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/aqv1252"],
+                "url_access_json":["{\"providercode\":\"PRVDWF\",\"dbcode\":\"4K2\",\"url\":\"http://resolver.library.cornell.edu/misc/aqv1252\"}"],
+                "sixfivethree":["Art and Architecture",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5458505",
+                "title_display":"Beautiful birds",
+                "subtitle_display":"masterpieces from the Hill Ornithology Collection, Cornell University Library",
+                "fulltitle_display":"Beautiful birds : masterpieces from the Hill Ornithology Collection, Cornell University Library",
+                "summary_display":["Traces the development of ornithological illustration in the 18th and 19th centuries and highlights the changing techniques from metal and wood engraving to chromolithography during that period. Provides a virtual tour of an online exhibit depicting the history of ornithological illustration, with links to more detailed information, other images, and bird sounds. Exhibit includes illustrations in books from Cornell University Library's Hill Ornithological Collection as well as art works on loan to the university."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5458505"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4DR\",\"url\":\"http://resolver.library.cornell.edu/misc/5458505\"}"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"7130226",
+                "title_display":"Berg fashion library",
+                "fulltitle_display":"Berg fashion library",
+                "summary_display":["Provides integrated text and image content on world dress and fashion throughout history. Offers fully cross-searchable access to an expanding range of Berg content collections, including the Encyclopedia of world dress and fashion, e-books, e-journals, museum directory, reference works, images, and more. Browsable by time (1600 to date) and by place (click on world map)."],
+                "url_access_json":["{\"providercode\":\"PRVJLL\",\"dbcode\":\"8YG\",\"description\":\"Connect to full text\",\"url\":\"http://resolver.library.cornell.edu/misc/7130226\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/7130226|Connect to full text"],
+                "sixfivethree":["General Interest and Reference",
+                  "Science and Technology",
+                  "Textiles and Fashion Design (Core)",
+                  "Images"]},
+              {
+                "id":"5745602",
+                "title_display":"Beyond the Taj",
+                "subtitle_display":"architectural traditions and landscape experience in South Asia",
+                "fulltitle_display":"Beyond the Taj : architectural traditions and landscape experience in South Asia",
+                "summary_display":["A collection of materials on South Asian architecture assembled over a 22 year period by Professor Robert D. \"Scotty\" MacDougall (1940-1987), an architect and an anthropologist. The core of this collection consists of approximately 6,682 photographs depicting significant works of architecture through time and across regional traditions throughout continental India."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5745602"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"url\":\"http://resolver.library.cornell.edu/misc/5745602\"}"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5745591",
+                "title_display":"Billie Jean Isbell Andean collection",
+                "subtitle_display":"images from the Andes",
+                "fulltitle_display":"Billie Jean Isbell Andean collection : images from the Andes",
+                "summary_display":["This collection of materials is derived from Professor Billie Jean Isbell's 40 years of research in the Andes, primarily in the southern Andean department of Ayacucho and specifically in the village of Chuschi, Peru, and the surrounding region of the River Pampas Valley. Included in this collection are approximately 1500 photographs, thirteen songs, Professor Isbell's ethnography, To Defend Ourselves: Ecology and Ritual in an Andean Village, as well as selected publications."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5745591\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5745591|Digital collection"],
+                "sixfivethree":["Anthropology",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5861950",
+                "title_display":"Catena",
+                "subtitle_display":"the digital archive of historic gardens + landscapes",
+                "fulltitle_display":"Catena : the digital archive of historic gardens + landscapes",
+                "summary_display":["A searchable collection of historic and contemporary images that include plans, engravings, paintings, and photographs. Sponsored by the Bard Graduate Center through a grant from the National Endowment for the Humanities, Catena, the Digital Archive of Historic Gardens and Landscapes and its companion website, is envisioned as part of a larger, typologically organized archive of digital images with accompanying educational materials."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5861950"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4DS\",\"url\":\"http://resolver.library.cornell.edu/misc/5861950\"}"],
+                "sixfivethree":["Art and Architecture",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5597787",
+                "title_display":"Claire Holt papers",
+                "fulltitle_display":"Claire Holt papers",
+                "summary_display":["The Claire Holt papers, #14-27-2648, comprise approximately 1,780 slides of Indonesia which were created for the Cornell Indonesian Arts Project. Subjects include art, architecture, ceremonies, landscapes, painting, people, sculpture, textiles, and theater. The manuscript collection also contains typescript notes about a trip to Indonesia in 1955-1956. This web site includes a complete image database of the slides as well as information about the featured artists and a brief biography of Claire Holt."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5597787\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5597787|Digital collection"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"6280355",
+                "title_display":"Cornell Lab of Ornithology gallery of bird and wildlife art",
+                "fulltitle_display":"Cornell Lab of Ornithology gallery of bird and wildlife art",
+                "summary_display":["View images online from the Cornell Lab or Ornithology's collection of more than 1,000 works of art.  Includes more than two centuries of work by bird artists, including Alexander Wilson, John James Audubon, and Louis Agassiz Fuertes."],
+                "url_access_json":["{\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/6280355\"}",
+                  "{\"description\":\"View image database.\",\"url\":\"http://resolver.library.cornell.edu/collection/1701\"}",
+                  "{\"description\":\"Copyright statement.\",\"url\":\"http://resolver.library.cornell.edu/collection/1702\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/6280355|Connect to full text.",
+                  "http://resolver.library.cornell.edu/collection/1701|View image database.",
+                  "http://resolver.library.cornell.edu/collection/1702|Copyright statement."],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5458453",
+                "title_display":"Cornell University collection of political Americana",
+                "fulltitle_display":"Cornell University collection of political Americana",
+                "summary_display":["\"The collection consists of published material, ephemera, and artifacts dating to between 1800 and 1976, including ballots and slates of candidates; promotional broadsides, handbills, and posters; political cartoons (primarily from Harper's Weekly, Frank Leslie's Illustrated Newspaper, and Puck); lithographs and prints (primarily by Kellogg, N. Currier, and Currier & Ives); pamphlets, leaflets, and brochures; songbooks and sheet music; badges, pins, ferrotypes and celluloid buttons; campaign ribbons; parade equipment such as lanterns, torches, banners, and walking sticks; bandanas and other textiles; and souvenirs of all kinds including plates, cups, vases, trays, bottles, sewing boxes, and games.\""],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5458453\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5458453|Digital collection"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Government, Law and Public Policy",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5979342",
+                "fulltitle_display":"David Rumsey map collection",
+                "title_display":"David Rumsey map collection",
+                "summary_display":["The David Rumsey Historical Map Collection has over 13,600 maps online. The collection focuses on rare 18th and 19th century North and South America maps and other cartographic materials. Historic maps of the World, Europe, Asia and Africa are also represented. Collection categories include antique atlas, globe, school geography, maritime chart, state, county, city, pocket, wall, childrens and manuscript maps. The collection can be used to study history, genealogy and family history."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5979342"],
+                "url_access_json":["{\"url\":\"http://resolver.library.cornell.edu/misc/5979342\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Geography, Maps and Spatial Data",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5861790",
+                "title_display":"The Farber gravestone collection",
+                "fulltitle_display":"The Farber gravestone collection",
+                "summary_display":["Contains photographs and rubbings of over 13,500 images documenting the sculpture on more than 9,000 gravestones, most of which were made prior to 1800, in the Northeastern part of the United States. The late Daniel Farber of Worcester, Massachusetts, and his wife, Jessie Lie Farber, were responsible for the largest portion of the collection.  The collections of Harriette Merrifield Forbes and Ernest Caulfield are integrated into the Farber Collection. These early stones are both a significant form of artistic creation and precious records of biographical information, such as name, death date of the deceased, stone location, and information concerning the stone material, iconography, the inscription, and (when known) the carver."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5861790"],
+                "url_access_json":["{\"providercode\":\"PRVDNL\",\"url\":\"http://resolver.library.cornell.edu/misc/5861790\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5618224",
+                "title_display":"Fuertes illustrations collection",
+                "fulltitle_display":"Fuertes illustrations collection",
+                "summary_display":["A database of 2500 illustrations of Louis Agassiz Fuertes, a native of Ithaca, New York and the nation's most notable ornithological painter since Audubon. Database also includes an exhibit based on the journal he kept during the 1899 Harriman Alaska expedition."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5618224"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"url\":\"http://resolver.library.cornell.edu/misc/5618224\"}"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images",
+                  "Science and Technology"]},
+              {
+                "id":"3866913",
+                "title_display":"Herbert F. Johnson Museum of Art",
+                "fulltitle_display":"Herbert F. Johnson Museum of Art",
+                "summary_display":["The online file contains digital images of paintings, drawings, architectural drawings, decorative art, photography, and prints held at the Herbert F. Johnson Museum of Art and collected for this site by the Cornell University Digital Image Collections. Offers access to individual images as well as information about artists and their works. The project will continue to collect images of the over 27,000 works housed in the museum, eventually adding representations of sculpture and other holdings."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3866913"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"url\":\"http://resolver.library.cornell.edu/misc/3866913\"}"],
+                "sixfivethree":["Art and Architecture",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"4726567",
+                "title_display":"Human ecology historical photographs",
+                "fulltitle_display":"Human ecology historical photographs",
+                "summary_display":["This Web site provides a database of selected images and information from the records of the College of Home Economics. The photographs are organized by general subjects: Resident Teaching; International, National, State, and Local Public Relations; All-College Activities; Administration and Personnel; Departments and Divisions; Buildings and Equipment; History of the College; and Miscellaneous. Within any particular general subject category, there are more specific topics, e.g. \"Resident Teaching\" includes \"Students and Student Life\", \"Homemaking Apartments\", and \"Apartment Babies\". Descriptive information is provided for each image. Additional photographs may be found in this collection and in other holdings of the Division of Rare and Manuscript Collections."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/4726567"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4DM\",\"url\":\"http://resolver.library.cornell.edu/misc/4726567\"}"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5618018",
+                "title_display":"Icelandic and Faroese photographs of Frederick W.W. Howell",
+                "subtitle_display":"with additional photographs of Iceland by Henry A. Perkins and Magnús Olafsson",
+                "fulltitle_display":"Icelandic and Faroese photographs of Frederick W.W. Howell : with additional photographs of Iceland by Henry A. Perkins and Magnús Olafsson",
+                "summary_display":["Photographs of Icelandic and Faroese landscapes, farmsteads, towns and people, held in the Fiske Icelandic Collection of Cornell University Library."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5618018\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5618018|Digital collection"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5862713",
+                "title_display":"Images from Cornell's Rare Book and Manuscript Collections",
+                "fulltitle_display":"Images from Cornell's Rare Book and Manuscript Collections",
+                "summary_display":["This is a growing collection of images from the Division of Rare and Manuscript Collections, Cornell University Library. Images are drawn from a variety of rare book collections, as well as the University Archives and other manuscript collections."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5862713\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5862713|Digital collection"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"9754438",
+                "title_display":"Images of the American Civil War",
+                "subtitle_display":"photographs, posters, and ephemera",
+                "fulltitle_display":"Images of the American Civil War : photographs, posters, and ephemera",
+                "summary_display":["\"Images of the American Civil War: Photographs, Posters, and Ephemera presents the dramatic imagery of nineteenth-century Americana as experienced from the social, military, and political perspectives. At completion, the collection will present 75,000 images drawn from archives around the country, documenting the camp and battle experiences of Union and Confederate soldiers of all ranks, time spent in hospitals and in prisons, civilian life in cities and towns close to and far from the front lines of war, and the demeanor of the politicians whose decisions could bring the nation together or tear it apart. Many of the images in the collection were captured by famous and lesser-known innovators working with the burgeoning medium of nineteenth-century photography. Additionally, graphical content such as envelopes, song sheets, recruiting posters, imprints, and cartoons give users the ability to research how wartime America illustrated their times visually.\"--About the database."],
+                "url_access_json":["{\"providercode\":\"PRVAAS\",\"dbcode\":\"NKO\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/9754438\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/9754438|Connect to full text."],
+                "sixfivethree":["General Interest and Reference",
+                  "Images",
+                  "Arts and Humanities",
+                  "History: Primary sources"]},
+              {
+                "id":"5861281",
+                "fulltitle_display":"Japanese historical maps",
+                "title_display":"Japanese historical maps",
+                "summary_display":["The Japanese Historical Map Collection contains about 2,300 early maps of Japan and the World. The collection was acquired by the University of California from the Mitsui family in 1949, and is housed on the Berkeley campus in the East Asian Library. Represented in this online collection are about 1100 maps and books from this Collection. The maps were selected by Yuki Ishimatsu, Head of Japanese Collections at the East Asian Library, and scanned and put online by David Rumsey and Cartography Associates. The project was initiated by Peter Zhou, Director of the East Asian Library. Funding and project management is provided by Cartography Associates and the East Asian Library."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5861281"],
+                "url_access_json":["{\"providercode\":\"PRVDNL\",\"url\":\"http://resolver.library.cornell.edu/misc/5861281\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5861118",
+                "title_display":"Kheel Center labor photos",
+                "fulltitle_display":"Kheel Center labor photos",
+                "summary_display":["Photograph collections in the Kheel Center for Labor-Management Documentation and Archives include approximately 350,000 images on film, paper, glass, and other media. The collected materials, which are largely from the 20th century, were gathered by labor unions, management organizations, arbitrators, and theorists, and provide evidence of labor relations which may be difficult to glean from other sources."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5861118"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4DP\",\"url\":\"http://resolver.library.cornell.edu/misc/5861118\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"5146902",
+                "title_display":"Kinematic models for design digital library",
+                "subtitle_display":"an open access, multimedia resource for learning & teaching about kinematics and the history & theory of machines : geometry of pure motion",
+                "fulltitle_display":"Kinematic models for design digital library : an open access, multimedia resource for learning & teaching about kinematics and the history & theory of machines : geometry of pure motion",
+                "summary_display":["The Kinematic Models for Design Digital Library (KMODDL) is an open access, multimedia resource for learning and teaching about kinematics ¡ the geometry of pure motion ¡ and the history and theory of machines. KMODDL is a pedagogical space designed for use by teachers and researchers, as well as students at a range of educational levels, and other learners, young and adult. The core of KMODDL is the Reuleaux Collection of Kinematic Mechanisms at Cornell University, which comprises more than 200 models developed by Franz Reuleaux (1829-1905), the founder of kinematics, for teaching and researching the principles of mechanical motion. KMODDL provides online access to the Reuleaux Collection via still and interactive moving images and descriptions of the models, as well as computer simulations, tutorials, and related full-text documents."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4DQ\",\"description\":\"Connect to Kinematic models for design digital library.\",\"url\":\"http://resolver.library.cornell.edu/misc/5146902\"}",
+                  "{\"description\":\"Images available via SharedShelf.\",\"url\":\"http://resolver.library.cornell.edu/collection/KMODDL\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5146902|Connect to Kinematic models for design digital library.",
+                  "http://resolver.library.cornell.edu/collection/KMODDL|Images available via SharedShelf."],
+                "sixfivethree":["General Interest and Reference",
+                  "Images",
+                  "Physics and Astronomy",
+                  "Science and Technology"]},
+              {
+                "id":"6093806",
+                "title_display":"Knight visual resources collection",
+                "fulltitle_display":"Knight visual resources collection",
+                "summary_display":["The Knight Visual Resources Collection contains digital images that support instruction at Cornell University. It includes a broad range of images of art including art history, architecture, landscape architecture, planning, material culture, maps, and other documentary material."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"View image database.\",\"url\":\"http://resolver.library.cornell.edu/collection/1901\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/collection/1901|View image database."],
+                "sixfivethree":["Art and Architecture",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"3948574",
+                "title_display":"Library and archival exhibitions on the Web",
+                "fulltitle_display":"Library and archival exhibitions on the Web",
+                "summary_display":["Site featuring links to online exhibitions created by libraries, archives, and historical societies, as well as to museum online exhibitions with a significant focus on library and archival materials (such as printed books, book illustrations, manuscripts, photographs, printed ephemera, posters, archival audio and video recordings, artists' books, and the book arts). Includes a separate introduction. The list of exhibitions is arranged alphabetically by title and shows the names of the sponsoring institutions."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3948574"],
+                "url_access_json":["{\"providercode\":\"PRVBDO\",\"dbcode\":\"BUP\",\"url\":\"http://resolver.library.cornell.edu/misc/3948574\"}"],
+                "sixfivethree":["Images",
+                  "Library and Information Science",
+                  "Science and Technology",
+                  "Social Sciences"]},
+              {
+                "id":"6280378",
+                "title_display":"Macaulay Library sound & video catalog",
+                "fulltitle_display":"Macaulay Library sound & video catalog",
+                "summary_display":["Sound and video catalog of the world's largest archive of animal sounds and associated video."],
+                "url_access_json":["{\"providercode\":\"PRVCLO\",\"description\":\"Connect to full text\",\"url\":\"http://resolver.library.cornell.edu/misc/6280378\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/6280378|Connect to full text"],
+                "sixfivethree":["Biology",
+                  "General Interest and Reference",
+                  "Images",
+                  "Science and Technology"]},
+              {
+                "id":"5696261",
+                "title_display":"Mysteries at Eleusis",
+                "subtitle_display":"images of inscriptions",
+                "fulltitle_display":"Mysteries at Eleusis : images of inscriptions",
+                "summary_display":["\"Mysteries at Eleusis: Images of Inscriptions\", a digital collection of approximately 800 images from the sanctuary of the Eleusinian Mysteries, at Eleusis, a town belonging to Athens. \"The Mysteries\", as they were officially called, are usually recognized today, as they were in ancient times, as one of the most important religious cults in ancient Greece. The images currently available are derived from photographs by Professor Kevin Clinton (Department of Classics). The digital collection is one of the largest contributions to a worldwide effort to make available on the Internet both texts and images of all ancient Greek and Latin documents on stone."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5696261"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"url\":\"http://resolver.library.cornell.edu/misc/5696261\"}"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5930340",
+                "title_display":"NYPL digital",
+                "fulltitle_display":"NYPL digital",
+                "summary_display":["NYPL Digital is your gateway to The New York Public Library's rare and unique international holdings in digitized form, including: Historic maps, rare prints and photographs, iIlluminated manuscripts, unusual printed ephemera, sound files and moving images, original art and more."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5930340"],
+                "url_access_json":["{\"providercode\":\"PRVARB\",\"dbcode\":\"DAL\",\"url\":\"http://resolver.library.cornell.edu/misc/5930340\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"6371992",
+                "title_display":"Oxford art online",
+                "fulltitle_display":"Oxford art online",
+                "summary_display":["Oxford Art Online enables access and cross-search functionality to Grove and Oxford reference content in one location. Provides access to Grove Art Online, Benezit Dictionary of Artists, The Encyclopedia of Aesthetics, The Oxford Companion to Western Art, and The Concise Oxford Dictionary of Art Terms. Includes image partnerships with ARTstor, the British Museum, the Museum of Modern Art, the Metropolitan Museum of Art, Art Images for College Teaching, Art Resource, Artists Rights Society and numerous international art galleries and artists."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3835895"],
+                "url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"BWG\",\"url\":\"http://resolver.library.cornell.edu/misc/3835895\"}"],
+                "sixfivethree":["Art and Architecture (Core)",
+                  "Arts and Humanities",
+                  "Dictionaries and Encyclopedias",
+                  "General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"7761936",
+                "title_display":"Rose Goldsen archive of new media art",
+                "fulltitle_display":"Rose Goldsen archive of new media art",
+                "summary_display":["Under the sponsorship of The Division of Rare and Manuscript Collections, the Rose Goldsen Archive of New Media Art serves as a research repository of new media art and resources. The curatorial vision emphasizes digital interfaces and artistic experimentation by international, independent artists. Designed as an experimental center of research and creativity, the Goldsen Archive includes materials by individual artists and collaborates on conceptual experimentation and archival strategies with international curatorial and fellowship projects. Named after the pioneering critic of the commercialization of mass media, the late Professor Rose Goldsen of Cornell University, the Archive was founded in 2002 by Timothy Murray to house international art work produced on CD-Rom, DVD-Rom, video, digital interfaces, and the internet. Its collection of supporting materials includes unpublished manuscripts and designs, catalogues, monographs, and resource guides to new media art."],
+                "url_access_json":["{\"description\":\"Rose Goldsen Archive of New Media Art\",\"url\":\"http://goldsen.library.cornell.edu/index.php\"}"],
+                "url_access_display":["http://goldsen.library.cornell.edu/index.php|Rose Goldsen Archive of New Media Art"],
+                "sixfivethree":["General Interest and Reference",
+                  "Images"]},
+              {
+                "id":"5858171",
+                "title_display":"Scholars resource",
+                "fulltitle_display":"Scholars resource",
+                "summary_display":["Scholars Resource is an extensive resource of high quality images that provides comprehensive coverage of works of art essential for teaching. Offers complementary image collections from Saskia Ltd., Davis Art Images, Hartill Art Associates, Archivision and The Bridgeman Art Library with additional collections continually being added. Scholars Resource uniquely provides the convenience of licensing high quality images and metadata in consistent formats from multiple vendors at one online source."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Connect to image database.\",\"url\":\"http://resolver.library.cornell.edu/misc/5858171\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5858171|Connect to image database."],
+                "sixfivethree":["Art and Architecture",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"3348549",
+                "title_display":"The Triangle factory fire",
+                "fulltitle_display":"The Triangle factory fire",
+                "summary_display":["Online exhibit commemorating the devastating fire at the Triangle Shirtwaist Company's Greenwich Village factory in 1911.  Includes documents, photographs, audio clips, and other selections of primary resources on the Triangle Fire held by the Kheel Center for Labor-Management Documentation, Cornell University. Also includes selected information on sweatshop conditions and investigations and reforms following the fire."],
+                "url_access_display":["http://www.ilr.cornell.edu/trianglefire"],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"dbcode\":\"4EA\",\"url\":\"http://www.ilr.cornell.edu/trianglefire\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "History: Primary Sources",
+                  "Human Resources, Labor & Employment",
+                  "Images",
+                  "Social Sciences"]},
+              {
+                "id":"7633369",
+                "title_display":"The Vogue archive",
+                "fulltitle_display":"The Vogue archive",
+                "summary_display":["\"A complete searchable archive of American Vogue, from the first issue in 1892 to the current month. Every article, cover, photo shoot, illustration and advertisement has been digitized to the highest standard, with rich indexing enabling you to find images by designer and brand names\"--Web site."],
+                "url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"LK7\",\"description\":\"Full text available from Vogue Archive: 1892 to present Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/7633369\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/7633369|Full text available from Vogue Archive: 1892 to present Connect to full text."],
+                "sixfivethree":["General Interest and Reference",
+                  "Images",
+                  "Science and Technology",
+                  "Textiles and Fashion Design"]},
+              {
+                "id":"5861081",
+                "title_display":"Willard Dickerman Straight and early U.S.-Korea diplomatic relations",
+                "fulltitle_display":"Willard Dickerman Straight and early U.S.-Korea diplomatic relations",
+                "summary_display":["Willard Straight worked in Korea as a Reuters correspondent during the Russo-Japanese War and as a U.S. diplomat. He sketched Japanese and Russian soldiers and Korean people, and took numerous photographs of landscapes, urban scenes, cultural phenomena, historic events and people (both common and noble). Approximately 177 of his drawings, photographs and postcards comprise a remarkable collection that offers a rare example of western perspectives on Korea during the early 20th century."],
+                "url_access_json":["{\"providercode\":\"PRVAGG\",\"description\":\"Digital collection\",\"url\":\"http://resolver.library.cornell.edu/misc/5861081\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5861081|Digital collection"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images",
+                  "Social Sciences"]}]
+          }}
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:57:12 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Fri, 05 May 2017 14:57:12 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 May 2017 14:57:12 GMT
+      Last-Modified:
+      - Fri, 05 May 2017 14:57:04 GMT
+      Etag:
+      - '"YTEzZjgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '2676'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":18,
+            "params":{
+              "q":"\"Images (Core)\"",
+              "indent":"true",
+              "wt":"json"}},
+          "response":{"numFound":3,"start":0,"docs":[
+              {
+                "id":"5346517",
+                "title_display":"ARTstor",
+                "fulltitle_display":"ARTstor",
+                "summary_display":["Searchable database of digital images and associated catalog data. Covers the fields of architecture, painting, sculpture, photography, decorative arts, and design, as well as many other forms of visual culture."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/5346517"],
+                "url_access_json":["{\"providercode\":\"PRVACT\",\"dbcode\":\"AKX\",\"url\":\"http://resolver.library.cornell.edu/misc/5346517\"}"],
+                "sixfivethree":["Art and Architecture (Core)",
+                  "Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images (Core)"]},
+              {
+                "id":"3823610",
+                "title_display":"Associated Press images collection",
+                "fulltitle_display":"Associated Press images collection",
+                "summary_display":["An electronic library containing the AP's current photos from their 50 million image print and negative library, as well as charts, graphs, tables, and maps from the AP's graphics portfolio."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3823610"],
+                "url_access_json":["{\"providercode\":\"PRVCED\",\"dbcode\":\"IEW\",\"url\":\"http://resolver.library.cornell.edu/misc/3823610\"}"],
+                "sixfivethree":["Arts and Humanities",
+                  "General Interest and Reference",
+                  "Images (Core)",
+                  "Newspapers, Magazines and Current Events",
+                  "Social Sciences"]},
+              {
+                "id":"8018864",
+                "title_display":"Bridgeman education",
+                "fulltitle_display":"Bridgeman education",
+                "summary_display":["\"With over 380,000 images from museums, galleries, private collections and contemporary artists all copyright cleared for educational use. Bridgeman Education gives you access to the visual culture of every civilization and every period from Prehistory to the present day across continents and civilisations.\""],
+                "url_access_json":["{\"providercode\":\"PRVGBR\",\"dbcode\":\"O4U\",\"description\":\"Connect to full text\",\"url\":\"http://resolver.library.cornell.edu/misc/8018864\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/8018864|Connect to full text"],
+                "sixfivethree":["General Interest and Reference",
+                  "Arts and Humanities",
+                  "Images (Core)",
+                  "Art and Architecture"]}]
+          }}
+    http_version: 
+  recorded_at: Fri, 05 May 2017 14:57:12 GMT
+recorded_with: VCR 3.0.3

@@ -1,0 +1,69 @@
+<% @holdings_detail.each do| bib, entry| %>
+  <% ## No point continuing if there are no item records for this holding %>
+  <% if entry['records'].size > 0 %>
+    <% ## locnumber was used initially, but we want to know whether there are %>
+    <% ## multiple available or unavailable and we can get that from avail_at %>
+    <% ## and not_avail_at, respectively %>
+    <% # multiple_locations = entry['summary']['locnumber'] > 1 ? true : false %>
+    <% available = entry['summary']['avail_at'] %>
+    <% unavailable = entry['summary']['not_avail_at'] %>
+    <% loc_count = entry['summary']['locnumber'] %>
+    <% multiple_locations = 'Multiple locations' %>
+    <% onotes = '' %>
+    <% if entry['summary']['onotes'].size > 0 %>
+      <% onotes = entry['summary']['onotes'][0] %>
+    <% end %>
+    <% if available.size > 0 %>
+      <% if available.size === 1 && loc_count === 1 %>
+        <% location = available.keys()[0] %>
+        <% callnumber = available[location] %>
+      <% else %>
+        <% location = multiple_locations %>
+      <% end %>
+      <i class="fa fa-check" title="Available"></i>
+    <% elsif unavailable.size > 0 %>
+      <% if unavailable.size === 1 && loc_count === 1 %>
+        <% location = unavailable.keys()[0] %>
+        <% callnumber = unavailable[location] %>
+      <% else %>
+        <% if loc_count < 2 %>
+          <% location = entry['summary']['holdinglocs'][0] %>
+          <% callnumber = entry['records'][0]['call_number'] %>
+        <% else %>
+          <% location = multiple_locations %>
+        <% end %>
+      <% end %>
+      <i class="fa fa-clock-o" title="Available by request"></i>
+    <% else %>
+      <% ## location = entry['summary']['holdinglocs'][0] %>
+      <% xlocation = entry['records'][0]['location_name'] %>
+      <% location = code_to_name(entry['records'][0]['location_name']) %>
+      <% pda = 'no' %>
+      <% if location == 'Library Technical Services Review Shelves' %>
+        <% location = entry['records'][0]['call_number'] %>
+        <% pda = 'yes' %>
+      <% else %>
+        <% callnumber = entry['records'][0]['call_number'] %>
+      <% end %>
+      <% if entry['summary']['onotes'].size > 0 %>
+        <i class="fa fa-clock-o" title="On order"></i>
+      <% else %>
+        <i class="fa fa-check" title="On site use"></i>
+        <% callnumber = pda == 'no' ? entry['records'][0]['call_number'] : '' %>
+        <% # %i{:class => 'fa fa-question-circle', :title => 'Status unknown'} %>
+      <% end %>
+    <% end %>
+    <span class="location">
+      <%= "#{location}" %>
+    </span>
+    <span class="callnumber">
+      <%= callnumber %>
+    </span>
+    <% if entry['summary']['onotes'].size > 0 %>
+      <span class="onotes">
+        <%= "Order Information: " + onotes %>
+      </span>
+    <% end %>
+  <% end %>
+<% end %>
+

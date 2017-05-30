@@ -35,9 +35,10 @@ Feature: Search
     Then I should get results
     And I should see a facet called 'Call Number' 
 
- @all_search
+#Make sure constraint box appears
+   @all_search
    @publisher
-  Scenario: Perform a search by Publisher
+  Scenario: Perform a search by Publisher 
     Given I am on the home page
     And I select 'Publisher' from the 'search_field' drop-down
     And I fill in the search box with 'Springer'
@@ -46,14 +47,46 @@ Feature: Search
     And it should contain filter "Publisher" with value "Springer"
     And I should see the label 'Springer'
 
- @all_search
+   @all_search
+   @author
+  Scenario: Perform a search by Author 
+    Given I am on the home page
+    And I select 'Author, etc.' from the 'search_field' drop-down
+    And I fill in the search box with 'Sun Tzu'
+    And I press 'search'
+    Then I should get results
+    And it should contain filter "Author, etc." with value "Sun Tzu"
+    And I should see the label 'Sun Tzu'
+
+   @all_search
+   @title
+  Scenario: Perform a search by Title 
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with 'The complete works of Artemus Ward'
+    And I press 'search'
+    Then I should get results
+    And it should contain filter "Title" with value "The complete works of Artemus Ward"
+    And I should see the label 'The complete works of Artemus Ward'
+
+   @all_search
+   @title
+  Scenario: Perform a search by Title with a colon
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with 'ethnoarchaeology:'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'of 46'
+
+   @all_search
    @peabody
   Scenario: Perform a search by author, as author see results 
     Given I am on the home page
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 11'
+    And I should see the label 'of 1'
 
  @all_search
    @journaltitle
@@ -73,7 +106,7 @@ Feature: Search
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 10'
+    And I should see the label 'of 1'
 
  @all_search
    @search_availability_annotated_hobbit
@@ -111,6 +144,7 @@ Feature: Search
     And I fill in the search box with '"The Professional Manager"'
     And I press 'search'
     Then I should get results
+    And I sleep 15 seconds
     And I should see the "fa-check" class
     And I should see the label 'Multiple locations' 
 
@@ -141,6 +175,8 @@ Feature: Search
     And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with 'Tolkien, new critical perspectives'
     And I press 'search'
+    And I sleep 1 seconds
     Then I should get results
+    And I sleep 4 seconds
     And I should see the "fa-clock-o" class
     And I should see the label 'Olin Library' 

@@ -15,17 +15,26 @@ Then /^click on first link "(.*?)"$/ do |link|
   l.click 
 end
 
-Then /^it should contain "(.*?)" with value "(.*?)"$/ do |field, author|
+Then /^results should contain "(.*?)" with value "(.*?)"$/ do |field, author|
   page.should have_selector(field_to(field), :text => author,:exact =>false )
 end
 
-Then /^it should have link "(.*?)" with value "(.*?)"$/ do |txt, alink|
+Then /^it should contain "(.*?)" with value "(.*?)"$/ do |field, author|
+  page.should have_selector(field_result_to(field), :text => author,:exact =>false )
+end
+
+Then /^it should have link ["'](.*?)["'] with value ["'](.*?)["']$/ do |txt, alink|
+  #print page.html
   expect(page).to have_link(txt, :href =>alink) 
   #res.should == true 
 end
 
 Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
   page.should have_selector(field_to(field), :text => author,:exact =>false)
+end
+
+Then /^results should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
+  page.should have_selector(field_result_to(field), :text => author,:exact =>false)
 end
 
 Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|
@@ -55,4 +64,11 @@ Then /^I (should|should not) see the labels '(.*?)'$/ do |yesno, llist|
 	  page.should have_content(label)
         end
   end
+end
+
+Then(/^in modal ['"](.*?)['"] I should see label ['"](.*?)['"]$/) do |modal,label|
+  within(modal) do
+    page.should have_content(label) # async
+  end
+
 end

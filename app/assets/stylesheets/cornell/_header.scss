@@ -155,6 +155,11 @@ ul.blacklight-nav {
       }
     }
   }
+  header {
+    h1 {
+      font-size: 26px;
+    }
+  }
 }
 
 // Medium devices (desktops, 992px and up)
@@ -167,6 +172,11 @@ ul.blacklight-nav {
           font-size: 14px;
         }
       }
+    }
+  }
+  header {
+    h1 {
+      font-size: 28px;
     }
   }
 }

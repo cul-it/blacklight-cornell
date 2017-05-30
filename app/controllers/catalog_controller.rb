@@ -1,10 +1,11 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
-  include Blacklight::Marc::Catalog
+
+  include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
+  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-#  include BlacklightCornellAdvancedSearch::ParseBasicQ
 
   # Ensure that the configuration file is present
   begin
@@ -20,19 +21,37 @@ class CatalogController < ApplicationController
     eos
   end
 
+  def repository_class
+    Blacklight::Solr::Repository
+  end
 
-  # Tweak search param logic for default sort when browsing or searching by call number
-  # Follow documentation in project wiki
-  # https://github.com/projectblacklight/blacklight/wiki/Extending-or-Modifying-Blacklight-Search-Behavior
-  self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
+  before_action :authorize_email_use!, only: :email
+
+  # This is used to protect the email function by limiting it to only Cornell
+  # users. If not signed in, the user is prompted to click a link that redirects
+  # through a CUWebAuth-protected route. The partial that's rendered doesn't
+  # seem to actually appear anywhere (not sure why), but rendering 'nothing'
+  # instead doesn't let the email modal appear either.
+  def authorize_email_use!
+    unless session[:cu_authenticated_user].present?
+      flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
+      # This is a bit of an ugly hack to get us back to where we started after
+      # the authentication
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+
+      render :partial => 'catalog/email_cuwebauth'
+    end
+  end
+
+
   configure_blacklight do |config|
 
     # chris beer recommended for latest version of unapi
     config.unapi = {
-      'oai_dc_xml' => { :content_type => 'text/xml' } 
+      'oai_dc_xml' => { :content_type => 'text/xml' }
     }
     config.index.partials << 'microformat'
-    config.show.partials << 'microformat' 
+    config.show.partials << 'microformat'
     # end of unapi config.
 
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
@@ -51,61 +70,63 @@ class CatalogController < ApplicationController
         'format' => 1
     }
 
+    config.per_page = [20,50,100]
+
     ## list of clickable display fields mapped to target index field
     ## target index field should be defined in add_search_field later this file
     ## target index field is searched when this link is clicked
     config.display_clickable = {
 
-        'included_work_display' => {       
-           :search_field => 'title',     
-           :related_search_field => 'author/creator',        
-           :sep => '|',      
-           :key_value => true        
-        },        
-        'related_work_display' => {       
-            :search_field => 'title',     
-            :related_search_field => 'author/creator',        
-            :sep => '|',      
-            :key_value => true        
+        'included_work_display' => {
+           :search_field => 'title',
+           :related_search_field => 'author/creator',
+           :sep => '|',
+           :key_value => true
+        },
+        'related_work_display' => {
+            :search_field => 'title',
+            :related_search_field => 'title',
+            :sep => '|',
+            :key_value => true
         },
         'author_cts' => {
-            :search_field => 'author/creator',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
         },
         'author_json' => {
-            :search_field => 'author_cts_search',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list_json => true
         },
         'author_addl_json' => {
-            :search_field => 'author_cts_search',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list_json => true
         },
         'author_addl_cts' => {
-            :search_field => 'author/creator',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
-        },       
+        },
         'title_series_cts' => {
-          :search_field => 'title',
+          :search_field => 'series',
           :sep => '|',
           :key_value => true
         },
         'subject_cts' => {
-            :search_field => 'subject',
+            :search_field => 'subject_cts',
             :sep => '|',
             :sep_index => ' ',
             :sep_display => ' > ',
             :hierarchical => true
         },
         'subject_json' => {
-            :search_field => 'subject_cts_search',
+            :search_field => 'subject_cts',
             :sep => '|',
             :sep_index => ' > ',
             :sep_display => ' > ',
@@ -113,7 +134,7 @@ class CatalogController < ApplicationController
         },
         'title_uniform_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'title',
             :sep => '|',
             :key_value => true
         },
@@ -139,7 +160,7 @@ class CatalogController < ApplicationController
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
-    #config.default_document_solr_params = {
+    config.default_document_solr_params = {}
     #  :qt => 'document',
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # :fl => '*',
@@ -176,27 +197,27 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
-    config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5
+    config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
       :num_segments => 6,
       :assumed_boundaries => [1300, Time.now.year + 1],
       :segments => true,
       :include_in_advanced_search => false
-    }, :show => true, :include_in_advanced_search => false
+    }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
-    config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5
-    config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5
-    config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5
-    config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5
-    config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5
+    config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5, if: :has_search_parameters?
+    config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
      config.add_facet_field 'lc_callnum_facet',
-                            if: :expandable_search?,
+                            if: :has_search_parameters?,
                            label: 'Call Number',
                            partial: 'blacklight/hierarchy/facet_hierarchy',
                            sort: 'index'
@@ -218,8 +239,8 @@ class CatalogController < ApplicationController
     # config.add_facet_field 'facet', :single => true
     # config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
 
-    config.default_solr_params[:'facet.field'] = config.facet_fields.keys
-    #config.add_facet_fields_to_solr_request!
+    #config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+    config.add_facet_fields_to_solr_request!
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -256,8 +277,8 @@ class CatalogController < ApplicationController
     # -- subtitle_display
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_json', :label => 'Author, etc.'    
-    config.add_show_field 'format', :label => 'Format'
+    config.add_show_field 'author_json', :label => 'Author, etc.'
+    config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
@@ -271,14 +292,13 @@ class CatalogController < ApplicationController
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_json', :label => 'Subject'
-    config.add_show_field 'summary_display', :label => 'Summary'
-    config.add_show_field 'description_display', :label => 'Description'
-    #config.add_show_field 'isbn_t', :label => 'ISBN'
+    config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
+    config.add_show_field 'description_display', :label => 'Description', helper_method: :html_safe
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
     config.add_show_field 'author_addl_json', :label => 'Other contributor'
-    config.add_show_field 'contents_display', :label => 'Table of contents'
+    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :html_safe
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'
@@ -300,17 +320,20 @@ class CatalogController < ApplicationController
     config.add_show_field 'translation_of_display', :label => 'Translation of', helper_method: :remove_pipe
     config.add_show_field 'has_translation_display', :label => 'Has translation', helper_method: :remove_pipe
     config.add_show_field 'other_edition_display', :label => 'Other edition', helper_method: :remove_pipe
-    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed Selectively By'
+    config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed selectively by'
     config.add_show_field 'indexed_by_display', :label => 'Indexed By'
     config.add_show_field 'references_display', :label => 'References'
-    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its Entity By'
+    config.add_show_field 'indexed_in_its_entirety_by_display', :label => 'Indexed in its entirety by'
     config.add_show_field 'in_display', :label => 'In'
-    config.add_show_field 'map_format_display', :label => 'Map Format'
+    config.add_show_field 'map_format_display', :label => 'Map format'
+    config.add_show_field 'instrumentation_display', :label => 'Instrumentation'
     config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
     config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
     config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
     config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
-    config.add_show_field 'notes', :label => 'Notes'
+    config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'thesis_display', :label => 'Thesis'
+    config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
@@ -422,8 +445,8 @@ class CatalogController < ApplicationController
          :pf => '$series_pf'
        }
     end
-    
-  
+
+
     config.add_search_field('publisher') do |field|
       # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
       field.solr_local_parameters = {
@@ -466,10 +489,10 @@ class CatalogController < ApplicationController
          :pf => '$donor_pf'
        }
     end
-    
+
 
 # Begins with search fields
-   
+
     config.add_search_field('all_fields_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
@@ -497,7 +520,7 @@ class CatalogController < ApplicationController
         :search_field => "journal title"
       }
     end
-    
+
     config.add_search_field('author/creator_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
@@ -506,7 +529,7 @@ class CatalogController < ApplicationController
         :pf => '$author_starts_pf'
       }
     end
-    
+
     config.add_search_field('subject_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -578,9 +601,8 @@ class CatalogController < ApplicationController
          :pf => '$donor_starts_pf'
        }
     end
-    
-# end of begins_with declares
 
+# end of begins_with declares
 # start of quot declares
     config.add_search_field('title_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
@@ -615,7 +637,7 @@ class CatalogController < ApplicationController
         :search_field => "journal title"
       }
     end
-    
+
     config.add_search_field('author/creator_quote',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
@@ -624,7 +646,7 @@ class CatalogController < ApplicationController
         :pf => '$author_quot_pf'
       }
     end
-    
+
     config.add_search_field('subject_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -632,9 +654,7 @@ class CatalogController < ApplicationController
          :pf => '$subject_quot_pf'
        }
     end
-
     config.add_search_field('call number_quote', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
         :qf => '$lc_callnum_quot_qf',
@@ -687,11 +707,12 @@ class CatalogController < ApplicationController
          :pf => '$donor_quot_pf'
        }
     end
-    
-# end of quot declares.
+# end of quot declares
+
+
 
     #combined author CTS field made from the multiple author browse fields
-    config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
+    config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
@@ -701,7 +722,7 @@ class CatalogController < ApplicationController
     end
 
     #combined subject CTS field made from the multiple subject browse fields
-    config.add_search_field('subject_cts_search',:label=>'Subject') do |field|
+    config.add_search_field('subject_cts',:label=>'Subject') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
@@ -848,26 +869,41 @@ class CatalogController < ApplicationController
   # (in order to add Mollom/CAPTCHA integration)
   def email
 
-    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
+    Rails.logger.debug "mjc12test: entering email"
+
+    # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
+    # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
+    #docs = params[:id].split '/'
+    docs = params[:id].split '|'
+
+    #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+    @response, @documents = fetch docs
+
+    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
+    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
 
     if request.post?
-
       # First check to see whether we're here as the result of an attempt to solve a CAPTCHA
       if params[:captcha_response]
-        @@mollom ||= Mollom.new({:public_key => ENV['mollom_public_key'], :private_key => ENV['mollom_private_key']})
-        captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
+        begin
+           @@mollom ||= Mollom.new({:public_key => ENV['MOLLOM_PUBLIC_KEY'], :private_key => ENV['MOLLOM_PRIVATE_KEY']})
+           captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
+        rescue
+          captcha_ok = true
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+          email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+        end
+
       end
 
       #
       if params[:to]
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        result = nil
+        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+      #  result = nil
         # Check for valid email address
         if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-          captcha_ok = true #test
+         # captcha_ok = false #test
           unless captcha_ok
             # Create a new Mollom instance if necessary, then test the message content for spam
             @@mollom ||= Mollom.new({:public_key => ENV['MOLLOM_PUBLIC_KEY'], :private_key => ENV['MOLLOM_PRIVATE_KEY']})
@@ -876,15 +912,17 @@ class CatalogController < ApplicationController
                 result = @@mollom.check_content(:author_mail => params[:to], :post_body => params[:message])
                 if result.ham?
                     # Content is okay, we can proceed with the email
-                    email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-                elsif result.spam?
+                    email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+                elsif result.unsure? || result.spam? #spam?
                     # This is definite spam (according to Mollom)
+                  #  captcha_ok = false
                     flash[:error] = 'Spam!'
+                  #  return
                 end
             rescue
                 # Mollom isn't working, so we'll have to just go ahead and mail the item
                 captcha_ok = true
-                email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params)
+                email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
             end
           end
         else
@@ -894,17 +932,19 @@ class CatalogController < ApplicationController
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
       end
 
-      if !captcha_ok and ((!result.nil? and result.unsure?) or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
+      if !captcha_ok and ((!result.nil? and (result.unsure? || result.spam?)) or params[:captcha_response])  # i.e., we have to use a CAPTCHA and the user hasn't yet (successfully) submitted a solution
         @captcha = @@mollom.image_captcha
         # Need to pass through the message form elements in order to retain them in the next POST (from CAPTCHA submission)
-        @email_params = { :to => params[:to], :message => params[:message], :id => params['id'][0] }
-        return render :partial => 'captcha'
+        @email_params = { :to => params[:to], :message => params[:message], :id => params['id'], :params => params }
+         flash[:error] = 'Spam!'
+        return render :partial => 'catalog/captcha'
       elsif !flash[:error]
         # Don't have to show a CAPTCHA and there are no errors, so we can send the email
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber], :templocation => params[:templocation], :status => params[:itemStatus]}, url_gen_params, params)
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :location => params[:location], :callnumber => params[:callnumber],
+                                                         :templocation => params[:templocation], :status => params[:itemStatus], :params => params}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
-        redirect_to catalog_path(params[:id]) unless request.xhr?
+        redirect_to solr_document_path(params[:id]) unless request.xhr?
       end
 
     end  # request.post?
@@ -917,40 +957,61 @@ class CatalogController < ApplicationController
     end
 end
 
-  def tou
-    test = ""
+def tou
     clnt = HTTPClient.new
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-    solr = Blacklight.solr_config[:url]
+    #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
+    solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
-    @db = @dbResponse['response']['docs']
-  #  Rails.logger.info("DB = #{@dbResponse.inspect}")
-  if @dbResponse['response']['numFound'] == 0
-    @defaultRightsText = ''
-   return @defaultRightsText
-  else
-    dbcode = @dbResponse['response']['docs'][0]['dbcode']
-    providercode = @dbResponse['response']['docs'][0]['providercode']
-     @defaultRightsText = ''
-     if dbcode.nil? or dbcode == '' #check for providerCode being nil
-           @defaultRightsText = "Use default rights text"
-     else
-       @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode , Prevailing: 'true')
-       if @ermDBResult.size < 1
-         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+    @db = @dbResponse['response']['docs'][0]
+    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
+    #Rails.logger.info("DB = #{@dbResponse.inspect}")
 
-         if @ermDBResult.size < 1
-        #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
-          @defaultRightsText = "Use default rights text"
-        end
-       end
-     end
-   @column_names = ::Erm_data.column_names.collect(&:to_sym)
+
+    if @dbResponse['response']['numFound'] == 0
+        @defaultRightsText = ''
+        return @defaultRightsText
+    else
+        @dblinks.each do |link|
+            l = JSON.parse(link)
+            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode] 
+                @defaultRightsText = ''
+                @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
+                if @ermDBResult.size < 1
+                   @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
+                   if @ermDBResult.size < 1
+                      @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
+                      if @ermDBResult.size < 1
+                         @ermDBResult = ::Erm_data.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
+                         if @ermDBResult.size < 1
+                                  #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+                                  @defaultRightsText = "Use default rights text"
+                         else
+                           @db = [l]
+                           #return @ermDBResult
+                           break
+                         end
+                      else
+                        @db = [l]
+                       break
+                      end
+                   else
+                     @db = [l]
+                     break
+                   end
+                else
+                  @db = [l]
+                  break
+                end
+            end
+            @db = [l]
+        end   
+    @column_names = ::Erm_data.column_names.collect(&:to_sym)
+    end
+
   end
 
-  end
 
 
 

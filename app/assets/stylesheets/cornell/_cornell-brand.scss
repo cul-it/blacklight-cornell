@@ -21,7 +21,8 @@
 // Skip to content link
 // http://webaim.org/techniques/skipnav/
 // ---------------------------------------
-#skiptocontent {
+#skiptocontent,
+#skiptoresults {
 	a {
 		padding:6px;
 		position: absolute;

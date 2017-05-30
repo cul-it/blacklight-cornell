@@ -69,6 +69,10 @@ require 'capybara/email'
 Capybara.default_selector = :css
 # by default, uses selenium for javascript, but using poltergeist allows using phantomjs
 require 'capybara/poltergeist'
+Capybara.register_driver :poltergeist do |app|
+  #Capybara::Poltergeist::Driver.new(app, {debug: false})
+  Capybara::Poltergeist::Driver.new(app, timeout: 2.minute)
+end
 Capybara.javascript_driver = :poltergeist
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
@@ -114,10 +118,21 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+# DO this to load fixture before each scenario.
 Before do
   ActiveRecord::FixtureSet.reset_cache
-  fixtures_folder = File.join(Rails.root, 'spec', 'fixtures')
+  fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
+  sql = 'delete from sessions;'
+  ActiveRecord::Base.connection.execute(sql)
 end
-
+# OR do this, but not both.
+#Seed the DB
+#ActiveRecord::Fixtures.reset_cache  
+#fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
+#fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+#ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
+@all_item_view
+@all_item_view

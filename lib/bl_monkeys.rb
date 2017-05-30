@@ -1,8 +1,9 @@
-include Blacklight::Solr::Document::MarcExport
+#include Blacklight::Solr::Document::MarcExport
+if false
 
-module Blacklight::Solr::Document::MarcExport
+module Blacklight::Solr #::Document::MarcExport
 
-#STANDARD_INFO =  "\n#{__FILE__} #{__LINE__} #{__method__} " 
+#STANDARD_INFO =  "\n#{__FILE__} #{__LINE__} #{__method__} "
 
 # NOTE: all of the functions below are copied and modified from the
 # blacklight-marc gem.
@@ -47,8 +48,8 @@ module Blacklight::Solr::Document::MarcExport
     end
     clean_end_punctuation(date_value) if date_value
   end
-  
-  # Original comment: 
+
+  # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
@@ -58,11 +59,11 @@ module Blacklight::Solr::Document::MarcExport
       primary_authors << field["a"] if field["a"]
     end
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      corporate_authors << (field['a'] ? field['a'] : '') + 
+      corporate_authors << (field['a'] ? field['a'] : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
-      meeting_authors << (field['a'] ? field['a'] : '') + 
+      meeting_authors << (field['a'] ? field['a'] : '') +
                            (field['q'] ? ' ' + field['q'] : '')
     end
     record.find_all{|f| f.tag === "700" }.each do |field|
@@ -86,20 +87,20 @@ module Blacklight::Solr::Document::MarcExport
       primary_authors[i] = a.gsub(/[\.,]$/,'')
     end
     secondary_authors.each_with_index do |a,i|
-      secondary_authors[i] = a.gsub(/[\.,]$/,'') 
+      secondary_authors[i] = a.gsub(/[\.,]$/,'')
     end
 
     {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
-    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors } 
+    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors }
   end
 
-  # Original comment: 
+  # Original comment:
   # Main method for defining chicago style citation.  If we don't end up converting to using a citation formatting service
   # we should make this receive a semantic document and not MARC so we can use this with other formats.
   def chicago_citation(marc)
-    authors = get_all_authors(marc)    
+    authors = get_all_authors(marc)
     author_text = ""
-    
+
     # If there are secondary (i.e. from 700 fields) authors, add them to
     # primary authors only if there are no corporate, meeting, primary authors
     if !authors[:primary_authors].blank?
@@ -107,10 +108,10 @@ module Blacklight::Solr::Document::MarcExport
     elsif !authors[:secondary_authors].blank?
       authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? and authors[:meeting_authors].blank?)
     end
-    
+
     # Work with primary authors first
     if !authors[:primary_authors].blank?
-      
+
       # Handle differently if there are more then 10 authors (use et al.)
       if authors[:primary_authors].length > 10
         authors[:primary_authors].each_with_index do |author,index|
@@ -143,7 +144,7 @@ module Blacklight::Solr::Document::MarcExport
             author_text << "and #{name_reverse(author)}."
           else
             author_text << "#{name_reverse(author)}, "
-          end 
+          end
         end
       else
         # Only 1 primary author
@@ -169,7 +170,7 @@ module Blacklight::Solr::Document::MarcExport
       authors[:compilers].each do |compiler|
         temp_authors << [compiler, "comp."]
       end
-      
+
       unless temp_authors.blank?
         if temp_authors.length > 10
           temp_authors.each_with_index do |author,index|
@@ -208,22 +209,22 @@ module Blacklight::Solr::Document::MarcExport
         section_title << "."
       end
     end
-    
+
     if !authors[:primary_authors].blank? and (!authors[:translators].blank? or !authors[:editors].blank? or !authors[:compilers].blank?)
         additional_title << "Translated by #{authors[:translators].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:translators].blank?
         additional_title << "Edited by #{authors[:editors].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:editors].blank?
         additional_title << "Compiled by #{authors[:compilers].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:compilers].blank?
     end
-    
+
     edition = ""
     edition << setup_edition(marc) unless setup_edition(marc).nil?
-    
+
     pub_info = ""
-    if marc["260"] and (marc["260"]["a"] or marc["260"]["b"]) 
+    if marc["260"] and (marc["260"]["a"] or marc["260"]["b"])
       pub_info << clean_end_punctuation(marc["260"]["a"]).strip if marc["260"]["a"]
       pub_info << ": #{clean_end_punctuation(marc["260"]["b"]).strip}" if marc["260"]["b"]
       pub_info << ", #{setup_pub_date(marc)}" if marc["260"]["c"]
-    elsif marc["264"] and (marc["264"]["a"] or marc["264"]["b"]) 
+    elsif marc["264"] and (marc["264"]["a"] or marc["264"]["b"])
       pub_info << clean_end_punctuation(marc["264"]["a"]).strip if marc["264"]["a"]
       pub_info << ": #{clean_end_punctuation(marc["264"]["b"]).strip}" if marc["264"]["b"]
       pub_info << ", #{setup_pub_date(marc)}" if marc["264"]["c"]
@@ -232,7 +233,7 @@ module Blacklight::Solr::Document::MarcExport
     elsif marc["502"] and (marc["502"]["b"] or marc["502"]["c"] or marc["502"]["d"]) #sometimes the dissertation note is encoded in pieces in the $b $c and $d sub fields instead of lumped into the $a
       pub_info << "#{marc["502"]["b"]}, #{marc["502"]["c"]}, #{clean_end_punctuation(marc["502"]["d"])}"
     end
-    
+
     citation = ""
     citation << "#{author_text} " unless author_text.blank?
     citation << "<i>#{title}.</i> " unless title.blank?
@@ -247,10 +248,10 @@ module Blacklight::Solr::Document::MarcExport
     text = ''
     authors_list = []
     authors_list_final = []
-    
+
     #setup formatted author list
     authors = get_all_authors(record)
-    
+
     # If there are secondary (i.e. from 700 fields) authors, add them to
     # primary authors only if there are no corporate, meeting, or primary authors
     if !authors[:primary_authors].empty?
@@ -258,7 +259,7 @@ module Blacklight::Solr::Document::MarcExport
     elsif !authors[:secondary_authors].blank?
       authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? and authors[:meeting_authors].blank?)
     end
-    
+
     if !authors[:primary_authors].blank?
       authors[:primary_authors].each do |l|
         authors_list.push(abbreviate_name(l)) unless l.blank?
@@ -272,7 +273,7 @@ module Blacklight::Solr::Document::MarcExport
           authors_list_final.push(", " + l.strip)
         end
       end
-    # Handling of corporate and meeting authors here is a bit naive — 
+    # Handling of corporate and meeting authors here is a bit naive —
     # assuming that only the first array item is important and ends with
     # an unwanted period
     elsif !authors[:corporate_authors].blank?
@@ -280,7 +281,7 @@ module Blacklight::Solr::Document::MarcExport
     elsif !authors[:meeting_authors].blank?
       authors_list_final.push authors[:meeting_authors][0].gsub(/\.$/,'')
     end
-    
+
     text += authors_list_final.join
     unless text.blank?
       if text[-1,1] == '.'
@@ -289,18 +290,18 @@ module Blacklight::Solr::Document::MarcExport
         text += '. '
       end
     end
-    
+
     # Get Pub Date
     text += "(" + setup_pub_date(record) + "). " unless setup_pub_date(record).nil?
-    
+
     # setup title info
     title = setup_title_info(record)
     text += "<i>" + title + "</i> " unless title.nil?
-    
+
     # Edition
     edition_data = setup_edition(record)
     text += edition_data + " " unless edition_data.nil?
-    
+
     # Publisher info
     text += setup_pub_info(record) unless setup_pub_info(record).nil?
     unless text.blank?
@@ -310,11 +311,11 @@ module Blacklight::Solr::Document::MarcExport
     end
     text
   end
-  
+
   def mla_citation(record)
    text = ''
    authors_final = []
-   
+
    #setup formatted author list
    authors = get_all_authors(record)
 
@@ -350,7 +351,7 @@ module Blacklight::Solr::Document::MarcExport
      else
        text += authors[:primary_authors].first.gsub(/\.$/,'') + ", et al. "
      end
-   # Handling of corporate and meeting authors here is a bit naive — 
+   # Handling of corporate and meeting authors here is a bit naive —
    # assuming that only the first array item is important and ends with
    # a period
    elsif !authors[:corporate_authors].blank?
@@ -358,8 +359,8 @@ module Blacklight::Solr::Document::MarcExport
    elsif !authors[:meeting_authors].blank?
      text += authors[:meeting_authors][0] + '. '
    end
-   
-   
+
+
    # setup title
    title = setup_title_info(record)
    if !title.nil?
@@ -369,10 +370,10 @@ module Blacklight::Solr::Document::MarcExport
    # Edition
    edition_data = setup_edition(record)
    text += edition_data + " " unless edition_data.nil?
-   
+
    # Publication
    text += setup_pub_info(record) + ", " unless setup_pub_info(record).nil?
-   
+
    # Get Pub Date
    text += setup_pub_date(record) unless setup_pub_date(record).nil?
    if text[-1,1] != "."
@@ -381,7 +382,7 @@ module Blacklight::Solr::Document::MarcExport
    text
  end
 
-  # Original comment: 
+  # Original comment:
   # Exports as an OpenURL KEV (key-encoded value) query string.
   # For use to create COinS, among other things. COinS are
   # for Zotero, among other things. TODO: This is wierd and fragile
@@ -389,16 +390,16 @@ module Blacklight::Solr::Document::MarcExport
   # more sensibly. The "format" argument was in the old marc.marc.to_zotero
   # call, but didn't neccesarily do what it thought it did anyway. Left in
   # for now for backwards compatibilty, but should be replaced by
-  # just ruby OpenURL. 
-  def export_as_openurl_ctx_kev(format = 'book')  
-    Rails.logger.debug "*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} " 
+  # just ruby OpenURL.
+  def export_as_openurl_ctx_kev(format = 'book')
+    Rails.logger.debug "*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} "
     format = @_source["format_main_facet"]
-    Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} format = #{format}"  
+    Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} format = #{format}"
     title = to_marc.find{|field| field.tag == '245'}
     author = to_marc.find{|field| field.tag == '100'}
     corp_author = to_marc.find{|field| field.tag == '110'}
     publisher_info = to_marc.find{|field| field.tag == '260'}
-    if publisher_info.nil?  
+    if publisher_info.nil?
       publisher_info = to_marc.find{|field| field.tag == '264'}
     end
     edition = to_marc.find{|field| field.tag == '250'}
@@ -441,11 +442,12 @@ module Blacklight::Solr::Document::MarcExport
   end
   def setup_format
     format
-  end 
-	  
+  end
+
 
 end
 
+end # of if false.
 
 module BlacklightMarcHelper
 
@@ -462,39 +464,11 @@ module BlacklightMarcHelper
   end
 end
 
-
-require 'blacklight_range_limit/segment_calculation'
-module BlacklightRangeLimit
-  module ControllerOverride
-  
-    # Action method of our own!
-    # Delivers a _partial_ that's a display of a single fields range facets.
-    # Used when we need a second Solr query to get range facets, after the
-    # first found min/max from result set. 
-    def range_limit
-      solr_field = params[:range_field] # what field to fetch for
-      start = params[:range_start].to_i
-      finish = params[:range_end].to_i
-      
-      solr_params = solr_search_params(params)
-  
-      # Remove all field faceting for efficiency, we won't be using it.
-      solr_params.delete("facet.field")
-      solr_params.delete("facet.field".to_sym)
-      
-      add_range_segments_to_solr!(solr_params, solr_field, start, finish )
-      # We don't need any actual rows or facets, we're just going to look
-      # at the facet.query's
-      solr_params[:rows] = 0
-      solr_params[:facets] = nil
-      solr_params[:qt] ||= blacklight_config.qt
-      # Not really any good way to turn off facet.field's from the solr default,
-      # no big deal it should be well-cached at this point.
-
-      #@response = Blacklight.default_index.connection.get( blacklight_config.solr_path, :params => solr_params )
-      @response = Blacklight.solr.get( blacklight_config.solr_path, :params => solr_params )
-
-      render('blacklight_range_limit/range_segments', :locals => {:solr_field => solr_field}, :layout => !request.xhr?)
-    end
-  end
-end
+# need not to fail when uri contains | 
+# This overrides the DEFAULT_PARSER with the UNRESERVED key, including '|'
+# # DEFAULT_PARSER is used everywhere, so its better to override it once
+ module URI
+   remove_const :DEFAULT_PARSER
+   unreserved = REGEXP::PATTERN::UNRESERVED
+   DEFAULT_PARSER = Parser.new(:UNRESERVED => unreserved + "|")
+ end

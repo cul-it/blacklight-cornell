@@ -52,6 +52,34 @@ body.blacklight-browse {
 		font-size: 90%;
 	}
 }
+
+
+// CSS3 multiple columns
+// http://techneblog.com/article/creating-responsive-multiple-column-list
+// Get em size for colums: 184/16   
+.columns {   
+    -moz-column-width: 15.5em; // Firefox
+    -webkit-column-width: 15.5em; // webkit, Safari, Chrome
+    column-width: 15.5em;
+    margin-bottom: 1em;
+}
+// remove standard list and bullet formatting from ul
+.columns {
+	ul {
+    	margin: 0;
+    	padding: 0;
+    	list-style-type: none;
+	}
+	li {
+		line-height: 1.75em;
+	}
+	li:first-child {
+	    margin-top:0px;
+	}
+}
+// correct webkit/chrome uneven margin on the first column
+
+
 .see-ref-count { 
 	color: $medium-gray;
 	font-size: 12px;
@@ -64,6 +92,9 @@ body.blacklight-browse {
 }
 .headings-count {
 	width: 40px;
+}
+.see-also-author-title {
+	margin: .25em 0 .5em 0;
 }
 
 
@@ -127,3 +158,32 @@ dl {
 		font-size: 14px;
 	}
 }
+
+// MEDIA QUERIES
+// -------------------------
+
+// Small devices (tablets, 768px and up)
+@media (min-width: $screen-sm) { 
+	// .see-ref {
+	// 	ul {
+	// 		width: 80%;
+	//   		overflow: hidden;
+	// 	}
+	// 	li {
+	//   		float: left;
+	//   		display: inline;
+	// 	}
+	// 	.multicol li { width: 50%;}
+	// }
+}
+
+// Medium devices (desktops, 992px and up)
+@media (min-width: $screen-md) {
+	// .see-ref {
+	// 	ul {
+	// 		width: 60%;
+	// 	}
+	// }
+}
+
+
