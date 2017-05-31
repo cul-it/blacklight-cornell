@@ -43,7 +43,6 @@ gem 'rsolr'
   gem 'coffee-rails', '~> 4.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-   gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 
@@ -72,27 +71,16 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
+  gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
 end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
  gem 'rvm-capistrano'
  gem 'capistrano'
  gem 'capistrano-ext'
 
-# To use debugger
-# gem 'debugger'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
@@ -103,9 +91,5 @@ gem 'borrow_direct', :git => 'git@github.com:jrochkind/borrow_direct.git'
 
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
-# gem 'worldcat'
-#gem 'rest_mollom', :git => 'https://github.com/hernan/rest_mollom.git'
 gem 'mollom'
-#gem 'blacklight-marc'
 gem 'exception_notification'
-#gem 'hipchat'
