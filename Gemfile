@@ -10,11 +10,17 @@ gem 'appsignal'
 gem 'activerecord-session_store'
 gem 'protected_attributes'
 
-gem 'sqlite3'
+group :development,:test do  
+  gem 'sqlite3'
+end
+
+group :production do  
+  gem 'mysql'
+end
+
 gem 'savon', '~> 2.11.1'
 gem 'parslet'
 gem 'ultraviolet'
-gem 'mysql'
 gem 'yaml_db'
 gem 'blacklight', '6.7.2'
 gem 'blacklight_range_limit'
@@ -31,7 +37,6 @@ gem 'marc'
 gem 'blacklight-marc'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-#gem 'newrelic_rpm'
 gem 'nokogiri'
 gem 'rufus-scheduler'
 gem 'addressable'
@@ -76,11 +81,9 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-
- gem 'rvm-capistrano'
- gem 'capistrano'
- gem 'capistrano-ext'
-
+gem 'rvm-capistrano'
+gem 'capistrano'
+gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
