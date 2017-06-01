@@ -108,6 +108,12 @@ BentoSearch.register_engine('bestbet') do |conf|
 	conf.title = 'Best Bet'
 end
 
+BentoSearch.register_engine('digitalCollections') do |conf|
+	conf.engine = 'BentoSearch::DigitalCollectionsEngine'
+	conf.title = 'Digital Collections'
+	conf.for_display = {:decorator => "DigitalCollections"}
+end
+
 BentoSearch.register_engine('web') do |conf|
 	conf.engine = 'BentoSearch::GoogleSiteSearchEngine'
 	conf.title = 'Library Websites'

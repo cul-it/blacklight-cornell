@@ -284,6 +284,12 @@
                 <%= render 'single_search/pane_results', :key => 'web', :result => @websites %>
               </div>
             <% end %>
+          
+            <% if @digitalCollections.present? %>
+              <div class="web-results">
+                <%= render 'single_search/pane_results', :key => 'digitalCollections', :result => @digitalCollections %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
