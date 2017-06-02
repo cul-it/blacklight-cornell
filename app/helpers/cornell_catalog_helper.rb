@@ -1407,17 +1407,17 @@ module CornellCatalogHelper
    
     if ENV['AEON_REQUEST'].blank?
       aeon_req = '/aeon/~id~' 
-      aeon_req.gsub!('~id~',id.to_s)
-      aeon_req.gsub!('~libid~',aeon_codes.join('|'))
+      aeon_req = aeon_req.sub!('~id~',id.to_s)
+      aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
     else 
       aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-      aeon_req.gsub!('~libid~',aeon_codes.join('|'))
+      aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
     end
     if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]
       ##Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
     end
-    aeon_req.gsub!('~fa~',"#{finding_a}")
+    aeon_req = aeon_req.gsub('~fa~',"#{finding_a}")
     (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") : aeon_req
   end
     
