@@ -11,7 +11,7 @@ set :default_environment, {
   'PATH' => "/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/rvm/bin:$PATH",
   'RUBY_VERSION' => "ruby 2.3.1",
   'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.3.1",
-  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.3.1:/usr/local/rvm/gems/ruby-2.3.1@global",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.3.1@global:/usr/local/rvm/gems/ruby-2.3.1"
 #  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.3.1@global/gems/bundler-1.3.5/",  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
