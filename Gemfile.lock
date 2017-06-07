@@ -1,9 +1,9 @@
 GIT
-  remote: git@github.com:cul-it/blacklight-cornell-requests.git
-  revision: c76559bcf0f5af3adfdea60acdfeb42e18d1c6b4
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: c652305a95e7ac0a85d04b7d94ed3687cd9dbc43
   branch: master
   specs:
-    blacklight_cornell_requests (1.4.0)
+    blacklight_cornell_requests (1.4.1)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -20,7 +20,7 @@ GIT
       rails (~> 4.0)
 
 GIT
-  remote: git@github.com:cul-it/blacklight-unapi
+  remote: https://github.com/cul-it/blacklight-unapi
   revision: 18d6543d31a8cf4f2589acf295f6e655c7928af6
   branch: BL6
   specs:
@@ -29,7 +29,7 @@ GIT
       rails (~> 4.0)
 
 GIT
-  remote: git@github.com:jrochkind/borrow_direct.git
+  remote: https://github.com/jrochkind/borrow_direct
   revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
   specs:
     borrow_direct (1.2.0)
@@ -331,6 +331,7 @@ GEM
     orm_adapter (0.5.0)
     parslet (1.7.1)
       blankslate (>= 2.0, <= 4.0)
+    phantomjs (2.1.1.0)
     plist (3.2.0)
     poltergeist (1.11.0)
       capybara (~> 2.1)
@@ -551,6 +552,7 @@ DEPENDENCIES
   net-ldap
   nokogiri
   parslet
+  phantomjs
   poltergeist
   protected_attributes
   pry
