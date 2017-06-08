@@ -332,6 +332,10 @@ GEM
     parslet (1.7.1)
       blankslate (>= 2.0, <= 4.0)
     phantomjs (2.1.1.0)
+    piwik_analytics (1.0.2)
+      actionpack
+      activesupport
+      rails (>= 3.0.0)
     plist (3.2.0)
     poltergeist (1.11.0)
       capybara (~> 2.1)
@@ -553,6 +557,7 @@ DEPENDENCIES
   nokogiri
   parslet
   phantomjs
+  piwik_analytics (~> 1.0.1)
   poltergeist
   protected_attributes
   pry

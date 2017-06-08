@@ -97,3 +97,4 @@ gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 gem 'mollom'
 gem 'exception_notification'
+gem 'piwik_analytics', '~> 1.0.1'
