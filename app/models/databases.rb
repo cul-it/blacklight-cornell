@@ -36,7 +36,7 @@ class Databases < ActiveRecord::Base
     response = response.gsub!('</soap:Envelope>','')
     xml_data = Nokogiri::XML(response)
 #    File.open('somewhere.xml', 'w') { |file| file.write(xml_data) }
-    output = File.open('todays.sql', 'w+')
+#    output = File.open('todays.sql', 'w+')
 #    xml_data = Nokogiri::XML(File.open('somewhere.xml','r'))
     @licenses = xml_data.xpath(sprintf('//%s','License'))
     licenseCount = 1
