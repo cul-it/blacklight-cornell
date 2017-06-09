@@ -13,7 +13,7 @@ production:
   piwik:
     id_site: 2
     url: webstats.library.cornell.edu
-    use_async: false
+    use_async: true
     disabled: false
 
 development:
@@ -22,7 +22,7 @@ development:
     url: webstats.library.cornell.edu
     disabled: true
     use_async: false
-    hostname: webstats.library.cornell.edu
+    hostname: localhost
 
 test:
   piwik:
@@ -30,7 +30,7 @@ test:
     url: webstats.library.cornell.edu
     disabled: true
     use_async: false
-    hostname: webstats.library.cornell.edu
+    hostname: localhost 
 
 integration:
   piwik:
@@ -38,7 +38,7 @@ integration:
     url: webstats.library.cornell.edu
     disabled: true
     use_async: false
-    hostname: webstats.library.cornell.edu
+    hostname:  localhost
 
 staging:
   piwik:
@@ -46,4 +46,4 @@ staging:
     url: webstats.library.cornell.edu
     disabled: true
     use_async: false
-    hostname: webstats.library.cornell.edu
+    hostname:  localhost
