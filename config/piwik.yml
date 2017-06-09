@@ -36,9 +36,9 @@ integration:
   piwik:
     id_site: 2
     url: webstats.library.cornell.edu
-    disabled: true
+    disabled: false 
     use_async: false
-    hostname:  localhost
+    hostname:  newcatalog.library.cornell.edu 
 
 staging:
   piwik:
