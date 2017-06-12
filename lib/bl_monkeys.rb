@@ -483,7 +483,10 @@ module PiwikAnalytics
     def piwik_tracking_tag_bl
       config = PiwikAnalytics.configuration
       return if config.disabled?
-
+      piw_site = config.id_site
+      if ((!config.site2_path.nil?) && (request.path == config.site2_path) ) 
+        piw_site = config.id_site2
+      end
       if config.use_async?
         tag = <<-CODE
         <!-- Piwik -->
@@ -494,7 +497,7 @@ module PiwikAnalytics
             _paq.push(["setDocumentTitle", document.domain + "/" + document.title]); 
             _paq.push(["setCookieDomain", "*.library.cornell.edu"]); 
              _paq.push(["setDomains", ["*.library.cornell.edu","*.newcatalog.library.cornell.edu","*.search.library.cornell.edu"]]);
-            _paq.push(['setSiteId', #{config.id_site}]);
+            _paq.push(['setSiteId', #{piw_site}]);
             _paq.push(['setTrackerUrl', u+'piwik.php']);
             _paq.push(['trackPageView']);
             var d=document,
@@ -518,7 +521,7 @@ module PiwikAnalytics
         document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
         </script><script type="text/javascript">
         try {
-                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", #{config.id_site});
+                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", #{piw_site});
                 piwikTracker.trackPageView();
                 piwikTracker.enableLinkTracking();
         } catch( err ) {}
@@ -528,5 +531,20 @@ module PiwikAnalytics
         tag.html_safe
       end
     end
+  end
+end
+
+
+module PiwikAnalytics
+  class  Configuration
+  # The ID of the second website
+    def id_site2
+      @id_site2 ||= (user_configuration_from_key('id_site2') || 2)
+    end
+
+    def site2_path
+      @site2_path ||= (user_configuration_from_key('site2_path') || "site2 missing")
+    end
+
   end
 end
