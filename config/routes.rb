@@ -33,7 +33,13 @@ end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
-  devise_for :users
+#  devise_for :users
+
+ devise_for :users, controllers: {
+  omniauth_callbacks: 'users/omniauth_callbacks',
+  sessions: 'users/sessions'
+}
+
 # rails 4
 #You should not use the `match` method in your router without specifying an HTTP method.
 #If you want to expose your action to both GET and POST, add `via: [:get, :post]` option.

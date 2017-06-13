@@ -6,7 +6,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = "lbatch@library.cornell.edu"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -206,12 +206,27 @@ Devise.setup do |config|
   # config.navigational_formats = ["*/*", :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = :get
+  config.sign_out_via = :delete
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+  OneLogin::RubySaml::Attributes.single_value_compatibility = false 
+  config.omniauth :saml,
+    idp_cert_fingerprint: ENV['SAML_IDP_CERT_FINGERPRINT'],
+    idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
+    issuer: ENV['SAML_SP_ISSUER'],
+    single_value_compatibility: false,
+    attribute_statements: {
+      email: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.6'],
+      first_name: ['urn:oid:2.5.4.42'],
+      last_name: ['urn:oid:2.5.4.4'],
+      name: ['urn:oid:2.16.840.1.113730.3.1.241'],
+      primary: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.5'],
+      groups: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.1'],
+    }
+ 
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
