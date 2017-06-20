@@ -16,9 +16,9 @@ rescue Errno::ENOENT
 
 
 end
-
+#conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result
 begin
-  SOLR_CONFIG = YAML.load_file("#{::Rails.root}/config/blacklight.yml")
+  SOLR_CONFIG = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result)
 rescue Errno::ENOENT
   puts <<-eos
   ******************************************************************************

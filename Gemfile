@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.2.5"
+ruby "2.3.1"
 
 gem 'rails', '4.2.7.1'
 gem "dotenv-rails"
@@ -10,7 +10,7 @@ gem 'appsignal'
 gem 'activerecord-session_store'
 gem 'protected_attributes'
 
-group :development,:test do  
+group :development,:test, :integration do  
   gem 'sqlite3'
 end
 
@@ -24,7 +24,7 @@ gem 'ultraviolet'
 gem 'yaml_db'
 gem 'blacklight', '6.7.2'
 gem 'blacklight_range_limit'
-gem 'blacklight_unapi', :git => 'git@github.com:cul-it/blacklight-unapi', :branch => 'BL6'
+gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL6'
 gem 'kaminari', '0.15.0'
 
 gem 'blacklight-hierarchy'
@@ -77,6 +77,7 @@ group :test do
   gem 'vcr'
   gem 'capybara-email'
   gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
 
 gem 'jquery-rails'
@@ -89,8 +90,8 @@ gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'git@github.com:cul-it/blacklight-cornell-requests.git', :branch => 'master'
-gem 'borrow_direct', :git => 'git@github.com:jrochkind/borrow_direct.git'
+gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher

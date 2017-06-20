@@ -71,7 +71,7 @@ Capybara.default_selector = :css
 require 'capybara/poltergeist'
 Capybara.register_driver :poltergeist do |app|
   #Capybara::Poltergeist::Driver.new(app, {debug: false})
-  Capybara::Poltergeist::Driver.new(app, timeout: 2.minute)
+  Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute)
 end
 Capybara.javascript_driver = :poltergeist
 # By default, any exception happening in your Rails application will bubble up
