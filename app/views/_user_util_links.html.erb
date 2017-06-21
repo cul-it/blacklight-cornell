@@ -1,5 +1,17 @@
 <div class="col-sm-7 col-md-6">
     <ul class="blacklight-nav">
+        <% if current_user %>
+          <li>
+            <%= link_to 'Sign out', destroy_user_session_path   %>
+          </li> 
+        <% end %>
+        <% if current_or_guest_user %>
+          <% if !current_user %>
+            <li>
+              <%= link_to 'Sign in', '/users/auth/saml'   %>
+            </li> 
+          <% end %>
+        <% end %>
         <% if current_or_guest_user %>
         <%  @bookmarks = current_or_guest_user.bookmarks %>
         <li>
@@ -20,3 +32,7 @@
         </li>
     </ul>
 </div>
+<!--        new_user_session GET          /users/sign_in(.:format)                         users/sessions#new
+                   user_session POST         /users/sign_in(.:format)                         users/sessions#create
+           destroy_user_session GET          /users/sign_out(.:format)                        users/sessions#destroy
+-->

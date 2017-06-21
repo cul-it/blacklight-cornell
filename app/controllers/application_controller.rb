@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   #protect_from_forgery with:  :exception
   protect_from_forgery with:  :null_session
 
+  set_callback :logging_in_user, :before, :show_login_action
+
 # An array of strings to be added to HTML HEAD section of view.
 # See ApplicationHelper#render_head_content for details.
    def extra_head_content
@@ -16,5 +18,26 @@ class ApplicationController < ActionController::Base
         @extra_head_content ||= []
    end
 
+   def show_login_action 
+     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} logging in before hook")
+   end
+
+
+protected
+  def authenticate_user!
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user")
+    if user_signed_in?
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user call super")
+      super
+    else
+      #binding.pry 
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate redirect to saml ")
+      redirect_to 'http://es287-dev.library.cornell.edu:8986/saml.html'
+      #redirect_to 'http://es287-dev.library.cornell.edu:8986/users/auth/saml'
+      #redirect_to new_user_session_path, :notice => 'if you want to add a notice'
+      ## if you want render 404 page
+      #      ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
 
 end

@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   #devise :database_authenticatable, :registerable,
          #:recoverable, :rememberable, :trackable, :validatable
          
+  devise :registerable, :trackable, :database_authenticatable, :timeoutable 
   devise :omniauthable, :omniauth_providers => [:saml]
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me

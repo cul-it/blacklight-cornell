@@ -54,7 +54,7 @@
         <% if !part_of_catalog? and params[:controller] != 'advanced_search'%>
           <h1>
           <!-- set the @heading in the controller for the specialized view -->
-          <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
+           link_to(@heading, :controller => params[:controller], :action => "index") %>
           </h1>
         <% else %>
           <h1><a href="<%=root_path%>">Library Catalog</a></h1>

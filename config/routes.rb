@@ -33,7 +33,7 @@ end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
-#  devise_for :users
+# devise_for :users
 
  devise_for :users, controllers: {
   omniauth_callbacks: 'users/omniauth_callbacks',
@@ -47,9 +47,9 @@ end
 #  Instead of: match "controller#action"
 #  Do: get "controller#action"
 
-  get 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
-  get 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
-  get 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
+#  get 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
+#  get 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
+#  get 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
   get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   get 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
 # commenting out until certain this is a dead-end route  get 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall

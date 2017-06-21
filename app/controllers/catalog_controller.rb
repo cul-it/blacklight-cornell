@@ -7,6 +7,9 @@ class CatalogController < ApplicationController
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
 
+  before_filter :authenticate_user!, only: [  :email ]
+  prepend_before_filter :set_return_path
+
   # Ensure that the configuration file is present
   begin
     SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
@@ -25,7 +28,7 @@ class CatalogController < ApplicationController
     Blacklight::Solr::Repository
   end
 
-  before_action :authorize_email_use!, only: :email
+  #before_action :authorize_email_use!, only: :email
 
   # This is used to protect the email function by limiting it to only Cornell
   # users. If not signed in, the user is prompted to click a link that redirects
@@ -33,14 +36,18 @@ class CatalogController < ApplicationController
   # seem to actually appear anywhere (not sure why), but rendering 'nothing'
   # instead doesn't let the email modal appear either.
   def authorize_email_use!
-    unless session[:cu_authenticated_user].present?
-      flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
+    if  !session[:cu_authenticated_user].present? 
+        flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
+      end
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
-      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+    session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+      #render :partial => 'catalog/email_cuwebauth'
+  end
 
-      render :partial => 'catalog/email_cuwebauth'
-    end
+  def set_return_path
+     session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}/email"
+     return true
   end
 
 

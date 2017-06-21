@@ -128,7 +128,8 @@ Devise.setup do |config|
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
   # DISCOVERYACCESS-2028 - trying to get rid of old sessions
-  config.timeout_in = 30.minutes
+  #config.timeout_in = 30.minutes
+  config.timeout_in = 5.minutes
   
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false 
@@ -206,7 +207,7 @@ Devise.setup do |config|
   # config.navigational_formats = ["*/*", :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = :delete
+  config.sign_out_via = :get
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
@@ -232,10 +233,18 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
-  #   manager.intercept_401 = false
-  #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
-  # end
+  config.warden do |manager|
+     manager.intercept_401 = false
+     Warden::Manager.before_logout do |user, auth, opts|
+       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden user =  #{user.inspect}")
+       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden auth =  #{auth.inspect}")
+       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden opts =  #{opts.inspect}")
+     end
+     #manager.default_strategies(:scope => :user).unshift :some_external_strategy
+   end
+Warden::Manager.before_logout do |user, auth, opts|
+  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} user =  #{user.inspect}")
+ end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -251,3 +260,4 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 end
+
