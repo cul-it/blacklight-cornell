@@ -14,6 +14,8 @@
 production:
   piwik:
     id_site: 2
+    site2_path: /search 
+    id_site2: 67 
     url: webstats.library.cornell.edu
     disabled: false
     use_async: true
@@ -22,7 +24,7 @@ development:
   piwik:
     id_site: 2
     site2_path: /search 
-    id_site2: 99 
+    id_site2: 67
     url: webstats.library.cornell.edu
     disabled: true 
     use_async: false
@@ -39,6 +41,8 @@ test:
 integration:
   piwik:
     id_site: 2
+    site2_path: /search 
+    id_site2: 67
     url: webstats.library.cornell.edu
     disabled: true 
     use_async: false
