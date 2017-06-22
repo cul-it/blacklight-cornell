@@ -7,7 +7,9 @@ class CatalogController < ApplicationController
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
 
-  before_filter :authenticate_user!, only: [  :email ]
+  if   ENV['SAML_IDP_TARGET_URL']
+    before_filter :authenticate_user!, only: [  :email ]
+  end
   prepend_before_filter :set_return_path
 
   # Ensure that the configuration file is present
@@ -27,8 +29,9 @@ class CatalogController < ApplicationController
   def repository_class
     Blacklight::Solr::Repository
   end
-
-  #before_action :authorize_email_use!, only: :email
+  unless  ENV['SAML_IDP_TARGET_URL']
+    before_action :authorize_email_use!, only: :email
+  end
 
   # This is used to protect the email function by limiting it to only Cornell
   # users. If not signed in, the user is prompted to click a link that redirects
@@ -46,7 +49,7 @@ class CatalogController < ApplicationController
   end
 
   def set_return_path
-     session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}/email"
+     session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/afemail/#{params[:id]}"
      return true
   end
 
@@ -872,11 +875,57 @@ class CatalogController < ApplicationController
   # a class variable in order to maintain the connection across CAPTCHA
   # displays and repeated form submissions.
   @@mollom = nil
+
+  def afemail
+    @id = params[:id]
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+  end
+
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
+  # but now we removed mollom captcha.
   def email
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
+    docs = params[:id].split '|'
+    @response, @documents = fetch docs
+    if request.post?
+      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+        email.deliver_now
+        flash[:success] = "Email sent"
+        redirect_to solr_document_path(params[:id]) unless request.xhr?
+      else
+          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+      end  
+    end
+
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
+    if request.xhr? && flash[:success] 
+      if docs.size < 2 
+        render :js => "window.location = '/catalog/#{params[:id]}'"
+      else 
+        render :js => "window.location = '/bookmarks'"
+      end
+      #redirect_to solr_document_path(params[:id])
+      return
+    end
+    unless !request.xhr? && flash[:success] 
+      respond_to do |format|
+        format.js { render :layout => false }
+        format.html
+      end
+    end
+  end
+  
+  # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
+  # (in order to add Mollom/CAPTCHA integration)
+  def mjcemail
 
     Rails.logger.debug "mjc12test: entering email"
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
 
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
@@ -951,15 +1000,17 @@ class CatalogController < ApplicationController
                                                          :templocation => params[:templocation], :status => params[:itemStatus], :params => params}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} emailing   = #{flash.inspect}")
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       end
 
     end  # request.post?
-
-    unless !request.xhr? && flash[:success]
-      respond_to do |format|
-        format.js { render :layout => false }
-        format.html
+    if false
+      unless !request.xhr? && flash[:success] 
+        respond_to do |format|
+          format.js { render :layout => false }
+          format.html
+        end
       end
     end
 end
