@@ -31,7 +31,7 @@ protected
       super
     else
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate redirect to saml ")
-      if ENV['IDP_TARGET_URL'] 
+      if ENV['SAML_IDP_TARGET_URL'] 
         redirect_to 'http://es287-dev.library.cornell.edu:8986/saml.html'
       end 
       #redirect_to 'http://es287-dev.library.cornell.edu:8986/users/auth/saml'

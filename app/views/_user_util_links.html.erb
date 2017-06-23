@@ -1,5 +1,6 @@
 <div class="col-sm-7 col-md-6">
     <ul class="blacklight-nav">
+        <% if ENV['SAML_IDP_TARGET_URL'] %>
         <% if current_user %>
           <li>
             <%= link_to 'Sign out', destroy_user_session_path   %>
@@ -11,6 +12,7 @@
               <%= link_to 'Sign in', '/users/auth/saml'   %>
             </li> 
           <% end %>
+        <% end %>
         <% end %>
         <% if current_or_guest_user %>
         <%  @bookmarks = current_or_guest_user.bookmarks %>

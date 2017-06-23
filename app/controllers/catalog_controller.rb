@@ -9,8 +9,8 @@ class CatalogController < ApplicationController
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_filter :authenticate_user!, only: [  :email ]
+    prepend_before_filter :set_return_path
   end
-  prepend_before_filter :set_return_path
 
   # Ensure that the configuration file is present
   begin
@@ -41,11 +41,11 @@ class CatalogController < ApplicationController
   def authorize_email_use!
     if  !session[:cu_authenticated_user].present? 
         flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
-      end
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
     session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
-      #render :partial => 'catalog/email_cuwebauth'
+    render :partial => 'catalog/email_cuwebauth'
+    end
   end
 
   def set_return_path
@@ -903,14 +903,15 @@ class CatalogController < ApplicationController
 
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
-    if request.xhr? && flash[:success] 
-      if docs.size < 2 
-        render :js => "window.location = '/catalog/#{params[:id]}'"
-      else 
-        render :js => "window.location = '/bookmarks'"
+    if   ENV['SAML_IDP_TARGET_URL']
+      if request.xhr? && flash[:success] 
+        if docs.size < 2 
+          render :js => "window.location = '/catalog/#{params[:id]}'"
+        else 
+          render :js => "window.location = '/bookmarks'"
+        end
+        return
       end
-      #redirect_to solr_document_path(params[:id])
-      return
     end
     unless !request.xhr? && flash[:success] 
       respond_to do |format|
@@ -922,7 +923,7 @@ class CatalogController < ApplicationController
   
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
-  def mjcemail
+  def mollom_email
 
     Rails.logger.debug "mjc12test: entering email"
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
