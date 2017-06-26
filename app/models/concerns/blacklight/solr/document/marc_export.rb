@@ -636,6 +636,7 @@ module Blacklight::Solr::Document::MarcExport
         elsif relators.include?(compiler_code)
           compilers << field["a"]
         else
+          editors << field["a"]
           secondary_authors << field["a"]
         end
       end

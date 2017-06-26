@@ -67,6 +67,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     # for anything except 'author'
     primary_authors = authors[:primary_authors]
     corp_authors = authors[:corporate_authors]
+    editors = authors[:editors]
     if !primary_authors.empty?
       output += "AU  - #{primary_authors[0]}\n"
       if primary_authors.length > 1
@@ -83,6 +84,12 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
           output += "A#{i}  - #{corp_authors[i]}"
         end
       end
+    end
+
+    if !editors.empty?
+      editors.each { |e|     
+        output += "ED  - #{e}\n"
+      } 
     end
 
     # publication year
