@@ -115,5 +115,9 @@ end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
 
   end
+ 
+  def erm_update
+     Databases.update
+  end
 
 end

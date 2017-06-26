@@ -1,5 +1,4 @@
 class Databases < ActiveRecord::Base
-  attr_accessible :Collection_Name
   require 'dotenv'
    # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
     HTTPI.adapter = :net_http
@@ -10,7 +9,6 @@ class Databases < ActiveRecord::Base
   def self.update
     Rails.logger.info("Successfully entered Databases.update #{Time.now}")
     wsdl_path = 'https://rmws.serialssolutions.com/serialssolutionswebservice/SerialsSolutions360WebService.asmx?wsdl'
-    ::Erm_data.delete_all
     client = Savon.client(
        :read_timeout => 180,
        :wsdl => wsdl_path,
@@ -30,7 +28,7 @@ class Databases < ActiveRecord::Base
        Rails.logger.info("Response is nil or blank")
     else
        Rails.logger.info("Response has content")
-    end
+       ::Erm_data.delete_all
     response = response2.to_s
     response = response.gsub!('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><LicenseDataResponse xmlns="http://serialssolutions.com/">','')
     response = response.gsub!('</LicenseDataResponse>','')
@@ -155,8 +153,8 @@ class Databases < ActiveRecord::Base
          courseReserveNote = ""
        end
        if !courseReserveNote.blank?
-          courseReserveNote.gsub!('"','\"')
-          courseReserveNote.gsub!("'",'\'')
+          courseReserveNote.gsub!('"',' ')
+          courseReserveNote.gsub!("'",' ')
        end
        electronicLink = licenseTerms.xpath(sprintf('./%s', "ElectronicLink/Content")).inner_text
        electronicLinkNote = licenseTerms.xpath(sprintf('./%s', "ElectronicLinkNote/Content")).inner_text
@@ -169,14 +167,14 @@ class Databases < ActiveRecord::Base
        coursePackNote = licenseTerms.xpath(sprintf('./%s', "CoursePackNote/Content")).inner_text
        if !coursePackNote.blank?
           coursePackNote.gsub!('"','\"')
-          coursePackNote.gsub!("'","\'")
+          coursePackNote.gsub!("'"," ")
        end
        remoteAccess = licenseTerms.xpath(sprintf('./%s', "RemoteAccess/Content")).inner_text
        remoteAccessNote = licenseTerms.xpath(sprintf('./%s', "RemoteAccessNote/Content")).inner_text
-       coursePackNote = licenseTerms.xpath(sprintf('./%s', "CoursePackNote/Content")).inner_text
+       remoteAccessNote = licenseTerms.xpath(sprintf('./%s', "CoursePackNote/Content")).inner_text
        if !remoteAccessNote.blank?
-          remoteAccessNote.gsub!('"','\"')
-          remoteAccessNote.gsub!("'","\'")
+          remoteAccessNote.gsub!('"',' ')
+          remoteAccessNote.gsub!("'"," ")
        end
        otherUseRestrictionsStaffNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsStaffNote/Content")).inner_text.gsub!('"','')
        if otherUseRestrictionsStaffNote.nil?
@@ -186,11 +184,8 @@ class Databases < ActiveRecord::Base
        otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
        perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
        perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
-       perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text
-       if !perpetualAccessNote.blank?
-         perpetualAccessNote.gsub!('"','\"')
-         perpetualAccessNote.gsub!("'","\'")
-       end
+       perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text.gsub('"','\\"')
+       perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text.gsub('"','\\"')
        licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/Content")).inner_text
        licenseeTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationCondition/Content")).inner_text
        licenseeTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationNote/Content")).inner_text
@@ -261,7 +256,7 @@ class Databases < ActiveRecord::Base
            prevailing =  resource.xpath(sprintf('./%s',"Prevailing")).inner_text
            resourceNames = " Collection_Name, Collection_ID, Provider_Name, Provider_Code, Database_Name, Database_Code, Database_Status, Title_Name, Title_ID, Title_Status, ISSN, eISSN, ISBN, SSID, Prevailing"
            resourceValues = " \"" +  collectionName + "\", \"" + libraryCollectionId + "\", \"" + providerName + "\", \"" + providerCode + "\", \"" + databaseName + "\", \"" + databaseCode + "\", \"" + databaseStatus + "\", \"" + titleName + "\", \"" + titleId + "\", \"" + titleStatus + "\", \"" + iSSN + "\", \"" + eISSN + "\", \"" + iSBN + "\", \"" + sSID + "\", \"" + prevailing + "\""
-#           output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
+           #output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
 #            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
            insert = Erm_data.connection.raw_connection.prepare(sql)
@@ -270,13 +265,14 @@ class Databases < ActiveRecord::Base
          end
        else
            #puts "No Resources.\n";
-#           output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
+    #       output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
           # puts sql
            insert = Erm_data.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1
        end
+     end
     end
   end
 end

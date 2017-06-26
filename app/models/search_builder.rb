@@ -1,4 +1,5 @@
-# frozen_string_literal: true
+# rozen_string_literal: true
+# operations on strings are so prevalent must unfreeze them.
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
@@ -46,7 +47,8 @@ class SearchBuilder < Blacklight::SearchBuilder
       spellstring = ""
       if !my_params[:q_row].nil?
       blacklight_params[:q_row].each do |term|
-        spellstring << term << ' '
+        spellstring += term += ' '
+        #spellstring  += term +  ' '
       end
       
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
@@ -659,7 +661,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 
                        q_string2 << holdarray[1] << " "
                        if field_name == ''
-                       solr6query << " " + holdarray[1] 
+                       solr6query += " " + holdarray[1] 
                        else
                         if journal_title_flag == 1
                           solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'

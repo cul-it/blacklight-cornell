@@ -8,17 +8,17 @@ set :scm_verbose, true
 #set :user, "es287"
 set :user, "rails"
 set :default_environment, {
-  'PATH' => "/usr/local/rvm/gems/ruby-2.2.5/bin:/usr/local/rvm/gems/ruby-2.2.5@global/bin:/usr/local/rvm/rubies/ruby-2.2.5/bin:/usr/local/rvm/bin:$PATH",
-  'RUBY_VERSION' => "ruby 2.2.5",
-  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.2.5",
-  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.2.5:/usr/local/rvm/gems/ruby-2.2.5@global",
-#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.2.5@global/gems/bundler-1.3.5/",  # If you are using bundler.
+  'PATH' => "/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/rvm/bin:$PATH",
+  'RUBY_VERSION' => "ruby 2.3.1",
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.3.1",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.3.1:/usr/local/rvm/gems/ruby-2.3.1@global"
+#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.3.1@global/gems/bundler-1.3.5/",  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 #Deploy to may vary depending on target stage
 #set :deploy_to, "/libweb/#{user}"
 set :deploy_via, :copy
-set :bundle_flags,    "--local --deployment "
+set :bundle_flags,    "--deployment "
 #set :bundle_flags,    "--deployment --quiet"
 #set :bundle_flags, ""    
 
