@@ -636,7 +636,9 @@ module Blacklight::Solr::Document::MarcExport
         elsif relators.include?(compiler_code)
           compilers << field["a"]
         else
-          editors << field["a"]
+          if setup_editors_flag(record) 
+            editors << field["a"]
+          end
           secondary_authors << field["a"]
         end
       end
@@ -684,6 +686,19 @@ module Blacklight::Solr::Document::MarcExport
       end
     end
     new_text.join(" ")
+  end
+
+  # I hope this can guide the interpretation of 700 when no role is encoded.
+  def setup_editors_flag(record)
+    title_info_field = record.find{|f| f.tag == '245'}
+    edited = false
+    if title_info_field
+      c_title_info = title_info_field.find{|s| s.code == 'c'}
+      if (c_title_info and c_title_info.value and c_title_info.value.include?("edited"))
+        edited = true 
+      end
+    end
+  edited
   end
 
   def setup_title_info(record)
