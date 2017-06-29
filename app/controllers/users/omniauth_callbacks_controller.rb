@@ -26,7 +26,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
       session[:cuwebauth_return_path] = nil
-      redirect_to path
+      #redirect_to path
+      render :js => "<script>window.location = '/catalog/email'</script>"
+      return
     else  
       redirect_to root_path, :notice => "Hi <strong>#{request.env["omniauth.auth"].info.name}</strong>."
     end
