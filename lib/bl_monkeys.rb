@@ -1,4 +1,5 @@
 #include Blacklight::Solr::Document::MarcExport
+
 if false
 
 module Blacklight::Solr #::Document::MarcExport
@@ -7,6 +8,7 @@ module Blacklight::Solr #::Document::MarcExport
 
 # NOTE: all of the functions below are copied and modified from the
 # blacklight-marc gem.
+
 
   def setup_pub_info(record)
     text = ''

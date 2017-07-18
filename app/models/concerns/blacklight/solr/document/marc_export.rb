@@ -605,12 +605,35 @@ module Blacklight::Solr::Document::MarcExport
     end
     clean_end_punctuation(date_value) if date_value
   end
+  # process 100,110,111 and 700, 710, 711
+  # putting together role indicators.
+  def get_contrib_roles(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+    contributors = ["100","110","111","700","710","711" ]
+    relators = {} 
+    record.find_all{|f| contributors.include?(f.tag) }.each do |field|
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
+      if field["a"]
+        contributor = clean_end_punctuation(field["a"])
+        relators[contributor] = [] if relators[contributor].nil?  
+        field.find_all{|sf| sf.code == 'e' }.each do |sfe|
+          code = code_for_relation(clean_end_punctuation(sfe.value))  if sfe 
+          relators[contributor] << code if code
+        end
+        field.find_all{|sf| sf.code == '4' }.each do |sf4|
+          relators[contributor] << clean_end_punctuation(sf4) if sf4 
+        end
+      end
+    end 
+    relators
+  end
 
   # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
+    translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"
     primary_authors = []; translators = []; editors = []; compilers = []
     corporate_authors = []; meeting_authors = []; secondary_authors = []
     record.find_all{|f| f.tag === "100" }.each do |field|
@@ -638,8 +661,9 @@ module Blacklight::Solr::Document::MarcExport
         else
           if setup_editors_flag(record) 
             editors << field["a"]
+          else 
+            secondary_authors << field["a"]
           end
-          secondary_authors << field["a"]
         end
       end
     end
@@ -796,5 +820,285 @@ module Blacklight::Solr::Document::MarcExport
     temp_name = name.split(", ")
     return temp_name.last + " " + temp_name.first
   end 
+
+  def relation_for_code(c)
+    RELATORS.key(c) 
+  end
+
+  def code_for_relation(r)
+    RELATORS[r.downcase] 
+  end
+
+
+RELATORS = {
+"abridger" => "abr",
+"actor" => "act",
+"adapter" => "adp",
+"addressee" => "rcp",
+"analyst" => "anl",
+"animator" => "anm",
+"annotator" => "ann",
+"appellant" => "apl",
+"appellee" => "ape",
+"applicant" => "app",
+"architect" => "arc",
+"arranger" => "arr",
+"art copyist" => "acp",
+"art director" => "adi",
+"artist" => "art",
+"artistic director" => "ard",
+"assignee" => "asg",
+"associated name" => "asn",
+"attributed name" => "att",
+"auctioneer" => "auc",
+"author" => "aut",
+"author in quotations or text abstracts" => "aqt",
+"author of afterword, colophon, etc." => "aft",
+"author of dialog" => "aud",
+"author of introduction, etc." => "aui",
+"autographer" => "ato",
+"bibliographic antecedent" => "ant",
+"binder" => "bnd",
+"binding designer" => "bdd",
+"blurb writer" => "blw",
+"book designer" => "bkd",
+"book producer" => "bkp",
+"bookjacket designer" => "bjd",
+"bookplate designer" => "bpd",
+"bookseller" => "bsl",
+"braille embosser" => "brl",
+"broadcaster" => "brd",
+"calligrapher" => "cll",
+"cartographer" => "ctg",
+"caster" => "cas",
+"censor" => "cns",
+"choreographer" => "chr",
+"cinematographer" => "cng",
+"client" => "cli",
+"collection registrar" => "cor",
+"collector" => "col",
+"collotyper" => "clt",
+"colorist" => "clr",
+"commentator" => "cmm",
+"commentator for written text" => "cwt",
+"compiler" => "com",
+"complainant" => "cpl",
+"complainant-appellant" => "cpt",
+"complainant-appellee" => "cpe",
+"composer" => "cmp",
+"compositor" => "cmt",
+"conceptor" => "ccp",
+"conductor" => "cnd",
+"conservator" => "con",
+"consultant" => "csl",
+"consultant to a project" => "csp",
+"contestant" => "cos",
+"contestant-appellant" => "cot",
+"contestant-appellee" => "coe",
+"contestee" => "cts",
+"contestee-appellant" => "ctt",
+"contestee-appellee" => "cte",
+"contractor" => "ctr",
+"contributor" => "ctb",
+"copyright claimant" => "cpc",
+"copyright holder" => "cph",
+"corrector" => "crr",
+"correspondent" => "crp",
+"costume designer" => "cst",
+"court governed" => "cou",
+"court reporter" => "crt",
+"cover designer" => "cov",
+"creator" => "cre",
+"curator" => "cur",
+"dancer" => "dnc",
+"data contributor" => "dtc",
+"data manager" => "dtm",
+"dedicatee" => "dte",
+"dedicator" => "dto",
+"defendant" => "dfd",
+"defendant-appellant" => "dft",
+"defendant-appellee" => "dfe",
+"degree granting institution" => "dgg",
+"degree supervisor" => "dgs",
+"delineator" => "dln",
+"depicted" => "dpc",
+"depositor" => "dpt",
+"designer" => "dsr",
+"director" => "drt",
+"dissertant" => "dis",
+"distribution place" => "dbp",
+"distributor" => "dst",
+"donor" => "dnr",
+"draftsman" => "drm",
+"dubious author" => "dub",
+"editor" => "edt",
+"editor of compilation" => "edc",
+"editor of moving image work" => "edm",
+"electrician" => "elg",
+"electrotyper" => "elt",
+"enacting jurisdiction" => "enj",
+"engineer" => "eng",
+"engraver" => "egr",
+"etcher" => "etr",
+"event place" => "evp",
+"expert" => "exp",
+"facsimilist" => "fac",
+"field director" => "fld",
+"film director" => "fmd",
+"film distributor" => "fds",
+"film editor" => "flm",
+"film producer" => "fmp",
+"filmmaker" => "fmk",
+"first party" => "fpy",
+"forger" => "frg",
+"former owner" => "fmo",
+"funder" => "fnd",
+"geographic information specialist" => "gis",
+"honoree" => "hnr",
+"host" => "hst",
+"host institution" => "his",
+"illuminator" => "ilu",
+"illustrator" => "ill",
+"inscriber" => "ins",
+"instrumentalist" => "itr",
+"interviewee" => "ive",
+"interviewer" => "ivr",
+"inventor" => "inv",
+"issuing body" => "isb",
+"judge" => "jud",
+"jurisdiction governed" => "jug",
+"laboratory" => "lbr",
+"laboratory director" => "ldr",
+"landscape architect" => "lsa",
+"lead" => "led",
+"lender" => "len",
+"libelant" => "lil",
+"libelant-appellant" => "lit",
+"libelant-appellee" => "lie",
+"libelee" => "lel",
+"libelee-appellant" => "let",
+"libelee-appellee" => "lee",
+"librettist" => "lbt",
+"licensee" => "lse",
+"licensor" => "lso",
+"lighting designer" => "lgd",
+"lithographer" => "ltg",
+"lyricist" => "lyr",
+"manufacture place" => "mfp",
+"manufacturer" => "mfr",
+"marbler" => "mrb",
+"markup editor" => "mrk",
+"medium" => "med",
+"metadata contact" => "mdc",
+"metal-engraver" => "mte",
+"minute taker" => "mtk",
+"moderator" => "mod",
+"monitor" => "mon",
+"music copyist" => "mcp",
+"musical director" => "msd",
+"musician" => "mus",
+"narrator" => "nrt",
+"onscreen presenter" => "osp",
+"opponent" => "opn",
+"organizer" => "orm",
+"originator" => "org",
+"other" => "oth",
+"owner" => "own",
+"panelist" => "pan",
+"papermaker" => "ppm",
+"patent applicant" => "pta",
+"patent holder" => "pth",
+"patron" => "pat",
+"performer" => "prf",
+"permitting agency" => "pma",
+"photographer" => "pht",
+"plaintiff" => "ptf",
+"plaintiff-appellant" => "ptt",
+"plaintiff-appellee" => "pte",
+"platemaker" => "plt",
+"praeses" => "pra",
+"presenter" => "pre",
+"printer" => "prt",
+"printer of plates" => "pop",
+"printmaker" => "prm",
+"process contact" => "prc",
+"producer" => "pro",
+"production company" => "prn",
+"production designer" => "prs",
+"production manager" => "pmn",
+"production personnel" => "prd",
+"production place" => "prp",
+"programmer" => "prg",
+"project director" => "pdr",
+"proofreader" => "pfr",
+"provider" => "prv",
+"publication place" => "pup",
+"publisher" => "pbl",
+"publishing director" => "pbd",
+"puppeteer" => "ppt",
+"radio director" => "rdd",
+"radio producer" => "rpc",
+"recording engineer" => "rce",
+"recordist" => "rcd",
+"redaktor" => "red",
+"renderer" => "ren",
+"reporter" => "rpt",
+"repository" => "rps",
+"research team head" => "rth",
+"research team member" => "rtm",
+"researcher" => "res",
+"respondent" => "rsp",
+"respondent-appellant" => "rst",
+"respondent-appellee" => "rse",
+"responsible party" => "rpy",
+"restager" => "rsg",
+"restorationist" => "rsr",
+"reviewer" => "rev",
+"rubricator" => "rbr",
+"scenarist" => "sce",
+"scientific advisor" => "sad",
+"screenwriter" => "aus",
+"scribe" => "scr",
+"sculptor" => "scl",
+"second party" => "spy",
+"secretary" => "sec",
+"seller" => "sll",
+"set designer" => "std",
+"setting" => "stg",
+"signer" => "sgn",
+"singer" => "sng",
+"sound designer" => "sds",
+"speaker" => "spk",
+"sponsor" => "spn",
+"stage director" => "sgd",
+"stage manager" => "stm",
+"standards body" => "stn",
+"stereotyper" => "str",
+"storyteller" => "stl",
+"supporting host" => "sht",
+"surveyor" => "srv",
+"teacher" => "tch",
+"technical director" => "tcd",
+"television director" => "tld",
+"television producer" => "tlp",
+"thesis advisor" => "ths",
+"transcriber" => "trc",
+"translator" => "trl",
+"type designer" => "tyd",
+"typographer" => "tyg",
+"university place" => "uvp",
+"videographer" => "vdg",
+"voice actor" => "vac",
+"witness" => "wit",
+"wood engraver" => "wde",
+"woodcutter" => "wdc",
+"writer of accompanying material" => "wam",
+"writer of added commentary" => "wac",
+"writer of added lyrics" => "wal",
+"writer of added text" => "wat",
+"writer of introduction" => "win",
+"writer of preface" => "wpr",
+"writer of supplementary textual content" => "wst" }
+
   
 end

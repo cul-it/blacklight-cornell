@@ -40,7 +40,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
   "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"SOUND", "Musical Recording"=>"SOUND",
   "STAND"=>"STAND",
-  "STAT"=>"STAT", "THES"=>"THES", "UNPB"=>"UNPB", "Video"=>"VIDEO"
+  "STAT"=>"STAT", "Thesis"=>"THES", "UNPB"=>"UNPB", "Video"=>"VIDEO"
   }
 
   def export_ris
@@ -117,44 +117,30 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       ul = self['url_access_display'].first.split('|').first
       output += "UR  - #{ul}\n"
     end
-    output += "UR  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "M2 - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "N1 - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
     kw =   setup_kw_info(to_marc)
     kw.each do |k|
-      output +=  "KW  - #{k}" + "\n"
+
+      output +=  "KW  - #{k}" + "\n" unless k.empty? 
     end
     nt =   setup_notes_info(to_marc)
     nt.each do |n|
       output +=  "N1  - #{n}" + "\n"
     end
+    nt =   setup_abst_info(to_marc)
+    nt.each do |n|
+      output +=  "N2  - #{n}" + "\n"
+    end
+    nt =   setup_holdings_info(to_marc)
+    output +=  "CN  - #{nt.join(' ')}" + "\n" unless nt.join('').blank?
+    nt =   setup_isbn_info(to_marc)
+    output +=  "SN  - #{nt.join(' ')}" + "\n" unless nt.join('').blank?
     # closing tag
     output += "ER  - \n"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__}: #{output}"
+    output
   end
 
-  def setup_kw_info(record)
-    text = []
-    record.find_all{|f| f.tag === "650" }.each do |field|
-      textstr = ''
-      field.each do  |sf|
-        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
-       end unless field.indicator2 == '7'
-       text << textstr
-    end
-    text
-  end
-
-  def setup_notes_info(record)
-    text = []
-    record.find_all{|f| f.tag === "500" }.each do |field|
-      textstr = ''
-      field.each do  |sf|
-        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
-      end
-      text << textstr
-    end
-    record.find_all{|f| f.tag === "505" }.each do |field|
-      text  << field.value
-    end
-    text
-  end
 
 end
