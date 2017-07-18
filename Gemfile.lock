@@ -1,21 +1,7 @@
 GIT
-  remote: https://github.com/cul-it/blacklight-unapi
-  revision: 18d6543d31a8cf4f2589acf295f6e655c7928af6
-  branch: BL6
-  specs:
-    blacklight_unapi (0.0.3)
-      blacklight (> 3.2)
-      rails (~> 4.0)
-
-GIT
-  remote: https://github.com/jrochkind/borrow_direct
-  revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
-  specs:
-    borrow_direct (1.2.0)
-      httpclient (~> 2.4)
-
-PATH
-  remote: ../blacklight-cornell-requests
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: 346dd8eb1b23f3a7b20be3e98e4d954cc911a33f
+  branch: saml
   specs:
     blacklight_cornell_requests (1.4.1)
       blacklight (>= 5.9)
@@ -32,6 +18,22 @@ PATH
       nokogiri
       protected_attributes
       rails (~> 4.0)
+
+GIT
+  remote: https://github.com/cul-it/blacklight-unapi
+  revision: 18d6543d31a8cf4f2589acf295f6e655c7928af6
+  branch: BL6
+  specs:
+    blacklight_unapi (0.0.3)
+      blacklight (> 3.2)
+      rails (~> 4.0)
+
+GIT
+  remote: https://github.com/jrochkind/borrow_direct
+  revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
+  specs:
+    borrow_direct (1.2.0)
+      httpclient (~> 2.4)
 
 GEM
   remote: https://rubygems.org/
