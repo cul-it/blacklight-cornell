@@ -47,6 +47,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_url(builder)
         generate_rdf_isbn(builder)
         generate_rdf_holdings(builder)
+        generate_rdf_specific(builder,ty)
       end
     end
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!.inspect}"
@@ -181,90 +182,16 @@ module Blacklight::Solr::Document::Zotero
       }
     end 
   end
-  def dummy_zotero
-    text = <<HERE
-<rdf:RDF
- xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
- xmlns:z="http://www.zotero.org/namespaces/export#"
- xmlns:dc="http://purl.org/dc/elements/1.1/"
- xmlns:vcard="http://nwalsh.com/rdf/vCard#"
- xmlns:foaf="http://xmlns.com/foaf/0.1/"
- xmlns:bib="http://purl.org/net/biblio#"
- xmlns:dcterms="http://purl.org/dc/terms/">
-    <bib:Book rdf:about="http://newcatalog.library.cornell.edu/catalog/7199127">
-        <z:itemType>book</z:itemType>
-        <dc:publisher>
-            <foaf:Organization>
-                <vcard:adr>
-                    <vcard:Address>
-                       <vcard:locality>Upper Saddle River, NJ</vcard:locality>
-                    </vcard:Address>
-                </vcard:adr>
-                <foaf:name>Prentice Hall</foaf:name>
-            </foaf:Organization>
-        </dc:publisher>
-        <bib:authors>
-            <rdf:Seq>
-                <rdf:li>
-                    <foaf:Person>
-                        <foaf:surname>Hoefferle</foaf:surname>
-                        <foaf:givenname>Caroline</foaf:givenname>
-                    </foaf:Person>
-                </rdf:li>
-            </rdf:Seq>
-        </bib:authors>
-        <dc:subject>
-            <z:AutomaticTag>
-               <rdf:value>Historiography Textbooks.</rdf:value>
-            </z:AutomaticTag>
-        </dc:subject>
-        <dcterms:isReferencedBy rdf:resource="#item41"/>
-        <dc:identifier>
-            <dcterms:URI>
-                <rdf:value>http://newcatalog.library.cornell.edu/catalog/7199127</rdf:value>
-            </dcterms:URI>
-        </dc:identifier>
-        <dc:date>2011</dc:date>
-        <dc:description>http://newcatalog.library.cornell.edu/catalog/7199127</dc:description>
-        <z:libraryCatalog>es287-dev.library.cornell.edu:8986</z:libraryCatalog>
-        <z:language>English</z:language>
-        <dc:title>The essential historiography reader</dc:title>
-    </bib:Book>
-</rdf:RDF>
-HERE
-    text2 = <<HERE
-<rdf:RDF
- xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
- xmlns:z="http://www.zotero.org/namespaces/export#"
- xmlns:dc="http://purl.org/dc/elements/1.1/"
- xmlns:vcard="http://nwalsh.com/rdf/vCard#"
- xmlns:foaf="http://xmlns.com/foaf/0.1/"
- xmlns:bib="http://purl.org/net/biblio#"
- xmlns:dcterms="http://purl.org/dc/terms/">
-    <bib:Book rdf:about="http://newcatalog.library.cornell.edu/catalog/7199127">
-        <z:itemType>book</z:itemType>
-        <bib:authors>
-            <rdf:Seq>
-                <rdf:li>
-                    <foaf:Person>
-                        <foaf:surname>Hoefferle</foaf:surname>
-                        <foaf:givenname>Caroline</foaf:givenname>
-                    </foaf:Person>
-                </rdf:li>
-            </rdf:Seq>
-        </bib:authors>
-        <dcterms:isReferencedBy rdf:resource="#item_41"/>
-        <dc:title>The essential historiography reader</dc:title>
-    </bib:Book>
-    <bib:Memo rdf:about="http://newcatalog.library.cornell.edu/catalog/7199127">
-        <rdf:value>The articles in this book all originated as papers presented at the Devil in Society in the Pre-Modern World, an international, multi-disciplinary and multi-university conference held at Victoria University in the University of Toronto between 17 and 18 October 2008 Acknowledgements</rdf:value>
-    </bib:Memo>
-</rdf:RDF>
-HERE
-  text
-  end
 
-
+  # add info specific to an item type.
+  def generate_rdf_specific(b,ty)
+    case ty
+      when 'thesis'
+        b.z(:type) {"Ph.D. dissertation"}  
+      else
+    end
+  end 
+    
 FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ANCIENT"=>"ANCIENT", "ART"=>"ART", "BILL"=>"BILL", "BLOG"=>"BLOG",
   "Book"=>"book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"CHART",
