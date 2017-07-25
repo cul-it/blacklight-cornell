@@ -1,12 +1,15 @@
 // AVAILABILITY
 .availability {
-	background: white;
-	margin-bottom: 2em;
-	h3 { 
-		margin-top: 0;
-		margin-bottom: .25em;
-		font-size: 24px;
-	}
+	// background: white;
+	// margin-bottom: 2em;
+	// padding-bottom: 1em;
+	// border-bottom: 5px solid $light-tan;
+	// h3 { 
+	// 	margin: 0;
+	// 	padding: .5em 1em;
+	// 	font-size: 18px;
+	// 	background: $light-tan;
+	// }
 	.worldcat-search {
 		font-size: 14px;
 		display: block;
@@ -18,7 +21,7 @@
 	.location {
 		margin-top: 0;
 		margin-bottom: .5em;
-		font-size: 16px;
+		// font-size: 18px;
 	}
 	.location-online {
 		color: white;
@@ -29,9 +32,6 @@
 		.group {
 			font-size: 12px;
 		}
-	}
-	.map-it {
-		font-size: 12px;
 	}
 	.url_findingaid_display {
 		display: block;
@@ -53,6 +53,9 @@
 		margin: 0 0 .5em 0;
 	}
 }
+.availability.well {
+	padding: 0;
+}
 h3.rare {
 	margin-top: 1.25em;
 	margin-bottom: .5em;
@@ -73,7 +76,7 @@ h3.rare {
 	padding-top: 1em;
 }
 .holdings-online {
-	padding-top: 1em;
+	// padding: 1em 1em 0 1em;
 }
 .holding:first-child {
 	border-top: 0;
@@ -90,7 +93,6 @@ h3.rare {
 	margin-left: .5em;
 	font-size: 12px;
 	font-weight: normal;
-	display:block;
 }
 .text-it {
 	.tooltip-inner {
@@ -108,9 +110,12 @@ h3.rare {
 	line-height: 1.2em;
 	font-size: 16px;
 	a {
-		display: inline-block;
 		font-size: 90%;
 	}
+}
+.terms-of-use {
+	font-size: 85%;
+	margin-left: .5em;
 }
 .main-content {
 	.online-coverage,
@@ -149,22 +154,23 @@ h3.rare {
 	border-top: solid 2px #d8d2c9;
 }
 .holdings {
-	th:first-child,
-	th:nth-child(2),
-	td:first-child,
-	td:nth-child(2) {
-		width: 30%;
-	}
+	// th:first-child,
+	// th:nth-child(2),
+	// td:first-child,
+	// td:nth-child(2) {
+	// 	width: 30%;
+	// }
+	// padding: 0 1em;
 }
-.holdings-online {
-	th:first-child,
-	th:nth-child(2) {
-		width: 30%;
-	}
-	table {
-		margin-bottom: 1em;
-	}
-}
+// .holdings-online {
+// 	// th:first-child,
+// 	// th:nth-child(2) {
+// 	// 	width: 30%;
+// 	// }
+// 	// table {
+// 	// 	margin-bottom: 1em;
+// 	// }
+// }
 
 #request-loading-spinner {
 	position: relative;
@@ -172,6 +178,13 @@ h3.rare {
 	vertical-align: middle;
 	width: 2em;
 	height: 2em;
+}
+.online-label {
+	margin: 0 .5em .25em 0;
+	font-size: 18px;
+	i {
+		margin-right: .25em;
+	}
 }
 
 // Other forms
@@ -209,9 +222,13 @@ h3.rare {
 		display: block;
 		margin-bottom: .25em;
 	}
-	.label-online:hover {
-		background: $teal;
-		pointer: none;
+	// .label-online:hover {
+	// 	background: $teal;
+	// 	pointer: none;
+	// }
+	.online-label,
+	.at-library-label {
+		font-weight: 700;
 	}
 }
 
