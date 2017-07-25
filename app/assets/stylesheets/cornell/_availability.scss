@@ -85,10 +85,13 @@ h3.rare {
 	.online-label {
 		font-size: 16px;
 	}
+	.message {
+		font-size: 12px;
+		margin-top: .25em;
+	}
 }
 .holding:first-child {
 	border-top: 0;
-	padding-top: 0;
 }
 .holding:last-of-type {
 	margin-bottom: 0;
