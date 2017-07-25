@@ -28,39 +28,39 @@
     <% if holdings.size == 1 and ( holdings[0]["location_name"].include?("Networked Resource") or  holdings[0]["location_name"] == "")  %>
     <% else %>
 
-          <% not_spif = 0  %>
-          <% spif = 0  %>
-          <% holdings.sort_by{|holding| holding["location_name"]}.each do |entry| %>
-            <% reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve')) %>
-            <% reading = '' %>
-            <% location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name'] %>
-            <% callnumber = entry['call_number'] %>
-            <% noncirc = false %>
-            <% if location !~ /Spacecraft Planetary Imaging Facility/ %>
-              <% not_spif += 1  %>
-            <% end %>
-            <% if location =~ /Non-Circulating/ %>
-              <% noncirc = true  %>
-            <% end %>
-            <% if location =~ /Spacecraft Planetary Imaging Facility/ %>
-              <% noncirc = true  %>
-              <% spif += 1  %>
-            <% end %>
-            <% if location =~ /Rare/ %>
-              <% reading = ' for Reading Room Delivery' %>
-              <% noncirc = true  %>
-              <% aeon_codes << entry['location_code'] unless aeon_codes.include?(entry['location_code']) %>
-            <% end %>
-            <% some_av = 'no' %>
-              <div>
-                <%= render 'location', :entry => entry, :location => location, :hide_status => @hide_status, :callnumber => callnumber %>
+      <% not_spif = 0  %>
+      <% spif = 0  %>
+      <% holdings.sort_by{|holding| holding["location_name"]}.each do |entry| %>
+        <% reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve')) %>
+        <% reading = '' %>
+        <% location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name'] %>
+        <% callnumber = entry['call_number'] %>
+        <% noncirc = false %>
+        <% if location !~ /Spacecraft Planetary Imaging Facility/ %>
+          <% not_spif += 1  %>
+        <% end %>
+        <% if location =~ /Non-Circulating/ %>
+          <% noncirc = true  %>
+        <% end %>
+        <% if location =~ /Spacecraft Planetary Imaging Facility/ %>
+          <% noncirc = true  %>
+          <% spif += 1  %>
+        <% end %>
+        <% if location =~ /Rare/ %>
+          <% reading = ' for Reading Room Delivery' %>
+          <% noncirc = true  %>
+          <% aeon_codes << entry['location_code'] unless aeon_codes.include?(entry['location_code']) %>
+        <% end %>
+        <% some_av = 'no' %>
+        <div class="holding">
+          <%= render 'location', :entry => entry, :location => location, :hide_status => @hide_status, :callnumber => callnumber %>
 
-                <% # Only display a real call number %>
-                <%= render 'callnumber',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber %>
+          <% # Only display a real call number %>
+          <%= render 'callnumber',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber %>
 
-                <%= render 'status',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber,:noncirc=>noncirc,:some_av =>some_av,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count,:bound_with=>bound_with %>
-              </div>
-          <% end %>
+          <%= render 'status',:entry => entry, :location=>location, :pda => pda, :callnumber => callnumber,:noncirc=>noncirc,:some_av =>some_av,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count,:bound_with=>bound_with %>
+        </div>
+      <% end %>
 
       <% # end of table. %>
       <% if (group == "Circulating" && on_site_count <= holdings.count) or group == "Rare" %>

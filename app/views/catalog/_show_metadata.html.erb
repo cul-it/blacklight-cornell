@@ -91,27 +91,28 @@
                 <% @document['other_availability_json'].each do |form| %>
                   <% f = JSON.parse(form) %>
                   <div class="other-form">
-                    <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span> 
+                    <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span>
                     <% formats = f["format"].split(",") %>
                     <% formats.each do |format| %>
                       <span class="other-form-format">
                         <i class="fa fa-<%= formats_icon_mapping(format) %>"></i><%= format %>
                       </span>
                     <% end %>
-                    <!-- <span class="other-form-date"><%= f["pub_date"] %></span>
+                    <span class="other-form-date"><%= f["pub_date"] %></span>
                     <span class="other-form-language"><%= f["language"] %></span>
                     <span class="other-form-edition"><%= f["edition"] %></span>
                     <% if f["sites"].present? %>
                       <span class="other-form-online">
-                        <span class="status-online label label-online">Online</span>
-                        <% if (f["sites"]) != "Online" %>
-                          <%= f["sites"] %>
-                        <% end %>
+                        <span class="status-online online-label">Online</span>
+                        <%# if (f["sites"]) != "Online" %>
+                          <%#= f["sites"] %>
+                        <%# end %>
                       </span>
                     <% end %>
                     <% if f["libraries"].present? %>
-                      <span class="other-form-libraries">Location: <%= f["libraries"] %></span>
-                    <% end %> -->
+                      <span class="at-library-label">At the Library</span>
+                      <!-- <span class="other-form-libraries">Location: <%= f["libraries"] %></span> -->
+                    <% end %>
                   </div><%# end other-form %>
                 <% end %>
               <% end %>

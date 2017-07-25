@@ -20,8 +20,8 @@
 	}
 	.location {
 		margin-top: 0;
-		margin-bottom: .5em;
-		// font-size: 18px;
+		margin-bottom: .25em;
+		font-size: 16px;
 	}
 	.location-online {
 		color: white;
@@ -35,8 +35,10 @@
 	}
 	.url_findingaid_display {
 		display: block;
-		margin-bottom: 1em;
+		margin-bottom: .5em;
+		padding-bottom: 1em;
 		font-size: 16px;
+		border-bottom: 2px solid $light-tan;
 	}
 	.list-unstyled {
 		padding: 0;
@@ -57,8 +59,7 @@
 	padding: 0;
 }
 h3.rare {
-	margin-top: 1.25em;
-	margin-bottom: .5em;
+	margin-bottom: 0;
 }
 .label-available {
 	background: $teal;
@@ -73,21 +74,26 @@ h3.rare {
 .holdings-error {
 	margin-bottom: 1em;
 	border-top: 2px solid $light-tan;
-	padding-top: 1em;
+	padding-top: .5em;
+}
+.online-label {
+	margin: 0 .5em .25em 0;
 }
 .holdings-online {
-	// padding: 1em 1em 0 1em;
+	border-bottom: 2px solid $light-tan;
+	padding-bottom: .5em;
+	.online-label {
+		font-size: 16px;
+	}
 }
 .holding:first-child {
 	border-top: 0;
+	padding-top: 0;
 }
 .holding:last-of-type {
 	margin-bottom: 0;
 }
-.location {
-	margin-bottom: 0;
-	// font-size: 16;
-}
+
 .text-it,
 .map-it {
 	margin-left: .5em;
@@ -179,13 +185,6 @@ h3.rare {
 	width: 2em;
 	height: 2em;
 }
-.online-label {
-	margin: 0 .5em .25em 0;
-	font-size: 18px;
-	i {
-		margin-right: .25em;
-	}
-}
 
 // Other forms
 // ----------------
@@ -222,14 +221,14 @@ h3.rare {
 		display: block;
 		margin-bottom: .25em;
 	}
-	// .label-online:hover {
-	// 	background: $teal;
-	// 	pointer: none;
-	// }
-	.online-label,
-	.at-library-label {
-		font-weight: 700;
+	.label-online:hover {
+		background: $teal;
+		pointer: none;
 	}
+	// .online-label,
+	// .at-library-label {
+	// 	font-weight: 700;
+	// }
 }
 
 
