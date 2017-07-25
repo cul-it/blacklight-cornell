@@ -32,7 +32,7 @@ end
 # This connection to Summon is used by the bento/single search
 BentoSearch.register_engine('summon_bento') do |conf|
 	conf.engine = 'BentoSearch::SummonEngine'
-	conf.title = 'Journal Articles'
+	conf.title = 'Articles & Full Text'
 	conf.access_id =  ENV['SUMMON_ACCESS_ID']
 	conf.secret_key = ENV['SUMMON_SECRET_KEY']
 	conf.for_display = {:decorator => "ArticleDecorator"}
@@ -42,9 +42,10 @@ BentoSearch.register_engine('summon_bento') do |conf|
 	conf.fixed_params = {
 		's.cmd' => [
 			# Limit to Journal Articles
-			'setFacetValueFilters(ContentType,Journal Article)',
+			'setFacetValueFilters(ContentType,Newspaper Article)',
 			# Within Cornell's collection
-			'setHoldingsOnly(true)'
+			'setHoldingsOnly(true)',
+      'negateFacetValueFilter(ContentType)'
 		]
 
 	}
@@ -62,9 +63,11 @@ BentoSearch.register_engine('summon') do |conf|
   conf.fixed_params = {
     's.cmd' => [
       # Limit to Journal Article, Book Chapter and Journal/eJournal
-      'setFacetValueFilters(ContentType,Journal Article,Book Chapter,Journal / eJournal)',
+      'setFacetValueFilters(ContentType,Newspaper Article)',
       # Within Cornell's collection
-      'setHoldingsOnly(true)'
+      'setHoldingsOnly(true)',
+      'negateFacetValueFilter(ContentType)'
+
     ]
   }
 
@@ -120,7 +123,7 @@ end
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
-        conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"] 
+        conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"]
 end
 
 BentoSearch.register_engine('Book') do |conf|
