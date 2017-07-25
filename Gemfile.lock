@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: c652305a95e7ac0a85d04b7d94ed3687cd9dbc43
-  branch: master
+  revision: 6bbdd2887fcc55fdc09b1d00f60790c8b5a586ab
+  branch: dev
   specs:
-    blacklight_cornell_requests (1.4.1)
+    blacklight_cornell_requests (1.4.2)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -332,6 +332,10 @@ GEM
     parslet (1.7.1)
       blankslate (>= 2.0, <= 4.0)
     phantomjs (2.1.1.0)
+    piwik_analytics (1.0.2)
+      actionpack
+      activesupport
+      rails (>= 3.0.0)
     plist (3.2.0)
     poltergeist (1.11.0)
       capybara (~> 2.1)
@@ -553,6 +557,7 @@ DEPENDENCIES
   nokogiri
   parslet
   phantomjs
+  piwik_analytics (~> 1.0.1)
   poltergeist
   protected_attributes
   pry

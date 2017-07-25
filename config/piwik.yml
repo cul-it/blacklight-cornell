@@ -1,0 +1,57 @@
+# Configuration:
+# 
+# disabled
+#   false if tracking tag should be shown
+# use_async
+#   Set to true if you want to use asynchronous tracking
+# url
+#   The url of your piwik instance (e.g. webstats.library.cornell.edu/piwik/
+# id_site
+#   The id of your website inside Piwik
+#
+# id_site2 -- another site id  associated with the site2_path
+# site2_path -- a path to associate with another site id.
+production:
+  piwik:
+    id_site: 2
+    site2_path: /search 
+    id_site2: 67 
+    url: webstats.library.cornell.edu
+    disabled: false
+    use_async: true
+
+development:
+  piwik:
+    id_site: 2
+    site2_path: /search 
+    id_site2: 67
+    url: webstats.library.cornell.edu
+    disabled: true 
+    use_async: false
+    hostname: newcatalog.library.cornell.edu 
+
+test:
+  piwik:
+    id_site: 2
+    url: webstats.library.cornell.edu
+    disabled: true
+    use_async: false
+    hostname: localhost 
+
+integration:
+  piwik:
+    id_site: 2
+    site2_path: /search 
+    id_site2: 67
+    url: webstats.library.cornell.edu
+    disabled: true 
+    use_async: false
+    hostname:  newcatalog.library.cornell.edu 
+
+staging:
+  piwik:
+    id_site: 2
+    url: webstats.library.cornell.edu
+    disabled: true
+    use_async: false
+    hostname:  localhost

@@ -14,7 +14,7 @@ group :development,:test, :integration do
   gem 'sqlite3'
 end
 
-group :production do  
+group :production,:staging do  
   gem 'mysql'
 end
 
@@ -90,10 +90,11 @@ gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 gem 'mollom'
 gem 'exception_notification'
+gem 'piwik_analytics', '~> 1.0.1'
