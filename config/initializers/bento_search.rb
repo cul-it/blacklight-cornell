@@ -64,15 +64,14 @@ BentoSearch.register_engine('summon') do |conf|
     's.cmd' => [
       # Limit to Journal Article, Book Chapter and Journal/eJournal
       'setFacetValueFilters(ContentType,Newspaper Article)',
+      'negateFacetValueFilter(ContentType)',
       # Within Cornell's collection
-      'setHoldingsOnly(true)',
-      'negateFacetValueFilter(ContentType)'
-
+      'setHoldingsOnly(true)'
     ]
   }
 
   # Convert Summon Command used for API to query parameter for URL
-  conf.link = 'http://cornell.summon.serialssolutions.com/search?' + conf.fixed_params.map{|k,v| "#{k}=" + v.join(' ')}.join('&') + '&s.q='
+  conf.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q='
 end
 
 BentoSearch.register_engine('worldcat') do |conf|
