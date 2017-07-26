@@ -43,7 +43,7 @@ class SearchController < ApplicationController
           if  !@results['solr'][0].nil? && @results['solr'][0].custom_data
             facet_results = @results['solr'][0].custom_data
           else
-            facet_results = {} 
+            facet_results = {}
           end
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
@@ -185,7 +185,7 @@ class SearchController < ApplicationController
       "search/web?q=#{zq}"
     elsif engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
-      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Journal+Article&s.q=#{query}"
+      "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
       "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
@@ -307,7 +307,7 @@ class SearchController < ApplicationController
   def self.transform_query search_query
     # Don't do anything for already-quoted queries or single-term queries
     if search_query !~ /[\"\'].*?[\"\']/ and
-        search_query !~ /AND|OR|NOT/ 
+        search_query !~ /AND|OR|NOT/
         #search_query =~ /\w.+?\s\w.+?/
       # create modified query: (+x +y +z) OR "x y z"
       new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
