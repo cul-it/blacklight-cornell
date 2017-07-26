@@ -19,6 +19,13 @@
     </div>
     <div class="row">
 
+      <div class="col-md-8">
+        <div class="pull-right item-cover">
+          <div class="bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
+          </div>
+        </div><%# item-cover %>
+        <%= render_document_partial @document, :show %>
+      </div><%# col-sm-8 %>
       <div class="col-md-4">
         <div class="availability panel panel-default">
           <div class="panel-heading">
@@ -125,13 +132,7 @@
       </div><%# end col-md-4 %>
 
 
-      <div class="col-md-8">
-        <div class="pull-right item-cover">
-          <div class="bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
-          </div>
-        </div><%# item-cover %>
-        <%= render_document_partial @document, :show %>
-      </div><%# col-sm-8 %>
+      
     </div><%# row %>
   </div><%# doc_ %>
 </div><%# end #document %>
