@@ -621,7 +621,7 @@ module Blacklight::Solr::Document::MarcExport
           relators[contributor] << code if code
         end
         field.find_all{|sf| sf.code == '4' }.each do |sf4|
-          relators[contributor] << clean_end_punctuation(sf4) if sf4 
+          relators[contributor] << clean_end_punctuation(sf4.value) if sf4 
         end
       end
     end 

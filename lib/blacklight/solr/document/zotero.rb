@@ -20,10 +20,17 @@ module Blacklight::Solr::Document::Zotero
     about = "http://newcatalog.library.cornell.edu/catalog/#{id}"
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
-    ty = "Generic"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
+    ty = "book"
     if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
       ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"
     end
+    tag = 
+      if ty == 'videoRecording' || ty == 'audioRecording'
+        "Recording" 
+      else
+        "Book"
+      end
     builder = Builder::XmlMarkup.new(:indent => 2,:margin => 4)
     builder.tag!("rdf:RDF",
     'xmlns:rdf' => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -34,7 +41,7 @@ module Blacklight::Solr::Document::Zotero
     'xmlns:bib' => "http://purl.org/net/biblio#",
     'xmlns:prism' => "http://prismstandard.org/namespaces/1.2/basic/",
     'xmlns:dcterms' =>"http://purl.org/dc/terms/") do
-      builder.bib(:Book) do 
+      builder.bib(tag.to_sym) do 
         builder.z(:itemType,"#{ty}")
         builder.dc(:title, title.strip)
         generate_rdf_authors(builder,ty)
@@ -47,6 +54,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_url(builder)
         generate_rdf_isbn(builder)
         generate_rdf_holdings(builder)
+        generate_rdf_catlink(builder,ty)
         generate_rdf_specific(builder,ty)
       end
     end
@@ -147,42 +155,77 @@ module Blacklight::Solr::Document::Zotero
   end
 
   def generate_rdf_person(b,p)
-    surname, givenname = p.split(',')
+    surname = p
+    surname, givenname = p.split(',') unless !p.include?(",")
     b.foaf(:Person) do 
-      b.foaf(:surname,surname.strip)
-      b.foaf(:givenname,givenname.strip)
+      b.foaf(:surname,surname.strip) unless surname.blank?
+      b.foaf(:givenname,givenname.strip) unless givenname.blank?
     end
    end
 
-  def generate_rdf_authors(b,ty)
+  def generate_rdf_authors(bld,ty)
     # Handle authors
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
     primary_authors = authors[:primary_authors]
     secondary_authors = authors[:secondary_authors]
+    meeting_authors = authors[:meeting_authors]
+    secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
+    primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
+    if editors.empty?
+      editors = relators.select {|k,v| v.include?("edt") }.keys
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} looking for editors #{relators.inspect}"
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} editors #{editors.inspect}"
+    end
     pa = primary_authors + secondary_authors
     author_text = ''
     editor_text = ''
-    auty = ty == 'videoRecording' ? :contributors : :authors
-    edty = ty == 'videoRecording' ? :contributors : :editors
-    if !pa.empty?
-      b.bib(auty) {
-        b.rdf(:Seq) {
-            pa.map { |a|     b.rdf(:li) { generate_rdf_person(b,a) } }
+    auty = ty == 'videoRecording' ? 'contributors' : 'authors'
+    edty = ty == 'videoRecording' ? 'contributors' : 'editors'
+    if !pa.blank?
+      bld.bib(auty.to_sym) {
+        bld.rdf(:Seq) {
+            pa.map { |a|     bld.rdf(:li) { generate_rdf_person(bld,a) } }
         }
       }
     end 
-    if !editors.empty?
-      b.bib(:edty) {
-        b.rdf(:Seq) {
-            pa.map { |a|     b.rdf(:li) { generate_rdf_person(b,a) } }
+    if !editors.blank?
+      bld.bib(edty.to_sym ) {
+        bld.rdf(:Seq) {
+            editors.map { |a|     bld.rdf(:li) { generate_rdf_person(bld,a) } }
         }
       }
     end 
+    if pa.blank? && editors.blank? && !relators.blank?
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
+      relators.each { |n,r| 
+        rel = relator_to_zotero(r[0]) 
+        ns = ['contributors','authors','editors'].include?(rel)  ? 'bib' : 'z'
+        bld.tag!("#{ns}:#{rel}") { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
+        #if ['contributors','authors','editors'].include?(rel) 
+        #  bld.bib(rel.to_sym) { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
+        #else
+        #  bld.z(rel.to_sym) { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
+        #end
+      }
+    end
   end
 
+  # if e-resource  
+  #  put catalog link in coverage 
+  # else 
+  #  put in url field. 
+  def generate_rdf_catlink(b,ty)
+    ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}" 
+    # if no elect access data, can use the url field.
+    if self['url_access_display'].blank?
+      b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
+    else 
+      b.dc(:coverage,ul)
+    end
+  end 
   # add info specific to an item type.
   def generate_rdf_specific(b,ty)
     case ty
@@ -191,6 +234,15 @@ module Blacklight::Solr::Document::Zotero
       else
     end
   end 
+
+  def relator_to_zotero(rel)
+    if RELATOR_CODES_ZRDF.has_key?(rel) 
+      RELATOR_CODES_ZRDF[rel] 
+    else  
+      "contributors"
+    end 
+  end
+  
     
 FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ANCIENT"=>"ANCIENT", "ART"=>"ART", "BILL"=>"BILL", "BLOG"=>"BLOG",
@@ -204,7 +256,7 @@ FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"MAP", "MGZN"=>"MGZN",
   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
-  "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"audioRecording", "Musical Recording"=>"SOUND",
+  "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"audioRecording", "Musical Recording"=>"audioRecording",
   "STAND"=>"STAND",
   "STAT"=>"STAT", "Thesis"=>"thesis", "UNPB"=>"UNPB", "Video"=>"videoRecording"
   }
@@ -264,7 +316,7 @@ RELATOR_CODES_ZRDF = {
  "cpl" => "contributors",
  "cpt" => "contributors",
  "cpe" => "contributors",
- "cmp" => "contributors",
+ "cmp" => "composers",
  "cmt" => "contributors",
  "ccp" => "contributors",
  "cnd" => "contributors",
@@ -323,10 +375,10 @@ RELATOR_CODES_ZRDF = {
  "exp" => "contributors",
  "fac" => "contributors",
  "fld" => "contributors",
- "fmd" => "contributors",
+ "fmd" => "directors",
  "fds" => "contributors",
  "flm" => "contributors",
- "fmp" => "contributors",
+ "fmp" => "producers",
  "fmk" => "contributors",
  "fpy" => "contributors",
  "frg" => "contributors",
@@ -362,7 +414,7 @@ RELATOR_CODES_ZRDF = {
  "lso" => "contributors",
  "lgd" => "contributors",
  "ltg" => "contributors",
- "lyr" => "contributors",
+ "lyr" => "wordsBys",
  "mfp" => "contributors",
  "mfr" => "contributors",
  "mrb" => "contributors",
@@ -388,7 +440,7 @@ RELATOR_CODES_ZRDF = {
  "pta" => "contributors",
  "pth" => "contributors",
  "pat" => "contributors",
- "prf" => "contributors",
+ "prf" => "performers",
  "pma" => "contributors",
  "pht" => "contributors",
  "ptf" => "contributors",
@@ -529,4 +581,4 @@ end
 #        <rdf:value>&lt;p&gt;to borrow.&lt;/p&gt;</rdf:value>
 #        <dc:subject>to_borrow</dc:subject>
 #    </bib:Memo>
-#</rdf:RDF>
+#a</rdf:RDF>
