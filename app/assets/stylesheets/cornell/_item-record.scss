@@ -242,6 +242,17 @@ padding-left: 6em;
 
 }
 
+// Metadata
+// -----------
+.item-info {
+	h3 {
+		font-size: 24px;
+		font-weight: 300;
+		margin: 0 0 .25em;
+		border-bottom: 1px solid $light-tan;
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 
