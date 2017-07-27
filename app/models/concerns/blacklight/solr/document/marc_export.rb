@@ -247,11 +247,11 @@ module Blacklight::Solr::Document::MarcExport
         # Only 1 primary author
         author_text << authors[:primary_authors].first
       end
-    elsif !authors[:corporate_authors].blank?
+    elsif !authors[:corporate_authors].blank? && authors[:editors].blank?
       # This is a simplistic assumption that the first corp author entry
       # is the only one of interest (and it's not too long)
       author_text << authors[:corporate_authors].first + '.'
-    elsif !authors[:meeting_authors].blank?
+    elsif !authors[:meeting_authors].blank? && authors[:editors].blank?
       # This is a simplistic assumption that the first corp author entry
       # is the only one of interest (and it's not too long)
       author_text << authors[:meeting_authors].first + '.'
@@ -259,35 +259,36 @@ module Blacklight::Solr::Document::MarcExport
       # Secondary authors: translators, editors, compilers
       temp_authors = []
       authors[:translators].each do |translator|
-        temp_authors << [translator, "trans."]
+        temp_authors << [translator, "trans"]
       end
       authors[:editors].each do |editor|
-        temp_authors << [editor, "ed."]
+        temp_authors << [editor, "ed"]
       end
       authors[:compilers].each do |compiler|
-        temp_authors << [compiler, "comp."]
+        temp_authors << [compiler, "comp"]
       end
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} temp_authors = #{temp_authors.inspect}")
 
       unless temp_authors.blank?
         if temp_authors.length > 10
           temp_authors.each_with_index do |author,index|
             if index < 7
-              author_text << "#{author.first} #{author.last} "
+              author_text << "#{author.first} "
             end
           end
-          author_text << " et al."
+          author_text << " et al.,#{temp_authors.first.last}s. "
         elsif temp_authors.length > 1
           temp_authors.each_with_index do |author,index|
             if index == 0
-              author_text << "#{author.first} #{author.last}, "
+              author_text << "#{author.first} "
             elsif index + 1 == temp_authors.length
-              author_text << "and #{name_reverse(author.first)} #{author.last}"
+              author_text << "and #{name_reverse(author.first)}, #{author.last}s. "
             else
-              author_text << "#{name_reverse(author.first)} #{author.last}, "
+              author_text << "#{name_reverse(author.first)}, "
             end
           end
         else
-          author_text << "#{temp_authors.first.first} #{temp_authors.first.last}"
+          author_text << "#{temp_authors.first.first} #{temp_authors.first.last}. "
         end
       end
     end
@@ -349,6 +350,7 @@ module Blacklight::Solr::Document::MarcExport
   def xxx_chicago_citation(marc)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     authors = get_all_authors(marc)    
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
     author_text = ""
     unless authors[:primary_authors].blank?
       if authors[:primary_authors].length > 10
