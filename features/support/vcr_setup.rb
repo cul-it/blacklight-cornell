@@ -23,6 +23,7 @@ end
 if use_mock_and_vcr
 then
   VCR.cucumber_tags do |t|
+    t.tag  '@citations'
     t.tag  '@databases'
     t.tag  '@digitalcollections'
     t.tag  '@browse'

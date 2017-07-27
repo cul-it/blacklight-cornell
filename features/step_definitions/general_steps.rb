@@ -43,7 +43,8 @@ Then /^I should see the xml text '(.*?)'$/i do |text|
     page.should have_content(text)
   end
 end
-Then /^I should see the text "(.*?)"$/i do |text|
+
+Then /^I should see the text '(.*?)'$/i do |text|
   page.should have_content(text)
 end
 
