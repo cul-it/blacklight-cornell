@@ -153,7 +153,6 @@ BentoSearch.register_engine('Musical Recording') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Musical Recordings'
 	conf.blacklight_format = 'Musical Recording'
-    conf.solr_url = SOLR_CONFIG[Rails.env]["url"]
 end
 
 BentoSearch.register_engine('Musical Score') do |conf|
