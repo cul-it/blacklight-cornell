@@ -482,7 +482,12 @@ include ActionView::Helpers::NumberHelper
       :
         false
   end
-
+  def is_at_the_library? document
+    ( document['online'].present?  && document['online'].include?('At the Library')) ?
+        true
+      :
+        false
+  end
   def online_url(document)
     if document['url_access_display'].present?
       if document['url_access_display'].size > 1
