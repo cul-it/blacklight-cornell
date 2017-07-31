@@ -14,13 +14,12 @@
     <span class="blacklight-language_display"><%= simple_render_index_field_value document, :field => 'language_display' %></span>
     <span class="blacklight-edition_display"><%= simple_render_index_field_value document, :field => 'edition_display' %></span>
   </div>
-
   <% if online_url(document) %>
     <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online label label-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);">Online</a>
   <% end %>
 
-  <div id="blacklight-avail-<%=document.id%>" class="status">
-  <% if !online_url(document) %>
+  <div id="blacklight-avail-<%=document.id%>" class="status ">
+  <% if document["online"].include?("At the Library") %>
     <span class="preloader">Checking availability</span>
   <% end %>
   </div>
