@@ -19,7 +19,7 @@
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" class="status ">
-  <% if document["online"].include?("At the Library") %>
+  <% if (simple_render_index_field_value document, :field => 'online').include?('At the Library') %>
     <span class="preloader">Checking availability</span>
   <% end %>
   </div>

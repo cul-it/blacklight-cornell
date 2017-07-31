@@ -48,7 +48,7 @@
                     <% if l["description"].present? %>
                       <% label = l["description"] %>
                     <% else %>
-                      <% label = t('blacklight.url.message')  %> 
+                      <% label = t('blacklight.url.message')  %>
                     <% end %>
                     <li>
                       <div class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
@@ -57,7 +57,7 @@
                           <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
                         <% end %>
                       </div>
-                    </li>    
+                    </li>
                   <% end %>
                 <% end %>
               </div><%# online-holdings %>
@@ -73,7 +73,7 @@
                 <h5>Restrictions</h5>
                 <%= access_restrictions %>
               </span>
-            <% end %>   
+            <% end %>
             <span class="blacklight-url_access_display"></span>
             <%= @hide_status %>
           </div>
@@ -115,7 +115,7 @@
                   </div><%# end other-form %>
                 <% end %>
               <% end %>
-              <% if field_value('workid_display').present?  %>     
+              <% if field_value('workid_display').present?  %>
                 <p><%= link_to "See all forms of this work",'/?f[workid_facet][]=' + field_value('workid_facet') %></p>
               <% end %>
             </div>
