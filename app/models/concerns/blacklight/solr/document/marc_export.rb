@@ -41,6 +41,10 @@ module Blacklight::Solr::Document::MarcExport
   def export_as_mla_citation_txt
     mla_citation( to_marc )
   end
+
+  def export_as_mla8_citation_txt
+    mla8_citation( to_marc )
+  end
   
   def export_as_chicago_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
@@ -192,7 +196,13 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   protected
- 
+# see http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html 
+# examples:
+# Chicago 16th ed.
+# Single author.
+# Pollan, Michael. The Omnivore’s Dilemma: A Natural History of Four Meals. New York: Penguin, 2006.
+# Single editor.
+# Greenberg, Joel, ed. Of Prairie, Woods, and Water: Two Centuries of Chicago Nature Writing. Chicago: University of Chicago Press, 2008.
  def chicago_citation(marc)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     authors = get_all_authors(marc)
@@ -245,7 +255,7 @@ module Blacklight::Solr::Document::MarcExport
         end
       else
         # Only 1 primary author
-        author_text << authors[:primary_authors].first
+        author_text << authors[:primary_authors].first + '.'
       end
     elsif !authors[:corporate_authors].blank? && authors[:editors].blank?
       # This is a simplistic assumption that the first corp author entry
@@ -288,7 +298,7 @@ module Blacklight::Solr::Document::MarcExport
             end
           end
         else
-          author_text << "#{temp_authors.first.first} #{temp_authors.first.last}. "
+          author_text << "#{temp_authors.first.first}, #{temp_authors.first.last}. "
         end
       end
     end
@@ -337,7 +347,7 @@ module Blacklight::Solr::Document::MarcExport
     citation << "<i>#{title}.</i> " unless title.blank?
     citation << "#{section_title} " unless section_title.blank?
     citation << "#{additional_title} " unless additional_title.blank?
-    citation << "#{edition} " unless edition.blank?
+    citation << "#{edition}" unless edition.blank?
     citation << "#{pub_info}." unless pub_info.blank?
     citation
   end
@@ -470,14 +480,40 @@ module Blacklight::Solr::Document::MarcExport
   
   
   
-  def mla_citation(record)
+  def mla8_citation(record)
+
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_final = []
     
     #setup formatted author list
-    authors = get_author_list(record)
+    #authors = get_author_list(record)
+    all_authors = get_all_authors(record)
+      # If there are secondary (i.e. from 700 fields) authors, add them to
+      # primary authors only if there are no corporate, meeting, primary authors
+    if !all_authors[:primary_authors].blank?
+      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+     elsif !all_authors[:secondary_authors].blank?
+      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+     end
 
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+    authors = case
+              when !all_authors[:primary_authors].blank?
+               all_authors[:primary_authors]
+              when !all_authors[:primary_corporate_authors].blank?
+                all_authors[:primary_corporate_authors]
+              when !all_authors[:meeting_authors].blank?
+                all_authors[:meeting_authors]
+              when !all_authors[:secondary_authors].blank?
+                all_authors[:secondary_authors]
+              when !all_authors[:secondary_corporate_authors].blank?
+                all_authors[:secondary_corporate_authors]
+              else
+                []
+              end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    if !authors.blank?
     if authors.length < 4
       authors.each do |l|
         if l == authors.first #first
@@ -498,6 +534,83 @@ module Blacklight::Solr::Document::MarcExport
       end
     else
       text += authors.first + ", et al. "
+    end
+    end
+    # setup title
+    title = setup_title_info(record)
+    if !title.nil?
+      text += "<i>" + mla_citation_title(title) + "</i> "
+    end
+
+    # Edition
+    edition_data = setup_edition(record)
+    text += edition_data + " " unless edition_data.nil?
+    
+    # Publication
+    text += setup_pub_info_mla8(record) + ", " unless setup_pub_info(record).nil?
+    
+    # Get Pub Date
+    text += setup_pub_date(record) unless setup_pub_date(record).nil?
+    if text[-1,1] != "."
+      text += "." unless text.nil? or text.blank?
+    end
+    text
+  end
+
+  def mla_citation(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+    text = ''
+    authors_final = []
+    
+    #setup formatted author list
+    #authors = get_author_list(record)
+    all_authors = get_all_authors(record)
+      # If there are secondary (i.e. from 700 fields) authors, add them to
+      # primary authors only if there are no corporate, meeting, primary authors
+    if !all_authors[:primary_authors].blank?
+      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+     elsif !all_authors[:secondary_authors].blank?
+      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+     end
+
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+    authors = case
+              when !all_authors[:primary_authors].blank?
+               all_authors[:primary_authors]
+              when !all_authors[:primary_corporate_authors].blank?
+                all_authors[:primary_corporate_authors]
+              when !all_authors[:meeting_authors].blank?
+                all_authors[:meeting_authors]
+              when !all_authors[:secondary_authors].blank?
+                all_authors[:secondary_authors]
+              when !all_authors[:secondary_corporate_authors].blank?
+                all_authors[:secondary_corporate_authors]
+              else
+                []
+              end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    if !authors.blank?
+    if authors.length < 4
+      authors.each do |l|
+        if l == authors.first #first
+          authors_final.push(l)
+        elsif l == authors.last #last
+          authors_final.push(", and " + name_reverse(l) + ".")
+        else #all others
+          authors_final.push(", " + name_reverse(l))
+        end
+      end
+      text += authors_final.join
+      unless text.blank?
+        if text[-1,1] != "."
+          text += ". "
+        else
+          text += " "
+        end
+      end
+    else
+      text += authors.first + ", et al. "
+    end
     end
     # setup title
     title = setup_title_info(record)
@@ -521,15 +634,18 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def apa_citation(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_list = []
     authors_list_final = []
     
     #setup formatted author list
-    authors = get_author_list(record)
+    authors = apa_get_author_list(record)
     authors.each do |l|
       authors_list.push(abbreviate_name(l)) unless l.blank?
     end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_list = #{authors_list.inspect}")
     authors_list.each do |l|
       if l == authors_list.first #first
         authors_list_final.push(l.strip)
@@ -567,6 +683,27 @@ module Blacklight::Solr::Document::MarcExport
     end
     text
   end
+
+  def setup_pub_info_mla8(record)
+    text = ''
+    pub_info_field = record.find{|f| f.tag == '260'}
+    if pub_info_field.nil?
+      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+    end
+    if !pub_info_field.nil?
+      b_pub_info = pub_info_field.find{|s| s.code == 'b'}
+      a_pub_info = clean_end_punctuation(a_pub_info.value.strip) unless a_pub_info.nil?
+      b_pub_info = b_pub_info.value.strip unless b_pub_info.nil?
+      text += a_pub_info.strip unless a_pub_info.nil?
+      if !a_pub_info.nil? and !b_pub_info.nil?
+        text += ": "
+      end
+      text += b_pub_info.strip unless b_pub_info.nil?
+    end
+    #print STANDARD_INFO  + "text = #{text}"
+    return nil if text.strip.blank?
+    clean_end_punctuation(text.strip)
+  end 
   def setup_pub_info(record)
     text = ''
     pub_info_field = record.find{|f| f.tag == '260'}
@@ -638,11 +775,20 @@ module Blacklight::Solr::Document::MarcExport
     translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"
     primary_authors = []; translators = []; editors = []; compilers = []
     corporate_authors = []; meeting_authors = []; secondary_authors = []
+    primary_corporate_authors = []; secondary_corporate_authors = [];
     record.find_all{|f| f.tag === "100" }.each do |field|
       primary_authors << field["a"] if field["a"]
     end
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
       corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
+    end
+    record.find_all{|f| f.tag === '110'}.each do |field|
+      primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
+    end
+    record.find_all{|f| f.tag === '710'}.each do |field|
+      secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
@@ -676,9 +822,19 @@ module Blacklight::Solr::Document::MarcExport
     secondary_authors.each_with_index do |a,i|
       secondary_authors[i] = a.gsub(/[\.,]$/,'')
     end
+    primary_authors.uniq! 
+    corporate_authors.uniq! 
+    primary_corporate_authors.uniq! 
+    secondary_corporate_authors.uniq! 
+    translators.uniq! 
+    editors.uniq! 
+    compilers.uniq! 
+    secondary_authors.uniq! 
+    secondary_authors.delete_if { |a| primary_authors.include?(a) }
+    meeting_authors.uniq! 
 
     ret = {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
-    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors }
+    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors, :primary_corporate_authors => primary_corporate_authors, :secondary_corporate_authors => secondary_corporate_authors }
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ret = #{ret.inspect}")
     ret
   end
@@ -747,6 +903,13 @@ module Blacklight::Solr::Document::MarcExport
     
   end
   
+  def apa_clean_end_punctuation(text)
+    if [".,"].include? text[-2,2]
+      return text[0,text.length-1]
+    end
+    text
+  end  
+
   def clean_end_punctuation(text)
     if [".",",",":",";","/"].include? text[-1,1]
       return text[0,text.length-1]
@@ -765,6 +928,28 @@ module Blacklight::Solr::Document::MarcExport
     end    
   end
   
+
+  def apa_get_author_list(record)
+    author_list = []
+    authors_primary = record.find{|f| f.tag == '100'}
+    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+    author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
+    authors_secondary = record.find_all{|f| ('700') === f.tag}
+    if !authors_secondary.nil?
+      authors_secondary.each do |l|
+        author_list.push(apa_clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+      end
+    end
+    author_list.uniq!
+    if author_list.blank?
+      authors_primary = record.find{|f| f.tag == '110'}
+      author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+      author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
+      author_list.uniq!
+    end
+    author_list
+  end
+
   def get_author_list(record)
     author_list = []
     authors_primary = record.find{|f| f.tag == '100'}
@@ -808,6 +993,7 @@ module Blacklight::Solr::Document::MarcExport
   end
   
   def abbreviate_name(name)
+    return name unless name =~ /,/
     name_parts = name.split(", ")
     first_name_parts = name_parts.last.split(" ")
     temp_name = name_parts.first + ", " + first_name_parts.first[0,1] + "."

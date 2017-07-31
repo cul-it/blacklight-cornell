@@ -11,17 +11,6 @@ Feature: Select and export items from the result set
 		# Note: Checking the 'select' box on an item saves it to a personal Selected Items
 		# set immediately via JavaScript
 
-# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
-#Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
-# has a 264 with indicator 1, and another with indicator 4.
-@all_select_and_export
-@citations
-@two264s
-@DISCOVERYACCESS-1677 @javascript
-  Scenario: User needs to cite a record 
-    Given I request the item view for 8392067 
-    And click on link "Cite"
-    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
 
 # roman numerals need to be properly eliminated from the date field.
 @all_select_and_export
@@ -32,6 +21,35 @@ Feature: Select and export items from the result set
     And click on link "Cite"
     And I sleep 2 seconds
     Then I should see the label 'Wake, William. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
+
+
+
+#Chicago 16th ed. format.
+# Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
+# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+@all_select_and_export
+@citations
+@DISCOVERYACCESS-1677 @javascript
+  Scenario: User needs to cite a record 
+    Given I request the item view for 8696757
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'Chicago 16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013.'
+
+#For a book with two authors, note that only the 
+#first-listed name is inverted in the bibliography entry.
+#Ward, Geoffrey C., and Ken Burns. The War: An Intimate History, 1941–1945. New York: Knopf, 2007.
+#Then I should see the label 'Chicago 16th ed. Ward, Geoffrey C, and Ken Burns. The War: An Intimate History, 1941–1945. New York: A.A. Knopf, 2007.'
+@all_select_and_export
+@citations
+@DISCOVERYACCESS-1677 
+@javascript
+  Scenario: User needs to cite a record  with multiple authors.
+    Given I request the item view for 6146988 
+    And click on link "Cite"
+    And I sleep 8 seconds
+    Then I should see the label 'Chicago 16th ed. Ward, Geoffrey C, and Ken Burns. The War: An Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
+
 
 @all_select_and_export
 @citations
@@ -54,6 +72,18 @@ Feature: Select and export items from the result set
     Then I should see the label 'Chicago 16th ed. Godtsenhoven, Karen van, Miren Arzalluz, and Kaat Debo, eds. Fashion Game Changers: Reinventing the 20th-Century Silhouette. London: Bloomsbury Visual Arts'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+#Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
+# has a 264 with indicator 1, and another with indicator 4.
+@all_select_and_export
+@citations
+@two264s
+@DISCOVERYACCESS-1677 @javascript
+  Scenario: User needs to cite a record 
+    Given I request the item view for 8392067 
+    And click on link "Cite"
+    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
+
+# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
 @citations
 @DISCOVERYACCESS-1677 @javascript
@@ -63,27 +93,71 @@ Feature: Select and export items from the result set
     And I sleep 2 seconds
     Then I should see the label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-held and Hands-free Cell Phone Use On Driving Performance and Safety-critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013.'
 
+@all_select_and_export
+@citations
+@javascript
+  Scenario: User needs to cite a record by a corporate author in MLA style # Geology report / corp author.
+    Given I request the item view for 393971
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'MLA 7th ed. Memorial University of Newfoundland. Geology Report. St. John'
+
+@all_select_and_export
+@citations
+@javascript
+  Scenario: User needs to cite a record by a corporate author in MLA style # NRC  / corp author.
+    Given I request the item view for 3902220 
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'MLA 7th ed. National Research Council (U.S.). Beyond Six Billion : Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
+
+# MLA 8th edition
+@all_select_and_export
+@citations
+@javascript
+  Scenario: User needs to cite a record by a corporate author in MLA style, 8th edition  
+    Given I request the item view for 7292123 
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'MLA 8th ed. Jacobs, Alan. The Pleasures of Reading In an Age of Distraction. Oxford University Press, 2011.'
+
+#
+# APA 6th ed.
+# Not sure if this is official documentation:
+# http://www.muhlenberg.edu/library/reshelp/apa_example.pdf
+# Publication Manual of the American Psychological Association, 6th ed. Washington, DC:
+# American Psychological Association, 2010.
+# Uris Library Reference (Non-Circulating) BF76.7 .P83 2010
+# examples:
+# Shotton, M. A. (1989) Computer addition? A study of computer dependency. London, England: Taylor & Francis
+# Gregory, G., & Parry, T. (2006). Designing brain-compatible learning (3rd ed.). Thousand Oaks, CA: Corwin. 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
 @citations
 @DISCOVERYACCESS-1677 @javascript
-  Scenario: User needs to cite a record 
+  Scenario: User needs to cite a record in APA style. 
     Given I request the item view for 8069112 
     And click on link "Cite"
     And I sleep 2 seconds
     Then I should see the label 'APA 6th ed. Cohen, A. I. (2013). Social media : legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
 
-# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
-# this one fails because of the punctuation after Funk, Tom there ought to be a period there. BFD
 @all_select_and_export
 @citations
 @DISCOVERYACCESS-1677 @javascript
-  Scenario: User needs to cite a record 
-    Given PENDING 
-    Given I request the item view for 8696757
+  Scenario: User needs to cite a record with multiple authors in APA style
+    Given I request the item view for 6146988
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013.'
+    Then I should see the label 'APA 6th ed. Ward, G. C., & Burns, K. (2007). The war : an intimate history, 1941-1945.'
+
+@all_select_and_export
+@citations
+@javascript
+  Scenario: User needs to cite a record by a corporate author in APA style # Geology report / corp author.
+    Given I request the item view for 393971
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'APA 6th ed. Memorial University of Newfoundland. Geology report. St. John'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 # test regular expression that expunges characters from date field.
@@ -91,11 +165,13 @@ Feature: Select and export items from the result set
 @citations
 @DISCOVERYACCESS-1677 
 @javascript
-  Scenario: User needs to cite a record 
+  Scenario: User needs to cite a record with extra info expunged from date field. 
     Given I request the item view for 5558811
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament'
+    Then I should see the label 'Chicago 16th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
+    Then I should see the label 'MLA 7th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
+    Then I should see the label 'APA 6th ed. Eliot, J., Cotton, J., & Boyle, R. (1685). Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.'
 
 # item view called twice because the formats are not registered till the item view is called once.
 #

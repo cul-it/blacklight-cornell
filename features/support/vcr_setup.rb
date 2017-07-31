@@ -5,10 +5,12 @@ use_mock_and_vcr = ENV['VCR_USE_MOCK_AND_VCR'] ? true : false
 VCR.configure do |c|
   #the directory where your cassettes will be saved
   c.cassette_library_dir = 'features/cassettes'
+  c.default_cassette_options = { :record => :new_episodes, :erb => true }
   # turn off webmock if we do not want to use vcr and webmock
   if use_mock_and_vcr 
     then  
       # your HTTP request service. You can also use fakeweb, typhoeus, and more
+      c.default_cassette_options = { :record => :new_episodes, :erb => true }
       c.hook_into :webmock
       c.allow_http_connections_when_no_cassette = ENV['VCR_ALLOW_HTTP'] ? true : false #false means we *always* have to use VCR for HTTP
       #c.allow_http_connections_when_no_cassette = true # This means that we don't *always* have to use VCR for HTTP, only when we want
