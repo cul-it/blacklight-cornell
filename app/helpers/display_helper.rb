@@ -1208,7 +1208,7 @@ include ActionView::Helpers::NumberHelper
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/http:\/\//) + 7
-      display = '<p>Solr core: ' + core[start..-1] + '</p>'
+      display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
       display.html_safe
     end
   end
