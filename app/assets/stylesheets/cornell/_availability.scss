@@ -244,19 +244,8 @@ h3.rare {
 // -------------------------
 
 // Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
-  ul.blacklight-nav {
-    float: right;
-    li {
-      font-size: 12px;
-    }
-  }
-  .item-requests {
-  	.btn-default {
-		//margin-left: 10px;
-	}
-  }
-}
+// @media (min-width: $screen-sm) { 
+// }
 
 // Medium devices (desktops, 992px and up)
 // @media (min-width: $screen-md) {
