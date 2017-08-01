@@ -801,6 +801,7 @@ def makeSimpleRemoveString(my_params, facet_key)
 end
 
 def makeRemoveString(my_params, facet_key)
+  Rails.logger.info("REMO1 = #{facet_key}")
   removeString = ""
   fkey = facet_key
   advanced_query = my_params["advanced_query"]
@@ -892,7 +893,13 @@ def makeRemoveString(my_params, facet_key)
     end
   end
   if ((q_row.nil? || q_row.count < 2) && !q.nil?)
-    removeString = "q=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
+    if CGI.escape(q) == ''
+      if facets_string != ''
+        removeString = facets_string + "action=index&commit=Search"
+      end
+    else
+       removeString = "q=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
+    end
   else
     if advanced_query.nil?
       advanced_query = "yes"
@@ -901,6 +908,7 @@ def makeRemoveString(my_params, facet_key)
                   facets_string + op_string + op_row_string + q_string.html_safe +
                   q_row_string + search_field_string + search_field_row_string
   end
+  Rails.logger.info("REMO =#{removeString}")
   return removeString
 end
 
