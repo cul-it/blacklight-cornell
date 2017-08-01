@@ -97,20 +97,22 @@
                         <i class="fa fa-<%= formats_icon_mapping(format) %>"></i><%= format %>
                       </span>
                     <% end %>
-                    <span class="other-form-date"><%= f["pub_date"] %></span>
-                    <span class="other-form-language"><%= f["language"] %></span>
-                    <span class="other-form-edition"><%= f["edition"] %></span>
+                    <% if f["pub_date"].present? %>
+                      <span class="other-form-date"><%= f["pub_date"] %></span>
+                    <% end %>
+                    <% if f["language"].present? %>
+                      <span class="other-form-language"><%= f["language"] %></span>
+                    <% end %>
+                    <% if f["edition"].present? %>
+                      <span class="other-form-edition"><%= f["edition"] %></span>
+                    <% end %>
                     <% if f["sites"].present? %>
                       <span class="other-form-online">
                         <span class="status-online online-label">Online</span>
-                        <%# if (f["sites"]) != "Online" %>
-                          <%#= f["sites"] %>
-                        <%# end %>
                       </span>
                     <% end %>
                     <% if f["libraries"].present? %>
                       <span class="at-library-label">At the Library</span>
-                      <!-- <span class="other-form-libraries">Location: <%= f["libraries"] %></span> -->
                     <% end %>
                   </div><%# end other-form %>
                 <% end %>

@@ -228,6 +228,11 @@ h3.rare {
 		background: $teal;
 		pointer: none;
 	}
+	.other-form-online {
+		span {
+			margin-right: 0;
+		}
+	}
 	// .online-label,
 	// .at-library-label {
 	// 	font-weight: 700;
