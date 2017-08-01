@@ -31,7 +31,7 @@ class SearchController < ApplicationController
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
+          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :summonArticles)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results
 
@@ -137,8 +137,7 @@ class SearchController < ApplicationController
     # Sort formats alphabetically for more results
     more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
 
-    # Remove websites from top 4 logic
-    @websites = results.delete('web')
+    # Remove articles from top 4 logic
     @summonArticles = results.delete('summonArticles')
 
     # Top 2 are books and articles, regardless of display_type
@@ -180,10 +179,8 @@ class SearchController < ApplicationController
   # Return a URL for the 'view all' links. format only matters for Blacklight format facets
   def all_items_url engine_id, query, format
 
-    if engine_id == 'web'
-      zq= query.gsub('&','%26')
-      "search/web?q=#{zq}"
-    elsif engine_id == 'summon_bento'
+    
+    if engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
       "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
     elsif engine_id == 'summonArticles'

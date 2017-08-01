@@ -110,15 +110,6 @@ BentoSearch.register_engine('bestbet') do |conf|
 	conf.title = 'Best Bet'
 end
 
-BentoSearch.register_engine('web') do |conf|
-	conf.engine = 'BentoSearch::GoogleSiteSearchEngine'
-	conf.title = 'Library Websites'
-	conf.api_key =  ENV['GOOGLE_API_KEY']
-	conf.cx =  ENV['GOOGLE_CX']
-	conf.for_display = {:decorator => "WebDecorator"}
-
-end
-
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
