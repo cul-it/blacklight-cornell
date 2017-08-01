@@ -20,7 +20,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8125253
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Wake, William. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
+    Then I should see the label 'MLA 7th ed. Wake, William. Three Tracts against Popery. Written in the Year MDCLXXXVI. By William Wake, M.A. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher at S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687. Web.'
 
 
 
@@ -34,7 +34,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8696757
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013.'
+    Then I should see the label 'Chicago 16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. https://link.springer.com/openurl?genre=book&isbn=978-1-4302-4407-3.'
 
 #For a book with two authors, note that only the 
 #first-listed name is inverted in the bibliography entry.
@@ -48,7 +48,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 6146988 
     And click on link "Cite"
     And I sleep 8 seconds
-    Then I should see the label 'Chicago 16th ed. Ward, Geoffrey C, and Ken Burns. The War: An Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
+    Then I should see the label 'Chicago 16th ed. Ward, Geoffrey C, and Ken Burns. The War: an Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
 
 
 @all_select_and_export
@@ -69,7 +69,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 9448862 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Godtsenhoven, Karen van, Miren Arzalluz, and Kaat Debo, eds. Fashion Game Changers: Reinventing the 20th-Century Silhouette. London: Bloomsbury Visual Arts'
+    Then I should see the label 'Chicago 16th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016. MLA 7th ed. Modemuseum Provincie Antwerpen.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 #Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
@@ -81,7 +81,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8392067 
     And click on link "Cite"
-    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
+    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War in North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014. Print.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -90,8 +90,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8867518
     And click on link "Cite"
-    And I sleep 2 seconds
-    Then I should see the label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-held and Hands-free Cell Phone Use On Driving Performance and Safety-critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013.'
+    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.'
 
 @all_select_and_export
 @citations
@@ -119,7 +118,8 @@ Feature: Select and export items from the result set
     Given I request the item view for 7292123 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA 8th ed. Jacobs, Alan. The Pleasures of Reading In an Age of Distraction. Oxford University Press, 2011.'
+    Then I should see the label 'MLA 8th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. Oxford University Press, 2011.'
+    Then I should see the label 'MLA 7th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. New York: Oxford University Press, 2011. Print.'
 
 #
 # APA 6th ed.
@@ -170,7 +170,7 @@ Feature: Select and export items from the result set
     And click on link "Cite"
     And I sleep 2 seconds
     Then I should see the label 'Chicago 16th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
-    Then I should see the label 'MLA 7th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
+    Then I should see the label 'MLA 7th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. Web.'
     Then I should see the label 'APA 6th ed. Eliot, J., Cotton, J., & Boyle, R. (1685). Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.'
 
 # item view called twice because the formats are not registered till the item view is called once.

@@ -35,11 +35,12 @@ module Blacklight::Solr::Document::MarcExport
   # to the document extension where it belongs. 
   def export_as_apa_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    apa_citation( to_marc )
+    citeproc_citation( to_marc,'apa')
+    #apa_citation( to_marc )
   end
   
   def export_as_mla_citation_txt
-    mla8_proc_citation( to_marc,'modern-language-association')
+    citeproc_citation( to_marc,'modern-language-association')
     #mla_citation( to_marc )
   end
 
@@ -49,16 +50,17 @@ module Blacklight::Solr::Document::MarcExport
 
     #cp  = CiteProc::Processor.new style: 'modern-language-association-8th-edition', format: 'html'
   def export_as_mla8_citation_txt
-    mla8_proc_citation( to_marc,'modern-language-association-8th-edition')
+    citeproc_citation( to_marc,'modern-language-association-8th-edition')
   end
 
   def export_as_mla8_proc_citation_txt
-    mla8_proc_citation( to_marc )
+    citeproc_citation( to_marc )
   end
   
   def export_as_chicago_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    chicago_citation( to_marc )
+    citeproc_citation( to_marc,'chicago-fullnote-bibliography')
+    #chicago_citation( to_marc )
   end
 
   # Exports as an OpenURL KEV (key-encoded value) query string.
@@ -490,13 +492,13 @@ module Blacklight::Solr::Document::MarcExport
   
   
   
-  def mla8_proc_citation(record,csl)
-    require 'citeproc'
+  def citeproc_citation(record,csl)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
     cp  = CiteProc::Processor.new style: csl, format: 'html'
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp = #cp.inspect}")
     authors_final = []
+    editors_final = []
     all_authors = get_all_authors(record)
       # If there are secondary (i.e. from 700 fields) authors, add them to
       # primary authors only if there are no corporate, meeting, primary authors
@@ -520,6 +522,12 @@ module Blacklight::Solr::Document::MarcExport
               else
                 []
     end
+    editors  = case
+              when !all_authors[:editors].blank?
+                all_authors[:editors]
+              else
+                []
+    end
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
     if !authors.blank?
       authors.each do |nam|
@@ -527,11 +535,20 @@ module Blacklight::Solr::Document::MarcExport
           family,given = nam.split(",")
           a =  CiteProc::Name.new(:family => family, :given => given)
         else
-          Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}nam=#{nam.inspect}")
           a =  CiteProc::Name.new(:literal => nam)
-          Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} a= #{a.inspect}")
         end
         authors_final << a
+      end
+    end
+    if !editors.blank?
+      editors.each do |nam|
+        if  nam.include?(',')
+          family,given = nam.split(",")
+          a =  CiteProc::Name.new(:family => family, :given => given)
+        else
+          a =  CiteProc::Name.new(:literal => nam)
+        end
+        editors_final << a
       end
     end
     title = setup_title_info(record)
@@ -539,23 +556,36 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_final = #{authors_final.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} title = #{title.inspect}")
     publisher = setup_pub_info_mla8(record) unless setup_pub_info_mla8(record).nil?
+    publisher.squish! unless publisher.nil?
     publisher_place,dummy = setup_pub_info(record).split(':') unless setup_pub_info(record).nil?
+    publisher_place.squish! unless publisher_place.nil?
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} publisher_place = #{publisher_place.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}dummy=#{dummy.inspect}")
     id = "id #{csl}"
+    ul = ''
+    if !self['url_access_display'].blank?
+       ul = self['url_access_display'].first.split('|').first
+       # might have proxy link -- http://proxy.library.cornell.edu/login?url=http://site.ebrary.com/lib/cornell/Top?id=11014930
+       # or gateway link
+       ul.sub!('http://proxy.library.cornell.edu/login?url=','')
+       ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+    end
     item = CiteProc::Item.new(
       :id => id,
       :type => 'book',
       :title => title,
       :author => authors_final,
+      :editor => editors_final,
       :issued => { 'literal' => issued },
       :publisher => publisher ,
+      :URL => ul,
       'publisher-place' => publisher_place 
     )
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} item=#{item.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} place=#{item.publisher_place.inspect}")
     cp << item
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp=#{cp.inspect}")
+    #cp.options()[:style].titleize + "<br/>" + (cp.render :bibliography, id: id)[0]
     (cp.render :bibliography, id: id)[0]
     end
 
@@ -977,8 +1007,8 @@ module Blacklight::Solr::Document::MarcExport
     end
     
     return nil if text.strip.blank?
+    text.sub!(' : ' ,': ')
     clean_end_punctuation(text.strip) + "."
-    
   end
   
   def apa_clean_end_punctuation(text)
