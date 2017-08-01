@@ -166,6 +166,11 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
+    citeproc (1.0.5)
+      namae (~> 0.8)
+    citeproc-ruby (1.1.7)
+      citeproc (>= 1.0.4, < 2.0)
+      csl (~> 1.4)
     cliver (0.3.2)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -180,6 +185,10 @@ GEM
       hashie (~> 3.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    csl (1.4.5)
+      namae (~> 0.7)
+    csl-styles (1.0.1.8)
+      csl (~> 1.0)
     cucumber (2.4.0)
       builder (>= 2.1.2)
       cucumber-core (~> 1.5.0)
@@ -310,6 +319,7 @@ GEM
     multi_json (1.12.1)
     multi_test (0.1.2)
     mysql (2.9.1)
+    namae (0.11.3)
     nenv (0.3.0)
     net-ldap (0.15.0)
     net-scp (1.2.1)
@@ -530,7 +540,10 @@ DEPENDENCIES
   capybara
   capybara-email
   celluloid
+  citeproc
+  citeproc-ruby
   coffee-rails (~> 4.0)
+  csl-styles
   cucumber-rails
   database_cleaner
   devise

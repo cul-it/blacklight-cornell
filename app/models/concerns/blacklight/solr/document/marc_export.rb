@@ -39,11 +39,21 @@ module Blacklight::Solr::Document::MarcExport
   end
   
   def export_as_mla_citation_txt
-    mla_citation( to_marc )
+    mla8_proc_citation( to_marc,'modern-language-association')
+    #mla_citation( to_marc )
   end
 
-  def export_as_mla8_citation_txt
+  def old_xxx_export_as_mla8_citation_txt
     mla8_citation( to_marc )
+  end
+
+    #cp  = CiteProc::Processor.new style: 'modern-language-association-8th-edition', format: 'html'
+  def export_as_mla8_citation_txt
+    mla8_proc_citation( to_marc,'modern-language-association-8th-edition')
+  end
+
+  def export_as_mla8_proc_citation_txt
+    mla8_proc_citation( to_marc )
   end
   
   def export_as_chicago_citation_txt
@@ -480,6 +490,75 @@ module Blacklight::Solr::Document::MarcExport
   
   
   
+  def mla8_proc_citation(record,csl)
+    require 'citeproc'
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
+    cp  = CiteProc::Processor.new style: csl, format: 'html'
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp = #cp.inspect}")
+    authors_final = []
+    all_authors = get_all_authors(record)
+      # If there are secondary (i.e. from 700 fields) authors, add them to
+      # primary authors only if there are no corporate, meeting, primary authors
+    if !all_authors[:primary_authors].blank?
+      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+    elsif !all_authors[:secondary_authors].blank?
+      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+    end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+    authors = case
+              when !all_authors[:primary_authors].blank?
+               all_authors[:primary_authors]
+              when !all_authors[:primary_corporate_authors].blank?
+                all_authors[:primary_corporate_authors]
+              when !all_authors[:meeting_authors].blank?
+                all_authors[:meeting_authors]
+              when !all_authors[:secondary_authors].blank?
+                all_authors[:secondary_authors]
+              when !all_authors[:secondary_corporate_authors].blank?
+                all_authors[:secondary_corporate_authors]
+              else
+                []
+    end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    if !authors.blank?
+      authors.each do |nam|
+        if  nam.include?(',')
+          family,given = nam.split(",")
+          a =  CiteProc::Name.new(:family => family, :given => given)
+        else
+          Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}nam=#{nam.inspect}")
+          a =  CiteProc::Name.new(:literal => nam)
+          Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} a= #{a.inspect}")
+        end
+        authors_final << a
+      end
+    end
+    title = setup_title_info(record)
+    issued =  setup_pub_date(record) unless setup_pub_date(record).nil?
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_final = #{authors_final.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} title = #{title.inspect}")
+    publisher = setup_pub_info_mla8(record) unless setup_pub_info_mla8(record).nil?
+    publisher_place,dummy = setup_pub_info(record).split(':') unless setup_pub_info(record).nil?
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} publisher_place = #{publisher_place.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}dummy=#{dummy.inspect}")
+    id = "id #{csl}"
+    item = CiteProc::Item.new(
+      :id => id,
+      :type => 'book',
+      :title => title,
+      :author => authors_final,
+      :issued => { 'literal' => issued },
+      :publisher => publisher ,
+      'publisher-place' => publisher_place 
+    )
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} item=#{item.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} place=#{item.publisher_place.inspect}")
+    cp << item
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp=#{cp.inspect}")
+    (cp.render :bibliography, id: id)[0]
+    end
+
   def mla8_citation(record)
 
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
@@ -496,7 +575,6 @@ module Blacklight::Solr::Document::MarcExport
      elsif !all_authors[:secondary_authors].blank?
       all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
      end
-
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
     authors = case
               when !all_authors[:primary_authors].blank?
