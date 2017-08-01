@@ -47,8 +47,7 @@
         <% end %>
         <% BentoSearch.get_engine(key).configuration.title %>
         <% if BentoSearch.get_engine(key).configuration.title == 'Articles & Full Text' %>
-          
-        <% elsif BentoSearch.get_engine(key).configuration.title == 'Library Websites' %>
+
         <% else %>
           from Catalog
         <% end %>

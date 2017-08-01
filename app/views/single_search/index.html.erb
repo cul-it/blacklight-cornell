@@ -18,7 +18,7 @@
     <div class="col-sm-8 col-sm-offset-2 empty-single-search">
       <div class="well">
         <div class="search-info">
-          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page.">
+          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
             <i class="fa fa-info-circle"></i>
             About this search
           </a>
@@ -263,13 +263,6 @@
                     </div>
                   <% end %>
                 </div>
-              </div>
-            <% end %>
-          </div>
-          <div class="web-pane">
-            <% if @websites.present? %>
-              <div class="web-results">
-                <%= render 'single_search/pane_results', :key => 'web', :result => @websites %>
               </div>
             <% end %>
           </div>

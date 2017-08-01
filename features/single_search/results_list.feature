@@ -58,33 +58,7 @@ Feature: Results list
     Then I should get bento results
     And I should not see the text "Best Bet"
 
-  @all_results_list @search_with_view_all_websites
-  Scenario: Search with view all websites link
-    Given I literally go to search
-    When I fill in "q" with 'nature study at Cornell University'
-    And I press 'Search'
-    Then I should get bento results
-    When I follow "link_top_web"
-    And I should see the text "nature study"
 
-  @all_results_list @search_with_view_all_websites_multi_word
-  Scenario: Search with view all websites multi word link
-    Given I literally go to search
-    When I fill in "q" with 'levitated nanosphere'
-    And I press 'Search'
-    Then I should get bento results
-    When I follow "link_top_web"
-    And I should see the text "levitated nanosphere"
-
-	#https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1135
-  @all_results_list @search_with_view_all_websites_multi_word_with_percent
-  Scenario: Search with view all websites multi word link
-    Given I literally go to search
-    When I fill in "q" with '100% beef'
-    And I press 'Search'
-    Then I should get bento results
-    When I follow "link_top_web"
-    And I should see the text "National Daily Cattle and Beef Summary"
 
   @all_results_list @search_with_view_all_books
   Scenario: Search with view all books link
@@ -95,14 +69,6 @@ Feature: Results list
     Given PENDING
     And I should see the text "Altering nature c2008"
 
-  @all_results_list @search_with_view_all_webs_match_box
-  Scenario: Search with view all webs link
-    Given I literally go to search
-    Given PENDING
-    When I fill in "q" with 'gettysburg address'
-    And I press 'Search'
-    Then I should get bento results
-		Then box "link_top_web" should match "4" th "Library Websites" in "web-count"
 
   @all_results_list @search_with_view_all_music_match_box
   Scenario: Search with view all music link
@@ -121,13 +87,7 @@ Feature: Results list
     Then I should get bento results
 		Then box "link_top_manuscript_archive" should match "0" th "from Catalog" in "page_entries"
 
-  @all_results_list @search_with_view_all_webs_match_box_with_percent
-  Scenario: Search with view all webs link
-    Given I literally go to search
-    When I fill in "q" with '100% beef packing'
-    And I press 'Search'
-    Then I should get bento results
-		Then box "link_top_web" should match "2" nd "Library Websites" in "web-count"
+
 
   @all_results_list @search_with_view_all_journals_match_box_with_percent
   Scenario: Search with view all journals link
@@ -193,14 +153,6 @@ Feature: Results list
     Then I should get bento results
 		Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
 
-  @all_results_list @search_with_view_all_web_match_box_ampersand
-  Scenario: Search with view all webs link  with ampersand
-    Given PENDING
-    Given I literally go to search
-    When I fill in "q" with 'america & nepal & rice & nematode'
-    And I press 'Search'
-    Then I should get bento results
-		Then box "link_top_web" should match "1" st "Library Websites" in "web-count"
 
   @all_results_list @search_with_view_all_top_book_match_box_ampersand_and_others
   Scenario: Search with view all books  (top) link  with ampersand and others
@@ -211,23 +163,6 @@ Feature: Results list
     Then I should get bento results
 		Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
 
-  @all_results_list @search_facet_web_match_box_ampersand
-  Scenario: Search and facet webs link with ampersand match
-    Given PENDING
-    Given I literally go to search
-    When I fill in "q" with 'nepali & language'
-    And I press 'Search'
-    Then I should get bento results
-		Then facet "facet_link_web" should match "4" rd "Library Websites" in "web-count"
-
-  @all_results_list @search_with_view_all_website_match_box
-  Scenario: Search with view all related websites should match bentox box total
-    Given I literally go to search
-    When I fill in "q" with 'natural hazard statistics'
-    And I press 'Search'
-    And I sleep 8 seconds
-    Then I should get bento results
-    Then box "link_top_website" should match "0" th "from Catalog" in "page_entries"
 
 # Combinatorial Algorithms, Algorithmic Press
 # there is duplicate code here to defeat the 'circular dependency' problem,
