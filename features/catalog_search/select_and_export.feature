@@ -81,7 +81,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8392067 
     And click on link "Cite"
-    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War in North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014. Print.'
+    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War in North America: a Brief History with Documents. Boston: Bedford/St. Martin's, 2014. Print.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -90,7 +90,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8867518
     And click on link "Cite"
-    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.'
+    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.'
 
 @all_select_and_export
 @citations
@@ -108,7 +108,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 3902220 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA 7th ed. National Research Council (U.S.). Beyond Six Billion : Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
+    Then I should see the label 'MLA 7th ed. National Research Council (U.S.). Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
 
 # MLA 8th edition
 @all_select_and_export
@@ -139,7 +139,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8069112 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'APA 6th ed. Cohen, A. I. (2013). Social media : legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
+    Then I should see the label 'APA 6th ed. Cohen, A. I. (2013). Social media: legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
 
 @all_select_and_export
 @citations
@@ -148,7 +148,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 6146988
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'APA 6th ed. Ward, G. C., & Burns, K. (2007). The war : an intimate history, 1941-1945.'
+    Then I should see the label 'APA 6th ed. Ward, G. C., & Burns, K. (2007). The war: an intimate history, 1941-1945.'
 
 @all_select_and_export
 @citations
@@ -216,7 +216,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 1001 
     Given I request the item view for 1001.ris
     Then I should see the text 'TY - BOOK'
-    Then I should see the text 'TI - Reflections : the anthropological muse'
+    Then I should see the text 'TI - Reflections: the anthropological muse'
     Then I should see the text 'CY - Washington, D.C.' 
     Then I should see the text 'CN - Library Annex PS591.A58 R33'
     Then I should see the text 'SN - 091316710X' 
@@ -281,7 +281,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 1001 
     Given I request the item view for 1001.rdf_zotero
     Then I should see the xml text '<z:itemType>book</z:itemType'
-    Then I should see the xml text '<dc:title>Reflections : the anthropological muse</dc:title>'
+    Then I should see the xml text '<dc:title>Reflections: the anthropological muse</dc:title>'
     Then I should see the xml text '<dc:identifier>ISBN 091316710X : '
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
