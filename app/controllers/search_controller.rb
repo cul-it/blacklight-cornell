@@ -31,7 +31,7 @@ class SearchController < ApplicationController
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :summonArticles)
+          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :digitalCollections, :summonArticles)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results
 
@@ -137,8 +137,9 @@ class SearchController < ApplicationController
     # Sort formats alphabetically for more results
     more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
 
-    # Remove articles from top 4 logic
+    # Remove articles and digital collections from top 4 logic
     @summonArticles = results.delete('summonArticles')
+    @digitalCollections = results.delete('digitalCollections')
 
     # Top 2 are books and articles, regardless of display_type
     top1 << ['summon_bento', results.delete('summon_bento')]
@@ -179,13 +180,16 @@ class SearchController < ApplicationController
   # Return a URL for the 'view all' links. format only matters for Blacklight format facets
   def all_items_url engine_id, query, format
 
-    
+
     if engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
       "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
       "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
+    elsif engine_id == 'digitalCollections'
+      query = query.gsub('&', '%26')
+      "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.

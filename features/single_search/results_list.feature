@@ -69,6 +69,13 @@ Feature: Results list
     Given PENDING
     And I should see the text "Altering nature c2008"
 
+		@all_results_list @search_with_view_all_digital_collections
+	  Scenario: Search with view all books link
+	    Given I literally go to search
+	    When I fill in "q" with 'game design'
+	    And I press 'Search'
+	    Then I should get bento results
+	    And I should see the text "Def Jam"
 
   @all_results_list @search_with_view_all_music_match_box
   Scenario: Search with view all music link

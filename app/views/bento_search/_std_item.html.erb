@@ -24,13 +24,19 @@
       one, in a data-unique-id attribute. %>
    <% dbid = '' %>
   <% dbid = "data-bibid=#{item.unique_id}"  unless !is_cataloged(item.link) %>
-  <div class="bento_item"  <%= dbid %>  data-unique-id="<%= item.unique_id %>">
+
+  <div class="bento_item clearfix"  <%= dbid %>  data-unique-id="<%= item.unique_id %>">
+    <% if item.format_str && (item.link).include?('digital')%>
+     <div class="pull-left" style="margin-right:10px">
+        <img src="<%= item.format_str  %>" class="img-responsive img-thumbnail " >
+        </div>
+      <% end %>
     <%= render :partial => "bento_search/item_title", :object => item, :as => 'item', :locals => { } %>
 
 
-    <div class="bento_item_body">
-
-
+    <div class="bento_item_body ">
+   
+    
 
       <% if item.any_present?(:authors, :display_date) %>
         <p class="bento_item_row first_about">
