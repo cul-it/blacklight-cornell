@@ -163,10 +163,10 @@
                 <% end %>
               </li>
               <li>
-                <% unless @websites.blank? %>
-                  <%= link_to '#web' do %>
+                <% unless @digitalCollections.blank? %>
+                  <%= link_to '#digcoll' do %>
                     <i class="fa fa-arrow-down"></i>
-                    Library Websites
+                    Digital Collections
                   <% end %>
                 <% end %>
               </li>
@@ -263,6 +263,13 @@
                     </div>
                   <% end %>
                 </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="web-pane" id="digcoll">
+            <% if @digitalCollections.present? %>
+              <div class="web-results">
+                <%= render 'single_search/pane_results', :key => 'digitalCollections', :result => @digitalCollections %>
               </div>
             <% end %>
           </div>
