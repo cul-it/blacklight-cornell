@@ -498,11 +498,11 @@ Feature: Search
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     And I should see the label 'Back to catalog results'
     Then click on first link "Back to catalog results"
-    And I should see the label '1 - 5 of 5'
+    And I should see the label '1 - '
     Then click on first link "Search History"
     And I should see the label 'Title: beef AND Title: 100%'
     Then click on first link "Title: beef AND Title: 100%"
-    And I should see the label '1 - 5 of 5'
+    And I should see the label '1 - '
     Then click on first link "Title: beef"
     And I should see the label '1 - 20 of'
 
