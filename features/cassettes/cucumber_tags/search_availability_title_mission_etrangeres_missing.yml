@@ -759,4 +759,44 @@ http_interactions:
         eVNwZWxsZWQnPT50cnVlfX0K
     http_version: 
   recorded_at: Tue, 01 Aug 2017 20:32:52 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=title:Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 02 Aug 2017 13:12:26 GMT
+      Last-Modified:
+      - Wed, 02 Aug 2017 13:12:02 GMT
+      Etag:
+      - '"NTAzNjkwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1441'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "{'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>1903,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score
+        desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889
+        TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions
+        de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1377258.2,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889
+        TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At
+        the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch
+        Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann
+        Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}\n"
+    http_version: 
+  recorded_at: Wed, 02 Aug 2017 13:12:28 GMT
 recorded_with: VCR 3.0.3

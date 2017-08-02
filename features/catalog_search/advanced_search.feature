@@ -146,7 +146,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label 'of 46'
+    And I should see the label 'of 4'
 
 # Combinatorial Algorithms, Algorithmic Press
  @adv_search
@@ -498,11 +498,11 @@ Feature: Search
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     And I should see the label 'Back to catalog results'
     Then click on first link "Back to catalog results"
-    And I should see the label '1 - 4 of 4'
+    And I should see the label '1 - 5 of 5'
     Then click on first link "Search History"
     And I should see the label 'Title: beef AND Title: 100%'
     Then click on first link "Title: beef AND Title: 100%"
-    And I should see the label '1 - 4 of 4'
+    And I should see the label '1 - 5 of 5'
     Then click on first link "Title: beef"
     And I should see the label '1 - 20 of'
 
@@ -526,6 +526,7 @@ Feature: Search
  @all_search
  @adv_place
  @javascript
+ @allow_rescue
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
     And I fill in "q_row1" with quoted 'varieties of capitalism'

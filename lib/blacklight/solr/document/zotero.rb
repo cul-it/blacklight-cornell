@@ -169,6 +169,10 @@ module Blacklight::Solr::Document::Zotero
     relators =  get_contrib_roles(to_marc)
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
     primary_authors = authors[:primary_authors]
+    if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
+      primary_authors = authors[:primary_corporate_authors]
+    end
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} prmry authors=#{primary_authors.inspect}"
     secondary_authors = authors[:secondary_authors]
     meeting_authors = authors[:meeting_authors]
     secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
@@ -179,18 +183,27 @@ module Blacklight::Solr::Document::Zotero
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} looking for editors #{relators.inspect}"
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} editors #{editors.inspect}"
     end
-    pa = primary_authors + secondary_authors
+    pa = primary_authors.blank? ? secondary_authors : primary_authors
+    #pa = primary_authors + secondary_authors
     author_text = ''
     editor_text = ''
-    auty = ty == 'videoRecording' ? 'contributors' : 'authors'
-    edty = ty == 'videoRecording' ? 'contributors' : 'editors'
+    auty =  case ty 
+              when 'videoRecording'  
+                'contributors' 
+              when 'audioRecording'  
+                primary_authors.blank? ? 'contributors' : 'performers'
+              else
+                'authors'
+             end 
     if !pa.blank?
-      bld.bib(auty.to_sym) {
+      ns = ['contributors','authors','editors'].include?(auty)  ? 'bib' : 'z'
+      bld.tag!("#{ns}:#{auty}") { 
         bld.rdf(:Seq) {
             pa.map { |a|     bld.rdf(:li) { generate_rdf_person(bld,a) } }
         }
       }
     end 
+    edty = ty == 'videoRecording' ? 'contributors' : 'editors'
     if !editors.blank?
       bld.bib(edty.to_sym ) {
         bld.rdf(:Seq) {
@@ -220,11 +233,12 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_catlink(b,ty)
     ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}" 
     # if no elect access data, can use the url field.
-    if self['url_access_display'].blank?
-      b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
-    else 
-      b.dc(:coverage,ul)
-    end
+    b.dc(:coverage,ul)
+    #if self['url_access_display'].blank?
+      #b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
+      #else 
+      #b.dc(:coverage,ul)
+    #eend
   end 
   # add info specific to an item type.
   def generate_rdf_specific(b,ty)

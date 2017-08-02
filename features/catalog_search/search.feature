@@ -77,7 +77,7 @@ Feature: Search
     And I fill in the search box with 'ethnoarchaeology:'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 46'
+    And I should see the label 'of 4'
 
    @all_search
    @peabody
@@ -160,6 +160,7 @@ Feature: Search
     And I fill in the search box with 'Atlas des missions de la '
     And I press 'search'
     Then I should get results
+    And I sleep 15 seconds
     And I should see the "fa-check" class
     And I should see the label 'Olin Library Maps' 
 

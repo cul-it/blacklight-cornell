@@ -207,9 +207,10 @@ Feature: Results list
     Given I am on the home page
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
+    When I fill in the search box with 'the Economist newspaper'
+    And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'
-
   # DISCOVERYACCESS-1407
   # bibid - 9756432
         @all_results_list
