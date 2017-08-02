@@ -63,6 +63,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     temp_search_field = ''
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
+       params[:q] = sanitize(params[:q])
        check_params(params)
     else
       if params[:q].blank?
@@ -709,6 +710,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     # end of cleanup of search_field and q params
     return params 
+  end
+
+  def sanitize(q)
+     if q.include?('<img')
+      redirect_to_root_path
+     else
+      return q
+     end
   end
 
 end
