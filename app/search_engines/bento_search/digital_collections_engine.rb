@@ -19,21 +19,17 @@ class BentoSearch::DigitalCollectionsEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
+    q = args[:oq].gsub(" ","%20")
+    portal_response = JSON.load(open("https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"))
 
-    solr = RSolr.connect :url => 'http://jrc88.solr.library.cornell.edu/solr/digitalcollections'
-    solr_response = solr.get 'select', :params => {
-                                        :q => args[:query],
-                                        :rows => args[:per_page]
-                                       }
-    Rails.logger.debug "mjc12test: #{solr_response}"
-
-    results = solr_response['response']['docs']
+    Rails.logger.debug "mjc12test: #{portal_response}"
+    results = portal_response['response']['docs']
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
       item.title = i['title_tesim'][0].to_s
-      if i['note_tesim'].present?
-      item.abstract = i['note_tesim'][0].to_s
+      if i['collection_tesim'].present?
+      item.abstract = i['collection_tesim'][0].to_s
       elsif i['description_tesim'].present?
         item.abstract = i['description_tesim'][0].to_s
       end
@@ -43,7 +39,7 @@ class BentoSearch::DigitalCollectionsEngine
       item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
       bento_results << item
     end
-    bento_results.total_items = solr_response['response']['numFound']
+    bento_results.total_items = portal_response['response']['pages']['total_count']
 
     return bento_results
 

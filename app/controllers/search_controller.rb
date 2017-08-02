@@ -137,7 +137,7 @@ class SearchController < ApplicationController
     # Sort formats alphabetically for more results
     more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
 
-    # Remove articles from top 4 logic
+    # Remove articles and digital collections from top 4 logic
     @summonArticles = results.delete('summonArticles')
     @digitalCollections = results.delete('digitalCollections')
 
@@ -187,6 +187,9 @@ class SearchController < ApplicationController
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
       "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
+    elsif engine_id == 'digitalCollections'
+      query = query.gsub('&', '%26')
+      "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
