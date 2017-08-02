@@ -50,13 +50,11 @@ module AdvancedHelper
   end
 
   def render_edited_advanced_search(params)
-    Rails.logger.info("CUBONE = #{params}")
     query = ""
     if params[:boolean_row].nil?
       params[:boolean_row] = {"1"=>"AND"}
     end
-    Rails.logger.info("REAS = #{params}")
-    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author/Creator"], ["subject", "Subject"],
+    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
                       ["donor name", "Donor Name"]]
@@ -64,9 +62,9 @@ module AdvancedHelper
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
     row1 = ""
-    if params[:q_row][0].include? ' '
-      Rails.logger.info("CUBONE3")
+    if params[:q_row][0].include? ' ' and !(params[:q_row][0].start_with? '"' and params[:q_row][0].end_with? '"')
       query = "\"" + params[:q_row][0] + "\""
+    #  query = params[:q_row][0]
     else
       query = params[:q_row][0]
     end
@@ -75,7 +73,6 @@ module AdvancedHelper
     row1 << " value="  
     row1 << query #params[:q_row][0] 
     row1 << " /> "
-Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
     row1 << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
@@ -99,10 +96,17 @@ Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
     unless params[:q_row].count < 2
       next2rows = ""
       for i in 1..params[:q_row].count - 1
+        if params[:q_row][i].include? ' '
+          params[:q_row][i] = "\"" + params[:q_row][i] + "\""
+        #  query = params[:q_row][0]
+        else
+          params[:q_row][i] = params[:q_row][i]
+        end
+
          next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
          boolean_row_values.each do |key, value|
-           n = i.to_s
-           if key == params[:boolean_row][n.to_sym]
+           n = i - 1 #= i.to_s
+           if key == params[:boolean_row][n]
              next2rows << "<label class=\"radio-inline\">"
              next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
              next2rows << "</label>"
@@ -115,7 +119,7 @@ Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
          next2rows << "</div>"
          next2rows << "<div class=\"form-group\">"
          next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"sr-only\">" << t('blacklight.search.form.q_row') << "</label>"
-         next2rows << "<input autocapitalize=\"off\" class=\"form-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value=\""  << params[:q_row][i] << "\" /> "
+         next2rows << "<input autocapitalize=\"off\" class=\"form-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value="  << params[:q_row][i] << " /> "
          next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
          next2rows << "<select class=\"form-control\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
          boolean_values.each do |key, value|
@@ -142,7 +146,7 @@ Rails.logger.info("CUBONE1 = #{params[:q_row][0]}")
       next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
       boolean_row_values.each do |key, value|
            n = 1.to_s
-           if key == params[:boolean_row][n.to_sym]
+           if key == params[:boolean_row][1]
              next2rows << "<label class=\"radio-inline\">"
              next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
              next2rows << "</label>"

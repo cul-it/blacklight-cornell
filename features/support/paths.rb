@@ -19,7 +19,7 @@ module NavigationHelpers
     when /the home\s?page/
       root_path
 
-
+    
     when /the catalog page/
       search_catalog_path
 
@@ -56,13 +56,13 @@ module NavigationHelpers
     end
   end
 
-  def field_to(field_name)
+  def field_result_to(field_name)
     case field_name
 
-    when /^author$/
-      '.blacklight-author_display'
     when /^author_addl_display$/
       '.blacklight-author_addl_display'
+    when /^author$/
+      '.blacklight-author_display'
     when /^edition$/
       '.blacklight-edition_display'
     when /^notes$/
@@ -71,6 +71,27 @@ module NavigationHelpers
       '.blacklight-pub_info_display'
     when /^subject$/
       '.blacklight-subject_display'
+    when /^title$/
+      '.blacklight-title_display'
+    else
+      "#{field_name} did not match a field name in #{__method__}"
+    end
+  end
+  def field_to(field_name)
+    case field_name
+
+    when /^author_addl_display$/
+      '.blacklight-author_addl_json'
+    when /^author$/
+      '.blacklight-author_json'
+    when /^edition$/
+      '.blacklight-edition_display'
+    when /^notes$/
+      '.blacklight-notes'
+    when /^pub_info$/
+      '.blacklight-pub_info_display'
+    when /^subject$/
+      '.blacklight-subject_json'
     when /^title$/
       '.blacklight-title_display'
     else

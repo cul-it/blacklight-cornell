@@ -16,27 +16,32 @@ h3.responsibility {
 	font-weight: normal;
 	line-height: 1.2em;
 	margin-bottom: 1em;
+	margin-top: 0;
 }
 h3.responsibility {
 	color: $medium-gray;
 }
 
-.cover {
-	margin-bottom: 1.5em;
-	height: auto;
-	.iconcover {
-		width: 100%;
-		i {
-			font-size: 3em;
-			margin-left: 0;
-		}
-	}
+.catalog-show .bookcover {
+	margin-bottom: 1em;
 }
 
 .item-metadata {
 	float: left;
-	// width: 79%;
 	margin-bottom: 20px;
+}
+.item-cover {
+	margin: 0 0 2em 2em;
+	text-align: center;
+}
+
+// Availability anchor button
+// ----------------------------- //
+.availability-link {
+	display: block;
+	i {
+		margin-left: .5em;
+	}
 }
 
 // OVERRIDE CORE STYLES
@@ -56,8 +61,6 @@ label.toggle_bookmark {
 	margin-right: 1.5em;
 }
 dl.dl-horizontal {
-	// clear: left;
-	// margin-top: 0;
 	dt {
 		width: 150px;
 		display: inline;
@@ -113,6 +116,7 @@ dd.blacklight-notes {
 		font-size: 0.875em;
 		float: left;
 		margin-right: .5em;
+		margin-bottom: 6px;
 	}
 	li:last-child {
 		margin-right: 0;
@@ -187,15 +191,6 @@ padding-left: 6em;
 	#request-submit { display: block; }
 }
 
-// Availability anchor button
-// ----------------------------- //
-.availability-link {
-	margin-top: 1em;
-	i {
-		margin-left: .5em;
-	}
-}
-
 // Authorities info popup
 // ----------------------------- //
 #document {
@@ -203,7 +198,7 @@ padding-left: 6em;
 		.popover {
 			max-width: 100%;
 			h2 {
-				margin: 0 0 .5em 0;
+				margin: 0 0 .25em 0;
 				font-size: 18px;
 				line-height: 1.2em;
 			}
@@ -247,6 +242,17 @@ padding-left: 6em;
 
 }
 
+// Metadata
+// -----------
+.item-info {
+	h3 {
+		font-size: 24px;
+		font-weight: 300;
+		margin: 0 0 .25em;
+		border-bottom: 1px solid $light-tan;
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 
@@ -263,37 +269,15 @@ padding-left: 6em;
 	#document {
 		margin-top: 0;
 	}
-	.cover {
-		float: left;
-		text-align: center;
-		.iconcover {
-			height: 140px;
-			i {
-				top: -110px;
-			}
-		}
-	}
+	// .cover {
+	// 	text-align: center;
+	// }
 	dl.dl-horizontal {
 		dd {
 			margin-left: 165px;
 		}
 	}
-	.availability-link {
-		font-size: 10px;
-		margin: 2em 0;
-	}
 }
 // Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) { 
-	.cover {
-		.iconcover {
-			height: 200px;
-			i {
-				top: -130px;
-			}
-		}
-	}
-	.availability-link {
-		font-size: 12px;
-	}
-}
+// @media (min-width: $screen-md) { 
+// }

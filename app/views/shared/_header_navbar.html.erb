@@ -1,7 +1,8 @@
 <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
 <%# if search results, add a link to skip facets for screen readers %>
-<!-- <div id="skiptoresults"><a href="#results">skip to search results</a></div> -->
-
+<% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
+  <div id="skiptoresults"><a href="#results">skip to search results</a></div>
+<% end %>
 <section class="cornell-identity">
   <div class="container">
     <div class="cornell-brand">
@@ -11,8 +12,8 @@
         </div>
         <div class="library-menu col-xs-2 col-sm-6 text-right">
           <div class="dropdown">
-            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
-              <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="sr-only">Library menu</span>
+            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library"  onclick="javascript:_paq.push(['trackEvent', 'navigation', 'Hamburger menu']);">
+              <i class="fa fa-bars" aria-hidden="true" title="Library website" data-toggle="tooltip" data-placement="left"></i><span class="sr-only">Library website</span>
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               <li><a href="http://www.library.cornell.edu/">Home</a></li>
@@ -24,8 +25,6 @@
               <li><a href="http://www.library.cornell.edu/ask">Ask a Librarian</a></li>
               <li><a href="http://www.library.cornell.edu/help">Help</a></li>
               <li><a href="http://www.library.cornell.edu/myacct">My Account</a></li>
-              <li class="separator"><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes">Borrow Direct</a></li>
-              <li class=""><a href="https://cornell.hosts.atlas-sys.com/illiad/">Interlibrary Loan</a></li>
             </ul>
           </div>
         </div>
@@ -46,7 +45,7 @@
 <header>
   <div class="container">
     <div class="row">
-      <div class="col-sm-5 col-md-6 catalog-name">
+      <div class="col-sm-4 catalog-name">
         <div class="library-link">
           <a href="http://www.library.cornell.edu">Cornell University Library</a>
         </div>

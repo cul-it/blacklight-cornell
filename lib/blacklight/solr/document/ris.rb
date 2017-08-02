@@ -46,7 +46,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   def export_ris
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
-    Rails.logger.warn "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
     ty = "TY  - GEN\n"
     fmt = self['format'].first
     if (FACET_TO_RIS_TYPE.keys.include?(fmt))
@@ -66,10 +66,22 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     # each one is an array. Oddly, though, RIS format doesn't seem to provide
     # for anything except 'author'
     primary_authors = authors[:primary_authors]
-    output += "AU  - #{primary_authors[0]}\n"
-    if primary_authors.length > 1
-      for i in 1..primary_authors.length
-        output += "A#{i}  - #{primary_authors[i]}"
+    corp_authors = authors[:corporate_authors]
+    if !primary_authors.empty?
+      output += "AU  - #{primary_authors[0]}\n"
+      if primary_authors.length > 1
+        for i in 1..primary_authors.length
+          output += "A#{i}  - #{primary_authors[i]}"
+        end
+      end
+    end
+
+    if !corp_authors.empty?
+      output += "AU  - #{corp_authors[0]}\n"
+      if corp_authors.length > 1
+        for i in 1..corp_authors.length
+          output += "A#{i}  - #{corp_authors[i]}"
+        end
       end
     end
 

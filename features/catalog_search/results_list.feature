@@ -1,4 +1,4 @@
-# encoding: utf8
+# encoding: utf-8
 Feature: Results list
 
 	In order to find items that I search for
@@ -9,6 +9,7 @@ Feature: Results list
         @all_results_list
         @rss
 	Scenario: Empty search
+                Given PENDING
 		Given I am on the home page
 		And I press 'search'
 
@@ -98,11 +99,10 @@ Feature: Results list
  @pub_info
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I am on the home page
-    And I fill in the search box with 'architecture'
+    And I fill in the search box with 'encyclopedia of islamic architecture'
     And I press 'search'
     Then I should get results
-    # Note: this is record 1346, which appears as the first search result currently
-    Then it should have a "pub_info" that looks sort of like "American Institute of Architects"
+    Then results should have a "pub_info" that looks sort of like "[Cairo] : Maktabat al-Dār al-ʻArabīyah lil-Kitāb, 1999"
 
 
 
@@ -155,7 +155,7 @@ Feature: Results list
   #   And the "q" field should not contain "history"
 
   # DISCOVERYACCESS-134
-        @all_results_list
+  @all_results_list
   Scenario: As a user, I can see publication date, publisher and location in one line in items on the query results list.
     Given I am on the home page
     When I fill in the search box with 'Convexity and duality in optimization'
@@ -164,7 +164,7 @@ Feature: Results list
     And it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
   # DISCOVERYACCESS-135
-        @all_results_list
+  @all_results_list
   @DISCOVERYACCESS-135
   Scenario: As a user, I can see the edition of an item in the query results list.
     Given I am on the home page
@@ -175,7 +175,7 @@ Feature: Results list
 
   # DISCOVERYACCESS-344
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
-        @all_results_list
+  @all_results_list
   @discoveryaccess-344
   Scenario: Remove spaces from call number queries in Blacklight
     Given I am on the home page
@@ -187,6 +187,7 @@ Feature: Results list
 
   # DISCOVERYACCESS-2879
   @discoveryaccess-2879
+  @all_results_list
   Scenario: Online links in search results should go to item view when there is more than one online link
     Given I am on the home page
     When I fill in the search box with 'financial times'
@@ -198,30 +199,32 @@ Feature: Results list
 
 
   # DISCOVERYACCESS-1407
-        @all_results_list
+  @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
     Given I am on the home page
-    When I fill in the search box with 'the Economist newspaper microfilm'
+    When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'
 
   # DISCOVERYACCESS-1407
+  # bibid - 9756432
         @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
   Scenario: As a user, I can see order status for items on order
     Given I am on the home page
-    When I fill in the search box with '"Problems for the mathematical olympiads"'
+    When I fill in the search box with '"Deconstructing the High line"'
     And I press 'search'
+    And I sleep 4 seconds
     Then I should get results
     And I should see the text 'Order Information'
 
-        @all_results_list
+ @all_results_list
  @DISCOVERYACCESS-1673
  @catalogresults
  Scenario: Search with results, an item view, make sure we do show link to catalog results
@@ -232,7 +235,7 @@ Feature: Results list
    Then click on link "Marvel masterworks presents the X-men" 
    And I should see the text 'Back to catalog results'
 
-        @all_results_list
+ @all_results_list
  @DISCOVERYACCESS-1673
  Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
    Given I am on the home page
@@ -243,13 +246,13 @@ Feature: Results list
    Then I request the item view for 2083253
    And I should not see the text 'catalog results'
 
-@DISCOVERYACCESS-2829
-        @all_results_list
+ @DISCOVERYACCESS-2829
+  @all_results_list
  Scenario: Search with results, make sure that there is a count associated with Libraries worldwide 
    Given I am on the home page
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide (23,'
+   Then I should see the text 'Request from Libraries Worldwide (24,'
 
 @all_results_list
 @next_facet
@@ -261,8 +264,53 @@ Feature: Results list
     Then I should get results
     Then I should see the text 'Click : '
     Then click on first link "Click : when we knew we were feminists" 
+    And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'from Riot Grrrl to CoverGirl®, the Buying and Selling of a Political Movement'
+    Then I should see the text 'We Can Speak for Ourselves'
 
+# Combinatorial Algorithms, Algorithmic Press
+@all_results_list
+@javascript
+  Scenario: Perform an All field search with a call number
+    Given I am on the home page
+    When I fill in the search box with 'QA76.6 .C85 1972'
+    And I press 'search'
+    Then I should get results
+    And I should see the label '1 result'
+
+@all_results_list
+@next_facet
+@javascript
+  Scenario: Search with results, 
+    Given I am on the home page
+    When I fill in the search box with 'cigarette prices'
+    And I select 'Title' from the 'search_field' drop-down
+    And I press 'search'
+    And I sleep 10 seconds
+    Then I should get results
+    And I sleep 4 seconds
+    Then I should see the text 'Lighting Up and'
+    Then click on first link "Lighting Up" 
+    And I sleep 4 seconds
+    Then click on first link "Next »"
+    And I sleep 4 seconds
+    Then click on first link "Previous"
+    Then I should see the text 'Lighting Up and'
+
+# Combinatorial Algorithms, Algorithmic Press
+# # the selected sort field is visible, the unselected is not visible,though present in the html.
+@all_results_list
+@javascript
+  Scenario: Perform an call number search, and confirm that the search order has switched to 'sort by call number'
+    Given I am on the home page
+    When I fill in the search box with 'QA76.6'
+    And I select 'Call Number' from the 'search_field' drop-down
+    And I press 'search'
+    And I sleep 4 seconds
+    Then I should get results
+    And I sleep 4 seconds
+    Then I should not see the text 'relevance' 
+    And I sleep 4 seconds
+    Then I should see the text 'Sort by call number'
 

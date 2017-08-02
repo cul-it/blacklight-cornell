@@ -21,7 +21,8 @@
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
 // this:
-//= require 'blacklight_range_limit'
+//= require 'blacklight_range_limit.js'
+//= require 'range_limit_slider.js'
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
@@ -39,4 +40,6 @@
 //= require pops.js
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
-//= require accessibility.js
+//= require jquery.waypointz.js
+//= require zz_inview.js
+//= require tooltip.js

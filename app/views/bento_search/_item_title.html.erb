@@ -24,8 +24,12 @@
         <%= index %>.
       <% end %>
     <% end %>
+    <% if item.format.is_a?(Array) %>
+    <%= link_to_unless(item.link.blank?, item.complete_title, item.link,{:onclick => "javascript:_paq.push(['trackEvent', '#{item.format[0].to_s}', 'BentoBox'])"}) %>
+    <% else %>
+    <%= link_to_unless(item.link.blank?, item.complete_title, item.link,{:onclick => "javascript:_paq.push(['trackEvent', '#{item.format}', 'BentoBox'])"}) %>
 
-    <%= link_to_unless(item.link.blank?, item.complete_title, item.link) %>
+    <% end %>
 
     <% if item.display_language.present? %>
 

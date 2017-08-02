@@ -1,6 +1,22 @@
+var sessionCountDown = 120;
+var dialog = null;
+
+function sessionUpdateTime() {
+    sessionCountDown = sessionCountDown -1 ; 
+    if (sessionCountDown != 0 ){
+      $("#sess_time").text(sessionCountDown);
+      window.setTimeout(sessionUpdateTime, (1000));
+    } else  {
+      dialog.modal('hide');
+      dialog = bootbox.alert({ message:"Your session has expired."});
+    } 
+}
+
 function sessionAlert() {
-    bootbox.confirm({
-    message: "Press OK to refresh session. Otherwise it will reset in 2 minutes.",
+    sessionCountDown = sessionCountDown -1 ; 
+    window.setTimeout(sessionUpdateTime, (1000));
+    dialog = bootbox.confirm({
+    message: "<div id='sess_message' >Press OK to refresh session. Otherwise it will reset in <span id='sess_time'> 120</span> seconds",
     backdrop: true,
     buttons: {
         confirm: {

@@ -5,7 +5,15 @@
   for (p in o) if (Object.prototype.hasOwnProperty.call(o,p)) k.push(p);
   return k;
 }
+function checkVisible(elm) {
+  var rect = elm.getBoundingClientRect();
+  var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+  return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+}
 `
+
+inviews = []
+
 holdings =
   # Initial setup
   onLoad: () ->
@@ -45,30 +53,70 @@ holdings =
         left: headingWidth - (headingWidth/3)
       $(this).spin('holdings')
 
+  loadHoldingsShortmInv: (id) ->
+    $.ajax
+      dataType: "json"
+      url: '/backend/holdings_shorthm/' + id
+      success: (data) ->
+        bids = Object.keys(data)
+        inv = (i for i in inviews when i.bibs is id)[0]
+        if inv && inv.waypoint
+          inv.waypoint.destroy()
+        for i in bids
+          $('#blacklight-avail-'+i).html(data[i])
+      error: (data) ->
+        # If holdings service is unavailable, create array of batched bibs
+        # from original string sent to service
+        bids = id.split('/')
+        $.each bids, (i, bibid) ->
+          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
+
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
     # Using body class as selector to make these triggers page specific
     # appears to be an acceptable approach (one of several) in Rails 3
     # with Assets Pipeline. More info here:
     # http://railsapps.github.com/rails-javascript-include-external.html
-    bibids = []
     tibids = []
+    that = this
     batchf = 4
     n = 0
     $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
       bibId = $(this).data('bibid')
       online = $(this).data('online')
-      if  bibId? and online == 'no'
+      atl = $(this).data('atl')
+      if !online?
+        online = 'no'
+      if  (bibId? and atl == 'yes')
         tibids.push bibId
+        that = this
         n++
-      if ((n % batchf) == 0)
-        bibids.push tibids
+      if ((n % batchf) == 0 )
+        $(this).data("showbibs",tibids.join('/'))
+        first = tibids[0]
+        showbibs =  $(this).data("showbibs")
         tibids = []
+        if (showbibs != '')
+          if (checkVisible(this))
+            holdings.loadHoldingsShortmInv(showbibs)
+          else
+            inview = new Waypoint.Inview({
+              element: $('#blacklight-avail-'+first)
+              entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
+            })
+            inviews.push { bibs: showbibs, waypoint: inview}
+    # remainder that were not processed in above  loop
     if tibids.length > 0
-      bibids.push tibids
-    for b in bibids
-      if b.length > 0
-        holdings.loadHoldingsShortm (b.join('/'))
+      $(that).data("showbibs",tibids.join('/'))
+      showbibs =  $(that).data("showbibs")
+      first = tibids[0]
+      tibids = []
+      if (showbibs != '')
+        inview = new Waypoint.Inview({
+          element: $('#blacklight-avail-'+first)
+          entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
+         })
+        inviews.push { bibs: showbibs, waypoint: inview}
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()
@@ -100,6 +148,7 @@ holdings =
         # Stop and remove the spinner
         holdings.resultsAvailability.spin(false)
 
+
   loadHoldingsShortm: (id) ->
     $.ajax
       dataType: "json"
@@ -121,6 +170,20 @@ holdings =
       holdings.loadSpinner()
       holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
       return false
+
+    # Set up 'loading' spinner for when request button is clicked
+    $('#id_request').click (e) ->
+      e.preventDefault()
+      e.stopPropagation()
+      $.fn.spin.presets.requesting =
+        lines: 9,
+        length: 3,
+        width: 2,
+        radius: 6,
+      $('#request-loading-spinner').spin('requesting')
+      # Next line is necessary to get spinner to appear. If there is no
+      # delay before the redirect, it simply does not happen.
+      setTimeout (-> window.location.href=$('#id_request').attr('href')), 100
 
 $(document).ready ->
   holdings.onLoad()

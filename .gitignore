@@ -24,4 +24,15 @@ config/database.yml
 public/assets
 # Ignore ENV file.
 /.env
+# ignore coverage tests
+coverage
+features/cassettes/cucumber_tags/availability.yml
+features/cassettes/cucumber_tags/javascript.yml
+features/cassettes/cucumber_tags/search_availability_title_mission_etrangeres_missing.yml
+db/test.sqlite3-journal
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

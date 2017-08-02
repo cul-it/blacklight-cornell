@@ -20,7 +20,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8392067 
     And click on link "Cite"
-    Then in modal '#ajax-modal' I should see label 'MLA Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
+    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
 
 # roman numerals need to be properly eliminated from the date field.
 @all_select_and_export
@@ -30,8 +30,27 @@ Feature: Select and export items from the result set
     Given I request the item view for 8125253
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA Wake, William. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
+    Then I should see the label 'Wake, William. Three Tracts Against Popery. Written In the Year Mdclxxxvi. By William Wake, M.a. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher At S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687.'
 
+@all_select_and_export
+@citations
+@javascript
+  Scenario: User needs to cite a record by a corporate author. # Geology report / corp author.
+    Given I request the item view for 393971
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'Chicago 16th ed. Memorial University of Newfoundland. Geology Report. St. John'
+
+@javascript
+@all_select_and_export
+@citations
+@javascript
+@DISCOVERYACCESS-3175
+  Scenario: User needs to cite a record by a editors. #  Fashion game changers 
+    Given I request the item view for 9448862 
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'Chicago 16th ed. Godtsenhoven, Karen van, Miren Arzalluz, and Kaat Debo. Fashion Game Changers: Reinventing the 20th-Century Silhouette. London: Bloomsbury Visual Arts'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -41,7 +60,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8867518
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA Fitch, G. Michael. The Impact of Hand-held and Hands-free Cell Phone Use On Driving Performance and Safety-critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013.'
+    Then I should see the label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-held and Hands-free Cell Phone Use On Driving Performance and Safety-critical Event Risk : Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -51,7 +70,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8069112 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'APA Cohen, A. I. (2013). Social media : legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
+    Then I should see the label 'APA 6th ed. Cohen, A. I. (2013). Social media : legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 # this one fails because of the punctuation after Funk, Tom there ought to be a period there. BFD
@@ -74,7 +93,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 5558811
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament'
+    Then I should see the label 'Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament'
 
 
 # Pending causes an error in jenkins
@@ -84,7 +103,7 @@ Feature: Select and export items from the result set
 @select_and_email
 @javascript
   Scenario: User sends a record by email
-    #Given PENDING 
+    Given PENDING 
     Given I request the item view for 8767648
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"
@@ -124,6 +143,7 @@ Feature: Select and export items from the result set
 @select_and_email
 @javascript
   Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
+    Given PENDING 
     Given I request the item view for 7981095 
     And click on link "Email"
     And I fill in "to" with "quentin@example.com"

@@ -1,12 +1,15 @@
 // AVAILABILITY
 .availability {
-	background: white;
-	margin-bottom: 2em;
-	h3 { 
-		margin-top: 0;
-		margin-bottom: .25em;
-		font-size: 24px;
-	}
+	// background: white;
+	// margin-bottom: 2em;
+	// padding-bottom: 1em;
+	// border-bottom: 5px solid $light-tan;
+	// h3 { 
+	// 	margin: 0;
+	// 	padding: .5em 1em;
+	// 	font-size: 18px;
+	// 	background: $light-tan;
+	// }
 	.worldcat-search {
 		font-size: 14px;
 		display: block;
@@ -17,7 +20,7 @@
 	}
 	.location {
 		margin-top: 0;
-		margin-bottom: .5em;
+		margin-bottom: .25em;
 		font-size: 16px;
 	}
 	.location-online {
@@ -30,13 +33,12 @@
 			font-size: 12px;
 		}
 	}
-	.map-it {
-		font-size: 12px;
-	}
 	.url_findingaid_display {
 		display: block;
-		margin-bottom: 1em;
+		margin-bottom: .5em;
+		padding-bottom: 1em;
 		font-size: 16px;
+		border-bottom: 2px solid $light-tan;
 	}
 	.list-unstyled {
 		padding: 0;
@@ -53,9 +55,11 @@
 		margin: 0 0 .5em 0;
 	}
 }
+.availability.well {
+	padding: 0;
+}
 h3.rare {
-	margin-top: 1.25em;
-	margin-bottom: .5em;
+	margin-bottom: 0;
 }
 .label-available {
 	background: $teal;
@@ -70,10 +74,21 @@ h3.rare {
 .holdings-error {
 	margin-bottom: 1em;
 	border-top: 2px solid $light-tan;
-	padding-top: 1em;
+	padding-top: .5em;
+}
+.online-label {
+	margin: 0 .5em .25em 0;
 }
 .holdings-online {
-	padding-top: 1em;
+	border-bottom: 2px solid $light-tan;
+	padding-bottom: .5em;
+	.online-label {
+		font-size: 16px;
+	}
+	.message {
+		font-size: 12px;
+		margin-top: .25em;
+	}
 }
 .holding:first-child {
 	border-top: 0;
@@ -81,16 +96,17 @@ h3.rare {
 .holding:last-of-type {
 	margin-bottom: 0;
 }
-.location {
-	margin-bottom: 0;
-	// font-size: 16;
-}
+
 .text-it,
 .map-it {
 	margin-left: .5em;
 	font-size: 12px;
 	font-weight: normal;
-	display:block;
+}
+.text-it {
+	.tooltip-inner {
+		padding: 5px 10px;
+	}
 }
 .share-options { min-width: auto; }
 .message {
@@ -103,9 +119,12 @@ h3.rare {
 	line-height: 1.2em;
 	font-size: 16px;
 	a {
-		display: inline-block;
 		font-size: 90%;
 	}
+}
+.terms-of-use {
+	font-size: 85%;
+	margin-left: .5em;
 }
 .main-content {
 	.online-coverage,
@@ -144,21 +163,30 @@ h3.rare {
 	border-top: solid 2px #d8d2c9;
 }
 .holdings {
-	th:first-child,
-	th:nth-child(2),
-	td:first-child,
-	td:nth-child(2) {
-		width: 30%;
-	}
+	// th:first-child,
+	// th:nth-child(2),
+	// td:first-child,
+	// td:nth-child(2) {
+	// 	width: 30%;
+	// }
+	// padding: 0 1em;
 }
-.holdings-online {
-	th:first-child,
-	th:nth-child(2) {
-		width: 30%;
-	}
-	table {
-		margin-bottom: 1em;
-	}
+// .holdings-online {
+// 	// th:first-child,
+// 	// th:nth-child(2) {
+// 	// 	width: 30%;
+// 	// }
+// 	// table {
+// 	// 	margin-bottom: 1em;
+// 	// }
+// }
+
+#request-loading-spinner {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 2em;
+	height: 2em;
 }
 
 // Other forms
@@ -200,6 +228,15 @@ h3.rare {
 		background: $teal;
 		pointer: none;
 	}
+	.other-form-online {
+		span {
+			margin-right: 0;
+		}
+	}
+	// .online-label,
+	// .at-library-label {
+	// 	font-weight: 700;
+	// }
 }
 
 
@@ -207,19 +244,8 @@ h3.rare {
 // -------------------------
 
 // Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
-  ul.blacklight-nav {
-    float: right;
-    li {
-      font-size: 12px;
-    }
-  }
-  .item-requests {
-  	.btn-default {
-		margin-left: 10px;
-	}
-  }
-}
+// @media (min-width: $screen-sm) { 
+// }
 
 // Medium devices (desktops, 992px and up)
 // @media (min-width: $screen-md) {

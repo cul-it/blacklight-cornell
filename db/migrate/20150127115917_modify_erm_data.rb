@@ -81,7 +81,7 @@ class ModifyErmData < ActiveRecord::Migration
     t.string  "Perpetual_Access_Holdings",                        :limit => 256
     t.string  "Licensee_Termination_Right",                       :limit => 128
     t.string  "Licensee_Termination_Condition",                   :limit => 128
-    t.texte  "Licensee_Termination_Note"
+    t.text  "Licensee_Termination_Note"
     t.string  "Licensee_Notice_Period_For_Termination_Number",    :limit => 128
     t.string  "Licensee_Notice_Period_For_Termination_Unit",      :limit => 128
     t.string  "Licensor_Termination_Right",                       :limit => 128

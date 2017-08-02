@@ -20,11 +20,28 @@ class CatalogController < ApplicationController
 
     eos
   end
- 
+
   def repository_class
     Blacklight::Solr::Repository
   end
 
+  before_action :authorize_email_use!, only: :email
+
+  # This is used to protect the email function by limiting it to only Cornell
+  # users. If not signed in, the user is prompted to click a link that redirects
+  # through a CUWebAuth-protected route. The partial that's rendered doesn't
+  # seem to actually appear anywhere (not sure why), but rendering 'nothing'
+  # instead doesn't let the email modal appear either.
+  def authorize_email_use!
+    unless session[:cu_authenticated_user].present?
+      flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
+      # This is a bit of an ugly hack to get us back to where we started after
+      # the authentication
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+
+      render :partial => 'catalog/email_cuwebauth'
+    end
+  end
 
 
   configure_blacklight do |config|
@@ -68,12 +85,12 @@ class CatalogController < ApplicationController
         },
         'related_work_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'title',
             :sep => '|',
             :key_value => true
         },
         'author_cts' => {
-            :search_field => 'author/creator',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
@@ -91,18 +108,18 @@ class CatalogController < ApplicationController
             :pair_list_json => true
         },
         'author_addl_cts' => {
-            :search_field => 'author/creator',
+            :search_field => 'author_cts',
             :sep => '|',
             :sep_display => ' / ',
             :pair_list => true
         },
         'title_series_cts' => {
-          :search_field => 'title',
+          :search_field => 'series',
           :sep => '|',
           :key_value => true
         },
         'subject_cts' => {
-            :search_field => 'subject',
+            :search_field => 'subject_cts',
             :sep => '|',
             :sep_index => ' ',
             :sep_display => ' > ',
@@ -117,7 +134,7 @@ class CatalogController < ApplicationController
         },
         'title_uniform_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'title',
             :sep => '|',
             :key_value => true
         },
@@ -261,7 +278,7 @@ class CatalogController < ApplicationController
     # -- title_responsibility_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_json', :label => 'Author, etc.'
-    config.add_show_field 'format', :label => 'Format'
+    config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
     config.add_show_field 'pub_info_display', :label => 'Published'
@@ -695,7 +712,7 @@ class CatalogController < ApplicationController
 
 
     #combined author CTS field made from the multiple author browse fields
-    config.add_search_field('author_cts_search',:label=>'Author/Contributor') do |field|
+    config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
@@ -705,7 +722,7 @@ class CatalogController < ApplicationController
     end
 
     #combined subject CTS field made from the multiple subject browse fields
-    config.add_search_field('subject_cts_search',:label=>'Subject') do |field|
+    config.add_search_field('subject_cts',:label=>'Subject') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
        field.solr_local_parameters = {
@@ -851,12 +868,14 @@ class CatalogController < ApplicationController
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def email
-    Rails.logger.info("BUTTERBALL")
+
+    Rails.logger.debug "mjc12test: entering email"
+
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
     #docs = params[:id].split '/'
     docs = params[:id].split '|'
-    
+
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     @response, @documents = fetch docs
 
@@ -872,14 +891,14 @@ class CatalogController < ApplicationController
            captcha_ok = @@mollom.valid_captcha?(:session_id => params[:mollom_session], :solution => params[:captcha_response])
         rescue
           captcha_ok = true
-          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}          
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
         end
-          
+
       end
 
       #
-      if params[:to] 
+      if params[:to]
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       #  result = nil
         # Check for valid email address
@@ -938,39 +957,61 @@ class CatalogController < ApplicationController
     end
 end
 
-  def tou
+def tou
     clnt = HTTPClient.new
     #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
     solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
-    @db = @dbResponse['response']['docs']
+    @db = @dbResponse['response']['docs'][0]
+    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     #Rails.logger.info("DB = #{@dbResponse.inspect}")
-  if @dbResponse['response']['numFound'] == 0
-    @defaultRightsText = ''
-   return @defaultRightsText
-  else
-    dbcode = @dbResponse['response']['docs'][0]['dbcode']
-    providercode = @dbResponse['response']['docs'][0]['providercode']
-     @defaultRightsText = ''
-     if dbcode.nil? or dbcode == '' #check for providerCode being nil
-           @defaultRightsText = "Use default rights text"
-     else
-       @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
-       if @ermDBResult.size < 1
-         @ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
 
-         if @ermDBResult.size < 1
-        #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
-          @defaultRightsText = "Use default rights text"
-        end
-       end
-     end
-   @column_names = ::Erm_data.column_names.collect(&:to_sym)
+
+    if @dbResponse['response']['numFound'] == 0
+        @defaultRightsText = ''
+        return @defaultRightsText
+    else
+        @dblinks.each do |link|
+            l = JSON.parse(link)
+            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode] 
+                @defaultRightsText = ''
+                @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
+                if @ermDBResult.size < 1
+                   @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
+                   if @ermDBResult.size < 1
+                      @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
+                      if @ermDBResult.size < 1
+                         @ermDBResult = ::Erm_data.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
+                         if @ermDBResult.size < 1
+                                  #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
+                                  @defaultRightsText = "Use default rights text"
+                         else
+                           @db = [l]
+                           #return @ermDBResult
+                           break
+                         end
+                      else
+                        @db = [l]
+                       break
+                      end
+                   else
+                     @db = [l]
+                     break
+                   end
+                else
+                  @db = [l]
+                  break
+                end
+            end
+            @db = [l]
+        end   
+    @column_names = ::Erm_data.column_names.collect(&:to_sym)
+    end
+
   end
 
-  end
 
 
 

@@ -7,7 +7,7 @@ Feature: Databases List
   @databases
   Scenario: View a list of databases
   	Given I literally go to databases
-  	Then I should see the label 'Search top databases'
+  	Then I should see the label 'Search for top databases'
 
   @mla
   @databases

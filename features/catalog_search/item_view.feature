@@ -6,10 +6,10 @@ Feature: Item view
   @all_item_view
   @allow-rescue
   @e404
-  Scenario: goto an invalid page 
+  Scenario: goto an invalid page
 
-  	When I literally go to abcdefg 
-  	Then I should see an error 
+  	When I literally go to abcdefg
+  	Then I should see an error
     Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
@@ -20,25 +20,25 @@ Feature: Item view
   @aeon
   @rmcnoitems
   Scenario: View an items holdings
-    Given I request the item view for 8753977 
+    Given I request the item view for 8753977
     Then I should see the label 'Request'
   @all_item_view
   @aeon
   Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253 
+    Given I request the item view for 2083253
         #And click on link "Request for Reading Room Delivery"
-        Then it should have link "Request item for Reading Room Delivery" with value "http://www.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="  
+        Then it should have link "Request item for Reading Room Delivery" with value "http://www.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="
   @all_item_view
   @aeon
   #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253 
+  #  Given I request the item view for 2083253
   #      And click on link "Request for Reading Room Delivery"
   #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
   @all_item_view
   @aeon
   #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253 
-  #      Then it should have link "Request for Reading Room Delivery" with value "/aeon/2083253"  
+  #  Given I request the item view for 2083253
+  #      Then it should have link "Request for Reading Room Delivery" with value "/aeon/2083253"
 
   # DISCOVERYACCESS-136
   @all_item_view
@@ -46,13 +46,14 @@ Feature: Item view
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
-    Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+    Then results should have a "author" that looks sort of like "Catholic Church. Pope (1939"
+    #Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
   @all_item_view
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and produces a query resulting in a list of items.
-    Given I request the item view for 1630516 
+    Given I request the item view for 1630516
     And I should see the label 'English poetry'
     And click on link "English poetry"
     Then it should contain filter "Subject" with value "English poetry"
@@ -60,7 +61,7 @@ Feature: Item view
   @all_item_view
   @DISCOVERYACCESS-137
   Scenario: As a user, the subject headings in an item record are clickable and are hierarchical.
-    Given I request the item view for 1630516 
+    Given I request the item view for 1630516
     And click on link "19th century"
     Then it should contain filter "Subject" with value "English poetry > 19th century"
 
@@ -80,22 +81,22 @@ Feature: Item view
   @aeon
   @all_item_view
   #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253 
+  #  Given I request the item view for 2083253
   #      And click on link "Request"
-  #      Then I should see the label 'Upton, G. B. (George Burr), 1882-1942' 
+  #      Then I should see the label 'Upton, G. B. (George Burr), 1882-1942'
 
   @aeon
   @all_item_view
   #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253 
+  #  Given I request the item view for 2083253
   #      And click on link "Request"
   #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
 
   @aeon
   @all_item_view
   #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253 
-  #      Then it should have link "Request" with value "/aeon/2083253"  
+  #  Given I request the item view for 2083253
+  #      Then it should have link "Request" with value "/aeon/2083253"
 
 
   # DISCOVERYACCESS-136
@@ -104,7 +105,9 @@ Feature: Item view
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
-    Then it should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+    Then results should have a "author" that looks sort of like "Catholic Church"
+
+   # Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-138
   @all_item_view
@@ -121,26 +124,26 @@ Feature: Item view
 
   @request_button
   @all_item_view
-  Scenario: As a user I can request an item 
-    Given I request the item view for 30000 
-    Then it should have link "Request" with value "/request/30000"  
+  Scenario: As a user I can request an item
+    Given I request the item view for 30000
+    Then it should have link "Request" with value "/request/30000"
 
-  # Availability simple, one location, and is available 
+  # Availability simple, one location, and is available
   @availability
   @all_item_view
-  Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 30000 
-    Then I should see the label 'Library Annex'  
+  Scenario: As a user I can see the availability for an item
+    Given I request the item view for 30000
+    Then I should see the label 'Library Annex'
 
-  # Availability simple, one location, and is NOT available 
+  # Availability simple, one location, and is NOT available
   # the black atlantic
   @all_item_view
   @availability @due
-  Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 2269649 
+  Scenario: As a user I can see the availability for an item
+    Given I request the item view for 2269649
     Then I should see the label 'Checked out, due'
 
-  # availability -- several copies,all copy1, checked out. 
+  # availability -- several copies,all copy1, checked out.
   # Directory American Veterinary Medical Association
   @all_item_view
   @availability
@@ -148,10 +151,10 @@ Feature: Item view
   @bibid1902405
   @DISCOVERYACCESS-1659
   @request
-  Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 1902405 
+  Scenario: As a user I can see the availability for an item
+    Given I request the item view for 1902405
     #Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
-    Then I should see the label 'Request'  
+    Then I should see the label 'Request'
 
 
   # when there is a perm location, and temp and all items for holding are at temp
@@ -163,7 +166,7 @@ Feature: Item view
   @DISCOVERYACCESS-988
   @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 44112 
+    Given I request the item view for 44112
     Then I should not see the label 'Temporarily shelved'
 
   # the black atlantic modernity and double consciousness
@@ -173,98 +176,99 @@ Feature: Item view
   @nomusic
   @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-    Given I request the item view for 2269649 
+    Given I request the item view for 2269649
     Then I should not see the label 'Music Library Reserve'
 
   #@availability
   #@DISCOVERYACCESS-988
   #@templocation
   #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-  #  Given I request the item view for 8635196 
+  #  Given I request the item view for 8635196
   #  Then I should see the label 'ILR Library Reserve'
 
   #@availability
   #@DISCOVERYACCESS-988
   #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-  #  Given I request the item view for 44112 
+  #  Given I request the item view for 44112
   #  Then I should see the label '2 volumes'
 
-  # Availability for an on order item. "Problems for the mathematical olympiads" 
+  # Availability for an on order item. "Roads to paradise : eschatology and concepts"
   @all_item_view
   @availability
-  Scenario: As a user I can see the availability for an item on order 
-    Given I request the item view for 8052244 
+  Scenario: As a user I can see the availability for an item on order
+   Given PENDING
+    Given I request the item view for 9717170
     Then I should see the label 'Copy Ordered'
 
-  # On the other hand some subscriptions remain "on order" for years, and should NOT 
+  # On the other hand some subscriptions remain "on order" for years, and should NOT
   # display on order. DISCOVERYACCESS-1407
   @all_item_view
   @availability
   @DISCOVERYACCESS-1407
-  Scenario: As a user I can see the availability for an item with an "open order" that does not say so. 
-    Given I request the item view for 2795276 
+  Scenario: As a user I can see the availability for an item with an "open order" that does not say so.
+    Given I request the item view for 2795276
     Then I should not see the label 'Copy Ordered'
 
   # Show that requests exist for an item.
   # DISCOVERYACCESS-1220
-  # Item is overdue and should show that another request has been placed for it 
+  # Item is overdue and should show that another request has been placed for it
   @all_item_view
   @availability
   @DISCOVERYACCESS-1220
-  Scenario: As a user I can see the number of requests placed on an item 
-    Given I request the item view for 5054489  
+  Scenario: As a user I can see the number of requests placed on an item
+    Given I request the item view for 5054489
     Then I should see the label 'Requests'
 
-  # Make sure that blocking call number display does not cause availability display probs. 
-  # DISCOVERYACCESS-1386 
+  # Make sure that blocking call number display does not cause availability display probs.
+  # DISCOVERYACCESS-1386
   # items with no call number caused an exception -- so the text 'Call number' never
-  # appears anyway, but we make sure we don't have an exception with null ptr. 
+  # appears anyway, but we make sure we don't have an exception with null ptr.
   @all_item_view
   @availability
-  @DISCOVERYACCESS-1386 
-  Scenario: As a user I can see the information about an ONLINE item, but not the call number 
-    Given I request the item view for 5380314  
-    Then I should see the label 'Available online'
+  @DISCOVERYACCESS-1386
+  Scenario: As a user I can see the information about an ONLINE item, but not the call number
+    Given I request the item view for 5380314
+    Then I should see the label 'Online'
 
   #see holdings in Classic Catalog, but the space is just blank under “Availability” for this title in New Catalog.
   @availability
   @all_item_view
-  @DISCOVERYACCESS-1558 
+  @DISCOVERYACCESS-1558
   Scenario: As a user I can see the information about an  item when info in solr is slightly out of date
-    Given I request the item view for 8688843 
+    Given I request the item view for 8688843
     Then I should see the label 'HD58.7 .S633 2014'
- 
-  # Availability for a lost item, and one available. 
+
+  # Availability for a lost item, and one available.
   @availability
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
-    Given I request the item view for 2144728 
+    Given I request the item view for 2144728
     Then I should see the labels 'c. 1 Unavailable 2013-10-07'
 
-  # Availability for a Missing item Municipal innovations 
+  # Availability for a Missing item Municipal innovations
   @all_item_view
   @missing
-  @availability 
+  @availability
   Scenario: As a user I can see the availability for a Missing item
-    Given I request the item view for 306998 
+    Given I request the item view for 306998
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item Mac OS X Tiger in a nutshell (status 10) 
+  # Availability for an In transit item Mac OS X Tiger in a nutshell (status 10)
   @all_item_view
   @availability @intransit
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 5729532 
+    Given I request the item view for 5729532
     Then I should see the labels 'In transit'
 
-  # Availability for an In transit item bonsai culture and care 
+  # Availability for an In transit item bonsai culture and care
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 52325 
+    Given I request the item view for 52325
     Then I should see the labels 'In transit'
 
-  # Availability for an In transit item The goldfinch 
+  # Availability for an In transit item The goldfinch
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
@@ -275,7 +279,7 @@ Feature: Item view
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item, but no bogus LOC
-    Given I request the item view for 106223 
+    Given I request the item view for 106223
     Then I should not see the label '%LOC'
 
 
@@ -284,49 +288,49 @@ Feature: Item view
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 14)
-    Given I request the item view for 5318858 
+    Given I request the item view for 5318858
     Then I should see the label 'v.2 c. 2 Unavailable 2012-06-21'
 
   # Availability for a lost item status 13
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 13)
-    Given I request the item view for 259600 
+    Given I request the item view for 259600
     Then I should see the label 'c. 1 Unavailable 2013-06-12'
 
-  # Make sure subfield z is displayed. 
+  # Make sure subfield z is displayed.
   @all_item_view
   @availability
   @holdings_field866_subfieldz
-  Scenario: As a user I can see the subfield Z in the holdings display info 
-    Given I request the item view for 2229355 
+  Scenario: As a user I can see the subfield Z in the holdings display info
+    Given I request the item view for 2229355
     Then I should see the label 'Cayuga <Film 1290>'
 
-  # Make sure Indexes: are displayed 
+  # Make sure Indexes: are displayed
   @all_item_view
   @availability
   @holdings
   @indexes
-  Scenario: As a user I can see the indexes information 
-    Given I request the item view for 298714 
+  Scenario: As a user I can see the indexes information
+    Given I request the item view for 298714
     Then I should see the label 'Indexes'
 
-  # Make sure Supplements: are displayed 
+  # Make sure Supplements: are displayed
   @all_item_view
   @availability
   @holdings
   @supplements
-  Scenario: As a user I can see the supplements information 
-    Given I request the item view for 307178 
+  Scenario: As a user I can see the supplements information
+    Given I request the item view for 307178
     Then I should see the label 'Supplements:'
 
-  # Make sure Current Issues: are displayed 
+  # Make sure Current Issues: are displayed
   @all_item_view
   @availability
   @holdings
   @current_issues
-  Scenario: As a user I can see the current issues information 
-    Given I request the item view for 329763 
+  Scenario: As a user I can see the current issues information
+    Given I request the item view for 329763
     Then I should see the label 'Current issue on display'
 
   # Make sure PDA makes some sense  DISCOVERYACCESS-1356
@@ -339,35 +343,35 @@ Feature: Item view
     Given I request the item view for 38036458
     Then I should not see the label 'Library Technical Services Review Shelves'
 
-  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available.
   # Annotated Hobbit -- two locations, 1 copy at each.
   @all_item_view
   @availability
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
-  Scenario: As a user I can see exactly what copy is available 
+  Scenario: As a user I can see exactly what copy is available
     Given I request the item view for 1535861
-    Then I should see the label '1 copy'
+    Then I should see the label '1 Checked out'
 
-  # DISCOVERYACCESS-1409 -- this record returns we are sorry 
+  # DISCOVERYACCESS-1409 -- this record returns we are sorry
   # thai language material
   @all_item_view
   @DISCOVERYACCESS-1409
   Scenario: As a user I can see exactly what copy is available for this Thai language material
-    Given I request the item view for 8258651 
+    Given I request the item view for 8258651
     Then I should see the label '1 copy'
 
-  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available. 
+  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available.
   # Fundamentals of corporate finance Stephen A. Ross, Randolph W. Westerfield, Bradford D. Jordan
   @all_item_view
   @availability
   @holdings
   @DISCOVERYACCESS-1430
   @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the how many copies are available 
-   Given PENDING 
-    Given I request the item view for 7728655 
+  Scenario: As a user I can see the how many copies are available
+   Given PENDING
+    Given I request the item view for 7728655
     Then I should see the label 'Available 1 copy'
 
   @uniformtitle
@@ -387,12 +391,13 @@ Feature: Item view
   @all_item_view
   @linkfield
   Scenario: following linking fields
-    Given I request the item view for 115093 
+    Given I request the item view for 115093
     Then I should see the text 'Superseded by'
- 
+
   # DISCOVERYACCESS-230
   #
   @linkfields
+  @all_item_view
 
   Scenario Outline: Display Linking Title Display Fields
     Given I request the item view for <bibid>
@@ -449,7 +454,7 @@ Feature: Item view
   Examples:
     | bibid | yesno      | label |
     # Test for links to full content and TOC
-    | 607   | should     | 'online' |
+    | 607   | should     | 'Available from the U.S. Government Printing Office. Adobe Acrobat Reader required' |
     | 608   | should not | 'Access online' |
     | 8212979 | should     | ' Table of contents' |
     | 608   | should not | 'Access table of contents' |
@@ -474,37 +479,37 @@ Feature: Item view
     Given I request the item view for 4629
     Then I should not see the label 'Notes'
 
- # not blow up when nothing returned by xisbn 
- @DISCOVERYACCESS-1679 
+ # not blow up when nothing returned by xisbn
+ @DISCOVERYACCESS-1679
   @all_item_view
-  Scenario: Show the record properly when xisbn does not work 
-    Given I request the item view for 8881455 
+  Scenario: Show the record properly when xisbn does not work
+    Given I request the item view for 8881455
     Then I should see the label 'Language'
 
  # various boundwith cases
   @all_item_view
  @boundwith
- @DISCOVERYACCESS-1903 
- @DISCOVERYACCESS-1328 
-  Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes 
-    Given I request the item view for 28297 
+ @DISCOVERYACCESS-1903
+ @DISCOVERYACCESS-1328
+  Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes
+    Given I request the item view for 28297
     Then I should see the label 'Bound with'
 
   @all_item_view
  @boundwith
- @DISCOVERYACCESS-1903 
- @DISCOVERYACCESS-1328 
+ @DISCOVERYACCESS-1903
+ @DISCOVERYACCESS-1328
   Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
-    Given I request the item view for 118111 
+    Given I request the item view for 118111
     Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
   @all_item_view
  @boundwith
- @DISCOVERYACCESS-1903 
- @DISCOVERYACCESS-1328 
-  Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid 
-    Given I request the item view for 168319 
+ @DISCOVERYACCESS-1903
+ @DISCOVERYACCESS-1328
+  Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid
+    Given I request the item view for 168319
     Then I should see the label 'Bound with'
     And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
     And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
@@ -513,25 +518,25 @@ Feature: Item view
 
  @all_item_view
  @boundwith
- @DISCOVERYACCESS-1903 
- @DISCOVERYACCESS-1328 
-  Scenario: Show the record properly when it is bound with another item, one item is bound with another, one is not 
-    Given I request the item view for 211313 
+ @DISCOVERYACCESS-1903
+ @DISCOVERYACCESS-1328
+  Scenario: Show the record properly when it is bound with another item, one item is bound with another, one is not
+    Given I request the item view for 211313
     Then I should see the label 'Bound with'
 
   @all_item_view
  @boundwith
- @DISCOVERYACCESS-1903 
- @DISCOVERYACCESS-1328 
-  Scenario: Show the record properly when holding says bound with -- but it an electronic record. 
-    Given I request the item view for 6060112 
+ @DISCOVERYACCESS-1903
+ @DISCOVERYACCESS-1328
+  Scenario: Show the record properly when holding says bound with -- but it an electronic record.
+    Given I request the item view for 6060112
     Then I should see the label 'Bound with'
 
   @all_item_view
  @boundwith
- @DISCOVERYACCESS-1903 
- @DISCOVERYACCESS-1328 
-  Scenario: Show the record properly when holding has bound with multiple barcodes 
+ @DISCOVERYACCESS-1903
+ @DISCOVERYACCESS-1328
+  Scenario: Show the record properly when holding has bound with multiple barcodes
     Given I request the item view for 3158956
     Then I should see the label 'Bound with'
     And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365"
@@ -539,17 +544,35 @@ Feature: Item view
 
   @all_item_view
  @boundwith
- @DISCOVERYACCESS-2295 
-  Scenario: Show the record properly when a holding has no items 
+ @DISCOVERYACCESS-2295
+  Scenario: Show the record properly when a holding has no items
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
 
   @popular
   @all_item_view
-    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such. 
-    Given I request the item view for 293396 
+    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such.
+    Given I request the item view for 293396
     Then I should see the label 'Popular Reading Area'
 
+# this item is an online item, and has holding notes.
+  @DISCOVERYACCESS-3325
+  @online_holding_notes
+  @all_item_view
+    Scenario: Show the holding notes properly for online item.
+    Given I request the item view for 8797135
+    Then I should see the label 'Library has: 17th and 18th century Burney collection'
+
+  # TODO: need bibids that match these cases
+# this item is an ordered item, received, and no item record.
+# (I don't really know what ought to be displayed.)
+  @DISCOVERYACCESS-3243
+  @all_item_view
+    Scenario: Show the status properly for a received item, with no item record.
+   Given PENDING
+    Given I request the item view for 9763600
+    Then I should see the label 'On-site use'
+    Then I should not see the label 'On order'
 
 
   # TODO: need bibids that match these cases
@@ -578,15 +601,29 @@ Feature: Item view
 # for  Scholastici orthodoxi specimen   --- an EEBO
 @all_item_view
 @tou
-  Scenario: Show links to terms of use on electronic books 
+  Scenario: Show links to terms of use on electronic books
   Given I request the item view for 8191346
   Then I should see the text 'Terms of use'
+
+# Forró and redemptive regionalism from the Brazilian northeast
+@tou
+@all_item_view
+  Scenario: Show links to multiple terms of use on electronic books
+  Given I request the item view for 9724377
+  Then I should see the text 'Terms of use'
+  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AKXHO"
+  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AAGPP"
+  And click on first link "Terms of use"
+  Then I should see the text 'Course Reserves by link only'
+
 @remove_pipe
+@all_item_view
   Scenario: Show other form fields without their piped values
   Given I request the item view for 8877499
   Then I should not see the text 'Print version: Marji, Majed. Learn to program with Scratch : a visual introduction to programming with games, art, science, and math. San Francisco, California : No Starch Press, c2014 2013043492|'
 
 @insert_line_breaks
+@all_item_view
   Scenario: Show table of contents with line breaks and not commas
   Given I request the item view for 9493653
   Then I should not see the text 'Volunteer's dilemma,'
@@ -595,8 +632,8 @@ Feature: Item view
 #1939-2009
   @all_item_view
   @finding_aid
-  @DISCOVERYACCESS-2817 
-  Scenario: Show link to finding aid when present 
+  @DISCOVERYACCESS-2817
+  Scenario: Show link to finding aid when present
     Given I request the item view for 2070362
     Then I should see the label 'Finding aid'
     Then I should see the label 'Folder listing'
@@ -606,9 +643,9 @@ Feature: Item view
 #David S. Kahn. with bookplate In memory of Albert Leskowitz.
   @all_item_view
   @bookplates
-  @DISCOVERYACCESS-2823 
-  Scenario: Show link to e-bookplate 
-    Given I request the item view for 8948570 
+  @DISCOVERYACCESS-2823
+  Scenario: Show link to e-bookplate
+    Given I request the item view for 8948570
     Then I should see the label 'Bookplate'
     And it should have link "In memory of Albert Leskowitz." with value "http://plates.library.cornell.edu/donor/DNR00451"
 
@@ -616,31 +653,31 @@ Feature: Item view
 #The Eugene M. Kaufmann, Jr. Endowment Fund., The Arthur H. and Mary Marden Dean Book Fund.
   @all_item_view
   @bookplates
-  @DISCOVERYACCESS-2823 
-  Scenario: Show link to e-bookplates 
-    Given I request the item view for 4473308  
+  @DISCOVERYACCESS-2823
+  Scenario: Show link to e-bookplates
+    Given I request the item view for 4473308
     Then I should see the label 'Bookplate'
     And it should have link "The Eugene M. Kaufmann, Jr. Endowment Fund." with value "http://plates.library.cornell.edu/donor/DNR00386"
     And it should have link "The Arthur H. and Mary Marden Dean Book Fund." with value "http://plates.library.cornell.edu/donor/DNR00373"
 
 
   @all_item_view
-  @DISCOVERYACCESS-2881 
-  Scenario: Show link to other online content 
-    Given I request the item view for 3602582 
+  @DISCOVERYACCESS-2881
+  Scenario: Show link to other online content
+    Given I request the item view for 3602582
     Then I should see the label 'Other online content'
     And it should have link "Other online content" with value "http://hdl.handle.net/1813/43326"
 
 
   @all_item_view
-  @DISCOVERYACCESS-2881 
-  Scenario: Show multiple links to other online content 
-    Given I request the item view for 9320739  
+  @DISCOVERYACCESS-2881
+  Scenario: Show multiple links to other online content
+    Given I request the item view for 9320739
     Then I should see the label 'Other online content'
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
 
-  # availability -- Spacecraft Planetary Imaging Facilty  
+  # availability -- Spacecraft Planetary Imaging Facilty
   # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
   # bibid 9264410
   @hours-page
@@ -649,38 +686,53 @@ Feature: Item view
   @javascript
   @bibid9264410
   @DISCOVERYACCESS-2855
-  Scenario: As a user I can see the availability for an item 
+  Scenario: As a user I can see the availability for an item
     Given I request the item view for 9264410
     Then I should see the label 'On-site use'
     And I should not see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
 
+  # availability -- Spacecraft Planetary Imaging Facilty , and also another library.
+  # make sure we do NOT block request button just because SPIF.
+  # Born a universe Hans Gennow
+  # bibid 9203210
+  @all_item_view
+  @availability
+  @javascript
+  @bibid/9203210
+  @DISCOVERYACCESS-3413
+  Scenario: As a user I can see the availability for an item
+    Given I request the item view for 9203210
+    Then I should see the label 'On-site use'
+    And I should see the label 'Request item'
+    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
 
 
-  # The New York times 
-  # bibid 1545844 
+
+  # The New York times
+  # bibid 1545844
   @all_item_view
   @availability
   @javascript
   @bibid1545844
   @DISCOVERYACCESS-1380
-  Scenario: As a user I can see the availability for an item 
-    Given I request the item view for 1545844 
+  Scenario: As a user I can see the availability for an item
+    Given I request the item view for 1545844
     Then I should see the label 'On-site use'
     Then I should see the label 'Request item'
 
   @hours-page
   @on-site-use
   @all_item_view
-  Scenario: View an items holdings, and have pointer to RMC help page. 
-    Given I request the item view for 2083253 
+  Scenario: View an items holdings, and have pointer to RMC help page.
+    Given I request the item view for 2083253
         Then I should see the label 'On-site use'
         And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
 
   @hours-page
   @on-site-use
   @all_item_view
-  Scenario: View an hotel items holdings, and have pointer to ILR help page. 
-    Given I request the item view for 330333 
+  Scenario: View an hotel items holdings, and have pointer to ILR help page.
+    Given I request the item view for 330333
         Then I should see the label 'On-site use'
         And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/ilr"

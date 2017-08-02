@@ -447,7 +447,7 @@ module Blacklight::Solr #::Document::MarcExport
 
 end
 
-end
+end # of if false.
 
 module BlacklightMarcHelper
 
@@ -472,3 +472,79 @@ end
    unreserved = REGEXP::PATTERN::UNRESERVED
    DEFAULT_PARSER = Parser.new(:UNRESERVED => unreserved + "|")
  end
+
+
+
+
+############ need different options on piwik.
+#
+module PiwikAnalytics
+  module Helpers
+    def piwik_tracking_tag_bl
+      config = PiwikAnalytics.configuration
+      return if config.disabled?
+      piw_site = config.id_site
+      if ((!config.site2_path.nil?) && (request.path == config.site2_path) ) 
+        piw_site = config.id_site2
+      end
+      if config.use_async?
+        tag = <<-CODE
+        <!-- Piwik -->
+        <script type="text/javascript">
+        var _paq = _paq || [];
+        (function(){
+            var u=(("https:" == document.location.protocol) ? "https://#{config.url}/" : "http://#{config.url}/");
+            _paq.push(["setDocumentTitle", document.domain + "/" + document.title]); 
+            _paq.push(["setCookieDomain", "*.library.cornell.edu"]); 
+             _paq.push(["setDomains", ["*.library.cornell.edu","*.newcatalog.library.cornell.edu","*.search.library.cornell.edu"]]);
+            _paq.push(['setSiteId', #{piw_site}]);
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['trackPageView']);
+            var d=document,
+                g=d.createElement('script'),
+                s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript';
+                g.defer=true;
+                g.async=true;
+                g.src=u+'piwik.js';
+                s.parentNode.insertBefore(g,s);
+        })();
+        </script>
+        <!-- End Piwik Tag -->
+        CODE
+        tag.html_safe
+      else
+        tag = <<-CODE
+        <!-- Piwik -->
+        <script type="text/javascript">
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://#{config.url}/" : "http://#{config.url}/");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+        try {
+                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", #{piw_site});
+                piwikTracker.trackPageView();
+                piwikTracker.enableLinkTracking();
+        } catch( err ) {}
+        </script>
+        <!-- End Piwik Tag -->
+        CODE
+        tag.html_safe
+      end
+    end
+  end
+end
+
+
+module PiwikAnalytics
+  class  Configuration
+  # The ID of the second website
+    def id_site2
+      @id_site2 ||= (user_configuration_from_key('id_site2') || 2)
+    end
+
+    def site2_path
+      @site2_path ||= (user_configuration_from_key('site2_path') || "site2 missing")
+    end
+
+  end
+end
