@@ -101,6 +101,8 @@ Feature: Select and export items from the result set
     And I sleep 2 seconds
     Then I should see the label 'MLA 7th ed. Memorial University of Newfoundland. Geology Report. St. John'
 
+
+#User needs to cite a record by a corporate author in MLA style # NRC  / corp author. make sure (U.S.) is gone.
 @all_select_and_export
 @citations
 @javascript
