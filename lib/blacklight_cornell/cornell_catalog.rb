@@ -58,11 +58,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # make sure we are not going directly to home page
    search_session[:per_page] = params[:per_page]
     temp_search_field = ''
+    journal_titleHold = ''
     if (!params[:range].nil?)
         check_dates(params)
     end
     temp_search_field = ''
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
+      if params["search_field"] == "journal title"
+        journal_titleHold = "journal title"
+      end
        params[:q] = sanitize(params[:q])
        check_params(params)
     else
@@ -81,6 +85,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     
     if temp_search_field != ''
       params[:search_field] = temp_search_field
+    end
+    if journal_titleHold != ''
+      params[:search_field] = journal_titleHold
     end
     
     if @response[:responseHeader][:q_row].nil?
