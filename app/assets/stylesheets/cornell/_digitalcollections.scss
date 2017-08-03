@@ -27,15 +27,6 @@
 		border-bottom: 1px solid $light-tan;
 	}
 }
-  // // Nav and dropdown links in navbar
-  // .nav-collapse .nav > li > a,
-  // .nav-collapse .dropdown-menu a {
-  //   padding: 9px 15px;
-  //   font-weight: bold;
-  //   color: $navbarLinkColor;
-  //   @include border-radius(3px);
-  // }
-
 
 .blacklight-digitalcollections-name {
 	padding-top: 15px;
@@ -59,11 +50,13 @@
 		margin: 0 0 .5em;
 		font-weight: normal;
 		line-height: 1.2em;
-		// font-size: 1.1em;
 		font-size: 20px;
 		i { 
 			font-size: 12px;
 			margin-left: 5px;
+		}
+		a {
+			margin-left: 0;
 		}
 	}
 }

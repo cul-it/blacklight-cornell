@@ -7,7 +7,7 @@ footer {
 	a, a:hover {
 		color: $dark-gray;
 	}
-	.nav > li > a {
+	.footer-nav.nav > li > a {
 		padding: 0 10px;
 	}
 	.btn-libraries {
@@ -18,6 +18,27 @@ footer {
 	.btn-libraries:hover {
 		background: $dark-teal;
 		border-color: $dark-teal;
+	}
+	.nav-pills {
+		margin-top: .25em;
+		a {
+			background: white;
+			font-family: $font-family-cul;
+			border: 1px solid $tan;
+			i {
+				margin-right: .25em;
+				color: $cornell-primary;
+				font-size: 125%;
+			}
+		}
+		a:hover, a:active, a:focus {
+			background: $dark-teal;
+			color: white;
+			border-color: $dark-teal;
+			i {
+				color: white;
+			}
+		}
 	}
 }
 
