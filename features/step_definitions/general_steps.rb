@@ -25,10 +25,26 @@ Then /^the '(.*?)' drop\-down should have an option for '(.*?)'$/ do |menu, opti
   page.has_select?(menu, :with_options => [option]).should == true
 end
 
-Then /^I should see the text '(.*?)'$/i do |text|
-  page.should have_content(text)
+Then /^I should see the xml path '(.*?)','(.*?)','(.*?)','(.*?)'$/i do |ns,xp,nsdef,str|
+  xml_doc  = Nokogiri::XML(page.body)
+  contents = xml_doc.xpath(xp,ns => nsdef).first.text
+  print "str = #{str.inspect}\n"
+  if !contents.nil? && contents.include?(str)
+    page.should have_content('e')
+  else
+    page.should have_content(xp)
+  end
 end
-Then /^I should see the text "(.*?)"$/i do |text|
+
+Then /^I should see the xml text '(.*?)'$/i do |text|
+  if  page.body.include?(text)
+    page.should have_content('e')
+  else
+    page.should have_content(text)
+  end
+end
+
+Then /^I should see the text '(.*?)'$/i do |text|
   page.should have_content(text)
 end
 

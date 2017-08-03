@@ -32,7 +32,7 @@ end
 # This connection to Summon is used by the bento/single search
 BentoSearch.register_engine('summon_bento') do |conf|
 	conf.engine = 'BentoSearch::SummonEngine'
-	conf.title = 'Journal Articles'
+	conf.title = 'Articles & Full Text'
 	conf.access_id =  ENV['SUMMON_ACCESS_ID']
 	conf.secret_key = ENV['SUMMON_SECRET_KEY']
 	conf.for_display = {:decorator => "ArticleDecorator"}
@@ -42,9 +42,10 @@ BentoSearch.register_engine('summon_bento') do |conf|
 	conf.fixed_params = {
 		's.cmd' => [
 			# Limit to Journal Articles
-			'setFacetValueFilters(ContentType,Journal Article)',
+			'setFacetValueFilters(ContentType,Newspaper Article)',
 			# Within Cornell's collection
-			'setHoldingsOnly(true)'
+			'setHoldingsOnly(true)',
+      'negateFacetValueFilter(ContentType)'
 		]
 
 	}
@@ -62,14 +63,15 @@ BentoSearch.register_engine('summon') do |conf|
   conf.fixed_params = {
     's.cmd' => [
       # Limit to Journal Article, Book Chapter and Journal/eJournal
-      'setFacetValueFilters(ContentType,Journal Article,Book Chapter,Journal / eJournal)',
+      'setFacetValueFilters(ContentType,Newspaper Article)',
+      'negateFacetValueFilter(ContentType)',
       # Within Cornell's collection
       'setHoldingsOnly(true)'
     ]
   }
 
   # Convert Summon Command used for API to query parameter for URL
-  conf.link = 'http://cornell.summon.serialssolutions.com/search?' + conf.fixed_params.map{|k,v| "#{k}=" + v.join(' ')}.join('&') + '&s.q='
+  conf.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q='
 end
 
 BentoSearch.register_engine('worldcat') do |conf|
@@ -108,19 +110,16 @@ BentoSearch.register_engine('bestbet') do |conf|
 	conf.title = 'Best Bet'
 end
 
-BentoSearch.register_engine('web') do |conf|
-	conf.engine = 'BentoSearch::GoogleSiteSearchEngine'
-	conf.title = 'Library Websites'
-	conf.api_key =  ENV['GOOGLE_API_KEY']
-	conf.cx =  ENV['GOOGLE_CX']
-	conf.for_display = {:decorator => "WebDecorator"}
-
+BentoSearch.register_engine('digitalCollections') do |conf|
+	conf.engine = 'BentoSearch::DigitalCollectionsEngine'
+	conf.title = 'Digital Collections'
+	conf.for_display = {:decorator => "DigitalCollections"}
 end
 
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
-        conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"] 
+        conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"]
 end
 
 BentoSearch.register_engine('Book') do |conf|
@@ -151,7 +150,6 @@ BentoSearch.register_engine('Musical Recording') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Musical Recordings'
 	conf.blacklight_format = 'Musical Recording'
-    conf.solr_url = SOLR_CONFIG[Rails.env]["url"]
 end
 
 BentoSearch.register_engine('Musical Score') do |conf|

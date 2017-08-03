@@ -717,6 +717,30 @@ def render_advanced_constraints_filters(my_params = params)
   return return_content.html_safe
 end
 
+def render_edit_advanced_constraints_filters(my_params = params)
+  return_content = "" #super(my_params)
+#   if (@advanced_query)
+   if(my_params[:f].present?)
+   # @advanced_query.filters.each_pair do |field, value_list|
+     my_params[:f].each do |key, value|
+#        label = facet_field_labels[field]
+      removeString = makeEditRemoveString(my_params, key)
+      label = facet_field_labels[key]
+      if value[0].include?('%26')
+        value[0].gsub!('%26','&')
+      end
+      return_content << render_constraint_element(label,
+        value.join(" AND "),
+#          :remove => search_facet_catalog_path( remove_advanced_filter_group(field, my_params) )
+        :remove => "?" + removeString
+#          :remove => "catalog?"
+        )
+    end
+  end
+
+  return return_content.html_safe
+end
+
 
 def makeSimpleRemoveString(my_params, facet_key)
   removeString = ""
@@ -777,6 +801,7 @@ def makeSimpleRemoveString(my_params, facet_key)
 end
 
 def makeRemoveString(my_params, facet_key)
+  Rails.logger.info("REMO1 = #{facet_key}")
   removeString = ""
   fkey = facet_key
   advanced_query = my_params["advanced_query"]
@@ -868,6 +893,119 @@ def makeRemoveString(my_params, facet_key)
     end
   end
   if ((q_row.nil? || q_row.count < 2) && !q.nil?)
+    if CGI.escape(q) == ''
+      if facets_string != ''
+        removeString = facets_string + "action=index&commit=Search"
+      end
+    else
+       removeString = "q=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
+    end
+  else
+    if advanced_query.nil?
+      advanced_query = "yes"
+    end
+    removeString << "advanced_query=" + advanced_query + "&advanced_search=" + advanced_search + "&" + boolean_row_string +
+                  facets_string + op_string + op_row_string + q_string.html_safe +
+                  q_row_string + search_field_string + search_field_row_string
+  end
+  Rails.logger.info("REMO =#{removeString}")
+  return removeString
+end
+
+def makeEditRemoveString(my_params, facet_key)
+  removeString = ""
+  fkey = facet_key
+  advanced_query = my_params["advanced_query"]
+  advanced_search = my_params["advanced_search"]
+  show_query_string = ""
+  if !advanced_search.nil?
+    advanced_search = "true"
+  else
+    advanced_search = "false"
+  end
+  boolean_row = my_params["boolean_row"]
+#  Rails.logger.info("BOOROW = #{boolean_row}")
+  boolean_row_string = ""
+  if !boolean_row.nil? #and boolean_row.count >= 1
+   boolean_row.each do |value|
+     if !value.nil?
+     boolean_row_string << "boolean_row[]=" + value + "&"
+#     else
+#      boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][] + "&"
+     end
+   end
+#  Rails.logger.info("BOOROW1 = #{boolean_row_string}")
+    
+  else
+    boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
+  end
+  if !boolean_row_string.blank?
+    boolean_row_string << "&"
+  end
+  facets = my_params[:f]
+  facets_string = ""
+  if !facets.nil?
+    facets.each do |key, value|
+      if key != fkey
+        for i in 0..value.count - 1 do
+          if value[i].include? 'Kroch Library Rare'
+            value[i] = 'Kroch Library Rare %26 Manuscripts'
+          end
+          facets_string << "f[" << key << "][]=" << value[i] << "&"
+        end
+      end
+    end
+  end
+  if !facets_string.blank?
+    facets_string << "&"
+  end
+  op = my_params["op"]
+  op_string = ""
+  if !op.nil?
+    for i in 0..op.count - 1 do
+      op_string << "op[]=" << op[i] << "&"
+    end
+  end
+  op_row = my_params["op_row"]
+  op_row_string = ""
+  if !op_row.nil?
+    for i in 0..op_row.count - 1 do
+      op_row_string << "op_row[]=" << op_row[i] << "&"
+    end
+  end
+  q = my_params[:q]
+  q_string = ""
+  if !q.nil?
+    if q.include?('=')
+     q = q.gsub!('=','%3D')
+    end
+    if q.include?('&')
+     q = q.gsub!('&', '%26')
+    end
+    q_string = "q=" << CGI.escape(q) << "&"
+  else
+    q = ""
+  end
+  q_row = my_params["q_row"]
+  q_row_string = ""
+  if !q_row.nil?
+    for i in 0..q_row.count - 1
+      q_row_string << "q_row[]=" << CGI.escape(q_row[i]) << "&"
+    end
+  end
+  search_field = my_params["search_field"]
+  search_field_string = ""
+  if !search_field.nil?
+    search_field_string = "search_field=" << search_field << "&"
+  end
+  search_field_row = my_params["search_field_row"]
+  search_field_row_string = ""
+  if !search_field_row.nil?
+    for i in 0..search_field_row.count - 1
+      search_field_row_string << "search_field_row[]=" << search_field_row[i] << "&"
+    end
+  end
+  if ((q_row.nil? || q_row.count < 2) && !q.nil?)
     removeString = "q=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
   else
     if advanced_query.nil?
@@ -879,6 +1017,7 @@ def makeRemoveString(my_params, facet_key)
   end
   return removeString
 end
+
 
 def make_show_query(params)
 

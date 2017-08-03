@@ -61,13 +61,11 @@ ul.blacklight-nav {
   	list-style: none;
   	li {
       float: left;
-      border-left: 1px solid #ccc;
       margin-bottom: .5em;
       padding: 0 8px;
-      font-size: 11px;
+      font-size: 12px;
     }
     li:first-child {
-      border-left: none;
       padding-left: 0;
     }
   	a {
@@ -142,7 +140,11 @@ ul.blacklight-nav {
   ul.blacklight-nav {
     float: right;
     li {
-      font-size: 13px;
+      font-size: 12px;
+      border-left: 1px solid #ccc;
+    }
+    li:first-child {
+      border-left: none;
     }
   }
   .navbar-cul {
@@ -157,7 +159,12 @@ ul.blacklight-nav {
   }
   header {
     h1 {
-      font-size: 26px;
+      font-size: 23px;
+    }
+  }
+  .library-link {
+    a {
+      font-size: 17px;
     }
   }
 }
@@ -177,6 +184,17 @@ ul.blacklight-nav {
   header {
     h1 {
       font-size: 28px;
+    }
+  }
+  ul.blacklight-nav {
+    float: right;
+    li {
+      font-size: 14px;
+    }
+  }
+  .library-link {
+    a {
+      font-size: 18px;
     }
   }
 }

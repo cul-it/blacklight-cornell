@@ -18,7 +18,7 @@
     <div class="col-sm-8 col-sm-offset-2 empty-single-search">
       <div class="well">
         <div class="search-info">
-          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page.">
+          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
             <i class="fa fa-info-circle"></i>
             About this search
           </a>
@@ -163,10 +163,10 @@
                 <% end %>
               </li>
               <li>
-                <% unless @websites.blank? %>
-                  <%= link_to '#web' do %>
+                <% unless @digitalCollections.blank? %>
+                  <%= link_to '#digcoll' do %>
                     <i class="fa fa-arrow-down"></i>
-                    Library Websites
+                    Digital Collections
                   <% end %>
                 <% end %>
               </li>
@@ -266,10 +266,10 @@
               </div>
             <% end %>
           </div>
-          <div class="web-pane">
-            <% if @websites.present? %>
+          <div class="web-pane" id="digcoll">
+            <% if @digitalCollections.present? %>
               <div class="web-results">
-                <%= render 'single_search/pane_results', :key => 'web', :result => @websites %>
+                <%= render 'single_search/pane_results', :key => 'digitalCollections', :result => @digitalCollections %>
               </div>
             <% end %>
           </div>

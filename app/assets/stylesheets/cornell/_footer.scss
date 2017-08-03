@@ -7,7 +7,7 @@ footer {
 	a, a:hover {
 		color: $dark-gray;
 	}
-	.nav > li > a {
+	.footer-nav.nav > li > a {
 		padding: 0 10px;
 	}
 	.btn-libraries {
@@ -19,15 +19,33 @@ footer {
 		background: $dark-teal;
 		border-color: $dark-teal;
 	}
+	.nav-pills {
+		margin-top: .25em;
+		a {
+			background: white;
+			font-family: $font-family-cul;
+			border: 1px solid $tan;
+			i {
+				margin-right: .25em;
+				color: $cornell-primary;
+				font-size: 125%;
+			}
+		}
+		a:hover, a:active, a:focus {
+			background: $dark-teal;
+			color: white;
+			border-color: $dark-teal;
+			i {
+				color: white;
+			}
+		}
+	}
 }
 
 .footer-copyright {
 	padding: 1.5em 0;
 	border-top: 1px solid #ddd;
 	margin-top: em;
-}
-.social-links {
-	text-align: right;
 }
 .footer-nav {
 	margin-top: .25em;
@@ -36,13 +54,12 @@ footer {
 	li {
 		float: left;
 		font-size: 12px;
-		border-left: 1px solid $medium-gray;
+		margin-bottom: .5em;
 		i {
 			margin-right: 4px;
 		}
 	}
 	li:first-child {
-		border-left: 0;
 		a {
 			padding-left: 0;
 		}
@@ -101,6 +118,9 @@ footer {
 	a { color: $medium-gray; }
 	.facebook-button { margin-right: 5px; }
 }
+.solr-core {
+	margin-top: 1em;
+}
 
 // MEDIA QUERIES
 // -------------------------
@@ -121,6 +141,23 @@ footer {
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm) { 
 	.feedback-link { 
+		text-align: right;
+	}
+	.footer-nav {
+		li {
+			border-left: 1px solid $light-gray;
+			font-size: 13px;
+		}
+		li:first-child {
+			border-left: 0;
+		}
+	}
+	footer {
+		p {
+			font-size: 13px;
+		}
+	}
+	.social-links {
 		text-align: right;
 	}
 }

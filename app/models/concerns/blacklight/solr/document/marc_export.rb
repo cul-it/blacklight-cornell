@@ -35,16 +35,32 @@ module Blacklight::Solr::Document::MarcExport
   # to the document extension where it belongs. 
   def export_as_apa_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    apa_citation( to_marc )
+    citeproc_citation( to_marc,'apa')
+    #apa_citation( to_marc )
   end
   
   def export_as_mla_citation_txt
-    mla_citation( to_marc )
+    citeproc_citation( to_marc,'modern-language-association')
+    #mla_citation( to_marc )
+  end
+
+  def old_xxx_export_as_mla8_citation_txt
+    mla8_citation( to_marc )
+  end
+
+    #cp  = CiteProc::Processor.new style: 'modern-language-association-8th-edition', format: 'html'
+  def export_as_mla8_citation_txt
+    citeproc_citation( to_marc,'modern-language-association-8th-edition')
+  end
+
+  def export_as_mla8_proc_citation_txt
+    citeproc_citation( to_marc )
   end
   
   def export_as_chicago_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    chicago_citation( to_marc )
+    citeproc_citation( to_marc,'chicago-fullnote-bibliography')
+    #chicago_citation( to_marc )
   end
 
   # Exports as an OpenURL KEV (key-encoded value) query string.
@@ -192,7 +208,13 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   protected
- 
+# see http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html 
+# examples:
+# Chicago 16th ed.
+# Single author.
+# Pollan, Michael. The Omnivore’s Dilemma: A Natural History of Four Meals. New York: Penguin, 2006.
+# Single editor.
+# Greenberg, Joel, ed. Of Prairie, Woods, and Water: Two Centuries of Chicago Nature Writing. Chicago: University of Chicago Press, 2008.
  def chicago_citation(marc)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     authors = get_all_authors(marc)
@@ -245,13 +267,13 @@ module Blacklight::Solr::Document::MarcExport
         end
       else
         # Only 1 primary author
-        author_text << authors[:primary_authors].first
+        author_text << authors[:primary_authors].first + '.'
       end
-    elsif !authors[:corporate_authors].blank?
+    elsif !authors[:corporate_authors].blank? && authors[:editors].blank?
       # This is a simplistic assumption that the first corp author entry
       # is the only one of interest (and it's not too long)
       author_text << authors[:corporate_authors].first + '.'
-    elsif !authors[:meeting_authors].blank?
+    elsif !authors[:meeting_authors].blank? && authors[:editors].blank?
       # This is a simplistic assumption that the first corp author entry
       # is the only one of interest (and it's not too long)
       author_text << authors[:meeting_authors].first + '.'
@@ -259,35 +281,36 @@ module Blacklight::Solr::Document::MarcExport
       # Secondary authors: translators, editors, compilers
       temp_authors = []
       authors[:translators].each do |translator|
-        temp_authors << [translator, "trans."]
+        temp_authors << [translator, "trans"]
       end
       authors[:editors].each do |editor|
-        temp_authors << [editor, "ed."]
+        temp_authors << [editor, "ed"]
       end
       authors[:compilers].each do |compiler|
-        temp_authors << [compiler, "comp."]
+        temp_authors << [compiler, "comp"]
       end
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} temp_authors = #{temp_authors.inspect}")
 
       unless temp_authors.blank?
         if temp_authors.length > 10
           temp_authors.each_with_index do |author,index|
             if index < 7
-              author_text << "#{author.first} #{author.last} "
+              author_text << "#{author.first} "
             end
           end
-          author_text << " et al."
+          author_text << " et al.,#{temp_authors.first.last}s. "
         elsif temp_authors.length > 1
           temp_authors.each_with_index do |author,index|
             if index == 0
-              author_text << "#{author.first} #{author.last}, "
+              author_text << "#{author.first} "
             elsif index + 1 == temp_authors.length
-              author_text << "and #{name_reverse(author.first)} #{author.last}"
+              author_text << "and #{name_reverse(author.first)}, #{author.last}s. "
             else
-              author_text << "#{name_reverse(author.first)} #{author.last}, "
+              author_text << "#{name_reverse(author.first)}, "
             end
           end
         else
-          author_text << "#{temp_authors.first.first} #{temp_authors.first.last}"
+          author_text << "#{temp_authors.first.first}, #{temp_authors.first.last}. "
         end
       end
     end
@@ -336,7 +359,7 @@ module Blacklight::Solr::Document::MarcExport
     citation << "<i>#{title}.</i> " unless title.blank?
     citation << "#{section_title} " unless section_title.blank?
     citation << "#{additional_title} " unless additional_title.blank?
-    citation << "#{edition} " unless edition.blank?
+    citation << "#{edition}" unless edition.blank?
     citation << "#{pub_info}." unless pub_info.blank?
     citation
   end
@@ -349,6 +372,7 @@ module Blacklight::Solr::Document::MarcExport
   def xxx_chicago_citation(marc)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     authors = get_all_authors(marc)    
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
     author_text = ""
     unless authors[:primary_authors].blank?
       if authors[:primary_authors].length > 10
@@ -468,14 +492,136 @@ module Blacklight::Solr::Document::MarcExport
   
   
   
-  def mla_citation(record)
+  def citeproc_citation(record,csl)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
+    cp  = CiteProc::Processor.new style: csl, format: 'html'
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp = #cp.inspect}")
+    authors_final = []
+    editors_final = []
+    all_authors = get_all_authors(record)
+      # If there are secondary (i.e. from 700 fields) authors, add them to
+      # primary authors only if there are no corporate, meeting, primary authors
+    if !all_authors[:primary_authors].blank?
+      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+    elsif !all_authors[:secondary_authors].blank?
+      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+    end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+    authors = case
+              when !all_authors[:primary_authors].blank?
+               all_authors[:primary_authors]
+              when !all_authors[:primary_corporate_authors].blank?
+                all_authors[:primary_corporate_authors]
+              when !all_authors[:meeting_authors].blank?
+                all_authors[:meeting_authors]
+              when !all_authors[:secondary_authors].blank?
+                all_authors[:secondary_authors]
+              when !all_authors[:secondary_corporate_authors].blank?
+                all_authors[:secondary_corporate_authors]
+              else
+                []
+    end
+    editors  = case
+              when !all_authors[:editors].blank?
+                all_authors[:editors]
+              else
+                []
+    end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    if !authors.blank?
+      authors.each do |nam|
+        if  nam.include?(',')
+          family,given = nam.split(",")
+          a =  CiteProc::Name.new(:family => family, :given => given)
+        else
+          a =  CiteProc::Name.new(:literal => nam)
+        end
+        authors_final << a
+      end
+    end
+    if !editors.blank?
+      editors.each do |nam|
+        if  nam.include?(',')
+          family,given = nam.split(",")
+          a =  CiteProc::Name.new(:family => family, :given => given)
+        else
+          a =  CiteProc::Name.new(:literal => nam)
+        end
+        editors_final << a
+      end
+    end
+    title = setup_title_info(record)
+    issued =  setup_pub_date(record) unless setup_pub_date(record).nil?
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_final = #{authors_final.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} title = #{title.inspect}")
+    publisher = setup_pub_info_mla8(record) unless setup_pub_info_mla8(record).nil?
+    publisher.squish! unless publisher.nil?
+    publisher_place,dummy = setup_pub_info(record).split(':') unless setup_pub_info(record).nil?
+    publisher_place.squish! unless publisher_place.nil?
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} publisher_place = #{publisher_place.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}dummy=#{dummy.inspect}")
+    id = "id #{csl}"
+    ul = ''
+    if !self['url_access_display'].blank?
+       ul = self['url_access_display'].first.split('|').first
+       # might have proxy link -- http://proxy.library.cornell.edu/login?url=http://site.ebrary.com/lib/cornell/Top?id=11014930
+       # or gateway link
+       ul.sub!('http://proxy.library.cornell.edu/login?url=','')
+       ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+    end
+    item = CiteProc::Item.new(
+      :id => id,
+      :type => 'book',
+      :title => title,
+      :author => authors_final,
+      :editor => editors_final,
+      :issued => { 'literal' => issued },
+      :publisher => publisher ,
+      :URL => ul,
+      'publisher-place' => publisher_place 
+    )
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} item=#{item.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} place=#{item.publisher_place.inspect}")
+    cp << item
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp=#{cp.inspect}")
+    #cp.options()[:style].titleize + "<br/>" + (cp.render :bibliography, id: id)[0]
+    (cp.render :bibliography, id: id)[0]
+    end
+
+  def mla8_citation(record)
+
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_final = []
     
     #setup formatted author list
-    authors = get_author_list(record)
-
+    #authors = get_author_list(record)
+    all_authors = get_all_authors(record)
+      # If there are secondary (i.e. from 700 fields) authors, add them to
+      # primary authors only if there are no corporate, meeting, primary authors
+    if !all_authors[:primary_authors].blank?
+      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+     elsif !all_authors[:secondary_authors].blank?
+      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+     end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+    authors = case
+              when !all_authors[:primary_authors].blank?
+               all_authors[:primary_authors]
+              when !all_authors[:primary_corporate_authors].blank?
+                all_authors[:primary_corporate_authors]
+              when !all_authors[:meeting_authors].blank?
+                all_authors[:meeting_authors]
+              when !all_authors[:secondary_authors].blank?
+                all_authors[:secondary_authors]
+              when !all_authors[:secondary_corporate_authors].blank?
+                all_authors[:secondary_corporate_authors]
+              else
+                []
+              end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    if !authors.blank?
     if authors.length < 4
       authors.each do |l|
         if l == authors.first #first
@@ -496,6 +642,83 @@ module Blacklight::Solr::Document::MarcExport
       end
     else
       text += authors.first + ", et al. "
+    end
+    end
+    # setup title
+    title = setup_title_info(record)
+    if !title.nil?
+      text += "<i>" + mla_citation_title(title) + "</i> "
+    end
+
+    # Edition
+    edition_data = setup_edition(record)
+    text += edition_data + " " unless edition_data.nil?
+    
+    # Publication
+    text += setup_pub_info_mla8(record) + ", " unless setup_pub_info(record).nil?
+    
+    # Get Pub Date
+    text += setup_pub_date(record) unless setup_pub_date(record).nil?
+    if text[-1,1] != "."
+      text += "." unless text.nil? or text.blank?
+    end
+    text
+  end
+
+  def mla_citation(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+    text = ''
+    authors_final = []
+    
+    #setup formatted author list
+    #authors = get_author_list(record)
+    all_authors = get_all_authors(record)
+      # If there are secondary (i.e. from 700 fields) authors, add them to
+      # primary authors only if there are no corporate, meeting, primary authors
+    if !all_authors[:primary_authors].blank?
+      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+     elsif !all_authors[:secondary_authors].blank?
+      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+     end
+
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+    authors = case
+              when !all_authors[:primary_authors].blank?
+               all_authors[:primary_authors]
+              when !all_authors[:primary_corporate_authors].blank?
+                all_authors[:primary_corporate_authors]
+              when !all_authors[:meeting_authors].blank?
+                all_authors[:meeting_authors]
+              when !all_authors[:secondary_authors].blank?
+                all_authors[:secondary_authors]
+              when !all_authors[:secondary_corporate_authors].blank?
+                all_authors[:secondary_corporate_authors]
+              else
+                []
+              end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    if !authors.blank?
+    if authors.length < 4
+      authors.each do |l|
+        if l == authors.first #first
+          authors_final.push(l)
+        elsif l == authors.last #last
+          authors_final.push(", and " + name_reverse(l) + ".")
+        else #all others
+          authors_final.push(", " + name_reverse(l))
+        end
+      end
+      text += authors_final.join
+      unless text.blank?
+        if text[-1,1] != "."
+          text += ". "
+        else
+          text += " "
+        end
+      end
+    else
+      text += authors.first + ", et al. "
+    end
     end
     # setup title
     title = setup_title_info(record)
@@ -519,15 +742,18 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def apa_citation(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_list = []
     authors_list_final = []
     
     #setup formatted author list
-    authors = get_author_list(record)
+    authors = apa_get_author_list(record)
     authors.each do |l|
       authors_list.push(abbreviate_name(l)) unless l.blank?
     end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_list = #{authors_list.inspect}")
     authors_list.each do |l|
       if l == authors_list.first #first
         authors_list_final.push(l.strip)
@@ -565,6 +791,27 @@ module Blacklight::Solr::Document::MarcExport
     end
     text
   end
+
+  def setup_pub_info_mla8(record)
+    text = ''
+    pub_info_field = record.find{|f| f.tag == '260'}
+    if pub_info_field.nil?
+      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+    end
+    if !pub_info_field.nil?
+      b_pub_info = pub_info_field.find{|s| s.code == 'b'}
+      a_pub_info = clean_end_punctuation(a_pub_info.value.strip) unless a_pub_info.nil?
+      b_pub_info = b_pub_info.value.strip unless b_pub_info.nil?
+      text += a_pub_info.strip unless a_pub_info.nil?
+      if !a_pub_info.nil? and !b_pub_info.nil?
+        text += ": "
+      end
+      text += b_pub_info.strip unless b_pub_info.nil?
+    end
+    #print STANDARD_INFO  + "text = #{text}"
+    return nil if text.strip.blank?
+    clean_end_punctuation(text.strip)
+  end 
   def setup_pub_info(record)
     text = ''
     pub_info_field = record.find{|f| f.tag == '260'}
@@ -605,19 +852,51 @@ module Blacklight::Solr::Document::MarcExport
     end
     clean_end_punctuation(date_value) if date_value
   end
+  # process 100,110,111 and 700, 710, 711
+  # putting together role indicators.
+  def get_contrib_roles(record)
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+    contributors = ["100","110","111","700","710","711" ]
+    relators = {} 
+    record.find_all{|f| contributors.include?(f.tag) }.each do |field|
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
+      if field["a"]
+        contributor = clean_end_punctuation(field["a"])
+        relators[contributor] = [] if relators[contributor].nil?  
+        field.find_all{|sf| sf.code == 'e' }.each do |sfe|
+          code = code_for_relation(clean_end_punctuation(sfe.value))  if sfe 
+          relators[contributor] << code if code
+        end
+        field.find_all{|sf| sf.code == '4' }.each do |sf4|
+          relators[contributor] << clean_end_punctuation(sf4.value) if sf4 
+        end
+      end
+    end 
+    relators
+  end
 
   # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
+    translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"
     primary_authors = []; translators = []; editors = []; compilers = []
     corporate_authors = []; meeting_authors = []; secondary_authors = []
+    primary_corporate_authors = []; secondary_corporate_authors = [];
     record.find_all{|f| f.tag === "100" }.each do |field|
       primary_authors << field["a"] if field["a"]
     end
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
       corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
+    end
+    record.find_all{|f| f.tag === '110'}.each do |field|
+      primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
+    end
+    record.find_all{|f| f.tag === '710'}.each do |field|
+      secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
@@ -636,7 +915,11 @@ module Blacklight::Solr::Document::MarcExport
         elsif relators.include?(compiler_code)
           compilers << field["a"]
         else
-          secondary_authors << field["a"]
+          if setup_editors_flag(record) 
+            editors << field["a"]
+          else 
+            secondary_authors << field["a"]
+          end
         end
       end
     end
@@ -647,9 +930,19 @@ module Blacklight::Solr::Document::MarcExport
     secondary_authors.each_with_index do |a,i|
       secondary_authors[i] = a.gsub(/[\.,]$/,'')
     end
+    primary_authors.uniq! 
+    corporate_authors.uniq! 
+    primary_corporate_authors.uniq! 
+    secondary_corporate_authors.uniq! 
+    translators.uniq! 
+    editors.uniq! 
+    compilers.uniq! 
+    secondary_authors.uniq! 
+    secondary_authors.delete_if { |a| primary_authors.include?(a) }
+    meeting_authors.uniq! 
 
     ret = {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
-    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors }
+    :secondary_authors => secondary_authors, :meeting_authors => meeting_authors, :primary_corporate_authors => primary_corporate_authors, :secondary_corporate_authors => secondary_corporate_authors }
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ret = #{ret.inspect}")
     ret
   end
@@ -685,6 +978,19 @@ module Blacklight::Solr::Document::MarcExport
     new_text.join(" ")
   end
 
+  # I hope this can guide the interpretation of 700 when no role is encoded.
+  def setup_editors_flag(record)
+    title_info_field = record.find{|f| f.tag == '245'}
+    edited = false
+    if title_info_field
+      c_title_info = title_info_field.find{|s| s.code == 'c'}
+      if (c_title_info and c_title_info.value and c_title_info.value.include?("edited"))
+        edited = true 
+      end
+    end
+  edited
+  end
+
   def setup_title_info(record)
     text = ''
     title_info_field = record.find{|f| f.tag == '245'}
@@ -701,10 +1007,17 @@ module Blacklight::Solr::Document::MarcExport
     end
     
     return nil if text.strip.blank?
+    text.sub!(' : ' ,': ')
     clean_end_punctuation(text.strip) + "."
-    
   end
   
+  def apa_clean_end_punctuation(text)
+    if [".,"].include? text[-2,2]
+      return text[0,text.length-1]
+    end
+    text
+  end  
+
   def clean_end_punctuation(text)
     if [".",",",":",";","/"].include? text[-1,1]
       return text[0,text.length-1]
@@ -723,6 +1036,28 @@ module Blacklight::Solr::Document::MarcExport
     end    
   end
   
+
+  def apa_get_author_list(record)
+    author_list = []
+    authors_primary = record.find{|f| f.tag == '100'}
+    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+    author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
+    authors_secondary = record.find_all{|f| ('700') === f.tag}
+    if !authors_secondary.nil?
+      authors_secondary.each do |l|
+        author_list.push(apa_clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+      end
+    end
+    author_list.uniq!
+    if author_list.blank?
+      authors_primary = record.find{|f| f.tag == '110'}
+      author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+      author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
+      author_list.uniq!
+    end
+    author_list
+  end
+
   def get_author_list(record)
     author_list = []
     authors_primary = record.find{|f| f.tag == '100'}
@@ -766,6 +1101,7 @@ module Blacklight::Solr::Document::MarcExport
   end
   
   def abbreviate_name(name)
+    return name unless name =~ /,/
     name_parts = name.split(", ")
     first_name_parts = name_parts.last.split(" ")
     temp_name = name_parts.first + ", " + first_name_parts.first[0,1] + "."
@@ -780,5 +1116,285 @@ module Blacklight::Solr::Document::MarcExport
     temp_name = name.split(", ")
     return temp_name.last + " " + temp_name.first
   end 
+
+  def relation_for_code(c)
+    RELATORS.key(c) 
+  end
+
+  def code_for_relation(r)
+    RELATORS[r.downcase] 
+  end
+
+
+RELATORS = {
+"abridger" => "abr",
+"actor" => "act",
+"adapter" => "adp",
+"addressee" => "rcp",
+"analyst" => "anl",
+"animator" => "anm",
+"annotator" => "ann",
+"appellant" => "apl",
+"appellee" => "ape",
+"applicant" => "app",
+"architect" => "arc",
+"arranger" => "arr",
+"art copyist" => "acp",
+"art director" => "adi",
+"artist" => "art",
+"artistic director" => "ard",
+"assignee" => "asg",
+"associated name" => "asn",
+"attributed name" => "att",
+"auctioneer" => "auc",
+"author" => "aut",
+"author in quotations or text abstracts" => "aqt",
+"author of afterword, colophon, etc." => "aft",
+"author of dialog" => "aud",
+"author of introduction, etc." => "aui",
+"autographer" => "ato",
+"bibliographic antecedent" => "ant",
+"binder" => "bnd",
+"binding designer" => "bdd",
+"blurb writer" => "blw",
+"book designer" => "bkd",
+"book producer" => "bkp",
+"bookjacket designer" => "bjd",
+"bookplate designer" => "bpd",
+"bookseller" => "bsl",
+"braille embosser" => "brl",
+"broadcaster" => "brd",
+"calligrapher" => "cll",
+"cartographer" => "ctg",
+"caster" => "cas",
+"censor" => "cns",
+"choreographer" => "chr",
+"cinematographer" => "cng",
+"client" => "cli",
+"collection registrar" => "cor",
+"collector" => "col",
+"collotyper" => "clt",
+"colorist" => "clr",
+"commentator" => "cmm",
+"commentator for written text" => "cwt",
+"compiler" => "com",
+"complainant" => "cpl",
+"complainant-appellant" => "cpt",
+"complainant-appellee" => "cpe",
+"composer" => "cmp",
+"compositor" => "cmt",
+"conceptor" => "ccp",
+"conductor" => "cnd",
+"conservator" => "con",
+"consultant" => "csl",
+"consultant to a project" => "csp",
+"contestant" => "cos",
+"contestant-appellant" => "cot",
+"contestant-appellee" => "coe",
+"contestee" => "cts",
+"contestee-appellant" => "ctt",
+"contestee-appellee" => "cte",
+"contractor" => "ctr",
+"contributor" => "ctb",
+"copyright claimant" => "cpc",
+"copyright holder" => "cph",
+"corrector" => "crr",
+"correspondent" => "crp",
+"costume designer" => "cst",
+"court governed" => "cou",
+"court reporter" => "crt",
+"cover designer" => "cov",
+"creator" => "cre",
+"curator" => "cur",
+"dancer" => "dnc",
+"data contributor" => "dtc",
+"data manager" => "dtm",
+"dedicatee" => "dte",
+"dedicator" => "dto",
+"defendant" => "dfd",
+"defendant-appellant" => "dft",
+"defendant-appellee" => "dfe",
+"degree granting institution" => "dgg",
+"degree supervisor" => "dgs",
+"delineator" => "dln",
+"depicted" => "dpc",
+"depositor" => "dpt",
+"designer" => "dsr",
+"director" => "drt",
+"dissertant" => "dis",
+"distribution place" => "dbp",
+"distributor" => "dst",
+"donor" => "dnr",
+"draftsman" => "drm",
+"dubious author" => "dub",
+"editor" => "edt",
+"editor of compilation" => "edc",
+"editor of moving image work" => "edm",
+"electrician" => "elg",
+"electrotyper" => "elt",
+"enacting jurisdiction" => "enj",
+"engineer" => "eng",
+"engraver" => "egr",
+"etcher" => "etr",
+"event place" => "evp",
+"expert" => "exp",
+"facsimilist" => "fac",
+"field director" => "fld",
+"film director" => "fmd",
+"film distributor" => "fds",
+"film editor" => "flm",
+"film producer" => "fmp",
+"filmmaker" => "fmk",
+"first party" => "fpy",
+"forger" => "frg",
+"former owner" => "fmo",
+"funder" => "fnd",
+"geographic information specialist" => "gis",
+"honoree" => "hnr",
+"host" => "hst",
+"host institution" => "his",
+"illuminator" => "ilu",
+"illustrator" => "ill",
+"inscriber" => "ins",
+"instrumentalist" => "itr",
+"interviewee" => "ive",
+"interviewer" => "ivr",
+"inventor" => "inv",
+"issuing body" => "isb",
+"judge" => "jud",
+"jurisdiction governed" => "jug",
+"laboratory" => "lbr",
+"laboratory director" => "ldr",
+"landscape architect" => "lsa",
+"lead" => "led",
+"lender" => "len",
+"libelant" => "lil",
+"libelant-appellant" => "lit",
+"libelant-appellee" => "lie",
+"libelee" => "lel",
+"libelee-appellant" => "let",
+"libelee-appellee" => "lee",
+"librettist" => "lbt",
+"licensee" => "lse",
+"licensor" => "lso",
+"lighting designer" => "lgd",
+"lithographer" => "ltg",
+"lyricist" => "lyr",
+"manufacture place" => "mfp",
+"manufacturer" => "mfr",
+"marbler" => "mrb",
+"markup editor" => "mrk",
+"medium" => "med",
+"metadata contact" => "mdc",
+"metal-engraver" => "mte",
+"minute taker" => "mtk",
+"moderator" => "mod",
+"monitor" => "mon",
+"music copyist" => "mcp",
+"musical director" => "msd",
+"musician" => "mus",
+"narrator" => "nrt",
+"onscreen presenter" => "osp",
+"opponent" => "opn",
+"organizer" => "orm",
+"originator" => "org",
+"other" => "oth",
+"owner" => "own",
+"panelist" => "pan",
+"papermaker" => "ppm",
+"patent applicant" => "pta",
+"patent holder" => "pth",
+"patron" => "pat",
+"performer" => "prf",
+"permitting agency" => "pma",
+"photographer" => "pht",
+"plaintiff" => "ptf",
+"plaintiff-appellant" => "ptt",
+"plaintiff-appellee" => "pte",
+"platemaker" => "plt",
+"praeses" => "pra",
+"presenter" => "pre",
+"printer" => "prt",
+"printer of plates" => "pop",
+"printmaker" => "prm",
+"process contact" => "prc",
+"producer" => "pro",
+"production company" => "prn",
+"production designer" => "prs",
+"production manager" => "pmn",
+"production personnel" => "prd",
+"production place" => "prp",
+"programmer" => "prg",
+"project director" => "pdr",
+"proofreader" => "pfr",
+"provider" => "prv",
+"publication place" => "pup",
+"publisher" => "pbl",
+"publishing director" => "pbd",
+"puppeteer" => "ppt",
+"radio director" => "rdd",
+"radio producer" => "rpc",
+"recording engineer" => "rce",
+"recordist" => "rcd",
+"redaktor" => "red",
+"renderer" => "ren",
+"reporter" => "rpt",
+"repository" => "rps",
+"research team head" => "rth",
+"research team member" => "rtm",
+"researcher" => "res",
+"respondent" => "rsp",
+"respondent-appellant" => "rst",
+"respondent-appellee" => "rse",
+"responsible party" => "rpy",
+"restager" => "rsg",
+"restorationist" => "rsr",
+"reviewer" => "rev",
+"rubricator" => "rbr",
+"scenarist" => "sce",
+"scientific advisor" => "sad",
+"screenwriter" => "aus",
+"scribe" => "scr",
+"sculptor" => "scl",
+"second party" => "spy",
+"secretary" => "sec",
+"seller" => "sll",
+"set designer" => "std",
+"setting" => "stg",
+"signer" => "sgn",
+"singer" => "sng",
+"sound designer" => "sds",
+"speaker" => "spk",
+"sponsor" => "spn",
+"stage director" => "sgd",
+"stage manager" => "stm",
+"standards body" => "stn",
+"stereotyper" => "str",
+"storyteller" => "stl",
+"supporting host" => "sht",
+"surveyor" => "srv",
+"teacher" => "tch",
+"technical director" => "tcd",
+"television director" => "tld",
+"television producer" => "tlp",
+"thesis advisor" => "ths",
+"transcriber" => "trc",
+"translator" => "trl",
+"type designer" => "tyd",
+"typographer" => "tyg",
+"university place" => "uvp",
+"videographer" => "vdg",
+"voice actor" => "vac",
+"witness" => "wit",
+"wood engraver" => "wde",
+"woodcutter" => "wdc",
+"writer of accompanying material" => "wam",
+"writer of added commentary" => "wac",
+"writer of added lyrics" => "wal",
+"writer of added text" => "wat",
+"writer of introduction" => "win",
+"writer of preface" => "wpr",
+"writer of supplementary textual content" => "wst" }
+
   
 end
