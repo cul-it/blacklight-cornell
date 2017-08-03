@@ -286,8 +286,10 @@ class SearchBuilder < Blacklight::SearchBuilder
          params.delete("advanced_query")
        end
     end
+   Rails.logger.info("3616 = #{query_string_two}")
    return query_string_two
   end
+
   def parse_query_row(query, op)
     splitArray = []
     returnstring = ""
@@ -353,6 +355,7 @@ class SearchBuilder < Blacklight::SearchBuilder
            end
          end
       end
+      Rails.logger.info("3616 = #{query_string}")
       return query_string
   end
 
@@ -487,7 +490,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               #     holdarray[1] = parse_query_row(holdarray[1], "OR")
               #    end
               q_string2 = q_string2 +  ""
-
+Rails.logger.info("QSTRING2 = #{newstring}")
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -570,6 +573,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                         else
                         solr6query << "\"" + holdarray[1] + "\""
                         end
+                      Rails.logger.info("solr6query13 = #{solr6query}")
                       else
                         tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
@@ -583,14 +587,19 @@ class SearchBuilder < Blacklight::SearchBuilder
                                if field_name == ''
                                 newTerm << field_name + tokenArray[k] + " " + opfill + " "
                               else
-                                newTerm << field_name + ":" + tokenArray[k] + " " + opfill + " "
+                                if opfill == "AND"
+                                  newTerm << "+" << field_name + ":" + tokenArray[k] + " "
+                                else
+                                  newTerm << field_name + ":" + tokenArray[k] + " " + opfill + " "
+                                end
                               end
                           end
                           if field_name == ''
                             newTerm << + tokenArray[tokenArray.size - 1] + ")"
                           else
-                          newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
+                            newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
                           end
+Rails.logger.info("NEWTERM = #{newTerm}")
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
                             solr6query = '(' + solr6query
@@ -599,19 +608,25 @@ class SearchBuilder < Blacklight::SearchBuilder
                           else
                             solr6query << newTerm
                           end
+Rails.logger.info("solr6query12 = #{solr6query}")
                         else
                           q_string2 << holdarray[1]
                           if field_name == ''
-                          solr6query << field_name  + holdarray[1] 
+                            solr6query << "(+" << field_name  + holdarray[1] + ') OR phrase:"' + holdarray[1] + ")" 
                           else
                             if journal_title_flag == 1
                               solr6query = '(' + solr6query
                               solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
                               journal_title_flag = 0
                             else
-                              solr6query << field_name + ":" + holdarray[1] 
+                              if field_name == "title" or field_name == "number"
+                                solr6query << "((+" << field_name + ":" + holdarray[1] << ') OR ' + field_name << '_phrase:"' << holdarray[1] << '")' 
+                              else
+                                solr6query << "((+" << field_name + ":" + holdarray[1] << ') OR ' + field_name << ':"' << holdarray[1] << '")'
+                              end
                             end
                           end
+Rails.logger.info("solr6query42 = #{solr6query}")
                       end
                       end
                    else
@@ -629,6 +644,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                             solr6query << field_name << ":\"" + holdarray[1] + "\""
                           end
                        end
+#Rails.logger.info("solr6query2 = #{solr6query}")
                      else
                        tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
@@ -642,14 +658,28 @@ class SearchBuilder < Blacklight::SearchBuilder
                                if field_name == ''
                                 newTerm << field_name + tokenArray[k] + " " +opfill + " "
                                else
-                                newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
+                                 if opfill == "AND"
+                                   newTerm << "+" << field_name + ":" + tokenArray[k] + " "
+                                 else
+                                   newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
+                                 end
                                end
                           end
                           if field_name == ''
                             newTerm <<  tokenArray[tokenArray.size - 1] + ")"
                           else
-                            newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                            if opfill == "AND"
+                              newTerm << "+" << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                            else  
+                              newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                            end
+                              if field_name == "title" or field_name == "number"
+                               newTerm = "(" + newTerm + " OR " + field_name + "_phrase" + ':"' + holdarray[1] + '")'
+                              else
+                               newTerm = "(" + newTerm + " OR " + field_name + ':"' + holdarray[1] + '")'
+                              end
                           end
+Rails.logger.info("solr6query22= #{newTerm}")
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
                             solr6query << newTerm << ' AND format:"Journal/Periodical")'
@@ -658,25 +688,31 @@ class SearchBuilder < Blacklight::SearchBuilder
                             solr6query << newTerm
                           end
                         else
+                          Rails.logger.info("solr6query23= #{solr6query}")
 
-                       q_string2 << holdarray[1] << " "
-                       if field_name == ''
-                       solr6query += " " + holdarray[1] 
-                       else
-                        if journal_title_flag == 1
-                          solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
-                          journal_title_flag = 0
-                        else
-                          solr6query << " " + field_name + ":" + holdarray[1]
+                          q_string2 << holdarray[1] << " "
+                          if field_name == '' or field_name == "number"
+                            if field_name == "number"
+                              solr6query += "((+" + holdarray[1] + ') OR number_phrase:"' + holdarray[1] + '")' 
+                            else
+                              solr6query += "((+" + holdarray[1] + ') OR phrase:"' + holdarray[1] + '")'
+                            end
+                          else
+                            if journal_title_flag == 1
+                              solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                              journal_title_flag = 0
+                            else
+                              solr6query << "((+" + field_name + ":" + holdarray[1] + ') OR ' + field_name + ':"' + holdarray[1] + '")'
+                            end
+                          end 
                         end
-                       end 
-                     end
                      end
 
                    end
                 end
               else #D
                 q_string2 = q_string2 #<< holdarray[1]
+#Rails.logger.info("solr6query2 = #{solr6query}")
 
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
@@ -690,6 +726,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               
               q_string2Array << q_string2
               q_string2 = "";
+Rails.logger.info("solr6query80 = #{solr6query}")
            end #of For C
            #fix opArray
         #   opArray = opArray.shift
@@ -740,7 +777,9 @@ class SearchBuilder < Blacklight::SearchBuilder
          if journal_title_flag == 1
            solr6query = '(' + solr6query
          end
-     Rails.logger.info("FINISH1 = #{solr6query}")    
+#         solr6query = '( (+number:L +number:37) OR number_phrase:"L 37") AND  ( (+number:L _number:37) OR number_phrase:"L 37")'
+#       solr6query = '((+title:David +title:Copperfield) OR title_phrase:"David Copperfield") AND ((+author:Charles +author:Dickens) OR author:"Charles Dickens")'
+Rails.logger.info("FINISH1 = #{solr6query}")    
          my_params["q"] = solr6query 
        return my_params
 
