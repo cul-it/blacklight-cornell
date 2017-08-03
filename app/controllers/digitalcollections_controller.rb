@@ -6,7 +6,7 @@ class DigitalcollectionsController < ApplicationController
   before_filter :heading
 
   def heading
-   @heading='Cornell Digital Collections'
+   @heading='Digital Collections'
   end
 
    def index
