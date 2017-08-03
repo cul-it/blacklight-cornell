@@ -91,7 +91,7 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_holdings(b)
     where = setup_holdings_info(b) 
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{where.inspect}"
-    b.dc(:coverage,where.join("\n")) unless where.blank? or where.join("").blank?
+    #b.dc(:coverage,where.join("\n")) unless where.blank? or where.join("").blank?
     b.dc(:subject) { b.dcterms(:LCC) { b.rdf(:value,where.join("//")) }}  unless where.blank? or where.join("").blank?
   end
 
@@ -160,7 +160,8 @@ module Blacklight::Solr::Document::Zotero
     surname = p
     surname, givenname = p.split(',') unless !p.include?(",")
     b.foaf(:Person) do 
-      b.foaf(:surname,surname.strip) unless surname.blank?
+      sn = surname.index('(').nil? ? surname : surname[0,surname.index('(')].rstrip
+      b.foaf(:surname,sn.strip) unless sn.blank?
       b.foaf(:givenname,givenname.strip) unless givenname.blank?
     end
    end

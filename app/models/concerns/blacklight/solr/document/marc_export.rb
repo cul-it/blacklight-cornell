@@ -535,7 +535,8 @@ module Blacklight::Solr::Document::MarcExport
           family,given = nam.split(",")
           a =  CiteProc::Name.new(:family => family, :given => given)
         else
-          a =  CiteProc::Name.new(:literal => nam)
+          b = nam.index('(').nil? ? nam : nam[0,nam.index('(')].rstrip 
+          a =  CiteProc::Name.new(:literal => b)
         end
         authors_final << a
       end
@@ -546,7 +547,8 @@ module Blacklight::Solr::Document::MarcExport
           family,given = nam.split(",")
           a =  CiteProc::Name.new(:family => family, :given => given)
         else
-          a =  CiteProc::Name.new(:literal => nam)
+          b = nam.index('(').nil? ? nam : nam[0,nam.index('(')].rstrip 
+          a =  CiteProc::Name.new(:literal => b)
         end
         editors_final << a
       end
@@ -570,6 +572,8 @@ module Blacklight::Solr::Document::MarcExport
        ul.sub!('http://proxy.library.cornell.edu/login?url=','')
        ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
     end
+    edition_data = setup_edition(record)
+    edition_final = edition_data.blank? ? ""  : edition_data
     item = CiteProc::Item.new(
       :id => id,
       :type => 'book',
@@ -577,6 +581,7 @@ module Blacklight::Solr::Document::MarcExport
       :author => authors_final,
       :editor => editors_final,
       :issued => { 'literal' => issued },
+      :edition => edition_final,
       :publisher => publisher ,
       :URL => ul,
       'publisher-place' => publisher_place 
