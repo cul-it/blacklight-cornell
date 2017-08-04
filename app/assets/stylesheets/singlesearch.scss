@@ -170,7 +170,7 @@ div.view-all {
 // Best bet
 // -----------------------------------------------//
 .best-bet {
-  padding: 1em 1em 1.5em 1em; 
+  padding: 1em 1em 1.5em 1em;
   margin-bottom: 2em;
   border: 5px solid $light-tan;
   h2 {
@@ -222,7 +222,7 @@ div.view-all {
 // -----------------------------------------------//
 // expand-search rules also apply to catalog
 .expand-search,
-#formats { 
+#formats {
   ul {
     margin-left: 0;
     list-style: none;
@@ -390,7 +390,7 @@ div.view-all {
   }
 }
 .tooltip-inner {
-  padding: 10px 12px; 
+  padding: 10px 12px;
   font-size: 13px;
   background: $dark-gray;
   text-align: left;
@@ -405,7 +405,7 @@ div.view-all {
   margin: 0 0 1em;
 }
 
-// Availability 
+// Availability
 // -----------------------
 
 .bento_item_avail {
@@ -429,7 +429,7 @@ div.view-all {
 
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+@media (min-width: $screen-sm) {
   .single-search {
     .btn-search {
       margin-left: 0;
@@ -452,8 +452,8 @@ div.view-all {
   // Grid
   .bento1 {
     width: 45%;
-    float: left; 
-    margin-right: 3em; 
+    float: left;
+    margin-right: 3em;
     margin-bottom: 2em;
   }
   .bento2 {
@@ -469,6 +469,18 @@ div.view-all {
     margin-bottom:2em;
   }
   .bento4 {
+    width:45%;
+    float:right;
+    clear:right;
+    margin-bottom:2em;
+  }
+  .bento5 {
+    width:45%;
+    float:left;
+    clear:left;
+    margin-bottom:2em;
+  }
+  .bento6 {
     width:45%;
     float:right;
     clear:right;

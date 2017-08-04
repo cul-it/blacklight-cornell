@@ -31,7 +31,7 @@ class SearchController < ApplicationController
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :digitalCollections, :summonArticles)
+          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results
 
@@ -140,7 +140,7 @@ class SearchController < ApplicationController
     # Remove articles and digital collections from top 4 logic
     @summonArticles = results.delete('summonArticles')
     @digitalCollections = results.delete('digitalCollections')
-
+    @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
     top1 << ['summon_bento', results.delete('summon_bento')]
     top4 = top1
@@ -190,6 +190,9 @@ class SearchController < ApplicationController
     elsif engine_id == 'digitalCollections'
       query = query.gsub('&', '%26')
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
+    elsif engine_id =='libguides'
+      query = query.gsub('&', '%26')
+      "http://guides.library.cornell.edu/srch.php?q=#{query}"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.

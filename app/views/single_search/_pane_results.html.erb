@@ -4,9 +4,11 @@
     <% link_url = ss_uri_encode(link_url) %>
   <% end %>
   <h2 class="search-source">
+    <% unless key == "libuides" %>
     <%= link_to link_url, :title => "View all" do %>
       <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
       <%= BentoSearch.get_engine(key).configuration.title %>
+    <% end %>
     <% end %>
   </h2>
 </div>
@@ -22,6 +24,9 @@
     <%= bento_search result  %>
     <% link_url = ss_uri_encode(link_url) %>
     <div class="view-all">
+      <% if key == "libguides" %>
+        <%= link_to 'View All Library Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-default", :id => "link_top_libguides" %>
+        <% else %>
       <%= link_to link_url, :class => "btn btn-default", :id => "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
@@ -47,12 +52,15 @@
         <% end %>
         <% BentoSearch.get_engine(key).configuration.title %>
         <% if BentoSearch.get_engine(key).configuration.title == 'Articles & Full Text' %>
+        <% elsif BentoSearch.get_engine(key).configuration.title == 'Library Guides' %>
+            Guides
         <% elsif BentoSearch.get_engine(key).configuration.title == 'Digital Collections' %>
             Items
         <% else %>
           from Catalog
         <% end %>
         <i class="fa fa-angle-double-right"></i>
+      <% end %>
       <% end %>
     </div>
     <div class="top-link visible-xs">

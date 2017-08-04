@@ -101,6 +101,8 @@ Feature: Select and export items from the result set
     And I sleep 2 seconds
     Then I should see the label 'MLA 7th ed. Memorial University of Newfoundland. Geology Report. St. John'
 
+
+#User needs to cite a record by a corporate author in MLA style # NRC  / corp author. make sure (U.S.) is gone.
 @all_select_and_export
 @citations
 @javascript
@@ -108,7 +110,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 3902220 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'MLA 7th ed. National Research Council (U.S.). Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
+    Then I should see the label 'MLA 7th ed. National Research Council. Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
 
 # MLA 8th edition
 @all_select_and_export
