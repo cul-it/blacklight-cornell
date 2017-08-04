@@ -402,8 +402,14 @@ http_interactions:
       - close
     body:
       encoding: UTF-8
-      string: |
-        {'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>2159,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889 TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1375785.2,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889 TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}
+      string: "{'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>2159,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score
+        desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889
+        TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions
+        de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1375785.2,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889
+        TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At
+        the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch
+        Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann
+        Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}\n"
     http_version: 
   recorded_at: Fri, 05 May 2017 14:35:07 GMT
 - request:
@@ -562,4 +568,235 @@ http_interactions:
         F2808 .C35 ++"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
   recorded_at: Fri, 05 May 2017 18:20:41 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2017 20:32:50 GMT
+      Last-Modified:
+      - Tue, 01 Aug 2017 20:32:23 GMT
+      Etag:
+      - '"MzFiYTkwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '7083'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjE4MTIsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
+        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
+        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
+        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
+        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
+        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
+        bGNoZWNrLnEnPT4nKCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTpt
+        aXNzaW9ucyArdGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGU6IkF0bGFz
+        IGRlcyBtaXNzaW9ucyBkZSBsYSAiJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZh
+        Y2V0LnNvcnQnPT4naW5kZXgnLCdzdGF0cyc9Pid0cnVlJywnd3QnPT4ncnVi
+        eScsJ2YuZmFzdF9nZW5yZV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5m
+        b3JtYXQuZmFjZXQubGltaXQnPT4nMTEnLCdzdGF0cy5maWVsZCc9PidwdWJf
+        ZGF0ZV9mYWNldCcsJ21tJz0+JzEnLCdmLmF1dGhvcl9mYWNldC5mYWNldC5s
+        aW1pdCc9Pic2JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zvcm1hdCcs
+        J2F1dGhvcl9mYWNldCcsJ3B1Yl9kYXRlX2ZhY2V0Jywnd29ya2lkX2ZhY2V0
+        JywnbGFuZ3VhZ2VfZmFjZXQnLCdmYXN0X3RvcGljX2ZhY2V0JywnZmFzdF9n
+        ZW9fZmFjZXQnLCdmYXN0X2VyYV9mYWNldCcsJ2Zhc3RfZ2VucmVfZmFjZXQn
+        LCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnLCdsY19hbHBoYV9mYWNldCcsJ2xv
+        Y2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0JywnYXV0aG9ydGl0bGVf
+        ZmFjZXQnLCdsY19jYWxsbnVtX2ZhY2V0JywnY29sbGVjdGlvbiddLCdxdCc9
+        PidzZWFyY2gnLCdmLmxjX2NhbGxudW1fZmFjZXQuZmFjZXQubGltaXQnPT4n
+        LTEnLCdzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQgZGVzYywg
+        dGl0bGVfc29ydCBhc2MnLCdyb3dzJz0+JzIwJywncSc9Pid0aXRsZTooK3Rp
+        dGxlOkF0bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1pc3Npb25zICt0aXRsZTpk
+        ZSArdGl0bGU6bGEgKSBPUiB0aXRsZToiQXRsYXMgZGVzIG1pc3Npb25zIGRl
+        IGxhICInLCdmLmZhc3RfZXJhX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdm
+        LmZhc3RfdG9waWNfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2ZhY2V0Jz0+
+        J3RydWUnLCdmLmxhbmd1YWdlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnfX0s
+        J3Jlc3BvbnNlJz0+eydudW1Gb3VuZCc9PjIsJ3N0YXJ0Jz0+MCwnbWF4U2Nv
+        cmUnPT4zMTA3OC40NDEsJ2RvY3MnPT5beydob2xkaW5nc19yZWNvcmRfZGlz
+        cGxheSc9PlsneyJpZCI6IjE1NjUwOSIsIm1vZGlmaWVkX2RhdGUiOiIyMDEy
+        MTAwMzEzMjc1MiIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIk92
+        ZXJzaXplIEcyMjA5LkU0IEwzNyArKysiXSwibm90ZXMiOlsiRm9saW8uIl0s
+        ImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10s
+        InN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGlu
+        Z3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hcHMiLCJudW1i
+        ZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1hcHMgKE5vbi1DaXJjdWxh
+        dGluZykiLCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5In1dfSddLCdvbmxpbmUn
+        PT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5b
+        J3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwi
+        aXRlbV9pZCI6IjI2MjI1NCIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIz
+        IiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIs
+        InRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2Vu
+        dW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1f
+        dHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5IiwicmVjYWxsc19wbGFj
+        ZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAwOjAwLjAi
+        LCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4MzUzMjU4NCIsIm1vZGlmeV9kYXRl
+        IjoiMjAxMi0xMC0wMyAxMzoyODowOC4wIiwicGVybV9sb2NhdGlvbiI6eyJj
+        b2RlIjoibWFwcyIsIm51bWJlciI6ODAsIm5hbWUiOiJPbGluIExpYnJhcnkg
+        TWFwcyAoTm9uLUNpcmN1bGF0aW5nKSIsImxpYnJhcnkiOiJPbGluIExpYnJh
+        cnkifX0nXSwnaWQnPT4nMTE5MTYyJywnZm9ybWF0Jz0+WydCb29rJ10sJ2xh
+        bmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaC4nXSwncHViX2RhdGVfZGlzcGxh
+        eSc9PlsnMTg5MCddLCdwdWJfZGF0ZV9mYWNldCc9PjE4OTAsJ3B1Yl9pbmZv
+        X2Rpc3BsYXknPT5bJ0xpbGxlIDogU29jacOpdMOpIGRlIFNhaW50LUF1Z3Vz
+        dGluIERlc2Nsw6llIGRlIEJyb3V3ZXIgMTg5MC4nXSwnZnVsbHRpdGxlX2Rp
+        c3BsYXknPT4nQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBk
+        ZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMgOiAyNyBjYXJ0ZXMgZW4gNSBjb3Vs
+        ZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGljZXMgZ8Opb2dyYXBoaXF1
+        ZXMgZXQgaGlzdG9yaXF1ZXMnLCd0aXRsZV9kaXNwbGF5Jz0+J0F0bGFzIGRl
+        cyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0cmFu
+        Z8OocmVzJywnYXV0aG9yX2Rpc3BsYXknPT4nTGF1bmF5LCBBZHJpZW4sIDE4
+        NTMtMTkyNy4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+JzI3IGNhcnRlcyBlbiA1
+        IGNvdWxldXJzIGFjY29tcGFnbsOpZXMgZGUgMjcgbm90aWNlcyBnw6lvZ3Jh
+        cGhpcXVlcyBldCBoaXN0b3JpcXVlcycsJ290aGVyX2lkX2Rpc3BsYXknPT5b
+        JyhDU3RSTElOKU5ZQ1gxMTcxNjg2QicsJyhOSUMpbm90aXNBQU4wNjM1Jywn
+        MTE5MTYyJywnKE9Db0xDKTExNzE2ODYnXSwnc2NvcmUnPT4zMTA3OC40NDF9
+        LHsnaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiI0ODUxNzk4
+        IiwibW9kaWZpZWRfZGF0ZSI6IjIwMDIwNzExMTE0MDEzIiwiY29weV9udW1i
+        ZXIiOm51bGwsImNhbGxub3MiOlsiT3ZlcnNpemUgRjI4MDggLkMzNSArKyJd
+        LCJub3RlcyI6WyJMaWJyYXJ5IGxhY2tzIHRleHQgdm9sLjsgaGFzIGF0bGFz
+        IG9ubHkuIl0sImhvbGRpbmdzX2Rlc2MiOlsiYXRsYXMiXSwicmVjZW50X2hv
+        bGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzYyI6
+        W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMiOlt7ImNv
+        ZGUiOiJtYW5uIiwibnVtYmVyIjo2OSwibmFtZSI6Ik1hbm4gTGlicmFyeSIs
+        ImxpYnJhcnkiOiJNYW5uIExpYnJhcnkifV19J10sJ29ubGluZSc9PlsnQXQg
+        dGhlIExpYnJhcnknXSwnaXRlbV9yZWNvcmRfZGlzcGxheSc9PlsneyJjb3B5
+        X251bWJlciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJvb2siLCJpdGVtX2lk
+        IjoiNjQxNDIwMiIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hy
+        b24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBf
+        bG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiJB
+        dGxhcyIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsInRlbXBfaXRlbV90
+        eXBlX2lkIjoiMCIsIm1maGRfaWQiOiI0ODUxNzk4IiwicmVjYWxsc19wbGFj
+        ZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAyLTA3LTExIDE2OjE3OjA1LjAi
+        LCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4Njc1NTc5NCIsIm1vZGlmeV9kYXRl
+        IjoiIiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoibWFubiIsIm51bWJlciI6
+        NjksIm5hbWUiOiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5IjoiTWFubiBMaWJy
+        YXJ5In19J10sJ2lkJz0+JzQzMDM3MjEnLCdmb3JtYXQnPT5bJ0Jvb2snXSwn
+        bGFuZ3VhZ2VfZGlzcGxheSc9PlsnRnJlbmNoLiddLCdwdWJfZGF0ZV9kaXNw
+        bGF5Jz0+WycxODg5J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg4OSwncHViX2lu
+        Zm9fZGlzcGxheSc9PlsnUGFyaXMgW1NjZWF1eCwgSW1wci4gQ2hhcmFpcmUg
+        ZXQgRmlscywgMTg4OV0nXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nTWlzc2lv
+        biBkZSBNLiBDYWx2ZXQgZGFucyBsQcyTbcOpcmlxdWUgZHUgU3VkOiByYXBw
+        b3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRlIGxpzJNuZHVzdHJp
+        ZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7IGxpzJNtbWlncmF0
+        aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBsYcyTZ3JpY3VsdHVy
+        ZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4JywndGl0bGVfZGlzcGxheSc9PidN
+        aXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6lyaXF1ZSBkdSBTdWQn
+        LCdhdXRob3JfZGlzcGxheSc9PidDYWx2ZXQsIEEuJywnc3VidGl0bGVfZGlz
+        cGxheSc9PidyYXBwb3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRl
+        IGxpzJNuZHVzdHJpZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7
+        IGxpzJNtbWlncmF0aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBs
+        YcyTZ3JpY3VsdHVyZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4Jywnb3RoZXJf
+        aWRfZGlzcGxheSc9PlsnKE5OQylub3Rpc0FSSzAyOTknLCcoQ1N0UkxJTilO
+        WUNHQVJLMDI5OS1CJywnKE9Db0xDKTY3MjY2NzAnLCc0MzAzNzIxJ10sJ3Nj
+        b3JlJz0+NDEyMi42MDZ9XX0sJ2ZhY2V0X2NvdW50cyc9PnsnZmFjZXRfcXVl
+        cmllcyc9Pnt9LCdmYWNldF9maWVsZHMnPT57J29ubGluZSc9PlsnQXQgdGhl
+        IExpYnJhcnknLDJdLCdmb3JtYXQnPT5bJ0Jvb2snLDJdLCdhdXRob3JfZmFj
+        ZXQnPT5bJ0NhbHZldCwgQScsMSwnTGF1bmF5LCBBZHJpZW4sIDE4NTMtMTky
+        NycsMSwnTWlzc2lvbnMgw6l0cmFuZ8OocmVzIGRlIFBhcmlzJywxXSwncHVi
+        X2RhdGVfZmFjZXQnPT5bJzE4ODknLDEsJzE4OTAnLDFdLCd3b3JraWRfZmFj
+        ZXQnPT5bJzIxMTI4NjQnLDEsJzk4ODk2MjYyNScsMV0sJ2xhbmd1YWdlX2Zh
+        Y2V0Jz0+WydGcmVuY2gnLDJdLCdmYXN0X3RvcGljX2ZhY2V0Jz0+WydBZ3Jp
+        Y3VsdHVyZSA+IEVjb25vbWljIGFzcGVjdHMnLDEsJ0NhdGhvbGljIENodXJj
+        aCcsMSwnQ29tbWVyY2UnLDEsJ01pc3Npb25zJywxLCdNaXNzaW9ucyDDqXRy
+        YW5nw6hyZXMgZGUgUGFyaXMnLDEsJ01pc3Npb25zLCBGcmVuY2gnLDFdLCdm
+        YXN0X2dlb19mYWNldCc9PlsnQXJnZW50aW5hJywxLCdBc2lhJywxLCdQYXJh
+        Z3VheScsMSwnVXJ1Z3VheScsMV0sJ2Zhc3RfZXJhX2ZhY2V0Jz0+W10sJ2Zh
+        c3RfZ2VucmVfZmFjZXQnPT5bJ0F0bGFzZXMnLDEsJ0hpc3RvcnknLDEsJ01h
+        cHMnLDFdLCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnPT5bJ05vbi1GaWN0aW9u
+        IChib29rcyknLDJdLCdsY19hbHBoYV9mYWNldCc9PltdLCdsb2NhdGlvbl9m
+        YWNldCc9PlsnTWFubiBMaWJyYXJ5JywxLCdPbGluIExpYnJhcnknLDFdLCdo
+        aWVyYXJjaHlfZmFjZXQnPT5bXSwnYXV0aG9ydGl0bGVfZmFjZXQnPT5bJ0Nh
+        bHZldCwgQS4gfCBNaXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6ly
+        aXF1ZSBkdSBTdWQnLDEsJ0xhdW5heSwgQWRyaWVuLCAxODUzLTE5MjcuIHwg
+        QXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lv
+        bnMtRXRyYW5nw6hyZXMnLDFdLCdsY19jYWxsbnVtX2ZhY2V0Jz0+WydFLUYg
+        LSBIaXN0b3J5IG9mIHRoZSBBbWVyaWNhcycsMSwnRS1GIC0gSGlzdG9yeSBv
+        ZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNw
+        YW5pc2ggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9yeSBvZiB0aGUgQW1lcmlj
+        YXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNwYW5pc2ggQW1lcmlj
+        YTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9y
+        eSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2Eu
+        IFNwYW5pc2ggQW1lcmljYTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYTpG
+        MjgwMS0zMDIxIC0gQXJnZW50aW5hJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRo
+        cm9wb2xvZ3ksIFJlY3JlYXRpb24nLDEsJ0cgLSBHZW9ncmFwaHksIEFudGhy
+        b3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFsKScs
+        MSwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcg
+        LSBHZW9ncmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzJywx
+        LCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAt
+        IEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzEx
+        MDAtMzEwMiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5JywxLCdHIC0gR2VvZ3Jh
+        cGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAo
+        R2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEwMiAtIEJ5
+        IHJlZ2lvbiBvciBjb3VudHJ5OkcxNzgwLTI3OTkgLSBFYXN0ZXJuIEhlbWlz
+        cGhlcmUuIEV1cmFzaWEsIEFmcmljYSwgZXRjLicsMSwnRyAtIEdlb2dyYXBo
+        eSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdl
+        bmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMxMDIgLSBCeSBy
+        ZWdpb24gb3IgY291bnRyeTpHMTc4MC0yNzk5IC0gRWFzdGVybiBIZW1pc3Bo
+        ZXJlLiBFdXJhc2lhLCBBZnJpY2EsIGV0Yy46RzIyMDAtMjQ0NC44NCAtIEFz
+        aWEnLDFdLCdjb2xsZWN0aW9uJz0+W119LCdmYWNldF9yYW5nZXMnPT57fSwn
+        ZmFjZXRfaW50ZXJ2YWxzJz0+e30sJ2ZhY2V0X2hlYXRtYXBzJz0+e319LCdz
+        dGF0cyc9Pnsnc3RhdHNfZmllbGRzJz0+eydwdWJfZGF0ZV9mYWNldCc9Pnsn
+        bWluJz0+MTg4OS4wLCdtYXgnPT4xODkwLjAsJ2NvdW50Jz0+MiwnbWlzc2lu
+        Zyc9PjAsJ3N1bSc9PjM3NzkuMCwnc3VtT2ZTcXVhcmVzJz0+NzE0MDQyMS4w
+        LCdtZWFuJz0+MTg4OS41LCdzdGRkZXYnPT4wLjcwNzEwNjc4MTE4NjU0NzZ9
+        fX0sJ3NwZWxsY2hlY2snPT57J3N1Z2dlc3Rpb25zJz0+W10sJ2NvcnJlY3Rs
+        eVNwZWxsZWQnPT50cnVlfX0K
+    http_version: 
+  recorded_at: Tue, 01 Aug 2017 20:32:52 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=title:Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 02 Aug 2017 13:12:26 GMT
+      Last-Modified:
+      - Wed, 02 Aug 2017 13:12:02 GMT
+      Etag:
+      - '"NTAzNjkwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1441'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "{'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>1903,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score
+        desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889
+        TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions
+        de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1377258.2,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889
+        TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At
+        the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch
+        Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann
+        Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}\n"
+    http_version: 
+  recorded_at: Wed, 02 Aug 2017 13:12:28 GMT
 recorded_with: VCR 3.0.3

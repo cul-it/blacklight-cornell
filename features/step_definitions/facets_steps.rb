@@ -1,14 +1,24 @@
-Then /^I (should|should not) see a facet called '(.*?)'$/ do |yesno,facet|
-  if (yesno == 'should')
+Then /^I should see a facet called '(.*?)'$/ do |facet|
     within('div.facets') do
 	page.should have_content(facet)
     end
-  else  
-    within('div.facets') do
-	page.should_not have_content(facet)
-    end
+end
+Then /^I should not see a facet called '(.*?)'$/ do |facet|
+  within('div.facets') do
+    page.should_not have_content(facet)
   end
 end
+#Then /^I (should|should not) see a facet called '(.*?)'$/ do |yesno,facet|
+#  if (yesno == 'should')
+#    within('div.facets') do
+#	page.should have_content(facet)
+#    end
+#  else  
+#    within('div.facets') do
+#	page.should_not have_content(facet)
+#    end
+#  end
+#end
 
 Then /^the '(.*?)' facet (should|should not) be open$/ do |facet, yesno|
   #TODO: Not sure how to test this
