@@ -274,16 +274,16 @@
               </div>
             <% end %>
           </div>
-          <div class="web-pane" id="digcoll">
+          <div class="bento5" id="digcoll">
             <% if @digitalCollections.present? %>
-              <div class="web-results">
+              <div class="web-pane">
                 <%= render 'single_search/pane_results', :key => 'digitalCollections', :result => @digitalCollections %>
               </div>
             <% end %>
           </div>
-          <div class="guides-pane" id="libguides">
+          <div class="bento6" id="libguides">
             <% if @libguides.present? %>
-              <div class="web-results">
+              <div class="web-pane">
                 <%= render 'single_search/pane_results', :key => 'libguides', :result => @libguides %>
               </div>
             <% end %>
