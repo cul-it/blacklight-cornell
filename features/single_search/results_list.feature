@@ -77,6 +77,14 @@ Feature: Results list
 	    Then I should get bento results
 	    And I should see the text "Def Jam"
 
+		@all_results_list @search_with_view_all_libguides
+	  Scenario: Search with view all books link
+	    Given I literally go to search
+	    When I fill in "q" with 'business writing'
+	    And I press 'Search'
+	    Then I should get bento results
+	    And I should see the text "Research Guides"
+
   @all_results_list @search_with_view_all_music_match_box
   Scenario: Search with view all music link
     Given I literally go to search

@@ -170,6 +170,14 @@
                   <% end %>
                 <% end %>
               </li>
+              <li>
+                <% unless @libguides.blank? %>
+                  <%= link_to '#libguides' do %>
+                    <i class="fa fa-arrow-down"></i>
+                    Research Guides
+                  <% end %>
+                <% end %>
+              </li>
             </ul>
           </div>
           <div id="bt-container">
@@ -266,10 +274,17 @@
               </div>
             <% end %>
           </div>
-          <div class="web-pane" id="digcoll">
+          <div class="bento5" id="digcoll">
             <% if @digitalCollections.present? %>
-              <div class="web-results">
+              <div class="web-pane">
                 <%= render 'single_search/pane_results', :key => 'digitalCollections', :result => @digitalCollections %>
+              </div>
+            <% end %>
+          </div>
+          <div class="bento6" id="libguides">
+            <% if @libguides.present? %>
+              <div class="web-pane">
+                <%= render 'single_search/pane_results', :key => 'libguides', :result => @libguides %>
               </div>
             <% end %>
           </div>
