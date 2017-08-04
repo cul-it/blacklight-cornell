@@ -83,7 +83,7 @@ Feature: Results list
 	    When I fill in "q" with 'business writing'
 	    And I press 'Search'
 	    Then I should get bento results
-	    And I should see the text "Library Guides"
+	    And I should see the text "Research Guides"
 
   @all_results_list @search_with_view_all_music_match_box
   Scenario: Search with view all music link
