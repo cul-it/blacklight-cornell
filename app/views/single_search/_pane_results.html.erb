@@ -25,7 +25,7 @@
     <% link_url = ss_uri_encode(link_url) %>
     <div class="view-all">
       <% if key == "libguides" %>
-        <%= link_to 'View All Library Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-default", :id => "link_top_libguides" %>
+        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-default", :id => "link_top_libguides" %>
         <% else %>
       <%= link_to link_url, :class => "btn btn-default", :id => "link_top_" + downcast(key) do %>
         View
@@ -53,7 +53,7 @@
         <% BentoSearch.get_engine(key).configuration.title %>
         <% if BentoSearch.get_engine(key).configuration.title == 'Articles & Full Text' %>
         <% elsif BentoSearch.get_engine(key).configuration.title == 'Library Guides' %>
-            Guides
+            Research Guides
         <% elsif BentoSearch.get_engine(key).configuration.title == 'Digital Collections' %>
             Items
         <% else %>

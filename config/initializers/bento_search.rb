@@ -118,7 +118,7 @@ end
 
 BentoSearch.register_engine('libguides') do |conf|
 	conf.engine = 'BentoSearch::LibguidesEngine'
-	conf.title = 'Library Guides'
+	conf.title = 'Research Guides'
 	conf.for_display = {:decorator => "DigitalCollections"}
 end
 
