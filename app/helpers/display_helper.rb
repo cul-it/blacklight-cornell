@@ -523,6 +523,7 @@ include ActionView::Helpers::NumberHelper
     "Books" => 'book',
     "Computer File" => 'save',
     "Computer Files" => 'save',
+    "Digital Collections" => "th-large",
     "Non-musical Recording" => "headphones",
     "Non-musical Recordings" => "headphones",
     "Musical Score" => "musical-score",
