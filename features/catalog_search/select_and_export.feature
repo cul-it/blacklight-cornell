@@ -364,6 +364,7 @@ Feature: Select and export items from the result set
 @javascript
 @popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
+    Given PENDING 
     Given I request the item view for 7981095 
     And click on first link "Text"
     And I fill in "to" with "6073516271"
