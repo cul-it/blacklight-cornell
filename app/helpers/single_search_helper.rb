@@ -9,7 +9,7 @@ module SingleSearchHelper
 
   def ss_encode (str)
      str
-     #CGI::escape(str) 
+     #CGI::escape(str)
      #str = str.gsub('%','%25')
   end
 
@@ -34,5 +34,9 @@ module SingleSearchHelper
     link_url = link_url.gsub('(','%28')
     link_url = link_url.gsub(')','%29')
   end
-end
 
+  def contentType
+    item.format_str
+  end
+
+end
