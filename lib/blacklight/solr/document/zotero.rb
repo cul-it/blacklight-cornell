@@ -25,9 +25,13 @@ module Blacklight::Solr::Document::Zotero
     if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
       ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"
     end
-    tag = 
-      if ty == 'videoRecording' || ty == 'audioRecording'
+    tag = case ty 
+       when 'videoRecording' 
         "Recording" 
+       when  'audioRecording'
+        "Recording" 
+       when  'map'
+        "Image" 
       else
         "Book"
       end
@@ -54,6 +58,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_url(builder)
         generate_rdf_isbn(builder)
         generate_rdf_holdings(builder)
+        generate_rdf_medium(builder,ty)
         generate_rdf_catlink(builder,ty)
         generate_rdf_specific(builder,ty)
       end
@@ -88,6 +93,14 @@ module Blacklight::Solr::Document::Zotero
 #      <dc:subject>
 #          <dcterms:LCC><rdf:value>BF23.11.19</rdf:value></dcterms:LCC>
 #       </dc:subject>`
+
+  def generate_rdf_medium(b,ty)
+      if ty == 'audioRecording'
+        medium = setup_medium(to_marc,'song')
+        b.tag!("z:medium",medium)  unless medium.blank?
+      end
+  end
+
   def generate_rdf_holdings(b)
     where = setup_holdings_info(b) 
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{where.inspect}"
@@ -195,6 +208,8 @@ module Blacklight::Solr::Document::Zotero
                 'contributors' 
               when 'audioRecording'  
                 primary_authors.blank? ? 'contributors' : 'performers'
+              when 'map'  
+                primary_authors.blank? ? 'contributors' : 'cartographers'
               else
                 'authors'
              end 
@@ -270,7 +285,7 @@ FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"HEAR",
   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
-  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"MAP", "MGZN"=>"MGZN",
+  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"map", "MGZN"=>"MGZN",
   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
   "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"audioRecording", "Musical Recording"=>"audioRecording",
@@ -317,7 +332,7 @@ RELATOR_CODES_ZRDF = {
  "brl" => "contributors",
  "brd" => "contributors",
  "cll" => "contributors",
- "ctg" => "contributors",
+ "ctg" => "cartographers",
  "cas" => "contributors",
  "cns" => "contributors",
  "chr" => "contributors",
