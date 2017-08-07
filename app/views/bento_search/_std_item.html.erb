@@ -35,8 +35,8 @@
 
 
     <div class="bento_item_body ">
-   
-    
+
+
 
       <% if item.any_present?(:authors, :display_date) %>
         <p class="bento_item_row first_about">
@@ -56,6 +56,10 @@
               <%= item.display_date %>
             </span>
           <% end %>
+
+
+
+
 
         </p>
       <% end %>
@@ -77,7 +81,15 @@
           <%= render :partial => "bento_search/link", :collection => item.other_links %>
         </p>
       <% end %>
+      <% if item.link_is_fulltext?.present? && item.format_str.present?%>
+          <p class="bento_item_other_links">
+        <span class="format">
+          <i class="fa fa-check" title="Full text"></i> Full text <%= item.format_str.downcase %>
+        </span>
+      </p>
+      <% end %>
     </div>
+
    <% if is_cataloged(item.link) %>
      <% if item.custom_data['url_online_access'].present? %>
             <i class="fa fa-check" title="Available"></i> <a class="status-online location label label-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>">Online</a>

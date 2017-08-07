@@ -24,7 +24,7 @@ module BentoSearch
     # Truncates for display.
     def render_summary
       summary = nil
-     
+
     end
 
 end
