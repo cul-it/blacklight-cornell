@@ -24,8 +24,10 @@
       one, in a data-unique-id attribute. %>
    <% dbid = '' %>
   <% dbid = "data-bibid=#{item.unique_id}"  unless !is_cataloged(item.link) %>
+  <%- atl_data = ( is_cataloged(item.link) ? "data-atl='yes'" : "data-atl='no'") %>
 
-  <div class="bento_item clearfix"  <%= dbid %>  data-unique-id="<%= item.unique_id %>">
+
+  <div class="bento_item clearfix"  <%= dbid %>  data-unique-id="<%= item.unique_id %>" <%= atl_data.html_safe %> >
     <% if item.format_str && (item.link).include?('digital')%>
      <div class="pull-left" style="margin-right:10px">
         <img src="<%= item.format_str  %>" class="img-responsive img-thumbnail " >
@@ -89,13 +91,12 @@
       </p>
       <% end %>
     </div>
+    <% if is_cataloged(item.link) %>
+      <% if item.custom_data['url_online_access'].present? %>
+             <i class="fa fa-check" title="Available"></i> <a class="status-online location label label-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>">Online</a>
+       <% end %>
 
-   <% if is_cataloged(item.link) %>
-     <% if item.custom_data['url_online_access'].present? %>
-            <i class="fa fa-check" title="Available"></i> <a class="status-online location label label-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>">Online</a>
-      <% end %>
-
-      <div  class="bento_item_avail"   class="status" id="blacklight-avail-<%= item.unique_id %>"> </div>
-  <% end %>
+       <div  class="bento_item_avail"   class="status" id="blacklight-avail-<%= item.unique_id %>"> </div>
+   <% end %>
   </div>
 <% end %>
