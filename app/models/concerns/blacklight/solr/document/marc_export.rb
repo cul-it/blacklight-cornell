@@ -36,12 +36,14 @@ module Blacklight::Solr::Document::MarcExport
   def export_as_apa_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     citeproc_citation( to_marc,'apa')
-    #apa_citation( to_marc )
   end
   
+  def export_as_cse_citation_txt
+    citeproc_citation( to_marc,'council-of-science-editors')
+  end
+
   def export_as_mla_citation_txt
     citeproc_citation( to_marc,'modern-language-association')
-    #mla_citation( to_marc )
   end
 
   def old_xxx_export_as_mla8_citation_txt

@@ -116,12 +116,13 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @citations
 @javascript
-  Scenario: User needs to cite a record by a corporate author in MLA style, 8th edition  
+  Scenario: User needs to cite a record by a corporate author in MLA 8th,7th, and CSE
     Given I request the item view for 7292123 
     And click on link "Cite"
     And I sleep 2 seconds
     Then I should see the label 'MLA 8th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. Oxford University Press, 2011.'
     Then I should see the label 'MLA 7th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. New York: Oxford University Press, 2011. Print.'
+    Then I should see the label 'Council of Science Editors Jacobs A. The pleasures of reading in an age of distraction. New York: Oxford University Press; 2011.'
 
 #
 # APA 6th ed.
