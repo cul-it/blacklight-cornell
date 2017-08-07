@@ -181,15 +181,7 @@ module BentoSearch
     # etc.
     def display_date
       if self.publication_date
-        if self.volume && self.issue
-          # just the year, ma'am
-          I18n.localize(self.publication_date, :format => "%Y")
-        else
-          # whole date, since we got it
-          I18n.localize(self.publication_date, :format => "%d %b %Y")
-        end
-      elsif self.year
-        self.year.to_s
+        self.publication_date
       else
         nil
       end
