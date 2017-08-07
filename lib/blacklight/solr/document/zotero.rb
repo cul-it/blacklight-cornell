@@ -99,6 +99,10 @@ module Blacklight::Solr::Document::Zotero
         medium = setup_medium(to_marc,'song')
         b.tag!("z:medium",medium)  unless medium.blank?
       end
+      if ty == 'videoRecording'
+        medium = setup_medium(to_marc,'song')
+        b.tag!("z:medium",medium)  unless medium.blank?
+      end
   end
 
   def generate_rdf_holdings(b)

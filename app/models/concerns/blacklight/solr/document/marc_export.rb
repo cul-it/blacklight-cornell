@@ -1147,8 +1147,15 @@ module Blacklight::Solr::Document::MarcExport
     return temp_name.last + " " + temp_name.first
   end 
 
+
+# dvd sample:
+# 300‡a 2 videodiscs (320 min.) : ‡b sd., col. ; ‡c 4 3/4 in. + ‡e 2 booklets ([14] p. : ill. ; 18 cm. each)
+# 520 ‡a Collection of live performances by the band Led Zeppelin.
+# 538 ‡a DVD, PCM stereo., Dolby digital 5.1 surround, DTS, region 1.
+#
   def setup_medium(record,ty)
     medium = ""
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
     if ty == 'song'
       field = record.find{|f| f.tag == '347'}
       code = field.find{|s| s.code == 'b'} unless field.nil?
@@ -1157,9 +1164,14 @@ module Blacklight::Solr::Document::MarcExport
       if medium.blank?
         field = record.find{|f| f.tag == '300'}
 	medium = (!field.nil? and  field['a'].include?('sound disc') and  field['b'].include?('digital')) ? 'CD audio' : ''  
+        if medium.blank?
+	  medium = (!field.nil? and field['a'].include?('videodiscs') and field['b'].include?('sd.')) ? 'DVD': ''  
+        end
       end
     end
     medium  = case medium
+                when 'DVD'
+                  'DVD'
                 when 'CD audio'
                   'CD'
                 else
