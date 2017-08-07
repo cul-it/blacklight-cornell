@@ -35,8 +35,5 @@ module SingleSearchHelper
     link_url = link_url.gsub(')','%29')
   end
 
-  def contentType
-    item.format_str
-  end
 
 end
