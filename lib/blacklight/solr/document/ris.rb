@@ -72,7 +72,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       output += "AU  - #{primary_authors[0]}\n"
       if primary_authors.length > 1
         for i in 1..primary_authors.length
-          output += "A#{i}  - #{primary_authors[i]}"
+          output += "A#{i}  - #{primary_authors[i]}\n"
         end
       end
     end
@@ -81,7 +81,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       output += "AU  - #{corp_authors[0]}\n"
       if corp_authors.length > 1
         for i in 1..corp_authors.length
-          output += "A#{i}  - #{corp_authors[i]}"
+          output += "A#{i}  - #{corp_authors[i]}\n"
         end
       end
     end

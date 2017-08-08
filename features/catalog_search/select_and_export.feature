@@ -34,7 +34,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8696757
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. doi:10.1007/978-1-4302-4408-0.'
+    Then I should see the label '16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. doi:10.1007/978-1-4302-4408-0.'
 
 #For a book with two authors, note that only the 
 #first-listed name is inverted in the bibliography entry.

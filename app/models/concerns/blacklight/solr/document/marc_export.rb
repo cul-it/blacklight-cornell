@@ -498,6 +498,7 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
     cp  = CiteProc::Processor.new style: csl, format: 'html'
+    sty = CSL::Style.load (csl)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp = #cp.inspect}")
     authors_final = []
     editors_final = []
@@ -580,6 +581,7 @@ module Blacklight::Solr::Document::MarcExport
     edition_final = edition_data.blank? ? ""  : edition_data
     ty = setup_fmt(record)
     medium = setup_medium(record,ty)
+    Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}medium=#{medium.inspect}")
     item = CiteProc::Item.new(
       :id => id,
       :type => ty,
@@ -598,8 +600,14 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} place=#{item.publisher_place.inspect}")
     cp << item
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp=#{cp.inspect}")
+    if !sty.info.summary.nil?
+      desc  = sty.info.summary.to_s
+    else
+      desc  = sty.title 
+    end
     #cp.options()[:style].titleize + "<br/>" + (cp.render :bibliography, id: id)[0]
-    (cp.render :bibliography, id: id)[0]
+    [desc.titleize, (cp.render :bibliography, id: id)[0]]
+    #(cp.render :bibliography, id: id)[0]
     end
 
   def mla8_citation(record)
@@ -1147,21 +1155,59 @@ module Blacklight::Solr::Document::MarcExport
     return temp_name.last + " " + temp_name.first
   end 
 
+
+# dvd sample:
+# sort of bare bones,only a 300
+# 300‡a 2 videodiscs (320 min.) : ‡b sd., col. ; ‡c 4 3/4 in. + ‡e 2 booklets ([14] p. : ill. ; 18 cm. each)
+# 520 ‡a Collection of live performances by the band Led Zeppelin.
+# 538 ‡a DVD, PCM stereo., Dolby digital 5.1 surround, DTS, region 1.
+# more fully populated, 300, 337, 347.
+# 300  ‡a 1 videodisc (65 min.) : ‡b sound, color ; ‡c 4 3/4 in. + ‡e 1 audio disc (digital, CD audio ; 4 3/4 in.)
+# 336  ‡a two-dimensional moving image ‡b tdi ‡2 rdacontent
+# 336 ‡a performed music ‡b prm ‡2 rdacontent
+# 337 ‡a video ‡b v ‡2 rdamedia
+# 337 ‡a audio ‡b s ‡2 rdamedia
+# 338 ‡a videodisc ‡b vd ‡2 rdacarrier
+# 338 ‡a audio disc ‡b sd ‡2 rdacarrier
+# 344 ‡a digital ‡b optical ‡2 rda
+# 347 ‡a video file ‡b DVD vide500o ‡2 rda
+# LP
+#245 0 0 ‡a Blues sonata ‡h [sound recording].
+#260 ‡a [S.l.] : ‡b Milestone, ‡c [1961?]
+#300 ‡a 1 sound disc : ‡b 33 1/3 rpm, stereo. ; ‡c 12 in.
   def setup_medium(record,ty)
     medium = ""
-    if ty == 'song'
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
+    if ['motion_picture','song','video'].include?(ty)
       field = record.find{|f| f.tag == '347'}
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data 
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       if medium.blank?
         field = record.find{|f| f.tag == '300'}
-	medium = (!field.nil? and  field['a'].include?('sound disc') and  field['b'].include?('digital')) ? 'CD audio' : ''  
+        if !field.nil?
+	  medium =  case 
+                        when  field['a'].include?('sound disc') &&   field['b'].include?('digital')
+                        'CD audio'
+                      when  field['a'].include?('sound disc') &&  field['b'].include?('33') 
+                       'LP'  
+	              when field['a'].include?('videodisc') && ((field['b'].include?('sd.')) || field['b'].include?('color'))  
+                       'DVD'  
+                      else
+                      ''
+                    end
+        end
+        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       end
     end
-    medium  = case medium
-                when 'CD audio'
+    medium  = case 
+                when medium.include?('DVD')
+                  'DVD'
+                when medium.include?('CD audio')
                   'CD'
+                when medium.include?('LP')
+                  'LP'
                 else
                   ''
               end
@@ -1475,6 +1521,7 @@ FACET_TO_CITEPROC_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
    "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
    "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"song", "Musical Recording"=>"song",
    "STAND"=>"STAND",
-   "STAT"=>"STAT", "Thesis"=>"thesis", "UNPB"=>"UNPB", "Video"=>"video"
+   "STAT"=>"STAT", "Thesis"=>"thesis", "UNPB"=>"UNPB", 
+   "Video"=>"motion_picture"
    } 
 end

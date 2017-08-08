@@ -99,5 +99,6 @@ gem 'mollom'
 gem 'exception_notification'
 gem 'piwik_analytics', '~> 1.0.1'
 gem 'citeproc'
+gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
+#gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
-gem 'csl-styles'
