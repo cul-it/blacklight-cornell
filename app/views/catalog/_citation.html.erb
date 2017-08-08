@@ -1,33 +1,21 @@
-
-<% @documents.each do |document| %>
-
-  <h3 class="modal-title"><%= document_heading(document) %></h3>
-
-<% if document.respond_to?(:export_as_apa_citation_txt) %>
-  <h4><%= t('blacklight.citation.apa') %></h4>
-  <%= document.send(:export_as_apa_citation_txt).html_safe %><br/><br/>
+  <%# each name xxx  must link: locale "blacklight.citation.xxx" 
+    #   and function "export_as_xxx_citation_txt" 
+    %>
+<% names = %w[apa chicago cse mla mla8]  %>
+<%  names.each do |name|  %>
+  <%  sym_name = "export_as_#{name}_citation_txt" %>
+  <% @documents.each_with_index do |document,i| %>
+    <%  if document.respond_to?(sym_name.to_sym) %>
+      <% d = document.send(sym_name.to_sym) %><br/>
+       <% if i == 0  %>
+         <h4 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h4>
+       <% end %>
+      <%= (d[1]).html_safe %><br/>
+    <% end %>
+  <% end %>
 <% end %>
-
-<%- if document.respond_to?(:export_as_chicago_citation_txt) -%>
-  <h4><%= t('blacklight.citation.chicago') %></h4>
-  <%= document.send(:export_as_chicago_citation_txt).html_safe %>
-<%- end -%>
-
-<%- if document.respond_to?(:export_as_cse_citation_txt) -%>
-  <h4><%= t('blacklight.citation.cse') %></h4>
-  <%= document.send(:export_as_cse_citation_txt).html_safe %>
-<%- end -%>
-
-<% if document.respond_to?(:export_as_mla_citation_txt) %>
-  <h4><%= t('blacklight.citation.mla') %></h4>
-  <%= document.send(:export_as_mla_citation_txt).html_safe %><br/><br/>
-<% end %>
-
-<% if document.respond_to?(:export_as_mla8_citation_txt) %>
-  <h4><%= t('blacklight.citation.mla8') %></h4>
-  <%= document.send(:export_as_mla8_citation_txt).html_safe %><br/><br/>
-<% end %>
+<script>
+ $('[data-toggle="tooltip"]').tooltip()
+</script>
 
 
-
-<% end %>

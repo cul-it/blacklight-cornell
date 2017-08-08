@@ -29,6 +29,15 @@ GIT
       rails (~> 4.0)
 
 GIT
+  remote: https://github.com/cul-it/csl-styles
+  revision: d15b7efa88a0b0acf119eb3c8e8c7c0dc8d18de2
+  branch: master
+  submodules: true
+  specs:
+    csl-styles (1.0.1.9)
+      csl (~> 1.0)
+
+GIT
   remote: https://github.com/jrochkind/borrow_direct
   revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
   specs:
@@ -187,8 +196,6 @@ GEM
       safe_yaml (~> 1.0.0)
     csl (1.4.5)
       namae (~> 0.7)
-    csl-styles (1.0.1.8)
-      csl (~> 1.0)
     cucumber (2.4.0)
       builder (>= 2.1.2)
       cucumber-core (~> 1.5.0)
@@ -543,7 +550,7 @@ DEPENDENCIES
   citeproc
   citeproc-ruby
   coffee-rails (~> 4.0)
-  csl-styles
+  csl-styles!
   cucumber-rails
   database_cleaner
   devise

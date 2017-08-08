@@ -34,7 +34,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8696757
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. https://link.springer.com/openurl?genre=book&isbn=978-1-4302-4407-3.'
+    Then I should see the label '16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. doi:10.1007/978-1-4302-4408-0.'
 
 #For a book with two authors, note that only the 
 #first-listed name is inverted in the bibliography entry.
@@ -69,7 +69,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 9448862 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016. MLA 7th ed. Modemuseum Provincie Antwerpen.'
+    Then I should see the label 'Chicago 16th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 #Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
