@@ -33,9 +33,13 @@ class BentoSearch::DigitalCollectionsEngine
       elsif i['description_tesim'].present?
         item.abstract = i['description_tesim'][0].to_s
       end
-      if i['media_URL_size_0_tesim'].present?
-        item.format_str = i['media_URL_size_0_tesim'][0].to_s
+      if i['content_metadata_image_iiif_info_ssm'].present?
+        item.format_str = i['content_metadata_image_iiif_info_ssm'][0].to_s
+        item.format_str = item.format_str.gsub('info.json','full/100,/0/native.jpg')
         end
+      if i['date_tesim'].present?
+        item.publication_date = i['date_tesim'][0].to_s
+      end
       item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
       bento_results << item
     end
