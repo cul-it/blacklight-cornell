@@ -606,7 +606,7 @@ module Blacklight::Solr::Document::MarcExport
       desc  = sty.title 
     end
     #cp.options()[:style].titleize + "<br/>" + (cp.render :bibliography, id: id)[0]
-    [desc.titleize, (cp.render :bibliography, id: id)[0]]
+    [desc, (cp.render :bibliography, id: id)[0]]
     #(cp.render :bibliography, id: id)[0]
     end
 
