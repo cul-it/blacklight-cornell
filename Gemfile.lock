@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 6bbdd2887fcc55fdc09b1d00f60790c8b5a586ab
+  revision: b1d56c7e3f19571ce5877ae7cfbd49ba7fbe6e24
   branch: dev
   specs:
     blacklight_cornell_requests (1.4.2)
