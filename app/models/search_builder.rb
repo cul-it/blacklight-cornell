@@ -693,7 +693,7 @@ Rails.logger.info("solr6query22= #{newTerm}")
                           q_string2 << holdarray[1] << " "
                           if field_name == '' or field_name == "number"
                             if field_name == "number"
-                              solr6query += "((+" + holdarray[1] + ') OR number_phrase:"' + holdarray[1] + '")' 
+                              solr6query += "((+number:" + holdarray[1] + ') OR number_phrase:"' + holdarray[1] + '")' 
                             else
                               solr6query += "((+" + holdarray[1] + ') OR phrase:"' + holdarray[1] + '")'
                             end
@@ -919,7 +919,15 @@ Rails.logger.info("FINISH1 = #{solr6query}")
                    newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '") AND format:"Journal/Periodical"'
                    journal_title_flag = 0
                    else
-                   newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                     if field_name == '' or field_name == 'title' or field_name == 'number'
+                       if field_name == ''
+                         newq << '+' << qarray[0] << ') OR ' << 'phrase:"' << qarray[0] << '"'
+                       else
+                         newq << '+' << field_name << ':' << qarray[0] << ') OR ' << field_name << '_phrase:"' << qarray[0] << '"'
+                       end
+                     else
+                      newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                     end
                    end
                  end
                end
@@ -984,7 +992,15 @@ Rails.logger.info("FINISH1 = #{solr6query}")
                   newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
                   journal_title_flag = 0
                  else
-                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                   if field_name == 'title' or field_name == 'number' or field_name == ''
+                     if field_name == ''
+                       newq << ') OR phrase:"' << my_params[:q_row[0]] << '"'
+                     else
+                       newq << ') OR ' << field_name << '_phrase:"' << my_params[:q_row][0] << '"'
+                     end
+                   else  
+                     newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                   end
                  end
                end
             end
@@ -1005,7 +1021,8 @@ Rails.logger.info("FINISH1 = #{solr6query}")
    #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
         my_params[:mm] = 1
         blacklight_params = my_params
-          Rails.logger.info("FINISHER = #{my_params}")
+#        my_params[:q] = "(+number:L +number:37.30 ) OR number_phrase:\"L 37.30\""
+        Rails.logger.info("FINISHER = #{my_params}")
     return my_params
   
   end
