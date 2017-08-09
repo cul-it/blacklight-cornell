@@ -76,6 +76,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
 
     end
+ #      params[:q] = '"journal of parasitology"'
+ #      params[:search_field] = 'title_quoted'
       Rails.logger.info("BLANKY2 = #{params}")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
  
@@ -667,7 +669,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
              end
           else
             if params[:q].first == '"' and params[:q].last == '"'
-              params[:q] = '(+' << fieldname << '_quoted:' << params[:q] << ')'
+              if fieldname != ''
+                 params[:q] = params[:q]
+                 params[:search_field] = fieldname << '_quoted'
+              else
+                 params[:q] = params[:q]
+                 params[:search_field] = 'quoted'
+              end
             end
              if params[:q].nil? or params[:q].blank?
                 params[:q] = qparam_display
@@ -714,12 +722,18 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
              params.delete(:search_field)
          end
         else
-          if params[:q].include?('_quoted:')
+          if params[:q].include?('_quoted:') or params[:q].include?('+quoted')
             params[:q].gsub!('(','')
             params[:q].gsub!(')','')
             holdQ = params[:q].split(':')
             params[:q] = holdQ[1]
           end
+          if params[:search_field].include?('quoted')
+            params[:search_field].gsub!('quoted','')
+            if params[:search_field].include?('_')
+              params[:search_field].gsub!('_','')
+            end
+          end  
         end
     end
     if params[:search_field] == 'call number'
