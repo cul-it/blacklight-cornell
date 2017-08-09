@@ -76,6 +76,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
 
     end
+ #      params[:q] = '"journal of parasitology"'
+ #      params[:search_field] = 'title_quoted'
       Rails.logger.info("BLANKY2 = #{params}")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
  
@@ -89,7 +91,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if journal_titleHold != ''
       params[:search_field] = journal_titleHold
     end
-    
+
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
@@ -105,6 +107,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @filters = params[:f] || []
     end
 
+    Rails.logger.info("CLEANUP = #{params}")
     # clean up search_field and q params.  May be able to remove this
     cleanup_params(params)
 
@@ -635,9 +638,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
                   qarray[0].gsub!(':','\:')
                 end
                 if fieldname == ''
-                   params[:q] << qarray[0] << ') OR "' << qarray[0] << '"'
+                   params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
                 else
-                   params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                   if fieldname == "title"
+                     params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
+                   else
+                     params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                   end
                 end
              else
                 qarray.each do |bits|
@@ -651,18 +658,33 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
                    end
                 end
                 if fieldname == ''
-                   params[:q] << ') OR "' << qparam_display << '"'
+                   params[:q] << ') OR phrase:"' << qparam_display << '"'
                 else
+                  if fieldname == "title"
+                   params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
+                  else
                    params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+                  end
                 end
              end
           else
+            if params[:q].first == '"' and params[:q].last == '"'
+              if fieldname != ''
+                 params[:q] = params[:q]
+                 params[:search_field] = fieldname << '_quoted'
+              else
+                 params[:q] = params[:q]
+                 params[:search_field] = 'quoted'
+              end
+            end
              if params[:q].nil? or params[:q].blank?
                 params[:q] = qparam_display
              end
           end
        end    
     end
+    
+    Rails.logger.info("3616 = #{params[:q]}")
 
     #    if params[:search_field] = "call number"
     #      params[:q] = "\"" << params[:q] << "\""
@@ -699,7 +721,20 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
           if !params[:search_field].nil?
              params.delete(:search_field)
          end
-       end
+        else
+          if params[:q].include?('_quoted:') or params[:q].include?('+quoted')
+            params[:q].gsub!('(','')
+            params[:q].gsub!(')','')
+            holdQ = params[:q].split(':')
+            params[:q] = holdQ[1]
+          end
+          if params[:search_field].include?('quoted')
+            params[:search_field].gsub!('quoted','')
+            if params[:search_field].include?('_')
+              params[:search_field].gsub!('_','')
+            end
+          end  
+        end
     end
     if params[:search_field] == 'call number'
       if !params[:q].nil? and params[:q].include?('"')
@@ -718,6 +753,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # end of cleanup of search_field and q params
     return params 
   end
+  
+  def sanitize(q)
+     if q.include?('<img') 
+       redirect_to root_path
+     else
+       return q
+     end    
+  end
+
+    
 
   def sanitize(q)
      if q.include?('<img')
