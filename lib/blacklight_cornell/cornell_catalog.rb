@@ -668,7 +668,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
                 end
              end
           else
-            if params[:q].first == '"' and params[:q].last == '"'
+            if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
               if fieldname != ''
                  params[:q] = params[:q]
                  params[:search_field] = fieldname << '_quoted'
