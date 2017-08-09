@@ -25,6 +25,10 @@ Then /^I absolutely should see the text '(.*?)'$/i do |text|
   page.should have_content(text)
 end
 
+Then(/^I should see the text "([^"]*)"$/) do |arg1|
+   page.should have_content(arg1)
+end
+
 # Then(/^I should see the text "(.*?)"$/) do |arg1|
 #   page.should have_content(arg1)
 # end

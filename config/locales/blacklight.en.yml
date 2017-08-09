@@ -112,9 +112,11 @@ en:
       clear: 'Clear'
 
     citation:
-      mla: 'MLA 7th ed.'
-      apa: 'APA 6th ed.'
+      apa:  'APA 6th ed.'
       chicago: 'Chicago 16th ed.'
+      cse:  'Council of Science Editors'
+      mla:  'MLA 7th ed.'
+      mla8: 'MLA 8th ed.'
 
     email:
       form:

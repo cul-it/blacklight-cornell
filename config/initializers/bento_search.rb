@@ -110,10 +110,22 @@ BentoSearch.register_engine('bestbet') do |conf|
 	conf.title = 'Best Bet'
 end
 
+BentoSearch.register_engine('digitalCollections') do |conf|
+	conf.engine = 'BentoSearch::DigitalCollectionsEngine'
+	conf.title = 'Digital Collections'
+	conf.for_display = {:decorator => "DigitalCollections"}
+end
+
+BentoSearch.register_engine('libguides') do |conf|
+	conf.engine = 'BentoSearch::LibguidesEngine'
+	conf.title = 'Research Guides'
+	conf.for_display = {:decorator => "DigitalCollections"}
+end
+
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
-        conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"]
+  conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"]
 end
 
 BentoSearch.register_engine('Book') do |conf|

@@ -64,9 +64,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     temp_search_field = ''
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
-       if params["search_field"] == "journal title"
-         journal_titleHold = "journal title"
-       end
+      if params["search_field"] == "journal title"
+        journal_titleHold = "journal title"
+      end
        params[:q] = sanitize(params[:q])
        check_params(params)
     else
@@ -91,7 +91,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if journal_titleHold != ''
       params[:search_field] = journal_titleHold
     end
-    Rails.logger.info("POKEMON = #{params}")
+
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
@@ -763,5 +763,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
     
+
+  def sanitize(q)
+     if q.include?('<img')
+      redirect_to_root_path
+     else
+      return q
+     end
+  end
 
 end

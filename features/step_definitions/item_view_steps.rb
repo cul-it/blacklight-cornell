@@ -2,6 +2,11 @@ Given /^I request the item view for (.*?)$/ do |bibid|
   visit "/catalog/#{bibid}"
 end
 
+When /^(.*) within a cassette named "([^"]*)"$/ do |step, cassette_name|
+  VCR.use_cassette(cassette_name) { When step }
+end
+
+
 Given /^I request the item holdings view for (.*?)$/ do |bibid|
   visit "/backend/holdings/#{bibid}"
 end
@@ -45,7 +50,7 @@ Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|
   end
 end
 
-Then /^I (should|should not) see the label '(.*?)' And I should see the label '(.*?)'/ do |yesno, label,label2|
+Then /^I (should|should not) see the label '(.*?)' And I should see the label '(.*?)'$/ do |yesno, label,label2|
   if yesno == "should not"
 	page.should_not have_content(label) and page.should have_content(label2)
   else

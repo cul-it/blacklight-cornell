@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 6bbdd2887fcc55fdc09b1d00f60790c8b5a586ab
+  revision: b1d56c7e3f19571ce5877ae7cfbd49ba7fbe6e24
   branch: dev
   specs:
     blacklight_cornell_requests (1.4.2)
@@ -27,6 +27,15 @@ GIT
     blacklight_unapi (0.0.3)
       blacklight (> 3.2)
       rails (~> 4.0)
+
+GIT
+  remote: https://github.com/cul-it/csl-styles
+  revision: d15b7efa88a0b0acf119eb3c8e8c7c0dc8d18de2
+  branch: master
+  submodules: true
+  specs:
+    csl-styles (1.0.1.9)
+      csl (~> 1.0)
 
 GIT
   remote: https://github.com/jrochkind/borrow_direct
@@ -166,6 +175,11 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
+    citeproc (1.0.5)
+      namae (~> 0.8)
+    citeproc-ruby (1.1.7)
+      citeproc (>= 1.0.4, < 2.0)
+      csl (~> 1.4)
     cliver (0.3.2)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -180,6 +194,8 @@ GEM
       hashie (~> 3.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    csl (1.4.5)
+      namae (~> 0.7)
     cucumber (2.4.0)
       builder (>= 2.1.2)
       cucumber-core (~> 1.5.0)
@@ -310,6 +326,7 @@ GEM
     multi_json (1.12.1)
     multi_test (0.1.2)
     mysql (2.9.1)
+    namae (0.11.3)
     nenv (0.3.0)
     net-ldap (0.15.0)
     net-scp (1.2.1)
@@ -530,7 +547,10 @@ DEPENDENCIES
   capybara
   capybara-email
   celluloid
+  citeproc
+  citeproc-ruby
   coffee-rails (~> 4.0)
+  csl-styles!
   cucumber-rails
   database_cleaner
   devise

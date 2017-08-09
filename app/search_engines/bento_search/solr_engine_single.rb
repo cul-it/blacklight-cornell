@@ -16,7 +16,7 @@ class BentoSearch::SolrEngineSingle
     Rails.logger.debug("mjc12test: #{self.class.name} called. Query is #{args[:query]}}")
     bento_results = BentoSearch::Results.new
     # solr search must be transformed to match simple search transformation.
-    q = SearchController.transform_query args[:query] 
+    q = SearchController.transform_query args[:query]
     Rails.logger.debug("mjc12test: BentoSearch::SolrEngineSingle called. #{__FILE__} #{__LINE__} transformed q = #{q}")
     #solr = RSolr.connect :url => 'http://da-prod-solr1.library.cornell.edu/solr/blacklight'
     Rails.logger.debug("mjc12test: #{self.class.name} #{__FILE__} #{__LINE__} url is #{configuration.solr_url}")
@@ -30,9 +30,9 @@ class BentoSearch::SolrEngineSingle
                                         'group.field' => 'format_main_facet',
                                         'group.limit' => 3,
                                         'group.ngroups' => 'true',
-                                        :sort => 'score desc, pub_date_sort desc, title_sort asc', 
+                                        :sort => 'score desc, pub_date_sort desc, title_sort asc',
                                         :fl => 'id,pub_date_display,format,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,url_access_display',
-                                        :mm => 1 
+                                        :mm => 1
                                         #:defType => 'edismax'
                                        }
 
