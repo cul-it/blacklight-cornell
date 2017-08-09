@@ -90,7 +90,7 @@ gem 'devise'
 gem 'devise-guests', '~> 0.3'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
+gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
