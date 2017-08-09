@@ -18,7 +18,7 @@
     <div class="col-sm-8 col-sm-offset-2 empty-single-search">
       <div class="well">
         <div class="search-info">
-          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and Library websites. WorldCat is available through the Libraries Worldwide link on the search results page.">
+          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
             <i class="fa fa-info-circle"></i>
             About this search
           </a>
@@ -121,18 +121,6 @@
                   </div>
                 <% end %>
               </div>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h5 class="panel-title">
-                    Legacy Resource
-                  </h5>
-                </div>
-                <div class="panel-body">
-                  <p>
-                    <%= link_to 'Classic Catalog', "https://catalog.library.cornell.edu/cgi-bin/Pwebrecon.cgi?Search_Arg=#{query}&Search_Code=FT*&CNT=50" %>
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         <% end %>
@@ -175,10 +163,18 @@
                 <% end %>
               </li>
               <li>
-                <% unless @websites.blank? %>
-                  <%= link_to '#web' do %>
+                <% unless @digitalCollections.blank? %>
+                  <%= link_to '#digcoll' do %>
                     <i class="fa fa-arrow-down"></i>
-                    Library Websites
+                    Digital Collections
+                  <% end %>
+                <% end %>
+              </li>
+              <li>
+                <% unless @libguides.blank? %>
+                  <%= link_to '#libguides' do %>
+                    <i class="fa fa-arrow-down"></i>
+                    Research Guides
                   <% end %>
                 <% end %>
               </li>
@@ -278,10 +274,17 @@
               </div>
             <% end %>
           </div>
-          <div class="web-pane">
-            <% if @websites.present? %>
-              <div class="web-results">
-                <%= render 'single_search/pane_results', :key => 'web', :result => @websites %>
+          <div class="bento5" id="digcoll">
+            <% if @digitalCollections.present? %>
+              <div class="web-pane">
+                <%= render 'single_search/pane_results', :key => 'digitalCollections', :result => @digitalCollections %>
+              </div>
+            <% end %>
+          </div>
+          <div class="bento6" id="libguides">
+            <% if @libguides.present? %>
+              <div class="web-pane">
+                <%= render 'single_search/pane_results', :key => 'libguides', :result => @libguides %>
               </div>
             <% end %>
           </div>

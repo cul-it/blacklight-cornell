@@ -20,7 +20,7 @@ class BentoSearch::SolrEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Book'
 
-    solr = RSolr.connect :url => 'http://da-dev-solr.library.cornell.edu/solr/blacklight'
+    solr = RSolr.connect :url => configuration.solr_url
     solr_response = solr.get 'select', :params => {
                                         :q => args[:query],
                                         :fq => "format:\"#{format}\"",

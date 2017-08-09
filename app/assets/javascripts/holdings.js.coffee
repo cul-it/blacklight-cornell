@@ -84,16 +84,17 @@ holdings =
     $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
       bibId = $(this).data('bibid')
       online = $(this).data('online')
+      atl = $(this).data('atl')
       if !online?
-        online = 'no' 
-      if  bibId? and online == 'no'
+        online = 'no'
+      if  (bibId? and atl == 'yes')
         tibids.push bibId
-        that = this 
+        that = this
         n++
       if ((n % batchf) == 0 )
-        $(this).data("showbibs",tibids.join('/')) 
+        $(this).data("showbibs",tibids.join('/'))
         first = tibids[0]
-        showbibs =  $(this).data("showbibs") 
+        showbibs =  $(this).data("showbibs")
         tibids = []
         if (showbibs != '')
           if (checkVisible(this))
@@ -103,11 +104,11 @@ holdings =
               element: $('#blacklight-avail-'+first)
               entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
             })
-            inviews.push { bibs: showbibs, waypoint: inview} 
+            inviews.push { bibs: showbibs, waypoint: inview}
     # remainder that were not processed in above  loop
     if tibids.length > 0
-      $(that).data("showbibs",tibids.join('/')) 
-      showbibs =  $(that).data("showbibs") 
+      $(that).data("showbibs",tibids.join('/'))
+      showbibs =  $(that).data("showbibs")
       first = tibids[0]
       tibids = []
       if (showbibs != '')
@@ -115,7 +116,7 @@ holdings =
           element: $('#blacklight-avail-'+first)
           entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
          })
-        inviews.push { bibs: showbibs, waypoint: inview} 
+        inviews.push { bibs: showbibs, waypoint: inview}
 
   loadHoldings: (id) ->
     $(".holdings .holdings-error").hide()
@@ -169,11 +170,11 @@ holdings =
       holdings.loadSpinner()
       holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
       return false
-      
+
     # Set up 'loading' spinner for when request button is clicked
     $('#id_request').click (e) ->
       e.preventDefault()
-      e.stopPropagation()     
+      e.stopPropagation()
       $.fn.spin.presets.requesting =
         lines: 9,
         length: 3,
@@ -183,7 +184,7 @@ holdings =
       # Next line is necessary to get spinner to appear. If there is no
       # delay before the redirect, it simply does not happen.
       setTimeout (-> window.location.href=$('#id_request').attr('href')), 100
-      
+
 $(document).ready ->
   holdings.onLoad()
   $(".holdings").on "click", "#id_request", (event) ->
@@ -210,6 +211,3 @@ $(document).ready ->
     f.appendChild m
     f.submit()
     false
-
-
-

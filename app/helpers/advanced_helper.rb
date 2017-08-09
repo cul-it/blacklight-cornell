@@ -54,7 +54,7 @@ module AdvancedHelper
     if params[:boolean_row].nil?
       params[:boolean_row] = {"1"=>"AND"}
     end
-    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author/Creator"], ["subject", "Subject"],
+    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
                       ["donor name", "Donor Name"]]
