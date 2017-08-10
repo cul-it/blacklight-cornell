@@ -146,6 +146,11 @@ Feature: Results list
     Given I literally go to search
     When I fill in "q" with 'america & nepal'
     And I press 'Search'
+    And I sleep 30 seconds
+    Given I literally go to search
+    When I fill in "q" with 'america & nepal'
+    And I press 'Search'
+    And I sleep 30 seconds
     Then I should get bento results
 		Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
 

@@ -259,6 +259,7 @@ Feature: Results list
 @next_facet
 @javascript
   Scenario: Search with results, 
+                Given PENDING
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'
