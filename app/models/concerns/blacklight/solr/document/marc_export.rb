@@ -1028,7 +1028,7 @@ module Blacklight::Solr::Document::MarcExport
     end
     
     return nil if text.strip.blank?
-    text.sub!(' : ' ,': ')
+    text.gsub!(' : ' ,': ')
     clean_end_punctuation(text.strip) + "."
   end
   

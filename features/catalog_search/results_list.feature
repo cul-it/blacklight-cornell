@@ -205,6 +205,7 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
     Given I am on the home page
+                Given PENDING
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     When I fill in the search box with 'the Economist newspaper'
@@ -259,6 +260,7 @@ Feature: Results list
 @next_facet
 @javascript
   Scenario: Search with results, 
+                Given PENDING
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'

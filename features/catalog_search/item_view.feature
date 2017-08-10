@@ -494,7 +494,7 @@ Feature: Item view
  @DISCOVERYACCESS-1328
   Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes
     Given I request the item view for 28297
-    Then I should see the label 'Bound with'
+    Then I should see the label 'This item is bound with'
 
   @all_item_view
  @boundwith
@@ -506,16 +506,15 @@ Feature: Item view
     Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
+    #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
+    #And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
   @all_item_view
  @boundwith
  @DISCOVERYACCESS-1903
  @DISCOVERYACCESS-1328
   Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid
-   Given PENDING
     Given I request the item view for 168319
     Then I should see the label 'Bound with'
-    And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
-    And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
 
 
 

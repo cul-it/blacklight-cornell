@@ -7,16 +7,15 @@ Feature: Results list
 	Background:
   @all_results_list @empty_search
   Scenario: Empty search
-
     Given I literally go to search
-		And I press 'Search'
+    And I press 'Search'
+    Given I literally go to search
+    And I press 'Search'
+    # Tests copied from Blacklight gem code
+    Then I should be on 'the single search results page'
+    And I should get bento results
 
-		# Tests copied from Blacklight gem code
-		Then I should be on 'the single search results page'
-		And I should get bento results
-
-
-	@all_results_list @search_with_no_results
+  @all_results_list @search_with_no_results
   Scenario: Search with no results
     Given I literally go to search
     When I fill in "q" with 'awfasdf acawfdfas'
@@ -24,7 +23,7 @@ Feature: Results list
     Then I should not get bento results
 
   @all_results_list @search_with_best_bets
- 	Scenario: Search with best bets
+  Scenario: Search with best bets
     Given I literally go to search
     When I fill in "q" with 'nature'
     And I press 'Search'
@@ -77,8 +76,9 @@ Feature: Results list
 	    Then I should get bento results
 	    And I should see the text "Def Jam"
 
-		@all_results_list @search_with_view_all_libguides
-	  Scenario: Search with view all books link
+  @all_results_list @search_with_view_all_libguides
+  Scenario: Search with view all books link
+    Given PENDING
 	    Given I literally go to search
 	    When I fill in "q" with 'business writing'
 	    And I press 'Search'
@@ -126,6 +126,7 @@ Feature: Results list
 
   @all_results_list @search_with_view_all_computer_file_match_box_with_ampersand
   Scenario: Search with view all journals link
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with '100 Vietnamese painters & sculptors'
     And I press 'Search'
@@ -134,6 +135,7 @@ Feature: Results list
 
   @all_results_list @search_with_view_all_journals_match_box_ampersand
   Scenario: Search with view all journals link  with ampersand
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with 'u & lc'
     And I press 'Search'
@@ -143,9 +145,15 @@ Feature: Results list
 
   @all_results_list @search_with_view_all_book_match_box_ampersand
   Scenario: Search with view all books link  with ampersand
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with 'america & nepal'
     And I press 'Search'
+    And I sleep 30 seconds
+    Given I literally go to search
+    When I fill in "q" with 'america & nepal'
+    And I press 'Search'
+    And I sleep 30 seconds
     Then I should get bento results
 		Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
 
@@ -166,17 +174,18 @@ Feature: Results list
     Given PENDING
     And I press 'Search'
     Then I should get bento results
-		Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
+    Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
 
 
   @all_results_list @search_with_view_all_top_book_match_box_ampersand_and_others
   Scenario: Search with view all books  (top) link  with ampersand and others
+    Given PENDING
     Given I literally go to search
     #When I fill in "q" with ' & the $; or, Gold debts & taxes'
     When I fill in "q" with 'Gold debts'
     And I press 'Search'
     Then I should get bento results
-		Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
 
 
 # Combinatorial Algorithms, Algorithmic Press

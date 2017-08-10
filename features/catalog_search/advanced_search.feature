@@ -96,7 +96,7 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 20 of'
+    And I should see the label '1 - 1'
 
  @adv_search
  @all_search

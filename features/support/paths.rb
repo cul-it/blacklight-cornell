@@ -70,9 +70,9 @@ module NavigationHelpers
     when /^pub_info$/
       '.blacklight-pub_info_display'
     when /^subject$/
-      '.blacklight-subject_display'
+      '.blacklight-subject_json'
     when /^title$/
-      '.blacklight-title_display'
+      '.blacklight-title_json'
     else
       "#{field_name} did not match a field name in #{__method__}"
     end
@@ -83,7 +83,7 @@ module NavigationHelpers
     when /^author_addl_display$/
       '.blacklight-author_addl_json'
     when /^author$/
-      '.blacklight-author_json'
+      '.blacklight-author_display'
     when /^edition$/
       '.blacklight-edition_display'
     when /^notes$/
