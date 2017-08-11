@@ -220,11 +220,11 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order
     Given I am on the home page
-    When I fill in the search box with '"Deconstructing the High line"'
+    When I fill in the search box with 'International dispute settlement John Merrill'
     And I press 'search'
-    And I sleep 4 seconds
+    And I sleep 99 seconds
     Then I should get results
-    And I should see the text 'Order Information'
+    And I should see the text 'On order'
 
  @all_results_list
  @DISCOVERYACCESS-1673
@@ -254,7 +254,7 @@ Feature: Results list
    Given I am on the home page
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide (24,'
+   Then I should see the text 'Request from Libraries Worldwide (22,'
 
 @all_results_list
 @next_facet
