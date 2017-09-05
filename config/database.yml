@@ -1,5 +1,5 @@
+<% if ( (ENV['RAILS_ENV']  == "development")   && (ENV['RAILS_ENV'] != "test" )) then %>
 <%= ENV['RAILS_ENV'] %>:
-<% if  (ENV['MYSQL_HOST']  ) then %>
   adapter: mysql
   host: <%= ENV['MYSQL_HOST'] %>
   database: <%= ENV['MYSQL_DATABASE'] %>
@@ -7,9 +7,18 @@
   password: <%= ENV['MYSQL_PASSWORD'] %>
   socket: <%= ENV['MYSQL_SOCKET'] %>
   pool: 200
-<% else %>
+<% end %> 
+
+#development:
+#  adapter: sqlite3
+#  database: db/development.sqlite3
+#  pool: 5
+#  timeout: 5000
+
+test:
   adapter: sqlite3
-  database: db/<%= ENV['RAILS_ENV'] %>.sqlite3
+  database: db/test.sqlite3
   pool: 5
   timeout: 5000
-<% end %> 
+
+

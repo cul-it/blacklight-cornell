@@ -799,4 +799,242 @@ http_interactions:
         Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}\n"
     http_version: 
   recorded_at: Wed, 02 Aug 2017 13:12:28 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title_phrase:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title_phrase:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Aug 2017 13:58:18 GMT
+      Last-Modified:
+      - Thu, 10 Aug 2017 13:57:45 GMT
+      Etag:
+      - '"M2EzNDUwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '4809'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjExNzY0LCdwYXJhbXMnPT57J2Yuc3ViamVjdF9j
+        b250ZW50X2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdzcGVsbGNoZWNrLmRp
+        Y3Rpb25hcnknPT4ndGl0bGUnLCdmLmxvY2F0aW9uX2ZhY2V0LmZhY2V0Lmxp
+        bWl0Jz0+JzYnLCdmLmZhc3RfZ2VvX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYn
+        LCdmLmxjX2FscGhhX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdmLm9ubGlu
+        ZS5mYWNldC5saW1pdCc9PiczJywnZGVmVHlwZSc9PidlZGlzbWF4Jywnc3Bl
+        bGxjaGVjay5xJz0+JygrdGl0bGU6QXRsYXMgK3RpdGxlOmRlcyArdGl0bGU6
+        bWlzc2lvbnMgK3RpdGxlOmRlICt0aXRsZTpsYSApIE9SIHRpdGxlX3BocmFz
+        ZToiQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhICInLCdmLmxjX2NhbGxudW1f
+        ZmFjZXQuZmFjZXQuc29ydCc9PidpbmRleCcsJ3N0YXRzJz0+J3RydWUnLCd3
+        dCc9PidydWJ5JywnZi5mYXN0X2dlbnJlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+
+        JzYnLCdmLmZvcm1hdC5mYWNldC5saW1pdCc9PicxMScsJ3N0YXRzLmZpZWxk
+        Jz0+J3B1Yl9kYXRlX2ZhY2V0JywnbW0nPT4nMScsJ2YuYXV0aG9yX2ZhY2V0
+        LmZhY2V0LmxpbWl0Jz0+JzYnLCdmYWNldC5maWVsZCc9Plsnb25saW5lJywn
+        Zm9ybWF0JywnYXV0aG9yX2ZhY2V0JywncHViX2RhdGVfZmFjZXQnLCd3b3Jr
+        aWRfZmFjZXQnLCdsYW5ndWFnZV9mYWNldCcsJ2Zhc3RfdG9waWNfZmFjZXQn
+        LCdmYXN0X2dlb19mYWNldCcsJ2Zhc3RfZXJhX2ZhY2V0JywnZmFzdF9nZW5y
+        ZV9mYWNldCcsJ3N1YmplY3RfY29udGVudF9mYWNldCcsJ2xjX2FscGhhX2Zh
+        Y2V0JywnbG9jYXRpb25fZmFjZXQnLCdoaWVyYXJjaHlfZmFjZXQnLCdhdXRo
+        b3J0aXRsZV9mYWNldCcsJ2xjX2NhbGxudW1fZmFjZXQnLCdjb2xsZWN0aW9u
+        J10sJ3F0Jz0+J3NlYXJjaCcsJ2YubGNfY2FsbG51bV9mYWNldC5mYWNldC5s
+        aW1pdCc9PictMScsJ3NvcnQnPT4nc2NvcmUgZGVzYywgcHViX2RhdGVfc29y
+        dCBkZXNjLCB0aXRsZV9zb3J0IGFzYycsJ3Jvd3MnPT4nMjAnLCdxJz0+J3Rp
+        dGxlOigrdGl0bGU6QXRsYXMgK3RpdGxlOmRlcyArdGl0bGU6bWlzc2lvbnMg
+        K3RpdGxlOmRlICt0aXRsZTpsYSApIE9SIHRpdGxlX3BocmFzZToiQXRsYXMg
+        ZGVzIG1pc3Npb25zIGRlIGxhICInLCdmLmZhc3RfZXJhX2ZhY2V0LmZhY2V0
+        LmxpbWl0Jz0+JzYnLCdmLmZhc3RfdG9waWNfZmFjZXQuZmFjZXQubGltaXQn
+        PT4nNicsJ2ZhY2V0Jz0+J3RydWUnLCdmLmxhbmd1YWdlX2ZhY2V0LmZhY2V0
+        LmxpbWl0Jz0+JzYnfX0sJ3Jlc3BvbnNlJz0+eydudW1Gb3VuZCc9PjEsJ3N0
+        YXJ0Jz0+MCwnbWF4U2NvcmUnPT4xNjQ2MTQ2LjIsJ2RvY3MnPT5beydob2xk
+        aW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjE1NjUwOSIsIm1vZGlm
+        aWVkX2RhdGUiOiIyMDEyMTAwMzEzMjc1MiIsImNvcHlfbnVtYmVyIjpudWxs
+        LCJjYWxsbm9zIjpbIk92ZXJzaXplIEcyMjA5LkU0IEwzNyArKysiXSwibm90
+        ZXMiOlsiRm9saW8uIl0sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9s
+        ZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpb
+        XSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29k
+        ZSI6Im1hcHMiLCJudW1iZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1h
+        cHMgKE5vbi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5
+        In1dfSddLCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVj
+        b3JkX2Rpc3BsYXknPT5bJ3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBl
+        X25hbWUiOiJib29rIiwiaXRlbV9pZCI6IjI2MjI1NCIsInllYXIiOiIiLCJp
+        dGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9s
+        ZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2
+        ZSI6Ik4iLCJpdGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6
+        IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5
+        IiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1
+        LTMxIDAwOjAwOjAwLjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4MzUzMjU4
+        NCIsIm1vZGlmeV9kYXRlIjoiMjAxMi0xMC0wMyAxMzoyODowOC4wIiwicGVy
+        bV9sb2NhdGlvbiI6eyJjb2RlIjoibWFwcyIsIm51bWJlciI6ODAsIm5hbWUi
+        OiJPbGluIExpYnJhcnkgTWFwcyAoTm9uLUNpcmN1bGF0aW5nKSIsImxpYnJh
+        cnkiOiJPbGluIExpYnJhcnkifX0nXSwnaWQnPT4nMTE5MTYyJywnZm9ybWF0
+        Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaC4nXSwn
+        cHViX2RhdGVfZGlzcGxheSc9PlsnMTg5MCddLCdwdWJfZGF0ZV9mYWNldCc9
+        PjE4OTAsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ0xpbGxlIDogU29jacOpdMOp
+        IGRlIFNhaW50LUF1Z3VzdGluIERlc2Nsw6llIGRlIEJyb3V3ZXIgMTg5MC4n
+        XSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nQXRsYXMgZGVzIG1pc3Npb25zIGRl
+        IGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMgOiAyNyBj
+        YXJ0ZXMgZW4gNSBjb3VsZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGlj
+        ZXMgZ8Opb2dyYXBoaXF1ZXMgZXQgaGlzdG9yaXF1ZXMnLCd0aXRsZV9kaXNw
+        bGF5Jz0+J0F0bGFzIGRlcyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVz
+        IE1pc3Npb25zLUV0cmFuZ8OocmVzJywnYXV0aG9yX2Rpc3BsYXknPT4nTGF1
+        bmF5LCBBZHJpZW4sIDE4NTMtMTkyNy4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+
+        JzI3IGNhcnRlcyBlbiA1IGNvdWxldXJzIGFjY29tcGFnbsOpZXMgZGUgMjcg
+        bm90aWNlcyBnw6lvZ3JhcGhpcXVlcyBldCBoaXN0b3JpcXVlcycsJ290aGVy
+        X2lkX2Rpc3BsYXknPT5bJyhDU3RSTElOKU5ZQ1gxMTcxNjg2QicsJyhOSUMp
+        bm90aXNBQU4wNjM1JywnMTE5MTYyJywnKE9Db0xDKTExNzE2ODYnXSwnc2Nv
+        cmUnPT4xNjQ2MTQ2LjJ9XX0sJ2ZhY2V0X2NvdW50cyc9PnsnZmFjZXRfcXVl
+        cmllcyc9Pnt9LCdmYWNldF9maWVsZHMnPT57J29ubGluZSc9PlsnQXQgdGhl
+        IExpYnJhcnknLDFdLCdmb3JtYXQnPT5bJ0Jvb2snLDFdLCdhdXRob3JfZmFj
+        ZXQnPT5bJ0xhdW5heSwgQWRyaWVuLCAxODUzLTE5MjcnLDEsJ01pc3Npb25z
+        IMOpdHJhbmfDqHJlcyBkZSBQYXJpcycsMV0sJ3B1Yl9kYXRlX2ZhY2V0Jz0+
+        WycxODkwJywxXSwnd29ya2lkX2ZhY2V0Jz0+WycyMTEyODY0JywxXSwnbGFu
+        Z3VhZ2VfZmFjZXQnPT5bJ0ZyZW5jaCcsMV0sJ2Zhc3RfdG9waWNfZmFjZXQn
+        PT5bJ0NhdGhvbGljIENodXJjaCcsMSwnTWlzc2lvbnMnLDEsJ01pc3Npb25z
+        IMOpdHJhbmfDqHJlcyBkZSBQYXJpcycsMSwnTWlzc2lvbnMsIEZyZW5jaCcs
+        MV0sJ2Zhc3RfZ2VvX2ZhY2V0Jz0+WydBc2lhJywxXSwnZmFzdF9lcmFfZmFj
+        ZXQnPT5bXSwnZmFzdF9nZW5yZV9mYWNldCc9PlsnQXRsYXNlcycsMSwnSGlz
+        dG9yeScsMSwnTWFwcycsMV0sJ3N1YmplY3RfY29udGVudF9mYWNldCc9Plsn
+        Tm9uLUZpY3Rpb24gKGJvb2tzKScsMV0sJ2xjX2FscGhhX2ZhY2V0Jz0+W10s
+        J2xvY2F0aW9uX2ZhY2V0Jz0+WydPbGluIExpYnJhcnknLDFdLCdoaWVyYXJj
+        aHlfZmFjZXQnPT5bXSwnYXV0aG9ydGl0bGVfZmFjZXQnPT5bJ0xhdW5heSwg
+        QWRyaWVuLCAxODUzLTE5MjcuIHwgQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxh
+        IFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMnLDFdLCdsY19j
+        YWxsbnVtX2ZhY2V0Jz0+WydHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ks
+        IFJlY3JlYXRpb24nLDEsJ0cgLSBHZW9ncmFwaHksIEFudGhyb3BvbG9neSwg
+        UmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFsKScsMSwnRyAtIEdl
+        b2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFw
+        aHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzJywxLCdHIC0gR2Vv
+        Z3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBo
+        eSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEwMiAt
+        IEJ5IHJlZ2lvbiBvciBjb3VudHJ5JywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRo
+        cm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCk6
+        RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEwMiAtIEJ5IHJlZ2lvbiBv
+        ciBjb3VudHJ5OkcxNzgwLTI3OTkgLSBFYXN0ZXJuIEhlbWlzcGhlcmUuIEV1
+        cmFzaWEsIEFmcmljYSwgZXRjLicsMSwnRyAtIEdlb2dyYXBoeSwgQW50aHJv
+        cG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdlbmVyYWwpOkcx
+        MDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMxMDIgLSBCeSByZWdpb24gb3Ig
+        Y291bnRyeTpHMTc4MC0yNzk5IC0gRWFzdGVybiBIZW1pc3BoZXJlLiBFdXJh
+        c2lhLCBBZnJpY2EsIGV0Yy46RzIyMDAtMjQ0NC44NCAtIEFzaWEnLDFdLCdj
+        b2xsZWN0aW9uJz0+W119LCdmYWNldF9yYW5nZXMnPT57fSwnZmFjZXRfaW50
+        ZXJ2YWxzJz0+e30sJ2ZhY2V0X2hlYXRtYXBzJz0+e319LCdzdGF0cyc9Pnsn
+        c3RhdHNfZmllbGRzJz0+eydwdWJfZGF0ZV9mYWNldCc9PnsnbWluJz0+MTg5
+        MC4wLCdtYXgnPT4xODkwLjAsJ2NvdW50Jz0+MSwnbWlzc2luZyc9PjAsJ3N1
+        bSc9PjE4OTAuMCwnc3VtT2ZTcXVhcmVzJz0+MzU3MjEwMC4wLCdtZWFuJz0+
+        MTg5MC4wLCdzdGRkZXYnPT4wLjB9fX0sJ3NwZWxsY2hlY2snPT57J3N1Z2dl
+        c3Rpb25zJz0+W10sJ2NvcnJlY3RseVNwZWxsZWQnPT50cnVlfX0K
+    http_version: 
+  recorded_at: Thu, 10 Aug 2017 13:58:30 GMT
+- request:
+    method: get
+    uri: http://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162?Accept-Encoding=gzip,%20deflate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Thu, 10 Aug 2017 13:58:31 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Thu, 10 Aug 2017 13:58:31 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162?Accept-Encoding=gzip%252C+deflate
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '296'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162?Accept-Encoding=gzip%252C+deflate">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Thu, 10 Aug 2017 13:58:31 GMT
+- request:
+    method: get
+    uri: https://holdings-int.library.cornell.edu/holdings/retrieve_detail_short/119162?Accept-Encoding=gzip%252C%20deflate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Thu, 10 Aug 2017 13:58:31 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Aug 2017 13:58:31 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"0cc260049833abc9cb650be974441c3f"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 8ced52f8aa25be807b7d8068e5910ffb
+      X-Runtime:
+      - '0.251808'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"119162":{"119162":{"records":[{"bibid":"119162","holding_id":"156509","location_name":"maps","call_number":"Oversize
+        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
+        Library Maps (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Olin
+        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Thu, 10 Aug 2017 13:58:31 GMT
 recorded_with: VCR 3.0.3

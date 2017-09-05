@@ -150,66 +150,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
   end
 
-#   def set_advanced_search_params(params)
-#         # Use :advanced_search param as trustworthy indicator of search type
-#         removeBlanks(params)
-#         counter = test_size_param_array(params[:q_row])
-#         if counter > 1
-#            query_string = massage_params(params)
-#            params[:advanced_search] = true
-#            params["advanced_query"] = "yes"
-#             holdparams = []
-#             terms = []
-#             ops = 0
-#             params["op"] = []
-##             holdparams = query_string.split("&")
-#             for i in 0..params[:q_row].count - 1
-#               search_session[params[:search_field_row][i]] = params[:q_row][i]
-#               params[params[:search_field_row][i]] = params[:q_row][i]
-#             end
-#             for i in 1..params[:boolean_row].count
-#               n = i.to_s
-#               params["op"][i-1] = params[:boolean_row][n.to_sym]
-#             end
-##             if holdparams.count > 2
-#             if params[:q_row].count > 1
-#               params["search_field"] = "advanced"
-#               params[:q] = query_string
-#               search_session[:q] = query_string
-#               search_session[:search_field] = "advanced"
-
-#             else
-#               params[:q] = params["q"]
-#               search_session[:q] = params[:q]
-#               params[:search_field] = params["search_field"]
-#               search_session[:search_field] = params[:search_field]
-#             end
-#             params["commit"] = "Search"
-##             params["sort"] = "score desc, pub_date_sort desc, title_sort asc";
-#             params["action"] = "index"
-#             params["controller"] = "catalog"
-#       else
-#            params.delete(:advanced_search)
-#            params.delete("advanced_query")
-#            query_string = parse_single(params)
-#            holdparams = query_string.split("&")
-#            for i in 0..holdparams.count - 1
-#              terms = holdparams[i].split("=")
-#              params[terms[0]] = terms[1]
-#              search_session[terms[0]] = terms[1]
-#              session[:search][:"#{terms[0]}"] = terms[1]
-#              session[:search][:search_field] = params[:search_field_row][0]
-#            end
-#           #  params[:q] = query_string
-#             params.delete("q_row")
-#             params.delete("op_row")
-#             params.delete("search_field_row")
-#             params["commit"] = "Search"
-#             params["action"] = "index"
-#             params["controller"] = "catalog"
-#       end
-#     return query_string
-#  end
 
   def test_size_param_array(param_array)
     countit = 0
@@ -305,7 +245,8 @@ class SearchBuilder < Blacklight::SearchBuilder
      else
        splitArray = query.split(" ")
        if splitArray.count > 1
-          returnstring = splitArray.join(' ' + op + ' ')
+         # returnstring = splitArray.join(' ' + op + ' ')
+         return string = '"' + splitArray.join() + '"'
        else
           returnstring = query
        end
@@ -526,7 +467,7 @@ Rails.logger.info("QSTRING2 = #{newstring}")
 #                    q_string2 << field_name << " = "
                 if my_params[:op_row][i] == 'begins_with'
                   if field_name == ""
-                    field_name = 'starts:'
+                    field_name = 'starts'
                   else
                     if field_name == 'notes_qf'
                        field_name = 'notes_starts'
@@ -656,7 +597,7 @@ Rails.logger.info("solr6query42 = #{solr6query}")
                           end
                           for k in 0..tokenArray.size - 2
                                if field_name == ''
-                                newTerm << field_name + tokenArray[k] + " " +opfill + " "
+                                newTerm << " +" +tokenArray[k] #+ " + "
                                else
                                  if opfill == "AND"
                                    newTerm << "+" << field_name + ":" + tokenArray[k] + " "
@@ -664,9 +605,10 @@ Rails.logger.info("solr6query42 = #{solr6query}")
                                    newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
                                  end
                                end
+Rails.logger.info("solr6query222= #{newTerm}")                               
                           end
                           if field_name == ''
-                            newTerm <<  tokenArray[tokenArray.size - 1] + ")"
+                            newTerm = "(" + newTerm + " +" + tokenArray[tokenArray.size - 1] + ") OR phrase:" + '"' + holdarray[1] + '")'
                           else
                             if opfill == "AND"
                               newTerm << "+" << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
@@ -834,7 +776,7 @@ Rails.logger.info("FINISH1 = #{solr6query}")
                 if op_name == 'begins_with'
                     query << "" 
                     if field_name == 'all_fields'
-                       query << "starts:"
+                       query << "starts"
                     else
                       if field_name == 'notes_qf'
                        query << 'notes_starts:'
@@ -878,7 +820,7 @@ Rails.logger.info("FINISH1 = #{solr6query}")
                    
                    if op_name == 'begins_with'
                       if field_name == ''
-                         field_name = 'starts:'
+                         field_name = 'starts'
                       else
                         if field_name == 'notes_qf'
                           field_name = 'notes_starts:'
