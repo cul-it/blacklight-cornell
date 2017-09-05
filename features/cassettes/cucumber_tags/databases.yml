@@ -2831,4 +2831,127 @@ http_interactions:
           }}
     http_version: 
   recorded_at: Tue, 01 Aug 2017 20:37:17 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/select?rows=10&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Aug 2017 16:21:32 GMT
+      Last-Modified:
+      - Thu, 10 Aug 2017 16:21:07 GMT
+      Etag:
+      - '"MjRmNDUwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '13953'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{''responseHeader''=>{''zkConnected''=>true,''status''=>0,''QTime''=>1415,''params''=>{''rows''=>''10'',''wt''=>''ruby''}},''response''=>{''numFound''=>7745344,''start''=>0,''maxScore''=>2.2654765,''docs''=>[{''holdings_record_display''=>[''{"id":"10271082","modified_date":"20170801090827","copy_number":null,"callnos":["HC79.P6
+        R646 2018"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''online''=>[''At the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"book","item_id":"10340232","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"10271082","recalls_placed":"0","create_date":"2017-08-01
+        09:09:11.0","item_barcode":"31924124225529","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}''],''id''=>''9956169'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Abingdon,
+        Oxon ; New York, NY : Routledge, an imprint of the Taylor & Francis Group,
+        2018.''],''fulltitle_display''=>''Moralising poverty : the \''undeserving\''
+        poor in the public gaze'',''title_display''=>''Moralising poverty'',''author_display''=>''Romano,
+        Serena (Social policy researcher), author'',''subtitle_display''=>''the \''undeserving\''
+        poor in the public gaze'',''other_id_display''=>[''(OCoLC)944468439'',''9956169''],''score''=>2.2654765},{''online''=>[''At
+        the Library''],''holdings_record_display''=>[''{"id":"10187150","modified_date":"20170331170919","copy_number":null,"callnos":["On
+        order"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"law","number":63,"name":"Law
+        Library (Myron Taylor Hall)","library":"Law Library"}]}''],''id''=>''9867572'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''[2018]''],''pub_date_facet''=>2018,''pub_info_display''=>[''New
+        York : Abrams Books for Young Readers, [2018]''],''fulltitle_display''=>''Ruth
+        Bader Ginsburg : the case of R.B.G. vs. inequality'',''title_display''=>''Ruth
+        Bader Ginsburg'',''author_display''=>''Winter, Jonah, 1962- author'',''subtitle_display''=>''the
+        case of R.B.G. vs. inequality'',''other_id_display''=>[''(OCoLC)958585897'',''9867572''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10243467","modified_date":"20170602090820","copy_number":null,"callnos":["JZ1480
+        .S548 2018"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''online''=>[''At the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"book","item_id":"10302393","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"10243467","recalls_placed":"0","create_date":"2017-06-02
+        09:08:39.0","item_barcode":"31924124264445","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}''],''id''=>''9926366'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''[2018]''],''pub_date_facet''=>2018,''pub_info_display''=>[''Lanham,
+        Maryland : Rowman & Littlefield, [2018]''],''fulltitle_display''=>''Regional
+        cases in U.S. foreign policy'',''title_display''=>''Regional cases in U.S.
+        foreign policy'',''author_display''=>''Snow, Donald M., 1943- author'',''edition_display''=>[''Second
+        edition.''],''other_id_display''=>[''(OCoLC)966889038'',''9926366''],''score''=>2.2654765},{''online''=>[''At
+        the Library''],''holdings_record_display''=>[''{"id":"10157676","modified_date":"20170308084924","copy_number":null,"callnos":[],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''id''=>''9837445'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Toronto
+        : Vintage Canada, 2018.''],''fulltitle_display''=>''A bold and dangerous family
+        : the remarkable story of an Italian mother, her three sons, and the fight
+        against fascism'',''title_display''=>''A bold and dangerous family'',''author_display''=>''Moorehead,
+        Caroline, author'',''subtitle_display''=>''the remarkable story of an Italian
+        mother, her three sons, and the fight against fascism'',''other_id_display''=>[''(OCoLC)973043849'',''9837445''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10144622","modified_date":"20170214143245","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9823344'',''format''=>[''Book''],''online''=>[''Online''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''[S.l.]
+        : Gale, 2018.''],''title_display''=>''Market Share Reporter'',''fulltitle_display''=>''Market
+        Share Reporter'',''other_id_display''=>[''(WaSeSS)OCM1ssib026313155'',''9823344'',''(OCoLC)262453314''],''url_access_json''=>[''{"providercode":"PRVGIT","dbcode":"XI7","description":"Full
+        text available from Business Insights: Essentials Connect to text.","ssid":"ssib026313155","url":"http://proxy.library.cornell.edu/login?url=http://link.galegroup.com/apps/pub/1NJJ/BIE?sid=kbart?&u=nysl_sc_cornl"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=http://link.galegroup.com/apps/pub/1NJJ/BIE?sid=kbart?&u=nysl_sc_cornl|Full
+        text available from Business Insights: Essentials Connect to text.''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10266465","modified_date":"20170713121358","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9951188'',''format''=>[''Book''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Cham
+        : Springer International Publishing : Imprint: Springer, 2018.''],''title_display''=>''Smart
+        Sensors at the IoT Frontier'',''fulltitle_display''=>''Smart Sensors at the
+        IoT Frontier'',''other_id_display''=>[''(WaSeSS)OCM1ssj0001819872'',''9951188'',''(OCoLC)993686646''],''url_access_json''=>[''{"providercode":"PRVAVX","dbcode":"0D9","description":"Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.","ssid":"ssj0001819872","url":"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-55344-3"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-55344-3|Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10264312","modified_date":"20170713120213","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9949035'',''format''=>[''Book''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Singapore
+        : Springer Singapore : Imprint: Springer, 2018.''],''fulltitle_display''=>''Acoustics
+        of Bangla Speech Sounds'',''title_display''=>''Acoustics of Bangla Speech
+        Sounds'',''author_display''=>''Datta, Asoke Kumar., author'',''other_id_display''=>[''(WaSeSS)OCM1ssj0001819599'',''9949035'',''(OCoLC)993693041''],''url_access_json''=>[''{"providercode":"PRVAVX","dbcode":"0D9","description":"Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.","ssid":"ssj0001819599","url":"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-10-4261-4"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-10-4261-4|Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10264514","modified_date":"20170713120358","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9949237'',''format''=>[''Book''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Cham
+        : Springer International Publishing : Imprint: Springer, 2018.''],''fulltitle_display''=>''Astronavigation
+        : A Method for Determining Exact Position by the Stars'',''title_display''=>''Astronavigation'',''author_display''=>''Zischka,
+        K.A., author'',''subtitle_display''=>''A Method for Determining Exact Position
+        by the Stars'',''other_id_display''=>[''(WaSeSS)OCM1ssj0001819953'',''9949237'',''(OCoLC)988600388''],''url_access_json''=>[''{"providercode":"PRVAVX","dbcode":"0DI","description":"Full
+        text available from SpringerLink ebooks - Physics and Astronomy (Contemporary)
+        Connect to text.","ssid":"ssj0001819953","url":"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-47993-4"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-47993-4|Full
+        text available from SpringerLink ebooks - Physics and Astronomy (Contemporary)
+        Connect to text.''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10264964","modified_date":"20170713120645","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9949688'',''format''=>[''Book''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Singapore
+        : Springer Singapore : Imprint: Springer, 2018.''],''fulltitle_display''=>''Designing
+        Embedded Systems with Arduino : A Fundamental Technology for Makers'',''title_display''=>''Designing
+        Embedded Systems with Arduino'',''author_display''=>''Pan, Tianhong., author'',''subtitle_display''=>''A
+        Fundamental Technology for Makers'',''other_id_display''=>[''(WaSeSS)OCM1ssj0001819678'',''9949688'',''(OCoLC)987852642''],''url_access_json''=>[''{"providercode":"PRVAVX","dbcode":"0D9","description":"Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.","ssid":"ssj0001819678","url":"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-10-4417-5"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-10-4417-5|Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.''],''score''=>2.2654765},{''holdings_record_display''=>[''{"id":"10265588","modified_date":"20170713120954","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9950310'',''format''=>[''Book''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''2018''],''pub_date_facet''=>2018,''pub_info_display''=>[''Cham
+        : Springer International Publishing : Imprint: Springer, 2018.''],''title_display''=>''Intelligent
+        Decision Technologies 2017'',''subtitle_display''=>''Proceedings of the 9th
+        KES International Conference on Intelligent Decision Technologies (KES-IDT
+        2017) ? Part II'',''fulltitle_display''=>''Intelligent Decision Technologies
+        2017 : Proceedings of the 9th KES International Conference on Intelligent
+        Decision Technologies (KES-IDT 2017) ? Part II'',''other_id_display''=>[''(WaSeSS)OCM1ssj0001819751'',''9950310'',''(OCoLC)988603873''],''url_access_json''=>[''{"providercode":"PRVAVX","dbcode":"0D9","description":"Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.","ssid":"ssj0001819751","url":"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-59423-1"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-59423-1|Full
+        text available from SpringerLink ebooks - Engineering (Contemporary) Connect
+        to text.''],''score''=>2.2654765}]},''facet_counts''=>{''facet_queries''=>{},''facet_fields''=>{''format''=>[''Book'',6811516,''Journal/Periodical'',389295,''Microform'',355595,''Musical
+        Recording'',208902,''Thesis'',200030,''Video'',109271,''Musical Score'',97016,''Map
+        or Globe'',64502,''Manuscript/Archive'',15797,''Non-musical Recording'',10171],''online''=>[''At
+        the Library'',5820602,''Online'',2014139],''language_facet''=>[''English'',4782365,''German'',543367,''French'',333807,''Spanish'',285809,''Chinese'',263792,''Russian'',181142,''Italian'',149831,''Indonesian'',136006,''Japanese'',101840,''Vietnamese'',73688],''location_facet''=>[''Library
+        Annex'',2362304,''Olin Library'',1700278,''Kroch Library Asia'',598955,''Kroch
+        Library Rare & Manuscripts'',502779,''Law Library'',198185,''Music Library'',198026,''Mann
+        Library'',164302,''Uris Library'',148954,''ILR Library'',110090,''Mathematics
+        Library'',52599]},''facet_ranges''=>{},''facet_intervals''=>{},''facet_heatmaps''=>{}},''spellcheck''=>{''suggestions''=>[],''correctlySpelled''=>true}}
+
+'
+    http_version: 
+  recorded_at: Thu, 10 Aug 2017 16:21:33 GMT
 recorded_with: VCR 3.0.3
