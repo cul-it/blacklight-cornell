@@ -550,3 +550,21 @@ module PiwikAnalytics
 
   end
 end
+
+
+
+# Returns a document presenter for the given document
+# TODO: Move this to the controller. It can just pass a presenter or set of presenters.
+module Blacklight::BlacklightHelperBehavior
+  def presenter(document)
+    case action_name
+    when 'show', 'citation'
+      show_presenter(document)
+    when 'index', 'oclc_request'
+      index_presenter(document)
+    else
+      Deprecation.warn(Blacklight::BlacklightHelperBehavior, "Unable to determine presenter type for #{action_name} on #{controller_name}, fa    lling back on deprecated Blacklight::DocumentPresenter")
+    presenter_class.new(document, self)
+    end
+  end
+end
