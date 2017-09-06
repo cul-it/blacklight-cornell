@@ -944,4 +944,105 @@ http_interactions:
         LCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA0VDA5OjQ2OjUxLjMzNFoifV19fQo=
     http_version: 
   recorded_at: Wed, 09 Aug 2017 14:55:31 GMT
+- request:
+    method: get
+    uri: http://holdings6.library.cornell.edu/holdings/status_short/306998
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 06 Sep 2017 18:24:46 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 06 Sep 2017 18:24:46 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings6.library.cornell.edu/holdings/status_short/306998
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '250'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings6.library.cornell.edu/holdings/status_short/306998">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 06 Sep 2017 18:24:46 GMT
+- request:
+    method: get
+    uri: https://holdings6.library.cornell.edu/holdings/status_short/306998
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 06 Sep 2017 18:24:46 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 06 Sep 2017 18:24:46 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"7eb898c0eed3df4608af244b9f9a9307"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - e5c4db27d78461f1c9045d3498ebc61f
+      X-Runtime:
+      - '0.229507'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"306998":{"306998":{"records":[{"bibid":"306998","call_number":"JS39
+        .M95 Oversize","statuses":{"1055":"unavailable"},"holdings":[{"BIB_ID":306998,"MFHD_ID":1055,"ITEM_ID":6294,"ITEM_STATUS":12,"DISPLAY_CALL_NO":"JS39
+        .M95 Oversize","LOCATION_ID":59,"LOCATION_CODE":"jgsm","LOCATION_DISPLAY_NAME":"ILR
+        Library (Ives Hall)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2012-12-18T15:34:20-04:00","PERM_LOCATION":59,"PERM_LOCATION_DISPLAY_NAME":"ILR
+        Library (Ives Hall)","PERM_LOCATION_CODE":"jgsm","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["ILR
+        Library (Ives Hall)"],"locnumber":1,"status":["avail"],"avail_at":{},"not_avail_at":{"ILR
+        Library (Ives Hall)":"JS39 .M95 Oversize"},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 06 Sep 2017 18:24:46 GMT
 recorded_with: VCR 3.0.3

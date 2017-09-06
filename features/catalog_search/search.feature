@@ -178,6 +178,6 @@ Feature: Search
     And I press 'search'
     And I sleep 1 seconds
     Then I should get results
-    And I sleep 4 seconds
+    And I sleep 8 seconds
     And I should see the "fa-clock-o" class
     And I should see the label 'Olin Library' 
