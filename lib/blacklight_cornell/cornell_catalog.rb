@@ -57,18 +57,25 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
     oid = params[:id]
     ActionController::Parameters.permit_all_parameters = true
-    zparams = ActionController::Parameters.new(utf8: "✓", q_row: ["(OCoLC)25367820", ""], op_row: ["phrase", "phrase"], search_field_row: ["publisher number/other identifier", "publisher number/other identifier"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
+    zparams = ActionController::Parameters.new(utf8: "✓", q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["publisher number/other identifier", "publisher number/other identifier"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
     (@response, @document_list) = search_results(zparams)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
-    respond_to do |format|
-      format.html { save_current_search_params }
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
+    num = @response["response"]["numFound"]
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} num = #{num.inspect}"
+    if num == 1 
+      target = @document_list[0].response["response"]["docs"][0]["id"] 
+      logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
+      redirect_to(root_url() + "/request/#{target}")
+     elsif num >  1 
+      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
+      render :text => 'OCLCd does not map to unique record', :status => '404'
+     else
+      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id not found = #{oid.inspect}"
+      render :text => 'Not Found', :status => '404'
     end
-
   end
 
   # get search results from the solr index

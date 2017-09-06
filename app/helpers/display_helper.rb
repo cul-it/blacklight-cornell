@@ -1283,7 +1283,6 @@ include ActionView::Helpers::NumberHelper
   def simple_render_field_value(*args)
     options = args.extract_options!
     document = args.shift || options[:document]
-    binding.pry
     field = args.shift || options[:field]
     presenter(document).field_value field, options.except(:document, :field)
   end
