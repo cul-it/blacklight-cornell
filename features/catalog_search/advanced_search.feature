@@ -490,6 +490,7 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     Then click on first link "Next »"
