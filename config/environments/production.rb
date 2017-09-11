@@ -8,20 +8,21 @@ BlacklightCornell::Application.configure do
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false 
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_files = false 
+  config.serve_static_files = false
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
+  config.assets.js_compressor = :uglifier
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
 
   # Generate digests for assets URLs
-  # Fingerprinting is enabled by default for production and disabled for all other environments. 
+  # Fingerprinting is enabled by default for production and disabled for all other environments.
   # You can enable or disable it in your configuration through the config.assets.digest option.
   config.assets.digest = true
 
@@ -70,7 +71,7 @@ BlacklightCornell::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  
+
   # Settings for the exception_notification gem
   #Rails.application.config.middleware.use ExceptionNotification::Rack,
   # :email => {
