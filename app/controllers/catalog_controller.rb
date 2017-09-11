@@ -285,22 +285,22 @@ class CatalogController < ApplicationController
     config.add_show_field 'included_work_display', :label => 'Included work'
     config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'title_series_cts', :label => 'Series'
-    config.add_show_field 'continues_display', :label => 'Continues', helper_method: :remove_pipe
-    config.add_show_field 'continues_in_part_display', :label => 'Continues in part', helper_method: :remove_pipe
-    config.add_show_field 'supersedes_display', :label => 'Supersedes', helper_method: :remove_pipe
-    config.add_show_field 'absorbed_display', :label => 'Absorbed', helper_method: :remove_pipe
-    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part', helper_method: :remove_pipe
-    config.add_show_field 'continued_by_display', :label => 'Continued by', helper_method: :remove_pipe
-    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by', helper_method: :remove_pipe
-    config.add_show_field 'superseded_by_display', :label => 'Superseded by', :helper_method => :remove_pipe
-    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by', helper_method: :remove_pipe
-    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by', helper_method: :remove_pipe
-    config.add_show_field 'split_into_display', :label => 'Split into', helper_method: :remove_pipe
-    config.add_show_field 'merger_display', :label => 'Merger', helper_method: :remove_pipe
-    config.add_show_field 'merger_of_display', :label => 'Merger of', helper_method: :remove_pipe
-    config.add_show_field 'translation_of_display', :label => 'Translation of', helper_method: :remove_pipe
-    config.add_show_field 'has_translation_display', :label => 'Has translation', helper_method: :remove_pipe
-    config.add_show_field 'other_edition_display', :label => 'Other edition', helper_method: :remove_pipe
+    config.add_show_field 'continues_display', :label => 'Continues'
+    config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
+    config.add_show_field 'supersedes_display', :label => 'Supersedes'
+    config.add_show_field 'absorbed_display', :label => 'Absorbed'
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part'
+    config.add_show_field 'continued_by_display', :label => 'Continued by'
+    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by'
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by'
+    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by'
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by'
+    config.add_show_field 'split_into_display', :label => 'Split into'
+    config.add_show_field 'merger_display', :label => 'Merger'
+    config.add_show_field 'merger_of_display', :label => 'Merger of'
+    config.add_show_field 'translation_of_display', :label => 'Translation of'
+    config.add_show_field 'has_translation_display', :label => 'Has translation'
+    config.add_show_field 'other_edition_display', :label => 'Other edition'
     config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed selectively by'
     config.add_show_field 'indexed_by_display', :label => 'Indexed By'
     config.add_show_field 'references_display', :label => 'References'
@@ -308,10 +308,11 @@ class CatalogController < ApplicationController
     config.add_show_field 'in_display', :label => 'In'
     config.add_show_field 'map_format_display', :label => 'Map format'
     config.add_show_field 'instrumentation_display', :label => 'Instrumentation'
-    config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
-    config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
-    config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
-    config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
+    config.add_show_field 'has_supplement_display', :label => 'Has supplement'
+    config.add_show_field 'supplement_to_display', :label => 'Supplement to'
+    config.add_show_field 'other_form_display', :label => 'Other form'
+    config.add_show_field 'issued_with_display', :label => 'Issued with'
+    config.add_show_field 'separated_from_display', :label => 'Separated from'
     config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
@@ -956,7 +957,7 @@ def tou
     else
         @dblinks.each do |link|
             l = JSON.parse(link)
-            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode] 
+            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]
                 @defaultRightsText = ''
                 @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
                 if @ermDBResult.size < 1
@@ -987,7 +988,7 @@ def tou
                 end
             end
             @db = [l]
-        end   
+        end
     @column_names = ::Erm_data.column_names.collect(&:to_sym)
     end
 
