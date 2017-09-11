@@ -29,7 +29,7 @@ module SingleSearchHelper
     link_url = link_url.gsub('[','%5B')
     link_url = link_url.gsub(']','%5D')
     #  -# link_url = link_url.gsub('=','%3D')
-    link_url = link_url.gsub('&','%26')
+    #  -# link_url = link_url.gsub('&','%26')
     link_url = link_url.gsub('"','%22')
     link_url = link_url.gsub('(','%28')
     link_url = link_url.gsub(')','%29')
