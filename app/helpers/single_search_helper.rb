@@ -35,5 +35,12 @@ module SingleSearchHelper
     link_url = link_url.gsub(')','%29')
   end
 
+  def is_catalog_pane?(pane)
+    if pane == 'Articles & Full Text' || pane == 'Library Guides' || pane == 'Digital Collections'
+      false
+    else
+       true
+    end
+  end
 
 end
