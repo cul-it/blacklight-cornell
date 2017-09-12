@@ -159,7 +159,6 @@ class BackendController < ApplicationController
   # and sends you back to wherever you came from.
   def authenticate_cuwebauth
     semail = request.env['REMOTE_USER']
-    semail = 'es287@cornell.edu'
     u = User.where(email: semail).first
     if u
       @user = u
