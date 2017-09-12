@@ -627,11 +627,6 @@ Feature: Item view
   And click on first link "Terms of use"
   Then I should see the text 'Course Reserves by link only'
 
-@remove_pipe
-@all_item_view
-  Scenario: Show other form fields without their piped values
-  Given I request the item view for 8877499
-  Then I should not see the text 'Print version: Marji, Majed. Learn to program with Scratch : a visual introduction to programming with games, art, science, and math. San Francisco, California : No Starch Press, c2014 2013043492|'
 
 @insert_line_breaks
 @all_item_view
