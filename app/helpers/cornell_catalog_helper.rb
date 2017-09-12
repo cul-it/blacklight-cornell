@@ -493,7 +493,7 @@ module CornellCatalogHelper
 	       supl2 = condensed[hk]["supplemental_holdings_desc"]
 	      end
 	      if (!supl1.blank? || !supl2.blank?)
-	       supl = "Supplements:" +supl1+supl2 
+	       supl = "Supplements: " +supl1+supl2 
 	      end
 	      items_by_mid[hk] = {"items"=> {}, "notes"=>notes_by_mid[hk], "summary_holdings"=>sumh_by_mid[hk],
 		"current_issues"=>curi,"supplements" => supl , "indexes"=> indx }
