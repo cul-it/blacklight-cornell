@@ -32,7 +32,8 @@ protected
     else
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate redirect to saml ")
       if ENV['SAML_IDP_TARGET_URL'] 
-        redirect_to 'http://es287-dev.library.cornell.edu:8986/saml.html'
+        #redirect_to 'http://es287-dev.library.cornell.edu:8988/saml.html'
+        redirect_to request.base_url + '/saml.html'
       end 
       #redirect_to 'http://es287-dev.library.cornell.edu:8986/users/auth/saml'
       #redirect_to new_user_session_path, :notice => 'if you want to add a notice'

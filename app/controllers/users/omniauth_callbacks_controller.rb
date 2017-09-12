@@ -23,7 +23,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:cu_authenticated_primary] = auth.info.primary[0]
     sign_in :user, @user 
     session[:cu_authenticated_user] = auth.info.email[0]
-    binding.pry
     if session[:cuwebauth_return_path].present?  
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
