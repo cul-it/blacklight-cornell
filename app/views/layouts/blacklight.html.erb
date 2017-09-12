@@ -40,9 +40,6 @@
 
   </head>
   <% onload_text = "$('input#q').focus();" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
-  <br/> Authentication :<%= has_user_authentication_provider? %><br/>
-  <br/> Current User :<%= current_or_guest_user.inspect %><br/>
-  <br/> Current session :<%= "#{session[:cu_authenticated_user].inspect}" %><br/>
   
   <body onload="<%= onload_text %>" class="<%= render_body_class %>">
     <%= render :partial => 'shared/header_navbar' %>

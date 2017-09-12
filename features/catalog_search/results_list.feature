@@ -213,18 +213,17 @@ Feature: Results list
     Then I should get results
     And I should not see the text 'Order Information'
   # DISCOVERYACCESS-1407
-  # bibid - 9756432
         @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
   Scenario: As a user, I can see order status for items on order
     Given I am on the home page
-    When I fill in the search box with 'International dispute settlement John Merrill'
+    When I fill in the search box with '10 nam nhin lai  Le Van Hien.'
     And I press 'search'
-    And I sleep 99 seconds
+    And I sleep 18 seconds
     Then I should get results
-    And I should see the text 'On order'
+    And I should see the text 'On Order'
 
  @all_results_list
  @DISCOVERYACCESS-1673
