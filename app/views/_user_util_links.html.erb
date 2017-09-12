@@ -1,5 +1,19 @@
 <div class="col-sm-8">
     <ul class="blacklight-nav">
+        <% if ENV['SAML_IDP_TARGET_URL'] %>
+        <% if current_user %>
+          <li>
+            <%= link_to 'Sign out', destroy_user_session_path   %>
+          </li> 
+        <% end %>
+        <% if current_or_guest_user %>
+          <% if !current_user %>
+            <li>
+              <%= link_to 'Sign in', '/users/auth/saml'   %>
+            </li> 
+          <% end %>
+        <% end %>
+        <% end %>
         <% if current_or_guest_user %>
         <%  @bookmarks = current_or_guest_user.bookmarks %>
         <li>
@@ -17,3 +31,7 @@
         <li><a href="https://cornell.hosts.atlas-sys.com/illiad/" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Interlibrary Loan']);">Interlibrary Loan</a></li>
     </ul>
 </div>
+<!--        new_user_session GET          /users/sign_in(.:format)                         users/sessions#new
+                   user_session POST         /users/sign_in(.:format)                         users/sessions#create
+           destroy_user_session GET          /users/sign_out(.:format)                        users/sessions#destroy
+-->

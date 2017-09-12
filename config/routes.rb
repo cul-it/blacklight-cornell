@@ -33,7 +33,13 @@ end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
-  devise_for :users
+# devise_for :users
+
+ devise_for :users, controllers: {
+  omniauth_callbacks: 'users/omniauth_callbacks',
+  sessions: 'users/sessions'
+}
+
 # rails 4
 #You should not use the `match` method in your router without specifying an HTTP method.
 #If you want to expose your action to both GET and POST, add `via: [:get, :post]` option.
@@ -41,9 +47,9 @@ end
 #  Instead of: match "controller#action"
 #  Do: get "controller#action"
 
-  get 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
-  get 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
-  get 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
+#  get 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
+#  get 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
+#  get 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
   get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   get 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
 # commenting out until certain this is a dead-end route  get 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
@@ -59,6 +65,7 @@ end
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
+  get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
