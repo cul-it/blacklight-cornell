@@ -14,12 +14,13 @@
           ["Title","catalog:title"],
           ["Journal Title","catalog:journal title"],
           ["Author, etc.",'catalog:author/creator'],
-          ["Subject","catalog:subject"],
-          ["Call number","catalog:call number"],
-          ["Publisher","catalog:publisher"],
           ["Author (browse)","Author",{'data-placeholder'=> 'Dickens, Charles'},'selected' => 'selected'],
           ["Author (sorted by title)","Author-Title",{'data-placeholder'=> 'Beethoven, Ludwig van, 1770-1827 | Fidelio'}],
-          ["Subject (browse)","Subject",{'data-placeholder'=> 'China > History'}]], params[:browse_type]), :class => 'form-control' %>
+          ["Subject","catalog:subject"],
+          ["Subject (browse)","Subject",{'data-placeholder'=> 'China > History'}],
+          ["Call number","catalog:call number"],
+          ["Publisher","catalog:publisher"]
+          ], params[:browse_type]), :class => 'form-control' %>
         </div>
         <button id="search-btn" class="btn btn-search" type="submit">
           <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>

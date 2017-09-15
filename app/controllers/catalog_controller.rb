@@ -412,6 +412,17 @@ class CatalogController < ApplicationController
         :pf => '$author_pf'
       }
     end
+
+    # add browse searches to simple search
+    config.add_search_field('author_browse') do |field|
+      field.include_in_advanced_search = false
+      field.label = 'Author (browse)'
+      field.placeholder_text = 'Dickens, Charles'
+    end
+
+    config.add_search_field('at_browse', :label => 'Author (sorted by title)',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+
+
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
@@ -423,6 +434,9 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
+
+    config.add_search_field('subject_browse', :label => 'Subject (browse)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+
     config.add_search_field('call number', :label => 'Call Number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = true
@@ -483,14 +497,7 @@ class CatalogController < ApplicationController
        }
     end
 
-    # add browse searches to simple search
-    config.add_search_field('author_browse') do |field|
-      field.include_in_advanced_search = false
-      field.label = 'Author (browse)'
-      field.placeholder_text = 'Dickens, Charles'
-    end
-    config.add_search_field('subject_browse', :label => 'Subject (browse)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
-    config.add_search_field('at_browse', :label => 'Author (sorted by title)',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+
 
 
 # Begins with search fields
