@@ -1,4 +1,3 @@
-<%= render :partial => 'headings_search_form' %>
 <% if params[:authq].nil? %>
   <%= render :partial => 'headings_text' %>
 <% end %>
@@ -7,7 +6,7 @@
     <div class="database-subject">
       <div class="page-title">
         <div class="return-link">
-          <%= link_to "/browse/" do %>
+          <%= link_to "/" do %>
             <i class="fa fa-arrow-circle-left"></i>
             Start over
           <% end %>

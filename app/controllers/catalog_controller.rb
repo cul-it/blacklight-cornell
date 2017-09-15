@@ -359,6 +359,9 @@ class CatalogController < ApplicationController
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields.
 
+    config.add_search_field 'separator_1', :label => '---', :include_in_advanced_search => false
+
+
     config.add_search_field('title') do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
@@ -405,6 +408,9 @@ class CatalogController < ApplicationController
         :search_field => "journal title"
       }
     end
+
+    config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
+
     config.add_search_field('author/creator',:label => "Author, etc.") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
@@ -416,11 +422,13 @@ class CatalogController < ApplicationController
     # add browse searches to simple search
     config.add_search_field('author_browse') do |field|
       field.include_in_advanced_search = false
-      field.label = 'Author (browse)'
+      field.label = 'Author (A-Z browse)'
       field.placeholder_text = 'Dickens, Charles'
     end
 
-    config.add_search_field('at_browse', :label => 'Author (sorted by title)',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+    config.add_search_field('at_browse', :label => 'Author-Title (A-Z browse)',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+
+    config.add_search_field 'separator_3', :label => '---', :include_in_advanced_search => false
 
 
     # Specifying a :qt only to show it's possible, and so our internal automated
@@ -435,7 +443,9 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('subject_browse', :label => 'Subject (browse)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+    config.add_search_field('subject_browse', :label => 'Subject (A-Z browse)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+
+    config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
 
     config.add_search_field('call number', :label => 'Call Number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
