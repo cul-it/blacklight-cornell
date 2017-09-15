@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="search-tools col-sm-6 col-md-7 col-lg-8">
+  <div class="search-tools col-sm-6 col-md-7">
   <% if params[:controller]=='browse' %>
-    <h2><a href="/browse">Browse</a></h2>
+    <%= render :partial => 'browse/headings_search_form' %>
   <% elsif params[:controller]=='advanced_search' %>
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
@@ -41,11 +41,11 @@
 
   </div>
 
-  <div class="search-nav col-sm-6 col-md-5 col-lg-4">
+  <div class="search-nav col-sm-6 col-md-5">
     <ul class="nav nav-pills">
       <li><a href="/advanced"><i class="fa fa-search" aria-hidden="true"></i>Advanced Search</a></li>
-      <li><a href="/browse"><i class="fa fa-hand-o-up" aria-hidden="true"></i>Browse</a></li>
-      <li><a href="http://www.library.cornell.edu/myacct"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
+      <li><a href="https://www.library.cornell.edu/ask"><i class="fa fa-question" aria-hidden="true" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Ask a Librarian']);"></i>Ask a Librarian</a></li>
+      <li><a href="http://www.library.cornell.edu/myacct" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'My Account']);"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
     </ul>
   </div>
 
