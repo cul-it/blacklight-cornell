@@ -9,9 +9,17 @@
         </div>
         <div class="form-group col-xs-4 col-sm-2">
           <label for="browse_type" class="sr-only">Browse Type</label>
-          <%= select_tag :browse_type, options_for_select([["Author","Author",{'data-placeholder'=> 'Dickens, Charles'}],
+          <%= select_tag :browse_type, options_for_select([
+          ["All Fields","catalog:all_fields"],
+          ["Title","catalog:title"],
+          ["Journal Title","catalog:journal title"],
+          ["Author, etc.",'catalog:author/creator'],
+          ["Subject","catalog:subject"],
+          ["Call number","catalog:call number"],
+          ["Publisher","catalog:publisher"],
+          ["Author (browse)","Author",{'data-placeholder'=> 'Dickens, Charles'},'selected' => 'selected'],
           ["Author (sorted by title)","Author-Title",{'data-placeholder'=> 'Beethoven, Ludwig van, 1770-1827 | Fidelio'}],
-          ["Subject","Subject",{'data-placeholder'=> 'China > History'}]], params[:browse_type]), :class => 'form-control' %>         
+          ["Subject (browse)","Subject",{'data-placeholder'=> 'China > History'}]], params[:browse_type]), :class => 'form-control' %>
         </div>
         <button id="search-btn" class="btn btn-search" type="submit">
           <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>

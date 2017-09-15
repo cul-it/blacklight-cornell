@@ -39,7 +39,7 @@ class CatalogController < ApplicationController
   # seem to actually appear anywhere (not sure why), but rendering 'nothing'
   # instead doesn't let the email modal appear either.
   def authorize_email_use!
-    if  !session[:cu_authenticated_user].present? 
+    if  !session[:cu_authenticated_user].present?
         flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
@@ -53,6 +53,7 @@ class CatalogController < ApplicationController
      return true
   end
 
+  before_action :redirect_browse
 
   configure_blacklight do |config|
 
@@ -482,6 +483,15 @@ class CatalogController < ApplicationController
        }
     end
 
+    # add browse searches to simple search
+    config.add_search_field('author_browse') do |field|
+      field.include_in_advanced_search = false
+      field.label = 'Author (browse)'
+      field.placeholder_text = 'Dickens, Charles'
+    end
+    config.add_search_field('subject_browse', :label => 'Subject (browse)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+    config.add_search_field('at_browse', :label => 'Author (sorted by title)',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+
 
 # Begins with search fields
 
@@ -880,29 +890,29 @@ class CatalogController < ApplicationController
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       else
           flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-      end  
+      end
     end
 
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
-      if request.xhr? && flash[:success] 
-        if docs.size < 2 
+      if request.xhr? && flash[:success]
+        if docs.size < 2
           render :js => "window.location = '/catalog/#{params[:id]}'"
-        else 
+        else
           render :js => "window.location = '/bookmarks'"
         end
         return
       end
     end
-    unless !request.xhr? && flash[:success] 
+    unless !request.xhr? && flash[:success]
       respond_to do |format|
         format.js { render :layout => false }
         format.html
       end
     end
   end
-  
+
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def mollom_email
@@ -989,7 +999,7 @@ class CatalogController < ApplicationController
 
     end  # request.post?
     if false
-      unless !request.xhr? && flash[:success] 
+      unless !request.xhr? && flash[:success]
         respond_to do |format|
           format.js { render :layout => false }
           format.html
@@ -1056,7 +1066,17 @@ def tou
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
   #end
 
-
+  def redirect_browse
+       if params[:search_field] && params[:controller] != 'advanced'
+         if params[:search_field] == 'subject_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Subject"
+         elsif params[:search_field] == 'author_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
+         elsif params[:search_field] == 'at_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
+         end
+       end
+     end
 
 
 end
