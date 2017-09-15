@@ -20,7 +20,7 @@ Feature: Browse search
   Scenario: Search for a subject 
     Given I literally go to browse
         And I fill in the authorities search box with 'China > History'
-        And I select 'Subject' from the 'browse_type' drop-down
+        And I select 'Subject (A-Z browse)' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'China > History'
 
@@ -28,7 +28,7 @@ Feature: Browse search
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio'
-        And I select 'Author (sorted by title)' from the 'browse_type' drop-down
+        And I select 'Author-Title (A-Z browse)' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)'
     Then click on link "Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)"
@@ -39,7 +39,7 @@ Feature: Browse search
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Dick, George'
-        And I select 'Author (sorted by title)' from the 'browse_type' drop-down
+        And I select 'Author-Title (A-Z browse)' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Dick, George. | Immunological Aspects of Infectious Diseases'
     Then click on link "Dick, George. | Immunological Aspects of Infectious Diseases"
