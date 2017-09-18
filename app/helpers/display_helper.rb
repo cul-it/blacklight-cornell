@@ -17,7 +17,7 @@ include ActionView::Helpers::NumberHelper
 
 
   def field_value_separator
-    '<dd>'
+    '<br>'
   end
 
 
