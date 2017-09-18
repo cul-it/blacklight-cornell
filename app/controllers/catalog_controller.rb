@@ -353,7 +353,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'All Fields', :include_in_advanced_search => true
+    config.add_search_field 'all_fields', :label => 'Any Keyword', :include_in_advanced_search => true
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
@@ -362,7 +362,7 @@ class CatalogController < ApplicationController
     config.add_search_field 'separator_1', :label => '---', :include_in_advanced_search => false
 
 
-    config.add_search_field('title') do |field|
+    config.add_search_field('title', :label => "Title Keyword") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
@@ -400,8 +400,7 @@ class CatalogController < ApplicationController
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('journal title') do |field|
-      field.solr_parameters = { :'format' => "Journal" }
+    config.add_search_field('journal title', :label => "Journal Title Keyword") do |field|
       field.solr_local_parameters = {
         :qf => '$title_qf',
         :pf => '$title_pf',
@@ -411,7 +410,7 @@ class CatalogController < ApplicationController
 
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
-    config.add_search_field('author/creator',:label => "Author, etc.") do |field|
+    config.add_search_field('author/creator',:label => "Author Keyword") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
@@ -422,11 +421,11 @@ class CatalogController < ApplicationController
     # add browse searches to simple search
     config.add_search_field('author_browse') do |field|
       field.include_in_advanced_search = false
-      field.label = 'Author (A-Z browse)'
+      field.label = 'Author Browse (A-Z) Sorted By Name'
       field.placeholder_text = 'Dickens, Charles'
     end
 
-    config.add_search_field('at_browse', :label => 'Author-Title (A-Z browse)',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+    config.add_search_field('at_browse', :label => 'Author Browse (A-Z) Sorted By Title',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
 
     config.add_search_field 'separator_3', :label => '---', :include_in_advanced_search => false
 
@@ -434,7 +433,7 @@ class CatalogController < ApplicationController
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
-    config.add_search_field('subject') do |field|
+    config.add_search_field('subject', :label => "Subject Heading Keyword") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = {
@@ -443,7 +442,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('subject_browse', :label => 'Subject (A-Z browse)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+    config.add_search_field('subject_browse', :label => 'Subject Heading Browse (A-Z)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
 
     config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
 
