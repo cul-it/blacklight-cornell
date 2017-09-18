@@ -48,12 +48,21 @@ module AdvancedHelper
       hash
     end
   end
+  
+  def render_edited_advanced_search_new(params)
+    if params[:boolean_row].nil?
+      params[:boolean_row] = []
+      params[:boolean_row] << "AND"
+    end
+  end
 
   def render_edited_advanced_search(params)
     query = ""
     if params[:boolean_row].nil?
-      params[:boolean_row] = {"1"=>"AND"}
+      params[:boolean_row] = [] #{"1"=>"AND"}
+      params[:boolean_row] << "AND"
     end
+      
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
@@ -93,7 +102,7 @@ module AdvancedHelper
       end
     end
     row1 << "</select>"
-    unless params[:q_row].count < 2
+    unless params[:q_row].count <= 1
       next2rows = ""
       for i in 1..params[:q_row].count - 1
         if params[:q_row][i].include? ' '
@@ -145,6 +154,9 @@ module AdvancedHelper
       next2rows = ""
       next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
       boolean_row_values.each do |key, value|
+           if params[:boolean_row][1].blank?
+             params[:boolean_row][1] = "AND"
+           end
            n = 1.to_s
            if key == params[:boolean_row][1]
              next2rows << "<label class=\"radio-inline\">"
@@ -161,12 +173,12 @@ module AdvancedHelper
       next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
       next2rows << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
       boolean_values.each do |key, value|
-      if key == params[:op_row][0]
-        next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
-      else
-        next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+         if key == params[:op_row][0]
+           next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+         else
+           next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+         end
       end
-    end
     next2rows << "</select> in "
     next2rows << "<label for=\"search_field_row\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>"
     next2rows << "<select class=\"advanced-search-field form-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
@@ -177,6 +189,7 @@ module AdvancedHelper
         next2rows << "<option value=\"" << key << "\">" << value << "</option>"
       end
     end
+    
     next2rows << "</select>"
     end
 
