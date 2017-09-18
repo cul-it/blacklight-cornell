@@ -290,7 +290,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
     config.add_show_field 'author_addl_json', :label => 'Other contributor'
-    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :html_safe
+    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :contents_list
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'

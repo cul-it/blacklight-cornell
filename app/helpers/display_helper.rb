@@ -17,8 +17,21 @@ include ActionView::Helpers::NumberHelper
 
 
   def field_value_separator
-    '<br />'
+    '<br>'
   end
+
+
+  def contents_list field
+    content_tag(:ul) do
+      field[:value].each do |v|
+        concat content_tag(:li, v)
+    end
+  end
+end
+
+
+
+
 
   # for display of | delimited fields
   # only displays the string before the first |

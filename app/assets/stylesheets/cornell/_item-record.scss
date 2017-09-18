@@ -72,16 +72,18 @@ dl.dl-horizontal {
 		white-space: normal;
 		}
 	dd {
-		ul {
-			list-style: none;
-			margin: 0;
-		}
 		// Fix to keep dd aligned with long dt that wraps
 		// -- can't use .clearfix because we only want to clear left
 		&:after {
 			display: table;
 			content: "";
 			clear: left;
+		}
+		ul {
+			padding-left: 18px;
+		}
+		li {
+			margin-bottom: .25em;
 		}
 	}
 }
