@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Blacklight::Controller
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
+  #prepend_before_filter :set_return_path
 
   layout 'blacklight'
 
@@ -40,6 +41,28 @@ protected
       ## if you want render 404 page
       #      ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
     end
+  end
+
+  if false 
+  def set_return_path
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    op = request.original_fullpath
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+    refp = request.referer
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    session[:cuwebauth_return_path] =
+      if (params['id'].present? && params['id'].include?('|'))
+        '/bookmarks'
+      elsif (params['id'].present? && op.include?('email'))
+        "/catalog/afemail/#{params[:id]}"
+      elsif (params['id'].present? && op.include?('unapi'))
+         refp
+      else
+        op
+      end
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+    return true
+  end
   end
 
 end

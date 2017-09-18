@@ -5,6 +5,32 @@ class BrowseController < ApplicationController
   #include BlacklightUnapi::ControllerExtension
   before_filter :heading
   #attr_accessible :authq, :start, :order, :browse_type
+ 
+  if   ENV['SAML_IDP_TARGET_URL']
+    prepend_before_filter :set_return_path
+  end
+
+if false
+  def set_return_path
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    op = request.original_fullpath
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+    refp = request.referer
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    session[:cuwebauth_return_path] =
+      if (params['id'].present? && params['id'].include?('|'))
+        '/bookmarks'
+      elsif (params['id'].present? && op.include?('email'))
+        "/catalog/afemail/#{params[:id]}"
+      elsif (params['id'].present? && op.include?('unapi'))
+         refp
+      else
+        op
+      end
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+    return true
+  end
+end 
 
   def heading
    @heading='Browse'

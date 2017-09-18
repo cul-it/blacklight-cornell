@@ -21,7 +21,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:cu_authenticated_user] = auth.info.email[0]
     session[:cu_authenticated_groups] = auth.info.groups
     session[:cu_authenticated_primary] = auth.info.primary[0]
-    sign_in :user, @user 
+    # we might already be 'signed in' ?
+    if !user_signed_in? 
+      sign_in :user, @user 
+    end
     session[:cu_authenticated_user] = auth.info.email[0]
     if session[:cuwebauth_return_path].present?  
       path = session[:cuwebauth_return_path]
