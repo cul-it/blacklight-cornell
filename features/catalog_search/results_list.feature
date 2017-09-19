@@ -203,8 +203,9 @@ Feature: Results list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
-  Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials 
+  Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials
     Given I am on the home page
+                Given PENDING
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     When I fill in the search box with 'the Economist newspaper'
@@ -212,18 +213,17 @@ Feature: Results list
     Then I should get results
     And I should not see the text 'Order Information'
   # DISCOVERYACCESS-1407
-  # bibid - 9756432
         @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
   Scenario: As a user, I can see order status for items on order
     Given I am on the home page
-    When I fill in the search box with '"Deconstructing the High line"'
+    When I fill in the search box with '10 nam nhin lai  Le Van Hien.'
     And I press 'search'
-    And I sleep 4 seconds
+    And I sleep 18 seconds
     Then I should get results
-    And I should see the text 'Order Information'
+    And I should see the text 'On Order'
 
  @all_results_list
  @DISCOVERYACCESS-1673
@@ -233,7 +233,7 @@ Feature: Results list
    When I fill in the search box with 'Marvel Masterworks'
    And I press 'search'
    Then I should get results
-   Then click on link "Marvel masterworks presents the X-men" 
+   Then click on link "Marvel masterworks presents the X-men"
    And I should see the text 'Back to catalog results'
 
  @all_results_list
@@ -243,28 +243,29 @@ Feature: Results list
    When I fill in the search box with 'Marvel Masterworks'
    And I press 'search'
    Then I should get results
-   When I literally go to databases 
+   When I literally go to databases
    Then I request the item view for 2083253
    And I should not see the text 'catalog results'
 
  @DISCOVERYACCESS-2829
   @all_results_list
- Scenario: Search with results, make sure that there is a count associated with Libraries worldwide 
+ Scenario: Search with results, make sure that there is a count associated with Libraries worldwide
    Given I am on the home page
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide (24,'
+   Then I should see the text 'Request from Libraries Worldwide (2'
 
 @all_results_list
 @next_facet
 @javascript
-  Scenario: Search with results, 
+  Scenario: Search with results,
+                Given PENDING
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'
     Then I should get results
     Then I should see the text 'Click : '
-    Then click on first link "Click : when we knew we were feminists" 
+    Then click on first link "Click : when we knew we were feminists"
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
@@ -283,16 +284,16 @@ Feature: Results list
 @all_results_list
 @next_facet
 @javascript
-  Scenario: Search with results, 
+  Scenario: Search with results,
     Given I am on the home page
     When I fill in the search box with 'cigarette prices'
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I press 'search'
     And I sleep 10 seconds
     Then I should get results
     And I sleep 4 seconds
     Then I should see the text 'Lighting Up and'
-    Then click on first link "Lighting Up" 
+    Then click on first link "Lighting Up"
     And I sleep 4 seconds
     Then click on first link "Next »"
     And I sleep 4 seconds
@@ -311,7 +312,6 @@ Feature: Results list
     And I sleep 4 seconds
     Then I should get results
     And I sleep 4 seconds
-    Then I should not see the text 'relevance' 
+    Then I should not see the text 'relevance'
     And I sleep 4 seconds
     Then I should see the text 'Sort by call number'
-

@@ -50,6 +50,7 @@ header {
   }
   a:hover, a:active, a:focus {
     color: $dark-gray;
+    text-decoration: none;
   }
 }
 
@@ -118,6 +119,18 @@ ul.blacklight-nav {
     color: white;
     font-size: 20px;
   }
+  span {
+    font-size: 12px;
+    margin-left: .5em;
+    vertical-align: top;
+    padding-top: .1em;
+    display: inline-block;
+  }
+}
+.btn-library:hover,
+.btn-library:active,
+.btn-library:focus {
+  color: white;
 }
 .library-menu {
   padding: 0;

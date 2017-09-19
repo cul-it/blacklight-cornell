@@ -11,7 +11,7 @@ Feature: Search
     When I go to the catalog page
     Then I should see a search field
     And I should see a selectable list with field choices
-    And I should see a "#search-btn" button 
+    And I should see a "#search-btn" button
     # And I should not see the "startOverLink" element
     # And I should see "Welcome!"
     And the page title should be "Cornell University Library Catalog"
@@ -19,26 +19,29 @@ Feature: Search
 
   Scenario: Search Page search types
     When I am on the home page
-    Then the 'search_field' drop-down should have an option for 'All Fields'
-    Then the 'search_field' drop-down should have an option for 'Title'
-    Then the 'search_field' drop-down should have an option for 'Author, etc.'
+    Then the 'search_field' drop-down should have an option for 'Any Keyword'
+    Then the 'search_field' drop-down should have an option for 'Title Keyword'
+    Then the 'search_field' drop-down should have an option for 'Journal Title Keyword'
+    Then the 'search_field' drop-down should have an option for 'Author Browse (A-Z) Sorted By Name'
+    Then the 'search_field' drop-down should have an option for 'Author Browse (A-Z) Sorted By Title'
+    Then the 'search_field' drop-down should have an option for 'Author Keyword'
+    Then the 'search_field' drop-down should have an option for 'Subject Heading Keyword'
     Then the 'search_field' drop-down should have an option for 'Call Number'
     Then the 'search_field' drop-down should have an option for 'Publisher'
-    Then the 'search_field' drop-down should have an option for 'Subject'
 
  @all_search
    @callnumber
-  Scenario: Perform a search and see call number facet 
+  Scenario: Perform a search and see call number facet
     Given I am on the home page
     And I fill in the search box with 'biology'
     And I press 'search'
     Then I should get results
-    And I should see a facet called 'Call Number' 
+    And I should see a facet called 'Call Number'
 
 #Make sure constraint box appears
    @all_search
    @publisher
-  Scenario: Perform a search by Publisher 
+  Scenario: Perform a search by Publisher
     Given I am on the home page
     And I select 'Publisher' from the 'search_field' drop-down
     And I fill in the search box with 'Springer'
@@ -49,20 +52,29 @@ Feature: Search
 
    @all_search
    @author
-  Scenario: Perform a search by Author 
+  Scenario: Perform a search by Author
     Given I am on the home page
-    And I select 'Author, etc.' from the 'search_field' drop-down
+    And I select 'Author Keyword' from the 'search_field' drop-down
     And I fill in the search box with 'Sun Tzu'
     And I press 'search'
     Then I should get results
-    And it should contain filter "Author, etc." with value "Sun Tzu"
+    And it should contain filter "Author Keyword" with value "Sun Tzu"
     And I should see the label 'Sun Tzu'
+
+  @all_search
+  @author
+ Scenario: Perform a search by Author Browse
+   Given I am on the home page
+   And I select 'Author Browse (A-Z) Sorted By Name' from the 'search_field' drop-down
+   And I fill in the search box with 'Dickens, Charles'
+   And I press 'search'
+   Then I should see the label 'in author headings'
 
    @all_search
    @title
-  Scenario: Perform a search by Title 
+  Scenario: Perform a search by Title
     Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I fill in the search box with 'The complete works of Artemus Ward'
     And I press 'search'
     Then I should get results
@@ -73,7 +85,7 @@ Feature: Search
    @title
   Scenario: Perform a search by Title with a colon
     Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I fill in the search box with 'ethnoarchaeology:'
     And I press 'search'
     Then I should get results
@@ -81,7 +93,7 @@ Feature: Search
 
    @all_search
    @peabody
-  Scenario: Perform a search by author, as author see results 
+  Scenario: Perform a search by author, as author see results
     Given I am on the home page
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
@@ -90,7 +102,7 @@ Feature: Search
 
  @all_search
    @journaltitle
-  Scenario: Perform a search by journaltitle 
+  Scenario: Perform a search by journaltitle
     Given I am on the home page
     And I select 'Journal Title' from the 'search_field' drop-down
     And I fill in the search box with 'tetrahedron'
@@ -100,9 +112,9 @@ Feature: Search
 
  @all_search
    @peabody
-  Scenario: Perform a search by author, as author see results 
+  Scenario: Perform a search by author, as author see results
     Given I am on the home page
-    And I select 'Author, etc.' from the 'search_field' drop-down
+    And I select 'Author Keyword' from the 'search_field' drop-down
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
@@ -114,7 +126,7 @@ Feature: Search
    @clock
    @javascript
    @wip
-  Scenario: Perform a search and see no avail icon 
+  Scenario: Perform a search and see no avail icon
     Given I am on the home page
     And I fill in the search box with 'Annotated hobbit'
     And I press 'search'
@@ -126,27 +138,27 @@ Feature: Search
    @javascript
   Scenario: Perform a search and see linked fields displayed
     Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I fill in the search box with '"美国学者论美国中"'
     And I press 'search'
     Then I should get results
-    And I should see the label 'Meiguo xue zhe lun Meiguo Zhongguo xue' 
-    And I should see the label '美国学者论美国中国学' 
+    And I should see the label 'Meiguo xue zhe lun Meiguo Zhongguo xue'
+    And I should see the label '美国学者论美国中国学'
 
  @all_search
    @search_availability_title_professional_manager_multiple
    @multiple
    @availability
    @javascript
-  Scenario: Perform a title search and see avail icon, avail at  multiple locations 
+  Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I fill in the search box with '"The Professional Manager"'
     And I press 'search'
     Then I should get results
     And I sleep 15 seconds
     And I should see the "fa-check" class
-    And I should see the label 'Multiple locations' 
+    And I should see the label 'Multiple locations'
 
     #And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
  @all_search
@@ -154,15 +166,15 @@ Feature: Search
    @multiple
    @availability
    @javascript
-  Scenario: Perform a title search and see avail icon, avail at  multiple locations 
+  Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I fill in the search box with 'Atlas des missions de la '
     And I press 'search'
     Then I should get results
     And I sleep 15 seconds
     And I should see the "fa-check" class
-    And I should see the label 'Olin Library Maps' 
+    And I should see the label 'Olin Library Maps'
 
   # bibid 846380 Tolkien, new critical perspectives
   #   edited by Neil D. Isaacs & Rose A. Zimbardo
@@ -171,13 +183,13 @@ Feature: Search
    @multiple
    @availability
    @javascript
-  Scenario: Perform a title search and see avail icon, avail at  multiple locations 
+  Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I fill in the search box with 'Tolkien, new critical perspectives'
     And I press 'search'
     And I sleep 1 seconds
     Then I should get results
-    And I sleep 4 seconds
+    And I sleep 8 seconds
     And I should see the "fa-clock-o" class
-    And I should see the label 'Olin Library' 
+    And I should see the label 'Olin Library'

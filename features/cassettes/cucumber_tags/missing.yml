@@ -946,7 +946,7 @@ http_interactions:
   recorded_at: Wed, 09 Aug 2017 14:55:31 GMT
 - request:
     method: get
-    uri: http://holdings-int.library.cornell.edu/holdings/status_short/306998
+    uri: http://holdings6.library.cornell.edu/holdings/status_short/306998
     body:
       encoding: UTF-8
       string: ''
@@ -956,22 +956,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 10 Aug 2017 13:41:24 GMT
+      - Wed, 06 Sep 2017 18:24:46 GMT
   response:
     status:
       code: 302
       message: Found
     headers:
       Date:
-      - Thu, 10 Aug 2017 13:41:24 GMT
+      - Wed, 06 Sep 2017 18:24:46 GMT
       Server:
       - Apache
       Location:
-      - https://holdings-int.library.cornell.edu/holdings/status_short/306998
+      - https://holdings6.library.cornell.edu/holdings/status_short/306998
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '253'
+      - '250'
       Connection:
       - close
       Content-Type:
@@ -984,13 +984,13 @@ http_interactions:
         <title>302 Found</title>
         </head><body>
         <h1>Found</h1>
-        <p>The document has moved <a href="https://holdings-int.library.cornell.edu/holdings/status_short/306998">here</a>.</p>
+        <p>The document has moved <a href="https://holdings6.library.cornell.edu/holdings/status_short/306998">here</a>.</p>
         </body></html>
     http_version: 
-  recorded_at: Thu, 10 Aug 2017 13:41:24 GMT
+  recorded_at: Wed, 06 Sep 2017 18:24:46 GMT
 - request:
     method: get
-    uri: https://holdings-int.library.cornell.edu/holdings/status_short/306998
+    uri: https://holdings6.library.cornell.edu/holdings/status_short/306998
     body:
       encoding: UTF-8
       string: ''
@@ -1000,14 +1000,14 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 10 Aug 2017 13:41:24 GMT
+      - Wed, 06 Sep 2017 18:24:46 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 10 Aug 2017 13:41:24 GMT
+      - Wed, 06 Sep 2017 18:24:46 GMT
       Server:
       - Apache
       Access-Control-Allow-Origin:
@@ -1021,9 +1021,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 3771f961df0be2294a4ca28076391f82
+      - e5c4db27d78461f1c9045d3498ebc61f
       X-Runtime:
-      - '0.110792'
+      - '0.229507'
       X-Powered-By:
       - Phusion Passenger 4.0.58
       Status:
@@ -1044,5 +1044,5 @@ http_interactions:
         Library (Ives Hall)"],"locnumber":1,"status":["avail"],"avail_at":{},"not_avail_at":{"ILR
         Library (Ives Hall)":"JS39 .M95 Oversize"},"onotes":[]}}}}'
     http_version: 
-  recorded_at: Thu, 10 Aug 2017 13:41:24 GMT
+  recorded_at: Wed, 06 Sep 2017 18:24:46 GMT
 recorded_with: VCR 3.0.3

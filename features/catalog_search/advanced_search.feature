@@ -13,12 +13,12 @@ Feature: Search
   @javascript
   Scenario: Advanced Search Page search types
     When I literally go to advanced
-    Then the 'search_field_advanced' drop-down should have an option for 'All Fields'
-    Then the 'search_field_advanced' drop-down should have an option for 'Title'
-    #Then the 'search_field_advanced' drop-down should have an option for 'Journal title'
+    Then the 'search_field_advanced' drop-down should have an option for 'Any Keyword'
+    Then the 'search_field_advanced' drop-down should have an option for 'Title Keyword'
+    #Then the 'search_field_advanced' drop-down should have an option for 'Journal Title Keyword'
     Then the 'search_field_advanced' drop-down should have an option for 'Call Number'
     Then the 'search_field_advanced' drop-down should have an option for 'Publisher'
-    Then the 'search_field_advanced' drop-down should have an option for 'Subject'
+    Then the 'search_field_advanced' drop-down should have an option for 'Subject Heading Keyword'
     Then the 'search_field_advanced' drop-down should have an option for 'Series'
     Then the 'search_field_advanced' drop-down should have an option for 'Donor'
     #Then the 'boolean_row[1]' radio should have an option for 'or'
@@ -27,12 +27,12 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title AND publisher 
+  Scenario: Advanced search with title AND publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row1" with 'combinatorial algorithms'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'algorithmics'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
@@ -46,12 +46,12 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title OR publisher 
+  Scenario: Advanced search with title OR publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row1" with 'combinatorial algorithms'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     Then I should select radio "OR"
     And I fill in "q_row2" with 'algorithmics'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
@@ -65,12 +65,12 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title NOT publisher 
+  Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row1" with 'combinatorial algorithms'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     Then I should select radio "NOT"
     And I fill in "q_row2" with 'springer'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
@@ -85,18 +85,18 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title NOT publisher 
+  Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row1" with 'combinatorial algorithms'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     Then I should select radio "NOT"
     And I fill in "q_row2" with 'springer'
-    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I select 'Any Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 1'
+    And I should see the label '1 - 2'
 
  @adv_search
  @all_search
@@ -116,7 +116,7 @@ Feature: Search
   Scenario: Perform an advanced search by Publisher
     When I literally go to advanced
     And I fill in "q_row1" with 'biology'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Springer'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
@@ -131,7 +131,7 @@ Feature: Search
   Scenario: Perform an advanced search by author, as author see results
     When I literally go to advanced
     And I fill in "q_row1" with 'Peabody, William Bourn Oliver, 1799-1847'
-    And I select 'Author, etc.' from the 'search_field_advanced' drop-down
+    And I select 'Author Keyword' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'of 1'
@@ -143,7 +143,7 @@ Feature: Search
   Scenario: Perform an advanced search by title with colon, as title with colon see results
     When I literally go to advanced
     And I fill in "q_row1" with 'ethnoarchaeology:'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'of 4'
@@ -168,7 +168,7 @@ Feature: Search
   @javascript
   Scenario: Perform an advanced search by journaltitle
     When I literally go to advanced
-    And I select 'Journal Title' from the 'search_field_advanced' drop-down
+    And I select 'Journal Title Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row1" with 'journal of microbiology'
     And I press 'advanced_search'
     Then I should get results
@@ -291,10 +291,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Molecular Biology'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Subject' from the 'search_field_advanced' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'all' from the 'op_row2' drop-down
-    And I select 'Subject' from the 'search_field_advanced2' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 12 of 12'
@@ -308,10 +308,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Molecular Biology'
     And I select 'phrase' from the 'op_row' drop-down
-    And I select 'Subject' from the 'search_field_advanced' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'Subject' from the 'search_field_advanced2' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 7 of 7'
@@ -325,33 +325,33 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Molecular Biology'
     And I select 'phrase' from the 'op_row' drop-down
-    And I select 'Subject' from the 'search_field_advanced' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'Subject' from the 'search_field_advanced2' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced2' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
     And I fill in "q_row3" with 'yeast'
     And I select 'phrase' from the 'op_row3' drop-down
-    And I select 'Title' from the 'search_field_advanced3' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced3' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
     And I should see the label 'Yeast molecular biology--recombinant DNA'
 
-#  fungi, recombinant dna, any publisher 
+#  fungi, recombinant dna, any publisher
  @adv_search
  @all_search
  @adv_subject
  @javascript
-  Scenario: Perform an advanced search by all fields, all fields, phrase, and publisher any 
+  Scenario: Perform an advanced search by all fields, all fields, phrase, and publisher any
     When I literally go to advanced
     And I fill in "q_row1" with 'fungi'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'All Fields' from the 'search_field_advanced' drop-down
+    And I select 'Any Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I select 'Any Keyword' from the 'search_field_advanced2' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
     And I fill in "q_row3" with 'Food Products Press'
@@ -372,7 +372,7 @@ Feature: Search
     And I sleep 4 seconds
     And I fill in "q_row1" with 'yeast'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Subject' from the 'search_field_advanced' drop-down
+    And I select 'Subject Heading Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Amsterdam'
     And I select 'all' from the 'op_row2' drop-down
     And I sleep 4 seconds
@@ -391,10 +391,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'we were feminists'
     And I select 'begins' from the 'op_row' drop-down
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'we were feminists'
     And I select 'begins' from the 'op_row2' drop-down
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
@@ -412,7 +412,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'we were feminists'
     And I select 'begins' from the 'op_row' drop-down
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
@@ -439,7 +439,7 @@ Feature: Search
  @adv_place
  @javascript
  @DISCOVERYACCESS-3350
-  Scenario: Perform a 2 row  advanced search with a blank in one field. 
+  Scenario: Perform a 2 row  advanced search with a blank in one field.
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -451,8 +451,8 @@ Feature: Search
 
  @javascript
  @DISCOVERYACCESS-3350
-  Scenario: Perform a 2 row  advanced search with a blank in one field. 
-    Given PENDING 
+  Scenario: Perform a 2 row  advanced search with a blank in one field.
+    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -466,14 +466,14 @@ Feature: Search
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
     When I literally go to advanced
     And I fill in "q_row1" with 'beef'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with '100%'
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    Then it should have link "Title: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
-    #Then it should have link "Title: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
-    Then click on first link "Title: beef"
+    Then it should have link "Title Keyword: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
+    #Then it should have link "Title Keyword: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
+    Then click on first link "Title Keyword: beef"
 
 
  @adv_search
@@ -483,13 +483,14 @@ Feature: Search
   Scenario: Perform a 2 row  advanced search with Title with percent that must be url encoded.
     When I literally go to advanced
     And I fill in "q_row1" with 'beef'
-    And I select 'Title' from the 'search_field_advanced' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with '100%'
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     Then click on first link "Next »"
@@ -500,10 +501,10 @@ Feature: Search
     Then click on first link "Back to catalog results"
     And I should see the label '1 - '
     Then click on first link "Search History"
-    And I should see the label 'Title: beef AND Title: 100%'
-    Then click on first link "Title: beef AND Title: 100%"
+    And I should see the label 'Title Keyword: beef AND Title Keyword: 100%'
+    Then click on first link "Title Keyword: beef AND Title Keyword: 100%"
     And I should see the label '1 - '
-    Then click on first link "Title: beef"
+    Then click on first link "Title Keyword: beef"
     And I should see the label '1 - 20 of'
 
  # DISCOVERYACCESS3298
@@ -512,14 +513,14 @@ Feature: Search
  @adv_title_percent
  @javascript
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
-    Given PENDING 
+    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row2" with 'sargent, charles sprague'
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title Keyword' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    
+
 
  @begins_with
  @adv_search

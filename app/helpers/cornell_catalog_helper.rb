@@ -493,7 +493,7 @@ module CornellCatalogHelper
 	       supl2 = condensed[hk]["supplemental_holdings_desc"]
 	      end
 	      if (!supl1.blank? || !supl2.blank?)
-	       supl = "Supplements:" +supl1+supl2 
+	       supl = "Supplements: " +supl1+supl2 
 	      end
 	      items_by_mid[hk] = {"items"=> {}, "notes"=>notes_by_mid[hk], "summary_holdings"=>sumh_by_mid[hk],
 		"current_issues"=>curi,"supplements" => supl , "indexes"=> indx }
@@ -1404,7 +1404,10 @@ module CornellCatalogHelper
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
   def request_path(group,id,aeon_codes,document)
-   
+    magic_path  = blacklight_cornell_request.magic_request_path("#{id}") 
+    if ENV['SAML_IDP_TARGET_URL'].present?
+    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id}") 
+    end
     if ENV['AEON_REQUEST'].blank?
       aeon_req = '/aeon/~id~' 
       aeon_req = aeon_req.sub!('~id~',id.to_s)
@@ -1418,7 +1421,7 @@ module CornellCatalogHelper
       ##Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
     end
     aeon_req = aeon_req.gsub('~fa~',"#{finding_a}")
-    (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") : aeon_req
+    (group == "Circulating" ) ? magic_path: aeon_req
   end
     
   def has_tou?(id)
