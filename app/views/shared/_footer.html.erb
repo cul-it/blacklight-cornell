@@ -19,7 +19,7 @@
         </ul>
     	</div>
     	<div class="col-sm-4 feedback-link">
-    		<a href="https://library.cornell.edu/send-us-feedback?destination=catalog<%= request.original_fullpath %>" class="btn btn-libraries">Feedback</a>
+    		<a href="https://www.library.cornell.edu/feedback?destination=catalog<%= CGI.escape request.original_fullpath %>" class="btn btn-libraries">Feedback</a>
         <p><a href="mailto:web-accessibility@cornell.edu">Web Accessibility Help</a></p>
         <p><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release notes</a></p>
     	</div>
@@ -29,7 +29,7 @@
         <p>&#169; <%= Time.now.strftime("%Y") %> Cornell University Library | <a href="http://www.library.cornell.edu/privacy">Privacy</a></p>
       </div>
       <div class="col-sm-4 social-links">
-        <a class="facebook-button" href="http://www.facebook.com/cornelluniversitylibrary"><i class="fa fa-facebook-square" aria-hidden="true" title="Find us on Facebook" onclick="javascript:_paq.push(['Footer', 'social_links', 'Facebook']);"></i><span class="sr-only">Facebook</span></a> 
+        <a class="facebook-button" href="http://www.facebook.com/cornelluniversitylibrary"><i class="fa fa-facebook-square" aria-hidden="true" title="Find us on Facebook" onclick="javascript:_paq.push(['Footer', 'social_links', 'Facebook']);"></i><span class="sr-only">Facebook</span></a>
         <a class="twitter-button" href="https://twitter.com/intent/follow?original_referer=http%3A%2F%2Fwww.library.cornell.edu%2Findex&amp;region=follow_link&amp;screen_name=Cornell_Library&amp;tw_p=followbutton&amp;variant=2.0"><i class="fa fa-twitter-square" title="Follow us on Twitter" aria-hidden="true" onclick="javascript:_paq.push(['Footer', 'social_links', 'Twitter']);"></i><span class="sr-only">Twitter</span></a>
         <%= render_solr_core %>
       </div>
