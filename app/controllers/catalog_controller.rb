@@ -39,7 +39,7 @@ class CatalogController < ApplicationController
   # seem to actually appear anywhere (not sure why), but rendering 'nothing'
   # instead doesn't let the email modal appear either.
   def authorize_email_use!
-    if  !session[:cu_authenticated_user].present? 
+    if  !session[:cu_authenticated_user].present?
         flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
@@ -70,6 +70,7 @@ if false
   end
 end
 
+  before_action :redirect_browse
 
   configure_blacklight do |config|
 
@@ -306,7 +307,7 @@ end
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
     config.add_show_field 'author_addl_json', :label => 'Other contributor'
-    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :html_safe
+    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :contents_list
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'
@@ -369,13 +370,16 @@ end
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'All Fields', :include_in_advanced_search => true
+    config.add_search_field 'all_fields', :label => 'Any Keyword', :include_in_advanced_search => true
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields.
 
-    config.add_search_field('title') do |field|
+    config.add_search_field 'separator_1', :label => '---', :include_in_advanced_search => false
+
+
+    config.add_search_field('title', :label => "Title Keyword") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
@@ -413,25 +417,40 @@ end
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('journal title') do |field|
-      field.solr_parameters = { :'format' => "Journal" }
+    config.add_search_field('journal title', :label => "Journal Title Keyword") do |field|
       field.solr_local_parameters = {
         :qf => '$title_qf',
         :pf => '$title_pf',
         :search_field => "journal title"
       }
     end
-    config.add_search_field('author/creator',:label => "Author, etc.") do |field|
+
+    config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
+
+    config.add_search_field('author/creator',:label => "Author Keyword") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
         :pf => '$author_pf'
       }
     end
+
+    # add browse searches to simple search
+    config.add_search_field('author_browse') do |field|
+      field.include_in_advanced_search = false
+      field.label = 'Author Browse (A-Z) Sorted By Name'
+      field.placeholder_text = 'Dickens, Charles'
+    end
+
+    config.add_search_field('at_browse', :label => 'Author Browse (A-Z) Sorted By Title',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+
+    config.add_search_field 'separator_3', :label => '---', :include_in_advanced_search => false
+
+
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
-    config.add_search_field('subject') do |field|
+    config.add_search_field('subject', :label => "Subject Heading Keyword") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = {
@@ -439,6 +458,11 @@ end
         :pf => '$subject_pf'
       }
     end
+
+    config.add_search_field('subject_browse', :label => 'Subject Heading Browse (A-Z)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+
+    config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
+
     config.add_search_field('call number', :label => 'Call Number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = true
@@ -498,6 +522,8 @@ end
          :pf => '$donor_pf'
        }
     end
+
+
 
 
 # Begins with search fields
@@ -897,29 +923,29 @@ end
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       else
           flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-      end  
+      end
     end
 
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
-      if request.xhr? && flash[:success] 
-        if docs.size < 2 
+      if request.xhr? && flash[:success]
+        if docs.size < 2
           render :js => "window.location = '/catalog/#{params[:id]}'"
-        else 
+        else
           render :js => "window.location = '/bookmarks'"
         end
         return
       end
     end
-    unless !request.xhr? && flash[:success] 
+    unless !request.xhr? && flash[:success]
       respond_to do |format|
         format.js { render :layout => false }
         format.html
       end
     end
   end
-  
+
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def mollom_email
@@ -1006,7 +1032,7 @@ end
 
     end  # request.post?
     if false
-      unless !request.xhr? && flash[:success] 
+      unless !request.xhr? && flash[:success]
         respond_to do |format|
           format.js { render :layout => false }
           format.html
@@ -1073,7 +1099,17 @@ def tou
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
   #end
 
-
+  def redirect_browse
+       if params[:search_field] && params[:controller] != 'advanced'
+         if params[:search_field] == 'subject_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Subject"
+         elsif params[:search_field] == 'author_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
+         elsif params[:search_field] == 'at_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
+         end
+       end
+     end
 
 
 end

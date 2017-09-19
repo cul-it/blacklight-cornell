@@ -287,7 +287,7 @@ Feature: Results list
   Scenario: Search with results,
     Given I am on the home page
     When I fill in the search box with 'cigarette prices'
-    And I select 'Title' from the 'search_field' drop-down
+    And I select 'Title Keyword' from the 'search_field' drop-down
     And I press 'search'
     And I sleep 10 seconds
     Then I should get results

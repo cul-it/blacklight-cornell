@@ -4,6 +4,8 @@ class BrowseController < ApplicationController
   include BlacklightCornell::CornellCatalog
   #include BlacklightUnapi::ControllerExtension
   before_filter :heading
+  before_action :redirect_catalog
+
   #attr_accessible :authq, :start, :order, :browse_type
  
   if   ENV['SAML_IDP_TARGET_URL']
@@ -178,4 +180,15 @@ end
       end
     end
 end
+
+def redirect_catalog
+     if params[:browse_type]
+       if params[:browse_type].include?('catalog')
+         field=params[:browse_type].split(':')[1]
+         redirect_to "/catalog?q=#{CGI.escape params[:authq]}&search_field=#{field}"
+       end
+     end
+   end
+
+
 end
