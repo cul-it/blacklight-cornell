@@ -9,6 +9,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
+  include Blacklight::TokenBasedUser
 #  include ActsAsTinyURL
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -309,9 +310,20 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def citation
       @response, @documents = fetch(params[:id])
     end
+
     # grabs a bunch of documents to export to endnote
     def endnote
-      @response, @documents = fetch(params[:id])
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      if params[:id].nil?
+        bookmarks = token_or_current_or_guest_user.bookmarks
+        bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
+        @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
+      else
+        @response, @documents = fetch(params[:id])
+      end
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
         format.ris      { render 'ris', :layout => false }

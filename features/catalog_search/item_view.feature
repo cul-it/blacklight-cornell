@@ -620,12 +620,12 @@ Feature: Item view
 @tou
 @all_item_view
   Scenario: Show links to multiple terms of use on electronic books
-  Given I request the item view for 9724377
+  Given I request the item view for 8445988 
   Then I should see the text 'Terms of use'
-  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AKXHO"
-  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AAGPP"
+  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
+  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/BKSAR"
   And click on first link "Terms of use"
-  Then I should see the text 'Course Reserves by link only'
+  Then I should see the text 'Course Pack Electronic	Permitted'
 
 
 @insert_line_breaks
@@ -741,6 +741,5 @@ Feature: Item view
   @all_item_view
   Scenario: View an hotel items holdings, and have pointer to ILR help page.
     Given I request the item view for 330333
-   Given PENDING
         Then I should see the label 'On-site use'
-        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/ilr"
+        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
