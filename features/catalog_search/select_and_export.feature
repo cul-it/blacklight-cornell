@@ -226,6 +226,18 @@ Feature: Select and export items from the result set
     Then I should see the text 'SN - 091316710X' 
     Then I should see the text 'ER  -'
 
+@citations
+  Scenario: User needs to send a book record to endnote format (might go to zotero) 
+    Given I request the item view for 1001 
+    Given I request the item view for 1001.endnote
+    Then I should see the text '%0 Generic'
+    Then I should see the text '%C Washington, D.C.'
+    Then I should see the text '%D 1985' 
+    Then I should see the text '%E Prattis, J. I' 
+    Then I should see the text '%I American Anthropological Association' 
+    Then I should see the text '%@ 091316710X'
+    Then I should see the text '%T Reflections  the anthropological muse'
+
 ###
 ###
 ##
