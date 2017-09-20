@@ -19,13 +19,13 @@ Feature: Search
 
   Scenario: Search Page search types
     When I am on the home page
-    Then the 'search_field' drop-down should have an option for 'Any Keyword'
-    Then the 'search_field' drop-down should have an option for 'Title Keyword'
-    Then the 'search_field' drop-down should have an option for 'Journal Title Keyword'
+    Then the 'search_field' drop-down should have an option for 'Any Field'
+    Then the 'search_field' drop-down should have an option for 'Title'
+    Then the 'search_field' drop-down should have an option for 'Journal Title'
     Then the 'search_field' drop-down should have an option for 'Author Browse (A-Z) Sorted By Name'
     Then the 'search_field' drop-down should have an option for 'Author Browse (A-Z) Sorted By Title'
-    Then the 'search_field' drop-down should have an option for 'Author Keyword'
-    Then the 'search_field' drop-down should have an option for 'Subject Heading Keyword'
+    Then the 'search_field' drop-down should have an option for 'Author'
+    Then the 'search_field' drop-down should have an option for 'Subject'
     Then the 'search_field' drop-down should have an option for 'Call Number'
     Then the 'search_field' drop-down should have an option for 'Publisher'
 
@@ -54,11 +54,11 @@ Feature: Search
    @author
   Scenario: Perform a search by Author
     Given I am on the home page
-    And I select 'Author Keyword' from the 'search_field' drop-down
+    And I select 'Author' from the 'search_field' drop-down
     And I fill in the search box with 'Sun Tzu'
     And I press 'search'
     Then I should get results
-    And it should contain filter "Author Keyword" with value "Sun Tzu"
+    And it should contain filter "Author" with value "Sun Tzu"
     And I should see the label 'Sun Tzu'
 
   @all_search
@@ -74,7 +74,7 @@ Feature: Search
    @title
   Scenario: Perform a search by Title
     Given I am on the home page
-    And I select 'Title Keyword' from the 'search_field' drop-down
+    And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with 'The complete works of Artemus Ward'
     And I press 'search'
     Then I should get results
@@ -85,7 +85,7 @@ Feature: Search
    @title
   Scenario: Perform a search by Title with a colon
     Given I am on the home page
-    And I select 'Title Keyword' from the 'search_field' drop-down
+    And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with 'ethnoarchaeology:'
     And I press 'search'
     Then I should get results
@@ -114,7 +114,7 @@ Feature: Search
    @peabody
   Scenario: Perform a search by author, as author see results
     Given I am on the home page
-    And I select 'Author Keyword' from the 'search_field' drop-down
+    And I select 'Author' from the 'search_field' drop-down
     And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
     And I press 'search'
     Then I should get results
@@ -138,7 +138,7 @@ Feature: Search
    @javascript
   Scenario: Perform a search and see linked fields displayed
     Given I am on the home page
-    And I select 'Title Keyword' from the 'search_field' drop-down
+    And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with '"美国学者论美国中"'
     And I press 'search'
     Then I should get results
@@ -152,7 +152,7 @@ Feature: Search
    @javascript
   Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
-    And I select 'Title Keyword' from the 'search_field' drop-down
+    And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with '"The Professional Manager"'
     And I press 'search'
     Then I should get results
@@ -168,7 +168,7 @@ Feature: Search
    @javascript
   Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
-    And I select 'Title Keyword' from the 'search_field' drop-down
+    And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with 'Atlas des missions de la '
     And I press 'search'
     Then I should get results
@@ -185,7 +185,7 @@ Feature: Search
    @javascript
   Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
-    And I select 'Title Keyword' from the 'search_field' drop-down
+    And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with 'Tolkien, new critical perspectives'
     And I press 'search'
     And I sleep 1 seconds

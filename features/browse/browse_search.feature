@@ -1,6 +1,6 @@
 # encoding: UTF-8
-Feature: Browse search 
-  In order to get information about authorities 
+Feature: Browse search
+  In order to get information about authorities
   As a user
   I want to search author and subject authority records
 
@@ -10,17 +10,17 @@ Feature: Browse search
   	Then I should see the text 'Browse through an alphabetical'
 
   @browse
-  Scenario: Search for an author 
+  Scenario: Search for an author
   	Given I literally go to browse
         And I fill in the authorities search box with 'Dickens, Charles'
         And I press 'search'
   	Then I should see the label 'Dickens, Charles, 1812-1870'
 
   @browse
-  Scenario: Search for a subject 
+  Scenario: Search for a subject
     Given I literally go to browse
         And I fill in the authorities search box with 'China > History'
-        And I select 'Subject Heading Browse (A-Z)' from the 'browse_type' drop-down
+        And I select 'Subject Browse (A-Z)' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'China > History'
 
@@ -28,7 +28,7 @@ Feature: Browse search
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio'
-        And I select 'Author Browse (A-Z) Sorted By Title' from the 'browse_type' drop-down
+        And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)'
     Then click on link "Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)"
@@ -39,7 +39,7 @@ Feature: Browse search
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Dick, George'
-        And I select 'Author Browse (A-Z) Sorted By Title' from the 'browse_type' drop-down
+        And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Dick, George. | Immunological Aspects of Infectious Diseases'
     Then click on link "Dick, George. | Immunological Aspects of Infectious Diseases"

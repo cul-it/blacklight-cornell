@@ -54,18 +54,18 @@ if false
     op = request.original_fullpath
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}") 
-    session[:cuwebauth_return_path] = 
-      if (params['id'].present? && params['id'].include?('|'))  
-        '/bookmarks' 
-      elsif (params['id'].present? && op.include?('email')) 
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    session[:cuwebauth_return_path] =
+      if (params['id'].present? && params['id'].include?('|'))
+        '/bookmarks'
+      elsif (params['id'].present? && op.include?('email'))
         "/catalog/afemail/#{params[:id]}"
-      elsif (params['id'].present? && op.include?('unapi')) 
-         refp 
-      else 
-        op 
+      elsif (params['id'].present? && op.include?('unapi'))
+         refp
+      else
+        op
       end
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}") 
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
   end
 end
@@ -370,7 +370,7 @@ end
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'Any Keyword', :include_in_advanced_search => true
+    config.add_search_field 'all_fields', :label => 'Any Field', :include_in_advanced_search => true
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
@@ -379,7 +379,7 @@ end
     config.add_search_field 'separator_1', :label => '---', :include_in_advanced_search => false
 
 
-    config.add_search_field('title', :label => "Title Keyword") do |field|
+    config.add_search_field('title', :label => "Title") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
@@ -417,7 +417,7 @@ end
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('journal title', :label => "Journal Title Keyword") do |field|
+    config.add_search_field('journal title', :label => "Journal Title") do |field|
       field.solr_local_parameters = {
         :qf => '$title_qf',
         :pf => '$title_pf',
@@ -427,7 +427,7 @@ end
 
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
-    config.add_search_field('author/creator',:label => "Author Keyword") do |field|
+    config.add_search_field('author/creator',:label => "Author") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
@@ -450,7 +450,7 @@ end
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
-    config.add_search_field('subject', :label => "Subject Heading Keyword") do |field|
+    config.add_search_field('subject', :label => "Subject") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = {
@@ -459,7 +459,7 @@ end
       }
     end
 
-    config.add_search_field('subject_browse', :label => 'Subject Heading Browse (A-Z)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+    config.add_search_field('subject_browse', :label => 'Subject Browse (A-Z)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
 
     config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
 
