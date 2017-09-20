@@ -7,8 +7,21 @@ footer {
 	a, a:hover {
 		color: $dark-gray;
 	}
-	.footer-nav.nav > li > a {
+	.footer-nav {
+		margin-top: .25em;
+		margin-bottom: 1.5em;
+		overflow: hidden;
+	}
+	.footer-nav.nav > li {
 		padding: 0 10px;
+		float: left;
+		margin-bottom: .5em;
+	}
+	.footer-nav.nav > li:first-child {
+		padding-left: 0;
+	}
+	.footer-nav.nav > li > a {
+		padding: 0;
 	}
 	.btn-libraries {
 		background: $teal;
@@ -48,28 +61,6 @@ footer {
 	border-top: 1px solid #ddd;
 	margin-top: em;
 }
-.footer-nav {
-	margin-top: .25em;
-	margin-bottom: 1.5em;
-	overflow: hidden;
-	li {
-		float: left;
-		font-size: 12px;
-		margin-bottom: .5em;
-		i {
-			margin-right: 4px;
-		}
-	}
-	li:first-child {
-		a {
-			padding-left: 0;
-		}
-	}
-	a:hover, a:focus {
-		background: inherit !important;
-		text-decoration: underline !important;
-	}
-}
 
 .libraries-list {
 	padding: 0 0 2em;
@@ -108,15 +99,22 @@ footer {
 footer {
 	h3 {
 		text-transform: uppercase;
-		font-size: 11px;
+		font-size: 12px;
 		margin: 2em 0 0 0;
+		color: $dark-gray;
 	}
 }
 .social-links {
 	i { 
 		font-size: 40px;
 	}
-	a { color: $medium-gray; }
+	a { 
+		color: $medium-gray;
+		border: 0;
+	}
+	a:hover {
+		border: 0;
+	}
 	.facebook-button { margin-right: 5px; }
 }
 .solr-core {

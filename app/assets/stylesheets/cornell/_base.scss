@@ -33,7 +33,8 @@ a:hover {
 
 // Add underlines to links in main content area so that they are easier to see / accessibility
 .main-content,
-.blacklight-nav {
+.blacklight-nav,
+footer {
 	a {
 		border-bottom: 1px dotted $light-gray;
 	}
