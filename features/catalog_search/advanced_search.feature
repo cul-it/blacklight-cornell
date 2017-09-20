@@ -291,10 +291,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Molecular Biology'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced' drop-down
+    And I select 'Subject' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'all' from the 'op_row2' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced2' drop-down
+    And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 12 of 12'
@@ -308,10 +308,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Molecular Biology'
     And I select 'phrase' from the 'op_row' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced' drop-down
+    And I select 'Subject' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced2' drop-down
+    And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 7 of 7'
@@ -325,10 +325,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Molecular Biology'
     And I select 'phrase' from the 'op_row' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced' drop-down
+    And I select 'Subject' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced2' drop-down
+    And I select 'Subject' from the 'search_field_advanced2' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
     And I fill in "q_row3" with 'yeast'
@@ -372,7 +372,7 @@ Feature: Search
     And I sleep 4 seconds
     And I fill in "q_row1" with 'yeast'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Subject Heading' from the 'search_field_advanced' drop-down
+    And I select 'Subject' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Amsterdam'
     And I select 'all' from the 'op_row2' drop-down
     And I sleep 4 seconds
