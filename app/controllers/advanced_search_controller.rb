@@ -1,4 +1,7 @@
 class AdvancedSearchController < ApplicationController
+# drop down problems?
+#
+
 
   before_filter :heading
   if   ENV['SAML_IDP_TARGET_URL']
@@ -97,7 +100,6 @@ class AdvancedSearchController < ApplicationController
   end
 end
 
-if false
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
@@ -117,7 +119,7 @@ if false
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}") 
     return true
   end
-end
+
 
 
 end
