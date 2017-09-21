@@ -76,6 +76,14 @@ Feature: Results list
 	    Then I should get bento results
 	    And I should see the text "Def Jam"
 
+		@all_results_list @search_with_view_advanced_link
+		Scenario: Search with view all books link
+			Given I literally go to search
+			When I fill in "q" with 'game design'
+			And I press 'Search'
+			Then I should get bento results
+			And I should see the text "or use advanced search"
+
   @all_results_list @search_with_view_all_libguides
   Scenario: Search with view all books link
     Given PENDING
