@@ -311,7 +311,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        testSFRow = []
        testBRow = []
        for i in 0..my_params[:q_row].count - 1
-          if my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?
+         if (my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?) and my_params[:q_row][i] != ' '
              testQRow << my_params[:q_row][i]
              testOpRow << my_params[:op_row][i]
              testSFRow << my_params[:search_field_row][i]
