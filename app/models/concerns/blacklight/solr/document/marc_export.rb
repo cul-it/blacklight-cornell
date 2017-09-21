@@ -196,10 +196,10 @@ module Blacklight::Solr::Document::MarcExport
           if field[first_value[1]].to_s or field[second_value[1]].to_s
             text << "#{key.gsub('_','')}"
             if field[first_value[1]].to_s
-              text << " #{field[first_value[1]].to_s}"
+              text << " #{clean_end_punctuation(field[first_value[1]].to_s)}"
             end
             if field[second_value[1]].to_s
-              text << " #{field[second_value[1]].to_s}"
+              text << " #{clean_end_punctuation(field[second_value[1]].to_s)}"
             end
             text << "\n"
           end
@@ -1028,7 +1028,7 @@ module Blacklight::Solr::Document::MarcExport
     end
     
     return nil if text.strip.blank?
-    text.sub!(' : ' ,': ')
+    text.gsub!(' : ' ,': ')
     clean_end_punctuation(text.strip) + "."
   end
   

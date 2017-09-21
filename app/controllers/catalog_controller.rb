@@ -7,6 +7,11 @@ class CatalogController < ApplicationController
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
 
+  if   ENV['SAML_IDP_TARGET_URL']
+    before_filter :authenticate_user!, only: [  :email ]
+    prepend_before_filter :set_return_path
+  end
+
   # Ensure that the configuration file is present
   begin
     SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
@@ -24,8 +29,9 @@ class CatalogController < ApplicationController
   def repository_class
     Blacklight::Solr::Repository
   end
-
-  before_action :authorize_email_use!, only: :email
+  unless  ENV['SAML_IDP_TARGET_URL']
+    before_action :authorize_email_use!, only: :email
+  end
 
   # This is used to protect the email function by limiting it to only Cornell
   # users. If not signed in, the user is prompted to click a link that redirects
@@ -33,16 +39,38 @@ class CatalogController < ApplicationController
   # seem to actually appear anywhere (not sure why), but rendering 'nothing'
   # instead doesn't let the email modal appear either.
   def authorize_email_use!
-    unless session[:cu_authenticated_user].present?
-      flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
+    if  !session[:cu_authenticated_user].present?
+        flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
-      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
-
-      render :partial => 'catalog/email_cuwebauth'
+    session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/afemail/#{params[:id]}"
+    render :partial => 'catalog/email_cuwebauth'
     end
   end
 
+if false
+  def set_return_path
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    op = request.original_fullpath
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+    refp = request.referer
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    session[:cuwebauth_return_path] =
+      if (params['id'].present? && params['id'].include?('|'))
+        '/bookmarks'
+      elsif (params['id'].present? && op.include?('email'))
+        "/catalog/afemail/#{params[:id]}"
+      elsif (params['id'].present? && op.include?('unapi'))
+         refp
+      else
+        op
+      end
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+    return true
+  end
+end
+
+  before_action :redirect_browse
 
   configure_blacklight do |config|
 
@@ -89,12 +117,6 @@ class CatalogController < ApplicationController
             :sep => '|',
             :key_value => true
         },
-        'author_cts' => {
-            :search_field => 'author_cts',
-            :sep => '|',
-            :sep_display => ' / ',
-            :pair_list => true
-        },
         'author_json' => {
             :search_field => 'author_cts',
             :sep => '|',
@@ -107,23 +129,10 @@ class CatalogController < ApplicationController
             :sep_display => ' / ',
             :pair_list_json => true
         },
-        'author_addl_cts' => {
-            :search_field => 'author_cts',
-            :sep => '|',
-            :sep_display => ' / ',
-            :pair_list => true
-        },
         'title_series_cts' => {
           :search_field => 'series',
           :sep => '|',
           :key_value => true
-        },
-        'subject_cts' => {
-            :search_field => 'subject_cts',
-            :sep => '|',
-            :sep_index => ' ',
-            :sep_display => ' > ',
-            :hierarchical => true
         },
         'subject_json' => {
             :search_field => 'subject_cts',
@@ -298,28 +307,28 @@ class CatalogController < ApplicationController
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
     config.add_show_field 'author_addl_json', :label => 'Other contributor'
-    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :html_safe
+    config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :contents_list
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
     config.add_show_field 'included_work_display', :label => 'Included work'
     config.add_show_field 'related_work_display', :label => 'Related Work'
     config.add_show_field 'title_series_cts', :label => 'Series'
-    config.add_show_field 'continues_display', :label => 'Continues', helper_method: :remove_pipe
-    config.add_show_field 'continues_in_part_display', :label => 'Continues in part', helper_method: :remove_pipe
-    config.add_show_field 'supersedes_display', :label => 'Supersedes', helper_method: :remove_pipe
-    config.add_show_field 'absorbed_display', :label => 'Absorbed', helper_method: :remove_pipe
-    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part', helper_method: :remove_pipe
-    config.add_show_field 'continued_by_display', :label => 'Continued by', helper_method: :remove_pipe
-    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by', helper_method: :remove_pipe
-    config.add_show_field 'superseded_by_display', :label => 'Superseded by', :helper_method => :remove_pipe
-    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by', helper_method: :remove_pipe
-    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by', helper_method: :remove_pipe
-    config.add_show_field 'split_into_display', :label => 'Split into', helper_method: :remove_pipe
-    config.add_show_field 'merger_display', :label => 'Merger', helper_method: :remove_pipe
-    config.add_show_field 'merger_of_display', :label => 'Merger of', helper_method: :remove_pipe
-    config.add_show_field 'translation_of_display', :label => 'Translation of', helper_method: :remove_pipe
-    config.add_show_field 'has_translation_display', :label => 'Has translation', helper_method: :remove_pipe
-    config.add_show_field 'other_edition_display', :label => 'Other edition', helper_method: :remove_pipe
+    config.add_show_field 'continues_display', :label => 'Continues'
+    config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
+    config.add_show_field 'supersedes_display', :label => 'Supersedes'
+    config.add_show_field 'absorbed_display', :label => 'Absorbed'
+    config.add_show_field 'absorbed_in_part_display', :label => 'Absorbed in part'
+    config.add_show_field 'continued_by_display', :label => 'Continued by'
+    config.add_show_field 'continued_in_part_by_display', :label => 'Continued in part by'
+    config.add_show_field 'superseded_by_display', :label => 'Superseded by'
+    config.add_show_field 'absorbed_by_display', :label => 'Absorbed by'
+    config.add_show_field 'absorbed_in_part_by_display', :label => 'Absorbed in part by'
+    config.add_show_field 'split_into_display', :label => 'Split into'
+    config.add_show_field 'merger_display', :label => 'Merger'
+    config.add_show_field 'merger_of_display', :label => 'Merger of'
+    config.add_show_field 'translation_of_display', :label => 'Translation of'
+    config.add_show_field 'has_translation_display', :label => 'Has translation'
+    config.add_show_field 'other_edition_display', :label => 'Other edition'
     config.add_show_field 'indexed_selectively_by_display', :label => 'Indexed selectively by'
     config.add_show_field 'indexed_by_display', :label => 'Indexed By'
     config.add_show_field 'references_display', :label => 'References'
@@ -327,10 +336,11 @@ class CatalogController < ApplicationController
     config.add_show_field 'in_display', :label => 'In'
     config.add_show_field 'map_format_display', :label => 'Map format'
     config.add_show_field 'instrumentation_display', :label => 'Instrumentation'
-    config.add_show_field 'has_supplement_display', :label => 'Has supplement', helper_method: :remove_pipe
-    config.add_show_field 'supplement_to_display', :label => 'Supplement to', helper_method: :remove_pipe
-    config.add_show_field 'other_form_display', :label => 'Other form', helper_method: :remove_pipe
-    config.add_show_field 'issued_with_display', :label => 'Issued with', helper_method: :remove_pipe
+    config.add_show_field 'has_supplement_display', :label => 'Has supplement'
+    config.add_show_field 'supplement_to_display', :label => 'Supplement to'
+    config.add_show_field 'other_form_display', :label => 'Other form'
+    config.add_show_field 'issued_with_display', :label => 'Issued with'
+    config.add_show_field 'separated_from_display', :label => 'Separated from'
     config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
@@ -360,13 +370,16 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'All Fields', :include_in_advanced_search => true
+    config.add_search_field 'all_fields', :label => 'Any Field', :include_in_advanced_search => true
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields.
 
-    config.add_search_field('title') do |field|
+    config.add_search_field 'separator_1', :label => '---', :include_in_advanced_search => false
+
+
+    config.add_search_field('title', :label => "Title") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
@@ -404,25 +417,40 @@ class CatalogController < ApplicationController
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('journal title') do |field|
-      field.solr_parameters = { :'format' => "Journal" }
+    config.add_search_field('journal title', :label => "Journal Title") do |field|
       field.solr_local_parameters = {
         :qf => '$title_qf',
         :pf => '$title_pf',
         :search_field => "journal title"
       }
     end
-    config.add_search_field('author/creator',:label => "Author, etc.") do |field|
+
+    config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
+
+    config.add_search_field('author/creator',:label => "Author") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
         :pf => '$author_pf'
       }
     end
+
+    # add browse searches to simple search
+    config.add_search_field('author_browse') do |field|
+      field.include_in_advanced_search = false
+      field.label = 'Author Browse (A-Z) Sorted By Name'
+      field.placeholder_text = 'Dickens, Charles'
+    end
+
+    config.add_search_field('at_browse', :label => 'Author Browse (A-Z) Sorted By Title',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+
+    config.add_search_field 'separator_3', :label => '---', :include_in_advanced_search => false
+
+
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
-    config.add_search_field('subject') do |field|
+    config.add_search_field('subject', :label => "Subject") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = {
@@ -430,6 +458,11 @@ class CatalogController < ApplicationController
         :pf => '$subject_pf'
       }
     end
+
+    config.add_search_field('subject_browse', :label => 'Subject Browse (A-Z)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+
+    config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
+
     config.add_search_field('call number', :label => 'Call Number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = true
@@ -489,6 +522,8 @@ class CatalogController < ApplicationController
          :pf => '$donor_pf'
        }
     end
+
+
 
 
 # Begins with search fields
@@ -865,11 +900,58 @@ class CatalogController < ApplicationController
   # a class variable in order to maintain the connection across CAPTCHA
   # displays and repeated form submissions.
   @@mollom = nil
+
+  def afemail
+    @id = params[:id]
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+  end
+
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
+  # but now we removed mollom captcha.
   def email
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
+    docs = params[:id].split '|'
+    @response, @documents = fetch docs
+    if request.post?
+      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+        email.deliver_now
+        flash[:success] = "Email sent"
+        redirect_to solr_document_path(params[:id]) unless request.xhr?
+      else
+          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+      end
+    end
+
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
+    if   ENV['SAML_IDP_TARGET_URL']
+      if request.xhr? && flash[:success]
+        if docs.size < 2
+          render :js => "window.location = '/catalog/#{params[:id]}'"
+        else
+          render :js => "window.location = '/bookmarks'"
+        end
+        return
+      end
+    end
+    unless !request.xhr? && flash[:success]
+      respond_to do |format|
+        format.js { render :layout => false }
+        format.html
+      end
+    end
+  end
+
+  # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
+  # (in order to add Mollom/CAPTCHA integration)
+  def mollom_email
 
     Rails.logger.debug "mjc12test: entering email"
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
 
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
@@ -944,15 +1026,17 @@ class CatalogController < ApplicationController
                                                          :templocation => params[:templocation], :status => params[:itemStatus], :params => params}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
+        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} emailing   = #{flash.inspect}")
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       end
 
     end  # request.post?
-
-    unless !request.xhr? && flash[:success]
-      respond_to do |format|
-        format.js { render :layout => false }
-        format.html
+    if false
+      unless !request.xhr? && flash[:success]
+        respond_to do |format|
+          format.js { render :layout => false }
+          format.html
+        end
       end
     end
 end
@@ -975,7 +1059,7 @@ Rails.logger.info("POOT")
     else
         @dblinks.each do |link|
             l = JSON.parse(link)
-            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode] 
+            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]
                 @defaultRightsText = ''
                 @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
                 if @ermDBResult.size < 1
@@ -1006,13 +1090,26 @@ Rails.logger.info("POOT")
                 end
             end
             @db = [l]
-        end   
+        end
     @column_names = ::Erm_data.column_names.collect(&:to_sym)
     end
 
   end
+  #def oclc_request
+  #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
+  #end
 
-
+  def redirect_browse
+       if params[:search_field] && params[:controller] != 'advanced'
+         if params[:search_field] == 'subject_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Subject"
+         elsif params[:search_field] == 'author_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
+         elsif params[:search_field] == 'at_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
+         end
+       end
+     end
 
 
 end

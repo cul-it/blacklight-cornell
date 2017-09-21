@@ -9,8 +9,36 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
+  include Blacklight::TokenBasedUser
 #  include ActsAsTinyURL
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
+
+ 
+
+  if   ENV['SAML_IDP_TARGET_URL']
+    #prepend_before_filter :set_return_path
+  end
+  
+  def set_return_path
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    op = request.original_fullpath
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+    refp = request.referer
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    session[:cuwebauth_return_path] =
+      if (params['id'].present? && params['id'].include?('|'))
+        '/bookmarks'
+      elsif (params['id'].present? && op.include?('email'))
+        "/catalog/afemail/#{params[:id]}"
+      elsif (params['id'].present? && op.include?('unapi'))
+         refp
+      else
+        op
+      end
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+    return true
+  end
+
 
 
   # The following code is executed when someone includes blacklight::catalog in their
@@ -48,12 +76,42 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     self['facet.field'] += Array(values)
   end
 
+  # get search results by oclc number
+  #
+  #{"utf8"=>"✓", "advanced_query"=>"yes", "omit_keys"=>["page"], "params"=>{"advanced_query"=>"yes"}, "q_row"=>["(OCoLC)25367820", ""], "op_row"=>["phrase", "AND"], "search_field_row"=>["publisher number/other identifier", "all_fields"], "boolean_row"=>{"1"=>"AND"}, "sort"=>"score desc, pub_date_sort desc, title_sort asc", "search_field"=>"advanced", "commit"=>"Search"}
+  #"q_row"=>["(OCoLC)25367820", ""], "op_row"=>["phrase", "AND"], "search_field_row"=>["publisher number/other identifier"
+  #http://es287-dev.library.cornell.edu:8988/catalog?utf8=%E2%9C%93&advanced_query=yes&omit_keys%5B%5D=page&params%5Badvanced_query%5D=yes&q_row%5B%5D=%28OCoLC%2925367820&op_row%5B%5D=phrase&search_field_row%5B%5D=publisher+number%2Fother+identifier&boolean_row%5B1%5D=AND&q_row%5B%5D=&op_row%5B%5D=AND&search_field_row%5B%5D=all_fields&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&commit=Search
+  def oclc_request
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
+    oid = params[:id]
+    ActionController::Parameters.permit_all_parameters = true
+    zparams = ActionController::Parameters.new(utf8: "✓", q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["publisher number/other identifier", "publisher number/other identifier"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
+    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    (@response, @document_list) = search_results(zparams)
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
+    num = @response["response"]["numFound"]
+    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} num = #{num.inspect}"
+    if num == 1 
+      target = @document_list[0].response["response"]["docs"][0]["id"] 
+      logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
+      redirect_to(root_url() + "/request/#{target}")
+     elsif num >  1 
+      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
+      render :text => 'OCLCd does not map to unique record', :status => '404'
+     else
+      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id not found = #{oid.inspect}"
+      render :text => 'Not Found', :status => '404'
+    end
+  end
+
   # get search results from the solr index
   def index
+    # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    # @bookmarks = current_or_guest_user.bookmarks
     
     # make sure we are not going directly to home page
    search_session[:per_page] = params[:per_page]
@@ -251,9 +309,23 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def citation
       @response, @documents = fetch(params[:id])
     end
+
     # grabs a bunch of documents to export to endnote
     def endnote
-      @response, @documents = fetch(params[:id])
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      if params[:id].nil?
+        bookmarks = token_or_current_or_guest_user.bookmarks
+        bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
+        if bookmark_ids.size > 500
+          bookmark_ids = bookmark_ids[0..500] 
+        end
+        @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
+      else
+        @response, @documents = fetch(params[:id])
+      end
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
         format.ris      { render 'ris', :layout => false }
@@ -506,6 +578,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     return validate_uri(uri) if options[:validate_uri]
     return generate_uri(uri)
   end
+
+
 
   private
 

@@ -124,9 +124,17 @@ Feature: Item view
 
   @request_button
   @all_item_view
-  Scenario: As a user I can request an item
-    Given I request the item view for 30000
-    Then it should have link "Request" with value "/request/30000"
+  @saml_off
+  Scenario: As a user I can request an item 
+    Given I request the item view for 30000 
+      Then it should have link "Request" with value "/request/30000"  
+
+  @request_button
+  @all_item_view
+  @saml_on
+  Scenario: As a user I can request an item 
+    Given I request the item view for 30000 
+      Then it should have link "Request" with value "/request/auth/30000"  
 
   # Availability simple, one location, and is available
   @availability
@@ -494,7 +502,7 @@ Feature: Item view
  @DISCOVERYACCESS-1328
   Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes
     Given I request the item view for 28297
-    Then I should see the label 'Bound with'
+    Then I should see the label 'This item is bound with'
 
   @all_item_view
  @boundwith
@@ -506,16 +514,15 @@ Feature: Item view
     Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
+    #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
+    #And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
   @all_item_view
  @boundwith
  @DISCOVERYACCESS-1903
  @DISCOVERYACCESS-1328
   Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid
-   Given PENDING
     Given I request the item view for 168319
     Then I should see the label 'Bound with'
-    And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
-    And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
 
 
 
@@ -613,18 +620,13 @@ Feature: Item view
 @tou
 @all_item_view
   Scenario: Show links to multiple terms of use on electronic books
-  Given I request the item view for 9724377
+  Given I request the item view for 8445988 
   Then I should see the text 'Terms of use'
-  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AKXHO"
-  And it should have link "Terms of use" with value "/catalog/tou/9724377/PRVAHD/AAGPP"
+  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
+  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/BKSAR"
   And click on first link "Terms of use"
-  Then I should see the text 'Course Reserves by link only'
+  Then I should see the text 'Course Pack Electronic	Permitted'
 
-@remove_pipe
-@all_item_view
-  Scenario: Show other form fields without their piped values
-  Given I request the item view for 8877499
-  Then I should not see the text 'Print version: Marji, Majed. Learn to program with Scratch : a visual introduction to programming with games, art, science, and math. San Francisco, California : No Starch Press, c2014 2013043492|'
 
 @insert_line_breaks
 @all_item_view
@@ -739,6 +741,5 @@ Feature: Item view
   @all_item_view
   Scenario: View an hotel items holdings, and have pointer to ILR help page.
     Given I request the item view for 330333
-   Given PENDING
         Then I should see the label 'On-site use'
-        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/ilr"
+        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"

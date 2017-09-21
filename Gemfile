@@ -88,9 +88,14 @@ gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
+
+gem 'omniauth'
+gem 'omniauth-saml'
+
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
+#gem 'blacklight_cornell_requests', :path =>'/libweb/dev/git-src/wtf/wtf2/201705/newcatalog-es287/blacklight-cornell/../blacklight-cornell-requests'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'

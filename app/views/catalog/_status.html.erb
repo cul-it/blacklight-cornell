@@ -67,8 +67,9 @@
           <% end %>
           <%= message %>
           <% if details['count'] >1 and !multi_vol %>
-              #{details['count']} copies
+             <%= "#{details['count']} copies" %>
           <% if details['count'] >1 and multi_vol %>
+             <%= "#{details['count']} volumes/copies" %>
               #{details['count']} volumes/copies
           <% if details['status'] == 'some_available' %>
             <% some_av = 'yes' %>

@@ -3,17 +3,17 @@
 <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
   <div id="skiptoresults"><a href="#results">skip to search results</a></div>
 <% end %>
-<section class="cornell-identity">
+<section class="cornell-identity" aria-label="Cornell branding">
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
-        <div class="cornell-brand col-xs-10 col-sm-6">
+        <div class="cornell-brand col-xs-9 col-sm-6">
           <a href="http://www.cornell.edu"><%= image_tag  "cornell/layout/cornell-red.gif" , alt: "Cornell University" %></a>
         </div>
-        <div class="library-menu col-xs-2 col-sm-6 text-right">
+        <div class="library-menu col-xs-3 col-sm-6 text-right">
           <div class="dropdown">
             <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library"  onclick="javascript:_paq.push(['trackEvent', 'navigation', 'Hamburger menu']);">
-              <i class="fa fa-bars" aria-hidden="true" title="Library website" data-toggle="tooltip" data-placement="left"></i><span class="sr-only">Library website</span>
+              <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               <li><a href="http://www.library.cornell.edu/">Home</a></li>
@@ -64,4 +64,3 @@
     </div>
   </div>
 </header>
-

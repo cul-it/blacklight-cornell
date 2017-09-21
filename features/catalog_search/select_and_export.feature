@@ -19,7 +19,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8125253
     And click on link "Cite"
-    And I sleep 2 seconds
+    And I sleep 8 seconds
     Then I should see the label 'MLA 7th ed. Wake, William. Three Tracts against Popery. Written in the Year MDCLXXXVI. By William Wake, M.A. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher at S. Ann's Church, Westminster. London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687. Web.'
 
 
@@ -33,7 +33,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8696757
     And click on link "Cite"
-    And I sleep 2 seconds
+    And I sleep 8 seconds
     Then I should see the label '16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. doi:10.1007/978-1-4302-4408-0.'
 
 #For a book with two authors, note that only the 
@@ -90,6 +90,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8867518
     And click on link "Cite"
+    And I sleep 6 seconds
     Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.'
 
 @all_select_and_export
@@ -98,7 +99,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record by a corporate author in MLA style # Geology report / corp author.
     Given I request the item view for 393971
     And click on link "Cite"
-    And I sleep 2 seconds
+    And I sleep 6 seconds
     Then I should see the label 'MLA 7th ed. Memorial University of Newfoundland. Geology Report. St. John'
 
 
@@ -109,7 +110,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record by a corporate author in MLA style # NRC  / corp author.
     Given I request the item view for 3902220 
     And click on link "Cite"
-    And I sleep 2 seconds
+    And I sleep 6 seconds
     Then I should see the label 'MLA 7th ed. National Research Council. Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
 
 # MLA 8th edition
@@ -119,7 +120,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record by a corporate author in MLA 8th,7th, and CSE
     Given I request the item view for 7292123 
     And click on link "Cite"
-    And I sleep 2 seconds
+    And I sleep 6 seconds
     Then I should see the label 'MLA 8th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. Oxford University Press, 2011.'
     Then I should see the label 'MLA 7th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. New York: Oxford University Press, 2011. Print.'
     Then I should see the label 'Council of Science Editors Jacobs A. The pleasures of reading in an age of distraction. New York: Oxford University Press; 2011.'
@@ -224,6 +225,18 @@ Feature: Select and export items from the result set
     Then I should see the text 'CN - Library Annex PS591.A58 R33'
     Then I should see the text 'SN - 091316710X' 
     Then I should see the text 'ER  -'
+
+@citations
+  Scenario: User needs to send a book record to endnote format (might go to zotero) 
+    Given I request the item view for 1001 
+    Given I request the item view for 1001.endnote
+    Then I should see the text '%0 Generic'
+    Then I should see the text '%C Washington, D.C.'
+    Then I should see the text '%D 1985' 
+    Then I should see the text '%E Prattis, J. I' 
+    Then I should see the text '%I American Anthropological Association' 
+    Then I should see the text '%@ 091316710X'
+    Then I should see the text '%T Reflections  the anthropological muse'
 
 ###
 ###
