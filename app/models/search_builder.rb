@@ -34,7 +34,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   def advsearch user_parameters
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
-    Rails.logger.info("SQUERCH = #{blacklight_params}")
     query_string = ""
     qparam_display = ""
     my_params = {}
@@ -56,7 +55,6 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
       user_parameters[:q] = blacklight_params[:q]
  #     blacklight_params[:q] = user_parameters[:q]
-      Rails.logger.info("BPQ = #{user_parameters}")
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
@@ -83,7 +81,6 @@ class SearchBuilder < Blacklight::SearchBuilder
        # blacklight_params[:search_field] = ''
 #        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
         user_parameters[:q] = blacklight_params[:q]
-        Rails.logger.info("BPS = #{blacklight_params}")
         user_parameters["mm"] = "1"
       end
     end
@@ -226,7 +223,6 @@ class SearchBuilder < Blacklight::SearchBuilder
          params.delete("advanced_query")
        end
     end
-   Rails.logger.info("3616 = #{query_string_two}")
    return query_string_two
   end
 
@@ -296,7 +292,6 @@ class SearchBuilder < Blacklight::SearchBuilder
            end
          end
       end
-#      Rails.logger.info("3616 = #{query_string}")
       return query_string
   end
 
@@ -333,7 +328,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           #  end
           else
             hasNonBlankcount = hasNonBlankcount + 1
-            if i == my_params[:q_row].count - 1 #and  hasNonBlankcount > 1
+            if i <= my_params[:q_row].count - 1 #and  hasNonBlankcount > 1
                 if !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
@@ -514,7 +509,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                         else
                         solr6query << "\"" + holdarray[1] + "\""
                         end
-                      Rails.logger.info("solr6query13 = #{solr6query}")
                       else
                         tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
@@ -540,7 +534,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                           else
                             newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")" 
                           end
-                          #Rails.logger.info("NEWTERM = #{newTerm}")
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
                             solr6query = '(' + solr6query
@@ -654,8 +647,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
               else #D
                 q_string2 = q_string2 #<< holdarray[1]
-                #Rails.logger.info("solr6query2 = #{solr6query}")
-
+                Rails.logger.info("solr6query2 = #{solr6query}")
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
                 q_string2 << " "
@@ -721,7 +713,9 @@ class SearchBuilder < Blacklight::SearchBuilder
          end
 #         solr6query = '( (+number:L +number:37) OR number_phrase:"L 37") AND  ( (+number:L _number:37) OR number_phrase:"L 37")'
 #       solr6query = '((+title:David +title:Copperfield) OR title_phrase:"David Copperfield") AND ((+author:Charles +author:Dickens) OR author:"Charles Dickens")'
-         #Rails.logger.info("FINISH1 = #{solr6query}")    
+         
+         Rails.logger.info("FINISH1 = #{solr6query}")    
+#solr6query = '((+design) OR phrase:"design") AND ((+game) OR phrase:"game") OR ((+farts) OR phrase:"farts")' 
          my_params["q"] = solr6query 
        return my_params
 

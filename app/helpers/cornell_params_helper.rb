@@ -435,6 +435,7 @@ def render_advanced_constraints_query(my_params = params)
       my_params.delete(:sort)
       my_params.delete(:search_field)
  #     my_params.delete(:boolean_row)
+      
       my_params[:search_field] = hold_search_field_row
       content = ""
       content << render_constraints(my_params)
@@ -649,7 +650,7 @@ def render_advanced_constraints_query(my_params = params)
                if querybuttontext.include?('%26')
                  querybuttontext = querybuttontext.gsub!('%26','&')
                end
-               removeString = "catalog?utf8=%E2%9C%93&" + autoparam + "&" + (CGI.escape(facetparams)) + "search_field=advanced&action=index&commit=Search&advanced_query=yes"
+               removeString = "catalog?utf8=%E2%9C%93&" + autoparam + "&" + facetparams + "search_field=advanced&action=index&commit=Search&advanced_query=yes"
                if x > 0
                  s = x.to_s
                  label = temp_boolean_rows[x - 1].to_s + " " + label
@@ -737,7 +738,7 @@ def render_edit_advanced_constraints_filters(my_params = params)
         )
     end
   end
-
+ # return removeString.html_safe
   return return_content.html_safe
 end
 
@@ -801,7 +802,6 @@ def makeSimpleRemoveString(my_params, facet_key)
 end
 
 def makeRemoveString(my_params, facet_key)
-  Rails.logger.info("REMO1 = #{facet_key}")
   removeString = ""
   fkey = facet_key
   advanced_query = my_params["advanced_query"]
@@ -908,7 +908,6 @@ def makeRemoveString(my_params, facet_key)
                   facets_string + op_string + op_row_string + q_string.html_safe +
                   q_row_string + search_field_string + search_field_row_string
   end
-  Rails.logger.info("REMO =#{removeString}")
   return removeString
 end
 
@@ -924,17 +923,15 @@ def makeEditRemoveString(my_params, facet_key)
     advanced_search = "false"
   end
   boolean_row = my_params["boolean_row"]
-#  Rails.logger.info("BOOROW = #{boolean_row}")
   boolean_row_string = ""
   if !boolean_row.nil? #and boolean_row.count >= 1
-   boolean_row.each do |value|
+   boolean_row.each do |key, value|
      if !value.nil?
-     boolean_row_string << "boolean_row[]=" + value.to_s + "&"
+     boolean_row_string << "boolean_row[1]=" + value.to_s + "&"
 #     else
 #      boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][] + "&"
      end
    end
-#  Rails.logger.info("BOOROW1 = #{boolean_row_string}")
     
   else
     boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
@@ -1005,8 +1002,8 @@ def makeEditRemoveString(my_params, facet_key)
       search_field_row_string << "search_field_row[]=" << search_field_row[i] << "&"
     end
   end
-  if ((q_row.nil? || q_row.count < 2) && !q.nil?)
-    removeString = "q=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
+  if ((q_row.nil? || q_row.count < 2) && !q.blank?)
+    removeString = "bert=" + CGI.escape(q) + "&" +search_field_string + "action=index&commit=Search"
   else
     if advanced_query.nil?
       advanced_query = "yes"

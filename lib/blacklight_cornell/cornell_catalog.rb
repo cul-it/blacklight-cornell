@@ -142,7 +142,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
- 
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"

@@ -1051,7 +1051,7 @@ def tou
     @db = @dbResponse['response']['docs'][0]
     @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     #Rails.logger.info("DB = #{@dbResponse.inspect}")
-
+Rails.logger.info("POOT")
 
     if @dbResponse['response']['numFound'] == 0
         @defaultRightsText = ''
