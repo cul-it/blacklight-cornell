@@ -96,7 +96,7 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 1'
+    And I should see the label '1 - 20 of 43'
 
  @adv_search
  @all_search
@@ -521,7 +521,6 @@ Feature: Search
     Then I should get results
     
 
- @begins_with
  @adv_search
  @all_search
  @adv_place
@@ -535,3 +534,19 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'Varieties of capitalism and business history'
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+ @allow_rescue
+  Scenario: Perform a 1 row  advanced search by begins with Title
+    When I literally go to advanced
+    And I fill in "q_row1" with 'game design'
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced search'
+    Then click on first link "Book"
+    Then click on first link "Modify advanced search"
+    And I should see the label 'Add a row'
