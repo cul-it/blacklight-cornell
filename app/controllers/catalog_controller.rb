@@ -8,7 +8,7 @@ class CatalogController < ApplicationController
   include BlacklightUnapi::ControllerExtension
 
   if   ENV['SAML_IDP_TARGET_URL']
-    before_filter :authenticate_user!, only: [  :email ]
+    before_filter :authenticate_user!, only: [  :email, :oclc_request ]
     prepend_before_filter :set_return_path
   end
 
