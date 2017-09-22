@@ -7,10 +7,6 @@ class AdvancedSearchController < ApplicationController
   delegate :blacklight_config, to: :default_catalog_controller
 
   before_filter :heading
-  if   ENV['SAML_IDP_TARGET_URL']
-    before_filter :authenticate_user!, only: [  :email ]
-   prepend_before_filter :set_return_path
-  end
 
   def heading
    @heading='Advanced Search'

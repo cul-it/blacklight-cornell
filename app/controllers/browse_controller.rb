@@ -9,7 +9,7 @@ class BrowseController < ApplicationController
   #attr_accessible :authq, :start, :order, :browse_type
  
   if   ENV['SAML_IDP_TARGET_URL']
-    prepend_before_filter :set_return_path
+    #prepend_before_filter :set_return_path
   end
 
 if false

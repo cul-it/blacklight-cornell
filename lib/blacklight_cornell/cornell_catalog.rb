@@ -14,11 +14,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
  
-
-  if   ENV['SAML_IDP_TARGET_URL']
-    #prepend_before_filter :set_return_path
-  end
-  
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
@@ -44,6 +39,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
+    if   ENV['SAML_IDP_TARGET_URL']
+      prepend_before_filter :set_return_path
+    end
     helper_method :search_action_url, :search_action_path, :search_facet_url
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index

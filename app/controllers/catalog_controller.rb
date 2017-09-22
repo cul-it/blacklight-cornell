@@ -9,7 +9,7 @@ class CatalogController < ApplicationController
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_filter :authenticate_user!, only: [  :email, :oclc_request ]
-    prepend_before_filter :set_return_path
+    #prepend_before_filter :set_return_path
   end
 
   # Ensure that the configuration file is present
