@@ -13,7 +13,7 @@ Feature: Search
   @javascript
   Scenario: Advanced Search Page search types
     When I literally go to advanced
-    Then the 'search_field_advanced' drop-down should have an option for 'Any Field'
+    Then the 'search_field_advanced' drop-down should have an option for 'All Fields'
     Then the 'search_field_advanced' drop-down should have an option for 'Title'
     #Then the 'search_field_advanced' drop-down should have an option for 'Journal Title'
     Then the 'search_field_advanced' drop-down should have an option for 'Call Number'
