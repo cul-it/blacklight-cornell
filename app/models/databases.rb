@@ -201,7 +201,7 @@ class Databases < ActiveRecord::Base
        terminationRequirements = licenseTerms.xpath(sprintf('./%s', "TerminationRequirements/Content")).inner_text
        termsNote = licenseTerms.xpath(sprintf('./%s', "TermsNote/Content")).inner_text
        localUseTermsNote = licenseTerms.xpath(sprintf('./%s', "LocalUseTermsNote/Content")).inner_text
-       governingLaw = licenseTerms.xpath(sprintf('./%s', "GoverningLaw/Content")).inner_text
+       governingLaw = licenseTerms.xpath(sprintf('./%s', "GoverningLaw/Content")).inner_text.gsub('"','\\"')
        governingJurisdiction = licenseTerms.xpath(sprintf('./%s', "GoverningJurisdiction/Content")).inner_text
        governingJurisdiction = governingJurisdiction.gsub('"','')
        applicableCopyrightLaw = licenseTerms.xpath(sprintf('./%s', "ApplicableCopyrightLaw/Content")).inner_text

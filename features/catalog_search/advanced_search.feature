@@ -13,7 +13,7 @@ Feature: Search
   @javascript
   Scenario: Advanced Search Page search types
     When I literally go to advanced
-    Then the 'search_field_advanced' drop-down should have an option for 'Any Field'
+    Then the 'search_field_advanced' drop-down should have an option for 'All Fields'
     Then the 'search_field_advanced' drop-down should have an option for 'Title'
     #Then the 'search_field_advanced' drop-down should have an option for 'Journal Title'
     Then the 'search_field_advanced' drop-down should have an option for 'Call Number'
@@ -93,7 +93,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     Then I should select radio "NOT"
     And I fill in "q_row2" with 'springer'
-    And I select 'Any' from the 'search_field_advanced2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 20 of 43'
@@ -348,10 +348,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'fungi'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Any' from the 'search_field_advanced' drop-down
+    And I select 'All Fields' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Recombinant Dna'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'Any' from the 'search_field_advanced2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
     And I fill in "q_row3" with 'Food Products Press'
