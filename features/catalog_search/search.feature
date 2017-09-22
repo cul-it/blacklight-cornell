@@ -19,7 +19,7 @@ Feature: Search
 
   Scenario: Search Page search types
     When I am on the home page
-    Then the 'search_field' drop-down should have an option for 'Any Field'
+    Then the 'search_field' drop-down should have an option for 'All Fields'
     Then the 'search_field' drop-down should have an option for 'Title'
     Then the 'search_field' drop-down should have an option for 'Journal Title'
     Then the 'search_field' drop-down should have an option for 'Author Browse (A-Z) Sorted By Name'
