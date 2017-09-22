@@ -40,7 +40,6 @@ module AdvancedHelper
     @search_fields_for_advanced_search ||= begin
       # make it an ActiveSupport::OrderedHash if it needs to be
       hash = blacklight_config.search_fields.class.new
-
       blacklight_config.search_fields.each_pair do |key, value|
         hash[key] = value unless value.include_in_advanced_search == false
       end
