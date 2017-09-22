@@ -4,35 +4,7 @@ class BrowseController < ApplicationController
   include BlacklightCornell::CornellCatalog
   #include BlacklightUnapi::ControllerExtension
   before_filter :heading
-  before_action :redirect_catalog
-
   #attr_accessible :authq, :start, :order, :browse_type
- 
-  if   ENV['SAML_IDP_TARGET_URL']
-    prepend_before_filter :set_return_path
-  end
-
-if false
-  def set_return_path
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    op = request.original_fullpath
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    refp = request.referer
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
-    session[:cuwebauth_return_path] =
-      if (params['id'].present? && params['id'].include?('|'))
-        '/bookmarks'
-      elsif (params['id'].present? && op.include?('email'))
-        "/catalog/afemail/#{params[:id]}"
-      elsif (params['id'].present? && op.include?('unapi'))
-         refp
-      else
-        op
-      end
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
-    return true
-  end
-end 
 
   def heading
    @heading='Browse'
@@ -54,10 +26,12 @@ end
         start = {"start" => start}
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + authq.gsub("\\"," ").gsub('"',' ')+'"}' }
-          @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+#          @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+#          @headingsResultString = @headingsResultString
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_AUTHOR'] + "/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr + "/author/browse?&wt=json&" + p.to_param + '&' + start.to_param )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_AUTHOR'] + "/browse?&wt=json&" + p.to_param + '&' + start.to_param )
         end
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -80,10 +54,10 @@ end
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
 
-          @headingsResultString = dbclnt.get_content(base_solr +"/subject/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_SUBJECT'] + "/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr + "/subject/browse?&wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_SUBJECT'] + "/browse?&wt=json&" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -106,10 +80,10 @@ end
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
-          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_AUTHORTITLE'] + "/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_AUTHORTITLE'] + "/browse?wt=json&" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -135,7 +109,7 @@ end
       if !params[:authq].nil? and params[:authq] != ""
         dbclnt = HTTPClient.new
         p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-        @headingsResultString = dbclnt.get_content(base_solr +"/author/browse?wt=json&" + p.to_param )
+        @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_AUTHOR'] + "/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
@@ -150,7 +124,7 @@ end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
         p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-        @headingsResultString = dbclnt.get_content(base_solr +"/subject/browse?wt=json&" + p.to_param )
+        @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_SUBJECT'] + "/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
@@ -164,7 +138,7 @@ end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
         dbclnt = HTTPClient.new
         p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-        @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param )
+        @headingsResultString = dbclnt.get_content(base_solr + "/" + ENV['BROWSE_INDEX_AUTHORTITLE'] + "/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
@@ -180,15 +154,4 @@ end
       end
     end
 end
-
-def redirect_catalog
-     if params[:browse_type]
-       if params[:browse_type].include?('catalog')
-         field=params[:browse_type].split(':')[1]
-         redirect_to "/catalog?q=#{CGI.escape params[:authq]}&search_field=#{field}"
-       end
-     end
-   end
-
-
 end
