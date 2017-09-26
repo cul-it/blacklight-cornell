@@ -563,7 +563,8 @@ module Blacklight::Solr::Document::MarcExport
     publisher = setup_pub_info_mla8(record) unless setup_pub_info_mla8(record).nil?
     publisher.squish! unless publisher.nil?
     publisher_place,dummy = setup_pub_info(record).split(':') unless setup_pub_info(record).nil?
-    publisher_place.squish! unless publisher_place.nil?
+    publisher_place.gsub!(/[<>]/,'') unless publisher_place.nil?
+
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} publisher_place = #{publisher_place.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}dummy=#{dummy.inspect}")
     id = "id #{csl}"

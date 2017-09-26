@@ -357,34 +357,23 @@ Feature: Select and export items from the result set
     Then I should see "Coward" in the email body
     Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
 
-@all_select_and_export
-@DISCOVERYACCESS-1670
-@select_and_email
-@javascript
-  Scenario: User sends a record by email,which has no "status" -- no circulating copies Shelter medicine
-    Given PENDING 
-    Given I request the item view for 7981095 
-    And click on link "Email"
-    And I fill in "to" with "quentin@example.com"
-    And I press "Send"
-    And I sleep 2 seconds
-    Then "quentin@example.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
-    Then I should see "Shelter medicine for veterinarians and staff" in the email body
-    Then I should see "Location: Veterinary Library Core Resource (Non-Circulating)" in the email body
   
 @all_select_and_export
+@DISCOVERYACCESS-1670
 @DISCOVERYACCESS-1777
 @select_and_email
 @javascript
 @popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
-    Given PENDING 
     Given I request the item view for 7981095 
     And click on first link "Text"
+    And I sleep 15 seconds
     And I fill in "to" with "6073516271"
     And I select 'Verizon' from the 'carrier' drop-down
     And I press "Send"
-    And I sleep 2 seconds
-    Then "6073516271@vtext.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
-    Then I should see "Shelter medicine for veterinarians and staff" in the email body
+    And I sleep 12 seconds
+    Then "6073516271@vtext.com" receives an email with "Shelter medicine for veterinarians and staf" in the content
+    Then I should see "Shelter medicine for veterinarians and staf" in the email body
+    Then I should see "Veterinary Library Core Resource (Non-Circulating)" in the email body
+    And I sleep 8 seconds
   
