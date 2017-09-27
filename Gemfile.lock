@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: b1d56c7e3f19571ce5877ae7cfbd49ba7fbe6e24
-  branch: dev
+  revision: ec3fc0792faa16b4f896e2f49b17ed2e0f085389
+  branch: master
   specs:
-    blacklight_cornell_requests (1.4.2)
+    blacklight_cornell_requests (1.5.0)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -342,6 +342,12 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    omniauth (1.6.1)
+      hashie (>= 3.4.6, < 3.6.0)
+      rack (>= 1.6.2, < 3)
+    omniauth-saml (1.7.0)
+      omniauth (~> 1.3)
+      ruby-saml (~> 1.4)
     openurl (1.0.0)
       marc
       scrub_rb (~> 1.0)
@@ -432,6 +438,8 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby-saml (1.4.2)
+      nokogiri (>= 1.5.10)
     ruby_dep (1.5.0)
     ruby_parser (3.8.3)
       sexp_processor (~> 4.1)
@@ -575,6 +583,8 @@ DEPENDENCIES
   mysql
   net-ldap
   nokogiri
+  omniauth
+  omniauth-saml
   parslet
   phantomjs
   piwik_analytics (~> 1.0.1)

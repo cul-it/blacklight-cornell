@@ -1,0 +1,56 @@
+<div class="row">
+  <%# TODO: delete this bit, old call to sidebar partial in BL4 %>
+  <%#= render :partial=>'sidebar' %>
+  <div id="sidebar" class="col-sm-3">
+    <%= render 'search_sidebar' %>
+  </div>
+
+  <div class="col-sm-9 main-text" id="results">
+
+      <%# unless has_search_parameters? %>
+      <% unless true  %>
+        <%# if there are no input/search related params, display the "home" partial -%>
+        <%= render 'home' %>
+      <% else %>
+
+        <h2 class="hidden top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
+
+        <% @page_title = t('blacklight.search.title', :application_name => 'blacklight') %>
+
+
+      <% content_for(:head) do -%>
+        <%= render_opensearch_response_metadata %>
+        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
+        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
+        <%= render_extra_head_content %>
+      <% end -%>
+        
+        <%#= render :partial => 'search_form' %>
+        <% unless ((request.referer).present? && (request.referer).include?("browse")) || params[:click_to_search]=='true' %>
+        <%= render :partial => 'did_you_mean' %>
+        <% end %>
+
+        <%if @response.total_count < 1 && !@expanded_results.nil?%>
+        <p>Your search returned 0 results. Try searching 
+          <%if params[:q_row].nil?  && params[:click_to_search].nil? && params[:f].nil? %>
+            <a href="<%= @expanded_results['worldcat'][:url] %>">
+          <% else %>
+            <a href="http://cornell.worldcat.org">
+          <%end%>
+          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
+        <%else%>
+
+        <%= render 'sort_and_per_page' %>
+        
+        <h2 class="hidden"><%= t('blacklight.search.search_results') %></h2>
+        <%= render_document_index %>
+        <%= render 'results_pagination' %>
+
+        <%end%>
+
+      <% end %>
+
+  </div><!--/.main-content -->
+</div>
+
+

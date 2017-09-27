@@ -15,7 +15,7 @@ Feature: Search
     When I literally go to advanced
     Then the 'search_field_advanced' drop-down should have an option for 'All Fields'
     Then the 'search_field_advanced' drop-down should have an option for 'Title'
-    #Then the 'search_field_advanced' drop-down should have an option for 'Journal title'
+    #Then the 'search_field_advanced' drop-down should have an option for 'Journal Title'
     Then the 'search_field_advanced' drop-down should have an option for 'Call Number'
     Then the 'search_field_advanced' drop-down should have an option for 'Publisher'
     Then the 'search_field_advanced' drop-down should have an option for 'Subject'
@@ -27,7 +27,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title AND publisher 
+  Scenario: Advanced search with title AND publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -46,7 +46,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title OR publisher 
+  Scenario: Advanced search with title OR publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -65,7 +65,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title NOT publisher 
+  Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -85,7 +85,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
-  Scenario: Advanced search with title NOT publisher 
+  Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -96,7 +96,7 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 1'
+    And I should see the label '1 - 20 of 43'
 
  @adv_search
  @all_search
@@ -131,7 +131,7 @@ Feature: Search
   Scenario: Perform an advanced search by author, as author see results
     When I literally go to advanced
     And I fill in "q_row1" with 'Peabody, William Bourn Oliver, 1799-1847'
-    And I select 'Author, etc.' from the 'search_field_advanced' drop-down
+    And I select 'Author' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'of 1'
@@ -339,12 +339,12 @@ Feature: Search
     And I should see the label '1 result'
     And I should see the label 'Yeast molecular biology--recombinant DNA'
 
-#  fungi, recombinant dna, any publisher 
+#  fungi, recombinant dna, any publisher
  @adv_search
  @all_search
  @adv_subject
  @javascript
-  Scenario: Perform an advanced search by all fields, all fields, phrase, and publisher any 
+  Scenario: Perform an advanced search by all fields, all fields, phrase, and publisher any
     When I literally go to advanced
     And I fill in "q_row1" with 'fungi'
     And I select 'all' from the 'op_row' drop-down
@@ -439,7 +439,7 @@ Feature: Search
  @adv_place
  @javascript
  @DISCOVERYACCESS-3350
-  Scenario: Perform a 2 row  advanced search with a blank in one field. 
+  Scenario: Perform a 2 row  advanced search with a blank in one field.
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -451,8 +451,8 @@ Feature: Search
 
  @javascript
  @DISCOVERYACCESS-3350
-  Scenario: Perform a 2 row  advanced search with a blank in one field. 
-    Given PENDING 
+  Scenario: Perform a 2 row  advanced search with a blank in one field.
+    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -490,6 +490,7 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     Then click on first link "Next »"
@@ -512,16 +513,15 @@ Feature: Search
  @adv_title_percent
  @javascript
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
-    Given PENDING 
+    Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row2" with 'sargent, charles sprague'
     And I select 'Title' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    
 
- @begins_with
+
  @adv_search
  @all_search
  @adv_place
@@ -535,3 +535,19 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'Varieties of capitalism and business history'
+
+ @begins_with
+ @adv_search
+ @all_search
+ @adv_place
+ @javascript
+ @allow_rescue
+  Scenario: Perform a 1 row  advanced search by begins with Title
+    When I literally go to advanced
+    And I fill in "q_row1" with 'game design'
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced search'
+    Then click on first link "Book"
+    Then click on first link "Modify advanced search"
+    And I should see the label 'Add a row'

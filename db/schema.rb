@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419111048) do
+ActiveRecord::Schema.define(version: 20170918143824) do
 
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 20170419111048) do
     t.boolean  "rmc_aeon"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "mann_spec"
   end
 
   add_index "locations", ["code"], name: "index_locations_on_code", unique: true

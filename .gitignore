@@ -6,6 +6,8 @@
 
 # Ignore .env file
 /.env
+# Ignore vcr.log file
+/vcr.log
 
 # Ignore bundler config
 /.bundle

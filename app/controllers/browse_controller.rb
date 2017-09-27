@@ -5,7 +5,9 @@ class BrowseController < ApplicationController
   #include BlacklightUnapi::ControllerExtension
   before_filter :heading
   #attr_accessible :authq, :start, :order, :browse_type
-
+  @@browse_index_author = ENV['BROWSE_INDEX_AUTHOR'].nil? ? 'author' : ENV['BROWSE_INDEX_AUTHOR']
+  @@browse_index_subject = ENV['BROWSE_INDEX_SUBJECT'].nil? ? 'subject' : ENV['BROWSE_INDEX_SUBJECT']
+  @@browse_index_authortitle = ENV['BROWSE_INDEX_AUTHORTITLE'].nil? ? 'authortitle' : ENV['BROWSE_INDEX_AUTHORTITLE']
   def heading
    @heading='Browse'
   end
@@ -26,10 +28,12 @@ class BrowseController < ApplicationController
         start = {"start" => start}
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + authq.gsub("\\"," ").gsub('"',' ')+'"}' }
-          @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+#          @headingsResultString = dbclnt.get_content(base_solr + "/author/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+#          @headingsResultString = @headingsResultString
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_author + "/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr + "/author/browse?&wt=json&" + p.to_param + '&' + start.to_param )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_author + "/browse?&wt=json&" + p.to_param + '&' + start.to_param )
         end
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -52,10 +56,10 @@ class BrowseController < ApplicationController
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
 
-          @headingsResultString = dbclnt.get_content(base_solr +"/subject/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_subject + "/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr + "/subject/browse?&wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_subject + "/browse?&wt=json&" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -78,10 +82,10 @@ class BrowseController < ApplicationController
         #@dbResultString = dbclnt.get_content("#{solr}/databases?q=" + params[:authq] + "&wt=ruby&indent=true&defType=dismax")
         if params[:order] == "reverse"
           p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ')+'"}' }
-          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_authortitle + "/reverse?&wt=json&" + p.to_param + '&' + start.to_param  )
           @headingsResultString = @headingsResultString
         else
-          @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param + '&' + start.to_param  )
+          @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_authortitle + "/browse?wt=json&" + p.to_param + '&' + start.to_param  )
         end
         if !@headingsResultString.nil?
            y = @headingsResultString
@@ -107,7 +111,7 @@ class BrowseController < ApplicationController
       if !params[:authq].nil? and params[:authq] != ""
         dbclnt = HTTPClient.new
         p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-        @headingsResultString = dbclnt.get_content(base_solr +"/author/browse?wt=json&" + p.to_param )
+        @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_author + "/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
@@ -122,7 +126,7 @@ class BrowseController < ApplicationController
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
         dbclnt = HTTPClient.new
         p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-        @headingsResultString = dbclnt.get_content(base_solr +"/subject/browse?wt=json&" + p.to_param )
+        @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_subject + "/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)
@@ -136,7 +140,7 @@ class BrowseController < ApplicationController
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
         dbclnt = HTTPClient.new
         p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-        @headingsResultString = dbclnt.get_content(base_solr +"/authortitle/browse?wt=json&" + p.to_param )
+        @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_authortitle + "/browse?wt=json&" + p.to_param )
         if !@headingsResultString.nil?
            y = @headingsResultString
            @headingsResponseFull = JSON.parse(y)

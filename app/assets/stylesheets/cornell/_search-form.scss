@@ -97,6 +97,7 @@ h2.advanced-search { margin: 0; }
       text-transform: uppercase;
       i {
         margin-right: .5em;
+        color: $cornell-primary;
       }
     }
     .tips-link {
@@ -147,7 +148,7 @@ h2.advanced-search { margin: 0; }
       float: right;
     }
     li {
-      font-size: 13px;
+      font-size: 12px;
     }
   }
   .advanced-search-link {
@@ -163,6 +164,9 @@ h2.advanced-search { margin: 0; }
 @media (min-width: $screen-md) {
   .search-nav {
     padding-left: 15px;
+    li {
+      font-size: 13px;
+    }
   }
 }
 

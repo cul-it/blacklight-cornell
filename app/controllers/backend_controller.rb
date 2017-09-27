@@ -158,11 +158,21 @@ class BackendController < ApplicationController
   # This corresponding method simply sets a session variable with the netid
   # and sends you back to wherever you came from.
   def authenticate_cuwebauth
-    session[:cu_authenticated_user] = request.env['REMOTE_USER']
-    if session[:cu_authenticated_user].present?
-      redirect_to session[:cuwebauth_return_path], :alert => "You are logged in as #{request.env['REMOTE_USER']}"
+    semail = request.env['REMOTE_USER']
+    u = User.where(email: semail).first
+    if u
+      @user = u
     else
-      redirect_to session[:cuwebauth_return_path], :alert => "Authentication failed"
+      @user = User.new(email: semail)
+      @user.save!
+    end
+    sign_in :user, @user
+    session[:cu_authenticated_user] = semail 
+    if session[:cu_authenticated_user].present?
+      rp = session[:cuwebauth_return_path] ? session[:cuwebauth_return_path] : root_path
+      redirect_to rp, :alert => "You are logged in as #{semail}"
+    else
+      redirect_to rp, :alert => "Authentication failed"
     end
   end
 

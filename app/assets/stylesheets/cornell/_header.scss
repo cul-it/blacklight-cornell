@@ -50,6 +50,7 @@ header {
   }
   a:hover, a:active, a:focus {
     color: $dark-gray;
+    text-decoration: none;
   }
 }
 
@@ -118,6 +119,18 @@ ul.blacklight-nav {
     color: white;
     font-size: 20px;
   }
+  span {
+    font-size: 12px;
+    margin-left: .5em;
+    vertical-align: top;
+    padding-top: .1em;
+    display: inline-block;
+  }
+}
+.btn-library:hover,
+.btn-library:active,
+.btn-library:focus {
+  color: white;
 }
 .library-menu {
   padding: 0;
@@ -138,7 +151,6 @@ ul.blacklight-nav {
 // Small devices (tablets, 768px and up)
 @media (min-width: $screen-sm) { 
   ul.blacklight-nav {
-    float: right;
     li {
       font-size: 12px;
       border-left: 1px solid #ccc;
@@ -157,16 +169,6 @@ ul.blacklight-nav {
       }
     }
   }
-  header {
-    h1 {
-      font-size: 23px;
-    }
-  }
-  .library-link {
-    a {
-      font-size: 17px;
-    }
-  }
 }
 
 // Medium devices (desktops, 992px and up)
@@ -181,21 +183,21 @@ ul.blacklight-nav {
       }
     }
   }
-  header {
-    h1 {
-      font-size: 28px;
-    }
-  }
+  // header {
+  //   h1 {
+  //     font-size: 28px;
+  //   }
+  // }
   ul.blacklight-nav {
     float: right;
     li {
       font-size: 14px;
     }
   }
-  .library-link {
-    a {
-      font-size: 18px;
-    }
-  }
+  // .library-link {
+  //   a {
+  //     font-size: 18px;
+  //   }
+  // }
 }
 

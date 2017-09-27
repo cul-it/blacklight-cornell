@@ -6,7 +6,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = "lbatch@library.cornell.edu"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -128,7 +128,8 @@ Devise.setup do |config|
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
   # DISCOVERYACCESS-2028 - trying to get rid of old sessions
-  config.timeout_in = 30.minutes
+  #config.timeout_in = 30.minutes
+  config.timeout_in = 5.minutes
   
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false 
@@ -212,15 +213,38 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+  OneLogin::RubySaml::Attributes.single_value_compatibility = false 
+  config.omniauth :saml,
+    idp_cert_fingerprint: ENV['SAML_IDP_CERT_FINGERPRINT'],
+    idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
+    issuer: ENV['SAML_SP_ISSUER'],
+    single_value_compatibility: false,
+    attribute_statements: {
+      email: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.6'],
+      first_name: ['urn:oid:2.5.4.42'],
+      last_name: ['urn:oid:2.5.4.4'],
+      name: ['urn:oid:2.16.840.1.113730.3.1.241'],
+      primary: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.5'],
+      groups: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.1'],
+    }
+ 
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
-  #   manager.intercept_401 = false
-  #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
-  # end
+  config.warden do |manager|
+     manager.intercept_401 = false
+     Warden::Manager.before_logout do |user, auth, opts|
+       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden user =  #{user.inspect}")
+       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden auth =  #{auth.inspect}")
+       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden opts =  #{opts.inspect}")
+     end
+     #manager.default_strategies(:scope => :user).unshift :some_external_strategy
+   end
+Warden::Manager.before_logout do |user, auth, opts|
+  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} user =  #{user.inspect}")
+ end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -236,3 +260,4 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 end
+

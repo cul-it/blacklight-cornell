@@ -1,5 +1,13 @@
 class AdvancedSearchController < ApplicationController
+# drop down problems?
+#
+  include Blacklight::Catalog
+  include BlacklightCornell::CornellCatalog
+
+  delegate :blacklight_config, to: :default_catalog_controller
+
   before_filter :heading
+
   def heading
    @heading='Advanced Search'
   end
@@ -90,5 +98,6 @@ class AdvancedSearchController < ApplicationController
       render 'advanced_search/index'
   end
 end
+
 end
 

@@ -57,10 +57,10 @@
       <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
         <% if bookmarks_index  %>
           <li>
-            <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>params[:per_page], :page=>params[:page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => ' '}%>
+            <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote'), {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
           </li>
           <li>
-            <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>params[:per_page], :page=>params[:page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'ris'), {:class => ' '}%>
+            <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'ris'), {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
           </li>
         <% elsif exportable %>
           <% if @document.export_formats.keys.include?( :endnote ) %>

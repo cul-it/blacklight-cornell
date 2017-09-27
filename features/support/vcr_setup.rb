@@ -13,9 +13,10 @@ VCR.configure do |c|
       # your HTTP request service. You can also use fakeweb, typhoeus, and more
       c.default_cassette_options = { :record => :new_episodes, :erb => true }
       c.hook_into :webmock
+      #c.debug_logger = File.open("vcr.log", 'w')
       #c.allow_http_connections_when_no_cassette = ENV['VCR_ALLOW_HTTP'] ? true : false #false means we *always* have to use VCR for HTTP
-      #c.allow_http_connections_when_no_cassette = true # This means that we don't *always* have to use VCR for HTTP, only when we want
-      c.allow_http_connections_when_no_cassette = false # This means that we don't *always* have to use VCR for HTTP, only when we want
+      #c.allow_http_connections_when_no_cassette = true # true means that we don't *always* have to use VCR for HTTP, only when we want
+      c.allow_http_connections_when_no_cassette = true # false means that we *always* have to use VCR for HTTP
     else 
       VCR.turn_off!
       WebMock.allow_net_connect!
@@ -27,6 +28,7 @@ end
 if use_mock_and_vcr
 then
   VCR.cucumber_tags do |t|
+    t.tag  '@all'
     t.tag  '@citations'
     t.tag  '@databases'
     t.tag  '@digitalcollections'

@@ -82,7 +82,7 @@ class Databases < ActiveRecord::Base
           licenseNote.gsub!('"',' ')
           licenseNote.gsub!("'"," ")
        end
-       templateNote = k.xpath(sprintf('./%s', "TemplateNote/Content")).inner_text
+       templateNote = k.xpath(sprintf('./%s', "TemplateNote/Content")).inner_text.gsub('"','\\"')
        dateCreated = k.xpath(sprintf('./%s', "DateCreated/Content")).inner_text
        if dateCreated == ''
          dateCreated = '0000-00-00'
@@ -111,7 +111,7 @@ class Databases < ActiveRecord::Base
        allRightsReservedIndicator = licenseTerms.xpath(sprintf('./%s', "AllRightsReservedIndicator/Content")).inner_text
        citationRequirementDetail = licenseTerms.xpath(sprintf('./%s', "CitationRequirementDetail/Content")).inner_text
        digitallyCopy = licenseTerms.xpath(sprintf('./%s', "DigitallyCopy/Content")).inner_text
-       digitallyCopyNote = licenseTerms.xpath(sprintf('./%s', "DigitallyCopyNote/Content")).inner_text
+       digitallyCopyNote = licenseTerms.xpath(sprintf('./%s', "DigitallyCopyNote/Content")).inner_text.gsub('"','\\"')
        printCopy = licenseTerms.xpath(sprintf('./%s', "PrintCopy/Content")).inner_text
        printCopyNote = licenseTerms.xpath(sprintf('./%s', "PrintCopyNote/Content")).inner_text
        scholarlySharing = licenseTerms.xpath(sprintf('./%s', "ScholarlySharing/Content")).inner_text
@@ -120,8 +120,8 @@ class Databases < ActiveRecord::Base
          scholarlySharingNote = ""
        end
        distanceLearning = licenseTerms.xpath(sprintf('./%s', "DistanceLearning/Content")).inner_text
-       distanceLearningNote = licenseTerms.xpath(sprintf('./%s', "DistanceLearningNote/Content")).inner_text
-       iLLGeneral = licenseTerms.xpath(sprintf('./%s', "ILLGeneral/Content")).inner_text
+       distanceLearningNote = licenseTerms.xpath(sprintf('./%s', "DistanceLearningNote/Content")).inner_text.gsub('"','\\"')
+       iLLGeneral = licenseTerms.xpath(sprintf('./%s', "ILLGeneral/Content")).inner_text.gsub('"','\\"')
        iLLSecureElectronic = licenseTerms.xpath(sprintf('./%s', "ILLSecureElectronic/Content")).inner_text
        iLLElectronicEmail = licenseTerms.xpath(sprintf('./%s', "ILLElectronicEmail/Content")).inner_text
        iLLRecordKeeping = licenseTerms.xpath(sprintf('./%s', "ILLRecordKeeping/Content")).inner_text
@@ -181,30 +181,30 @@ class Databases < ActiveRecord::Base
          otherUseRestrictionsStaffNote = ''
        end
       # otherUseRestrictionsStaffNote = otherUseRestrictionsStaffNote.gsub!('\\\"','')
-       otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text
-       perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text
-       perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text
+       otherUseRestrictionsPublicNote = licenseTerms.xpath(sprintf('./%s', "OtherUseRestrictionsPublicNote/Content")).inner_text.gsub('"','\\"')
+       perpetualAccessRight = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessRight/Content")).inner_text.gsub('"','\\"')
+       perpetualAccessHoldings = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessHoldings/Content")).inner_text.gsub('"','\\"')
        perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text.gsub('"','\\"')
        perpetualAccessNote = licenseTerms.xpath(sprintf('./%s', "PerpetualAccessNote/Content")).inner_text.gsub('"','\\"')
-       licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/Content")).inner_text
-       licenseeTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationCondition/Content")).inner_text
-       licenseeTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationNote/Content")).inner_text
+       licenseeTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationRight/Content")).inner_text.gsub('"','\\"')
+       licenseeTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationCondition/Content")).inner_text.gsub('"','\\"')
+       licenseeTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicenseeTerminationNote/Content")).inner_text.gsub('"','\\"')
        licenseeNoticePeriodForTerminationNumber = licenseTerms.xpath(sprintf('./%s', "LicenseeNoticePeriodForTerminationNumber/Content")).inner_text
        licenseeNoticePeriodForTerminationUnit = licenseTerms.xpath(sprintf('./%s', "LicenseeNoticePeriodForTerminationUnit/Content")).inner_text
-       licensorTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationRight/Content")).inner_text
+       licensorTerminationRight = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationRight/Content")).inner_text.gsub('"','\\"')
        licensorTerminationCondition = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationCondition/Content")).inner_text
-       licensorTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationNote/Content")).inner_text
-       licensorTerminationNote = licensorTerminationNote.gsub('"','')
+       licensorTerminationNote = licenseTerms.xpath(sprintf('./%s', "LicensorTerminationNote/Content")).inner_text.gsub('"','\\"')
+       licensorTerminationNote = licensorTerminationNote.gsub('"','').gsub('"','\\"')
        licensorNoticePeriodForTerminationNumber = licenseTerms.xpath(sprintf('./%s', "LicensorNoticePeriodForTerminationNumber/Content")).inner_text
        licensorNoticePeriodForTerminationUnit = licenseTerms.xpath(sprintf('./%s', "LicensorNoticePeriodForTerminationUnit/Content")).inner_text
-       terminationRightNote = licenseTerms.xpath(sprintf('./%s', "TerminationRightNote/Content")).inner_text
-       terminationRequirements = licenseTerms.xpath(sprintf('./%s', "TerminationRequirements/Content")).inner_text
-       termsNote = licenseTerms.xpath(sprintf('./%s', "TermsNote/Content")).inner_text
+       terminationRightNote = licenseTerms.xpath(sprintf('./%s', "TerminationRightNote/Content")).inner_text.gsub('"','\\"')
+       terminationRequirements = licenseTerms.xpath(sprintf('./%s', "TerminationRequirements/Content")).inner_text.gsub('"','\\"')
+       termsNote = licenseTerms.xpath(sprintf('./%s', "TermsNote/Content")).inner_text.gsub('"','\\"')
        localUseTermsNote = licenseTerms.xpath(sprintf('./%s', "LocalUseTermsNote/Content")).inner_text
-       governingLaw = licenseTerms.xpath(sprintf('./%s', "GoverningLaw/Content")).inner_text
+       governingLaw = licenseTerms.xpath(sprintf('./%s', "GoverningLaw/Content")).inner_text.gsub('"','\\"')
        governingJurisdiction = licenseTerms.xpath(sprintf('./%s', "GoverningJurisdiction/Content")).inner_text
        governingJurisdiction = governingJurisdiction.gsub('"','')
-       applicableCopyrightLaw = licenseTerms.xpath(sprintf('./%s', "ApplicableCopyrightLaw/Content")).inner_text
+       applicableCopyrightLaw = licenseTerms.xpath(sprintf('./%s', "ApplicableCopyrightLaw/Content")).inner_text.gsub('"','\\"')
        curePeriodForBreachNumber = licenseTerms.xpath(sprintf('./%s', "CurePeriodForBreachNumber/Content")).inner_text
        curePeriodForBreachUnit = licenseTerms.xpath(sprintf('./%s', "CurePeriodForBreachUnit/Content")).inner_text
        renewalType = licenseTerms.xpath(sprintf('./%s', "RenewalType/Content")).inner_text
@@ -212,16 +212,16 @@ class Databases < ActiveRecord::Base
        nonRenewalNoticePeriodUnit = licenseTerms.xpath(sprintf('./%s', "NonRenewalNoticePeriodUnit/Content")).inner_text
        archivingRight = licenseTerms.xpath(sprintf('./%s', "ArchivingRight/Content")).inner_text
        archivingFormat = licenseTerms.xpath(sprintf('./%s', "ArchivingFormat/Content")).inner_text
-       archivingNote = licenseTerms.xpath(sprintf('./%s', "ArchivingNote/Content")).inner_text
+       archivingNote = licenseTerms.xpath(sprintf('./%s', "ArchivingNote/Content")).inner_text.gsub('"','\\"')
        prePrintArchiveAllowed = licenseTerms.xpath(sprintf('./%s', "PrePrintArchiveAllowed/Content")).inner_text
        prePrintArchiveConditions = licenseTerms.xpath(sprintf('./%s', "PrePrintArchiveConditions/Content")).inner_text
        prePrintArchiveRestrictionsNumber = licenseTerms.xpath(sprintf('./%s', "PrePrintArchiveRestrictionsNumber/Content")).inner_text
        prePrintArchiveRestrictionsUnit = licenseTerms.xpath(sprintf('./%s', "PrePrintArchiveRestrictionsUnit/Content")).inner_text
-       prePrintArchiveNote = licenseTerms.xpath(sprintf('./%s', "PrePrintArchiveNote/Content")).inner_text
+       prePrintArchiveNote = licenseTerms.xpath(sprintf('./%s', "PrePrintArchiveNote/Content")).inner_text.gsub('"','\\"')
        postPrintArchiveAllowed = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveAllowed/Content")).inner_text
        postPrintArchiveRestrictionsNumber = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveRestrictionsNumber/Content")).inner_text
        postPrintArchiveRestrictionsUnit = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveRestrictionsUnit/Content")).inner_text
-       postPrintArchiveNote = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveNote/Content")).inner_text
+       postPrintArchiveNote = licenseTerms.xpath(sprintf('./%s', "PostPrintArchiveNote/Content")).inner_text.gsub('"','\\"')
        incorporationOfImagesFiguresAndTablesRight = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesRight/Content")).inner_text
        incorporationOfImagesFiguresAndTablesNote = licenseTerms.xpath(sprintf('./%s', "IncorporationOfImagesFiguresAndTablesNote/Content")).inner_text.gsub!('"','')
        if incorporationOfImagesFiguresAndTablesNote.nil?
