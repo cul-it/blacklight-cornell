@@ -25,6 +25,14 @@ Feature: Browse search
     Then I should see the label 'China > History'
 
   @browse
+  Scenario: Search for a subject and switch to catalog
+    Given I literally go to browse
+        And I fill in the authorities search box with 'china'
+        And I select 'Subject' from the 'browse_type' drop-down
+        And I press 'search'
+    Then I should see the label 'A companion to Chinese history'
+
+  @browse
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio'

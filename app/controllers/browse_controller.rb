@@ -4,6 +4,7 @@ class BrowseController < ApplicationController
   include BlacklightCornell::CornellCatalog
   #include BlacklightUnapi::ControllerExtension
   before_filter :heading
+  before_action :redirect_catalog
   #attr_accessible :authq, :start, :order, :browse_type
   @@browse_index_author = ENV['BROWSE_INDEX_AUTHOR'].nil? ? 'author' : ENV['BROWSE_INDEX_AUTHOR']
   @@browse_index_subject = ENV['BROWSE_INDEX_SUBJECT'].nil? ? 'subject' : ENV['BROWSE_INDEX_SUBJECT']
@@ -155,5 +156,14 @@ class BrowseController < ApplicationController
         format.html { render layout: !request.xhr? } #renders naked html if ajax
       end
     end
+end
+
+def redirect_catalog
+  if params[:browse_type]
+    if params[:browse_type].include?('catalog')
+      field=params[:browse_type].split(':')[1]
+      redirect_to "/catalog?q=#{CGI.escape params[:authq]}&search_field=#{field}"
+    end
+  end
 end
 end
