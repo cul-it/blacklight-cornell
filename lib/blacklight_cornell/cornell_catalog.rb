@@ -17,8 +17,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
+    op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
+    refp.sub!('/range_limit','') unless refp.nil?
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
