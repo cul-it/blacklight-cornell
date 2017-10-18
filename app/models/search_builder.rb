@@ -590,7 +590,11 @@ class SearchBuilder < Blacklight::SearchBuilder
                           end
                           for k in 0..tokenArray.size - 2
                                if field_name == ''
-                                newTerm << " +" +tokenArray[k] #+ " + "
+                                 if opfill != "OR"
+                                    newTerm << " +" +tokenArray[k] #+ " + "
+                                 else
+                                    newTerm << " +" + tokenArray[k] + " " + opfill + " "
+                                 end
                                else
                                  if opfill == "AND"
                                    newTerm << "+" << field_name + ":" + tokenArray[k] + " "
