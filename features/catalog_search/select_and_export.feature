@@ -230,7 +230,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to send a book record to endnote format (might go to zotero) 
     Given I request the item view for 1001 
     Given I request the item view for 1001.endnote
-    Then I should see the text '%0 Generic'
+    Then I should see the text '%0 Book'
     Then I should see the text '%C Washington, D.C.'
     Then I should see the text '%D 1985' 
     Then I should see the text '%E Prattis, J. I' 
@@ -238,6 +238,45 @@ Feature: Select and export items from the result set
     Then I should see the text '%@ 091316710X'
     Then I should see the text '%T Reflections  the anthropological muse'
 
+@citations
+  Scenario: User needs to send a book record to endnote format, check for processing 264  (might go to zotero) 
+    Given I request the item view for 9939352 
+    Given I request the item view for 9939352.endnote
+    Then I should see the text '%T Octopus'
+    Then I should see the text '%A Gray, Afsaneh' 
+    Then I should see the text '%@ 1786821931' 
+    Then I should see the text '%@ 9781786821935' 
+    Then I should see the text '%0 Book'
+    Then I should see the text '%C London'
+    Then I should see the text '%D 2017' 
+    Then I should see the text '%I Oberon Books'
+
+@citations
+  Scenario: User needs to send an ebook record to endnote format
+    Given I request the item view for 9305118 
+    Given I request the item view for 9305118.endnote
+    Then I should see the text '%0 Electronic Book'
+    Then I should see the text '%A Boyle, P. R'
+    Then I should see the text '%C Ames, Iowa'
+    Then I should see the text '%D 2005' 
+    Then I should see the text '%E Rodhouse, Paul' 
+    Then I should see the text '%I Blackwell Science' 
+    Then I should see the text '%@ 0632060484 (hardback : alk. paper)' 
+    Then I should see the text '%T Cephalopods  ecology and fisheries' 
+
+@citations
+  Scenario: User needs to send an ebook record to endnote format
+    Given I request the item view for 6788245 
+    Given I request the item view for 6788245.endnote
+    Then I should see the text '%0 Film or Broadcast'
+    Then I should see the text '%C Burbank, CA'
+    Then I should see the text '%D c2009'
+    Then I should see the text '%E Radcliffe, Daniel' 
+    Then I should see the text '%E Rowling, J. K'
+    Then I should see the text '%I Warner Home Video'
+    Then I should see the text '%@ 1419864173'
+    Then I should see the text '%@ 9781419864179'
+    Then I should see the text '%T Harry Potter and the half-blood prince'
 ###
 ###
 ##
