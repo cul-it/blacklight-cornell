@@ -224,16 +224,24 @@ end
     config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
-     config.add_facet_field 'lc_callnum_facet',
-                            if: :has_search_parameters?,
-                           label: 'Call Number',
-                           partial: 'blacklight/hierarchy/facet_hierarchy',
-                           sort: 'index'
-    config.facet_display = {
-      :hierarchy => {
-        'lc_callnum' => [['facet'], ':']
-      }
-  }
+    config.add_facet_field 'lc_callnum_facet',
+                           if: :has_search_parameters?,
+                          label: 'Call Number',
+                          partial: 'blacklight/hierarchy/facet_hierarchy',
+                          sort: 'index'
+
+  config.add_facet_field 'location',
+                         if: :has_search_parameters?,
+                        label: 'New location',
+                        partial: 'blacklight/hierarchy/facet_hierarchy',
+                        sort: 'index',
+                        limit: 100
+   config.facet_display = {
+     :hierarchy => {
+       'lc_callnum' => [['facet'], ':'],
+       'location' => [[nil],' > ']
+     }
+ }
 
     config.add_facet_field 'collection', :show => false
 
