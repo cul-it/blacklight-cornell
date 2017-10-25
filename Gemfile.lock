@@ -30,7 +30,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/csl-styles
-  revision: d15b7efa88a0b0acf119eb3c8e8c7c0dc8d18de2
+  revision: c7b50754fc907247c7533deed09d69478a9669c9
   branch: master
   submodules: true
   specs:

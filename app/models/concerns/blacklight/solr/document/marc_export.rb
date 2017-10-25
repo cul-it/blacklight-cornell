@@ -43,7 +43,7 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def export_as_mla_citation_txt
-    citeproc_citation( to_marc,'modern-language-association')
+    citeproc_citation( to_marc,'modern-language-association-7th-edition')
   end
 
   def old_xxx_export_as_mla8_citation_txt
@@ -52,7 +52,8 @@ module Blacklight::Solr::Document::MarcExport
 
     #cp  = CiteProc::Processor.new style: 'modern-language-association-8th-edition', format: 'html'
   def export_as_mla8_citation_txt
-    citeproc_citation( to_marc,'modern-language-association-8th-edition')
+    #citeproc_citation( to_marc,'modern-language-association-8th-edition')
+    citeproc_citation( to_marc,'modern-language-association')
   end
 
   def export_as_mla8_proc_citation_txt
@@ -216,6 +217,9 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     text << "%0 #{ fmt_str }\n"
     # If there is some reliable way of getting the language of a record we can add it here
     #text << "%G #{record['language'].first}\n"
+    if !self["language_facet"].blank?
+       self["language_facet"].map{|la|  text += "%G #{la}\n" }
+    end
     # #marc field is key, value is tag target
     end_note_format.each do |key,etag|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} key,etag #{key},#{etag}")
