@@ -24,7 +24,7 @@ Feature: Select and export items from the result set
 
 
 
-#Chicago 16th ed. format.
+#Chicago 17th ed. format.
 # Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -34,7 +34,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8696757
     And click on link "Cite"
     And I sleep 8 seconds
-    Then I should see the label 'Chicago 16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. https://doi.org/10.1007/978-1-4302-4408-0'
+    Then I should see the label 'Chicago 17th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. https://doi.org/10.1007/978-1-4302-4408-0'
 
 #For a book with two authors, note that only the 
 #first-listed name is inverted in the bibliography entry.
@@ -48,7 +48,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 6146988 
     And click on link "Cite"
     And I sleep 8 seconds
-    Then I should see the label 'Chicago 16th ed. Ward, Geoffrey C, and Ken Burns. The War: an Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
+    Then I should see the label 'Chicago 17th ed. Ward, Geoffrey C, and Ken Burns. The War: an Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
 
 
 @all_select_and_export
@@ -58,7 +58,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 393971
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Memorial University of Newfoundland. Geology Report. St. John'
+    Then I should see the label 'Chicago 17th ed. Memorial University of Newfoundland. Geology Report. St. John'
 
 @javascript
 @all_select_and_export
@@ -69,7 +69,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 9448862 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
+    Then I should see the label 'Chicago 17th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 #Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
@@ -173,7 +173,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 5558811
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
+    Then I should see the label 'Chicago 17th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
     Then I should see the label 'MLA 7th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. Web.'
     Then I should see the label 'APA 6th ed. Eliot, J., Cotton, J., & Boyle, R. (1685). Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.'
 
