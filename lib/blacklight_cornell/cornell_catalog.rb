@@ -208,6 +208,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         @presenter = Blacklight::JsonPresenter.new(@response,
                                                    facets_from_request,
                                                    blacklight_config)
+      end
+      additional_response_formats(format)
+      document_export_formats(format)
     end
 
      if !params[:q_row].nil?
