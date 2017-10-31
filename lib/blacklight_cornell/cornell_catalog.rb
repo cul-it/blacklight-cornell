@@ -204,9 +204,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
+      format.json do
+        @presenter = Blacklight::JsonPresenter.new(@response,
+                                                   facets_from_request,
+                                                   blacklight_config)
     end
-    
-     if !params[:q_row].nil?       
+
+     if !params[:q_row].nil?
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
