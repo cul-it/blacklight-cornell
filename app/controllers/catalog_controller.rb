@@ -229,7 +229,7 @@ end
                            label: 'Call Number',
                            partial: 'blacklight/hierarchy/facet_hierarchy',
                            sort: 'index'
-    config.add_facet_field 'acquired_month', :show => true, :label => "Month Acquired", :limit => 5, if: :has_search_parameters
+    config.add_facet_field 'acquired_month', :show => true, :label => "Month Acquired", :limit => 5, if: :has_search_parameters?
     config.facet_display = {
       :hierarchy => {
         'lc_callnum' => [['facet'], ':']
