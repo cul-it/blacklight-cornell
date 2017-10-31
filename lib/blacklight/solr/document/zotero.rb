@@ -57,6 +57,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_abstract(builder)
         generate_rdf_url(builder)
         generate_rdf_isbn(builder)
+        generate_rdf_doi(builder)
         generate_rdf_holdings(builder)
         generate_rdf_medium(builder,ty)
         generate_rdf_catlink(builder,ty)
@@ -119,6 +120,12 @@ module Blacklight::Solr::Document::Zotero
     isbns.each do |k|
       b.dc(:identifier,"ISBN #{k}") unless k.blank? 
     end
+  end
+    #<dc:identifier>DOI 10.1371/journal.pone.0118512</dc:identifier>
+  def generate_rdf_doi(b)
+    doi = setup_doi(to_marc)
+    b.dc(:description,"DOI #{doi}") unless doi.blank? 
+    b.dc(:description,"just some random text") unless doi.blank? 
   end
 
     # edition
