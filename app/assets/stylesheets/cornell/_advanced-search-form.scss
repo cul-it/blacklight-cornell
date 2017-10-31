@@ -66,8 +66,15 @@ body.blacklight-advanced-index dl.dl-horizontal {
       width: 25%;
     }
   }
-  body.blacklight-advanced-index dl.dl-horizontal {
-    dd { margin-left: 65px; }
+  .as-tips {
+    dl.dl-horizontal {
+      dt {
+        width: 50px;
+      }
+      dd {
+        margin-left: 65px;
+      }
+    }
   }
 }
 
@@ -76,6 +83,16 @@ body.blacklight-advanced-index dl.dl-horizontal {
   .form-inline {
     .advanced-search-field.form-control {
       width: 40%;
+    }
+  }
+  .as-tips {
+    dl.dl-horizontal {
+      dt {
+        width: 100px;
+      }
+      dd {
+        margin-left: 115px;
+      }
     }
   }
 }
