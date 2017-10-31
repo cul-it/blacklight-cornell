@@ -484,6 +484,14 @@ end
     return get_clickable_setting(field) != nil
   end
 
+  def render_single_value(args)
+    if args[:value].is_a?(Array)
+      return args[:value][0]
+    else
+      return args[:value]
+    end
+  end
+
   def display_link?(field)
     return blacklight_config.display_link[field] != nil
   end
