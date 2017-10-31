@@ -227,8 +227,10 @@
       <% end %>
     <% end %>
     <% if request.xhr? %>
+    <% if data["headingTypeDesc"].present? && (data["headingTypeDesc"] == params[:headingtype]) %>
       <%= link_to "/browse/info?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] do %>
-        Full record				
+        Full record
+      <% end %>
       <% end %>
     <% end %>
   <% end %>
