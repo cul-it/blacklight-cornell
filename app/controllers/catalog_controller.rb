@@ -521,14 +521,6 @@ end
          :pf => '$donor_pf'
        }
     end
-    config.add_search_field('newness') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-         :qf => '$newness_qf',
-         :pf => '$newness_pf'
-       }
-    end
-
 
 
 
