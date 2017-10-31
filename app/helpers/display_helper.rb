@@ -484,6 +484,14 @@ end
     return get_clickable_setting(field) != nil
   end
 
+  def render_single_value(args)
+    if args[:value].is_a?(Array)
+      return args[:value][0]
+    else
+      return args[:value]
+    end
+  end
+
   def display_link?(field)
     return blacklight_config.display_link[field] != nil
   end
@@ -1066,16 +1074,13 @@ end
     # Rewriting because we can't get the above to work properly....
     label = nil
     field = "title"
-    title = doc['title_display']
-    subtitle = doc['subtitle_display']
+    title = doc['fulltitle_display']
     vern = doc['fulltitle_vern_display']
 
     if title.present?
       label = title
     end
-    if subtitle.present?
-      label += ' : ' + subtitle
-    end
+
     if vern.present?
       label = vern + ' / ' + label
     end
