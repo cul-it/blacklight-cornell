@@ -655,7 +655,6 @@ def check_params(params)
          params[:f] = {'format' => ['Journal/Periodical']}
        end
        params[:f][:format] = ['Journal/Periodical']
-       Rails.logger.info("BOOGER32 = #{params[:f]}")
        # unless(!params[:q])
        #params[:q] = params[:q]
        if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
@@ -705,7 +704,6 @@ def check_params(params)
        qparam_display = params[:q]
        params[:qdisplay] = params[:q]
        qarray = params[:q].split
-   Rails.logger.info("QARRAY = #{qarray}")
         if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
            params[:q] = params[:q]
         else
@@ -763,7 +761,6 @@ def check_params(params)
                    bits.gsub!(':','\\:')
                  end
                  if bits.first == '"' and bits.last == '"'
-                    Rails.logger.info("RANKLE = #{bits}")
                     if fieldname == ''
                      params[:q] << '+quoted:' + bits + ' '
                     else 
