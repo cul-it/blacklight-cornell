@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/baroquem/borrow_direct
+  revision: 54f75e6a01eb85c4fa396c63464cfe987af91853
+  specs:
+    borrow_direct (1.2.0)
+      httpclient (~> 2.4)
+
+GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
   revision: b208952f4f7078f433a0ca31d2e0de93ac12acfe
   branch: master
@@ -36,13 +43,6 @@ GIT
   specs:
     csl-styles (1.0.1.9)
       csl (~> 1.0)
-
-GIT
-  remote: https://github.com/jrochkind/borrow_direct
-  revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
-  specs:
-    borrow_direct (1.2.0)
-      httpclient (~> 2.4)
 
 GEM
   remote: https://rubygems.org/
