@@ -642,126 +642,145 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       params[:range][:pub_date_facet][:end] = end_test
   end
 
-  def check_params(params)
-    qparam_display = ''
-    fieldname = ''
+def check_params(params)
+     qparam_display = ''
+     fieldname = ''
 
-    # Journal title search hack.
-    if params[:search_field].nil?
-      params[:search_field] = 'all_fields'
-    end
-    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
-      if params[:f].nil?
-        params[:f] = {'format' => ['Journal/Periodical']}
-      end
-      params[:f].merge('format' => ['Journal/Periodical'])
-      # unless(!params[:q])
-      #params[:q] = params[:q]
-      if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
-        params[:search_field] = 'advanced'
-      else
-        params[:search_field] = 'title'
-      end
-      search_session[:f] = params[:f]
-    end
-    fieldname = ''
-    if params[:search_field] == 'call number'
-      fieldname = 'lc_callnum'
-    else
-      if params[:search_field] == 'author/creator'
-        fieldname = 'author' 
-      else
-        if params[:search_field] == 'all_fields'
-          fieldname = ''
-        else
-          if params[:search_field] == 'publisher number/other identifier'
-            fieldname = 'number'
-            params[:search_field] = 'number'
-          else
-           fieldname = params[:search_field]
-          end
-        end
-      end
-    end
-    # end of Journal title search hack
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    #quote the call number
-    if params[:search_field] == 'call number'
-       params[:search_field] = 'lc_callnum'
-       if !params[:q].nil?
-         search_session[:q] = params[:q]
-         params[:qdisplay] = params[:q]
-         if !params[:q].include?('"')
-           params[:q] = '"' << params[:q] << '"'
+     # Journal title search hack.
+     if params[:search_field].nil?
+       params[:search_field] = 'all_fields'
+     end
+     if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+       if params[:f].nil?
+         params[:f] = {'format' => ['Journal/Periodical']}
+       end
+       params[:f][:format] = ['Journal/Periodical']
+       # unless(!params[:q])
+       #params[:q] = params[:q]
+       if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+         params[:search_field] = 'advanced'
+       else
+         params[:search_field] = 'title'
+       end
+       search_session[:f] = params[:f]
+     end
+     fieldname = ''
+     if params[:search_field] == 'call number'
+       fieldname = 'lc_callnum'
+     else
+       if params[:search_field] == 'author/creator'
+         fieldname = 'author' 
+       else
+         if params[:search_field] == 'all_fields'
+           fieldname = ''
+         else
+           if params[:search_field] == 'publisher number/other identifier'
+             fieldname = 'number'
+             params[:search_field] = 'number'
+           else
+            fieldname = params[:search_field]
+           end
          end
-        # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
-       else
-         params[:q] =  '' or params[:q].nil?
-         params[:search_field] = 'all_fields'
-       end     
-    end
-    if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
-       if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
-          params[:q] = params[:q]
-       else
-          if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
-             qparam_display = params[:q]
-             params[:qdisplay] = params[:q]
-             qarray = params[:q].split
-             params[:q] = '('
-             if qarray.size == 1
-                if qarray[0].include?(':')
-                  qarray[0].gsub!(':','\:')
-                end
-                if fieldname == ''
-                   params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
-                else
-                   if fieldname == "title"
-                     params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
-                   else
-                     params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
-                   end
-                end
-             else
-                qarray.each do |bits|
-                   if bits.include?(':')
-                     bits.gsub!(':','\\:')
-                   end
-                   if fieldname == ''
-                      params[:q] << '+' << bits << ' '
-                   else
-                      params[:q] << '+' << fieldname << ':' << bits << ' '
-                   end
-                end
-                if fieldname == ''
-                   params[:q] << ') OR phrase:"' << qparam_display << '"'
-                else
-                  if fieldname == "title"
-                   params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
-                  else
-                   params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
-                  end
-                end
-             end
-          else
-            if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-              if (fieldname == 'title' or fieldname == 'number') and fieldname != ''
-                 params[:q] = params[:q]
-                 params[:search_field] = fieldname << '_quoted'
+       end
+     end
+     # end of Journal title search hack
+     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+     #quote the call number
+     if params[:search_field] == 'call number'
+        params[:search_field] = 'lc_callnum'
+        if !params[:q].nil?
+          search_session[:q] = params[:q]
+          params[:qdisplay] = params[:q]
+          if !params[:q].include?('"')
+            params[:q] = '"' << params[:q] << '"'
+          end
+         # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+        else
+          params[:q] =  '' or params[:q].nil?
+          params[:search_field] = 'all_fields'
+        end     
+     end
+     if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
+       qparam_display = params[:q]
+       params[:qdisplay] = params[:q]
+       qarray = params[:q].split
+        if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+           params[:q] = params[:q]
+        else
+           if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
+              params[:q] = '('
+              if qarray.size == 1
+                 if qarray[0].include?(':')
+                   qarray[0].gsub!(':','\:')
+                 end
+                 if fieldname == ''
+                    params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
+                 else
+                    if fieldname == "title"
+                      params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
+                    else
+                      params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                    end
+                 end
               else
-                if fieldname == ''
-                 params[:q] = params[:q]
-                 params[:search_field] = 'quoted'
-                end
+                 qarray.each do |bits|
+                    if bits.include?(':')
+                      bits.gsub!(':','\\:')
+                    end
+                    if fieldname == ''
+                       params[:q] << '+' << bits << ' '
+                    else
+                       params[:q] << '+' << fieldname << ':' << bits << ' '
+                    end
+                 end
+                 if fieldname == ''
+                    params[:q] << ') OR phrase:"' << qparam_display << '"'
+                 else
+                   if fieldname == "title"
+                    params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
+                   else
+                    params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+                   end
+                 end
               end
-            end
+           else
+             if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
+               if (fieldname == 'title' or fieldname == 'number') and fieldname != ''
+                  params[:q] = params[:q]
+                  params[:search_field] = fieldname << '_quoted'
+               else
+                 if fieldname == ''
+                  params[:q] = params[:q]
+                  params[:search_field] = 'quoted'
+                 end
+               end
+             else
+               params[:q] = ''
+               qarray.each do |bits|
+                 if bits.include?(':')
+                   bits.gsub!(':','\\:')
+                 end
+                 if bits.first == '"' and bits.last == '"'
+                    if fieldname == ''
+                     params[:q] << '+quoted:' + bits + ' '
+                    else 
+                     params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                    end
+                 else
+                   if fieldname == ''
+                     params[:q] << '+' + bits + ' '
+                   else
+                     params[:q] << '+' + fieldname + ':' + bits + ' '
+                   end
+                 end
+               end
+             end
              if params[:q].nil? or params[:q].blank?
-                params[:q] = qparam_display
+               params[:q] = qparam_display
              end
           end
-       end    
+       end   
     end
-    
 
     #    if params[:search_field] = "call number"
     #      params[:q] = "\"" << params[:q] << "\""
