@@ -13,7 +13,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #  include ActsAsTinyURL
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
-
+ 
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
@@ -204,16 +204,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
-      format.json do
-        @presenter = Blacklight::JsonPresenter.new(@response,
-                                                   facets_from_request,
-                                                   blacklight_config)
-      end
-      additional_response_formats(format)
-      document_export_formats(format)
     end
-
-     if !params[:q_row].nil?
+    
+     if !params[:q_row].nil?       
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
