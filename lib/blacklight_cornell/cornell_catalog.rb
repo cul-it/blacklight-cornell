@@ -703,7 +703,11 @@ def check_params(params)
      if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
        qparam_display = params[:q]
        params[:qdisplay] = params[:q]
-       qarray = params[:q].split
+       if !params[:search_field].include?('browse')
+        qarray = params[:q].split
+       else
+        qarray = [params[:q]]
+       end
         if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
            params[:q] = params[:q]
         else
@@ -764,7 +768,9 @@ def check_params(params)
                     if fieldname == ''
                      params[:q] << '+quoted:' + bits + ' '
                     else 
+                     if !params[:search_field].include?('browse')
                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                     end
                     end
                  else
                    if fieldname == ''
@@ -794,6 +800,7 @@ def check_params(params)
     #    if params[:q].blank?
     #      params[:q] = '*'
     #    end 
+    Rails.logger.info("BROZETTI = #{params}")
    return params
   end
   
