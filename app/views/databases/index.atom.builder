@@ -1,6 +1,11 @@
 require 'base64'
 # page_info = paginate_params(@response)
 
+  Rails.logger.level = Logger:DEBUG
+  Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in index.atom.builder”
+  xml.debug("bla bla bla")
+  <%= debug params %>
+
 xml.instruct!(:xml, :encoding => "UTF-8")
 
 xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
@@ -41,10 +46,6 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
 #  xml.opensearch :startIndex, @response.start.to_s
 #  xml.opensearch :itemsPerPage, page_info.limit_value
 #  xml.opensearch :Query, :role => "request", :searchTerms => params[:q], :startPage => page_info.current_page
-
-  Rails.logger.info "jgr25_log #{__FILE__} #{__LINE__}: in index.atom.builder”
-  <%= debug params %>
-  xml.debug("bla bla bla")
 
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
