@@ -19,7 +19,10 @@ xml.rss(:version=>"2.0") {
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
         xml.link(polymorphic_url(doc))
-        xml.author( doc.to_semantic_values[:author][0] ) if doc.to_semantic_values[:author][0]
+        description = ''
+        description += doc.to_semantic_values[:author][0] if doc.to_semantic_values[:author][0]
+        description += doc.to_semantic_values[:format][0] if doc.to_semantic_values[:format][0]
+        xml.description! description if description
       end
     end
 
