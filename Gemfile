@@ -62,6 +62,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
+  gem 'pp'
 end
 
 group :test do
