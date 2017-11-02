@@ -4,6 +4,8 @@ require 'base64'
 saved_logger_level = Rails.logger.level
 Rails.logger.level = 0
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.atom.builder"
+Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
+
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
