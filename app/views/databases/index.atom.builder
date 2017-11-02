@@ -1,10 +1,6 @@
+# this is the atom builder for databases.atom
 require 'base64'
 # page_info = paginate_params(@response)
-
-  Rails.logger.level = 0
-  Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in index.atom.builder"
-  xml.debug("bla bla bla")
-  puts "Where are we?????"
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
@@ -12,9 +8,6 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
          "xmlns:opensearch"=>"http://a9.com/-/spec/opensearch/1.1/") do
 
   xml.title   t('blacklight.search.title', :application_name => application_name)
-
-  xml.subtitle t('subtitle here')
-
   # an author is required, so we'll just use the app name
   xml.author { xml.name application_name }
 
