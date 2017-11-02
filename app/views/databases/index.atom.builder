@@ -4,7 +4,6 @@ require 'base64'
   Rails.logger.level = Logger:DEBUG
   Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in index.atom.builder"
   xml.debug("bla bla bla")
-  <%= debug params %>
   puts "Where are we?????"
 
 xml.instruct!(:xml, :encoding => "UTF-8")
