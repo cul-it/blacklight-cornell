@@ -45,10 +45,16 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
       if (params["content_format"] &&
           doc.export_formats[params["content_format"].to_sym])
 
+          Rails.logger.debug "inspect: " + doc.export_formats[params["content_format"].to_sym].inspect
+
           type = doc.export_formats[params["content_format"].to_sym][:content_type]
+
+          Rails.logger.debug "type: " + type.inspect
 
           xml.content :type => type do |content_element|
             data = doc.export_as(params["content_format"])
+
+            Rails.logger.debug "data: " + data.inspect
 
             # encode properly. See:
             # http://tools.ietf.org/html/rfc4287#section-4.1.3.3
