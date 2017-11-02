@@ -14,6 +14,7 @@ xml.rss(:version=>"2.0") {
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
     @document_list.each do |doc|
+      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
         xml.link(polymorphic_url(doc))
