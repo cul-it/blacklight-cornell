@@ -1,7 +1,7 @@
 require 'base64'
 # page_info = paginate_params(@response)
 
-  Rails.logger.level = Logger:DEBUG
+  Rails.logger.level = 0
   Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in index.atom.builder"
   xml.debug("bla bla bla")
   puts "Where are we?????"
