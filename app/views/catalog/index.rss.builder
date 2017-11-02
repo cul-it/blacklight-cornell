@@ -15,7 +15,7 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
-      Rails.logger.ap doc
+      Rails.logger.ap doc.keys
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
         xml.link(polymorphic_url(doc))
