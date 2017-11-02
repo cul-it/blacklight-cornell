@@ -1,3 +1,9 @@
+
+saved_logger_level = Rails.logger.level
+Rails.logger.level = 0
+Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.rss.builder"
+Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
+
 xml.instruct! :xml, :version=>"1.0"
 xml.rss(:version=>"2.0") {
 
@@ -8,9 +14,10 @@ xml.rss(:version=>"2.0") {
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
     @document_list.each do |doc|
+      semantic = doc.to_semantic_values
+      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: semantic: " + semantic.inspect
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
-        #xml.link('/catalog/'+doc.id)
         xml.link(polymorphic_url(doc))
         xml.author( doc.to_semantic_values[:author][0] ) if doc.to_semantic_values[:author][0]
       end
@@ -18,3 +25,5 @@ xml.rss(:version=>"2.0") {
 
   }
 }
+
+Rails.logger.level = saved_logger_level
