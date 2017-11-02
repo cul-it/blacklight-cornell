@@ -13,6 +13,9 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
          "xmlns:opensearch"=>"http://a9.com/-/spec/opensearch/1.1/") do
 
   xml.title   t('blacklight.search.title', :application_name => application_name)
+
+  xml.subtitle t('subtitle here')
+
   # an author is required, so we'll just use the app name
   xml.author { xml.name application_name }
 
