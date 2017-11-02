@@ -62,7 +62,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
-  gem 'pp'
+  gem 'awesome_print'
 end
 
 group :test do
