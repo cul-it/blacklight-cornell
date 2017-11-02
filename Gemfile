@@ -10,11 +10,11 @@ gem 'appsignal'
 gem 'activerecord-session_store'
 gem 'protected_attributes'
 
-group :development,:test, :integration do  
+group :development,:test, :integration do
   gem 'sqlite3'
 end
 
-group :production,:staging do  
+group :production,:staging do
   gem 'mysql'
 end
 
