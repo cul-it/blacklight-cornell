@@ -1,3 +1,4 @@
+# this is the atom builder for databases.atom
 require 'base64'
 # page_info = paginate_params(@response)
 
