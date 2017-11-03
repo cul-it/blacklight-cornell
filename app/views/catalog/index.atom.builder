@@ -6,6 +6,9 @@ Rails.logger.level = 0
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.atom.builder"
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
 
+@document_list.first do |document|
+  Rails.logger.ap document.export_formats
+end
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
