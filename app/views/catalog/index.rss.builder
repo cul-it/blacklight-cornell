@@ -23,16 +23,16 @@ xml.rss(:version=>"2.0") {
       holdings_condensed = create_condensed_full(doc)
       call_number = holdings_condensed[0]['call_number']
       location = holdings_condensed[0]['location_name']
-      Rails.logger.ap doc.keys
+      Rails.logger.ap doc.inspect
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
         xml.link(polymorphic_url(doc))
-        description = ''
-        description += doc.to_semantic_values[:author][0] if doc.to_semantic_values[:author][0]
-        description += ' ' + doc.to_semantic_values[:format][0] if doc.to_semantic_values[:format][0]
-        description += ' ' + doc['subtitle_display'] if doc['subtitle_display']
-        description += ' ' + call_number + ' ' + location
-        xml.description(description) if description
+        description = Array.new
+        description << doc.to_semantic_values[:author][0] if doc.to_semantic_values[:author][0]
+        description << doc.to_semantic_values[:format][0] if doc.to_semantic_values[:format][0]
+        description <<  doc['subtitle_display'] if doc['subtitle_display']
+        description <<  call_number + ' ' + location
+        xml.description(description) if description.join(" \n")
       end
     end
 
