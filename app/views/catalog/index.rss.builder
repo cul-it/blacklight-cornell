@@ -23,7 +23,7 @@ xml.rss(:version=>"2.0") {
       holdings_condensed = create_condensed_full(doc)
       call_number = holdings_condensed[0]['call_number']
       location = holdings_condensed[0]['location_name']
-      Rails.logger.ap doc.inspect
+      Rails.logger.ap doc[8].inspect
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
         xml.link(polymorphic_url(doc))
