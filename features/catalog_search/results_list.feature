@@ -9,7 +9,6 @@ Feature: Results list
         @all_results_list
         @rss
 	Scenario: Empty search
-                Given PENDING
 		Given I am on the home page
 		And I press 'search'
 
@@ -259,7 +258,6 @@ Feature: Results list
 @next_facet
 @javascript
   Scenario: Search with results,
-                Given PENDING
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'
@@ -269,7 +267,9 @@ Feature: Results list
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'We Can Speak for Ourselves'
+    Then I should see the text 'Why we're equal introducing feminist theology'
+    Then click on first link "Back to catalog results"
+    Then I should get results
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
