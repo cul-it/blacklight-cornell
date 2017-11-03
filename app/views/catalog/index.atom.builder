@@ -1,16 +1,10 @@
 # this is the atom builder for catalog.atom
-require "awesome_print"
 require 'base64'
 
 saved_logger_level = Rails.logger.level
 Rails.logger.level = 0
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.atom.builder"
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
-
-key, document = @document_list.first
-Rails.logger.ap document.export_formats
-Rails.logger.debug "Document list first key" + key
-Rails.logger.debug "Document list done"
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
