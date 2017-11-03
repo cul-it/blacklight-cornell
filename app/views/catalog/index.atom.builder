@@ -1,4 +1,5 @@
 # this is the atom builder for catalog.atom
+require "awesome_print"
 require 'base64'
 
 saved_logger_level = Rails.logger.level
