@@ -4,6 +4,11 @@ Rails.logger.level = 0
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.rss.builder"
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
 
+# subtitle the_vernaculator('subtitle_display', 'subtitle_vern_display')
+# responsibility field_value 'title_responsibility_display'
+# call number - location
+# holdings_condensed = create_condensed_full(@document)
+
 xml.instruct! :xml, :version=>"1.0"
 xml.rss(:version=>"2.0") {
 
