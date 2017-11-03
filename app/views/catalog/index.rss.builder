@@ -22,9 +22,9 @@ xml.rss(:version=>"2.0") {
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
       semantics = doc.to_semantic_values
-      title = semantics[:title].blank? ? doc.id : semantics[:title].first
+      title = semantics[:full_title].blank? ? doc.id : semantics[:full_title].first
       pub_disc = []
-      pub_disc << doc['pub_info_display'].first unless doc['pub_info_display'].blank?
+      pub_disc << doc['pub_info_display'].join(' ') unless doc['pub_info_display'].blank?
       pub_disc << 'description here'
       holdings_condensed = create_condensed_full(doc)
       col_loc = []
