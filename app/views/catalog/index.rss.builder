@@ -21,8 +21,8 @@ xml.rss(:version=>"2.0") {
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
       holdings_condensed = create_condensed_full(doc)
-      call_number = holdings_condensed[0].call_number
-      location = holdings_condensed[0].location_name
+      call_number = holdings_condensed[0]['call_number']
+      location = holdings_condensed[0]['location_name']
       Rails.logger.ap doc.keys
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
