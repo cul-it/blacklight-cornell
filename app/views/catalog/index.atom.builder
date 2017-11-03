@@ -9,7 +9,9 @@ Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspec
 
 @document_list.first do |document|
   Rails.logger.ap document.export_formats
+  Rails.logger.debug "Document list first"
 end
+Rails.logger.debug "Document list done"
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
