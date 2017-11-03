@@ -20,8 +20,10 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
-      doc_view = create_condensed_full(doc)
-      Rails.logger.ap doc_view
+      holdings_condensed = create_condensed_full(doc)
+      call_number = holdings_condensed[0].call_number
+      location = holdings_condensed[0].location_name
+      Rails.logger.ap doc.keys
       xml.item do
         xml.title( doc.to_semantic_values[:title][0] || doc.id )
         xml.link(polymorphic_url(doc))
@@ -29,6 +31,7 @@ xml.rss(:version=>"2.0") {
         description += doc.to_semantic_values[:author][0] if doc.to_semantic_values[:author][0]
         description += ' ' + doc.to_semantic_values[:format][0] if doc.to_semantic_values[:format][0]
         description += ' ' + doc['subtitle_display'] if doc['subtitle_display']
+        description += ' ' + call_number + ' ' + location
         xml.description(description) if description
       end
     end
