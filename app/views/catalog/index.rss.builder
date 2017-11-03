@@ -6,6 +6,7 @@ Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspec
 
 # subtitle the_vernaculator('subtitle_display', 'subtitle_vern_display')
 # responsibility field_value 'title_responsibility_display'
+#   published -- description
 # call number - location
 # holdings_condensed = create_condensed_full(@document)
 
@@ -20,18 +21,23 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
+      semantics = doc.to_semantic_values
+      title = semantics[:title].blank? ? doc.id : semantics[:title].first
+      pub_disc = []
+      pub_disc << doc['pub_info_display'].first unless doc['pub_info_display'].blank?
+      pub_disc << 'description here'
       holdings_condensed = create_condensed_full(doc)
-      call_number = holdings_condensed[0]['call_number']
-      location = holdings_condensed[0]['location_name']
+      col_loc = []
+      col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
+      col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
       Rails.logger.ap doc['fulltitle_display']
       xml.item do
-        xml.title( doc.to_semantic_values[:title][0] || doc.id )
+        xml.title( title )
         xml.link(polymorphic_url(doc))
         description = Array.new
-        description << doc.to_semantic_values[:author][0] if doc.to_semantic_values[:author][0]
-        description << doc.to_semantic_values[:format][0] if doc.to_semantic_values[:format][0]
-        description <<  doc['subtitle_display'] if doc['subtitle_display']
-        description <<  call_number + ' -- ' + location
+        description << doc['subtitle_display'] unless doc['subtitle_display'].blank?
+        description << pub_disc.join(' -- ') unless pub_disc.blank?
+        description << col_loc.join(' -- ') unless col_loc.blank?
         xml.description(description.join("<br \\>"))
       end
     end
