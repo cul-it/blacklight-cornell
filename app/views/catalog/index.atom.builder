@@ -7,10 +7,9 @@ Rails.logger.level = 0
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.atom.builder"
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
 
-@document_list.first do |document|
-  Rails.logger.ap document.export_formats
-  Rails.logger.debug "Document list first"
-end
+document = @document_list.first
+Rails.logger.ap document.export_formats.inspect
+Rails.logger.debug "Document list first"
 Rails.logger.debug "Document list done"
 
 xml.instruct!(:xml, :encoding => "UTF-8")
