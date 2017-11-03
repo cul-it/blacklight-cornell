@@ -31,8 +31,8 @@ xml.rss(:version=>"2.0") {
         description << doc.to_semantic_values[:author][0] if doc.to_semantic_values[:author][0]
         description << doc.to_semantic_values[:format][0] if doc.to_semantic_values[:format][0]
         description <<  doc['subtitle_display'] if doc['subtitle_display']
-        description <<  call_number + ' ' + location
-        xml.description(description) if description.join(" \n")
+        description <<  call_number + ' -- ' + location
+        xml.description(description.join(" \n"))
       end
     end
 
