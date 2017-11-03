@@ -869,14 +869,4 @@ def check_params(params)
      end
   end
 
-
-
-  def sanitize(q)
-     if q.include?('<img')
-      redirect_to_root_path
-     else
-      return q
-     end
-  end
-
 end
