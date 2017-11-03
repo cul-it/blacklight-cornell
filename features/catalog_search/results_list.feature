@@ -261,8 +261,10 @@ Feature: Results list
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'
+    And I sleep 10 seconds
     Then I should get results
     Then I should see the text 'Click : '
+    And I sleep 10 seconds
     Then click on first link "Click : when we knew we were feminists"
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
