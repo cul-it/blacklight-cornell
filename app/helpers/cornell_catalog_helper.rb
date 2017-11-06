@@ -1555,9 +1555,9 @@ end
 #
 
 def acquired_date(document)
-	if document[:acquired_dt].present?
+	if document['acquired_dt'].present?
 		# use acquired date as is
-		acquired_date = document[:acquired_dt]
+		acquired_date = document['acquired_dt']
 	else
 		# use current date
 		acquired_date = Time.now.utc
