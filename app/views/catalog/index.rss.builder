@@ -22,32 +22,15 @@ xml.rss(:version=>"2.0") {
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
       Rails.logger.ap doc.keys
-      semantics = doc.to_semantic_values
-      title = semantics[:full_title].blank? ? doc.id : semantics[:full_title].first
-      pub_disc = []
-      pub_disc << doc['pub_info_display'].join(' ') unless doc['pub_info_display'].blank?
-      pub_disc << 'description here'
-      holdings_condensed = create_condensed_full(doc)
-      col_loc = []
-      col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
-      col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
-      Rails.logger.ap doc['fulltitle_display']
       xml.item do
-        xml.title( title )
+        xml.title(feed_item_title(doc))
         xml.link(polymorphic_url(doc))
-        description = Array.new
-        description << doc['subtitle_display'] unless doc['subtitle_display'].blank?
-        description << pub_disc.join(' -- ') unless pub_disc.blank?
-        description << col_loc.join(' -- ') unless col_loc.blank?
-        xml.description(rss_description(doc))
-        # <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
+        xml.content(feed_item_content(doc))
         acquired = acquired_date(doc)
-        Rails.logger.debug "acquired date: "
-        Rails.logger.ap acquired
-        xml.pubDate = acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
+        Rails.logger.debug "acquired date: " + acquired.inspect
+        xml.pubDate =acquired.strftime('%a, %d %b %Y %H:%M:%S %z')
       end
     end
-
   }
 }
 
