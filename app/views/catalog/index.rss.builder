@@ -20,7 +20,7 @@ xml.rss(:version=>"2.0") {
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
     @document_list.each do |doc|
-      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
+      #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
       Rails.logger.ap doc.keys
       semantics = doc.to_semantic_values
       title = semantics[:full_title].blank? ? doc.id : semantics[:full_title].first
@@ -31,7 +31,7 @@ xml.rss(:version=>"2.0") {
       col_loc = []
       col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
       col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
-      Rails.logger.ap doc['fulltitle_display']
+      #Rails.logger.ap doc['fulltitle_display']
       xml.item do
         xml.title( title )
         xml.link(polymorphic_url(doc))
