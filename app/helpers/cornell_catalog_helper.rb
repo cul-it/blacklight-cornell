@@ -1565,7 +1565,13 @@ def acquired_date(document)
 	return acquired_date
 end
 
-def rss_description(document)
+def feed_item_title(document)
+	semantics = document.to_semantic_values
+	title = semantics[:full_title].blank? ? doc.id : semantics[:full_title].first
+	return title
+end
+
+def feed_item_content(document)
 
 	# example content from http://newbooks.mannlib.cornell.edu/?class=G*#GR
 	# Zombies
@@ -1584,6 +1590,5 @@ def rss_description(document)
 	description << pub_disc.join(' -- ') unless pub_disc.blank?
 	description << col_loc.join(' -- ') unless col_loc.blank?
 	formatted = description.join("<br \\>")
-	Rails.logger.debug "jgr25 description: " + formatted
 	return formatted
 end
