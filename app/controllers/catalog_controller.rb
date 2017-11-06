@@ -529,13 +529,6 @@ end
         :pf => '$acquired_month_pf'
       }
     end
-    config.add_search_field('acquired') do |field|
-      field.include_in_simple_select = false
-      field.solr_local_parameters = {
-        :qf => '$acquired_qf',
-        :pf => '$acquired_pf'
-      }
-    end
     config.add_search_field('acquired date') do |field|
       field.include_in_simple_select = false
       field.solr_local_parameters = {
