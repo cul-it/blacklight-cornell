@@ -39,7 +39,7 @@ xml.rss(:version=>"2.0") {
         description << doc['subtitle_display'] unless doc['subtitle_display'].blank?
         description << pub_disc.join(' -- ') unless pub_disc.blank?
         description << col_loc.join(' -- ') unless col_loc.blank?
-        xml.description(description.join("<br \\>"))
+        xml.description(rss_description(doc))
         # <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
         acquired = acquired_date(doc)
         Rails.logger.debug "acquired date: "
