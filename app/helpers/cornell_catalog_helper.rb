@@ -1553,3 +1553,20 @@ end
 #    end
 #
 #
+
+def acquired_date(document)
+	if document[:acquired_dt].present?
+		# use acquired date as is
+		acquired_date = document[:acquired_dt]
+	elsif document[:acquired].present?
+		# convert yyyymmdd to date
+		yyyy = document[:acquired][0..3].to_i
+		mm = document[:acquired][4..5].to_i
+		dd = document[:acquired][6..7].to_i
+		acquired_date = Time.gm(yyyy,mm,dd)
+	else
+		# use current date
+		acquired_date = Time.now.utc
+	end
+	return acquired_date
+end
