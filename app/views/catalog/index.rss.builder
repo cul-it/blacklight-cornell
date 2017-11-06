@@ -20,22 +20,17 @@ xml.rss(:version=>"2.0") {
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
     xml.pubDate Time.now.strftime('%a, %d %b %Y %H:%M:%S %z')
-    
+
     @document_list.each do |doc|
-      #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
-      #Rails.logger.ap doc.keys
       xml.item do
         xml.title feed_item_title(doc)
         xml.description feed_item_content(doc)
         xml.link polymorphic_url(doc)
         xml.guid polymorphic_url(doc)
-        acquired = acquired_date(doc)
-        Rails.logger.debug "acquired date: " + acquired.inspect
-        xml.pubDate acquired.strftime('%a, %d %b %Y %H:%M:%S %z')
+        xml.pubDate acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
       end
     end
   }
 }
-Rails.logger.debug "jgr25 xml: " + xml.inspect
 
 Rails.logger.level = saved_logger_level
