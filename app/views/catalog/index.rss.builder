@@ -32,5 +32,7 @@ xml.rss(:version=>"2.0") {
     end
   }
 }
+Rails.logger.debug 'jgr25 acquired_dt: ' + nested_hash_value(document, :acquired_dt)
+Rails.logger.debug 'jgr25 acquired_month: ' + nested_hash_value(document, :acquired_month)
 
 Rails.logger.level = saved_logger_level
