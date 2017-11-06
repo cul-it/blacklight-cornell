@@ -31,7 +31,7 @@ xml.rss(:version=>"2.0") {
         xml.guid polymorphic_url(doc)
         acquired = acquired_date(doc)
         Rails.logger.debug "acquired date: " + acquired.inspect
-        xml.pubDate = acquired.strftime('%a, %d %b %Y %H:%M:%S %z')
+        xml.pubDate acquired.strftime('%a, %d %b %Y %H:%M:%S %z')
       end
     end
   }
