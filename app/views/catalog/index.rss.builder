@@ -19,6 +19,8 @@ xml.rss(:version=>"2.0") {
     xml.link(url_for(params.merge(:only_path => false)))
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
+    xml.pubDate Time.now.strftime('%a, %d %b %Y %H:%M:%S %z')
+    
     @document_list.each do |doc|
       #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
       #Rails.logger.ap doc.keys
