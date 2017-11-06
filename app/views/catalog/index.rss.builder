@@ -29,8 +29,8 @@ xml.rss(:version=>"2.0") {
         xml.guid polymorphic_url(doc)
         xml.pubDate acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
       end
-      Rails.logger.debug 'jgr25 acquired_dt: ' + nested_hash_value(doc, :acquired_dt)
-      Rails.logger.debug 'jgr25 acquired_month: ' + nested_hash_value(doc, :acquired_month)
+      Rails.logger.debug 'jgr25 acquired_dt: ' + nested_hash_value(doc, :acquired_dt).present?
+      Rails.logger.debug 'jgr25 acquired_month: ' + nested_hash_value(doc, :acquired_month).present?
     end
   }
 }
