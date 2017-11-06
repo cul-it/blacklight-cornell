@@ -31,7 +31,7 @@ xml.rss(:version=>"2.0") {
       col_loc = []
       col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
       col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
-      #Rails.logger.ap doc['fulltitle_display']
+      Rails.logger.ap doc['fulltitle_display']
       xml.item do
         xml.title( title )
         xml.link(polymorphic_url(doc))
