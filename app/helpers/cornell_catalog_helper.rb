@@ -1566,8 +1566,9 @@ def acquired_date(document)
 end
 
 def feed_item_title(document)
-	semantics = document.to_semantic_values
-	title = semantics[:full_title].blank? ? document.id : semantics[:full_title].first
+	# semantics = document.to_semantic_values
+	# title = semantics[:full_title].blank? ? document.id : semantics[:full_title].first
+	title = document['fulltitle_display'].blank? document.id : document['fulltitle_display']
 	return title
 end
 
