@@ -39,6 +39,8 @@ xml.rss(:version=>"2.0") {
         description << pub_disc.join(' -- ') unless pub_disc.blank?
         description << col_loc.join(' -- ') unless col_loc.blank?
         xml.description(description.join("<br \\>"))
+        # <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
+        xml.pubDate = acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
       end
     end
 
