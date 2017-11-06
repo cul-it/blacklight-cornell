@@ -1571,7 +1571,6 @@ def acquired_date(document)
 	return acquired_date
 end
 
-
 def rss_description(document)
 
 	# example content from http://newbooks.mannlib.cornell.edu/?class=G*#GR
@@ -1579,7 +1578,7 @@ def rss_description(document)
 	# Zombies : an anthropological investigation of the living dead / Philippe Charlier ; translated by Richard J. Gray II.
 	# University Press of Florida, 2017. -- xv, 138 pages : map ; 23 cm
 	# GR581 .C4313 2017 -- Olin Library
-
+	Rails.logger.debug 'jgr25 params: ' + params.inspect
 	pub_disc = []
 	pub_disc << document['pub_info_display'].join(' ') unless document['pub_info_display'].blank?
 	pub_disc << document['description_display'] unless document['description_display'].blank?
