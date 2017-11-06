@@ -522,7 +522,13 @@ end
          :pf => '$donor_pf'
        }
     end
-
+    config.add_search_field('acquired month') do |field|
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+        :qf => '$acquired_month_qf',
+        :pf => '$acquired_month_pf'
+      }
+   end
 
 
 # Begins with search fields
