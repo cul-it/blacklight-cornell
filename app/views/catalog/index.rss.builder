@@ -21,7 +21,7 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     @document_list.each do |doc|
       Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.inspect
-      Rails.logger.ap "jgr25_log #{__FILE__} #{__LINE__}: doc: " + doc.keys
+      Rails.logger.ap doc.keys
       semantics = doc.to_semantic_values
       title = semantics[:full_title].blank? ? doc.id : semantics[:full_title].first
       pub_disc = []
