@@ -41,7 +41,7 @@ xml.rss(:version=>"2.0") {
         xml.description(description.join("<br \\>"))
         # <pubDate>Sun, 06 Sep 2009 16:20:00 +0000</pubDate>
         acquired = acquired_date(doc)
-        Rails.location.debug "acquired date: "
+        Rails.logger.debug "acquired date: "
         Rails.logger.ap acquired
         xml.pubDate = acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
       end
