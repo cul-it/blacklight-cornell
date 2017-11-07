@@ -21,9 +21,9 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     xml.pubDate Time.now.strftime('%a, %d %b %Y %H:%M:%S %z')
 
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view first document with .to_yaml:"
-    puts @document_list.first.to_yaml
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
+    # Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view first document with .to_yaml:"
+    # puts @document_list.first.to_yaml
+    # Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
 
     @document_list.each do |doc|
       xml.item do
