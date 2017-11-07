@@ -117,8 +117,9 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       ul = self['url_access_display'].first.split('|').first
       output += "UR  - #{ul}\n"
     end
-    output += "M2 - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
-    output += "N1 - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "M2  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "N1  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += (setup_doi(to_marc).blank? ? "" : "DO  - #{setup_doi(to_marc)}\n"  )
     kw =   setup_kw_info(to_marc)
     kw.each do |k|
 

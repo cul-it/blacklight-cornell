@@ -161,7 +161,7 @@ module Blacklight::Solr::Document::MarcExport
   # or better yet just an export_as_ris instead, which will be more general
   # purpose. 
   # I reversed the sense of end_note_format table -- to allow multiple fields to map to
-  # same endnote field.
+  # same endnote field. (es287@cornell.edu)
  
 FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
@@ -936,6 +936,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     end 
     relators
   end
+
 
   # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
