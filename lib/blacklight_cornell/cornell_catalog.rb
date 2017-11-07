@@ -199,7 +199,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
     end
-
+    @controller = self
     respond_to do |format|
       format.html { save_current_search_params }
       format.rss  { render :layout => false }

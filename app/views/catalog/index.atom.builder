@@ -24,6 +24,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   @document_list.each do |doc|
     xml.entry do
       xml.title   doc.to_semantic_values[:title][0] || doc.id
+      (response, dl ) = @controller.fetch(doc.id)
       # updated is required, for now we'll just set it to now, sorry
       xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
       xml.link    "rel" => "alternate", "type" => "text/html", "href" => url_for(:controller=>'catalog',:action => 'show',  :id => doc.id )
@@ -41,11 +42,11 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
           type = doc.export_formats[params["content_format"].to_sym][:content_type]
           
           xml.content :type => type do |content_element|
-            data = doc.export_as(params["content_format"])
-                    
+            data = dl.export_as(params["content_format"])
+
             # encode properly. See:
             # http://tools.ietf.org/html/rfc4287#section-4.1.3.3
-            type = type.downcase
+            type = type.to_s
             if (type.downcase =~ /\+|\/xml$/)
               # xml, just put it right in              
               content_element << data
