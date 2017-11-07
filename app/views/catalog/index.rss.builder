@@ -31,8 +31,8 @@ xml.rss(:version=>"2.0") {
       end
       Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try ap"
       ap doc
-      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try y"
-      y doc
+      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try .to_yaml"
+      puts doc.to_yaml
       Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
     end
   }
