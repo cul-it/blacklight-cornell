@@ -1589,6 +1589,6 @@ def feed_item_content(document)
 	description << document['subtitle_display'] unless document['subtitle_display'].blank?
 	description << pub_disc.join(' -- ') unless pub_disc.blank?
 	description << col_loc.join(' -- ') unless col_loc.blank?
-	formatted = description.join("<br />")
+	formatted = description.join("<br>")
 	return formatted
 end
