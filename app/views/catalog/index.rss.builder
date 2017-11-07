@@ -29,12 +29,11 @@ xml.rss(:version=>"2.0") {
         xml.guid polymorphic_url(doc)
         xml.pubDate acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
       end
-      val = nested_hash_value(doc, :acquired_dt);
-      Rails.logger.ap val
-      val = nested_hash_value(doc, :acquired_month);
-      Rails.logger.ap val
-      # Rails.logger.debug 'jgr25 acquired_dt: ' + nested_hash_value(doc, :acquired_dt) unless nested_hash_value(doc, :acquired_dt).empty?
-      # Rails.logger.debug 'jgr25 acquired_month: ' + nested_hash_value(doc, :acquired_month) unless nested_hash_value(doc, :acquired_month).empty
+      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try ap"
+      ap doc
+      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try y"
+      y doc
+      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
     end
   }
 }
