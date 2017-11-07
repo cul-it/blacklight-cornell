@@ -88,6 +88,7 @@ end
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
 #      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
+      :fl => 'acquired_dt',
       :defType => 'edismax',
       :"f.lc_callnum_facet.facet.limit" => "-1"
     }
@@ -278,7 +279,6 @@ end
     config.add_index_field 'pub_date', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition'
-    config.add_index_field 'acquired_dt', :label => 'Acquired Date'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -348,7 +348,6 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
-    config.add_show_field 'acquired_dt', :label => 'Acquired Date'
     
 
 
