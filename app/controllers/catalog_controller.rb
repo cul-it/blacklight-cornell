@@ -1049,6 +1049,7 @@ end
         respond_to do |format|
           format.js { render :layout => false }
           format.html
+          format.json
         end
       end
     end
