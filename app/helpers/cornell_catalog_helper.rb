@@ -1582,9 +1582,6 @@ def feed_item_content(document)
 	pub_disc << document['pub_info_display'].join(' ') unless document['pub_info_display'].blank?
 	pub_disc << document['description_display'] unless document['description_display'].blank?
 	holdings_condensed = create_condensed_full(document)
-	Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view holdings_condensed with .to_yaml:"
-	puts holdings_condensed.first.to_yaml
-	Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
 	col_loc = []
 	col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
 	col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
