@@ -205,7 +205,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
       format.json { render json: { response: { document: @document } } }
-      additional_export_formats(@document, format)
     end
     
      if !params[:q_row].nil?       
