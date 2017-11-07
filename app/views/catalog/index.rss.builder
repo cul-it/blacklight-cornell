@@ -29,8 +29,6 @@ xml.rss(:version=>"2.0") {
         xml.guid polymorphic_url(doc)
         xml.pubDate acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
       end
-      Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try ap"
-      ap doc
       Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: try .to_yaml"
       puts doc.to_yaml
       Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
