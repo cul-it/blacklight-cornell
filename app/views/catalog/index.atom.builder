@@ -38,7 +38,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
       # add other doc-specific formats, atom only lets us have one per
       # content type, so the first one in the list wins.
       #xml << render_link_rel_alternates(doc, :unique => true)
-      xml.id     root_url + "/#{controller}/" + doc.id
+      xml.id     root_url + "#{controller}/" + doc.id
       if doc.to_semantic_values[:author][0]
         xml.author { xml.name(doc.to_semantic_values[:author][0]) }
       end

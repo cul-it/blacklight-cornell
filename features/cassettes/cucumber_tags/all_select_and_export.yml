@@ -5260,4 +5260,827 @@ http_interactions:
 '
     http_version: 
   recorded_at: Wed, 08 Nov 2017 18:15:58 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.acquired_month.facet.limit=6&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:knots%20%2Btitle:rope%20)%20OR%20title_phrase:%22knots%20rope%22&qt=search&rows=20&sort=acquired_dt%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:knots%20%2Btitle:rope%20)%20OR%20title_phrase:%22knots%20rope%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:45 GMT
+      Last-Modified:
+      - Wed, 08 Nov 2017 22:43:41 GMT
+      Etag:
+      - '"NDVmNDcwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '10316'
+      Via:
+      - 1.1 da-prod-solr8.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjE4MDcsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
+        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
+        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
+        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
+        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
+        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
+        bGNoZWNrLnEnPT4nKCt0aXRsZTprbm90cyArdGl0bGU6cm9wZSApIE9SIHRp
+        dGxlX3BocmFzZToia25vdHMgcm9wZSInLCdmLmxjX2NhbGxudW1fZmFjZXQu
+        ZmFjZXQuc29ydCc9PidpbmRleCcsJ3N0YXRzJz0+J3RydWUnLCd3dCc9Pidy
+        dWJ5JywnZi5mYXN0X2dlbnJlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdm
+        LmZvcm1hdC5mYWNldC5saW1pdCc9PicxMScsJ2YuYWNxdWlyZWRfbW9udGgu
+        ZmFjZXQubGltaXQnPT4nNicsJ3N0YXRzLmZpZWxkJz0+J3B1Yl9kYXRlX2Zh
+        Y2V0JywnbW0nPT4nMScsJ2YuYXV0aG9yX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+
+        JzYnLCdmYWNldC5maWVsZCc9Plsnb25saW5lJywnZm9ybWF0JywnYXV0aG9y
+        X2ZhY2V0JywncHViX2RhdGVfZmFjZXQnLCd3b3JraWRfZmFjZXQnLCdsYW5n
+        dWFnZV9mYWNldCcsJ2Zhc3RfdG9waWNfZmFjZXQnLCdmYXN0X2dlb19mYWNl
+        dCcsJ2Zhc3RfZXJhX2ZhY2V0JywnZmFzdF9nZW5yZV9mYWNldCcsJ3N1Ympl
+        Y3RfY29udGVudF9mYWNldCcsJ2xjX2FscGhhX2ZhY2V0JywnbG9jYXRpb25f
+        ZmFjZXQnLCdoaWVyYXJjaHlfZmFjZXQnLCdhdXRob3J0aXRsZV9mYWNldCcs
+        J2xjX2NhbGxudW1fZmFjZXQnLCdhY3F1aXJlZF9tb250aCcsJ2NvbGxlY3Rp
+        b24nXSwncXQnPT4nc2VhcmNoJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZhY2V0
+        LmxpbWl0Jz0+Jy0xJywnc29ydCc9PidhY3F1aXJlZF9kdCBkZXNjLCB0aXRs
+        ZV9zb3J0IGFzYycsJ3Jvd3MnPT4nMjAnLCdxJz0+J3RpdGxlOigrdGl0bGU6
+        a25vdHMgK3RpdGxlOnJvcGUgKSBPUiB0aXRsZV9waHJhc2U6Imtub3RzIHJv
+        cGUiJywnZi5mYXN0X2VyYV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5m
+        YXN0X3RvcGljX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdmYWNldCc9Pid0
+        cnVlJywnZi5sYW5ndWFnZV9mYWNldC5mYWNldC5saW1pdCc9Pic2J319LCdy
+        ZXNwb25zZSc9PnsnbnVtRm91bmQnPT40LCdzdGFydCc9PjAsJ21heFNjb3Jl
+        Jz0+NjY0OS4yNzE1LCdkb2NzJz0+W3snaG9sZGluZ3NfcmVjb3JkX2Rpc3Bs
+        YXknPT5bJ3siaWQiOiIxMDM3MDI1NCIsIm1vZGlmaWVkX2RhdGUiOiIyMDE3
+        MDkyNjE0MDcwMyIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIlBM
+        Mzk4Ny5JNTkgSzY2IDIwMTUiXSwibm90ZXMiOltdLCJob2xkaW5nc19kZXNj
+        IjpbXSwicmVjZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxf
+        aG9sZGluZ3NfZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJs
+        b2NhdGlvbnMiOlt7ImNvZGUiOiJlY2giLCJudW1iZXIiOjEzLCJuYW1lIjoi
+        S3JvY2ggTGlicmFyeSBBc2lhIiwibGlicmFyeSI6Iktyb2NoIExpYnJhcnkg
+        QXNpYSJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdpdGVt
+        X3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0ZW1f
+        dHlwZV9uYW1lIjoiYm9vayIsIml0ZW1faWQiOiIxMDM2ODg4NiIsInllYXIi
+        OiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoi
+        IiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25f
+        cmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251
+        bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoi
+        MTAzNzAyNTQiLCJyZWNhbGxzX3BsYWNlZCI6IjAiLCJjcmVhdGVfZGF0ZSI6
+        IjIwMTctMDktMjYgMTQ6MDc6NDAuMCIsIml0ZW1fYmFyY29kZSI6IjMxOTI0
+        MTI1MTYyMjkxIiwibW9kaWZ5X2RhdGUiOiIiLCJwZXJtX2xvY2F0aW9uIjp7
+        ImNvZGUiOiJlY2giLCJudW1iZXIiOjEzLCJuYW1lIjoiS3JvY2ggTGlicmFy
+        eSBBc2lhIiwibGlicmFyeSI6Iktyb2NoIExpYnJhcnkgQXNpYSJ9fSddLCdp
+        ZCc9PicxMDA1Nzc1MycsJ2Zvcm1hdCc9PlsnQm9vayddLCdsYW5ndWFnZV9k
+        aXNwbGF5Jz0+WydJbiBFbmdsaXNoLiddLCdwdWJfZGF0ZV9kaXNwbGF5Jz0+
+        WydbMjAxNV0nXSwncHViX2RhdGVfZmFjZXQnPT4yMDE1LCdwdWJfaW5mb19k
+        aXNwbGF5Jz0+WydZYW5nb24sIFlhbmdvbiwgTXlhbm1hciA6IE5EU1AgUHVi
+        bGlzaGluZyBIb3VzZSwgWzIwMTVdJ10sJ2Z1bGx0aXRsZV9kaXNwbGF5Jz0+
+        J0Ega25vdCBpcyB3aGVyZSB5b3UgdGllIGEgcGllY2Ugb2Ygcm9wZSA6IEJ1
+        cm1lc2Ugd3JpdGluZyBpbiBJb3dhJywndGl0bGVfZGlzcGxheSc9PidBIGtu
+        b3QgaXMgd2hlcmUgeW91IHRpZSBhIHBpZWNlIG9mIHJvcGUnLCdzdWJ0aXRs
+        ZV9kaXNwbGF5Jz0+J0J1cm1lc2Ugd3JpdGluZyBpbiBJb3dhJywnb3RoZXJf
+        aWRfZGlzcGxheSc9PlsnKE9Db0xDKTk0NjExODk2OSddLCdhY3F1aXJlZF9k
+        dCc9PicyMDE3LTA5LTI2VDAwOjAwOjAwWicsJ3Njb3JlJz0+NTk4Mi42MjF9
+        LHsnaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiIxMDM4ODI1
+        IiwibW9kaWZpZWRfZGF0ZSI6bnVsbCwiY29weV9udW1iZXIiOm51bGwsImNh
+        bGxub3MiOlsiVFQ4ODAgLkc3NyAxOTQzIl0sIm5vdGVzIjpbXSwiaG9sZGlu
+        Z3NfZGVzYyI6W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxl
+        bWVudGFsX2hvbGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNj
+        IjpbXSwibG9jYXRpb25zIjpbeyJjb2RlIjoibWFubiIsIm51bWJlciI6Njks
+        Im5hbWUiOiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5IjoiTWFubiBMaWJyYXJ5
+        In1dfSddLCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVj
+        b3JkX2Rpc3BsYXknPT5bJ3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBl
+        X25hbWUiOiJib29rIiwiaXRlbV9pZCI6IjIwNzc1NTUiLCJ5ZWFyIjoiIiwi
+        aXRlbV90eXBlX2lkIjoiMyIsImNocm9uIjoiIiwiY2FwdGlvbiI6IiIsImhv
+        bGRzX3BsYWNlZCI6IjAiLCJ0ZW1wX2xvY2F0aW9uIjoiMCIsIm9uX3Jlc2Vy
+        dmUiOiJOIiwiaXRlbV9lbnVtIjoiIiwiaXRlbV9zZXF1ZW5jZV9udW1iZXIi
+        OiIxIiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwibWZoZF9pZCI6IjEwMzg4
+        MjUiLCJyZWNhbGxzX3BsYWNlZCI6IjAiLCJjcmVhdGVfZGF0ZSI6IjIwMDAt
+        MDUtMzEgMDA6MDA6MDAuMCIsIml0ZW1fYmFyY29kZSI6IjMxOTI0MDAxOTk2
+        MjgzIiwibW9kaWZ5X2RhdGUiOiIiLCJwZXJtX2xvY2F0aW9uIjp7ImNvZGUi
+        OiJtYW5uIiwibnVtYmVyIjo2OSwibmFtZSI6Ik1hbm4gTGlicmFyeSIsImxp
+        YnJhcnkiOiJNYW5uIExpYnJhcnkifX0nXSwnaWQnPT4nODUyMDgyJywnZm9y
+        bWF0Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0VuZ2xpc2gu
+        J10sJ3B1Yl9kYXRlX2Rpc3BsYXknPT5bJzE5NDMnXSwncHViX2RhdGVfZmFj
+        ZXQnPT4xOTQzLCdwdWJfaW5mb19kaXNwbGF5Jz0+WydOZXcgWW9yayA6IENv
+        cm5lbGwgTWFyaXRpbWUgUHJlc3MsIDE5NDMuJ10sJ2Z1bGx0aXRsZV9kaXNw
+        bGF5Jz0+J0VuY3ljbG9wZWRpYSBvZiBrbm90cyBhbmQgZmFuY3kgcm9wZSB3
+        b3JrJywndGl0bGVfZGlzcGxheSc9PidFbmN5Y2xvcGVkaWEgb2Yga25vdHMg
+        YW5kIGZhbmN5IHJvcGUgd29yaycsJ2F1dGhvcl9kaXNwbGF5Jz0+J0dyYXVt
+        b250LCBSYW91bCwgMTg5Ni0nLCdlZGl0aW9uX2Rpc3BsYXknPT5bJzNyZCBl
+        ZC4gLyBjb21wbGV0ZWx5IHJldi4gYW5kIGVubC4gYnkgUmFvdWwgR3JhdW1v
+        bnQuJ10sJ290aGVyX2lkX2Rpc3BsYXknPT5bJyhDU3RSTElOKU5ZQ1g4MkI0
+        NTg0OCcsJyhOSUMpbm90aXNBRFIzNDkxJywnKE9Db0xDKTE2OTA4NDknLCc4
+        NTIwODInXSwnc2NvcmUnPT42NjQ5LjI3MTV9LHsnaG9sZGluZ3NfcmVjb3Jk
+        X2Rpc3BsYXknPT5bJ3siaWQiOiI1OTQ4NDgwIiwibW9kaWZpZWRfZGF0ZSI6
+        IjIwMDUwNzIyMTUyMzA0IiwiY29weV9udW1iZXIiOm51bGwsImNhbGxub3Mi
+        OlsiYXJWMjI0MjQiXSwibm90ZXMiOltdLCJob2xkaW5nc19kZXNjIjpbXSwi
+        cmVjZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGlu
+        Z3NfZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlv
+        bnMiOlt7ImNvZGUiOiJybWMsYW54IiwibnVtYmVyIjoyMDMsIm5hbWUiOiJL
+        cm9jaCBMaWJyYXJ5IFJhcmUgJiBNYW51c2NyaXB0cyAoUmVxdWVzdCBpbiBh
+        ZHZhbmNlKSIsImxpYnJhcnkiOiJLcm9jaCBMaWJyYXJ5IFJhcmUgJiBNYW51
+        c2NyaXB0cyJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdp
+        dGVtX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0
+        ZW1fdHlwZV9uYW1lIjoibm9jaXJjIiwiaXRlbV9pZCI6IjczNDA0NDUiLCJ5
+        ZWFyIjoiIiwiaXRlbV90eXBlX2lkIjoiOSIsImNocm9uIjoiIiwiY2FwdGlv
+        biI6IiIsImhvbGRzX3BsYWNlZCI6IjAiLCJ0ZW1wX2xvY2F0aW9uIjoiMCIs
+        Im9uX3Jlc2VydmUiOiJOIiwiaXRlbV9lbnVtIjoiIiwiaXRlbV9zZXF1ZW5j
+        ZV9udW1iZXIiOiIxIiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwibWZoZF9p
+        ZCI6IjU5NDg0ODAiLCJyZWNhbGxzX3BsYWNlZCI6IjAiLCJjcmVhdGVfZGF0
+        ZSI6IjIwMDUtMDMtMTAgMTg6MDc6MTIuMCIsIml0ZW1fYmFyY29kZSI6IjMx
+        OTI0MDMxMzUwNzQxIiwibW9kaWZ5X2RhdGUiOiIyMDA1LTA4LTA0IDEyOjQ5
+        OjQzLjAiLCJwZXJtX2xvY2F0aW9uIjp7ImNvZGUiOiJybWMsYW54IiwibnVt
+        YmVyIjoyMDMsIm5hbWUiOiJLcm9jaCBMaWJyYXJ5IFJhcmUgJiBNYW51c2Ny
+        aXB0cyAoUmVxdWVzdCBpbiBhZHZhbmNlKSIsImxpYnJhcnkiOiJLcm9jaCBM
+        aWJyYXJ5IFJhcmUgJiBNYW51c2NyaXB0cyJ9fSddLCdpZCc9Pic1NDM0NDgx
+        JywnZm9ybWF0Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0Vu
+        Z2xpc2guJ10sJ3B1Yl9kYXRlX2Rpc3BsYXknPT5bJzE5MTInXSwncHViX2Rh
+        dGVfZmFjZXQnPT4xOTEyLCdwdWJfaW5mb19kaXNwbGF5Jz0+WydOZXcgWW9y
+        ayA6IE4uVy4gSGVubGV5IFB1Yi4gQ28uLCAxOTEyLiddLCdmdWxsdGl0bGVf
+        ZGlzcGxheSc9PidLbm90cywgc3BsaWNlcyBhbmQgcm9wZSB3b3JrIDogYSBw
+        cmFjdGljYWwgdHJlYXRpc2UgZ2l2aW5nIGNvbXBsZXRlIGFuZCBzaW1wbGUg
+        ZGlyZWN0aW9ucyBmb3IgbWFraW5nIGFsbCB0aGUgbW9zdCB1c2VmdWwgYW5k
+        IG9ybmFtZW50YWwga25vdHMgaW4gY29tbW9uIHVzZScsJ3RpdGxlX2Rpc3Bs
+        YXknPT4nS25vdHMsIHNwbGljZXMgYW5kIHJvcGUgd29yaycsJ2F1dGhvcl9k
+        aXNwbGF5Jz0+J1ZlcnJlbGwsIEEuIEh5YXR0IChBbHBoZXVzIEh5YXR0KSwg
+        MTg3MS0xOTU0LicsJ3N1YnRpdGxlX2Rpc3BsYXknPT4nYSBwcmFjdGljYWwg
+        dHJlYXRpc2UgZ2l2aW5nIGNvbXBsZXRlIGFuZCBzaW1wbGUgZGlyZWN0aW9u
+        cyBmb3IgbWFraW5nIGFsbCB0aGUgbW9zdCB1c2VmdWwgYW5kIG9ybmFtZW50
+        YWwga25vdHMgaW4gY29tbW9uIHVzZScsJ290aGVyX2lkX2Rpc3BsYXknPT5b
+        JyhPQ29MQyk4MDIwOTI1JywnNTQzNDQ4MSddLCdzY29yZSc9PjQ1NTQuODQ0
+        N30seydob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjIxMDUw
+        NzciLCJtb2RpZmllZF9kYXRlIjpudWxsLCJjb3B5X251bWJlciI6bnVsbCwi
+        Y2FsbG5vcyI6WyJWTTUzMyAuVjUgMTkxOSJdLCJub3RlcyI6W10sImhvbGRp
+        bmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBs
+        ZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVz
+        YyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hbm4sYW54IiwibnVtYmVy
+        Ijo3MSwibmFtZSI6IkxpYnJhcnkgQW5uZXgiLCJsaWJyYXJ5IjoiTGlicmFy
+        eSBBbm5leCJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeScsJ09u
+        bGluZSddLCdpdGVtX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVy
+        IjoiMSIsIml0ZW1fdHlwZV9uYW1lIjoiYm9vayIsIml0ZW1faWQiOiIzMzQ0
+        NDMxIiwieWVhciI6IiIsIml0ZW1fdHlwZV9pZCI6IjMiLCJjaHJvbiI6IiIs
+        ImNhcHRpb24iOiIiLCJob2xkc19wbGFjZWQiOiIwIiwidGVtcF9sb2NhdGlv
+        biI6IjAiLCJvbl9yZXNlcnZlIjoiTiIsIml0ZW1fZW51bSI6IiIsIml0ZW1f
+        c2VxdWVuY2VfbnVtYmVyIjoiMSIsInRlbXBfaXRlbV90eXBlX2lkIjoiMCIs
+        Im1maGRfaWQiOiIyMTA1MDc3IiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3Jl
+        YXRlX2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAwOjAwLjAiLCJpdGVtX2JhcmNv
+        ZGUiOiIzMTkyNDAxNDU1ODUyNiIsIm1vZGlmeV9kYXRlIjoiIiwicGVybV9s
+        b2NhdGlvbiI6eyJjb2RlIjoibWFubixhbngiLCJudW1iZXIiOjcxLCJuYW1l
+        IjoiTGlicmFyeSBBbm5leCIsImxpYnJhcnkiOiJMaWJyYXJ5IEFubmV4In19
+        J10sJ2lkJz0+JzE3MjM0NzknLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3Vh
+        Z2VfZGlzcGxheSc9PlsnRW5nbGlzaC4nXSwncHViX2RhdGVfZGlzcGxheSc9
+        PlsnMTkxOSddLCdwdWJfZGF0ZV9mYWNldCc9PjE5MTksJ3B1Yl9pbmZvX2Rp
+        c3BsYXknPT5bJ05ldyBZb3JrLCBOb3JtYW4gVy4gSGVubGV5IFB1Yi4gQ28u
+        LCAxOTE5LiddLCdmdWxsdGl0bGVfZGlzcGxheSc9PidLbm90cywgc3BsaWNl
+        cyBhbmQgcm9wZSB3b3JrOyBhIHByYWN0aWNhbCB0cmVhdGlzZSBnaXZpbmcg
+        Y29tcGxldGUgYW5kIHNpbXBsZSBkaXJlY3Rpb25zIGZvciBtYWtpbmcgYWxs
+        IHRoZSBtb3N0IHVzZWZ1bCBhbmQgb3JuYW1lbnRhbCBrbm90cyBpbiBjb21t
+        b24gdXNlLCB3aXRoIGNoYXB0ZXJzIG9uIHNwbGljaW5nLCBwb2ludGluZywg
+        c2VpemluZywgc2VydmluZywgZXRjLiBBZGFwdGVkIGZvciB0aGUgdXNlIG9m
+        IHRyYXZlbGxlcnMsIGNhbXBlcnMsIHlhY2h0c21lbiwgYm95IHNjb3V0cywg
+        YW5kIGFsbCBvdGhlcnMgaGF2aW5nIHRvIHVzZSBvciBoYW5kbGUgcm9wZXMg
+        Zm9yIGFueSBwdXJwb3NlJywndGl0bGVfZGlzcGxheSc9PidLbm90cywgc3Bs
+        aWNlcyBhbmQgcm9wZSB3b3JrJywnYXV0aG9yX2Rpc3BsYXknPT4nVmVycmls
+        bCwgQS4gSHlhdHQgKEFscGhldXMgSHlhdHQpLCAxODcxLTE5NTQuJywnc3Vi
+        dGl0bGVfZGlzcGxheSc9PidhIHByYWN0aWNhbCB0cmVhdGlzZSBnaXZpbmcg
+        Y29tcGxldGUgYW5kIHNpbXBsZSBkaXJlY3Rpb25zIGZvciBtYWtpbmcgYWxs
+        IHRoZSBtb3N0IHVzZWZ1bCBhbmQgb3JuYW1lbnRhbCBrbm90cyBpbiBjb21t
+        b24gdXNlLCB3aXRoIGNoYXB0ZXJzIG9uIHNwbGljaW5nLCBwb2ludGluZywg
+        c2VpemluZywgc2VydmluZywgZXRjLiBBZGFwdGVkIGZvciB0aGUgdXNlIG9m
+        IHRyYXZlbGxlcnMsIGNhbXBlcnMsIHlhY2h0c21lbiwgYm95IHNjb3V0cywg
+        YW5kIGFsbCBvdGhlcnMgaGF2aW5nIHRvIHVzZSBvciBoYW5kbGUgcm9wZXMg
+        Zm9yIGFueSBwdXJwb3NlJywnZWRpdGlvbl9kaXNwbGF5Jz0+WycyZCByZXYu
+        IGVkLiddLCdvdGhlcl9pZF9kaXNwbGF5Jz0+WycoQ1N0UkxJTilOWUNYQTEw
+        NjQzODBCJywnKE5JQylub3Rpc0FKQjM3NTUnLCcoT0NvTEMpNjM5ODI5MTkn
+        LCcxNzIzNDc5J10sJ3VybF9hY2Nlc3NfanNvbic9PlsneyJkZXNjcmlwdGlv
+        biI6IkhhdGhpVHJ1c3QiLCJ1cmwiOiJodHRwOi8vaGRsLmhhbmRsZS5uZXQv
+        MjAyNy9jb28uMzE5MjQwMTQ1NTg1MjYifSddLCd1cmxfYWNjZXNzX2Rpc3Bs
+        YXknPT5bJ2h0dHA6Ly9oZGwuaGFuZGxlLm5ldC8yMDI3L2Nvby4zMTkyNDAx
+        NDU1ODUyNnxIYXRoaVRydXN0J10sJ3Njb3JlJz0+Mjc5OS43NjUxfV19LCdm
+        YWNldF9jb3VudHMnPT57J2ZhY2V0X3F1ZXJpZXMnPT57fSwnZmFjZXRfZmll
+        bGRzJz0+eydvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5Jyw0LCdPbmxpbmUn
+        LDFdLCdmb3JtYXQnPT5bJ0Jvb2snLDRdLCdhdXRob3JfZmFjZXQnPT5bJ0dy
+        YXVtb250LCBSYW91bCwgMTg5Ni0nLDEsJ0hlbnNlbCwgSm9obiBKLiwgMTkx
+        Ni0nLDEsJ01yZSBNaHVuyrsgTHZh4bmFyrssIDE5ODYtJywxLCdWZXJyZWxs
+        LCBBLiBIeWF0dCAoQWxwaGV1cyBIeWF0dCksIDE4NzEtMTk1NCcsMSwnVmVy
+        cmlsbCwgQS4gSHlhdHQgKEFscGhldXMgSHlhdHQpLCAxODcxLTE5NTQnLDEs
+        J1dpbiBQZSwgMTkzNS0nLDFdLCdwdWJfZGF0ZV9mYWNldCc9PlsnMTkxMics
+        MSwnMTkxOScsMSwnMTk0MycsMSwnMjAxNScsMV0sJ3dvcmtpZF9mYWNldCc9
+        PlsnMTI0Mjc2MDgnLDIsJzUxNTA3OScsMV0sJ2xhbmd1YWdlX2ZhY2V0Jz0+
+        WydFbmdsaXNoJyw0XSwnZmFzdF90b3BpY19mYWNldCc9PlsnS25vdHMgYW5k
+        IHNwbGljZXMnLDMsJ01hY3JhbcOpJywxXSwnZmFzdF9nZW9fZmFjZXQnPT5b
+        XSwnZmFzdF9lcmFfZmFjZXQnPT5bXSwnZmFzdF9nZW5yZV9mYWNldCc9Plsn
+        TGl0ZXJhdHVyZScsMV0sJ3N1YmplY3RfY29udGVudF9mYWNldCc9PlsnTm9u
+        LUZpY3Rpb24gKGJvb2tzKScsNF0sJ2xjX2FscGhhX2ZhY2V0Jz0+W10sJ2xv
+        Y2F0aW9uX2ZhY2V0Jz0+WydLcm9jaCBMaWJyYXJ5IEFzaWEnLDEsJ0tyb2No
+        IExpYnJhcnkgUmFyZSAmIE1hbnVzY3JpcHRzJywxLCdMaWJyYXJ5IEFubmV4
+        JywxLCdNYW5uIExpYnJhcnknLDFdLCdoaWVyYXJjaHlfZmFjZXQnPT5bXSwn
+        YXV0aG9ydGl0bGVfZmFjZXQnPT5bJ0dyYXVtb250LCBSYW91bCwgMTg5Ni0g
+        fCBFbmN5Y2xvcGVkaWEgb2Yga25vdHMgYW5kIGZhbmN5IHJvcGUgd29yaycs
+        MSwnVmVycmVsbCwgQS4gSHlhdHQgKEFscGhldXMgSHlhdHQpLCAxODcxLTE5
+        NTQuIHwgS25vdHMsIHNwbGljZXMgYW5kIHJvcGUgd29yaycsMSwnVmVycmls
+        bCwgQS4gSHlhdHQgKEFscGhldXMgSHlhdHQpLCAxODcxLTE5NTQuIHwgS25v
+        dHMsIHNwbGljZXMgYW5kIHJvcGUgd29yaycsMV0sJ2xjX2NhbGxudW1fZmFj
+        ZXQnPT5bJ1AgLSBMYW5ndWFnZSAmIExpdGVyYXR1cmUnLDEsJ1AgLSBMYW5n
+        dWFnZSAmIExpdGVyYXR1cmU6UEwgLSBMYW5ndWFnZXMgb2YgRWFzdGVybiBB
+        c2lhLCBBZnJpY2EsIE9jZWFuaWEnLDEsJ1AgLSBMYW5ndWFnZSAmIExpdGVy
+        YXR1cmU6UEwgLSBMYW5ndWFnZXMgb2YgRWFzdGVybiBBc2lhLCBBZnJpY2Es
+        IE9jZWFuaWE6UEwzNTIxLTQwMDEgLSBTaW5vLVRpYmV0YW4gbGFuZ3VhZ2Vz
+        JywxLCdQIC0gTGFuZ3VhZ2UgJiBMaXRlcmF0dXJlOlBMIC0gTGFuZ3VhZ2Vz
+        IG9mIEVhc3Rlcm4gQXNpYSwgQWZyaWNhLCBPY2VhbmlhOlBMMzUyMS00MDAx
+        IC0gU2luby1UaWJldGFuIGxhbmd1YWdlczpQTDM1NTEtNDAwMSAtIFRpYmV0
+        by1CdXJtYW4gbGFuZ3VhZ2VzJywxLCdQIC0gTGFuZ3VhZ2UgJiBMaXRlcmF0
+        dXJlOlBMIC0gTGFuZ3VhZ2VzIG9mIEVhc3Rlcm4gQXNpYSwgQWZyaWNhLCBP
+        Y2VhbmlhOlBMMzUyMS00MDAxIC0gU2luby1UaWJldGFuIGxhbmd1YWdlczpQ
+        TDM1NTEtNDAwMSAtIFRpYmV0by1CdXJtYW4gbGFuZ3VhZ2VzOlBMMzg1MS00
+        MDAxIC0gQXNzYW0gYW5kIEJ1cm1hJywxLCdUIC0gVGVjaG5vbG9neScsMSwn
+        VCAtIFRlY2hub2xvZ3k6VFQgLSBIYW5kaWNyYWZ0cycsMSwnVCAtIFRlY2hu
+        b2xvZ3k6VFQgLSBIYW5kaWNyYWZ0czpUVDY5Ny05MjcgLSBIb21lIGFydHMu
+        IEhvbWVjcmFmdHMnLDEsJ1YgLSBOYXZhbCBTY2llbmNlJywyLCdWIC0gTmF2
+        YWwgU2NpZW5jZTpWTSAtIE5hdmFsIEFyY2hpdGVjdHVyZSwgU2hpcGJ1aWxk
+        aW5nLCBNYXJpbmUgZW5naW5lZXJpbmcnLDJdLCdhY3F1aXJlZF9tb250aCc9
+        PlsnMjAxNy0wOScsMV0sJ2NvbGxlY3Rpb24nPT5bXX0sJ2ZhY2V0X3Jhbmdl
+        cyc9Pnt9LCdmYWNldF9pbnRlcnZhbHMnPT57fSwnZmFjZXRfaGVhdG1hcHMn
+        PT57fX0sJ3N0YXRzJz0+eydzdGF0c19maWVsZHMnPT57J3B1Yl9kYXRlX2Zh
+        Y2V0Jz0+eydtaW4nPT4xOTEyLjAsJ21heCc9PjIwMTUuMCwnY291bnQnPT40
+        LCdtaXNzaW5nJz0+MCwnc3VtJz0+Nzc4OS4wLCdzdW1PZlNxdWFyZXMnPT4x
+        LjUxNzM3NzlFNywnbWVhbic9PjE5NDcuMjUsJ3N0ZGRldic9PjQ3LjA3NzA2
+        NDQ3OTQyNTY0NH19fSwnc3BlbGxjaGVjayc9Pnsnc3VnZ2VzdGlvbnMnPT5b
+        J3JvcGUnLHsnbnVtRm91bmQnPT4xLCdzdGFydE9mZnNldCc9PjUxLCdlbmRP
+        ZmZzZXQnPT41NSwnb3JpZ0ZyZXEnPT4zNjIsJ3N1Z2dlc3Rpb24nPT5beyd3
+        b3JkJz0+J2hvcGUnLCdmcmVxJz0+OTM4fV19XSwnY29ycmVjdGx5U3BlbGxl
+        ZCc9PnRydWV9fQo=
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:47 GMT
+- request:
+    method: get
+    uri: http://api.summon.serialssolutions.com/2.0.0/search?s.cmd=setHoldingsOnly(true)&s.he=__BENTO_HL_END__&s.hs=__BENTO_HL_START__&s.ps=1&s.q=knots%20rope
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - application/json
+      Date:
+      - Wed, 08 Nov 2017 22:43:47 GMT
+      Content-Type:
+      - application/x-www-form-urlencoded; charset=utf8
+      X-Summon-Date:
+      - Wed, 08 Nov 2017 22:43:47 GMT
+      Authorization:
+      - Summon cornell;aaPED81olmyk5UVRlGl0fCTIMMg=
+      Host:
+      - api.summon.serialssolutions.com:80
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Datacenter:
+      - IAD1
+      Date:
+      - Wed, 08 Nov 2017 22:43:47 GMT
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"version": "2.0.0","sessionId": "963e3950-b5ad-437f-9f51-607424b72edd","elapsedQueryTime":
+        2,"queryTime": 212,"totalRequestTime": 14,"pageCount": 191015,"recordCount":
+        191015,"query": {"queryString": "s.fvf=ContentType%2CNewspaper+Article%2Ct&s.hs=__BENTO_HL_START__&s.secure=f&s.q=knots+rope&s.ho=t&s.ps=1&s.he=__BENTO_HL_END__","pageNumber":
+        1,"pageSize": 1,"highlightStartDelimiter": "__BENTO_HL_START__","highlightEndDelimiter":
+        "__BENTO_HL_END__","isHoldingsOnlyEnabled": true,"textQueries": [{"textQuery":
+        "knots rope","removeCommand": "removeTextQuery(knots rope)"}],"searchTerms":
+        [],"textFilters": [],"rangeFilters": [],"facetValueFilters": [{"fieldName":
+        "ContentType","value": "Newspaper Article","isNegated": true,"removeCommand":
+        "removeFacetValueFilter(ContentType,Newspaper Article)","negateCommand": "negateFacetValueFilter(ContentType,Newspaper
+        Article)"}],"inclusiveFacetValueFilters": [],"facetValueGroupFilters": [],"facetFields":
+        [],"rangeFacetFields": [],"sort": []},"facetFields": [],"rangeFacetFields":
+        [],"didYouMeanSuggestions": [],"recommendationLists": {},"documents": [{"hasFullText":
+        true,"isFullTextHit": false,"isPrint": false,"inHoldings": true,"openUrl":
+        "ctx_ver=Z39.88-2004&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rfr_id=info%3Asid%2Fsummon.serialssolutions.com&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.title=Encyclopaedia+of+the+History+of+Science%2C+Technology%2C+and+Medicine+in+Non-Western+Cultures&rft.au=Wendrich%2C+Willeke&rft.atitle=Rope+and+Knots+in+Ancient+Egypt&rft.date=2008-01-01&rft.spage=1908&rft.epage=1910&rft.externalDocID=3041500603","link":
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwpV3dS8MwED90IPrm5kCnQh5EFCl2a7O1j-o6Bur8qs63kG0pDEcLcwr7771L03ZzexFfQjnS0Nw1yd3ld3cAJyhT5fjctgZcjizXaUWWH_G61SQ7zB20GmpE8c5vj_yp7752-HtRfBVNzIQQwQUKKJkS3EPvu2Srm5pSl_8WNtJQ3BQ8-weB54MiAZ9R7Nii4LH9pRMve1_NLf9wPpygKUwhIRkCIE0Goi_TzWLWcsrd6hmG897ctJMXpJfEVj_No2ASbxZww76KR7iBapcMeWzUx9K_94z80-PdxslMA26vYh14eRFQ1bMlT4O34GlIdzdUHryFkxJNPbs4RnJwn0NR_5TnxdlEfbVB9TTsdjt3fNkNVOooaKqUwQ_NYR7uwnaeXbcMGyquQNXwh50yysQrdbXjeQXKhlmf7Myk5z7fg6EQ10EvfBDdO_ESoj0gBM13gRr02kIwnD9b7ao5stJ3HDPDIaY5VIVaJwhvuhZ9vPieTkQxXWcfmOtJVNCk4koqN0L1mkeR3_S9unQkKgzyACpr3qytpR7CTiGGIyjNpl_qGLbMkvgBK7oO6g","ExternalDocumentID":
+        ["3041500603"],"IngestDate": ["Tue Oct 17 20:47:04 EDT 2017"],"PublicationDate_xml":
+        [{"year": "2008","text": "20080000"}],"Score": ["49.423042"],"ID": ["FETCH-gale_vrl_30415006033"],"Language":
+        ["English"],"Author": ["Wendrich, Willeke"],"PublicationCentury": ["2000"],"IsScholarly":
+        ["false"],"PublicationDecade": ["2000"],"Snippet": ["...W W From securing
+        a ship, to tying cattle to a post, building shelters and curing headaches,
+        __BENTO_HL_START__rope__BENTO_HL_END__ and string were a multipurpose commodity
+        in ancient Egypt..."],"PublicationTitle": ["Encyclopaedia of the History of
+        Science, Technology, and Medicine in Non-Western Cultures"],"SubjectTerms":
+        ["Antiquities","Egyptian history, to 642 (Ancient period)","Knots and splices","Papyrus
+        manuscripts","Egyptian culture"],"Discipline": ["History & Archaeology","Sciences
+        (General)"],"ContentType": ["Reference"],"SourceType": ["Publisher"],"Author_xml":
+        [{"givenname": "Willeke","surname": "Wendrich","fullname": "Wendrich, Willeke"}],"EISBN":
+        ["1402044259","9781402044250"],"PublicationYear": ["2008"],"StartPage": ["1908"],"SSID":
+        ["ssj0000295114"],"Title": ["__BENTO_HL_START__Rope__BENTO_HL_END__ and __BENTO_HL_START__Knots__BENTO_HL_END__
+        in Ancient Egypt"],"PageCount": ["3"],"PublicationDate": ["20080000"],"EndPage":
+        ["1910"],"MergedId": ["FETCHMERGED-gale_vrl_30415006033"],"IsPeerReviewed":
+        ["false"],"LinkModel": ["OpenURL"],"BookMark": ["ePnHCXMwYwRtngLtuAQmBksO2GiHgRGwJjc04WSQD8ovSFUAdpIVvPPyS4oVMvMUHPPAW_8UXEH3bnEzSLm5hjh76ILKx_iyopx4Y9AmctCxIaC7bfFIAgA2VB_I"]}],"rollups":
+        {"image": {},"reference": {},"newspaper": {}}}'
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:47 GMT
+- request:
+    method: get
+    uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22knots%22%20AND%20srw.kw%20=%20%22rope%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:47 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:47 GMT
+      Server:
+      - Apache
+      Content-Length:
+      - '2969'
+      Content-Type:
+      - text/xml;charset=utf-8
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <?xml-stylesheet type='text/xsl' href='/webservices/catalog/xsl/searchRetrieveResponse.xsl'?>
+
+        <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/" xmlns:oclcterms="http://purl.org/oclc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <version>1.1</version>
+        <numberOfRecords>777</numberOfRecords>
+        <records>
+        <record>
+        <recordSchema>info:srw/schema/1/dc</recordSchema>
+        <recordPacking>xml</recordPacking>
+        <recordData>
+        <oclcdcs>
+        <dc:contributor>Archambault, John.</dc:contributor>
+        <dc:contributor>Rand, Ted,</dc:contributor>
+        <dc:creator>Martin, Bill, 1916-2004.</dc:creator>
+        <dc:date>2012</dc:date>
+        <dc:description>1st Square Fish ed.</dc:description>
+        <dc:description>"A Reading Rainbow Feature Book"--Page 4 of cover.</dc:description>
+        <dc:description>Boy-Strength-of-Blue-Horses and his grandfather reminisce about the young boy's birth, his first horse, and an exciting horse race.</dc:description>
+        <dc:format>1 volume (unpaged) : color illustrations ; 21 x 26 cm</dc:format>
+        <dc:identifier>9780805054798</dc:identifier>
+        <dc:identifier>0805054790</dc:identifier>
+        <dc:identifier>9780613036078</dc:identifier>
+        <dc:identifier>0613036077</dc:identifier>
+        <dc:language xsi:type="http://purl.org/dc/terms/ISO639-2">eng</dc:language>
+        <dc:publisher>Square Fish </dc:publisher>
+        <dc:publisher>H. Holt and Co</dc:publisher>
+        <dc:subject xsi:type="http://purl.org/dc/terms/DDC">[Fic]</dc:subject>
+        <dc:subject xsi:type="http://purl.org/dc/terms/LCC">PZ7.M356773 Kn 2012</dc:subject>
+        <dc:subject xsi:type="http://purl.org/dc/terms/LCSH">Indians of North America--Fiction.</dc:subject>
+        <dc:subject xsi:type="http://purl.org/dc/terms/LCSH">Grandfathers--Fiction.</dc:subject>
+        <dc:title>Knots on a counting rope </dc:title>
+        <dc:type>Text</dc:type>
+        <oclcterms:recordContentSource>NYP</oclcterms:recordContentSource>
+        <oclcterms:recordCreationDate xsi:type="http://purl.org/oclc/terms/marc008date">120824</oclcterms:recordCreationDate>
+        <oclcterms:recordIdentifier>808104350</oclcterms:recordIdentifier>
+        <oclcterms:languageOfCataloging xsi:type="http://purl.org/oclc/terms/iso639-2b">eng</oclcterms:languageOfCataloging>
+        <oclcterms:recordTranscribingAgency>NYP</oclcterms:recordTranscribingAgency>
+        </oclcdcs>
+        </recordData>
+        </record>
+        </records>
+        <nextRecordPosition>2</nextRecordPosition>
+        <resultSetIdleTime/>
+        <echoedSearchRetrieveRequest xmlns:srw="http://www.loc.gov/zing/srw/">
+        <version>1.1</version>
+        <query>srw.kw = "knots" AND srw.kw = "rope"</query>
+        <maximumRecords>1</maximumRecords>
+        <recordSchema>info:srw/schema/1/dc</recordSchema>
+        <recordPacking>xml</recordPacking>
+        <startRecord>1</startRecord>
+        <sortKeys>relevance</sortKeys>
+        <wskey>ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4</wskey>
+        <servicelevel>full</servicelevel>
+        </echoedSearchRetrieveRequest>
+        </searchRetrieveResponse>
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:47 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/status_short/10057753
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/status_short/10057753
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '252'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/10057753">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/status_short/10057753
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"62eb7578ff40833bef43d8de1b2d5283"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f3464a4dd25c6eee54601593df74fb9d
+      X-Runtime:
+      - '0.040359'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"10057753":{"10057753":{"records":[{"bibid":"10057753","call_number":"PL3987.I59
+        K66 2015","statuses":{"10370254":"available"},"holdings":[{"BIB_ID":10057753,"MFHD_ID":10370254,"ITEM_ID":10368886,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"PL3987.I59
+        K66 2015","LOCATION_ID":13,"LOCATION_CODE":"ech","LOCATION_DISPLAY_NAME":"Kroch
+        Library Asia","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2017-09-26T14:07:40-05:00","PERM_LOCATION":13,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Asia","PERM_LOCATION_CODE":"ech","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Kroch
+        Library Asia"],"locnumber":1,"status":["avail"],"avail_at":{"Kroch Library
+        Asia":"PL3987.I59 K66 2015"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/status_short/852082
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/status_short/852082
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '250'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/852082">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/status_short/852082
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"6a32dcf9ab135042b8144ade78aeeaab"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 71bcc5eeb87df31c419301b9950bac7b
+      X-Runtime:
+      - '0.035387'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"852082":{"852082":{"records":[{"bibid":"852082","call_number":"TT880
+        .G77 1943","statuses":{"1038825":"available"},"holdings":[{"BIB_ID":852082,"MFHD_ID":1038825,"ITEM_ID":2077555,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"TT880
+        .G77 1943","LOCATION_ID":69,"LOCATION_CODE":"mann","LOCATION_DISPLAY_NAME":"Mann
+        Library","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2014-05-01T05:40:02-05:00","PERM_LOCATION":69,"PERM_LOCATION_DISPLAY_NAME":"Mann
+        Library","PERM_LOCATION_CODE":"mann","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Mann
+        Library"],"locnumber":1,"status":["avail"],"avail_at":{"Mann Library":"TT880
+        .G77 1943"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/status_short/5434481
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/status_short/5434481
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '251'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/5434481">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/status_short/5434481
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"63c7cee5a1f82ad929e4f0866de82fa8"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - c42ace76c96b91ed87fde00fa97e7ae7
+      X-Runtime:
+      - '0.037877'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"5434481":{"5434481":{"records":[{"bibid":"5434481","call_number":"arV22424","statuses":{"5948480":"available"},"holdings":[{"BIB_ID":5434481,"MFHD_ID":5948480,"ITEM_ID":7340445,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"arV22424","LOCATION_ID":203,"LOCATION_CODE":"rmc,anx","LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2005-03-10T18:07:12-05:00","PERM_LOCATION":203,"PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Rare & Manuscripts (Request in advance)","PERM_LOCATION_CODE":"rmc,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Library
+        Annex"],"locnumber":1,"status":["avail"],"avail_at":{"Kroch Library Rare &
+        Manuscripts (Request in advance)":"arV22424"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/status_short/1723479
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/status_short/1723479
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '251'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/1723479">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/status_short/1723479
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 22:43:51 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"4d4f68f6626c2cc558f94b0da744abf1"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - ef5e058adcb5bc3154a216cb30496cf0
+      X-Runtime:
+      - '0.036525'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"1723479":{"1723479":{"records":[{"bibid":"1723479","call_number":"VM533
+        .V5 1919","statuses":{"2105077":"available"},"holdings":[{"BIB_ID":1723479,"MFHD_ID":2105077,"ITEM_ID":3344431,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"VM533
+        .V5 1919","LOCATION_ID":71,"LOCATION_CODE":"mann,anx","LOCATION_DISPLAY_NAME":"Library
+        Annex","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2017-02-10T05:36:12-05:00","PERM_LOCATION":71,"PERM_LOCATION_DISPLAY_NAME":"Library
+        Annex","PERM_LOCATION_CODE":"mann,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Library
+        Annex"],"locnumber":1,"status":["avail"],"avail_at":{"Library Annex":"VM533
+        .V5 1919"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 22:43:51 GMT
 recorded_with: VCR 3.0.3
