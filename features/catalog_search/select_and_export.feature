@@ -360,14 +360,28 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
 
-@all_select_and_export
+@all_select_and_export @DISCOVERYANDACCESS-3766  @DISCOVERYANDACCESS-3766_basic
+  Scenario: User needs to see the new knot books as in JSON
+  When I literally go to catalog.json?q=knots+rope&search_field=title&sort=acquired_dt+desc%2C+title_sort+asc
+    Then I should see the text 'Yangon, Yangon, Myanmar : NDSP Publishing House, [2015]'
+    And I should see the text '2017-09-26T00:00:00Z'
+    And I should see the text 'Encyclopedia of knots and fancy rope work'
+
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
+  Scenario: User needs to see the new knot books as an rss feed
+  When I literally go to catalog.rss?q=knots+rope&search_field=title&sort=acquired_dt+desc%2C+title_sort+asc
+    Then I should see the xml text '<title>A knot is where you tie a piece of rope : Burmese writing in Iowa</title>'
+    And I should see the xml text '<pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>'
+    And I should see the text 'directions for making all the most useful and ornamental knots'
+
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
   Scenario: User needs to see search results as an atom feed, dc xml
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=dc_xml
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="text/xml">'
     Then I should see the xml text '<dc:title>The cheese and the worms</dc:title>'
-@all_select_and_export
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_ris
   Scenario: User needs to see search results as an atom feed, ris
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
     Then I should see the xml text '<title>The cheese and the worms</title>'
