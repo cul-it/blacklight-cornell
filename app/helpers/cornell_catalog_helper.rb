@@ -1402,6 +1402,24 @@ module CornellCatalogHelper
     bws 
   end
 
+  def sub_tilde_path(var,id,aeon_codes,document)
+      var_str = "#{var}"
+      var_req = "#{var.downcase}"
+      req = "#{var_req}"
+      if ENV[var_str].blank?
+        req = '/aeon/~id~' 
+        req = req.gsub('~id~',id.to_s)
+        req = req.gsub('~libid~',aeon_codes.join('|'))
+      else
+        req = ENV["#{var}"].gsub('~id~',id.to_s)
+        req = req.gsub('~libid~',aeon_codes.join('|'))
+       end
+    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
+      finding_a = (document['url_findingaid_display'][0]).split('|')[0]
+    end
+    req = req.gsub('~fa~',"#{finding_a}")
+  end
+
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
   def request_path(group,id,aeon_codes,document)
     magic_path  = blacklight_cornell_request.magic_request_path("#{id}") 
