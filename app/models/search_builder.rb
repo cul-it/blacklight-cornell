@@ -575,10 +575,10 @@ class SearchBuilder < Blacklight::SearchBuilder
                           solr6query << "\"" + holdarray[1] + "\""
                        else
                           if journal_title_flag == 1
-                            solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                            solr6query << '(' << field_name << ':"' + holdarray[1] + '" AND format:"Journal/Periodical")'
                             journal_title_flag = 0
                           else
-                            solr6query << field_name << ":\"" + holdarray[1] + "\""
+                            solr6query << field_name << ':"' + holdarray[1] + '"'
                           end
                        end
                        #Rails.logger.info("solr6query2 = #{solr6query}")
