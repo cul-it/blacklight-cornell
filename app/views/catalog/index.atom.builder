@@ -1,5 +1,5 @@
 # this is the atom builder for catalog.atom
-require 'base64'
+#require 'base64'
 
 saved_logger_level = Rails.logger.level
 Rails.logger.level = 0
@@ -27,6 +27,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
 
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
+  controller = @controller.class.to_s.downcase.sub('controller','')
   @document_list.each do |doc|
     xml.entry do
       xml.title   doc.to_semantic_values[:title][0] || doc.id
@@ -37,11 +38,12 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
       # add other doc-specific formats, atom only lets us have one per
       # content type, so the first one in the list wins.
       #xml << render_link_rel_alternates(doc, :unique => true)
-      xml.id     root_url + '/catalog/' + doc.id
+      xml.id     root_url + "/#{controller}/" + doc.id
       if doc.to_semantic_values[:author][0]
         xml.author { xml.name(doc.to_semantic_values[:author][0]) }
       end
       #If they asked for a format, give it to them.
+      Rails.logger.debug "export formats: " + doc.export_formats.inspect
       if (params["content_format"] &&
           doc.export_formats[params["content_format"].to_sym])
 
@@ -49,14 +51,13 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
           Rails.logger.debug "export formats: " + doc.export_formats.inspect
 
           type = doc.export_formats[params["content_format"].to_sym][:content_type]
-          content_format = params["content_format"].to_sym
-          type = doc.export_formats.keys.include?(content_format) ? content_format : ''
+          #content_format = params["content_format"].to_sym
+          #type = doc.export_formats.keys.include?(content_format) ? content_format : ''
 
           Rails.logger.debug "type: " + type.inspect
 
           xml.content :type => type do |content_element|
             data = dl.export_as(params["content_format"])
-
             # encode properly. See:
             # http://tools.ietf.org/html/rfc4287#section-4.1.3.3
             type = type.to_s

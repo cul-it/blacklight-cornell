@@ -197,6 +197,7 @@ Feature: Select and export items from the result set
 #N1  - Rules for Christian living, by John Eliot, in Algonquian, p. [1217-1218]. 
 #ER  - 
 
+@all_select_and_export
 @citations
 @ris
   Scenario: User needs to send an ebook record to ris format (might go to zotero) 
@@ -214,6 +215,7 @@ Feature: Select and export items from the result set
     Then I should see the text 'ER  -'
 
 #TY - BOOK TI - Reflections : the anthropological muse PY - 1985 PB - American Anthropological Association CY - Washington, D.C. LA - English M2 - http://newcatalog.library.cornell.edu/catalog/1001 N1 - http://newcatalog.library.cornell.edu/catalog/1001 KW - Anthropologists' writings, American. KW - Anthropology Poetry. KW - American poetry 20th century. KW - Anthropologists' writings, English. KW - English poetry 20th century. CN - Library Annex PS591.A58 R33 SN - 091316710X : ER -
+@all_select_and_export
 @citations
 @ris
   Scenario: User needs to send a book record to ris format (might go to zotero) 
@@ -226,6 +228,7 @@ Feature: Select and export items from the result set
     Then I should see the text 'SN - 091316710X' 
     Then I should see the text 'ER  -'
 
+@all_select_and_export
 @citations
   Scenario: User needs to send a book record to endnote format (might go to zotero) 
     Given I request the item view for 1001 
@@ -238,6 +241,7 @@ Feature: Select and export items from the result set
     Then I should see the text '%@ 091316710X'
     Then I should see the text '%T Reflections  the anthropological muse'
 
+@all_select_and_export
 @citations
   Scenario: User needs to send a book record to endnote format, check for processing 264  (might go to zotero) 
     Given I request the item view for 9939352 
@@ -251,6 +255,7 @@ Feature: Select and export items from the result set
     Then I should see the text '%D 2017' 
     Then I should see the text '%I Oberon Books'
 
+@all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
     Given I request the item view for 9305118 
@@ -264,6 +269,7 @@ Feature: Select and export items from the result set
     Then I should see the text '%@ 0632060484 (hardback : alk. paper)' 
     Then I should see the text '%T Cephalopods  ecology and fisheries' 
 
+@all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
     Given I request the item view for 6788245 
@@ -332,6 +338,7 @@ Feature: Select and export items from the result set
 # </rdf:RDF>
 @citations
 @rdf_zotero
+@all_select_and_export
   Scenario: User needs to send a book record to ris format (might go to zotero) 
     Given I request the item view for 1001 
     Given I request the item view for 1001.rdf_zotero
@@ -347,6 +354,7 @@ Feature: Select and export items from the result set
 #<foaf:givenname>Utpalendu</foaf:givenname>'
 @citations
 @rdf_zotero
+@all_select_and_export
   Scenario: User needs to send a book record to ris format (might go to zotero) 
     Given I request the item view for 3261564
     Given I request the item view for 3261564.rdf_zotero
@@ -366,14 +374,15 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml path 'atom','//atom:entry/atom:title','http://www.w3.org/2005/Atom','The cheese and the worms'
+    Then I should see the xml path 'dc','//dc:title','http://purl.org/dc/elements/1.1/','The cheese and the worms'
 #    http://www.w3.org/2005/Atom
 
-#    Then I should see the xml path 'dc','//dc:title','http://purl.org/dc/elements/1.1/','English folktales'
 @all_select_and_export
   Scenario: User needs to see search results as an atom feed, ris
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
+    Then I should see the xml text '<content type="application/x-research-info-systems">'
 
 #Then I should see the label '<content type="application/x-research-info-systems">'
 # Pending causes an error in jenkins
