@@ -1558,8 +1558,8 @@ end
 def acquired_date(document)
 	if document['acquired_dt'].present?
 		Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}:  acquired_dt found"
-		# use acquired date as is
-		acquired_date = document['acquired_dt']
+		# use acquired date as a date
+		acquired_date = DateTime.parse(document['acquired_dt'])
 	else
 		# use current date
 		acquired_date = DateTime.now
