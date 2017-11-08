@@ -1553,3 +1553,42 @@ end
 #    end
 #
 #
+
+def acquired_date(document)
+	if document['acquired_dt'].present?
+		Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}:  acquired_dt found"
+		# use acquired date as is
+		acquired_date = document['acquired_dt']
+	else
+		# use current date
+		acquired_date = Time.now.utc
+	end
+	return acquired_date
+end
+
+def feed_item_title(document)
+	title = document['fulltitle_display'].blank? ? document.id : document['fulltitle_display']
+	return title
+end
+
+def feed_item_content(document)
+
+	# example content from http://newbooks.mannlib.cornell.edu/?class=G*#GR
+	# Zombies
+	# Zombies : an anthropological investigation of the living dead / Philippe Charlier ; translated by Richard J. Gray II.
+	# University Press of Florida, 2017. -- xv, 138 pages : map ; 23 cm
+	# GR581 .C4313 2017 -- Olin Library
+	pub_disc = []
+	pub_disc << document['pub_info_display'].join(' ') unless document['pub_info_display'].blank?
+	pub_disc << document['description_display'] unless document['description_display'].blank?
+	holdings_condensed = create_condensed_full(document)
+	col_loc = []
+	col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
+	col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
+	description = []
+	description << document['subtitle_display'] unless document['subtitle_display'].blank?
+	description << pub_disc.join(' -- ') unless pub_disc.blank?
+	description << col_loc.join(' -- ') unless col_loc.blank?
+	formatted = description.join("<br>")
+	return formatted
+end
