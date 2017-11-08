@@ -14,6 +14,13 @@
           <% end %>
         <% end %>
         <% end %>
+        <% if current_user && Bookbag.enabled? %>
+        <li>
+            <%= link_to "/book_bags/index", id:'bookmarks_nav' do %>
+            <span>Book Bag(<span data-role='bookmark-counter'><%= user_session[:bookbag_count] unless user_session.nil? %></span>)</span>
+            <% end %>
+        </li>
+        <% end %>
         <% if current_or_guest_user %>
         <%  @bookmarks = current_or_guest_user.bookmarks %>
         <li>

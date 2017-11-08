@@ -113,7 +113,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-
+    set_bag_name 
     # make sure we are not going directly to home page
    search_session[:per_page] = params[:per_page]
     temp_search_field = ''
@@ -868,5 +868,14 @@ def check_params(params)
        return q
      end
   end
+
+  def set_bag_name
+     user_session[:bookbag_count] = nil unless user_session.nil?
+     if current_user && Bookbag.enabled?
+       @id = current_user.email
+       @bb = Bookbag.new("#{@id}-bookbag-default")
+       user_session[:bookbag_count] = @bb.count
+     end
+   end
 
 end
