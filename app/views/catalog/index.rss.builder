@@ -1,14 +1,15 @@
-require "awesome_print"
-saved_logger_level = Rails.logger.level
-Rails.logger.level = 0
-Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.rss.builder"
-Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
+require "date"
 
-# subtitle the_vernaculator('subtitle_display', 'subtitle_vern_display')
+# item content based on newbooks.mannlib.cornell.edu
 # responsibility field_value 'title_responsibility_display'
 #   published -- description
 # call number - location
 # holdings_condensed = create_condensed_full(@document)
+# example:
+# Zombies
+# Zombies : an anthropological investigation of the living dead / Philippe Charlier ; translated by Richard J. Gray II.
+# University Press of Florida, 2017. -- xv, 138 pages : map ; 23 cm
+# GR581 .C4313 2017 -- Olin Library
 
 xml.instruct! :xml, :version=>"1.0"
 xml.rss(:version=>"2.0") {
@@ -19,11 +20,7 @@ xml.rss(:version=>"2.0") {
     xml.link(url_for(params.merge(:only_path => false)))
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
-    xml.pubDate Time.now.strftime('%a, %d %b %Y %H:%M:%S %z')
-
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view first document with .to_yaml:"
-    puts @document_list.first.to_yaml
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
+    xml.pubDate DateTime.now.strftime('%a, %d %b %Y %H:%M:%S %z')
 
     @document_list.each do |doc|
       xml.item do
@@ -31,10 +28,9 @@ xml.rss(:version=>"2.0") {
         xml.description feed_item_content(doc)
         xml.link polymorphic_url(doc)
         xml.guid polymorphic_url(doc)
-        xml.pubDate acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
+        acquired_dt = acquired_date(doc)
+        xml.pubDate acquired_dt.strftime('%a, %d %b %Y %H:%M:%S %z') unless acquired_dt.nil?
       end
     end
   }
 }
-
-Rails.logger.level = saved_logger_level
