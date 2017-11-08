@@ -1,9 +1,15 @@
 require "date"
 
+# item content based on newbooks.mannlib.cornell.edu
 # responsibility field_value 'title_responsibility_display'
 #   published -- description
 # call number - location
 # holdings_condensed = create_condensed_full(@document)
+# example:
+# Zombies
+# Zombies : an anthropological investigation of the living dead / Philippe Charlier ; translated by Richard J. Gray II.
+# University Press of Florida, 2017. -- xv, 138 pages : map ; 23 cm
+# GR581 .C4313 2017 -- Olin Library
 
 xml.instruct! :xml, :version=>"1.0"
 xml.rss(:version=>"2.0") {
