@@ -365,7 +365,10 @@ Feature: Select and export items from the result set
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=dc_xml
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
+    Then I should see the xml path 'atom','//atom:entry/atom:title','http://www.w3.org/2005/Atom','The cheese and the worms'
+#    http://www.w3.org/2005/Atom
 
+#    Then I should see the xml path 'dc','//dc:title','http://purl.org/dc/elements/1.1/','English folktales'
 @all_select_and_export
   Scenario: User needs to see search results as an atom feed, ris
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
