@@ -1,12 +1,5 @@
-require "awesome_print"
 require "date"
 
-saved_logger_level = Rails.logger.level
-Rails.logger.level = 0
-Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.rss.builder"
-Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
-
-# subtitle the_vernaculator('subtitle_display', 'subtitle_vern_display')
 # responsibility field_value 'title_responsibility_display'
 #   published -- description
 # call number - location
@@ -23,10 +16,6 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     xml.pubDate DateTime.now.strftime('%a, %d %b %Y %H:%M:%S %z')
 
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view first document with .to_yaml:"
-    puts @document_list.first.to_yaml
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done"
-
     @document_list.each do |doc|
       xml.item do
         xml.title feed_item_title(doc)
@@ -39,5 +28,3 @@ xml.rss(:version=>"2.0") {
     end
   }
 }
-
-Rails.logger.level = saved_logger_level
