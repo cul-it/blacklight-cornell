@@ -81,7 +81,7 @@ group :test do
 end
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '5.0.5'
 gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
