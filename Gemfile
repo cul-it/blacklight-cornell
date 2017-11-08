@@ -62,6 +62,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
+  gem 'awesome_print'
 end
 
 group :test do
@@ -81,7 +82,7 @@ group :test do
 end
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '5.0.5'
 gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
