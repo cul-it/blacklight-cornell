@@ -33,7 +33,8 @@ xml.rss(:version=>"2.0") {
         xml.description feed_item_content(doc)
         xml.link polymorphic_url(doc)
         xml.guid polymorphic_url(doc)
-        xml.pubDate acquired_date(doc).strftime('%a, %d %b %Y %H:%M:%S %z')
+        acquired_dt = acquired_date(doc)
+        xml.pubDate acquired_dt.strftime('%a, %d %b %Y %H:%M:%S %z') unless acquired_dt.nil?
       end
     end
   }
