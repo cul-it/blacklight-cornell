@@ -1044,15 +1044,15 @@ end
       end
 
     end  # request.post?
-    # if false
-    #   unless !request.xhr? && flash[:success]
-    #     respond_to do |format|
-    #       format.js { render :layout => false }
-    #       format.html
-    #       format.json { render json: { response: { document: @document } } }
-    #     end
-    #   end
-    # end
+    if false
+      unless !request.xhr? && flash[:success]
+        respond_to do |format|
+          format.js { render :layout => false }
+          format.html
+          format.json { render json: { response: { document: @document } } }
+        end
+      end
+    end
 end
 
 def tou
