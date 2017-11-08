@@ -1562,7 +1562,7 @@ def acquired_date(document)
 		acquired_date = document['acquired_dt']
 	else
 		# use current date
-		acquired_date = Time.now.utc
+		acquired_date = DateTime.now
 	end
 	return acquired_date
 end
