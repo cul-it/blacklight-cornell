@@ -372,8 +372,8 @@ Feature: Select and export items from the result set
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
-    Then I should see the xml text '<content type="application/x-research-info-systems">'
 
+#Then I should see the label '<content type="application/x-research-info-systems">'
 # Pending causes an error in jenkins
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
 @all_select_and_export
