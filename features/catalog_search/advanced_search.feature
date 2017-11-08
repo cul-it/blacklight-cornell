@@ -507,6 +507,30 @@ Feature: Search
     Then click on first link "Title: beef"
     And I should see the label '1 - 20 of'
 
+
+
+ @adv_search
+ @all_search
+ @adv_title_percent
+ @javascript
+  Scenario: Perform a 3 row  advanced search with embedded quotes.
+    When I literally go to advanced
+    And I fill in "q_row1" with 'Women female* gender feminis*'
+    And I select 'any' from the 'op_row' drop-down
+    And I select 'All Fields' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with 'madness “mentally ill” “mental illness” insanity'
+    And I select 'any' from the 'op_row2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I fill in "q_row2" with 'literature cinema film television'
+    And I select 'any' from the 'op_row2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced'
+    And I should see the label '1 - 20 of'
+
+
+
  # DISCOVERYACCESS3298
  @adv_search
  @all_search
