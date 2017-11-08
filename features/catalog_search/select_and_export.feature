@@ -360,14 +360,14 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
 
-@all_select_and_export
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
   Scenario: User needs to see search results as an atom feed, dc xml
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=dc_xml
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="text/xml">'
     Then I should see the xml text '<dc:title>The cheese and the worms</dc:title>'
-@all_select_and_export
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_ris
   Scenario: User needs to see search results as an atom feed, ris
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
     Then I should see the xml text '<title>The cheese and the worms</title>'
