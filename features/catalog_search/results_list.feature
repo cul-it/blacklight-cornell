@@ -269,7 +269,8 @@ Feature: Results list
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'Why we're equal introducing feminist theology'
+    And I sleep 10 seconds
+    Then I should see the text 'introducing feminist theology'
     Then click on first link "Back to catalog results"
     Then I should get results
 

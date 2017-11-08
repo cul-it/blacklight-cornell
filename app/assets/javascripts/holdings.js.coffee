@@ -81,7 +81,7 @@ holdings =
     that = this
     batchf = 4
     n = 0
-    $('body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
+    $('body.book_bags-index .document,  body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
       bibId = $(this).data('bibid')
       online = $(this).data('online')
       atl = $(this).data('atl')
