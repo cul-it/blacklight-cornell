@@ -1,4 +1,6 @@
 require "awesome_print"
+require "date"
+
 saved_logger_level = Rails.logger.level
 Rails.logger.level = 0
 Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.rss.builder"

@@ -3,6 +3,7 @@ module CornellCatalogHelper
  require "pp"
  require "maybe"
  require "htmlentities"
+ require "date"
 # require 'pry'
 # require 'pry-byebug'
 
