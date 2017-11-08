@@ -5117,4 +5117,147 @@ http_interactions:
         LTAyVDE1OjQ4OjIzLjM4NVonfV19fQo=
     http_version: 
   recorded_at: Wed, 08 Nov 2017 15:17:44 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.acquired_month.facet.limit=6&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=(%2Bcheese%20%2Bworms%20)%20OR%20phrase:%22cheese%20worms%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&stats=true&stats.field=pub_date_facet&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 08 Nov 2017 18:15:56 GMT
+      Last-Modified:
+      - Wed, 08 Nov 2017 18:15:46 GMT
+      Etag:
+      - '"OGEyNDcwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '17712'
+      Via:
+      - 1.1 da-prod-solr8.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{''responseHeader''=>{''zkConnected''=>true,''status''=>0,''QTime''=>1440,''params''=>{''f.subject_content_facet.facet.limit''=>''6'',''f.location_facet.facet.limit''=>''6'',''f.fast_geo_facet.facet.limit''=>''6'',''f.lc_alpha_facet.facet.limit''=>''6'',''f.online.facet.limit''=>''3'',''defType''=>''edismax'',''f.lc_callnum_facet.facet.sort''=>''index'',''stats''=>''true'',''wt''=>''ruby'',''f.fast_genre_facet.facet.limit''=>''6'',''f.format.facet.limit''=>''11'',''f.acquired_month.facet.limit''=>''6'',''stats.field''=>''pub_date_facet'',''mm''=>''1'',''f.author_facet.facet.limit''=>''6'',''facet.field''=>[''online'',''format'',''author_facet'',''pub_date_facet'',''workid_facet'',''language_facet'',''fast_topic_facet'',''fast_geo_facet'',''fast_era_facet'',''fast_genre_facet'',''subject_content_facet'',''lc_alpha_facet'',''location_facet'',''hierarchy_facet'',''authortitle_facet'',''lc_callnum_facet'',''acquired_month'',''collection''],''qt''=>''search'',''f.lc_callnum_facet.facet.limit''=>''-1'',''sort''=>''score
+        desc, pub_date_sort desc, title_sort asc'',''rows''=>''20'',''q''=>''(+cheese
+        +worms ) OR phrase:"cheese worms"'',''f.fast_era_facet.facet.limit''=>''6'',''f.fast_topic_facet.facet.limit''=>''6'',''facet''=>''true'',''f.language_facet.facet.limit''=>''6''}},''response''=>{''numFound''=>7,''start''=>0,''maxScore''=>893584.44,''docs''=>[{''holdings_record_display''=>[''{"id":"5293893","modified_date":"20100608082550","copy_number":null,"callnos":["BR877.F74
+        G5613x 1992"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}'',''{"id":"9104577","modified_date":"20150114122842","copy_number":"2","callnos":["BR877.F74
+        G5613x 1992"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''online''=>[''At the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"book","item_id":"6879907","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"5293893","recalls_placed":"0","create_date":"2003-09-25
+        11:33:23.0","item_barcode":"31924097420594","modify_date":"2013-12-21 16:38:49.0","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}'',''{"copy_number":"2","item_type_name":"book","item_id":"9667355","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"9104577","recalls_placed":"0","create_date":"2015-01-14
+        12:29:03.0","item_barcode":"31924120852789","modify_date":"2016-01-11 15:04:25.0","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}''],''id''=>''4784333'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''1992,
+        c1980''],''pub_date_facet''=>1992,''pub_info_display''=>[''Baltimore : Johns
+        Hopkins University Press, 1992, c1980.''],''fulltitle_display''=>''The cheese
+        and the worms : the cosmos of a sixteenth-century miller'',''title_uniform_display''=>[''Formaggio
+        e i vermi. English|Formaggio e i vermi. English|Ginzburg, Carlo.''],''title_display''=>''The
+        cheese and the worms'',''author_display''=>''Ginzburg, Carlo.'',''subtitle_display''=>''the
+        cosmos of a sixteenth-century miller'',''edition_display''=>[''pbk ed., 1992.''],''other_id_display''=>[''4784333'',''(OCoLC)26622334'',''(POOF1)29359''],''score''=>893584.44},{''holdings_record_display''=>[''{"id":"303267","modified_date":null,"copy_number":null,"callnos":["BR877.F74
+        G49 1980"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''online''=>[''At the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"book","item_id":"411502","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"303267","recalls_placed":"0","create_date":"2000-05-31
+        00:00:00.0","item_barcode":"31924006663953","modify_date":"2017-05-24 10:14:08.0","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}''],''id''=>''247316'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''1980''],''pub_date_facet''=>1980,''pub_info_display''=>[''Baltimore
+        : Johns Hopkins University Press, 1980.''],''fulltitle_display''=>''The cheese
+        and the worms : the cosmos of a sixteenth-century miller'',''title_uniform_display''=>[''Formaggio
+        e i vermi. English|Formaggio e i vermi. English|Ginzburg, Carlo.''],''title_display''=>''The
+        cheese and the worms'',''author_display''=>''Ginzburg, Carlo.'',''subtitle_display''=>''the
+        cosmos of a sixteenth-century miller'',''other_id_display''=>[''(CStRLIN)NYCX6040989B'',''(NIC)notisABB2213'',''(OCoLC)6040989'',''247316''],''score''=>893584.44},{''holdings_record_display''=>[''{"id":"2017284","modified_date":"20100608082549","copy_number":null,"callnos":["BR877.F74
+        G49 1982"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''online''=>[''At the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"book","item_id":"3251377","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"2017284","recalls_placed":"0","create_date":"2000-05-31
+        00:00:00.0","item_barcode":"31924052547977","modify_date":"2016-06-30 13:50:04.0","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}''],''id''=>''1666017'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''1982''],''pub_date_facet''=>1980,''pub_info_display''=>[''New
+        York, N.Y. : Penguin Books, 1982.''],''fulltitle_display''=>''The cheese and
+        the worms : the cosmos of a sixteenth-century miller'',''title_uniform_display''=>[''Formaggio
+        e i vermi. English|Formaggio e i vermi. English|Ginzburg, Carlo.''],''title_display''=>''The
+        cheese and the worms'',''author_display''=>''Ginzburg, Carlo.'',''subtitle_display''=>''the
+        cosmos of a sixteenth-century miller'',''other_id_display''=>[''(NIC)notisAHV2867'',''(OCoLC)7731891'',''1666017''],''score''=>885227.4},{''holdings_record_display''=>[''{"id":"8562019","modified_date":"20130710114648","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''8171002'',''format''=>[''Book''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''Printed,
+        1665''],''pub_date_facet''=>1665,''pub_info_display''=>[''London : [s.n.].
+        Printed, 1665.''],''title_display''=>''The Dutch boare dissected, or a description
+        of hogg-land'',''subtitle_display''=>''A Dutch man is a lusty, fat, two legged
+        cheese-worm: a creature, that is so addicted to eating butter, drinking fat
+        drink, and sliding, that all the vvorld knows him for a slippery fellow, an
+        Hollander is not an High-lander, but a Low-lander; for he loves to be down
+        in the dirt, and boar-like, to wallow therein'',''fulltitle_display''=>''The
+        Dutch boare dissected, or a description of hogg-land. : A Dutch man is a lusty,
+        fat, two legged cheese-worm: a creature, that is so addicted to eating butter,
+        drinking fat drink, and sliding, that all the vvorld knows him for a slippery
+        fellow, an Hollander is not an High-lander, but a Low-lander; for he loves
+        to be down in the dirt, and boar-like, to wallow therein'',''other_id_display''=>[''(EEBO)186961'',''(UnM)ocm99886647e'',''8171002'',''(OCoLC)766901353''],''url_access_json''=>[''{"providercode":"PRVCDH","dbcode":"BHS","description":"Available
+        from Early English Books Online Connect to full text.","url":"http://proxy.library.cornell.edu/login?url=http://gateway.proquest.com/openurl?ctx_ver=Z39.88-2003&res_id=xri:eebo&rft_val_fmt=&rft_id=xri:eebo:image:186961"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=http://gateway.proquest.com/openurl?ctx_ver=Z39.88-2003&res_id=xri:eebo&rft_val_fmt=&rft_id=xri:eebo:image:186961|Available
+        from Early English Books Online Connect to full text.''],''score''=>276422.84},{''holdings_record_display''=>[''{"id":"6224234","modified_date":"20060206131001","copy_number":null,"callnos":["oversize
+        GR141 .E57 2005 +"],"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}]}''],''online''=>[''At the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"book","item_id":"7697197","year":"","item_type_id":"3","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"6224234","recalls_placed":"0","create_date":"2006-02-06
+        13:10:44.0","item_barcode":"31924101922494","modify_date":"","perm_location":{"code":"olin","number":99,"name":"Olin
+        Library","library":"Olin Library"}}''],''id''=>''5719401'',''format''=>[''Book''],''language_display''=>[''English.''],''pub_date_display''=>[''c2005''],''pub_date_facet''=>2005,''pub_info_display''=>[''Westport,
+        CT : Libraries Unlimited, c2005.''],''title_display''=>''English folktales'',''fulltitle_display''=>''English
+        folktales'',''other_id_display''=>[''5719401'',''(OCoLC)60605180''],''score''=>13.806722},{''holdings_record_display''=>[''{"id":"9434703","modified_date":"20150715144059","copy_number":null,"callnos":null,"notes":[],"holdings_desc":[],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"serv,remo","number":128,"name":"*Networked
+        Resource","library":null}]}''],''id''=>''9097203'',''format''=>[''Musical
+        Recording''],''online''=>[''Online''],''language_display''=>[''English.''],''pub_date_display''=>[''2013''],''pub_date_facet''=>2013,''pub_info_display''=>[''Hong
+        Kong : Naxos Digital Services US Inc. 2013''],''title_display''=>''Chamber
+        Music - LIFCHITZ, M. / DICK, R. / FOLIO, C. (Startling Stories) (Sylvan Winds)'',''fulltitle_display''=>''Chamber
+        Music - LIFCHITZ, M. / DICK, R. / FOLIO, C. (Startling Stories) (Sylvan Winds)'',''other_id_display''=>[''(Naxos)NSR1060'',''(OCoLC)913824941'',''9097203''],''url_access_json''=>[''{"providercode":"PRVAQU","dbcode":"CZN","description":"Available
+        at Naxos Music Library","url":"http://proxy.library.cornell.edu/login?url=http://univportal.naxosmusiclibrary.com/catalogue/item.asp?cid=NSR1060"}''],''url_access_display''=>[''http://proxy.library.cornell.edu/login?url=http://univportal.naxosmusiclibrary.com/catalogue/item.asp?cid=NSR1060|Available
+        at Naxos Music Library''],''score''=>12.321062},{''holdings_record_display''=>[''{"id":"1368880","modified_date":"20110907084109","copy_number":null,"callnos":["Undersize
+        QL462.5 .B38 Undersize"],"notes":["Part of original Comstock Memorial Library
+        of Entomology (CMLE)"],"holdings_desc":["v.1; v.2; v.3; v.4"],"recent_holdings_desc":[],"supplemental_holdings_desc":[],"index_holdings_desc":[],"locations":[{"code":"mann,spec","number":73,"name":"Mann
+        Library Special Collections (Non-Circulating)","library":"Mann Library"}]}''],''online''=>[''At
+        the Library''],''item_record_display''=>[''{"copy_number":"1","item_type_name":"nocirc","item_id":"2431940","year":"","item_type_id":"9","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"v.1","item_sequence_number":"1","temp_item_type_id":"0","mfhd_id":"1368880","recalls_placed":"0","create_date":"2000-05-31
+        00:00:00.0","item_barcode":"31924018236483","modify_date":"2011-07-01 15:27:40.0","perm_location":{"code":"mann,spec","number":73,"name":"Mann
+        Library Special Collections (Non-Circulating)","library":"Mann Library"}}'',''{"copy_number":"1","item_type_name":"nocirc","item_id":"2431941","year":"","item_type_id":"9","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"v.2","item_sequence_number":"2","temp_item_type_id":"0","mfhd_id":"1368880","recalls_placed":"0","create_date":"2000-05-31
+        00:00:00.0","item_barcode":"31924018236491","modify_date":"2011-07-01 15:27:40.0","perm_location":{"code":"mann,spec","number":73,"name":"Mann
+        Library Special Collections (Non-Circulating)","library":"Mann Library"}}'',''{"copy_number":"1","item_type_name":"nocirc","item_id":"2431942","year":"","item_type_id":"9","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"v.3","item_sequence_number":"3","temp_item_type_id":"0","mfhd_id":"1368880","recalls_placed":"0","create_date":"2000-05-31
+        00:00:00.0","item_barcode":"31924018236509","modify_date":"2011-07-01 15:27:40.0","perm_location":{"code":"mann,spec","number":73,"name":"Mann
+        Library Special Collections (Non-Circulating)","library":"Mann Library"}}'',''{"copy_number":"1","item_type_name":"nocirc","item_id":"2431943","year":"","item_type_id":"9","chron":"","caption":"","holds_placed":"0","temp_location":"0","on_reserve":"N","item_enum":"v.4","item_sequence_number":"4","temp_item_type_id":"0","mfhd_id":"1368880","recalls_placed":"0","create_date":"2000-05-31
+        00:00:00.0","item_barcode":"31924018236517","modify_date":"2011-07-01 15:27:40.0","perm_location":{"code":"mann,spec","number":73,"name":"Mann
+        Library Special Collections (Non-Circulating)","library":"Mann Library"}}''],''id''=>''1116695'',''format''=>[''Book''],''language_display''=>[''Dutch.''],''pub_date_display''=>[''1766-68''],''pub_date_facet''=>1766,''pub_info_display''=>[''Amsterdam,
+        Byde Erven van F. Houttuyn, 1766-68.''],''fulltitle_display''=>''Kort begrip
+        van de historie der insecten. Uit het Fransch vertaald.  Met koperen plaaten'',''title_display''=>''Kort
+        begrip van de historie der insecten'',''author_display''=>''Beaurieu, Gaspard
+        Guillard de, 1728-1795.'',''subtitle_display''=>''Uit het Fransch vertaald.  Met
+        koperen plaaten'',''other_id_display''=>[''(CStRLIN)NYCX86B102266'',''(NIC)notisAEX7121'',''(OCoLC)29164246'',''1116695''],''score''=>11.593037}]},''facet_counts''=>{''facet_queries''=>{},''facet_fields''=>{''online''=>[''At
+        the Library'',5,''Online'',2],''format''=>[''Book'',6,''Musical Recording'',1],''author_facet''=>[''Ginzburg,
+        Carlo'',3,''Beaurieu, Gaspard Guillard de, 1728-1795'',1,''Dick, Robert'',1,''Douglas,
+        Amy'',1,''Folio, Cynthia'',1,''Keding, Dan'',1],''pub_date_facet''=>[''1980'',2,''1665'',1,''1766'',1,''1992'',1,''2005'',1,''2013'',1],''workid_facet''=>[''4320053'',3,''1057785271'',1,''15712254'',1,''2571279334'',1,''866286341'',1],''language_facet''=>[''English'',6,''Dutch'',1],''fast_topic_facet''=>[''Christian
+        heresies > Modern period'',3,''Civilization'',3,''Scandella, Domenico, 1532-1599'',3,''Christian
+        heretics'',2,''Peasants'',2,''Diplomatic relations'',1],''fast_geo_facet''=>[''England'',2,''Italy
+        > Udine (Province)'',2,''Great Britain'',1,''Italy'',1,''Italy > Friuli'',1,''Netherlands'',1],''fast_era_facet''=>[''Since
+        1500'',3,''1660-1688'',1],''fast_genre_facet''=>[''Church history'',3,''History'',3,''Early
+        works'',1,''Poetry'',1],''subject_content_facet''=>[''Non-Fiction (books)'',5],''lc_alpha_facet''=>[],''location_facet''=>[''Olin
+        Library'',4,''Mann Library'',1],''hierarchy_facet''=>[],''authortitle_facet''=>[''Ginzburg,
+        Carlo. | Formaggio e i vermi. English'',3,''Beaurieu, Gaspard Guillard de,
+        1728-1795. | Kort begrip van de historie der insecten'',1],''lc_callnum_facet''=>[''B
+        - Philosophy, Psychology, Religion'',3,''B - Philosophy, Psychology, Religion:BR
+        - Christianity'',3,''B - Philosophy, Psychology, Religion:BR - Christianity:BR140-1510
+        - History'',3,''B - Philosophy, Psychology, Religion:BR - Christianity:BR140-1510
+        - History:BR500-1510 - By region or country'',3,''D - World History'',1,''D
+        - World History:DA-DR - Europe'',1,''D - World History:DA-DR - Europe:DA -
+        Great Britain'',1,''D - World History:DA-DR - Europe:DA - Great Britain:DA20-690
+        - England'',1,''D - World History:DA-DR - Europe:DA - Great Britain:DA20-690
+        - England:DA28-592 - History'',1,''D - World History:DA-DR - Europe:DA - Great
+        Britain:DA20-690 - England:DA28-592 - History:DA129-592 - By period'',1,''D
+        - World History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA28-592
+        - History:DA129-592 - By period:DA300-592 - Modern, 1485-'',1,''D - World
+        History:DA-DR - Europe:DA - Great Britain:DA20-690 - England:DA28-592 - History:DA129-592
+        - By period:DA300-592 - Modern, 1485-:DA430-463 - Later Stuarts'',1,''G -
+        Geography, Anthropology, Recreation'',1,''G - Geography, Anthropology, Recreation:GR
+        - Folklore'',1,''G - Geography, Anthropology, Recreation:GR - Folklore:GR99.6-390
+        - By region or country'',1,''Q - Science'',1,''Q - Science:QL - Zoology'',1,''Q
+        - Science:QL - Zoology:QL360-599.82 - Invertebrates'',1,''Q - Science:QL -
+        Zoology:QL360-599.82 - Invertebrates:QL461-599.82 - Insects'',1],''acquired_month''=>[],''collection''=>[]},''facet_ranges''=>{},''facet_intervals''=>{},''facet_heatmaps''=>{}},''stats''=>{''stats_fields''=>{''pub_date_facet''=>{''min''=>1665.0,''max''=>2013.0,''count''=>7,''missing''=>0,''sum''=>13401.0,''sumOfSquares''=>2.5772039E7,''mean''=>1914.4285714285713,''stddev''=>139.51207491690118}}},''spellcheck''=>{''suggestions''=>[''cheese'',{''numFound''=>4,''startOffset''=>29,''endOffset''=>35,''origFreq''=>3740,''suggestion''=>[{''word''=>''chinese'',''freq''=>219362},{''word''=>''wheeler'',''freq''=>2468},{''word''=>''cheng'',''freq''=>188586},{''word''=>''sheep'',''freq''=>1804}]},''worms'',{''numFound''=>5,''startOffset''=>36,''endOffset''=>41,''origFreq''=>5850,''suggestion''=>[{''word''=>''works'',''freq''=>402462},{''word''=>''forms'',''freq''=>23430},{''word''=>''world'',''freq''=>2150534},{''word''=>''work'',''freq''=>273158},{''word''=>''poems'',''freq''=>56748}]}],''correctlySpelled''=>true}}
+
+'
+    http_version: 
+  recorded_at: Wed, 08 Nov 2017 18:15:58 GMT
 recorded_with: VCR 3.0.3
