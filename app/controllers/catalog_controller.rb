@@ -1049,7 +1049,6 @@ end
         respond_to do |format|
           format.js { render :layout => false }
           format.html
-          format.json { render json: { response: { document: @document } } }
         end
       end
     end
