@@ -66,6 +66,6 @@ Then (/^the first search result should be '(.*)'$/) do | title |
   end
 end
 
-Then (/^I select option '(.*)'' from '(.*)'/$/) do | option, selector_title |
+Then (/^I select option '(.*)'' from '(.*)'$/) do | option, selector_title |
   select(option, :from => selector_title)
 end
