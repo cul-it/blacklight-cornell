@@ -386,8 +386,10 @@ Feature: Select and export items from the result set
     And I fill in the search box with 'knots rope'
     And I press 'search'
     Then I should get results
+    And the first search result should be 'Encyclopedia of knots and fancy rope work'
     And the 'sort' select list should have an option for 'date acquired'
-  
+    Then I select 'date acquired' from 'Sort by relevance'
+    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
   Scenario: User needs to see zombies as an rss feed
