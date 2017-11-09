@@ -61,6 +61,19 @@ module AdvancedHelper
       params[:boolean_row] = [] #{"1"=>"AND"}
       params[:boolean_row] << "AND"
     end
+    
+    if params[:q_row].nil?
+      params[:q_row] = []
+      params[:q_row][0] = ''
+    end
+    if params[:op_row].nil?
+      params[:op_row] = []
+      params[:op_row][0] = "all"
+    end
+    if params[:search_field_row].nil?
+      params[:search_field_row] = []
+      params[:search_field_row][0] = 'all_fields'
+    end
       
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
@@ -71,7 +84,7 @@ module AdvancedHelper
     word = ""
     row1 = ""
     if params[:q_row][0].include? ' ' and !(params[:q_row][0].start_with? '"' and params[:q_row][0].end_with? '"')
-      query = "\"" + params[:q_row][0] + "\""
+      query = "\'" + params[:q_row][0] + "\'"
     #  query = params[:q_row][0]
     else
       query = params[:q_row][0]
@@ -105,7 +118,7 @@ module AdvancedHelper
       next2rows = ""
       for i in 1..params[:q_row].count - 1
         if params[:q_row][i].include? ' '
-          params[:q_row][i] = "\"" + params[:q_row][i] + "\""
+          params[:q_row][i] = "\'" + params[:q_row][i] + "\'"
         #  query = params[:q_row][0]
         else
           params[:q_row][i] = params[:q_row][i]
