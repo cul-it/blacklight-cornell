@@ -23,7 +23,7 @@
         <% end %>
         <% if current_or_guest_user %>
         <%  @bookmarks = current_or_guest_user.bookmarks %>
-          <% if !Bookbag.enabled?  %>
+          <% if !Bookbag.enabled? || (Bookbag.enabled? &&  !current_user)  %>
             <li>
             <%= link_to bookmarks_path, id:'bookmarks_nav' do %>
             <%= t('blacklight.header_links.bookmarks') %>
