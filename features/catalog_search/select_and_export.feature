@@ -378,6 +378,17 @@ Feature: Select and export items from the result set
     And I should see the text 'Olin Library'
     And I should see the text '(OCoLC)982651297'
 
+@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
+  Scenario: User needs to be able to sort search results by acquired date
+  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
+  by the acquired date of items.
+  When I go to the catalog page
+    And I fill in the search box with 'knots rope'
+    And I press 'search'
+    Then I should get results
+    And the 'sort' select list should have an option for 'date acquired'
+  
+
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
   Scenario: User needs to see zombies as an rss feed
   When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
