@@ -386,10 +386,20 @@ Feature: Select and export items from the result set
     And I should see the text 'GR581 .C4313 2017 -- Olin Library'
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_atom
-  Scenario: User needs to see zombies as an atom feed
-  When I literally go to /catalog.atom?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  Scenario Outline: User needs to see zombies as an atom feed
+  When I literally go to /catalog.atom?content_format-<Format>advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
     Then I should see the xml text '<title>Zombies</title>'
-    And I should see the xml text '<name>Charlier, Philippe.</name>'
+    And I should see the xml text '<XmlContent>'
+
+    Examples:
+    | Format | XmlContent | TextContent |
+    | xml | xx | yy |
+    | dc_xml | xx | yy |
+    | oai_dc_xml | xx | yy |
+    | ris | xx | yy |
+    | mendeley | xx | yy |
+    | zotero | xx | yy |
+    | rdf_zotero | <dc:subject>Vodou Haiti. </dc:subject> | an anthropological investigation of the living dead |
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
   Scenario: User needs to see search results as an atom feed, dc xml
