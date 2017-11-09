@@ -39,13 +39,13 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
-    if blacklight_params[:q_row].present? and !blacklight_params[:q_row][0].blank?
+    if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
       my_params = make_adv_query(blacklight_params)
       #blacklight_params = my_params
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
       if !my_params[:q_row].nil?
-      blacklight_params[:q_row].each do |term|
+        blacklight_params[:q_row].each do |term|
         spellstring += term += ' '
         #spellstring  += term +  ' '
       end
@@ -413,6 +413,9 @@ class SearchBuilder < Blacklight::SearchBuilder
               else
                 newpass = my_params[:q_row][i]
               end
+              if my_params[:search_field_row][i] == 'advanced'
+                my_params[:search_field_row][i] = 'all_fields'
+              end
               if my_params[:search_field_row][i] == 'journal title'
                 my_params['format'] = "Journal/Periodical"
               end
@@ -482,7 +485,9 @@ class SearchBuilder < Blacklight::SearchBuilder
                       field_name = 'notes_quoted'
 #                      solr6query << field_name #<< ":"
                     else
-                      field_name = field_name +  '_quoted'
+                      if field_name != 'lc_callnum'
+                        field_name = field_name +  '_quoted'
+                      end
 #                      solr6query << field_name #<< ":"
                     end
                   end
@@ -506,7 +511,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                         q_string2 << holdarray[1] 
                         if journal_title_flag == 1
                         solr6query = '(' + solr6query
-                        solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical)"'
+                        solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical"'
                         journal_title_flag = 0
                         else
                         solr6query << "\"" + holdarray[1] + "\""
@@ -540,7 +545,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
                             solr6query = '(' + solr6query
-                            solr6query << newTerm << ') AND format:"Journal/Periodical)"'
+                            solr6query << newTerm << ') AND format:"Journal/Periodical"'
                             journal_title_flag = 0
                           else
                             solr6query << newTerm
@@ -553,7 +558,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           else
                             if journal_title_flag == 1
                               solr6query = '(' + solr6query
-                              solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
+                              solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical"'
                               journal_title_flag = 0
                             else
                               if field_name == "title" or field_name == "number"
@@ -575,7 +580,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           solr6query << "\"" + holdarray[1] + "\""
                        else
                           if journal_title_flag == 1
-                            solr6query << '(' << field_name << ':"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                            solr6query << '(' << field_name << ':"' + holdarray[1] + '" AND format:"Journal/Periodical"'
                             journal_title_flag = 0
                           else
                             solr6query << field_name << ':"' + holdarray[1] + '"'
@@ -628,7 +633,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                                    if opfill == "AND"
                                      newTerm << " +" << quoted + tokenArray[k] + " "
                                    else
-                                     newTerm << field_name + '_quoted:' + tokenArray[k] + " " + opfill + " "
+                                     newTerm << quoted + tokenArray[k] + " " + opfill + " "
                                    end
                                 end
                              else
@@ -669,7 +674,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           #Rails.logger.info("solr6query22= #{newTerm}")
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
-                            solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                            solr6query << newTerm << ' AND format:"Journal/Periodical"'
                             journal_title_flag = 0
                           else
                             solr6query << newTerm
@@ -686,7 +691,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                             end
                           else
                             if journal_title_flag == 1
-                              solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                              solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical"'
                               journal_title_flag = 0
                             else
                               solr6query << "(+" + field_name + ":" + holdarray[1] + ')' # OR ' + field_name + ':"' + holdarray[1] + '")'
@@ -1076,8 +1081,10 @@ class SearchBuilder < Blacklight::SearchBuilder
   def qtoken(q_string)
     qnum = q_string.count('"')
     if qnum % 2 == 1
-      qstring = qstring + '"'
+      q_string = q_string + '"'
     end
+      q_string.gsub!('(','')
+      q_string.gsub!(')','')
       p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
     return p
     
