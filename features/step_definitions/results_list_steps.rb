@@ -65,3 +65,7 @@ Then (/^the first search result should be '(.*)'$/) do | title |
     expect(page.first(:xpath, '//h2/a').text).to have_content(title)
   end
 end
+
+Then (/^I select option '(.*)'' from '(.*)'/$/) do | option, selector_title |
+  select(option, :from => selector_title)
+end
