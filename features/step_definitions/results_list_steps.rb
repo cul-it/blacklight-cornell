@@ -66,6 +66,8 @@ Then (/^the first search result should be '(.*)'$/) do | title |
   end
 end
 
-Then (/^I select option '(.*)'' from '(.*)'$/) do | option, selector_title |
-  select(option, :from => selector_title)
+Then (/^I select the sort option '(.*)'$/) do | option |
+  within ('div#sort-dropdown') do
+    click('dropdown-toggle')
+    click(option)
 end
