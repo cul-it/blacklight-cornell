@@ -54,6 +54,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
           #content_format = params["content_format"].to_sym
           #type = doc.export_formats.keys.include?(content_format) ? content_format : ''
 
+          Rails.logger.level = 0          
           Rails.logger.debug "type: " + type.inspect
 
           xml.content :type => type do |content_element|
