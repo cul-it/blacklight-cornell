@@ -376,11 +376,12 @@ Feature: Select and export items from the result set
     And I should see the text 'Encyclopedia of knots and fancy rope work'
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
-  Scenario: User needs to see the new knot books as an rss feed
-  When I literally go to catalog.rss?q=knots+rope&search_field=title&sort=acquired_dt+desc%2C+title_sort+asc
-    Then I should see the xml text '<title>A knot is where you tie a piece of rope : Burmese writing in Iowa</title>'
-    And I should see the xml text '<pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>'
-    And I should see the text 'directions for making all the most useful and ornamental knots'
+  Scenario: User needs to see zombies as an rss feed
+  When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1&utf8=✓
+    Then I should see the xml text '<title>Zombies : an anthropological investigation of the living dead</title>'
+    And I should see the text 'an anthropological investigation of the living dead'
+    And I should see the text 'Gainesville : University Press of Florida, [2017]'
+    And I should see the text 'GR581 .C4313 2017 -- Olin Library'
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
   Scenario: User needs to see search results as an atom feed, dc xml
