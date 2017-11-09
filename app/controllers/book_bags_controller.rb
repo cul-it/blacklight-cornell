@@ -42,13 +42,17 @@ class BookBagsController < CatalogController
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     user_session[:bookbag_count] = @bb.count
-    @bb.create(value)
-    respond_to do |format|
-      format.html { }
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
-      format.json { render json:   { }      } 
-    end
+    success = @bb.create(value)
+    if request.xhr?
+      success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+    else
+      respond_to do |format|
+        format.html { }
+        format.rss  { render :layout => false }
+        format.atom { render :layout => false }
+        format.json { render json:   { }      } 
+      end
+     end
   end
 
   def delete
