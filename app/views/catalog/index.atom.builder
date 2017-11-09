@@ -1,11 +1,6 @@
 # this is the atom builder for catalog.atom
 #require 'base64'
 
-saved_logger_level = Rails.logger.level
-Rails.logger.level = 0
-Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in  catalog index.atom.builder"
-Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
-
 xml.instruct!(:xml, :encoding => "UTF-8")
 
 xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
@@ -43,27 +38,13 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
         xml.author { xml.name(doc.to_semantic_values[:author][0]) }
       end
       #If they asked for a format, give it to them.
-      Rails.logger.debug "export formats: " + doc.export_formats.inspect
       if (params["content_format"] &&
           doc.export_formats[params["content_format"].to_sym])
 
-          Rails.logger.debug "inspect: " + doc.export_formats[params["content_format"].to_sym].inspect
-          Rails.logger.debug "export formats: " + doc.export_formats.inspect
-
           type = doc.export_formats[params["content_format"].to_sym][:content_type]
-          #content_format = params["content_format"].to_sym
-          #type = doc.export_formats.keys.include?(content_format) ? content_format : ''
-
-          Rails.logger.level = 0          
-          Rails.logger.debug "type: " + type.inspect
-
+ 
           xml.content :type => type do |content_element|
             data = dl.export_as(params["content_format"])
-
-            Rails.logger.level = 0 
-            Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view data with .to_yaml: *************************"
-            puts data.first.to_yaml
-            Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done **************************"
 
             # encode properly. See:
             # http://tools.ietf.org/html/rfc4287#section-4.1.3.3
@@ -87,4 +68,3 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   end
 
 end
-Rails.logger.level = saved_logger_level
