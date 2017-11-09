@@ -68,7 +68,7 @@ end
 
 Then (/^I select the sort option '(.*)'$/) do | option |
   within ('div#sort-dropdown') do
-    click('dropdown-toggle')
+    click_on('dropdown-toggle')
     click_on(option)
   end
 end
