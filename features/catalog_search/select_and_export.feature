@@ -372,6 +372,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to see zombies as a JSON feed
   When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
+    Then show me the page
     And I should see the text '10079768'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
     And I should see the text 'GR581 .C4313 2017'
