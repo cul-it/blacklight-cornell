@@ -394,9 +394,9 @@ Feature: Select and export items from the result set
 
     Examples:
     | Format | XmlContent | TextContent |
-    | xml | <dc:title>Zombies</dc:title> | application/xml |
-    | dc_xml | <dc:title>Zombies</dc:title> | text/xml |
-    | oai_dc_xml | <dc:title>Zombies</dc:title> | text/xml |
+    | xml | <dc:title>Zombies</dc:title> | Book |
+    | dc_xml | <dc:title>Zombies</dc:title> | Book |
+    | oai_dc_xml | <dc:title>Zombies</dc:title> | Book |
     | ris | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
     | mendeley | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
     | zotero | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
