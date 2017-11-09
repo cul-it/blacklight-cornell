@@ -61,7 +61,7 @@ Then /^it should contain filter "(.*?)" with value "(.*?)"/ do |filter, value|
 end
 
 Then (/^the first search result should be '(.*)'$/) do | title |
-  within ('div#documents.document-list') do
+  within ('div#documents document-list') do
     expect(page.first(:xpath, '//h2/a').text).to have_content(title)
   end
 end
