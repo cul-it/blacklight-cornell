@@ -70,4 +70,5 @@ Then (/^I select the sort option '(.*)'$/) do | option |
   within ('div#sort-dropdown') do
     click('dropdown-toggle')
     click(option)
+  end
 end
