@@ -60,6 +60,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
           xml.content :type => type do |content_element|
             data = dl.export_as(params["content_format"])
 
+            Rails.logger.level = 0 
             Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: view data with .to_yaml: *************************"
             puts data.first.to_yaml
             Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: done **************************"
