@@ -406,7 +406,7 @@ def render_advanced_constraints_query(my_params = params)
      
   end
   if my_params[:search_field] == 'advanced'
-    my_params.delete(:q)
+ #   my_params.delete(:q)
   end
 # my_params[:q] = ''
 #  my_params[:show_query] = ''
@@ -516,6 +516,7 @@ def render_advanced_constraints_query(my_params = params)
      new_q_parts[1] = "search_field=" << my_params[:search_field]
     end
     if (new_q_parts.count == 3 )
+       andorcount = 0
      #  params.delete("advanced_query")
        0.step(2, 2) do |x|
          label = ""
@@ -545,8 +546,17 @@ def render_advanced_constraints_query(my_params = params)
            end
            if hold[1].include?('&')
              hold[1] = hold[1].gsub!('&','%26')
-          end
-           removeString = "catalog?&q=" + CGI.escape(hold[1]) + "&search_field=" + hold[0] + "&" + facetparams + "action=index&commit=Search"
+           end
+           
+           if my_params[:op_row][andorcount] == "OR"
+             lastq = qtoken(hold[1])
+             if lastq.size > 1
+             #  hold[1] = lastq.product([' OR ']).flatten(1)[0...-1].join()
+             end
+           end
+           boolcount = andorcount + 1
+           boolcount = boolcount.to_s
+           removeString = "catalog?&q_row[]=" + CGI.escape(hold[1]) + "&boolean_row[" + boolcount + "]=AND" + "&op_row[]=" + my_params[:op_row][andorcount] + "&search_field_row[]=" + hold[0] + "&search_field=advanced&" + facetparams + "action=index&commit=Search"
            content << render_constraint_element(label, querybuttontext, :remove => removeString)
          else
           content << " " << querybuttontext << " "
@@ -565,6 +575,7 @@ def render_advanced_constraints_query(my_params = params)
          if !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
           remove_string = my_params["q"]
           label = search_field_def_for_key(my_params[:search_field])[:label]
+            
           if(params[:f].nil?)
             removeString = "?"
           else
@@ -1037,6 +1048,16 @@ end
     #y = !(localized_params[:q].blank? and localized_params[:f].blank?)
     y = !(localized_params[:q].blank? and localized_params[:f].blank? and localized_params[:click_to_search].blank?) || (!localized_params[:search_field].blank? and (localized_params[:search_field] != 'all_fields'))
     y
+  end
+
+  def qtoken(q_string)
+    qnum = q_string.count('"')
+    if qnum % 2 == 1
+      qstring = qstring + '"'
+    end
+      p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
+    return p
+  
   end
 
 end
