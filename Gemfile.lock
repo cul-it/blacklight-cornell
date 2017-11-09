@@ -98,6 +98,7 @@ GEM
     arel (6.0.4)
     autoprefixer-rails (6.7.7.1)
       execjs
+    awesome_print (1.7.0)
     bcrypt (3.1.11)
     bento_search (1.6.1)
       confstruct (~> 1.0)
@@ -541,6 +542,7 @@ DEPENDENCIES
   activerecord-session_store
   addressable
   appsignal
+  awesome_print
   bento_search
   blacklight (= 6.7.2)
   blacklight-hierarchy
@@ -573,7 +575,7 @@ DEPENDENCIES
   htmlentities
   httpclient
   jquery-rails
-  jquery-ui-rails
+  jquery-ui-rails (= 5.0.5)
   json
   kaminari (= 0.15.0)
   libnotify
