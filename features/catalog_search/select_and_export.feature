@@ -394,12 +394,12 @@ Feature: Select and export items from the result set
 
     Examples:
     | Format | XmlContent | TextContent |
-    | xml | xx | yy |
-    | dc_xml | xx | yy |
-    | oai_dc_xml | xx | yy |
-    | ris | xx | yy |
-    | mendeley | xx | yy |
-    | zotero | xx | yy |
+    | xml | <dc:title>Zombies</dc:title> | application/xml |
+    | dc_xml | <dc:title>Zombies</dc:title> | text/xml |
+    | oai_dc_xml | <dc:title>Zombies</dc:title> | text/xml |
+    | ris | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
+    | mendeley | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
+    | zotero | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
     | rdf_zotero | <dc:subject>Vodou Haiti. </dc:subject> | an anthropological investigation of the living dead |
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
