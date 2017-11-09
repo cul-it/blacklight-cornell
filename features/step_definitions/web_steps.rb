@@ -54,6 +54,10 @@ Then /^show me the page$/ do
   print page.html
 end
 
+Then /^show me the json$/ do
+  print page.json
+end
+
 Then /^I should not see an error$/ do
   (200 .. 399).should include(page.status_code)
 end
