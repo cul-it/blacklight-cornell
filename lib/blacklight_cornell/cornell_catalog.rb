@@ -726,7 +726,7 @@ def check_params(params)
                  if fieldname == ''
                     params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
                  else
-                    if fieldname == "title"
+                    if fieldname != "title"
                       params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
                     else
                       params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
@@ -755,7 +755,7 @@ def check_params(params)
               end
            else
              if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-               if (fieldname == 'title' or fieldname == 'number') and fieldname != ''
+               if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
                   params[:q] = params[:q]
                   params[:search_field] = fieldname << '_quoted'
                else
@@ -775,7 +775,7 @@ def check_params(params)
                      params[:q] << '+quoted:' + bits + ' '
                     else 
                      if !params[:search_field].include?('browse')
-                     params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
                      end
                     end
                  else
