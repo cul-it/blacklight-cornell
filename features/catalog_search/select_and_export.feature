@@ -378,6 +378,26 @@ Feature: Select and export items from the result set
     And I should see the text 'Olin Library'
     And I should see the text '(OCoLC)982651297'
 
+@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
+  Scenario: User needs to be able to sort search results by acquired date
+  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
+  by the acquired date of items.
+  When I go to the catalog page
+    And I fill in the search box with 'knots rope'
+    And I press 'search'
+    Then I should get results
+    And the first search result should be 'Encyclopedia of knots and fancy rope work'
+    And the 'sort' select list should have an option for 'date acquired'
+    Then I select the sort option 'date acquired'
+    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
+
+@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
+  Scenario: User needs to see the date acquired in a JSON feed
+  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+    Then I should see the text 'Zombies : an anthropological investigation of the living dead'
+    And I should see the text 'acquired_dt'
+    And I should see the text '2017-10-23T00:00:00Z'
+
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
   Scenario: User needs to see zombies as an rss feed
   When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1

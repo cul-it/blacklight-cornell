@@ -59,3 +59,16 @@ Then /^it should contain filter "(.*?)" with value "(.*?)"/ do |filter, value|
   page.should have_selector('span.filter-label', :text => filter)
   page.should have_selector('span.filter-value', :text => value)
 end
+
+Then (/^the first search result should be '(.*)'$/) do | title |
+  within ('div#documents.documents-list') do
+    expect(page.first(:xpath, '//h2/a').text).to have_content(title)
+  end
+end
+
+Then (/^I select the sort option '(.*)'$/) do | option |
+  within ('div#sort-dropdown') do
+    find(:css, 'button.dropdown-toggle').click
+    click_on(option)
+  end
+end
