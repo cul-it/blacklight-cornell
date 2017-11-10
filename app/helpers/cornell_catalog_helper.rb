@@ -1504,9 +1504,6 @@ module CornellCatalogHelper
 #          "7329671"=>"none"},
 
 
-end 
-
-# End of Module
 
     # this logic is from the voyager_oracle_api status.rb
     # available statuses
@@ -1573,7 +1570,7 @@ end
 #
 #
 
-def acquired_date(document)
+  def acquired_date(document)
 	if document['acquired_dt'].present?
 		# use acquired date as a date
 		acquired_date = DateTime.parse(document['acquired_dt'])
@@ -1582,14 +1579,14 @@ def acquired_date(document)
 		acquired_date = nil
 	end
 	return acquired_date
-end
+  end
 
-def feed_item_title(document)
+  def feed_item_title(document)
 	title = document['fulltitle_display'].blank? ? document.id : document['fulltitle_display']
 	return title
-end
+  end
 
-def feed_item_content(document)
+  def feed_item_content(document)
 
 	# example content from http://newbooks.mannlib.cornell.edu/?class=G*#GR
 	# Zombies
@@ -1609,4 +1606,15 @@ def feed_item_content(document)
 	description << col_loc.join(' -- ') unless col_loc.blank?
 	formatted = description.join("<br>")
 	return formatted
-end
+  end
+
+# Check if the document is in the user's bookbag 
+  def bookbagged? did 
+    d = did.to_s
+    value = "bibid-#{d}" 
+    @bb.index.any? {  |x|  x == value }
+  end
+
+end 
+
+# End of Module

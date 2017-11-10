@@ -41,7 +41,8 @@ class Bookbag
   end
 
   def count 
-    @r.llen(@bagname)
+    #@r.llen(@bagname)
+    @r.lrange(@bagname,0,-1).uniq.size
   end
 
 end

@@ -41,8 +41,8 @@ class BookBagsController < CatalogController
     value = "bibid-#{@bibid}"
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
-    user_session[:bookbag_count] = @bb.count
     success = @bb.create(value)
+    user_session[:bookbag_count] = @bb.count
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
     else
@@ -58,14 +58,20 @@ class BookBagsController < CatalogController
   def delete
     @bibid = params[:id]
     value = "bibid-#{@bibid}"
-    @bb.delete(value)
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
+    success = @bb.delete(value)
     user_session[:bookbag_count] = @bb.count
-    respond_to do |format|
-      format.html { }
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
-      format.json do
-        render json:   { }
+    if request.xhr?
+      success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+    else
+      respond_to do |format|
+        format.html { }
+        format.rss  { render :layout => false }
+        format.atom { render :layout => false }
+        format.json do
+          render json:   { }
+        end
       end
     end
   end
