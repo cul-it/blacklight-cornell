@@ -318,3 +318,12 @@ Feature: Results list
     Then I should not see the text 'relevance'
     And I sleep 4 seconds
     Then I should see the text 'Sort by call number'
+
+@all_results_list
+  Scenario: Search with results,
+    Given I am on the home page
+    When I fill in the search box with 'cigarette prices'
+    And I select 'Title' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-icon-rss" class
