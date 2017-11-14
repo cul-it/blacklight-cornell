@@ -38,6 +38,9 @@
           <%end%>
           Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
         <%else%>
+          <%= "#{@response.total_count} catalog results" %>
+          <%= link_to("", url_for(params.merge(:format => 'rss')),:class => "fa fa-icon-rss")   %>
+
 
         <%= render 'sort_and_per_page' %>
         
