@@ -52,7 +52,11 @@ footer {
 	.label,
 	.label:hover,
 	.dropdown-menu a,
-	.dropdown-menu a:hover, {
+	.dropdown-menu a:hover,
+	.rss-icon,
+	.rss-icon:hover,
+	.rss-icon:active,
+	.rss-icon:focus {
 		border-bottom: none;
 	}
 }
