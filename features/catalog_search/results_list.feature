@@ -326,4 +326,4 @@ Feature: Results list
     And I select 'Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
-    And I should see the "fa-icon-rss" class
+    And I should see the "fa-rss-square" class

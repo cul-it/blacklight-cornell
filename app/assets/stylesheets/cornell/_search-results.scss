@@ -87,9 +87,10 @@ body.bookmarks-index #documents .document {
 .fa-warning {color: $yellow; }
 .bento_item_other_links .fa-pencil {color: $yellow; }
 
-.fa-icon-rss { color: $rss; }
-.fa-icon-rss:before  { 
-             content: "\f143"; }
+.fa-rss-square,
+.fa-rss-square:hover {
+	color: $rss;
+}
 
 // Sort and per page options
 // ------------------------------------------
