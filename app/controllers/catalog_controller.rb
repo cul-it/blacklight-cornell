@@ -529,8 +529,8 @@ end
     #    :pf => '$acquired_month_pf'
     #  }
     #end
-    #config.add_search_field('acquired_date') do |field|
-    #  field.include_in_simple_select = true
+    #config.add_search_field('acquired_dt') do |field|
+    #  field.include_in_simple_select = false 
     #  field.solr_local_parameters = {
     #    :qf => '$acquired_dt_qf',
     #    :pf => '$acquired_dt_pf'
@@ -902,7 +902,7 @@ end
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
     config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :callnum_default => true
-    config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
+    #config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
