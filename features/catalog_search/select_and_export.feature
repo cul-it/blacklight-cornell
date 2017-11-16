@@ -382,6 +382,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to be able to sort search results by acquired date
   To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
   by the acquired date of items.
+    Given PENDING 
   When I go to the catalog page
     And I fill in the search box with 'knots rope'
     And I press 'search'
