@@ -125,6 +125,27 @@ div.request-options div.accordion-body .span4 {
   }
 }
 
+// BD success/failure message
+// -------------------------//
+.request-message.well {
+  margin-top: 1em;
+  margin-bottom: 0;
+  p {
+    margin-bottom: 0;
+    font-size: 16px;
+  }
+  .fa {
+    font-size: 110%;
+  }
+  .fa-exclamation-triangle {
+    color: $cornell-primary;
+  }
+  .fa-check {
+    color: $teal;
+  }
+}
+
+
 // MEDIA QUERIES
 // -------------------------
 
