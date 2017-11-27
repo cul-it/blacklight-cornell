@@ -33,16 +33,34 @@ class Bookbag
 
 
   def delete(value)
-    @r.lrem  @bagname,99,value
+    begin  
+      @r.lrem  @bagname,99,value
+    rescue
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+    end
   end
 
   def index
-    @r.lrange(@bagname, 0, -1)
+    c = [] 
+    begin  
+      c = @r.lrange(@bagname,0,-1) if @r
+    rescue 
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+      c =[] 
+    end
+    c
   end
 
   def count 
     #@r.llen(@bagname)
-    @r.lrange(@bagname,0,-1).uniq.size
+    c = 0 
+    begin  
+      c = @r.lrange(@bagname,0,-1).uniq.size if @r
+    rescue 
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
+      c = 0
+    end
+    c
   end
 
 end
