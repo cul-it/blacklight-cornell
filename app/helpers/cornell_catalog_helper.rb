@@ -1612,7 +1612,11 @@ module CornellCatalogHelper
   def bookbagged? did 
     d = did.to_s
     value = "bibid-#{d}" 
-    @bb.index.any? {  |x|  x == value }
+    if @bb
+      @bb.index.any? {  |x|  x == value }
+    else  
+      false
+    end
   end
 
 end 
