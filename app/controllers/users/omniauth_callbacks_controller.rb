@@ -35,7 +35,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       #render :js => "<script>window.location = '/catalog/email'</script>"
       return
     else  
-      redirect_to root_path, :notice => "Hi <strong>#{request.env["omniauth.auth"].info.name}</strong>."
+      redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
     end
   end
 

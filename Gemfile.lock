@@ -1,9 +1,16 @@
 GIT
+  remote: https://github.com/baroquem/borrow_direct
+  revision: 54f75e6a01eb85c4fa396c63464cfe987af91853
+  specs:
+    borrow_direct (1.2.0)
+      httpclient (~> 2.4)
+
+GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: b208952f4f7078f433a0ca31d2e0de93ac12acfe
+  revision: aabaf15935850cd4ee35c942d5742ed07e1912ba
   branch: master
   specs:
-    blacklight_cornell_requests (1.5.2)
+    blacklight_cornell_requests (1.5.3)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -30,19 +37,12 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/csl-styles
-  revision: d15b7efa88a0b0acf119eb3c8e8c7c0dc8d18de2
+  revision: c7b50754fc907247c7533deed09d69478a9669c9
   branch: master
   submodules: true
   specs:
     csl-styles (1.0.1.9)
       csl (~> 1.0)
-
-GIT
-  remote: https://github.com/jrochkind/borrow_direct
-  revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
-  specs:
-    borrow_direct (1.2.0)
-      httpclient (~> 2.4)
 
 GEM
   remote: https://rubygems.org/
@@ -98,6 +98,7 @@ GEM
     arel (6.0.4)
     autoprefixer-rails (6.7.7.1)
       execjs
+    awesome_print (1.7.0)
     bcrypt (3.1.11)
     bento_search (1.6.1)
       confstruct (~> 1.0)
@@ -541,6 +542,7 @@ DEPENDENCIES
   activerecord-session_store
   addressable
   appsignal
+  awesome_print
   bento_search
   blacklight (= 6.7.2)
   blacklight-hierarchy
@@ -573,7 +575,7 @@ DEPENDENCIES
   htmlentities
   httpclient
   jquery-rails
-  jquery-ui-rails
+  jquery-ui-rails (= 5.0.5)
   json
   kaminari (= 0.15.0)
   libnotify

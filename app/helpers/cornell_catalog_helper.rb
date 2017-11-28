@@ -3,6 +3,7 @@ module CornellCatalogHelper
  require "pp"
  require "maybe"
  require "htmlentities"
+ require "date"
 # require 'pry'
 # require 'pry-byebug'
 
@@ -1402,6 +1403,24 @@ module CornellCatalogHelper
     bws 
   end
 
+  def sub_tilde_path(var,id,aeon_codes,document)
+      var_str = "#{var}"
+      var_req = "#{var.downcase}"
+      req = "#{var_req}"
+      if ENV[var_str].blank?
+        req = '/aeon/~id~' 
+        req = req.gsub('~id~',id.to_s)
+        req = req.gsub('~libid~',aeon_codes.join('|'))
+      else
+        req = ENV["#{var}"].gsub('~id~',id.to_s)
+        req = req.gsub('~libid~',aeon_codes.join('|'))
+       end
+    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
+      finding_a = (document['url_findingaid_display'][0]).split('|')[0]
+    end
+    req = req.gsub('~fa~',"#{finding_a}")
+  end
+
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
   def request_path(group,id,aeon_codes,document)
     magic_path  = blacklight_cornell_request.magic_request_path("#{id}") 
@@ -1485,9 +1504,6 @@ module CornellCatalogHelper
 #          "7329671"=>"none"},
 
 
-end 
-
-# End of Module
 
     # this logic is from the voyager_oracle_api status.rb
     # available statuses
@@ -1553,3 +1569,56 @@ end
 #    end
 #
 #
+
+  def acquired_date(document)
+	if document['acquired_dt'].present?
+		# use acquired date as a date
+		acquired_date = DateTime.parse(document['acquired_dt'])
+	else
+		# nil means the acquired date is unknown!
+		acquired_date = nil
+	end
+	return acquired_date
+  end
+
+  def feed_item_title(document)
+	title = document['fulltitle_display'].blank? ? document.id : document['fulltitle_display']
+	return title
+  end
+
+  def feed_item_content(document)
+
+	# example content from http://newbooks.mannlib.cornell.edu/?class=G*#GR
+	# Zombies
+	# Zombies : an anthropological investigation of the living dead / Philippe Charlier ; translated by Richard J. Gray II.
+	# University Press of Florida, 2017. -- xv, 138 pages : map ; 23 cm
+	# GR581 .C4313 2017 -- Olin Library
+	pub_disc = []
+	pub_disc << document['pub_info_display'].join(' ') unless document['pub_info_display'].blank?
+	pub_disc << document['description_display'] unless document['description_display'].blank?
+	holdings_condensed = create_condensed_full(document)
+	col_loc = []
+	col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
+	col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
+	description = []
+	description << document['subtitle_display'] unless document['subtitle_display'].blank?
+	description << pub_disc.join(' -- ') unless pub_disc.blank?
+	description << col_loc.join(' -- ') unless col_loc.blank?
+	formatted = description.join("<br>")
+	return formatted
+  end
+
+# Check if the document is in the user's bookbag 
+  def bookbagged? did 
+    d = did.to_s
+    value = "bibid-#{d}" 
+    if @bb
+      @bb.index.any? {  |x|  x == value }
+    else  
+      false
+    end
+  end
+
+end 
+
+# End of Module

@@ -152,6 +152,19 @@ end
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+ 
+  # Bookbag routes.
+  put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
+  get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
+  #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
+  delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
+  get 'book_bags/delete/:id' => 'book_bags#delete', :as => 'delete_index', :constraints => { :id => /.+/}
+  get 'book_bags/index(.:format)'
+  get 'book_bags/citation'
+  match 'book_bags/email', via: [:get, :post]
+  get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
+  get 'book_bags/ris(.:format)' => 'book_bags#ris'
+ 
 
 
 

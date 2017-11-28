@@ -9,7 +9,6 @@ Feature: Results list
         @all_results_list
         @rss
 	Scenario: Empty search
-                Given PENDING
 		Given I am on the home page
 		And I press 'search'
 
@@ -259,17 +258,21 @@ Feature: Results list
 @next_facet
 @javascript
   Scenario: Search with results,
-                Given PENDING
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'
+    And I sleep 10 seconds
     Then I should get results
     Then I should see the text 'Click : '
+    And I sleep 10 seconds
     Then click on first link "Click : when we knew we were feminists"
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'We Can Speak for Ourselves'
+    And I sleep 10 seconds
+    Then I should see the text 'introducing feminist theology'
+    Then click on first link "Back to catalog results"
+    Then I should get results
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
@@ -315,3 +318,12 @@ Feature: Results list
     Then I should not see the text 'relevance'
     And I sleep 4 seconds
     Then I should see the text 'Sort by call number'
+
+@all_results_list
+  Scenario: Search with results,
+    Given I am on the home page
+    When I fill in the search box with 'cigarette prices'
+    And I select 'Title' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-rss-square" class

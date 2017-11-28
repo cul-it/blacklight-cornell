@@ -142,7 +142,7 @@ end
         },
         'title_uniform_display' => {
             :search_field => 'title',
-            :related_search_field => 'title',
+            :related_search_field => 'author/creator',
             :sep => '|',
             :key_value => true
         },
@@ -177,7 +177,7 @@ end
     #}
 
     # solr field configuration for search results/index views
-    config.index.title_field = 'title_display', 'subtitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
+    config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
     config.index.display_type_field = 'format'
 
     # solr field configuration for document/show views
@@ -229,6 +229,7 @@ end
                            label: 'Call Number',
                            partial: 'blacklight/hierarchy/facet_hierarchy',
                            sort: 'index'
+    #config.add_facet_field 'acquired_month', :show => true, :label => "Month Acquired", :limit => 5, if: :has_search_parameters?
     config.facet_display = {
       :hierarchy => {
         'lc_callnum' => [['facet'], ':']
@@ -276,7 +277,7 @@ end
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
     config.add_index_field 'pub_date', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
-    config.add_index_field 'edition_display', :label => 'Edition'
+    config.add_index_field 'edition_display', :label => 'Edition', :helper_method => :render_single_value
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -346,7 +347,7 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
-
+    
 
 
     # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
@@ -521,8 +522,20 @@ end
          :pf => '$donor_pf'
        }
     end
-
-
+    #config.add_search_field('acquired_month') do |field|
+    #  field.include_in_simple_select = true
+    #  field.solr_local_parameters = {
+    #    :qf => '$acquired_month_qf',
+    #    :pf => '$acquired_month_pf'
+    #  }
+    #end
+    #config.add_search_field('acquired_dt') do |field|
+    #  field.include_in_simple_select = false 
+    #  field.solr_local_parameters = {
+    #    :qf => '$acquired_dt_qf',
+    #    :pf => '$acquired_dt_pf'
+    #  }
+    #end
 
 
 # Begins with search fields
@@ -889,6 +902,7 @@ end
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
     config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :callnum_default => true
+    #config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

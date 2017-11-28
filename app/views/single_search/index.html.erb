@@ -19,7 +19,7 @@
       <div class="well">
         <div class="search-info">
           <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
-            <i class="fa fa-info-circle"></i>
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
             About this search
           </a>
         </div>
@@ -108,7 +108,7 @@
                             <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
                             <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
                             <% link_url = ss_uri_encode(link_url) %>
-                            <%= link_to link_url ,:id => "facet_link_" + downcast(key),:class => "facet_link_" + downcast(key) do %>
+                            <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :class => "facet_link_" + downcast(key) do %>
                               <%= BentoSearch.get_engine(key).configuration.title %>
                               <!-- ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
                               -->

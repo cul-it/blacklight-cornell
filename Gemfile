@@ -10,11 +10,11 @@ gem 'appsignal'
 gem 'activerecord-session_store'
 gem 'protected_attributes'
 
-group :development,:test, :integration do  
+group :development,:test, :integration do
   gem 'sqlite3'
 end
 
-group :production,:staging do  
+group :production,:staging do
   gem 'mysql'
 end
 
@@ -62,6 +62,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
+  gem 'awesome_print'
 end
 
 group :test do
@@ -81,7 +82,7 @@ group :test do
 end
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '5.0.5'
 gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
@@ -95,8 +96,8 @@ gem 'omniauth-saml'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
-#gem 'blacklight_cornell_requests', :path =>'/libweb/dev/git-src/wtf/wtf2/201705/newcatalog-es287/blacklight-cornell/../blacklight-cornell-requests'
-gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
+#gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
+gem 'borrow_direct', :git => 'https://github.com/baroquem/borrow_direct'
 
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher

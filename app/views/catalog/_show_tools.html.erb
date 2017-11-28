@@ -8,38 +8,47 @@
 
   #Added Bootstrap class well and 'hidden-phone' for the tools-bar
 -%>
-<% if request.path != '/bookmarks' %>
+<% if request.path != '/bookmarks'  && request.path != '/book_bags/index' %>
   <% citable = is_citable(@document) %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
-<% else %>
+<% elsif request.path == '/bookmarks'  %>
   <% bookmarks_index = true %>
+<% else %>
+  <% bookbags_index = true %>
 <% end %>
 <% if !bookmarks_index %>
 <li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
 <% end %>
 <!-- TODO: TRANSLATE -->
-<% if bookmarks_index || citable %>
+<% if bookmarks_index || citable  || bookbags_index%>
   <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true"></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
       <%= link_to "/bookmarks/citation", {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
         <%= citelink_content.html_safe %>
       <% end %>
-
-    <% elsif citable %>
+   <% elsif bookbags_index %>
+      <%= link_to "/book_bags/citation", {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
+        <%= citelink_content.html_safe %>
+      <% end %>
+   <% elsif citable %>
       <%= link_to citation_solr_document_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-default btn-xs'} do %>
         <%= citelink_content.html_safe %>
       <% end %>
-    <% end %>
+<% end %>
   </li>
 <% end %>
 
-<% if bookmarks_index || emailable %>
+<% if bookmarks_index || emailable  || bookbags_index %>
   <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to ('/catalog/' + @bookmarks.collect {|doc| doc.document_id}.join('|')+'/email'), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
+      <%= link_to ('/catalog/email'), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
+        <%= emaillink_content.html_safe %>
+      <% end %>
+   <% elsif bookbags_index %>
+      <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
@@ -50,27 +59,34 @@
   </li>
 <% end %>
 
-<% if bookmarks_index || exportable %>
+<% if bookmarks_index || exportable  || bookbags_index %>
   <li class="dropdown">
     <div class="btn-group">
       <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Export <b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
         <% if bookmarks_index  %>
           <li>
-            <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote'), {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+            <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
           </li>
           <li>
-            <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'ris'), {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
+            <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'ris'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
+          </li>
+        <% elsif bookbags_index  %>
+          <li>
+            <%= link_to t('blacklight.tools.endnote'), "/book_bags/endnote.endnote", {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+          </li>
+          <li>
+            <%= link_to t('blacklight.tools.mendeley'), "/book_bags/endnote.ris", {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
           </li>
         <% elsif exportable %>
           <% if @document.export_formats.keys.include?( :endnote ) %>
             <li>
-              <%= link_to t('blacklight.tools.endnote'), solr_document_path(@document, :format => 'endnote') %>
+              <%= link_to t('blacklight.tools.endnote'), solr_document_path(@document, :format => 'endnote'), {:class => 'piwik_download'} %>
             </li>
           <% end %>
           <% if @document.export_formats.keys.include?( :mendeley ) %>
             <li>
-              <%= link_to t('blacklight.tools.mendeley'), solr_document_path(@document, :format => 'ris') %>
+              <%= link_to t('blacklight.tools.mendeley'), solr_document_path(@document, :format => 'ris'), {:class => 'piwik_download'} %>
             </li>
           <% end %>
         <% end %>

@@ -24,7 +24,7 @@ Feature: Select and export items from the result set
 
 
 
-#Chicago 16th ed. format.
+#Chicago 17th ed. format.
 # Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 @all_select_and_export
@@ -34,7 +34,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 8696757
     And click on link "Cite"
     And I sleep 8 seconds
-    Then I should see the label '16th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. doi:10.1007/978-1-4302-4408-0.'
+    Then I should see the label 'Chicago 17th ed. Funk, Tom. Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program. Berkeley, CA: Apress, 2013. https://doi.org/10.1007/978-1-4302-4408-0'
 
 #For a book with two authors, note that only the 
 #first-listed name is inverted in the bibliography entry.
@@ -48,7 +48,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 6146988 
     And click on link "Cite"
     And I sleep 8 seconds
-    Then I should see the label 'Chicago 16th ed. Ward, Geoffrey C, and Ken Burns. The War: an Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
+    Then I should see the label 'Chicago 17th ed. Ward, Geoffrey C, and Ken Burns. The War: an Intimate History, 1941-1945. New York: A.A. Knopf, 2007.'
 
 
 @all_select_and_export
@@ -58,7 +58,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 393971
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Memorial University of Newfoundland. Geology Report. St. John'
+    Then I should see the label 'Chicago 17th ed. Memorial University of Newfoundland. Geology Report. St. John'
 
 @javascript
 @all_select_and_export
@@ -69,7 +69,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 9448862 
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
+    Then I should see the label 'Chicago 17th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 #Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St. Martin's, 2014.'
@@ -173,7 +173,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 5558811
     And click on link "Cite"
     And I sleep 2 seconds
-    Then I should see the label 'Chicago 16th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
+    Then I should see the label 'Chicago 17th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
     Then I should see the label 'MLA 7th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. Web.'
     Then I should see the label 'APA 6th ed. Eliot, J., Cotton, J., & Boyle, R. (1685). Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.'
 
@@ -197,6 +197,7 @@ Feature: Select and export items from the result set
 #N1  - Rules for Christian living, by John Eliot, in Algonquian, p. [1217-1218]. 
 #ER  - 
 
+@all_select_and_export
 @citations
 @ris
   Scenario: User needs to send an ebook record to ris format (might go to zotero) 
@@ -214,6 +215,7 @@ Feature: Select and export items from the result set
     Then I should see the text 'ER  -'
 
 #TY - BOOK TI - Reflections : the anthropological muse PY - 1985 PB - American Anthropological Association CY - Washington, D.C. LA - English M2 - http://newcatalog.library.cornell.edu/catalog/1001 N1 - http://newcatalog.library.cornell.edu/catalog/1001 KW - Anthropologists' writings, American. KW - Anthropology Poetry. KW - American poetry 20th century. KW - Anthropologists' writings, English. KW - English poetry 20th century. CN - Library Annex PS591.A58 R33 SN - 091316710X : ER -
+@all_select_and_export
 @citations
 @ris
   Scenario: User needs to send a book record to ris format (might go to zotero) 
@@ -226,11 +228,12 @@ Feature: Select and export items from the result set
     Then I should see the text 'SN - 091316710X' 
     Then I should see the text 'ER  -'
 
+@all_select_and_export
 @citations
   Scenario: User needs to send a book record to endnote format (might go to zotero) 
     Given I request the item view for 1001 
     Given I request the item view for 1001.endnote
-    Then I should see the text '%0 Generic'
+    Then I should see the text '%0 Book'
     Then I should see the text '%C Washington, D.C.'
     Then I should see the text '%D 1985' 
     Then I should see the text '%E Prattis, J. I' 
@@ -238,6 +241,48 @@ Feature: Select and export items from the result set
     Then I should see the text '%@ 091316710X'
     Then I should see the text '%T Reflections  the anthropological muse'
 
+@all_select_and_export
+@citations
+  Scenario: User needs to send a book record to endnote format, check for processing 264  (might go to zotero) 
+    Given I request the item view for 9939352 
+    Given I request the item view for 9939352.endnote
+    Then I should see the text '%T Octopus'
+    Then I should see the text '%A Gray, Afsaneh' 
+    Then I should see the text '%@ 1786821931' 
+    Then I should see the text '%@ 9781786821935' 
+    Then I should see the text '%0 Book'
+    Then I should see the text '%C London'
+    Then I should see the text '%D 2017' 
+    Then I should see the text '%I Oberon Books'
+
+@all_select_and_export
+@citations
+  Scenario: User needs to send an ebook record to endnote format
+    Given I request the item view for 9305118 
+    Given I request the item view for 9305118.endnote
+    Then I should see the text '%0 Electronic Book'
+    Then I should see the text '%A Boyle, P. R'
+    Then I should see the text '%C Ames, Iowa'
+    Then I should see the text '%D 2005' 
+    Then I should see the text '%E Rodhouse, Paul' 
+    Then I should see the text '%I Blackwell Science' 
+    Then I should see the text '%@ 0632060484 (hardback : alk. paper)' 
+    Then I should see the text '%T Cephalopods  ecology and fisheries' 
+
+@all_select_and_export
+@citations
+  Scenario: User needs to send an ebook record to endnote format
+    Given I request the item view for 6788245 
+    Given I request the item view for 6788245.endnote
+    Then I should see the text '%0 Film or Broadcast'
+    Then I should see the text '%C Burbank, CA'
+    Then I should see the text '%D c2009'
+    Then I should see the text '%E Radcliffe, Daniel' 
+    Then I should see the text '%E Rowling, J. K'
+    Then I should see the text '%I Warner Home Video'
+    Then I should see the text '%@ 1419864173'
+    Then I should see the text '%@ 9781419864179'
+    Then I should see the text '%T Harry Potter and the half-blood prince'
 ###
 ###
 ##
@@ -293,6 +338,7 @@ Feature: Select and export items from the result set
 # </rdf:RDF>
 @citations
 @rdf_zotero
+@all_select_and_export
   Scenario: User needs to send a book record to ris format (might go to zotero) 
     Given I request the item view for 1001 
     Given I request the item view for 1001.rdf_zotero
@@ -308,6 +354,7 @@ Feature: Select and export items from the result set
 #<foaf:givenname>Utpalendu</foaf:givenname>'
 @citations
 @rdf_zotero
+@all_select_and_export
   Scenario: User needs to send a book record to ris format (might go to zotero) 
     Given I request the item view for 3261564
     Given I request the item view for 3261564.rdf_zotero
@@ -315,6 +362,84 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<dc:title>Debabrata Biśvāsa</dc:title>'
     Then I should see the xml path 'z','//z:composers','http://www.zotero.org/namespaces/export#','Cakrabarttī'
 
+@all_select_and_export
+  Scenario: User needs to see search results as an atom feed, marc_xml
+  When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=marc_xml
+    Then I should see the xml text '<title>The cheese and the worms</title>'
+    Then I should see the xml text '<name>Cornell University Library Catalog</name>'
+
+@all_select_and_export @DISCOVERYANDACCESS-3766  @DISCOVERYANDACCESS-3766_basic
+  Scenario: User needs to see zombies as a JSON feed
+  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+    Then I should see the text 'Zombies : an anthropological investigation of the living dead'
+    And I should see the text 'At the Library'
+    And I should see the text 'Gainesville : University Press of Florida, [2017]'
+    And I should see the text 'GR581 .C4313 2017'
+    And I should see the text 'Olin Library'
+    And I should see the text '(OCoLC)982651297'
+
+@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
+  Scenario: User needs to be able to sort search results by acquired date
+  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
+  by the acquired date of items.
+    Given PENDING 
+  When I go to the catalog page
+    And I fill in the search box with 'knots rope'
+    And I press 'search'
+    Then I should get results
+    And the first search result should be 'Encyclopedia of knots and fancy rope work'
+    And the 'sort' select list should have an option for 'date acquired'
+    Then I select the sort option 'date acquired'
+    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
+
+@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
+  Scenario: User needs to see the date acquired in a JSON feed
+  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+    Then I should see the text 'Zombies : an anthropological investigation of the living dead'
+    And I should see the text 'acquired_dt'
+    And I should see the text '2017-10-23T00:00:00Z'
+
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
+  Scenario: User needs to see zombies as an rss feed
+  When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+    Then I should see the xml text '<title>Zombies : an anthropological investigation of the living dead</title>'
+    And I should see the text 'Gainesville : University Press of Florida, [2017]'
+    And I should see the text 'GR581 .C4313 2017 -- Olin Library'
+
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_atom
+  Scenario Outline: User needs to see zombies as an atom feed
+  When I literally go to /catalog.atom?content_format=<Format>&advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+    Then I should see the xml text '<title>Zombies</title>'
+    And I should see the xml text '<XmlContent>'
+    And I should see the text '<TextContent>'
+
+    Examples:
+    | Format | XmlContent | TextContent |
+    | xml | <dc:title>Zombies</dc:title> | Book |
+    | dc_xml | <dc:title>Zombies</dc:title> | Book |
+    | oai_dc_xml | <dc:title>Zombies</dc:title> | Book |
+    | ris | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
+    | mendeley | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
+    | zotero | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
+    | rdf_zotero | <dc:subject>Vodou Haiti. </dc:subject> | an anthropological investigation of the living dead |
+
+@all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
+  Scenario: User needs to see search results as an atom feed, dc xml
+  When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=dc_xml
+    Then I should see the xml text '<title>The cheese and the worms</title>'
+    Then I should see the xml text '<name>Cornell University Library Catalog</name>'
+    Then I should see the xml path 'atom','//atom:entry/atom:title','http://www.w3.org/2005/Atom','The cheese and the worms'
+    Then I should see the xml path 'dc','//dc:title','http://purl.org/dc/elements/1.1/','The cheese and the worms'
+#    http://www.w3.org/2005/Atom
+
+@all_select_and_export
+  Scenario: User needs to see search results as an atom feed, ris
+  When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
+    Then I should see the xml text '<title>The cheese and the worms</title>'
+    Then I should see the xml text '<name>Cornell University Library Catalog</name>'
+    Then I should see the xml text '<content type="application/x-research-info-systems">'
+
+#Then I should see the label '<content type="application/x-research-info-systems">'
 # Pending causes an error in jenkins
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
 @all_select_and_export
