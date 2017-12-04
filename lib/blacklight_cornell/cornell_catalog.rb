@@ -145,6 +145,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
+    Rails.logger.info("FARTS = #{params[:q]}")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -730,7 +731,8 @@ def check_params(params)
                     if fieldname != "title"
                       params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
                     else
-                      params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                     #This should be cleaned up next week when I start removing redundancies and cleaning up code
+                      params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"' 
                     end
                  end
               else

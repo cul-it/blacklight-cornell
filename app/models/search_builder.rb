@@ -46,9 +46,9 @@ class SearchBuilder < Blacklight::SearchBuilder
       spellstring = ""
       if !my_params[:q_row].nil?
         blacklight_params[:q_row].each do |term|
-        spellstring += term += ' '
-        #spellstring  += term +  ' '
-      end
+          spellstring += term += ' '
+          #spellstring  += term +  ' '
+        end
       
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
@@ -431,7 +431,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               #     holdarray[1] = parse_query_row(holdarray[1], "OR")
               #    end
               q_string2 = q_string2 +  ""
-              #Rails.logger.info("QSTRING2 = #{newstring}")
+              Rails.logger.info("QSTRING2 = #{newstring}")
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -691,10 +691,21 @@ class SearchBuilder < Blacklight::SearchBuilder
                             end
                           else
                             if journal_title_flag == 1
-                              solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical"'
+                              if field_name == "title"
+                                solr6query << "(+" + field_name + ":" + holdarray[1] + ') OR ' + field_name + '_phrase:"' + holdarray[1] + '"' + ' AND format:"Journal/Periodical"'
+                              else  
+                                solr6query << " (" + field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical"'
+                              end
                               journal_title_flag = 0
                             else
-                              solr6query << "(+" + field_name + ":" + holdarray[1] + ')' # OR ' + field_name + ':"' + holdarray[1] + '")'
+                              if holdarray[1].include?(':')
+                                holdarray[1] = holdarray[1].gsub!(':','\:')
+                              end
+                              if field_name == "title" and my_params[:q_row].size == 1
+                                solr6query << "(+" + field_name + ":" + holdarray[1] + ') OR ' + field_name + '_phrase:"' + holdarray[1] + '"'
+                              else
+                                solr6query << "(+" + field_name + ":" + holdarray[1] + ')' # OR ' + field_name + ':"' + holdarray[1] + '")'
+                              end
                             end
                           end 
                         end

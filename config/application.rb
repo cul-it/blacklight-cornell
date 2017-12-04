@@ -3,9 +3,22 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 #require 'celluloid/autostart'
 require 'celluloid/current'
+require 'dotenv'
 
 # Load defaults from config/*.env in config
 # Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)
+# error if .env does not exist.
+begin 
+  Dotenv.load! *Dir.glob(".env", File::FNM_DOTMATCH)
+rescue 
+   puts <<-eos
+   ******************************************************************************
+   Your .env config file is missing.
+   See DOTENV.example for a blank file. 
+   ******************************************************************************
+   eos
+   exit(1)
+ end
 #
 # # Override any existing variables if an environment-specific file exists
 # Dotenv.overload *Dir.glob(Rails.root.join("config/**/*.env.#{Rails.env}"), File::FNM_DOTMATCH)
