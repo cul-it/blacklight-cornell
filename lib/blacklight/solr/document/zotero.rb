@@ -261,8 +261,8 @@ module Blacklight::Solr::Document::Zotero
   #  put in url field. 
   def generate_rdf_catlink(b,ty)
     ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}" 
-    # if no elect access data, can use the url field.
-    b.dc(:coverage,ul)
+    # if no elect access data, 'description' field.
+    b.dc(:description,ul)
     #if self['url_access_display'].blank?
       #b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
       #else 
