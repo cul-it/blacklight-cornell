@@ -311,6 +311,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     end
     title = setup_title_info(record)
     issued =  setup_pub_date(record) unless setup_pub_date(record).nil?
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} issued = #{issued.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_final = #{authors_final.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} title = #{title.inspect}")
     publisher = setup_pub_info_mla8(record) unless setup_pub_info_mla8(record).nil?
