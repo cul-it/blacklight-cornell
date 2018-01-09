@@ -21,12 +21,18 @@
 		color: $medium-gray;
 		padding-right: 50px;
 	}
+	.h-node > a {
+		text-transform: uppercase;
+	}
+	.h-leaf {
+		padding-left: .25em;
+	}
 	p {
 		margin: 0 0 .25em;
 		border-bottom: 1px solid $light-tan;
     	padding: 0 0 .25em 0;
 	}
-	i { 
+	i {
 		color: $dark-gray;
 	}
 	.navbar {
@@ -82,7 +88,7 @@
 		line-height: 16px;
 		padding-right: 0;
 	}
-	a.remove { 
+	a.remove {
 		padding: 0;
 		display: inline-block;
 		margin-bottom: .25em;
@@ -297,13 +303,13 @@ form.range_limit {
 
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+@media (min-width: $screen-sm) {
 	.facets {
 		.top-panel-heading {
 			h4 {
 				padding-left: 0;
 				font-size: 18px;
-			}	
+			}
 		}
 		h5 {
 			font-size: 12px;
@@ -323,7 +329,7 @@ form.range_limit {
 		}
 	}
 	#facets {
-		a.remove { 
+		a.remove {
 			display: inline-block;
 		}
 	}
@@ -360,9 +366,3 @@ form.range_limit {
 		}
 	}
 }
-
-
-
-
-
-
