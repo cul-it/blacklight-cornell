@@ -962,15 +962,15 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
         field = record.find{|f| f.tag == '300'}
         if !field.nil?
 	  medium =  case 
-                        when  field['a'].include?('sound disc') &&   field['b'].include?('digital')
+                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
                         'CD audio'
-                      when  field['a'].include?('sound disc') &&  field['b'].include?('33') 
-                       'LP'  
-	              when field['a'].include?('videodisc') && ((field['b'].include?('sd.')) || field['b'].include?('color'))  
-                       'DVD'  
-                      else
-                      ''
-                    end
+                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
+                        'LP'
+                       when field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
+                        'DVD'
+                     else
+                     ''
+                   end
         end
         Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       end
