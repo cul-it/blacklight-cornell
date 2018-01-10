@@ -84,6 +84,11 @@
               <%= link_to t('blacklight.tools.endnote'), solr_document_path(@document, :format => 'endnote'), {:class => 'piwik_download'} %>
             </li>
           <% end %>
+          <% if @document.export_formats.keys.include?( :endnote_xml ) %>
+            <li>
+              <%= link_to t('blacklight.tools.endnote'), solr_document_path(@document, :format => 'endnote_xml'), {:class => 'piwik_download'} %>
+            </li>
+          <% end %>
           <% if @document.export_formats.keys.include?( :mendeley ) %>
             <li>
               <%= link_to t('blacklight.tools.mendeley'), solr_document_path(@document, :format => 'ris'), {:class => 'piwik_download'} %>

@@ -81,6 +81,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8392067 
     And click on link "Cite"
+    And I sleep 6 seconds
     Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War in North America: a Brief History with Documents. Boston: Bedford/St. Martin's, 2014. Print.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 

@@ -16,6 +16,7 @@ module Blacklight::Solr::Document::MarcExport
     document.will_export_as(:openurl_ctx_kev, "application/x-openurl-ctx-kev")
     document.will_export_as(:refworks_marc_txt, "text/plain")
     document.will_export_as(:endnote, "application/x-endnote-refer")
+    document.will_export_as(:endnote_xml, "application/")
   end
 
 
@@ -176,6 +177,56 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
   "Website" => "Web Page"
   }
+
+  def export_as_endnote_xml()
+    title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
+    fmt = self['format'].first
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
+    ty = "Book"
+    if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
+      ty = FACET_TO_ENDNOTE_TYPE[fmt]
+     end
+    if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
+      ty  = 'Electronic Book'
+    end
+    builder = Builder::XmlMarkup.new(:indent => 2,:margin => 4)
+    builder.tag!("xml") do
+      builder.tag!("records") do
+        builder.tag!("record") do
+          builder.tag!("database","MyLibrary") 
+          builder.tag!("source-app","Cornell University Library","name" => "CULIB")
+          builder.tag!("ref-type","6","name" => ty) 
+          generate_enx_contributors(builder,ty)
+          builder.tag!("titles") do 
+            builder.tag!("title",title)  
+          end
+        end
+      end
+    end
+    text2 = builder.target!
+  end
+
+  def generate_enx_contributors(bld,ty)
+    authors = get_all_authors(to_marc)
+    relators =  get_contrib_roles(to_marc)
+    primary_authors = authors[:primary_authors]
+    if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
+      primary_authors = authors[:primary_corporate_authors]
+    end
+    secondary_authors = authors[:secondary_authors]
+    meeting_authors = authors[:meeting_authors]
+    secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
+    primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
+    editors = authors[:editors]
+    pa = primary_authors.blank? ? secondary_authors : primary_authors
+    bld.tag!("contributors") do 
+      if !pa.blank?
+        bld.tag!("authors") do 
+          pa.map { |a| bld.tag!("author",a) } 
+        end
+      end
+    end
+  end
 
   def export_as_endnote()
     end_note_format = {
