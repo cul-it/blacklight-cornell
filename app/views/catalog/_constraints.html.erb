@@ -6,14 +6,16 @@
   	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-secondary" %>
     <span class="constraints-label hidden"><% t('blacklight.search.filters.title') %></span>
     <%#= params.inspect %>
-    <%if params[:q_row].nil? and params[:f].nil? %>
+    <%if params[:q_row].nil? && params[:f].nil? %>
         <% if params[:search_field] && params[:search_field] != 'advanced'%>
-    	<%= render_constraints_cts(params) %>
-        <% else                        %>
-    	<%= render_constraints(params) %>
-        <%end %>
+    	     <%= render_constraints_cts(params) %>
+        <% end %>
+    <% elsif params[:search_field] && params[:search_field] == 'advanced'%>
+    <%= render_advanced_constraints_query(params) %>
+
     <% else %>
-       <%= render_advanced_constraints_query(params) %>
+    <%= render_constraints(params) %>
+
     <% end %>
     <% if params[:q_row].present? && params[:action] != 'edit'%>
       <div class="advanced-search-link">
