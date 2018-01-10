@@ -239,7 +239,7 @@ end
     config.add_facet_field 'collection', :show => false
 
 
-    config.add_facet_field 'acquired_dt_query',  label: 'Acquired Date', query: {
+    config.add_facet_field 'acquired_dt_query',  label: 'Date Acquired', query: {
       last_1_day: { label: 'Since yesterday ', fq: "acquired_dt:[NOW-1DAY TO NOW ]"},
       last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-7DAY TO NOW ]"},
       last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW ]"},
