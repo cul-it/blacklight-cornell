@@ -17,15 +17,9 @@
 		list-style: none;
 	}
 	li {
-		font-size: 12px;
+		font-size: 13px;
 		color: $medium-gray;
 		padding-right: 50px;
-	}
-	.h-node > a {
-		text-transform: uppercase;
-	}
-	.h-leaf {
-		padding-left: .25em;
 	}
 	p {
 		margin: 0 0 .25em;
@@ -114,7 +108,7 @@
 .facet-count,
 .count {
   font-family: $monospace-font-family;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 // PUBLICATION YEAR
@@ -129,7 +123,8 @@
 	.count {
 		text-align: right;
 		float: right;
-		color: $light-gray; }
+		// color: $medium-gray;
+	}
 	.tickLabel { font-size: 0.875em; }
 	.missing,
 	.range_limit {
@@ -253,18 +248,23 @@ form.range_limit {
 	li,
 	.facet_select,
 	.selected {
-		margin-bottom: 6px;
+		margin-bottom: 8px;
 	}
 	ul {
 		margin-top: .5em;
+		margin-bottom: 1em;
 	}
 }
 // Gem overrides
 #facets ul.facet-hierarchy {
 	margin-left: 0;
 }
+#facets ul.facet-hierarchy ul {
+	margin-left: 16px;
+}
 #facets ul.facet-hierarchy ul li {
 	margin-left: 15px;
+	margin-bottom: 6px;
 }
 #facets ul.facet-hierarchy li.h-node,
 #facets ul.facet-hierarchy li.h-node.twiddle-open {
@@ -276,9 +276,16 @@ form.range_limit {
 	content: "\f196";
 	cursor: pointer;
 	margin-right: 5px;
+	vertical-align: middle;
+	color: $dark-gray;
 }
 #facets ul.facet-hierarchy li.h-node.twiddle-open:before {
 	content: "\f147";
+}
+.h-node {
+	ul {
+		list-style-type: square;
+	}
 }
 
 // Facet toggle
@@ -314,17 +321,18 @@ form.range_limit {
 		h5 {
 			font-size: 12px;
 		}
-		li {
-			font-size: 11px;
-		}
+		// li {
+		// 	font-size: 11px;
+		// }
 	}
 	.facet-values {
 		.facet-label {
 			display: block;
-			padding-bottom: 0;
+			line-height: 1.4em;
+			// padding-bottom: 0;
 		}
 		.facet-count {
-			display: inline-block;
+			// display: inline-block;
 			padding-bottom: .5em;
 		}
 	}
@@ -345,7 +353,7 @@ form.range_limit {
 	.facet-values {
 		.facet-label {
 			display: table-cell;
-			padding-bottom: 6px;
+			padding-bottom: 8px;
 		}
 		.facet-count {
 			display: table-cell;
@@ -360,9 +368,9 @@ form.range_limit {
 }
 /* Large devices (desktops, 1200px and up) */
 @media (min-width: $screen-lg) {
-	.facets {
-		li {
-			font-size: 12px;
-		}
-	}
+	// .facets {
+	// 	li {
+	// 		font-size: 13px;
+	// 	}
+	// }
 }
