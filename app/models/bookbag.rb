@@ -28,15 +28,23 @@ class Bookbag
   end
 
   def create(value)
-    @r.rpush  @bagname,value
+    begin  
+    @r.rpush  @bagname,value if @r
+    rescue
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+      @@r = nil
+      @r = nil
+    end
   end
 
 
   def delete(value)
     begin  
-      @r.lrem  @bagname,99,value
+      @r.lrem  @bagname,99,value if @r
     rescue
       Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+      @@r = nil
+      @r = nil
     end
   end
 
@@ -45,8 +53,10 @@ class Bookbag
     begin  
       c = @r.lrange(@bagname,0,-1) if @r
     rescue 
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  @r = #{@r.inspect}")
       c =[] 
+      @@r = nil
+      @r = nil
     end
     c
   end
@@ -57,8 +67,23 @@ class Bookbag
     begin  
       c = @r.lrange(@bagname,0,-1).uniq.size if @r
     rescue 
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  @r = #{@r.inspect}")
       c = 0
+      @@r = nil
+      @r = nil
+    end
+    c
+  end
+
+  def clear 
+    c = 0
+    begin  
+      c = @r.del(@bagname,0)  if @r
+    rescue 
+      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  @r = #{@r.inspect}")
+      c = 0
+      @@r = nil
+      @r = nil
     end
     c
   end

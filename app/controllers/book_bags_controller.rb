@@ -94,6 +94,18 @@ class BookBagsController < CatalogController
     end
   end
 
+  def clear
+    success = @bb.clear
+    Rails.logger.info("es289_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
+    if success
+      flash[:notice] = I18n.t('blacklight.bookmarks.clear.success')
+    else
+      flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
+    end
+    redirect_to :action => "index"
+  end
+
+
 
    
   def action_documents
