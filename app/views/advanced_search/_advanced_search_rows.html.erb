@@ -1,14 +1,14 @@
 <% for i in 2..2 do %>
   <div class="input_row">
-    <div class="boolean_row radio">
+    <div class="boolean_row radio" role="radiogroup">
       <label class="radio-inline">
-        <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked"> and
+        <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked" role="radio"> and
       </label>
       <label class="radio-inline">
-        <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR"> or
+        <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR" role="radio"> or
       </label>
       <label class="radio-inline">
-        <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT"> not
+        <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT" role="radio"> not
       </label>
     </div>
     <div class="form-group">
