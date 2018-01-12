@@ -177,10 +177,21 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
   "Website" => "Web Page"
   }
-
+# these values might actually depend on how you have configured Endnote (@!#???)
+# # I don't know how to figure this out except by trial and error.
+FACET_TO_ENDNOTE_NUMERIC_VALUE =  { "Book"=>"6", "Film or Broadcast"=>"21" }
+# the xml format is defined here, in attached zip file:
+# http://kbportal.thomson.com/display/2/index.aspx?tab=browse&c=&cpc=&cid=&cat=&catURL=&r=0.4727451
+# top level elements:
+# <!ELEMENT xml (records)>
+# <!ELEMENT records (record+)>
+# <!ELEMENT record (database?, source-app?, rec-number?, foreign-keys?, ref-type?, contributors?, auth-address?, auth-affiliaton?, titles?, periodical?, pages?, volume?, number?, issue?, secondary-volume?, secondary-issue?, num-vols?, edition?, section?, reprint-edition?, reprint-status?, keywords?, dates?, pub-location?, publisher?, orig-pub?, isbn?, accession-num?, call-num?, report-id?, coden?, electronic-resource-num?, abstract?, label?, image?, caption?, notes?, research-notes?, work-type?, reviewed-item?, availability?, remote-source?, meeting-place?, work-location?, work-extent?, pack-method?, size?, repro-ratio?, remote-database-name?, remote-database-provider?, language?, urls?, access-date?, modified-date?, custom1?, custom2?, custom3?, custom4?, custom5?, custom6?, custom7?, misc1?, misc2?, misc3?)>
+# Note the order is required for validation, but may not be enforced by apps.
+# among other things, the values for ref-type, and for role on the author element are not defined here.
   def export_as_endnote_xml()
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
+    num_ty = "0";
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
     ty = "Book"
     if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
@@ -189,42 +200,114 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
       ty  = 'Electronic Book'
     end
+    if (FACET_TO_ENDNOTE_NUMERIC_VALUE.keys.include?(ty))
+      num_ty = FACET_TO_ENDNOTE_NUMERIC_VALUE[ty]
+    end
     builder = Builder::XmlMarkup.new(:indent => 2,:margin => 4)
     builder.tag!("xml") do
-      builder.tag!("records") do
-        builder.tag!("record") do
-          builder.tag!("database","MyLibrary") 
+      builder.records() do
+        builder.record() do
+          builder.database("MyLibrary") 
           builder.tag!("source-app","Cornell University Library","name" => "CULIB")
-          builder.tag!("ref-type","6","name" => ty) 
+          builder.tag!("ref-type",num_ty,"name" => ty) 
           generate_enx_contributors(builder,ty)
-          builder.tag!("titles") do 
-            builder.tag!("title",title)  
+          builder.titles() do 
+            builder.title(title)  
           end
+          generate_enx_dates(builder,ty)
+          generate_enx_location(builder,ty)
+          generate_enx_publisher(builder,ty)
+          generate_enx_isbn(builder,ty)
+          generate_enx_doi(builder,ty)
         end
       end
     end
     text2 = builder.target!
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2.inspect}"
+    text2
+  end
+
+ #<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>
+  def generate_enx_doi(bld,ty)
+     doi = setup_doi(to_marc)
+     bld.tag!("electronic-resource-num",doi) unless doi.blank?
+  end
+
+  def generate_enx_isbn(bld,ty)
+    isbns = setup_isbn_info(to_marc) 
+    bld.isbn(isbns.join(" ; "))   unless isbns.blank?
+  end
+
+  def generate_enx_location(bld,ty)
+    # publisher
+    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    place = ''
+    pname = ''
+    if !pub_data.nil?
+      place, publisher = pub_data.split(':')
+      pname = "#{publisher.strip!}" unless publisher.nil?
+      bld.tag!("pub-location",place)
+    end
+  end
+  def generate_enx_publisher(bld,ty)
+    # publisher
+    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    place = ''
+    pname = ''
+    if !pub_data.nil?
+      place, publisher = pub_data.split(':')
+      pname = publisher
+      pname = "#{publisher.strip!}" unless publisher.nil?
+      bld.publisher(pname) unless pname.nil?
+    end
+  end
+
+# example: <dates>
+#  <year>1985</year>
+#  <pub-dates>
+#    <date>1985</date>
+#  </pub-dates>
+#  </dates>
+#
+  def generate_enx_dates(bld,ty)
+    yr  = "#{setup_pub_date(to_marc)}"
+    if !yr.empty?
+      bld.dates() do
+        bld.year(yr) 
+        bld.tag!("pub-dates") do
+          bld.date(yr) 
+        end
+      end
+    end
   end
 
   def generate_enx_contributors(bld,ty)
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
     primary_authors = authors[:primary_authors]
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
       primary_authors = authors[:primary_corporate_authors]
     end
     secondary_authors = authors[:secondary_authors]
     meeting_authors = authors[:meeting_authors]
-    secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
-    primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
+    #secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
+    #primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
     pa = primary_authors.blank? ? secondary_authors : primary_authors
-    bld.tag!("contributors") do 
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote pa = #{pa.inspect}"
+    bld.contributors() do 
       if !pa.blank?
-        bld.tag!("authors") do 
-          pa.map { |a| bld.tag!("author",a) } 
+        bld.authors() do 
+          pa.map { |a| bld.author(a) } 
         end
       end
+      if !editors.blank?
+        bld.tag!("secondary-authors") do 
+          editors.map { |a| bld.author(a) } 
+        end
+      end
+     
     end
   end
 
