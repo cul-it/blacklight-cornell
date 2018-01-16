@@ -221,6 +221,7 @@ Devise.setup do |config|
     assertion_consumer_service_url: ENV['SAML_SP_CALLBACK'],
     single_value_compatibility: false,
     attribute_statements: {
+      netid: ['urn:oid:0.9.2342.19200300.100.1.1'],
       email: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.6'],
       first_name: ['urn:oid:2.5.4.42'],
       last_name: ['urn:oid:2.5.4.4'],
