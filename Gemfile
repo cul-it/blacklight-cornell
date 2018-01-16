@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
+ruby "2.3.3"
 
 gem 'rails', '4.2.7.1'
 gem "dotenv-rails"
@@ -96,8 +96,7 @@ gem 'omniauth-saml'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
-#gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
-gem 'borrow_direct', :git => 'https://github.com/baroquem/borrow_direct'
+gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
