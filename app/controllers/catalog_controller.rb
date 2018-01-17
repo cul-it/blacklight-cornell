@@ -240,9 +240,9 @@ end
 
 
     config.add_facet_field 'acquired_dt_query',  label: 'Date Acquired', query: {
-      last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-7DAY TO NOW ]"},
-      last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW ]"},
-      last_1_years: { label: 'Since last year', fq: "acquired_dt:[NOW-1YEAR TO NOW]"}
+      last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-14DAY TO NOW-7DAY ]"},
+      last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW-7DAY ]"},
+      last_1_years: { label: 'Since last year', fq: "acquired_dt:[NOW-1YEAR TO NOW-7DAY]"}
     }, if: :has_search_parameters?
 
 
