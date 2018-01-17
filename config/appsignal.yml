@@ -22,6 +22,10 @@ production:
   <<: *defaults
   active: true
 
+production-new:
+  <<: *defaults
+  active: true
+
 integration:
   <<: *defaults
   active: true
