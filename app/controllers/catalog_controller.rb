@@ -112,7 +112,7 @@ end
         },
         'related_work_display' => {
             :search_field => 'title',
-            :related_search_field => 'title',
+            :related_search_field => 'author/creator',
             :sep => '|',
             :key_value => true
         },
