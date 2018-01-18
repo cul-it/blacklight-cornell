@@ -17,6 +17,15 @@
 	float: left;
 	margin-right: 1em;
 }
+.cu-logo {
+	a {
+		display: block;
+		width: 169px;
+		height: 49px;
+		text-indent: -9999em;
+		background: url("/img/cornell-red.gif") no-repeat;
+	}
+}
 
 // Skip to content link
 // http://webaim.org/techniques/skipnav/
