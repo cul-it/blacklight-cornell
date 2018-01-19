@@ -4,13 +4,13 @@
         <% if current_user %>
           <li>
             <%= link_to 'Sign out', destroy_user_session_path   %>
-          </li> 
+          </li>
         <% end %>
         <% if current_or_guest_user %>
           <% if !current_user %>
             <li>
               <%= link_to 'Sign in', '/users/auth/saml'   %>
-            </li> 
+            </li>
           <% end %>
         <% end %>
         <% end %>
@@ -25,9 +25,16 @@
         <%  @bookmarks = current_or_guest_user.bookmarks %>
           <% if !Bookbag.enabled? || (Bookbag.enabled? &&  !current_user)  %>
             <li>
-            <%= link_to bookmarks_path, id:'bookmarks_nav' do %>
-            <%= t('blacklight.header_links.bookmarks') %>
+            <% if !current_user && Bookbag.enabled? %>
+              <%= link_to bookmarks_path, {id:'bookmarks_nav', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'Sign in first to save items to your book bag'} do %>
+              <%= t('blacklight.header_links.bookmarks') %>
+             (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+             <% end %>
+            <% else %>
+              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+             <%= t('blacklight.header_links.bookmarks') %>
             (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+            <% end %>
             <% end %>
             </li>
             <% end %>
