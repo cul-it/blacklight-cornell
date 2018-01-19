@@ -8,7 +8,7 @@ module Blacklight::Solr::Document::Endnote
   end
 
   def self.register_export_formats(document)
-    document.will_export_as(:endnote, "application/endnote+xml")
+    document.will_export_as(:endnote, "application/x-endnote-refer")
   end
 
  FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
