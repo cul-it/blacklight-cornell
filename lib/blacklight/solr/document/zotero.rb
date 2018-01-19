@@ -64,7 +64,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_specific(builder,ty)
       end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!.inspect}"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
     builder.target! 
   end
 

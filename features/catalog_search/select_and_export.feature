@@ -362,6 +362,99 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<dc:identifier>ISBN 091316710X : '
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
+@all_select_and_export
+  Scenario: User needs to send a book record to endnote_xml format (might go to zotero) 
+    Given I request the item view for 1001 
+    Given I request the item view for 1001.endnote_xml
+    Then I should see the xml text '<title>Reflections: the anthropological muse</title>'
+
+@all_select_and_export
+  Scenario Outline: User needs to see Reflection: 1001  in a citation format, check title, and type
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <TyXmlContent> 
+    Then I should see the xml text <TiXmlContent> 
+
+    Examples:
+|BibId | Format | TiXmlContent | TyXmlContent |
+| 1001 | ris | 'TI - Reflections: the anthropological muse' |  'TY - BOOK' |
+| 1001 | endnote | '%T Reflections the anthropological muse' | '%0 Book' |
+| 1001 | endnote_xml | '<title>Reflections: the anthropological muse</title>' | '<ref-type name="Book">6</ref-type>'   |
+| 1001 | rdf_zotero | '<dc:title>Reflections: the anthropological muse</dc:title>' | '<z:itemType>book</z:itemType'|
+| 3261564 | ris | 'TI - Debabrata Biśvāsa' | 'TY - SOUND' |
+| 3261564 | endnote | '%T Debabrata Biśvāsa' | '%0 Music' |
+| 3261564 | endnote_xml | '<title>Debabrata Biśvāsa</title>' |'<ref-type name="Music">61</ref-type>'  | 
+| 3261564 | rdf_zotero |'<dc:title>Debabrata Biśvāsa</dc:title>' | '<z:itemType>audioRecording</z:itemType>' |
+| 5558811 | ris | 'TI - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | 'TY - EBOOK'|
+| 5558811 | endnote | '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | '%0 Electronic Book'|
+| 5558811 |endnote_xml|'<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>' |'<ref-type name="Book">6</ref-type>'  | 
+| 5558811| rdf_zotero |'<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>' | '<z:itemType>book</z:itemType>' |
+| 6788245 | ris | 'TI - Harry Potter and the half-blood prince' |  'TY - VIDEO' |
+| 6788245 | endnote | '%T Harry Potter and the half-blood prince' |  '%0 Film or Broadcast' |
+| 6788245 | endnote_xml | '<title>Harry Potter and the half-blood prince</title>'|'<ref-type name="Film or Broadcast">21</ref-type>' |
+|6788245|rdf_zotero|'<dc:title>Harry Potter and the half-blood prince</dc:title>'|'<z:itemType>videoRecording</z:itemType>' |
+
+@all_select_and_export
+  Scenario Outline: User needs to see various items  in a citation format, check author, date, publisher, place. 
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <AuXmlContent> 
+    Then I should see the xml text <DaXmlContent> 
+    Then I should see the xml text <PbXmlContent> 
+    Then I should see the xml text <PlXmlContent> 
+
+    Examples:
+|BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
+| 3261564 | endnote_xml|'<author>Cakrabarttī, Utpalendu</author>'|'<date>1983</date>'|'<publisher>INRECO</publisher>'|'<pub-location>Calcutta</pub-location>' |
+| 6788245 | ris | 'AU - Warner Bros. Pictures' |  'PY - 2009' |  'PB - Warner Home Video' | 'CY - Burbank, CA' |
+| 6788245 | endnote | '%E Radcliffe, Daniel' |  '%D c2009' |  '%I Warner Home Video' | '%C Burbank, CA' |
+| 6788245 | endnote_xml | '<author>Radcliffe, Daniel</author>' |  '<year>2009</year>' |  '<publisher>Warner Home Video</publisher>'|'<pub-location>Burbank, CA</pub-location>' |
+| 9939352 | ris | 'AU - Gray, Afsaneh' |  'PY - 2017' | 'PB - Oberon Books' | 'CY - London' |
+| 9939352 | endnote | '%A Gray, Afsaneh' |  '%D 2017' | '%I Oberon Books' | '%C London' |
+| 9939352 | endnote_xml|'<author>Gray, Afsaneh</author>'|'<date>2017</date>'|'<publisher>Oberon Books</publisher>'|'<pub-location>London</pub-location>' |
+| 3261564 | ris | 'AU - Cakrabarttī, Utpalendu' | 'PY - 1983' | 'PB - INRECO' | 'CY - Calcutta' |
+| 3261564 | endnote | '%A Cakrabarttī, Utpalendu' | '%D 1983' | '%I INRECO' | '%C Calcutta' |
+| 3261564 | endnote_xml | '<author>Cakrabarttī, Utpalendu</author>' | '<year>1983</year>' | '<publisher>INRECO</publisher>' | '<pub-location>Calcutta</pub-location>' |
+| 9496646 | ris | 'AU - Bindal, Ahmet' | 'PY - 2016' | 'PB - Springer International Publishing' | 'CY - Cham'  |
+| 9496646 | endnote | '%A Bindal, Ahmet' | '%D 2016' | '%I Springer International Publishing' | '%C Cham'  |
+| 9496646 | endnote_xml | '<author>Bindal, Ahmet</author>' | '<year>2016</year>' | '<publisher>Springer International Publishing</publisher>' | '<pub-location>Cham</pub-location>'  |
+
+@all_select_and_export
+  Scenario Outline: User needs to see various items in a citation format, check ISBN
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <IsbnXmlContent> 
+    Examples:
+
+|BibId | Format | IsbnXmlContent | 
+| 9939352 | ris | 'SN - 1786821931' |  
+| 9939352 | endnote | '%@ 1786821931' |  
+| 9939352 | endnote_xml | '<isbn>1786821931  ; 9781786821935 </isbn>' |  
+| 9939352 | rdf_zotero | '<dc:identifier>ISBN 1786821931 </dc:identifier>' |  
+| 9939352 | rdf_zotero | '<dc:identifier>ISBN 9781786821935 </dc:identifier>'|
+
+@all_select_and_export
+  Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook 
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <DoiXmlContent> 
+    Then I should see the xml text <UrlXmlContent> 
+    Examples:
+
+|BibId | Format | DoiXmlContent |  UrlXmlContent |
+| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0' |
+| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%U http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0' |
+| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</url>' | 
+| 9496646 | rdf_zotero | '<dc:description>DOI 10.1007/978-3-319-27177-4</dc:description>' | '<rdf:value>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</rdf:value>' |
+
+#UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0
+#M2  - http://newcatalog.library.cornell.edu/catalog/9496646
+#N1  - http://newcatalog.library.cornell.edu/catalog/9496646
+#DO  - 10.1007/978-3-319-27177-4
+#<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</url>
+
+
+#
 #<rdf:Seq>
 #<rdf:li>
 #<foaf:Person>
