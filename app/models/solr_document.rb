@@ -32,8 +32,10 @@ class SolrDocument
   # and Blacklight::Document::SemanticFields#to_semantic_values
   # Recommendation: Use field names from Dublin Core
   use_extension( Blacklight::Document::DublinCore)
+# all of these require MARC format data.
   use_extension( Blacklight::Solr::Document::RIS )
   use_extension( Blacklight::Solr::Document::Zotero )
+  use_extension( Blacklight::Solr::Document::Endnote )
   use_extension( Blacklight::Solr::Document::Endnote_xml )
 
   # i believe that the 520 should be interpreted as ABSTRACT

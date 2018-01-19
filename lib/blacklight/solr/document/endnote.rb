@@ -40,17 +40,13 @@ module Blacklight::Solr::Document::Endnote
       "260.b" => "%I" ,
       "264.b" => "%I" ,
       "440.a" => "%J" ,
-      "024.a" => "%R" ,
       "020.a" => "%@" ,
       "022.a" => "%@" ,
       "245.a,245.b" => "%T" ,
-      "856.u" => "%U" ,
       "250.a" => "%7" 
     }
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     marc_obj = to_marc
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} marc_obj #{marc_obj.inspect}")
     # TODO. This should be rewritten to guess
     # from actual Marc instead, probably.
     fmt_str = 'Generic'
@@ -95,6 +91,17 @@ module Blacklight::Solr::Document::Endnote
         end
       end
     end
+    
+    # "024.a" => "%R" ,
+    doi = setup_doi(to_marc)
+    text << "%R #{doi}" unless  doi.blank? 
+    if !self['url_access_display'].blank?
+       ul = self['url_access_display'].first.split('|').first
+       ul.sub!('http://proxy.library.cornell.edu/login?url=','')
+       ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+    end
+    #"856.u" => "%U" ,
+    text << "%U #{ul}"  unless ul.blank?
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
     text
   end

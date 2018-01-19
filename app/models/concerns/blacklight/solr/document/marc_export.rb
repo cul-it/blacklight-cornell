@@ -15,7 +15,7 @@ module Blacklight::Solr::Document::MarcExport
     document.will_export_as(:marcxml, "application/marcxml+xml")
     document.will_export_as(:openurl_ctx_kev, "application/x-openurl-ctx-kev")
     document.will_export_as(:refworks_marc_txt, "text/plain")
-    document.will_export_as(:endnote, "application/x-endnote-refer")
+    #document.will_export_as(:endnote, "application/x-endnote-refer")
   end
 
 
@@ -163,7 +163,7 @@ module Blacklight::Solr::Document::MarcExport
    "Website" => "Web Page"
    }
 
-  def export_as_endnote()
+  def OLD_export_as_endnote()
     end_note_format = {
       "100.a" => "%A" ,
       "260.a" => "%C" ,
