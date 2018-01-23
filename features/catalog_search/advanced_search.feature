@@ -314,7 +314,7 @@ Feature: Search
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 7 of 7'
+    And I should see the label '1 - 9 of 9'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -494,8 +494,11 @@ Feature: Search
     And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    And I sleep 8 seconds
     Then click on first link "Next »"
+    And I sleep 8 seconds
     And I should see the label 'A sea-fight'
+    And I sleep 8 seconds
     Then click on first link "Previous"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     And I should see the label 'Back to catalog results'

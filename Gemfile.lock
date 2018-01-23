@@ -1,16 +1,9 @@
 GIT
-  remote: https://github.com/baroquem/borrow_direct
-  revision: 54f75e6a01eb85c4fa396c63464cfe987af91853
-  specs:
-    borrow_direct (1.2.0)
-      httpclient (~> 2.4)
-
-GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: aabaf15935850cd4ee35c942d5742ed07e1912ba
+  revision: e1668163b5de7844d703ee683e6754457d974d13
   branch: master
   specs:
-    blacklight_cornell_requests (1.5.3)
+    blacklight_cornell_requests (1.5.4)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -43,6 +36,13 @@ GIT
   specs:
     csl-styles (1.0.1.9)
       csl (~> 1.0)
+
+GIT
+  remote: https://github.com/jrochkind/borrow_direct
+  revision: f2f53760e15d742a5c5584dd641f20dea315f99f
+  specs:
+    borrow_direct (1.2.0)
+      httpclient (~> 2.4)
 
 GEM
   remote: https://rubygems.org/
@@ -619,4 +619,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.1
+   1.16.1

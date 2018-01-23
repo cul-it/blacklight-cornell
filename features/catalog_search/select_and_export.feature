@@ -81,6 +81,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a record 
     Given I request the item view for 8392067 
     And click on link "Cite"
+    And I sleep 6 seconds
     Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Shannon, Timothy J. The Seven Years' War in North America: a Brief History with Documents. Boston: Bedford/St. Martin's, 2014. Print.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
@@ -162,6 +163,20 @@ Feature: Select and export items from the result set
     And click on link "Cite"
     And I sleep 2 seconds
     Then I should see the label 'APA 6th ed. Memorial University of Newfoundland. Geology report. St. John'
+
+# DISCOVERYACCESS-2816 - Manuscript records should use cite as field
+# Because of citeas, all fields should be the same.
+@all_select_and_export
+@javascript
+  Scenario: User needs to cite a manuscript record
+    Given I request the item view for 2083900
+    And click on link "Cite"
+    And I sleep 2 seconds
+    Then I should see the label 'MLA 8th ed. Ezra Cornell Papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
+    Then I should see the label 'MLA 7th ed. Ezra Cornell Papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
+    Then I should see the label 'Council of Science Editors Ezra Cornell papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
+    Then I should see the label 'Chicago 17th ed. Ezra Cornell Papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
+    Then I should see the label 'APA 6th ed. Ezra Cornell papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
 
 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 # test regular expression that expunges characters from date field.

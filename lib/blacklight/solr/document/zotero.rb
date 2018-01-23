@@ -261,8 +261,8 @@ module Blacklight::Solr::Document::Zotero
   #  put in url field. 
   def generate_rdf_catlink(b,ty)
     ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}" 
-    # if no elect access data, can use the url field.
-    b.dc(:coverage,ul)
+    # if no elect access data, 'description' field.
+    b.dc(:description,ul)
     #if self['url_access_display'].blank?
       #b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
       #else 
@@ -297,7 +297,7 @@ FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"HEAR",
   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"map", "MGZN"=>"MGZN",
-  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
+  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"book", "NEWS"=>"NEWS",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
   "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"audioRecording", "Musical Recording"=>"audioRecording",
   "STAND"=>"STAND",

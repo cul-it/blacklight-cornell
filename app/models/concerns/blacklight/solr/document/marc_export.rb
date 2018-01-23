@@ -56,10 +56,6 @@ module Blacklight::Solr::Document::MarcExport
     citeproc_citation( to_marc,'modern-language-association')
   end
 
-  def export_as_mla8_proc_citation_txt
-    citeproc_citation( to_marc )
-  end
-  
   def export_as_chicago_citation_txt
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     citeproc_citation( to_marc,'chicago-fullnote-bibliography')
@@ -250,290 +246,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   end
 
   protected
-# see http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html 
-# examples:
-# Chicago 16th ed.
-# Single author.
-# Pollan, Michael. The Omnivore’s Dilemma: A Natural History of Four Meals. New York: Penguin, 2006.
-# Single editor.
-# Greenberg, Joel, ed. Of Prairie, Woods, and Water: Two Centuries of Chicago Nature Writing. Chicago: University of Chicago Press, 2008.
- def chicago_citation(marc)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    authors = get_all_authors(marc)
-    author_text = ""
-
-    # If there are secondary (i.e. from 700 fields) authors, add them to
-    # primary authors only if there are no corporate, meeting, primary authors
-    if !authors[:primary_authors].blank?
-      authors[:primary_authors] += authors[:secondary_authors] unless authors[:secondary_authors].blank?
-    elsif !authors[:secondary_authors].blank?
-      authors[:primary_authors] = authors[:secondary_authors] if (authors[:corporate_authors].blank? or  authors[:meeting_authors].blank?)
-    end
-
-    # Work with primary authors first
-    if !authors[:primary_authors].blank?
-
-      # Handle differently if there are more then 10 authors (use et al.)
-      if authors[:primary_authors].length > 10
-        authors[:primary_authors].each_with_index do |author,index|
-          # For the first 7 authors...
-          if index < 7
-            if index == 0
-              author_text << "#{author}"
-              if author.ends_with?(",")
-                author_text << " "
-              else
-                author_text << ", "
-              end
-            else
-              author_text << "#{name_reverse(author)}, "
-            end
-          end
-        end
-        author_text << " et al."
-      # If there are at least 2 primary authors
-      elsif authors[:primary_authors].length > 1
-        authors[:primary_authors].each_with_index do |author,index|
-          if index == 0
-            author_text << "#{author}"
-            if author.ends_with?(",")
-              author_text << " "
-            else
-              author_text << ", "
-            end
-          elsif index + 1 == authors[:primary_authors].length
-            author_text << "and #{name_reverse(author)}."
-          else
-            author_text << "#{name_reverse(author)}, "
-          end
-        end
-      else
-        # Only 1 primary author
-        author_text << authors[:primary_authors].first + '.'
-      end
-    elsif !authors[:corporate_authors].blank? && authors[:editors].blank?
-      # This is a simplistic assumption that the first corp author entry
-      # is the only one of interest (and it's not too long)
-      author_text << authors[:corporate_authors].first + '.'
-    elsif !authors[:meeting_authors].blank? && authors[:editors].blank?
-      # This is a simplistic assumption that the first corp author entry
-      # is the only one of interest (and it's not too long)
-      author_text << authors[:meeting_authors].first + '.'
-    else
-      # Secondary authors: translators, editors, compilers
-      temp_authors = []
-      authors[:translators].each do |translator|
-        temp_authors << [translator, "trans"]
-      end
-      authors[:editors].each do |editor|
-        temp_authors << [editor, "ed"]
-      end
-      authors[:compilers].each do |compiler|
-        temp_authors << [compiler, "comp"]
-      end
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} temp_authors = #{temp_authors.inspect}")
-
-      unless temp_authors.blank?
-        if temp_authors.length > 10
-          temp_authors.each_with_index do |author,index|
-            if index < 7
-              author_text << "#{author.first} "
-            end
-          end
-          author_text << " et al.,#{temp_authors.first.last}s. "
-        elsif temp_authors.length > 1
-          temp_authors.each_with_index do |author,index|
-            if index == 0
-              author_text << "#{author.first} "
-            elsif index + 1 == temp_authors.length
-              author_text << "and #{name_reverse(author.first)}, #{author.last}s. "
-            else
-              author_text << "#{name_reverse(author.first)}, "
-            end
-          end
-        else
-          author_text << "#{temp_authors.first.first}, #{temp_authors.first.last}. "
-        end
-      end
-    end
-    title = ""
-    additional_title = ""
-    section_title = ""
-    if marc["245"] and (marc["245"]["a"] or marc["245"]["b"])
-      title << citation_title(clean_end_punctuation(marc["245"]["a"]).strip) if marc["245"]["a"]
-      title << ": #{citation_title(clean_end_punctuation(marc["245"]["b"]).strip)}" if marc["245"]["b"]
-    end
-    if marc["245"] and (marc["245"]["n"] or marc["245"]["p"])
-      section_title << citation_title(clean_end_punctuation(marc["245"]["n"])) if marc["245"]["n"]
-      if marc["245"]["p"]
-        section_title << ", <i>#{citation_title(clean_end_punctuation(marc["245"]["p"]))}.</i>"
-      elsif marc["245"]["n"]
-        section_title << "."
-      end
-    end
-
-    if !authors[:primary_authors].blank? and (!authors[:translators].blank? or !authors[:editors].blank? or !authors[:compilers].blank?)
-        additional_title << "Translated by #{authors[:translators].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:translators].blank?
-        additional_title << "Edited by #{authors[:editors].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:editors].blank?
-        additional_title << "Compiled by #{authors[:compilers].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:compilers].blank?
-    end
-
-    edition = ""
-    edition << setup_edition(marc) unless setup_edition(marc).nil?
-
-    pub_info = ""
-    if marc["260"] and (marc["260"]["a"] or marc["260"]["b"])
-      pub_info << clean_end_punctuation(marc["260"]["a"]).strip if marc["260"]["a"]
-      pub_info << ": #{clean_end_punctuation(marc["260"]["b"]).strip}" if marc["260"]["b"]
-      pub_info << ", #{setup_pub_date(marc)}" if marc["260"]["c"]
-    elsif marc["264"] and (marc["264"]["a"] or marc["264"]["b"])
-      pub_info << clean_end_punctuation(marc["264"]["a"]).strip if marc["264"]["a"]
-      pub_info << ": #{clean_end_punctuation(marc["264"]["b"]).strip}" if marc["264"]["b"]
-      pub_info << ", #{setup_pub_date(marc)}" if marc["264"]["c"]
-    elsif marc["502"] and marc["502"]["a"] # MARC 502 is the Dissertation Note.  This holds the correct pub info for these types of records.
-      pub_info << marc["502"]["a"]
-    elsif marc["502"] and (marc["502"]["b"] or marc["502"]["c"] or marc["502"]["d"]) #sometimes the dissertation note is encoded in pieces in the $b $c and $d sub fields instead of lumped into the $a
-      pub_info << "#{marc["502"]["b"]}, #{marc["502"]["c"]}, #{clean_end_punctuation(marc["502"]["d"])}"
-    end
-
-    citation = ""
-    citation << "#{author_text} " unless author_text.blank?
-    citation << "<i>#{title}.</i> " unless title.blank?
-    citation << "#{section_title} " unless section_title.blank?
-    citation << "#{additional_title} " unless additional_title.blank?
-    citation << "#{edition}" unless edition.blank?
-    citation << "#{pub_info}." unless pub_info.blank?
-    citation
-  end
-
-
-
  
-  # Main method for defining chicago style citation.  If we don't end up converting to using a citation formatting service
-  # we should make this receive a semantic document and not MARC so we can use this with other formats.
-  def xxx_chicago_citation(marc)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    authors = get_all_authors(marc)    
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
-    author_text = ""
-    unless authors[:primary_authors].blank?
-      if authors[:primary_authors].length > 10
-        authors[:primary_authors].each_with_index do |author,index|
-          if index < 7
-            if index == 0
-              author_text << "#{author}"
-              if author.ends_with?(",")
-                author_text << " "
-              else
-                author_text << ", "
-              end
-            else
-              author_text << "#{name_reverse(author)}, "
-            end
-          end
-        end
-        author_text << " et al."
-      elsif authors[:primary_authors].length > 1
-        authors[:primary_authors].each_with_index do |author,index|
-          if index == 0
-            author_text << "#{author}"
-            if author.ends_with?(",")
-              author_text << " "
-            else
-              author_text << ", "
-            end
-          elsif index + 1 == authors[:primary_authors].length
-            author_text << "and #{name_reverse(author)}."
-          else
-            author_text << "#{name_reverse(author)}, "
-          end 
-        end
-      else
-        author_text << authors[:primary_authors].first
-      end
-    else
-      temp_authors = []
-      authors[:translators].each do |translator|
-        temp_authors << [translator, "trans."]
-      end
-      authors[:editors].each do |editor|
-        temp_authors << [editor, "ed."]
-      end
-      authors[:compilers].each do |compiler|
-        temp_authors << [compiler, "comp."]
-      end
-      
-      unless temp_authors.blank?
-        if temp_authors.length > 10
-          temp_authors.each_with_index do |author,index|
-            if index < 7
-              author_text << "#{author.first} #{author.last} "
-            end
-          end
-          author_text << " et al."
-        elsif temp_authors.length > 1
-          temp_authors.each_with_index do |author,index|
-            if index == 0
-              author_text << "#{author.first} #{author.last}, "
-            elsif index + 1 == temp_authors.length
-              author_text << "and #{name_reverse(author.first)} #{author.last}"
-            else
-              author_text << "#{name_reverse(author.first)} #{author.last}, "
-            end
-          end
-        else
-          author_text << "#{temp_authors.first.first} #{temp_authors.first.last}"
-        end
-      end
-    end
-    title = ""
-    additional_title = ""
-    section_title = ""
-    if marc["245"] and (marc["245"]["a"] or marc["245"]["b"])
-      title << citation_title(clean_end_punctuation(marc["245"]["a"]).strip) if marc["245"]["a"]
-      title << ": #{citation_title(clean_end_punctuation(marc["245"]["b"]).strip)}" if marc["245"]["b"]
-    end
-    if marc["245"] and (marc["245"]["n"] or marc["245"]["p"])
-      section_title << citation_title(clean_end_punctuation(marc["245"]["n"])) if marc["245"]["n"]
-      if marc["245"]["p"]
-        section_title << ", <i>#{citation_title(clean_end_punctuation(marc["245"]["p"]))}.</i>"
-      elsif marc["245"]["n"]
-        section_title << "."
-      end
-    end
-    
-    if !authors[:primary_authors].blank? and (!authors[:translators].blank? or !authors[:editors].blank? or !authors[:compilers].blank?)
-        additional_title << "Translated by #{authors[:translators].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:translators].blank?
-        additional_title << "Edited by #{authors[:editors].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:editors].blank?
-        additional_title << "Compiled by #{authors[:compilers].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:compilers].blank?
-    end
-    
-    edition = ""
-    edition << setup_edition(marc) unless setup_edition(marc).nil?
-    
-    pub_info = ""
-    if marc["260"] and (marc["260"]["a"] or marc["260"]["b"]) 
-      pub_info << clean_end_punctuation(marc["260"]["a"]).strip if marc["260"]["a"]
-      pub_info << ": #{clean_end_punctuation(marc["260"]["b"]).strip}" if marc["260"]["b"]
-      pub_info << ", #{setup_pub_date(marc)}" if marc["260"]["c"]
-    elsif marc["502"] and marc["502"]["a"] # MARC 502 is the Dissertation Note.  This holds the correct pub info for these types of records.
-      pub_info << marc["502"]["a"]
-    elsif marc["502"] and (marc["502"]["b"] or marc["502"]["c"] or marc["502"]["d"]) #sometimes the dissertation note is encoded in pieces in the $b $c and $d sub fields instead of lumped into the $a
-      pub_info << "#{marc["502"]["b"]}, #{marc["502"]["c"]}, #{clean_end_punctuation(marc["502"]["d"])}"
-    end
-    
-    citation = ""
-    citation << "#{author_text} " unless author_text.blank?
-    citation << "<i>#{title}.</i> " unless title.blank?
-    citation << "#{section_title} " unless section_title.blank?
-    citation << "#{additional_title} " unless additional_title.blank?
-    citation << "#{edition} " unless edition.blank?
-    citation << "#{pub_info}." unless pub_info.blank?
-    citation
-  end
-  
-  
-  
   def citeproc_citation(record,csl)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
@@ -598,6 +311,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     end
     title = setup_title_info(record)
     issued =  setup_pub_date(record) unless setup_pub_date(record).nil?
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} issued = #{issued.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_final = #{authors_final.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} title = #{title.inspect}")
     publisher = setup_pub_info_mla8(record) unless setup_pub_info_mla8(record).nil?
@@ -608,6 +322,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} publisher_place = #{publisher_place.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}dummy=#{dummy.inspect}")
     id = "id #{csl}"
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}id=#{id.inspect}")
     ul = ''
     if !self['url_access_display'].blank?
        ul = self['url_access_display'].first.split('|').first
@@ -622,22 +337,41 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     edition_final = edition_data.blank? ? ""  : edition_data
     ty = setup_fmt(record)
     medium = setup_medium(record,ty)
+    citeas = setup_citeas(record,ty)
     Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}medium=#{medium.inspect}")
-    item = CiteProc::Item.new(
-      :id => id,
-      :type => ty,
-      :medium => medium,
-      :title => title,
-      :author => authors_final,
-      :editor => editors_final,
-      :issued => { 'literal' => issued },
-      :edition => edition_final,
-      :publisher => publisher ,
-      :DOI => doi_data,
-      :URL => ul,
-      'publisher-place' => publisher_place 
-    )
+    Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}ty =#{ty.inspect}")
+    if ty == 'manuscript'
+     if csl == 'modern-language-association-7th-edition'     
+       item = CiteProc::Item.new(
+       :id => id,
+       :type => ty,
+       'title' => citeas,
+       )
+     else 
+       item = CiteProc::Item.new(
+       :id => id,
+       :type => ty,
+       'container-title' => citeas,
+       )
+     end
+    else
+      item = CiteProc::Item.new(
+        :id => id,
+        :type => ty,
+        :medium => medium,
+        :title => title,
+        :author => authors_final,
+        :editor => editors_final,
+        :issued => { 'literal' => issued },
+        :edition => edition_final,
+        :publisher => publisher ,
+        :DOI => doi_data,
+        :URL => ul,
+        'publisher-place' => publisher_place 
+      )
+    end
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} item=#{item.inspect}")
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} item.issued=#{item.issued.inspect}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} place=#{item.publisher_place.inspect}")
     cp << item
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} cp=#{cp.inspect}")
@@ -647,7 +381,10 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       desc  = sty.title 
     end
     #cp.options()[:style].titleize + "<br/>" + (cp.render :bibliography, id: id)[0]
+    txt = cp.render :bibliography, id: id
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} text of citation=#{txt.inspect}")
     [desc, (cp.render :bibliography, id: id)[0]]
+    [desc, txt[0]]
     #(cp.render :bibliography, id: id)[0]
     end
 
@@ -1230,15 +967,15 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
         field = record.find{|f| f.tag == '300'}
         if !field.nil?
 	  medium =  case 
-                        when  field['a'].include?('sound disc') &&   field['b'].include?('digital')
+                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
                         'CD audio'
-                      when  field['a'].include?('sound disc') &&  field['b'].include?('33') 
-                       'LP'  
-	              when field['a'].include?('videodisc') && ((field['b'].include?('sd.')) || field['b'].include?('color'))  
-                       'DVD'  
-                      else
-                      ''
-                    end
+                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
+                        'LP'
+                       when field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
+                        'DVD'
+                     else
+                     ''
+                   end
         end
         Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       end
@@ -1255,6 +992,16 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
               end
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
     medium
+  end 
+
+  def setup_citeas(record,ty)
+    citeas = ''
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty = #{ty.inspect}")
+    if (ty == 'manuscript')
+        field = record.find{|f| f.tag == '524'}
+        citeas = field['a'] unless field.nil?
+    end
+  citeas.to_s
   end 
 
   def setup_fmt(record)
@@ -1558,8 +1305,8 @@ FACET_TO_CITEPROC_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"HEAR",
   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"journal",
-  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"MANSCPT", "Map or Globe"=>"map", "MGZN"=>"MGZN",
-   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
+  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"map", "MGZN"=>"MGZN",
+   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"book", "NEWS"=>"NEWS",
    "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
    "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"song", "Musical Recording"=>"song",
    "STAND"=>"STAND",

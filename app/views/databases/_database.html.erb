@@ -48,7 +48,7 @@
           <% else %>
             <% providercode = data["providercode"][0] %>
           <% end %>
-          <%= link_to 'Terms of Use', "/databases/tou/#{dbid}" %>
+          <%= link_to 'Terms of Use', "/databases/tou/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
         </div>
       </div>
     </div>

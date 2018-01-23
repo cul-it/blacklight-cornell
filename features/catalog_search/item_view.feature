@@ -625,7 +625,7 @@ Feature: Item view
   And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
   And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/BKSAR"
   And click on first link "Terms of use"
-  Then I should see the text 'Course Pack Electronic	Permitted'
+  Then I should see the text 'Course Reserves by link only'
 
 
 @insert_line_breaks

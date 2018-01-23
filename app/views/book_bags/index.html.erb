@@ -2,7 +2,7 @@
         <%= render_opensearch_response_metadata %>
         <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
         <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
-        <%#= render_extra_head_content %>
+        <%= render_extra_head_content %>
         <meta name=bagstupid />
       <% end -%>
  <h2><%= "Bagged Items" %></h2>
@@ -13,7 +13,7 @@
           <%= render :partial => "paginate_compact", :object => @response %>
         </span>
 
-        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
+        <%= link_to  book_bags_clear_path, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
       </div>

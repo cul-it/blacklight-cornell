@@ -94,6 +94,18 @@ class BookBagsController < CatalogController
     end
   end
 
+  def clear
+    success = @bb.clear
+    Rails.logger.info("es289_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
+    if success
+      flash[:notice] = I18n.t('blacklight.bookmarks.clear.success')
+    else
+      flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
+    end
+    redirect_to :action => "index"
+  end
+
+
 
    
   def action_documents
@@ -140,6 +152,24 @@ class BookBagsController < CatalogController
       end
     end
   end
+
+    # grabs a bunch of documents to export to endnote or ris.
+    def endnote
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      if params[:id].nil?
+        @bms =@bb.index
+        docs = @bms.map {|b| b.sub!("bibid-",'')}
+        @response, @documents = fetch(docs, :per_page => 1000,:rows => 1000)
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
+      else
+        @response, @documents = fetch(params[:id])
+      end
+      respond_to do |format|
+        format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+        format.ris      { render 'ris', :layout => false }
+      end
+    end
+
 
 
 

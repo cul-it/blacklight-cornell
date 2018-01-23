@@ -112,7 +112,7 @@ end
         },
         'related_work_display' => {
             :search_field => 'title',
-            :related_search_field => 'title',
+            :related_search_field => 'author/creator',
             :sep => '|',
             :key_value => true
         },
@@ -239,7 +239,11 @@ end
     config.add_facet_field 'collection', :show => false
 
 
-
+    config.add_facet_field 'acquired_dt_query',  label: 'Date Acquired', query: {
+      last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-14DAY TO NOW-7DAY ]"},
+      last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW-7DAY ]"},
+      last_1_years: { label: 'Since last year', fq: "acquired_dt:[NOW-1YEAR TO NOW-7DAY]"}
+    }, if: :has_search_parameters?
 
 
     # config.add_facet_field 'facet', :multiple => true
@@ -347,7 +351,7 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
-    
+
 
 
     # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
@@ -530,7 +534,7 @@ end
     #  }
     #end
     #config.add_search_field('acquired_dt') do |field|
-    #  field.include_in_simple_select = false 
+    #  field.include_in_simple_select = false
     #  field.solr_local_parameters = {
     #    :qf => '$acquired_dt_qf',
     #    :pf => '$acquired_dt_pf'

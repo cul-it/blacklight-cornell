@@ -17,6 +17,15 @@
 	float: left;
 	margin-right: 1em;
 }
+.cornell-logo {
+	a {
+		display: block;
+		width: 169px;
+		height: 45px;
+		text-indent: -9999em;
+		background: url("/img/cornell-red.gif") no-repeat;
+	}
+}
 
 // Skip to content link
 // http://webaim.org/techniques/skipnav/
