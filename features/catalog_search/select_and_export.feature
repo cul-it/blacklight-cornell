@@ -381,8 +381,9 @@ Feature: Select and export items from the result set
     Examples:
 |BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
 |1378974|ris|'AU  - Condie, Carol Joy' | 'PY - 1954'|'PB - Cornell Univ'|'CY  - [Ithaca, N.Y.]' | 
-|1378974|endnote|'%A Condie, Carol Joy' | '%D 1954'|'PB - Cornell Univ'|'CY  - [Ithaca, N.Y.]' | 
-|5494906|ris|'AU - Gauger, Wilhelm Peter Joachim' | 'PY - 1965'|'PB - Ernst-Reuter-Gesellschaft'|'CY - Berlin' | 
+|1378974|endnote|'%A Condie, Carol Joy' | '%D 1954'|'%I Cornell Univ'|'%C [Ithaca, N.Y.]' | 
+|1378974|endnote_xml|'<author>Condie, Carol Joy</author>' | '<year>1954</year>'|'<publisher>Cornell Univ</publisher>'|'<pub-location>[Ithaca, N.Y.]</pub-location>' | 
+|5494906|ris|'AU - Gauger, Wilhelm Peter Joachim' | 'PY - 1965'|'PB - Freie Universität Berlin'|'CY - Berlin' | 
 |5494906|endnote|'%A Gauger, Wilhelm Peter Joachim' | '%D 1965'|'%I Freie Universität Berlin'|'%C Berlin' | 
 |5494906|endnote_xml|'<author>Gauger, Wilhelm Peter Joachim</author>' | '<date>1965</date>'|'<publisher>Ernst-Reuter-Gesellschaft</publisher>'|'<pub-location>Berlin</pub-location>' | 
 |5494906|rdf_zotero|'<foaf:surname>Gauger</foaf:surname>' | '<dc:date>1965</dc:date>'|'<foaf:name>Freie Universität Berlin</foaf:name>'|'<vcard:locality>Berlin</vcard:locality>' | 
@@ -402,13 +403,17 @@ Feature: Select and export items from the result set
 | 9496646 | endnote_xml | '<author>Bindal, Ahmet</author>' | '<year>2016</year>' | '<publisher>Springer International Publishing</publisher>' | '<pub-location>Cham</pub-location>'  |
 
 @all_select_and_export
-  Scenario Outline: User needs to see various items in a citation format, check ISBN
+  Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN. 
     Given I request the item view for <BibId> 
     Given I request the item view for <BibId>.<Format>
-    Then I should see the xml text <IsbnXmlContent> 
+    Then I should see the xml text <SpecialContent> 
     Examples:
 
-|BibId | Format | IsbnXmlContent | 
+|BibId | Format | SpecialContent | 
+| 1378974 | endnote |  '%9 Problem (M.Ed.)' |
+| 1378974 | ris | 'M3  - Problem (M.Ed.)' |
+| 1378974 | rdf_zotero | '<z:type>Problem (M.Ed.)</z:type>' |
+| 1378974 | endnote_xml| '<work-type>Problem (M.Ed.)</work-type>' |
 | 9939352 | ris | 'SN - 1786821931' |  
 | 9939352 | endnote | '%@ 1786821931' |  
 | 9939352 | endnote_xml | '<isbn>1786821931  ; 9781786821935 </isbn>' |  

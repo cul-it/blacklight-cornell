@@ -97,6 +97,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
           generate_enx_doi(builder,ty)
           generate_enx_abstract(builder,ty)
           generate_enx_notes(builder,ty)
+          generate_enx_work_type(builder,ty)
           generate_enx_language(builder,ty)
           generate_enx_urls(builder,ty)
         end
@@ -106,6 +107,14 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2}"
     text2
   end
+#<work-type>Ph.D.dissertation</work-type>
+  def generate_enx_work_type(bld,ty)
+    if ty == 'Thesis'
+      thdata =   setup_thesis_info(to_marc)
+      bld.tag!("work-type",thdata[:type].to_s) 
+    end
+  end
+
 #
 #nt =   setup_notes_info(to_marc)
 #131     nt.each do |n|
