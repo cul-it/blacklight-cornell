@@ -225,7 +225,7 @@ Feature: Select and export items from the result set
     Then I should see the text 'PB  - Printeuoop nashpe Samuel Green.'
     Then I should see the text 'CY  - Cambridge [Mass.].'
     Then I should see the text 'LA  - Algonquian (Other)'
-    Then I should see the text 'UR  - http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://opac.newsbank.com/select/evans/385'
+    Then I should see the text 'UR  - http://opac.newsbank.com/select/evans/385'
     Then I should see the text 'M2 - http://newcatalog.library.cornell.edu/catalog/5558811'
     Then I should see the text 'ER  -'
 
@@ -258,20 +258,6 @@ Feature: Select and export items from the result set
 
 @all_select_and_export
 @citations
-  Scenario: User needs to send a book record to endnote format, check for processing 264  (might go to zotero) 
-    Given I request the item view for 9939352 
-    Given I request the item view for 9939352.endnote
-    Then I should see the text '%T Octopus'
-    Then I should see the text '%A Gray, Afsaneh' 
-    Then I should see the text '%@ 1786821931' 
-    Then I should see the text '%@ 9781786821935' 
-    Then I should see the text '%0 Book'
-    Then I should see the text '%C London'
-    Then I should see the text '%D 2017' 
-    Then I should see the text '%I Oberon Books'
-
-@all_select_and_export
-@citations
   Scenario: User needs to send an ebook record to endnote format
     Given I request the item view for 9305118 
     Given I request the item view for 9305118.endnote
@@ -284,20 +270,6 @@ Feature: Select and export items from the result set
     Then I should see the text '%@ 0632060484 (hardback : alk. paper)' 
     Then I should see the text '%T Cephalopods  ecology and fisheries' 
 
-@all_select_and_export
-@citations
-  Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 6788245 
-    Given I request the item view for 6788245.endnote
-    Then I should see the text '%0 Film or Broadcast'
-    Then I should see the text '%C Burbank, CA'
-    Then I should see the text '%D c2009'
-    Then I should see the text '%E Radcliffe, Daniel' 
-    Then I should see the text '%E Rowling, J. K'
-    Then I should see the text '%I Warner Home Video'
-    Then I should see the text '%@ 1419864173'
-    Then I should see the text '%@ 9781419864179'
-    Then I should see the text '%T Harry Potter and the half-blood prince'
 ###
 ###
 ##
@@ -362,11 +334,6 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<dc:identifier>ISBN 091316710X : '
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
-@all_select_and_export
-  Scenario: User needs to send a book record to endnote_xml format (might go to zotero) 
-    Given I request the item view for 1001 
-    Given I request the item view for 1001.endnote_xml
-    Then I should see the xml text '<title>Reflections: the anthropological muse</title>'
 
 @all_select_and_export
   Scenario Outline: User needs to see Reflection: 1001  in a citation format, check title, and type
@@ -387,12 +354,20 @@ Feature: Select and export items from the result set
 | 3261564 | rdf_zotero |'<dc:title>Debabrata Biśvāsa</dc:title>' | '<z:itemType>audioRecording</z:itemType>' |
 | 5558811 | ris | 'TI - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | 'TY - EBOOK'|
 | 5558811 | endnote | '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | '%0 Electronic Book'|
+|5494906|endnote| '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '%0 Thesis' |
+|5494906|endnote_xml| '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '<ref-type name="Thesis">32</ref-type>'|
+|5494906|ris | 'TI - Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | 'TY - THES' |
+|5494906|rdf_zotero | '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '<z:itemType>thesis</z:itemType>' |
 | 5558811 |endnote_xml|'<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>' |'<ref-type name="Book">6</ref-type>'  | 
 | 5558811| rdf_zotero |'<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>' | '<z:itemType>book</z:itemType>' |
 | 6788245 | ris | 'TI - Harry Potter and the half-blood prince' |  'TY - VIDEO' |
 | 6788245 | endnote | '%T Harry Potter and the half-blood prince' |  '%0 Film or Broadcast' |
 | 6788245 | endnote_xml | '<title>Harry Potter and the half-blood prince</title>'|'<ref-type name="Film or Broadcast">21</ref-type>' |
 |6788245|rdf_zotero|'<dc:title>Harry Potter and the half-blood prince</dc:title>'|'<z:itemType>videoRecording</z:itemType>' |
+|1676023|ris| 'TI  - Middle Earth: being a map' | 'TY - MAP' |
+|1676023|endnote| '%T Middle Earth being a map' | '%0 Map' |
+|1676023|endnote_xml| '<title>Middle Earth: being a map purporting to' | '<ref-type name="Map">20</ref-type>' |
+|1676023|rdf_zotero| '<dc:title>Middle Earth: being a map purporting to' | '<z:itemType>map</z:itemType>' |
 
 @all_select_and_export
   Scenario Outline: User needs to see various items  in a citation format, check author, date, publisher, place. 
@@ -405,10 +380,17 @@ Feature: Select and export items from the result set
 
     Examples:
 |BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
+|1378974|ris|'AU  - Condie, Carol Joy' | 'PY - 1954'|'PB - Cornell Univ'|'CY  - [Ithaca, N.Y.]' | 
+|1378974|endnote|'%A Condie, Carol Joy' | '%D 1954'|'PB - Cornell Univ'|'CY  - [Ithaca, N.Y.]' | 
+|5494906|ris|'AU - Gauger, Wilhelm Peter Joachim' | 'PY - 1965'|'PB - Ernst-Reuter-Gesellschaft'|'CY - Berlin' | 
+|5494906|endnote|'%A Gauger, Wilhelm Peter Joachim' | '%D 1965'|'%I Freie Universität Berlin'|'%C Berlin' | 
+|5494906|endnote_xml|'<author>Gauger, Wilhelm Peter Joachim</author>' | '<date>1965</date>'|'<publisher>Ernst-Reuter-Gesellschaft</publisher>'|'<pub-location>Berlin</pub-location>' | 
+|5494906|rdf_zotero|'<foaf:surname>Gauger</foaf:surname>' | '<dc:date>1965</dc:date>'|'<foaf:name>Freie Universität Berlin</foaf:name>'|'<vcard:locality>Berlin</vcard:locality>' | 
 | 3261564 | endnote_xml|'<author>Cakrabarttī, Utpalendu</author>'|'<date>1983</date>'|'<publisher>INRECO</publisher>'|'<pub-location>Calcutta</pub-location>' |
 | 6788245 | ris | 'AU - Warner Bros. Pictures' |  'PY - 2009' |  'PB - Warner Home Video' | 'CY - Burbank, CA' |
-| 6788245 | endnote | '%E Radcliffe, Daniel' |  '%D c2009' |  '%I Warner Home Video' | '%C Burbank, CA' |
+| 6788245 | endnote | '%E Radcliffe, Daniel' |  '%D 2009' |  '%I Warner Home Video' | '%C Burbank, CA' |
 | 6788245 | endnote_xml | '<author>Radcliffe, Daniel</author>' |  '<year>2009</year>' |  '<publisher>Warner Home Video</publisher>'|'<pub-location>Burbank, CA</pub-location>' |
+| 6788245 | rdf_zotero | '<foaf:surname>Radcliffe</foaf:surname>' |  '<dc:date>2009</dc:date>' |  '<foaf:name>Warner Home Video</foaf:name>'|'<vcard:locality>Burbank, CA</vcard:locality>' |
 | 9939352 | ris | 'AU - Gray, Afsaneh' |  'PY - 2017' | 'PB - Oberon Books' | 'CY - London' |
 | 9939352 | endnote | '%A Gray, Afsaneh' |  '%D 2017' | '%I Oberon Books' | '%C London' |
 | 9939352 | endnote_xml|'<author>Gray, Afsaneh</author>'|'<date>2017</date>'|'<publisher>Oberon Books</publisher>'|'<pub-location>London</pub-location>' |

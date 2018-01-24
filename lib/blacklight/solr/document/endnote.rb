@@ -32,13 +32,7 @@ module Blacklight::Solr::Document::Endnote
   def export_as_endnote()
     end_note_format = {
       "100.a" => "%A" ,
-      "260.a" => "%C" ,
-      "260.c" => "%D" ,
-      "264.a" => "%C" ,
-      "264.c" => "%D" ,
       "700.a" => "%E" ,
-      "260.b" => "%I" ,
-      "264.b" => "%I" ,
       "440.a" => "%J" ,
       "020.a" => "%@" ,
       "022.a" => "%@" ,
@@ -59,6 +53,7 @@ module Blacklight::Solr::Document::Endnote
     if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
       fmt_str = 'Electronic Book'
     end
+    ty = fmt_str
     text << "%0 #{ fmt_str }\n"
     # If there is some reliable way of getting the language of a record we can add it here
     #text << "%G #{record['language'].first}\n"
@@ -91,21 +86,73 @@ module Blacklight::Solr::Document::Endnote
         end
       end
     end
-    
+    #"260.a" => "%C" ,
+    #"264.a" => "%C" ,
+    #"260.b" => "%I" ,
+    #"264.b" => "%I" ,
+    # publisher, and place. 
+    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    place = ''
+    pname = ''
+    if !pub_data.nil?
+      place, publisher = pub_data.split(':')
+      pname = "#{publisher.strip!}" unless publisher.nil?
+      # publication place
+    end
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
+    #"264.c" => "%D" ,
+    #"260.c" => "%D" ,
+    pdate = setup_pub_date(to_marc) 
+    if ty == 'Thesis'
+      th = setup_thesis_info(to_marc)
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      pname = th[:inst].to_s
+      pdate = th[:date].to_s unless th[:date].blank?
+      thtype = th[:type].to_s
+      text << "%9 #{thtype}\n" unless  thtype.blank? 
+    end
+    text << "%I #{pname}\n" unless  pname.blank? 
+    text << "%C #{place}\n" unless  place.blank? 
+    text << "%D #{pdate}\n" unless  pdate.blank? 
     # "024.a" => "%R" ,
     doi = setup_doi(to_marc)
-    text << "%R #{doi}" unless  doi.blank? 
+    text << "%R #{doi}\n" unless  doi.blank? 
     if !self['url_access_display'].blank?
        ul = self['url_access_display'].first.split('|').first
        ul.sub!('http://proxy.library.cornell.edu/login?url=','')
        ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
     end
     #"856.u" => "%U" ,
-    text << "%U #{ul}"  unless ul.blank?
+    text << "%U #{ul}\n"  unless ul.blank?
+    text << "\n"  
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
     text
   end
 
-
+#Examples
+#%0  Book
+#%A  Geoffrey Chaucer
+#%D  1957
+#%T  The Works of Geoffrey Chaucer
+#%E  F. N. Robinson
+#%I   Houghton
+#%C  Boston
+#%N  2nd
+# 
+# %0  Journal Article
+# %A  Herbert H. Clark
+# %D  1982
+# %T  Hearers and Speech Acts
+# %B  Language
+# %V  58
+# %P  332-373
+#  
+#  %0  Thesis
+#  %A  Cantucci, Elena
+#  %T  Permian strata in South-East Asia
+#  %D  1990
+#  %I   University of California, Berkeley
+#  %9  Dissertation
+#
 
 end

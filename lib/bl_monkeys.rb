@@ -34,6 +34,7 @@ module Blacklight::Solr #::Document::MarcExport
 
   def setup_pub_date(record)
     pub_date = record.find{|f| f.tag == '260'}
+    date_value = ''
     if pub_date.nil?
       pub_date = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
     end

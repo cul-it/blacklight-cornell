@@ -1002,6 +1002,34 @@ module Blacklight::Solr::Document::MarcExport
     ty
   end
 
+  def setup_thesis_info(record)
+    thesis = {type: "", inst: "", date: ""}
+    field = record.find{|f| f.tag == '502'}
+    if field['a'].to_s.blank?
+      thesis[:type]  = field['b'].to_s unless field.nil?
+      thesis[:inst]  = field['c'].to_s unless field.nil?
+      thesis[:date]  = clean_end_punctuation(field['d'].to_s) unless field.nil?
+    else
+      thdata = field['a'].to_s
+      values = thdata.split("--")
+      case 
+        when values.length == 1
+          thesis[:type]  = field['a'].to_s 
+        when values.length == 2
+          thesis[:type]  = values[0] 
+            # might look like Cornell Univ., June 1954
+            spli = values[1].split(",")
+          if spli.length == 1
+            thesis[:inst]  = clean_end_punctuation(spli[0]) 
+          else
+            thesis[:inst]  = clean_end_punctuation(spli[0]) 
+            thesis[:date]  = clean_end_punctuation(spli[spli.length-1])
+           end
+      end
+    end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} thesis = #{thesis.inspect}")
+    thesis
+  end
 
   def relation_for_code(c)
     RELATORS.key(c) 

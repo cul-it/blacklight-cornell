@@ -43,7 +43,19 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   }
 # these values might actually depend on how you have configured Endnote (@!#???)
 # # I don't know how to figure this out except by trial and error.
-FACET_TO_ENDNOTE_NUMERIC_VALUE =  { "Music" => "61", "Book"=>"6", "Film or Broadcast"=>"21" }
+# I exported records from endnote X8 to determine these.
+#
+FACET_TO_ENDNOTE_NUMERIC_VALUE =  { 
+  "Audiovisual Material"=>"3", 
+  "Book"=>"6", 
+  "Computer Program"=>"9",
+  "Film or Broadcast"=>"21", 
+  "Manuscript" => "36", 
+  "Map" => "20", 
+  "Music" => "61", 
+  "Online Database" => "45",
+  "Thesis" => "32", 
+}
 # the xml format is defined here, in attached zip file:
 # http://kbportal.thomson.com/display/2/index.aspx?tab=browse&c=&cpc=&cid=&cat=&catURL=&r=0.4727451
 # top level elements:
