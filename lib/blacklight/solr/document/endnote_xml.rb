@@ -197,8 +197,13 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
       place, publisher = pub_data.split(':')
       pname = publisher
       pname = "#{publisher.strip!}" unless publisher.nil?
-      bld.publisher(pname) unless pname.nil?
     end
+    if ty == 'Thesis' and pname.blank?
+      th = setup_thesis_info(to_marc)
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      pname = th[:inst].to_s
+    end
+    bld.publisher(pname) unless pname.blank?
   end
 
 # example: <dates>

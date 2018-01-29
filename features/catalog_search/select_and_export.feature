@@ -410,6 +410,10 @@ Feature: Select and export items from the result set
     Examples:
 
 |BibId | Format | SpecialContent | 
+| 10055679 | endnote |  '%L  Mann Library  SF98.A5 M35 2017' |
+| 10055679 | ris |  'CN - Mann Library  SF98.A5 M35 2017' |
+| 10055679 | rdf_zotero |  'Mann Library  SF98.A5 M35 2017' |
+| 10055679 | endnote_xml |  '<call-num>Mann Library  SF98.A5 M35 2017</call-num>' |
 | 1378974 | endnote |  '%9 Problem (M.Ed.)' |
 | 1378974 | ris | 'M3  - Problem (M.Ed.)' |
 | 1378974 | rdf_zotero | '<z:type>Problem (M.Ed.)</z:type>' |
@@ -450,12 +454,24 @@ Feature: Select and export items from the result set
 @citations
 @rdf_zotero
 @all_select_and_export
-  Scenario: User needs to send a book record to ris format (might go to zotero) 
+  Scenario: User needs to send a book record to rdf zotero format (might go to zotero) 
     Given I request the item view for 3261564
     Given I request the item view for 3261564.rdf_zotero
     Then I should see the xml text '<z:itemType>audioRecording</z:itemType>'
     Then I should see the xml text '<dc:title>Debabrata Biśvāsa</dc:title>'
     Then I should see the xml path 'z','//z:composers','http://www.zotero.org/namespaces/export#','Cakrabarttī'
+
+# check actual xpath to LCC
+# e.g. <dcterms:LCC>
+# <rdf:value>Mann Library  SF98.A5 M35 2017</rdf:value>
+# </dcterms:LCC>
+
+@all_select_and_export
+  Scenario: User needs to send a book record to rdf zotero format (might go to zotero) 
+    Given I request the item view for 10055679
+    Given I request the item view for 10055679.rdf_zotero
+    Then I should see the xml path 'dcterms','//dcterms:LCC','http://purl.org/dc/terms/','Mann Library  SF98.A5 M35 2017'
+
 
 @all_select_and_export
   Scenario: User needs to see search results as an atom feed, marc_xml
@@ -533,6 +549,8 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="application/x-research-info-systems">'
+
+@all_select_and_export
 
 #Then I should see the label '<content type="application/x-research-info-systems">'
 # Pending causes an error in jenkins
