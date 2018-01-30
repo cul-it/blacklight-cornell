@@ -423,6 +423,10 @@ Feature: Select and export items from the result set
 | 9939352 | endnote_xml | '<isbn>1786821931  ; 9781786821935 </isbn>' |  
 | 9939352 | rdf_zotero | '<dc:identifier>ISBN 1786821931 </dc:identifier>' |  
 | 9939352 | rdf_zotero | '<dc:identifier>ISBN 9781786821935 </dc:identifier>'|
+| 1002 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/1002' |
+| 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
+| 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
+| 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
 
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook 

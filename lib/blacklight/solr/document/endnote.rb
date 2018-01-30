@@ -126,6 +126,7 @@ module Blacklight::Solr::Document::Endnote
     text << "%U #{ul}\n"  unless ul.blank?
     where = setup_holdings_info(to_marc)
     text << "%L  #{where.join('//')}\n"  unless where.blank? or where.join("").blank?
+    text += "%Z http://newcatalog.library.cornell.edu/catalog/#{id}\n"
     # add a blank line to separate from possible next.
     text << "\n"  
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
