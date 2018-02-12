@@ -432,6 +432,10 @@ Feature: Select and export items from the result set
 | 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
+| 1001 | endnote | '%K Anthropologists' writings, American.' |
+| 1001 | ris | 'KW - Anthropologists' writings, American.' |
+| 1001 | endnote_xml | '<keyword>Anthropologists' writings, American.' |
+| 1001 | rdf_zotero | '<dc:subject>Anthropologists' writings, American.' |
 
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook 
