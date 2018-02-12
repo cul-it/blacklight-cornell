@@ -255,6 +255,11 @@ Feature: Select and export items from the result set
     Then I should see the text '%I American Anthropological Association' 
     Then I should see the text '%@ 091316710X'
     Then I should see the text '%T Reflections  the anthropological muse'
+    Then I should see the text '%K Anthropology Poetry.' 
+    Then I should see the text '%K American poetry 20th century.' 
+    Then I should see the text '%K Anthropologists' writings, English.' 
+    Then I should see the text '%K Anthropologists' writings, American.' 
+
 
 @all_select_and_export
 @citations

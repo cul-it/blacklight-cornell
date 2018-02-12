@@ -127,10 +127,20 @@ module Blacklight::Solr::Document::Endnote
     where = setup_holdings_info(to_marc)
     text << "%L  #{where.join('//')}\n"  unless where.blank? or where.join("").blank?
     text += "%Z http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    text = generate_en_keywords(text,ty)
     # add a blank line to separate from possible next.
     text << "\n"  
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
     text
+  end
+
+  def generate_en_keywords(text,ty)
+    kw =   setup_kw_info(to_marc)
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} keywo    rds = #{kw.inspect}"
+    kw.each do |k|
+          text += "%K #{k}\n"   unless k.blank?
+    end unless kw.blank?
+    text 
   end
 
 #Examples
@@ -160,3 +170,96 @@ module Blacklight::Solr::Document::Endnote
 #
 
 end
+
+# documentation -- 
+#https://www.citavi.com/sub/manual5/en/importing_an_endnote_tagged_file.html
+# Importing an EndNote Tagged File
+#
+# Many web-based databases support direct export to Citavi. See Importing References in a Standard Format.
+# If you have an EndNote tagged file (with the .enw file name extension) on your computer already, double-click it to start the import or drag it into the navigation pane in the Reference Editor.
+# The reference types supported in EndNote Tagged format differ to some degree from the ones available in Citavi. This overview shows the mapping of reference types when importing from EndNote Tagged format:
+#
+# EndNote Tagged Reference Type
+# %0 Ancient Text
+# %0 Artwork
+# %0 Audiovisual Material
+# %0 Bill
+# %0 Book
+# %0 Book Section
+# %0 Case
+# %0 Chart or Table
+# %0 Classical Work
+# %0 Computer Program
+# %0 Conference Paper
+# %0 Conference Proceedings
+# %0 Dictionary
+# %0 Edited Book
+# %0 Electronic Article
+# %0 Electronic Book
+# %0 Electronic Source
+# %0 Encyclopedia
+# %0 Equation
+# %0 Figure
+# %0 Film or Broadcast
+# %0 Generic
+# %0 Government Document
+# Report or gray literature
+# %0 Grant
+# %0 Hearing
+# %0 Journal Article
+# Journal article
+# %0 Legal Rule or Regulation
+# Statute or regulation
+# %0 Magazine Article
+# Journal article
+# %0 Manuscript
+# %0 Map
+# %0 Newspaper Article
+# %0 Online Database
+# %0 Online Multimedia
+# %0 Patent
+# %0 Personal Communication
+# %0 Report
+# %0 Statute
+# %0 Thesis
+# %0 Unpublished Work
+# %0 Web Page
+# %0 Unused 1
+# %0 Unused 2
+# %0 Unused 3
+# ############Field Mapping
+# When you import an EndNote Tagged file, Citavi uses various field mappings depending on the reference type. An EndNote Tagged file supports the following fields:
+# %A Author
+# %B Secondary Title (of a Book or Conference Name)
+# %C Place Published
+# %D Year
+# %E Editor /Secondary Author 
+# %F Label
+# %G Language
+# %H Translated Author
+# %I Publisher
+# %J Secondary Title (Journal Name)
+# %K Keywords
+# %L Call Number
+# %M Accession Number
+# %N Number (Issue)
+# %P Pages
+# %Q Translated Title
+# %R Electronic Resource Number
+# %S Tertiary Title
+# %T Title
+# %U URL
+# %V Volume
+# %X Abstract
+# %Y Tertiary Author
+# %Z Notes
+# %0 Reference Type
+# %6 Number of Volumes
+# %7 Edition
+# %8 Date
+# %9 Type of Work
+# %? Subsidiary Author
+# %@ ISBN/ISSN
+# %( Original Publication
+# %> Link to PDF
+# %[ Access Date
