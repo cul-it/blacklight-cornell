@@ -202,12 +202,11 @@ Feature: Item view
   #  Then I should see the label '2 volumes'
 
   # Availability for an on order item. "Roads to paradise : eschatology and concepts"
-  @all_item_view
-  @availability
-  Scenario: As a user I can see the availability for an item on order
-   Given PENDING
-    Given I request the item view for 9717170
-    Then I should see the label 'Copy Ordered'
+  #@all_item_view
+  #@availability
+  #Scenario: As a user I can see the availability for an item on order
+  #  Given I request the item view for 9717170
+  #  Then I should see the label 'Copy Ordered'
 
   # On the other hand some subscriptions remain "on order" for years, and should NOT
   # display on order. DISCOVERYACCESS-1407
@@ -373,15 +372,15 @@ Feature: Item view
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available.
   # Fundamentals of corporate finance Stephen A. Ross, Randolph W. Westerfield, Bradford D. Jordan
-  @all_item_view
-  @availability
-  @holdings
-  @DISCOVERYACCESS-1430
-  @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the how many copies are available
-   Given PENDING
-    Given I request the item view for 7728655
-    Then I should see the label 'Available 1 copy'
+  #@all_item_view
+  #@availability
+  #@holdings
+  #@DISCOVERYACCESS-1430
+  #@DISCOVERYACCESS-1483
+  #Scenario: As a user I can see the how many copies are available
+  # Given PENDING
+  #  Given I request the item view for 7728655
+  #  Then I should see the label 'Available 1 copy'
 
   @uniformtitle
   @all_item_view
