@@ -504,14 +504,14 @@ Feature: Item view
     Given I request the item view for 28297
     Then I should see the label 'This item is bound with'
 
-  @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
-  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
-   Given PENDING
-    Given I request the item view for 118111
-    Then I should see the label 'This item is bound with'
+#  @all_item_view
+# @boundwith
+# @DISCOVERYACCESS-1903
+# @DISCOVERYACCESS-1328
+#  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
+#   Given PENDING
+#    Given I request the item view for 118111
+#    Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
     #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
