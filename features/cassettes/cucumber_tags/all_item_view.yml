@@ -35165,4 +35165,398 @@ http_interactions:
         Copy Ordered as of 2000-07-28"]}}}}'
     http_version: 
   recorded_at: Tue, 09 Jan 2018 15:53:09 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/b7/select?id=5972895&qt=document&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+      Last-Modified:
+      - Tue, 27 Feb 2018 20:50:34 GMT
+      Etag:
+      - '"OTYxZGI4MDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '6969'
+      Via:
+      - 1.1 da-prod-solr9.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjYsJ3BhcmFtcyc9PnsncSc9Pid7IXJhdyBmPWlk
+        IHY9JGlkfScsJ3F0Jz0+J2RvY3VtZW50JywnZWNob1BhcmFtcyc9PidhbGwn
+        LCdmbCc9PicqJywnaWQnPT4nNTk3Mjg5NScsJ2NvbGxlY3Rpb24nPT4nYjcn
+        LCdyb3dzJz0+JzEnLCd3dCc9PidydWJ5J319LCdyZXNwb25zZSc9PnsnbnVt
+        Rm91bmQnPT4xLCdzdGFydCc9PjAsJ21heFNjb3JlJz0+MTMuODE5NTcsJ2Rv
+        Y3MnPT5beydtdWx0aXZvbF9iJz0+ZmFsc2UsJ2xvY2F0aW9uX2ZhY2V0Jz0+
+        WydLcm9jaCBMaWJyYXJ5IEFzaWEnLCdMaWJyYXJ5IEFubmV4J10sJ3N1cHBy
+        ZXNzX2JvdW5kX3dpdGhfYic9PmZhbHNlLCdob2xkaW5nc19kaXNwbGF5Jz0+
+        Wyc2NDM4OTQyfDIwMDgwNjIzMTA0NjU2JywnNjQzOTAyN3wyMDA3MDIxOTE1
+        NTExNiddLCdob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjY0
+        Mzg5NDIiLCJtb2RpZmllZF9kYXRlIjoiMjAwODA2MjMxMDQ2NTYiLCJjb3B5
+        X251bWJlciI6bnVsbCwiY2FsbG5vcyI6WyJGaWxtIDEzMDczIG5vLiAxOCJd
+        LCJub3RlcyI6WyJTaGVsdmVkIGluIE9saW4gTGlicmFyeSJdLCJob2xkaW5n
+        c19kZXNjIjpbXSwicmVjZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVt
+        ZW50YWxfaG9sZGluZ3NfZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2Mi
+        OltdLCJsb2NhdGlvbnMiOlt7ImNvZGUiOiJlY2giLCJudW1iZXIiOjEzLCJu
+        YW1lIjoiS3JvY2ggTGlicmFyeSBBc2lhIiwibGlicmFyeSI6Iktyb2NoIExp
+        YnJhcnkgQXNpYSJ9XX0nLCd7ImlkIjoiNjQzOTAyNyIsIm1vZGlmaWVkX2Rh
+        dGUiOiIyMDA3MDIxOTE1NTExNiIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxs
+        bm9zIjpbIkZpbG0gTjEzMDczIG5vLiAxOCJdLCJub3RlcyI6WyJNYXN0ZXIg
+        TmVnYXRpdmUtLU5vdCBmb3IgcHVibGljIHVzZSJdLCJob2xkaW5nc19kZXNj
+        IjpbXSwicmVjZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxf
+        aG9sZGluZ3NfZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJs
+        b2NhdGlvbnMiOlt7ImNvZGUiOiJlY2gsYW54IiwibnVtYmVyIjoxNCwibmFt
+        ZSI6IkxpYnJhcnkgQW5uZXgiLCJsaWJyYXJ5IjoiTGlicmFyeSBBbm5leCJ9
+        XX0nXSwnYm91bmRfd2l0aF9jb3VudF9lbXB0eV9pdGVtX21pc21hdGNoX2In
+        PT50cnVlLCdpdGVtX2Rpc3BsYXknPT5bJzEwMjM5MTczfDY0MzkwMjcnXSwn
+        Ym91bmRfd2l0aF9qc29uJz0+Wyd7Iml0ZW1fZW51bSI6IiIsIml0ZW1faWQi
+        Ojc5ODYzMTAsIm1maGRfaWQiOiI2NDM4OTQyIiwiYmFyY29kZSI6IjMxOTI0
+        MTA0OTk0ODcwIn0nLCd7Iml0ZW1fZW51bSI6IiIsIml0ZW1faWQiOjc5ODYz
+        ODgsIm1maGRfaWQiOiI2NDM5MDI3IiwiYmFyY29kZSI6IjMxOTI0MTA0OTk0
+        OTM4In0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdsb2NhdGlv
+        bic9PlsnS3JvY2ggTGlicmFyeSBBc2lhJywnS3JvY2ggTGlicmFyeSBBc2lh
+        ID4gS3JvY2ggTGlicmFyeSBBc2lhJywnTGlicmFyeSBBbm5leCcsJ0xpYnJh
+        cnkgQW5uZXggPiBMaWJyYXJ5IEFubmV4J10sJ2l0ZW1fcmVjb3JkX2Rpc3Bs
+        YXknPT5bJ3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJu
+        b2NpcmMiLCJpdGVtX2lkIjoiMTAyMzkxNzMiLCJ5ZWFyIjoiIiwiaXRlbV90
+        eXBlX2lkIjoiOSIsImNocm9uIjoiIiwiY2FwdGlvbiI6IiIsImhvbGRzX3Bs
+        YWNlZCI6IjAiLCJ0ZW1wX2xvY2F0aW9uIjoiMCIsIm9uX3Jlc2VydmUiOiJO
+        IiwiaXRlbV9lbnVtIjoiRmlsbWVkIHdpdGgiLCJpdGVtX3NlcXVlbmNlX251
+        bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoi
+        NjQzOTAyNyIsInJlY2FsbHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoi
+        MjAxNy0wNC0wNiAxNDo1NTowMC4wIiwiaXRlbV9iYXJjb2RlIjoiIiwibW9k
+        aWZ5X2RhdGUiOiIiLCJwZXJtX2xvY2F0aW9uIjp7ImNvZGUiOiJlY2gsYW54
+        IiwibnVtYmVyIjoxNCwibmFtZSI6IkxpYnJhcnkgQW5uZXgiLCJsaWJyYXJ5
+        IjoiTGlicmFyeSBBbm5leCJ9fSddLCdiaWJpZF9kaXNwbGF5Jz0+Wyc1OTcy
+        ODk1fDIwMTUwNzEzMDcwMTA2J10sJ21hcmNfZGlzcGxheSc9Pic8P3htbCB2
+        ZXJzaW9uPVwnMS4wXCcgZW5jb2Rpbmc9XCdVVEYtOFwnPz48cmVjb3JkIHht
+        bG5zPSJodHRwOi8vd3d3LmxvYy5nb3YvTUFSQzIxL3NsaW0iPjxsZWFkZXI+
+        MDEwMTRjYW0gYTIyMDAyNDEgYSA0NTAwPC9sZWFkZXI+PGNvbnRyb2xmaWVs
+        ZCB0YWc9IjAwMSI+NTk3Mjg5NTwvY29udHJvbGZpZWxkPjxjb250cm9sZmll
+        bGQgdGFnPSIwMDUiPjIwMTUwNzEzMDcwMTA2LjA8L2NvbnRyb2xmaWVsZD48
+        Y29udHJvbGZpZWxkIHRhZz0iMDA3Ij5oZHxhZmEwMTBiYWNhPC9jb250cm9s
+        ZmllbGQ+PGNvbnRyb2xmaWVsZCB0YWc9IjAwOCI+MDcwMTI5czE5NjTCoMKg
+        wqDCoHZtwqDCoMKgwqDCoMKgYcKgwqDCoMKgZjAwMMKgMMKgdmllwqBkPC9j
+        b250cm9sZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjAzNSIgaW5kMT0iICIgaW5k
+        Mj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPjU5NzI4OTU8L3N1YmZpZWxkPjwv
+        ZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIwMzUiIGluZDE9IiAiIGluZDI9
+        IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4oT0NvTEMpODIxNDYyMzg8L3N1YmZp
+        ZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIwNDAiIGluZDE9IiAi
+        IGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5OSUM8L3N1YmZpZWxkPjxz
+        dWJmaWVsZCBjb2RlPSJjIj5OSUM8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxk
+        YXRhZmllbGQgdGFnPSIwNDMiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVs
+        ZCBjb2RlPSJhIj5hLXZ0LS0tPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0
+        YWZpZWxkIHRhZz0iMjQ1IiBpbmQxPSIwIiBpbmQyPSIwIj48c3ViZmllbGQg
+        Y29kZT0iYSI+Q2jDrW5oIHPDoWNoIHTDtG4gZ2nDoW8gY+G7p2EgxJDhuqNu
+        Zzwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImgiPlttaWNyb2Zvcm1dIDo8
+        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJiIj50w6BpIGxp4buHdSBo4buN
+        YyB04bqtcCBjaG8gY8OhbiBi4buZIGPGoSBz4bufLjwvc3ViZmllbGQ+PC9k
+        YXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjI0NiIgaW5kMT0iMyIgaW5kMj0i
+        MCI+PHN1YmZpZWxkIGNvZGU9ImEiPlTDoGkgbGnhu4d1IGjhu41jIHThuq1w
+        IGNobyBjw6FuIGLhu5kgY8ahIHPhu588L3N1YmZpZWxkPjwvZGF0YWZpZWxk
+        PjxkYXRhZmllbGQgdGFnPSIyNjAiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJm
+        aWVsZCBjb2RlPSJjIj5bTeG7uSBUaG9dIDo8L3N1YmZpZWxkPjxzdWJmaWVs
+        ZCBjb2RlPSJiIj5OaMOgIGluIE5ndXnhur3Mgm4gVsSDbiBLaeG7h20sPC9z
+        dWJmaWVsZD48c3ViZmllbGQgY29kZT0iYyI+MTk2NC48L3N1YmZpZWxkPjwv
+        ZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIzMDAiIGluZDE9IiAiIGluZDI9
+        IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4xMyBwLjwvc3ViZmllbGQ+PC9kYXRh
+        ZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjUzMyIgaW5kMT0iICIgaW5kMj0iICI+
+        PHN1YmZpZWxkIGNvZGU9ImEiPk1pY3JvZmlsbS4gSXRoYWNhLCBOLlkuIDo8
+        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJjIj5QaG90byBTZXJ2aWNlcyBv
+        ZiBDb3JuZWxsIFVuaXZlcnNpdHkgTGlicmFyeSw8L3N1YmZpZWxkPjxzdWJm
+        aWVsZCBjb2RlPSJkIj4xOTc1Ljwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9
+        ImUiPk9uIDEgbWljcm9maWxtIHJlZWwgd2l0aCBvdGhlciB0aXRsZXMgOyAz
+        NSBtbS48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI1
+        MzMiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5NaWNy
+        b2ZpbG0uIEl0aGFjYSwgTi5ZLiA6PC9zdWJmaWVsZD48c3ViZmllbGQgY29k
+        ZT0iYiI+UGhvdG8gU2VydmljZXMgb2YgQ29ybmVsbCBVbml2ZXJzaXR5IExp
+        YnJhcnksPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iZCI+MTk3NS48L3N1
+        YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJlIj5PbiAxIG1pY3JvZmlsbSByZWVs
+        IHdpdGggb3RoZXIgdGl0bGVzIDogbmVnYXRpdmUgOyAzNSBtbS48L3N1YmZp
+        ZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTEiIGluZDE9IiAi
+        IGluZDI9IjAiPjxzdWJmaWVsZCBjb2RlPSJhIj5WaWV0bmFtPC9zdWJmaWVs
+        ZD48c3ViZmllbGQgY29kZT0ieCI+UmVsaWdpb24uPC9zdWJmaWVsZD48L2Rh
+        dGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iNjUwIiBpbmQxPSIgIiBpbmQyPSIw
+        Ij48c3ViZmllbGQgY29kZT0iYSI+UmVsaWdpb24gYW5kIHN0YXRlPC9zdWJm
+        aWVsZD48c3ViZmllbGQgY29kZT0ieiI+VmlldG5hbS48L3N1YmZpZWxkPjwv
+        ZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI5NDgiIGluZDE9IjEiIGluZDI9
+        IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4yMDA3MDEyOTwvc3ViZmllbGQ+PHN1
+        YmZpZWxkIGNvZGU9ImIiPm88L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJk
+        Ij55dGIxPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iZSI+bHRzPC9zdWJm
+        aWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iOTQ4IiBpbmQxPSIx
+        IiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0iYSI+MjAwNzAxMjk8L3N1YmZp
+        ZWxkPjxzdWJmaWVsZCBjb2RlPSJiIj5sPC9zdWJmaWVsZD48c3ViZmllbGQg
+        Y29kZT0iZCI+eXRiMTwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImUiPmx0
+        czwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PC9yZWNvcmQ+JywnaWQnPT4nNTk3
+        Mjg5NScsJ3R5cGUnPT4nQ2F0YWxvZycsJ3NvdXJjZSc9PidWb3lhZ2VyJywn
+        Zm9ybWF0Jz0+WydNaWNyb2Zvcm0nLCdCb29rJ10sJ2RhdGFiYXNlX2InPT5m
+        YWxzZSwnZm9ybWF0X21haW5fZmFjZXQnPT4nQm9vaycsJ2xhbmd1YWdlX2Zh
+        Y2V0Jz0+WydWaWV0bmFtZXNlJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ1Zp
+        ZXRuYW1lc2UuJ10sJ2NhbGxudW1fc29ydCc9PidGaWxtIDEzMDczIG5vLiAx
+        OCcsJ3B1Yl9kYXRlX2Rpc3BsYXknPT5bJ1tN4bu5IFRob10gOiAxOTY0J10s
+        J3B1Yl9kYXRlX2ZhY2V0Jz0+MTk2NCwncHViX2RhdGVfc29ydCc9PjE5NjQs
+        J3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ1tN4bu5IFRob10gOiBOaMOgIGluIE5n
+        dXnhur3Mgm4gVsSDbiBLaeG7h20sIDE5NjQuJ10sJ3B1Ymxpc2hlcl9kaXNw
+        bGF5Jz0+WydOaMOgIGluIE5ndXnhur3Mgm4gVsSDbiBLaeG7h20nXSwndGl0
+        bGVfc21zX2NvbXBhdF9kaXNwbGF5Jz0+WydDaGluaCBzYWNoIHRvbiBnaWFv
+        IGN1YSBhbmcnXSwndGl0bGVfMmxldHRlcl9zJz0+WydjaCddLCd0aXRsZV9k
+        aXNwbGF5Jz0+J0Now61uaCBzw6FjaCB0w7RuIGdpw6FvIGPhu6dhIMSQ4bqj
+        bmcnLCd0aXRsZV8xbGV0dGVyX3MnPT5bJ2MnXSwnc3VidGl0bGVfZGlzcGxh
+        eSc9Pid0w6BpIGxp4buHdSBo4buNYyB04bqtcCBjaG8gY8OhbiBi4buZIGPG
+        oSBz4bufJywnZnVsbHRpdGxlX2Rpc3BsYXknPT4nQ2jDrW5oIHPDoWNoIHTD
+        tG4gZ2nDoW8gY+G7p2EgxJDhuqNuZyA6IHTDoGkgbGnhu4d1IGjhu41jIHTh
+        uq1wIGNobyBjw6FuIGLhu5kgY8ahIHPhu58nLCdvcGVuc2VhcmNoX2Rpc3Bs
+        YXknPT5bJ0Now61uaCBzw6FjaCB0w7RuIGdpw6FvIGPhu6dhIMSQ4bqjbmcg
+        OiB0w6BpIGxp4buHdSBo4buNYyB04bqtcCBjaG8gY8OhbiBi4buZIGPGoSBz
+        4bufJywnVmlldG5hbSA+IFJlbGlnaW9uJywnUmVsaWdpb24gYW5kIHN0YXRl
+        ID4gVmlldG5hbSddLCdub3Rlcyc9PlsnTWljcm9maWxtLiBJdGhhY2EsIE4u
+        WS4gOiBQaG90byBTZXJ2aWNlcyBvZiBDb3JuZWxsIFVuaXZlcnNpdHkgTGli
+        cmFyeSwgMTk3NS4gT24gMSBtaWNyb2ZpbG0gcmVlbCB3aXRoIG90aGVyIHRp
+        dGxlcyA7IDM1IG1tLicsJ01pY3JvZmlsbS4gSXRoYWNhLCBOLlkuIDogUGhv
+        dG8gU2VydmljZXMgb2YgQ29ybmVsbCBVbml2ZXJzaXR5IExpYnJhcnksIDE5
+        NzUuIE9uIDEgbWljcm9maWxtIHJlZWwgd2l0aCBvdGhlciB0aXRsZXMgOiBu
+        ZWdhdGl2ZSA7IDM1IG1tLiddLCd0aXRsZV9vdGhlcl9kaXNwbGF5Jz0+WydU
+        w6BpIGxp4buHdSBo4buNYyB04bqtcCBjaG8gY8OhbiBi4buZIGPGoSBz4buf
+        J10sJ2Rlc2NyaXB0aW9uX2Rpc3BsYXknPT5bJzEzIHAuJ10sJ290aGVyX2lk
+        X2Rpc3BsYXknPT5bJzU5NzI4OTUnLCcoT0NvTEMpODIxNDYyMzgnXSwnc3Vi
+        amVjdF9jb250ZW50X2ZhY2V0Jz0+WydOb24tRmljdGlvbiAoYm9va3MpJ10s
+        J3N1YmplY3RfdG9waWNfZmlsaW5nJz0+WydyZWxpZ2lvbiBhbmQgc3RhdGUg
+        MDAwMCB2aWV0bmFtJywncmVsaWdpb24gYW5kIHN0YXRlJ10sJ3N1YmplY3Rf
+        ZGlzcGxheSc9PlsnVmlldG5hbSA+IFJlbGlnaW9uJywnUmVsaWdpb24gYW5k
+        IHN0YXRlID4gVmlldG5hbSddLCdmYXN0X2InPT5mYWxzZSwnc3ViamVjdF9n
+        ZW9fZmlsaW5nJz0+Wyd2aWV0bmFtJywndmlldG5hbSAwMDAwIHJlbGlnaW9u
+        J10sJ3N1YmplY3RfZ2VvX2ZhY2V0Jz0+WydWaWV0bmFtJywnVmlldG5hbSA+
+        IFJlbGlnaW9uJ10sJ3N1YmplY3RfdG9waWNfZmFjZXQnPT5bJ1JlbGlnaW9u
+        IGFuZCBzdGF0ZSA+IFZpZXRuYW0nLCdSZWxpZ2lvbiBhbmQgc3RhdGUnXSwn
+        c3ViamVjdF9qc29uJz0+WydbeyJzdWJqZWN0IjoiVmlldG5hbSIsImF1dGhv
+        cml6ZWQiOnRydWUsInR5cGUiOiJHZW9ncmFwaGljIE5hbWUifSx7InN1Ympl
+        Y3QiOiJSZWxpZ2lvbi4iLCJhdXRob3JpemVkIjpmYWxzZX1dJywnW3sic3Vi
+        amVjdCI6IlJlbGlnaW9uIGFuZCBzdGF0ZSIsImF1dGhvcml6ZWQiOnRydWUs
+        InR5cGUiOiJUb3BpY2FsIFRlcm0ifSx7InN1YmplY3QiOiJWaWV0bmFtLiIs
+        ImF1dGhvcml6ZWQiOmZhbHNlfV0nXSwnd29ya2lkX2ZhY2V0Jz0+Wyc2Njc5
+        NjE0NSddLCdfdmVyc2lvbl8nPT4xNTkzMTM3MjU5NzExODIzODcyLCd0aW1l
+        c3RhbXAnPT4nMjAxOC0wMi0yMlQyMToxNDo0Ny4wMzZaJ31dfX0K
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 20:50:51 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/status_short/5972895
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/status_short/5972895
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '251'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/5972895">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 20:50:51 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/status_short/5972895
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"d62c8f540539c54930b9bd254a91fb3e"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 2b08f110bf4b914c0d5065b17eedb48f
+      X-Runtime:
+      - '0.112827'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"5972895":{"5972895":{"records":[{"bibid":"5972895","call_number":"Film
+        N13073 no. 18","statuses":{"6439027":"available","6438942":"none"},"holdings":[{"BIB_ID":5972895,"MFHD_ID":6439027,"ITEM_ID":10239173,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"Film
+        N13073 no. 18","LOCATION_ID":14,"LOCATION_CODE":"ech,anx","LOCATION_DISPLAY_NAME":"Library
+        Annex","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2017-04-06T14:55:00-05:00","PERM_LOCATION":14,"PERM_LOCATION_DISPLAY_NAME":"Library
+        Annex","PERM_LOCATION_CODE":"ech,anx","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":"Filmed
+        with","CHRON":null},{"BIB_ID":5972895,"MFHD_ID":6438942,"ITEM_ID":null,"ITEM_STATUS":null,"DISPLAY_CALL_NO":"Film
+        13073 no. 18","LOCATION_ID":13,"LOCATION_CODE":"ech","LOCATION_DISPLAY_NAME":"Kroch
+        Library Asia","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":null,"ITEM_STATUS_DATE":null,"PERM_LOCATION":null,"PERM_LOCATION_DISPLAY_NAME":null,"PERM_LOCATION_CODE":null,"CURRENT_DUE_DATE":null,"HOLDS_PLACED":null,"RECALLS_PLACED":null,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Library
+        Annex","Kroch Library Asia"],"locnumber":2,"status":["avail"],"avail_at":{"Library
+        Annex":"Film N13073 no. 18"},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 20:50:51 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/item/7986310/7986388
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/item/7986310/7986388
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '251'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/item/7986310/7986388">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 20:50:51 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/item/7986310/7986388
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 20:50:51 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"66d3a4871d47244ff26e94ca2c60f684"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - ef64bc0e9aaf7628c14f0f618d6f5d24
+      X-Runtime:
+      - '0.116962'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"5972464":[{"BIB_ID":5972464,"MFHD_ID":6438604,"ITEM_ID":7986310,"ITEM_STATUS":1,"DISPLAY_CALL_NO":"Film
+        13073 no. 1","LOCATION_ID":13,"LOCATION_CODE":"ech","LOCATION_DISPLAY_NAME":"Kroch
+        Library Asia","PERM_LOCATION":13,"TEMP_LOCATION":0,"ITEM_TYPE_ID":19,"TEMP_ITEM_TYPE_ID":0,"COPY_NUMBER":1,"ON_RESERVE":"N","RESERVE_CHARGES":0,"PIECES":1,"PRICE":0,"SPINE_LABEL":null,"HISTORICAL_CHARGES":1,"HISTORICAL_BROWSES":3,"RECALLS_PLACED":0,"HOLDS_PLACED":0,"CREATE_DATE":"2007-02-19T15:15:37-05:00","MODIFY_DATE":null,"CREATE_OPERATOR_ID":"ocm24","MODIFY_OPERATOR_ID":null,"CREATE_LOCATION_ID":183,"MODIFY_LOCATION_ID":null,"ITEM_SEQUENCE_NUMBER":1,"HISTORICAL_BOOKINGS":0,"MEDIA_TYPE_ID":0,"SHORT_LOAN_CHARGES":"0.0","MAGNETIC_MEDIA":"N","SENSITIZE":"Y","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2017-03-12T08:35:48-05:00","PERM_LOCATION_DISPLAY_NAME":"Kroch
+        Library Asia","PERM_LOCATION_CODE":"ech","CURRENT_DUE_DATE":null,"PO_TYPE":null,"ITEM_ENUM":"no.1-69","CHRON":null,"TITLE":"\ufffd\ufffda\ufffd\ufffdng
+        nha\ufffd\ufffdn da\ufffd\ufffdn ca\ufffd\ufffdch ma\ufffd\ufffdng Vie\ufffd\ufffd\ufffd\ufffdt
+        Nam g\ufffd\ufffd\ufffd\ufffdi anh em no\ufffd\ufffdng da\ufffd\ufffdn lao
+        \ufffd\ufffdo\ufffd\ufffd\ufffd\ufffdng mie\ufffd\ufffd\ufffd\ufffdn Nam [microform].
+        "}]}'
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 20:50:52 GMT
 recorded_with: VCR 3.0.3

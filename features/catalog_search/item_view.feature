@@ -178,15 +178,15 @@ Feature: Item view
     Then I should not see the label 'Temporarily shelved'
 
   # the black atlantic modernity and double consciousness
-  @all_item_view
-  @availability
-  @DISCOVERYACCESS-988
-  @nomusic
-  @request
-  Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-   Given PENDING
-    Given I request the item view for 2269649
-    Then I should not see the label 'Music Library Reserve'
+  #@all_item_view
+  #@availability
+  #@DISCOVERYACCESS-988
+  #@nomusic
+  #@request
+  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+  # Given PENDING
+  #  Given I request the item view for 2269649
+  #  Then I should not see the label 'Music Library Reserve'
 
   #@availability
   #@DISCOVERYACCESS-988
@@ -552,11 +552,11 @@ Feature: Item view
     And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365"
     And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559"
 
+   #Given PENDING
   @all_item_view
  @boundwith
  @DISCOVERYACCESS-2295
   Scenario: Show the record properly when a holding has no items
-   Given PENDING
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
 
