@@ -184,6 +184,7 @@ Feature: Item view
   @nomusic
   @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+   Given PENDING
     Given I request the item view for 2269649
     Then I should not see the label 'Music Library Reserve'
 
