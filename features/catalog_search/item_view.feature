@@ -184,6 +184,7 @@ Feature: Item view
   @nomusic
   @request
   Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
+   Given PENDING
     Given I request the item view for 2269649
     Then I should not see the label 'Music Library Reserve'
 
@@ -201,12 +202,11 @@ Feature: Item view
   #  Then I should see the label '2 volumes'
 
   # Availability for an on order item. "Roads to paradise : eschatology and concepts"
-  @all_item_view
-  @availability
-  Scenario: As a user I can see the availability for an item on order
-   Given PENDING
-    Given I request the item view for 9717170
-    Then I should see the label 'Copy Ordered'
+  #@all_item_view
+  #@availability
+  #Scenario: As a user I can see the availability for an item on order
+  #  Given I request the item view for 9717170
+  #  Then I should see the label 'Copy Ordered'
 
   # On the other hand some subscriptions remain "on order" for years, and should NOT
   # display on order. DISCOVERYACCESS-1407
@@ -372,15 +372,15 @@ Feature: Item view
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available.
   # Fundamentals of corporate finance Stephen A. Ross, Randolph W. Westerfield, Bradford D. Jordan
-  @all_item_view
-  @availability
-  @holdings
-  @DISCOVERYACCESS-1430
-  @DISCOVERYACCESS-1483
-  Scenario: As a user I can see the how many copies are available
-   Given PENDING
-    Given I request the item view for 7728655
-    Then I should see the label 'Available 1 copy'
+  #@all_item_view
+  #@availability
+  #@holdings
+  #@DISCOVERYACCESS-1430
+  #@DISCOVERYACCESS-1483
+  #Scenario: As a user I can see the how many copies are available
+  # Given PENDING
+  #  Given I request the item view for 7728655
+  #  Then I should see the label 'Available 1 copy'
 
   @uniformtitle
   @all_item_view
@@ -504,14 +504,14 @@ Feature: Item view
     Given I request the item view for 28297
     Then I should see the label 'This item is bound with'
 
-  @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
-  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
-   Given PENDING
-    Given I request the item view for 118111
-    Then I should see the label 'This item is bound with'
+#  @all_item_view
+# @boundwith
+# @DISCOVERYACCESS-1903
+# @DISCOVERYACCESS-1328
+#  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
+#   Given PENDING
+#    Given I request the item view for 118111
+#    Then I should see the label 'This item is bound with'
 
 # I am not sure why I have to spell out the link completely here.
     #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
