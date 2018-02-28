@@ -40314,4 +40314,225 @@ http_interactions:
         OjMwOjQzLjkxM1onfV19fQo=
     http_version: 
   recorded_at: Tue, 27 Feb 2018 19:02:56 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/b7/select?id=2696727&qt=document&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 28 Feb 2018 15:19:38 GMT
+      Last-Modified:
+      - Wed, 28 Feb 2018 15:19:28 GMT
+      Etag:
+      - '"OWRiM2I4MDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '3963'
+      Via:
+      - 1.1 da-prod-solr8.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
+        dXMnPT4wLCdRVGltZSc9PjcsJ3BhcmFtcyc9PnsncSc9Pid7IXJhdyBmPWlk
+        IHY9JGlkfScsJ3F0Jz0+J2RvY3VtZW50JywnZWNob1BhcmFtcyc9PidhbGwn
+        LCdmbCc9PicqJywnaWQnPT4nMjY5NjcyNycsJ2NvbGxlY3Rpb24nPT4nYjcn
+        LCdyb3dzJz0+JzEnLCd3dCc9PidydWJ5J319LCdyZXNwb25zZSc9PnsnbnVt
+        Rm91bmQnPT4xLCdzdGFydCc9PjAsJ21heFNjb3JlJz0+MTMuODAzMzA5LCdk
+        b2NzJz0+W3snbXVsdGl2b2xfYic9PmZhbHNlLCdob2xkaW5nc19kaXNwbGF5
+        Jz0+WyczMjA2NzI3J10sJ2xvY2F0aW9uX2ZhY2V0Jz0+WydBZnJpY2FuYSBM
+        aWJyYXJ5J10sJ2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoi
+        MzIwNjcyNyIsIm1vZGlmaWVkX2RhdGUiOm51bGwsImNvcHlfbnVtYmVyIjpu
+        dWxsLCJjYWxsbm9zIjpbIk9uIE9yZGVyIl0sIm5vdGVzIjpbXSwiaG9sZGlu
+        Z3NfZGVzYyI6W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxl
+        bWVudGFsX2hvbGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNj
+        IjpbXSwibG9jYXRpb25zIjpbeyJjb2RlIjoiYWZyIiwibnVtYmVyIjoyLCJu
+        YW1lIjoiQWZyaWNhbmEgTGlicmFyeSAoQWZyaWNhbmEgQ2VudGVyKSIsImxp
+        YnJhcnkiOiJBZnJpY2FuYSBMaWJyYXJ5In1dfSddLCdvbmxpbmUnPT5bJ0F0
+        IHRoZSBMaWJyYXJ5J10sJ2xvY2F0aW9uJz0+WydBZnJpY2FuYSBMaWJyYXJ5
+        JywnQWZyaWNhbmEgTGlicmFyeSA+IEFmcmljYW5hIExpYnJhcnkgKEFmcmlj
+        YW5hIENlbnRlciknXSwnYmliaWRfZGlzcGxheSc9PlsnMjY5NjcyN3wyMDE0
+        MDgxNDAwNDQ0NiddLCdtYXJjX2Rpc3BsYXknPT4nPD94bWwgdmVyc2lvbj1c
+        JzEuMFwnIGVuY29kaW5nPVwnVVRGLThcJz8+PHJlY29yZCB4bWxucz0iaHR0
+        cDovL3d3dy5sb2MuZ292L01BUkMyMS9zbGltIj48bGVhZGVyPjAwNTEwY2Ft
+        IGEyMjAwMTU3NWEgNDUwMDwvbGVhZGVyPjxjb250cm9sZmllbGQgdGFnPSIw
+        MDEiPjI2OTY3Mjc8L2NvbnRyb2xmaWVsZD48Y29udHJvbGZpZWxkIHRhZz0i
+        MDA1Ij4yMDE0MDgxNDAwNDQ0Ni4wPC9jb250cm9sZmllbGQ+PGNvbnRyb2xm
+        aWVsZCB0YWc9IjAwOCI+OTQwNDA4czE5OTTCoMKgwqDCoGNhdcKgwqDCoMKg
+        wqDCoMKgwqDCoMKgwqAwMDDCoDDCoGVuZ8KgZDwvY29udHJvbGZpZWxkPjxk
+        YXRhZmllbGQgdGFnPSIwMjAiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVs
+        ZCBjb2RlPSJhIj4wOTQzNDEyMTdYPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48
+        ZGF0YWZpZWxkIHRhZz0iMDM1IiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmll
+        bGQgY29kZT0iYSI+KE5JQylub3Rpc0FOSDkyODk8L3N1YmZpZWxkPjwvZGF0
+        YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIwMzUiIGluZDE9IiAiIGluZDI9IiAi
+        PjxzdWJmaWVsZCBjb2RlPSJhIj4yNjk2NzI3PC9zdWJmaWVsZD48L2RhdGFm
+        aWVsZD48ZGF0YWZpZWxkIHRhZz0iMTAwIiBpbmQxPSIxIiBpbmQyPSIgIj48
+        c3ViZmllbGQgY29kZT0iYSI+S2FyZW5nYSwgTWF1bGFuYS48L3N1YmZpZWxk
+        PjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIyNDUiIGluZDE9IjEiIGlu
+        ZDI9IjAiPjxzdWJmaWVsZCBjb2RlPSJhIj5SYWNlLCBldGhuaWNpdHkgYW5k
+        IG11bHRpY3VsdHVyYWxpc20gOjwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9
+        ImIiPmlzc3VlcyBpbiBkb21pbmF0aW9uLCByZXNpc3RhbmNlIGFuZCBkaXZl
+        cnNpdHkgLzwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImMiPk1hdWxhbmEg
+        S2FyZW5nYS48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFn
+        PSIyNjAiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5M
+        b3MgQW5nZWxlcyA6PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iYiI+VW5p
+        dmVyc2l0eSBvZiBTYW5rb3JlIFByZXNzLDwvc3ViZmllbGQ+PHN1YmZpZWxk
+        IGNvZGU9ImMiPjE5OTQuPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZp
+        ZWxkIHRhZz0iMzAwIiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29k
+        ZT0iYSI+eHZpaWksIDUzMSBwLiA7PC9zdWJmaWVsZD48c3ViZmllbGQgY29k
+        ZT0iYyI+MjMgY20uPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxk
+        IHRhZz0iOTA1IiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0i
+        YSI+MTk5NTA3MTcxMjAwMDAuMDwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PC9y
+        ZWNvcmQ+JywnaWQnPT4nMjY5NjcyNycsJ3R5cGUnPT4nQ2F0YWxvZycsJ3Nv
+        dXJjZSc9PidWb3lhZ2VyJywnZm9ybWF0Jz0+WydCb29rJ10sJ2RhdGFiYXNl
+        X2InPT5mYWxzZSwnZm9ybWF0X21haW5fZmFjZXQnPT4nQm9vaycsJ2xhbmd1
+        YWdlX2Rpc3BsYXknPT5bJ0VuZ2xpc2guJ10sJ2xhbmd1YWdlX2ZhY2V0Jz0+
+        WydFbmdsaXNoJ10sJ2NhbGxudW1fc29ydCc9PidPbiBPcmRlcicsJ3B1Yl9k
+        YXRlX2Rpc3BsYXknPT5bJzE5OTQnXSwncHViX2RhdGVfZmFjZXQnPT4xOTk0
+        LCdwdWJfZGF0ZV9zb3J0Jz0+MTk5NCwncHViX2luZm9fZGlzcGxheSc9Plsn
+        TG9zIEFuZ2VsZXMgOiBVbml2ZXJzaXR5IG9mIFNhbmtvcmUgUHJlc3MsIDE5
+        OTQuJ10sJ3B1Ymxpc2hlcl9kaXNwbGF5Jz0+WydVbml2ZXJzaXR5IG9mIFNh
+        bmtvcmUgUHJlc3MnXSwncHVicGxhY2VfZGlzcGxheSc9PlsnTG9zIEFuZ2Vs
+        ZXMnXSwnYXV0aG9yX2pzb24nPT5bJ3sibmFtZTEiOiJLYXJlbmdhLCBNYXVs
+        YW5hLiIsInNlYXJjaDEiOiJLYXJlbmdhLCBNYXVsYW5hLiIsInJlbGF0b3Ii
+        OiIiLCJ0eXBlIjoiUGVyc29uYWwgTmFtZSIsImF1dGhvcml6ZWRGb3JtIjp0
+        cnVlfSddLCdhdXRob3J0aXRsZV9maWxpbmcnPT5bJ2thcmVuZ2EgbWF1bGFu
+        YSAwMDAwIHJhY2UgZXRobmljaXR5IGFuZCBtdWx0aWN1bHR1cmFsaXNtJ10s
+        J3RpdGxlXzJsZXR0ZXJfcyc9PlsncmEnXSwndGl0bGVfMWxldHRlcl9zJz0+
+        WydyJ10sJ29wZW5zZWFyY2hfZGlzcGxheSc9PlsnS2FyZW5nYSwgTWF1bGFu
+        YS4nLCdSYWNlLCBldGhuaWNpdHkgYW5kIG11bHRpY3VsdHVyYWxpc20gOiBp
+        c3N1ZXMgaW4gZG9taW5hdGlvbiwgcmVzaXN0YW5jZSBhbmQgZGl2ZXJzaXR5
+        J10sJ2Z1bGx0aXRsZV9kaXNwbGF5Jz0+J1JhY2UsIGV0aG5pY2l0eSBhbmQg
+        bXVsdGljdWx0dXJhbGlzbSA6IGlzc3VlcyBpbiBkb21pbmF0aW9uLCByZXNp
+        c3RhbmNlIGFuZCBkaXZlcnNpdHknLCd0aXRsZV9yZXNwb25zaWJpbGl0eV9k
+        aXNwbGF5Jz0+WydNYXVsYW5hIEthcmVuZ2EuJ10sJ2F1dGhvcnRpdGxlX2Zh
+        Y2V0Jz0+WydLYXJlbmdhLCBNYXVsYW5hLiB8IFJhY2UsIGV0aG5pY2l0eSBh
+        bmQgbXVsdGljdWx0dXJhbGlzbSddLCd0aXRsZV9zbXNfY29tcGF0X2Rpc3Bs
+        YXknPT5bJ1JhY2UsIGV0aG5pY2l0eSBhbmQgbXVsdGljdWx0dXJhbGlzbSdd
+        LCd0aXRsZV9kaXNwbGF5Jz0+J1JhY2UsIGV0aG5pY2l0eSBhbmQgbXVsdGlj
+        dWx0dXJhbGlzbScsJ2F1dGhvcl9kaXNwbGF5Jz0+J0thcmVuZ2EsIE1hdWxh
+        bmEuJywnc3VidGl0bGVfZGlzcGxheSc9Pidpc3N1ZXMgaW4gZG9taW5hdGlv
+        biwgcmVzaXN0YW5jZSBhbmQgZGl2ZXJzaXR5JywnYXV0aG9yX2ZhY2V0Jz0+
+        WydLYXJlbmdhLCBNYXVsYW5hJ10sJ2F1dGhvcl9wZXJzX2ZpbGluZyc9Plsn
+        a2FyZW5nYSBtYXVsYW5hJ10sJ2Rlc2NyaXB0aW9uX2Rpc3BsYXknPT5bJ3h2
+        aWlpLCA1MzEgcC4gOyAyMyBjbS4nXSwnb3RoZXJfaWRfZGlzcGxheSc9Plsn
+        KE5JQylub3Rpc0FOSDkyODknLCcyNjk2NzI3J10sJ3N1YmplY3RfY29udGVu
+        dF9mYWNldCc9PlsnTm9uLUZpY3Rpb24gKGJvb2tzKSddLCdmYXN0X2InPT5m
+        YWxzZSwnaXNibl90Jz0+WycwOTQzNDEyMTdYJ10sJ2lzYm5fZGlzcGxheSc9
+        PlsnMDk0MzQxMjE3WCddLCdfdmVyc2lvbl8nPT4xNTkzMTM1NDIzMzM0Mzgz
+        NjE2LCd0aW1lc3RhbXAnPT4nMjAxOC0wMi0yMlQyMDo0NTozNS43NTFaJ31d
+        fX0K
+    http_version: 
+  recorded_at: Wed, 28 Feb 2018 15:19:38 GMT
+- request:
+    method: get
+    uri: http://holdings5.library.cornell.edu/holdings/status_short/2696727
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 28 Feb 2018 15:19:38 GMT
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 28 Feb 2018 15:19:38 GMT
+      Server:
+      - Apache
+      Location:
+      - https://holdings5.library.cornell.edu/holdings/status_short/2696727
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '251'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/2696727">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Wed, 28 Feb 2018 15:19:38 GMT
+- request:
+    method: get
+    uri: https://holdings5.library.cornell.edu/holdings/status_short/2696727
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 28 Feb 2018 15:19:38 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 28 Feb 2018 15:19:38 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - '"03de8edda33907b5b036e501af4299c6"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 42973162cbf3aa00c29ff80522c79e2c
+      X-Runtime:
+      - '0.123771'
+      X-Powered-By:
+      - Phusion Passenger 4.0.58
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"2696727":{"2696727":{"records":[{"bibid":"2696727","call_number":"On
+        Order","statuses":{"3206727":"none"},"holdings":[{"BIB_ID":2696727,"MFHD_ID":3206727,"ITEM_ID":null,"ITEM_STATUS":null,"DISPLAY_CALL_NO":"On
+        Order","LOCATION_ID":2,"LOCATION_CODE":"afr","LOCATION_DISPLAY_NAME":"Africana
+        Library (Africana Center)","OQUANTITY":1,"ODATE":"2000-07-03T09:17:33-05:00","LINE_ITEM_STATUS":7,"LINE_ITEM_ID":45796,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":null,"ITEM_STATUS_DATE":null,"PERM_LOCATION":null,"PERM_LOCATION_DISPLAY_NAME":null,"PERM_LOCATION_CODE":null,"CURRENT_DUE_DATE":null,"HOLDS_PLACED":null,"RECALLS_PLACED":null,"PO_TYPE":1,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["Africana
+        Library (Africana Center)"],"locnumber":1,"status":["avail"],"avail_at":{},"not_avail_at":{},"onotes":[]}}}}'
+    http_version: 
+  recorded_at: Wed, 28 Feb 2018 15:19:38 GMT
 recorded_with: VCR 3.0.3
