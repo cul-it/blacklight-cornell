@@ -679,8 +679,8 @@ Feature: Item view
   @all_item_view
   @DISCOVERYACCESS-2881
   Scenario: Show multiple links to other online content
-    Given I request the item view for 9320739
-    Then I should see the label 'Other online content'
+    Given I request the item view for 8913436 
+    Then I should see the label 'Online'
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
 
