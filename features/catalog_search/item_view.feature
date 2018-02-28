@@ -201,12 +201,12 @@ Feature: Item view
   #  Given I request the item view for 44112
   #  Then I should see the label '2 volumes'
 
-  # Availability for an on order item. "Roads to paradise : eschatology and concepts"
+  # Availability for an on order item.  "Race , ethnicity, and multiculturalism, by Maulana Karenga"
   #@all_item_view
-  #@availability
-  #Scenario: As a user I can see the availability for an item on order
-  #  Given I request the item view for 9717170
-  #  Then I should see the label 'Copy Ordered'
+  @availability
+  Scenario: As a user I can see the availability for an item on order
+    Given I request the item view for 2696727 
+    Then I should see the label 'On Order'
 
   # On the other hand some subscriptions remain "on order" for years, and should NOT
   # display on order. DISCOVERYACCESS-1407
