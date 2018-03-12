@@ -329,7 +329,7 @@ GEM
     mysql (2.9.1)
     namae (0.11.3)
     nenv (0.3.0)
-    net-ldap (0.15.0)
+    net-ldap (0.16.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
