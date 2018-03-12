@@ -198,19 +198,20 @@ Feature: Results list
 
 
   # DISCOVERYACCESS-1407
+  # Given PENDING
   @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials
     Given I am on the home page
-                Given PENDING
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'
+
   # DISCOVERYACCESS-1407
         @all_results_list
   @DISCOVERYACCESS-1407
