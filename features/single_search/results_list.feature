@@ -65,8 +65,7 @@ Feature: Results list
     When I fill in "q" with 'nature'
     And I press 'Search'
     When I follow "link_top_book"
-    Given PENDING
-    And I should see the text "Altering nature c2008"
+    And I should see the text "Nature : the double helix"
 
 		@all_results_list @search_with_view_all_digital_collections
 	  Scenario: Search with view all books link
@@ -85,22 +84,29 @@ Feature: Results list
 			And I should see the text "or use advanced search"
 
   @all_results_list @search_with_view_all_libguides
-  Scenario: Search with view all books link
-    Given PENDING
+  Scenario: Search and find a course guide 
 	    Given I literally go to search
-	    When I fill in "q" with 'business writing'
+	    When I fill in "q" with 'chemical process design course guide'
 	    And I press 'Search'
 	    Then I should get bento results
-	    And I should see the text "Research Guides"
+	    And I should see the text "Course Guides"
 
+  @all_results_list @search_with_view_all_libguides
+  Scenario: Search with view all books link
+	    Given I literally go to search
+	    When I fill in "q" with 'African American Historical Newspapers Online research guide'
+	    And I press 'Search'
+	    Then I should get bento results
+	    And I should see the text "research guide"
+
+  #Given PENDING
   @all_results_list @search_with_view_all_music_match_box
   Scenario: Search with view all music link
     Given I literally go to search
     When I fill in "q" with 'nature morte'
     And I press 'Search'
-    Given PENDING
-		# Then I should get bento results
-		Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page_entries"
+    # Then I should get bento results
+    Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page_entries"
 
   @all_results_list @search_with_view_all_manuscript_archive
   Scenario: Search with view all music link
