@@ -29,7 +29,7 @@
 						<div class="catalog-link">
 						  <% if data["id"].present? %>
 						    <%= link_to '/catalog/' + data["id"] do %>
-						      Catalog record
+						      Catalog record <span class="sr-only">for <%= data["fulltitle_display"] %></a>
 						    <% end %>
 						  <% end %>
 						</div>
