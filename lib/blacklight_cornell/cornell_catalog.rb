@@ -113,7 +113,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    
+    set_bag_name 
     # make sure we are not going directly to home page
    search_session[:per_page] = params[:per_page]
     temp_search_field = ''
@@ -137,11 +137,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         end
         check_params(params)
       end
+     if params[:q_row] == ["",""]
+       params.delete(:q_row)
+     end
       
 
     end
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
+    Rails.logger.info("FARTS = #{params[:q]}")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -199,11 +203,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
     end
     end
-
+    @controller = self
     respond_to do |format|
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
+      format.json { render json: { response: { document: @document_list } } }
     end
     
      if !params[:q_row].nil?       
@@ -224,8 +229,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def show
     @response, @document = fetch params[:id]
     @documents = [ @document ]
+    set_bag_name 
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     respond_to do |format|
+      format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
       format.rss  { render :layout => false }
@@ -327,9 +334,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       else
         @response, @documents = fetch(params[:id])
       end
+      fmt = params[:format]
+      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
       respond_to do |format|
-        format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.ris      { render 'ris', :layout => false }
+        format.endnote_xml { render "show.endnote_xml" ,layout: false } 
+        format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+        format.ris         { render 'ris', :layout => false }
       end
     end
 
@@ -585,7 +595,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   private
 
   def validate_uri(uri)
-    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
+                    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
     if confirmed_uri.blank?
       return false
     else
@@ -595,7 +606,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   def generate_uri(uri)
     Appsignal.increment_counter('item_sms', 1)
-    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix]
+    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
+                    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
     if !confirmed_uri.blank?
       uri_parsed = confirmed_uri
       shorten = Rails.application.config.url_shorten
@@ -642,126 +654,152 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       params[:range][:pub_date_facet][:end] = end_test
   end
 
-  def check_params(params)
-    qparam_display = ''
-    fieldname = ''
+def check_params(params)
+     qparam_display = ''
+     fieldname = ''
 
-    # Journal title search hack.
-    if params[:search_field].nil?
-      params[:search_field] = 'all_fields'
-    end
-    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
-      if params[:f].nil?
-        params[:f] = {'format' => ['Journal/Periodical']}
-      end
-      params[:f].merge('format' => ['Journal/Periodical'])
-      # unless(!params[:q])
-      #params[:q] = params[:q]
-      if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
-        params[:search_field] = 'advanced'
-      else
-        params[:search_field] = 'title'
-      end
-      search_session[:f] = params[:f]
-    end
-    fieldname = ''
-    if params[:search_field] == 'call number'
-      fieldname = 'lc_callnum'
-    else
-      if params[:search_field] == 'author/creator'
-        fieldname = 'author' 
-      else
-        if params[:search_field] == 'all_fields'
-          fieldname = ''
-        else
-          if params[:search_field] == 'publisher number/other identifier'
-            fieldname = 'number'
-            params[:search_field] = 'number'
-          else
-           fieldname = params[:search_field]
-          end
-        end
-      end
-    end
-    # end of Journal title search hack
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    #quote the call number
-    if params[:search_field] == 'call number'
-       params[:search_field] = 'lc_callnum'
-       if !params[:q].nil?
-         search_session[:q] = params[:q]
-         params[:qdisplay] = params[:q]
-         if !params[:q].include?('"')
-           params[:q] = '"' << params[:q] << '"'
+     # Journal title search hack.
+     if params[:search_field].nil?
+       params[:search_field] = 'all_fields'
+     end
+     if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+       if params[:f].nil?
+         params[:f] = {'format' => ['Journal/Periodical']}
+       end
+       params[:f][:format] = ['Journal/Periodical']
+       # unless(!params[:q])
+       #params[:q] = params[:q]
+       if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+         params[:search_field] = 'advanced'
+       else
+         params[:search_field] = 'title'
+       end
+       search_session[:f] = params[:f]
+     end
+     fieldname = ''
+     if params[:search_field] == 'call number'
+       fieldname = 'lc_callnum'
+     else
+       if params[:search_field] == 'author/creator'
+         fieldname = 'author' 
+       else
+         if params[:search_field] == 'all_fields'
+           fieldname = ''
+         else
+           if params[:search_field] == 'publisher number/other identifier'
+             fieldname = 'number'
+             params[:search_field] = 'number'
+           else
+            fieldname = params[:search_field]
+           end
          end
-        # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+       end
+     end
+     # end of Journal title search hack
+     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+     #quote the call number
+     if params[:search_field] == 'call number'
+        params[:search_field] = 'lc_callnum'
+        if !params[:q].nil?
+          search_session[:q] = params[:q]
+          params[:qdisplay] = params[:q]
+          if !params[:q].include?('"')
+            params[:q] = '"' << params[:q] << '"'
+          end
+         # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
+        else
+          params[:q] =  '' or params[:q].nil?
+          params[:search_field] = 'all_fields'
+        end     
+     end
+     if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
+       qparam_display = params[:q]
+       params[:qdisplay] = params[:q]
+       if !params[:search_field].include?('browse')
+        qarray = params[:q].split
        else
-         params[:q] =  '' or params[:q].nil?
-         params[:search_field] = 'all_fields'
-       end     
-    end
-    if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
-       if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
-          params[:q] = params[:q]
-       else
-          if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
-             qparam_display = params[:q]
-             params[:qdisplay] = params[:q]
-             qarray = params[:q].split
-             params[:q] = '('
-             if qarray.size == 1
-                if qarray[0].include?(':')
-                  qarray[0].gsub!(':','\:')
-                end
-                if fieldname == ''
-                   params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
-                else
-                   if fieldname == "title"
-                     params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
-                   else
-                     params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
-                   end
-                end
-             else
-                qarray.each do |bits|
-                   if bits.include?(':')
-                     bits.gsub!(':','\\:')
-                   end
-                   if fieldname == ''
-                      params[:q] << '+' << bits << ' '
-                   else
-                      params[:q] << '+' << fieldname << ':' << bits << ' '
-                   end
-                end
-                if fieldname == ''
-                   params[:q] << ') OR phrase:"' << qparam_display << '"'
-                else
-                  if fieldname == "title"
-                   params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
-                  else
-                   params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
-                  end
-                end
-             end
-          else
-            if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-              if (fieldname == 'title' or fieldname == 'number') and fieldname != ''
-                 params[:q] = params[:q]
-                 params[:search_field] = fieldname << '_quoted'
+        qarray = [params[:q]]
+       end
+        if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+           params[:q] = params[:q]
+        else
+           if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
+              params[:q] = '('
+              if qarray.size == 1
+                 if qarray[0].include?(':')
+                   qarray[0].gsub!(':','\:')
+                 end
+                 if fieldname == ''
+                    params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
+                 else
+                    if fieldname != "title"
+                      params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
+                    else
+                     #This should be cleaned up next week when I start removing redundancies and cleaning up code
+                      params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"' 
+                    end
+                 end
               else
-                if fieldname == ''
-                 params[:q] = params[:q]
-                 params[:search_field] = 'quoted'
-                end
+                 qarray.each do |bits|
+                    if bits.include?(':')
+                      bits.gsub!(':','\\:')
+                    end
+                    if fieldname == ''
+                       params[:q] << '+' << bits << ' '
+                    else
+                       params[:q] << '+' << fieldname << ':' << bits << ' '
+                    end
+                 end
+                 if fieldname == ''
+                    params[:q] << ') OR phrase:"' << qparam_display << '"'
+                 else
+                   if fieldname == "title"
+                    params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
+                   else
+                    params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+                   end
+                 end
               end
-            end
+           else
+             if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
+               if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
+                  params[:q] = params[:q]
+                  params[:search_field] = fieldname << '_quoted'
+               else
+                 if fieldname == ''
+                  params[:q] = params[:q]
+                  params[:search_field] = 'quoted'
+                 end
+               end
+             else
+               params[:q] = ''
+               qarray.each do |bits|
+                 if bits.include?(':')
+                   bits.gsub!(':','\\:')
+                 end
+                 if bits.first == '"' and bits.last == '"'
+                    if fieldname == ''
+                     params[:q] << '+quoted:' + bits + ' '
+                    else 
+                     if !params[:search_field].include?('browse')
+                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                     end
+                    end
+                 else
+                   if fieldname == ''
+                     params[:q] << '+' + bits + ' '
+                   else
+                     params[:q] << '+' + fieldname + ':' + bits + ' '
+                   end
+                 end
+               end
+             end
              if params[:q].nil? or params[:q].blank?
-                params[:q] = qparam_display
+               params[:q] = qparam_display
              end
           end
-       end    
+       end   
     end
-    
 
     #    if params[:search_field] = "call number"
     #      params[:q] = "\"" << params[:q] << "\""
@@ -775,6 +813,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     #    if params[:q].blank?
     #      params[:q] = '*'
     #    end 
+    Rails.logger.info("BROZETTI = #{params}")
    return params
   end
   
@@ -835,6 +874,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   
   def sanitize(q)
      if q.include?('<img') 
+       Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
        redirect_to root_path
      else
        return q
@@ -843,12 +883,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     
 
-  def sanitize(q)
-     if q.include?('<img')
-      redirect_to_root_path
-     else
-      return q
+
+  def set_bag_name
+     user_session[:bookbag_count] = nil unless user_session.nil?
+     if current_user && Bookbag.enabled?
+       @id = current_user.email
+       @bb = Bookbag.new("#{@id}-bookbag-default")
+       user_session[:bookbag_count] = @bb.count
      end
-  end
+   end
 
 end

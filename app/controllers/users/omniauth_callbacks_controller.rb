@@ -18,7 +18,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} omniauth.auth.attr =  #{auth.info} #{auth.info.name} #{auth.info.last_name}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} @user =  #{@user.inspect}")
     #because of single_value_compatibility all values are returned in arrays, even singled valued.
-    session[:cu_authenticated_user] = auth.info.email[0]
+    session[:cu_authenticated_netid] = auth.info.netid[0]
+    # Using email does not translate to netid for 'vanity' email addresses, like frances.webb@cornell.edu
+    #session[:cu_authenticated_user] = auth.info.email[0]
+    session[:cu_authenticated_user] = auth.info.netid[0]
+    session[:cu_authenticated_email] = auth.info.email[0]
     session[:cu_authenticated_groups] = auth.info.groups
     session[:cu_authenticated_primary] = auth.info.primary[0]
     # we might already be 'signed in' ?
@@ -35,7 +39,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       #render :js => "<script>window.location = '/catalog/email'</script>"
       return
     else  
-      redirect_to root_path, :notice => "Hi <strong>#{request.env["omniauth.auth"].info.name}</strong>."
+      redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
     end
   end
 

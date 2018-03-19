@@ -39,16 +39,16 @@ class SearchBuilder < Blacklight::SearchBuilder
     my_params = {}
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
-    if blacklight_params[:q_row].present?
+    if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
       my_params = make_adv_query(blacklight_params)
       #blacklight_params = my_params
       user_parameters["spellcheck.maxResultsForSuggest"] = 1
       spellstring = ""
       if !my_params[:q_row].nil?
-      blacklight_params[:q_row].each do |term|
-        spellstring += term += ' '
-        #spellstring  += term +  ' '
-      end
+        blacklight_params[:q_row].each do |term|
+          spellstring += term += ' '
+          #spellstring  += term +  ' '
+        end
       
         user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
@@ -362,15 +362,15 @@ class SearchBuilder < Blacklight::SearchBuilder
        end
        my_params[:boolean_row] = newMyParams
        # IF 1.1
-       if my_params[:boolean_row] == {} or my_params[:boolean_row].nil?
-         my_params = makesingle(my_params)
+#       if my_params[:boolean_row] == {} or my_params[:boolean_row].nil?
+#         my_params = makesingle(my_params)
 # If reduction results in only one row return to cornell_catalog.rb
 #         my_params[:boolean_row] = {"1" => "AND"}
         # my_params[:boolean_row] = blacklight_params[:boolean_row]
        #  my_params[:q] = "((+Bibliotheca +Instituti +Historici) OR \"Bibliotheca Instituti Historici\")"
-         return my_params
+#         return my_params
        # end IF 1.1
-       end
+#       end
        
        q_string = ""
        q_string2 = ""
@@ -392,16 +392,18 @@ class SearchBuilder < Blacklight::SearchBuilder
           #loop on the search_fields checking the q_rows for crappy user input.
           for i in 0..my_params[:search_field_row].count - 1
               #or dimwits cutting and pasting the quotes we are checking for in the next line
-              my_params[:q_row][i].gsub!('”', '"')
+#              my_params[:q_row][i].gsub!('”', '"')
+#              my_params[:q_row][i].gsub!('“', '"')
               #count to see if someone did not close their quotes 
-              numquotes = my_params[:q_row][i].count '"'
+#              numquotes = my_params[:q_row][i].count '"'
               #get rid of the offending quotes
-              if numquotes == 1
-                 my_params[:q_row][i].gsub!('"', '')
-              end
-              my_params[:q_row][i].gsub!(/[()]/, '')
-              my_params[:q_row][i].gsub!(':','\:')
-         
+#              if numquotes == 1
+#                 my_params[:q_row][i].gsub!('"', '')
+#              end
+#              my_params[:q_row][i].gsub!(/[()]/, '')
+#              my_params[:q_row][i].gsub!(':','\:')
+              qarray = qtoken(my_params[:q_row][i])
+       
               if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
                   numquotes = my_params[:q_row][i].count '"'
                   if numquotes > 0
@@ -410,6 +412,9 @@ class SearchBuilder < Blacklight::SearchBuilder
                   newpass = '"' + my_params[:q_row][i] + '"'
               else
                 newpass = my_params[:q_row][i]
+              end
+              if my_params[:search_field_row][i] == 'advanced'
+                my_params[:search_field_row][i] = 'all_fields'
               end
               if my_params[:search_field_row][i] == 'journal title'
                 my_params['format'] = "Journal/Periodical"
@@ -426,7 +431,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               #     holdarray[1] = parse_query_row(holdarray[1], "OR")
               #    end
               q_string2 = q_string2 +  ""
-              #Rails.logger.info("QSTRING2 = #{newstring}")
+              Rails.logger.info("QSTRING2 = #{newstring}")
               fieldNames = blacklight_config.search_fields["#{my_params[:search_field_row][i]}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -480,7 +485,9 @@ class SearchBuilder < Blacklight::SearchBuilder
                       field_name = 'notes_quoted'
 #                      solr6query << field_name #<< ":"
                     else
-                      field_name = field_name +  '_quoted'
+                      if field_name != 'lc_callnum'
+                        field_name = field_name +  '_quoted'
+                      end
 #                      solr6query << field_name #<< ":"
                     end
                   end
@@ -504,13 +511,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                         q_string2 << holdarray[1] 
                         if journal_title_flag == 1
                         solr6query = '(' + solr6query
-                        solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical)"'
+                        solr6query << '"' + holdarray[1] + '") AND format:"Journal/Periodical"'
                         journal_title_flag = 0
                         else
                         solr6query << "\"" + holdarray[1] + "\""
                         end
                       else
-                        tokenArray = holdarray[1].split(" ")
+                        tokenArray = qtoken(holdarray[1])
+                       # tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
                           newTerm = " ("
                           if my_params[:op_row][i] == "AND"
@@ -537,7 +545,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
                             solr6query = '(' + solr6query
-                            solr6query << newTerm << ') AND format:"Journal/Periodical)"'
+                            solr6query << newTerm << ') AND format:"Journal/Periodical"'
                             journal_title_flag = 0
                           else
                             solr6query << newTerm
@@ -546,17 +554,17 @@ class SearchBuilder < Blacklight::SearchBuilder
                         else
                           q_string2 << holdarray[1]
                           if field_name == ''
-                            solr6query << "(+" << field_name  + holdarray[1] + ') OR phrase:"' + holdarray[1] + ")" 
+                            solr6query << "(+" << field_name  + holdarray[1] + ')'# OR phrase:"' + holdarray[1] + ")" 
                           else
                             if journal_title_flag == 1
                               solr6query = '(' + solr6query
-                              solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical")'
+                              solr6query << field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical"'
                               journal_title_flag = 0
                             else
                               if field_name == "title" or field_name == "number"
-                                solr6query << "((+" << field_name + ":" + holdarray[1] << ') OR ' + field_name << '_phrase:"' << holdarray[1] << '")' 
+                                solr6query << "(+" << field_name + ":" + holdarray[1] << ')'# OR ' + field_name << '_phrase:"' << holdarray[1] << '")' 
                               else
-                                solr6query << "((+" << field_name + ":" + holdarray[1] << ') OR ' + field_name << ':"' << holdarray[1] << '")'
+                                solr6query << "(+" << field_name + ":" + holdarray[1] << ')'# OR ' + field_name << ':"' << holdarray[1] << '")'
                               end
                             end
                           end
@@ -572,15 +580,17 @@ class SearchBuilder < Blacklight::SearchBuilder
                           solr6query << "\"" + holdarray[1] + "\""
                        else
                           if journal_title_flag == 1
-                            solr6query << field_name << '"' + holdarray[1] + '" AND format:"Journal/Periodical")'
+                            solr6query << '(' << field_name << ':"' + holdarray[1] + '" AND format:"Journal/Periodical"'
                             journal_title_flag = 0
                           else
-                            solr6query << field_name << ":\"" + holdarray[1] + "\""
+                            solr6query << field_name << ':"' + holdarray[1] + '"'
                           end
                        end
                        #Rails.logger.info("solr6query2 = #{solr6query}")
                      else
-                       tokenArray = holdarray[1].split(" ")
+                       quoted = ''
+                       tokenArray = qtoken(holdarray[1])
+                       #tokenArray = holdarray[1].split(" ")
                         if tokenArray.size > 1
                           newTerm = " ("
                           if my_params[:op_row][i] == "AND"
@@ -589,39 +599,82 @@ class SearchBuilder < Blacklight::SearchBuilder
                             opfill = "OR"
                           end
                           for k in 0..tokenArray.size - 2
-                               if field_name == ''
-                                 if opfill != "OR"
-                                    newTerm << " +" +tokenArray[k] #+ " + "
-                                 else
-                                    newTerm << " +" + tokenArray[k] + " " + opfill + " "
-                                 end
-                               else
-                                 if opfill == "AND"
-                                   newTerm << "+" << field_name + ":" + tokenArray[k] + " "
-                                 else
-                                   newTerm << field_name + ":" + tokenArray[k] + " " +opfill + " "
-                                 end
-                               end
+                            tokenArray[k].chomp
+                         #   tokenArray[k] = tokenArray[k].gsub!('\\"','"')
+                            if tokenArray[k].first == '\\' and tokenArray[k].last == '"'
+                              if field_name == ''
+                                quoted = ' quoted:'
+                              else
+                                if field_name == 'notes_qf'
+                                   quoted = 'notes_quoted:'
+                                else
+                                  if field_name != 'lc_callnum'
+                                    quoted = field_name + '_quoted:'
+                                  else
+                                    quoted = field_name 
+                                  end
+                                end
+                              end
+                            else
+                              if field_name == ''
+                                quoted = ''
+                              else
+                                 quoted = field_name + ":"
+                              end
+                            end
+                             if tokenArray[k].first == '\\' and tokenArray[k].last == '"'
+                                if field_name == '' 
+                                   if opfill == "AND"
+                                      newTerm << ' +quoted:' + tokenArray[k] #+ " + "
+                                   else
+                                      newTerm << ' ' << tokenArray[k] + " " + opfill + " "
+                                   end
+                                else
+                                   if opfill == "AND"
+                                     newTerm << " +" << quoted + tokenArray[k] + " "
+                                   else
+                                     newTerm << quoted + tokenArray[k] + " " + opfill + " "
+                                   end
+                                end
+                             else
+                                if field_name == '' 
+                                   if opfill == "AND"
+                                      newTerm << ' +' + tokenArray[k] #+ " + "
+                                   else
+                                      newTerm << ' ' << tokenArray[k] + " " + opfill + " "
+                                   end
+                                else
+                                   if opfill == "AND"
+                                     newTerm << ' +' << quoted + tokenArray[k] + " "
+                                   else
+                                     newTerm << quoted + tokenArray[k] + " " + opfill + " "
+                                   end
+                                end
+                              end
                                #Rails.logger.info("solr6query222= #{newTerm}")                               
                           end
                           if field_name == ''
-                            newTerm = "(" + newTerm + " +" + tokenArray[tokenArray.size - 1] + ") OR phrase:" + '"' + holdarray[1] + '")'
+                            if opfill == "AND"
+                                newTerm = '' + newTerm + ' +' + tokenArray[tokenArray.size - 1] + ')'# OR phrase:" + '"' + holdarray[1] + '")'
+                            else
+                                newTerm = '' + newTerm + ' ' + tokenArray[tokenArray.size - 1] + ')'# OR phrase:" + '"' + holdarray[1] + '")'
+                            end
                           else
                             if opfill == "AND"
-                              newTerm << "+" << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                              newTerm = '' + newTerm +  ' +' + field_name + ':' + tokenArray[tokenArray.size - 1] + ')'
                             else  
-                              newTerm << field_name + ":" + tokenArray[tokenArray.size - 1] + ")"
+                              newTerm = '' + newTerm + ' ' + field_name + ':' + tokenArray[tokenArray.size - 1] + ')'
                             end
                               if field_name == "title" or field_name == "number"
-                               newTerm = "(" + newTerm + " OR " + field_name + "_phrase" + ':"' + holdarray[1] + '")'
+                               newTerm = "" + newTerm # + " OR " + field_name + "_phrase" + ':"' + holdarray[1] + '")'
                               else
-                               newTerm = "(" + newTerm + " OR " + field_name + ':"' + holdarray[1] + '")'
+                               newTerm = "" + newTerm #+ " OR " + field_name + ':"' + holdarray[1] + '")'
                               end
                           end
                           #Rails.logger.info("solr6query22= #{newTerm}")
                           q_string2 << holdarray[1]
                           if journal_title_flag == 1
-                            solr6query << newTerm << ' AND format:"Journal/Periodical")'
+                            solr6query << newTerm << ' AND format:"Journal/Periodical"'
                             journal_title_flag = 0
                           else
                             solr6query << newTerm
@@ -632,16 +685,27 @@ class SearchBuilder < Blacklight::SearchBuilder
                           q_string2 << holdarray[1] << " "
                           if field_name == '' or field_name == "number"
                             if field_name == "number"
-                              solr6query += "((+number:" + holdarray[1] + ') OR number_phrase:"' + holdarray[1] + '")' 
+                              solr6query += "(+number:" + holdarray[1] + ')'# OR number_phrase:"' + holdarray[1] + '")' 
                             else
-                              solr6query += "((+" + holdarray[1] + ') OR phrase:"' + holdarray[1] + '")'
+                              solr6query += "(+" + holdarray[1] + ')'# OR phrase:"' + holdarray[1] + '")'
                             end
                           else
                             if journal_title_flag == 1
-                              solr6query << " (" + field_name + ":" + holdarray[1] + ' AND format:"Journal/Periodical")'
+                              if field_name == "title"
+                                solr6query << "(+" + field_name + ":" + holdarray[1] + ') OR ' + field_name + '_phrase:"' + holdarray[1] + '"' + ' AND format:"Journal/Periodical"'
+                              else  
+                                solr6query << " (" + field_name + ":" + holdarray[1] + ') AND format:"Journal/Periodical"'
+                              end
                               journal_title_flag = 0
                             else
-                              solr6query << "((+" + field_name + ":" + holdarray[1] + ') OR ' + field_name + ':"' + holdarray[1] + '")'
+                              if holdarray[1].include?(':')
+                                holdarray[1] = holdarray[1].gsub!(':','\:')
+                              end
+                              if field_name == "title" and my_params[:q_row].size == 1
+                                solr6query << "(+" + field_name + ":" + holdarray[1] + ') OR ' + field_name + '_phrase:"' + holdarray[1] + '"'
+                              else
+                                solr6query << "(+" + field_name + ":" + holdarray[1] + ')' # OR ' + field_name + ':"' + holdarray[1] + '")'
+                              end
                             end
                           end 
                         end
@@ -651,7 +715,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
               else #D
                 q_string2 = q_string2 #<< holdarray[1]
-                Rails.logger.info("solr6query2 = #{solr6query}")
               end #D
               if i < my_params[:q_row].count - 1 && !opArray[i].nil?
                 q_string2 << " "
@@ -664,7 +727,6 @@ class SearchBuilder < Blacklight::SearchBuilder
               
               q_string2Array << q_string2
               q_string2 = "";
-              #Rails.logger.info("solr6query80 = #{solr6query}")
            end #of For C
            #fix opArray
         #   opArray = opArray.shift
@@ -797,22 +859,30 @@ class SearchBuilder < Blacklight::SearchBuilder
                         end
                       end
                     else
+                      if field_name != ''
                         query << field_name << ':'
+                      end
                     end
                   end
                 end
           if my_params[:q_row].count == 1
-            qarray = my_params[:q_row][0].split
+            qarray = qtoken(my_params[:q_row][0])
             newq = '('
             if qarray.size == 1
               if qarray[0].include?(':')
                 qarray[0].gsub!(':','\:')
               end
                if field_name == '' and (op_name != 'begins_with' and op_name != 'phrase')
-                 newq << qarray[0] << ') OR "' << qarray[0] << '"'
+                 if qarray[0].first == '"' and qarray[0].last == '"'
+                   if field_name == ''
+                     newq << "quoted:" << qarray[0] << ')'
+                   else
+                     newq << field_name << "_quoted:" << qarray[0] << ')'
+                   end
+                 end
                else 
                  if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum:'
-                   if qarray[0].start_with? '"' and qarray[0].end_with? '"'
+                   if qarray[0].first == '"' and qarray[0].last ==  '"'
                      qarray[0] = qarray[0][1...-1]
                    end
                    
@@ -851,7 +921,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                    newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '") AND format:"Journal/Periodical"'
                    journal_title_flag = 0
                    else
-                   newq << '+' << field_name << '"' << qarray[0] << '") OR ' << field_name << '"' << qarray[0] << '"'
+                   newq << '+' << field_name << '"' << qarray[0] << '")'# OR ' << field_name << '"' << qarray[0] << '"'
                    end
                  else
                    if journal_title_flag == 1
@@ -861,89 +931,141 @@ class SearchBuilder < Blacklight::SearchBuilder
                    else
                      if field_name == '' or field_name == 'title' or field_name == 'number'
                        if field_name == ''
-                         newq << '+' << qarray[0] << ') OR ' << 'phrase:"' << qarray[0] << '"'
+                         newq << '+' << qarray[0] << ')' # OR ' << 'phrase:"' << qarray[0] << '"'
                        else
-                         newq << '+' << field_name << ':' << qarray[0] << ') OR ' << field_name << '_phrase:"' << qarray[0] << '"'
+                         newq << '+' << field_name << ':' << qarray[0] << ')'# OR ' << field_name << '_phrase:"' << qarray[0] << '"'
                        end
                      else
-                      newq << '+' << field_name << ":" << qarray[0] << ') OR ' << field_name << ':"' << qarray[0] << '"'
+                      newq << '+' << field_name << ":" << qarray[0] << ')'# OR ' << field_name << ':"' << qarray[0] << '"'
                      end
                    end
                  end
                end
             else
               if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'  
-               if op_name == 'begins_with'
-                  if field_name == ''
-                     field_name = 'starts:'
-                  else
-                    if field_name == 'notes_qf'
-                      field_name = 'notes_starts:'
-                    else
-                     field_name = field_name + '_starts:'
-                    end
-                  end
-                 if my_params[:q_row][0].start_with? '"' and my_params[:q_row][0].end_with? '"'
-                   my_params[:q_row][0] = my_params[:q_row][0][1...-1]
-                 end
-                  
-               else
-                  if op_name == 'phrase'
-                     if field_name == ''
-                        field_name = 'quoted:'
-                     else
-                       if field_name == 'notes_qf'
-                          field_name = 'notes_quoted:'
-                       else
-                        if field_name != 'lc_callnum'
-                         field_name = field_name + '_quoted:'
-                        else
-                         field_name = field_name + ':'
-                        end
-                       end
-                     end
-                  else
-                      field_name = field_name + ':'
-                  end
-               end 
-               if journal_title_flag == 1 
-                newq = '(' + newq
-                newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
-                journal_title_flag = 0
-               else
-                newq << '+' << field_name << '"' << my_params[:q_row][0] << '") OR ' << field_name << '"' << my_params[:q_row][0] << '"'
-               end
-              else  
-               qarray.each do |bits|
-                 if bits.include?(':')
-                   bits.gsub!(':','\:')
-                 end
-                  if field_name == ''
-                     newq << '+' << bits << ' '
-                  else
-                     newq << '+' << field_name << ':' << bits << ' '
-                  end
-               end
-               if field_name == ''
-                  newq << ') OR "' << my_params[:q_row][0] << '"'
-               else
-                 if journal_title_flag == 1
-                  newq = '(' + newq
-                  newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
-                  journal_title_flag = 0
-                 else
-                   if field_name == 'title' or field_name == 'number' or field_name == ''
-                     if field_name == ''
-                       newq << ') OR phrase:"' << my_params[:q_row[0]] << '"'
-                     else
-                       newq << ') OR ' << field_name << '_phrase:"' << my_params[:q_row][0] << '"'
-                     end
-                   else  
-                     newq << ') OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                   if op_name == 'begins_with'
+                          if field_name == ''
+                             field_name = 'starts:'
+                          else
+                            if field_name == 'notes_qf'
+                              field_name = 'notes_starts:'
+                            else
+                             field_name = field_name + '_starts:'
+                            end
+                          end
+                          if my_params[:q_row][0].start_with? '"' and my_params[:q_row][0].end_with? '"'
+                            my_params[:q_row][0] = my_params[:q_row][0][1...-1]
+                          end
+                      
+                   else
+                          if op_name == 'phrase'
+                                 if field_name == ''
+                                    field_name = 'quoted:'
+                                 else
+                                       if field_name == 'notes_qf'
+                                          field_name = 'notes_quoted:'
+                                       else
+                                            if field_name != 'lc_callnum'
+                                             field_name = field_name + '_quoted:'
+                                            else
+                                             field_name = field_name + ':'
+                                            end
+                                       end
+                                 end
+                          else
+                              field_name = field_name + ':'
+                          end
+                   end 
+                   if journal_title_flag == 1 
+                    newq = '(' + newq
+                    newq << '+' << field_name << '"' << my_params[:q_row][0] << '")'# OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                    journal_title_flag = 0
+                   else
+                    newq << '+' << field_name << '"' << my_params[:q_row][0] << '")'# OR ' << field_name << '"' << my_params[:q_row][0] << '"'
                    end
-                 end
-               end
-            end
+              else  
+                  newqcount = 1
+                  quoted = ''
+                  quotedUnder = ''
+                  qarray.each do |bits|
+                        if bits.include?(':')
+                          bits.gsub!(':','\:')
+                        end
+                        if bits.include?('"')
+                          bits.gsub!('"','\"')
+                        end
+                        if bits.first == '\\' and bits.last == '"'
+                          if field_name == ''
+                            quoted = ' quoted:'
+                          else
+                            if field_name == 'notes_qf'
+                               quoted = 'notes_quoted:'
+                            else
+                              if field_name != 'lc_callnum'
+                                quoted = field_name + '_quoted:'
+                              else
+                                quoted = field_name 
+                              end
+                            end
+                          end
+                        else
+                          if field_name != ''
+                            quoted = field_name + ':'
+                          else
+                            quoted = ''
+                          end
+                        end
+                        if field_name == '' and op_name == 'AND'
+                          if bits.first == '\\' and bits.last == '"'
+                            newq << '+quoted:' << bits << ' '
+                          else
+                           newq << '+' << bits << ' '
+                          end
+                        else
+                           if op_name == 'AND'
+                             if field_name != ''
+                               newq << '+' << quoted << '_quoted:' << bits << ' '
+                             else
+                               newq << '+' << bits << ' '
+                             end
+                           else
+                             if newqcount < qarray.size
+                               if field_name == ''
+                                newq << quoted << bits << ' OR '
+                               else
+                                newq << quoted << bits << ' OR '
+                               end
+                               newqcount = newqcount + 1
+                             else
+                               if field_name == ''
+                                 newq << bits << ' '
+                               else
+                                 newq << quoted << bits << ' '
+                               end
+                             end
+                           end
+                        end  
+                   end
+                   if field_name == ''
+                      newq << ')'# OR "' << my_params[:q_row][0] << '"'
+                   else
+                         if journal_title_flag == 1
+                          newq = '(' + newq
+                          newq << ')' # OR ' << field_name << ':"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
+                          journal_title_flag = 0
+                         else
+                               if field_name == 'title' or field_name == 'number' or field_name == ''
+                                       if field_name == ''
+                                         newq << ')'# OR phrase:"' << my_params[:q_row[0]] << '"'
+                                       else
+                                         newq << ')'# OR ' << field_name << '_phrase:"' << my_params[:q_row][0] << '"'
+                                       end
+                               else  
+                                 newq << ')'# OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
+                               end
+                         end
+                   end
+              end
           end#encoding: UTF-8
   
 #            querystring = newq #my_params[:q_row][0]
@@ -954,18 +1076,31 @@ class SearchBuilder < Blacklight::SearchBuilder
 #            end
             my_params[:q] = newq #query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
-       my_params.delete(:q_row)
-       my_params.delete(:op_row)
-       my_params.delete(:search_field_row)
-       my_params.delete(:boolean_row)
+#       my_params.delete(:q_row)
+#       my_params.delete(:op_row)
+ #      my_params.delete(:search_field_row)
+ #      my_params.delete(:boolean_row)
    #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
         my_params[:mm] = 1
         blacklight_params = my_params
-#        my_params[:q] = "(+number:L +number:37.30 ) OR number_phrase:\"L 37.30\""
+  #      my_params[:q] = '(madness OR quoted:"mentally ill" OR quoted:"mental illness" OR insanity )' # OR phrase:("madness "mentally ill" "mental illness" insanity")'
         Rails.logger.info("FINISHER = #{my_params}")
     return my_params
   
   end
+  
+  def qtoken(q_string)
+    qnum = q_string.count('"')
+    if qnum % 2 == 1
+      q_string = q_string + '"'
+    end
+      q_string.gsub!('(','')
+      q_string.gsub!(')','')
+      p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
+    return p
+    
+  end
+    
   def groupBools(q_stringArray, opArray)
      grouped = []
      newString = q_stringArray.flatten

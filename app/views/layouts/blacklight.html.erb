@@ -47,7 +47,7 @@
   <%= render partial: 'shared/ajax_modal' %>
 
     <% if part_of_catalog? %>
-      <div class="search-bar">
+      <div class="search-bar" role="search">
         <div class="container">
           <%= render :partial => 'shared/search_form' %>
         </div>
@@ -62,7 +62,7 @@
       </div>
     <% end %>
 
-    <section class="main-content" id="maincontent" aria-label="Main content">
+    <section class="main-content" id="maincontent" aria-label="Main content" role="main">
       <div class="container" id="main-container">
         <div class="row">
           <div class="col-sm-12">

@@ -95,16 +95,23 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     # publication year
     output += "PY  - #{setup_pub_date(to_marc)}\n"
 
-    # publisher
+    # publisher, and treatment of thesis publisher.
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    publisher = ''
+    thtype = ''
+    thdata =  {}
+    thdata = setup_thesis_info(to_marc) unless !(fmt == 'Thesis')
+    place = ''
     if !pub_data.nil?
       place, publisher = pub_data.split(':')
-      output += "PB  - #{publisher.strip!}\n" unless publisher.nil?
-
-      # publication place
-      output += "CY  - " + place + "\n"
     end
-
+    if !thdata.blank?
+       publisher = thdata[:inst].to_s  #unless !publisher.blank?
+       thtype = thdata[:type].to_s
+    end
+    output += "PB  - #{publisher}\n" unless publisher.blank?
+    output += "CY  - #{place}\n" unless place.blank?
+    output += "M3  - #{thtype}\n" unless thtype.blank?
     # edition
     et =  setup_edition(to_marc)
     output += "ET  - #{et}\n" unless et.blank?
@@ -115,10 +122,13 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
 
     if !self['url_access_display'].blank?
       ul = self['url_access_display'].first.split('|').first
+      ul.sub!('http://proxy.library.cornell.edu/login?url=','')
+      ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
       output += "UR  - #{ul}\n"
     end
-    output += "M2 - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
-    output += "N1 - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "M2  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "N1  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += (setup_doi(to_marc).blank? ? "" : "DO  - #{setup_doi(to_marc)}\n"  )
     kw =   setup_kw_info(to_marc)
     kw.each do |k|
 

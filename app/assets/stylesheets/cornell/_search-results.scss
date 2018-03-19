@@ -85,7 +85,12 @@ body.bookmarks-index #documents .document {
 // used for the Unknown format
 .status .fa-question-circle,
 .fa-warning {color: $yellow; }
+.bento_item_other_links .fa-pencil {color: $yellow; }
 
+.fa-rss-square,
+.fa-rss-square:hover {
+	color: $rss;
+}
 
 // Sort and per page options
 // ------------------------------------------
@@ -175,7 +180,7 @@ h4.suggest {
 // -------------------------
 
 // Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+@media (min-width: $screen-sm) {
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}

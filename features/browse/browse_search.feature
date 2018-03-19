@@ -30,7 +30,7 @@ Feature: Browse search
         And I fill in the authorities search box with 'china'
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'A companion to Chinese history'
+    Then I should see the label 'anthropology of China'
 
   @browse
   Scenario: Search for author-title combination
@@ -46,10 +46,20 @@ Feature: Browse search
   @browse
   Scenario: Search for author-title combination
     Given I literally go to browse
-        And I fill in the authorities search box with 'Dick, George'
+        And I fill in the authorities search box with 'Hitchens, Bert'
         And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'Dick, George. | Immunological Aspects of Infectious Diseases'
-    Then click on link "Dick, George. | Immunological Aspects of Infectious Diseases"
+    Then I should see the label 'Hitchens, Bert. | End of the line'
+    Then click on link "Hitchens, Bert. | End of the line"
     And I should get results
     Then I should see the label '1 result'
+
+  @browse
+  Scenario: Search for author-title combination
+    Given I literally go to browse
+        And I fill in the authorities search box with 'Hitchens, Bert'
+        And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
+        And I press 'search'
+    Then I should see the label 'Hitchens, Bert'
+    Then click on first link "Hitchens, Bert"
+    Then I should see the label '1 - 4 of 4'

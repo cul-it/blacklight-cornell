@@ -27,8 +27,9 @@ end
 
 Then /^I should see the xml path '(.*?)','(.*?)','(.*?)','(.*?)'$/i do |ns,xp,nsdef,str|
   xml_doc  = Nokogiri::XML(page.body)
-  contents = xml_doc.xpath(xp,ns => nsdef).first.text
-  print "str = #{str.inspect}\n"
+  contents = xml_doc.xpath(xp,ns =>nsdef).first.text
+  #print "\n************* contents #{contents.inspect}\n"
+  #contents = xml_doc.xpath(xp,ns => nsdef).first.text
   if !contents.nil? && contents.include?(str)
     page.should have_content('e')
   else

@@ -297,7 +297,7 @@ Feature: Search
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 12 of 12'
+    And I should see the label '1 - '
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -314,7 +314,7 @@ Feature: Search
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 7 of 7'
+    And I should see the label '1 - 9 of 9'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -452,7 +452,7 @@ Feature: Search
  @javascript
  @DISCOVERYACCESS-3350
   Scenario: Perform a 2 row  advanced search with a blank in one field.
-    Given PENDING
+   # Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -471,7 +471,8 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    Then it should have link "Title: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
+    Then it should have link "Title: beef" with value 'catalog?&q_row[]=100%25&boolean_row[1]=AND&op_row[]=AND&search_field_row[]=title&search_field=advanced&action=index&commit=Search'
+    #Then it should have link "Title: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
     #Then it should have link "Title: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
     Then click on first link "Title: beef"
 
@@ -493,8 +494,11 @@ Feature: Search
     And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
+    And I sleep 8 seconds
     Then click on first link "Next »"
+    And I sleep 8 seconds
     And I should see the label 'A sea-fight'
+    And I sleep 8 seconds
     Then click on first link "Previous"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     And I should see the label 'Back to catalog results'
@@ -507,13 +511,37 @@ Feature: Search
     Then click on first link "Title: beef"
     And I should see the label '1 - 20 of'
 
+
+
+ @adv_search
+ @all_search
+ @adv_title_percent
+ @javascript
+  Scenario: Perform a 3 row  advanced search with embedded quotes.
+    When I literally go to advanced
+    And I fill in "q_row1" with 'Women female* gender feminis*'
+    And I select 'any' from the 'op_row' drop-down
+    And I select 'All Fields' from the 'search_field_advanced' drop-down
+    And I fill in "q_row2" with 'madness “mentally ill” “mental illness” insanity'
+    And I select 'any' from the 'op_row2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I fill in "q_row2" with 'literature cinema film television'
+    And I select 'any' from the 'op_row2' drop-down
+    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Modify advanced'
+    And I should see the label '1 - 20 of'
+
+
+
  # DISCOVERYACCESS3298
  @adv_search
  @all_search
  @adv_title_percent
  @javascript
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
-    Given PENDING
+    #Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row2" with 'sargent, charles sprague'

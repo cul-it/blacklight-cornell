@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
+    uri: http://da-prod-solr8.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title_phrase:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title_phrase:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
     body:
       encoding: US-ASCII
       string: ''
@@ -13,17 +13,17 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 05 May 2017 14:35:01 GMT
+      - Tue, 09 Jan 2018 16:00:13 GMT
       Last-Modified:
-      - Fri, 05 May 2017 14:34:23 GMT
+      - Tue, 09 Jan 2018 15:59:54 GMT
       Etag:
-      - '"NjgzZjgwMDAwMDAwMDAwMFNvbHI="'
+      - '"NWE1N2E4MDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Content-Length:
-      - '7080'
+      - '7603'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -32,165 +32,176 @@ http_interactions:
       encoding: ASCII-8BIT
       string: !binary |-
         eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
-        dXMnPT4wLCdRVGltZSc9PjIwMTUsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
-        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
-        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
-        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
-        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
-        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
-        bGNoZWNrLnEnPT4nKCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTpt
-        aXNzaW9ucyArdGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGU6IkF0bGFz
-        IGRlcyBtaXNzaW9ucyBkZSBsYSAiJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZh
-        Y2V0LnNvcnQnPT4naW5kZXgnLCdzdGF0cyc9Pid0cnVlJywnd3QnPT4ncnVi
-        eScsJ2YuZmFzdF9nZW5yZV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5m
-        b3JtYXQuZmFjZXQubGltaXQnPT4nMTEnLCdzdGF0cy5maWVsZCc9PidwdWJf
-        ZGF0ZV9mYWNldCcsJ21tJz0+JzEnLCdmLmF1dGhvcl9mYWNldC5mYWNldC5s
-        aW1pdCc9Pic2JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zvcm1hdCcs
-        J2F1dGhvcl9mYWNldCcsJ3B1Yl9kYXRlX2ZhY2V0Jywnd29ya2lkX2ZhY2V0
-        JywnbGFuZ3VhZ2VfZmFjZXQnLCdmYXN0X3RvcGljX2ZhY2V0JywnZmFzdF9n
-        ZW9fZmFjZXQnLCdmYXN0X2VyYV9mYWNldCcsJ2Zhc3RfZ2VucmVfZmFjZXQn
-        LCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnLCdsY19hbHBoYV9mYWNldCcsJ2xv
-        Y2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0JywnYXV0aG9ydGl0bGVf
-        ZmFjZXQnLCdsY19jYWxsbnVtX2ZhY2V0JywnY29sbGVjdGlvbiddLCdxdCc9
-        PidzZWFyY2gnLCdmLmxjX2NhbGxudW1fZmFjZXQuZmFjZXQubGltaXQnPT4n
-        LTEnLCdzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQgZGVzYywg
-        dGl0bGVfc29ydCBhc2MnLCdyb3dzJz0+JzIwJywncSc9Pid0aXRsZTooK3Rp
-        dGxlOkF0bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1pc3Npb25zICt0aXRsZTpk
-        ZSArdGl0bGU6bGEgKSBPUiB0aXRsZToiQXRsYXMgZGVzIG1pc3Npb25zIGRl
-        IGxhICInLCdmLmZhc3RfZXJhX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdm
-        LmZhc3RfdG9waWNfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2ZhY2V0Jz0+
-        J3RydWUnLCdmLmxhbmd1YWdlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnfX0s
-        J3Jlc3BvbnNlJz0+eydudW1Gb3VuZCc9PjIsJ3N0YXJ0Jz0+MCwnbWF4U2Nv
-        cmUnPT4zMTI0Mi45OTIsJ2RvY3MnPT5beydob2xkaW5nc19yZWNvcmRfZGlz
-        cGxheSc9PlsneyJpZCI6IjE1NjUwOSIsIm1vZGlmaWVkX2RhdGUiOiIyMDEy
-        MTAwMzEzMjc1MiIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIk92
-        ZXJzaXplIEcyMjA5LkU0IEwzNyArKysiXSwibm90ZXMiOlsiRm9saW8uIl0s
-        ImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10s
-        InN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGlu
-        Z3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hcHMiLCJudW1i
-        ZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1hcHMgKE5vbi1DaXJjdWxh
-        dGluZykiLCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5In1dfSddLCdvbmxpbmUn
-        PT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5b
-        J3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwi
-        aXRlbV9pZCI6IjI2MjI1NCIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIz
-        IiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIs
-        InRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2Vu
-        dW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1f
-        dHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5IiwicmVjYWxsc19wbGFj
-        ZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAwOjAwLjAi
-        LCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4MzUzMjU4NCIsIm1vZGlmeV9kYXRl
-        IjoiMjAxMi0xMC0wMyAxMzoyODowOC4wIiwicGVybV9sb2NhdGlvbiI6eyJj
-        b2RlIjoibWFwcyIsIm51bWJlciI6ODAsIm5hbWUiOiJPbGluIExpYnJhcnkg
-        TWFwcyAoTm9uLUNpcmN1bGF0aW5nKSIsImxpYnJhcnkiOiJPbGluIExpYnJh
-        cnkifX0nXSwnaWQnPT4nMTE5MTYyJywnZm9ybWF0Jz0+WydCb29rJ10sJ2xh
-        bmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaCddLCdwdWJfZGF0ZV9kaXNwbGF5
-        Jz0+WycxODkwJ10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg5MCwncHViX2luZm9f
-        ZGlzcGxheSc9PlsnTGlsbGUgOiBTb2Npw6l0w6kgZGUgU2FpbnQtQXVndXN0
-        aW4gRGVzY2zDqWUgZGUgQnJvdXdlciAxODkwLiddLCdmdWxsdGl0bGVfZGlz
-        cGxheSc9PidBdGxhcyBkZXMgbWlzc2lvbnMgZGUgbGEgU29jacOpdMOpIGRl
-        cyBNaXNzaW9ucy1FdHJhbmfDqHJlcyA6IDI3IGNhcnRlcyBlbiA1IGNvdWxl
-        dXJzIGFjY29tcGFnbsOpZXMgZGUgMjcgbm90aWNlcyBnw6lvZ3JhcGhpcXVl
-        cyBldCBoaXN0b3JpcXVlcycsJ3RpdGxlX2Rpc3BsYXknPT4nQXRsYXMgZGVz
-        IG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5n
-        w6hyZXMnLCdhdXRob3JfZGlzcGxheSc9PidMYXVuYXksIEFkcmllbiwgMTg1
-        My0xOTI3Jywnc3VidGl0bGVfZGlzcGxheSc9PicyNyBjYXJ0ZXMgZW4gNSBj
-        b3VsZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGljZXMgZ8Opb2dyYXBo
-        aXF1ZXMgZXQgaGlzdG9yaXF1ZXMnLCdvdGhlcl9pZF9kaXNwbGF5Jz0+Wyco
-        Q1N0UkxJTilOWUNYMTE3MTY4NkInLCcoTklDKW5vdGlzQUFOMDYzNScsJzEx
-        OTE2MicsJyhPQ29MQykxMTcxNjg2J10sJ3Njb3JlJz0+MzEyNDIuOTkyfSx7
-        J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoiNDg1MTc5OCIs
-        Im1vZGlmaWVkX2RhdGUiOiIyMDAyMDcxMTExNDAxMyIsImNvcHlfbnVtYmVy
-        IjpudWxsLCJjYWxsbm9zIjpbIk92ZXJzaXplIEYyODA4IC5DMzUgKysiXSwi
-        bm90ZXMiOlsiTGlicmFyeSBsYWNrcyB0ZXh0IHZvbC47IGhhcyBhdGxhcyBv
-        bmx5LiJdLCJob2xkaW5nc19kZXNjIjpbImF0bGFzIl0sInJlY2VudF9ob2xk
-        aW5nc19kZXNjIjpbXSwic3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2MiOltd
-        LCJpbmRleF9ob2xkaW5nc19kZXNjIjpbXSwibG9jYXRpb25zIjpbeyJjb2Rl
-        IjoibWFubiIsIm51bWJlciI6NjksIm5hbWUiOiJNYW5uIExpYnJhcnkiLCJs
-        aWJyYXJ5IjoiTWFubiBMaWJyYXJ5In1dfSddLCdvbmxpbmUnPT5bJ0F0IHRo
-        ZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5bJ3siY29weV9u
-        dW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwiaXRlbV9pZCI6
-        IjY0MTQyMDIiLCJ5ZWFyIjoiIiwiaXRlbV90eXBlX2lkIjoiMyIsImNocm9u
-        IjoiIiwiY2FwdGlvbiI6IiIsImhvbGRzX3BsYWNlZCI6IjAiLCJ0ZW1wX2xv
-        Y2F0aW9uIjoiMCIsIm9uX3Jlc2VydmUiOiJOIiwiaXRlbV9lbnVtIjoiQXRs
-        YXMiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlw
-        ZV9pZCI6IjAiLCJtZmhkX2lkIjoiNDg1MTc5OCIsInJlY2FsbHNfcGxhY2Vk
-        IjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMi0wNy0xMSAxNjoxNzowNS4wIiwi
-        aXRlbV9iYXJjb2RlIjoiMzE5MjQwODY3NTU3OTQiLCJtb2RpZnlfZGF0ZSI6
-        IiIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6Im1hbm4iLCJudW1iZXIiOjY5
-        LCJuYW1lIjoiTWFubiBMaWJyYXJ5IiwibGlicmFyeSI6Ik1hbm4gTGlicmFy
-        eSJ9fSddLCdpZCc9Pic0MzAzNzIxJywnZm9ybWF0Jz0+WydCb29rJ10sJ2xh
-        bmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaCddLCdwdWJfZGF0ZV9kaXNwbGF5
-        Jz0+WycxODg5J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg4OSwncHViX2luZm9f
-        ZGlzcGxheSc9PlsnUGFyaXMgW1NjZWF1eCwgSW1wci4gQ2hhcmFpcmUgZXQg
-        RmlscywgMTg4OV0nXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nTWlzc2lvbiBk
-        ZSBNLiBDYWx2ZXQgZGFucyBsQcyTbcOpcmlxdWUgZHUgU3VkOiByYXBwb3J0
-        IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRlIGxpzJNuZHVzdHJpZSwg
-        YXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7IGxpzJNtbWlncmF0aW9u
-        IGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBsYcyTZ3JpY3VsdHVyZSDD
-        oCBMYSBQbGF0YSwgMTg4Ni0xODg4JywndGl0bGVfZGlzcGxheSc9PidNaXNz
-        aW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6lyaXF1ZSBkdSBTdWQnLCdh
-        dXRob3JfZGlzcGxheSc9PidDYWx2ZXQsIEEuJywnc3VidGl0bGVfZGlzcGxh
-        eSc9PidyYXBwb3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRlIGxp
-        zJNuZHVzdHJpZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7IGxp
-        zJNtbWlncmF0aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBsYcyT
-        Z3JpY3VsdHVyZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4Jywnb3RoZXJfaWRf
-        ZGlzcGxheSc9PlsnKE5OQylub3Rpc0FSSzAyOTknLCcoQ1N0UkxJTilOWUNH
-        QVJLMDI5OS1CJywnKE9Db0xDKTY3MjY2NzAnLCc0MzAzNzIxJ10sJ3Njb3Jl
-        Jz0+NDE4Ny4zNjU3fV19LCdmYWNldF9jb3VudHMnPT57J2ZhY2V0X3F1ZXJp
-        ZXMnPT57fSwnZmFjZXRfZmllbGRzJz0+eydvbmxpbmUnPT5bJ0F0IHRoZSBM
-        aWJyYXJ5JywyXSwnZm9ybWF0Jz0+WydCb29rJywyXSwnYXV0aG9yX2ZhY2V0
-        Jz0+WydDYWx2ZXQsIEEnLDEsJ0xhdW5heSwgQWRyaWVuLCAxODUzLTE5Mjcn
-        LDEsJ01pc3Npb25zIMOpdHJhbmfDqHJlcyBkZSBQYXJpcycsMV0sJ3B1Yl9k
-        YXRlX2ZhY2V0Jz0+WycxODg5JywxLCcxODkwJywxXSwnd29ya2lkX2ZhY2V0
-        Jz0+WycyMTEyODY0JywxLCc5ODg5NjI2MjUnLDFdLCdsYW5ndWFnZV9mYWNl
-        dCc9PlsnRnJlbmNoJywyXSwnZmFzdF90b3BpY19mYWNldCc9PlsnQWdyaWN1
-        bHR1cmUgPiBFY29ub21pYyBhc3BlY3RzJywxLCdDYXRob2xpYyBDaHVyY2gn
-        LDEsJ0NvbW1lcmNlJywxLCdNaXNzaW9ucycsMSwnTWlzc2lvbnMgw6l0cmFu
-        Z8OocmVzIGRlIFBhcmlzJywxLCdNaXNzaW9ucywgRnJlbmNoJywxXSwnZmFz
-        dF9nZW9fZmFjZXQnPT5bJ0FyZ2VudGluYScsMSwnQXNpYScsMSwnUGFyYWd1
-        YXknLDEsJ1VydWd1YXknLDFdLCdmYXN0X2VyYV9mYWNldCc9PltdLCdmYXN0
-        X2dlbnJlX2ZhY2V0Jz0+WydBdGxhc2VzJywxLCdIaXN0b3J5JywxLCdNYXBz
-        JywxXSwnc3ViamVjdF9jb250ZW50X2ZhY2V0Jz0+WydOb24tRmljdGlvbiAo
-        Ym9va3MpJywyXSwnbGNfYWxwaGFfZmFjZXQnPT5bXSwnbG9jYXRpb25fZmFj
-        ZXQnPT5bJ01hbm4gTGlicmFyeScsMSwnT2xpbiBMaWJyYXJ5JywxXSwnaGll
-        cmFyY2h5X2ZhY2V0Jz0+W10sJ2F1dGhvcnRpdGxlX2ZhY2V0Jz0+WydDYWx2
-        ZXQsIEEuIHwgTWlzc2lvbiBkZSBNLiBDYWx2ZXQgZGFucyBsQcyTbcOpcmlx
-        dWUgZHUgU3VkJywxLCdMYXVuYXksIEFkcmllbiwgMTg1My0xOTI3IHwgQXRs
-        YXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMt
-        RXRyYW5nw6hyZXMnLDFdLCdsY19jYWxsbnVtX2ZhY2V0Jz0+WydFLUYgLSBI
-        aXN0b3J5IG9mIHRoZSBBbWVyaWNhcycsMSwnRS1GIC0gSGlzdG9yeSBvZiB0
-        aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNwYW5p
-        c2ggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9yeSBvZiB0aGUgQW1lcmljYXM6
-        RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNwYW5pc2ggQW1lcmljYTpG
-        MjIwMS0zNzk5IC0gU291dGggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9yeSBv
-        ZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNw
-        YW5pc2ggQW1lcmljYTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYTpGMjgw
-        MS0zMDIxIC0gQXJnZW50aW5hJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9w
-        b2xvZ3ksIFJlY3JlYXRpb24nLDEsJ0cgLSBHZW9ncmFwaHksIEFudGhyb3Bv
-        bG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFsKScsMSwn
-        RyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBH
-        ZW9ncmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzJywxLCdH
-        IC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdl
-        b2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAt
-        MzEwMiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5JywxLCdHIC0gR2VvZ3JhcGh5
-        LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAoR2Vu
-        ZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEwMiAtIEJ5IHJl
-        Z2lvbiBvciBjb3VudHJ5OkcxNzgwLTI3OTkgLSBFYXN0ZXJuIEhlbWlzcGhl
-        cmUuIEV1cmFzaWEsIEFmcmljYSwgZXRjLicsMSwnRyAtIEdlb2dyYXBoeSwg
-        QW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdlbmVy
-        YWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMxMDIgLSBCeSByZWdp
-        b24gb3IgY291bnRyeTpHMTc4MC0yNzk5IC0gRWFzdGVybiBIZW1pc3BoZXJl
-        LiBFdXJhc2lhLCBBZnJpY2EsIGV0Yy46RzIyMDAtMjQ0NC44NCAtIEFzaWEn
-        LDFdLCdjb2xsZWN0aW9uJz0+W119LCdmYWNldF9yYW5nZXMnPT57fSwnZmFj
-        ZXRfaW50ZXJ2YWxzJz0+e30sJ2ZhY2V0X2hlYXRtYXBzJz0+e319LCdzdGF0
-        cyc9Pnsnc3RhdHNfZmllbGRzJz0+eydwdWJfZGF0ZV9mYWNldCc9PnsnbWlu
-        Jz0+MTg4OS4wLCdtYXgnPT4xODkwLjAsJ2NvdW50Jz0+MiwnbWlzc2luZyc9
-        PjAsJ3N1bSc9PjM3NzkuMCwnc3VtT2ZTcXVhcmVzJz0+NzE0MDQyMS4wLCdt
-        ZWFuJz0+MTg4OS41LCdzdGRkZXYnPT4wLjcwNzEwNjc4MTE4NjU0NzZ9fX0s
-        J3NwZWxsY2hlY2snPT57J3N1Z2dlc3Rpb25zJz0+W10sJ2NvcnJlY3RseVNw
-        ZWxsZWQnPT50cnVlfX0K
+        dXMnPT4wLCdRVGltZSc9Pjc5NywncGFyYW1zJz0+eydmLnN1YmplY3RfY29u
+        dGVudF9mYWNldC5mYWNldC5saW1pdCc9Pic2Jywnc3BlbGxjaGVjay5kaWN0
+        aW9uYXJ5Jz0+J3RpdGxlJywnZi5sb2NhdGlvbl9mYWNldC5mYWNldC5saW1p
+        dCc9Pic2JywnZi5mYXN0X2dlb19mYWNldC5mYWNldC5saW1pdCc9Pic2Jywn
+        Zi5sY19hbHBoYV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5vbmxpbmUu
+        ZmFjZXQubGltaXQnPT4nMycsJ2RlZlR5cGUnPT4nZWRpc21heCcsJ3NwZWxs
+        Y2hlY2sucSc9PicoK3RpdGxlOkF0bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1p
+        c3Npb25zICt0aXRsZTpkZSArdGl0bGU6bGEgKSBPUiB0aXRsZV9waHJhc2U6
+        IkF0bGFzIGRlcyBtaXNzaW9ucyBkZSBsYSAiJywnZi5sY19jYWxsbnVtX2Zh
+        Y2V0LmZhY2V0LnNvcnQnPT4naW5kZXgnLCdzdGF0cyc9Pid0cnVlJywnd3Qn
+        PT4ncnVieScsJ2YuZmFzdF9nZW5yZV9mYWNldC5mYWNldC5saW1pdCc9Pic2
+        JywnZi5mb3JtYXQuZmFjZXQubGltaXQnPT4nMTEnLCdzdGF0cy5maWVsZCc9
+        PidwdWJfZGF0ZV9mYWNldCcsJ21tJz0+JzEnLCdmLmF1dGhvcl9mYWNldC5m
+        YWNldC5saW1pdCc9Pic2JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zv
+        cm1hdCcsJ2F1dGhvcl9mYWNldCcsJ3B1Yl9kYXRlX2ZhY2V0Jywnd29ya2lk
+        X2ZhY2V0JywnbGFuZ3VhZ2VfZmFjZXQnLCdmYXN0X3RvcGljX2ZhY2V0Jywn
+        ZmFzdF9nZW9fZmFjZXQnLCdmYXN0X2VyYV9mYWNldCcsJ2Zhc3RfZ2VucmVf
+        ZmFjZXQnLCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnLCdsY19hbHBoYV9mYWNl
+        dCcsJ2xvY2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0JywnYXV0aG9y
+        dGl0bGVfZmFjZXQnLCdsY19jYWxsbnVtX2ZhY2V0JywnY29sbGVjdGlvbidd
+        LCdxdCc9PidzZWFyY2gnLCdmLmxjX2NhbGxudW1fZmFjZXQuZmFjZXQubGlt
+        aXQnPT4nLTEnLCdzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQg
+        ZGVzYywgdGl0bGVfc29ydCBhc2MnLCdyb3dzJz0+JzIwJywncSc9Pid0aXRs
+        ZTooK3RpdGxlOkF0bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1pc3Npb25zICt0
+        aXRsZTpkZSArdGl0bGU6bGEgKSBPUiB0aXRsZV9waHJhc2U6IkF0bGFzIGRl
+        cyBtaXNzaW9ucyBkZSBsYSAiJywnZi5mYXN0X2VyYV9mYWNldC5mYWNldC5s
+        aW1pdCc9Pic2JywnZi5mYXN0X3RvcGljX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+
+        JzYnLCdmYWNldCc9Pid0cnVlJywnZi5sYW5ndWFnZV9mYWNldC5mYWNldC5s
+        aW1pdCc9Pic2J319LCdyZXNwb25zZSc9PnsnbnVtRm91bmQnPT4yLCdzdGFy
+        dCc9PjAsJ21heFNjb3JlJz0+MzAyMzguMTY4LCdkb2NzJz0+W3snaG9sZGlu
+        Z3NfcmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiIxNTY1MDkiLCJtb2RpZmll
+        ZF9kYXRlIjoiMjAxMjEwMDMxMzI3NTIiLCJjb3B5X251bWJlciI6bnVsbCwi
+        Y2FsbG5vcyI6WyJPdmVyc2l6ZSBHMjIwOS5FNCBMMzcgKysrIl0sIm5vdGVz
+        IjpbIkZvbGlvLiJdLCJob2xkaW5nc19kZXNjIjpbXSwicmVjZW50X2hvbGRp
+        bmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzYyI6W10s
+        ImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMiOlt7ImNvZGUi
+        OiJtYXBzIiwibnVtYmVyIjo4MCwibmFtZSI6Ik9saW4gTGlicmFyeSBNYXBz
+        IChOb24tQ2lyY3VsYXRpbmcpIiwibGlicmFyeSI6Ik9saW4gTGlicmFyeSJ9
+        XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdpdGVtX3JlY29y
+        ZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0ZW1fdHlwZV9u
+        YW1lIjoiYm9vayIsIml0ZW1faWQiOiIyNjIyNTQiLCJ5ZWFyIjoiIiwiaXRl
+        bV90eXBlX2lkIjoiMyIsImNocm9uIjoiIiwiY2FwdGlvbiI6IiIsImhvbGRz
+        X3BsYWNlZCI6IjAiLCJ0ZW1wX2xvY2F0aW9uIjoiMCIsIm9uX3Jlc2VydmUi
+        OiJOIiwiaXRlbV9lbnVtIjoiIiwiaXRlbV9zZXF1ZW5jZV9udW1iZXIiOiIx
+        IiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwibWZoZF9pZCI6IjE1NjUwOSIs
+        InJlY2FsbHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMC0wNS0z
+        MSAwMDowMDowMC4wIiwiaXRlbV9iYXJjb2RlIjoiMzE5MjQwODM1MzI1ODQi
+        LCJtb2RpZnlfZGF0ZSI6IjIwMTItMTAtMDMgMTM6Mjg6MDguMCIsInBlcm1f
+        bG9jYXRpb24iOnsiY29kZSI6Im1hcHMiLCJudW1iZXIiOjgwLCJuYW1lIjoi
+        T2xpbiBMaWJyYXJ5IE1hcHMgKE5vbi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5
+        IjoiT2xpbiBMaWJyYXJ5In19J10sJ2lkJz0+JzExOTE2MicsJ2Zvcm1hdCc9
+        PlsnQm9vayddLCdsYW5ndWFnZV9kaXNwbGF5Jz0+WydGcmVuY2guJ10sJ3B1
+        Yl9kYXRlX2Rpc3BsYXknPT5bJzE4OTAnXSwncHViX2RhdGVfZmFjZXQnPT4x
+        ODkwLCdwdWJfaW5mb19kaXNwbGF5Jz0+WydMaWxsZSA6IFNvY2nDqXTDqSBk
+        ZSBTYWludC1BdWd1c3RpbiBEZXNjbMOpZSBkZSBCcm91d2VyIDE4OTAuJ10s
+        J2Z1bGx0aXRsZV9kaXNwbGF5Jz0+J0F0bGFzIGRlcyBtaXNzaW9ucyBkZSBs
+        YSBTb2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0cmFuZ8OocmVzIDogMjcgY2Fy
+        dGVzIGVuIDUgY291bGV1cnMgYWNjb21wYWduw6llcyBkZSAyNyBub3RpY2Vz
+        IGfDqW9ncmFwaGlxdWVzIGV0IGhpc3RvcmlxdWVzJywndGl0bGVfZGlzcGxh
+        eSc9PidBdGxhcyBkZXMgbWlzc2lvbnMgZGUgbGEgU29jacOpdMOpIGRlcyBN
+        aXNzaW9ucy1FdHJhbmfDqHJlcycsJ2F1dGhvcl9kaXNwbGF5Jz0+J0xhdW5h
+        eSwgQWRyaWVuLCAxODUzLTE5MjcuJywnc3VidGl0bGVfZGlzcGxheSc9Picy
+        NyBjYXJ0ZXMgZW4gNSBjb3VsZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5v
+        dGljZXMgZ8Opb2dyYXBoaXF1ZXMgZXQgaGlzdG9yaXF1ZXMnLCdvdGhlcl9p
+        ZF9kaXNwbGF5Jz0+WycoQ1N0UkxJTilOWUNYMTE3MTY4NkInLCcoTklDKW5v
+        dGlzQUFOMDYzNScsJzExOTE2MicsJyhPQ29MQykxMTcxNjg2J10sJ3Njb3Jl
+        Jz0+MzAyMzguMTY4fSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7
+        ImlkIjoiNDg1MTc5OCIsIm1vZGlmaWVkX2RhdGUiOiIyMDAyMDcxMTExNDAx
+        MyIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIk92ZXJzaXplIEYy
+        ODA4IC5DMzUgKysiXSwibm90ZXMiOlsiTGlicmFyeSBsYWNrcyB0ZXh0IHZv
+        bC47IGhhcyBhdGxhcyBvbmx5LiJdLCJob2xkaW5nc19kZXNjIjpbImF0bGFz
+        Il0sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxlbWVudGFsX2hv
+        bGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNjIjpbXSwibG9j
+        YXRpb25zIjpbeyJjb2RlIjoibWFubiIsIm51bWJlciI6NjksIm5hbWUiOiJN
+        YW5uIExpYnJhcnkiLCJsaWJyYXJ5IjoiTWFubiBMaWJyYXJ5In1dfSddLCdv
+        bmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3Bs
+        YXknPT5bJ3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJi
+        b29rIiwiaXRlbV9pZCI6IjY0MTQyMDIiLCJ5ZWFyIjoiIiwiaXRlbV90eXBl
+        X2lkIjoiMyIsImNocm9uIjoiIiwiY2FwdGlvbiI6IiIsImhvbGRzX3BsYWNl
+        ZCI6IjAiLCJ0ZW1wX2xvY2F0aW9uIjoiMCIsIm9uX3Jlc2VydmUiOiJOIiwi
+        aXRlbV9lbnVtIjoiQXRsYXMiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEi
+        LCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiNDg1MTc5OCIs
+        InJlY2FsbHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMi0wNy0x
+        MSAxNjoxNzowNS4wIiwiaXRlbV9iYXJjb2RlIjoiMzE5MjQwODY3NTU3OTQi
+        LCJtb2RpZnlfZGF0ZSI6IiIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6Im1h
+        bm4iLCJudW1iZXIiOjY5LCJuYW1lIjoiTWFubiBMaWJyYXJ5IiwibGlicmFy
+        eSI6Ik1hbm4gTGlicmFyeSJ9fSddLCdpZCc9Pic0MzAzNzIxJywnZm9ybWF0
+        Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaC4nXSwn
+        cHViX2RhdGVfZGlzcGxheSc9PlsnMTg4OSddLCdwdWJfZGF0ZV9mYWNldCc9
+        PjE4ODksJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ1BhcmlzIFtTY2VhdXgsIElt
+        cHIuIENoYXJhaXJlIGV0IEZpbHMsIDE4ODldJ10sJ2Z1bGx0aXRsZV9kaXNw
+        bGF5Jz0+J01pc3Npb24gZGUgTS4gQ2FsdmV0IGRhbnMgbEHMk23DqXJpcXVl
+        IGR1IFN1ZDogcmFwcG9ydCBhdSBtaW5pc3RyZSBkdSBjb21tZXJjZSBldCBk
+        ZSBsacyTbmR1c3RyaWUsIGF2ZWMgYXRsYXMgw6ljb25vbWlxdWUgYW5uZXhl
+        OyBsacyTbW1pZ3JhdGlvbiBldXJvcMOpZW5uZSwgbGUgY29tbWVyY2UgZXQg
+        bGHMk2dyaWN1bHR1cmUgw6AgTGEgUGxhdGEsIDE4ODYtMTg4OCcsJ3RpdGxl
+        X2Rpc3BsYXknPT4nTWlzc2lvbiBkZSBNLiBDYWx2ZXQgZGFucyBsQcyTbcOp
+        cmlxdWUgZHUgU3VkJywnYXV0aG9yX2Rpc3BsYXknPT4nQ2FsdmV0LCBBLics
+        J3N1YnRpdGxlX2Rpc3BsYXknPT4ncmFwcG9ydCBhdSBtaW5pc3RyZSBkdSBj
+        b21tZXJjZSBldCBkZSBsacyTbmR1c3RyaWUsIGF2ZWMgYXRsYXMgw6ljb25v
+        bWlxdWUgYW5uZXhlOyBsacyTbW1pZ3JhdGlvbiBldXJvcMOpZW5uZSwgbGUg
+        Y29tbWVyY2UgZXQgbGHMk2dyaWN1bHR1cmUgw6AgTGEgUGxhdGEsIDE4ODYt
+        MTg4OCcsJ290aGVyX2lkX2Rpc3BsYXknPT5bJyhOTkMpbm90aXNBUkswMjk5
+        JywnKENTdFJMSU4pTllDR0FSSzAyOTktQicsJyhPQ29MQyk2NzI2NjcwJywn
+        NDMwMzcyMSddLCdzY29yZSc9PjI2OTUuMTgwN31dfSwnZmFjZXRfY291bnRz
+        Jz0+eydmYWNldF9xdWVyaWVzJz0+e30sJ2ZhY2V0X2ZpZWxkcyc9Pnsnb25s
+        aW5lJz0+WydBdCB0aGUgTGlicmFyeScsMl0sJ2Zvcm1hdCc9PlsnQm9vaycs
+        Ml0sJ2F1dGhvcl9mYWNldCc9PlsnQ2FsdmV0LCBBLicsMSwnTGF1bmF5LCBB
+        ZHJpZW4sIDE4NTMtMTkyNycsMSwnTWlzc2lvbnMgw6l0cmFuZ8OocmVzIGRl
+        IFBhcmlzJywxXSwncHViX2RhdGVfZmFjZXQnPT5bJzE4ODknLDEsJzE4OTAn
+        LDFdLCd3b3JraWRfZmFjZXQnPT5bJzIxMTI4NjQnLDEsJzk4ODk2MjYyNScs
+        MV0sJ2xhbmd1YWdlX2ZhY2V0Jz0+WydGcmVuY2gnLDJdLCdmYXN0X3RvcGlj
+        X2ZhY2V0Jz0+WydBZ3JpY3VsdHVyZSA+IEVjb25vbWljIGFzcGVjdHMnLDEs
+        J0NhdGhvbGljIENodXJjaCcsMSwnQ29tbWVyY2UnLDEsJ01pc3Npb25zJywx
+        LCdNaXNzaW9ucyDDqXRyYW5nw6hyZXMgZGUgUGFyaXMnLDEsJ01pc3Npb25z
+        LCBGcmVuY2gnLDFdLCdmYXN0X2dlb19mYWNldCc9PlsnQXJnZW50aW5hJywx
+        LCdBc2lhJywxLCdQYXJhZ3VheScsMSwnVXJ1Z3VheScsMV0sJ2Zhc3RfZXJh
+        X2ZhY2V0Jz0+W10sJ2Zhc3RfZ2VucmVfZmFjZXQnPT5bJ0F0bGFzZXMnLDEs
+        J0hpc3RvcnknLDEsJ01hcHMnLDFdLCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQn
+        PT5bJ05vbi1GaWN0aW9uIChib29rcyknLDJdLCdsY19hbHBoYV9mYWNldCc9
+        PltdLCdsb2NhdGlvbl9mYWNldCc9PlsnTWFubiBMaWJyYXJ5JywxLCdPbGlu
+        IExpYnJhcnknLDFdLCdoaWVyYXJjaHlfZmFjZXQnPT5bXSwnYXV0aG9ydGl0
+        bGVfZmFjZXQnPT5bJ0NhbHZldCwgQS4gfCBNaXNzaW9uIGRlIE0uIENhbHZl
+        dCBkYW5zIGxBzJNtw6lyaXF1ZSBkdSBTdWQnLDEsJ0xhdW5heSwgQWRyaWVu
+        LCAxODUzLTE5MjcuIHwgQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nD
+        qXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMnLDFdLCdsY19jYWxsbnVt
+        X2ZhY2V0Jz0+WydFLUYgLSBIaXN0b3J5IG9mIHRoZSBBbWVyaWNhcycsMSwn
+        RS1GIC0gSGlzdG9yeSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExh
+        dGluIEFtZXJpY2EuIFNwYW5pc2ggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9y
+        eSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2Eu
+        IFNwYW5pc2ggQW1lcmljYTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYScs
+        MSwnRS1GIC0gSGlzdG9yeSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAt
+        IExhdGluIEFtZXJpY2EuIFNwYW5pc2ggQW1lcmljYTpGMjIwMS0zNzk5IC0g
+        U291dGggQW1lcmljYTpGMjgwMS0zMDIxIC0gQXJnZW50aW5hJywxLCdHIC0g
+        R2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb24nLDEsJ0cgLSBH
+        ZW9ncmFwaHksIEFudGhyb3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3Jh
+        cGh5IChHZW5lcmFsKScsMSwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5
+        LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMx
+        MjIgLSBBdGxhc2VzJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ks
+        IFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEy
+        MiAtIEF0bGFzZXM6RzExMDAtMzEwMiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5
+        JywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246
+        RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6
+        RzExMDAtMzEwMiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5OkcxNzgwLTI3OTkg
+        LSBFYXN0ZXJuIEhlbWlzcGhlcmUuIEV1cmFzaWEsIEFmcmljYSwgZXRjLics
+        MSwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcg
+        LSBHZW9ncmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcx
+        MTAwLTMxMDIgLSBCeSByZWdpb24gb3IgY291bnRyeTpHMTc4MC0yNzk5IC0g
+        RWFzdGVybiBIZW1pc3BoZXJlLiBFdXJhc2lhLCBBZnJpY2EsIGV0Yy46RzIy
+        MDAtMjQ0NC44NCAtIEFzaWEnLDFdLCdjb2xsZWN0aW9uJz0+W119LCdmYWNl
+        dF9yYW5nZXMnPT57fSwnZmFjZXRfaW50ZXJ2YWxzJz0+e30sJ2ZhY2V0X2hl
+        YXRtYXBzJz0+e319LCdzdGF0cyc9Pnsnc3RhdHNfZmllbGRzJz0+eydwdWJf
+        ZGF0ZV9mYWNldCc9PnsnbWluJz0+MTg4OS4wLCdtYXgnPT4xODkwLjAsJ2Nv
+        dW50Jz0+MiwnbWlzc2luZyc9PjAsJ3N1bSc9PjM3NzkuMCwnc3VtT2ZTcXVh
+        cmVzJz0+NzE0MDQyMS4wLCdtZWFuJz0+MTg4OS41LCdzdGRkZXYnPT4wLjcw
+        NzEwNjc4MTE4NjU0NzZ9fX0sJ3NwZWxsY2hlY2snPT57J3N1Z2dlc3Rpb25z
+        Jz0+Wyd0aXRsZTpkZXMnLHsnbnVtRm91bmQnPT4xLCdzdGFydE9mZnNldCc9
+        PjE1LCdlbmRPZmZzZXQnPT4yNCwnb3JpZ0ZyZXEnPT4wLCdzdWdnZXN0aW9u
+        Jz0+W3snd29yZCc9Pid0aXRsZXBhZ2VzJywnZnJlcSc9PjN9XX0sJ3RpdGxl
+        Om1pc3Npb25zJyx7J251bUZvdW5kJz0+MSwnc3RhcnRPZmZzZXQnPT4yNiwn
+        ZW5kT2Zmc2V0Jz0+NDAsJ29yaWdGcmVxJz0+MCwnc3VnZ2VzdGlvbic9Plt7
+        J3dvcmQnPT4naW50ZXJtaXNzaW9ucycsJ2ZyZXEnPT4zfV19LCd0aXRsZTpk
+        ZScseydudW1Gb3VuZCc9PjEsJ3N0YXJ0T2Zmc2V0Jz0+NDIsJ2VuZE9mZnNl
+        dCc9PjUwLCdvcmlnRnJlcSc9PjAsJ3N1Z2dlc3Rpb24nPT5beyd3b3JkJz0+
+        J3RpdGxlZCcsJ2ZyZXEnPT40MX1dfSwnbWlzc2lvbnMnLHsnbnVtRm91bmQn
+        PT4xLCdzdGFydE9mZnNldCc9PjkwLCdlbmRPZmZzZXQnPT45OCwnb3JpZ0Zy
+        ZXEnPT4zNjQzLCdzdWdnZXN0aW9uJz0+W3snd29yZCc9PidtaXNzaW9uJywn
+        ZnJlcSc9PjMzOTl9XX1dLCdjb3JyZWN0bHlTcGVsbGVkJz0+dHJ1ZX19Cg==
     http_version: 
-  recorded_at: Fri, 05 May 2017 14:35:03 GMT
+  recorded_at: Tue, 09 Jan 2018 16:00:14 GMT
 - request:
     method: get
     uri: http://www.worldcat.org/webservices/catalog/search/sru?maximumRecords=1&query=srw.kw%20=%20%22Atlas%22%20AND%20srw.kw%20=%20%22des%22%20AND%20srw.kw%20=%20%22missions%22%20AND%20srw.kw%20=%20%22de%22%20AND%20srw.kw%20=%20%22la%22&recordSchema=info:srw/schema/1/dc&servicelevel=full&wskey=ydY1RXi9Lx7wmUjJVYi3QlCwUEXxDmJEO5Lrvwf9nLX9vn9dnX3OeHseVTPpxjjTWajSn3r4L70jpUW4
@@ -199,18 +210,18 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
       Accept:
       - "*/*"
       Date:
-      - Fri, 05 May 2017 14:35:03 GMT
+      - Tue, 09 Jan 2018 16:00:14 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 05 May 2017 14:35:03 GMT
+      - Tue, 09 Jan 2018 16:00:14 GMT
       Server:
       - Apache
       Content-Length:
@@ -225,7 +236,7 @@ http_interactions:
 
         <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/" xmlns:oclcterms="http://purl.org/oclc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <version>1.1</version>
-        <numberOfRecords>136</numberOfRecords>
+        <numberOfRecords>144</numberOfRecords>
         <records>
         <record>
         <recordSchema>info:srw/schema/1/dc</recordSchema>
@@ -269,7 +280,7 @@ http_interactions:
         </echoedSearchRetrieveRequest>
         </searchRetrieveResponse>
     http_version: 
-  recorded_at: Fri, 05 May 2017 14:35:03 GMT
+  recorded_at: Tue, 09 Jan 2018 16:00:14 GMT
 - request:
     method: get
     uri: http://api.summon.serialssolutions.com/2.0.0/search?s.cmd=setHoldingsOnly(true)&s.he=__BENTO_HL_END__&s.hs=__BENTO_HL_START__&s.ps=1&s.q=Atlas%20des%20missions%20de%20la%20
@@ -278,17 +289,17 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
       Accept:
       - application/json
       Date:
-      - Fri, 05 May 2017 14:35:03 GMT
+      - Tue, 09 Jan 2018 16:00:14 GMT
       Content-Type:
       - application/x-www-form-urlencoded; charset=utf8
       X-Summon-Date:
-      - Fri, 05 May 2017 14:35:03 GMT
+      - Tue, 09 Jan 2018 16:00:14 GMT
       Authorization:
-      - Summon cornell;EIA3Uv0lTYTalwXjSjcau2MM3Fc=
+      - Summon cornell;eNpgWFwVTnK5IDhkzE9idihshys=
       Host:
       - api.summon.serialssolutions.com:80
   response:
@@ -301,80 +312,62 @@ http_interactions:
       Datacenter:
       - IAD1
       Date:
-      - Fri, 05 May 2017 14:35:03 GMT
+      - Tue, 09 Jan 2018 16:00:14 GMT
       Transfer-Encoding:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"version": "2.0.0","sessionId": "acbce8cf-846b-4cca-aed4-2f2ab275b9d3","elapsedQueryTime":
-        1618,"queryTime": 1611,"totalRequestTime": 1631,"pageCount": 6565,"recordCount":
-        6565,"query": {"queryString": "s.fvf=ContentType%2CBook+Chapter%2Cf&s.fvf=ContentType%2CJournal+%2F+eJournal%2Cf&s.fvf=ContentType%2CJournal+Article%2Cf&s.hs=__BENTO_HL_START__&s.secure=f&s.q=Atlas+des+missions+de+la&s.ho=t&s.ps=1&s.he=__BENTO_HL_END__","pageNumber":
+      string: '{"version": "2.0.0","sessionId": "2db2ef38-e802-4f36-8487-c26ecba51f47","elapsedQueryTime":
+        728,"queryTime": 724,"totalRequestTime": 732,"pageCount": 115972,"recordCount":
+        115972,"query": {"queryString": "s.fvf=ContentType%2CNewspaper+Article%2Ct&s.hs=__BENTO_HL_START__&s.secure=f&s.q=Atlas+des+missions+de+la&s.ho=t&s.ps=1&s.he=__BENTO_HL_END__","pageNumber":
         1,"pageSize": 1,"highlightStartDelimiter": "__BENTO_HL_START__","highlightEndDelimiter":
         "__BENTO_HL_END__","isHoldingsOnlyEnabled": true,"textQueries": [{"textQuery":
         "Atlas des missions de la","removeCommand": "removeTextQuery(Atlas des missions
         de la)"}],"searchTerms": [],"textFilters": [],"rangeFilters": [],"facetValueFilters":
-        [{"fieldName": "ContentType","value": "Book Chapter","isNegated": false,"removeCommand":
-        "removeFacetValueFilter(ContentType,Book Chapter)","negateCommand": "negateFacetValueFilter(ContentType,Book
-        Chapter)"},{"fieldName": "ContentType","value": "Journal / eJournal","isNegated":
-        false,"removeCommand": "removeFacetValueFilter(ContentType,Journal / eJournal)","negateCommand":
-        "negateFacetValueFilter(ContentType,Journal / eJournal)"},{"fieldName": "ContentType","value":
-        "Journal Article","isNegated": false,"removeCommand": "removeFacetValueFilter(ContentType,Journal
-        Article)","negateCommand": "negateFacetValueFilter(ContentType,Journal Article)"}],"inclusiveFacetValueFilters":
-        [],"facetValueGroupFilters": [],"facetFields": [],"rangeFacetFields": [],"sort":
-        []},"facetFields": [],"rangeFacetFields": [],"didYouMeanSuggestions": [],"recommendationLists":
-        {},"documents": [{"hasFullText": true,"isFullTextHit": false,"isPrint": false,"inHoldings":
-        true,"openUrl": "ctx_ver=Z39.88-2004&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rfr_id=info%3Asid%2Fsummon.serialssolutions.com&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=article&rft.atitle=The+China+Maps+of+Jean-Baptiste+Bourguignon+d%27Anville%3A+Origins+and+Supporting+Networks&rft.jtitle=Imago+Mundi&rft.au=Mario+Cams&rft.date=2014-01-01&rft.pub=Taylor+%26+Francis+Ltd&rft.issn=0308-5694&rft.eissn=1479-7801&rft.volume=66&rft.issue=1&rft.spage=51&rft_id=info:doi/10.1080%2F03085694.2014.845949&rft.externalDocID=3142456031","link":
-        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwpV1RT9swELYYEtpeEAwktoHkB6Q9VGa14yQObwVRAVK3TmoZb8h2HOgDDSoUiX_Pne2Slk6IaS9RlVYXp59zvnO-u4-QfW2NdcpWDNY2wyT8hmlXSiYqoY3IU1OUvmV-P_39Rw676WWj4ggpZo2M4IYFVE-Q7uH9LubqUVPqx3-DDecAbiye_QfAX4zCCfgMsMMRgIfju6H3utitnr7zVI1zp8fsSIN7AFBbR2Dkejq6hsy_BWPLO-NHrAjEzYFfXicr9G1Gwc964mnRPwNZ_H4-lD27RQpHbzouR8229mRUt4717cJmApevNhMGS7oec-QiX2PVVizNgizxgQsuU-YFy1W0En1qUFJZmDvBQYbuskt-OxIdwTxaR8adPFAyLUI701cdsRPuX9e2sXz-Q5IjkfOk039JsyGmiu-OwlhnBZPYUf0vF1hahH1kMdgg6zEloJ0A5CZZcePP5GNUp7952iIXACj1gFIElNYVXQCUzgFKy-8RzkMawaQAJm3ApDMwt8mwezI4PmVRD4PdwXqWMC6skLbQzkJUqiqeuUynpclcCmGxUYXl1sANlTqDMN4V3AjDsfBZOKkqI12yQ2giKs4zXWieW2nbTmdOZcrytqtKo7X9QnZn_8ZVnNL3mB6KvECxgq9vf_2NfGpm1S5ZfZhM3R5Ziw_xM4Q_Qzk","ExternalDocumentID":
-        ["3142456031"],"Issue": ["1"],"PublicationDate_xml": [{"month": "01","year":
-        "2014","text": "20140101","day": "01"}],"Score": ["35.24586"],"DatabaseTitleList":
-        [""],"PublicationPlace": ["Abingdon"],"URI": ["http://search.proquest.com/docview/1462790436"],"PublicationPlace_xml":
-        [{"name": "Abingdon"}],"Publisher_xml": [{"name": "Taylor & Francis Ltd"}],"ID":
-        ["FETCH-LOGICAL-p1463-12c24c9aec1258f16e6a5db6e5232b89c1cb949da6161e91b2b143942e48fb4e3"],"PQPubID":
-        ["196233"],"DOI": ["10.1080/03085694.2014.845949"],"Publisher": ["Taylor &
-        Francis Ltd"],"AbstractList": ["  By 1735, Jean-Baptiste Bourguignon d''Anville
-        had produced forty-one maps of the Qing Empire, or China, a process significantly
-        more complex than scholars have hitherto appreciated. A close study of d''Anville''s
-        maps and their originals has revealed their relationship with the different
-        versions of a Chinese atlas, the first of which was completed early in 1718,
-        the outcome of nearly a decade of collaborative surveying between officials
-        of the Qing Empire and European missionaries. The precise origins of some
-        of the maps are identified for the first time, and the network behind the
-        remarkable intercontinental exchange of cartographical material that allowed
-        d''Anville to produce his China maps is also discussed, thereby illustrating
-        the central role of the French Jesuits, as well as the connection with St
-        Petersburg. [PUBLICATION ABSTRACT]"],"Language": ["English"],"EISSN": ["1479-7801"],"Author":
-        ["Mario Cams"],"ISSN": ["0308-5694"],"PublicationCentury": ["2000"],"IsScholarly":
-        ["true"],"PublicationDecade": ["2010"],"Snippet": [".... A close study of
-        d''Anville''s maps and their originals has revealed their relationship with
-        the different versions of a Chinese __BENTO_HL_START__atlas__BENTO_HL_END__,
-        the first of which was completed early in 1718, the outcome..."],"PublicationTitle":
-        ["Imago Mundi"],"Volume": ["66"],"Discipline": ["Geography"],"ContentType":
-        ["Journal Article"],"SourceType": ["Aggregation Database"],"Author_xml": [{"sequence":
-        "1","fullname": "Mario Cams"}],"Abstract": ["  By 1735, Jean-Baptiste Bourguignon
-        d''Anville had produced forty-one maps of the Qing Empire, or China, a process
-        significantly more complex than scholars have hitherto appreciated. A close
-        study of d''Anville''s maps and their originals has revealed their relationship
-        with the different versions of a Chinese atlas, the first of which was completed
-        early in 1718, the outcome of nearly a decade of collaborative surveying between
-        officials of the Qing Empire and European missionaries. The precise origins
-        of some of the maps are identified for the first time, and the network behind
-        the remarkable intercontinental exchange of cartographical material that allowed
-        d''Anville to produce his China maps is also discussed, thereby illustrating
-        the central role of the French Jesuits, as well as the connection with St
-        Petersburg. [PUBLICATION ABSTRACT]"],"PublicationYear": ["2014"],"StartPage":
-        ["51"],"SSID": ["ssj0026582"],"Title": ["The China Maps of Jean-Baptiste Bourguignon
-        d''Anville: Origins and Supporting Networks"],"PublicationDate": ["20140101"],"MergedId":
-        ["FETCHMERGED-LOGICAL-p1463-12c24c9aec1258f16e6a5db6e5232b89c1cb949da6161e91b2b143942e48fb4e3"],"PQID":
-        ["1462790436"],"IsPeerReviewed": ["true"],"thumbnail_s": ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/sc.gif&issn=0308-5694&client=summon"],"thumbnail_m":
-        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/mc.gif&issn=0308-5694&client=summon"],"thumbnail_l":
-        ["http://covers-cdn.summon.serialssolutions.com/index.aspx?isbn=/lc.gif&issn=0308-5694&client=summon"],"LinkModel":
-        ["OpenURL"],"BookMark": ["ePnHCXMwNV3BCsIwDB3iQdlPBDx4qtCu61pvThQR1It6lbbrhpdtUPT7TbZ5L6UJbZIX-vKSiZ5G86szzOfKUOeCy42WuZFmRmSfwrACI-N8aPBrRmsWf5CEGVEskyc6CQYFabjYPkJXwznYlpUWHxKaDyV6uvm8G8TIUK137ZeYc1u4DWpSERCFA8lidkTFb-A6fqmOafI4Hu77E5uEBliPgSJjXHghvbHBY7rXNVdB2bxyKiBKE04bz73Ds1dWYX0UDHfCcWKUiiB17WTI0mQ17vsP56_pJkQqrUVhaNB79gMGsE7W"]}],"rollups":
-        {"image": {},"reference": {},"newspaper": {}}}'
+        [{"fieldName": "ContentType","value": "Newspaper Article","isNegated": true,"removeCommand":
+        "removeFacetValueFilter(ContentType,Newspaper Article)","negateCommand": "negateFacetValueFilter(ContentType,Newspaper
+        Article)"}],"inclusiveFacetValueFilters": [],"facetValueGroupFilters": [],"facetFields":
+        [],"rangeFacetFields": [],"sort": []},"facetFields": [],"rangeFacetFields":
+        [],"didYouMeanSuggestions": [],"recommendationLists": {},"documents": [{"hasFullText":
+        true,"isFullTextHit": false,"isPrint": false,"inHoldings": true,"openUrl":
+        "ctx_ver=Z39.88-2004&ctx_enc=info%3Aofi%2Fenc%3AUTF-8&rfr_id=info%3Asid%2Fsummon.serialssolutions.com&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=book&rft.title=Atlas+des+missions+catholiques+%3A+vingt+cartes+teint%C3%A9es%2C+avec+texte+explicatif&rft.au=Werner%2C+O.+%28Oskar%29&rft.au=Groffier%2C+Val%C3%A9rien&rft.date=1886-01-01&rft.externalDBID=hathitrust%3Apdus&rft.externalDocID=oai_quod_lib_umich_edu_MIU01_100379825","link":
+        "http://cornell.summon.serialssolutions.com/2.0.0/link/0/eLvHCXMwpZ3NSgMxEMcHUTwrCn5CDh6ttNmuzXrya5cKWhW36m3YJBM8CNXutvgcvoXP4Ys5sxZarCe9hiSwgSH__2zmNwB72ltNgQOJDIdbOwjylnVxw-lDcraIW6Hun3J_E98-tPtZ_DgtVv-BF6id-dPYH0S6bo3MdoQtjAC2hUnzS43CzN2QrcASScHAKiyE4Rq8I56mvfwau5d4l7NaRDypWKHODKe9c0Q1P89TqfjUJX01P13wqoNnga2W6khJFqDisSELRSX9KqvPDyr3VTEmp-QtByl6m_yZDutwnKX5Wbcx_QB8-YZMoGCfX0cDj2ybcSSJR-S7B68u-s2WgIajTsLmLtoAZZ33nnWRCextnHaF8GU4Lp0xie007SYkf95_6x9rt6Vg30zyFTuwyHvQLiyzqZYHPF9uJamL","ExternalDocumentID":
+        ["oai_quod_lib_umich_edu_MIU01_100379825"],"IngestDate": ["Thu Sep 22 21:47:48
+        EDT 2016"],"DBID": ["9PP","1HA","J3O"],"PublicationDate_xml": [{"year": "1886","text":
+        "1886"}],"Score": ["41.22126"],"URI": ["http://hdl.handle.net/2027/hvd.32044081841066"],"ID":
+        ["FETCH-hathitrust_primary_oai_quod_lib_umich_edu_MIU01_1003798253"],"Language":
+        ["French"],"Author": ["Werner, O. (Oskar)","Groffier, Valérien"],"PublicationCentury":
+        ["1800"],"IsScholarly": ["false"],"PublicationDecade": ["1880"],"SubjectTerms":
+        ["Atlases, French","Missions","Catholic Church"],"ContentType": ["eBook"],"SourceType":
+        ["Open Access Repository"],"Author_xml": [{"sequence": "1","fullname": "Werner,
+        O. (Oskar)"},{"sequence": "2","fullname": "Groffier, Valérien"}],"PublicationYear":
+        ["1886"],"SourceID": ["hathitrust"],"Copyright_xml": [{"notice": "We have
+        determined this item to be in the public domain according to US copyright
+        law through information in the bibliographic record and/or US copyright renewal
+        records. We are uncertain of its copyright status outside the US. The digital
+        version is available for all educational uses within the United States. Please
+        contact HathiTrust staff at hathitrust-help@umich.edu with any questions about
+        this item."}],"IsOpenAccess": ["true"],"Title": ["__BENTO_HL_START__Atlas__BENTO_HL_END__
+        __BENTO_HL_START__des missions__BENTO_HL_END__ catholiques : vingt cartes
+        teintées, avec texte explicatif"],"PublicationDate": ["1886"],"Notes": ["Reproduction
+        of original in: National Library of Canada.","Lyon : Bureau des missions catholiques","Mode
+        of access: Internet."],"MergedId": ["FETCHMERGED-hathitrust_primary_oai_quod_lib_umich_edu_MIU01_1003798253"],"Copyright":
+        ["We have determined this item to be in the public domain according to US
+        copyright law through information in the bibliographic record and/or US copyright
+        renewal records. We are uncertain of its copyright status outside the US.
+        The digital version is available for all educational uses within the United
+        States. Please contact HathiTrust staff at hathitrust-help@umich.edu with
+        any questions about this item."],"IsPeerReviewed": ["false"],"Database_xml":
+        [{"sequence": "1","dbid": "J3O","name": "HathiTrust (Public Domain within
+        US only)","url": "http://proxy.library.cornell.edu/login?url=http://www.hathitrust.org/","sourceTypes":
+        ["Open Access Repository"]}],"LinkModel": ["DirectLink"],"BookMark": ["ePnHCXMw42TwcywBNvwUUlKLFYBOBY35FCuAziDNzwGdSFqsYKUA6iqXAMWKgK0pBdCljiWHV6YW6ygklqUmK4AWPKQqpFZAp2_TeBhY8oC9MW4GBzfXEGcPXcSGhPgCyIEM8aAjkgtL81PigV3M-FLQIF08sJyO9_UMNTAEHcprbG4J7AgZU8EIAKVkTg8"],"DatabaseName":
+        ["HathiTrust (Public Domain & Copyright Works)","HathiTrust (Public Domain
+        within US only)"]}],"rollups": {"image": {},"reference": {},"newspaper": {}}}'
     http_version: 
-  recorded_at: Fri, 05 May 2017 14:35:04 GMT
+  recorded_at: Tue, 09 Jan 2018 16:00:15 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b4/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=title:Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
+    uri: http://da-prod-solr8.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=title:Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
     body:
       encoding: US-ASCII
       string: ''
@@ -385,111 +378,57 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 05 May 2017 14:35:05 GMT
+      - Tue, 09 Jan 2018 16:00:15 GMT
       Last-Modified:
-      - Fri, 05 May 2017 14:34:23 GMT
+      - Tue, 09 Jan 2018 15:59:54 GMT
       Etag:
-      - '"NjgzZjgwMDAwMDAwMDAwMFNvbHI="'
+      - '"NWE1N2E4MDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Content-Length:
-      - '1441'
+      - '1578'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: "{'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>2159,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score
+      string: "{'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>1929,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score
         desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889
         TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions
-        de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1375785.2,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889
-        TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At
-        the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch
-        Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann
-        Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}\n"
+        de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>9,'start'=>0,'maxScore'=>1030839.8,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889
+        TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',9],'online'=>['At
+        the Library',9,'Online',1],'language_facet'=>['French',9],'location_facet'=>['Kroch
+        Library Asia',2,'Library Annex',2,'Olin Library',2,'Kroch Library Rare & Manuscripts',1,'Mann
+        Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>['missions',{'numFound'=>1,'startOffset'=>10,'endOffset'=>18,'origFreq'=>3643,'suggestion'=>[{'word'=>'mission','freq'=>3399}]}],'correctlySpelled'=>true}}\n"
     http_version: 
-  recorded_at: Fri, 05 May 2017 14:35:07 GMT
+  recorded_at: Tue, 09 Jan 2018 16:00:17 GMT
 - request:
     method: get
-    uri: http://es287-dev.library.cornell.edu:8988/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip,%20deflate
+    uri: http://holdings5.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip,%20deflate
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
       Accept:
       - "*/*"
       Date:
-      - Fri, 05 May 2017 14:54:15 GMT
-  response:
-    status:
-      code: 200
-      message: 'OK '
-    headers:
-      Access-Control-Allow-Origin:
-      - "*"
-      Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept-Encoding
-      X-Ua-Compatible:
-      - IE=Edge
-      Etag:
-      - '"404bd3e756db2e3bae530a68ed386c8b"'
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 8eea837eb90614fbcb4f0e02d8302e0c
-      X-Runtime:
-      - '0.018077'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.2.5/2016-04-26)
-      Date:
-      - Fri, 05 May 2017 14:54:15 GMT
-      Content-Length:
-      - '1158'
-      Connection:
-      - Keep-Alive
-    body:
-      encoding: UTF-8
-      string: '{"119162":{"119162":{"records":[{"bibid":"119162","holding_id":"156509","location_name":"maps","call_number":"Oversize
-        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
-        Library Maps (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Olin
-        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"not_avail_at":{},"onotes":[]}}},"4303721":{"4303721":{"records":[{"bibid":"4303721","holding_id":"4851798","location_name":"mann","call_number":"Oversize
-        F2808 .C35 ++","shelving_title":"","summary_holdings":["atlas"],"supplements":[],"indexes":[],"notes":["Library
-        lacks text vol.; has atlas only."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Mann
-        Library"],"locnumber":1,"status":["avail"],"avail_at":{"Mann Library":"Oversize
-        F2808 .C35 ++"},"not_avail_at":{},"onotes":[]}}}}'
-    http_version: 
-  recorded_at: Fri, 05 May 2017 14:54:15 GMT
-- request:
-    method: get
-    uri: http://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip,%20deflate
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
-      Accept:
-      - "*/*"
-      Date:
-      - Fri, 05 May 2017 18:20:40 GMT
+      - Tue, 09 Jan 2018 16:00:17 GMT
   response:
     status:
       code: 302
       message: Found
     headers:
       Date:
-      - Fri, 05 May 2017 18:20:40 GMT
+      - Tue, 09 Jan 2018 16:00:17 GMT
       Server:
       - Apache
       Location:
-      - https://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C+deflate
+      - https://holdings5.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C+deflate
       Vary:
       - Accept-Encoding
       Content-Length:
@@ -506,30 +445,30 @@ http_interactions:
         <title>302 Found</title>
         </head><body>
         <h1>Found</h1>
-        <p>The document has moved <a href="https://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C+deflate">here</a>.</p>
+        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C+deflate">here</a>.</p>
         </body></html>
     http_version: 
-  recorded_at: Fri, 05 May 2017 18:20:40 GMT
+  recorded_at: Tue, 09 Jan 2018 16:00:17 GMT
 - request:
     method: get
-    uri: https://holdings4.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C%20deflate
+    uri: https://holdings5.library.cornell.edu/holdings/retrieve_detail_short/119162/4303721?Accept-Encoding=gzip%252C%20deflate
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.2.5 (2016-04-26))
+      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
       Accept:
       - "*/*"
       Date:
-      - Fri, 05 May 2017 18:20:40 GMT
+      - Tue, 09 Jan 2018 16:00:17 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 05 May 2017 18:20:40 GMT
+      - Tue, 09 Jan 2018 16:00:17 GMT
       Server:
       - Apache
       Access-Control-Allow-Origin:
@@ -543,9 +482,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 1a8929ffa3e39b14d4e8ee3394110587
+      - b46096b9b4834d626bf17308a61ef7e0
       X-Runtime:
-      - '0.481693'
+      - '0.464900'
       X-Powered-By:
       - Phusion Passenger 4.0.58
       Status:
@@ -567,864 +506,5 @@ http_interactions:
         Library"],"locnumber":1,"status":["avail"],"avail_at":{"Mann Library":"Oversize
         F2808 .C35 ++"},"not_avail_at":{},"onotes":[]}}}}'
     http_version: 
-  recorded_at: Fri, 05 May 2017 18:20:41 GMT
-- request:
-    method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers: {}
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 01 Aug 2017 20:32:50 GMT
-      Last-Modified:
-      - Tue, 01 Aug 2017 20:32:23 GMT
-      Etag:
-      - '"MzFiYTkwMDAwMDAwMDAwMFNvbHI="'
-      Content-Type:
-      - text/plain;charset=utf-8
-      Content-Length:
-      - '7083'
-      Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
-      Vary:
-      - Accept-Encoding
-      Connection:
-      - close
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
-        dXMnPT4wLCdRVGltZSc9PjE4MTIsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
-        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
-        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
-        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
-        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
-        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
-        bGNoZWNrLnEnPT4nKCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTpt
-        aXNzaW9ucyArdGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGU6IkF0bGFz
-        IGRlcyBtaXNzaW9ucyBkZSBsYSAiJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZh
-        Y2V0LnNvcnQnPT4naW5kZXgnLCdzdGF0cyc9Pid0cnVlJywnd3QnPT4ncnVi
-        eScsJ2YuZmFzdF9nZW5yZV9mYWNldC5mYWNldC5saW1pdCc9Pic2JywnZi5m
-        b3JtYXQuZmFjZXQubGltaXQnPT4nMTEnLCdzdGF0cy5maWVsZCc9PidwdWJf
-        ZGF0ZV9mYWNldCcsJ21tJz0+JzEnLCdmLmF1dGhvcl9mYWNldC5mYWNldC5s
-        aW1pdCc9Pic2JywnZmFjZXQuZmllbGQnPT5bJ29ubGluZScsJ2Zvcm1hdCcs
-        J2F1dGhvcl9mYWNldCcsJ3B1Yl9kYXRlX2ZhY2V0Jywnd29ya2lkX2ZhY2V0
-        JywnbGFuZ3VhZ2VfZmFjZXQnLCdmYXN0X3RvcGljX2ZhY2V0JywnZmFzdF9n
-        ZW9fZmFjZXQnLCdmYXN0X2VyYV9mYWNldCcsJ2Zhc3RfZ2VucmVfZmFjZXQn
-        LCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnLCdsY19hbHBoYV9mYWNldCcsJ2xv
-        Y2F0aW9uX2ZhY2V0JywnaGllcmFyY2h5X2ZhY2V0JywnYXV0aG9ydGl0bGVf
-        ZmFjZXQnLCdsY19jYWxsbnVtX2ZhY2V0JywnY29sbGVjdGlvbiddLCdxdCc9
-        PidzZWFyY2gnLCdmLmxjX2NhbGxudW1fZmFjZXQuZmFjZXQubGltaXQnPT4n
-        LTEnLCdzb3J0Jz0+J3Njb3JlIGRlc2MsIHB1Yl9kYXRlX3NvcnQgZGVzYywg
-        dGl0bGVfc29ydCBhc2MnLCdyb3dzJz0+JzIwJywncSc9Pid0aXRsZTooK3Rp
-        dGxlOkF0bGFzICt0aXRsZTpkZXMgK3RpdGxlOm1pc3Npb25zICt0aXRsZTpk
-        ZSArdGl0bGU6bGEgKSBPUiB0aXRsZToiQXRsYXMgZGVzIG1pc3Npb25zIGRl
-        IGxhICInLCdmLmZhc3RfZXJhX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnLCdm
-        LmZhc3RfdG9waWNfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2ZhY2V0Jz0+
-        J3RydWUnLCdmLmxhbmd1YWdlX2ZhY2V0LmZhY2V0LmxpbWl0Jz0+JzYnfX0s
-        J3Jlc3BvbnNlJz0+eydudW1Gb3VuZCc9PjIsJ3N0YXJ0Jz0+MCwnbWF4U2Nv
-        cmUnPT4zMTA3OC40NDEsJ2RvY3MnPT5beydob2xkaW5nc19yZWNvcmRfZGlz
-        cGxheSc9PlsneyJpZCI6IjE1NjUwOSIsIm1vZGlmaWVkX2RhdGUiOiIyMDEy
-        MTAwMzEzMjc1MiIsImNvcHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIk92
-        ZXJzaXplIEcyMjA5LkU0IEwzNyArKysiXSwibm90ZXMiOlsiRm9saW8uIl0s
-        ImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10s
-        InN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGlu
-        Z3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6Im1hcHMiLCJudW1i
-        ZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1hcHMgKE5vbi1DaXJjdWxh
-        dGluZykiLCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5In1dfSddLCdvbmxpbmUn
-        PT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5b
-        J3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwi
-        aXRlbV9pZCI6IjI2MjI1NCIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIz
-        IiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIs
-        InRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2Vu
-        dW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1f
-        dHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5IiwicmVjYWxsc19wbGFj
-        ZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAwOjAwLjAi
-        LCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4MzUzMjU4NCIsIm1vZGlmeV9kYXRl
-        IjoiMjAxMi0xMC0wMyAxMzoyODowOC4wIiwicGVybV9sb2NhdGlvbiI6eyJj
-        b2RlIjoibWFwcyIsIm51bWJlciI6ODAsIm5hbWUiOiJPbGluIExpYnJhcnkg
-        TWFwcyAoTm9uLUNpcmN1bGF0aW5nKSIsImxpYnJhcnkiOiJPbGluIExpYnJh
-        cnkifX0nXSwnaWQnPT4nMTE5MTYyJywnZm9ybWF0Jz0+WydCb29rJ10sJ2xh
-        bmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaC4nXSwncHViX2RhdGVfZGlzcGxh
-        eSc9PlsnMTg5MCddLCdwdWJfZGF0ZV9mYWNldCc9PjE4OTAsJ3B1Yl9pbmZv
-        X2Rpc3BsYXknPT5bJ0xpbGxlIDogU29jacOpdMOpIGRlIFNhaW50LUF1Z3Vz
-        dGluIERlc2Nsw6llIGRlIEJyb3V3ZXIgMTg5MC4nXSwnZnVsbHRpdGxlX2Rp
-        c3BsYXknPT4nQXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBk
-        ZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMgOiAyNyBjYXJ0ZXMgZW4gNSBjb3Vs
-        ZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGljZXMgZ8Opb2dyYXBoaXF1
-        ZXMgZXQgaGlzdG9yaXF1ZXMnLCd0aXRsZV9kaXNwbGF5Jz0+J0F0bGFzIGRl
-        cyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVzIE1pc3Npb25zLUV0cmFu
-        Z8OocmVzJywnYXV0aG9yX2Rpc3BsYXknPT4nTGF1bmF5LCBBZHJpZW4sIDE4
-        NTMtMTkyNy4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+JzI3IGNhcnRlcyBlbiA1
-        IGNvdWxldXJzIGFjY29tcGFnbsOpZXMgZGUgMjcgbm90aWNlcyBnw6lvZ3Jh
-        cGhpcXVlcyBldCBoaXN0b3JpcXVlcycsJ290aGVyX2lkX2Rpc3BsYXknPT5b
-        JyhDU3RSTElOKU5ZQ1gxMTcxNjg2QicsJyhOSUMpbm90aXNBQU4wNjM1Jywn
-        MTE5MTYyJywnKE9Db0xDKTExNzE2ODYnXSwnc2NvcmUnPT4zMTA3OC40NDF9
-        LHsnaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiI0ODUxNzk4
-        IiwibW9kaWZpZWRfZGF0ZSI6IjIwMDIwNzExMTE0MDEzIiwiY29weV9udW1i
-        ZXIiOm51bGwsImNhbGxub3MiOlsiT3ZlcnNpemUgRjI4MDggLkMzNSArKyJd
-        LCJub3RlcyI6WyJMaWJyYXJ5IGxhY2tzIHRleHQgdm9sLjsgaGFzIGF0bGFz
-        IG9ubHkuIl0sImhvbGRpbmdzX2Rlc2MiOlsiYXRsYXMiXSwicmVjZW50X2hv
-        bGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzYyI6
-        W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMiOlt7ImNv
-        ZGUiOiJtYW5uIiwibnVtYmVyIjo2OSwibmFtZSI6Ik1hbm4gTGlicmFyeSIs
-        ImxpYnJhcnkiOiJNYW5uIExpYnJhcnkifV19J10sJ29ubGluZSc9PlsnQXQg
-        dGhlIExpYnJhcnknXSwnaXRlbV9yZWNvcmRfZGlzcGxheSc9PlsneyJjb3B5
-        X251bWJlciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJvb2siLCJpdGVtX2lk
-        IjoiNjQxNDIwMiIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hy
-        b24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBf
-        bG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiJB
-        dGxhcyIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsInRlbXBfaXRlbV90
-        eXBlX2lkIjoiMCIsIm1maGRfaWQiOiI0ODUxNzk4IiwicmVjYWxsc19wbGFj
-        ZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAyLTA3LTExIDE2OjE3OjA1LjAi
-        LCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4Njc1NTc5NCIsIm1vZGlmeV9kYXRl
-        IjoiIiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoibWFubiIsIm51bWJlciI6
-        NjksIm5hbWUiOiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5IjoiTWFubiBMaWJy
-        YXJ5In19J10sJ2lkJz0+JzQzMDM3MjEnLCdmb3JtYXQnPT5bJ0Jvb2snXSwn
-        bGFuZ3VhZ2VfZGlzcGxheSc9PlsnRnJlbmNoLiddLCdwdWJfZGF0ZV9kaXNw
-        bGF5Jz0+WycxODg5J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg4OSwncHViX2lu
-        Zm9fZGlzcGxheSc9PlsnUGFyaXMgW1NjZWF1eCwgSW1wci4gQ2hhcmFpcmUg
-        ZXQgRmlscywgMTg4OV0nXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nTWlzc2lv
-        biBkZSBNLiBDYWx2ZXQgZGFucyBsQcyTbcOpcmlxdWUgZHUgU3VkOiByYXBw
-        b3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRlIGxpzJNuZHVzdHJp
-        ZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7IGxpzJNtbWlncmF0
-        aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBsYcyTZ3JpY3VsdHVy
-        ZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4JywndGl0bGVfZGlzcGxheSc9PidN
-        aXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6lyaXF1ZSBkdSBTdWQn
-        LCdhdXRob3JfZGlzcGxheSc9PidDYWx2ZXQsIEEuJywnc3VidGl0bGVfZGlz
-        cGxheSc9PidyYXBwb3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRl
-        IGxpzJNuZHVzdHJpZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7
-        IGxpzJNtbWlncmF0aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBs
-        YcyTZ3JpY3VsdHVyZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4Jywnb3RoZXJf
-        aWRfZGlzcGxheSc9PlsnKE5OQylub3Rpc0FSSzAyOTknLCcoQ1N0UkxJTilO
-        WUNHQVJLMDI5OS1CJywnKE9Db0xDKTY3MjY2NzAnLCc0MzAzNzIxJ10sJ3Nj
-        b3JlJz0+NDEyMi42MDZ9XX0sJ2ZhY2V0X2NvdW50cyc9PnsnZmFjZXRfcXVl
-        cmllcyc9Pnt9LCdmYWNldF9maWVsZHMnPT57J29ubGluZSc9PlsnQXQgdGhl
-        IExpYnJhcnknLDJdLCdmb3JtYXQnPT5bJ0Jvb2snLDJdLCdhdXRob3JfZmFj
-        ZXQnPT5bJ0NhbHZldCwgQScsMSwnTGF1bmF5LCBBZHJpZW4sIDE4NTMtMTky
-        NycsMSwnTWlzc2lvbnMgw6l0cmFuZ8OocmVzIGRlIFBhcmlzJywxXSwncHVi
-        X2RhdGVfZmFjZXQnPT5bJzE4ODknLDEsJzE4OTAnLDFdLCd3b3JraWRfZmFj
-        ZXQnPT5bJzIxMTI4NjQnLDEsJzk4ODk2MjYyNScsMV0sJ2xhbmd1YWdlX2Zh
-        Y2V0Jz0+WydGcmVuY2gnLDJdLCdmYXN0X3RvcGljX2ZhY2V0Jz0+WydBZ3Jp
-        Y3VsdHVyZSA+IEVjb25vbWljIGFzcGVjdHMnLDEsJ0NhdGhvbGljIENodXJj
-        aCcsMSwnQ29tbWVyY2UnLDEsJ01pc3Npb25zJywxLCdNaXNzaW9ucyDDqXRy
-        YW5nw6hyZXMgZGUgUGFyaXMnLDEsJ01pc3Npb25zLCBGcmVuY2gnLDFdLCdm
-        YXN0X2dlb19mYWNldCc9PlsnQXJnZW50aW5hJywxLCdBc2lhJywxLCdQYXJh
-        Z3VheScsMSwnVXJ1Z3VheScsMV0sJ2Zhc3RfZXJhX2ZhY2V0Jz0+W10sJ2Zh
-        c3RfZ2VucmVfZmFjZXQnPT5bJ0F0bGFzZXMnLDEsJ0hpc3RvcnknLDEsJ01h
-        cHMnLDFdLCdzdWJqZWN0X2NvbnRlbnRfZmFjZXQnPT5bJ05vbi1GaWN0aW9u
-        IChib29rcyknLDJdLCdsY19hbHBoYV9mYWNldCc9PltdLCdsb2NhdGlvbl9m
-        YWNldCc9PlsnTWFubiBMaWJyYXJ5JywxLCdPbGluIExpYnJhcnknLDFdLCdo
-        aWVyYXJjaHlfZmFjZXQnPT5bXSwnYXV0aG9ydGl0bGVfZmFjZXQnPT5bJ0Nh
-        bHZldCwgQS4gfCBNaXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6ly
-        aXF1ZSBkdSBTdWQnLDEsJ0xhdW5heSwgQWRyaWVuLCAxODUzLTE5MjcuIHwg
-        QXRsYXMgZGVzIG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lv
-        bnMtRXRyYW5nw6hyZXMnLDFdLCdsY19jYWxsbnVtX2ZhY2V0Jz0+WydFLUYg
-        LSBIaXN0b3J5IG9mIHRoZSBBbWVyaWNhcycsMSwnRS1GIC0gSGlzdG9yeSBv
-        ZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNw
-        YW5pc2ggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9yeSBvZiB0aGUgQW1lcmlj
-        YXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNwYW5pc2ggQW1lcmlj
-        YTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9y
-        eSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2Eu
-        IFNwYW5pc2ggQW1lcmljYTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYTpG
-        MjgwMS0zMDIxIC0gQXJnZW50aW5hJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRo
-        cm9wb2xvZ3ksIFJlY3JlYXRpb24nLDEsJ0cgLSBHZW9ncmFwaHksIEFudGhy
-        b3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFsKScs
-        MSwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcg
-        LSBHZW9ncmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzJywx
-        LCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAt
-        IEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzEx
-        MDAtMzEwMiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5JywxLCdHIC0gR2VvZ3Jh
-        cGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dyYXBoeSAo
-        R2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEwMiAtIEJ5
-        IHJlZ2lvbiBvciBjb3VudHJ5OkcxNzgwLTI3OTkgLSBFYXN0ZXJuIEhlbWlz
-        cGhlcmUuIEV1cmFzaWEsIEFmcmljYSwgZXRjLicsMSwnRyAtIEdlb2dyYXBo
-        eSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFwaHkgKEdl
-        bmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMxMDIgLSBCeSBy
-        ZWdpb24gb3IgY291bnRyeTpHMTc4MC0yNzk5IC0gRWFzdGVybiBIZW1pc3Bo
-        ZXJlLiBFdXJhc2lhLCBBZnJpY2EsIGV0Yy46RzIyMDAtMjQ0NC44NCAtIEFz
-        aWEnLDFdLCdjb2xsZWN0aW9uJz0+W119LCdmYWNldF9yYW5nZXMnPT57fSwn
-        ZmFjZXRfaW50ZXJ2YWxzJz0+e30sJ2ZhY2V0X2hlYXRtYXBzJz0+e319LCdz
-        dGF0cyc9Pnsnc3RhdHNfZmllbGRzJz0+eydwdWJfZGF0ZV9mYWNldCc9Pnsn
-        bWluJz0+MTg4OS4wLCdtYXgnPT4xODkwLjAsJ2NvdW50Jz0+MiwnbWlzc2lu
-        Zyc9PjAsJ3N1bSc9PjM3NzkuMCwnc3VtT2ZTcXVhcmVzJz0+NzE0MDQyMS4w
-        LCdtZWFuJz0+MTg4OS41LCdzdGRkZXYnPT4wLjcwNzEwNjc4MTE4NjU0NzZ9
-        fX0sJ3NwZWxsY2hlY2snPT57J3N1Z2dlc3Rpb25zJz0+W10sJ2NvcnJlY3Rs
-        eVNwZWxsZWQnPT50cnVlfX0K
-    http_version: 
-  recorded_at: Tue, 01 Aug 2017 20:32:52 GMT
-- request:
-    method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.query=pub_date_facet:%5B1890%20TO%201890%5D&mm=1&q=title:Atlas%20des%20missions%20de%20la%20&qt=search&rows=0&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=Atlas%20des%20missions%20de%20la%20&wt=ruby
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers: {}
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 02 Aug 2017 13:12:26 GMT
-      Last-Modified:
-      - Wed, 02 Aug 2017 13:12:02 GMT
-      Etag:
-      - '"NTAzNjkwMDAwMDAwMDAwMFNvbHI="'
-      Content-Type:
-      - text/plain;charset=utf-8
-      Content-Length:
-      - '1441'
-      Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
-      Vary:
-      - Accept-Encoding
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: "{'responseHeader'=>{'zkConnected'=>true,'status'=>0,'QTime'=>1903,'params'=>{'f.subject_content_facet.facet.limit'=>'6','mm'=>'1','f.author_facet.facet.limit'=>'6','qt'=>'search','spellcheck.dictionary'=>'title','f.location_facet.facet.limit'=>'6','f.fast_geo_facet.facet.limit'=>'6','f.lc_alpha_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.limit'=>'-1','sort'=>'score
-        desc, pub_date_sort desc, title_sort asc','rows'=>'0','f.online.facet.limit'=>'3','facet.query'=>['pub_date_facet:[1889
-        TO 1889]','pub_date_facet:[1890 TO 1890]'],'q'=>'title:Atlas des missions
-        de la ','defType'=>'edismax','spellcheck.q'=>'Atlas des missions de la ','f.fast_era_facet.facet.limit'=>'6','f.lc_callnum_facet.facet.sort'=>'index','f.fast_topic_facet.facet.limit'=>'6','wt'=>'ruby','facet'=>'true','f.fast_genre_facet.facet.limit'=>'6','f.format.facet.limit'=>'11','f.language_facet.facet.limit'=>'6'}},'response'=>{'numFound'=>7,'start'=>0,'maxScore'=>1377258.2,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{'pub_date_facet:[1889
-        TO 1889]'=>1,'pub_date_facet:[1890 TO 1890]'=>1},'facet_fields'=>{'format'=>['Book',7],'online'=>['At
-        the Library',7],'language_facet'=>['French',7],'location_facet'=>['Olin Library',2,'Kroch
-        Library Asia',1,'Kroch Library Rare & Manuscripts',1,'Library Annex',1,'Mann
-        Library',1,'Uris Library',1]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>[],'correctlySpelled'=>true}}\n"
-    http_version: 
-  recorded_at: Wed, 02 Aug 2017 13:12:28 GMT
-- request:
-    method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?defType=edismax&f.author_facet.facet.limit=6&f.fast_era_facet.facet.limit=6&f.fast_genre_facet.facet.limit=6&f.fast_geo_facet.facet.limit=6&f.fast_topic_facet.facet.limit=6&f.format.facet.limit=11&f.language_facet.facet.limit=6&f.lc_alpha_facet.facet.limit=6&f.lc_callnum_facet.facet.limit=-1&f.lc_callnum_facet.facet.sort=index&f.location_facet.facet.limit=6&f.online.facet.limit=3&f.subject_content_facet.facet.limit=6&facet=true&facet.field=collection&mm=1&q=title:(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title_phrase:%22Atlas%20des%20missions%20de%20la%20%22&qt=search&rows=20&sort=score%20desc,%20pub_date_sort%20desc,%20title_sort%20asc&spellcheck.dictionary=title&spellcheck.q=(%2Btitle:Atlas%20%2Btitle:des%20%2Btitle:missions%20%2Btitle:de%20%2Btitle:la%20)%20OR%20title_phrase:%22Atlas%20des%20missions%20de%20la%20%22&stats=true&stats.field=pub_date_facet&wt=ruby
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers: {}
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 06 Sep 2017 18:48:42 GMT
-      Last-Modified:
-      - Wed, 06 Sep 2017 18:48:39 GMT
-      Etag:
-      - '"Y2MzOGEwMDAwMDAwMDAwMFNvbHI="'
-      Content-Type:
-      - text/plain;charset=utf-8
-      Content-Length:
-      - '21953'
-      Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
-      Vary:
-      - Accept-Encoding
-      Connection:
-      - close
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
-        dXMnPT4wLCdRVGltZSc9PjM5MzAsJ3BhcmFtcyc9PnsnZi5zdWJqZWN0X2Nv
-        bnRlbnRfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ3NwZWxsY2hlY2suZGlj
-        dGlvbmFyeSc9Pid0aXRsZScsJ2YubG9jYXRpb25fZmFjZXQuZmFjZXQubGlt
-        aXQnPT4nNicsJ2YuZmFzdF9nZW9fZmFjZXQuZmFjZXQubGltaXQnPT4nNics
-        J2YubGNfYWxwaGFfZmFjZXQuZmFjZXQubGltaXQnPT4nNicsJ2Yub25saW5l
-        LmZhY2V0LmxpbWl0Jz0+JzMnLCdkZWZUeXBlJz0+J2VkaXNtYXgnLCdzcGVs
-        bGNoZWNrLnEnPT4nKCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTpt
-        aXNzaW9ucyArdGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGVfcGhyYXNl
-        OiJBdGxhcyBkZXMgbWlzc2lvbnMgZGUgbGEgIicsJ2YubGNfY2FsbG51bV9m
-        YWNldC5mYWNldC5zb3J0Jz0+J2luZGV4Jywnc3RhdHMnPT4ndHJ1ZScsJ3d0
-        Jz0+J3J1YnknLCdmLmZhc3RfZ2VucmVfZmFjZXQuZmFjZXQubGltaXQnPT4n
-        NicsJ2YuZm9ybWF0LmZhY2V0LmxpbWl0Jz0+JzExJywnc3RhdHMuZmllbGQn
-        PT4ncHViX2RhdGVfZmFjZXQnLCdtbSc9PicxJywnZi5hdXRob3JfZmFjZXQu
-        ZmFjZXQubGltaXQnPT4nNicsJ2ZhY2V0LmZpZWxkJz0+WydvbmxpbmUnLCdm
-        b3JtYXQnLCdhdXRob3JfZmFjZXQnLCdwdWJfZGF0ZV9mYWNldCcsJ3dvcmtp
-        ZF9mYWNldCcsJ2xhbmd1YWdlX2ZhY2V0JywnZmFzdF90b3BpY19mYWNldCcs
-        J2Zhc3RfZ2VvX2ZhY2V0JywnZmFzdF9lcmFfZmFjZXQnLCdmYXN0X2dlbnJl
-        X2ZhY2V0Jywnc3ViamVjdF9jb250ZW50X2ZhY2V0JywnbGNfYWxwaGFfZmFj
-        ZXQnLCdsb2NhdGlvbl9mYWNldCcsJ2hpZXJhcmNoeV9mYWNldCcsJ2F1dGhv
-        cnRpdGxlX2ZhY2V0JywnbGNfY2FsbG51bV9mYWNldCcsJ2NvbGxlY3Rpb24n
-        XSwncXQnPT4nc2VhcmNoJywnZi5sY19jYWxsbnVtX2ZhY2V0LmZhY2V0Lmxp
-        bWl0Jz0+Jy0xJywnc29ydCc9PidzY29yZSBkZXNjLCBwdWJfZGF0ZV9zb3J0
-        IGRlc2MsIHRpdGxlX3NvcnQgYXNjJywncm93cyc9PicyMCcsJ3EnPT4ndGl0
-        bGU6KCt0aXRsZTpBdGxhcyArdGl0bGU6ZGVzICt0aXRsZTptaXNzaW9ucyAr
-        dGl0bGU6ZGUgK3RpdGxlOmxhICkgT1IgdGl0bGVfcGhyYXNlOiJBdGxhcyBk
-        ZXMgbWlzc2lvbnMgZGUgbGEgIicsJ2YuZmFzdF9lcmFfZmFjZXQuZmFjZXQu
-        bGltaXQnPT4nNicsJ2YuZmFzdF90b3BpY19mYWNldC5mYWNldC5saW1pdCc9
-        Pic2JywnZmFjZXQnPT4ndHJ1ZScsJ2YubGFuZ3VhZ2VfZmFjZXQuZmFjZXQu
-        bGltaXQnPT4nNid9fSwncmVzcG9uc2UnPT57J251bUZvdW5kJz0+MTAsJ3N0
-        YXJ0Jz0+MCwnbWF4U2NvcmUnPT40MDY5Ni45NTcsJ2RvY3MnPT5beydob2xk
-        aW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjE1NjUwOSIsIm1vZGlm
-        aWVkX2RhdGUiOiIyMDEyMTAwMzEzMjc1MiIsImNvcHlfbnVtYmVyIjpudWxs
-        LCJjYWxsbm9zIjpbIk92ZXJzaXplIEcyMjA5LkU0IEwzNyArKysiXSwibm90
-        ZXMiOlsiRm9saW8uIl0sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9s
-        ZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpb
-        XSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29k
-        ZSI6Im1hcHMiLCJudW1iZXIiOjgwLCJuYW1lIjoiT2xpbiBMaWJyYXJ5IE1h
-        cHMgKE5vbi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5IjoiT2xpbiBMaWJyYXJ5
-        In1dfSddLCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVj
-        b3JkX2Rpc3BsYXknPT5bJ3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBl
-        X25hbWUiOiJib29rIiwiaXRlbV9pZCI6IjI2MjI1NCIsInllYXIiOiIiLCJp
-        dGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9s
-        ZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2
-        ZSI6Ik4iLCJpdGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6
-        IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiMTU2NTA5
-        IiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1
-        LTMxIDAwOjAwOjAwLjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDA4MzUzMjU4
-        NCIsIm1vZGlmeV9kYXRlIjoiMjAxMi0xMC0wMyAxMzoyODowOC4wIiwicGVy
-        bV9sb2NhdGlvbiI6eyJjb2RlIjoibWFwcyIsIm51bWJlciI6ODAsIm5hbWUi
-        OiJPbGluIExpYnJhcnkgTWFwcyAoTm9uLUNpcmN1bGF0aW5nKSIsImxpYnJh
-        cnkiOiJPbGluIExpYnJhcnkifX0nXSwnaWQnPT4nMTE5MTYyJywnZm9ybWF0
-        Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0ZyZW5jaC4nXSwn
-        cHViX2RhdGVfZGlzcGxheSc9PlsnMTg5MCddLCdwdWJfZGF0ZV9mYWNldCc9
-        PjE4OTAsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ0xpbGxlIDogU29jacOpdMOp
-        IGRlIFNhaW50LUF1Z3VzdGluIERlc2Nsw6llIGRlIEJyb3V3ZXIgMTg5MC4n
-        XSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nQXRsYXMgZGVzIG1pc3Npb25zIGRl
-        IGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5nw6hyZXMgOiAyNyBj
-        YXJ0ZXMgZW4gNSBjb3VsZXVycyBhY2NvbXBhZ27DqWVzIGRlIDI3IG5vdGlj
-        ZXMgZ8Opb2dyYXBoaXF1ZXMgZXQgaGlzdG9yaXF1ZXMnLCd0aXRsZV9kaXNw
-        bGF5Jz0+J0F0bGFzIGRlcyBtaXNzaW9ucyBkZSBsYSBTb2Npw6l0w6kgZGVz
-        IE1pc3Npb25zLUV0cmFuZ8OocmVzJywnYXV0aG9yX2Rpc3BsYXknPT4nTGF1
-        bmF5LCBBZHJpZW4sIDE4NTMtMTkyNy4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+
-        JzI3IGNhcnRlcyBlbiA1IGNvdWxldXJzIGFjY29tcGFnbsOpZXMgZGUgMjcg
-        bm90aWNlcyBnw6lvZ3JhcGhpcXVlcyBldCBoaXN0b3JpcXVlcycsJ290aGVy
-        X2lkX2Rpc3BsYXknPT5bJyhDU3RSTElOKU5ZQ1gxMTcxNjg2QicsJyhOSUMp
-        bm90aXNBQU4wNjM1JywnMTE5MTYyJywnKE9Db0xDKTExNzE2ODYnXSwnc2Nv
-        cmUnPT40MDY5Ni45NTd9LHsnaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXknPT5b
-        J3siaWQiOiI1MjYxMjM3IiwibW9kaWZpZWRfZGF0ZSI6IjIwMDUwNzIxMDgx
-        NDI5IiwiY29weV9udW1iZXIiOm51bGwsImNhbGxub3MiOlsiT3ZlcnNpemUg
-        RzEwNDYuRTQgRDQ3ICsrIl0sIm5vdGVzIjpbXSwiaG9sZGluZ3NfZGVzYyI6
-        W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxlbWVudGFsX2hv
-        bGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNjIjpbXSwibG9j
-        YXRpb25zIjpbeyJjb2RlIjoib2xpbixhbngiLCJudW1iZXIiOjEwMSwibmFt
-        ZSI6IkxpYnJhcnkgQW5uZXgiLCJsaWJyYXJ5IjoiTGlicmFyeSBBbm5leCJ9
-        XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdpdGVtX3JlY29y
-        ZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0ZW1fdHlwZV9u
-        YW1lIjoiYm9vayIsIml0ZW1faWQiOiI2Nzk2MTM1IiwieWVhciI6IiIsIml0
-        ZW1fdHlwZV9pZCI6IjMiLCJjaHJvbiI6IiIsImNhcHRpb24iOiIiLCJob2xk
-        c19wbGFjZWQiOiIwIiwidGVtcF9sb2NhdGlvbiI6IjAiLCJvbl9yZXNlcnZl
-        IjoiTiIsIml0ZW1fZW51bSI6IiIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoi
-        MSIsInRlbXBfaXRlbV90eXBlX2lkIjoiMCIsIm1maGRfaWQiOiI1MjYxMjM3
-        IiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAzLTA3
-        LTA3IDEwOjU3OjI3LjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDAyOTk3NTY5
-        OSIsIm1vZGlmeV9kYXRlIjoiIiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoi
-        b2xpbixhbngiLCJudW1iZXIiOjEwMSwibmFtZSI6IkxpYnJhcnkgQW5uZXgi
-        LCJsaWJyYXJ5IjoiTGlicmFyeSBBbm5leCJ9fSddLCdpZCc9Pic0NzQ2NTY1
-        JywnZm9ybWF0Jz0+WydCb29rJ10sJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0Zy
-        ZW5jaC4nXSwncHViX2RhdGVfZGlzcGxheSc9PlsnMTk1MSddLCdwdWJfZGF0
-        ZV9mYWNldCc9PjE5NTEsJ3B1Yl9pbmZvX2Rpc3BsYXknPT5bJ1BhcmlzIDog
-        TFwnxZJ1dnJlIGRlIGxhIFByb3BhZ2F0aW9uIGRlIGxhIEZvaSwgMTk1MS4n
-        XSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nTm91dmVsIGF0bGFzIGRlcyBtaXNz
-        aW9ucycsJ3RpdGxlX2Rpc3BsYXknPT4nTm91dmVsIGF0bGFzIGRlcyBtaXNz
-        aW9ucycsJ2F1dGhvcl9kaXNwbGF5Jz0+J0Rlc3BvbnQsIEouJywnb3RoZXJf
-        aWRfZGlzcGxheSc9PlsnKE9Db0xDKTE0MTQ2ODU1JywnNDc0NjU2NSddLCdz
-        Y29yZSc9Pjc2ODQuNTN9LHsnaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXknPT5b
-        J3siaWQiOiI1MDE2OTMxIiwibW9kaWZpZWRfZGF0ZSI6IjIwMDYwNDA2MTcy
-        ODI4IiwiY29weV9udW1iZXIiOm51bGwsImNhbGxub3MiOlsiQlYyMTg1IC5C
-        NzUgMTkzMyJdLCJub3RlcyI6W10sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNl
-        bnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19k
-        ZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6
-        W3siY29kZSI6Im9saW4sYW54IiwibnVtYmVyIjoxMDEsIm5hbWUiOiJMaWJy
-        YXJ5IEFubmV4IiwibGlicmFyeSI6IkxpYnJhcnkgQW5uZXgifV19J10sJ29u
-        bGluZSc9PlsnQXQgdGhlIExpYnJhcnknXSwnaXRlbV9yZWNvcmRfZGlzcGxh
-        eSc9PlsneyJjb3B5X251bWJlciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJv
-        b2siLCJpdGVtX2lkIjoiNjU4MjM5NCIsInllYXIiOiIiLCJpdGVtX3R5cGVf
-        aWQiOiIzIiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2Vk
-        IjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJp
-        dGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1w
-        X2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiNTAxNjkzMSIsInJlY2Fs
-        bHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMy0wMS0wNiAxODoz
-        Mzo1OC4wIiwiaXRlbV9iYXJjb2RlIjoiMzE5MjQwMjkzNDExNjUiLCJtb2Rp
-        ZnlfZGF0ZSI6IjIwMDQtMDctMTMgMjI6MDc6MTguMCIsInBlcm1fbG9jYXRp
-        b24iOnsiY29kZSI6Im9saW4sYW54IiwibnVtYmVyIjoxMDEsIm5hbWUiOiJM
-        aWJyYXJ5IEFubmV4IiwibGlicmFyeSI6IkxpYnJhcnkgQW5uZXgifX0nXSwn
-        aWQnPT4nNDQ4NjExNycsJ2Zvcm1hdCc9PlsnQm9vayddLCdsYW5ndWFnZV9k
-        aXNwbGF5Jz0+WydGcmVuY2guJ10sJ3B1Yl9kYXRlX2Rpc3BsYXknPT5bJzE5
-        MzMnXSwncHViX2RhdGVfZmFjZXQnPT4xOTMzLCdwdWJfaW5mb19kaXNwbGF5
-        Jz0+WydQYXJpcyA6IEEuIEhhdGllciwgMTkzMy4nXSwnZnVsbHRpdGxlX2Rp
-        c3BsYXknPT4nUGV0aXQgYXRsYXMgZGVzIG1pc3Npb25zIGNhdGhvbGlxdWVz
-        JywndGl0bGVfZGlzcGxheSc9PidQZXRpdCBhdGxhcyBkZXMgbWlzc2lvbnMg
-        Y2F0aG9saXF1ZXMnLCdhdXRob3JfZGlzcGxheSc9PidCb3VjaGVyLCBBbmRy
-        w6kuJywnZWRpdGlvbl9kaXNwbGF5Jz0+WycyZSDDqWQuJ10sJ290aGVyX2lk
-        X2Rpc3BsYXknPT5bJyhPQ29MQykyODU5NjgxNScsJzQ0ODYxMTcnXSwnc2Nv
-        cmUnPT43NjUwLjU0NH0seydob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9Plsn
-        eyJpZCI6IjI5ODk0MjEiLCJtb2RpZmllZF9kYXRlIjpudWxsLCJjb3B5X251
-        bWJlciI6bnVsbCwiY2FsbG5vcyI6WyJPdmVyc2l6ZSBCVjM0MTUgLkgzNyAr
-        KyJdLCJub3RlcyI6W10sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9s
-        ZGluZ3NfZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpb
-        XSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29k
-        ZSI6IndhcyIsIm51bWJlciI6MTM5LCJuYW1lIjoiS3JvY2ggTGlicmFyeSBB
-        c2lhIiwibGlicmFyeSI6Iktyb2NoIExpYnJhcnkgQXNpYSJ9XX0nXSwnb25s
-        aW5lJz0+WydBdCB0aGUgTGlicmFyeSddLCdpdGVtX3JlY29yZF9kaXNwbGF5
-        Jz0+Wyd7ImNvcHlfbnVtYmVyIjoiMSIsIml0ZW1fdHlwZV9uYW1lIjoiYm9v
-        ayIsIml0ZW1faWQiOiI0Mzk4Njk3IiwieWVhciI6IiIsIml0ZW1fdHlwZV9p
-        ZCI6IjMiLCJjaHJvbiI6IiIsImNhcHRpb24iOiIiLCJob2xkc19wbGFjZWQi
-        OiIwIiwidGVtcF9sb2NhdGlvbiI6IjAiLCJvbl9yZXNlcnZlIjoiTiIsIml0
-        ZW1fZW51bSI6IiIsIml0ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsInRlbXBf
-        aXRlbV90eXBlX2lkIjoiMCIsIm1maGRfaWQiOiIyOTg5NDIxIiwicmVjYWxs
-        c19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAw
-        OjAwLjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDAyMjkyMTkyMiIsIm1vZGlm
-        eV9kYXRlIjoiIiwicGVybV9sb2NhdGlvbiI6eyJjb2RlIjoid2FzIiwibnVt
-        YmVyIjoxMzksIm5hbWUiOiJLcm9jaCBMaWJyYXJ5IEFzaWEiLCJsaWJyYXJ5
-        IjoiS3JvY2ggTGlicmFyeSBBc2lhIn19J10sJ2lkJz0+JzI0OTcyMTQnLCdm
-        b3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3VhZ2VfZGlzcGxheSc9PlsnRnJlbmNo
-        LiddLCdwdWJfZGF0ZV9kaXNwbGF5Jz0+WycxOTE1J10sJ3B1Yl9kYXRlX2Zh
-        Y2V0Jz0+MTkxNSwncHViX2luZm9fZGlzcGxheSc9PlsnUGFyaXMgOiBQcm9j
-        dXJlIGRlcyBtaXNzaW9ucyBmcmFuY2lzY2FpbmVzLCAxOTE1LiddLCdmdWxs
-        dGl0bGVfZGlzcGxheSc9PidBdGxhcyBkZXMgbWlzc2lvbnMgZnJhbmNpc2Nh
-        aW5lcyBlbiBDaGluZScsJ3RpdGxlX2Rpc3BsYXknPT4nQXRsYXMgZGVzIG1p
-        c3Npb25zIGZyYW5jaXNjYWluZXMgZW4gQ2hpbmUnLCdhdXRob3JfZGlzcGxh
-        eSc9PidIYXVzZXJtYW5uLCBSLicsJ290aGVyX2lkX2Rpc3BsYXknPT5bJyhD
-        U3RSTElOKU5ZQ1hSTEExMzM2QicsJyhOSUMpbm90aXNBTU00MTEwJywnKE9D
-        b0xDKTUyMTI1MDAzJywnMjQ5NzIxNCddLCdzY29yZSc9PjcwODIuNX0seydo
-        b2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjI5OTMwMjMiLCJt
-        b2RpZmllZF9kYXRlIjpudWxsLCJjb3B5X251bWJlciI6bnVsbCwiY2FsbG5v
-        cyI6WyIrIEJYODQ3IC5XNDkgMTg4NiJdLCJub3RlcyI6W10sImhvbGRpbmdz
-        X2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBsZW1l
-        bnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6
-        W10sImxvY2F0aW9ucyI6W3siY29kZSI6IndhcyxhbngiLCJudW1iZXIiOjE0
-        MCwibmFtZSI6IkxpYnJhcnkgQW5uZXgiLCJsaWJyYXJ5IjoiTGlicmFyeSBB
-        bm5leCJ9XX0nXSwnb25saW5lJz0+WydBdCB0aGUgTGlicmFyeScsJ09ubGlu
-        ZSddLCdpdGVtX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImNvcHlfbnVtYmVyIjoi
-        MSIsIml0ZW1fdHlwZV9uYW1lIjoiYm9vayIsIml0ZW1faWQiOiI0NDAyNDI3
-        IiwieWVhciI6IiIsIml0ZW1fdHlwZV9pZCI6IjMiLCJjaHJvbiI6IiIsImNh
-        cHRpb24iOiIiLCJob2xkc19wbGFjZWQiOiIwIiwidGVtcF9sb2NhdGlvbiI6
-        IjAiLCJvbl9yZXNlcnZlIjoiTiIsIml0ZW1fZW51bSI6IiIsIml0ZW1fc2Vx
-        dWVuY2VfbnVtYmVyIjoiMSIsInRlbXBfaXRlbV90eXBlX2lkIjoiMCIsIm1m
-        aGRfaWQiOiIyOTkzMDIzIiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRl
-        X2RhdGUiOiIyMDAwLTA1LTMxIDAwOjAwOjAwLjAiLCJpdGVtX2JhcmNvZGUi
-        OiIzMTkyNDAyMjk1Nzk5MSIsIm1vZGlmeV9kYXRlIjoiIiwicGVybV9sb2Nh
-        dGlvbiI6eyJjb2RlIjoid2FzLGFueCIsIm51bWJlciI6MTQwLCJuYW1lIjoi
-        TGlicmFyeSBBbm5leCIsImxpYnJhcnkiOiJMaWJyYXJ5IEFubmV4In19J10s
-        J2lkJz0+JzI1MDA2NTgnLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3VhZ2Vf
-        ZGlzcGxheSc9PlsnRnJlbmNoLiddLCdwdWJfZGF0ZV9kaXNwbGF5Jz0+Wycx
-        ODg2J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg4NiwncHViX2luZm9fZGlzcGxh
-        eSc9PlsnTHlvbiA6IEJ1cmVhdXggZGVzIE1pc3Npb25zIENhdGhvbGlxdWVz
-        LCAxODg2LiddLCdmdWxsdGl0bGVfZGlzcGxheSc9PidBdGxhcyBkZXMgbWlz
-        c2lvbnMgQ2F0aG9saXF1ZXMgOiB2aW5ndCBjYXJ0ZXMgdGVpbnTDqWVzLCBh
-        dmVjIHRleHQgZXhwbGljYXRpZicsJ3RpdGxlX2Rpc3BsYXknPT4nQXRsYXMg
-        ZGVzIG1pc3Npb25zIENhdGhvbGlxdWVzJywnYXV0aG9yX2Rpc3BsYXknPT4n
-        V2VybmVyLCBPLiAoT3NjYXIpLCAxODQ5LScsJ3N1YnRpdGxlX2Rpc3BsYXkn
-        PT4ndmluZ3QgY2FydGVzIHRlaW50w6llcywgYXZlYyB0ZXh0IGV4cGxpY2F0
-        aWYnLCdvdGhlcl9pZF9kaXNwbGF5Jz0+WycoQ1N0UkxJTilOWUNYOTNCNTI5
-        NjMnLCcoTklDKW5vdGlzQU1NNzYyNCcsJyhPQ29MQyk2NDAwMDkzNCcsJzI1
-        MDA2NTgnXSwndXJsX2FjY2Vzc19qc29uJz0+Wyd7ImRlc2NyaXB0aW9uIjoi
-        SGF0aGlUcnVzdCIsInVybCI6Imh0dHA6Ly9oZGwuaGFuZGxlLm5ldC8yMDI3
-        L2Nvby4zMTkyNDAyMjk1Nzk5MSJ9J10sJ3VybF9hY2Nlc3NfZGlzcGxheSc9
-        PlsnaHR0cDovL2hkbC5oYW5kbGUubmV0LzIwMjcvY29vLjMxOTI0MDIyOTU3
-        OTkxfEhhdGhpVHJ1c3QnXSwnc2NvcmUnPT42NjIwLjg4OTZ9LHsnaG9sZGlu
-        Z3NfcmVjb3JkX2Rpc3BsYXknPT5bJ3siaWQiOiI0ODUxNzk4IiwibW9kaWZp
-        ZWRfZGF0ZSI6IjIwMDIwNzExMTE0MDEzIiwiY29weV9udW1iZXIiOm51bGws
-        ImNhbGxub3MiOlsiT3ZlcnNpemUgRjI4MDggLkMzNSArKyJdLCJub3RlcyI6
-        WyJMaWJyYXJ5IGxhY2tzIHRleHQgdm9sLjsgaGFzIGF0bGFzIG9ubHkuIl0s
-        ImhvbGRpbmdzX2Rlc2MiOlsiYXRsYXMiXSwicmVjZW50X2hvbGRpbmdzX2Rl
-        c2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzYyI6W10sImluZGV4
-        X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMiOlt7ImNvZGUiOiJtYW5u
-        IiwibnVtYmVyIjo2OSwibmFtZSI6Ik1hbm4gTGlicmFyeSIsImxpYnJhcnki
-        OiJNYW5uIExpYnJhcnkifV19J10sJ29ubGluZSc9PlsnQXQgdGhlIExpYnJh
-        cnknXSwnaXRlbV9yZWNvcmRfZGlzcGxheSc9PlsneyJjb3B5X251bWJlciI6
-        IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJvb2siLCJpdGVtX2lkIjoiNjQxNDIw
-        MiIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJj
-        YXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24i
-        OiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiJBdGxhcyIsIml0
-        ZW1fc2VxdWVuY2VfbnVtYmVyIjoiMSIsInRlbXBfaXRlbV90eXBlX2lkIjoi
-        MCIsIm1maGRfaWQiOiI0ODUxNzk4IiwicmVjYWxsc19wbGFjZWQiOiIwIiwi
-        Y3JlYXRlX2RhdGUiOiIyMDAyLTA3LTExIDE2OjE3OjA1LjAiLCJpdGVtX2Jh
-        cmNvZGUiOiIzMTkyNDA4Njc1NTc5NCIsIm1vZGlmeV9kYXRlIjoiIiwicGVy
-        bV9sb2NhdGlvbiI6eyJjb2RlIjoibWFubiIsIm51bWJlciI6NjksIm5hbWUi
-        OiJNYW5uIExpYnJhcnkiLCJsaWJyYXJ5IjoiTWFubiBMaWJyYXJ5In19J10s
-        J2lkJz0+JzQzMDM3MjEnLCdmb3JtYXQnPT5bJ0Jvb2snXSwnbGFuZ3VhZ2Vf
-        ZGlzcGxheSc9PlsnRnJlbmNoLiddLCdwdWJfZGF0ZV9kaXNwbGF5Jz0+Wycx
-        ODg5J10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+MTg4OSwncHViX2luZm9fZGlzcGxh
-        eSc9PlsnUGFyaXMgW1NjZWF1eCwgSW1wci4gQ2hhcmFpcmUgZXQgRmlscywg
-        MTg4OV0nXSwnZnVsbHRpdGxlX2Rpc3BsYXknPT4nTWlzc2lvbiBkZSBNLiBD
-        YWx2ZXQgZGFucyBsQcyTbcOpcmlxdWUgZHUgU3VkOiByYXBwb3J0IGF1IG1p
-        bmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRlIGxpzJNuZHVzdHJpZSwgYXZlYyBh
-        dGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7IGxpzJNtbWlncmF0aW9uIGV1cm9w
-        w6llbm5lLCBsZSBjb21tZXJjZSBldCBsYcyTZ3JpY3VsdHVyZSDDoCBMYSBQ
-        bGF0YSwgMTg4Ni0xODg4JywndGl0bGVfZGlzcGxheSc9PidNaXNzaW9uIGRl
-        IE0uIENhbHZldCBkYW5zIGxBzJNtw6lyaXF1ZSBkdSBTdWQnLCdhdXRob3Jf
-        ZGlzcGxheSc9PidDYWx2ZXQsIEEuJywnc3VidGl0bGVfZGlzcGxheSc9Pidy
-        YXBwb3J0IGF1IG1pbmlzdHJlIGR1IGNvbW1lcmNlIGV0IGRlIGxpzJNuZHVz
-        dHJpZSwgYXZlYyBhdGxhcyDDqWNvbm9taXF1ZSBhbm5leGU7IGxpzJNtbWln
-        cmF0aW9uIGV1cm9ww6llbm5lLCBsZSBjb21tZXJjZSBldCBsYcyTZ3JpY3Vs
-        dHVyZSDDoCBMYSBQbGF0YSwgMTg4Ni0xODg4Jywnb3RoZXJfaWRfZGlzcGxh
-        eSc9PlsnKE5OQylub3Rpc0FSSzAyOTknLCcoQ1N0UkxJTilOWUNHQVJLMDI5
-        OS1CJywnKE9Db0xDKTY3MjY2NzAnLCc0MzAzNzIxJ10sJ3Njb3JlJz0+NDA3
-        OC4wMDkzfSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoi
-        NTQyNTg4NiIsIm1vZGlmaWVkX2RhdGUiOiIyMDExMDUyNDExMDkxNCIsImNv
-        cHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIk92ZXJzaXplIFRMNzg4IC5W
-        NDggMjAwMyBFbmN5Y2xvcGVkaWEgKyJdLCJub3RlcyI6W10sImhvbGRpbmdz
-        X2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3NfZGVzYyI6W10sInN1cHBsZW1l
-        bnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5kZXhfaG9sZGluZ3NfZGVzYyI6
-        W10sImxvY2F0aW9ucyI6W3siY29kZSI6InVyaXMscmVmIiwibnVtYmVyIjox
-        MzEsIm5hbWUiOiJVcmlzIExpYnJhcnkgUmVmZXJlbmNlIChOb24tQ2lyY3Vs
-        YXRpbmcpIiwibGlicmFyeSI6IlVyaXMgTGlicmFyeSJ9XX0nLCd7ImlkIjoi
-        OTUyNjQ3MiIsIm1vZGlmaWVkX2RhdGUiOiIyMDE1MDkxNjEzNTA0MCIsImNv
-        cHlfbnVtYmVyIjpudWxsLCJjYWxsbm9zIjpbIlRMNzg4IC5WNDggMjAwMyJd
-        LCJub3RlcyI6WyJTaGVsdmVkIGluIHRoZSBTcGFjZWNyYWZ0IFBsYW5ldGFy
-        eSBJbWFnaW5nIEZhY2lsaXR5IChTUElGKSwgMzE3IFNwYWNlIFNjaWVuY2Vz
-        IEJ1aWxkaW5nLiJdLCJob2xkaW5nc19kZXNjIjpbXSwicmVjZW50X2hvbGRp
-        bmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzYyI6W10s
-        ImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMiOlt7ImNvZGUi
-        OiJwaHlzIiwibnVtYmVyIjoxMTUsIm5hbWUiOiJTcGFjZWNyYWZ0IFBsYW5l
-        dGFyeSBJbWFnaW5nIEZhY2lsaXR5IChOb24tQ2lyY3VsYXRpbmcpIiwibGli
-        cmFyeSI6IlNwYWNlIFNjaWVuY2VzIEJ1aWxkaW5nIn1dfSddLCdvbmxpbmUn
-        PT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5b
-        J3siY29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJub2NpcmMi
-        LCJpdGVtX2lkIjoiNjk1MDQyNyIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQi
-        OiI5IiwiY2hyb24iOiIiLCJjYXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoi
-        MCIsInRlbXBfbG9jYXRpb24iOiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVt
-        X2VudW0iOiIiLCJpdGVtX3NlcXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0
-        ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lkIjoiNTQyNTg4NiIsInJlY2FsbHNf
-        cGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRlIjoiMjAwMy0xMS0xOSAxMzo1NDox
-        Ni4wIiwiaXRlbV9iYXJjb2RlIjoiMzE5MjQwOTc1NzAwOTEiLCJtb2RpZnlf
-        ZGF0ZSI6IjIwMTEtMDUtMjQgMTE6MDk6MTQuMCIsInBlcm1fbG9jYXRpb24i
-        OnsiY29kZSI6InVyaXMscmVmIiwibnVtYmVyIjoxMzEsIm5hbWUiOiJVcmlz
-        IExpYnJhcnkgUmVmZXJlbmNlIChOb24tQ2lyY3VsYXRpbmcpIiwibGlicmFy
-        eSI6IlVyaXMgTGlicmFyeSJ9fScsJ3siY29weV9udW1iZXIiOiIxIiwiaXRl
-        bV90eXBlX25hbWUiOiJub2NpcmMiLCJpdGVtX2lkIjoiOTgwMDY4MyIsInll
-        YXIiOiIiLCJpdGVtX3R5cGVfaWQiOiI5IiwiY2hyb24iOiIiLCJjYXB0aW9u
-        IjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24iOiIwIiwi
-        b25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiIiLCJpdGVtX3NlcXVlbmNl
-        X251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJtZmhkX2lk
-        IjoiOTUyNjQ3MiIsInJlY2FsbHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9kYXRl
-        IjoiMjAxNS0wOS0xNiAxMzo1MTowNS4wIiwiaXRlbV9iYXJjb2RlIjoiMzE5
-        MjQxMjIyMTEwNTkiLCJtb2RpZnlfZGF0ZSI6IjIwMTYtMDgtMTcgMTI6MjY6
-        NTAuMCIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6InBoeXMiLCJudW1iZXIi
-        OjExNSwibmFtZSI6IlNwYWNlY3JhZnQgUGxhbmV0YXJ5IEltYWdpbmcgRmFj
-        aWxpdHkgKE5vbi1DaXJjdWxhdGluZykiLCJsaWJyYXJ5IjoiU3BhY2UgU2Np
-        ZW5jZXMgQnVpbGRpbmcifX0nXSwnaWQnPT4nNDkwOTI2NycsJ2Zvcm1hdCc9
-        PlsnQm9vayddLCdsYW5ndWFnZV9kaXNwbGF5Jz0+WydFbmdsaXNoLiddLCdw
-        dWJfZGF0ZV9kaXNwbGF5Jz0+WycyMDAzJ10sJ3B1Yl9kYXRlX2ZhY2V0Jz0+
-        MjAwMywncHViX2luZm9fZGlzcGxheSc9PlsnQ2FtYnJpZGdlLCBVLksuIDsg
-        TmV3IFlvcmsgOiBDYW1icmlkZ2UgVW5pdmVyc2l0eSBQcmVzcywgMjAwMy4n
-        XSwndGl0bGVfZGlzcGxheSc9PidUaGUgQ2FtYnJpZGdlIGVuY3ljbG9wZWRp
-        YSBvZiBzcGFjZScsJ2F1dGhvcl9kaXNwbGF5Jz0+J1ZlcmdlciwgRmVybmFu
-        ZC4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+J21pc3Npb25zLCBhcHBsaWNhdGlv
-        bnMgYW5kIGV4cGxvcmF0aW9uJywnZnVsbHRpdGxlX2Rpc3BsYXknPT4nVGhl
-        IENhbWJyaWRnZSBlbmN5Y2xvcGVkaWEgb2Ygc3BhY2UgOiBtaXNzaW9ucywg
-        YXBwbGljYXRpb25zIGFuZCBleHBsb3JhdGlvbicsJ3RpdGxlX3VuaWZvcm1f
-        ZGlzcGxheSc9PlsnQXRsYXMgZGUgbGEgZ8Opb2dyYXBoaWUgZGUgbFwnZXNw
-        YWNlLiBFbmdsaXNofEF0bGFzIGRlIGxhIGfDqW9ncmFwaGllIGRlIGxcJ2Vz
-        cGFjZS4gRW5nbGlzaHxWZXJnZXIsIEZlcm5hbmQuJ10sJ2VkaXRpb25fZGlz
-        cGxheSc9PlsnMXN0IEVuZ2xpc2ggZWQuJ10sJ290aGVyX2lkX2Rpc3BsYXkn
-        PT5bJzQ5MDkyNjcnLCcoT0NvTEMpNDk2NTAwNDcnXSwnc2NvcmUnPT40MDcz
-        LjAzMX0seydob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjMw
-        MTc3ODEiLCJtb2RpZmllZF9kYXRlIjpudWxsLCJjb3B5X251bWJlciI6bnVs
-        bCwiY2FsbG5vcyI6WyJBc2lhIFJhcmUgRFM1MjEgLk02NyBTZXIuMSB2LjEt
-        MiBhdGxhcyArIl0sIm5vdGVzIjpbXSwiaG9sZGluZ3NfZGVzYyI6W10sInJl
-        Y2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3VwcGxlbWVudGFsX2hvbGRpbmdz
-        X2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19kZXNjIjpbXSwibG9jYXRpb25z
-        IjpbeyJjb2RlIjoiZWNoLHJhcmUiLCJudW1iZXIiOjE3LCJuYW1lIjoiS3Jv
-        Y2ggTGlicmFyeSBSYXJlICYgTWFudXNjcmlwdHMgKE5vbi1DaXJjdWxhdGlu
-        ZykiLCJsaWJyYXJ5IjoiS3JvY2ggTGlicmFyeSBSYXJlICYgTWFudXNjcmlw
-        dHMifV19J10sJ29ubGluZSc9PlsnQXQgdGhlIExpYnJhcnknXSwnaXRlbV9y
-        ZWNvcmRfZGlzcGxheSc9PlsneyJjb3B5X251bWJlciI6IjEiLCJpdGVtX3R5
-        cGVfbmFtZSI6Im5vY2lyYyIsIml0ZW1faWQiOiI0NDI4OTM3IiwieWVhciI6
-        IiIsIml0ZW1fdHlwZV9pZCI6IjkiLCJjaHJvbiI6IiIsImNhcHRpb24iOiIi
-        LCJob2xkc19wbGFjZWQiOiIwIiwidGVtcF9sb2NhdGlvbiI6IjAiLCJvbl9y
-        ZXNlcnZlIjoiTiIsIml0ZW1fZW51bSI6IiIsIml0ZW1fc2VxdWVuY2VfbnVt
-        YmVyIjoiMSIsInRlbXBfaXRlbV90eXBlX2lkIjoiMCIsIm1maGRfaWQiOiIz
-        MDE3NzgxIiwicmVjYWxsc19wbGFjZWQiOiIwIiwiY3JlYXRlX2RhdGUiOiIy
-        MDAwLTA1LTMxIDAwOjAwOjAwLjAiLCJpdGVtX2JhcmNvZGUiOiIzMTkyNDAy
-        MzIwNzg1OSIsIm1vZGlmeV9kYXRlIjoiIiwicGVybV9sb2NhdGlvbiI6eyJj
-        b2RlIjoiZWNoLHJhcmUiLCJudW1iZXIiOjE3LCJuYW1lIjoiS3JvY2ggTGli
-        cmFyeSBSYXJlICYgTWFudXNjcmlwdHMgKE5vbi1DaXJjdWxhdGluZykiLCJs
-        aWJyYXJ5IjoiS3JvY2ggTGlicmFyeSBSYXJlICYgTWFudXNjcmlwdHMifX0n
-        XSwnaWQnPT4nMjUyMzc5NScsJ2Zvcm1hdCc9PlsnQm9vayddLCdsYW5ndWFn
-        ZV9kaXNwbGF5Jz0+WydGcmVuY2guJ10sJ3B1Yl9kYXRlX2Rpc3BsYXknPT5b
-        JzE5MDMnXSwncHViX2RhdGVfZmFjZXQnPT4xOTAzLCdwdWJfaW5mb19kaXNw
-        bGF5Jz0+WydQYXJpcyA6IEEuIENoYWxsYW1lbCwgMTkwMy4nXSwnZnVsbHRp
-        dGxlX2Rpc3BsYXknPT4nTWlzc2lvbiBQYXZpZSBJbmRvLUNoaW5lIDogQXRs
-        YXMgOiBub3RpY2VzIGV0IGNhcnRlcycsJ3RpdGxlX2Rpc3BsYXknPT4nTWlz
-        c2lvbiBQYXZpZSBJbmRvLUNoaW5lJywnYXV0aG9yX2Rpc3BsYXknPT4nUGF2
-        aWUsIEF1Z3VzdGUsIDE4NDctMTkyNS4nLCdzdWJ0aXRsZV9kaXNwbGF5Jz0+
-        J0F0bGFzIDogbm90aWNlcyBldCBjYXJ0ZXMnLCdvdGhlcl9pZF9kaXNwbGF5
-        Jz0+WycoQ1N0UkxJTilOWUNYOTNCOTM1NCcsJyhOSUMpbm90aXNBTVExMjg1
-        JywnKE9Db0xDKTQwNzAzNTcnLCcyNTIzNzk1J10sJ3Njb3JlJz0+Mzc5MS4x
-        NjMzfSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoiNDA0
-        MzY2NCIsIm1vZGlmaWVkX2RhdGUiOm51bGwsImNvcHlfbnVtYmVyIjpudWxs
-        LCJjYWxsbm9zIjpbIk92ZXJzaXplIEcyMzY1IC5QMzEzIDE5OTkgKyJdLCJu
-        b3RlcyI6W10sImhvbGRpbmdzX2Rlc2MiOltdLCJyZWNlbnRfaG9sZGluZ3Nf
-        ZGVzYyI6W10sInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjIjpbXSwiaW5k
-        ZXhfaG9sZGluZ3NfZGVzYyI6W10sImxvY2F0aW9ucyI6W3siY29kZSI6ImVj
-        aCIsIm51bWJlciI6MTMsIm5hbWUiOiJLcm9jaCBMaWJyYXJ5IEFzaWEiLCJs
-        aWJyYXJ5IjoiS3JvY2ggTGlicmFyeSBBc2lhIn1dfSddLCdvbmxpbmUnPT5b
-        J0F0IHRoZSBMaWJyYXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5bJ3si
-        Y29weV9udW1iZXIiOiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwiaXRl
-        bV9pZCI6IjU0ODgzODIiLCJ5ZWFyIjoiIiwiaXRlbV90eXBlX2lkIjoiMyIs
-        ImNocm9uIjoiIiwiY2FwdGlvbiI6IiIsImhvbGRzX3BsYWNlZCI6IjAiLCJ0
-        ZW1wX2xvY2F0aW9uIjoiMCIsIm9uX3Jlc2VydmUiOiJOIiwiaXRlbV9lbnVt
-        IjoiIiwiaXRlbV9zZXF1ZW5jZV9udW1iZXIiOiIxIiwidGVtcF9pdGVtX3R5
-        cGVfaWQiOiIwIiwibWZoZF9pZCI6IjQwNDM2NjQiLCJyZWNhbGxzX3BsYWNl
-        ZCI6IjAiLCJjcmVhdGVfZGF0ZSI6IjIwMDAtMDUtMzEgMDA6MDA6MDAuMCIs
-        Iml0ZW1fYmFyY29kZSI6IjMxOTI0MDg2MTM2OTk1IiwibW9kaWZ5X2RhdGUi
-        OiIyMDAxLTAxLTE4IDEwOjE4OjAxLjAiLCJwZXJtX2xvY2F0aW9uIjp7ImNv
-        ZGUiOiJlY2giLCJudW1iZXIiOjEzLCJuYW1lIjoiS3JvY2ggTGlicmFyeSBB
-        c2lhIiwibGlicmFyeSI6Iktyb2NoIExpYnJhcnkgQXNpYSJ9fSddLCdpZCc9
-        PiczNDg2MTExJywnZm9ybWF0Jz0+WydNYXAgb3IgR2xvYmUnXSwnbGFuZ3Vh
-        Z2VfZGlzcGxheSc9PlsnRW5nbGlzaC4nXSwncHViX2RhdGVfZGlzcGxheSc9
-        PlsnYzE5OTknXSwncHViX2RhdGVfZmFjZXQnPT4xOTk5LCdwdWJfaW5mb19k
-        aXNwbGF5Jz0+WydCYW5na29rLCBUaGFpbGFuZCA6IFdoaXRlIExvdHVzIFBy
-        ZXNzLCBjMTk5OS4nXSwndGl0bGVfZGlzcGxheSc9PidBdGxhcyBvZiB0aGUg
-        UGF2aWUgbWlzc2lvbicsJ2F1dGhvcl9kaXNwbGF5Jz0+J1BhdmllLCBBdWd1
-        c3RlLCAxODQ3LTE5MjUuJywnc3VidGl0bGVfZGlzcGxheSc9PidMYW9zLCBD
-        YW1ib2RpYSwgU2lhbSwgWXVubmFuIGFuZCBWaWV0bmFtJywnZnVsbHRpdGxl
-        X2Rpc3BsYXknPT4nQXRsYXMgb2YgdGhlIFBhdmllIG1pc3Npb24gOiBMYW9z
-        LCBDYW1ib2RpYSwgU2lhbSwgWXVubmFuIGFuZCBWaWV0bmFtJywndGl0bGVf
-        dW5pZm9ybV9kaXNwbGF5Jz0+WydNaXNzaW9uIFBhdmllIEluZG8tQ2hpbmUu
-        IFNlbGVjdGlvbnMuIEVuZ2xpc2h8TWlzc2lvbiBQYXZpZSBJbmRvLUNoaW5l
-        LiBTZWxlY3Rpb25zLiBFbmdsaXNofFBhdmllLCBBdWd1c3RlLCAxODQ3LTE5
-        MjUuJ10sJ290aGVyX2lkX2Rpc3BsYXknPT5bJyhOSUMpbm90aXNBUlUxOTk0
-        JywnMzQ4NjExMScsJyhPQ29MQyk2Mzg5MTk1NCddLCdzY29yZSc9PjM0NzUu
-        NDQ3fSx7J2hvbGRpbmdzX3JlY29yZF9kaXNwbGF5Jz0+Wyd7ImlkIjoiMjk4
-        OTQyMiIsIm1vZGlmaWVkX2RhdGUiOm51bGwsImNvcHlfbnVtYmVyIjpudWxs
-        LCJjYWxsbm9zIjpbIkJWMzQxNS5IMzcgQzQ3Il0sIm5vdGVzIjpbXSwiaG9s
-        ZGluZ3NfZGVzYyI6W10sInJlY2VudF9ob2xkaW5nc19kZXNjIjpbXSwic3Vw
-        cGxlbWVudGFsX2hvbGRpbmdzX2Rlc2MiOltdLCJpbmRleF9ob2xkaW5nc19k
-        ZXNjIjpbXSwibG9jYXRpb25zIjpbeyJjb2RlIjoid2FzIiwibnVtYmVyIjox
-        MzksIm5hbWUiOiJLcm9jaCBMaWJyYXJ5IEFzaWEiLCJsaWJyYXJ5IjoiS3Jv
-        Y2ggTGlicmFyeSBBc2lhIn1dfSddLCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJy
-        YXJ5J10sJ2l0ZW1fcmVjb3JkX2Rpc3BsYXknPT5bJ3siY29weV9udW1iZXIi
-        OiIxIiwiaXRlbV90eXBlX25hbWUiOiJib29rIiwiaXRlbV9pZCI6IjQzOTg2
-        OTgiLCJ5ZWFyIjoiIiwiaXRlbV90eXBlX2lkIjoiMyIsImNocm9uIjoiIiwi
-        Y2FwdGlvbiI6IiIsImhvbGRzX3BsYWNlZCI6IjAiLCJ0ZW1wX2xvY2F0aW9u
-        IjoiMCIsIm9uX3Jlc2VydmUiOiJOIiwiaXRlbV9lbnVtIjoiIiwiaXRlbV9z
-        ZXF1ZW5jZV9udW1iZXIiOiIxIiwidGVtcF9pdGVtX3R5cGVfaWQiOiIwIiwi
-        bWZoZF9pZCI6IjI5ODk0MjIiLCJyZWNhbGxzX3BsYWNlZCI6IjAiLCJjcmVh
-        dGVfZGF0ZSI6IjIwMDAtMDUtMzEgMDA6MDA6MDAuMCIsIml0ZW1fYmFyY29k
-        ZSI6IjMxOTI0MDIyOTIxOTMwIiwibW9kaWZ5X2RhdGUiOiIiLCJwZXJtX2xv
-        Y2F0aW9uIjp7ImNvZGUiOiJ3YXMiLCJudW1iZXIiOjEzOSwibmFtZSI6Ikty
-        b2NoIExpYnJhcnkgQXNpYSIsImxpYnJhcnkiOiJLcm9jaCBMaWJyYXJ5IEFz
-        aWEifX0nXSwnaWQnPT4nMjQ5NzIxNScsJ2Zvcm1hdCc9PlsnQm9vayddLCds
-        YW5ndWFnZV9kaXNwbGF5Jz0+WydGcmVuY2guJ10sJ3B1Yl9kYXRlX2Rpc3Bs
-        YXknPT5bJzE5MTUnXSwncHViX2RhdGVfZmFjZXQnPT4xOTE1LCdwdWJfaW5m
-        b19kaXNwbGF5Jz0+WydQYXJpcyA6IEF1Z3VzdGUgUGljYXJkLCAxOTE1Lidd
-        LCdmdWxsdGl0bGVfZGlzcGxheSc9PidMZXMgbWlzc2lvbnMgZnJhbmNpc2Nh
-        aW5lcyBlbiBDaGluZSA6IG5vdGVzIGfDqW9ncmFwaGlxdWVzIGV0IGhpdG9y
-        aXF1ZXMnLCd0aXRsZV9kaXNwbGF5Jz0+J0xlcyBtaXNzaW9ucyBmcmFuY2lz
-        Y2FpbmVzIGVuIENoaW5lJywnYXV0aG9yX2Rpc3BsYXknPT4nQ2hhcmRpbiwg
-        UGFjYWZpcXVlIE1hcmllLicsJ3N1YnRpdGxlX2Rpc3BsYXknPT4nbm90ZXMg
-        Z8Opb2dyYXBoaXF1ZXMgZXQgaGl0b3JpcXVlcycsJ290aGVyX2lkX2Rpc3Bs
-        YXknPT5bJyhDU3RSTElOKU5ZQ1g5M0I1Mjg3NycsJyhOSUMpbm90aXNBTU00
-        MTExJywnKE9Db0xDKTc0MTg5NzMnLCcyNDk3MjE1J10sJ3Njb3JlJz0+MzIz
-        OC43MTg1fV19LCdmYWNldF9jb3VudHMnPT57J2ZhY2V0X3F1ZXJpZXMnPT57
-        fSwnZmFjZXRfZmllbGRzJz0+eydvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5
-        JywxMCwnT25saW5lJywxXSwnZm9ybWF0Jz0+WydCb29rJyw5LCdNYXAgb3Ig
-        R2xvYmUnLDFdLCdhdXRob3JfZmFjZXQnPT5bJ1BhdmllLCBBdWd1c3RlLCAx
-        ODQ3LTE5MjUnLDIsJ0JvdWNoZXIsIEFuZHLDqScsMSwnQ2FsdmV0LCBBJywx
-        LCdDaGFyZGluLCBQYWNhZmlxdWUgTWFyaWUnLDEsJ0Rlc3BvbnQsIEouJywx
-        LCdHaGlyYXJkaSwgUmF5bW9uZCcsMV0sJ3B1Yl9kYXRlX2ZhY2V0Jz0+Wycx
-        OTE1JywyLCcxODg2JywxLCcxODg5JywxLCcxODkwJywxLCcxOTAzJywxLCcx
-        OTMzJywxLCcxOTUxJywxLCcxOTk5JywxLCcyMDAzJywxXSwnd29ya2lkX2Zh
-        Y2V0Jz0+WycxMDY3OTA4JywxLCcxMTUyNjIxNDM0JywxLCcxNDA0MTQxMCcs
-        MSwnMjExMjg2NCcsMSwnMjQ1MjU3NTA0NCcsMSwnMzEwMTc2NjcnLDEsJzc5
-        NjEzNDQnLDEsJzkwMTg4MTU5MScsMSwnOTUzMDExMicsMSwnOTg4OTYyNjI1
-        JywxXSwnbGFuZ3VhZ2VfZmFjZXQnPT5bJ0ZyZW5jaCcsOCwnRW5nbGlzaCcs
-        Ml0sJ2Zhc3RfdG9waWNfZmFjZXQnPT5bJ01pc3Npb25zJyw2LCdDYXRob2xp
-        YyBDaHVyY2gnLDQsJ1RyYXZlbCcsMywnRnJhbmNpc2NhbnMnLDIsJ0Fncmlj
-        dWx0dXJlID4gRWNvbm9taWMgYXNwZWN0cycsMSwnQXN0cm9uYXV0aWNzJywx
-        XSwnZmFzdF9nZW9fZmFjZXQnPT5bJ0NoaW5hJywyLCdJbmRvY2hpbmEnLDIs
-        J0FyZ2VudGluYScsMSwnQXNpYScsMSwnQ2hpbmEgPiBZdW5uYW4gU2hlbmcn
-        LDEsJ1BhcmFndWF5JywxXSwnZmFzdF9lcmFfZmFjZXQnPT5bXSwnZmFzdF9n
-        ZW5yZV9mYWNldCc9PlsnTWFwcycsNSwnSGlzdG9yeScsMywnQXRsYXNlcycs
-        MiwnRW5jeWNsb3BlZGlhcycsMV0sJ3N1YmplY3RfY29udGVudF9mYWNldCc9
-        PlsnTm9uLUZpY3Rpb24gKGJvb2tzKScsOF0sJ2xjX2FscGhhX2ZhY2V0Jz0+
-        W10sJ2xvY2F0aW9uX2ZhY2V0Jz0+WydLcm9jaCBMaWJyYXJ5IEFzaWEnLDMs
-        J0xpYnJhcnkgQW5uZXgnLDMsJ0tyb2NoIExpYnJhcnkgUmFyZSAmIE1hbnVz
-        Y3JpcHRzJywxLCdNYW5uIExpYnJhcnknLDEsJ09saW4gTGlicmFyeScsMSwn
-        U3BhY2UgU2NpZW5jZXMgQnVpbGRpbmcnLDFdLCdoaWVyYXJjaHlfZmFjZXQn
-        PT5bXSwnYXV0aG9ydGl0bGVfZmFjZXQnPT5bJ0JvdWNoZXIsIEFuZHLDqS4g
-        fCBQZXRpdCBhdGxhcyBkZXMgbWlzc2lvbnMgY2F0aG9saXF1ZXMnLDEsJ0Nh
-        bHZldCwgQS4gfCBNaXNzaW9uIGRlIE0uIENhbHZldCBkYW5zIGxBzJNtw6ly
-        aXF1ZSBkdSBTdWQnLDEsJ0NoYXJkaW4sIFBhY2FmaXF1ZSBNYXJpZS4gfCBt
-        aXNzaW9ucyBmcmFuY2lzY2FpbmVzIGVuIENoaW5lJywxLCdEZXNwb250LCBK
-        LiB8IE5vdXZlbCBhdGxhcyBkZXMgbWlzc2lvbnMnLDEsJ0hhdXNlcm1hbm4s
-        IFIuIHwgQXRsYXMgZGVzIG1pc3Npb25zIGZyYW5jaXNjYWluZXMgZW4gQ2hp
-        bmUnLDEsJ0xhdW5heSwgQWRyaWVuLCAxODUzLTE5MjcuIHwgQXRsYXMgZGVz
-        IG1pc3Npb25zIGRlIGxhIFNvY2nDqXTDqSBkZXMgTWlzc2lvbnMtRXRyYW5n
-        w6hyZXMnLDEsJ1BhdmllLCBBdWd1c3RlLCAxODQ3LTE5MjUuIHwgTWlzc2lv
-        biBQYXZpZSBJbmRvLUNoaW5lJywxLCdQYXZpZSwgQXVndXN0ZSwgMTg0Ny0x
-        OTI1LiB8IE1pc3Npb24gUGF2aWUgSW5kby1DaGluZS4gU2VsZWN0aW9ucy4g
-        RW5nbGlzaCcsMSwnVmVyZ2VyLCBGZXJuYW5kLiB8IEF0bGFzIGRlIGxhIGfD
-        qW9ncmFwaGllIGRlIGxcJ2VzcGFjZS4gRW5nbGlzaCcsMSwnV2VybmVyLCBP
-        LiAoT3NjYXIpLCAxODQ5LSB8IEF0bGFzIGRlcyBtaXNzaW9ucyBDYXRob2xp
-        cXVlcycsMV0sJ2xjX2NhbGxudW1fZmFjZXQnPT5bJ0IgLSBQaGlsb3NvcGh5
-        LCBQc3ljaG9sb2d5LCBSZWxpZ2lvbicsNSwnQiAtIFBoaWxvc29waHksIFBz
-        eWNob2xvZ3ksIFJlbGlnaW9uOkJWIC0gUHJhY3RpY2FsIFRoZW9sb2d5Jyw0
-        LCdCIC0gUGhpbG9zb3BoeSwgUHN5Y2hvbG9neSwgUmVsaWdpb246QlYgLSBQ
-        cmFjdGljYWwgVGhlb2xvZ3k6QlYyMDAwLTM3MDUgLSBNaXNzaW9ucycsNCwn
-        QiAtIFBoaWxvc29waHksIFBzeWNob2xvZ3ksIFJlbGlnaW9uOkJWIC0gUHJh
-        Y3RpY2FsIFRoZW9sb2d5OkJWMjAwMC0zNzA1IC0gTWlzc2lvbnM6QlYyMTIz
-        LTI1OTUgLSBTcGVjaWFsIGNodXJjaGVzJywxLCdCIC0gUGhpbG9zb3BoeSwg
-        UHN5Y2hvbG9neSwgUmVsaWdpb246QlYgLSBQcmFjdGljYWwgVGhlb2xvZ3k6
-        QlYyMDAwLTM3MDUgLSBNaXNzaW9uczpCVjIxMjMtMjU5NSAtIFNwZWNpYWwg
-        Y2h1cmNoZXM6QlYyMTMwLTIzMDAgLSBSb21hbiBDYXRob2xpYyBDaHVyY2gn
-        LDEsJ0IgLSBQaGlsb3NvcGh5LCBQc3ljaG9sb2d5LCBSZWxpZ2lvbjpCViAt
-        IFByYWN0aWNhbCBUaGVvbG9neTpCVjIwMDAtMzcwNSAtIE1pc3Npb25zOkJW
-        Mjc1MC0zNjk1IC0gTWlzc2lvbnMgaW4gaW5kaXZpZHVhbCBjb3VudHJpZXMn
-        LDIsJ0IgLSBQaGlsb3NvcGh5LCBQc3ljaG9sb2d5LCBSZWxpZ2lvbjpCWCAt
-        IENocmlzdGlhbiBEZW5vbWluYXRpb25zJywxLCdCIC0gUGhpbG9zb3BoeSwg
-        UHN5Y2hvbG9neSwgUmVsaWdpb246QlggLSBDaHJpc3RpYW4gRGVub21pbmF0
-        aW9uczpCWDgwMC00Nzk1IC0gQ2F0aG9saWMgQ2h1cmNoJywxLCdCIC0gUGhp
-        bG9zb3BoeSwgUHN5Y2hvbG9neSwgUmVsaWdpb246QlggLSBDaHJpc3RpYW4g
-        RGVub21pbmF0aW9uczpCWDgwMC00Nzk1IC0gQ2F0aG9saWMgQ2h1cmNoOkJY
-        ODQ3IC0gQXRsYXNlcycsMSwnRCAtIFdvcmxkIEhpc3RvcnknLDEsJ0QgLSBX
-        b3JsZCBIaXN0b3J5OkRTIC0gQXNpYScsMSwnRCAtIFdvcmxkIEhpc3Rvcnk6
-        RFMgLSBBc2lhOkRTNTIwLTU2MC43MiAtIFNvdXRoZWFzdCBBc2lhJywxLCdF
-        LUYgLSBIaXN0b3J5IG9mIHRoZSBBbWVyaWNhcycsMSwnRS1GIC0gSGlzdG9y
-        eSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2Eu
-        IFNwYW5pc2ggQW1lcmljYScsMSwnRS1GIC0gSGlzdG9yeSBvZiB0aGUgQW1l
-        cmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJpY2EuIFNwYW5pc2ggQW1l
-        cmljYTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmljYScsMSwnRS1GIC0gSGlz
-        dG9yeSBvZiB0aGUgQW1lcmljYXM6RjEyMDEtMzc5OSAtIExhdGluIEFtZXJp
-        Y2EuIFNwYW5pc2ggQW1lcmljYTpGMjIwMS0zNzk5IC0gU291dGggQW1lcmlj
-        YTpGMjgwMS0zMDIxIC0gQXJnZW50aW5hJywxLCdHIC0gR2VvZ3JhcGh5LCBB
-        bnRocm9wb2xvZ3ksIFJlY3JlYXRpb24nLDQsJ0cgLSBHZW9ncmFwaHksIEFu
-        dGhyb3BvbG9neSwgUmVjcmVhdGlvbjpHIC0gR2VvZ3JhcGh5IChHZW5lcmFs
-        KScsNCwnRyAtIEdlb2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9u
-        OkcgLSBHZW9ncmFwaHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2Vz
-        Jyw0LCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246
-        RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6
-        RzEwMDEtMTA0NiAtIFdvcmxkIGF0bGFzZXMuIEF0bGFzZXMgb2YgdGhlIEVh
-        cnRoJywxLCdHIC0gR2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRp
-        b246RyAtIEdlb2dyYXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFz
-        ZXM6RzExMDAtMzEwMiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5JywzLCdHIC0g
-        R2VvZ3JhcGh5LCBBbnRocm9wb2xvZ3ksIFJlY3JlYXRpb246RyAtIEdlb2dy
-        YXBoeSAoR2VuZXJhbCk6RzEwMDAtMzEyMiAtIEF0bGFzZXM6RzExMDAtMzEw
-        MiAtIEJ5IHJlZ2lvbiBvciBjb3VudHJ5OkcxNzgwLTI3OTkgLSBFYXN0ZXJu
-        IEhlbWlzcGhlcmUuIEV1cmFzaWEsIEFmcmljYSwgZXRjLicsMywnRyAtIEdl
-        b2dyYXBoeSwgQW50aHJvcG9sb2d5LCBSZWNyZWF0aW9uOkcgLSBHZW9ncmFw
-        aHkgKEdlbmVyYWwpOkcxMDAwLTMxMjIgLSBBdGxhc2VzOkcxMTAwLTMxMDIg
-        LSBCeSByZWdpb24gb3IgY291bnRyeTpHMTc4MC0yNzk5IC0gRWFzdGVybiBI
-        ZW1pc3BoZXJlLiBFdXJhc2lhLCBBZnJpY2EsIGV0Yy46RzIyMDAtMjQ0NC44
-        NCAtIEFzaWEnLDMsJ1QgLSBUZWNobm9sb2d5JywxLCdUIC0gVGVjaG5vbG9n
-        eTpUTCAtIE1vdG9yIFZlaGljbGVzLCBBZXJvbmF1dGljcywgQXN0cm9uYXV0
-        aWNzJywxLCdUIC0gVGVjaG5vbG9neTpUTCAtIE1vdG9yIFZlaGljbGVzLCBB
-        ZXJvbmF1dGljcywgQXN0cm9uYXV0aWNzOlRMNzg3LTQwNTAgLSBBc3Ryb25h
-        dXRpY3MuIFNwYWNlIHRyYXZlbCcsMV0sJ2NvbGxlY3Rpb24nPT5bXX0sJ2Zh
-        Y2V0X3Jhbmdlcyc9Pnt9LCdmYWNldF9pbnRlcnZhbHMnPT57fSwnZmFjZXRf
-        aGVhdG1hcHMnPT57fX0sJ3N0YXRzJz0+eydzdGF0c19maWVsZHMnPT57J3B1
-        Yl9kYXRlX2ZhY2V0Jz0+eydtaW4nPT4xODg2LjAsJ21heCc9PjIwMDMuMCwn
-        Y291bnQnPT4xMCwnbWlzc2luZyc9PjAsJ3N1bSc9PjE5Mjg0LjAsJ3N1bU9m
-        U3F1YXJlcyc9PjMuNzIwNDE3NkU3LCdtZWFuJz0+MTkyOC40LCdzdGRkZXYn
-        PT40My4zNDY2NjQ2MTYwMTU1NH19fSwnc3BlbGxjaGVjayc9Pnsnc3VnZ2Vz
-        dGlvbnMnPT5bXSwnY29ycmVjdGx5U3BlbGxlZCc9PnRydWV9fQo=
-    http_version: 
-  recorded_at: Wed, 06 Sep 2017 18:48:46 GMT
-- request:
-    method: get
-    uri: http://holdings6.library.cornell.edu/holdings/retrieve_detail_short/119162/4746565/4486117/2497214?Accept-Encoding=gzip,%20deflate
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
-      Accept:
-      - "*/*"
-      Date:
-      - Wed, 06 Sep 2017 18:48:48 GMT
-  response:
-    status:
-      code: 302
-      message: Found
-    headers:
-      Date:
-      - Wed, 06 Sep 2017 18:48:48 GMT
-      Server:
-      - Apache
-      Location:
-      - https://holdings6.library.cornell.edu/holdings/retrieve_detail_short/119162/4746565/4486117/2497214?Accept-Encoding=gzip%252C+deflate
-      Vary:
-      - Accept-Encoding
-      Content-Length:
-      - '317'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>302 Found</title>
-        </head><body>
-        <h1>Found</h1>
-        <p>The document has moved <a href="https://holdings6.library.cornell.edu/holdings/retrieve_detail_short/119162/4746565/4486117/2497214?Accept-Encoding=gzip%252C+deflate">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Wed, 06 Sep 2017 18:48:48 GMT
-- request:
-    method: get
-    uri: https://holdings6.library.cornell.edu/holdings/retrieve_detail_short/119162/4746565/4486117/2497214?Accept-Encoding=gzip%252C%20deflate
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
-      Accept:
-      - "*/*"
-      Date:
-      - Wed, 06 Sep 2017 18:48:48 GMT
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 06 Sep 2017 18:48:49 GMT
-      Server:
-      - Apache
-      Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept-Encoding
-      X-Ua-Compatible:
-      - IE=Edge
-      Etag:
-      - '"1cc3028f3581bf1ffd253f3e432449e3"'
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 71f51eafa9e05e7682da94bad9d57787
-      X-Runtime:
-      - '10.534922'
-      X-Powered-By:
-      - Phusion Passenger 4.0.58
-      Status:
-      - 200 OK
-      Connection:
-      - close
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json; charset=utf-8
-    body:
-      encoding: UTF-8
-      string: '{"119162":{"119162":{"records":[{"bibid":"119162","holding_id":"156509","location_name":"maps","call_number":"Oversize
-        G2209.E4 L37 +++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":["Folio."],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Olin
-        Library Maps (Non-Circulating)"],"locnumber":1,"status":["avail"],"avail_at":{"Olin
-        Library Maps (Non-Circulating)":"Oversize G2209.E4 L37 +++"},"not_avail_at":{},"onotes":[]}}},"4746565":{"4746565":{"records":[{"bibid":"4746565","holding_id":"5261237","location_name":"olin,anx","call_number":"Oversize
-        G1046.E4 D47 ++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Library
-        Annex"],"locnumber":1,"status":["avail"],"avail_at":{"Library Annex":"Oversize
-        G1046.E4 D47 ++"},"not_avail_at":{},"onotes":[]}}},"4486117":{"4486117":{"records":[{"bibid":"4486117","holding_id":"5016931","location_name":"olin,anx","call_number":"BV2185
-        .B75 1933","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Library
-        Annex"],"locnumber":1,"status":["avail"],"avail_at":{"Library Annex":"BV2185
-        .B75 1933"},"not_avail_at":{},"onotes":[]}}},"2497214":{"2497214":{"records":[{"bibid":"2497214","holding_id":"2989421","location_name":"was","call_number":"Oversize
-        BV3415 .H37 ++","shelving_title":"","summary_holdings":[],"supplements":[],"indexes":[],"notes":[],"reproduction_note":"","urls":[],"item_count":1,"temp_locations":[],"item_status":{},"services":[],"current_issues":[],"orders":[],"onotes":[]}],"summary":{"holdinglocs":["Kroch
-        Library Asia"],"locnumber":1,"status":["avail"],"avail_at":{"Kroch Library
-        Asia":"Oversize BV3415 .H37 ++"},"not_avail_at":{},"onotes":[]}}}}'
-    http_version: 
-  recorded_at: Wed, 06 Sep 2017 18:49:00 GMT
+  recorded_at: Tue, 09 Jan 2018 16:00:18 GMT
 recorded_with: VCR 3.0.3

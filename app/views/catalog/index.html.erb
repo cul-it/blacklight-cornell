@@ -38,6 +38,13 @@
           <%end%>
           Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
         <%else%>
+          <% r = pluralize(@response.total_count,'catalog result') %>
+          <%= "#{r}" %>
+          <% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
+          <%= link_to(url_for(params.merge(:format => 'rss')), :class => "rss-icon", :title => "RSS feed") do   %>
+            <%= rss_icon.html_safe %>
+          <% end %>
+
 
         <%= render 'sort_and_per_page' %>
         

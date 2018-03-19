@@ -49,7 +49,7 @@ module Blacklight::Solr::Document::Zotero
         builder.z(:itemType,"#{ty}")
         builder.dc(:title, title.strip)
         generate_rdf_authors(builder,ty)
-        generate_rdf_publisher(builder)
+        generate_rdf_publisher(builder,ty)
         generate_rdf_pubdate(builder)
         generate_rdf_edition(builder)
         generate_rdf_language(builder)
@@ -57,13 +57,14 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_abstract(builder)
         generate_rdf_url(builder)
         generate_rdf_isbn(builder)
+        generate_rdf_doi(builder)
         generate_rdf_holdings(builder)
         generate_rdf_medium(builder,ty)
         generate_rdf_catlink(builder,ty)
         generate_rdf_specific(builder,ty)
       end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!.inspect}"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
     builder.target! 
   end
 
@@ -120,6 +121,12 @@ module Blacklight::Solr::Document::Zotero
       b.dc(:identifier,"ISBN #{k}") unless k.blank? 
     end
   end
+    #<dc:identifier>DOI 10.1371/journal.pone.0118512</dc:identifier>
+  def generate_rdf_doi(b)
+    doi = setup_doi(to_marc)
+    b.dc(:description,"DOI #{doi}") unless doi.blank? 
+    b.dc(:description,"just some random text") unless doi.blank? 
+  end
 
     # edition
     # <prism:edition>3rd. ed</prism:edition>
@@ -137,7 +144,7 @@ module Blacklight::Solr::Document::Zotero
     end
   end
 
-  def generate_rdf_publisher(b)
+  def generate_rdf_publisher(b,ty)
     # publisher
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
     place = ''
@@ -146,6 +153,12 @@ module Blacklight::Solr::Document::Zotero
       place, publisher = pub_data.split(':')
       pname = "#{publisher.strip!}" unless publisher.nil?
       # publication place
+    end
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
+    if ty == 'thesis'
+      th = setup_thesis_info(to_marc)
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      pname = th[:inst].to_s
     end
     b.dc(:publisher) {
       b.foaf(:Organization) {
@@ -254,8 +267,8 @@ module Blacklight::Solr::Document::Zotero
   #  put in url field. 
   def generate_rdf_catlink(b,ty)
     ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}" 
-    # if no elect access data, can use the url field.
-    b.dc(:coverage,ul)
+    # if no elect access data, 'description' field.
+    b.dc(:description,ul)
     #if self['url_access_display'].blank?
       #b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
       #else 
@@ -266,7 +279,10 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_specific(b,ty)
     case ty
       when 'thesis'
-        b.z(:type) {"Ph.D. dissertation"}  
+        th = setup_thesis_info(to_marc)
+        typ = th[:type].to_s
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{th.inspect}"
+        b.z(:type,typ)  
       else
     end
   end 
@@ -290,7 +306,7 @@ FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"HEAR",
   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"map", "MGZN"=>"MGZN",
-  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"MUSIC", "NEWS"=>"NEWS",
+  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"book", "NEWS"=>"NEWS",
   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
   "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"audioRecording", "Musical Recording"=>"audioRecording",
   "STAND"=>"STAND",

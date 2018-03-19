@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: b208952f4f7078f433a0ca31d2e0de93ac12acfe
+  revision: e1668163b5de7844d703ee683e6754457d974d13
   branch: master
   specs:
-    blacklight_cornell_requests (1.5.2)
+    blacklight_cornell_requests (1.5.4)
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: https://github.com/jrochkind/borrow_direct
-  revision: 4d7ff65aa794ff50dc400c937362bffb9f103e3e
+  revision: f2f53760e15d742a5c5584dd641f20dea315f99f
   specs:
     borrow_direct (1.2.0)
       httpclient (~> 2.4)
@@ -98,6 +98,7 @@ GEM
     arel (6.0.4)
     autoprefixer-rails (6.7.7.1)
       execjs
+    awesome_print (1.7.0)
     bcrypt (3.1.11)
     bento_search (1.6.1)
       confstruct (~> 1.0)
@@ -328,7 +329,7 @@ GEM
     mysql (2.9.1)
     namae (0.11.3)
     nenv (0.3.0)
-    net-ldap (0.15.0)
+    net-ldap (0.16.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -541,6 +542,7 @@ DEPENDENCIES
   activerecord-session_store
   addressable
   appsignal
+  awesome_print
   bento_search
   blacklight (= 6.7.2)
   blacklight-hierarchy
@@ -573,7 +575,7 @@ DEPENDENCIES
   htmlentities
   httpclient
   jquery-rails
-  jquery-ui-rails
+  jquery-ui-rails (= 5.0.5)
   json
   kaminari (= 0.15.0)
   libnotify
@@ -617,4 +619,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.1
+   1.16.1

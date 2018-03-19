@@ -139,6 +139,8 @@ class Databases < ActiveRecord::Base
        if !iLLRecordKeepingNote.blank?
           iLLRecordKeepingNote.gsub!('"',' ')
           iLLRecordKeepingNote.gsub!("'"," ")
+          iLLRecordKeepingNote.gsub!("…",'...')
+          iLLRecordKeepingNote.force_encoding(Encoding::UTF_8)
        end
        courseReserve = licenseTerms.xpath(sprintf('./%s', "CourseReserveContent")).inner_text
        if courseReserve.nil? or courseReserve.blank?

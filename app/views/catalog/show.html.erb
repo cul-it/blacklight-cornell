@@ -3,7 +3,10 @@
   <% link_back = link_back_to_catalog({:label => link_label}) %>
   <% if link_back %>
     <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
-      <%= link_to link_back[:url], {:class => 'return-link', :title => 'return to previous page'} do %>
+        <% opts = ENV['RAILS_ENV'] != 'test' ?  
+         {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  } 
+         : {:class => 'return-link', :title => 'return to previous page'}  %>
+      <%= link_to link_back[:url], opts do %>
         <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
       <% end %>
     <% end %>

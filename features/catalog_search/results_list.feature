@@ -9,7 +9,6 @@ Feature: Results list
         @all_results_list
         @rss
 	Scenario: Empty search
-                Given PENDING
 		Given I am on the home page
 		And I press 'search'
 
@@ -28,14 +27,14 @@ Feature: Results list
 		And the 'per_page' select list should have an option for '50 per page'
 		And the 'per_page' select list should have an option for '100 per page'
 
-        @all_results_list
-	Scenario: Search with no results
-                Given PENDING
-		Given I am on the home page
-		When I fill in the search box with 'awfasdf acawfdfas'
-		And I press 'search'
-		#Then there should be 0 search results
-		Then I should not get results
+#        @all_results_list
+#	Scenario: Search with no results
+#                Given PENDING
+#		Given I am on the home page
+#		When I fill in the search box with 'awfasdf acawfdfas'
+#		And I press 'search'
+#		#Then there should be 0 search results
+#		Then I should not get results
 
         @all_results_list
 	@next
@@ -199,19 +198,20 @@ Feature: Results list
 
 
   # DISCOVERYACCESS-1407
+  # Given PENDING
   @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials
     Given I am on the home page
-                Given PENDING
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     Then I should get results
     And I should not see the text 'Order Information'
+
   # DISCOVERYACCESS-1407
         @all_results_list
   @DISCOVERYACCESS-1407
@@ -259,17 +259,21 @@ Feature: Results list
 @next_facet
 @javascript
   Scenario: Search with results,
-                Given PENDING
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
     And I press 'search'
+    And I sleep 10 seconds
     Then I should get results
     Then I should see the text 'Click : '
+    And I sleep 10 seconds
     Then click on first link "Click : when we knew we were feminists"
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    Then I should see the text 'We Can Speak for Ourselves'
+    And I sleep 10 seconds
+    Then I should see the text 'introducing feminist theology'
+    Then click on first link "Back to catalog results"
+    Then I should get results
 
 # Combinatorial Algorithms, Algorithmic Press
 @all_results_list
@@ -315,3 +319,12 @@ Feature: Results list
     Then I should not see the text 'relevance'
     And I sleep 4 seconds
     Then I should see the text 'Sort by call number'
+
+@all_results_list
+  Scenario: Search with results,
+    Given I am on the home page
+    When I fill in the search box with 'cigarette prices'
+    And I select 'Title' from the 'search_field' drop-down
+    And I press 'search'
+    Then I should get results
+    And I should see the "fa-rss-square" class

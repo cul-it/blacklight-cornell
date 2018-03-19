@@ -103,6 +103,7 @@ en:
       title: 'Tools'
       cite: 'Cite'
       endnote: 'EndNote'
+      endnote_xml: 'EndNote XML'
       refworks: 'Refworks'
       mendeley: 'RIS'
       zotero: 'Zotero'
