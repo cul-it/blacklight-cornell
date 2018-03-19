@@ -35,13 +35,13 @@
         <% if !Bookbag.enabled? || (Bookbag.enabled? && !current_user)  %>
           <li>
             <% if !current_user && Bookbag.enabled? %>
-              <%= link_to bookmarks_path, {id:'bookmarks_nav', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'Sign in first to save items to your book bag'} do %>
-              <%= t('blacklight.header_links.bookmarks') %>
-               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+              <span><%= t('blacklight.header_links.bookmarks') %>
+               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)</span>
               <% if ENV['SAML_IDP_TARGET_URL'] %>
                 <% if current_or_guest_user %>
                   <% if !current_user %>
-                    - <%= link_to 'Sign in', '/users/auth/saml'   %>
+                    - <%= link_to 'Sign in', '/users/auth/saml',  :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items'}   %>
                   <% end %>
                 <% end %>
               <% end %>
