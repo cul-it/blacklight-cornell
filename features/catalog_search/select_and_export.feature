@@ -225,7 +225,7 @@ Feature: Select and export items from the result set
     Then I should see the text 'PB  - Printeuoop nashpe Samuel Green.'
     Then I should see the text 'CY  - Cambridge [Mass.].'
     Then I should see the text 'LA  - Algonquian (Other)'
-    Then I should see the text 'UR  - http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://opac.newsbank.com/select/evans/385'
+    Then I should see the text 'UR  - http://opac.newsbank.com/select/evans/385'
     Then I should see the text 'M2 - http://newcatalog.library.cornell.edu/catalog/5558811'
     Then I should see the text 'ER  -'
 
@@ -255,20 +255,11 @@ Feature: Select and export items from the result set
     Then I should see the text '%I American Anthropological Association' 
     Then I should see the text '%@ 091316710X'
     Then I should see the text '%T Reflections  the anthropological muse'
+    Then I should see the text '%K Anthropology Poetry.' 
+    Then I should see the text '%K American poetry 20th century.' 
+    Then I should see the text '%K Anthropologists' writings, English.' 
+    Then I should see the text '%K Anthropologists' writings, American.' 
 
-@all_select_and_export
-@citations
-  Scenario: User needs to send a book record to endnote format, check for processing 264  (might go to zotero) 
-    Given I request the item view for 9939352 
-    Given I request the item view for 9939352.endnote
-    Then I should see the text '%T Octopus'
-    Then I should see the text '%A Gray, Afsaneh' 
-    Then I should see the text '%@ 1786821931' 
-    Then I should see the text '%@ 9781786821935' 
-    Then I should see the text '%0 Book'
-    Then I should see the text '%C London'
-    Then I should see the text '%D 2017' 
-    Then I should see the text '%I Oberon Books'
 
 @all_select_and_export
 @citations
@@ -284,20 +275,6 @@ Feature: Select and export items from the result set
     Then I should see the text '%@ 0632060484 (hardback : alk. paper)' 
     Then I should see the text '%T Cephalopods  ecology and fisheries' 
 
-@all_select_and_export
-@citations
-  Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 6788245 
-    Given I request the item view for 6788245.endnote
-    Then I should see the text '%0 Film or Broadcast'
-    Then I should see the text '%C Burbank, CA'
-    Then I should see the text '%D c2009'
-    Then I should see the text '%E Radcliffe, Daniel' 
-    Then I should see the text '%E Rowling, J. K'
-    Then I should see the text '%I Warner Home Video'
-    Then I should see the text '%@ 1419864173'
-    Then I should see the text '%@ 9781419864179'
-    Then I should see the text '%T Harry Potter and the half-blood prince'
 ###
 ###
 ##
@@ -362,6 +339,126 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<dc:identifier>ISBN 091316710X : '
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
+
+@all_select_and_export
+  Scenario Outline: User needs to see Reflection: 1001  in a citation format, check title, and type
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <TyXmlContent> 
+    Then I should see the xml text <TiXmlContent> 
+
+    Examples:
+|BibId | Format | TiXmlContent | TyXmlContent |
+| 1001 | ris | 'TI - Reflections: the anthropological muse' |  'TY - BOOK' |
+| 1001 | endnote | '%T Reflections the anthropological muse' | '%0 Book' |
+| 1001 | endnote_xml | '<title>Reflections: the anthropological muse</title>' | '<ref-type name="Book">6</ref-type>'   |
+| 1001 | rdf_zotero | '<dc:title>Reflections: the anthropological muse</dc:title>' | '<z:itemType>book</z:itemType'|
+| 3261564 | ris | 'TI - Debabrata Biśvāsa' | 'TY - SOUND' |
+| 3261564 | endnote | '%T Debabrata Biśvāsa' | '%0 Music' |
+| 3261564 | endnote_xml | '<title>Debabrata Biśvāsa</title>' |'<ref-type name="Music">61</ref-type>'  | 
+| 3261564 | rdf_zotero |'<dc:title>Debabrata Biśvāsa</dc:title>' | '<z:itemType>audioRecording</z:itemType>' |
+| 5558811 | ris | 'TI - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | 'TY - EBOOK'|
+| 5558811 | endnote | '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | '%0 Electronic Book'|
+|5494906|endnote| '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '%0 Thesis' |
+|5494906|endnote_xml| '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '<ref-type name="Thesis">32</ref-type>'|
+|5494906|ris | 'TI - Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | 'TY - THES' |
+|5494906|rdf_zotero | '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '<z:itemType>thesis</z:itemType>' |
+| 5558811 |endnote_xml|'<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>' |'<ref-type name="Book">6</ref-type>'  | 
+| 5558811| rdf_zotero |'<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>' | '<z:itemType>book</z:itemType>' |
+| 6788245 | ris | 'TI - Harry Potter and the half-blood prince' |  'TY - VIDEO' |
+| 6788245 | endnote | '%T Harry Potter and the half-blood prince' |  '%0 Film or Broadcast' |
+| 6788245 | endnote_xml | '<title>Harry Potter and the half-blood prince</title>'|'<ref-type name="Film or Broadcast">21</ref-type>' |
+|6788245|rdf_zotero|'<dc:title>Harry Potter and the half-blood prince</dc:title>'|'<z:itemType>videoRecording</z:itemType>' |
+|1676023|ris| 'TI  - Middle Earth: being a map' | 'TY - MAP' |
+|1676023|endnote| '%T Middle Earth being a map' | '%0 Map' |
+|1676023|endnote_xml| '<title>Middle Earth: being a map purporting to' | '<ref-type name="Map">20</ref-type>' |
+|1676023|rdf_zotero| '<dc:title>Middle Earth: being a map purporting to' | '<z:itemType>map</z:itemType>' |
+
+@all_select_and_export
+  Scenario Outline: User needs to see various items  in a citation format, check author, date, publisher, place. 
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <AuXmlContent> 
+    Then I should see the xml text <DaXmlContent> 
+    Then I should see the xml text <PbXmlContent> 
+    Then I should see the xml text <PlXmlContent> 
+
+    Examples:
+|BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
+|1378974|ris|'AU  - Condie, Carol Joy' | 'PY - 1954'|'PB - Cornell Univ'|'CY  - [Ithaca, N.Y.]' | 
+|1378974|endnote|'%A Condie, Carol Joy' | '%D 1954'|'%I Cornell Univ'|'%C [Ithaca, N.Y.]' | 
+|1378974|endnote_xml|'<author>Condie, Carol Joy</author>' | '<year>1954</year>'|'<publisher>Cornell Univ</publisher>'|'<pub-location>[Ithaca, N.Y.]</pub-location>' | 
+|5494906|ris|'AU - Gauger, Wilhelm Peter Joachim' | 'PY - 1965'|'PB - Freie Universität Berlin'|'CY - Berlin' | 
+|5494906|endnote|'%A Gauger, Wilhelm Peter Joachim' | '%D 1965'|'%I Freie Universität Berlin'|'%C Berlin' | 
+|5494906|endnote_xml|'<author>Gauger, Wilhelm Peter Joachim</author>' | '<date>1965</date>'|'<publisher>Ernst-Reuter-Gesellschaft</publisher>'|'<pub-location>Berlin</pub-location>' | 
+|5494906|rdf_zotero|'<foaf:surname>Gauger</foaf:surname>' | '<dc:date>1965</dc:date>'|'<foaf:name>Freie Universität Berlin</foaf:name>'|'<vcard:locality>Berlin</vcard:locality>' | 
+| 3261564 | endnote_xml|'<author>Cakrabarttī, Utpalendu</author>'|'<date>1983</date>'|'<publisher>INRECO</publisher>'|'<pub-location>Calcutta</pub-location>' |
+| 6788245 | ris | 'AU - Warner Bros. Pictures' |  'PY - 2009' |  'PB - Warner Home Video' | 'CY - Burbank, CA' |
+| 6788245 | endnote | '%E Radcliffe, Daniel' |  '%D 2009' |  '%I Warner Home Video' | '%C Burbank, CA' |
+| 6788245 | endnote_xml | '<author>Radcliffe, Daniel</author>' |  '<year>2009</year>' |  '<publisher>Warner Home Video</publisher>'|'<pub-location>Burbank, CA</pub-location>' |
+| 6788245 | rdf_zotero | '<foaf:surname>Radcliffe</foaf:surname>' |  '<dc:date>2009</dc:date>' |  '<foaf:name>Warner Home Video</foaf:name>'|'<vcard:locality>Burbank, CA</vcard:locality>' |
+| 9939352 | ris | 'AU - Gray, Afsaneh' |  'PY - 2017' | 'PB - Oberon Books' | 'CY - London' |
+| 9939352 | endnote | '%A Gray, Afsaneh' |  '%D 2017' | '%I Oberon Books' | '%C London' |
+| 9939352 | endnote_xml|'<author>Gray, Afsaneh</author>'|'<date>2017</date>'|'<publisher>Oberon Books</publisher>'|'<pub-location>London</pub-location>' |
+| 3261564 | ris | 'AU - Cakrabarttī, Utpalendu' | 'PY - 1983' | 'PB - INRECO' | 'CY - Calcutta' |
+| 3261564 | endnote | '%A Cakrabarttī, Utpalendu' | '%D 1983' | '%I INRECO' | '%C Calcutta' |
+| 3261564 | endnote_xml | '<author>Cakrabarttī, Utpalendu</author>' | '<year>1983</year>' | '<publisher>INRECO</publisher>' | '<pub-location>Calcutta</pub-location>' |
+| 9496646 | ris | 'AU - Bindal, Ahmet' | 'PY - 2016' | 'PB - Springer International Publishing' | 'CY - Cham'  |
+| 9496646 | endnote | '%A Bindal, Ahmet' | '%D 2016' | '%I Springer International Publishing' | '%C Cham'  |
+| 9496646 | endnote_xml | '<author>Bindal, Ahmet</author>' | '<year>2016</year>' | '<publisher>Springer International Publishing</publisher>' | '<pub-location>Cham</pub-location>'  |
+
+@all_select_and_export
+  Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN. 
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <SpecialContent> 
+    Examples:
+
+|BibId | Format | SpecialContent | 
+| 10055679 | endnote |  '%L  Mann Library  SF98.A5 M35 2017' |
+| 10055679 | ris |  'CN - Mann Library  SF98.A5 M35 2017' |
+| 10055679 | rdf_zotero |  'Mann Library  SF98.A5 M35 2017' |
+| 10055679 | endnote_xml |  '<call-num>Mann Library  SF98.A5 M35 2017</call-num>' |
+| 1378974 | endnote |  '%9 Problem (M.Ed.)' |
+| 1378974 | ris | 'M3  - Problem (M.Ed.)' |
+| 1378974 | rdf_zotero | '<z:type>Problem (M.Ed.)</z:type>' |
+| 1378974 | endnote_xml| '<work-type>Problem (M.Ed.)</work-type>' |
+| 9939352 | ris | 'SN - 1786821931' |  
+| 9939352 | endnote | '%@ 1786821931' |  
+| 9939352 | endnote_xml | '<isbn>1786821931  ; 9781786821935 </isbn>' |  
+| 9939352 | rdf_zotero | '<dc:identifier>ISBN 1786821931 </dc:identifier>' |  
+| 9939352 | rdf_zotero | '<dc:identifier>ISBN 9781786821935 </dc:identifier>'|
+| 1002 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/1002' |
+| 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
+| 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
+| 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
+| 1001 | endnote | '%K Anthropologists' writings, American.' |
+| 1001 | ris | 'KW - Anthropologists' writings, American.' |
+| 1001 | endnote_xml | '<keyword>Anthropologists' writings, American.' |
+| 1001 | rdf_zotero | '<dc:subject>Anthropologists' writings, American.' |
+
+@all_select_and_export
+  Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook 
+    Given I request the item view for <BibId> 
+    Given I request the item view for <BibId>.<Format>
+    Then I should see the xml text <DoiXmlContent> 
+    Then I should see the xml text <UrlXmlContent> 
+    Examples:
+
+|BibId | Format | DoiXmlContent |  UrlXmlContent |
+| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0' |
+| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%U https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0' |
+| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</url>' | 
+| 9496646 | rdf_zotero | '<dc:description>DOI 10.1007/978-3-319-27177-4</dc:description>' | '<rdf:value>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</rdf:value>' |
+
+#UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0
+#M2  - http://newcatalog.library.cornell.edu/catalog/9496646
+#N1  - http://newcatalog.library.cornell.edu/catalog/9496646
+#DO  - 10.1007/978-3-319-27177-4
+#<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</url>
+
+
+#
 #<rdf:Seq>
 #<rdf:li>
 #<foaf:Person>
@@ -370,12 +467,24 @@ Feature: Select and export items from the result set
 @citations
 @rdf_zotero
 @all_select_and_export
-  Scenario: User needs to send a book record to ris format (might go to zotero) 
+  Scenario: User needs to send a book record to rdf zotero format (might go to zotero) 
     Given I request the item view for 3261564
     Given I request the item view for 3261564.rdf_zotero
     Then I should see the xml text '<z:itemType>audioRecording</z:itemType>'
     Then I should see the xml text '<dc:title>Debabrata Biśvāsa</dc:title>'
     Then I should see the xml path 'z','//z:composers','http://www.zotero.org/namespaces/export#','Cakrabarttī'
+
+# check actual xpath to LCC
+# e.g. <dcterms:LCC>
+# <rdf:value>Mann Library  SF98.A5 M35 2017</rdf:value>
+# </dcterms:LCC>
+
+@all_select_and_export
+  Scenario: User needs to send a book record to rdf zotero format (might go to zotero) 
+    Given I request the item view for 10055679
+    Given I request the item view for 10055679.rdf_zotero
+    Then I should see the xml path 'dcterms','//dcterms:LCC','http://purl.org/dc/terms/','Mann Library  SF98.A5 M35 2017'
+
 
 @all_select_and_export
   Scenario: User needs to see search results as an atom feed, marc_xml
@@ -393,19 +502,19 @@ Feature: Select and export items from the result set
     And I should see the text 'Olin Library'
     And I should see the text '(OCoLC)982651297'
 
-#@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
-#  Scenario: User needs to be able to sort search results by acquired date
-#  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
-#  by the acquired date of items.
-#    Given PENDING 
-#  When I go to the catalog page
-#    And I fill in the search box with 'knots rope'
-#    And I press 'search'
-#    Then I should get results
-#    And the first search result should be 'Encyclopedia of knots and fancy rope work'
-#    And the 'sort' select list should have an option for 'date acquired'
-#    Then I select the sort option 'date acquired'
-#    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
+@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
+  Scenario: User needs to be able to sort search results by acquired date
+  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
+  by the acquired date of items.
+    Given PENDING 
+  When I go to the catalog page
+    And I fill in the search box with 'knots rope'
+    And I press 'search'
+    Then I should get results
+    And the first search result should be 'Encyclopedia of knots and fancy rope work'
+    And the 'sort' select list should have an option for 'date acquired'
+    Then I select the sort option 'date acquired'
+    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
 
 @all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
   Scenario: User needs to see the date acquired in a JSON feed
@@ -454,50 +563,51 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="application/x-research-info-systems">'
 
-#Can't test without login.
+@all_select_and_export
+
 #Then I should see the label '<content type="application/x-research-info-systems">'
 # Pending causes an error in jenkins
-#    Given PENDING 
 # DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
-#@all_select_and_export
-#@DISCOVERYACCESS-1633
-#@select_and_email
-#@javascript
-#  Scenario: User sends a record by email
-#    Given I request the item view for 8767648
-#    And click on link "Email"
-#    And I fill in "to" with "quentin@example.com"
-#    And I sleep 2 seconds
-#    And I press "Send"
-#    And I sleep 2 seconds
-#    Then "quentin@example.com" receives an email with "Marvel masterworks" in the content 
-#    Then I should see "Marvel masterworks" in the email body
-#    Then I should see "Lee, Stan" in the email body
-#  #  Then I should see "Status: v.1   c. 1 Checked out, due 2017-09-29" in the email body
+@all_select_and_export
+@DISCOVERYACCESS-1633
+@select_and_email
+@javascript
+  Scenario: User sends a record by email
+    Given PENDING 
+    Given I request the item view for 8767648
+    And click on link "Email"
+    And I fill in "to" with "quentin@example.com"
+    And I sleep 2 seconds
+    And I press "Send"
+    And I sleep 2 seconds
+    Then "quentin@example.com" receives an email with "Marvel masterworks" in the content 
+    Then I should see "Marvel masterworks" in the email body
+    Then I should see "Lee, Stan" in the email body
+  #  Then I should see "Status: v.1   c. 1 Checked out, due 2017-09-29" in the email body
 
 #    Given PENDING 
 #search for marvel masterworks, and get two results, select, and email them
-#@all_select_and_export
-#@javascript
-#@select_and_email
-#  Scenario: Search with 2 results, select, and email them 
-#    Given PENDING 
-#    Given I am on the home page
-#    When I fill in the search box with 'marvel masterworks'
-#    And I press "search"
-#    Then I should get results
-#    Then I should select checkbox "toggle_bookmark_8767648"
-#    Then I should select checkbox "toggle_bookmark_1947165"
-#    Then click on link "Selected Items"
-#    And click on link "Email"
-#    And I fill in "to" with "squentin@example.com"
-#    And I press "Send"
-#    And I sleep 4 seconds
-#    Then "squentin@example.com" receives an email with "Marvel masterworks" in the content 
-#    Then I should see "Status: available" in the email body
-#    Then I should see "Coward" in the email body
-#    Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
-#
+@all_select_and_export
+@javascript
+@select_and_email
+  Scenario: Search with 2 results, select, and email them 
+    Given PENDING 
+    Given I am on the home page
+    When I fill in the search box with 'marvel masterworks'
+    And I press "search"
+    Then I should get results
+    Then I should select checkbox "toggle_bookmark_8767648"
+    Then I should select checkbox "toggle_bookmark_1947165"
+    Then click on link "Selected Items"
+    And click on link "Email"
+    And I fill in "to" with "squentin@example.com"
+    And I press "Send"
+    And I sleep 4 seconds
+    Then "squentin@example.com" receives an email with "Marvel masterworks" in the content 
+    Then I should see "Status: available" in the email body
+    Then I should see "Coward" in the email body
+    Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
+
   
 @all_select_and_export
 @DISCOVERYACCESS-1670
