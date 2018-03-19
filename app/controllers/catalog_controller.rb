@@ -224,7 +224,7 @@ end
     #config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'location',
                           if: :has_search_parameters?,
-                          label: 'Library location',
+                          label: 'Library Location',
                           partial: 'blacklight/hierarchy/facet_hierarchy',
                           sort: 'index',
                           limit: 100
