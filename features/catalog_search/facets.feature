@@ -19,7 +19,7 @@ Feature: Facets
 		And I should not see a facet called 'Subject: Region'
 		And I should not see a facet called 'Subject: Era'
 		And I should not see a facet called 'Fiction/Non-Fiction'
-		And I should see a facet called 'Library Location'
+		And I should not see a facet called 'Library Location'
 		And I should not see a facet called 'Call Number'
 		And I should see the label 'more'
 
@@ -27,7 +27,6 @@ Feature: Facets
 		# DISCOVERYACCESS-? 'Format' facet should always be open
 		And the 'Format' facet should be open
 		And the 'Language' facet should not be open
-		And the 'Library Location' facet should not be open
 
 	@homepage 
 	@nocallnumber 
