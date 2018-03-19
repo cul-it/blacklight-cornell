@@ -7,14 +7,18 @@
 				<div class="document blacklight-digitalcollections-name clearfix">
 					<div class="document-data">
 						<h2 class="blacklight-title_display">
-							<% if data["url_access_display"].present? && data["fulltitle_display"].present? %>
+							<% if data["url_access_display"].present? && data["fulltitle_display"].present? && data["url_access_display"].length == 1 %>
 								<% data["url_access_display"].each do |link| %>
 									<%= link_to link.split('|')[0] do %>
 									  <%= data["fulltitle_display"] %>
 									<% end %>
 								<% end %>
 							<% else %>
-								<%= data["fulltitle_display"] %>
+								<% if data["id"].present? %>
+								<%= link_to '/catalog/' + data["id"] do %>
+						      <%= data["fulltitle_display"] %>
+						    <% end %>
+							<% end %>
 							<% end %>
 						</h2>
 						<div class="description">
@@ -27,7 +31,7 @@
 							<% end %>
 						</div>
 						<div class="catalog-link">
-						  <% if data["id"].present? %>
+						  <% if data["id"].present? && data["url_access_display"].length < 2 %>
 						    <%= link_to '/catalog/' + data["id"] do %>
 						      Catalog record
 						    <% end %>
