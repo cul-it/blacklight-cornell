@@ -223,7 +223,6 @@ end
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     #config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'location',
-                          if: :has_search_parameters?,
                           label: 'Library Location',
                           partial: 'blacklight/hierarchy/facet_hierarchy',
                           sort: 'index',
