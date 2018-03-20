@@ -1,4 +1,4 @@
-<section class="cornell-identity" aria-label="Cornell" role="banner">
+<div class="cornell-identity" aria-label="Cornell" role="banner">
   <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
   <%# if search results, add a link to skip facets for screen readers %>
   <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
@@ -31,7 +31,7 @@
       </div>
     </div>
   </div> <!-- /container -->
-</section>
+</div>
 
 <div class="ie9-only" role="complementary">
   <div class="container">

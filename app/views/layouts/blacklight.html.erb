@@ -62,7 +62,7 @@
       </div>
     <% end %>
 
-    <section class="main-content" id="maincontent" aria-label="Main content" role="main">
+    <div class="main-content" id="maincontent" aria-label="Main content" role="main">
       <div class="container" id="main-container">
         <div class="row">
           <div class="col-sm-12">
@@ -72,10 +72,8 @@
               <%= yield %>
           </div>
         </div>
-
-
       </div>
-    </section>
+    </div>
 
     <%= render :partial => 'shared/footer' %>
 
