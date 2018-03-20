@@ -313,26 +313,20 @@ form.range_limit {
 @media (min-width: $screen-sm) {
 	.facets {
 		.top-panel-heading {
-			h4 {
+			h2 {
 				padding-left: 0;
 				font-size: 18px;
 			}
 		}
 		h5 {
 			font-size: 12px;
-		}
-		// li {
-		// 	font-size: 11px;
-		// }
-	}
+		}	}
 	.facet-values {
 		.facet-label {
 			display: block;
 			line-height: 1.4em;
-			// padding-bottom: 0;
 		}
 		.facet-count {
-			// display: inline-block;
 			padding-bottom: .5em;
 		}
 	}
@@ -367,10 +361,5 @@ form.range_limit {
 	}
 }
 /* Large devices (desktops, 1200px and up) */
-@media (min-width: $screen-lg) {
-	// .facets {
-	// 	li {
-	// 		font-size: 13px;
-	// 	}
-	// }
-}
+// @media (min-width: $screen-lg) {
+// }
