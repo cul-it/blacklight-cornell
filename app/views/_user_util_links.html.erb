@@ -28,7 +28,7 @@
               <% if ENV['SAML_IDP_TARGET_URL'] %>
                 <% if current_or_guest_user %>
                   <% if !current_user %>
-                    - <%= link_to 'Sign in', '/users/auth/saml', :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items' %>
+                    - <%= link_to 'Sign in', '/users/auth/saml', :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
                   <% end %>
                 <% end %>
               <% end %>
