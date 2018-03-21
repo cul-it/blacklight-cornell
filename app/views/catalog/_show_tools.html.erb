@@ -44,9 +44,8 @@
   <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to ('/catalog/email'), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
-        <%= emaillink_content.html_safe %>
-      <% end %>
+      <% emaillink_content = '<i class="fa fa-envelope" style="opacity: 0.6; cursor: not-allowed;" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
+      <%= emaillink_content.html_safe %>
    <% elsif bookbags_index %>
       <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
         <%= emaillink_content.html_safe %>
