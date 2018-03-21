@@ -282,7 +282,6 @@ end
     config.add_index_field 'pub_date', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition', :helper_method => :render_single_value
-
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     # These 3 title related fields called directly in _show_metadata partial
@@ -351,6 +350,7 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+    config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
 

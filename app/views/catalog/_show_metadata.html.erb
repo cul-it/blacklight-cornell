@@ -1,136 +1,353 @@
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
     <% # bookmark/folder functions -%>
-    <div class="document-header">
-      <%
+      <div class="document-header">
+        <%
       @title = the_vernaculator('title_display', 'title_vern_display')
       @subtitle = the_vernaculator('subtitle_display', 'subtitle_vern_display')
       responsibility = field_value 'title_responsibility_display'
       %>
-      <% if @title.present? %>
-      <h2><%= @title %></h2>
-      <% end %>
-      <% if @subtitle.present? %>
-      <h3 class="subtitle"><%= @subtitle %></h3>
-      <% end %>
-      <% if responsibility.present? %>
-      <h3 class="responsibility"><%= responsibility %></h3>
-      <% end %>
-    </div>
-    <div class="row">
-      <div class="col-md-4 col-md-push-8">
-        <div class="availability panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Availability</h3>
-          </div>
-          <div class="panel-body">
-            <%# finding aid %>
-            <% if finding_aid(@document) %>
-              <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
-              <% if url_findingaid_display.present? %>
-                <span class="url_findingaid_display" id="finding_aid"><i class="fa fa-check"></i> <%= url_findingaid_display %></span>
-              <% end %>
-            <% end %>
-            <%# online %>
-            <% if online_url(@document) %>
-              <%  holdings_condensed = create_condensed_full(@document) %>
-              <%  summary_holdings = '' %>
-              <%  if holdings_condensed[0]['summary_holdings'] %>
-                <% summary_holdings=(holdings_condensed[0]['summary_holdings'].html_safe + "<br/>".html_safe).html_safe%>
-              <%  end %>
-              <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-              <div class="holdings-online">
-                <div class="online-label"><i class="fa fa-check"></i>Online</div>
-                <ul class="list-unstyled">
-                  <% if  field_value('url_access_json').present?  %>
-                    <% @document['url_access_json'].each do |link| %>
-                    <% l = JSON.parse(link) %>
-                    <% if l["description"].present? %>
-                      <% label = l["description"] %>
-                    <% else %>
-                      <% label = t('blacklight.url.message')  %>
+          <% if @title.present? %>
+            <h2><%= @title %></h2>
+          <% end %>
+          <% if @subtitle.present? %>
+            <h3 class="subtitle"><%= @subtitle %></h3>
+          <% end %>
+          <% if responsibility.present? %>
+            <h3 class="responsibility"><%= responsibility %></h3>
+          <% end %>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-md-push-8">
+            <div class="availability panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Availability</h3>
+              </div>
+              <div class="panel-body">
+                <%# finding aid %>
+                  <% if finding_aid(@document) %>
+                    <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
+                      <% if url_findingaid_display.present? %>
+                        <span class="url_findingaid_display" id="finding_aid">
+                          <i class="fa fa-check"></i>
+                          <%= url_findingaid_display %></span>
+                      <% end %>
                     <% end %>
-                    <li>
-                      <div class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
-                        <div class="message"><%= summary_holdings.html_safe %></div>
-                        <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
-                          <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
-                        <% end %>
-                      </div>
-                    </li>
-                  <% end %>
-                <% end %>
-              </div><%# online-holdings %>
-            <% end %><%# end online %>
-            <%# print holdings %>
-            <div class="holdings" data-bibid="<%= @document.id.to_s %>">
-              <%= render "holdings"  %>
-            </div>
-            <%# access restrictions %>
-            <% access_restrictions = field_value 'restrictions_display' %>
-            <% if access_restrictions.present? %>
-              <span class="access-restriction">
-                <h5>Restrictions</h5>
-                <%= access_restrictions %>
-              </span>
-            <% end %>
-            <span class="blacklight-url_access_display"></span>
-            <%= @hide_status %>
-          </div>
-        </div><%# end availability.well %>
+                    <%# online %>
+                      <% if online_url(@document) %>
+                        <%  holdings_condensed = create_condensed_full(@document) %>
+                          <%  summary_holdings = '' %>
+                            <%  if holdings_condensed[0]['summary_holdings'] %>
+                              <% summary_holdings=(holdings_condensed[0]['summary_holdings'].html_safe + "<br/>".html_safe).html_safe%><%  end %>
+                              <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+                                <div class="holdings-online">
+                                  <div class="online-label">
+                                    <i class="fa fa-check"></i>Online</div>
+                                  <ul class="list-unstyled">
+                                    <% if  field_value('url_access_json').present?  %>
+                                      <% @document['url_access_json'].each do |link| %>
+                                        <% l = JSON.parse(link) %>
+                                          <% if l["description"].present? %>
+                                            <% label = l["description"] %>
+                                            <% else %>
+                                              <% label = t('blacklight.url.message')  %><% end %>
+                                              <li>
+                                                <div class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
+                                                  <div class="message"><%= summary_holdings.html_safe %></div>
+                                                  <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
+                                                    <span class="terms-of-use">
+                                                      <a href="/catalog/tou/<%= @document[:id] %>/<%= l[" providercode"] %>/<%= l[" dbcode"] %>"="dbcode" ]="]" %="%">"">Terms of use</a>
+                                                    </span>
+                                                  <% end %>
+                                                </div>
+                                              </li>
+                                            <% end %>
+                                          <% end %>
+                                        </div>
+                                        <%# online-holdings %><% end %>
+                                        <%# end online %>
+                                          <%# print holdings %>
+                                            <div class="holdings" data-bibid="<%= @document.id.to_s %>">
+                                              <%= render "holdings" %>
+                                              <div style="background-color:#cccccc">
 
-        <%# other forms %>
-        <% if  field_value('other_availability_json').present? || field_value('workid_display').present?   %>
-          <div class="availability panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Other forms of this work</h3>
-            </div>
-            <div class="panel-body">
-              <% if  field_value('other_availability_json').present?  %>
-                <% @document['other_availability_json'].each do |form| %>
-                  <% f = JSON.parse(form) %>
-                  <div class="other-form">
-                    <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span>
-                    <% formats = f["format"].split(",") %>
-                    <% formats.each do |format| %>
-                      <span class="other-form-format">
-                        <i class="fa fa-<%= formats_icon_mapping(format) %>"></i><%= format %>
-                      </span>
-                    <% end %>
-                    <% if f["pub_date"].present? %>
-                      <span class="other-form-date"><%= f["pub_date"] %></span>
-                    <% end %>
-                    <% if f["language"].present? %>
-                      <span class="other-form-language"><%= f["language"] %></span>
-                    <% end %>
-                    <% if f["edition"].present? %>
-                      <span class="other-form-edition"><%= f["edition"] %></span>
-                    <% end %>
-                    <% if f["sites"].present? %>
-                      <span class="other-form-online">
-                        <span class="status-online online-label">Online</span>
-                      </span>
-                    <% end %>
-                    <% if f["libraries"].present? %>
-                      <span class="at-library-label">At the Library</span>
-                    <% end %>
-                  </div><%# end other-form %>
-                <% end %>
-              <% end %>
-              <% if field_value('workid_display').present?  %>
-                <p><%= link_to "See all forms of this work",'/?f[workid_facet][]=' + field_value('workid_facet') %></p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div><%# end col-md-4 %>
-      <div class="col-md-8 col-md-pull-4">
-        <div class="pull-right item-cover">
-          <div class="bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>">
-          </div>
-        </div><%# item-cover %>
-        <%= render_document_partial @document, :show %>
-      </div><%# col-sm-8 %>
-    </div><%# row %>
-  </div><%# doc_ %>
-</div><%# end #document %>
+
+                                                <% holdings = JSON.parse(@document['holdings_json']) %>
+                                                  <% items = [] %>
+                                                  <% rare_items = [] %>
+                                                  <% online_items = [] %>
+                                                  <% reading = '' %>
+                                                  <% bwith = '' %>
+                                                  <% if @document['bound_with_json'] %>
+                                                    <% bwith = t('blacklight.catalog.bound_with') %>
+                                                  <% end %>
+                                                  <% multi_vol = @document['multivol_b'] %>
+                                                  <% on_site_count = 0 %>
+                                                  <% reserve_item = false %>
+                                                  <% noncirc = false %>
+                                                  <% aeon_codes = [] %>
+                                                  <% holdings.each do |k,holding| %>
+                                                    <% if holding["location"]["name"].include?('Rare') %>
+                                                      <% rare_items << holding %>
+                                                        <% elsif holding["location"]["code"].include?('serv,remo') %>
+                                                          <% online_items << holding %>
+                                                          <% else %>
+                                                            <% items << holding %><% end %>
+                                                          <% end %>
+
+
+                                                          <!-- circulating items -->
+                                                          <% items = items.sort_by { |e| e["location"]["name"]  } %>
+                                                          <% group = "Circulating" %>
+                                                          <% not_spif = 0  %>
+                                                          <% spif = 0  %>
+                                                            <% items.each do |i| %>
+                                                            <% reserve_item = (i['location']['code'].include?(',res') ||  i['location']['code'].include?('oclc,afrp') || i['location']['name'].include?('Reserve')) %>
+                                                            <% group = "Circulating" %>
+                                                            <% if i["location"]["name"] !~ /Spacecraft Planetary Imaging Facility/ %>
+                                                              <% not_spif += 1  %>
+                                                            <% end %>
+                                                            <% if i["location"]["name"] =~ /Non-Circulating/ %>
+                                                              <% noncirc = true  %>
+                                                            <% end %>
+                                                            <% if i["location"]["name"] =~ /Spacecraft Planetary Imaging Facility/ %>
+                                                              <% noncirc = true  %>
+                                                              <% spif += 1  %>
+                                                            <% end %>
+                                                              <!-- location -->
+
+                                                              <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] == 'Available for the Library to Purchase' %>
+                                                                <% pda = 'yes' %><% end %>
+                                                                <% if pda == 'yes' %>
+                                                                  <div class="location">
+                                                                    <%= i["call"] %>
+                                                                  </div>
+                                                                  <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
+                                                                    <div class="location">
+                                                                      <%= i["location"]["name"] %>
+                                                                      <span class="map-it">
+                                                                        <%= render_location_link i['location']['code'] %>
+                                                                      </span>
+                                                                    </div>
+                                                                  <% end %>
+                                                                  <!-- callnumber -->
+                                                                  <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] == 'Available for the Library to Purchase' %>
+                                                                    <% pda = 'yes' %><% end %>
+                                                                    <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] != '' %>
+                                                                      <div class="call-number">
+                                                                        <% if pda != 'yes' %>
+                                                                          <%= i["call"] %>
+                                                                          <span class="text-it">
+                                                                            <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', :data => {:toggle => 'tooltip', :placement => 'right'}, :title =>
+                                                                            'Text call number'} do %>
+                                                                            <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                                            <%= t('blacklight.tools.sms') %>
+                                                                          <% end %>
+                                                                        <% end %>
+                                                                      </div>
+
+                                                                      <!-- holding description, notes, status -->
+
+                                                                      <div class="group">
+                                                                        <div class="message">
+                                                                          <% if i["holdings"].present? %>
+                                                                            Library has:
+                                                                            <%= (i["holdings"].join('<br/>')).html_safe %>
+                                                                          <% end %>
+                                                                        </div>
+                                                                        <div class="message">
+                                                                          <% if i["notes"].present? %>
+                                                                            <%= i["notes"].join('<br/>').html_safe %>
+                                                                          <% end %>
+                                                                        </div>
+
+                                                                        <div class="status">
+                                                                          <% if i["items"]["avail"].present? %>
+                                                                            <span class="online-label">
+                                                                              <i class="fa fa-check"></i>
+                                                                              Available
+                                                                            </span>
+                                                                          <% end %>
+                                                                          <% if i["items"]["count"].present? %>
+                                                                            <% if i["items"]["count"] > 1 %>
+                                                                              <%= i["items"]["count"] %>
+                                                                              copies
+                                                                            <% else %>
+                                                                              <%= i["items"]["count"] %>
+                                                                              copy
+                                                                            <% end %>
+                                                                          <% end %>
+                                                                        </div>
+                                                                      </div>
+
+                                                                    <% end %>
+                                                                  <% end %>
+
+                                                                  <%= render 'request_buttons', :group => group, :noncirc => noncirc, :@document => @document, :aeon_codes => aeon_codes, :not_spif => not_spif, :spif => :spif, :reading => reading, :reserve_item => reserve_item %>
+
+                                                                  <!-- rare items -->
+                                                                  <% if rare_items.present? %>
+                                                                  <% noncirc = true  %>
+
+                                                                  <% reading = ' for Reading Room Delivery' %>
+                                                                  <% noncirc = true  %>
+
+                                                                  <% if !items.blank? %>
+                                                                    <h3 class="rare">
+                                                                      Rare Items
+                                                                    </h3>
+                                                                  <% end %>
+                                                                    <% items = rare_items.sort_by { |e| e["location"]["name"]  } %>
+
+
+                                                                      <% items.each do |i| %>
+                                                                      <% group = "Rare" %>
+                                                                      <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
+                                                                        <!-- location -->
+                                                                        <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] == 'Available for the Library to Purchase' %>
+                                                                          <% pda = 'yes' %><% end %>
+                                                                          <% if pda == 'yes' %>
+                                                                            <div class="location">
+                                                                              <%= i["call"] %>
+                                                                            </div>
+                                                                            <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
+                                                                              <div class="location">
+                                                                                <%= i["location"]["name"] %>
+                                                                                <span class="map-it">
+                                                                                  <%= render_location_link i['location']['code'] %>
+                                                                                </span>
+                                                                              </div>
+                                                                            <% end %>
+                                                                            <!-- callnumber -->
+                                                                            <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] == 'Available for the Library to Purchase' %>
+                                                                              <% pda = 'yes' %><% end %>
+                                                                              <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] != '' %>
+                                                                                <div class="call-number">
+                                                                                  <% if pda != 'yes' %>
+                                                                                    <%= i["call"] %>
+                                                                                    <span class="text-it">
+                                                                                      <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', :data => {:toggle => 'tooltip', :placement => 'right'}, :title =>
+                                                                                      'Text call number'} do %>
+                                                                                      <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                                                      <%= t('blacklight.tools.sms') %>
+                                                                                    <% end %>
+                                                                                  <% end %>
+                                                                                </div>
+
+                                                                                <!-- holding description, notes, status -->
+
+                                                                                <div class="group">
+                                                                                  <div class="message">
+                                                                                    <% if i["holdings"].present? %>
+                                                                                      Library has:
+                                                                                      <%= (i["holdings"].join('<br/>')).html_safe %>
+                                                                                    <% end %>
+                                                                                  </div>
+                                                                                  <div class="message">
+                                                                                    <% if i["notes"].present? %>
+                                                                                      <%= i["notes"].join('<br/>').html_safe %>
+                                                                                    <% end %>
+                                                                                  </div>
+
+                                                                                  <div class="status">
+                                                                                    <% if i["items"]["avail"].present? %>
+                                                                                      <span class="online-label">
+                                                                                        <i class="fa fa-check"></i>
+                                                                                        Available
+                                                                                      </span>
+                                                                                    <% end %>
+                                                                                    <% if i["items"]["count"].present? %>
+                                                                                      <% if i["items"]["count"] > 1 %>
+                                                                                        <%= i["items"]["count"] %>
+                                                                                        copies
+                                                                                      <% else %>
+                                                                                        <%= i["items"]["count"] %>
+                                                                                        copy
+                                                                                      <% end %>
+                                                                                    <% end %>
+                                                                                  </div>
+                                                                                </div>
+
+                                                                              <% end %>
+                                                                            <% end %>
+                                                                          <% end %>
+
+                                                                          <!-- rare request buttons -->
+                                                                          <%= render 'request_buttons', :group => group, :noncirc => noncirc, :aeon_codes => aeon_codes, :not_spif => not_spif, :reading => reading %>
+
+
+
+                                                  <%# access restrictions %>
+                                                    <% access_restrictions = field_value 'restrictions_display' %>
+                                                      <% if access_restrictions.present? %>
+                                                        <span class="access-restriction">
+                                                          <h5>Restrictions</h5>
+                                                          <%= access_restrictions %>
+                                                        </span>
+                                                      <% end %>
+                                                      <span class="blacklight-url_access_display"></span>
+                                                      <%= @hide_status %>
+                                                    </div>
+                                                  </div>
+                                                  <%# end availability.well %>
+
+                                                    <%# other forms %>
+                                                      <% if  field_value('other_availability_json').present? || field_value('workid_display').present?   %>
+                                                        <div class="availability panel panel-default">
+                                                          <div class="panel-heading">
+                                                            <h3 class="panel-title">Other forms of this work</h3>
+                                                          </div>
+                                                          <div class="panel-body">
+                                                            <% if  field_value('other_availability_json').present?  %>
+                                                              <% @document['other_availability_json'].each do |form| %>
+                                                                <% f = JSON.parse(form) %>
+                                                                  <div class="other-form">
+                                                                    <span class="other-form-title"><%= link_to f["title"], "/catalog/#{f["bibid"]}" %></span>
+                                                                    <% formats = f["format"].split(",") %>
+                                                                      <% formats.each do |format| %>
+                                                                        <span class="other-form-format">
+                                                                          <i class="fa fa-<%= formats_icon_mapping(format) %>"></i><%= format %>
+                                                                        </span>
+                                                                      <% end %>
+                                                                      <% if f["pub_date"].present? %>
+                                                                        <span class="other-form-date"><%= f["pub_date"] %></span>
+                                                                      <% end %>
+                                                                      <% if f["language"].present? %>
+                                                                        <span class="other-form-language"><%= f["language"] %></span>
+                                                                      <% end %>
+                                                                      <% if f["edition"].present? %>
+                                                                        <span class="other-form-edition"><%= f["edition"] %></span>
+                                                                      <% end %>
+                                                                      <% if f["sites"].present? %>
+                                                                        <span class="other-form-online">
+                                                                          <span class="status-online online-label">Online</span>
+                                                                        </span>
+                                                                      <% end %>
+                                                                      <% if f["libraries"].present? %>
+                                                                        <span class="at-library-label">At the Library</span>
+                                                                      <% end %>
+                                                                    </div>
+                                                                    <%# end other-form %><% end %>
+                                                                  <% end %>
+                                                                  <% if field_value('workid_display').present?  %>
+                                                                    <p><%= link_to "See all forms of this work",'/?f[workid_facet][]=' + field_value('workid_facet') %></p>
+                                                                  <% end %>
+                                                                </div>
+                                                              </div>
+                                                            <% end %>
+                                                          </div>
+                                                          <%# end col-md-4 %>
+                                                            <div class="col-md-8 col-md-pull-4">
+                                                              <div class="pull-right item-cover">
+                                                                <div class="bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>"></div>
+                                                              </div>
+                                                              <%# item-cover %>
+                                                                <%= render_document_partial @document, :show %>
+                                                              </div>
+                                                              <%# col-sm-8 %>
+                                                              </div>
+                                                              <%# row %>
+                                                              </div>
+                                                              <%# doc_ %>
+                                                              </div>
+                                                              <%# end #document %>

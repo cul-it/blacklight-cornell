@@ -4,7 +4,7 @@
 <% bound_with = false %>
 <% aeon_codes = [] %>
 <% reading = '' %>
-<% holdings_condensed = create_condensed_full(@document)  %>
+<% holdings = JSON.parse(@document['holdings_json'])  %>
 <% bwith = '' %>
 <% if @document['bound_with_json'] %>
   <% bwith = t('blacklight.catalog.bound_with') %>
@@ -12,10 +12,10 @@
 <% multi_vol = @document['multivol_b'] %>
 <% on_site_count = 0 %>
 <% reserve_item = false %>
-<% if (!holdings_condensed.nil?) && holdings_condensed.size > 0 %>
-  <% grouped_holdings = group_holdings(holdings_condensed) %>
-  <% multiple_groups = grouped_holdings.size > 1 %>
-  <% grouped_holdings.each do |group, holdings| %>
+<% if (!holdings.nil?) && holdings.size > 0 %>
+  <% solr_grouped_holdings = solr_group_holdings(holdings) %>
+  <% multiple_groups = solr_grouped_holdings.size > 1 %>
+  <% solr_grouped_holdings.each do |group, holdings| %>
     <% # Render group headings only if we have multiple groups %>
     <% if multiple_groups %>
       <% reading = '' %>
@@ -31,11 +31,11 @@
 
       <% not_spif = 0  %>
       <% spif = 0  %>
-      <% holdings.sort_by{|holding| holding["location_name"]}.each do |entry| %>
-        <% reserve_item = (entry['location_code'].include?(',res') ||  entry['location_code'].include?('oclc,afrp') || entry['location_name'].include?('Reserve')) %>
+      <% holdings.sort_by{|holding| holding["location"]["name"]}.each do |entry| %>
+        <% reserve_item = (entry['location']['code'].include?(',res') ||  entry['location']['code'].include?('oclc,afrp') || entry['location']['name'].include?('Reserve')) %>
         <% reading = '' %>
-        <% location = (entry['location_name'] == '*Networked Resource') ? 'Online' : entry['location_name'] %>
-        <% callnumber = entry['call_number'] %>
+        <% location = (entry['location']['name'] == '*Networked Resource') ? 'Online' : entry['location']['name'] %>
+        <% callnumber = entry['call'] %>
         <% noncirc = false %>
         <% if location !~ /Spacecraft Planetary Imaging Facility/ %>
           <% not_spif += 1  %>
@@ -50,7 +50,7 @@
         <% if location =~ /Rare/ %>
           <% reading = ' for Reading Room Delivery' %>
           <% noncirc = true  %>
-          <% aeon_codes << entry['location_code'] unless aeon_codes.include?(entry['location_code']) %>
+          <% aeon_codes << entry['location']['code'] unless aeon_codes.include?(entry['location']['code']) %>
         <% end %>
         <% some_av = 'no' %>
         <div class="holding">
