@@ -28,7 +28,7 @@
     <p>We're sorry, requests for delivery and scanning of material from the RMC are temporarily disabled. 
     <script>
     var reason = decodeURIComponent(location.search.split('=')[1]);
-    document.write(reason);
+    if (reason != 'undefined') {  document.write(reason); }
     </script>
     </p?
   </div>
