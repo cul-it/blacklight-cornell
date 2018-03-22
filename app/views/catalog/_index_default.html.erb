@@ -23,3 +23,5 @@
   <% if (simple_render_index_field_value document, :field => 'online').include?('At the Library') %>
   <% end %>
   </div>
+
+  <%= render :partial => 'availability_json', :locals => { :document => document} %>

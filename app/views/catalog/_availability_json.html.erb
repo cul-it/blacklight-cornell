@@ -1,0 +1,44 @@
+<% if document['availability_json'].present? %>
+<div style = "font-weight:bold" >
+<% availability = JSON.parse(document['availability_json']) %>
+
+
+    <% available = availability["available"] %>
+    <% multiple_locations = availability["multiLoc"] %>
+    <% onotes = availability["notes"] %>
+
+
+    <% if available == true  %>
+      <%if multiple_locations == false %>
+        <% location = availability["availAt"].keys[0] %>
+        <% callnumber = availability["availAt"].values[0] %>
+      <% elsif multiple_locations == true %> %>
+        <% location = "Multiple Locations" %>
+      <% end %>
+      <i class="fa fa-check" title="Available"></i>
+
+    <% elsif available == false %>
+        <% if availability["unavailAt"].size == 1 %>
+          <% location = availability["unavailAt"].keys[0] %>
+          <% callnumber = availability["unavailAt"].values[0] %>
+        <% elsif multiple_locations == true %>
+          <% location = "Multiple Locations" %>
+        <% end %>
+        <i class="fa fa-clock-o" title="Available by request"></i>
+    <% end %>
+    <% end %>
+
+
+
+    <span class="location">
+      <%= "#{location}" %>
+    </span>
+    <span class="callnumber">
+      <%= callnumber %>
+    </span>
+    <% if availability['notes'].present?  %>
+      <span class="onotes">
+        <%= "Order Information: " + onotes %>
+      </span>
+    <% end %>
+  </div>

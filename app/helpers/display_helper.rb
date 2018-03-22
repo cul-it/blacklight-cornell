@@ -1385,7 +1385,7 @@ end
     if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
       request.original_url.include?("request") || params[:controller]=='search_history' ||
       params[:controller] == 'advanced_search' || params[:controller]=='aeon' || params[:controller]=='browse' ||
-      params[:controller] == 'book_bags' 
+      params[:controller] == 'book_bags'
       return true
     end
   end
@@ -1478,6 +1478,7 @@ end
     end
     result = result.to_sentence.html_safe
   end
+
 
 # Render the search query constraint
   def render_search_to_s_q(params)

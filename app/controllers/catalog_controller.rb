@@ -203,6 +203,9 @@ end
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
+    if  RAILS_ENV = 'development'
+    config.add_facet_field 'availability_facet', :label => 'Availability Status'
+  end
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
@@ -289,6 +292,8 @@ end
     config.add_index_field 'pub_date', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition', :helper_method => :render_single_value
+    config.add_index_field 'availability_json', :label => 'Solr Availability json'
+
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     # These 3 title related fields called directly in _show_metadata partial
