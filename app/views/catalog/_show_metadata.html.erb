@@ -149,6 +149,10 @@
 
                                                                       <!-- holding description, notes, status -->
 
+                                                                      <% if i["holdings"].present? %>
+                                                                      Library has: <%= i["holdings"].join('<br />').html_safe %>
+                                                                      <% end %>
+
                                                                       <% if i["notes"].present? %>
                                                                       Notes: <%= i["notes"].join('<br />').html_safe %>
                                                                       <% end %>
@@ -217,9 +221,17 @@
                                                                                 </div>
 
                                                                                 <!-- holding description, notes, status -->
+
+                                                                                <% if i["holdings"].present? %>
+                                                                                Library has: <%= i["holdings"].join('<br />').html_safe %>
+                                                                                <% end %>
+                                                                                
                                                                                 <% if i["notes"].present? %>
                                                                                 Notes: <%= i["notes"].join('<br />').html_safe %>
                                                                                 <% end %>
+
+
+
                                                                                 <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
 
 
