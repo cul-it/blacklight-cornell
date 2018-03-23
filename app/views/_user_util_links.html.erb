@@ -47,24 +47,11 @@
         <% if !Bookbag.enabled? || (Bookbag.enabled? && !current_user)  %>
           <li>
             <% if !current_user && Bookbag.enabled? %>
-              <%= link_to bookmarks_path, {id:'bookmarks_nav', :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items'} do %>
-              <span><%= t('blacklight.header_links.bookmarks') %>
-               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)</span>
-              <% end %>
-              <% if ENV['SAML_IDP_TARGET_URL'] %>
-                <% if current_or_guest_user %>
-                  <% if !current_user %>
-                    <% @sign_in_link =
-                      if request.env['PATH_INFO'] == "/bookmarks" 
-                        '/book_bags/index'
-                      else
-                        '/users/auth/saml'
-                      end
-                    %>
-                    - <%= link_to 'Sign in', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
-                  <% end %>
-                <% end %>
-              <% end %>
+              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+              <%= t('blacklight.header_links.bookmarks') %>
+               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+            <% end %>
+
             <% else %>
               <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
               <%= t('blacklight.header_links.bookmarks') %>
