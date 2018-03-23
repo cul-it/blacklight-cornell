@@ -48,7 +48,11 @@
               <% if ENV['SAML_IDP_TARGET_URL'] %>
                 <% if current_or_guest_user %>
                   <% if !current_user %>
-                    - <%= link_to 'Sign in', '/users/auth/saml'   %>
+                    <% if request.env['PATH_INFO'] == "/bookmarks" %>
+                    - <%= link_to 'Sign in', '/book_bags/index' %>
+                    <% else %>
+                    - <%= link_to 'Sign in', '/users/auth/saml' %>
+                    <% end %>
                   <% end %>
                 <% end %>
               <% end %>
