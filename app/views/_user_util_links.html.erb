@@ -37,7 +37,6 @@
 
       <% if current_or_guest_user %>
         <% @bookmarks = current_or_guest_user.bookmarks %>
-        <%# Selected Items / Sign in link %>
         <% if !Bookbag.enabled? || (Bookbag.enabled? && !current_user)  %>
           <li>
             <% if !current_user && Bookbag.enabled? %>
@@ -63,6 +62,7 @@
               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
               <% end %>
             <% end %>
+
           </li>
         <% end %>
       <% end %>
