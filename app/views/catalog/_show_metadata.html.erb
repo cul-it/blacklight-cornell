@@ -69,7 +69,6 @@
                                           <%# print holdings %>
                   <div class="holdings" data-bibid="<%= @document.id.to_s %>">
                     <%= render "holdings" %>
-                    <div style="background-color:#cccccc">
 
 
                       <% holdings = JSON.parse(@document['holdings_json']) %>
@@ -99,7 +98,7 @@
                                 <%= render 'holdings_group',:items => items, :group => group %>
                                 <% end %>
 
-                              </div>
+
 
 
 
@@ -115,8 +114,6 @@
                             <% end %>
                             <span class="blacklight-url_access_display"></span>
                             <%= @hide_status %>
-                          </div>
-                        </div>
                         <%# end availability.well %>
 
                                                     <%# other forms %>

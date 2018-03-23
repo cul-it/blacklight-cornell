@@ -74,6 +74,8 @@
       <!-- holding description, notes, status -->
 
       <div class="group">
+        <% if i["items"].present? %>
+
         <% if i['items']['tempLoc'].present? %>
         <% i['items']['tempLoc'].each do |t| %>
           <div class="message">
@@ -81,6 +83,13 @@
           </div>
         <% end %>
         <% end %>
+        <% end %>
+
+        <div class="message">
+        <% if i['order'].present? %>
+          <%= i['order'] %>
+        <% end %>
+        </div>
 
 
         <div class="message">
@@ -100,9 +109,8 @@
           Notes: <%= i["notes"].join('<br />').html_safe %>
           <% end %>
         </div>
-
-        <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
       </div>
-      <% end %>
-
+    </div>
+    <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
+  <% end %>
   <%= render 'request_buttons', :group => group, :noncirc => noncirc, :@document => @document, :aeon_codes => aeon_codes, :not_spif => not_spif, :spif => :spif, :reading => reading, :reserve_item => reserve_item %>

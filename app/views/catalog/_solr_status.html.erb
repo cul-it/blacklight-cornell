@@ -19,8 +19,7 @@
         <% i['boundWith'].each do |b,v| %>
           t('blacklight.catalog.bound_with_status_label') <%=   link_to v["masterTitle"]+" "+v["masterEnum"], "/catalog/" + v["masterBibId"] %>
         <% end %>
-    <% elsif i["items"]["count"] == 0  %>
-    <%= I18n.t('blacklight.catalog.on_order') %> maybe!
+
     <% elsif i["items"]["count"] == 'none' %>
       <% if i['call'] == 'Available for the Library to Purchase' %>
         You can buy this?
@@ -39,6 +38,9 @@
     <% else %>
       <i class="fa fa-clock-o"></i>
     <% end %>
+
+
+
     <% if i["items"]["count"] >1 and !multi_vol %>
        <%= "#{i['count']} copies" %>
        <% end %>
@@ -50,4 +52,7 @@
       <% some_av = 'yes' %>
     <% end %>
     <% end %>
-  </div>
+
+    <% if i["order"].present?  %>
+    <i class="fa fa-clock-o"></i> <%= I18n.t('blacklight.catalog.on_order') %>
+    <% end %>
