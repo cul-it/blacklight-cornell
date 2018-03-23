@@ -47,12 +47,14 @@
               <% if ENV['SAML_IDP_TARGET_URL'] %>
                 <% if current_or_guest_user %>
                   <% if !current_user %>
-                    - <%= link_to 'Sign in', '/users/auth/saml', :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
-                    <% if request.env['PATH_INFO'] == "/bookmarks" %>
-                    - <%= link_to 'Sign in', '/book_bags/index' %>
-                    <% else %>
-                    - <%= link_to 'Sign in', '/users/auth/saml' %>
-                    <% end %>
+                    <% @sign_in_link =
+                      if request.env['PATH_INFO'] == "/bookmarks" 
+                        '/book_bags/index'
+                      else
+                        '/users/auth/saml'
+                      end
+                    %>
+                    - <%= link_to 'Sign in', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to save selected items', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
                   <% end %>
                 <% end %>
               <% end %>
