@@ -243,6 +243,8 @@ padding-left: 6em;
 	}
 	.info-button, .info-button:hover, .info-button:active, .info-button:focus {
 		border-bottom: 0;
+		// DISCOVERYACCESS-3983 - sometimes the info button breaks onto two lines in Firefox
+		display: inline-block;
 	}
 }
 
