@@ -124,7 +124,10 @@ div.request-options div.accordion-body .span4 {
     }
   }
 
-  caption { color: $medium-gray; }
+  caption {
+    color: $medium-gray;
+    text-align: center;
+  }
 }
 
 .form-alternative-action{
