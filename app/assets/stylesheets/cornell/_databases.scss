@@ -177,10 +177,15 @@
 }
 .return-link { 
 	text-align: right;
-	// font-size: 16px;
 }
 .pagination-wrapper {
 	text-align: center;
+}
+// catalog link on show page
+.resources {
+	.links {
+		margin-bottom: 1.5em;
+	}
 }
 
 // Terms of Use page
