@@ -78,14 +78,16 @@
                         <% online_items = [] %>
 
                         <% holdings.each do |k,holding| %>
+                        <% if holding["location"].present? %>
                           <% if holding["location"]["name"].include?('Rare') %>
                             <% rare_items << holding %>
-                            <% elsif holding["location"]["code"].include?('serv,remo') %>
-                              <% online_items << holding %>
                             <% else %>
                               <% circulating_items << holding %>
-                            <% end %>
                           <% end %>
+                        <% else %>
+                          <% online_items << holding %>
+                        <% end %>
+                        <% end %>
 
                           <% if !circulating_items.blank? %>
                             <% items = circulating_items.sort_by { |e| e["location"]["name"]  } %>

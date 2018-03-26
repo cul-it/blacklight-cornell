@@ -25,10 +25,13 @@
         c. 1
       <% end %>
         <% i["items"]["unavail"].each do |item| %>
-          <% if item["status"]["code"].keys[0]  == '2' || '3' %>
+          <% if item["status"]["due"].present? %>
             Checked out, due <%= Time.at(item["status"]["due"]).strftime("%F") %>
             <%  item["status"] = "checked_out" %>
         <%end %>
+        <% if item["recalls"].present? %>
+        (Requests: <%= item["recalls"] %>)
+        <% end %>
       <%end %>
     <% end %>
     <% if i["items"]["count"] >1 and !multi_vol %>
