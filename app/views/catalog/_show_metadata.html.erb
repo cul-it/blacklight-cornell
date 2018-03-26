@@ -69,8 +69,9 @@
                                           <%# print holdings %>
                   <div class="holdings" data-bibid="<%= @document.id.to_s %>">
                     <%= render "holdings" %>
+                  </div>
 
-
+                  <div class="holdings">
                       <% holdings = JSON.parse(@document['holdings_json']) %>
                         <% circulating_items = [] %>
                         <% rare_items = [] %>
@@ -79,24 +80,28 @@
                         <% holdings.each do |k,holding| %>
                           <% if holding["location"]["name"].include?('Rare') %>
                             <% rare_items << holding %>
-                              <% elsif holding["location"]["code"].include?('serv,remo') %>
-                                <% online_items << holding %>
-                                <% else %>
-                                  <% circulating_items << holding %>
-                                  <% end %>
-                                <% end %>
+                            <% elsif holding["location"]["code"].include?('serv,remo') %>
+                              <% online_items << holding %>
+                            <% else %>
+                              <% circulating_items << holding %>
+                            <% end %>
+                          <% end %>
 
-                                <% if !circulating_items.nil? %>
-                                <% items = circulating_items.sort_by { |e| e["location"]["name"]  } %>
-                                <% group = "Circulating" %>
-                                <%= render 'holdings_group',:items => items, :group => group %>
-                                <% end %>
+                          <% if !circulating_items.blank? %>
+                            <% items = circulating_items.sort_by { |e| e["location"]["name"]  } %>
+                            <% group = "Circulating" %>
+                            <%= render 'holdings_group',:items => items, :group => group %>
+                          <% end %>
 
-                                <% if !rare_items.nil? %>
-                                <% items = rare_items.sort_by { |e| e["location"]["name"]  } %>
-                                <% group = "Rare" %>
-                                <%= render 'holdings_group',:items => items, :group => group %>
-                                <% end %>
+                          <% if !rare_items.blank? %>
+                            <% items = rare_items.sort_by { |e| e["location"]["name"]  } %>
+                            <% group = "Rare" %>
+                            <% if circulating_items.present? %>
+                            <h3>Rare Items</h3>
+                            <% end %>
+                            <%= render 'holdings_group',:items => items, :group => group %>
+                          <% end %>
+                  </div>
 
 
 
@@ -161,7 +166,8 @@
                                                               </div>
                                                             <% end %>
                                                           </div>
-                                                        </div></div>
+                                                        </div>
+                                                      </div>
                                                           <%# end col-md-4 %>
                                                             <div class="col-md-8 col-md-pull-4">
                                                               <div class="pull-right item-cover">

@@ -1,42 +1,38 @@
   <div class="status">
     <% if i["items"].present? %>
-    <% if i["items"]["avail"].present? && noncirc == false  %>
-      <span class="online-label">
-        <i class="fa fa-check"></i>
-        <%= I18n.t('blacklight.catalog.available') %>
-      </span>
-      <% if i['items']['count'] == 1 %>
-        1 copy
-      <% end %>
-    <% elsif i["items"]["avail"].present?  and noncirc == true  %>
-      <% on_site_count += 1 %>
-      <span class="online-label">
-        <i class="fa fa-check fa-on-site" title="On-site use"></i>
-        <%= I18n.t('blacklight.catalog.available') %>
-      </span>
-      <%= I18n.t('blacklight.catalog.on_site') %>
-    <% elsif i['boundWith'].present? %>
-        <% i['boundWith'].each do |b,v| %>
-          t('blacklight.catalog.bound_with_status_label') <%=   link_to v["masterTitle"]+" "+v["masterEnum"], "/catalog/" + v["masterBibId"] %>
-        <% end %>
-
-    <% elsif i["items"]["count"] == 'none' %>
-      <% if i['call'] == 'Available for the Library to Purchase' %>
-        You can buy this?
-      <% else %>
-        <% if pda != 'yes' %>
-          <% on_site_count += 1 %>
+      <% if i["items"]["avail"].present? && noncirc == false  %>
+        <span class="online-label">
+          <i class="fa fa-check"></i>
+          <%= I18n.t('blacklight.catalog.available') %>
+        </span>
+          <% if i['items']['count'] == 1 %>
+            1 copy
+          <% end %>
+        <% elsif i["items"]["avail"].present?  and noncirc == true  %>
           <span class="online-label">
             <i class="fa fa-check fa-on-site" title="On-site use"></i>
             <%= I18n.t('blacklight.catalog.available') %>
           </span>
           <%= I18n.t('blacklight.catalog.on_site') %>
-        <% else  %>
-          Who knows
+        <% elsif i['boundWith'].present? %>
+            <% i['boundWith'].each do |b,v| %>
+              t('blacklight.catalog.bound_with_status_label') <%=   link_to v["masterTitle"]+" "+v["masterEnum"], "/catalog/" + v["masterBibId"] %>
         <% end %>
-      <% end %>
-    <% else %>
+
+      <% elsif i["items"]["unavail"].present? %>
       <i class="fa fa-clock-o"></i>
+      <% if i['items']['count'] == 1 %>
+        c. 1
+      <% end %>
+        <% i["items"]["unavail"].each do |item| %>
+          <% if item["status"]["code"].keys[0]  == '2' %>
+            Checked out, due <%= Time.at(item["status"]["due"]).strftime("%F") %>
+            <%  item["status"] = "checked_out" %>
+        <%end %>
+      <%end %>
+
+
+
     <% end %>
 
 
@@ -46,7 +42,6 @@
        <% end %>
     <% if i["items"]["count"] >1 and multi_vol %>
        <%= "#{i["items"]["count"]} volumes/copies" %>
-        #{details['count']} volumes/copies
         <% end %>
     <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>
       <% some_av = 'yes' %>
@@ -56,3 +51,4 @@
     <% if i["order"].present?  %>
     <i class="fa fa-clock-o"></i> <%= I18n.t('blacklight.catalog.on_order') %>
     <% end %>
+</div>
