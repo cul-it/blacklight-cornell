@@ -3,8 +3,8 @@ Feature: Bookmarks for anonymous users
     I want to be sure anonymous users can cite, export, and print selected items
 
     @bookmarks_exists
+    @javascript
     Scenario: Does the bookmarks page exist
-        Given PENDING javascript error
         When I literally go to bookmarks
         Then I should be on the bookmarks page
         And I should see a link "Sign in"
@@ -13,8 +13,11 @@ Feature: Bookmarks for anonymous users
     @bookmarks_sign_in
     @javascript
     Scenario: If I try to sign in, I have to log in
-        Given PENDING javascript error
+        When I go to the home page
+        Then show me the page
+        And I expect Javascript _paq to be defined
         When I literally go to bookmarks
+        And I expect Javascript _paq to be defined
         And click on link "Sign in"
         Then I should see the CUWebLogin page
 
