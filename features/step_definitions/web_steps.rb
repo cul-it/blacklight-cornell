@@ -89,3 +89,57 @@ When /^(?:|I )confirm popup "([^"]*)"$/ do |link|
   page.accept_confirm { click_link link }
 end
 
+Then("I should see a link {string}") do |string|
+  page.find("a", :text => "#{string}")
+end
+
+Then("I should see the CUWebLogin page") do
+  page.find("h1", :text => "CUWebLogin")
+  page.find("input.input-submit")
+  page.find("a", :text => "IT Service Desk")
+  page.find("a", :text => "I don't have a NetID, now what?")
+end
+
+Then("I select the first {int} catalog results") do |int|
+  @all_checkboxes = page.all(:css, "input.toggle_bookmark")
+  i = 0
+  while i < int
+    page.find(:xpath, @all_checkboxes[i].path).set(true)
+    i += 1
+  end
+end
+
+Then /^there should be ([0-9+]) items selected$/ do |int|
+  page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
+end
+
+Then("Sign in should link to the SAML login system") do
+  page.find(:xpath, "//a[@href='/users/auth/saml']", :text => "Sign in")
+end
+
+Then("Sign in should link to Book Bags") do
+  page.find(:xpath, "//a[@href='/book_bags/index']", :text => "Sign in")
+end
+
+When("I view my selected items") do
+  visit '/bookmarks'
+end
+
+When("I view my citations") do
+  what_is()
+  page.find(:xpath, '//a[@id="citeLink"]').click
+end
+
+def what_is(element)
+  puts "\n********************* what is V\n"
+  puts page.current_url.inspect
+  puts element.inspect
+  puts element['innerHTML']
+  puts "\n********************* what is ^\n"
+end
+
+Then /^show me id "(.*)"$/ do |string|
+  @path = "\/\/*[@id=\"#{string}\"]"
+  @chunk = page.find(:xpath, @path)
+  what_is(@chunk)
+end
