@@ -1,5 +1,5 @@
 <% if document['availability_json'].present? %>
-
+<%= document['availability_json'].inspect %><br />
 <% availability = JSON.parse(document['availability_json']) %>
 
 
@@ -31,7 +31,9 @@
 
 
     <span class="location">
+      <% unless location == "Library Technical Services Review Shelves" %>
       <%= "#{location}" %>
+      <% end %>
     </span>
     <span class="callnumber">
       <%= callnumber %>

@@ -19,9 +19,6 @@
     <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online label label-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);">Online</a>
   <% end %>
 
-  <div id="blacklight-avail-<%=document.id%>" class="status ">
-  <% if (simple_render_index_field_value document, :field => 'online').include?('At the Library') %>
-  <% end %>
+  <div class="status ">
+    <%= render :partial => 'availability_json', :locals => { :document => document} %>
   </div>
-
-  <%= render :partial => 'availability_json', :locals => { :document => document} %>
