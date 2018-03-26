@@ -143,3 +143,13 @@ Then /^show me id "(.*)"$/ do |string|
   @chunk = page.find(:xpath, @path)
   what_is(@chunk)
 end
+
+When("I expect Javascript _paq to be defined") do
+  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
+end
+
+When("I am certain Javascript _paq is defined") do
+  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be false
+  page.execute_script("var _paq = _paq || [];")
+  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
+end
