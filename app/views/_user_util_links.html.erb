@@ -32,12 +32,7 @@
                 user_session[:bookbag_count]
               end
               %>
-            <span>My Selected Items (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
-            <% end %>
-            <% if ENV['SAML_IDP_TARGET_URL'] %>
-              <% if current_user %>
-                - <%= link_to 'Sign out', destroy_user_session_path   %>
-              <% end %>
+            <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
             <% end %>
         </li>
       <% end %>
