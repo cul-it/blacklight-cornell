@@ -4,6 +4,7 @@ Feature: Bookmarks for anonymous users
 
     @bookmarks_exists
     Scenario: Does the bookmarks page exist
+        Given PENDING javascript error
         When I literally go to bookmarks
         Then I should be on the bookmarks page
         And I should see a link "Sign in"
@@ -12,6 +13,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_sign_in
     @javascript
     Scenario: If I try to sign in, I have to log in
+        Given PENDING javascript error
         When I literally go to bookmarks
         And click on link "Sign in"
         Then I should see the CUWebLogin page
@@ -19,6 +21,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_select_items
     @javascript
     Scenario Outline: I can see the count of my selected items
+        Given PENDING javascript error
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
@@ -39,6 +42,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_sign_in_links
     @javascript
     Scenario: I should log in via Book_bags from the Bookmarks page
+        Given PENDING javascript error
         Given I am on the home page
         Then Sign in should link to the SAML login system
         When I literally go to search_history
