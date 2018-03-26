@@ -84,7 +84,7 @@
                             <% else %>
                               <% circulating_items << holding %>
                           <% end %>
-                        <% else %>
+                        <% elsif holding["online"].present? %>
                           <% online_items << holding %>
                         <% end %>
                         <% end %>

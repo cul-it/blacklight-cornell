@@ -5,9 +5,13 @@
           <i class="fa fa-check"></i>
           <%= I18n.t('blacklight.catalog.available') %>
         </span>
-          <% if i['items']['count'] == 1 %>
-            1 copy
+        <% if i['copy'].present?  %>
+            c. <%= i['copy'] %>
           <% end %>
+          <% if i['items']['count'] == 1 %>
+           1 copy
+           <% end %>
+
         <% elsif i["items"]["avail"].present?  and noncirc == true  %>
           <span class="online-label">
             <i class="fa fa-check fa-on-site" title="On-site use"></i>
@@ -21,19 +25,28 @@
 
       <% elsif i["items"]["unavail"].present? %>
       <i class="fa fa-clock-o"></i>
-      <% if i['items']['count'] == 1 %>
-        c. 1
-      <% end %>
+
+
+
         <% i["items"]["unavail"].each do |item| %>
+        <% if i['copy'].present?  %>
+            c. <%= i['copy'] %>
+          <% end %>
+
           <% if item["status"]["due"].present? %>
             Checked out, due <%= Time.at(item["status"]["due"]).strftime("%F") %>
             <%  item["status"] = "checked_out" %>
+          <% elsif item["status"]["code"].keys[0] == "9" %>
+            In transit <%= Time.at(item["status"]["date"]).strftime("%F") %>
         <%end %>
-        <% if item["recalls"].present? %>
-        (Requests: <%= item["recalls"] %>)
+        <% if item["recalls"].present? || item["holds"].present? %>
+        <% item["recalls"] = 0 unless item["recalls"].present?  %>
+        <% item["holds"] = 0 unless item["holds"].present?  %>
+        (Requests: <%= item["holds"] + item["recalls"] %>)
         <% end %>
       <%end %>
     <% end %>
+
     <% if i["items"]["count"] >1 and !multi_vol %>
        <%= "#{items['count']} copies" %>
        <% end %>
