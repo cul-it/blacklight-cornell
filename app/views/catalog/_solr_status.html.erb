@@ -30,15 +30,9 @@
             <%  item["status"] = "checked_out" %>
         <%end %>
       <%end %>
-
-
-
     <% end %>
-
-
-
     <% if i["items"]["count"] >1 and !multi_vol %>
-       <%= "#{i['count']} copies" %>
+       <%= "#{items['count']} copies" %>
        <% end %>
     <% if i["items"]["count"] >1 and multi_vol %>
        <%= "#{i["items"]["count"]} volumes/copies" %>
