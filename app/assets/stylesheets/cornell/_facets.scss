@@ -47,6 +47,13 @@
 			text-decoration: none;
 		}
 	}
+	.top-panel-heading {
+		h2 {
+			padding-left: 0;
+			font-size: 18px;
+			margin-top: .5em;
+		}
+	}
 }
 .facet-values {
 	.facet-label {
@@ -312,12 +319,6 @@ form.range_limit {
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm) {
 	.facets {
-		.top-panel-heading {
-			h2 {
-				padding-left: 0;
-				font-size: 18px;
-			}
-		}
 		h5 {
 			font-size: 12px;
 		}	}
