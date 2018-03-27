@@ -15,7 +15,7 @@ Feature: Bookmarks for anonymous users
     @saml_on
     @bookmarks_sign_in
     Scenario: If I try to sign in, I have to log in
-        Given PENDING Piwik javascript variable _paq is undefined
+        #Given PENDING Piwik javascript variable _paq is undefined
         When I go to the home page
         #Then show me the page
         And I expect Javascript _paq to be defined
@@ -60,7 +60,7 @@ Feature: Bookmarks for anonymous users
     @javascript
     @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
-        Given PENDING when I get to /bookmarks I see 'You have no selected items.'
+        #Given PENDING when I get to /bookmarks I see 'You have no selected items.'
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
