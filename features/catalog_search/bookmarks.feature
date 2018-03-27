@@ -5,6 +5,7 @@ Feature: Bookmarks for anonymous users
 #     Given PENDING javascript error
 
     @bookmarks_exists
+    @saml_on
     Scenario: Does the bookmarks page exist
         When I literally go to bookmarks
         Then I should be on the bookmarks page
@@ -13,6 +14,7 @@ Feature: Bookmarks for anonymous users
 
     @bookmarks_sign_in
     @javascript
+    @saml_on
     Scenario: If I try to sign in, I have to log in
         When I literally go to bookmarks
         And click on link "Sign in"
@@ -40,6 +42,7 @@ Feature: Bookmarks for anonymous users
     
     @bookmarks_sign_in_links
     @javascript
+    @saml_on
     Scenario: I should log in via Book_bags from the Bookmarks page
         Given I am on the home page
         Then Sign in should link to the SAML login system
@@ -82,6 +85,6 @@ Feature: Bookmarks for anonymous users
     Then I should get results
     Then I should select checkbox "toggle_bookmark_8767648"
     Then click on link "Selected Items"
-    Then I should see the text "Marvel masterworks"
     And I should not see the text "You have no selected items."
+    Then I should see the text "Marvel masterworks"
 
