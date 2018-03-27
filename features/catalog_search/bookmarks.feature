@@ -25,7 +25,6 @@ Feature: Bookmarks for anonymous users
     @bookmarks_select_items
     @javascript
     Scenario Outline: I can see the count of my selected items
-        Given PENDING javascript error
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
@@ -46,7 +45,6 @@ Feature: Bookmarks for anonymous users
     @bookmarks_sign_in_links
     @javascript
     Scenario: I should log in via Book_bags from the Bookmarks page
-        Given PENDING javascript error
         Given I am on the home page
         Then Sign in should link to the SAML login system
         When I literally go to search_history
@@ -59,7 +57,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_cite_selected
     @javascript
     Scenario: I should be able to view citations for selected items
-        Given PENDING Selected Items do not show up on the /bookmarks page
+        Given PENDING when I get to /bookmarks I see 'You have no selected items.'
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
