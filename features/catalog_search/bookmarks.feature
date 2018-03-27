@@ -24,8 +24,8 @@ Feature: Bookmarks for anonymous users
         And click on link "Sign in"
         Then I should see the CUWebLogin page
 
-    @bookmarks_select_items
     @javascript
+    @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
         Given I am on the home page
 		When I fill in the search box with 'rope work'
@@ -57,8 +57,8 @@ Feature: Bookmarks for anonymous users
         When I literally go to bookmarks
         Then Sign in should link to Book Bags 
 
-    @bookmarks_cite_selected
     @javascript
+    @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
         Given PENDING when I get to /bookmarks I see 'You have no selected items.'
         Given I am on the home page
