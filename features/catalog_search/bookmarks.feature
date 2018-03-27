@@ -46,7 +46,7 @@ Feature: Bookmarks for anonymous users
     @javascript
     Scenario: I should log in via Book_bags from the Bookmarks page
         Given I am on the home page
-        Then show me xpath "/html/body/header/div/div/div[2]/ul/li[1]"
+        Then show me xpath "/html/body/header/div/div/div[2]/ul"
         Then Sign in should link to the SAML login system
         When I literally go to search_history
         Then Sign in should link to the SAML login system
