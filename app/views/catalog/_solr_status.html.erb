@@ -1,5 +1,6 @@
   <div class="status">
     <% if i["items"].present? %>
+    <% i["items"]
       <% if i["items"]["avail"].present? && noncirc == false  %>
         <span class="online-label">
           <i class="fa fa-check"></i>
