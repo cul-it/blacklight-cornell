@@ -70,9 +70,9 @@ Feature: Bookmarks for anonymous users
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
         Then I should see the text "Selected Items"
-        #Then show me id "main-container"
-        Then I should see the text "Cite"
         And I should not see the text "You have no selected items."
+        Then show me id "main-container"
+        Then I should see the text "Cite"
         And I view my citations
         And I sleep 6 seconds
         Then in modal '#ajax-modal' I should see label 'APA 6th ed.'
