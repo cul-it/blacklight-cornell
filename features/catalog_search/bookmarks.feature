@@ -6,7 +6,7 @@ Feature: Bookmarks for anonymous users
     @javascript
     Scenario: Does the bookmarks page exist
         When I literally go to bookmarks
-        Then I should be on the bookmarks page
+        Then I should be on 'the bookmarks page'
         And I should see a link "Sign in"
         And I should see a link "Selected Items"
 
@@ -64,7 +64,7 @@ Feature: Bookmarks for anonymous users
 		Then I should get results    
         Then I select the first 3 catalog results
         When I view my selected items
-        Then I should be on the bookmarks page
+        Then I should be on 'the bookmarks page'
         And there should be 3 items selected
         Then I should see the text "Selected Items"
         #Then show me id "main-container"
