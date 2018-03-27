@@ -7,7 +7,7 @@ Feature: Bookmarks for anonymous users
     Scenario: Does the bookmarks page exist
         When I literally go to bookmarks
         Then I should be on 'the bookmarks page'
-        And I should see a link "Sign in"
+        Then Sign in should link to Book Bags 
         And I should see a link "Selected Items"
 
     @bookmarks_sign_in
