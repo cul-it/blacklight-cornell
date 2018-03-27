@@ -161,7 +161,7 @@ end
   # Build a link to the CUL libraryhours page for the library location in question
   def render_location_link location_code
     loc_url = Location::help_page(location_code)
-    link_to('Hours/Map', loc_url, {:title => 'See hours and map'})
+    link_to('Hours/Map', loc_url, {:title => 'See hours and map', "aria-label"=>"Hours and map for " + location_code})
   end
 
   def yy_render_location_link location_code
