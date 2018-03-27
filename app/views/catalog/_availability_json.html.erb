@@ -10,7 +10,7 @@
 
 
     <% if available == true  %>
-    <div class="status">
+    <div class="status ">
       <%if multiple_locations == false %>
         <% location = availability["availAt"].keys[0] %>
         <% callnumber = availability["availAt"].values[0] %>
@@ -35,7 +35,7 @@
       <% end %>
 
     <% if unavailable == true %>
-    <div class="status">
+    <div class="status ">
         <% if availability["unavailAt"].size == 1 %>
           <% location = availability["unavailAt"].keys[0] %>
           <% callnumber = availability["unavailAt"].values[0] %>
@@ -43,7 +43,6 @@
           <% location = "Multiple Locations" %>
         <% end %>
         <i class="fa fa-clock-o" title="Available by request"></i>
-    <% end %>
     <span class="location">
       <% unless location == "Library Technical Services Review Shelves" %>
       <%= "#{location}" %>
@@ -58,4 +57,6 @@
       </span>
     <% end %>
   </div>
+
+    <% end %>
     <% end %>
