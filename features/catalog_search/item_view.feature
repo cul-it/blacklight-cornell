@@ -85,11 +85,11 @@ Feature: Item view
   #      And click on link "Request"
   #      Then I should see the label 'Upton, G. B. (George Burr), 1882-1942'
 
-  @aeon
-  @all_item_view
+  #@aeon
+  #@all_item_view
   #Scenario: View an items holdings, and request from aeon
   #  Given I request the item view for 2083253
-  #      And click on link "Request"
+  #      And click on first link "Request"
   #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
 
   @aeon
@@ -741,5 +741,5 @@ Feature: Item view
   @all_item_view
   Scenario: View an hotel items holdings, and have pointer to ILR help page.
     Given I request the item view for 330333
-        Then I should see the label 'On-site use'
-        And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+    Then I should see the label 'On-site use'
+    And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
