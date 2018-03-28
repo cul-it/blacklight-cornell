@@ -15,7 +15,8 @@ Feature: Select and export items from the result set
   Scenario: User select an item for list, and then see item in list. 
     Given I request the item view for 7981095 
     And click on link "Selected Items"
-    #And I confirm popup "Clear selected items"
+    And I sleep 5 seconds
+    And I confirm popup "Clear selected items"
     Then I should see the label 'You have no selected items'
     Given I request the item view for 7981095 
     Then I should select checkbox "toggle_bookmark_7981095"
@@ -30,7 +31,8 @@ Feature: Select and export items from the result set
   Scenario: User select an item for list, and then clears list. 
     Given I request the item view for 7981095 
     And click on link "Selected Items"
-    #And I confirm popup "Clear selected items"
+    And I sleep 5 seconds
+    And I confirm popup "Clear selected items"
     Then I should see the label 'You have no selected items'
     Given I request the item view for 7981095 
     Then I should select checkbox "toggle_bookmark_7981095"
@@ -46,7 +48,8 @@ Feature: Select and export items from the result set
   Scenario: User select an item for list, and then clears list. 
     Given I request the item view for 7981095 
     And click on link "Selected Items"
-    #And I confirm popup "Clear selected items"
+    And I sleep 5 seconds
+    And I confirm popup "Clear selected items"
     Then I should see the label 'You have no selected items'
     Given I request the item view for 7981095 
     Then I should select checkbox "toggle_bookmark_7981095"
