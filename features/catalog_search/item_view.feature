@@ -125,14 +125,14 @@ Feature: Item view
   @request_button
   @all_item_view
   @saml_off
-  Scenario: As a user I can request an item 
+  Scenario: As a user I can request an item, when not SAML involved. 
     Given I request the item view for 30000 
     Then it should have link "Request item" with value "/request/30000"  
 
   @request_button
   @all_item_view
   @saml_on
-  Scenario: As a user I can request an item 
+  Scenario: As a user I can request an item, when SAML involved.
     Given I request the item view for 30000 
     Then it should have link "Request" with value "/request/auth/30000"  
 
