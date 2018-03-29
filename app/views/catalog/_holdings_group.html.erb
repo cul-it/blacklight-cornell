@@ -20,6 +20,8 @@
 
 
 <% items.each do |i| %>
+<div class="holding">
+
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
   <% end %>
@@ -28,7 +30,6 @@
   <% noncirc = true %>
   <% end %>
 
-  <div class="holding">
   <% reserve_item = (i['location']['code'].include?(',res') ||  i['location']['code'].include?('oclc,afrp') || i['location']['name'].include?('Reserve')) %>
   <% if i["location"]["name"] !~ /Spacecraft Planetary Imaging Facility/ %>
     <% not_spif += 1  %>
@@ -106,6 +107,12 @@
         </div>
 
         <div class="message">
+          <% if i["indexes"].present? %>
+            Supplements: <%= i["indexes"].join('<br />').html_safe %>
+          <% end %>
+        </div>
+
+        <div class="message">
           <% if i["supplements"].present? %>
             Supplements: <%= i["supplements"].join('<br />').html_safe %>
           <% end %>
@@ -119,7 +126,8 @@
 
       </div>
     <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
+  </div>
+
   <% end %>
-</div>
 
   <%= render 'request_buttons', :group => group, :noncirc => noncirc, :@document => @document, :aeon_codes => aeon_codes, :not_spif => not_spif, :spif => :spif, :reading => reading, :reserve_item => reserve_item %>

@@ -1,8 +1,5 @@
 <% if document['availability_json'].present? %>
-<%= document['availability_json'].inspect %>
 <% availability = JSON.parse(document['availability_json']) %>
-
-
     <% onotes = availability["notes"] %>
 
 
