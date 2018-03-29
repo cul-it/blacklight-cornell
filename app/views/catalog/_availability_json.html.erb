@@ -1,5 +1,4 @@
 <% if document['availability_json'].present? %>
-<%= document['availability_json'].inspect %>
 <% availability = JSON.parse(document['availability_json']) %>
 
 
@@ -30,7 +29,7 @@
       <% if availability["unavailAt"].present? %>
       <% availability["unavailAt"].each do |location,callnumber| %>
     <div class="status ">
-          
+
         <i class="fa fa-clock-o" title="Available by request"></i>
     <span class="location">
       <% unless location == "Library Technical Services Review Shelves" %>
