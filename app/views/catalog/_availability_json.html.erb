@@ -1,22 +1,14 @@
 <% if document['availability_json'].present? %>
-<%#= document['availability_json'].inspect %>
+<%= document['availability_json'].inspect %>
 <% availability = JSON.parse(document['availability_json']) %>
 
 
-    <% available = availability["availAt"].present? %>
-    <% unavailable = availability["unavailAt"].present? %>
-    <% multiple_locations = availability["multiLoc"] %>
     <% onotes = availability["notes"] %>
 
 
-    <% if available == true  %>
+    <% if availability["availAt"].present? %>
+    <% availability["availAt"].each do |location,callnumber| %>
     <div class="status ">
-      <%if multiple_locations == false %>
-        <% location = availability["availAt"].keys[0] %>
-        <% callnumber = availability["availAt"].values[0] %>
-      <% elsif multiple_locations == true %> 
-        <% location = "Multiple Locations" %>
-      <% end %>
       <i class="fa fa-check" title="Available"></i>
       <span class="location">
         <% unless location == "Library Technical Services Review Shelves" %>
@@ -33,15 +25,12 @@
       <% end %>
     </div>
       <% end %>
+      <% end %>
 
-    <% if unavailable == true %>
+      <% if availability["unavailAt"].present? %>
+      <% availability["unavailAt"].each do |location,callnumber| %>
     <div class="status ">
-        <% if availability["unavailAt"].size == 1 %>
-          <% location = availability["unavailAt"].keys[0] %>
-          <% callnumber = availability["unavailAt"].values[0] %>
-        <% else %>
-          <% location = "Multiple Locations" %>
-        <% end %>
+          
         <i class="fa fa-clock-o" title="Available by request"></i>
     <span class="location">
       <% unless location == "Library Technical Services Review Shelves" %>
@@ -57,6 +46,7 @@
       </span>
     <% end %>
   </div>
+  <% end %>
 
     <% end %>
     <% end %>

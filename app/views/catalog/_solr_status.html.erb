@@ -1,18 +1,29 @@
   <div class="status">
+    <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
+    <span class="online-label">
+      <i class="fa fa-check fa-on-site" title="On-site use"></i>
+      <%= I18n.t('blacklight.catalog.available') %>
+    </span>
+    <%= I18n.t('blacklight.catalog.on_site') %>
+    <% end %>
+
     <% if i["items"].present? %>
       <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == false  %>
         <span class="online-label">
           <i class="fa fa-check"></i>
           <%= I18n.t('blacklight.catalog.available') %>
         </span>
-        <% if i['copy'].present?  %>
-            c. <%= i['copy'] %>
-        <% end %>
-        <% if i['items']['count'] == 1 %>
-           1 copy
+        <% if i["items"]["count"] == 1 %>
+        1 copy
         <% end %>
 
-      <% elsif i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true  %>
+
+        <% if i['items']['returned'].present? %>
+          Returned <%= Time.at(i['items']['returned'][0]['status']['date']).strftime("%F") %>
+        <% end %>
+
+
+      <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true) %>
         <span class="online-label">
           <i class="fa fa-check fa-on-site" title="On-site use"></i>
           <%= I18n.t('blacklight.catalog.available') %>
@@ -32,16 +43,20 @@
         <% if item['enum'].present?  %>
              <%= item['enum'] %>
           <% end %>
-        <% if item['copy'].present?  %>
-            c. <%= item['copy'] %>
+        <% if i['copy'].present?  %>
+            c. <%= i['copy'] %>
           <% end %>
 
           <% if item["status"]["code"].present? %>
             <% if item["status"]["code"].keys[0] == "2" || item["status"]["code"].keys[0] == "3" || item["status"]["code"].keys[0] == "4" %>
             Checked out, due <%= Time.at(item["status"]["due"]).strftime("%F") %>
             <%  item["status"] = "checked_out" %>
-          <% else %>
-          <%= item["status"]["code"].values[0]  %> <%= Time.at(item["status"]["date"]).strftime("%F") %>
+          <% elsif item["status"]["code"].keys[0] == "9" %>
+            In transit <%= Time.at(item["status"]["date"]).strftime("%F") %>
+            <% elsif item["status"]["code"].keys[0] == "12" %>
+              Missing <%= Time.at(item["status"]["date"]).strftime("%F") %>
+            <% else %>
+              Unavailable <%= Time.at(item["status"]["date"]).strftime("%F") %>
               <% end %>
         <%end %>
         <% if item["recalls"].present? || item["holds"].present? %>
@@ -50,6 +65,7 @@
         (Requests: <%= item["holds"] + item["recalls"] %>)
         <% end %>
       <%end %>
+
     <% end %>
 
     <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>

@@ -204,7 +204,7 @@ end
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
     if  RAILS_ENV = 'development'
-    config.add_facet_field 'availability_facet', :label => 'Availability Status'
+    config.add_facet_field 'availability_facet', :label => 'Availability Status', :limit => 30, :collapse => false
   end
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false

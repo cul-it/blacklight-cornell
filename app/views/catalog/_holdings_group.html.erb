@@ -17,9 +17,15 @@
 <% noncirc = true  %>
 <% end %>
 
+
+
 <% items.each do |i| %>
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
+  <% end %>
+
+  <% if !i["circ"].present? %>
+  <% noncirc = true %>
   <% end %>
 
   <div class="holding">
@@ -48,7 +54,9 @@
       <div class="location">
         <%= i["location"]["name"] %>
         <span class="map-it">
-          <%= render_location_link i['location']['code'] %>
+          <% if i['location']['hoursCode'].present? %>
+          <%= render_location_link i['location']['hoursCode'] %>
+          <% end %>
         </span>
       </div>
     <% end %>
