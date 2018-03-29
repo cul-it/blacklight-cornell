@@ -19,7 +19,7 @@
 
 
         <% if i['items']['returned'].present? %>
-          Returned <%= Time.at(i['items']['returned'][0]['status']['date']).strftime("%F") %>
+          Returned <%= Time.at(i['items']['returned'][0]['status']['date']).strftime("%m/%d/%y") %>
         <% end %>
 
 
@@ -49,14 +49,19 @@
 
           <% if item["status"]["code"].present? %>
             <% if item["status"]["code"].keys[0] == "2" || item["status"]["code"].keys[0] == "3" || item["status"]["code"].keys[0] == "4" %>
-            Checked out, due <%= Time.at(item["status"]["due"]).strftime("%F") %>
+            Checked out, due
+            <% if item["status"]["shortLoan"].present? %>
+              <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y, %l:%M %P") %>
+            <% else %>
+              <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y") %>
+            <% end %>
             <%  item["status"] = "checked_out" %>
           <% elsif item["status"]["code"].keys[0] == "9" %>
-            In transit <%= Time.at(item["status"]["date"]).strftime("%F") %>
+            In transit <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
             <% elsif item["status"]["code"].keys[0] == "12" %>
-              Missing <%= Time.at(item["status"]["date"]).strftime("%F") %>
+              Missing <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
             <% else %>
-              Unavailable <%= Time.at(item["status"]["date"]).strftime("%F") %>
+              Unavailable <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
               <% end %>
         <%end %>
         <% if item["recalls"].present? || item["holds"].present? %>
