@@ -67,10 +67,14 @@
                                       <%# online-holdings %><% end %>
                                       <%# end online %>
                                         <%# print holdings %>
+                <!-- api verion of holdings -->
+                <!--
                 <div class="holdings" data-bibid="<%= @document.id.to_s %>">
                   <%= render "holdings" %>
                 </div>
+              -->
 
+                <!-- solr verion of holdings -->
                 <div class="holdings">
                     <% holdings = JSON.parse(@document['holdings_json']) %>
                       <% circulating_items = [] %>
