@@ -38,12 +38,8 @@
       </span>
       <%= I18n.t('blacklight.catalog.on_site') %>
     </div>
-  <% elsif i['boundWith'].present? %>
-    <% i['boundWith'].each do |b,v| %>
-      <div class="status">
-        t('blacklight.catalog.bound_with_status_label') <%=   link_to v["masterTitle"]+" "+v["masterEnum"], "/catalog/" + v["masterBibId"] %>
-      </div>
-    <% end %>
+
+
   <% elsif i["items"]["unavail"].present? %>
     <% i["items"]["unavail"].each do |item| %>
       <div class="status">
@@ -73,7 +69,7 @@
           <% elsif item["status"]["code"].keys[0] == "7" || item["status"]["code"].keys[0] == "6" %>
               <%= item["status"]["code"].values[0] %>
           <% else %>
-            Unavailable. <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            Unavailable <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
           <% end %>
       <%end %>
       <% if item["recalls"].present? || item["holds"].present? %>

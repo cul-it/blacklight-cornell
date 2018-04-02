@@ -125,16 +125,16 @@ Feature: Item view
   @request_button
   @all_item_view
   @saml_off
-  Scenario: As a user I can request an item 
-    Given I request the item view for 30000 
-      Then it should have link "Request" with value "/request/30000"  
+  Scenario: As a user I can request an item
+    Given I request the item view for 30000
+      Then it should have link "Request" with value "/request/30000"
 
   @request_button
   @all_item_view
   @saml_on
-  Scenario: As a user I can request an item 
-    Given I request the item view for 30000 
-      Then it should have link "Request" with value "/request/auth/30000"  
+  Scenario: As a user I can request an item
+    Given I request the item view for 30000
+      Then it should have link "Request" with value "/request/auth/30000"
 
   # Availability simple, one location, and is available
   @availability
@@ -205,7 +205,7 @@ Feature: Item view
   #@all_item_view
   @availability
   Scenario: As a user I can see the availability for an item on order
-    Given I request the item view for 2696727 
+    Given I request the item view for 2696727
     Then I should see the label 'On Order'
 
   # On the other hand some subscriptions remain "on order" for years, and should NOT
@@ -224,7 +224,7 @@ Feature: Item view
   @availability
   @DISCOVERYACCESS-1220
   Scenario: As a user I can see the number of requests placed on an item
-    Given I request the item view for 5054489
+    Given I request the item view for 7943432
     Then I should see the label 'Requests'
 
   # Make sure that blocking call number display does not cause availability display probs.
@@ -251,7 +251,7 @@ Feature: Item view
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728
-    Then I should see the labels 'c. 1 Unavailable 2013-10-07'
+    Then I should see the labels 'Unavailable 10/07/13'
 
   # Availability for a Missing item Municipal innovations
   @all_item_view
@@ -297,14 +297,14 @@ Feature: Item view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 14)
     Given I request the item view for 5318858
-    Then I should see the label 'v.2 c. 2 Unavailable 2012-06-21'
+    Then I should see the label 'v.2 Unavailable 08/26/14'
 
   # Availability for a lost item status 13
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 13)
     Given I request the item view for 259600
-    Then I should see the label 'c. 1 Unavailable 2013-06-12'
+    Then I should see the label 'Unavailable 06/16/13'
 
   # Make sure subfield z is displayed.
   @all_item_view
@@ -360,7 +360,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see exactly what copy is available
     Given I request the item view for 1535861
-    Then I should see the label '1 Checked out'
+    Then I should see the label 'Available c. 5'
 
   # DISCOVERYACCESS-1409 -- this record returns we are sorry
   # thai language material
@@ -620,7 +620,7 @@ Feature: Item view
 @tou
 @all_item_view
   Scenario: Show links to multiple terms of use on electronic books
-  Given I request the item view for 8445988 
+  Given I request the item view for 8445988
   Then I should see the text 'Terms of use'
   And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
   And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/BKSAR"
@@ -679,7 +679,7 @@ Feature: Item view
   @all_item_view
   @DISCOVERYACCESS-2881
   Scenario: Show multiple links to other online content
-    Given I request the item view for 8913436 
+    Given I request the item view for 8913436
     Then I should see the label 'Online'
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
     And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"

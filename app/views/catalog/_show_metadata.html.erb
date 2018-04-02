@@ -67,17 +67,12 @@
                                       <%# online-holdings %><% end %>
                                       <%# end online %>
                                         <%# print holdings %>
-                <!-- api verion of holdings -->
-                <!--
-                <div class="holdings" data-bibid="<%= @document.id.to_s %>">
-                  <%= render "holdings" %>
-                </div>
-              -->
+
 
                 <!-- solr verion of holdings -->
                 <div class="holdings">
-                    <% holdings = JSON.parse(@document['holdings_json']) %>
-                      <% circulating_items = [] %>
+                  <% holdings = JSON.parse(@document['holdings_json']) %>
+                  <% circulating_items = [] %>
                       <% rare_items = [] %>
                       <% online_items = [] %>
 
@@ -107,7 +102,7 @@
                           <% end %>
                           <%= render 'holdings_group',:items => items, :group => group %>
                         <% end %>
-                </div>
+                    </div>
 
 
                 <%# access restrictions %>
@@ -118,8 +113,6 @@
                         <%= access_restrictions %>
                       </span>
                     <% end %>
-                    <span class="blacklight-url_access_display"></span>
-                    <%= @hide_status %>
                 <%# end availability.well %>
 
             <%# other forms %>
