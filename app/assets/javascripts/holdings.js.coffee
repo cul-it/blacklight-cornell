@@ -54,22 +54,22 @@ holdings =
       $(this).spin('holdings')
 
   loadHoldingsShortmInv: (id) ->
-    $.ajax
-      dataType: "json"
-      url: '/backend/holdings_shorthm/' + id
-      success: (data) ->
-        bids = Object.keys(data)
-        inv = (i for i in inviews when i.bibs is id)[0]
-        if inv && inv.waypoint
-          inv.waypoint.destroy()
-        for i in bids
-          $('#blacklight-avail-'+i).html(data[i])
-      error: (data) ->
+#    $.ajax
+#      dataType: "json"
+#      url: '/backend/holdings_shorthm/' + id
+#      success: (data) ->
+#        bids = Object.keys(data)
+#        inv = (i for i in inviews when i.bibs is id)[0]
+#        if inv && inv.waypoint
+#          inv.waypoint.destroy()
+#        for i in bids
+#          $('#blacklight-avail-'+i).html(data[i])
+#      error: (data) ->
         # If holdings service is unavailable, create array of batched bibs
         # from original string sent to service
-        bids = id.split('/')
-        $.each bids, (i, bibid) ->
-          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
+#        bids = id.split('/')
+#        $.each bids, (i, bibid) ->
+#          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
 
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
