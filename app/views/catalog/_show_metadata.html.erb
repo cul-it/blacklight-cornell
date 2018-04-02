@@ -64,6 +64,7 @@
                                           <% end %>
                                         <% end %>
                                       </div>
+
                                       <%# online-holdings %><% end %>
                                       <%# end online %>
                                         <%# print holdings %>
@@ -114,7 +115,8 @@
                       </span>
                     <% end %>
                 <%# end availability.well %>
-
+              </div>
+            </div>
             <%# other forms %>
               <% if  field_value('other_availability_json').present? || field_value('workid_display').present?   %>
                 <div class="availability panel panel-default">
@@ -158,9 +160,10 @@
                           <% end %>
                         </div>
                       </div>
-                    <% end %>
                   </div>
                 </div>
+                <% end %>
+
               </div>
                   <%# end col-md-4 %>
                     <div class="col-md-8 col-md-pull-4">
