@@ -148,6 +148,17 @@ Then /^show me xpath "(.*)"$/ do |string|
   what_is(@chunk)
 end
 
+Then /^show me hidden id "(.*)"$/ do |string|
+  @path = "\/\/*[@id=\"#{string}\"]"
+  @chunk = page.find(:xpath, @path, visible: false)
+  what_is(@chunk)
+end
+
+Then /^show me hidden xpath "(.*)"$/ do |string|
+  @chunk = page.find(:xpath, string, visible: false)
+  what_is(@chunk)
+end
+
 When("I expect Javascript _paq to be defined") do
   expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
 end
