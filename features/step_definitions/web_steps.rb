@@ -168,3 +168,14 @@ When("I am certain Javascript _paq is defined") do
   page.execute_script("var _paq = _paq || [];")
   expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
 end
+
+
+Then("the popup should include {string}") do |string|
+  begin
+    within_window(page.driver.browser.get_window_handles.last) do
+      @path = "\/\/*[text()=\'#{string}\']"
+      Find(:xpath, @path )
+    end
+  rescue => exception    
+  end
+end
