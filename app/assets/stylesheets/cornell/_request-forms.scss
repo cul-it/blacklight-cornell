@@ -21,7 +21,6 @@
     width: auto;
   }
 }
-.copy-callnumber { color: $light-gray; }
 .copy-chron {
   margin-left: 1em;
   font-weight: normal;
@@ -114,8 +113,21 @@ div.request-options div.accordion-body .span4 {
     {background-color: $white;}
 
   thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-  background-color: $light-tan;
-  color: $gray; }
+    background-color: $light-tan;
+    color: $gray;
+  }
+
+  // Add this to make thead always have a tan background because after adding caption to table it turns white
+  thead {
+    th {
+      background-color: $light-tan;
+    }
+  }
+
+  caption {
+    color: $medium-gray;
+    text-align: center;
+  }
 }
 
 .form-alternative-action{

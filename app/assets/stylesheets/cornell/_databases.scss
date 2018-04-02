@@ -70,6 +70,16 @@
 			margin-left: 0;
 		}
 	}
+	caption {
+		text-align: center;
+		color: $medium-gray;
+	}
+	// Add this to make thead always have a tan background because after adding caption to table it turns white
+	thead {
+	    th {
+	      background-color: $light-tan;
+	    }
+	}
 }
 .blacklight-database-name:first-child {
 	padding-top: 0;
@@ -167,10 +177,15 @@
 }
 .return-link { 
 	text-align: right;
-	// font-size: 16px;
 }
 .pagination-wrapper {
 	text-align: center;
+}
+// catalog link on show page
+.resources {
+	.links {
+		margin-bottom: 1.5em;
+	}
 }
 
 // Terms of Use page

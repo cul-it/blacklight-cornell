@@ -171,7 +171,7 @@ Feature: Select and export items from the result set
   Scenario: User needs to cite a manuscript record
     Given I request the item view for 2083900
     And click on link "Cite"
-    And I sleep 2 seconds
+    And I sleep 6 seconds
     Then I should see the label 'MLA 8th ed. Ezra Cornell Papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
     Then I should see the label 'MLA 7th ed. Ezra Cornell Papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
     Then I should see the label 'Council of Science Editors Ezra Cornell papers, #1-1-1. Division of Rare and Manuscript Collections, Cornell University Library.'
