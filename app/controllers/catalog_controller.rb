@@ -361,6 +361,7 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+  #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
 

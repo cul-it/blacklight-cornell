@@ -56,8 +56,13 @@
         <%= i["location"]["name"] %>
         <span class="map-it">
           <% if i['location']['hoursCode'].present? %>
-          <%= render_location_link i['location']['hoursCode'] %>
+          <% unless i["location"]["hoursCode"] == "spif" %>
+          <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'] %>
+          <% else %>
+            <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/" %>
+            <% end %>
           <% end %>
+
         </span>
       </div>
     <% end %>
@@ -118,7 +123,7 @@
 
         <div class="message">
           <% if i["holdings"].present? %>
-            Library has: <%= i["holdings"].join('<br />').html_safe %>
+            Library has: <%= holdings_html_safe(i["holdings"]) %>
           <% end %>
         </div>
 

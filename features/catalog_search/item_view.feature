@@ -549,8 +549,8 @@ Feature: Item view
   Scenario: Show the record properly when holding has bound with multiple barcodes
     Given I request the item view for 3158956
     Then I should see the label 'Bound with'
-    And it should have link "Revision of the genus Cinchona" with value "http://www.example.com/catalog/3147365"
-    And it should have link "Memoirs of the New York Botanical Garden" with value "http://www.example.com/catalog/297559"
+    And it should have link "Revision of the genus Cinchona" with value "/catalog/3147365"
+    And it should have link "Memoirs of the New York Botanical Garden" with value "/catalog/297559"
 
    #Given PENDING
   @all_item_view
@@ -561,10 +561,10 @@ Feature: Item view
     Then I should see the label 'bound with'
 
   @popular
-  @all_item_view
-    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such.
-    Given I request the item view for 293396
-    Then I should see the label 'Popular Reading Area'
+#  @all_item_view
+#    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such.
+#    Given I request the item view for 293396
+#    Then I should see the label 'Popular Reading Area'
 
 # this item is an online item, and has holding notes.
   @DISCOVERYACCESS-3325
@@ -697,7 +697,7 @@ Feature: Item view
     Given I request the item view for 9264410
     Then I should see the label 'On-site use'
     And I should not see the label 'Request item'
-    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
+    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
   # availability -- Spacecraft Planetary Imaging Facilty , and also another library.
   # make sure we do NOT block request button just because SPIF.
@@ -712,7 +712,7 @@ Feature: Item view
     Given I request the item view for 9203210
     Then I should see the label 'On-site use'
     And I should see the label 'Request item'
-    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/index.php?option=com_content&view=article&id=9&Itemid=9"
+    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
 
 
