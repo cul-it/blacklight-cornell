@@ -620,6 +620,7 @@ Feature: Item view
 @tou
 @all_item_view
   Scenario: Show links to multiple terms of use on electronic books
+  Given PENDING
   Given I request the item view for 8445988
   Then I should see the text 'Terms of use'
   And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
