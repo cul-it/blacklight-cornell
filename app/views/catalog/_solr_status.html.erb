@@ -1,0 +1,98 @@
+<% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
+  <div class="status">
+    <span class="online-label">
+      <i class="fa fa-check fa-on-site" title="On-site use"></i>
+      <%= I18n.t('blacklight.catalog.available') %>
+    </span>
+    <%= I18n.t('blacklight.catalog.on_site') %>
+  </div>
+  <% end %>
+
+<% if i["items"].present? %>
+  <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == false  %>
+    <%# i["items"]["avail"].each do |item| %>
+
+      <div class="status">
+        <span class="online-label">
+          <i class="fa fa-check"></i>
+          <%= I18n.t('blacklight.catalog.available') %>
+        </span>
+        <% if i['copy'].present? %>
+          c. <%= i['copy'] %>
+        <% end %>
+        <% if i['items']['returned'].present? %>
+          Returned <%= Time.at(i['items']['returned'][0]['status']['date']).strftime("%m/%d/%y") %>
+        <% end %>
+      </div>
+    <%# end %>
+
+
+  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true) %>
+    <div class="status">
+      <span class="online-label">
+        <i class="fa fa-check fa-on-site" title="On-site use"></i>
+        <%= I18n.t('blacklight.catalog.available') %>
+      </span>
+      <%= I18n.t('blacklight.catalog.on_site') %>
+    </div>
+
+
+  <% elsif i["items"]["unavail"].present? %>
+    <% i["items"]["unavail"].each do |item| %>
+      <div class="status">
+        <i class="fa fa-clock-o"></i>
+        <% if item['enum'].present?  %>
+          <%= item['enum'] %>
+        <% end %>
+        <% if i['copy'].present?  %>
+          c. <%= i['copy'] %>
+        <% end %>
+        <% if item["status"]["code"].present? %>
+          <% if item["status"]["code"].keys[0] == "2" || item["status"]["code"].keys[0] == "3" || item["status"]["code"].keys[0] == "4" %>
+            Checked out, due
+            <% if item["status"]["shortLoan"].present? %>
+              <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y, %l:%M %P") %>
+            <% else %>
+              <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y") %>
+            <% end %>
+          <% elsif item["status"]["code"].keys[0] == "9" || item["status"]["code"].keys[0] == "10" %>
+            In transit <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+          <% elsif item["status"]["code"].keys[0] == "12" %>
+            Missing <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+          <% elsif item["status"]["code"].keys[0] == "23"|| item["status"]["code"].keys[0] == "25" %>
+            Requested <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+          <% elsif item["status"]["code"].keys[0] == "18" %>
+              <%= item["status"]["code"].values[0] %> <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+          <% elsif item["status"]["code"].keys[0] == "7" || item["status"]["code"].keys[0] == "6" %>
+              <%= item["status"]["code"].values[0] %>
+          <% else %>
+            Unavailable <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+          <% end %>
+      <%end %>
+      <% if item["recalls"].present? || item["holds"].present? %>
+        <% item["recalls"] = 0 unless item["recalls"].present?  %>
+        <% item["holds"] = 0 unless item["holds"].present?  %>
+        (Requests: <%= item["holds"] + item["recalls"] %>)
+      <% end %>
+    </div>
+  <%end %>
+  <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>
+    <% some_av = 'yes' %>
+  <% end %>
+
+<% if some_av == 'yes'  %>
+  <div class="status">
+      <span class="online-label">
+        <i class="fa fa-check"></i>
+        <%= I18n.t('blacklight.catalog.available') %>
+      </span>
+      All other volumes/copies
+    </div>
+  <% end %>
+<% end %>
+<% end %>
+<% if i["order"].present?  %>
+  <div class="status">
+    <i class="fa fa-clock-o"></i> <%= I18n.t('blacklight.catalog.on_order') %>
+  </div>
+<% end %>
