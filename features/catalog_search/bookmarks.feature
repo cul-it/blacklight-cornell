@@ -20,6 +20,7 @@ Feature: Bookmarks for anonymous users
         And click on link "Sign in"
         Then I should see the CUWebLogin page
 
+    @bookmarks
     @bookmarks_select_items
     @javascript
     Scenario Outline: I can see the count of my selected items
@@ -40,6 +41,7 @@ Feature: Bookmarks for anonymous users
     | 4 |
     | 5 |
     
+    @bookmarks
     @bookmarks_sign_in_links
     @javascript
     @saml_on
@@ -56,6 +58,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_cite_selected
     @javascript
     Scenario: I should be able to view citations for selected items
+    Given PENDING  
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
@@ -79,6 +82,11 @@ Feature: Bookmarks for anonymous users
   @bookmarks
   @javascript
   Scenario: Search with 2 results, select, and email them 
+    Given PENDING  
+    Given I am on the home page
+    And click on link "Selected Items"
+    And I sleep 5 seconds
+    And I confirm popup "Clear selected items"
     Given I am on the home page
     When I fill in the search box with 'marvel masterworks'
     And I press "search"
