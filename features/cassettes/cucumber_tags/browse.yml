@@ -22013,4 +22013,778 @@ http_interactions:
 '
     http_version: 
   recorded_at: Mon, 02 Apr 2018 19:01:27 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22Dickens,%20Charles,%201812-1870%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:39 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:39 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:55:36 GMT
+      Etag:
+      - '"YTg4ZjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1958'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Dickens, Charles, 1812-1870\"",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"docs":[
+              {
+                "heading":"Dickens, Charles, 1812-1870",
+                "alternateForm":["Dickens, Karol, 1812-1870",
+                  "Digengsi, 1812-1870",
+                  "Dikens, Charlz, 1812-1870",
+                  "Dikensas, Čarlzas, 1812-1870",
+                  "Dikensi, Čʻarlz, 1812-1870",
+                  "Dikkens, Charlz, 1812-1870",
+                  "Ti-keng-ssu, 1812-1870",
+                  "Ṭikkan̲cu, Cārlacu, 1812-1870",
+                  "Ṭikkan̲s, Cārlas, 1812-1870",
+                  "Ṭikkan̲s, Cārls, 1812-1870",
+                  "Диккенс, Чарлз, 1812-1870",
+                  "דיקינס, צ׳רלס, 1812-1870",
+                  "דיקנס, טשרלס",
+                  "דיקנס, צ׳רלז, 1870־1812",
+                  "דיקנס, צ׳רלס",
+                  "דיקנס, צ׳רלס, 1812-1870",
+                  "דיקנס,ַ  צ׳רלז",
+                  "דיקענס, טש",
+                  "דיקענס, טש., 1812־1870",
+                  "דיקענס, טשארלז",
+                  "דיקענס, טשארלז, 1812־1870",
+                  "דיקקענס, טשארלז",
+                  "טשרלס, דיקנס",
+                  "チャールズ.ディケンズ, 1812-1870",
+                  "狄更斯查尔斯, 1812-1870"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "notes":["[\"For works of this author entered under other names, search also under:\",{\"header\":\"Boz, 1812-1870\"},\"and\",{\"header\":\"Sparks, Timothy, 1812-1870\"}]"],
+                "rda_json":"{\"Place of Death\":[\"Higham (Kent, England)\"],\"Field\":[\"English literature\"],\"Occupation\":[\"Authors\"],\"Birth Place\":[\"Portsea Island (England)\"],\"Gender\":[\"male\"]}",
+                "count":693,
+                "counts_json":"{\"worksBy\":693,\"worksAbout\":1012}"}]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:39 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22China%20%7C%20History%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:43 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:43 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:55:36 GMT
+      Etag:
+      - '"YTg4ZjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '199'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"China | History\"",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"docs":[]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:43 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/subject/browse?q=%22China%20%7C%20History%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:43 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:43 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:58:16 GMT
+      Etag:
+      - '"OTU0NzAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1035'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"China | History\"",
+              "wt":"json"}},
+          "response":{"numFound":3,"start":0,"docs":[
+              {
+                "heading":"China > History",
+                "alternateForm":["Chinese question"],
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":22320,
+                "counts_json":"{\"worksAbout\":22320}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Topical Term",
+                "blacklightField":"subject_topic_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":433,
+                "counts_json":"{\"worksAbout\":433}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Corporate Name",
+                "blacklightField":"subject_corp_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":2}"}]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:43 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22Prince.%20%7C%20Purple%20rain%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:45 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:45 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:55:36 GMT
+      Etag:
+      - '"YTg4ZjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '205'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Prince. | Purple rain\"",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"docs":[]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:45 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/authortitle/browse?q=%22Prince.%20%7C%20Purple%20rain%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:45 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:45 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:55:35 GMT
+      Etag:
+      - '"Y2ViYjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '431'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Prince. | Purple rain\"",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"docs":[
+              {
+                "heading":"Prince. | Purple rain",
+                "blacklightField":"authortitle_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":3,
+                "counts_json":"{\"worksAbout\":2,\"works\":3}"}]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:45 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%5B%22Dickens,%20Charles%22%20TO%20*%5D&start=0&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:49 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:50 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:55:36 GMT
+      Etag:
+      - '"YTg4ZjAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '8805'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"[\"Dickens, Charles\" TO *]",
+              "start":"0",
+              "wt":"json"}},
+          "response":{"numFound":4980686,"start":0,"docs":[
+              {
+                "heading":"Dickens, Charles",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":43,
+                "counts_json":"{\"worksBy\":43,\"worksAbout\":4}"},
+              {
+                "heading":"Dickens, Charles, 1719-1793",
+                "alternateForm":["Dikkens, Charlz, 1719-1793"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":10,
+                "counts_json":"{\"worksBy\":10,\"worksAbout\":2}"},
+              {
+                "heading":"Dickens, Charles, 1812-1870",
+                "alternateForm":["Dickens, Karol, 1812-1870",
+                  "Digengsi, 1812-1870",
+                  "Dikens, Charlz, 1812-1870",
+                  "Dikensas, Čarlzas, 1812-1870",
+                  "Dikensi, Čʻarlz, 1812-1870",
+                  "Dikkens, Charlz, 1812-1870",
+                  "Ti-keng-ssu, 1812-1870",
+                  "Ṭikkan̲cu, Cārlacu, 1812-1870",
+                  "Ṭikkan̲s, Cārlas, 1812-1870",
+                  "Ṭikkan̲s, Cārls, 1812-1870",
+                  "Диккенс, Чарлз, 1812-1870",
+                  "דיקינס, צ׳רלס, 1812-1870",
+                  "דיקנס, טשרלס",
+                  "דיקנס, צ׳רלז, 1870־1812",
+                  "דיקנס, צ׳רלס",
+                  "דיקנס, צ׳רלס, 1812-1870",
+                  "דיקנס,ַ  צ׳רלז",
+                  "דיקענס, טש",
+                  "דיקענס, טש., 1812־1870",
+                  "דיקענס, טשארלז",
+                  "דיקענס, טשארלז, 1812־1870",
+                  "דיקקענס, טשארלז",
+                  "טשרלס, דיקנס",
+                  "チャールズ.ディケンズ, 1812-1870",
+                  "狄更斯查尔斯, 1812-1870"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "notes":["[\"For works of this author entered under other names, search also under:\",{\"header\":\"Boz, 1812-1870\"},\"and\",{\"header\":\"Sparks, Timothy, 1812-1870\"}]"],
+                "rda_json":"{\"Place of Death\":[\"Higham (Kent, England)\"],\"Field\":[\"English literature\"],\"Occupation\":[\"Authors\"],\"Birth Place\":[\"Portsea Island (England)\"],\"Gender\":[\"male\"]}",
+                "count":693,
+                "counts_json":"{\"worksBy\":693,\"worksAbout\":1012}"},
+              {
+                "heading":"Dickens, Charles, 1812-1870,Chesterton, G. K. (Gilbert Keith), 1874-1936. Introduction",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Charles, 1837-1896",
+                "alternateForm":["Dickens, Charles Culliford Boz, 1837-1896",
+                  "Dickens, Charles, Jr., 1837-1896",
+                  "Dickens, Charles, the Younger, 1837-1896"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "rda_json":"{\"Place of Death\":[\"London (England)\"],\"Gender\":[\"male\"]}",
+                "count":11,
+                "counts_json":"{\"worksBy\":11,\"worksAbout\":2}"},
+              {
+                "heading":"Dickens, Charles Culliford Boz, 1837-1896",
+                "see":["{\"worksBy\":11,\"worksAbout\":2,\"heading\":\"Dickens, Charles, 1837-1896\",\"count\":11,\"headingTypeDesc\":\"Personal Name\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Charles, Jr., 1837-1896",
+                "see":["{\"worksBy\":11,\"worksAbout\":2,\"heading\":\"Dickens, Charles, 1837-1896\",\"count\":11,\"headingTypeDesc\":\"Personal Name\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Charles, Mrs., 1815-1879",
+                "see":["{\"worksBy\":1,\"worksAbout\":4,\"heading\":\"Dickens, Catherine, 1815-1879\",\"count\":1,\"headingTypeDesc\":\"Personal Name\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Charles, the Younger, 1837-1896",
+                "see":["{\"worksBy\":11,\"worksAbout\":2,\"heading\":\"Dickens, Charles, 1837-1896\",\"count\":11,\"headingTypeDesc\":\"Personal Name\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Chris",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "rda_json":"{\"Country\":[\"Great Britain\",\"England\"],\"Gender\":[\"male\"]}",
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Daniel G",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, David",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":2,
+                "counts_json":"{\"worksBy\":2,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, David R.",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":2,
+                "counts_json":"{\"worksBy\":2,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Dorothy Lee",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, E. D.",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, E. Larry (Edwin Larry)",
+                "alternateForm":["Dickens, Edwin Larry"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Edwin Larry",
+                "see":["{\"worksBy\":1,\"worksAbout\":0,\"heading\":\"Dickens, E. Larry (Edwin Larry)\",\"count\":1,\"headingTypeDesc\":\"Personal Name\",\"relationship\":\"Later Form of Heading\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Edwin T.",
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":1,
+                "counts_json":"{\"worksBy\":1,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Elijah Mushemeza",
+                "see":["{\"worksBy\":1,\"worksAbout\":0,\"heading\":\"Mushemeza, Elijah Dickens\",\"count\":1,\"headingTypeDesc\":\"Personal Name\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"},
+              {
+                "heading":"Dickens, Elizabeth Suzanne",
+                "see":["{\"worksBy\":1,\"worksAbout\":0,\"heading\":\"Dickens, Suzanne\",\"count\":1,\"headingTypeDesc\":\"Personal Name\"}"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":false,
+                "count":0,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":0}"}]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:50 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/subject/browse?q=%5B%22China%20%3E%20History%22%20TO%20*%5D&start=0&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Mon, 02 Apr 2018 22:31:52 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 02 Apr 2018 22:31:52 GMT
+      Last-Modified:
+      - Mon, 02 Apr 2018 04:58:16 GMT
+      Etag:
+      - '"OTU0NzAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '5758'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"[\"China > History\" TO *]",
+              "start":"0",
+              "wt":"json"}},
+          "response":{"numFound":4958376,"start":0,"docs":[
+              {
+                "heading":"China > History",
+                "alternateForm":["Chinese question"],
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":22320,
+                "counts_json":"{\"worksAbout\":22320}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Topical Term",
+                "blacklightField":"subject_topic_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":433,
+                "counts_json":"{\"worksAbout\":433}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Corporate Name",
+                "blacklightField":"subject_corp_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":2}"},
+              {
+                "heading":"China > History > 1368-1644",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":3,
+                "counts_json":"{\"worksAbout\":3}"},
+              {
+                "heading":"China > History > 1643-1856",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksAbout\":2}"},
+              {
+                "heading":"China > History > 1644-1795",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":49,
+                "counts_json":"{\"worksAbout\":49}"},
+              {
+                "heading":"China > History > 1644-1795",
+                "headingTypeDesc":"Topical Term",
+                "blacklightField":"subject_topic_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksAbout\":2}"},
+              {
+                "heading":"China > History > 1644-1795 > Anecdotes",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":5,
+                "counts_json":"{\"worksAbout\":5}"},
+              {
+                "heading":"China > History > 1644-1795 > Anecdotes, facetiae, satire, etc",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 1644-1795 > Biography",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksAbout\":2}"},
+              {
+                "heading":"China > History > 1644-1795 > Congresses",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 1644-1795 > Fiction",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 1644-1795 > Sources",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksAbout\":2}"},
+              {
+                "heading":"China > History > 1644-1912",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":4,
+                "counts_json":"{\"worksAbout\":4}"},
+              {
+                "heading":"China > History > 1644-1912 > Biography",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 1644-1912 > Sources",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 16th century",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 1766 B. C.-220 A. D",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":3,
+                "counts_json":"{\"worksAbout\":3}"},
+              {
+                "heading":"China > History > 1766 B.C",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"},
+              {
+                "heading":"China > History > 1766 B.C. > 220 A.D",
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":1,
+                "counts_json":"{\"worksAbout\":1}"}]
+          }}
+    http_version: 
+  recorded_at: Mon, 02 Apr 2018 22:31:52 GMT
 recorded_with: VCR 4.0.0
