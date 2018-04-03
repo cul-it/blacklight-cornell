@@ -168,7 +168,7 @@ holdings =
   bindEventListener: () ->
     $('.retry-availability').click ->
       holdings.loadSpinner()
-      holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
+    #  holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
       return false
 
     # Set up 'loading' spinner for when request button is clicked
