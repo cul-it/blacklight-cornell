@@ -158,7 +158,7 @@ Feature: Search
     Then I should get results
     And I sleep 15 seconds
     And I should see the "fa-check" class
-    And I should see the label 'Multiple locations'
+    And I should see the label 'Olin Library'
 
     #And I fill in the search box with 'Atlas des missions de la Société des Missions-Etrangère'
  @all_search
