@@ -24,11 +24,11 @@ Feature: Select and export items from the result set
     Then I should see the label 'Shelter medicine for veterinarians and staff'
 
 # there is a popup dialog, but poltergeist auto clicks okay,
+#  Given PENDING
 @all_select_and_export
 @javascript
 @popup
   Scenario: User select an item for list, and then clears list.
-  Given PENDING
     Given I request the item view for 7981095
     And click on link "Selected Items"
     And I sleep 5 seconds
@@ -40,11 +40,11 @@ Feature: Select and export items from the result set
     And I confirm popup "Clear selected items"
     Then I should see the label 'You have no selected items'
 
+  #Given PENDING
 # there is a popup dialog, but poltergeist auto clicks okay,
 @javascript
 @popup
-  Scenario: User select an item for list, and then clears list.
-  Given PENDING
+  Scenario: User select an item for list, and then clicks clear list but then cancels..
     Given I request the item view for 7981095
     And click on link "Selected Items"
     And I sleep 5 seconds
