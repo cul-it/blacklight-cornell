@@ -23,6 +23,8 @@ Feature: Bookmarks for anonymous users
         And click on link "Sign in"
         Then I should see the CUWebLogin page
 
+    @bookmarks
+    @bookmarks_select_items
     @javascript
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
@@ -43,6 +45,8 @@ Feature: Bookmarks for anonymous users
     | 4 |
     | 5 |
     
+    @bookmarks
+    @bookmarks_sign_in_links
     @javascript
     @saml_on
     @bookmarks_sign_in_links
