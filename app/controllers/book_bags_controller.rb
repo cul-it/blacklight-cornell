@@ -138,7 +138,14 @@ class BookBagsController < CatalogController
     if   ENV['SAML_IDP_TARGET_URL']
       if request.xhr? && flash[:success]
         if docs.size < 2
-          render :js => "window.location = '/catalog/#{params[:id]}'"
+
+          if !params[:id][0].nil?
+            bibid = params[:id][0] 
+            render :js => "window.location = '/catalog/#{bibid}'"
+          else
+            render :js => "window.location = '/catalog"
+          end
+
         else
           render :js => "window.location = '/book_bags/index'"
         end

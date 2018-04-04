@@ -38,3 +38,6 @@ db/test.sqlite3-journal
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Ignore redis binary dump (dump.rdb) files
+*.rdb

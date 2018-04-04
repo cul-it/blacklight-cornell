@@ -43,6 +43,11 @@
   <%= render 'results_pagination' %>
 
 <% end %>
+<% if ENV['RAILS_ENV'] == 'test' %>
+<script>
+  _paq = []
+</script>
+<% end %>
 
 
 

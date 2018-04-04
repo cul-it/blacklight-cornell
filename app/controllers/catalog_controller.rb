@@ -203,6 +203,9 @@ end
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
+    #if  RAILS_ENV = 'development'
+    #config.add_facet_field 'availability_facet', :label => 'Availability Status', :limit => 30, :collapse => false
+    #end
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
@@ -221,20 +224,27 @@ end
     config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
-    config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
+    #config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
+    config.add_facet_field 'location',
+                          label: 'Library Location',
+                          partial: 'blacklight/hierarchy/facet_hierarchy',
+                          sort: 'index',
+                          limit: 100
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
-     config.add_facet_field 'lc_callnum_facet',
-                            if: :has_search_parameters?,
-                           label: 'Call Number',
-                           partial: 'blacklight/hierarchy/facet_hierarchy',
-                           sort: 'index'
-    #config.add_facet_field 'acquired_month', :show => true, :label => "Month Acquired", :limit => 5, if: :has_search_parameters?
-    config.facet_display = {
-      :hierarchy => {
-        'lc_callnum' => [['facet'], ':']
-      }
-  }
+    config.add_facet_field 'lc_callnum_facet',
+                           if: :has_search_parameters?,
+                          label: 'Call Number',
+                          partial: 'blacklight/hierarchy/facet_hierarchy',
+                          sort: 'count'
+
+
+   config.facet_display = {
+     :hierarchy => {
+       'lc_callnum' => [['facet'], ':'],
+       'location' => [[nil],' > ']
+     }
+ }
 
     config.add_facet_field 'collection', :show => false
 
@@ -351,6 +361,7 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+  #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
 

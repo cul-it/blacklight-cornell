@@ -1,10 +1,5 @@
-.bookmarks-index {
-	// #sort-dropdown, #per_page-dropdown {
-	// 	display: block;
-	// }
-	// #per_page-dropdown {
-	// 	button { margin-right: 5px; }
-	// }
+.bookmarks-index,
+.book_bags-index {
 	.item-tools {
 		margin-top: .5em;
 	}
@@ -61,7 +56,8 @@
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm) { 
-  	.bookmarks-index {
+  	.bookmarks-index,
+  	.book_bags-index {
 		#sort-dropdown, #per_page-dropdown {
 			float: right;
 		}
@@ -69,8 +65,4 @@
 		#sort-dropdown {
 			margin-right: 5px;
 		}
-	// 	#per_page-dropdown {
-	// 		button { margin-right: 0; }
-	// 	}
-	// }
 }

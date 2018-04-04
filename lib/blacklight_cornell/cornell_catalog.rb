@@ -232,6 +232,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     set_bag_name 
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     respond_to do |format|
+      format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
       format.rss  { render :layout => false }
@@ -333,9 +334,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       else
         @response, @documents = fetch(params[:id])
       end
+      fmt = params[:format]
+      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
       respond_to do |format|
-        format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.ris      { render 'ris', :layout => false }
+        format.endnote_xml { render "show.endnote_xml" ,layout: false } 
+        format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+        format.ris         { render 'ris', :layout => false }
       end
     end
 

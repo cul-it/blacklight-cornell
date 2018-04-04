@@ -63,13 +63,13 @@ holdings =
         if inv && inv.waypoint
           inv.waypoint.destroy()
         for i in bids
-          $('#blacklight-avail-'+i).html(data[i])
+          $('#blacklight-avail-bento-'+i).html(data[i])
       error: (data) ->
         # If holdings service is unavailable, create array of batched bibs
         # from original string sent to service
         bids = id.split('/')
         $.each bids, (i, bibid) ->
-          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
+          $('#blacklight-avail-bento-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
 
   # Define calls to holding service. Called on page load
   bindHoldingService: () ->
@@ -81,7 +81,7 @@ holdings =
     that = this
     batchf = 4
     n = 0
-    $('body.book_bags-index .document,  body.catalog-index .document, body.bookmarks-index .document, .bento_item').each ->
+    $('.bento_item').each ->
       bibId = $(this).data('bibid')
       online = $(this).data('online')
       atl = $(this).data('atl')
@@ -101,7 +101,7 @@ holdings =
             holdings.loadHoldingsShortmInv(showbibs)
           else
             inview = new Waypoint.Inview({
-              element: $('#blacklight-avail-'+first)
+              element: $('#blacklight-avail-bento-'+first)
               entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
             })
             inviews.push { bibs: showbibs, waypoint: inview}
@@ -113,7 +113,7 @@ holdings =
       tibids = []
       if (showbibs != '')
         inview = new Waypoint.Inview({
-          element: $('#blacklight-avail-'+first)
+          element: $('#blacklight-avail-bento-'+first)
           entered:  (direction) -> holdings.loadHoldingsShortmInv(showbibs)
          })
         inviews.push { bibs: showbibs, waypoint: inview}
@@ -162,13 +162,13 @@ holdings =
         # from original string sent to service
         bids = id.split('/')
         $.each bids, (i, bibid) ->
-          $('#blacklight-avail-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
+          $('#blacklight-avail-bento-'+bibid).html('<i class="fa fa-warning"></i> <span class="location">Unable to retrieve availability</span>')
 
   # Event listener called on page load
   bindEventListener: () ->
     $('.retry-availability').click ->
       holdings.loadSpinner()
-      holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
+    #  holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
       return false
 
     # Set up 'loading' spinner for when request button is clicked
