@@ -56,7 +56,7 @@
                                                 <div class="message"><%= summary_holdings.html_safe %></div>
                                                 <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
                                                   <span class="terms-of-use">
-                                                    <a href="/catalog/tou/<%= @document[:id] %>/<%= l[" providercode"] %>/<%= l[" dbcode"] %>"="dbcode" ]="]" %="%">Terms of use</a>
+                                                    <a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>"="dbcode" ]="]" %="%">Terms of use</a>
                                                   </span>
                                                 <% end %>
                                               </div>
