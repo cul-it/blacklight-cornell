@@ -81,7 +81,7 @@ holdings =
     that = this
     batchf = 4
     n = 0
-    $('.bento_item').each ->
+    $('.bento_itemx').each ->
       bibId = $(this).data('bibid')
       online = $(this).data('online')
       atl = $(this).data('atl')
