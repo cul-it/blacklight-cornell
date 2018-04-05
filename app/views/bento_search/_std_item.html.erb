@@ -99,10 +99,56 @@
     </div>
     <% if is_cataloged(item.link) %>
       <% if item.custom_data['url_online_access'].present? %>
-             <i class="fa fa-check" title="Available"></i> <a class="status-online location label label-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>">Online</a>
-       <% end %>
+        <i class="fa fa-check" title="Available"></i> <a class="status-online location label label-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>">Online</a>
+      <% end %>
+      <% if item.custom_data['availability_json'].present? %>
+      <% availability = JSON.parse(item.custom_data['availability_json']) %>
+          <% onotes = availability["notes"] %>
+          <% if availability["availAt"].present? %>
+          <% availability["availAt"].each do |location,callnumber| %>
+          <div class="bento_item_avail">
+            <i class="fa fa-check" title="Available"></i>
+            <span class="location">
+              <% unless location == "Library Technical Services Review Shelves" %>
+              <%= "#{location}" %>
+              <% end %>
+            </span>
+            <span class="callnumber">
+              <%= callnumber %>
+            </span>
+            <% if availability['notes'].present?  %>
+              <span class="onotes">
+              Order Information:   <%=  onotes %>
+              </span>
+            <% end %>
+          </div>
 
-       <div  class="bento_item_avail"   class="status" id="blacklight-avail-bento-<%= item.unique_id %>"> </div>
+            <% end %>
+            <% end %>
+            <% if availability["unavailAt"].present? %>
+            <% availability["unavailAt"].each do |location,callnumber| %>
+          <div class="bento_item_avail">
+            <i class="fa fa-clock-o" title="Available by request"></i>
+            <span class="location">
+              <% unless location == "Library Technical Services Review Shelves" %>
+                <%= "#{location}" %>
+              <% end %>
+            </span>
+          <span class="callnumber">
+            <%= callnumber %>
+          </span>
+          <% if availability['notes'].present?  %>
+            <span class="onotes">
+            Order Information:   <%=  onotes %>
+            </span>
+          <% end %>
+        </div>
+        <% end %>
+
+          <% end %>
+
+      <% end %>
+
    <% end %>
   </div>
 <% end %>
