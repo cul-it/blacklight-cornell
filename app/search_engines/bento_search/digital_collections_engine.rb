@@ -20,7 +20,7 @@ class BentoSearch::DigitalCollectionsEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
     q = args[:oq].gsub(" ","%20")
-    portal_response = JSON.load(open("https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"))
+    portal_response = JSON.load(open("http://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
     results = portal_response['response']['docs']
@@ -32,7 +32,7 @@ class BentoSearch::DigitalCollectionsEngine
         item.authors << a
       end
       if i['collection_tesim'].present? && i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
-      item.abstract = i['collection_tesim'][0].to_s + " in eCommons"
+      item.abstract = i['collection_tesim'][0].to_s + "Collection in eCommons"
       elsif i['collection_tesim'].present?
         item.abstract = i['collection_tesim'][0].to_s
       elsif i['description_tesim'].present?
