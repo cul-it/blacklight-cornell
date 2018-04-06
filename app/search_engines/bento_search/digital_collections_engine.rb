@@ -20,7 +20,7 @@ class BentoSearch::DigitalCollectionsEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
     q = args[:oq].gsub(" ","%20")
-    portal_response = JSON.load(open("https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"))
+    portal_response = JSON.load(open("http://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
     results = portal_response['response']['docs']
@@ -28,8 +28,13 @@ class BentoSearch::DigitalCollectionsEngine
     results.each do |i|
       item = BentoSearch::ResultItem.new
       item.title = i['title_tesim'][0].to_s
-      if i['collection_tesim'].present?
-      item.abstract = i['collection_tesim'][0].to_s
+      [i['creator_tesim']].each do |a|
+        item.authors << a
+      end
+      if i['collection_tesim'].present? && i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
+      item.abstract = i['collection_tesim'][0].to_s + " Collection in eCommons"
+      elsif i['collection_tesim'].present?
+        item.abstract = i['collection_tesim'][0].to_s
       elsif i['description_tesim'].present?
         item.abstract = i['description_tesim'][0].to_s
       end
@@ -40,7 +45,11 @@ class BentoSearch::DigitalCollectionsEngine
       if i['date_tesim'].present?
         item.publication_date = i['date_tesim'][0].to_s
       end
+      if i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
+        item.link =i['handle_tesim'][0]
+      else
       item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
+    end
       bento_results << item
     end
     bento_results.total_items = portal_response['response']['pages']['total_count']
