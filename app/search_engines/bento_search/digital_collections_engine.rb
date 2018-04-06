@@ -28,7 +28,7 @@ class BentoSearch::DigitalCollectionsEngine
     results.each do |i|
       item = BentoSearch::ResultItem.new
       item.title = i['title_tesim'][0].to_s
-      [i['creator_tesim']].each do |a|
+      [i['creator_facet_tesim']].each do |a|
         item.authors << a
       end
       if i['collection_tesim'].present? && i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
