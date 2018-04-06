@@ -32,7 +32,7 @@ class BentoSearch::DigitalCollectionsEngine
         item.authors << a
       end
       if i['collection_tesim'].present? && i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
-      item.abstract = i['collection_tesim'][0].to_s + "Collection in eCommons"
+      item.abstract = i['collection_tesim'][0].to_s + " Collection in eCommons"
       elsif i['collection_tesim'].present?
         item.abstract = i['collection_tesim'][0].to_s
       elsif i['description_tesim'].present?
