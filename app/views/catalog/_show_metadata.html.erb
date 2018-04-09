@@ -55,9 +55,7 @@
                                               <div class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
                                                 <div class="message"><%= summary_holdings.html_safe %></div>
                                                 <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
-                                                  <span class="terms-of-use">
-                                                    <a href="/catalog/tou/<%= @document[:id] %>/<%= l[" providercode"] %>/<%= l[" dbcode"] %>"="dbcode" ]="]" %="%">Terms of use</a>
-                                                  </span>
+                                                  <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
                                                 <% end %>
                                               </div>
                                             </li>

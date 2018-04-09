@@ -258,12 +258,11 @@ class SearchController < ApplicationController
         #item.link = "http://" + @catalog_host + "/catalog/#{d['id']}"
         item.unique_id = "#{d['id']}"
         item.link = "/catalog/#{d['id']}"
-        if d['url_access_display']
           item.custom_data = {
             'url_online_access' => d['url_access_display'],
+            'availability_json' => d['availability_json'],
           }
-
-        end
+        
         item.format = d['format']
         bento_set << item
 
