@@ -17,7 +17,7 @@ Feature: Bookmarks for anonymous users
     Scenario: If I try to sign in, I have to log in
         #Given PENDING Piwik javascript variable _paq is undefined
         When I go to the home page
-        And I expect Javascript _paq to be defined
+        #And I expect Javascript _paq to be defined
         When I literally go to bookmarks
         And I expect Javascript _paq to be defined
         And click on link "Sign in"
@@ -122,18 +122,4 @@ Feature: Bookmarks for anonymous users
         And click on link "Print"
         Then the popup should include "Print"
         And the popup should include "Cancel"
-    
-
-    #search for marvel masterworks, and get two results, select, and email them
-    @bookmarks_marvel
-    @javascript
-    Scenario: Search with 2 results, select, and email them 
-        Given I am on the home page
-        When I fill in the search box with 'marvel masterworks'
-        And I press "search"
-        Then I should get results
-        Then I should select checkbox "toggle_bookmark_8767648"
-        Then click on link "Selected Items"
-        And I should not see the text "You have no selected items."
-        Then I should see the text "Marvel masterworks"
 
