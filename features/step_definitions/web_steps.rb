@@ -126,7 +126,6 @@ When("I view my selected items") do
 end
 
 When("I view my citations") do
-  what_is()
   page.find(:xpath, '//a[@id="citeLink"]').click
 end
 
@@ -142,4 +141,41 @@ Then /^show me id "(.*)"$/ do |string|
   @path = "\/\/*[@id=\"#{string}\"]"
   @chunk = page.find(:xpath, @path)
   what_is(@chunk)
+end
+
+Then /^show me xpath "(.*)"$/ do |string|
+  @chunk = page.find(:xpath, string)
+  what_is(@chunk)
+end
+
+Then /^show me hidden id "(.*)"$/ do |string|
+  @path = "\/\/*[@id=\"#{string}\"]"
+  @chunk = page.find(:xpath, @path, visible: false)
+  what_is(@chunk)
+end
+
+Then /^show me hidden xpath "(.*)"$/ do |string|
+  @chunk = page.find(:xpath, string, visible: false)
+  what_is(@chunk)
+end
+
+When("I expect Javascript _paq to be defined") do
+  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
+end
+
+When("I am certain Javascript _paq is defined") do
+  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be false
+  page.execute_script("var _paq = _paq || [];")
+  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
+end
+
+
+Then("the popup should include {string}") do |string|
+  begin
+    within_window(page.driver.browser.get_window_handles.last) do
+      @path = "\/\/*[text()=\'#{string}\']"
+      Find(:xpath, @path )
+    end
+  rescue => exception    
+  end
 end

@@ -77,7 +77,7 @@
             <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'ris'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
           </li>
             <li>
-            <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote_xml'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
+            <%= link_to t('blacklight.tools.endnote_xml'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote_xml'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
             </li>
         <% elsif bookbags_index  %>
           <li>
