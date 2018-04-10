@@ -15,13 +15,13 @@
     <% dbid = data["id"] %>
     <div class="document blacklight-database-name clearfix">
       <div class="document-data">
-        <h4 class="blacklight-title_display">
+        <h3 class="blacklight-title_display">
           <% if data["fulltitle_vern_display"].present? %>
             <%= data["fulltitle_vern_display"] %>
           <% else %>
             <%= data["fulltitle_display"] %>
           <% end %>
-        </h4>
+        </h3>
         <div class="description">
           <p>
             <% if data["summary_display"].present? %>
