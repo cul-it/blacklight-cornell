@@ -170,12 +170,16 @@ describe Blacklight::Solr::Document::MarcExport do
     end
 
     it "should format an old time book correctly" do
-      text = @book_rec8125253.export_as_mla_citation_txt()[1]
+      cite_info = @book_rec8125253.export_as_mla_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = "This style adheres to the MLA 7th edition handbook and contains modifications to these types of sources: e-mail, forum posts, interviews, manuscripts, maps, presentations, TV broadcasts, and web pages."
       match_str =  <<'CITE_MATCH'
 Wake,  William. <i>Three Tracts against Popery. Written in the Year MDCLXXXVI. By William Wake, M.A. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher at S. Ann's Church, Westminster.</i> London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687. Web.
 CITE_MATCH
-      puts text
-      expect(text + "\n").to match(match_str)
+      puts "tooltip for style: " + cite_style
+      expect(cite_text + "\n").to eq(match_str)
+      expect(cite_style).to match(match_style)
     end
     
     it "should format a citation without a 245b field correctly" do
