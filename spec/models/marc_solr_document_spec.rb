@@ -66,10 +66,23 @@ describe Blacklight::Solr::Document::MarcExport do
 # the file xmldata from the support directory supplies marcxml data for testing.  
 # in all of these definitions below.
   before(:all) do
+    @book_recs = {} 
+    # descriptive strings from the csl files.
+    @chicago_match_style = "Chicago format with full notes and bibliography"
+    @mla_match_style = "This style adheres to the MLA 7th edition handbook and contains modifications to these types of sources: e-mail, forum posts, interviews, manuscripts, maps, presentations, TV broadcasts, and web pages."
     dclass = MockMarcDocument 
     dclass.use_extension( Blacklight::Solr::Document::Endnote )
-    @book_rec8125253                     = dclass.new( rec8125253 )
-    @book_rec8125253['url_access_display'] = "http://example.com"
+    ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
+            "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
+            "8392067",
+            "8696757", "8867518", "9305118", "9448862", "9496646", "9939352", "10055679",]
+    eids = ["8125253","8696757"]                     
+    ids.each { |id| 
+      @book_recs[id]                      = dclass.new( send("rec#{id}"))
+    }
+    eids.each { |id| 
+      @book_recs[id]['url_access_display'] = "http://example.com"
+    }
     @book_record                     = dclass.new( book_record )
     @typical_record                     = dclass.new( standard_citation )
     @music_record                       = dclass.new( music_record )
@@ -169,19 +182,92 @@ describe Blacklight::Solr::Document::MarcExport do
       expect(@typical_record.export_as_mla_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003. Print.")
     end
 
-    it "should format an old time book correctly" do
-      cite_info = @book_rec8125253.export_as_mla_citation_txt()
+# roman numerals need to be properly eliminated from the date field.
+# DISCOVERYACCESS-1677
+    it "should format an old time book correctly for mla (7)" do
+      id = "8125253"
+      cite_info = @book_recs[id].export_as_mla_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = "This style adheres to the MLA 7th edition handbook and contains modifications to these types of sources: e-mail, forum posts, interviews, manuscripts, maps, presentations, TV broadcasts, and web pages."
+      match_style = @mla_match_style 
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
       match_str =  <<'CITE_MATCH'
 Wake,  William. <i>Three Tracts against Popery. Written in the Year MDCLXXXVI. By William Wake, M.A. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher at S. Ann's Church, Westminster.</i> London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687. Web.
 CITE_MATCH
-      puts "tooltip for style: " + cite_style
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
       expect(cite_text + "\n").to eq(match_str)
+      expect(cite_style).to eq(match_style)
+    end
+ #Chicago 17th ed. format.
+ # Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
+ #DISCOVERYACCESS-1677
+    it "should format an ebook correctly for chicago" do
+      id = "8696757"
+      cite_info = @book_recs[id].export_as_chicago_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = @chicago_match_style 
+      match_str =  <<'CITE_MATCH'
+Funk,  Tom. <i>Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program.</i> Berkeley, CA: Apress, 2013. https://doi.org/10.1007/978-1-4302-4408-0.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
+      expect(cite_text + "\n").to eq(match_str)
+      expect(cite_style).to eq(match_style)
+    end
+
+#      DISCOVERYACCESS-1677
+# Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
+#For a book with two authors, note that only the 
+#first-listed name is inverted in the bibliography entry.
+    it "should format an 2 author book  correctly for chicago" do
+      id = "6146988"
+      cite_info = @book_recs[id].export_as_chicago_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = @chicago_match_style 
+      match_str =  <<'CITE_MATCH'
+Ward,  Geoffrey C, and Ken Burns. <i>The War: an Intimate History, 1941-1945.</i> New York: A.A. Knopf, 2007.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
+      expect(cite_text + "\n").to eq(match_str)
+      expect(cite_style).to eq(match_style)
+    end
+
+    it "should format an corporate author book  correctly for chicago" do
+      id = "393971"
+      cite_info = @book_recs[id].export_as_chicago_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = @chicago_match_style 
+      match_str =  <<'CITE_MATCH'
+Memorial University of Newfoundland. <i>Geology Report.</i> St. John's, n.d.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
+      expect(cite_text + "\n").to eq(match_str)
+      expect(cite_style).to       eq(match_style)
+    end
+ #@DISCOVERYACCESS-3175
+ #24     Then I should see the label 'Chicago 17th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
+    it "should format an an edited book book correctly for chicago" do
+      id = "9448862"
+      cite_info = @book_recs[id].export_as_chicago_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = @chicago_match_style 
+      match_str =  <<'CITE_MATCH'
+Modemuseum Provincie Antwerpen. <i>Fashion Game Changers: Reinventing the 20th-Century Silhouette.</i> Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
+      expect(cite_text + "\n").to match(match_str)
       expect(cite_style).to match(match_style)
     end
-    
+
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_mla_citation_txt()[1]).to eq("Janetzky,  Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988. Print.")
     end
