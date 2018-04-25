@@ -291,7 +291,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       match_style = @mla_match_style 
       match_str =  <<'CITE_MATCH'
-ZZZZBADZZZZ Fitch,  G. Michael. <i>The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report.</i> [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.
+Fitch,  G. Michael. <i>The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report.</i> [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.
 CITE_MATCH
       # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
       # so, must account for that when we handle the expect.
@@ -305,7 +305,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       match_style = @mla_match_style 
       match_str =  <<'CITE_MATCH'
-National Research Council. Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
+National Research Council. <i>Beyond Six Billion: Forecasting the World's Population.</i> Washington, D.C.: National Academy Press, 2000. Print.
 CITE_MATCH
       # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
       # so, must account for that when we handle the expect.
