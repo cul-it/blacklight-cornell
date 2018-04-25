@@ -74,12 +74,12 @@ describe Blacklight::Solr::Document::MarcExport do
     dclass.use_extension( Blacklight::Solr::Document::Endnote )
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
             "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
-            "8392067",
-            "8696757", "8867518", "9305118", "9448862", "9496646", "9939352", "10055679",]
-    eids = ["8125253","8696757"]                     
+            "8392067", "8696757", "8867518", "9305118", "9448862", "9496646", "9939352", "10055679",]
+    eids = ["8125253","8696757","8867518"]                     
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
     }
+    # add on url information.
     eids.each { |id| 
       @book_recs[id]['url_access_display'] = "http://example.com"
     }
@@ -251,8 +251,8 @@ CITE_MATCH
       expect(cite_text + "\n").to eq(match_str)
       expect(cite_style).to       eq(match_style)
     end
+
  #@DISCOVERYACCESS-3175
- #24     Then I should see the label 'Chicago 17th ed. Modemuseum Provincie Antwerpen. Fashion Game Changers: Reinventing the 20th-Century Silhouette. Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.'
     it "should format an an edited book book correctly for chicago" do
       id = "9448862"
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
@@ -264,8 +264,39 @@ Modemuseum Provincie Antwerpen. <i>Fashion Game Changers: Reinventing the 20th-C
 CITE_MATCH
       # because of the here doc syntax, the variable always ends in newline.
       # so, must account for that when we handle the expect.
+      expect(cite_text + "\n").to eq(match_str)
+      expect(cite_style).to eq(match_style)
+    end
+
+ # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+ #  16 #Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St    . Martin's, 2014.'
+ # has a 264 with indicator 1, and another with indicator 4.
+    it "should format use citation date information properly for MLA" do
+      id = "8392067"
+      cite_info = @book_recs[id].export_as_mla_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = @mla_match_style 
+      match_str =  <<'CITE_MATCH'
+Shannon,  Timothy J. <i>The Seven Years' War in North America: a Brief History with Documents.</i> Boston: Bedford/St. Martin's, 2014. Print.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
       expect(cite_text + "\n").to match(match_str)
       expect(cite_style).to match(match_style)
+    end
+
+    it "should format use citation date information properly for MLA" do
+      id = "8867518"
+      cite_info = @book_recs[id].export_as_mla_citation_txt()
+      match_style = @mla_match_style 
+      match_str =  <<'CITE_MATCH'
+ZZZZBADZZZZ Fitch,  G. Michael. <i>The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report.</i> [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
+      expect(cite_info[1] + "\n").to match(match_str)
+      expect(cite_info[0]).to match(match_style)
     end
 
     it "should format a citation without a 245b field correctly" do
