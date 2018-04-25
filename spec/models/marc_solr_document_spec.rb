@@ -298,6 +298,20 @@ CITE_MATCH
       expect(cite_info[1] + "\n").to match(match_str)
       expect(cite_info[0]).to match(match_style)
     end
+#User needs to cite a record by a corporate author in MLA style # NRC  / corp author. make sure (U.S.) is gone.
+#    Then I should see the label 'MLA 7th ed. National Research Council. Beyond Six Billion: Forecasting the World's Population. Washington, D.C    .: National Academy Press, 2000.'
+    it "should format use corporate author information properly for MLA" do
+      id = "3902220"
+      cite_info = @book_recs[id].export_as_mla_citation_txt()
+      match_style = @mla_match_style 
+      match_str =  <<'CITE_MATCH'
+National Research Council. Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
+      expect(cite_info[1] + "\n").to match(match_str)
+      expect(cite_info[0]).to match(match_style)
+    end
 
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_mla_citation_txt()[1]).to eq("Janetzky,  Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988. Print.")

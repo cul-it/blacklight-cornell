@@ -12,26 +12,6 @@ Feature: Select and export items from the result set
 		# set immediately via JavaScript
 
 
-# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
-@all_select_and_export
-@citations
-@DISCOVERYACCESS-1677 @javascript
-  Scenario: User needs to cite a record 
-    Given I request the item view for 8867518
-    And click on link "Cite"
-    And I sleep 6 seconds
-    Then in modal '#ajax-modal' I should see label 'MLA 7th ed. Fitch, G. Michael. The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report. [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.'
-
-@all_select_and_export
-@citations
-@javascript
-  Scenario: User needs to cite a record by a corporate author in MLA style # Geology report / corp author.
-    Given I request the item view for 393971
-    And click on link "Cite"
-    And I sleep 6 seconds
-    Then I should see the label 'MLA 7th ed. Memorial University of Newfoundland. Geology Report. St. John'
-
-
 #User needs to cite a record by a corporate author in MLA style # NRC  / corp author. make sure (U.S.) is gone.
 @all_select_and_export
 @citations
