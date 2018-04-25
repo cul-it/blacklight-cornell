@@ -12,48 +12,6 @@ Feature: Select and export items from the result set
 		# set immediately via JavaScript
 
 
-#User needs to cite a record by a corporate author in MLA style # NRC  / corp author. make sure (U.S.) is gone.
-@all_select_and_export
-@citations
-@javascript
-  Scenario: User needs to cite a record by a corporate author in MLA style # NRC  / corp author.
-    Given I request the item view for 3902220 
-    And click on link "Cite"
-    And I sleep 6 seconds
-    Then I should see the label 'MLA 7th ed. National Research Council. Beyond Six Billion: Forecasting the World's Population. Washington, D.C.: National Academy Press, 2000.'
-
-# MLA 8th edition
-@all_select_and_export
-@citations
-@javascript
-  Scenario: User needs to cite a record by a corporate author in MLA 8th,7th, and CSE
-    Given I request the item view for 7292123 
-    And click on link "Cite"
-    And I sleep 6 seconds
-    Then I should see the label 'MLA 8th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. Oxford University Press, 2011.'
-    Then I should see the label 'MLA 7th ed. Jacobs, Alan. The Pleasures of Reading in an Age of Distraction. New York: Oxford University Press, 2011. Print.'
-    Then I should see the label 'Council of Science Editors Jacobs A. The pleasures of reading in an age of distraction. New York: Oxford University Press; 2011.'
-
-#
-# APA 6th ed.
-# Not sure if this is official documentation:
-# http://www.muhlenberg.edu/library/reshelp/apa_example.pdf
-# Publication Manual of the American Psychological Association, 6th ed. Washington, DC:
-# American Psychological Association, 2010.
-# Uris Library Reference (Non-Circulating) BF76.7 .P83 2010
-# examples:
-# Shotton, M. A. (1989) Computer addition? A study of computer dependency. London, England: Taylor & Francis
-# Gregory, G., & Parry, T. (2006). Designing brain-compatible learning (3rd ed.). Thousand Oaks, CA: Corwin. 
-# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
-@all_select_and_export
-@citations
-@DISCOVERYACCESS-1677 @javascript
-  Scenario: User needs to cite a record in APA style. 
-    Given I request the item view for 8069112 
-    And click on link "Cite"
-    And I sleep 2 seconds
-    Then I should see the label 'APA 6th ed. Cohen, A. I. (2013). Social media: legal risk and corporate policy. New York: Wolters Kluwer Law & Business.'
-
 @all_select_and_export
 @citations
 @DISCOVERYACCESS-1677 @javascript

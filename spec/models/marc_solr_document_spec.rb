@@ -68,8 +68,11 @@ describe Blacklight::Solr::Document::MarcExport do
   before(:all) do
     @book_recs = {} 
     # descriptive strings from the csl files.
+    @apa_match_style = "American Psychological Association 6th edition"
+    @cse_match_style = "The Council of Science Editors style 8th edition, Citation-Sequence system: numbers in text, sorted by order of appearance in text."
     @chicago_match_style = "Chicago format with full notes and bibliography"
     @mla_match_style = "This style adheres to the MLA 7th edition handbook and contains modifications to these types of sources: e-mail, forum posts, interviews, manuscripts, maps, presentations, TV broadcasts, and web pages."
+    @mla8_match_style = "This style adheres to the MLA 8th edition handbook. Follows the structure of references as outlined in the MLA Manual closely"
     dclass = MockMarcDocument 
     dclass.use_extension( Blacklight::Solr::Document::Endnote )
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
@@ -178,7 +181,7 @@ describe Blacklight::Solr::Document::MarcExport do
   end
   
   describe "export_as_mla_citation_txt" do
-    it "should format a standard citation correctly" do
+    it "should format a standard MLA citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003. Print.")
     end
 
@@ -311,6 +314,51 @@ CITE_MATCH
       # so, must account for that when we handle the expect.
       expect(cite_info[1] + "\n").to match(match_str)
       expect(cite_info[0]).to match(match_style)
+    end
+###
+
+    it "should format mla7,8, and cse citation information properly" do
+      id = "7292123"
+      mla7_cite_info = @book_recs[id].export_as_mla_citation_txt()
+      mla8_cite_info = @book_recs[id].export_as_mla8_citation_txt()
+      cse_cite_info = @book_recs[id].export_as_cse_citation_txt()
+      mla7_match_str =  <<'CITE_MATCH'
+Jacobs,  Alan. <i>The Pleasures of Reading in an Age of Distraction.</i> New York: Oxford University Press, 2011. Print.
+CITE_MATCH
+      mla8_match_str =  <<'CITE_MATCH'
+Jacobs, Alan. <i>The Pleasures of Reading in an Age of Distraction.</i> Oxford University Press, 2011.
+CITE_MATCH
+      cse_match_str =  <<'CITE_MATCH'
+Jacobs A. The pleasures of reading in an age of distraction. New York: Oxford University Press; 2011.
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
+      expect(mla7_cite_info[1] + "\n").to match(mla7_match_str)
+      expect(mla7_cite_info[0]).to match(@mla_match_style)
+      expect(mla8_cite_info[1] + "\n").to match(mla8_match_str)
+      expect(mla8_cite_info[0]).to match(@mla8_match_style)
+      expect(cse_cite_info[1] + "\n").to match(cse_match_str)
+      expect(cse_cite_info[0]).to match(@cse_match_style)
+    end
+# APA 6th ed.
+# Not sure if this is official documentation:
+# http://www.muhlenberg.edu/library/reshelp/apa_example.pdf
+# Publication Manual of the American Psychological Association, 6th ed. Washington, DC:
+# American Psychological Association, 2010.
+# Uris Library Reference (Non-Circulating) BF76.7 .P83 2010
+# examples:
+# Shotton, M. A. (1989) Computer addition? A study of computer dependency. London, England: Taylor & Francis
+# Gregory, G., & Parry, T. (2006). Designing brain-compatible learning (3rd ed.). Thousand Oaks, CA: Corwin. 
+# 24 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+#
+    it "should format APA citationinformation properly" do
+      id = "8069112"
+      apa_cite_info = @book_recs[id].export_as_apa_citation_txt()
+      apa_match_str =  <<'CITE_MATCH'
+Cohen, A. I. (2013). <i>Social media: legal risk and corporate policy.</i> New York: Wolters Kluwer Law &amp; Business.
+CITE_MATCH
+      expect(apa_cite_info[1] + "\n").to match(apa_match_str)
+      expect(apa_cite_info[0]).to match(@apa_match_style)
     end
 
     it "should format a citation without a 245b field correctly" do
