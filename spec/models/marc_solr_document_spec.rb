@@ -351,12 +351,64 @@ CITE_MATCH
 # Gregory, G., & Parry, T. (2006). Designing brain-compatible learning (3rd ed.). Thousand Oaks, CA: Corwin. 
 # 24 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
 #
-    it "should format APA citationinformation properly" do
+    it "should format APA citation information properly" do
       id = "8069112"
       apa_cite_info = @book_recs[id].export_as_apa_citation_txt()
       apa_match_str =  <<'CITE_MATCH'
 Cohen, A. I. (2013). <i>Social media: legal risk and corporate policy.</i> New York: Wolters Kluwer Law &amp; Business.
 CITE_MATCH
+      expect(apa_cite_info[1] + "\n").to match(apa_match_str)
+      expect(apa_cite_info[0]).to match(@apa_match_style)
+    end
+
+#@DISCOVERYACCESS-1677
+    it "should format APA citation information properly for multiple authors" do
+      id = "6146988"
+      apa_cite_info = @book_recs[id].export_as_apa_citation_txt()
+      apa_match_str =  <<'CITE_MATCH'
+Ward, G. C., &amp; Burns, K. (2007). <i>The war: an intimate history, 1941-1945.</i> New York: A.A. Knopf.
+CITE_MATCH
+      expect(apa_cite_info[1] + "\n").to match(apa_match_str)
+      expect(apa_cite_info[0]).to match(@apa_match_style)
+end
+
+    it "should format APA citation information properly for corporate author" do
+      id = "393971"
+      apa_cite_info = @book_recs[id].export_as_apa_citation_txt()
+      apa_match_str =  <<'CITE_MATCH'
+Memorial University of Newfoundland. <i>Geology report.</i> St. John's.
+CITE_MATCH
+      expect(apa_cite_info[1] + "\n").to match(apa_match_str)
+      expect(apa_cite_info[0]).to match(@apa_match_style)
+end
+
+ # DISCOVERYACCESS-2816 - Manuscript records should use cite as field
+ # Because of citeas, all fields should be the same.
+    it "should format manuscript citation information properly" do
+      id = "2083900"
+      @book_recs[id]['format'] = ['Manuscript/Archive'] 
+      mla7_cite_info = @book_recs[id].export_as_mla_citation_txt()
+      mla8_cite_info = @book_recs[id].export_as_mla8_citation_txt()
+      cse_cite_info = @book_recs[id].export_as_cse_citation_txt()
+      apa_cite_info = @book_recs[id].export_as_apa_citation_txt()
+      #because of the citeas field, these should all be the same.
+      manu_match_str =  <<'CITE_MATCH'
+<i>Ezra Cornell Papers, #1-1-1.  Division of Rare and Manuscript Collections, Cornell University Library.</i>
+CITE_MATCH
+      cse_match_str =  <<'CITE_MATCH'
+ Ezra Cornell papers, #1-1-1.  Division of Rare and Manuscript Collections, Cornell University Library.
+CITE_MATCH
+      apa_match_str =  <<'CITE_MATCH'
+<i>Ezra Cornell papers, #1-1-1.  Division of Rare and Manuscript Collections, Cornell University Library.</i>
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
+      expect(mla7_cite_info[1] + "\n").to match(manu_match_str)
+      expect(mla7_cite_info[0]).to match(@mla_match_style)
+      expect(mla8_cite_info[1] + "\n").to match(manu_match_str)
+      expect(mla8_cite_info[0]).to match(@mla8_match_style)
+      expect(cse_cite_info[1] + "\n").to match(cse_match_str)
+      expect(cse_cite_info[0]).to match(@cse_match_style)
       expect(apa_cite_info[1] + "\n").to match(apa_match_str)
       expect(apa_cite_info[0]).to match(@apa_match_style)
     end
@@ -464,7 +516,6 @@ CITE_MATCH
       ris_file = @book_record.export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
-        print line
         line =~ /^(..?)  - (.*)$/
         ris_entries[$1] << $2
       end
