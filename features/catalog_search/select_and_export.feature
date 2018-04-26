@@ -349,10 +349,10 @@ Feature: Select and export items from the result set
 #    And the 'sort' select list should have an option for 'date acquired'
 #    Then I select the sort option 'date acquired'
 #    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
+#  Given PENDING  
 
 @all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
   Scenario: User needs to see the date acquired in a JSON feed
-  Given PENDING  
   When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
     And I should see the text 'acquired_dt'
