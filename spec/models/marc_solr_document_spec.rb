@@ -24,6 +24,8 @@ describe Blacklight::Solr::Document::MarcExport do
       include Blacklight::Solr::Document::MarcExport
       include Blacklight::Solr::Document::Endnote
       include Blacklight::Solr::Document::RIS
+      include Blacklight::Solr::Document::Endnote_xml
+      include Blacklight::Solr::Document::Zotero
       #extension_parameters[:marc_source_field] = :marc_display
       #extension_parameters[:marc_format_type] = :marcxml
 
@@ -78,17 +80,31 @@ describe Blacklight::Solr::Document::MarcExport do
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
             "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
             "8392067", "8696757", "8867518", "9305118", "9448862", "9496646", "9939352", "10055679",]
-    eids = ["8125253","8696757","8867518"]                     
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
     }
+    #electronic
+    eids = ["8125253","8696757","8867518","5558811"]                     
     # add on url information.
+    # more than url is required.
     eids.each { |id| 
       @book_recs[id]['url_access_display'] = "http://example.com"
+      @book_recs[id]["online"]= ["Online"]
     }
+    #music
+    mids = ["3261564"]                     
+    mids.each { |id| 
+      @book_recs[id]['format'] = ["Musical Recording"]
+    } 
+    #video
+    @book_recs["6788245"]["format"] = ["Video"] 
+    #thesis
+    @book_recs["5494906"]["format"] = ["Thesis"] 
+    @book_recs["1676023"]["format"] =['Map or Globe'] 
     @book_record                     = dclass.new( book_record )
     @typical_record                     = dclass.new( standard_citation )
     @music_record                       = dclass.new( music_record )
+    @music_record['format'] = ['Musical Recording'] 
     @dissertation_record                = dclass.new( dissertation_note_xml )
     @dissertation_record['format'] = ['Thesis'] 
     @record_without_245b                = dclass.new( record1_xml )
@@ -413,6 +429,9 @@ CITE_MATCH
       expect(apa_cite_info[0]).to match(@apa_match_style)
     end
 
+
+
+
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_mla_citation_txt()[1]).to eq("Janetzky,  Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988. Print.")
     end
@@ -493,7 +512,7 @@ CITE_MATCH
         line =~ /^(..?)  - (.*)$/
         ris_entries[$1] << $2
       end
-      expect(ris_entries["TY"]).to eq(Set.new(["BOOK"])) 
+      expect(ris_entries["TY"]).to eq(Set.new(["SOUND"])) 
       expect(ris_entries["TI"]).to eq(Set.new(["Music for horn"])) 
       expect(ris_entries["PY"]).to eq(Set.new(["2001"])) 
       expect(ris_entries["PB"]).to eq(Set.new([" Harmonia Mundi USA"])) 
@@ -513,7 +532,7 @@ CITE_MATCH
 #SN  - 091316710X : 
 #ER  - 
     it "should export a typical book record correctly" do
-      ris_file = @book_record.export_as_ris
+      ris_file = @book_recs["1001"].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
         line =~ /^(..?)  - (.*)$/
@@ -527,8 +546,12 @@ CITE_MATCH
       expect(ris_entries["ER"]).to eq(Set.new([""])) 
     end
   end
+
+
+#
+
   describe "Export as endnote means that it " do
-    it "should export_endnote_correctly" do
+    it "should export endnote properly"  do
       endnote_file = @music_record.export_as_endnote
       # We have to parse it a bit to check it.
       endnote_entries = Hash.new {|hash, key| hash[key] = Set.new }
@@ -537,7 +560,7 @@ CITE_MATCH
         endnote_entries[$1] << $2
       end
 
-      expect(endnote_entries["0"]).to eq(Set.new(["Book"])) # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
+      expect(endnote_entries["0"]).to eq(Set.new(["Music"])) # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
       #expect(endnote_entries["D"]).to eq(Set.new(["p2001. "]))
       expect(endnote_entries["D"]).to eq(Set.new(["2001"]))
       expect(endnote_entries["C"]).to eq(Set.new(["[United States]"]))
@@ -573,5 +596,71 @@ CITE_MATCH
     end
 
   end
+
+
+  describe "Format exports" do
+    it "should export multiple formats correctly" do
+      ti_ids = ["1001", "1676023", "3261564", "5494906", "5558811", "6788245"]
+      ti_data = {} 
+      ti_output = {} 
+      ti_data["1001"] = {"endnote" => {"title" => "%T Reflections  the anthropological muse","type" => "%0 Book"},
+                "ris" => {"title" => "TI  - Reflections: the anthropological muse", "type" => "TY  - BOOK"},
+                "endnote_xml"=>{"title"=>"<title>Reflections: the anthropological muse</title>", "type" => "<ref-type name=\"Book\">6</ref-type>"},
+                "rdf_zotero"=>{"title"=>"<dc:title>Reflections: the anthropological muse</dc:title>", "type" => "<z:itemType>book</z:itemType>"}}
+      # Sound, music 
+      ti_data["3261564"] = 
+               {"ris" => { "title"=> 'TI  - Debabrata Biśvāsa'  , "type" => 'TY  - SOUND' },
+                "endnote"  => {"title"=> '%T Debabrata Biśvāsa'  , "type" => '%0 Music' },
+                "endnote_xml"  => {"title"=> '<title>Debabrata Biśvāsa</title>'  , "type" =>'<ref-type name="Music">61</ref-type>'  },
+                "rdf_zotero" =>  {"title"=>'<dc:title>Debabrata Biśvāsa</dc:title>'  , "type" => '<z:itemType>audioRecording</z:itemType>' }}
+      #EBOOK 
+      ti_data["5558811"] = 
+               { "ris" => 
+                 {"title" => 'TI  - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament',"type" =>'TY  - EBOOK'},
+                 "endnote" => 
+                   {"title" => '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament', "type" =>  '%0 Electronic Book'},
+                 "endnote_xml" => 
+                   {"title" => '<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>', "type" => "<ref-type name=\"Book\">6</ref-type>"},
+                 "rdf_zotero" => { "title" =>  '<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>', "type" =>  '<z:itemType>book</z:itemType>'}
+}
+      #Thesis
+      ti_data["5494906"] = 
+          { "ris" =>           {"title" => 'TI  - Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700',"type" =>'TY  - THES'},
+             "endnote" =>      {"title" => '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '%0 Thesis'},
+              "endnote_xml" => {"title" => '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700</title>', "type" => "<ref-type name=\"Thesis\">32</ref-type>"},
+              "rdf_zotero" =>  {"title" =>  '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '<z:itemType>thesis</z:itemType>'}
+}
+      ti_data["6788245"] = 
+          { "ris" =>           {"title" => 'TI  - Harry Potter and the half-blood prince',"type" =>'TY  - VIDEO'},
+             "endnote" =>      {"title" => '%T Harry Potter and the half-blood prince', "type" =>  '%0 Film or Broadcast'},
+              "endnote_xml" => {"title" => '<title>Harry Potter and the half-blood prince', "type" => "<ref-type name=\"Film or Broadcast\">21</ref-type>"},
+              "rdf_zotero" =>  {"title" =>  '<dc:title>Harry Potter and the half-blood prince', "type" =>  '<z:itemType>videoRecording</z:itemType>'}
+}
+      ti_data["1676023"] = 
+          { "ris" =>           {"title" => 'TI  - Middle Earth: being a map',"type" =>'TY  - MAP'},
+             "endnote" =>      {"title" => '%T Middle Earth  being a map', "type" =>  '%0 Map'},
+              "endnote_xml" => {"title" => '<title>Middle Earth: being a map', "type" => "<ref-type name=\"Map\">20</ref-type>"},
+              "rdf_zotero" =>  {"title" =>  '<dc:title>Middle Earth: being a map', "type" =>  '<z:itemType>map</z:itemType>'}
+}
+      ti_ids.each   do  | id |
+        ti_output[id] = {} 
+        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {} 
+        ti_output[id]["rdf_zotero"] = {} 
+        ti_output[id]["ris"] = @book_recs[id].export_as_ris()
+        ti_output[id]["endnote"] = @book_recs[id].export_as_endnote()
+        ti_output[id]["endnote_xml"] = @book_recs[id].export_as_endnote_xml()
+        ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
+      end 
+      ti_ids.each   do |id| 
+        ["endnote","ris","endnote_xml","rdf_zotero"].each   do |fmt| 
+          ["title","type"].each   do |fld| 
+             puts "for #{id}, should output the #{fld} in format #{fmt} properly" 
+             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld])
+          end
+        end
+       end
+    end
+  end
+
 
 end
