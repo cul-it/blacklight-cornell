@@ -173,75 +173,8 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<dc:identifier>ISBN 091316710X : '
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
-
 @all_select_and_export
-  Scenario Outline: User needs to see Reflection: 1001  in a citation format, check title, and type
-    Given I request the item view for <BibId> 
-    Given I request the item view for <BibId>.<Format>
-    Then I should see the xml text <TyXmlContent> 
-    Then I should see the xml text <TiXmlContent> 
 
-    Examples:
-|BibId | Format | TiXmlContent | TyXmlContent |
-| 1001 | ris | 'TI - Reflections: the anthropological muse' |  'TY - BOOK' |
-| 1001 | endnote | '%T Reflections the anthropological muse' | '%0 Book' |
-| 1001 | endnote_xml | '<title>Reflections: the anthropological muse</title>' | '<ref-type name="Book">6</ref-type>'   |
-| 1001 | rdf_zotero | '<dc:title>Reflections: the anthropological muse</dc:title>' | '<z:itemType>book</z:itemType'|
-| 3261564 | ris | 'TI - Debabrata Biśvāsa' | 'TY - SOUND' |
-| 3261564 | endnote | '%T Debabrata Biśvāsa' | '%0 Music' |
-| 3261564 | endnote_xml | '<title>Debabrata Biśvāsa</title>' |'<ref-type name="Music">61</ref-type>'  | 
-| 3261564 | rdf_zotero |'<dc:title>Debabrata Biśvāsa</dc:title>' | '<z:itemType>audioRecording</z:itemType>' |
-| 5558811 | ris | 'TI - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | 'TY - EBOOK'|
-| 5558811 | endnote | '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament' | '%0 Electronic Book'|
-|5494906|endnote| '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '%0 Thesis' |
-|5494906|endnote_xml| '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '<ref-type name="Thesis">32</ref-type>'|
-|5494906|ris | 'TI - Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | 'TY - THES' |
-|5494906|rdf_zotero | '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700' | '<z:itemType>thesis</z:itemType>' |
-| 5558811 |endnote_xml|'<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>' |'<ref-type name="Book">6</ref-type>'  | 
-| 5558811| rdf_zotero |'<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>' | '<z:itemType>book</z:itemType>' |
-| 6788245 | ris | 'TI - Harry Potter and the half-blood prince' |  'TY - VIDEO' |
-| 6788245 | endnote | '%T Harry Potter and the half-blood prince' |  '%0 Film or Broadcast' |
-| 6788245 | endnote_xml | '<title>Harry Potter and the half-blood prince</title>'|'<ref-type name="Film or Broadcast">21</ref-type>' |
-|6788245|rdf_zotero|'<dc:title>Harry Potter and the half-blood prince</dc:title>'|'<z:itemType>videoRecording</z:itemType>' |
-|1676023|ris| 'TI  - Middle Earth: being a map' | 'TY - MAP' |
-|1676023|endnote| '%T Middle Earth being a map' | '%0 Map' |
-|1676023|endnote_xml| '<title>Middle Earth: being a map purporting to' | '<ref-type name="Map">20</ref-type>' |
-|1676023|rdf_zotero| '<dc:title>Middle Earth: being a map purporting to' | '<z:itemType>map</z:itemType>' |
-
-@all_select_and_export
-  Scenario Outline: User needs to see various items  in a citation format, check author, date, publisher, place. 
-    Given I request the item view for <BibId> 
-    Given I request the item view for <BibId>.<Format>
-    Then I should see the xml text <AuXmlContent> 
-    Then I should see the xml text <DaXmlContent> 
-    Then I should see the xml text <PbXmlContent> 
-    Then I should see the xml text <PlXmlContent> 
-
-    Examples:
-|BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
-|1378974|ris|'AU  - Condie, Carol Joy' | 'PY - 1954'|'PB - Cornell Univ'|'CY  - [Ithaca, N.Y.]' | 
-|1378974|endnote|'%A Condie, Carol Joy' | '%D 1954'|'%I Cornell Univ'|'%C [Ithaca, N.Y.]' | 
-|1378974|endnote_xml|'<author>Condie, Carol Joy</author>' | '<year>1954</year>'|'<publisher>Cornell Univ</publisher>'|'<pub-location>[Ithaca, N.Y.]</pub-location>' | 
-|5494906|ris|'AU - Gauger, Wilhelm Peter Joachim' | 'PY - 1965'|'PB - Freie Universität Berlin'|'CY - Berlin' | 
-|5494906|endnote|'%A Gauger, Wilhelm Peter Joachim' | '%D 1965'|'%I Freie Universität Berlin'|'%C Berlin' | 
-|5494906|endnote_xml|'<author>Gauger, Wilhelm Peter Joachim</author>' | '<date>1965</date>'|'<publisher>Ernst-Reuter-Gesellschaft</publisher>'|'<pub-location>Berlin</pub-location>' | 
-|5494906|rdf_zotero|'<foaf:surname>Gauger</foaf:surname>' | '<dc:date>1965</dc:date>'|'<foaf:name>Freie Universität Berlin</foaf:name>'|'<vcard:locality>Berlin</vcard:locality>' | 
-| 3261564 | endnote_xml|'<author>Cakrabarttī, Utpalendu</author>'|'<date>1983</date>'|'<publisher>INRECO</publisher>'|'<pub-location>Calcutta</pub-location>' |
-| 6788245 | ris | 'AU - Warner Bros. Pictures' |  'PY - 2009' |  'PB - Warner Home Video' | 'CY - Burbank, CA' |
-| 6788245 | endnote | '%E Radcliffe, Daniel' |  '%D 2009' |  '%I Warner Home Video' | '%C Burbank, CA' |
-| 6788245 | endnote_xml | '<author>Radcliffe, Daniel</author>' |  '<year>2009</year>' |  '<publisher>Warner Home Video</publisher>'|'<pub-location>Burbank, CA</pub-location>' |
-| 6788245 | rdf_zotero | '<foaf:surname>Radcliffe</foaf:surname>' |  '<dc:date>2009</dc:date>' |  '<foaf:name>Warner Home Video</foaf:name>'|'<vcard:locality>Burbank, CA</vcard:locality>' |
-| 9939352 | ris | 'AU - Gray, Afsaneh' |  'PY - 2017' | 'PB - Oberon Books' | 'CY - London' |
-| 9939352 | endnote | '%A Gray, Afsaneh' |  '%D 2017' | '%I Oberon Books' | '%C London' |
-| 9939352 | endnote_xml|'<author>Gray, Afsaneh</author>'|'<date>2017</date>'|'<publisher>Oberon Books</publisher>'|'<pub-location>London</pub-location>' |
-| 3261564 | ris | 'AU - Cakrabarttī, Utpalendu' | 'PY - 1983' | 'PB - INRECO' | 'CY - Calcutta' |
-| 3261564 | endnote | '%A Cakrabarttī, Utpalendu' | '%D 1983' | '%I INRECO' | '%C Calcutta' |
-| 3261564 | endnote_xml | '<author>Cakrabarttī, Utpalendu</author>' | '<year>1983</year>' | '<publisher>INRECO</publisher>' | '<pub-location>Calcutta</pub-location>' |
-| 9496646 | ris | 'AU - Bindal, Ahmet' | 'PY - 2016' | 'PB - Springer International Publishing' | 'CY - Cham'  |
-| 9496646 | endnote | '%A Bindal, Ahmet' | '%D 2016' | '%I Springer International Publishing' | '%C Cham'  |
-| 9496646 | endnote_xml | '<author>Bindal, Ahmet</author>' | '<year>2016</year>' | '<publisher>Springer International Publishing</publisher>' | '<pub-location>Cham</pub-location>'  |
-
-@all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN. 
     Given I request the item view for <BibId> 
     Given I request the item view for <BibId>.<Format>

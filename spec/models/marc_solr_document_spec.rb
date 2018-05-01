@@ -65,7 +65,7 @@ describe Blacklight::Solr::Document::MarcExport do
 
     end
   
-# the file xmldata from the support directory supplies marcxml data for testing.  
+# the file xmldata, and the various <bibid>.rb files,from the support directory supplies marcxml data for testing.  
 # in all of these definitions below.
   before(:all) do
     @book_recs = {} 
@@ -80,9 +80,11 @@ describe Blacklight::Solr::Document::MarcExport do
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
             "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
             "8392067", "8696757", "8867518", "9305118", "9448862", "9496646", "9939352", "10055679",]
+    # Turn all the xml data into MockMarcDocuments records.
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
     }
+    # Fix up some parameters supplied by SOLR
     #electronic
     eids = ["8125253","8696757","8867518","5558811"]                     
     # add on url information.
@@ -100,6 +102,8 @@ describe Blacklight::Solr::Document::MarcExport do
     @book_recs["6788245"]["format"] = ["Video"] 
     #thesis
     @book_recs["5494906"]["format"] = ["Thesis"] 
+    @book_recs["1378974"]["format"] = ["Thesis"] 
+    #map
     @book_recs["1676023"]["format"] =['Map or Globe'] 
     @book_record                     = dclass.new( book_record )
     @typical_record                     = dclass.new( standard_citation )
@@ -597,13 +601,16 @@ CITE_MATCH
 
   end
 
+#186 |BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
+
 
   describe "Format exports" do
-    it "should export multiple formats correctly" do
+    it "should export the title and type in multiple formats correctly" do
       ti_ids = ["1001", "1676023", "3261564", "5494906", "5558811", "6788245"]
       ti_data = {} 
       ti_output = {} 
-      ti_data["1001"] = {"endnote" => {"title" => "%T Reflections  the anthropological muse","type" => "%0 Book"},
+      ti_data["1001"] = 
+                {"endnote" => {"title" => "%T Reflections  the anthropological muse","type" => "%0 Book"},
                 "ris" => {"title" => "TI  - Reflections: the anthropological muse", "type" => "TY  - BOOK"},
                 "endnote_xml"=>{"title"=>"<title>Reflections: the anthropological muse</title>", "type" => "<ref-type name=\"Book\">6</ref-type>"},
                 "rdf_zotero"=>{"title"=>"<dc:title>Reflections: the anthropological muse</dc:title>", "type" => "<z:itemType>book</z:itemType>"}}
@@ -615,32 +622,29 @@ CITE_MATCH
                 "rdf_zotero" =>  {"title"=>'<dc:title>Debabrata Biśvāsa</dc:title>'  , "type" => '<z:itemType>audioRecording</z:itemType>' }}
       #EBOOK 
       ti_data["5558811"] = 
-               { "ris" => 
-                 {"title" => 'TI  - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament',"type" =>'TY  - EBOOK'},
-                 "endnote" => 
-                   {"title" => '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament', "type" =>  '%0 Electronic Book'},
-                 "endnote_xml" => 
-                   {"title" => '<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>', "type" => "<ref-type name=\"Book\">6</ref-type>"},
+               { "ris" =>    {"title" => 'TI  - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament',"type" =>'TY  - EBOOK'},
+                 "endnote" => {"title" => '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament', "type" =>  '%0 Electronic Book'},
+                 "endnote_xml" => {"title" => '<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>', "type" => "<ref-type name=\"Book\">6</ref-type>"},
                  "rdf_zotero" => { "title" =>  '<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>', "type" =>  '<z:itemType>book</z:itemType>'}
 }
       #Thesis
       ti_data["5494906"] = 
           { "ris" =>           {"title" => 'TI  - Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700',"type" =>'TY  - THES'},
-             "endnote" =>      {"title" => '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '%0 Thesis'},
-              "endnote_xml" => {"title" => '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700</title>', "type" => "<ref-type name=\"Thesis\">32</ref-type>"},
-              "rdf_zotero" =>  {"title" =>  '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '<z:itemType>thesis</z:itemType>'}
+            "endnote" =>       {"title" => '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '%0 Thesis'},
+            "endnote_xml" =>   {"title" => '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700</title>', "type" => "<ref-type name=\"Thesis\">32</ref-type>"},
+             "rdf_zotero" =>   {"title" =>  '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '<z:itemType>thesis</z:itemType>'}
 }
       ti_data["6788245"] = 
           { "ris" =>           {"title" => 'TI  - Harry Potter and the half-blood prince',"type" =>'TY  - VIDEO'},
              "endnote" =>      {"title" => '%T Harry Potter and the half-blood prince', "type" =>  '%0 Film or Broadcast'},
-              "endnote_xml" => {"title" => '<title>Harry Potter and the half-blood prince', "type" => "<ref-type name=\"Film or Broadcast\">21</ref-type>"},
-              "rdf_zotero" =>  {"title" =>  '<dc:title>Harry Potter and the half-blood prince', "type" =>  '<z:itemType>videoRecording</z:itemType>'}
+             "endnote_xml" =>  {"title" => '<title>Harry Potter and the half-blood prince', "type" => "<ref-type name=\"Film or Broadcast\">21</ref-type>"},
+             "rdf_zotero" =>   {"title" =>  '<dc:title>Harry Potter and the half-blood prince', "type" =>  '<z:itemType>videoRecording</z:itemType>'}
 }
       ti_data["1676023"] = 
           { "ris" =>           {"title" => 'TI  - Middle Earth: being a map',"type" =>'TY  - MAP'},
-             "endnote" =>      {"title" => '%T Middle Earth  being a map', "type" =>  '%0 Map'},
-              "endnote_xml" => {"title" => '<title>Middle Earth: being a map', "type" => "<ref-type name=\"Map\">20</ref-type>"},
-              "rdf_zotero" =>  {"title" =>  '<dc:title>Middle Earth: being a map', "type" =>  '<z:itemType>map</z:itemType>'}
+            "endnote" =>       {"title" => '%T Middle Earth  being a map', "type" =>  '%0 Map'},
+            "endnote_xml" =>   {"title" => '<title>Middle Earth: being a map', "type" => "<ref-type name=\"Map\">20</ref-type>"},
+            "rdf_zotero" =>    {"title" =>  '<dc:title>Middle Earth: being a map', "type" =>  '<z:itemType>map</z:itemType>'}
 }
       ti_ids.each   do  | id |
         ti_output[id] = {} 
@@ -654,13 +658,85 @@ CITE_MATCH
       ti_ids.each   do |id| 
         ["endnote","ris","endnote_xml","rdf_zotero"].each   do |fmt| 
           ["title","type"].each   do |fld| 
-             puts "for #{id}, should output the #{fld} in format #{fmt} properly" 
-             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld])
+             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
+             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
+             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
+             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id},should output the #{fld} in format '#{fmt}' properly." 
           end
         end
        end
-    end
-  end
+    end # end of "should export the title and type in multiple formats correctly"
+    
+    it "should export the author,publisher,date,place in multiple formats correctly" do
+      ti_ids = [ "1378974","3261564","5494906","6788245","9496646","9939352" ]
+      ti_data = {} 
+      ti_output = {} 
+      ti_ids.each   do  | id |
+        ti_output[id] = {} 
+        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {} 
+        ti_output[id]["rdf_zotero"] = {} 
+        expect(@book_recs[id]).not_to  be_nil, "You must supply a MockMarcDocument to match for bib id:#{id}." 
+        ti_output[id]["ris"] = @book_recs[id].export_as_ris()
+        ti_output[id]["endnote"] = @book_recs[id].export_as_endnote()
+        ti_output[id]["endnote_xml"] = @book_recs[id].export_as_endnote_xml()
+        ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
+      end 
+     ti_data["1378974"] = 
+          { "ris" =>          {'author' => 'AU  - Condie, Carol Joy','year' =>'PY  - 1954',
+                               'publisher' => 'PB  - Cornell Univ','place' => 'CY  - [Ithaca, N.Y.]'},
+            "endnote" =>      {'author' => '%A Condie, Carol Joy', 'year' =>  '%D  1954',
+                               'publisher' => '%I Cornell Univ','place' => '%C [Ithaca, N.Y.]'},
+            "endnote_xml" =>  {'author' => '<author>Condie, Carol Joy', 'year' => '<year>1954</year',
+                               'publisher' => '<publisher>Cornell Univ','place' => '<pub-location>[Ithaca, N.Y.]'},
+            "rdf_zotero" =>   {'author' => '<foaf:surname>Condie</foaf:surname>','year'=>'<dc:date>1954</dc:date>',
+                               'publisher' => '<foaf:name>Cornell Univ','place' => '<vcard:locality>[Ithaca, N.Y.]'}
+          }
+     ti_data["5494906"] = 
+          { "ris" =>           {'author'=>'AU  - Gauger, Wilhelm Peter Joachim' ,'year'=> 'PY  - 1965','publisher'=>'PB  - Freie Universität Berlin','place'=>'CY  - Berlin' },
+          "endnote"=>          {'author'=>'%A Gauger, Wilhelm Peter Joachim' ,'year'=> '%D 1965','publisher'=>'%I Freie Universität Berlin','place'=>'%C Berlin'} ,
+          "endnote_xml"=>      {'author'=>'author>Gauger, Wilhelm Peter Joachim</author>' ,'year'=> '<date>1965</date>','publisher' =>'<publisher>Ernst-Reuter-Gesellschaft</publisher>','place'=>'pub-location>Berlin</pub-location>' },
+          "rdf_zotero"=>       {'author'=>'<foaf:surname>Gauger</foaf:surname>' ,'year'=> '<dc:date>1965</dc:date>','publisher'=>'<foaf:name>Freie Universität Berlin</foaf:name>','place'=>'<vcard:locality>Berlin</vcard:locality>' }
+          }
+     ti_data["3261564"] = 
+          { "ris" =>           {'author'=> 'AU  - Cakrabarttī, Utpalendu' , 'year'=> 'PY  - 1983' ,'publisher'=> 'PB  -  INRECO' ,'place'=> 'CY  - Calcutta' },
+            "endnote" =>       {'author'=> '%A Cakrabarttī, Utpalendu' ,'year'=> '%D 1983' ,'publisher'=> '%I INRECO' ,'place'=> '%C Calcutta' },
+            "endnote_xml" =>   {'author'=> '<author>Cakrabarttī, Utpalendu</author>' ,'year'=> '<year>1983</year>' ,'publisher'=> '<publisher>INRECO</publisher>' ,'place'=> '<pub-location>Calcutta</pub-location>' }, 
+            "rdf_zotero"=>     {'author'=>'<foaf:surname>Cakrabarttī</foaf:surname>','year'=>'<dc:date>1983</dc:date>','publisher'=>'<foaf:name>INRECO</foaf:name>','place'=>'<vcard:locality>Calcutta</vcard:locality>' },
+          }
+     ti_data["6788245"] = 
+          {"ris" =>             {"author" => 'AU  - Warner Bros. Pictures' ,'year' =>  'PY  - 2009' ,'publisher' =>  'PB  -  Warner Home Video' ,'place' => 'CY  - Burbank, CA' },
+          "endnote" =>          {"author" => '%E Radcliffe, Daniel' ,'year' =>  '%D 2009' ,'publisher' =>  '%I Warner Home Video' ,'place' => '%C Burbank, CA' },
+          "endnote_xml" =>      {"author" => '<author>Radcliffe, Daniel</author>' ,'year' =>  '<year>2009</year>' ,'publisher' =>  '<publisher>Warner Home Video</publisher>','place' =>'<pub-location>Burbank, CA</pub-location>' },
+          "rdf_zotero" =>       {"author" => '<foaf:surname>Radcliffe</foaf:surname>' ,'year' =>  '<dc:date>2009</dc:date>' ,'publisher' =>  '<foaf:name>Warner Home Video</foaf:name>','place' =>'<vcard:locality>Burbank, CA</vcard:locality>' },
+          }
+
+     ti_data["9939352"] = 
+          {"ris" => {"author" => 'AU  - Gray, Afsaneh' ,'year' =>  'PY  - 2017' ,'publisher' => 'PB  -  Oberon Books' ,'place' => 'CY  - London' },
+           "endnote" => {"author"=> '%A Gray, Afsaneh' ,'year' =>  '%D 2017' ,'publisher' => '%I Oberon Books' ,'place' => '%C London' },
+           "endnote_xml"=> {"author"=>'author>Gray, Afsaneh</author>','year' =>'<date>2017</date>','publisher' =>'publisher>Oberon Books</publisher>','place' =>'pub-location>London</pub-location>' },
+            "rdf_zotero"=> {"author"=>'<foaf:surname>Gray</foaf:surname>','year' =>'<dc:date>2017</dc:date>','publisher' =>'<foaf:name>Oberon Books</foaf:name>','place' =>'<vcard:locality>London</vcard:locality>' },
+}
+     ti_data["9496646"] = 
+     { "ris" => {"author"=> 'AU  - Bindal, Ahmet' ,'year' => 'PY  - 2016' ,'publisher' => 'PB  -  Springer International Publishing' ,'place' => 'CY  - Cham'  },
+       "endnote" => {"author"=> '%A Bindal, Ahmet' ,'year' => '%D 2016' ,'publisher' =>  '%I Springer International Publishing' ,'place' => '%C Cham'  },
+       "endnote_xml" => {"author"=> '<author>Bindal, Ahmet</author>' ,'year' => '<year>2016</year>' ,'publisher' => '<publisher>Springer International Publishing</publisher>' ,'place' => '<pub-location>Cham</pub-location>'  }, 
+       "rdf_zotero" => {"author"=> '<foaf:surname>Bindal</foaf:surname>' ,'year' => '<dc:date>2016</dc:date>' ,'publisher' => '<foaf:name>Springer International Publishing</foaf:name>' ,'place' => '<vcard:locality>Cham</vcard:locality>'   },
+}
+
+      ti_ids.each   do |id| 
+        ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
+          ["author","year","publisher","place"].each   do |fld| 
+             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
+             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
+             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
+             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id}, should output the #{fld} in format '#{fmt}' properly." 
+          end
+        end
+       end
+    end #end of "it should export au, pb,py"
+
+
+  end # describe
 
 
 end
