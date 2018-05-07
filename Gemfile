@@ -11,6 +11,7 @@ gem 'activerecord-session_store'
 gem 'protected_attributes'
 
 group :development,:test, :integration do
+  gem "rspec_junit_formatter"
   gem 'sqlite3'
 end
 
