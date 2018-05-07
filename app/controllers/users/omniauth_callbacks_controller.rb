@@ -14,7 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = User.new(email: semail) 
       @user.save!
     end
-    provider = 'google'
+    provider = 'Google'
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
       sign_in_and_redirect @user, event: :authentication
