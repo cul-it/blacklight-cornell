@@ -601,8 +601,6 @@ CITE_MATCH
 
   end
 
-#186 |BibId | Format | AuXmlContent | DaXmlContent | PbXmlContent | PlXmlContent |
-
 
   describe "Format exports" do
     it "should export the title and type in multiple formats correctly" do
