@@ -92,6 +92,7 @@ gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth'
 gem 'omniauth-saml'
+gem 'omniauth-google-oauth2'
 
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'

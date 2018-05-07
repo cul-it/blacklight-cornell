@@ -1,6 +1,29 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
   # POST from SAML IdP won't include CSRF token
   skip_before_action :verify_authenticity_token
+
+#https://www.interexchange.org/articles/engineering/lets-devise-google-oauth-login/
+ def google_oauth2
+    auth = request.env["omniauth.auth"] 
+    semail = auth.info.email
+    u = User.where(email: semail).first
+    if u
+      @user = u
+    else 
+      @user = User.new(email: semail) 
+      @user.save!
+    end
+    provider = 'google'
+    if @user.persisted?
+      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
+      sign_in_and_redirect @user, event: :authentication
+    else
+      session["devise.google_data"] = oauth_response.except(:extra)
+      params[:error] = :account_not_found
+      do_failure_things
+    end
+  end
 
   def saml
     auth = request.env["omniauth.auth"] 
