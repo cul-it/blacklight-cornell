@@ -71,6 +71,12 @@ Feature: Results list
 		And I press 'search'
 		Then I should get results
 
+	Scenario: Search with results
+		Given I am on the home page
+		When I fill in the search box with 'biology /'
+		And I press 'search'
+		Then I should get results
+
 		# DISCOVERYACCESS-7
 	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
 
