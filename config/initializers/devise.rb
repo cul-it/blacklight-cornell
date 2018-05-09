@@ -229,6 +229,12 @@ Devise.setup do |config|
       primary: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.5'],
       groups: ['urn:oid:1.3.6.1.4.1.5923.1.1.1.1'],
     }
+
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], 
+    {
+      scope: 'email,profile',
+      prompt: 'select_account'
+    }
  
 
   # ==> Warden configuration
