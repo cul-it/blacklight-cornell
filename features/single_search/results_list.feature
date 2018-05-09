@@ -11,9 +11,11 @@ Feature: Results list
     And I press 'Search'
     Given I literally go to search
     And I press 'Search'
-    # Tests copied from Blacklight gem code
+    And I sleep 8 seconds
     Then I should be on 'the single search results page'
     And I should get bento results
+
+#why are there any results at all? when I specified no search terms?
 
   @all_results_list @search_with_no_results
   Scenario: Search with no results
