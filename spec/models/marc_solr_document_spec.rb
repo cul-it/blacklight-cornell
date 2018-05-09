@@ -685,6 +685,7 @@ CITE_MATCH
 #188 | 10055679 | endnote_xml |  '<call-num>Mann Library  SF98.A5 M35 2017</call-num>' | 
 #187 | 10055679 | rdf_zotero |  'Mann Library  SF98.A5 M35 2017' |
 # SN  - 9781426217661  1426217668
+# KW  - Chickens Marketing
     it "should export the call number, and isbn in multiple formats correctly" do
       ti_ids = [ "10055679" ]
       ti_data = {} 
@@ -700,14 +701,14 @@ CITE_MATCH
         ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
       end 
      ti_data["10055679"] = 
-          { "ris" =>  {'callnumber' => 'CN  - Mann Library  SF98.A5 M35 2017','isbn' =>'9781426217661  1426217668'},
-          "endnote" =>{'callnumber' => '%L  Mann Library  SF98.A5 M35 2017' ,'isbn' =>'%@ 9781426217661'},
-          "endnote_xml"=>{'callnumber'=>'<call-num>Mann Library  SF98.A5 M35 2017</call-num>','isbn' =>'<isbn>9781426217661  ; 1426217668 </isbn>'},
-          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>'<dc:identifier>ISBN 1426217668 </dc:identifier>'}
+          { "ris" =>  {'callnumber' => 'CN  - Mann Library  SF98.A5 M35 2017','isbn' =>'9781426217661  1426217668',"kw" =>"KW  - Chickens Marketing"},
+          "endnote" =>{'callnumber' => '%L  Mann Library  SF98.A5 M35 2017' ,'isbn' =>'%@ 9781426217661',"kw" =>"%K Chickens Marketing"},
+          "endnote_xml"=>{'callnumber'=>'<call-num>Mann Library  SF98.A5 M35 2017</call-num>','isbn' =>'<isbn>9781426217661  ; 1426217668 </isbn>',"kw" =>"<keyword>Chickens Marketing. </keyword>"},
+          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>'<dc:identifier>ISBN 1426217668 </dc:identifier>',"kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
           }
       ti_ids.each   do |id| 
         ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
-          ["callnumber","isbn"].each   do |fld| 
+          ["callnumber","isbn","kw"].each   do |fld| 
              expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
              expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
              expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
