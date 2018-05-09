@@ -33,6 +33,9 @@ describe Blacklight::Solr::Document::MarcExport do
         ['']
       end
       def setup_holdings_info(record)
+        if  self["holdings_record_display"].blank?
+          return ['']
+        end
         holdings_arr = self["holdings_record_display"]
         holdings = []
         where_arr = holdings_arr.collect { | h |  JSON.parse(h).with_indifferent_access }
