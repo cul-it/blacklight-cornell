@@ -66,6 +66,7 @@ end
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
+  get 'logins' => 'catalog#logins', :as => 'catalog_logins'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'

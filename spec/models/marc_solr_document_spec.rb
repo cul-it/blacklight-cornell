@@ -29,9 +29,22 @@ describe Blacklight::Solr::Document::MarcExport do
       #extension_parameters[:marc_source_field] = :marc_display
       #extension_parameters[:marc_format_type] = :marcxml
 
-      def setup_holdings_info(marc)
+      def xsetup_holdings_info(marc)
         ['']
       end
+      def setup_holdings_info(record)
+        if  self["holdings_record_display"].blank?
+          return ['']
+        end
+        holdings_arr = self["holdings_record_display"]
+        holdings = []
+        where_arr = holdings_arr.collect { | h |  JSON.parse(h).with_indifferent_access }
+        where = where_arr.collect do | h |  
+           "#{h['locations'][0]['library']}  #{h['callnos'][0]}" unless h.blank? or h['locations'].blank? or h['callnos'].blank?
+         end
+         where
+       end
+
 
       attr_accessor :to_marc
 
@@ -83,6 +96,8 @@ describe Blacklight::Solr::Document::MarcExport do
     # Turn all the xml data into MockMarcDocuments records.
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
+      # just a stub valid only for bibid 10055679#
+      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"SF98.A5 M35 2017\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\"}]}"]
     }
     # Fix up some parameters supplied by SOLR
     #electronic
@@ -664,7 +679,45 @@ CITE_MATCH
         end
        end
     end # end of "should export the title and type in multiple formats correctly"
-    
+
+#185 | 10055679 | endnote |  '%L  Mann Library  SF98.A5 M35 2017' |
+#186 | 10055679 | ris |  'CN - Mann Library  SF98.A5 M35 2017' |
+#188 | 10055679 | endnote_xml |  '<call-num>Mann Library  SF98.A5 M35 2017</call-num>' | 
+#187 | 10055679 | rdf_zotero |  'Mann Library  SF98.A5 M35 2017' |
+# SN  - 9781426217661  1426217668
+# KW  - Chickens Marketing
+    it "should export the call number, and isbn in multiple formats correctly" do
+      ti_ids = [ "10055679" ]
+      ti_data = {} 
+      ti_output = {} 
+      ti_ids.each   do  | id |
+        ti_output[id] = {} 
+        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {} 
+        ti_output[id]["rdf_zotero"] = {} 
+        expect(@book_recs[id]).not_to  be_nil, "You must supply a MockMarcDocument to match for bib id:#{id}." 
+        ti_output[id]["ris"] = @book_recs[id].export_as_ris()
+        ti_output[id]["endnote"] = @book_recs[id].export_as_endnote()
+        ti_output[id]["endnote_xml"] = @book_recs[id].export_as_endnote_xml()
+        ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
+      end 
+     ti_data["10055679"] = 
+          { "ris" =>  {'callnumber' => 'CN  - Mann Library  SF98.A5 M35 2017','isbn' =>'9781426217661  1426217668',"kw" =>"KW  - Chickens Marketing"},
+          "endnote" =>{'callnumber' => '%L  Mann Library  SF98.A5 M35 2017' ,'isbn' =>'%@ 9781426217661',"kw" =>"%K Chickens Marketing"},
+          "endnote_xml"=>{'callnumber'=>'<call-num>Mann Library  SF98.A5 M35 2017</call-num>','isbn' =>'<isbn>9781426217661  ; 1426217668 </isbn>',"kw" =>"<keyword>Chickens Marketing. </keyword>"},
+          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>'<dc:identifier>ISBN 1426217668 </dc:identifier>',"kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
+          }
+      ti_ids.each   do |id| 
+        ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
+          ["callnumber","isbn","kw"].each   do |fld| 
+             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
+             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
+             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
+             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id}, should output the #{fld} in format '#{fmt}' properly." 
+          end
+        end
+       end
+    end
+
     it "should export the author,publisher,date,place in multiple formats correctly" do
       ti_ids = [ "1378974","3261564","5494906","6788245","9496646","9939352" ]
       ti_data = {} 

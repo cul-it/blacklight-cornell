@@ -114,7 +114,15 @@ Then /^there should be ([0-9+]) items selected$/ do |int|
 end
 
 Then("Sign in should link to the SAML login system") do
-  page.find(:xpath, "//a[@href='/users/auth/saml']", :text => "Sign in")
+  if ENV['GOOGLE_CLIENT_ID']
+    page.find(:xpath, "//a[@href='/logins']", :text => "Sign in")
+  else 
+    page.find(:xpath, "//a[@href='/users/auth/saml']", :text => "Sign in")
+  end
+end
+
+Then("Sign in should link to the login systems") do
+  page.find(:xpath, "//a[@href='/logins']", :text => "Sign in")
 end
 
 Then("Sign in should link to Book Bags") do

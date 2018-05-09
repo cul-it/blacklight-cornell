@@ -929,8 +929,13 @@ end
   # displays and repeated form submissions.
   @@mollom = nil
 
+
   def afemail
     @id = params[:id]
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+  end
+
+  def logins 
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
