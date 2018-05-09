@@ -13,7 +13,7 @@
               if request.env['PATH_INFO'] == "/bookmarks" 
                 '/book_bags/index'
               else
-               catalog_logins_path
+               ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
               end
             %>
             <li>
