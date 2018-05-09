@@ -877,6 +877,13 @@ def check_params(params)
        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
        redirect_to root_path
      else
+       q = q.rstrip
+       while (q[-1] == "/" or q[-1] == "\\") do
+         if q[-1] == "/" or q[-1] == "\\"
+           q[-1] = ""
+           q = q.rstrip 
+         end
+       end
        return q
      end    
   end
