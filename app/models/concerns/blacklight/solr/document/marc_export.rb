@@ -692,7 +692,7 @@ module Blacklight::Solr::Document::MarcExport
                            (field['q'] ? ' ' + field['q'] : '')
     end
     record.find_all{|f| f.tag === "700" }.each do |field|
-      if field["a"]
+      if field["a"] && field['t'].blank?
         relators = []
         relators << clean_end_punctuation(field["e"]) if field["e"]
         relators << clean_end_punctuation(field["4"]) if field["4"]

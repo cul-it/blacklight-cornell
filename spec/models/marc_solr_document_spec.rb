@@ -92,7 +92,7 @@ describe Blacklight::Solr::Document::MarcExport do
     dclass.use_extension( Blacklight::Solr::Document::Endnote )
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
             "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
-            "8392067", "8696757", "8867518", "9305118", "9448862", "9496646", "9939352", "10055679",]
+            "8392067", "8696757", "8867518", "8632993","9305118", "9448862", "9496646", "9939352", "10055679",]
     # Turn all the xml data into MockMarcDocuments records.
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
@@ -159,7 +159,7 @@ describe Blacklight::Solr::Document::MarcExport do
     end
     it "should format a citation with 4+ authors correctly" do
       chicago_text = @record_with_10plus_authors.export_as_chicago_citation_txt()[1]
-      expect(chicago_text).to eq("Greer,  Lowell, Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe, et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
+      expect(chicago_text).to eq("Greer,  Lowell, Steven Lubin, Stephanie Chase, Stephanie Chaste, Stephanie Waste, Stephanie Paste, John Doe, et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
       expect(chicago_text).to match(/John Doe, et al\./)
       expect(chicago_text).not_to match(/Jane Doe/)
     end
@@ -220,6 +220,23 @@ describe Blacklight::Solr::Document::MarcExport do
       expect(@typical_record.export_as_mla_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003. Print.")
     end
 
+# Must not interpret analytic additional personal names as applying to citation. 
+# DISCOVERYACCESS-4195
+    it "should format an analytic entry correctly for mla (7)" do
+      id = "8632993"
+      cite_info = @book_recs[id].export_as_mla_citation_txt()
+      cite_style = cite_info[0]
+      cite_text = cite_info[1]
+      match_style = @mla_match_style 
+      # because of the here doc syntax, the variable always ends in newline.
+      # so, must account for that when we handle the expect.
+      match_str =  <<'CITE_MATCH'
+Formichi,  Chiara, ed. <i>Religious Pluralism, State and Society in Asia.</i> London: Routledge, 2014. Print.
+CITE_MATCH
+      expect(cite_text + "\n").to match(match_str)
+      expect(cite_style).to match(match_style)
+    end 
+# DISCOVERYACCESS-1677
 # roman numerals need to be properly eliminated from the date field.
 # DISCOVERYACCESS-1677
     it "should format an old time book correctly for mla (7)" do
@@ -233,8 +250,6 @@ describe Blacklight::Solr::Document::MarcExport do
       match_str =  <<'CITE_MATCH'
 Wake,  William. <i>Three Tracts against Popery. Written in the Year MDCLXXXVI. By William Wake, M.A. Student of Christ Church, Oxon; Chaplain to the Right Honourable the Lord Preston, and Preacher at S. Ann's Church, Westminster.</i> London: printed for Richard Chiswell, at the Rose and Crown in S. Paul's Church-Yard, 1687. Web.
 CITE_MATCH
-      # because of the here doc syntax, the variable always ends in newline.
-      # so, must account for that when we handle the expect.
       expect(cite_text + "\n").to eq(match_str)
       expect(cite_style).to eq(match_style)
     end
@@ -509,8 +524,9 @@ CITE_MATCH
 
   describe "export_as_refworks_marc_txt" do
     it "should export correctly" do
-      expect(@music_record.export_as_refworks_marc_txt).to eq("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
+      expect(@music_record.export_as_refworks_marc_txt).to match("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
     end
+
     describe "for UTF-8 record" do
       it "should export in Unicode normalized C form" do        
         @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
@@ -583,7 +599,7 @@ CITE_MATCH
       #expect(endnote_entries["D"]).to eq(Set.new(["p2001. "]))
       expect(endnote_entries["D"]).to eq(Set.new(["2001"]))
       expect(endnote_entries["C"]).to eq(Set.new(["[United States]"]))
-      expect(endnote_entries["E"]).to eq(Set.new(["Greer, Lowell ", "Lubin, Steven ", "Chase, Stephanie ", "Brahms, Johannes ", "Beethoven, Ludwig van ", "Krufft, Nikolaus von "]))
+      expect(endnote_entries["E"]).to eq(Set.new(["Greer, Lowell ", "Lubin, Steven ", "Chase, Stephanie ","Chase, Stepehn ","Chaste, Stepehn ","Brahms, Johannes ", "Beethoven, Ludwig van ", "Krufft, Nikolaus von "]))
       expect(endnote_entries["I"]).to eq(Set.new(["Harmonia Mundi USA"]))
       expect(endnote_entries["T"]).to eq(Set.new(["Music for horn "]))
 
