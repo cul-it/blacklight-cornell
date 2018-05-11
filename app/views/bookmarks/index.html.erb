@@ -26,10 +26,8 @@
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
 
-        <%- if current_user -%>
-            <i class="fa fa-plus-circle"></i> <%= 'Add these items to Book Bag' %>
-        <% elsif current_or_guest_user.bookmarks.count > 0  %>
-            <i class="fa fa-plus-circle"></i> <%= 'Sign in to add these items to Book Bag' %>
+        <%- if current_or_guest_user -%>
+            <i class="fa fa-plus-circle"></i> <%= 'Sign in to add selected items to book bag' %>
         <%- end -%>
       </div>
       <div class="col-sm-6">
