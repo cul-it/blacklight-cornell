@@ -26,10 +26,8 @@
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
 
-        <%- if current_or_guest_user && !current_user -%>
-          <%= link_to login_add_bookmarks_path, :data => { :confirm => t('blacklight.bookmarks.login_add.action_confirm') }, :class => 'add-bookmarks-to-bookbag' do %>
-            <i class="fa fa-times-plus"></i> <%= t('blacklight.bookmarks.login_add.action_title') %>
-          <% end %>
+        <%- if current_or_guest_user -%>
+            <i class="fa fa-plus-circle"></i> <%= 'Sign in to add selected items to book bag' %>
         <%- end -%>
       </div>
       <div class="col-sm-6">
