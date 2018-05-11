@@ -19,7 +19,11 @@ class BookBagsController < CatalogController
 
   before_filter :heading
   append_before_filter :set_bag_name
+  append_before_filter :check_bookmarks
  
+  def check_bookmarks
+    flash[:notice] = I18n.t('blacklight.bookmarks.bag.success')
+  end
 
   def set_bag_name
     @id = current_user.email
