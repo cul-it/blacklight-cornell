@@ -163,11 +163,11 @@ end
   get 'book_bags/index(.:format)'
   get 'book_bags/citation'
   get 'book_bags/clear' => 'book_bags#clear'
+  get 'book_bags/bag_selected' => 'book_bags#bag_selected'
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
-  get 'book_bags/bag_selected' => 'book_bags#bag_selected'
- 
+  
 
 
 
