@@ -27,7 +27,7 @@ class BookBagsController < CatalogController
     end
   end
 
-  def bag_selected
+  def bagselected
     flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
     redirect_to "/bookmarks"
   end
