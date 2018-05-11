@@ -27,7 +27,9 @@
         <% end %>
 
         <%- if current_or_guest_user -%>
-            <i class="fa fa-plus-circle"></i> <%= 'Sign in to add selected items to book bag' %>
+            <%= link_to  bag_bookmarks_path, :method => :bag, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'bag-bookmarks' do %>
+              <i class="fa fa-plus-circle"></i> <%= t('blacklight.bookmarks.bag.action_title') %>
+            <% end %>
         <%- end -%>
       </div>
       <div class="col-sm-6">
