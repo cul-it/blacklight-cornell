@@ -10,22 +10,27 @@ Feature: Select and export items from the result set
 	Scenario: Select an item from the results list
 		# Note: Checking the 'select' box on an item saves it to a personal Selected Items
 		# set immediately via JavaScript
-
-
-# DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
-# test regular expression that expunges characters from date field.
+# item view called twice because the formats are not registered till the item view is called once.
+#
+#TY  - EBOOK
+#TI  - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament
+#AU  - Company for Propagation of the Gospel in New England and the Parts Adjacent in America
 @all_select_and_export
 @citations
-@DISCOVERYACCESS-1677 
-@javascript
-  Scenario: User needs to cite a record with extra info expunged from date field. 
+@ris
+  Scenario: User needs to send an ebook record to ris format (might go to zotero) 
     Given I request the item view for 5558811
-    And click on link "Cite"
-    And I sleep 2 seconds
-    Then I should see the label 'Chicago 17th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685.'
-    Then I should see the label 'MLA 7th ed. Eliot, John, John Cotton, and Robert Boyle. Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. Web.'
-    Then I should see the label 'APA 6th ed. Eliot, J., Cotton, J., & Boyle, R. (1685). Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.'
-
+    Given I request the item view for 5558811.ris
+    Then I should see the text 'TY - EBOOK'
+    Then I should see the text 'AU - Company for Propagation of the Gospel in New England and the Parts Adjacent in America'
+    Then I should see the text 'TI - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament'
+    Then I should see the text 'PY  - 1685'
+    Then I should see the text 'PB  - Printeuoop nashpe Samuel Green.'
+    Then I should see the text 'CY  - Cambridge [Mass.].'
+    Then I should see the text 'LA  - Algonquian (Other)'
+    Then I should see the text 'UR  - http://opac.newsbank.com/select/evans/385'
+    Then I should see the text 'M2 - http://newcatalog.library.cornell.edu/catalog/5558811'
+    Then I should see the text 'ER  -'
 # item view called twice because the formats are not registered till the item view is called once.
 #
 #TY  - EBOOK
@@ -45,23 +50,6 @@ Feature: Select and export items from the result set
 #N1  - The Psalms of David, p. [1117-1216], with caption title: Wame ketoohomae uketoohomaongash David. The Psalms were evidently issued separately as well, probably in 1682. 
 #N1  - Rules for Christian living, by John Eliot, in Algonquian, p. [1217-1218]. 
 #ER  - 
-
-@all_select_and_export
-@citations
-@ris
-  Scenario: User needs to send an ebook record to ris format (might go to zotero) 
-    Given I request the item view for 5558811
-    Given I request the item view for 5558811.ris
-    Then I should see the text 'TY - EBOOK'
-    Then I should see the text 'AU - Company for Propagation of the Gospel in New England and the Parts Adjacent in America'
-    Then I should see the text 'TI - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament'
-    Then I should see the text 'PY  - 1685'
-    Then I should see the text 'PB  - Printeuoop nashpe Samuel Green.'
-    Then I should see the text 'CY  - Cambridge [Mass.].'
-    Then I should see the text 'LA  - Algonquian (Other)'
-    Then I should see the text 'UR  - http://opac.newsbank.com/select/evans/385'
-    Then I should see the text 'M2 - http://newcatalog.library.cornell.edu/catalog/5558811'
-    Then I should see the text 'ER  -'
 
 #TY - BOOK TI - Reflections : the anthropological muse PY - 1985 PB - American Anthropological Association CY - Washington, D.C. LA - English M2 - http://newcatalog.library.cornell.edu/catalog/1001 N1 - http://newcatalog.library.cornell.edu/catalog/1001 KW - Anthropologists' writings, American. KW - Anthropology Poetry. KW - American poetry 20th century. KW - Anthropologists' writings, English. KW - English poetry 20th century. CN - Library Annex PS591.A58 R33 SN - 091316710X : ER -
 @all_select_and_export
