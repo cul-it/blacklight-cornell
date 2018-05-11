@@ -39,7 +39,7 @@
         </li>
       <% end %>
 
-      <% if !current_user || (current_or_guest_user.bookmarks.count  > 0) %>
+      <% if current_or_guest_user.bookmarks.count  > 0 %>
       <li>
         <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
         <%= t('blacklight.header_links.bookmarks') %>
