@@ -27,6 +27,11 @@ class BookBagsController < CatalogController
     end
   end
 
+  def bag_selected
+    flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
+    redirect_to "/bookmarks"
+  end
+
   def set_bag_name
     @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
