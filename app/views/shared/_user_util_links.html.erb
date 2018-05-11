@@ -39,12 +39,26 @@
         </li>
       <% end %>
 
-      <li>
-        <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
-        <%= t('blacklight.header_links.bookmarks') %>
-          (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)       
+      <% if current_or_guest_user %>
+        <% @bookmarks = current_or_guest_user.bookmarks %>
+        <% if !Bookbag.enabled? || (Bookbag.enabled? && !current_user)  %>
+          <li>
+            <% if !current_user && Bookbag.enabled? %>
+              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+              <%= t('blacklight.header_links.bookmarks') %>
+               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+            <% end %>
+
+            <% else %>
+              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+              <%= t('blacklight.header_links.bookmarks') %>
+              (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+              <% end %>
+            <% end %>
+
+          </li>
         <% end %>
-      </li>
+      <% end %>
 
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
       <li>
