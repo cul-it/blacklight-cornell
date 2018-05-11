@@ -26,7 +26,7 @@
 
       <% if current_user && Bookbag.enabled? %>
         <li>
-            <%= link_to "/book_bags/index", id:'bookbags_nav' do %>
+            <%= link_to "/book_bags/index", id:'bookmarks_nav' do %>
             <% @selectedcount = 
               if user_session.nil? || user_session[:bookbag_count].nil?
                 0
