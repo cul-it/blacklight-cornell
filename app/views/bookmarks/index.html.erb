@@ -27,9 +27,12 @@
         <% end %>
 
         <%- if current_or_guest_user -%>
-            <%= link_to bookmarks_path, :method => :bag, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'bag-bookmarks' do %>
-              <i class="fa fa-plus-circle"></i> <%= t('blacklight.bookmarks.bag.action_title') %>
-            <% end %>
+          <div class="checkbox select_all btn btn-default">
+            <label for="select_all_input">
+              <input type="checkbox" id="select_all_input">
+              <span><%= t('blacklight.bookmarks.bag.action_title') %></span>
+            </label>
+          </div>
         <%- end -%>
       </div>
       <div class="col-sm-6">
