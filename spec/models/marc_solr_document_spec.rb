@@ -105,7 +105,7 @@ describe Blacklight::Solr::Document::MarcExport do
     # add on url information.
     # more than url is required.
     eids.each { |id| 
-      @book_recs[id]['url_access_display'] = "http://example.com"
+      @book_recs[id]['url_access_display'] = ["http://example.com"]
       @book_recs[id]["online"]= ["Online"]
     }
     #music
@@ -366,6 +366,45 @@ CITE_MATCH
       expect(cite_info[0]).to match(match_style)
     end
 ###
+#
+    it "should format mla7,8, and cse citation information properly for ebook" do
+      id = "5558811"
+      cite_info={}
+      match_str={}
+      match_style={}
+      match_style['mla7'] = @mla_match_style
+      match_style['mla8'] = @mla8_match_style
+      match_style['cse'] = @cse_match_style
+      match_style['chicago'] = @chicago_match_style
+      match_style['apa'] = @apa_match_style
+      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
+      ["mla","mla8","cse","chicago","apa"].each   do |fmt| 
+        cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
+      end
+      # Account irregular name for mla7 citation -- ..as_mla_...
+      cite_info['mla7'] = cite_info['mla']
+      match_str['mla7'] =  <<'CITE_MATCH'
+Eliot,  John, John Cotton, and Robert Boyle. <i>Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament.</i> Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. Web.
+CITE_MATCH
+      match_str['mla8'] =  <<'CITE_MATCH'
+Eliot, John, et al. <i>Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament.</i> Printeuoop nashpe Samuel Green., 1685, http://opac.newsbank.com/select/evans/385.
+CITE_MATCH
+      match_str['cse'] =  <<'CITE_MATCH'
+Eliot J, Cotton J, Boyle R. Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.; 1685.
+CITE_MATCH
+      match_str['chicago'] =  <<'CITE_MATCH'
+Eliot,  John, John Cotton, and Robert Boyle. <i>Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament.</i> Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. http://opac.newsbank.com/select/evans/385.
+CITE_MATCH
+      match_str['apa'] =  <<'CITE_MATCH'
+Eliot, J., Cotton, J., &amp; Boyle, R. (1685). <i>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament.</i> Cambridge [Mass.].: Printeuoop nashpe Samuel Green. Retrieved from http://opac.newsbank.com/select/evans/385
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
+        ["mla7","mla8","cse","chicago","apa"].each   do |fmt| 
+      expect(cite_info[fmt][1] + "\n").to match(match_str[fmt]), "Bibid #{id} #{fmt} citation text does not match. Created string '#{cite_info[fmt][1]}'  does not match required text: '#{match_str[fmt]}' "
+      expect(cite_info[fmt][0]).to match(match_style[fmt]), "Bibid #{id} #{fmt} style description does not match. Created string '#{cite_info[fmt][0]}'  does not match required text: '#{match_style[fmt]}' "
+      end
+    end
 
     it "should format mla7,8, and cse citation information properly" do
       id = "7292123"
