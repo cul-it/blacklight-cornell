@@ -105,7 +105,15 @@ class BookBagsController < CatalogController
     redirect_to :action => "index"
   end
 
-
+  def bag
+    success = true;
+    if success
+      flash[:notice] = I18n.t('blacklight.bookmarks.bag.success')
+    else
+      flash[:error] = I18n.t('blacklight.bookmarks.bag.failure')
+    end
+    redirect_to :action => "index"
+  end
 
    
   def action_documents
