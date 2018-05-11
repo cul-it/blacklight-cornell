@@ -22,7 +22,7 @@ class BookBagsController < CatalogController
   append_before_filter :check_bookmarks
  
   def check_bookmarks
-    if current_or_guest_user.bookmark.count > 0
+    if current_or_guest_user.bookmarks.count > 0
       flash[:notice] = '<a href="/bookmarks">' + I18n.t('blacklight.bookmarks.bag.action_confirm') + '</a>'
     end
   end
