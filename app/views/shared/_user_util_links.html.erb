@@ -39,12 +39,14 @@
         </li>
       <% end %>
 
+      <% if current_or_guest_user.bookmarks.count  > 0 %>
       <li>
         <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
         <%= t('blacklight.header_links.bookmarks') %>
           (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)       
         <% end %>
       </li>
+      <% end %>
 
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
       <li>
