@@ -57,7 +57,7 @@ class BookBagsController < CatalogController
   def multiadd
     @savedll = Rails.logger.level # at any time
     @bibs = params[:ids]
-    @values = @bibs.split("|")
+    @values = @bibs.split(".")
     @values.inspect
     Rails.logger.level = @savedll
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmark_ids = #{@values}")
