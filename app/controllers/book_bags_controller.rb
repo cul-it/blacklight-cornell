@@ -59,7 +59,7 @@ class BookBagsController < CatalogController
     Rails.logger.level = :debug
     bibs = params[:ids]
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
-    if bibs.any?
+    if not bibs.empty?
       values = bibs.split(".")
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
       values.each do | v |
