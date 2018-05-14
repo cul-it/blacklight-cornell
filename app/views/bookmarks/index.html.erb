@@ -34,7 +34,6 @@
           %>
           <%= form_tag url_for(:controller => "book_bag", :action => "multiadd"), :method => post %>
             <i class="fa fa-plus-circle"></i>
-            <%= hidden_field_tag "ids", ids %>
             <button type="submit" class="btn btn-primary"> <%= t('blacklight.bookmarks.bag.action_title') %></button>
           <% end %>
           <%= link_to path, :method => :multiadd, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'bag-bookmarks' do %>
