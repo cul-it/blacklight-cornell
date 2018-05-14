@@ -30,9 +30,9 @@
           bookmarks = current_or_guest_user.bookmarks
           bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
           ids = bookmark_ids.join(".")
-          path = multiadd_index_path(@post, :ids => ids)
+          path = multiadd_index_path(@post)
           %>
-          <%= form_tag( url_for(:controller => "book_bag", :action => "multiadd"), :method => post) do %>
+          <%= form_tag( path, :method => post) do %>
             <%= hidden_field_tag "ids", ids %>
             <button type="submit" class="btn btn-primary"> <%= t('blacklight.bookmarks.bag.action_title') %></button>
           <% end %>
