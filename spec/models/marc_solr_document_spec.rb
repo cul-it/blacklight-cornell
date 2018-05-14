@@ -96,6 +96,7 @@ describe Blacklight::Solr::Document::MarcExport do
     # Turn all the xml data into MockMarcDocuments records.
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
+      @book_recs[id]['id'] = id
       # just a stub valid only for bibid 10055679#
       @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"SF98.A5 M35 2017\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\"}]}"]
     }
@@ -606,7 +607,8 @@ CITE_MATCH
 #SN  - 091316710X : 
 #ER  - 
     it "should export a typical book record correctly" do
-      ris_file = @book_recs["1001"].export_as_ris
+      id = "1001"
+      ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
         line =~ /^(..?)  - (.*)$/
@@ -614,14 +616,36 @@ CITE_MATCH
       end
       expect(ris_entries["TY"]).to eq(Set.new(["BOOK"])) 
       expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"])) 
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"])) 
       expect(ris_entries["PY"]).to eq(Set.new(["1985"])) 
       expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"])) 
       expect(ris_entries["CY"]).to eq(Set.new(["Washington, D.C."])) 
       expect(ris_entries["ER"]).to eq(Set.new([""])) 
     end
+
+    it "should export a typical ebook record correctly" do
+      id = "5558811"
+      @book_recs[id]["online"]= ["Online"]
+      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
+      @book_recs[id]['language_facet'] = ["Algonquian (Other)"] 
+      ris_file = @book_recs[id].export_as_ris
+      ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
+      ris_file.each_line do |line|
+        line =~ /^(..?)  - (.*)$/
+        ris_entries[$1] << $2
+      end
+      expect(ris_entries["TY"]).to eq(Set.new(["EBOOK"])) 
+      expect(ris_entries["AU"]).to eq(Set.new(["Company for Propagation of the Gospel in New England and the Parts Adjacent in America"])) 
+      expect(ris_entries["TI"]).to eq(Set.new(["Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament"])) 
+      expect(ris_entries["PY"]).to eq(Set.new(["1685"])) 
+      expect(ris_entries["PB"]).to eq(Set.new([" Printeuoop nashpe Samuel Green."])) 
+      expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"])) 
+      expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."])) 
+      expect(ris_entries["UR"]).to eq(Set.new(["http://opac.newsbank.com/select/evans/385"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/#{id}"])) 
+      expect(ris_entries["ER"]).to eq(Set.new([""])) 
+    end
   end
-
-
 #
 
   describe "Export as endnote means that it " do
