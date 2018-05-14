@@ -60,6 +60,7 @@ class BookBagsController < CatalogController
     bibs = params[:ids]
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
     values = bibs.split(".")
+    values.each { |s| s.prepend('bibid-') }
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
     values.each { |v| success = @bb.create(v) }
     user_session[:bookbag_count] = @bb.count
