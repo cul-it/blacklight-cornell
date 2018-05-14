@@ -59,15 +59,17 @@ class BookBagsController < CatalogController
     Rails.logger.level = :debug
     bibs = params[:ids]
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
-    values = bibs.split(".")
-    values.each do | v |
-      if /[0-9]+/.match(v)
-        v.prepend('bibid-')
-        success = @bb.create(v)
+    if bibs.any?
+      values = bibs.split(".")
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
+      values.each do | v |
+        if /[0-9]+/.match(v)
+          v.prepend('bibid-')
+          success = @bb.create(v)
+        end
       end
+      user_session[:bookbag_count] = @bb.count
     end
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
-    user_session[:bookbag_count] = @bb.count
     Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
