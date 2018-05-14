@@ -20,22 +20,6 @@ class BookBagsController < CatalogController
   before_filter :heading
   append_before_filter :set_bag_name
   
-  def bagselected
-    @savedll = Rails.logger.level # at any time
-    Rails.logger.level = :debug
-    if current_or_guest_user.bookmarks.count > 0
-      # add bookmarks to book_bag
-      count = current_or_guest_user.bookmarks.count
-      bookmarks = token_or_current_or_guest_user.bookmarks
-      bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @count = #{count} @bookmark_ids = #{bookmark_ids.inspect}")
-      # remove all bookmarks
-      flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
-    end
-    Rails.logger.level = @savedll
-    redirect_to :action => "index"
-  end
-
   def set_bag_name
     @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
