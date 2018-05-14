@@ -32,8 +32,7 @@ class BookBagsController < CatalogController
     Rails.logger.level = :debug
     if current_or_guest_user.bookmarks.count > 0
       # add bookmarks to book_bag
-      @bookmarks = current_or_guest_user.bookmarks;
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmarks = #{@bookmarks.inspect}")
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmarks = #{current_or_guest_user.bookmarks.inspect}")
       # remove all bookmarks
       flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
     end
