@@ -596,18 +596,10 @@ CITE_MATCH
       expect(ris_entries["N1"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"])) 
       expect(ris_entries["ER"]).to eq(Set.new([""])) 
     end
-#CY  - Washington, D.C.
-#M2  - http://newcatalog.library.cornell.edu/catalog/
-#N1  - http://newcatalog.library.cornell.edu/catalog/
-#KW  - Anthropologists' writings, American. 
-#KW  - Anthropology Poetry. 
-#KW  - American poetry 20th century. 
-#KW  - Anthropologists' writings, English. 
-#KW  - English poetry 20th century. 
 #SN  - 091316710X : 
-#ER  - 
     it "should export a typical book record correctly" do
       id = "1001"
+      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"PS591.A58 R33\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Library Annex\",\"library\":\"Library Annex\"}]}"]
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
@@ -618,8 +610,11 @@ CITE_MATCH
       expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"])) 
       expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"])) 
       expect(ris_entries["PY"]).to eq(Set.new(["1985"])) 
+      expect(ris_entries["KW"]).to eq(Set.new(["Anthropologists' writings, American. ", "Anthropology Poetry. ", "American poetry 20th century. ", "Anthropologists' writings, English. ", "English poetry 20th century. "]))
       expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"])) 
       expect(ris_entries["CY"]).to eq(Set.new(["Washington, D.C."])) 
+      expect(ris_entries["SN"]).to eq(Set.new(["091316710X  "])) 
+      expect(ris_entries["CN"]).to eq(Set.new(["Library Annex  PS591.A58 R33"])) 
       expect(ris_entries["ER"]).to eq(Set.new([""])) 
     end
 

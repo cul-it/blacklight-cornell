@@ -12,19 +12,6 @@ Feature: Select and export items from the result set
 		# set immediately via JavaScript
 @all_select_and_export
 @citations
-@ris
-  Scenario: User needs to send a book record to ris format (might go to zotero) 
-    Given I request the item view for 1001 
-    Given I request the item view for 1001.ris
-    Then I should see the text 'TY - BOOK'
-    Then I should see the text 'TI - Reflections: the anthropological muse'
-    Then I should see the text 'CY - Washington, D.C.' 
-    Then I should see the text 'CN - Library Annex PS591.A58 R33'
-    Then I should see the text 'SN - 091316710X' 
-    Then I should see the text 'ER  -'
-
-@all_select_and_export
-@citations
   Scenario: User needs to send a book record to endnote format (might go to zotero) 
     Given I request the item view for 1001 
     Given I request the item view for 1001.endnote
@@ -116,7 +103,7 @@ Feature: Select and export items from the result set
     Given I request the item view for 1001.rdf_zotero
     Then I should see the xml text '<z:itemType>book</z:itemType'
     Then I should see the xml text '<dc:title>Reflections: the anthropological muse</dc:title>'
-    Then I should see the xml text '<dc:identifier>ISBN 091316710X : '
+    Then I should see the xml text '<dc:identifier>ISBN 091316710X'
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
 @all_select_and_export
