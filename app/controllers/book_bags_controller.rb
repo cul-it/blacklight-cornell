@@ -19,14 +19,7 @@ class BookBagsController < CatalogController
 
   before_filter :heading
   append_before_filter :set_bag_name
-  append_before_filter :check_bookmarks
- 
-  def check_bookmarks
-    if current_or_guest_user.bookmarks.count > 0
-      flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
-    end
-  end
-
+  
   def bagselected
     @savedll = Rails.logger.level # at any time
     Rails.logger.level = :debug
