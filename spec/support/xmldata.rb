@@ -682,24 +682,27 @@ def record3_xml
     <subfield code=\"r\">F major.</subfield>
   </datafield>
   
-  <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Doe, John</subfield>
   </datafield>
   
-  <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Doe, Jane</subfield>
   </datafield>
   
-  <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Smith, John</subfield>
   </datafield>
   
-  <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Smith, Jane</subfield>
   </datafield>
   
-  <datafield tag=\"700\" ind1=\"1\" ind2=\"2\">
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Smith, James</subfield>
+  </datafield>
+  <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">Smith, Chad</subfield>
   </datafield>
 </record>"
 end
