@@ -57,10 +57,11 @@ class BookBagsController < CatalogController
   def multiadd
     @savedll = Rails.logger.level # at any time
     Rails.logger.level = :debug
-    @bibs = params[:ids]
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bibs = #{@bibs.inspect}")
-    @values = @bibs.split(".")
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmark_ids = #{@values.inspect}")
+    bibs = params[:ids]
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
+    values = bibs.split(".")
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
+    values.each { |v| success = @bb.create(v) }
     Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
