@@ -16,6 +16,11 @@
         <%= link_to  book_bags_clear_path, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
+        <% if current_or_guest_user.bookmarks.count > 0  %>
+          <%= link_to  book_bags_bagselected_path, :method => :bag, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'bag-bookmarks' do %>
+            <i class="fa fa-plus-circle"></i> <%= t('blacklight.bookmarks.bag.action_title') %>
+          <% end %>
+        <% end %>
       </div>
       <div class="col-sm-3"> &nbsp</div>
       <div class="col-sm-3">
