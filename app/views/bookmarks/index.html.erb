@@ -26,15 +26,13 @@
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
         <% if current_or_guest_user.bookmarks.count > 0  %>
-          <%= link_to  bookmarks_bagselected_path, :method => :bag, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'bag-bookmarks' do %>
+          <%
+          bookmarks = current_or_guest_user.bookmarks
+          bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
+          ids = bookmark_ids.join(".")
+          %>
+          <%= link_to  multiadd_index_path, :method => :multiadd, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'bag-bookmarks', :ids => ids do %>
             <i class="fa fa-plus-circle"></i> <%= t('blacklight.bookmarks.bag.action_title') %>
-            <%
-            count = current_or_guest_user.bookmarks.count
-            bookmarks = current_or_guest_user.bookmarks
-            bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-            %>
-            <%= hash_as_hidden_fields(bookmark_ids) %>
-
           <% end %>
         <% end %>
       </div>
