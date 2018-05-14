@@ -33,7 +33,7 @@
             bookmarks = current_or_guest_user.bookmarks
             bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
             %>
-            <%= bookmark_ids.inspect %>
+            <%= hash_as_hidden_fields(bookmark_ids) %>
 
           <% end %>
         <% end %>
