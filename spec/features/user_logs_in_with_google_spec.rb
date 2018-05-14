@@ -15,6 +15,16 @@ RSpec.feature "user logs in" do
     end
   end
 
+  scenario "using google oauth2 from search history page" do
+    stub_omniauth
+    visit 'search_history' 
+    click_link "Sign in"
+    expect(page).to have_link("Sign in with your google id")
+    click_link "Sign in with your google id"
+    expect(page).to have_content("Successfully authenticated from Google account")
+    expect(page).to have_content("Search History")
+  end
+
   def stub_omniauth
     # first, set OmniAuth to run in test mode
     OmniAuth.config.test_mode = true
