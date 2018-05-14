@@ -32,7 +32,7 @@
           ids = bookmark_ids.join(".")
           path = multiadd_index_path(@post, :ids => ids)
           %>
-          <%= form_tag url_for(:controller => "book_bag", :action => "multiadd"), :method => post %>
+          <%= form_tag( url_for(:controller => "book_bag", :action => "multiadd"), :method => post) do %>
             <%= hidden_field_tag "ids", ids %>
             <button type="submit" class="btn btn-primary"> <%= t('blacklight.bookmarks.bag.action_title') %></button>
           <% end %>
