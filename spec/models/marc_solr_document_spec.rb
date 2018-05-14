@@ -778,7 +778,9 @@ CITE_MATCH
           { "ris" =>  {'callnumber' => 'CN  - Mann Library  SF98.A5 M35 2017','isbn' =>'9781426217661  1426217668',"kw" =>"KW  - Chickens Marketing"},
           "endnote" =>{'callnumber' => '%L  Mann Library  SF98.A5 M35 2017' ,'isbn' =>'%@ 9781426217661',"kw" =>"%K Chickens Marketing"},
           "endnote_xml"=>{'callnumber'=>'<call-num>Mann Library  SF98.A5 M35 2017</call-num>','isbn' =>'<isbn>9781426217661  ; 1426217668 </isbn>',"kw" =>"<keyword>Chickens Marketing. </keyword>"},
-          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>'<dc:identifier>ISBN 1426217668 </dc:identifier>',"kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
+          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>
+             Set.new(['<dc:identifier>ISBN 1426217668 </dc:identifier>','<dc:identifier>ISBN 9781426217661 </dc:identifier>']),
+             "kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
           }
       ti_ids.each   do |id| 
         ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
@@ -786,7 +788,13 @@ CITE_MATCH
              expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
              expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
              expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
-             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id}, should output the #{fld} in format '#{fmt}' properly." 
+             if ti_data[id][fmt][fld].is_a? Set
+               ti_data[id][fmt][fld].each {|exp|
+                 expect(ti_output[id][fmt]).to include(exp),"Bib id:#{id},should output #{fld} in format '#{fmt}'  did not match #{exp} properly." 
+               }
+             else
+               expect(ti_output[id][fmt]).to include(ti_data[id][fmt][fld]),"Bib id:#{id},should output the #{fld} in format '#{fmt}' properly." 
+             end
           end
         end
        end
