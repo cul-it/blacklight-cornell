@@ -60,7 +60,7 @@ class BookBagsController < CatalogController
     @values = @bibs.split("|")
     @values.inspect
     Rails.logger.level = @savedll
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmark_ids = #{values}")
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmark_ids = #{@values}")
     redirect_to :action => "index"
   end
 
