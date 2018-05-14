@@ -62,6 +62,7 @@ class BookBagsController < CatalogController
     values = bibs.split(".")
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
     values.each { |v| success = @bb.create(v) }
+    user_session[:bookbag_count] = @bb.count
     Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
