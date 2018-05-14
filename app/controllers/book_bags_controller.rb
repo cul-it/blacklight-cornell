@@ -36,8 +36,8 @@ class BookBagsController < CatalogController
       # remove all bookmarks
       flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
     end
-    #redirect_to :action => "index"
     Rails.logger.level = @savedll
+    redirect_to :action => "index"
   end
 
   def set_bag_name
