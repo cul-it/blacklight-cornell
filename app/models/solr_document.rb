@@ -92,7 +92,7 @@ class SolrDocument
     record.find_all{|f| f.tag === "020" }.each do |field|
       textstr = ''
       field.each do  |sf|
-        textstr << sf.value + ' ' if ["a"].include?(sf.code)
+        textstr << clean_end_punctuation(sf.value) + ' ' if ["a"].include?(sf.code)
       end
       text << textstr
     end
