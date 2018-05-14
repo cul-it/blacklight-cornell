@@ -23,7 +23,7 @@ class BookBagsController < CatalogController
  
   def check_bookmarks
     if current_or_guest_user.bookmarks.count > 0
-      flash[:notice] = '<a href="/bookmarks">' + I18n.t('blacklight.bookmarks.bag.action_confirm') + '</a>'
+      flash[:notice] = I18n.t('blacklight.bookmarks.bag.action_confirm')
     end
   end
 
