@@ -17,7 +17,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     provider = 'Google'
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
-      sign_in_and_redirect @user, event: :authentication
+      if session[:cuwebauth_return_path].present?  
+        path = session[:cuwebauth_return_path]
+        Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
+        session[:cuwebauth_return_path] = nil
+        sign_in :user, @user 
+        redirect_to path 
+        return
+      else  
+        redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
+      end
+      sign_in :user, @user 
+      #sign_in_and_redirect @user, event: :authentication
     else
       session["devise.google_data"] = oauth_response.except(:extra)
       params[:error] = :account_not_found
@@ -57,9 +68,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
       session[:cuwebauth_return_path] = nil
-      #redirect_to path
       redirect_to path 
-      #render :js => "<script>window.location = '/catalog/email'</script>"
       return
     else  
       redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
