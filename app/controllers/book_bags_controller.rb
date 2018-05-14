@@ -54,6 +54,16 @@ class BookBagsController < CatalogController
      end
   end
 
+  def multiadd
+    @savedll = Rails.logger.level # at any time
+    @bibs = params[:ids]
+    @values = @bibs.split("|")
+    @values.inspect
+    Rails.logger.level = @savedll
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bookmark_ids = #{values}")
+    redirect_to :action => "index"
+  end
+
   def delete
     @bibid = params[:id]
     value = "bibid-#{@bibid}"
