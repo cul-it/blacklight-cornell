@@ -158,7 +158,7 @@ get 'bookmarks/bagselected' => 'bookmarks#bagselected'
   # Bookbag routes.
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
-  match 'book_bags/multiadd' => 'book_bags#multiadd', :as => 'multiadd_pindex', via: [:post]
+  match 'book_bags/multiadd' => 'book_bags#multiadd', :as => 'multiadd_pindex', via: [:get, :post]
   get 'book_bags/multiadd/:ids' => 'book_bags#multiadd', :as => 'multiadd_index', :constraints => { :ids => /.+/}
   #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
