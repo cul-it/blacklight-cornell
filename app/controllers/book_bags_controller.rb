@@ -55,6 +55,8 @@ class BookBagsController < CatalogController
   end
 
   def addbookmarks
+    @savedll = Rails.logger.level # at any time
+    Rails.logger.level = :debug
     if current_or_guest_user.bookmarks.count > 0
       bm = current_or_guest_user.bookmarks
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
@@ -74,6 +76,7 @@ class BookBagsController < CatalogController
         user_session[:bookbag_count] = @bb.count
       end
     end
+    Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
 
