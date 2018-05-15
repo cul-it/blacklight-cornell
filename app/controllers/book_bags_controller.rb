@@ -58,6 +58,7 @@ class BookBagsController < CatalogController
     @savedll = Rails.logger.level # at any time
     Rails.logger.level = :debug
     bibs = params[:ids]
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} params = #{params.inspect}")
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
     if not bibs.to_s.empty?
       values = bibs.split(".")
