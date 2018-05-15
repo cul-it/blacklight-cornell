@@ -96,6 +96,7 @@ describe Blacklight::Solr::Document::MarcExport do
     # Turn all the xml data into MockMarcDocuments records.
     ids.each { |id| 
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
+      @book_recs[id]['id'] = id
       # just a stub valid only for bibid 10055679#
       @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"SF98.A5 M35 2017\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\"}]}"]
     }
@@ -105,7 +106,7 @@ describe Blacklight::Solr::Document::MarcExport do
     # add on url information.
     # more than url is required.
     eids.each { |id| 
-      @book_recs[id]['url_access_display'] = "http://example.com"
+      @book_recs[id]['url_access_display'] = ["http://example.com"]
       @book_recs[id]["online"]= ["Online"]
     }
     #music
@@ -366,6 +367,45 @@ CITE_MATCH
       expect(cite_info[0]).to match(match_style)
     end
 ###
+#
+    it "should format mla7,8, and cse citation information properly for ebook" do
+      id = "5558811"
+      cite_info={}
+      match_str={}
+      match_style={}
+      match_style['mla7'] = @mla_match_style
+      match_style['mla8'] = @mla8_match_style
+      match_style['cse'] = @cse_match_style
+      match_style['chicago'] = @chicago_match_style
+      match_style['apa'] = @apa_match_style
+      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
+      ["mla","mla8","cse","chicago","apa"].each   do |fmt| 
+        cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
+      end
+      # Account irregular name for mla7 citation -- ..as_mla_...
+      cite_info['mla7'] = cite_info['mla']
+      match_str['mla7'] =  <<'CITE_MATCH'
+Eliot,  John, John Cotton, and Robert Boyle. <i>Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament.</i> Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. Web.
+CITE_MATCH
+      match_str['mla8'] =  <<'CITE_MATCH'
+Eliot, John, et al. <i>Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament.</i> Printeuoop nashpe Samuel Green., 1685, http://opac.newsbank.com/select/evans/385.
+CITE_MATCH
+      match_str['cse'] =  <<'CITE_MATCH'
+Eliot J, Cotton J, Boyle R. Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament. Cambridge [Mass.].: Printeuoop nashpe Samuel Green.; 1685.
+CITE_MATCH
+      match_str['chicago'] =  <<'CITE_MATCH'
+Eliot,  John, John Cotton, and Robert Boyle. <i>Mamusse Wunneetupanatamwe Up-Biblum God Naneeswe Nukkone Testament Kah Wonk Wusku Testament.</i> Cambridge [Mass.].: Printeuoop nashpe Samuel Green., 1685. http://opac.newsbank.com/select/evans/385.
+CITE_MATCH
+      match_str['apa'] =  <<'CITE_MATCH'
+Eliot, J., Cotton, J., &amp; Boyle, R. (1685). <i>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament.</i> Cambridge [Mass.].: Printeuoop nashpe Samuel Green. Retrieved from http://opac.newsbank.com/select/evans/385
+CITE_MATCH
+      # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
+      # so, must account for that when we handle the expect.
+        ["mla7","mla8","cse","chicago","apa"].each   do |fmt| 
+      expect(cite_info[fmt][1] + "\n").to match(match_str[fmt]), "Bibid #{id} #{fmt} citation text does not match. Created string '#{cite_info[fmt][1]}'  does not match required text: '#{match_str[fmt]}' "
+      expect(cite_info[fmt][0]).to match(match_style[fmt]), "Bibid #{id} #{fmt} style description does not match. Created string '#{cite_info[fmt][0]}'  does not match required text: '#{match_style[fmt]}' "
+      end
+    end
 
     it "should format mla7,8, and cse citation information properly" do
       id = "7292123"
@@ -556,18 +596,11 @@ CITE_MATCH
       expect(ris_entries["N1"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"])) 
       expect(ris_entries["ER"]).to eq(Set.new([""])) 
     end
-#CY  - Washington, D.C.
-#M2  - http://newcatalog.library.cornell.edu/catalog/
-#N1  - http://newcatalog.library.cornell.edu/catalog/
-#KW  - Anthropologists' writings, American. 
-#KW  - Anthropology Poetry. 
-#KW  - American poetry 20th century. 
-#KW  - Anthropologists' writings, English. 
-#KW  - English poetry 20th century. 
 #SN  - 091316710X : 
-#ER  - 
     it "should export a typical book record correctly" do
-      ris_file = @book_recs["1001"].export_as_ris
+      id = "1001"
+      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"PS591.A58 R33\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Library Annex\",\"library\":\"Library Annex\"}]}"]
+      ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
         line =~ /^(..?)  - (.*)$/
@@ -575,14 +608,39 @@ CITE_MATCH
       end
       expect(ris_entries["TY"]).to eq(Set.new(["BOOK"])) 
       expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"])) 
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"])) 
       expect(ris_entries["PY"]).to eq(Set.new(["1985"])) 
+      expect(ris_entries["KW"]).to eq(Set.new(["Anthropologists' writings, American. ", "Anthropology Poetry. ", "American poetry 20th century. ", "Anthropologists' writings, English. ", "English poetry 20th century. "]))
       expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"])) 
       expect(ris_entries["CY"]).to eq(Set.new(["Washington, D.C."])) 
+      expect(ris_entries["SN"]).to eq(Set.new(["091316710X  "])) 
+      expect(ris_entries["CN"]).to eq(Set.new(["Library Annex  PS591.A58 R33"])) 
+      expect(ris_entries["ER"]).to eq(Set.new([""])) 
+    end
+
+    it "should export a typical ebook record correctly" do
+      id = "5558811"
+      @book_recs[id]["online"]= ["Online"]
+      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
+      @book_recs[id]['language_facet'] = ["Algonquian (Other)"] 
+      ris_file = @book_recs[id].export_as_ris
+      ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
+      ris_file.each_line do |line|
+        line =~ /^(..?)  - (.*)$/
+        ris_entries[$1] << $2
+      end
+      expect(ris_entries["TY"]).to eq(Set.new(["EBOOK"])) 
+      expect(ris_entries["AU"]).to eq(Set.new(["Company for Propagation of the Gospel in New England and the Parts Adjacent in America"])) 
+      expect(ris_entries["TI"]).to eq(Set.new(["Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament"])) 
+      expect(ris_entries["PY"]).to eq(Set.new(["1685"])) 
+      expect(ris_entries["PB"]).to eq(Set.new([" Printeuoop nashpe Samuel Green."])) 
+      expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"])) 
+      expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."])) 
+      expect(ris_entries["UR"]).to eq(Set.new(["http://opac.newsbank.com/select/evans/385"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/#{id}"])) 
       expect(ris_entries["ER"]).to eq(Set.new([""])) 
     end
   end
-
-
 #
 
   describe "Export as endnote means that it " do
@@ -720,7 +778,9 @@ CITE_MATCH
           { "ris" =>  {'callnumber' => 'CN  - Mann Library  SF98.A5 M35 2017','isbn' =>'9781426217661  1426217668',"kw" =>"KW  - Chickens Marketing"},
           "endnote" =>{'callnumber' => '%L  Mann Library  SF98.A5 M35 2017' ,'isbn' =>'%@ 9781426217661',"kw" =>"%K Chickens Marketing"},
           "endnote_xml"=>{'callnumber'=>'<call-num>Mann Library  SF98.A5 M35 2017</call-num>','isbn' =>'<isbn>9781426217661  ; 1426217668 </isbn>',"kw" =>"<keyword>Chickens Marketing. </keyword>"},
-          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>'<dc:identifier>ISBN 1426217668 </dc:identifier>',"kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
+          "rdf_zotero" =>   {'callnumber' => 'Mann Library  SF98.A5 M35 2017','isbn' =>
+             Set.new(['<dc:identifier>ISBN 1426217668 </dc:identifier>','<dc:identifier>ISBN 9781426217661 </dc:identifier>']),
+             "kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
           }
       ti_ids.each   do |id| 
         ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
@@ -728,7 +788,13 @@ CITE_MATCH
              expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
              expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
              expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
-             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id}, should output the #{fld} in format '#{fmt}' properly." 
+             if ti_data[id][fmt][fld].is_a? Set
+               ti_data[id][fmt][fld].each {|exp|
+                 expect(ti_output[id][fmt]).to include(exp),"Bib id:#{id},should output #{fld} in format '#{fmt}'  did not match #{exp} properly." 
+               }
+             else
+               expect(ti_output[id][fmt]).to include(ti_data[id][fmt][fld]),"Bib id:#{id},should output the #{fld} in format '#{fmt}' properly." 
+             end
           end
         end
        end
