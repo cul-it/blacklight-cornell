@@ -55,6 +55,11 @@ en:
         action_confirm: 'Clear your selected items?'
         success: 'Your selected items have been cleared.'
         failure: 'Sorry, there was a problem clearing your selected items.'
+      bag:
+        action_title: 'Add selected items to Book Bag'
+        action_confirm: 'Add selected items to your Book Bag?'
+        success: 'Your selected items have been added to your Book Bag.'
+        failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
       list_title: 'Your selected items'
       delete: 'Remove'

@@ -19,8 +19,7 @@ class BookBagsController < CatalogController
 
   before_filter :heading
   append_before_filter :set_bag_name
- 
-
+  
   def set_bag_name
     @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
@@ -53,6 +52,24 @@ class BookBagsController < CatalogController
         format.json { render json:   { }      } 
       end
      end
+  end
+
+  def multiadd
+    bibs = params[:ids]
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} params = #{params.inspect}")
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
+    if not bibs.to_s.empty?
+      values = bibs.split(".")
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
+      values.each do | v |
+        if /[0-9]+/.match(v)
+          v.prepend('bibid-')
+          success = @bb.create(v)
+        end
+      end
+      user_session[:bookbag_count] = @bb.count
+    end
+    redirect_to :action => "index"
   end
 
   def delete
