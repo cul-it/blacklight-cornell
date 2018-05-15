@@ -127,7 +127,7 @@ class BookBagsController < CatalogController
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
     end
-    redirect_to :controller => "bookmarks" :action => "clear"
+    redirect_to "/bookmarks/clear"
   end
 
 
