@@ -54,21 +54,29 @@ class BookBagsController < CatalogController
      end
   end
 
-  def multiadd
-    bibs = params[:ids]
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} params = #{params.inspect}")
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
-    if not bibs.to_s.empty?
-      values = bibs.split(".")
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
-      values.each do | v |
-        if /[0-9]+/.match(v)
-          v.prepend('bibid-')
-          success = @bb.create(v)
-        end
+  def addbookmarks
+    @savedll = Rails.logger.level # at any time
+    Rails.logger.level = :debug
+    if current_or_guest_user.bookmarks.count > 0
+      bm = current_or_guest_user.bookmarks
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
+      bm.each do | b |
+        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark = #{b.inspect}")
       end
-      user_session[:bookbag_count] = @bb.count
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} user = #{current_user.inspect}")
+      bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
+      if not bookmark_ids.to_s.empty?
+        bookmark_ids.each do | v |
+          if /[0-9]+/.match(v)
+            v.prepend('bibid-')
+            success = @bb.create(v)
+          end
+        end
+        user_session[:bookbag_count] = @bb.count
+      end
     end
+    Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
 
