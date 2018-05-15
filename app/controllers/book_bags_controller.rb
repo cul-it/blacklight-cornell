@@ -56,6 +56,7 @@ class BookBagsController < CatalogController
 
   def addbookmarks
     if current_or_guest_user.bookmarks.count > 0
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{current_or_guest_user.bookmarks.inspect}")
       bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
       if not bookmark_ids.to_s.empty?
