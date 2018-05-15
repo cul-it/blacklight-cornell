@@ -36,9 +36,6 @@
             <%= hidden_field_tag "ids", ids %>
             <button type="submit" class="btn btn-primary"> <%= t('blacklight.bookmarks.bag.action_title') %></button>
           <% end %>
-          <%= link_to path, :method => :multiadd, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'bag-bookmarks' do %>
-            <i class="fa fa-plus-circle"></i> <%= t('blacklight.bookmarks.bag.action_title') %>
-          <% end %>
         <% end %>
       </div>
       <div class="col-sm-6">
