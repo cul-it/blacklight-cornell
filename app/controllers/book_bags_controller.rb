@@ -127,9 +127,13 @@ class BookBagsController < CatalogController
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
     end
-    redirect_to (root_url() + "bookmarks/clear")
+    current_or_guest_user.bookmarks.clear
+    redirect_to :action => "index"
   end
 
+
+
+   
   def action_documents
     options =   {:per_page => 1000,:rows => 1000}
     @bms =@bb.index
