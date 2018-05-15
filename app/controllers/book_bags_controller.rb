@@ -55,8 +55,6 @@ class BookBagsController < CatalogController
   end
 
   def multiadd
-    @savedll = Rails.logger.level # at any time
-    Rails.logger.level = :debug
     bibs = params[:ids]
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} params = #{params.inspect}")
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
@@ -71,7 +69,6 @@ class BookBagsController < CatalogController
       end
       user_session[:bookbag_count] = @bb.count
     end
-    Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
 
