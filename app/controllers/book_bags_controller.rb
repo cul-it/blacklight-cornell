@@ -123,11 +123,13 @@ class BookBagsController < CatalogController
     success = @bb.clear
     Rails.logger.info("es289_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     if success
+      if current_or_guest_user.bookmarks.count > 0
+        current_or_guest_user.bookmarks.clear
+      end
       flash[:notice] = I18n.t('blacklight.bookmarks.clear.success')
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
     end
-    current_or_guest_user.bookmarks.clear
     redirect_to :action => "index"
   end
 
