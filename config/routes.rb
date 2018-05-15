@@ -29,6 +29,7 @@ resources :bookmarks do
     delete 'clear'
   end
 end
+get 'bookmarks/bagselected' => 'bookmarks#bagselected'
 
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
@@ -157,6 +158,7 @@ end
   # Bookbag routes.
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
+  get 'book_bags/multiadd/:ids' => 'book_bags#multiadd', :as => 'multiadd_index', :constraints => { :ids => /.+/}
   #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
   get 'book_bags/delete/:id' => 'book_bags#delete', :as => 'delete_index', :constraints => { :id => /.+/}
@@ -166,7 +168,7 @@ end
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
- 
+  
 
 
 
