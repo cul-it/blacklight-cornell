@@ -29,8 +29,6 @@ resources :bookmarks do
     delete 'clear'
   end
 end
-get 'bookmarks/bagselected' => 'bookmarks#bagselected'
-
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
