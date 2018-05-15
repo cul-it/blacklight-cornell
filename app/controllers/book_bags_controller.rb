@@ -54,20 +54,19 @@ class BookBagsController < CatalogController
      end
   end
 
-  def multiadd
-    bibs = params[:ids]
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} params = #{params.inspect}")
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bibs.inspect}")
-    if not bibs.to_s.empty?
-      values = bibs.split(".")
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark_ids = #{values.inspect}")
-      values.each do | v |
-        if /[0-9]+/.match(v)
-          v.prepend('bibid-')
-          success = @bb.create(v)
+  def addbookmarks
+    if current_or_guest_user.bookmarks.count > 0
+      bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
+      if not bookmark_ids.to_s.empty?
+        bookmark_ids.each do | v |
+          if /[0-9]+/.match(v)
+            v.prepend('bibid-')
+            success = @bb.create(v)
+          end
         end
+        user_session[:bookbag_count] = @bb.count
       end
-      user_session[:bookbag_count] = @bb.count
     end
     redirect_to :action => "index"
   end
