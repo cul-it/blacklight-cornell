@@ -22,7 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
         sign_in :user, @user 
-        redirect_to path 
+        redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
         return
       else  
         redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
@@ -47,7 +47,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user.save!
     end
     OneLogin::RubySaml::Attributes.single_value_compatibility = false 
-    sam_response          = OneLogin::RubySaml::Response.new(params[:SAMLResponse])
+    # I had some code that parsed the response -- but evidently this is not
+    # necessary at all!
+    #if OmniAuth.config.test_mode
+    #  sam_response          = OneLogin::RubySaml::Response.new(params[:SAMLResponse])
+    #else
+    #   sam_response = auth.saml_resp
+    #end
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} omniauth.auth.extra.raw_info=  #{auth['extra']['raw_info'].inspect}" )
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} omniauth.auth.attr =  #{auth.info} #{auth.info.name} #{auth.info.last_name}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} @user =  #{@user.inspect}")
@@ -68,7 +74,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
       session[:cuwebauth_return_path] = nil
-      redirect_to path 
+      redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
       return
     else  
       redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."

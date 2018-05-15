@@ -9,20 +9,22 @@ RSpec.feature "user logs in" do
       click_link "Sign in with your google id"
       #expect(page).to have_link("Sign out")
       #expect(page).to have_link("Book Bag")
-      expect(page).to have_content("Successfully authenticated from Google account")
+      expect(page).to have_content("You are logged in as Diligent Tester.")
     else
       expect(page).to_not have_link("Sign in with your google id")
     end
   end
 
   scenario "using google oauth2 from search history page" do
+    if ENV['GOOGLE_CLIENT_ID']
     stub_omniauth
     visit 'search_history' 
     click_link "Sign in"
     expect(page).to have_link("Sign in with your google id")
     click_link "Sign in with your google id"
-    expect(page).to have_content("Successfully authenticated from Google account")
+    expect(page).to have_content("You are logged in as Diligent Tester.")
     expect(page).to have_content("Search History")
+    end
   end
 
   def stub_omniauth
