@@ -20,13 +20,12 @@
     	</div>
     	<div class="col-sm-4 feedback-link">
     		<a href="https://www.library.cornell.edu/feedback?catalogdestination=catalog<%= CGI.escape request.original_fullpath %>" class="btn btn-libraries">Feedback</a>
-        <p><a href="https://www.library.cornell.edu/feedback#accessibility">Web Accessibility Assistance</a></p>
         <p><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release Notes</a></p>
     	</div>
     </div>
     <div class="row footer-copyright">
       <div class="col-sm-8">
-        <p>&#169; <%= Time.now.strftime("%Y") %> Cornell University Library | <a href="http://www.library.cornell.edu/privacy">Privacy</a></p>
+        <p>&#169; <%= Time.now.strftime("%Y") %> Cornell University Library | <a href="http://www.library.cornell.edu/privacy">Privacy</a> | <a href="https://www.library.cornell.edu/web-accessibility">Web Accessibility Assistance</a></p>
       </div>
       <div class="col-sm-4">
         <%= render_solr_core %>
