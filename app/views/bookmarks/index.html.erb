@@ -33,7 +33,9 @@
           path = multiadd_pindex_path(@post)
           %>
           <%= form_tag( path, :method => "post") do %>
-            <%= hidden_field_tag "ids", ids %>
+            <% bookmark_ids.each do | id | %>
+              <%= hidden_field_tag "ids[]", id %>
+            <% end %>
             <button type="submit" class="btn btn-primary"> <%= t('blacklight.bookmarks.bag.action_title') %></button>
           <% end %>
         <% end %>
