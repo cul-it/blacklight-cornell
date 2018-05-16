@@ -145,22 +145,33 @@ class BookBagsController < CatalogController
   end
 
   def email
+    Rails.logger.level = :debug
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
     @bms =@bb.index
-    docs = @bms.map {|b| b.sub!("bibid-",'')}
-    @response, @documents = fetch docs
+    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
       url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-        email.deliver_now
-        flash[:success] = "Email sent"
+        all_docs.each_slice(100) do |docs|
+          @response, @documents = fetch docs
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+          email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+          email.deliver_now
+          flash[:success] = "Email sent"
+        end
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       else
-          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+        flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
       end
     end
 
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
+
+    @bms =@bb.index
+    docs = @bms.map {|b| b.sub!("bibid-",'')}
+    @response, @documents = fetch docs
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  @response  = #{@response.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
