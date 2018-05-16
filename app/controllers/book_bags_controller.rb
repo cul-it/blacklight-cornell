@@ -169,6 +169,7 @@ class BookBagsController < CatalogController
     Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
 
     docs = @bms.map {|b| b.sub!("bibid-",'')}
+    @response, @documents = fetch docs
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
