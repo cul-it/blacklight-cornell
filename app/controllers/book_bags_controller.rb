@@ -153,13 +153,13 @@ class BookBagsController < CatalogController
     if request.post?
       url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-        all_docs.each_slice(100) do |docs|
+        all_docs.each_slice(20) do |docs|
           @response, @documents = fetch docs
           url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
           email.deliver_now
-          flash[:success] = "Email sent"
         end
+        flash[:success] = "Email sent"
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       else
         flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
