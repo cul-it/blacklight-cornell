@@ -145,11 +145,11 @@ class BookBagsController < CatalogController
   end
 
   def email
-    file = File.open("jgr25_debug.log", File::WRONLY | File::APPEND | File::CREAT)
-    logger = Logger.new(file)
-    logger.level = :info
-    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
+    # file = File.open("jgr25_debug.log", File::WRONLY | File::APPEND | File::CREAT)
+    # logger = Logger.new(file)
+    # logger.level = :info
+    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
@@ -157,7 +157,7 @@ class BookBagsController < CatalogController
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
         all_docs.each_slice(20) do |docs|
           @response, @documents = fetch docs
-          logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  docs  = #{docs.inspect}")
+          # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  docs  = #{docs.inspect}")
           url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
           email.deliver_now
@@ -169,7 +169,7 @@ class BookBagsController < CatalogController
       end
     end
 
-    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
+    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
 
     @bms =@bb.index
     docs = @bms.map {|b| b.sub!("bibid-",'')}
