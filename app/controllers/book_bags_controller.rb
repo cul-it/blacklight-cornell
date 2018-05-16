@@ -145,7 +145,7 @@ class BookBagsController < CatalogController
   end
 
   def email
-    file = File.open("jgr25_debug", File::WRONLY | File::APPEND | File::CREAT)
+    file = File.open("jgr25_debug.log", File::WRONLY | File::APPEND | File::CREAT)
     logger = Logger.new(file)
     logger.level = :debug
     logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
