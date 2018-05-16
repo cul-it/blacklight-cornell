@@ -145,9 +145,11 @@ class BookBagsController < CatalogController
   end
 
   def email
-    Rails.logger.level = :debug
-    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
+    file = File.open("jgr25_debug", File::WRONLY | File::APPEND | File::CREAT)
+    logger = Logger.new(file)
+    logger.level = :debug
+    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
@@ -155,7 +157,7 @@ class BookBagsController < CatalogController
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
         all_docs.each_slice(20) do |docs|
           @response, @documents = fetch docs
-          Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  @documents  = #{@documents.inspect}")
+          logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  @documents  = #{@documents.inspect}")
           url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
           email.deliver_now
@@ -167,12 +169,12 @@ class BookBagsController < CatalogController
       end
     end
 
-    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
+    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
 
     @bms =@bb.index
     docs = @bms.map {|b| b.sub!("bibid-",'')}
     @response, @documents = fetch docs
-    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  @response  = #{@response.inspect}")
+    logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  @response  = #{@response.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
