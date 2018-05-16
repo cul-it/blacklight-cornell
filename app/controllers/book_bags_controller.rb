@@ -145,6 +145,9 @@ class BookBagsController < CatalogController
   end
 
   def email
+    Rails.logger.level = :debug
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post  = #{request.post.inspect}")
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
@@ -163,7 +166,9 @@ class BookBagsController < CatalogController
       end
     end
 
-    docs = all_docs
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
+
+    docs = @bms.map {|b| b.sub!("bibid-",'')}
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
