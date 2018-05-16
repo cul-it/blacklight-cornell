@@ -167,6 +167,7 @@ class BookBagsController < CatalogController
     end
 
     Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  respond_to  = #{respond_to.inspect}")
 
     docs = @bms.map {|b| b.sub!("bibid-",'')}
     @response, @documents = fetch docs
