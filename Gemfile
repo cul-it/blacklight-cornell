@@ -88,12 +88,16 @@ gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
-gem 'devise'
+gem 'devise', '~> 4.2'
 gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth'
 gem 'omniauth-saml'
-gem 'omniauth-google-oauth2'
+#gem 'omniauth-google-oauth2'
+# Use Omniauth Google plugin
+gem 'omniauth-google-oauth2', '~> 0.4.1'
+# Use Omniauth Facebook plugin
+gem 'omniauth-facebook', '~> 4.0'
 
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'

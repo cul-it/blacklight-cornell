@@ -3,6 +3,40 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # POST from SAML IdP won't include CSRF token
   skip_before_action :verify_authenticity_token
 
+
+ def facebook
+    auth = request.env["omniauth.auth"] 
+    semail = auth.info.email
+    u = User.where(email: semail).first
+    if u
+      @user = u
+    else 
+      @user = User.new(email: semail) 
+      @user.save!
+    end
+    provider = 'Facebook'
+    if @user.persisted?
+      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
+      if session[:cuwebauth_return_path].present?  
+        path = session[:cuwebauth_return_path]
+        Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
+        session[:cuwebauth_return_path] = nil
+        sign_in :user, @user 
+        redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
+        return
+      else  
+        redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
+      end
+      sign_in :user, @user 
+      #sign_in_and_redirect @user, event: :authentication
+    else
+      session["devise.facebook_data"] = oauth_response.except(:extra)
+      params[:error] = :account_not_found
+      #do_failure_things
+      redirect_to root_path, :notice => "You are not logged in."
+    end
+  end
+
 #https://www.interexchange.org/articles/engineering/lets-devise-google-oauth-login/
  def google_oauth2
     auth = request.env["omniauth.auth"] 
@@ -32,7 +66,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       session["devise.google_data"] = oauth_response.except(:extra)
       params[:error] = :account_not_found
-      do_failure_things
+      #do_failure_things
+      redirect_to root_path, :notice => "You are not logged in."
     end
   end
 
