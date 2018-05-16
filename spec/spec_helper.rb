@@ -19,6 +19,7 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute)
 end
 Capybara.javascript_driver = :poltergeist
+Capybara.server = :webrick
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 

@@ -18,12 +18,17 @@ RSpec.feature "user logs in" do
   end
 
   scenario "using netid from search history page" do
-    if ENV['SAML_IDP_TARGET_URL']
       stub_samlauth
       visit 'search_history' 
+    if ENV['SAML_IDP_TARGET_URL'] && ENV['GOOGLE_CLIENT_ID']
       click_link "Sign in"
       expect(page).to have_link("Sign in with your netid")
       click_link "Sign in with your netid"
+      expect(page).to have_content("Sign out")
+      expect(page).to have_content("Search History")
+    end
+    if ENV['SAML_IDP_TARGET_URL'] && !ENV['GOOGLE_CLIENT_ID']
+      click_link "Sign in"
       expect(page).to have_content("Sign out")
       expect(page).to have_content("Search History")
     end
@@ -41,7 +46,7 @@ RSpec.feature "user logs in" do
       extra: {raw_info: {} } ,
       info: {
         email: "ditester@example.com",
-        name: "Diligent Tester",
+        name: ["Diligent Tester"],
         netid: "mjc12",
         groups: ["staff","student"],
         primary: ["staff"],
