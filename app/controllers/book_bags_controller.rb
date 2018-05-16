@@ -147,7 +147,7 @@ class BookBagsController < CatalogController
   def email
     Rails.logger.level = :debug
     Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post  = #{request.post.inspect}")
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
