@@ -144,7 +144,7 @@ Feature: Item view
     Then I should see the label 'Library Annex'
 
   # Availability simple, one location, and is NOT available
-  # Inequality, Anthony B Atkinson.
+  # Inequality, Anthony B Atkinson. 
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
