@@ -40,7 +40,7 @@ module Blacklight::Bookmarks
 
   def index
     if current_user && Bookbag.enabled?
-      redirect_to 'bookbags/index', flash: bookmarks.use_book_bag and return
+      redirect_to 'book_bags/index', flash: bookmarks.use_book_bag and return
     end
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
