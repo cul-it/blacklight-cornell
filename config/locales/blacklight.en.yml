@@ -39,6 +39,7 @@ en:
           button: 'Add to selected items'
       title: 'Selected Items'
       no_bookmarks: 'You have no selected items.'
+      use_book_bag: 'Please use the book bag while you're logged in.'
       add:
         button: 'Select'
         success:
