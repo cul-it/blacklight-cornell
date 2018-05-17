@@ -210,6 +210,7 @@ Feature: Select and export items from the result set
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
     And I should see the text 'acquired_dt'
     And I should see the text '2017-10-23T00:00:00Z'
+    And I should get a response with content-type "application/json; charset=utf-8"
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
   Scenario: User needs to see zombies as an rss feed
@@ -217,6 +218,7 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<title>Zombies : an anthropological investigation of the living dead</title>'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
     And I should see the text 'GR581 .C4313 2017 -- Olin Library'
+    And I should get a response with content-type "application/rss+xml; charset=utf-8"
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_atom
   Scenario Outline: User needs to see zombies as an atom feed
