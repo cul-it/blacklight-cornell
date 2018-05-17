@@ -16,13 +16,13 @@ require 'spec_helper'
 RSpec.feature "user saves bookmarks" do
   scenario "by selecting items from results list" , js: true do
    #VCR.use_cassette('feature/home', :record  => :new_episodes) do
-   VCR.use_cassette('feature/home') do
+   #VCR.use_cassette('feature/home') do
      visit '/' 
-   end
+   #end
    fill_in 'q', :with => 'rope work'
-   VCR.use_cassette('feature/rope_work') do
+   #VCR.use_cassette('feature/rope_work') do
      click_button('Search') 
-   end 
+   #end 
    select_check_boxes(3)
    visit '/bookmarks' 
    expect(page).to have_content("Selected Items")
