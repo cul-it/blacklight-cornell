@@ -108,6 +108,7 @@ Feature: Bookmarks for anonymous users
     @javascript
     @bookmarks_print_selected
     Scenario: I should be able to view citations for selected items
+        Given PENDING
         #Given PENDING when I get to /bookmarks I see 'You have no selected items.'
         Given I am on the home page
 		When I fill in the search box with 'rope work'

@@ -2,366 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr8.library.cornell.edu/solr/blacklight/select?id=306998&qt=document&wt=ruby
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers: {}
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 09 Jan 2018 15:47:15 GMT
-      Last-Modified:
-      - Tue, 09 Jan 2018 15:46:57 GMT
-      Etag:
-      - '"OGY5N2E4MDAwMDAwMDAwMFNvbHI="'
-      Content-Type:
-      - text/plain;charset=utf-8
-      Content-Length:
-      - '9845'
-      Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
-      Vary:
-      - Accept-Encoding
-      Connection:
-      - close
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eydyZXNwb25zZUhlYWRlcic9PnsnemtDb25uZWN0ZWQnPT50cnVlLCdzdGF0
-        dXMnPT4wLCdRVGltZSc9PjE1LCdwYXJhbXMnPT57J3EnPT4neyFyYXcgZj1p
-        ZCB2PSRpZH0nLCdxdCc9Pidkb2N1bWVudCcsJ2VjaG9QYXJhbXMnPT4nYWxs
-        JywnZmwnPT4nKicsJ2lkJz0+JzMwNjk5OCcsJ2NvbGxlY3Rpb24nPT4nYjcn
-        LCdyb3dzJz0+JzEnLCd3dCc9PidydWJ5J319LCdyZXNwb25zZSc9PnsnbnVt
-        Rm91bmQnPT4xLCdzdGFydCc9PjAsJ21heFNjb3JlJz0+MTMuNjc2MjQ3LCdk
-        b2NzJz0+W3snbXVsdGl2b2xfYic9PmZhbHNlLCdob2xkaW5nc19kaXNwbGF5
-        Jz0+WycxMDU1J10sJ2xvY2F0aW9uX2ZhY2V0Jz0+WydJTFIgTGlicmFyeSdd
-        LCdob2xkaW5nc19yZWNvcmRfZGlzcGxheSc9PlsneyJpZCI6IjEwNTUiLCJt
-        b2RpZmllZF9kYXRlIjpudWxsLCJjb3B5X251bWJlciI6bnVsbCwiY2FsbG5v
-        cyI6WyJKUzM5IC5NOTUgT3ZlcnNpemUiXSwibm90ZXMiOltdLCJob2xkaW5n
-        c19kZXNjIjpbIm5vLjI2LCAyOCwgMzAtMzYgKDE5NzgtMTk4MikiXSwicmVj
-        ZW50X2hvbGRpbmdzX2Rlc2MiOltdLCJzdXBwbGVtZW50YWxfaG9sZGluZ3Nf
-        ZGVzYyI6W10sImluZGV4X2hvbGRpbmdzX2Rlc2MiOltdLCJsb2NhdGlvbnMi
-        Olt7ImNvZGUiOiJqZ3NtIiwibnVtYmVyIjo1OSwibmFtZSI6IklMUiBMaWJy
-        YXJ5IChJdmVzIEhhbGwpIiwibGlicmFyeSI6IklMUiBMaWJyYXJ5In1dfSdd
-        LCdpdGVtX2Rpc3BsYXknPT5bJzYyOTR8MTA1NXwyMDEyMTIxODE1MzQyMCdd
-        LCdvbmxpbmUnPT5bJ0F0IHRoZSBMaWJyYXJ5J10sJ2xvY2F0aW9uJz0+WydJ
-        TFIgTGlicmFyeScsJ0lMUiBMaWJyYXJ5ID4gSUxSIExpYnJhcnkgKEl2ZXMg
-        SGFsbCknXSwnaXRlbV9yZWNvcmRfZGlzcGxheSc9PlsneyJjb3B5X251bWJl
-        ciI6IjEiLCJpdGVtX3R5cGVfbmFtZSI6ImJvb2siLCJpdGVtX2lkIjoiNjI5
-        NCIsInllYXIiOiIiLCJpdGVtX3R5cGVfaWQiOiIzIiwiY2hyb24iOiIiLCJj
-        YXB0aW9uIjoiIiwiaG9sZHNfcGxhY2VkIjoiMCIsInRlbXBfbG9jYXRpb24i
-        OiIwIiwib25fcmVzZXJ2ZSI6Ik4iLCJpdGVtX2VudW0iOiIiLCJpdGVtX3Nl
-        cXVlbmNlX251bWJlciI6IjEiLCJ0ZW1wX2l0ZW1fdHlwZV9pZCI6IjAiLCJt
-        ZmhkX2lkIjoiMTA1NSIsInJlY2FsbHNfcGxhY2VkIjoiMCIsImNyZWF0ZV9k
-        YXRlIjoiMjAwMC0wNS0zMSAwMDowMDowMC4wIiwiaXRlbV9iYXJjb2RlIjoi
-        MzE5MjQwMTcyNDI5NjEiLCJtb2RpZnlfZGF0ZSI6IjIwMTItMTItMTggMTU6
-        MzQ6MjAuMCIsInBlcm1fbG9jYXRpb24iOnsiY29kZSI6Impnc20iLCJudW1i
-        ZXIiOjU5LCJuYW1lIjoiSUxSIExpYnJhcnkgKEl2ZXMgSGFsbCkiLCJsaWJy
-        YXJ5IjoiSUxSIExpYnJhcnkifX0nXSwnYmliaWRfZGlzcGxheSc9PlsnMzA2
-        OTk4fDIwMTQxMTA1MjIwNzQ5J10sJ21hcmNfZGlzcGxheSc9Pic8P3htbCB2
-        ZXJzaW9uPVwnMS4wXCcgZW5jb2Rpbmc9XCdVVEYtOFwnPz48cmVjb3JkIHht
-        bG5zPSJodHRwOi8vd3d3LmxvYy5nb3YvTUFSQzIxL3NsaW0iPjxsZWFkZXI+
-        MDE2MzdjYXMgYTIyMDA0MjEgICA0NTAwPC9sZWFkZXI+PGNvbnRyb2xmaWVs
-        ZCB0YWc9IjAwMSI+MzA2OTk4PC9jb250cm9sZmllbGQ+PGNvbnRyb2xmaWVs
-        ZCB0YWc9IjAwNSI+MjAxNDExMDUyMjA3NDkuMDwvY29udHJvbGZpZWxkPjxj
-        b250cm9sZmllbGQgdGFnPSIwMDgiPjc4MDQxNHUxOTc1OTk5OWRjdcKgeMKg
-        cGXCoMKgwqDCoMKgwqAwwqDCoMKgYTBlbmfCoGQ8L2NvbnRyb2xmaWVsZD48
-        ZGF0YWZpZWxkIHRhZz0iMDEwIiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmll
-        bGQgY29kZT0iYSI+c2MgNzkwMDQzMjggPC9zdWJmaWVsZD48L2RhdGFmaWVs
-        ZD48ZGF0YWZpZWxkIHRhZz0iMDM1IiBpbmQxPSIgIiBpbmQyPSIgIj48c3Vi
-        ZmllbGQgY29kZT0iYSI+KENTdFJMSU4pTllDWDM4MDQwMzdTPC9zdWJmaWVs
-        ZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iMDM1IiBpbmQxPSIgIiBp
-        bmQyPSIgIj48c3ViZmllbGQgY29kZT0iYSI+KE5JQylub3Rpc0FCSDM0Mzc8
-        L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIwMzUiIGlu
-        ZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4oT0NvTEMpMzgw
-        NDAzNzwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjAz
-        NSIgaW5kMT0iICIgaW5kMj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPjMwNjk5
-        ODwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjA0MCIg
-        aW5kMT0iICIgaW5kMj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPkF6VGVTPC9z
-        dWJmaWVsZD48c3ViZmllbGQgY29kZT0iYyI+QXpUZVM8L3N1YmZpZWxkPjxz
-        dWJmaWVsZCBjb2RlPSJkIj5OPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0i
-        ZCI+RExDPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iZCI+TklDPC9zdWJm
-        aWVsZD48c3ViZmllbGQgY29kZT0iZCI+Q1N0UkxJTjwvc3ViZmllbGQ+PC9k
-        YXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjA0MiIgaW5kMT0iICIgaW5kMj0i
-        ICI+PHN1YmZpZWxkIGNvZGU9ImEiPmxjPC9zdWJmaWVsZD48L2RhdGFmaWVs
-        ZD48ZGF0YWZpZWxkIHRhZz0iMDQzIiBpbmQxPSIgIiBpbmQyPSIgIj48c3Vi
-        ZmllbGQgY29kZT0iYSI+bi11cy0tLTwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+
-        PGRhdGFmaWVsZCB0YWc9IjIxMiIgaW5kMT0iMCIgaW5kMj0iICI+PHN1YmZp
-        ZWxkIGNvZGU9ImEiPk1hbmFnZW1lbnQgSW5mb3JtYXRpb24gU2VydmljZSBp
-        bm5vdmF0aW9ucyBzZXJpZXM8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRh
-        ZmllbGQgdGFnPSIyNDUiIGluZDE9IjAiIGluZDI9IjAiPjxzdWJmaWVsZCBj
-        b2RlPSJhIj5NdW5pY2lwYWwgaW5ub3ZhdGlvbnMuPC9zdWJmaWVsZD48L2Rh
-        dGFmaWVsZD48ZGF0YWZpZWxkIHRhZz0iMjQ2IiBpbmQxPSIxIiBpbmQyPSI3
-        Ij48c3ViZmllbGQgY29kZT0iYSI+TUlTIGlubm92YXRpb25zIHNlcmllczwv
-        c3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjI0NiIgaW5k
-        MT0iMSIgaW5kMj0iMyI+PHN1YmZpZWxkIGNvZGU9ImEiPk11bmljaXBhbCBt
-        YW5hZ2VtZW50IGlubm92YXRpb24gc2VyaWVzPC9zdWJmaWVsZD48L2RhdGFm
-        aWVsZD48ZGF0YWZpZWxkIHRhZz0iMjYwIiBpbmQxPSIgIiBpbmQyPSIgIj48
-        c3ViZmllbGQgY29kZT0iYSI+W1dhc2hpbmd0b25dPC9zdWJmaWVsZD48c3Vi
-        ZmllbGQgY29kZT0iYiI+SW50ZXJuYXRpb25hbCBDaXR5IE1hbmFnZW1lbnQg
-        QXNzb2NpYXRpb24uPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxk
-        IHRhZz0iMjY1IiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0i
-        YSI+SW50ZXJuYXRpb25hbCBDaXR5IE1hbmFnZW1lbnQgQXNzb2NpYXRpb24s
-        IDExNDAgQ29ubmVjdGljdXQgQXZlLiwgTi5XLiwgV2FzaGluZ3RvbiwgREMg
-        MjAwMzY8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIz
-        MDAiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5uby48
-        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJjIj40MyBjbS48L3N1YmZpZWxk
-        PjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSIzNjIiIGluZDE9IjAiIGlu
-        ZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj5uby4gMS0gICAxOTc1LTwvc3Vi
-        ZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjU1MCIgaW5kMT0i
-        MCIgaW5kMj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPlB1Ymxpc2hlZCBieSBJ
-        bnRlcm5hdGlvbmFsIENpdHkgTWFuYWdlbWVudCBBc3NvY2lhdGlvbiBmb3Ig
-        TWFuYWdlbWVudCBJbmZvcm1hdGlvbiBTZXJ2aWNlLjwvc3ViZmllbGQ+PC9k
-        YXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIgaW5kMT0iICIgaW5kMj0i
-        MCI+PHN1YmZpZWxkIGNvZGU9ImEiPkNpdGllcyBhbmQgdG93bnM8L3N1YmZp
-        ZWxkPjxzdWJmaWVsZCBjb2RlPSJ4Ij5QZXJpb2RpY2Fscy48L3N1YmZpZWxk
-        PjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTAiIGluZDE9IiAiIGlu
-        ZDI9IjAiPjxzdWJmaWVsZCBjb2RlPSJhIj5NdW5pY2lwYWwgZ292ZXJubWVu
-        dDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9InoiPlVuaXRlZCBTdGF0ZXM8
-        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJ4Ij5QZXJpb2RpY2Fscy48L3N1
-        YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTAiIGluZDE9
-        IiAiIGluZDI9IjAiPjxzdWJmaWVsZCBjb2RlPSJhIj5NdW5pY2lwYWwgc2Vy
-        dmljZXM8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJ4Ij5QZXJpb2RpY2Fs
-        cy48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2NTAi
-        IGluZDE9IiAiIGluZDI9IjciPjxzdWJmaWVsZCBjb2RlPSJhIj5DaXRpZXMg
-        YW5kIHRvd25zPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMiI+ZmFzdDwv
-        c3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29MQylmc3QwMDg2MTc0
-        ODwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1MCIg
-        aW5kMT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9ImEiPk11bmljaXBh
-        bCBnb3Zlcm5tZW50PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMiI+ZmFz
-        dDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29MQylmc3QwMTAy
-        OTI5OTwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1
-        MCIgaW5kMT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9ImEiPk11bmlj
-        aXBhbCBzZXJ2aWNlczwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjIiPmZh
-        c3Q8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSIwIj4oT0NvTEMpZnN0MDEw
-        Mjk0MzE8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI2
-        NTEiIGluZDE9IiAiIGluZDI9IjciPjxzdWJmaWVsZCBjb2RlPSJhIj5Vbml0
-        ZWQgU3RhdGVzPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMiI+ZmFzdDwv
-        c3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29MQylmc3QwMTIwNDE1
-        NTwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjY1NSIg
-        aW5kMT0iICIgaW5kMj0iNyI+PHN1YmZpZWxkIGNvZGU9ImEiPlBlcmlvZGlj
-        YWxzPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iMiI+ZmFzdDwvc3ViZmll
-        bGQ+PHN1YmZpZWxkIGNvZGU9IjAiPihPQ29MQylmc3QwMTQxMTY0MTwvc3Vi
-        ZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjcxMCIgaW5kMT0i
-        MiIgaW5kMj0iICI+PHN1YmZpZWxkIGNvZGU9ImEiPkludGVybmF0aW9uYWwg
-        Q2l0eSBNYW5hZ2VtZW50IEFzc29jaWF0aW9uLjwvc3ViZmllbGQ+PC9kYXRh
-        ZmllbGQ+PGRhdGFmaWVsZCB0YWc9IjcxMCIgaW5kMT0iMiIgaW5kMj0iICI+
-        PHN1YmZpZWxkIGNvZGU9ImEiPk1hbmFnZW1lbnQgSW5mb3JtYXRpb24gU2Vy
-        dmljZS48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPSI5
-        MDUiIGluZDE9IiAiIGluZDI9IiAiPjxzdWJmaWVsZCBjb2RlPSJhIj4xOTky
-        MDQyNDEyMDAwMC4wPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxk
-        IHRhZz0iOTQ4IiBpbmQxPSIyIiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0i
-        YSI+MjAxNDExMDU8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSJiIj5tPC9z
-        dWJmaWVsZD48c3ViZmllbGQgY29kZT0iZCI+YmF0Y2g8L3N1YmZpZWxkPjxz
-        dWJmaWVsZCBjb2RlPSJlIj5sdHM8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2Rl
-        PSJ4Ij5hZGRmYXN0PC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxk
-        IHRhZz0iOTUwIiBpbmQxPSIgIiBpbmQyPSIgIj48c3ViZmllbGQgY29kZT0i
-        bCI+QlBBPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0iYSI+SlMzOTwvc3Vi
-        ZmllbGQ+PHN1YmZpZWxkIGNvZGU9ImIiPi5NOTUrKzwvc3ViZmllbGQ+PHN1
-        YmZpZWxkIGNvZGU9ImkiPjA0LzMwLzg3IE48L3N1YmZpZWxkPjxzdWJmaWVs
-        ZCBjb2RlPSJoIj4wMi8wNS84NSBOPC9zdWJmaWVsZD48c3ViZmllbGQgY29k
-        ZT0iaCI+MDEvMDEvMDEgTjwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PC9yZWNv
-        cmQ+JywnaWQnPT4nMzA2OTk4JywndHlwZSc9PidDYXRhbG9nJywnc291cmNl
-        Jz0+J1ZveWFnZXInLCdmb3JtYXQnPT5bJ0pvdXJuYWwvUGVyaW9kaWNhbCdd
-        LCdkYXRhYmFzZV9iJz0+ZmFsc2UsJ2Zvcm1hdF9tYWluX2ZhY2V0Jz0+J0pv
-        dXJuYWwvUGVyaW9kaWNhbCcsJ2xhbmd1YWdlX2Rpc3BsYXknPT5bJ0VuZ2xp
-        c2guJ10sJ2xhbmd1YWdlX2ZhY2V0Jz0+WydFbmdsaXNoJ10sJ2xjX2NhbGxu
-        dW1fZmFjZXQnPT5bJ0ogLSBQb2xpdGljYWwgU2NpZW5jZScsJ0ogLSBQb2xp
-        dGljYWwgU2NpZW5jZTpKUyAtIExvY2FsICYgTXVuaWNpcGFsIEdvdmVybm1l
-        bnQnXSwnY2FsbG51bV9zb3J0Jz0+J0pTMzkgLk05NScsJ3B1Yl9kYXRlX2Zh
-        Y2V0Jz0+MTk3NSwncHViX2RhdGVfc29ydCc9PjE5NzUsJ3B1Yl9pbmZvX2Rp
-        c3BsYXknPT5bJ1tXYXNoaW5ndG9uXSBJbnRlcm5hdGlvbmFsIENpdHkgTWFu
-        YWdlbWVudCBBc3NvY2lhdGlvbi4nXSwncHVibGlzaGVyX2Rpc3BsYXknPT5b
-        J0ludGVybmF0aW9uYWwgQ2l0eSBNYW5hZ2VtZW50IEFzc29jaWF0aW9uLidd
-        LCdwdWJwbGFjZV9kaXNwbGF5Jz0+WydbV2FzaGluZ3Rvbl0nXSwnb3BlbnNl
-        YXJjaF9kaXNwbGF5Jz0+WydJbnRlcm5hdGlvbmFsIENpdHkgTWFuYWdlbWVu
-        dCBBc3NvY2lhdGlvbi4nLCdNYW5hZ2VtZW50IEluZm9ybWF0aW9uIFNlcnZp
-        Y2UuJywnTXVuaWNpcGFsIGlubm92YXRpb25zJywnQ2l0aWVzIGFuZCB0b3du
-        cyA+IFBlcmlvZGljYWxzJywnTXVuaWNpcGFsIGdvdmVybm1lbnQgPiBVbml0
-        ZWQgU3RhdGVzID4gUGVyaW9kaWNhbHMnLCdNdW5pY2lwYWwgc2VydmljZXMg
-        PiBQZXJpb2RpY2FscycsJ0NpdGllcyBhbmQgdG93bnMnLCdNdW5pY2lwYWwg
-        Z292ZXJubWVudCcsJ011bmljaXBhbCBzZXJ2aWNlcycsJ1VuaXRlZCBTdGF0
-        ZXMnLCdQZXJpb2RpY2FscyddLCdhdXRob3JfYWRkbF9kaXNwbGF5Jz0+WydJ
-        bnRlcm5hdGlvbmFsIENpdHkgTWFuYWdlbWVudCBBc3NvY2lhdGlvbi4nLCdN
-        YW5hZ2VtZW50IEluZm9ybWF0aW9uIFNlcnZpY2UuJ10sJ2F1dGhvcl9hZGRs
-        X2pzb24nPT5bJ3sibmFtZTEiOiJJbnRlcm5hdGlvbmFsIENpdHkgTWFuYWdl
-        bWVudCBBc3NvY2lhdGlvbi4iLCJzZWFyY2gxIjoiSW50ZXJuYXRpb25hbCBD
-        aXR5IE1hbmFnZW1lbnQgQXNzb2NpYXRpb24uIiwicmVsYXRvciI6IiIsInR5
-        cGUiOiJDb3Jwb3JhdGUgTmFtZSIsImF1dGhvcml6ZWRGb3JtIjp0cnVlfScs
-        J3sibmFtZTEiOiJNYW5hZ2VtZW50IEluZm9ybWF0aW9uIFNlcnZpY2UuIiwi
-        c2VhcmNoMSI6Ik1hbmFnZW1lbnQgSW5mb3JtYXRpb24gU2VydmljZS4iLCJy
-        ZWxhdG9yIjoiIiwidHlwZSI6IkNvcnBvcmF0ZSBOYW1lIiwiYXV0aG9yaXpl
-        ZEZvcm0iOnRydWV9J10sJ2F1dGhvcl9jb3JwX2ZpbGluZyc9PlsnaW50ZXJu
-        YXRpb25hbCBjaXR5IG1hbmFnZW1lbnQgYXNzb2NpYXRpb24nLCdtYW5hZ2Vt
-        ZW50IGluZm9ybWF0aW9uIHNlcnZpY2UnXSwnYXV0aG9yX2ZhY2V0Jz0+WydJ
-        bnRlcm5hdGlvbmFsIENpdHkgTWFuYWdlbWVudCBBc3NvY2lhdGlvbicsJ01h
-        bmFnZW1lbnQgSW5mb3JtYXRpb24gU2VydmljZSddLCd0aXRsZV9zbXNfY29t
-        cGF0X2Rpc3BsYXknPT5bJ011bmljaXBhbCBpbm5vdmF0aW9ucyddLCd0aXRs
-        ZV8ybGV0dGVyX3MnPT5bJ211J10sJ3RpdGxlX2Rpc3BsYXknPT4nTXVuaWNp
-        cGFsIGlubm92YXRpb25zJywndGl0bGVfMWxldHRlcl9zJz0+WydtJ10sJ2Z1
-        bGx0aXRsZV9kaXNwbGF5Jz0+J011bmljaXBhbCBpbm5vdmF0aW9ucycsJ2xj
-        X2NvbnRyb2xudW1fZGlzcGxheSc9Plsnc2MgNzkwMDQzMjgnXSwnbm90ZXMn
-        PT5bJ25vLiAxLSAgIDE5NzUtJywnUHVibGlzaGVkIGJ5IEludGVybmF0aW9u
-        YWwgQ2l0eSBNYW5hZ2VtZW50IEFzc29jaWF0aW9uIGZvciBNYW5hZ2VtZW50
-        IEluZm9ybWF0aW9uIFNlcnZpY2UuJ10sJ3RpdGxlX290aGVyX2Rpc3BsYXkn
-        PT5bJ01JUyBpbm5vdmF0aW9ucyBzZXJpZXMnLCdNdW5pY2lwYWwgbWFuYWdl
-        bWVudCBpbm5vdmF0aW9uIHNlcmllcyddLCdsY19jb250cm9sbnVtX3MnPT5b
-        J3NjIDc5MDA0MzI4J10sJ2Rlc2NyaXB0aW9uX2Rpc3BsYXknPT5bJ25vLiA0
-        MyBjbS4nXSwnb3RoZXJfaWRfZGlzcGxheSc9PlsnKENTdFJMSU4pTllDWDM4
-        MDQwMzdTJywnKE5JQylub3Rpc0FCSDM0MzcnLCcoT0NvTEMpMzgwNDAzNycs
-        JzMwNjk5OCddLCdmYXN0X2InPT50cnVlLCdmYXN0X3RvcGljX2ZhY2V0Jz0+
-        WydDaXRpZXMgYW5kIHRvd25zJywnTXVuaWNpcGFsIGdvdmVybm1lbnQnLCdN
-        dW5pY2lwYWwgc2VydmljZXMnXSwnZmFzdF9nZW9fZmFjZXQnPT5bJ1VuaXRl
-        ZCBTdGF0ZXMnXSwnc3ViamVjdF9nZW5yX2ZpbGluZyc9PlsncGVyaW9kaWNh
-        bHMnXSwnc3ViamVjdF90b3BpY19mYWNldCc9PlsnQ2l0aWVzIGFuZCB0b3du
-        cycsJ0NpdGllcyBhbmQgdG93bnMgPiBQZXJpb2RpY2FscycsJ011bmljaXBh
-        bCBnb3Zlcm5tZW50JywnTXVuaWNpcGFsIGdvdmVybm1lbnQgPiBVbml0ZWQg
-        U3RhdGVzJywnTXVuaWNpcGFsIGdvdmVybm1lbnQgPiBVbml0ZWQgU3RhdGVz
-        ID4gUGVyaW9kaWNhbHMnLCdNdW5pY2lwYWwgc2VydmljZXMnLCdNdW5pY2lw
-        YWwgc2VydmljZXMgPiBQZXJpb2RpY2FscycsJ0NpdGllcyBhbmQgdG93bnMn
-        LCdNdW5pY2lwYWwgZ292ZXJubWVudCcsJ011bmljaXBhbCBzZXJ2aWNlcydd
-        LCdzdWJqZWN0X2dlbnJfZmFjZXQnPT5bJ1BlcmlvZGljYWxzJ10sJ2Zhc3Rf
-        Z2VucmVfZmFjZXQnPT5bJ1BlcmlvZGljYWxzJ10sJ3N1YmplY3RfdG9waWNf
-        ZmlsaW5nJz0+WydjaXRpZXMgYW5kIHRvd25zJywnY2l0aWVzIGFuZCB0b3du
-        cyAwMDAwIHBlcmlvZGljYWxzJywnbXVuaWNpcGFsIGdvdmVybm1lbnQnLCdt
-        dW5pY2lwYWwgZ292ZXJubWVudCAwMDAwIHVuaXRlZCBzdGF0ZXMnLCdtdW5p
-        Y2lwYWwgZ292ZXJubWVudCAwMDAwIHVuaXRlZCBzdGF0ZXMgMDAwMCBwZXJp
-        b2RpY2FscycsJ211bmljaXBhbCBzZXJ2aWNlcycsJ211bmljaXBhbCBzZXJ2
-        aWNlcyAwMDAwIHBlcmlvZGljYWxzJywnY2l0aWVzIGFuZCB0b3ducycsJ211
-        bmljaXBhbCBnb3Zlcm5tZW50JywnbXVuaWNpcGFsIHNlcnZpY2VzJ10sJ3N1
-        YmplY3RfZGlzcGxheSc9PlsnQ2l0aWVzIGFuZCB0b3ducyA+IFBlcmlvZGlj
-        YWxzJywnTXVuaWNpcGFsIGdvdmVybm1lbnQgPiBVbml0ZWQgU3RhdGVzID4g
-        UGVyaW9kaWNhbHMnLCdNdW5pY2lwYWwgc2VydmljZXMgPiBQZXJpb2RpY2Fs
-        cyddLCdzdWJqZWN0X2dlb19maWxpbmcnPT5bJ3VuaXRlZCBzdGF0ZXMnXSwn
-        c3ViamVjdF9nZW9fZmFjZXQnPT5bJ1VuaXRlZCBTdGF0ZXMnXSwnc3ViamVj
-        dF9qc29uJz0+WydbeyJzdWJqZWN0IjoiQ2l0aWVzIGFuZCB0b3ducyIsImF1
-        dGhvcml6ZWQiOnRydWUsInR5cGUiOiJUb3BpY2FsIFRlcm0ifSx7InN1Ympl
-        Y3QiOiJQZXJpb2RpY2Fscy4iLCJhdXRob3JpemVkIjp0cnVlfV0nLCdbeyJz
-        dWJqZWN0IjoiTXVuaWNpcGFsIGdvdmVybm1lbnQiLCJhdXRob3JpemVkIjp0
-        cnVlLCJ0eXBlIjoiVG9waWNhbCBUZXJtIn0seyJzdWJqZWN0IjoiVW5pdGVk
-        IFN0YXRlcyIsImF1dGhvcml6ZWQiOnRydWV9LHsic3ViamVjdCI6IlBlcmlv
-        ZGljYWxzLiIsImF1dGhvcml6ZWQiOnRydWV9XScsJ1t7InN1YmplY3QiOiJN
-        dW5pY2lwYWwgc2VydmljZXMiLCJhdXRob3JpemVkIjp0cnVlLCJ0eXBlIjoi
-        VG9waWNhbCBUZXJtIn0seyJzdWJqZWN0IjoiUGVyaW9kaWNhbHMuIiwiYXV0
-        aG9yaXplZCI6ZmFsc2V9XSddLCd3b3JraWRfZmFjZXQnPT5bJzEyMzkyNzI1
-        J10sJ192ZXJzaW9uXyc9PjE1ODg4OTQ2OTM2MDY4MTc3OTIsJ3RpbWVzdGFt
-        cCc9PicyMDE4LTAxLTA3VDAxOjIxOjAwLjc4OVonfV19fQo=
-    http_version: 
-  recorded_at: Tue, 09 Jan 2018 15:47:15 GMT
-- request:
-    method: get
-    uri: http://holdings5.library.cornell.edu/holdings/status_short/306998
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
-      Accept:
-      - "*/*"
-      Date:
-      - Tue, 09 Jan 2018 15:47:15 GMT
-  response:
-    status:
-      code: 302
-      message: Found
-    headers:
-      Date:
-      - Tue, 09 Jan 2018 15:47:15 GMT
-      Server:
-      - Apache
-      Location:
-      - https://holdings5.library.cornell.edu/holdings/status_short/306998
-      Vary:
-      - Accept-Encoding
-      Content-Length:
-      - '250'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>302 Found</title>
-        </head><body>
-        <h1>Found</h1>
-        <p>The document has moved <a href="https://holdings5.library.cornell.edu/holdings/status_short/306998">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 09 Jan 2018 15:47:15 GMT
-- request:
-    method: get
-    uri: https://holdings5.library.cornell.edu/holdings/status_short/306998
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
-      Accept:
-      - "*/*"
-      Date:
-      - Tue, 09 Jan 2018 15:47:15 GMT
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 09 Jan 2018 15:47:15 GMT
-      Server:
-      - Apache
-      Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept-Encoding
-      X-Ua-Compatible:
-      - IE=Edge
-      Etag:
-      - '"5b4d9c96f0cccb34b57b64aa47e198f7"'
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 768209c9fd04d309385c06b420f603c2
-      X-Runtime:
-      - '0.123438'
-      X-Powered-By:
-      - Phusion Passenger 4.0.58
-      Status:
-      - 200 OK
-      Connection:
-      - close
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json; charset=utf-8
-    body:
-      encoding: UTF-8
-      string: '{"306998":{"306998":{"records":[{"bibid":"306998","call_number":"JS39
-        .M95 Oversize","statuses":{"1055":"unavailable"},"holdings":[{"BIB_ID":306998,"MFHD_ID":1055,"ITEM_ID":6294,"ITEM_STATUS":12,"DISPLAY_CALL_NO":"JS39
-        .M95 Oversize","LOCATION_ID":59,"LOCATION_CODE":"jgsm","LOCATION_DISPLAY_NAME":"ILR
-        Library (Ives Hall)","OQUANTITY":null,"ODATE":null,"LINE_ITEM_STATUS":null,"LINE_ITEM_ID":null,"TEMP_LOCATION_DISPLAY_NAME":null,"TEMP_LOCATION_CODE":null,"TEMP_LOCATION_ID":0,"ITEM_STATUS_DATE":"2012-12-18T15:34:20-05:00","PERM_LOCATION":59,"PERM_LOCATION_DISPLAY_NAME":"ILR
-        Library (Ives Hall)","PERM_LOCATION_CODE":"jgsm","CURRENT_DUE_DATE":null,"HOLDS_PLACED":0,"RECALLS_PLACED":0,"PO_TYPE":null,"ITEM_ENUM":null,"CHRON":null}],"current_suppl":[]}],"summary":{"electronic":false,"holdinglocs":["ILR
-        Library (Ives Hall)"],"locnumber":1,"status":["avail"],"avail_at":{},"not_avail_at":{"ILR
-        Library (Ives Hall)":"JS39 .M95 Oversize"},"onotes":[]}}}}'
-    http_version: 
-  recorded_at: Tue, 09 Jan 2018 15:47:15 GMT
-- request:
-    method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/b9/select?id=306998&qt=document&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/select?id=306998&qt=document&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v0.14.0
+      - Faraday v0.12.2
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -372,30 +19,30 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 02 Apr 2018 14:40:45 GMT
+      - Thu, 17 May 2018 15:22:48 GMT
       Last-Modified:
-      - Mon, 02 Apr 2018 14:40:35 GMT
+      - Thu, 17 May 2018 15:19:42 GMT
       Etag:
-      - '"ODVjNjgwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2EwNGEwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
-      - 1.1 da-prod-solr9.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '2567'
+      - '2566'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
         eyJyZXNwb25zZUhlYWRlciI6eyJ6a0Nvbm5lY3RlZCI6dHJ1ZSwic3RhdHVz
-        IjowLCJRVGltZSI6NTcsInBhcmFtcyI6eyJxIjoieyFyYXcgZj1pZCB2PSRp
+        IjowLCJRVGltZSI6MjIsInBhcmFtcyI6eyJxIjoieyFyYXcgZj1pZCB2PSRp
         ZH0iLCJxdCI6ImRvY3VtZW50IiwiZWNob1BhcmFtcyI6ImFsbCIsImZsIjoi
         KiIsImlkIjoiMzA2OTk4IiwiY29sbGVjdGlvbiI6ImI5Iiwicm93cyI6IjEi
         LCJ3dCI6Impzb24ifX0sInJlc3BvbnNlIjp7Im51bUZvdW5kIjoxLCJzdGFy
-        dCI6MCwibWF4U2NvcmUiOjEzLjcyNTM3MywiZG9jcyI6W3sibXVsdGl2b2xf
+        dCI6MCwibWF4U2NvcmUiOjEzLjczNTExNiwiZG9jcyI6W3sibXVsdGl2b2xf
         YiI6ZmFsc2UsImhvbGRpbmdzX2Rpc3BsYXkiOlsiMTA1NSJdLCJsb2NhdGlv
         bl9mYWNldCI6WyJJTFIgTGlicmFyeSJdLCJob2xkaW5nc19yZWNvcmRfZGlz
         cGxheSI6WyJ7XCJpZFwiOlwiMTA1NVwiLFwibW9kaWZpZWRfZGF0ZVwiOm51
@@ -640,5 +287,5 @@ http_interactions:
         c2lvbl8iOjE1OTYzMDU3MjE0ODIyODA5NjAsInRpbWVzdGFtcCI6IjIwMTgt
         MDMtMjlUMjA6MzY6MDcuNzA2WiJ9XX19Cg==
     http_version: 
-  recorded_at: Mon, 02 Apr 2018 14:40:45 GMT
+  recorded_at: Thu, 17 May 2018 15:22:48 GMT
 recorded_with: VCR 4.0.0
