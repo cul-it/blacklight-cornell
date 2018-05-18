@@ -171,8 +171,9 @@ end
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
   
-
-
+  # custom error pages
+  match "/404", :to => "errors#not_found", :via => :all
+  match "/500", :to => "errors#internal_server_error", :via => :all
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
 end
