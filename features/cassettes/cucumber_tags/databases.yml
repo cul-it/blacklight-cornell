@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/select?rows=10&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/select?rows=10&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,11 +19,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:08 GMT
+      - Fri, 18 May 2018 02:23:45 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:00 GMT
+      - Fri, 18 May 2018 01:51:27 GMT
       Etag:
-      - '"ZDEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
@@ -31,12 +31,12 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '3340'
+      - '3342'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
-      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":305,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7914886,"start":0,"maxScore":1.50515,"docs":[{"holdings_record_display":["{\"id\":\"10645032\",\"modified_date\":\"20180413113944\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":830,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7915223,"start":0,"maxScore":1.50515,"docs":[{"holdings_record_display":["{\"id\":\"10645032\",\"modified_date\":\"20180413113944\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
         Resource\",\"library\":null}]}"],"id":"10339844","format":["Book"],"online":["Online"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Burlington,
         Massachusetts : Jones & Bartlett Learning, 2019."],"fulltitle_display":"Java
         illuminated : an active learning approach","title_display":"Java illuminated","author_display":"Anderson,
@@ -113,20 +113,20 @@ http_interactions:
         anatomy & physiology : cat version","title_display":"Laboratory manual for
         human anatomy & physiology","author_display":"Martin, Terry R., author","subtitle_display":"cat
         version","edition_display":["Fourth edition."],"other_id_display":["(OCoLC)1001411720","10086886"],"acquired_dt":"2018-01-18T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Veterinary
-        Library (Schurman Hall)\":\"QP44 .W74 2019\"}}","score":1.50515}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",6943260,"Journal/Periodical",402876,"Microform",355629,"Musical
-        Recording",222726,"Thesis",200637,"Video",117723,"Musical Score",97602,"Map
+        Library (Schurman Hall)\":\"QP44 .W74 2019\"}}","score":1.50515}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",6943579,"Journal/Periodical",402888,"Microform",355629,"Musical
+        Recording",222731,"Thesis",200637,"Video",117723,"Musical Score",97603,"Map
         or Globe",64694,"Manuscript/Archive",16356,"Non-musical Recording",10212],"online":["At
-        the Library",5879142,"Online",2125487],"language_facet":["English",4907914,"German",544413,"French",338806,"Spanish",290045,"Chinese",267841,"Russian",183990,"Italian",151785,"Indonesian",138512,"Japanese",103501,"Vietnamese",76076],"location_facet":["Library
-        Annex",2405410,"Olin Library",1690599,"Kroch Library Asia",614409,"Kroch Library
-        Rare & Manuscripts",508387,"Music Library",200741,"Law Library",199527,"Mann
-        Library",165222,"Uris Library",150410,"ILR Library",110676,"Mathematics Library",52736]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}},"spellcheck":{"suggestions":[],"correctlySpelled":true}}
+        the Library",5879264,"Online",2125713],"language_facet":["English",4908183,"German",544416,"French",338811,"Spanish",290046,"Chinese",267846,"Russian",183994,"Italian",151785,"Indonesian",138532,"Japanese",103498,"Vietnamese",76076],"location_facet":["Library
+        Annex",2405415,"Olin Library",1690634,"Kroch Library Asia",614445,"Kroch Library
+        Rare & Manuscripts",508398,"Music Library",200747,"Law Library",199534,"Mann
+        Library",165230,"Uris Library",150426,"ILR Library",110679,"Mathematics Library",52736]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}},"spellcheck":{"suggestions":[],"correctlySpelled":true}}
 
 '
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:08 GMT
+  recorded_at: Fri, 18 May 2018 02:23:55 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -136,18 +136,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 17 May 2018 15:37:09 GMT
+      - Fri, 18 May 2018 02:23:55 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:09 GMT
+      - Fri, 18 May 2018 02:23:55 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:00 GMT
+      - Fri, 18 May 2018 00:52:58 GMT
       Etag:
-      - '"ZDEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NTlmNmEwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -165,7 +165,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":100,
+            "QTime":191,
             "params":{
               "q":"\"Anthropology\"",
               "indent":"true",
@@ -439,10 +439,10 @@ http_interactions:
                   "Theater, Film and Television"]}]
           }}
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:09 GMT
+  recorded_at: Fri, 18 May 2018 02:23:55 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -452,18 +452,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 17 May 2018 15:37:09 GMT
+      - Fri, 18 May 2018 02:23:55 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:09 GMT
+      - Fri, 18 May 2018 02:23:55 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:00 GMT
+      - Fri, 18 May 2018 00:52:58 GMT
       Etag:
-      - '"ZDEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NTlmNmEwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -481,7 +481,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":31,
+            "QTime":61,
             "params":{
               "q":"\"Anthropology (Core)\"",
               "indent":"true",
@@ -522,10 +522,10 @@ http_interactions:
                   "Sociology and Rural Development (Core)"]}]
           }}
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:09 GMT
+  recorded_at: Fri, 18 May 2018 02:23:55 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/database?id=5366869&indent=true&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/database?id=5366869&indent=true&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -535,18 +535,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 17 May 2018 15:37:09 GMT
+      - Fri, 18 May 2018 02:23:55 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:09 GMT
+      - Fri, 18 May 2018 02:23:55 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:00 GMT
+      - Fri, 18 May 2018 00:52:58 GMT
       Etag:
-      - '"ZDEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"YzgwZWEwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -564,12 +564,12 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":21,
+            "QTime":23,
             "params":{
               "indent":"true",
               "id":"5366869",
               "wt":"json"}},
-          "response":{"numFound":1,"start":0,"maxScore":13.729067,"docs":[
+          "response":{"numFound":1,"start":0,"maxScore":13.729521,"docs":[
               {
                 "id":"5366869",
                 "title_display":"AnthroSource",
@@ -586,10 +586,10 @@ http_interactions:
                   "Anthropology (Core)"]}]
           }}
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:09 GMT
+  recorded_at: Fri, 18 May 2018 02:23:55 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databases?defType=dismax&indent=true&q=MLA&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databases?defType=dismax&indent=true&q=MLA&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -599,22 +599,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 17 May 2018 15:37:20 GMT
+      - Fri, 18 May 2018 02:24:07 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:20 GMT
+      - Fri, 18 May 2018 02:24:07 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:00 GMT
+      - Fri, 18 May 2018 01:51:27 GMT
       Etag:
-      - '"ZDEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '3085'
+      - '3087'
       Via:
       - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
@@ -628,13 +628,13 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":105,
+            "QTime":2199,
             "params":{
               "q":"MLA",
               "defType":"dismax",
               "indent":"true",
               "wt":"json"}},
-          "response":{"numFound":3,"start":0,"maxScore":623072.9,"docs":[
+          "response":{"numFound":3,"start":0,"maxScore":623079.75,"docs":[
               {
                 "id":"2477233",
                 "title_display":"MLA international bibliography",
@@ -665,10 +665,10 @@ http_interactions:
                   "Newspapers, Magazines and Current Events"]}]
           }}
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:20 GMT
+  recorded_at: Fri, 18 May 2018 02:24:09 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Images%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -678,18 +678,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 17 May 2018 15:37:24 GMT
+      - Fri, 18 May 2018 02:24:13 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:24 GMT
+      - Fri, 18 May 2018 02:24:13 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:21 GMT
+      - Fri, 18 May 2018 01:51:27 GMT
       Etag:
-      - '"ZjEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
@@ -707,7 +707,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":177,
+            "QTime":550,
             "params":{
               "q":"\"Images\"",
               "indent":"true",
@@ -1110,10 +1110,10 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:24 GMT
+  recorded_at: Fri, 18 May 2018 02:24:13 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1123,18 +1123,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Thu, 17 May 2018 15:37:24 GMT
+      - Fri, 18 May 2018 02:24:13 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:37:24 GMT
+      - Fri, 18 May 2018 02:24:13 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:37:21 GMT
+      - Fri, 18 May 2018 01:51:27 GMT
       Etag:
-      - '"ZjEwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -1152,7 +1152,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":28,
+            "QTime":78,
             "params":{
               "q":"\"Images (Core)\"",
               "indent":"true",
@@ -1194,5 +1194,5 @@ http_interactions:
                   "Art and Architecture"]}]
           }}
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:37:24 GMT
+  recorded_at: Fri, 18 May 2018 02:24:13 GMT
 recorded_with: VCR 4.0.0
