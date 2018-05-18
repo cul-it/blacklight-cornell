@@ -4,8 +4,9 @@ class ErrorsController < ApplicationController
   end
 
   def internal_server_error
-    @time = Time.now
-    @server = request.env['SERVER_NAME']
+    @time = Time.now.to_s
+    @server = request.env['SERVER_NAME'].to_s
+    @test = "text"
     render(:status => 500)
   end
 
