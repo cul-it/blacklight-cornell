@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/select?id=306998&qt=document&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/select?id=306998&qt=document&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,11 +19,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 May 2018 15:22:48 GMT
+      - Fri, 18 May 2018 02:05:36 GMT
       Last-Modified:
-      - Thu, 17 May 2018 15:19:42 GMT
+      - Fri, 18 May 2018 01:51:27 GMT
       Etag:
-      - '"N2EwNGEwMDAwMDAwMDAwMFNvbHI="'
+      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
@@ -31,18 +31,18 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '2566'
+      - '2567'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
         eyJyZXNwb25zZUhlYWRlciI6eyJ6a0Nvbm5lY3RlZCI6dHJ1ZSwic3RhdHVz
-        IjowLCJRVGltZSI6MjIsInBhcmFtcyI6eyJxIjoieyFyYXcgZj1pZCB2PSRp
+        IjowLCJRVGltZSI6OTIsInBhcmFtcyI6eyJxIjoieyFyYXcgZj1pZCB2PSRp
         ZH0iLCJxdCI6ImRvY3VtZW50IiwiZWNob1BhcmFtcyI6ImFsbCIsImZsIjoi
         KiIsImlkIjoiMzA2OTk4IiwiY29sbGVjdGlvbiI6ImI5Iiwicm93cyI6IjEi
         LCJ3dCI6Impzb24ifX0sInJlc3BvbnNlIjp7Im51bUZvdW5kIjoxLCJzdGFy
-        dCI6MCwibWF4U2NvcmUiOjEzLjczNTExNiwiZG9jcyI6W3sibXVsdGl2b2xf
+        dCI6MCwibWF4U2NvcmUiOjEzLjczNTMwMSwiZG9jcyI6W3sibXVsdGl2b2xf
         YiI6ZmFsc2UsImhvbGRpbmdzX2Rpc3BsYXkiOlsiMTA1NSJdLCJsb2NhdGlv
         bl9mYWNldCI6WyJJTFIgTGlicmFyeSJdLCJob2xkaW5nc19yZWNvcmRfZGlz
         cGxheSI6WyJ7XCJpZFwiOlwiMTA1NVwiLFwibW9kaWZpZWRfZGF0ZVwiOm51
@@ -287,5 +287,5 @@ http_interactions:
         c2lvbl8iOjE1OTYzMDU3MjE0ODIyODA5NjAsInRpbWVzdGFtcCI6IjIwMTgt
         MDMtMjlUMjA6MzY6MDcuNzA2WiJ9XX19Cg==
     http_version: 
-  recorded_at: Thu, 17 May 2018 15:22:48 GMT
+  recorded_at: Fri, 18 May 2018 02:05:37 GMT
 recorded_with: VCR 4.0.0
