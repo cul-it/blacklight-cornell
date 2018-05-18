@@ -3,6 +3,8 @@ BlacklightCornell::Application.routes.draw do
 
   get 'errors/internal_server_error'
 
+  get 'errors/index'
+
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
   match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
