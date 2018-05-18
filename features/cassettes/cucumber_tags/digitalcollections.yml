@@ -2,32 +2,32 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr8.library.cornell.edu/solr/blacklight/culdigreg?q=*
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/culdigreg?q=*
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
       Accept:
       - "*/*"
       Date:
-      - Tue, 09 Jan 2018 16:06:46 GMT
+      - Thu, 17 May 2018 15:37:31 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 09 Jan 2018 16:06:46 GMT
+      - Thu, 17 May 2018 15:37:31 GMT
       Last-Modified:
-      - Tue, 09 Jan 2018 16:06:36 GMT
+      - Thu, 17 May 2018 15:37:21 GMT
       Etag:
-      - '"YTU1N2E4MDAwMDAwMDAwMFNvbHI="'
+      - '"ZjEwNGEwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -41,7 +41,7 @@ http_interactions:
           'responseHeader'=>{
             'zkConnected'=>true,
             'status'=>0,
-            'QTime'=>261,
+            'QTime'=>146,
             'params'=>{
               'q'=>'*'}},
           'response'=>{'numFound'=>85,'start'=>0,'docs'=>[
@@ -154,8 +154,8 @@ http_interactions:
                 'pub_info_display'=>['Ithaca, NY : Cornell Program in Real Estate'],
                 'fulltitle_display'=>'Cornell real estate review',
                 'summary_display'=>['Aims to provide a conduit for scholars, professional practitioners, and students to express ideas, concepts and research findings from all fields related to the real estate profession. Focuses on the interdisciplinary nature of real estate by blending both informative practical papers with application based academic research across the breadth of design, business, economics, engineering, finance, law, planning, development, marketing and property management.'],
-                'url_access_json'=>['{"description":"Connect to full text","url":"http://resolver.library.cornell.edu/misc/6171703"}'],
-                'url_access_display'=>['http://resolver.library.cornell.edu/misc/6171703|Connect to full text']},
+                'url_access_json'=>['{"description":"Available via the School of Hotel Adminsitration\'s Scholarly Commons.","url":"https://scholarship.sha.cornell.edu/crer/"}'],
+                'url_access_display'=>['https://scholarship.sha.cornell.edu/crer/|Available via the School of Hotel Adminsitration\'s Scholarly Commons.']},
               {
                 'id'=>'5458453',
                 'pub_info_display'=>['Ithaca, NY : Cornell University'],
@@ -252,11 +252,11 @@ http_interactions:
                 'url_access_json'=>['{"providercode":"PRVAGG","dbcode":"4DT","url":"http://resolver.library.cornell.edu/misc/6033790"}']},
               {
                 'id'=>'6304372',
-                'pub_info_display'=>['Ithaca, N.Y. : Cornell University Library, c2008-'],
+                'pub_info_display'=>['Ithaca, N.Y. : Cornell University Library, ©2008-'],
                 'fulltitle_display'=>'Food policy for developing countries : the role of government in global, national and local food systems',
                 'summary_display'=>['This program aims to strengthen university training in policy analysis for the food systems, with emphasis on developing countries, using a social entrepreneurship approach.'],
-                'url_access_display'=>['http://resolver.library.cornell.edu/misc/6304372'],
-                'url_access_json'=>['{"url":"http://resolver.library.cornell.edu/misc/6304372"}']},
+                'url_access_json'=>['{"description":"Available via Cornell\'s eCommons.","url":"https://ecommons.cornell.edu/handle/1813/52457"}'],
+                'url_access_display'=>['https://ecommons.cornell.edu/handle/1813/52457|Available via Cornell\'s eCommons.']},
               {
                 'id'=>'8022819',
                 'pub_info_display'=>['Ithaca, N.Y. : Cornell University Library, 2013-'],
@@ -374,8 +374,8 @@ http_interactions:
                 'id'=>'5766642',
                 'pub_info_display'=>['Ithaca, N.Y. : Cornell Modern Indonesia Project, [1966-'],
                 'fulltitle_display'=>'Indonesia',
-                'url_access_json'=>['{"description":"Full text available from SEAP: 10/01/1966 up to the 10 most recent issues.","url":"http://cip.cornell.edu/DPubS?service=UI&version=1.0&verb=Display&handle=seap.indo"}'],
-                'url_access_display'=>['http://cip.cornell.edu/DPubS?service=UI&version=1.0&verb=Display&handle=seap.indo|Full text available from SEAP: 10/01/1966 up to the 10 most recent issues.']},
+                'url_access_json'=>['{"description":"Full text available from SEAP: 10/01/1966 up to the 10 most recent issues.","url":"https://ecommons.cornell.edu/handle/1813/52499"}'],
+                'url_access_display'=>['https://ecommons.cornell.edu/handle/1813/52499|Full text available from SEAP: 10/01/1966 up to the 10 most recent issues.']},
               {
                 'id'=>'8022834',
                 'pub_info_display'=>['Ithaca, N.Y. : Cornell University Library, 2013-'],
@@ -464,11 +464,11 @@ http_interactions:
                 'url_access_json'=>['{"providercode":"PRVAGG","dbcode":"RMK","url":"http://resolver.library.cornell.edu/moap/arn7566"}']},
               {
                 'id'=>'6041496',
-                'pub_info_display'=>['[Cambridge, England] : Cambridge University Press ; Ithaca, NY : Cornell University ; DCAPS'],
+                'pub_info_display'=>['Notre Dame, IN : University of Notre Dame Press, ©1991-'],
                 'fulltitle_display'=>'Medieval philosophy and theology',
                 'summary_display'=>['Medieval Philosophy and Theology is a semi-annual, peer-reviewed journal devoted to the publication of original articles in all areas of medieval philosophy, including logic and natural science, and in medieval theology, including Christian, Jewish, and Islamic. Coverage extends from the Patristic period through the neoscholasticism of the seventeenth century. Beginning with volume 12 the journal will be publishing new issues exclusively in digital format. New and all back issues of the journal are available here on an open-access basis.'],
-                'url_access_display'=>['http://resolver.library.cornell.edu/misc/6041496'],
-                'url_access_json'=>['{"url":"http://resolver.library.cornell.edu/misc/6041496"}']},
+                'url_access_json'=>['{"description":"Available via Cornell\'s eCommons.","url":"https://ecommons.cornell.edu/handle/1813/56546"}'],
+                'url_access_display'=>['https://ecommons.cornell.edu/handle/1813/56546|Available via Cornell\'s eCommons.']},
               {
                 'id'=>'8022838',
                 'pub_info_display'=>['Ithaca, N.Y. : Cornell University Library, 2013-'],
@@ -644,37 +644,37 @@ http_interactions:
                 'url_access_display'=>['http://resolver.library.cornell.edu/misc/5861081|Digital collection']}]
           }}
     http_version: 
-  recorded_at: Tue, 09 Jan 2018 16:06:47 GMT
+  recorded_at: Thu, 17 May 2018 15:37:31 GMT
 - request:
     method: get
-    uri: http://da-prod-solr8.library.cornell.edu/solr/blacklight/culdigreg?q=hip%20hop
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/culdigreg?q=hip%20hop
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.2.4, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
       Accept:
       - "*/*"
       Date:
-      - Tue, 09 Jan 2018 16:06:58 GMT
+      - Thu, 17 May 2018 15:37:39 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 09 Jan 2018 16:06:58 GMT
+      - Thu, 17 May 2018 15:37:39 GMT
       Last-Modified:
-      - Tue, 09 Jan 2018 16:06:36 GMT
+      - Thu, 17 May 2018 15:37:21 GMT
       Etag:
-      - '"YTU1N2E4MDAwMDAwMDAwMFNvbHI="'
+      - '"ZjEwNGEwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Content-Length:
       - '2354'
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -686,7 +686,7 @@ http_interactions:
           'responseHeader'=>{
             'zkConnected'=>true,
             'status'=>0,
-            'QTime'=>557,
+            'QTime'=>283,
             'params'=>{
               'q'=>'hip hop'}},
           'response'=>{'numFound'=>2,'start'=>0,'docs'=>[
@@ -706,5 +706,5 @@ http_interactions:
                 'url_access_display'=>['http://hdl.handle.net/1813.001/8002837|Connect to Hip hop party and event flyers.']}]
           }}
     http_version: 
-  recorded_at: Tue, 09 Jan 2018 16:06:59 GMT
-recorded_with: VCR 3.0.3
+  recorded_at: Thu, 17 May 2018 15:37:39 GMT
+recorded_with: VCR 4.0.0

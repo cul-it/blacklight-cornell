@@ -13,7 +13,7 @@ VCR.configure do |c|
       # your HTTP request service. You can also use fakeweb, typhoeus, and more
       c.default_cassette_options = { :record => :new_episodes, :erb => true }
       c.hook_into :webmock
-      #c.debug_logger = File.open("vcr.log", 'w')
+      c.debug_logger = File.open("vcr.log", 'w')
       #c.allow_http_connections_when_no_cassette = ENV['VCR_ALLOW_HTTP'] ? true : false #false means we *always* have to use VCR for HTTP
       #c.allow_http_connections_when_no_cassette = true # true means that we don't *always* have to use VCR for HTTP, only when we want
       c.allow_http_connections_when_no_cassette = true # false means that we *always* have to use VCR for HTTP
@@ -40,7 +40,7 @@ then
     t.tag  '@all_search'
     t.tag  '@all_results_list'
     t.tag  '@all_item_view'
-    t.tag  '@javascript'
+    #t.tag  '@javascript'
     t.tag  '@homepage'
     t.tag  '@holdings'
     t.tag  '@DISCOVERYACCESS-137'

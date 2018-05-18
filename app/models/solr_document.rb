@@ -32,8 +32,11 @@ class SolrDocument
   # and Blacklight::Document::SemanticFields#to_semantic_values
   # Recommendation: Use field names from Dublin Core
   use_extension( Blacklight::Document::DublinCore)
+# all of these require MARC format data.
   use_extension( Blacklight::Solr::Document::RIS )
   use_extension( Blacklight::Solr::Document::Zotero )
+  use_extension( Blacklight::Solr::Document::Endnote )
+  use_extension( Blacklight::Solr::Document::Endnote_xml )
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.
@@ -59,6 +62,13 @@ class SolrDocument
        end unless field.indicator2 == '7'
        text << textstr
     end
+    record.find_all{|f| f.tag === "600" }.each do |field|
+      textstr = ''
+      field.each do  |sf|
+        textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
+       end if  (field.indicator2 == '0' or field.indicator2 == '1')
+       text << textstr
+    end
     text
   end
 
@@ -82,7 +92,7 @@ class SolrDocument
     record.find_all{|f| f.tag === "020" }.each do |field|
       textstr = ''
       field.each do  |sf|
-        textstr << sf.value + ' ' if ["a"].include?(sf.code)
+        textstr << clean_end_punctuation(sf.value) + ' ' if ["a"].include?(sf.code)
       end
       text << textstr
     end

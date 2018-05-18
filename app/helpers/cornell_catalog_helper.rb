@@ -213,7 +213,11 @@ module CornellCatalogHelper
                 ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted current  = " +  cur.inspect
 			currev = cur.reverse.map{|x| coder.encode(x["ENUMCHRON"]).html_safe}.join("<br/>").html_safe 
 			##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  currev.inspect
-			oneloc["current_issues"] = ("Current Issues: " + currev).html_safe
+			if cur.size == 1
+			oneloc["current_issues"] = ("Current Issue: " + currev).html_safe
+                        else
+                        oneloc["current_issues"] = ("Current Issues: " + "<br>" + currev).html_safe
+                        end
 			#oneloc["current_issues"]="Current Issues: " + ((@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).map{|x| x["ENUMCHRON"]}).sort_by{|x| x["ISSUE_ID"]}.reverse.join(";") 
 		      end
 		      if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id && x["PREDICT"] == 'N'}).blank?

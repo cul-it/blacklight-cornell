@@ -1,15 +1,5 @@
 // AVAILABILITY
 .availability {
-	// background: white;
-	// margin-bottom: 2em;
-	// padding-bottom: 1em;
-	// border-bottom: 5px solid $light-tan;
-	// h3 { 
-	// 	margin: 0;
-	// 	padding: .5em 1em;
-	// 	font-size: 18px;
-	// 	background: $light-tan;
-	// }
 	.worldcat-search {
 		font-size: 14px;
 		display: block;
@@ -27,11 +17,6 @@
 		color: white;
 		background: $teal;
 		border-color: $teal;
-	}
-	.holding {
-		.group {
-			font-size: 12px;
-		}
 	}
 	.url_findingaid_display {
 		display: block;
@@ -126,18 +111,6 @@ h3.rare {
 	font-size: 85%;
 	margin-left: .5em;
 }
-.main-content {
-	.online-coverage,
-	.online-note {
-		// display: block;
-		margin-left: .5em;
-		// font-size: .85em;
-		line-height: 1.4em;
-		color: $medium-gray;
-		font-size: 85%;
-	}
-}
-
 .access-restriction {
 	display: block;
 	line-height: 1.2em;

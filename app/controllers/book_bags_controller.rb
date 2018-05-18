@@ -19,8 +19,7 @@ class BookBagsController < CatalogController
 
   before_filter :heading
   append_before_filter :set_bag_name
- 
-
+  
   def set_bag_name
     @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
@@ -53,6 +52,32 @@ class BookBagsController < CatalogController
         format.json { render json:   { }      } 
       end
      end
+  end
+
+  def addbookmarks
+    @savedll = Rails.logger.level # at any time
+    Rails.logger.level = :debug
+    if current_or_guest_user.bookmarks.count > 0
+      bm = current_or_guest_user.bookmarks
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
+      bm.each do | b |
+        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark = #{b.inspect}")
+      end
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} user = #{current_user.inspect}")
+      bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
+      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
+      if not bookmark_ids.to_s.empty?
+        bookmark_ids.each do | v |
+          if /[0-9]+/.match(v)
+            v.prepend('bibid-')
+            success = @bb.create(v)
+          end
+        end
+        user_session[:bookbag_count] = @bb.count
+      end
+    end
+    Rails.logger.level = @savedll
+    redirect_to :action => "index"
   end
 
   def delete
@@ -98,6 +123,9 @@ class BookBagsController < CatalogController
     success = @bb.clear
     Rails.logger.info("es289_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     if success
+      if current_or_guest_user.bookmarks.count > 0
+        current_or_guest_user.bookmarks.clear
+      end
       flash[:notice] = I18n.t('blacklight.bookmarks.clear.success')
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
@@ -117,28 +145,48 @@ class BookBagsController < CatalogController
   end
 
   def email
+    # file = File.open("jgr25_debug.log", File::WRONLY | File::APPEND | File::CREAT)
+    # logger = Logger.new(file)
+    # logger.level = :info
+    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
     @bms =@bb.index
-    docs = @bms.map {|b| b.sub!("bibid-",'')}
-    @response, @documents = fetch docs
+    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
       url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-        email.deliver_now
+        all_docs.each_slice(20) do |docs|
+          @response, @documents = fetch docs
+          # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  docs  = #{docs.inspect}")
+          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+          email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+          email.deliver_now
+        end
         flash[:success] = "Email sent"
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       else
-          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+        flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
       end
     end
 
+    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
+
+    @bms =@bb.index
+    docs = @bms.map {|b| b.sub!("bibid-",'')}
+    @response, @documents = fetch docs
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
       if request.xhr? && flash[:success]
         if docs.size < 2
-          render :js => "window.location = '/catalog/#{params[:id]}'"
+
+          if !params[:id][0].nil?
+            bibid = params[:id][0] 
+            render :js => "window.location = '/catalog/#{bibid}'"
+          else
+            render :js => "window.location = '/catalog"
+          end
+
         else
           render :js => "window.location = '/book_bags/index'"
         end

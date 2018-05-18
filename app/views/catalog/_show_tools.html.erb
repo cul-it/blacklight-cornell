@@ -44,7 +44,12 @@
   <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to ('/catalog/email'), :class=>"lightboxLink btn btn-xs", :id => "email-link" do %>
+      <% if current_user && Bookbag.enabled? %>
+        <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% else %>
+        <% emaillink_content = '<i class="fa fa-envelope fa-disabled" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
         <%= emaillink_content.html_safe %>
       <% end %>
    <% elsif bookbags_index %>
@@ -71,6 +76,9 @@
           <li>
             <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'ris'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
           </li>
+            <li>
+            <%= link_to t('blacklight.tools.endnote_xml'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote_xml'), {:class => 'piwik_download',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
+            </li>
         <% elsif bookbags_index  %>
           <li>
             <%= link_to t('blacklight.tools.endnote'), "/book_bags/endnote.endnote", {:class => ' ',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
@@ -82,6 +90,11 @@
           <% if @document.export_formats.keys.include?( :endnote ) %>
             <li>
               <%= link_to t('blacklight.tools.endnote'), solr_document_path(@document, :format => 'endnote'), {:class => 'piwik_download'} %>
+            </li>
+          <% end %>
+          <% if @document.export_formats.keys.include?( :endnote_xml ) %>
+            <li>
+              <%= link_to t('blacklight.tools.endnote_xml'), solr_document_path(@document, :format => 'endnote_xml'), {:class => 'piwik_download'} %>
             </li>
           <% end %>
           <% if @document.export_formats.keys.include?( :mendeley ) %>

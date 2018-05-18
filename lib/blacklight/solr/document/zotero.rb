@@ -49,7 +49,7 @@ module Blacklight::Solr::Document::Zotero
         builder.z(:itemType,"#{ty}")
         builder.dc(:title, title.strip)
         generate_rdf_authors(builder,ty)
-        generate_rdf_publisher(builder)
+        generate_rdf_publisher(builder,ty)
         generate_rdf_pubdate(builder)
         generate_rdf_edition(builder)
         generate_rdf_language(builder)
@@ -64,7 +64,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_specific(builder,ty)
       end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!.inspect}"
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
     builder.target! 
   end
 
@@ -144,7 +144,7 @@ module Blacklight::Solr::Document::Zotero
     end
   end
 
-  def generate_rdf_publisher(b)
+  def generate_rdf_publisher(b,ty)
     # publisher
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
     place = ''
@@ -153,6 +153,12 @@ module Blacklight::Solr::Document::Zotero
       place, publisher = pub_data.split(':')
       pname = "#{publisher.strip!}" unless publisher.nil?
       # publication place
+    end
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
+    if ty == 'thesis'
+      th = setup_thesis_info(to_marc)
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      pname = th[:inst].to_s
     end
     b.dc(:publisher) {
       b.foaf(:Organization) {
@@ -273,7 +279,10 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_specific(b,ty)
     case ty
       when 'thesis'
-        b.z(:type) {"Ph.D. dissertation"}  
+        th = setup_thesis_info(to_marc)
+        typ = th[:type].to_s
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{th.inspect}"
+        b.z(:type,typ)  
       else
     end
   end 

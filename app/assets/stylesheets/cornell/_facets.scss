@@ -17,7 +17,7 @@
 		list-style: none;
 	}
 	li {
-		font-size: 12px;
+		font-size: 13px;
 		color: $medium-gray;
 		padding-right: 50px;
 	}
@@ -26,7 +26,7 @@
 		border-bottom: 1px solid $light-tan;
     	padding: 0 0 .25em 0;
 	}
-	i { 
+	i {
 		color: $dark-gray;
 	}
 	.navbar {
@@ -45,6 +45,13 @@
 			border-bottom: 0;
 			background-color: inherit;
 			text-decoration: none;
+		}
+	}
+	.top-panel-heading {
+		h2 {
+			padding-left: 0;
+			font-size: 18px;
+			margin-top: .5em;
 		}
 	}
 }
@@ -82,7 +89,7 @@
 		line-height: 16px;
 		padding-right: 0;
 	}
-	a.remove { 
+	a.remove {
 		padding: 0;
 		display: inline-block;
 		margin-bottom: .25em;
@@ -108,7 +115,7 @@
 .facet-count,
 .count {
   font-family: $monospace-font-family;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 // PUBLICATION YEAR
@@ -123,7 +130,8 @@
 	.count {
 		text-align: right;
 		float: right;
-		color: $light-gray; }
+		// color: $medium-gray;
+	}
 	.tickLabel { font-size: 0.875em; }
 	.missing,
 	.range_limit {
@@ -247,18 +255,23 @@ form.range_limit {
 	li,
 	.facet_select,
 	.selected {
-		margin-bottom: 6px;
+		margin-bottom: 8px;
 	}
 	ul {
 		margin-top: .5em;
+		margin-bottom: 1em;
 	}
 }
 // Gem overrides
 #facets ul.facet-hierarchy {
 	margin-left: 0;
 }
+#facets ul.facet-hierarchy ul {
+	margin-left: 16px;
+}
 #facets ul.facet-hierarchy ul li {
 	margin-left: 15px;
+	margin-bottom: 6px;
 }
 #facets ul.facet-hierarchy li.h-node,
 #facets ul.facet-hierarchy li.h-node.twiddle-open {
@@ -270,14 +283,22 @@ form.range_limit {
 	content: "\f196";
 	cursor: pointer;
 	margin-right: 5px;
+	vertical-align: middle;
+	color: $dark-gray;
 }
 #facets ul.facet-hierarchy li.h-node.twiddle-open:before {
 	content: "\f147";
+}
+.h-node {
+	ul {
+		list-style-type: square;
+	}
 }
 
 // Facet toggle
 .panel-heading.collapse-toggle .panel-title:after {
 	padding-top: .25em;
+	color: $medium-gray;
 }
 
 // MEDIA QUERIES
@@ -297,33 +318,22 @@ form.range_limit {
 
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+@media (min-width: $screen-sm) {
 	.facets {
-		.top-panel-heading {
-			h4 {
-				padding-left: 0;
-				font-size: 18px;
-			}	
-		}
 		h5 {
 			font-size: 12px;
-		}
-		li {
-			font-size: 11px;
-		}
-	}
+		}	}
 	.facet-values {
 		.facet-label {
 			display: block;
-			padding-bottom: 0;
+			line-height: 1.4em;
 		}
 		.facet-count {
-			display: inline-block;
 			padding-bottom: .5em;
 		}
 	}
 	#facets {
-		a.remove { 
+		a.remove {
 			display: inline-block;
 		}
 	}
@@ -339,7 +349,7 @@ form.range_limit {
 	.facet-values {
 		.facet-label {
 			display: table-cell;
-			padding-bottom: 6px;
+			padding-bottom: 8px;
 		}
 		.facet-count {
 			display: table-cell;
@@ -353,16 +363,5 @@ form.range_limit {
 	}
 }
 /* Large devices (desktops, 1200px and up) */
-@media (min-width: $screen-lg) {
-	.facets {
-		li {
-			font-size: 12px;
-		}
-	}
-}
-
-
-
-
-
-
+// @media (min-width: $screen-lg) {
+// }

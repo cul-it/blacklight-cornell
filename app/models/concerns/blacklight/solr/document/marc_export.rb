@@ -15,7 +15,7 @@ module Blacklight::Solr::Document::MarcExport
     document.will_export_as(:marcxml, "application/marcxml+xml")
     document.will_export_as(:openurl_ctx_kev, "application/x-openurl-ctx-kev")
     document.will_export_as(:refworks_marc_txt, "text/plain")
-    document.will_export_as(:endnote, "application/x-endnote-refer")
+    #document.will_export_as(:endnote, "application/x-endnote-refer")
   end
 
 
@@ -145,39 +145,25 @@ module Blacklight::Solr::Document::MarcExport
     
     return text
   end 
+ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
+   "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
+   "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
+   "CLSWK"=>"CLSWK", "Computer File"=>"Computer Program", "CONF"=>"CONF", "CPAPER"=>"Conference Paper",
+   "CTLG"=>"CTLG", "DATA"=>"DATA", "Database"=>"DBASE", "DICT"=>"DICT",
+   "EBOOK"=>"Electronic Book", "ECHAP"=>"ECHAP", "EDBOOK"=>"EDBOOK", "EJOUR"=>"EJOUR",
+   "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
+   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"Heading",
+   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
+   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"Manuscript", "Map or Globe"=>"Map", "MGZN"=>"MGZN",
+   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"GENERIC", "NEWS"=>"NEWS",
+   "PAMP"=>"Pamphlet", "PAT"=>"Patent", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
+   "SER"=>"Serial Publication", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"Audiovisual Material", "Musical Recording"=>"Music",
+   "STAND"=>"Standard",
+   "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
+   "Website" => "Web Page"
+   }
 
-  # Endnote Import Format. See the EndNote User Guide at:
-  # http://www.endnote.com/support/enx3man-terms-win.asp
-  # Chapter 7: Importing Reference Data into EndNote / Creating a Tagged “EndNote Import” File
-  #
-  # Note: This code is copied from what used to be in the previous version
-  # in ApplicationHelper#render_to_endnote.  It does NOT produce very good
-  # endnote import format; the %0 is likely to be entirely illegal, the
-  # rest of the data is barely correct but messy. TODO, a new version of this,
-  # or better yet just an export_as_ris instead, which will be more general
-  # purpose. 
-  # I reversed the sense of end_note_format table -- to allow multiple fields to map to
-  # same endnote field. (es287@cornell.edu)
- 
-FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
-  "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
-  "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
-  "CLSWK"=>"CLSWK", "Computer File"=>"Computer Program", "CONF"=>"CONF", "CPAPER"=>"Conference Paper",
-  "CTLG"=>"CTLG", "DATA"=>"DATA", "Database"=>"DBASE", "DICT"=>"DICT",
-  "EBOOK"=>"Electronic Book", "ECHAP"=>"ECHAP", "EDBOOK"=>"EDBOOK", "EJOUR"=>"EJOUR",
-  "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
-  "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"Heading",
-  "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
-  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"Manuscript", "Map or Globe"=>"Map", "MGZN"=>"MGZN",
-  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"GENERIC", "NEWS"=>"NEWS",
-  "PAMP"=>"Pamphlet", "PAT"=>"Patent", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
-  "SER"=>"Serial Publication", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"Audiovisual Material", "Musical Recording"=>"Music",
-  "STAND"=>"Standard",
-  "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
-  "Website" => "Web Page"
-  }
-
-  def export_as_endnote()
+  def OLD_export_as_endnote()
     end_note_format = {
       "100.a" => "%A" ,
       "260.a" => "%C" ,
@@ -188,6 +174,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       "260.b" => "%I" ,
       "264.b" => "%I" ,
       "440.a" => "%J" ,
+      "024.a" => "%R" ,
       "020.a" => "%@" ,
       "022.a" => "%@" ,
       "245.a,245.b" => "%T" ,
@@ -242,6 +229,7 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
         end
       end
     end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
     text
   end
 
@@ -704,7 +692,8 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
                            (field['q'] ? ' ' + field['q'] : '')
     end
     record.find_all{|f| f.tag === "700" }.each do |field|
-      if field["a"]
+      #if field["a"] && field['t'].blank?
+      if field["a"] && field.indicator2 != '2'
         relators = []
         relators << clean_end_punctuation(field["e"]) if field["e"]
         relators << clean_end_punctuation(field["4"]) if field["4"]
@@ -1014,6 +1003,34 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     ty
   end
 
+  def setup_thesis_info(record)
+    thesis = {type: "", inst: "", date: ""}
+    field = record.find{|f| f.tag == '502'}
+    if field['a'].to_s.blank?
+      thesis[:type]  = field['b'].to_s unless field.nil?
+      thesis[:inst]  = field['c'].to_s unless field.nil?
+      thesis[:date]  = clean_end_punctuation(field['d'].to_s) unless field.nil?
+    else
+      thdata = field['a'].to_s
+      values = thdata.split("--")
+      case 
+        when values.length == 1
+          thesis[:type]  = field['a'].to_s 
+        when values.length == 2
+          thesis[:type]  = values[0] 
+            # might look like Cornell Univ., June 1954
+            spli = values[1].split(",")
+          if spli.length == 1
+            thesis[:inst]  = clean_end_punctuation(spli[0]) 
+          else
+            thesis[:inst]  = clean_end_punctuation(spli[0]) 
+            thesis[:date]  = clean_end_punctuation(spli[spli.length-1])
+           end
+      end
+    end
+    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} thesis = #{thesis.inspect}")
+    thesis
+  end
 
   def relation_for_code(c)
     RELATORS.key(c) 

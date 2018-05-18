@@ -17,6 +17,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
+    # if we headed for the login page, should remember PREVIOUS return to.
+    if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
+      op = session[:cuwebauth_return_path]  
+    end
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
@@ -232,6 +236,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     set_bag_name 
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     respond_to do |format|
+      format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html {setup_next_and_previous_documents}
       format.rss  { render :layout => false }
@@ -333,9 +338,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       else
         @response, @documents = fetch(params[:id])
       end
+      fmt = params[:format]
+      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
       respond_to do |format|
-        format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-        format.ris      { render 'ris', :layout => false }
+        format.endnote_xml { render "show.endnote_xml" ,layout: false } 
+        format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+        format.ris         { render 'ris', :layout => false }
       end
     end
 
@@ -873,6 +881,13 @@ def check_params(params)
        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
        redirect_to root_path
      else
+       q = q.rstrip
+       while (q[-1] == "/" or q[-1] == "\\") do
+         if q[-1] == "/" or q[-1] == "\\"
+           q[-1] = ""
+           q = q.rstrip 
+         end
+       end
        return q
      end    
   end

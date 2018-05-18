@@ -1,5 +1,6 @@
 body.catalog-index #documents .document,
-body.bookmarks-index #documents .document {
+body.bookmarks-index #documents .document,
+body.book_bags-index #documents .document {
 	clear: both;
 	border-bottom: 1px solid $light-tan;
 	padding: 1.5em 0;

@@ -61,7 +61,6 @@
 		margin: 0 0 .5em;
 		font-weight: normal;
 		line-height: 1.5em;
-		font-size: 18px;
 		i { 
 			font-size: 12px;
 			margin-left: 5px;
@@ -69,6 +68,16 @@
 		a {
 			margin-left: 0;
 		}
+	}
+	caption {
+		text-align: center;
+		color: $medium-gray;
+	}
+	// Add this to make thead always have a tan background because after adding caption to table it turns white
+	thead {
+	    th {
+	      background-color: $light-tan;
+	    }
 	}
 }
 .blacklight-database-name:first-child {
@@ -139,8 +148,6 @@
 	.page-title {
 		h2 {
 			margin-top: 1em;
-			font-size: 22px;
-			font-weight: 700;
 			margin-bottom: 1em;
 			padding-bottom: .2em;
   			border-bottom: solid 5px $light-tan;
@@ -167,10 +174,15 @@
 }
 .return-link { 
 	text-align: right;
-	// font-size: 16px;
 }
 .pagination-wrapper {
 	text-align: center;
+}
+// catalog link on show page
+.resources {
+	.links {
+		margin-bottom: 1.5em;
+	}
 }
 
 // Terms of Use page

@@ -1,4 +1,4 @@
-<section class="cornell-identity" aria-label="Cornell" role="banner">
+<div class="cornell-identity" aria-label="Cornell" role="banner">
   <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
   <%# if search results, add a link to skip facets for screen readers %>
   <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
@@ -15,7 +15,7 @@
             <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library"  onclick="javascript:_paq.push(['trackEvent', 'navigation', 'Hamburger menu']);">
               <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
             </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="library-menu" role="navigation" aria-label="library menu">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="library-menu" role="navigation">
               <li><a href="http://www.library.cornell.edu/">Home</a></li>
               <li><a href="http://www.library.cornell.edu/about">About Us</a></li>
               <li><a href="http://www.library.cornell.edu/libraries">Libraries and Hours</a></li>
@@ -31,7 +31,7 @@
       </div>
     </div>
   </div> <!-- /container -->
-</section>
+</div>
 
 <div class="ie9-only" role="complementary">
   <div class="container">
@@ -59,7 +59,7 @@
         <%end%>
       </div>
       <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
-      <%= render :partial=>'/user_util_links' %>
+      <%= render :partial=>'/shared/user_util_links' %>
       <% end %>
     </div>
   </div>
