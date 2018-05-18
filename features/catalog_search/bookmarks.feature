@@ -19,7 +19,6 @@ Feature: Bookmarks for anonymous users
         When I go to the home page
         #And I expect Javascript _paq to be defined
         When I literally go to bookmarks
-        Then show me the page
         And I expect Javascript _paq to be defined
         And click on link "Sign in"
         Then I should see the CUWebLogin page
