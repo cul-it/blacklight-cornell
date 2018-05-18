@@ -233,10 +233,23 @@ Devise.setup do |config|
   if ENV['GOOGLE_CLIENT_ID']
     config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], 
       {
-        scope: 'email,profile',
+        scope: 'email',
         prompt: 'select_account'
       }
    end
+
+  if ENV['FACEBOOK_KEY']
+    Rails.application.config.middleware.use OmniAuth::Builder do
+      provider :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
+      {
+        client_options: {
+          site: 'https://graph.facebook.com/v2.5',
+          },
+        scope: 'email',
+        token_params: { parse: :json } # <----- this line is NB
+      }
+    end
+  end
  
 
   # ==> Warden configuration
