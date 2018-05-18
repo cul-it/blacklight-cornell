@@ -86,7 +86,8 @@ module BlacklightCornell
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
-
+    # custom error pages
+    config.exceptions_app = self.routes
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
