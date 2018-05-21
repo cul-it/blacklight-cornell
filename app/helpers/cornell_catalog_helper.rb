@@ -113,7 +113,6 @@ module CornellCatalogHelper
     items2 = document[:item_record_display].present? ? document[:item_record_display].map { |item| JSON.parse(item).with_indifferent_access } : Array.new
     bibid = document[:id]
     response = JSON.parse(HTTPClient.get_content(Rails.configuration.voyager_holdings + "/holdings/status_short/#{bibid}")).with_indifferent_access
-    ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  response = #{response.pretty_inspect}"
     @response = response
     # Store the response in the session for use by the request engine
     session[:holdings_status_short] = response
@@ -169,147 +168,150 @@ module CornellCatalogHelper
     ##Rails.logger.debug "\nes287_debug raw holding data #{__LINE__}   = " 
     document[:holdings_record_display].each do |hrd|
           ##Rails.logger.debug "\nes287_debug one holding #{__LINE__}  = " + hrd.pretty_inspect 
-    end  if document[:holdings_record_display]
-    document[:holdings_record_display].each do |hrd|
-          hrdJSON = JSON.parse(hrd).with_indifferent_access
-          ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
-          callnumber = hrdJSON["callnos"].blank? ? "" : hrdJSON["callnos"][0] 
-          id = hrdJSON[:id]
-          hrds[id]  =  hrdJSON
-          notes = hrdJSON[:notes]
-          summary_holdings = hrdJSON[:holdings_desc]
-          recent_holdings = hrdJSON[:recent_holdings_desc]
-          suppl_holdings = hrdJSON[:supplemental_holdings_desc]
-          index_holdings = hrdJSON[:index_holdings_desc]
-          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} summary holdings  = " + summary_holdings.inspect 
-          coder = HTMLEntities.new
-          hrdJSON[:locations].each do |loc|
-            oneloc = {} 
-            dispname = loc[:name] 
-            oneloc["location_name"] = dispname 
-            oneloc["location_code"] = loc[:code].gsub(' ','')
-            ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = #{loc[:code]}" 
-            ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location name  = #{dispname}" 
-            ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} callnumber  = #{callnumber}"
-            oneloc["holding_id"] = [id] 
-            oneloc["location_id"] = loc[:number] 
-            mfhd_id = id.to_i 
-            oneloc["call_number"] = callnumber
-            ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
-            #if callnumber.blank?  && !@current_hldgs.nil? && !@current_hldgs['call_number'].blank?
-            #  oneloc["call_number"] = @current_hldgs['call_number']
-            #end
-            ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
-            oneloc["copies"] = []
-            oneloc["notes"] = "Notes: " + notes.join(' ') unless notes.blank? 
-            notes_by_mid[id.to_s] = oneloc["notes"]
-            encloc = summary_holdings.map{|x| coder.encode(x) } 
-            oneloc["summary_holdings"]=("Library has: " + encloc.join('<br/>')).html_safe  unless summary_holdings.blank? 
-            oneloc["supplements"]=suppl_holdings.join(';') unless suppl_holdings.blank? 
-            if (!@current_suppl.nil?) 
-              if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && ( x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).blank?
-                ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} selected current  = " +  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id }).inspect
-                cur =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && (x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).sort_by{|x| x["ISSUE_ID"]}
-                ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted current  = " +  cur.inspect
-			currev = cur.reverse.map{|x| coder.encode(x["ENUMCHRON"]).html_safe}.join("<br/>").html_safe 
-			##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  currev.inspect
-			if cur.size == 1
-			oneloc["current_issues"] = ("Current Issue: " + currev).html_safe
-                        else
-                        oneloc["current_issues"] = ("Current Issues: " + "<br>" + currev).html_safe
-                        end
-			#oneloc["current_issues"]="Current Issues: " + ((@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).map{|x| x["ENUMCHRON"]}).sort_by{|x| x["ISSUE_ID"]}.reverse.join(";") 
-		      end
-		      if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id && x["PREDICT"] == 'N'}).blank?
-			suppl =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'N'}).sort_by{|x| x["ISSUE_ID"]}
-			##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted suppl  = " +  suppl.inspect
-			supplrev = suppl.reverse.map{|x| x["ENUMCHRON"]}.join(";") 
-			##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  supplrev.inspect
-			oneloc["supplements"]=supplrev 
-		      end
-		    end
-		    oneloc["indexes"]="Indexes: " + index_holdings.join(' ') unless index_holdings.blank? 
-		    sumh_by_mid[id.to_s] = oneloc["summary_holdings"] 
-		    ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc = " + oneloc.inspect 
-		    ##Rails.logger.debug "\nes287_debug dispname = " + dispname 
-		    if condensed[id.to_s].blank?    
-		      condensed[id.to_s]  =  oneloc
-		    else
-		      condensed[id.to_s]["holding_id"] << id 
-		    end
-		  end
-	    end if document[:holdings_record_display]
-	    # condensed has holding info, keyed by location name, as string, like "Library Annex" 
-	    ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed (by holding id as string) = " + condensed.inspect 
-	    ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} notes_by_mid = " + notes_by_mid.inspect 
-	    ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} sumh_by_mid = " + sumh_by_mid.inspect 
-	    over_locs,over_info = parse_over_info(hrds,condensed,items,locnames_by_lid)
-	    ##Rails.logger.debug "\nes287_debug over_locs #{__FILE__} line:(#{__LINE__})   = " + over_locs.inspect 
-	    ##Rails.logger.debug "\nes287_debug over_info #{__FILE__} line:(#{__LINE__})   = " + over_info.inspect 
-	    #condensed = condensed.merge(over_condensed)
-	    ##Rails.logger.debug "\nes287_debug orders by hid line #{__FILE__} #{__LINE__} = " + orders_by_mid.inspect 
-	    parse_item_info(condensed,items,notes_by_mid,sumh_by_mid,grouped,bibid,response,over_locs,orders_by_mid)
-	    condensed_full =  [] 
+    end  
+    
+    if document[:holdings_record_display]
+      document[:holdings_record_display].each do |hrd|
+        hrdJSON = JSON.parse(hrd).with_indifferent_access
+        ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__} hrdJSON  = " + hrdJSON.inspect 
+        callnumber = hrdJSON["callnos"].blank? ? "" : hrdJSON["callnos"][0] 
+        id = hrdJSON[:id]
+        hrds[id]  =  hrdJSON
+        notes = hrdJSON[:notes]
+        summary_holdings = hrdJSON[:holdings_desc]
+        recent_holdings = hrdJSON[:recent_holdings_desc]
+        suppl_holdings = hrdJSON[:supplemental_holdings_desc]
+        index_holdings = hrdJSON[:index_holdings_desc]
+        ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} summary holdings  = " + summary_holdings.inspect 
+        coder = HTMLEntities.new
+        hrdJSON[:locations].each do |loc|
+          oneloc = {} 
+          dispname = loc[:name] 
+          oneloc["location_name"] = dispname 
+          oneloc["location_code"] = loc[:code].gsub(' ','')
+          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location code  = #{loc[:code]}" 
+          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} location name  = #{dispname}" 
+          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} callnumber  = #{callnumber}"
+          oneloc["holding_id"] = [id] 
+          oneloc["location_id"] = loc[:number] 
+          mfhd_id = id.to_i 
+          oneloc["call_number"] = callnumber
+          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
+          #if callnumber.blank?  && !@current_hldgs.nil? && !@current_hldgs['call_number'].blank?
+          #  oneloc["call_number"] = @current_hldgs['call_number']
+          #end
+          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc  = #{oneloc['call_number']}"
+          oneloc["copies"] = []
+          oneloc["notes"] = "Notes: " + notes.join(' ') unless notes.blank? 
+          notes_by_mid[id.to_s] = oneloc["notes"]
+          encloc = summary_holdings.map{|x| coder.encode(x) } 
+          oneloc["summary_holdings"]=("Library has: " + encloc.join('<br/>')).html_safe  unless summary_holdings.blank? 
+          oneloc["supplements"]=suppl_holdings.join(';') unless suppl_holdings.blank? 
+          if (!@current_suppl.nil?) 
+            if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && ( x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).blank?
+              ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} selected current  = " +  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id }).inspect
+              cur =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && (x["PREDICT"] == 'Y' || x["PREDICT"] == 'S')}).sort_by{|x| x["ISSUE_ID"]}
+              ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted current  = " +  cur.inspect
+              currev = cur.reverse.map{|x| coder.encode(x["ENUMCHRON"]).html_safe}.join("<br/>").html_safe 
+              ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  currev.inspect
+              if cur.size == 1
+                oneloc["current_issues"] = ("Current Issue: " + currev).html_safe
+              else
+                oneloc["current_issues"] = ("Current Issues: " + "<br>" + currev).html_safe
+              end
+              #oneloc["current_issues"]="Current Issues: " + ((@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'Y'}).map{|x| x["ENUMCHRON"]}).sort_by{|x| x["ISSUE_ID"]}.reverse.join(";") 
+            end
+            if !(@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id && x["PREDICT"] == 'N'}).blank?
+              suppl =  (@current_suppl.select{|x| x["MFHD_ID"] ==  mfhd_id  && x["PREDICT"] == 'N'}).sort_by{|x| x["ISSUE_ID"]}
+              ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted suppl  = " +  suppl.inspect
+              supplrev = suppl.reverse.map{|x| x["ENUMCHRON"]}.join(";") 
+              ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} sorted and reversed  = " +  supplrev.inspect
+              oneloc["supplements"]=supplrev 
+            end
+          end
+          oneloc["indexes"]="Indexes: " + index_holdings.join(' ') unless index_holdings.blank? 
+          sumh_by_mid[id.to_s] = oneloc["summary_holdings"] 
+          ##Rails.logger.debug "\nes287_debug **** #{__FILE__}:#{__LINE__} oneloc = " + oneloc.inspect 
+          ##Rails.logger.debug "\nes287_debug dispname = " + dispname 
+          if condensed[id.to_s].blank?    
+            condensed[id.to_s]  =  oneloc
+          else
+            condensed[id.to_s]["holding_id"] << id 
+          end
+        end
+      end 
+    
+      if document[:holdings_record_display]
+        # condensed has holding info, keyed by location name, as string, like "Library Annex" 
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed (by holding id as string) = " + condensed.inspect 
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} notes_by_mid = " + notes_by_mid.inspect 
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} sumh_by_mid = " + sumh_by_mid.inspect 
+        over_locs,over_info = parse_over_info(hrds,condensed,items,locnames_by_lid)
+        ##Rails.logger.debug "\nes287_debug over_locs #{__FILE__} line:(#{__LINE__})   = " + over_locs.inspect 
+        ##Rails.logger.debug "\nes287_debug over_info #{__FILE__} line:(#{__LINE__})   = " + over_info.inspect 
+        #condensed = condensed.merge(over_condensed)
+        ##Rails.logger.debug "\nes287_debug orders by hid line #{__FILE__} #{__LINE__} = " + orders_by_mid.inspect 
+        parse_item_info(condensed,items,notes_by_mid,sumh_by_mid,grouped,bibid,response,over_locs,orders_by_mid)
+        condensed_full =  [] 
 
-	    condensed.each_key  do |k| 
-	#xxxxxxx
+        condensed.each_key  do |k| 
+          #xxxxxxx
 
-	      if bound_with? 
-		mbw = @bound_with_to_mbw[k]
-		##Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
-		if !mbw.nil?
-		  ##Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses[mbw.to_i].inspect 
-		  if !@bwy_statuses[mbw.to_i].blank?
-		      condensed[k]['copies'][0]["boundwith_summary"] =  (t('blacklight.catalog.bound_with_status_label')+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
-		  else     
-		      condensed[k]['copies'][0]["boundwith_summary"] =  (bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
-		  end
-		  if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
-		    condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
-		  end
-		end
-	      end # bound with
+          if bound_with? 
+            mbw = @bound_with_to_mbw[k]
+            ##Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses.inspect 
+            if !mbw.nil?
+              ##Rails.logger.info "\nes287_debug #{__FILE__} #{__LINE__} @bw_statuses  = " + @bwy_statuses[mbw.to_i].inspect 
+              if !@bwy_statuses[mbw.to_i].blank?
+                condensed[k]['copies'][0]["boundwith_summary"] =  (t('blacklight.catalog.bound_with_status_label')+@bwy_statuses[mbw.to_i].join(',<br/>')+bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+              else     
+                condensed[k]['copies'][0]["boundwith_summary"] =  (bw_link_to_helper(@bwy_bibids,k,@bw_map)).html_safe
+              end
+              if  !condensed[k]['copies'][0]["items"]["Available"].nil? 
+                condensed[k]['copies'][0]["items"]["Available"]["count"] =  condensed[k]['copies'][0]["items"]["Available"]["count"]  -  @reduce_avail[mbw.to_i]
+              end
+            end
+          end # bound with
 
-	#xxxxxxx
-	      condensed_full << condensed[k]
-	    end
-	    ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed  = " + condensed.inspect 
-	    ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed full (before sort)  = " + condensed_full.inspect 
-	    condensed_full.sort_by! { | h | h["location_name"] } 
+          #xxxxxxx
+          condensed_full << condensed[k]
+        end
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed  = " + condensed.inspect 
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} #{__LINE__} condensed full (before sort)  = " + condensed_full.inspect 
+        condensed_full.sort_by! { | h | h["location_name"] } 
 
-	    condensed_full.each  do |h| 
-	      if h['copies'].size < 1 
-	       #h['copies'][0]  =  {"items" => {"Status unknown" => {"status"=> "none","count" =>1}}}
-	       h['copies'][0]  =  {"items" => {"Status unknown" => {"status"=> "none","count" =>0}}}
-	       ##Rails.logger.debug "\nes287_debug (copying data to copies array)file #{__FILE__} line:#{__LINE__} h  = " + h['copies'][0].inspect 
-	       ['notes','summary_holdings','indexes','current_issues','supplements'].each do |k|
-		if h[k] 
-		  ##Rails.logger.debug "\nes287_debug file  summary etc.  #{__FILE__} line:#{__LINE__} h,#{k} =" + h[k].inspect 
-		  h['copies'][0][k]  =  h[k]
-		end
-	       end
-	      end
-	    end
-	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after sort) = " + condensed_full.inspect 
-	    condensed_full = trim_avail(condensed_full)
-	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after trim avail) = " + condensed_full.inspect 
-	    condensed_full = fix_notes(condensed_full)
-	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
-	    zcondensed_full = fix_permtemps(bibid,condensed_full,response)
-	    ##Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix perm temps) = " + zcondensed_full.inspect 
-	    if ENV['NO_COLLAPSE']
-	      ycondensed_full = zcondensed_full
-	    else
-	      ycondensed_full = collapse_locs(zcondensed_full)
-	    end
-
-	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
-	    ycondensed_full = missing_call_no(ycondensed_full)
-
-	    ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
-	    ycondensed_full
-	  end
-
+        condensed_full.each  do |h| 
+          if h['copies'].size < 1 
+            #h['copies'][0]  =  {"items" => {"Status unknown" => {"status"=> "none","count" =>1}}}
+            h['copies'][0]  =  {"items" => {"Status unknown" => {"status"=> "none","count" =>0}}}
+            ##Rails.logger.debug "\nes287_debug (copying data to copies array)file #{__FILE__} line:#{__LINE__} h  = " + h['copies'][0].inspect 
+            ['notes','summary_holdings','indexes','current_issues','supplements'].each do |k|
+            if h[k] 
+              ##Rails.logger.debug "\nes287_debug file  summary etc.  #{__FILE__} line:#{__LINE__} h,#{k} =" + h[k].inspect 
+              h['copies'][0][k]  =  h[k]
+            end
+          end
+        end
+      end
+      ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after sort) = " + condensed_full.inspect 
+      condensed_full = trim_avail(condensed_full)
+      ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after trim avail) = " + condensed_full.inspect 
+      condensed_full = fix_notes(condensed_full)
+      ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after fix notes) = " + condensed_full.inspect 
+      zcondensed_full = fix_permtemps(bibid,condensed_full,response)
+      ##Rails.logger.debug "\nes287_debug #### #{__FILE__} #{__LINE__} condensed full (after fix perm temps) = " + zcondensed_full.inspect 
+      if ENV['NO_COLLAPSE']
+        ycondensed_full = zcondensed_full
+      else
+        ycondensed_full = collapse_locs(zcondensed_full)
+      end
+      ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
+      ycondensed_full = missing_call_no(ycondensed_full)
+      ##Rails.logger.debug "\nes287_debug #{__LINE__} condensed full (after collapse locs) = " + condensed_full.inspect 
+      ycondensed_full
+    end
+    end
+end
 	  def missing_call_no(condensed_full)
 	    ##Rails.logger.debug "\nes287_debug #### #{__FILE__}:#{__LINE__} #{__method__} condensed_full= #{condensed_full.inspect}"
 	    condensed_full.each  do |h| 
@@ -332,7 +334,7 @@ module CornellCatalogHelper
               end
             end
           condensed_full
-          end
+    end
 
 	  def parse_item_locs(bibid,response)
 	    locnames_by_lid = {}
@@ -1600,10 +1602,13 @@ module CornellCatalogHelper
 	pub_disc = []
 	pub_disc << document['pub_info_display'].join(' ') unless document['pub_info_display'].blank?
 	pub_disc << document['description_display'] unless document['description_display'].blank?
-	holdings_condensed = create_condensed_full(document)
+	#holdings_condensed = create_condensed_full(document)
+	holdings_condensed = JSON.parse(document[:holdings_record_display][0]).with_indifferent_access
+	#holdings_condensed = create_condensed_full(document)
+	holdArray = document['holdings_record_display'].to_a
 	col_loc = []
-	col_loc << holdings_condensed[0]['call_number'] unless holdings_condensed[0]['call_number'].blank?
-	col_loc << holdings_condensed[0]['location_name'] unless holdings_condensed[0]['location_name'].blank?
+	col_loc << holdings_condensed['callnos'][0] unless holdings_condensed['callnos'].nil? 
+	col_loc << holdings_condensed['locations'][0]['name'] unless document['holdings_record_display'].blank?
 	description = []
 	description << document['subtitle_display'] unless document['subtitle_display'].blank?
 	description << pub_disc.join(' -- ') unless pub_disc.blank?

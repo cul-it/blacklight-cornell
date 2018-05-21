@@ -21,7 +21,6 @@
 
 <% items.each do |i| %>
 <div class="holding">
-
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
   <% end %>
@@ -86,7 +85,6 @@
   <% end %>
 
       <!-- holding description, notes, status -->
-
       <div class="group">
         <% if i["items"].present? %>
         <% if i['items']['tempLoc'].present? %>
@@ -142,6 +140,16 @@
         <div class="message">
           <% if i["notes"].present? %>
           Notes: <%= i["notes"].join('<br />').html_safe %>
+          <% end %>
+        </div>
+       
+        <div class="message">
+          <% if !i["recents"].nil? and i["recents"].size == 1 %>
+             Current Issues: <%= i["recents"][0] %>
+          <% else %>
+             <% if !i["recents"].nil? and i["recents"].size > 1 %>
+               Current Issues:<br><%= i["recents"].join("<br>").html_safe %>
+             <% end %> 
           <% end %>
         </div>
 
