@@ -30,7 +30,7 @@
       <%=hidden_field_tag "location", @locationNameArray %>
       <%=hidden_field_tag "templocation", @tempLocationsArray %>
       <%=hidden_field_tag "callnumber", @callNosArray%>
-      <%=hidden_field_tag "itemStatus", @statusArray%>
+      <%=hidden_field_tag "itemStatus", @itemStatusArray%>
     <% end %>
     <%- if params[:sort] -%>
       <%= hidden_field_tag "sort", params[:sort] %>

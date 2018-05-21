@@ -250,44 +250,30 @@ end
 
 
 
- def getTempLocations(doc)
+ def getHoldingsServiceTempLocations(doc)
    require 'json'
    require 'pp'
    @tempLocsNameArray = []
    temp_loc_Full = []
    temp_loc_text = []
-   temp_loc_Full = create_condensed_full(doc)
-   if !temp_loc_Full[0]["copies"][0]["temp_locations"].nil? and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
-     temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
-   end
-   temp_loc_text.each do |templocs|
-     templocs.gsub!(/$/, ' || ')
-   end
-   if temp_loc_text.blank?
-     @tempLocsNameArray << [" || "]
-   else
-     @tempLocsNameArray <<  temp_loc_text
+#   temp_loc_Full = create_condensed_full(doc)
+   temp_loc_Full = doc[:holdings_json]
+   doc['holdings_record_display'].each do |holding| 
+      holding = JSON.parse(holding)
+ 
+      if !holding["locations"].nil? #and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
+        temp_loc_text = holding["locations"][0]['name']
+      end
+      temp_loc_text.each do |templocs|
+        templocs.gsub!(/$/, ' || ')
+      end
+      if temp_loc_text.blank?
+        @tempLocsNameArray << [" || "]
+      else
+        @tempLocsNameArray <<  temp_loc_text
+      end
    end
    return @tempLocsNameArray
- end
-
- def getLocations(doc)
-   require 'json'
-   require 'pp'
-        @recordLocsNameArray = []
-        myhash = {}
-        breakerlength = doc[:holdings_record_display].length
-        i = 0
-        doc[:holdings_record_display].each do |hrd|
-         myhash = JSON.parse(hrd)
-         if i == breakerlength - 1
-           @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
-         else
-           @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
-         end
-         i = i + 1
-      end
-   return @recordLocsNameArray
  end
 
  def getCallNos(doc)
@@ -316,34 +302,66 @@ end
    return @recordCallNumArray
  end
 
-
-
- def getItemStatus(doc)
-   require 'json'
-   require 'pp'
-        @itemStatusArray = []
-
-        @hideArray = []
-        @hideArray = create_condensed_full(doc)
-        @hideArray.each do |hidee|
-        myhash = {}
-          myhash = hidee
-          if myhash["copies"][0]["items"].size > 0 and myhash["copies"][0]["items"]["Available"].nil? and myhash["location_name"] != "*Networked Resource"
-            i = 0
-            myhash["copies"][0]["items"].each do |item|
-               @itemStatusArray << item[0] + " || "
-            end
-          else
-              if myhash["location_name"] == '*Networked Resource'
-                @link = doc[:url_access_display][0].split('|')
-                @itemStatusArray << @link[0] + " || "
-              else
-                @itemStatusArray << myhash["copies"][0]["items"]["Available"]["status"] + " || "
-              end
-          end
+def getLocations(doc)
+  require 'json'
+  require 'pp'
+       @recordLocsNameArray = []
+       myhash = {}
+       breakerlength = doc[:holdings_record_display].length
+       i = 0
+       doc[:holdings_record_display].each do |hrd|
+        myhash = JSON.parse(hrd)
+        if i == breakerlength - 1
+          @recordLocsNameArray << myhash["locations"][0]["library"] + " || "
+        else
+          @recordLocsNameArray << myhash["locations"][0]["library"] + " | "
         end
-   return @itemStatusArray
- end
+        i = i + 1
+     end
+  return @recordLocsNameArray
+end
+def getTempLocations(doc)
+  require 'json'
+  require 'pp'
+  @itemLocationArray = []
+  thisHash = JSON.parse(doc[:holdings_json])
+  thisHash.each do |k, v|
+    newHash = {}
+    newHash = v
+    locationHash = {}
+    locationHash = v["location"]
+      if !locationHash['library'].nil?   
+        @itemLocationArray << locationHash['name'].to_s + " || "
+      end
+   end
+  return @itemLocationArray
+end
+
+def getItemStatus(doc)
+  require 'json'
+  require 'pp'
+       @itemStatusArray = []
+       @hideArray = []
+       thisHash = {}
+      # @hideArray = create_condensed_full(doc)
+#       @fromSolrArray = []
+#       @fromSolrArray = doc[:holdings_record_display]
+       thisHash = JSON.parse(doc[:holdings_json])
+       thisHash.each do |k, v|
+         newHash = {}
+         newHash = v
+          newHash['items'].each do |d, e|
+            if d.to_s == "avail" and d.to_s != "count"
+                @itemStatusArray << "Available" + " || "
+            else 
+              if d.to_s != "count"
+                @itemStatusArray << "Unavailable" + " || "
+              end
+            end
+          end  
+        end
+  return @itemStatusArray
+end
 
   def render_constraints_xxcts(my_params = params)
     my_params[:q]  = my_params[:y]
