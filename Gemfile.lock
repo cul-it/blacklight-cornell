@@ -1,9 +1,10 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: a9612af5a5003ea20f9bc1393e70da90067f47f2
+  revision: 9351d7167facd55ba397af0bda11e43b48b34996
   branch: master
   specs:
-    blacklight_cornell_requests (1.5.5)
+    blacklight_cornell_requests (2.0)
+      activerecord-oracle_enhanced-adapter
       blacklight (>= 5.9)
       borrow_direct
       dotenv
@@ -18,6 +19,7 @@ GIT
       nokogiri
       protected_attributes
       rails (~> 4.0)
+      ruby-oci8
 
 GIT
   remote: https://github.com/cul-it/blacklight-unapi
@@ -76,6 +78,7 @@ GEM
       activemodel (= 4.2.7.1)
       activesupport (= 4.2.7.1)
       arel (~> 6.0)
+    activerecord-oracle_enhanced-adapter (1.6.9)
     activerecord-session_store (1.1.1)
       actionpack (>= 4.0)
       activerecord (>= 4.0)
@@ -477,6 +480,7 @@ GEM
     rspec-support (3.7.1)
     rspec_junit_formatter (0.3.0)
       rspec-core (>= 2, < 4, != 2.12.0)
+    ruby-oci8 (2.2.5.1)
     ruby-saml (1.8.0)
       nokogiri (>= 1.5.10)
     ruby_dep (1.5.0)
