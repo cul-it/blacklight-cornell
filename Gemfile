@@ -101,7 +101,7 @@ gem 'omniauth-facebook', '~> 4.0'
 
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
+gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
