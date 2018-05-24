@@ -75,6 +75,7 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute)
 end
 Capybara.javascript_driver = :poltergeist
+Capybara.server = :webrick
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
 # your application behaves in the production environment, where an error page will 

@@ -144,11 +144,11 @@ Feature: Item view
     Then I should see the label 'Library Annex'
 
   # Availability simple, one location, and is NOT available
-  # the black atlantic
+  # Inequality, Anthony B Atkinson. 
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
-    Given I request the item view for 2269649
+    Given I request the item view for 8916645
     Then I should see the label 'Checked out, due'
 
   # availability -- several copies,all copy1, checked out.
@@ -621,7 +621,6 @@ Feature: Item view
 @tou
 @all_item_view
   Scenario: Show links to multiple terms of use on electronic books
-  Given PENDING
   Given I request the item view for 8445988
   Then I should see the text 'Terms of use'
   And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"

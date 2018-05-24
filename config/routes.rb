@@ -30,7 +30,6 @@ resources :bookmarks do
   end
 end
 
-
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
 # devise_for :users
@@ -66,6 +65,7 @@ end
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
+  get 'logins' => 'catalog#logins', :as => 'catalog_logins'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
@@ -156,6 +156,7 @@ end
   # Bookbag routes.
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
+  get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
   #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
   get 'book_bags/delete/:id' => 'book_bags#delete', :as => 'delete_index', :constraints => { :id => /.+/}
@@ -165,7 +166,7 @@ end
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
- 
+  
 
 
 

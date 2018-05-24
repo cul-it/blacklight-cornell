@@ -11,6 +11,7 @@ gem 'activerecord-session_store'
 gem 'protected_attributes'
 
 group :development,:test, :integration do
+  gem "rspec_junit_formatter"
   gem 'sqlite3'
 end
 
@@ -66,7 +67,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara',"~> 2.1"
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false
@@ -87,11 +88,16 @@ gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
-gem 'devise'
+gem 'devise', '~> 4.2'
 gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth'
 gem 'omniauth-saml'
+#gem 'omniauth-google-oauth2'
+# Use Omniauth Google plugin
+gem 'omniauth-google-oauth2', '~> 0.4.1'
+# Use Omniauth Facebook plugin
+gem 'omniauth-facebook', '~> 4.0'
 
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'

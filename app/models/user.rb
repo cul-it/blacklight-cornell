@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          #:recoverable, :rememberable, :trackable, :validatable
          
   devise :registerable, :trackable, :database_authenticatable, :timeoutable 
-  devise :omniauthable, :omniauth_providers => [:saml]
+  devise :omniauthable, :omniauth_providers => [:saml,:google_oauth2,:facebook]
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body

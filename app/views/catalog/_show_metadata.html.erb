@@ -35,10 +35,10 @@
                     <% end %>
                     <%# online %>
                       <% if online_url(@document) %>
-                        <%  holdings_condensed = create_condensed_full(@document) %>
+                        <%#  holdings_condensed = create_condensed_full(@document) %>
                         <%  summary_holdings = '' %>
-                          <%  if holdings_condensed[0]['summary_holdings'] %>
-                            <% summary_holdings=(holdings_condensed[0]['summary_holdings'].html_safe + "<br/>".html_safe).html_safe%><%  end %>
+                          <%#  if holdings_condensed[0]['summary_holdings'] %>
+                            <%# summary_holdings=(holdings_condensed[0]['summary_holdings'].html_safe + "<br/>".html_safe).html_safe%><%#  end %>
                             <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
                               <div class="holdings-online">
                                 <div class="online-label">
@@ -54,6 +54,21 @@
                                             <li>
                                               <div class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
                                                 <div class="message"><%= summary_holdings.html_safe %></div>
+                                                        <div class="message">
+          													<% if @document["holdings_json"].present? %>
+            													<% holdings = JSON.parse(@document['holdings_record_display'][0]) %>
+            													<% getID = holdings["id"] %>
+            													<% if !JSON.parse(@document["holdings_json"])[getID]['holdings'].nil? %>
+            														<% sizer = JSON.parse(@document["holdings_json"])[getID]['holdings'].size %>
+            														<% if sizer != 1 %>
+             															Library has:<br/> <%= JSON.parse(@document["holdings_json"])[getID]['holdings'].join('<br>').html_safe %>
+            														<% else %>
+             															Library has: <%= JSON.parse(@document["holdings_json"])[getID]['holdings'] %>
+            														<% end %>
+            													<% end %>
+          													<% end %>
+        										</div>
+
                                                 <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
                                                   <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
                                                 <% end %>
@@ -63,7 +78,8 @@
                                         <% end %>
                                       </div>
 
-                                      <%# online-holdings %><% end %>
+                                      <%# online-holdings %>
+                        <% end %>
                                       <%# end online %>
                                         <%# print holdings %>
 
@@ -71,6 +87,10 @@
                 <!-- solr verion of holdings -->
                 <div class="holdings">
                   <% holdings = JSON.parse(@document['holdings_json']) %>
+                  <%#= JSON.parse(holdings).to_s.inspect %>
+                  
+                  <%#= getID.inspect %>
+                  <%#= holdings[getID].inspect %>
                   <% circulating_items = [] %>
                       <% rare_items = [] %>
                       <% online_items = [] %>
