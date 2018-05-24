@@ -17,6 +17,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
+    # if we headed for the login page, should remember PREVIOUS return to.
+    if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
+      op = session[:cuwebauth_return_path]  
+    end
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
@@ -877,6 +881,13 @@ def check_params(params)
        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
        redirect_to root_path
      else
+       q = q.rstrip
+       while (q[-1] == "/" or q[-1] == "\\") do
+         if q[-1] == "/" or q[-1] == "\\"
+           q[-1] = ""
+           q = q.rstrip 
+         end
+       end
        return q
      end    
   end
