@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 90bc739fdda34c578390fc1ba332b5e294a9c613
+  revision: 77d1672142db7d8eae3e042ad3a41e9e2215cada
   branch: master
   specs:
-    blacklight_cornell_requests (2.0.1)
+    blacklight_cornell_requests (2.0.2)
       activerecord-oracle_enhanced-adapter
       blacklight (>= 5.9)
       borrow_direct
@@ -99,7 +99,7 @@ GEM
     appsignal (2.6.1)
       rack
     arel (6.0.4)
-    autoprefixer-rails (8.5.0)
+    autoprefixer-rails (8.5.1)
       execjs
     awesome_print (1.8.0)
     backports (3.11.3)
