@@ -312,9 +312,9 @@ def getLocations(doc)
        doc[:holdings_record_display].each do |hrd|
         myhash = JSON.parse(hrd)
         if i == breakerlength - 1
-          @recordLocsNameArray << myhash["locations"][0]["library"] + " || "
+          @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
         else
-          @recordLocsNameArray << myhash["locations"][0]["library"] + " | "
+          @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
         end
         i = i + 1
      end
@@ -350,16 +350,20 @@ def getItemStatus(doc)
        thisHash.each do |k, v|
          newHash = {}
          newHash = v
-          newHash['items'].each do |d, e|
-            if d.to_s == "avail" and d.to_s != "count"
+          newHash['location'].each do |d, e|
+            if d.to_s == "avail" #and d.to_s != "count"
+              if e == "true"
                 @itemStatusArray << "Available" + " || "
-            else 
-              if d.to_s != "count"
-                @itemStatusArray << "Unavailable" + " || "
+              else
+                @itemsStatusArray << "Unavailable" + " || "
               end
+        #    else 
+        #      if d.to_s != "count"
+        #        @itemStatusArray << "Unavailable" + " || "
+        #      end
             end
           end  
-        end
+       end
   return @itemStatusArray
 end
 
