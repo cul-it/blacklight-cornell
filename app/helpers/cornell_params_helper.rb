@@ -320,20 +320,50 @@ def getLocations(doc)
      end
   return @recordLocsNameArray
 end
+
 def getTempLocations(doc)
+  require 'json'
+  require 'pp'
+       @itemLocationArray = []
+       myhash = {}
+       breakerlength = doc[:holdings_record_display].length
+       i = 0
+       doc[:holdings_record_display].each do |hrd|
+        myhash = JSON.parse(hrd)
+        if i == breakerlength - 1
+          @itemLocationArray << myhash["locations"][0]["name"] + " || "
+        else
+          @itemLocationArray << myhash["locations"][0]["name"] + " | "
+        end
+        i = i + 1
+     end
+  return @itemLocationArray
+end
+
+def getOldTempLocations(doc)
   require 'json'
   require 'pp'
   @itemLocationArray = []
   thisHash = JSON.parse(doc[:holdings_json])
-  thisHash.each do |k, v|
-    newHash = {}
-    newHash = v
-    locationHash = {}
-    locationHash = v["location"]
+  Rails.logger.info("SticksAndStones = #{thisHash.inspect}")
+  hrdHash = JSON.parse(doc[:holdings_record_display][0])
+  Rails.logger.info("StickAndShorty = #{hrdHash["locations"][0]["name"].inspect}")
+  if hrdHash["locations"][0]["name"] == "*Networked Resource"
+    Rails.logger.info("TicksAndHorty")
+    @itemLocationArray << "*Networked Resource"
+  else
+    thisHash.each do |k, v|
+      Rails.logger.info("VENUS = #{v}")
+      newHash = {}
+      newHash = v
+      locationHash = {}
+      locationHash = v["location"]
+      Rail.logger.info("MickAndRorty = #{v}")
       if !locationHash['library'].nil?   
         @itemLocationArray << locationHash['name'].to_s + " || "
       end
-   end
+    end
+  end
   return @itemLocationArray
 end
 
@@ -346,23 +376,30 @@ def getItemStatus(doc)
       # @hideArray = create_condensed_full(doc)
 #       @fromSolrArray = []
 #       @fromSolrArray = doc[:holdings_record_display]
-       thisHash = JSON.parse(doc[:holdings_json])
-       thisHash.each do |k, v|
-         newHash = {}
-         newHash = v
-          newHash['location'].each do |d, e|
-            if d.to_s == "avail" #and d.to_s != "count"
-              if e == "true"
-                @itemStatusArray << "Available" + " || "
-              else
-                @itemsStatusArray << "Unavailable" + " || "
-              end
+       hrdHash = JSON.parse(doc[:holdings_record_display][0])
+       Rails.logger.info("StickAndShorty = #{hrdHash["locations"][0]["name"].inspect}")
+       if hrdHash["locations"][0]["name"] == "*Networked Resource"
+          Rails.logger.info("TicksAndHorty")
+          @itemStatusArray << "*Networked Resource"
+       else
+         thisHash = JSON.parse(doc[:holdings_json])
+         thisHash.each do |k, v|
+           newHash = {}
+           newHash = v
+           newHash['location'].each do |d, e|
+             if d.to_s == "avail" #and d.to_s != "count"
+               if e == "true"
+                 @itemStatusArray << "Available" + " || "
+               else
+                 @itemsStatusArray << "Unavailable" + " || "
+               end
         #    else 
         #      if d.to_s != "count"
         #        @itemStatusArray << "Unavailable" + " || "
         #      end
-            end
-          end  
+             end
+           end  
+         end
        end
   return @itemStatusArray
 end
