@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 77d1672142db7d8eae3e042ad3a41e9e2215cada
+  revision: 13cb8aaed90e67e3ab3566cdd607c793cd5c6f90
   branch: master
   specs:
-    blacklight_cornell_requests (2.0.2)
+    blacklight_cornell_requests (2.0.3)
       activerecord-oracle_enhanced-adapter
       blacklight (>= 5.9)
       borrow_direct
@@ -99,7 +99,7 @@ GEM
     appsignal (2.6.1)
       rack
     arel (6.0.4)
-    autoprefixer-rails (8.5.1)
+    autoprefixer-rails (8.6.1)
       execjs
     awesome_print (1.8.0)
     backports (3.11.3)
@@ -201,20 +201,20 @@ GEM
     crass (1.0.4)
     csl (1.5.0)
       namae (~> 1.0)
-    cucumber (3.1.0)
+    cucumber (3.1.1)
       builder (>= 2.1.2)
       cucumber-core (~> 3.1.0)
-      cucumber-expressions (~> 5.0.4)
+      cucumber-expressions (~> 6.0.0)
       cucumber-wire (~> 0.0.1)
       diff-lcs (~> 1.3)
-      gherkin (~> 5.0)
+      gherkin (~> 5.1.0)
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.1.2)
     cucumber-core (3.1.0)
       backports (>= 3.8.0)
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (>= 5.0.0)
-    cucumber-expressions (5.0.17)
+    cucumber-expressions (6.0.0)
     cucumber-rails (1.6.0)
       capybara (>= 1.1.2, < 4)
       cucumber (>= 3.0.2, < 4)
@@ -232,7 +232,7 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
-    devise-guests (0.6.0)
+    devise-guests (0.6.1)
       devise
     diff-lcs (1.3)
     dot-properties (0.1.3)
@@ -242,7 +242,7 @@ GEM
       dotenv (= 2.4.0)
       railties (>= 3.2, < 6.0)
     erubis (2.7.0)
-    et-orbi (1.1.1)
+    et-orbi (1.1.2)
       tzinfo
     exception_notification (4.2.2)
       actionmailer (>= 4.0, < 6)
@@ -250,14 +250,14 @@ GEM
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.23)
+    ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
     formatador (0.2.5)
     fugit (1.1.1)
       et-orbi (~> 1.1, >= 1.1.1)
       raabro (~> 1.1)
-    gherkin (5.0.0)
+    gherkin (5.1.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     guard (2.14.2)
@@ -356,7 +356,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (4.2.0)
+    net-ssh (5.0.1)
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
     nokogiri (1.8.2)
@@ -384,7 +384,7 @@ GEM
     omniauth-oauth2 (1.5.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
-    omniauth-saml (1.10.0)
+    omniauth-saml (1.10.1)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.7)
     openurl (1.0.0)
@@ -398,7 +398,7 @@ GEM
       activesupport
       rails (>= 3.0.0)
     plist (3.4.0)
-    poltergeist (1.18.0)
+    poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
@@ -478,7 +478,7 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    rspec_junit_formatter (0.3.0)
+    rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-oci8 (2.2.5.1)
     ruby-saml (1.8.0)
@@ -551,7 +551,7 @@ GEM
       railties (>= 3.1)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.10)
+    uglifier (4.1.11)
       execjs (>= 0.3.0, < 3)
     ultraviolet (1.0.1)
       textpow (>= 1.3.0)
@@ -566,7 +566,7 @@ GEM
     wasabi (3.5.0)
       httpi (~> 2.0)
       nokogiri (>= 1.4.2)
-    webmock (3.4.1)
+    webmock (3.4.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -577,7 +577,7 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    xpath (3.0.0)
+    xpath (3.1.0)
       nokogiri (~> 1.8)
     yaml_db (0.6.0)
       rails (>= 3.0, < 5.2)
@@ -672,4 +672,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.16.1
+   1.15.0
