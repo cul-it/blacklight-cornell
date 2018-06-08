@@ -99,7 +99,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:cu_authenticated_user] = auth.info.netid[0]
     session[:cu_authenticated_email] = auth.info.email[0]
     session[:cu_authenticated_groups] = auth.info.groups
-    session[:cu_authenticated_primary] = auth.info.primary[0]
+    session[:cu_authenticated_primary] = (auth.info.primary.nil? || auth.info.primary[0].nil?)   ? ''  : auth.info.primary[0]  
     # we might already be 'signed in' ?
     if !user_signed_in? 
       sign_in :user, @user 
