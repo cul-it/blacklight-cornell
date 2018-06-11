@@ -37,8 +37,13 @@
     </div>
 
 
-  <% elsif i["items"]["unavail"].present? %>
+  <% elsif i["items"]["unavail"].present?  %>
     <% i["items"]["unavail"].each do |item| %>
+      <% if item["boundWith"] == true %>
+         <% item["status"] = {} %>
+         <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
+      <% end %>
+     <% if !item["status"].nil? %>
       <div class="status">
         <i class="fa fa-clock-o"></i>
         <% if item['enum'].present?  %>
@@ -75,6 +80,7 @@
         (Requests: <%= item["holds"] + item["recalls"] %>)
       <% end %>
     </div>
+    <% end %>
   <%end %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>
     <% some_av = 'yes' %>
