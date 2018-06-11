@@ -39,7 +39,11 @@
 
   <% elsif i["items"]["unavail"].present?  %>
     <% i["items"]["unavail"].each do |item| %>
-     <% if !item["status"].nil? %> 
+      <% if item["boundWith"] == true %>
+         <% item["status"] = {} %>
+         <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
+      <% end %>
+     <% if !item["status"].nil? %>
       <div class="status">
         <i class="fa fa-clock-o"></i>
         <% if item['enum'].present?  %>
@@ -48,7 +52,6 @@
         <% if i['copy'].present?  %>
           c. <%= i['copy'] %>
         <% end %>
-        <%#= item.inspect %>
         <% if item["status"]["code"].present? %>
           <% if item["status"]["code"].keys[0] == "2" || item["status"]["code"].keys[0] == "3" || item["status"]["code"].keys[0] == "4" %>
             Checked out, due
