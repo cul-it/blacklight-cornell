@@ -108,14 +108,14 @@ class SolrDocument
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
       holdings_keys = holdings_json.keys
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
-      where = holdings_keys.collect do  
-        | k |  
+      where = holdings_keys.collect do
+        | k |
         l = holdings_json[k]
         "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
        end
     end
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
-    where 
+    where
   end 
 
 
