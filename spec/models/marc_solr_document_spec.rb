@@ -32,7 +32,7 @@ describe Blacklight::Solr::Document::MarcExport do
       def xsetup_holdings_info(marc)
         ['']
       end
-      def setup_holdings_info(record)
+      def ysetup_holdings_info(record)
         if  self["holdings_record_display"].blank?
           return ['']
         end
@@ -44,6 +44,20 @@ describe Blacklight::Solr::Document::MarcExport do
          end
          where
        end
+       def setup_holdings_info(record)
+         where = ['']
+        if (self["holdings_json"].present?)
+          holdings_json = JSON.parse(self["holdings_json"])
+          holdings_keys = holdings_json.keys
+          where = holdings_keys.collect do
+            | k |
+            l = holdings_json[k]
+            "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
+           end
+        end
+        where
+      end
+
 
 
       attr_accessor :to_marc
@@ -98,7 +112,7 @@ describe Blacklight::Solr::Document::MarcExport do
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
       @book_recs[id]['id'] = id
       # just a stub valid only for bibid 10055679#
-      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"SF98.A5 M35 2017\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\"}]}"]
+      @book_recs[id]['holdings_json']  = "{\"10368366\":{\"location\":{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\",\"hoursCode\":\"mann\"},\"call\":\"SF98.A5 M35 2017\",\"circ\":true,\"date\":1506532638,\"items\":{\"count\":1,\"unavail\":[{\"id\":10369482,\"status\":{\"code\":{\"3\":\"Renewed\"},\"due\":1541286000,\"date\":1509719141}}]}}}"
     }
     # Fix up some parameters supplied by SOLR
     #electronic
@@ -599,7 +613,7 @@ CITE_MATCH
 #SN  - 091316710X : 
     it "should export a typical book record correctly" do
       id = "1001"
-      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"PS591.A58 R33\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Library Annex\",\"library\":\"Library Annex\"}]}"]
+      @book_recs[id]['holdings_json']  = "{\"5195\":{\"location\":{\"code\":\"olin,anx\",\"number\":101,\"name\":\"Library Annex\",\"library\":\"Library Annex\",\"hoursCode\":\"annex\"},\"call\":\"PS591.A58 R33\",\"circ\":true,\"date\":959745600,\"items\":{\"count\":1,\"avail\":1}}}" 
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
