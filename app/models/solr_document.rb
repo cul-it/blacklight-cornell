@@ -101,10 +101,20 @@ class SolrDocument
   end
 
   def setup_holdings_info(record)
-    holdings_arr = self["holdings_record_display"]
-    holdings = []
-    where_arr = holdings_arr.collect { | h |  JSON.parse(h).with_indifferent_access }
-    where = where_arr.collect { | h |  "#{h['locations'][0]['library']}  #{h['callnos'][0]}" unless h.blank? or h['locations'].blank? or     h['callnos'].blank?}
+    where = []
+    if (self["holdings_json"].present?)
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} self[h_j] = #{self['holdings_json'].inspect}"
+      holdings_json = JSON.parse(self["holdings_json"])
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
+      holdings_keys = holdings_json.keys
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
+      where = holdings_keys.collect do
+        | k |
+        l = holdings_json[k]
+        "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
+       end
+    end
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
     where
   end 
 
