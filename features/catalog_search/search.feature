@@ -89,7 +89,7 @@ Feature: Search
     And I fill in the search box with 'ethnoarchaeology:'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 4'
+    And I should see the label '1 - 20'
 
    @all_search
    @peabody
