@@ -10,12 +10,14 @@ As a user
 # by default you should run cucumber with -t ~@oclc_request
 @oclc_request
   Scenario: Request an item by oclc id when oclc id is valid 
+    Given PENDING
     When I literally go to /oclc/970658422
     And I should see the text 'Pick up at'
     And I should see the text 'Vygotsky and Marx'
 
 @oclc_request
   Scenario: Request an item by oclc id when oclc id is not valid 
+    Given PENDING
     When I literally go to /oclc/97065842222222
     And I should not see the text 'Pick up at'
     And I should see the text 'Not Found'
