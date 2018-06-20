@@ -84,25 +84,26 @@ Feature: Bookmarks for anonymous users
     @javascript
     @bookmarks_export_selected
     Scenario Outline: I should be able to export selected bookmarks
-        Given I am on the home page
-		When I fill in the search box with 'rope work'
-		And I press 'search'
-		Then I should get results    
-        Then I select the first 3 catalog results
-        When I view my selected items
-        Then I should be on 'the bookmarks page'
-        And there should be 3 items selected
-        Then I should see the text "Selected Items"
-        And I should not see the text "You have no selected items."
-        And click on link "Export"
-        And click on link "<item>"
-        Then the popup should include "<filename>"
+    #    Given PENDING
+    #    Given I am on the home page
+#		When I fill in the search box with 'rope work'
+#		And I press 'search'
+#		Then I should get results    
+#        Then I select the first 3 catalog results
+#        When I view my selected items
+#        Then I should be on 'the bookmarks page'
+#        And there should be 3 items selected
+#        Then I should see the text "Selected Items"
+#        And I should not see the text "You have no selected items."
+#        And click on link "Export"
+#        And click on link "<item>"
+#        Then the popup should include "<filename>"
 
-    Examples:
-    | item | filename |
-    | RIS | endnote.ris |
-    | EndNote | endnote.endnote |
-    | EndNote XML | endnote.endnote_xml |
+#    Examples:
+#    | item | filename |
+#    | RIS | endnote.ris |
+#    | EndNote | endnote.endnote |
+#    | EndNote XML | endnote.endnote_xml |
 
 
     @javascript
