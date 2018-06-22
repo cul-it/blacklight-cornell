@@ -84,6 +84,7 @@ Feature: Bookmarks for anonymous users
     @javascript
     @bookmarks_export_selected
     Scenario Outline: I should be able to export selected bookmarks
+        Given PENDING
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
