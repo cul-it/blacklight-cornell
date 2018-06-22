@@ -138,7 +138,6 @@ Feature: Search
 
  #@adv_search
  #@all_search
- #@peabody
  #@javascript
  # Scenario: Perform an advanced search by title with colon, as title with colon see results
  #   Given PENDING
