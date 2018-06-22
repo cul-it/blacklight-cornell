@@ -137,8 +137,7 @@ Feature: Search
     And I should see the label 'of 1'
 
  #@javascript
- # Scenario: Perform an advanced search by title with colon, as title with colon see results
- #   Given PENDING
+ # Scenario: Perform an advanced search by title with colon, colon should be ignored.
  #   When I literally go to advanced
  #   And I fill in "q_row1" with 'ethnoarchaeology:'
  #   And I select 'Title' from the 'search_field_advanced' drop-down
