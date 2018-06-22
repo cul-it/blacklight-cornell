@@ -136,18 +136,18 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 1'
 
- @adv_search
- @all_search
- @peabody
- @javascript
-  Scenario: Perform an advanced search by title with colon, as title with colon see results
-    Given PENDING
-    When I literally go to advanced
-    And I fill in "q_row1" with 'ethnoarchaeology:'
-    And I select 'Title' from the 'search_field_advanced' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 - 20 of'
+ #@adv_search
+ #@all_search
+ #@peabody
+ #@javascript
+ # Scenario: Perform an advanced search by title with colon, as title with colon see results
+ #   Given PENDING
+ #   When I literally go to advanced
+ #   And I fill in "q_row1" with 'ethnoarchaeology:'
+ #   And I select 'Title' from the 'search_field_advanced' drop-down
+ #   And I press 'advanced_search'
+ #   Then I should get results
+ #   And I should see the label '1 - 20 of'
 
 # Combinatorial Algorithms, Algorithmic Press
  @adv_search
