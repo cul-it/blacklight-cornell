@@ -58,6 +58,11 @@ class Databases < ActiveRecord::Base
        status = k.xpath(sprintf('./%s', "Status/Content")).inner_text
        reviewer = k.xpath(sprintf('./%s', "Reviewer/Content")).inner_text
        reviewerNote = k.xpath(sprintf('./%s', "ReviewerNote/Content")).inner_text
+       if !reviewerNote.blank?
+
+          reviewerNote.gsub!('"',' ')
+          reviewerNote.gsub!("'"," ")
+       end
        licenseReplacedBy = k.xpath(sprintf('./%s', "LicenseReplacedBy/Content")).inner_text
        licenseReplaces = k.xpath(sprintf('./%s', "LicenseReplaces/Content")).inner_text
        executionDate = k.xpath(sprintf('./%s', "ExecutionDate/Content")).inner_text
