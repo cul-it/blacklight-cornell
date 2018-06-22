@@ -146,7 +146,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label 'of 4'
+    And I should see the label '1 - 20 of'
 
 # Combinatorial Algorithms, Algorithmic Press
  @adv_search

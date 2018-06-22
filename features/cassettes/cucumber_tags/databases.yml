@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/select?rows=10&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/select?rows=10&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,11 +19,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:23:45 GMT
+      - Fri, 22 Jun 2018 03:19:31 GMT
       Last-Modified:
-      - Fri, 18 May 2018 01:51:27 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
@@ -31,19 +31,12 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '3342'
+      - '3203'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
-      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":830,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7915223,"start":0,"maxScore":1.50515,"docs":[{"holdings_record_display":["{\"id\":\"10645032\",\"modified_date\":\"20180413113944\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"10339844","format":["Book"],"online":["Online"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Burlington,
-        Massachusetts : Jones & Bartlett Learning, 2019."],"fulltitle_display":"Java
-        illuminated : an active learning approach","title_display":"Java illuminated","author_display":"Anderson,
-        Julie, 1947- author","subtitle_display":"an active learning approach","edition_display":["Fifth
-        edition."],"other_id_display":["(MiAaPQ)EBC5192750","(Au-PeEL)EBL5192750","(CaPaEBR)ebr11485148","(OCoLC)1015887824","(WaSeSS)OCM1ssib031089036","10339844"],"url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"DRU\",\"description\":\"Full
-        text available from Safari Technical Books Connect to text.\",\"ssid\":\"ssib031089036\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284141092\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284141092|Full
-        text available from Safari Technical Books Connect to text."],"acquired_dt":"2018-04-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10639742\",\"modified_date\":\"20180413120456\",\"copy_number\":null,\"callnos\":[\"MT6.5
+      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":318,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7865273,"start":0,"maxScore":1.50515,"docs":[{"holdings_record_display":["{\"id\":\"10639742\",\"modified_date\":\"20180413120456\",\"copy_number\":null,\"callnos\":[\"MT6.5
         .M964 2019\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
         Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}]}"],"online":["At
         the Library"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10483023\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10639742\",\"recalls_placed\":\"0\",\"create_date\":\"2018-04-12
@@ -54,34 +47,42 @@ http_interactions:
         for analysis","author_display":"Benjamin, Thomas, author","subtitle_display":"examples
         from the common practice period and the twentieth century","edition_display":["8th
         ed."],"other_id_display":["(OCoLC)1020866644","10334386"],"acquired_dt":"2018-04-13T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Cox
-        Library of Music (Lincoln Hall)\":\"MT6.5 .M964 2019\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10646508\",\"modified_date\":\"20180413114443\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"10341321","format":["Book"],"online":["Online"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Burlington,
-        Massachusetts : Jones & Bartlett Learning, 2019."],"fulltitle_display":"Web
-        programming with HTML5, CSS, and JavaScript","title_display":"Web programming
-        with HTML5, CSS, and JavaScript","author_display":"Dean, John, 1962- author","other_id_display":["(MiAaPQ)EBC5181156","(Au-PeEL)EBL5181156","(CaPaEBR)ebr11480288","(OCoLC)1019708004","(WaSeSS)OCM1ssib031097295","10341321"],"url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"DRU\",\"description\":\"Full
-        text available from Safari Technical Books Connect to text.\",\"ssid\":\"ssib031097295\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284091809\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284091809|Full
-        text available from Safari Technical Books Connect to text."],"acquired_dt":"2018-04-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10081628\",\"modified_date\":\"20170112145302\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"9759048","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
-        : Oxford University Press, 2019."],"title_display":"Oxford Handbook of Greek
-        and Roman Slaveries","fulltitle_display":"Oxford Handbook of Greek and Roman
-        Slaveries","other_id_display":["(WaSeSS)OCM1ssib025848927","9759048","(OCoLC)968421010"],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"3Y6\",\"description\":\"Full
-        text available from Oxford Handbooks Online Connect to text.\",\"ssid\":\"ssib025848927\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251|Full
-        text available from Oxford Handbooks Online Connect to text."],"acquired_dt":"2017-01-12T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10049931\",\"modified_date\":\"20161213134354\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Library of Music (Lincoln Hall)\":\"MT6.5 .M964 2019\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10049931\",\"modified_date\":\"20161213134354\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
         Resource\",\"library\":null}]}"],"id":"9726061","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
         : Sage Publications, Inc, 2019."],"title_display":"SAGE Encyclopedia of Theory","fulltitle_display":"SAGE
         Encyclopedia of Theory","other_id_display":["(WaSeSS)OCM1ssib024484163","9726061","(OCoLC)965982045"],"url_access_json":["{\"providercode\":\"PRVSPB\",\"dbcode\":\"AAIMZ\",\"description\":\"Full
         text available from SAGE Reference 2016 Encyclopedia Collection Connect to
         text.\",\"ssid\":\"ssib024484163\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://sk.sagepub.com/\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://sk.sagepub.com/|Full
         text available from SAGE Reference 2016 Encyclopedia Collection Connect to
-        text."],"acquired_dt":"2016-12-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10618636\",\"modified_date\":\"20180313144538\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"10311528","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
-        : Oxford University Press, 2019."],"title_display":"Oxford Handbook of Computational
-        Linguistics, Second Edition","fulltitle_display":"Oxford Handbook of Computational
-        Linguistics, Second Edition","edition_display":["2nd ed."],"other_id_display":["(WaSeSS)OCM1ssib030724009","10311528","(OCoLC)968420945"],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"3Y6\",\"description\":\"Full
-        text available from Oxford Handbooks Online Connect to text.\",\"ssid\":\"ssib030724009\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691\"}","{\"providercode\":\"PRVASL\",\"dbcode\":\".E4\",\"description\":\"Full
-        text available from Oxford Handbooks Online Linguistics Connect to text.\",\"ssid\":\"ssib030724009\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691|Full
-        text available from Oxford Handbooks Online Connect to text.","http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691|Full
-        text available from Oxford Handbooks Online Linguistics Connect to text."],"acquired_dt":"2018-03-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10659102\",\"modified_date\":\"20180425085643\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        text."],"acquired_dt":"2016-12-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10555062\",\"modified_date\":\"20180531161937\",\"copy_number\":null,\"callnos\":[\"HB172
+        .F72 2019\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"fine,res\",\"number\":33,\"name\":\"Fine
+        Arts Library Reserve\",\"library\":\"Fine Arts Library\"}]}"],"online":["At
+        the Library"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10504536\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10555062\",\"recalls_placed\":\"0\",\"create_date\":\"2018-05-31
+        12:44:43.0\",\"item_barcode\":\"31924125066567\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"fine,res\",\"number\":33,\"name\":\"Fine
+        Arts Library Reserve\",\"library\":\"Fine Arts Library\"}}"],"id":"10246404","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["New
+        York : McGraw-Hill Education, [2019]."],"fulltitle_display":"Principles of
+        microeconomics","title_display":"Principles of microeconomics","author_display":"Frank,
+        Robert H., author","edition_display":["Seventh edition."],"other_id_display":["(OCoLC)1018065884","10246404"],"acquired_dt":"2018-05-31T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Fine
+        Arts Library Reserve\":\"HB172 .F72 2019\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10687314\",\"modified_date\":\"20180605084450\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"vet\",\"number\":133,\"name\":\"Veterinary
+        Library (Schurman Hall)\",\"library\":\"Veterinary Library\"}]}"],"online":["At
+        the Library"],"id":"10384027","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Hoboken,
+        NJ : Wiley-Blackwell, 2019."],"title_display":"Locking plates and implants
+        in veterinary orthopedics","fulltitle_display":"Locking plates and implants
+        in veterinary orthopedics","other_id_display":["(OCoLC)1037287549","10384027"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Veterinary
+        Library (Schurman Hall)\":\"1 Copy Ordered as of 2018-06-05\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10081628\",\"modified_date\":\"20170112145302\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Resource\",\"library\":null}]}"],"id":"9759048","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
+        : Oxford University Press, 2019."],"title_display":"Oxford Handbook of Greek
+        and Roman Slaveries","fulltitle_display":"Oxford Handbook of Greek and Roman
+        Slaveries","other_id_display":["(WaSeSS)OCM1ssib025848927","9759048","(OCoLC)968421010"],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"3Y6\",\"description\":\"Full
+        text available from Oxford Handbooks Online Connect to text.\",\"ssid\":\"ssib025848927\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251|Full
+        text available from Oxford Handbooks Online Connect to text."],"acquired_dt":"2017-01-12T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10667497\",\"modified_date\":\"20180511142449\",\"copy_number\":null,\"callnos\":[\"Available
+        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
+        Technical Services Review Shelves\",\"library\":null}]}"],"id":"10363315","format":["Book"],"language_display":["English."],"pub_date_display":["[2018]"],"pub_date_facet":2019,"pub_info_display":["Upper
+        Saddle River, New Jersey : Pearson, [2018]"],"fulltitle_display":"Families,
+        schools, and communities : building partnerships for educating children","title_display":"Families,
+        schools, and communities","author_display":"Scully, Patricia A., 1949- author","subtitle_display":"building
+        partnerships for educating children","edition_display":["Seventh edition."],"other_id_display":["(CaONFJC)cou38492321","(DLC)cou38492321","10363315","(OCoLC)1019834772"],"acquired_dt":"2018-05-11T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Library
+        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10659102\",\"modified_date\":\"20180425085643\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
         Library\",\"library\":\"Olin Library\"}]}"],"online":["At the Library"],"id":"10354483","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["New
         York : Routledge, 2019."],"fulltitle_display":"Engaging anthropological theory
         : a social and political history","title_display":"Engaging anthropological
@@ -96,37 +97,32 @@ http_interactions:
         at Naxos Music Library Connect to full text. Access limited to authorized
         subscribers.\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://univportal.naxosmusiclibrary.com/catalogue/item.asp?cid=PHIL06005\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://univportal.naxosmusiclibrary.com/catalogue/item.asp?cid=PHIL06005|Available
         at Naxos Music Library Connect to full text. Access limited to authorized
-        subscribers."],"availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10667497\",\"modified_date\":\"20180511142449\",\"copy_number\":null,\"callnos\":[\"Available
-        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
-        Technical Services Review Shelves\",\"library\":null}]}"],"id":"10363315","format":["Book"],"language_display":["English."],"pub_date_display":["[2018]"],"pub_date_facet":2019,"pub_info_display":["Upper
-        Saddle River, New Jersey : Pearson, [2018]"],"fulltitle_display":"Families,
-        schools, and communities : building partnerships for educating children","title_display":"Families,
-        schools, and communities","author_display":"Scully, Patricia A., 1949- author","subtitle_display":"building
-        partnerships for educating children","edition_display":["Seventh edition."],"other_id_display":["(CaONFJC)cou38492321","(DLC)cou38492321","10363315","(OCoLC)1019834772"],"acquired_dt":"2018-05-11T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Library
-        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10398157\",\"modified_date\":\"20180118145921\",\"copy_number\":null,\"callnos\":[\"QP44
-        .W74 2019\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"vet\",\"number\":133,\"name\":\"Veterinary
-        Library (Schurman Hall)\",\"library\":\"Veterinary Library\"}]}"],"online":["At
-        the Library"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10437367\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10398157\",\"recalls_placed\":\"0\",\"create_date\":\"2018-01-18
-        14:59:58.0\",\"item_barcode\":\"31924125275325\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"vet\",\"number\":133,\"name\":\"Veterinary
-        Library (Schurman Hall)\",\"library\":\"Veterinary Library\"}}"],"id":"10086886","format":["Book"],"language_display":["English."],"pub_date_display":["[2019]"],"pub_date_facet":2019,"pub_info_display":["New
-        York, NY : MHE, [2019]"],"fulltitle_display":"Laboratory manual for human
-        anatomy & physiology : cat version","title_display":"Laboratory manual for
-        human anatomy & physiology","author_display":"Martin, Terry R., author","subtitle_display":"cat
-        version","edition_display":["Fourth edition."],"other_id_display":["(OCoLC)1001411720","10086886"],"acquired_dt":"2018-01-18T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Veterinary
-        Library (Schurman Hall)\":\"QP44 .W74 2019\"}}","score":1.50515}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",6943579,"Journal/Periodical",402888,"Microform",355629,"Musical
-        Recording",222731,"Thesis",200637,"Video",117723,"Musical Score",97603,"Map
-        or Globe",64694,"Manuscript/Archive",16356,"Non-musical Recording",10212],"online":["At
-        the Library",5879264,"Online",2125713],"language_facet":["English",4908183,"German",544416,"French",338811,"Spanish",290046,"Chinese",267846,"Russian",183994,"Italian",151785,"Indonesian",138532,"Japanese",103498,"Vietnamese",76076],"location_facet":["Library
-        Annex",2405415,"Olin Library",1690634,"Kroch Library Asia",614445,"Kroch Library
-        Rare & Manuscripts",508398,"Music Library",200747,"Law Library",199534,"Mann
-        Library",165230,"Uris Library",150426,"ILR Library",110679,"Mathematics Library",52736]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}},"spellcheck":{"suggestions":[],"correctlySpelled":true}}
+        subscribers."],"availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10682428\",\"modified_date\":\"20180522144911\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"fine\",\"number\":31,\"name\":\"Fine
+        Arts Library (B56 Sibley Hall)\",\"library\":\"Fine Arts Library\"}]}"],"online":["At
+        the Library"],"id":"10378707","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Minneapolis
+        : University of Minnesota Press, 2019."],"fulltitle_display":"Graphic assembly
+        : montage, media, and experimental architecture in the 1960s''","title_display":"Graphic
+        assembly","author_display":"Buckley, Craig, author","subtitle_display":"montage,
+        media, and experimental architecture in the 1960s''","other_id_display":["(OCoLC)1035777339","10378707"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Fine
+        Arts Library (B56 Sibley Hall)\":\"1 Copy Ordered as of 2018-05-23\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10687053\",\"modified_date\":\"20180604092359\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"online":["At the Library"],"id":"10383719","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Aberdeen
+        : Vulpine Press, 2019."],"fulltitle_display":"The rare or unread stories of
+        Grant Allen (1849-1899)","title_display":"The rare or unread stories of Grant
+        Allen (1849-1899)","author_display":"Allen, Grant, 1848-1899, author","other_id_display":["(CaONFJC)66935804","10383719"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Olin
+        Library\":\"1 Copy Ordered as of 2018-06-04\"}}","score":1.50515}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",6925801,"Journal/Periodical",387994,"Microform",355654,"Musical
+        Recording",222989,"Thesis",200812,"Video",100008,"Musical Score",97646,"Map
+        or Globe",64722,"Manuscript/Archive",16404,"Non-musical Recording",10217],"online":["At
+        the Library",5885548,"Online",2069373],"language_facet":["English",4877484,"German",543067,"French",338362,"Spanish",290106,"Chinese",268154,"Russian",184022,"Italian",151949,"Indonesian",138864,"Japanese",103633,"Vietnamese",76361],"location_facet":["Library
+        Annex",2408095,"Olin Library",1692169,"Kroch Library Asia",616560,"Kroch Library
+        Rare & Manuscripts",508797,"Music Library",201017,"Law Library",199678,"Mann
+        Library",165358,"Uris Library",149485,"ILR Library",110710,"Mathematics Library",52733]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}},"spellcheck":{"suggestions":[],"correctlySpelled":true}}
 
 '
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:23:55 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:32 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -136,22 +132,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Fri, 18 May 2018 02:23:55 GMT
+      - Fri, 22 Jun 2018 03:19:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:23:55 GMT
+      - Fri, 22 Jun 2018 03:19:32 GMT
       Last-Modified:
-      - Fri, 18 May 2018 00:52:58 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"NTlmNmEwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '21076'
+      - '21075'
       Via:
       - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
@@ -165,7 +161,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":191,
+            "QTime":76,
             "params":{
               "q":"\"Anthropology\"",
               "indent":"true",
@@ -439,10 +435,10 @@ http_interactions:
                   "Theater, Film and Television"]}]
           }}
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:23:55 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:32 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -452,24 +448,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Fri, 18 May 2018 02:23:55 GMT
+      - Fri, 22 Jun 2018 03:19:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:23:55 GMT
+      - Fri, 22 Jun 2018 03:19:32 GMT
       Last-Modified:
-      - Fri, 18 May 2018 00:52:58 GMT
+      - Fri, 22 Jun 2018 03:01:50 GMT
       Etag:
-      - '"NTlmNmEwMDAwMDAwMDAwMFNvbHI="'
+      - '"OTg4MjcwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '3816'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -481,7 +477,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":61,
+            "QTime":51,
             "params":{
               "q":"\"Anthropology (Core)\"",
               "indent":"true",
@@ -522,10 +518,10 @@ http_interactions:
                   "Sociology and Rural Development (Core)"]}]
           }}
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:23:55 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:32 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/database?id=5366869&indent=true&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/database?id=5366869&indent=true&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -535,22 +531,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Fri, 18 May 2018 02:23:55 GMT
+      - Fri, 22 Jun 2018 03:19:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:23:55 GMT
+      - Fri, 22 Jun 2018 03:19:32 GMT
       Last-Modified:
-      - Fri, 18 May 2018 00:52:58 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"YzgwZWEwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '1267'
+      - '1268'
       Via:
       - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
@@ -564,12 +560,12 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":23,
+            "QTime":39,
             "params":{
               "indent":"true",
               "id":"5366869",
               "wt":"json"}},
-          "response":{"numFound":1,"start":0,"maxScore":13.729521,"docs":[
+          "response":{"numFound":1,"start":0,"maxScore":13.9637785,"docs":[
               {
                 "id":"5366869",
                 "title_display":"AnthroSource",
@@ -586,10 +582,10 @@ http_interactions:
                   "Anthropology (Core)"]}]
           }}
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:23:55 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:32 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databases?defType=dismax&indent=true&q=MLA&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/databases?defType=dismax&indent=true&q=MLA&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -599,24 +595,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Fri, 18 May 2018 02:24:07 GMT
+      - Fri, 22 Jun 2018 03:19:44 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:24:07 GMT
+      - Fri, 22 Jun 2018 03:19:44 GMT
       Last-Modified:
-      - Fri, 18 May 2018 01:51:27 GMT
+      - Fri, 22 Jun 2018 03:01:50 GMT
       Etag:
-      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
+      - '"OTg4MjcwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '3087'
+      - '3085'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -628,13 +624,13 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":2199,
+            "QTime":318,
             "params":{
               "q":"MLA",
               "defType":"dismax",
               "indent":"true",
               "wt":"json"}},
-          "response":{"numFound":3,"start":0,"maxScore":623079.75,"docs":[
+          "response":{"numFound":3,"start":0,"maxScore":623508.9,"docs":[
               {
                 "id":"2477233",
                 "title_display":"MLA international bibliography",
@@ -665,10 +661,10 @@ http_interactions:
                   "Newspapers, Magazines and Current Events"]}]
           }}
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:24:09 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:45 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Images%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -678,22 +674,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Fri, 18 May 2018 02:24:13 GMT
+      - Fri, 22 Jun 2018 03:19:49 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:24:13 GMT
+      - Fri, 22 Jun 2018 03:19:49 GMT
       Last-Modified:
-      - Fri, 18 May 2018 01:51:27 GMT
+      - Fri, 22 Jun 2018 03:01:50 GMT
       Etag:
-      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
+      - '"ZDY4MjcwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -707,7 +703,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":550,
+            "QTime":123,
             "params":{
               "q":"\"Images\"",
               "indent":"true",
@@ -947,6 +943,8 @@ http_interactions:
                 "summary_display":["\"Images of the American Civil War: Photographs, Posters, and Ephemera presents the dramatic imagery of nineteenth-century Americana as experienced from the social, military, and political perspectives. At completion, the collection will present 75,000 images drawn from archives around the country, documenting the camp and battle experiences of Union and Confederate soldiers of all ranks, time spent in hospitals and in prisons, civilian life in cities and towns close to and far from the front lines of war, and the demeanor of the politicians whose decisions could bring the nation together or tear it apart. Many of the images in the collection were captured by famous and lesser-known innovators working with the burgeoning medium of nineteenth-century photography. Additionally, graphical content such as envelopes, song sheets, recruiting posters, imprints, and cartoons give users the ability to research how wartime America illustrated their times visually.\"--About the database."],
                 "url_access_json":["{\"providercode\":\"PRVAAS\",\"dbcode\":\"NKO\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/9754438\"}"],
                 "url_access_display":["http://resolver.library.cornell.edu/misc/9754438|Connect to full text."],
+                "providercode":["PRVAAS"],
+                "dbcode":["NKO"],
                 "sixfivethree":["General Interest and Reference",
                   "Images",
                   "Arts and Humanities",
@@ -1110,10 +1108,10 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:24:13 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:49 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1123,18 +1121,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Fri, 18 May 2018 02:24:13 GMT
+      - Fri, 22 Jun 2018 03:19:49 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Fri, 18 May 2018 02:24:13 GMT
+      - Fri, 22 Jun 2018 03:19:49 GMT
       Last-Modified:
-      - Fri, 18 May 2018 01:51:27 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"NzU0YTAwMDAwMDAwMDAwU29scg=="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -1152,7 +1150,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":78,
+            "QTime":14,
             "params":{
               "q":"\"Images (Core)\"",
               "indent":"true",
@@ -1194,10 +1192,10 @@ http_interactions:
                   "Art and Architecture"]}]
           }}
     http_version: 
-  recorded_at: Fri, 18 May 2018 02:24:13 GMT
+  recorded_at: Fri, 22 Jun 2018 03:19:49 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?rows=10&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/select?rows=10&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -1214,11 +1212,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:07:48 GMT
+      - Fri, 22 Jun 2018 06:23:20 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:07:46 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"ZmFhNWEwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
@@ -1226,19 +1224,12 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '3343'
+      - '3203'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
-      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":869,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7915670,"start":0,"maxScore":1.50515,"docs":[{"holdings_record_display":["{\"id\":\"10645032\",\"modified_date\":\"20180413113944\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"10339844","format":["Book"],"online":["Online"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Burlington,
-        Massachusetts : Jones & Bartlett Learning, 2019."],"fulltitle_display":"Java
-        illuminated : an active learning approach","title_display":"Java illuminated","author_display":"Anderson,
-        Julie, 1947- author","subtitle_display":"an active learning approach","edition_display":["Fifth
-        edition."],"other_id_display":["(MiAaPQ)EBC5192750","(Au-PeEL)EBL5192750","(CaPaEBR)ebr11485148","(OCoLC)1015887824","(WaSeSS)OCM1ssib031089036","10339844"],"url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"DRU\",\"description\":\"Full
-        text available from Safari Technical Books Connect to text.\",\"ssid\":\"ssib031089036\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284141092\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284141092|Full
-        text available from Safari Technical Books Connect to text."],"acquired_dt":"2018-04-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10639742\",\"modified_date\":\"20180413120456\",\"copy_number\":null,\"callnos\":[\"MT6.5
+      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":313,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7865273,"start":0,"maxScore":1.50515,"docs":[{"holdings_record_display":["{\"id\":\"10639742\",\"modified_date\":\"20180413120456\",\"copy_number\":null,\"callnos\":[\"MT6.5
         .M964 2019\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
         Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}]}"],"online":["At
         the Library"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10483023\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10639742\",\"recalls_placed\":\"0\",\"create_date\":\"2018-04-12
@@ -1249,34 +1240,42 @@ http_interactions:
         for analysis","author_display":"Benjamin, Thomas, author","subtitle_display":"examples
         from the common practice period and the twentieth century","edition_display":["8th
         ed."],"other_id_display":["(OCoLC)1020866644","10334386"],"acquired_dt":"2018-04-13T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Cox
-        Library of Music (Lincoln Hall)\":\"MT6.5 .M964 2019\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10646508\",\"modified_date\":\"20180413114443\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"10341321","format":["Book"],"online":["Online"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Burlington,
-        Massachusetts : Jones & Bartlett Learning, 2019."],"fulltitle_display":"Web
-        programming with HTML5, CSS, and JavaScript","title_display":"Web programming
-        with HTML5, CSS, and JavaScript","author_display":"Dean, John, 1962- author","other_id_display":["(MiAaPQ)EBC5181156","(Au-PeEL)EBL5181156","(CaPaEBR)ebr11480288","(OCoLC)1019708004","(WaSeSS)OCM1ssib031097295","10341321"],"url_access_json":["{\"providercode\":\"PRVPQU\",\"dbcode\":\"DRU\",\"description\":\"Full
-        text available from Safari Technical Books Connect to text.\",\"ssid\":\"ssib031097295\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284091809\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=https://proquest.safaribooksonline.com/9781284091809|Full
-        text available from Safari Technical Books Connect to text."],"acquired_dt":"2018-04-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10081628\",\"modified_date\":\"20170112145302\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"9759048","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
-        : Oxford University Press, 2019."],"title_display":"Oxford Handbook of Greek
-        and Roman Slaveries","fulltitle_display":"Oxford Handbook of Greek and Roman
-        Slaveries","other_id_display":["(WaSeSS)OCM1ssib025848927","9759048","(OCoLC)968421010"],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"3Y6\",\"description\":\"Full
-        text available from Oxford Handbooks Online Connect to text.\",\"ssid\":\"ssib025848927\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251|Full
-        text available from Oxford Handbooks Online Connect to text."],"acquired_dt":"2017-01-12T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10049931\",\"modified_date\":\"20161213134354\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Library of Music (Lincoln Hall)\":\"MT6.5 .M964 2019\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10049931\",\"modified_date\":\"20161213134354\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
         Resource\",\"library\":null}]}"],"id":"9726061","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
         : Sage Publications, Inc, 2019."],"title_display":"SAGE Encyclopedia of Theory","fulltitle_display":"SAGE
         Encyclopedia of Theory","other_id_display":["(WaSeSS)OCM1ssib024484163","9726061","(OCoLC)965982045"],"url_access_json":["{\"providercode\":\"PRVSPB\",\"dbcode\":\"AAIMZ\",\"description\":\"Full
         text available from SAGE Reference 2016 Encyclopedia Collection Connect to
         text.\",\"ssid\":\"ssib024484163\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://sk.sagepub.com/\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://sk.sagepub.com/|Full
         text available from SAGE Reference 2016 Encyclopedia Collection Connect to
-        text."],"acquired_dt":"2016-12-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10618636\",\"modified_date\":\"20180313144538\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
-        Resource\",\"library\":null}]}"],"id":"10311528","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
-        : Oxford University Press, 2019."],"title_display":"Oxford Handbook of Computational
-        Linguistics, Second Edition","fulltitle_display":"Oxford Handbook of Computational
-        Linguistics, Second Edition","edition_display":["2nd ed."],"other_id_display":["(WaSeSS)OCM1ssib030724009","10311528","(OCoLC)968420945"],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"3Y6\",\"description\":\"Full
-        text available from Oxford Handbooks Online Connect to text.\",\"ssid\":\"ssib030724009\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691\"}","{\"providercode\":\"PRVASL\",\"dbcode\":\".E4\",\"description\":\"Full
-        text available from Oxford Handbooks Online Linguistics Connect to text.\",\"ssid\":\"ssib030724009\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691|Full
-        text available from Oxford Handbooks Online Connect to text.","http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199573691.001.0001/oxfordhb-9780199573691|Full
-        text available from Oxford Handbooks Online Linguistics Connect to text."],"acquired_dt":"2018-03-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10659102\",\"modified_date\":\"20180425085643\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        text."],"acquired_dt":"2016-12-13T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10555062\",\"modified_date\":\"20180531161937\",\"copy_number\":null,\"callnos\":[\"HB172
+        .F72 2019\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"fine,res\",\"number\":33,\"name\":\"Fine
+        Arts Library Reserve\",\"library\":\"Fine Arts Library\"}]}"],"online":["At
+        the Library"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10504536\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10555062\",\"recalls_placed\":\"0\",\"create_date\":\"2018-05-31
+        12:44:43.0\",\"item_barcode\":\"31924125066567\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"fine,res\",\"number\":33,\"name\":\"Fine
+        Arts Library Reserve\",\"library\":\"Fine Arts Library\"}}"],"id":"10246404","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["New
+        York : McGraw-Hill Education, [2019]."],"fulltitle_display":"Principles of
+        microeconomics","title_display":"Principles of microeconomics","author_display":"Frank,
+        Robert H., author","edition_display":["Seventh edition."],"other_id_display":["(OCoLC)1018065884","10246404"],"acquired_dt":"2018-05-31T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Fine
+        Arts Library Reserve\":\"HB172 .F72 2019\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10687314\",\"modified_date\":\"20180605084450\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"vet\",\"number\":133,\"name\":\"Veterinary
+        Library (Schurman Hall)\",\"library\":\"Veterinary Library\"}]}"],"online":["At
+        the Library"],"id":"10384027","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Hoboken,
+        NJ : Wiley-Blackwell, 2019."],"title_display":"Locking plates and implants
+        in veterinary orthopedics","fulltitle_display":"Locking plates and implants
+        in veterinary orthopedics","other_id_display":["(OCoLC)1037287549","10384027"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Veterinary
+        Library (Schurman Hall)\":\"1 Copy Ordered as of 2018-06-05\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10081628\",\"modified_date\":\"20170112145302\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Resource\",\"library\":null}]}"],"id":"9759048","format":["Book"],"online":["Online"],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["[S.l.]
+        : Oxford University Press, 2019."],"title_display":"Oxford Handbook of Greek
+        and Roman Slaveries","fulltitle_display":"Oxford Handbook of Greek and Roman
+        Slaveries","other_id_display":["(WaSeSS)OCM1ssib025848927","9759048","(OCoLC)968421010"],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"3Y6\",\"description\":\"Full
+        text available from Oxford Handbooks Online Connect to text.\",\"ssid\":\"ssib025848927\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199575251.001.0001/oxfordhb-9780199575251|Full
+        text available from Oxford Handbooks Online Connect to text."],"acquired_dt":"2017-01-12T00:00:00Z","availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10667497\",\"modified_date\":\"20180511142449\",\"copy_number\":null,\"callnos\":[\"Available
+        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
+        Technical Services Review Shelves\",\"library\":null}]}"],"id":"10363315","format":["Book"],"language_display":["English."],"pub_date_display":["[2018]"],"pub_date_facet":2019,"pub_info_display":["Upper
+        Saddle River, New Jersey : Pearson, [2018]"],"fulltitle_display":"Families,
+        schools, and communities : building partnerships for educating children","title_display":"Families,
+        schools, and communities","author_display":"Scully, Patricia A., 1949- author","subtitle_display":"building
+        partnerships for educating children","edition_display":["Seventh edition."],"other_id_display":["(CaONFJC)cou38492321","(DLC)cou38492321","10363315","(OCoLC)1019834772"],"acquired_dt":"2018-05-11T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Library
+        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10659102\",\"modified_date\":\"20180425085643\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
         Library\",\"library\":\"Olin Library\"}]}"],"online":["At the Library"],"id":"10354483","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["New
         York : Routledge, 2019."],"fulltitle_display":"Engaging anthropological theory
         : a social and political history","title_display":"Engaging anthropological
@@ -1291,37 +1290,32 @@ http_interactions:
         at Naxos Music Library Connect to full text. Access limited to authorized
         subscribers.\",\"url\":\"http://proxy.library.cornell.edu/login?url=http://univportal.naxosmusiclibrary.com/catalogue/item.asp?cid=PHIL06005\"}"],"url_access_display":["http://proxy.library.cornell.edu/login?url=http://univportal.naxosmusiclibrary.com/catalogue/item.asp?cid=PHIL06005|Available
         at Naxos Music Library Connect to full text. Access limited to authorized
-        subscribers."],"availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10667497\",\"modified_date\":\"20180511142449\",\"copy_number\":null,\"callnos\":[\"Available
-        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
-        Technical Services Review Shelves\",\"library\":null}]}"],"id":"10363315","format":["Book"],"language_display":["English."],"pub_date_display":["[2018]"],"pub_date_facet":2019,"pub_info_display":["Upper
-        Saddle River, New Jersey : Pearson, [2018]"],"fulltitle_display":"Families,
-        schools, and communities : building partnerships for educating children","title_display":"Families,
-        schools, and communities","author_display":"Scully, Patricia A., 1949- author","subtitle_display":"building
-        partnerships for educating children","edition_display":["Seventh edition."],"other_id_display":["(CaONFJC)cou38492321","(DLC)cou38492321","10363315","(OCoLC)1019834772"],"acquired_dt":"2018-05-11T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Library
-        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10398157\",\"modified_date\":\"20180118145921\",\"copy_number\":null,\"callnos\":[\"QP44
-        .W74 2019\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"vet\",\"number\":133,\"name\":\"Veterinary
-        Library (Schurman Hall)\",\"library\":\"Veterinary Library\"}]}"],"online":["At
-        the Library"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10437367\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10398157\",\"recalls_placed\":\"0\",\"create_date\":\"2018-01-18
-        14:59:58.0\",\"item_barcode\":\"31924125275325\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"vet\",\"number\":133,\"name\":\"Veterinary
-        Library (Schurman Hall)\",\"library\":\"Veterinary Library\"}}"],"id":"10086886","format":["Book"],"language_display":["English."],"pub_date_display":["[2019]"],"pub_date_facet":2019,"pub_info_display":["New
-        York, NY : MHE, [2019]"],"fulltitle_display":"Laboratory manual for human
-        anatomy & physiology : cat version","title_display":"Laboratory manual for
-        human anatomy & physiology","author_display":"Martin, Terry R., author","subtitle_display":"cat
-        version","edition_display":["Fourth edition."],"other_id_display":["(OCoLC)1001411720","10086886"],"acquired_dt":"2018-01-18T00:00:00Z","availability_json":"{\"available\":true,\"availAt\":{\"Veterinary
-        Library (Schurman Hall)\":\"QP44 .W74 2019\"}}","score":1.50515}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",6943981,"Journal/Periodical",402891,"Microform",355630,"Musical
-        Recording",222764,"Thesis",200637,"Video",117727,"Musical Score",97604,"Map
-        or Globe",64695,"Manuscript/Archive",16357,"Non-musical Recording",10212],"online":["At
-        the Library",5879625,"Online",2125770],"language_facet":["English",4908428,"German",544446,"French",338862,"Spanish",290072,"Chinese",267853,"Russian",183998,"Italian",151812,"Indonesian",138547,"Japanese",103508,"Vietnamese",76072],"location_facet":["Library
-        Annex",2405608,"Olin Library",1690574,"Kroch Library Asia",614575,"Kroch Library
-        Rare & Manuscripts",508431,"Music Library",200770,"Law Library",199548,"Mann
-        Library",165237,"Uris Library",150438,"ILR Library",110680,"Mathematics Library",52719]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}},"spellcheck":{"suggestions":[],"correctlySpelled":true}}
+        subscribers."],"availability_json":"{\"online\":true}","score":1.50515},{"holdings_record_display":["{\"id\":\"10682428\",\"modified_date\":\"20180522144911\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"fine\",\"number\":31,\"name\":\"Fine
+        Arts Library (B56 Sibley Hall)\",\"library\":\"Fine Arts Library\"}]}"],"online":["At
+        the Library"],"id":"10378707","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Minneapolis
+        : University of Minnesota Press, 2019."],"fulltitle_display":"Graphic assembly
+        : montage, media, and experimental architecture in the 1960s''","title_display":"Graphic
+        assembly","author_display":"Buckley, Craig, author","subtitle_display":"montage,
+        media, and experimental architecture in the 1960s''","other_id_display":["(OCoLC)1035777339","10378707"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Fine
+        Arts Library (B56 Sibley Hall)\":\"1 Copy Ordered as of 2018-05-23\"}}","score":1.50515},{"holdings_record_display":["{\"id\":\"10687053\",\"modified_date\":\"20180604092359\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"online":["At the Library"],"id":"10383719","format":["Book"],"language_display":["English."],"pub_date_display":["2019"],"pub_date_facet":2019,"pub_info_display":["Aberdeen
+        : Vulpine Press, 2019."],"fulltitle_display":"The rare or unread stories of
+        Grant Allen (1849-1899)","title_display":"The rare or unread stories of Grant
+        Allen (1849-1899)","author_display":"Allen, Grant, 1848-1899, author","other_id_display":["(CaONFJC)66935804","10383719"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Olin
+        Library\":\"1 Copy Ordered as of 2018-06-04\"}}","score":1.50515}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",6925801,"Journal/Periodical",387994,"Microform",355654,"Musical
+        Recording",222989,"Thesis",200812,"Video",100008,"Musical Score",97646,"Map
+        or Globe",64722,"Manuscript/Archive",16404,"Non-musical Recording",10217],"online":["At
+        the Library",5885548,"Online",2069373],"language_facet":["English",4877484,"German",543067,"French",338362,"Spanish",290106,"Chinese",268154,"Russian",184022,"Italian",151949,"Indonesian",138864,"Japanese",103633,"Vietnamese",76361],"location_facet":["Library
+        Annex",2408095,"Olin Library",1692169,"Kroch Library Asia",616560,"Kroch Library
+        Rare & Manuscripts",508797,"Music Library",201017,"Law Library",199678,"Mann
+        Library",165358,"Uris Library",149485,"ILR Library",110710,"Mathematics Library",52733]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}},"spellcheck":{"suggestions":[],"correctlySpelled":true}}
 
 '
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:07:49 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:20 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1331,24 +1325,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Mon, 21 May 2018 20:07:50 GMT
+      - Fri, 22 Jun 2018 06:23:20 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:07:50 GMT
+      - Fri, 22 Jun 2018 06:23:20 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:07:48 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"YmFmN2EwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '21076'
       Via:
-      - 1.1 da-prod-solr9.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1360,7 +1354,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":108,
+            "QTime":156,
             "params":{
               "q":"\"Anthropology\"",
               "indent":"true",
@@ -1634,10 +1628,10 @@ http_interactions:
                   "Theater, Film and Television"]}]
           }}
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:07:50 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:20 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1647,24 +1641,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Mon, 21 May 2018 20:07:50 GMT
+      - Fri, 22 Jun 2018 06:23:20 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:07:50 GMT
+      - Fri, 22 Jun 2018 06:23:20 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:07:46 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"NWU4N2EwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '3816'
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1676,7 +1670,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":39,
+            "QTime":16,
             "params":{
               "q":"\"Anthropology (Core)\"",
               "indent":"true",
@@ -1717,10 +1711,10 @@ http_interactions:
                   "Sociology and Rural Development (Core)"]}]
           }}
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:07:50 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:20 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/database?id=5366869&indent=true&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/database?id=5366869&indent=true&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1730,24 +1724,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Mon, 21 May 2018 20:07:50 GMT
+      - Fri, 22 Jun 2018 06:23:21 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:07:50 GMT
+      - Fri, 22 Jun 2018 06:23:21 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:07:46 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"NWU4N2EwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '1267'
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1759,12 +1753,12 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":76,
+            "QTime":9,
             "params":{
               "indent":"true",
               "id":"5366869",
               "wt":"json"}},
-          "response":{"numFound":1,"start":0,"maxScore":13.765559,"docs":[
+          "response":{"numFound":1,"start":0,"maxScore":13.9637785,"docs":[
               {
                 "id":"5366869",
                 "title_display":"AnthroSource",
@@ -1781,10 +1775,10 @@ http_interactions:
                   "Anthropology (Core)"]}]
           }}
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:07:50 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:21 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databases?defType=dismax&indent=true&q=MLA&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databases?defType=dismax&indent=true&q=MLA&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1794,24 +1788,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Mon, 21 May 2018 20:08:01 GMT
+      - Fri, 22 Jun 2018 06:23:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:08:01 GMT
+      - Fri, 22 Jun 2018 06:23:32 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:07:59 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"Y2VmN2EwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '3085'
       Via:
-      - 1.1 da-prod-solr9.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1823,13 +1817,13 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":250,
+            "QTime":396,
             "params":{
               "q":"MLA",
               "defType":"dismax",
               "indent":"true",
               "wt":"json"}},
-          "response":{"numFound":3,"start":0,"maxScore":624519.5,"docs":[
+          "response":{"numFound":3,"start":0,"maxScore":623508.9,"docs":[
               {
                 "id":"2477233",
                 "title_display":"MLA international bibliography",
@@ -1860,10 +1854,10 @@ http_interactions:
                   "Newspapers, Magazines and Current Events"]}]
           }}
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:08:01 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:32 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Images%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -1873,22 +1867,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Mon, 21 May 2018 20:08:05 GMT
+      - Fri, 22 Jun 2018 06:23:36 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:08:05 GMT
+      - Fri, 22 Jun 2018 06:23:36 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:08:02 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"ODk4N2EwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1902,7 +1896,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":179,
+            "QTime":44,
             "params":{
               "q":"\"Images\"",
               "indent":"true",
@@ -2142,6 +2136,8 @@ http_interactions:
                 "summary_display":["\"Images of the American Civil War: Photographs, Posters, and Ephemera presents the dramatic imagery of nineteenth-century Americana as experienced from the social, military, and political perspectives. At completion, the collection will present 75,000 images drawn from archives around the country, documenting the camp and battle experiences of Union and Confederate soldiers of all ranks, time spent in hospitals and in prisons, civilian life in cities and towns close to and far from the front lines of war, and the demeanor of the politicians whose decisions could bring the nation together or tear it apart. Many of the images in the collection were captured by famous and lesser-known innovators working with the burgeoning medium of nineteenth-century photography. Additionally, graphical content such as envelopes, song sheets, recruiting posters, imprints, and cartoons give users the ability to research how wartime America illustrated their times visually.\"--About the database."],
                 "url_access_json":["{\"providercode\":\"PRVAAS\",\"dbcode\":\"NKO\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/9754438\"}"],
                 "url_access_display":["http://resolver.library.cornell.edu/misc/9754438|Connect to full text."],
+                "providercode":["PRVAAS"],
+                "dbcode":["NKO"],
                 "sixfivethree":["General Interest and Reference",
                   "Images",
                   "Arts and Humanities",
@@ -2305,10 +2301,10 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:08:05 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:36 GMT
 - request:
     method: get
-    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b9/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
@@ -2318,18 +2314,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Mon, 21 May 2018 20:08:05 GMT
+      - Fri, 22 Jun 2018 06:23:36 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Mon, 21 May 2018 20:08:05 GMT
+      - Fri, 22 Jun 2018 06:23:36 GMT
       Last-Modified:
-      - Mon, 21 May 2018 20:08:03 GMT
+      - Fri, 22 Jun 2018 03:00:34 GMT
       Etag:
-      - '"ZmVhNWEwMDAwMDAwMDAwMFNvbHI="'
+      - '"N2U1NmIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -2389,5 +2385,5 @@ http_interactions:
                   "Art and Architecture"]}]
           }}
     http_version: 
-  recorded_at: Mon, 21 May 2018 20:08:05 GMT
+  recorded_at: Fri, 22 Jun 2018 06:23:36 GMT
 recorded_with: VCR 4.0.0
