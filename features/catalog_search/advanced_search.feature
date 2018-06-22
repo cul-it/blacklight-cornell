@@ -136,8 +136,6 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 1'
 
- #@adv_search
- #@all_search
  #@javascript
  # Scenario: Perform an advanced search by title with colon, as title with colon see results
  #   Given PENDING
