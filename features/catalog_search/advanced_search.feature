@@ -136,6 +136,7 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 1'
 
+ #
  #@javascript
  # Scenario: Perform an advanced search by title with colon, colon should be ignored.
  #   When I literally go to advanced
