@@ -215,10 +215,11 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   OneLogin::RubySaml::Attributes.single_value_compatibility = false 
   config.omniauth :saml,
-    idp_cert_fingerprint: ENV['SAML_IDP_CERT_FINGERPRINT'],
-    idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
-    issuer: ENV['SAML_SP_ISSUER'],
-    assertion_consumer_service_url: ENV['SAML_SP_CALLBACK'],
+    :idp_cert_fingerprint: ENV['SAML_IDP_CERT_FINGERPRINT'],
+    :idp_cert: ENV['SAML_IDP_CERT'],
+    :idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
+    :issuer: ENV['SAML_SP_ISSUER'],
+    :assertion_consumer_service_url: ENV['SAML_SP_CALLBACK'],
     single_value_compatibility: false,
     attribute_statements: {
       netid: ['urn:oid:0.9.2342.19200300.100.1.1'],
