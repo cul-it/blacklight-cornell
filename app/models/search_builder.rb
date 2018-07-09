@@ -329,7 +329,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           else
             hasNonBlankcount = hasNonBlankcount + 1
             if i <= my_params[:q_row].count - 1 #and  hasNonBlankcount > 1
-                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                if !my_params[:boolean_row].nil? and !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end
