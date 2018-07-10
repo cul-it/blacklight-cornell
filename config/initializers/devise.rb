@@ -216,7 +216,7 @@ Devise.setup do |config|
   OneLogin::RubySaml::Attributes.single_value_compatibility = false 
   config.omniauth :saml,
     #idp_cert_fingerprint: ENV['SAML_IDP_CERT_FINGERPRINT'],
-    idp_cert: ENV['SAML_IDP_CERT'],
+    certificate: ENV['SAML_IDP_CERT'],
     private_key: ENV['SAML_IDP_PRIVATE_KEY'],
     idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
     issuer: ENV['SAML_SP_ISSUER'],
