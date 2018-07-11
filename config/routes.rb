@@ -36,7 +36,6 @@ end
 
  devise_for :users, controllers: {
   omniauth_callbacks: 'users/omniauth_callbacks',
-  path_names: {sign_in: "auth/saml", sign_out: "logout"}
   sessions: 'users/sessions'
 }
 
