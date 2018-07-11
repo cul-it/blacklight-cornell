@@ -225,7 +225,7 @@ Devise.setup do |config|
       :logout_requests_signed => true,     # Enable or not signature on Logout Request
       :logout_responses_signed => true,     # Enable or not signature on Logout Response
       :want_assertions_signed => true,     # Enable or not the requirement of signed assertion
-      :want_messages_signed => true,     # hail mary
+      :want_assertions_encrypted => true,     # hail mary
       :metadata_signed => true,     # Enable or not signature on Metadata
       :digest_method => XMLSecurity::Document::SHA1,
       :signature_method => XMLSecurity::Document::RSA_SHA1,
