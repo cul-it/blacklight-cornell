@@ -216,8 +216,21 @@ Devise.setup do |config|
   OneLogin::RubySaml::Attributes.single_value_compatibility = false 
   config.omniauth :saml,
     idp_cert_fingerprint: ENV['SAML_IDP_CERT_FINGERPRINT'],
-    #certificate: ENV['SAML_IDP_CERT'],
-    #private_key: ENV['SAML_IDP_PRIVATE_KEY'],
+    
+    # https://github.com/onelogin/ruby-saml#signing
+    certificate: ENV['SAML_IDP_CERT'],
+    private_key: ENV['SAML_IDP_PRIVATE_KEY'],
+    security[:authn_requests_signed]   = true     # Enable or not signature on AuthNRequest
+    security[:logout_requests_signed]  = true     # Enable or not signature on Logout Request
+    security[:logout_responses_signed] = true     # Enable or not signature on Logout Response
+    security[:want_assertions_signed]  = true     # Enable or not the requirement of signed assertion
+    security[:metadata_signed]         = true     # Enable or not signature on Metadata
+    security[:digest_method]    = XMLSecurity::Document::SHA1
+    security[:signature_method] = XMLSecurity::Document::RSA_SHA1
+    # Embeded signature or HTTP GET parameter signature
+    # Note that metadata signature is always embedded regardless of this value.
+    security[:embed_sign] = false
+
     idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
     issuer: ENV['SAML_SP_ISSUER'],
     assertion_consumer_service_url: ENV['SAML_SP_CALLBACK'],
