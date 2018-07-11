@@ -231,7 +231,7 @@ Devise.setup do |config|
       # Embeded signature or HTTP GET parameter signature
       # Note that metadata signature is always embedded regardless of this value.
       :embed_sign => false,
-    }
+    },
    
     idp_sso_target_url: ENV['SAML_IDP_TARGET_URL'],
     issuer: ENV['SAML_SP_ISSUER'],
