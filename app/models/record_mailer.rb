@@ -13,7 +13,6 @@ class RecordMailer < ActionMailer::Base
     @callnumber     = details[:callnumber]
     @status         = details[:status]
 
-    Rails.logger = Logger.new(STDOUT)
     Rails.logger.level = 0
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: email_record"
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Details: " + details.inspect
