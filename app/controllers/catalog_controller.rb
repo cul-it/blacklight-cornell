@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
 
-  include BlacklightRangeLimit::ControllerOverride
+#  include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
   include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
@@ -1142,6 +1142,9 @@ def tou
          end
        end
      end
-
+  
+  def range_limit
+    redirect_to "/"
+  end
 
 end
