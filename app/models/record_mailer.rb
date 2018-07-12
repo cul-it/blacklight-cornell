@@ -16,6 +16,7 @@ class RecordMailer < ActionMailer::Base
     Rails.logger.level = 0
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: email_record"
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Details: " + details.inspect
+    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Params: " + params.inspect
 
     if @callnumber.nil?
       @callnumber = params["callnumber"]
@@ -38,6 +39,8 @@ class RecordMailer < ActionMailer::Base
         @callnumber << @second
       end
     end
+    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Callnumber: " + @callnumber.inspect
+
     @statusFirst = @status.split('|| ')
     @status = []
     @statusFirst.each do |stats|
