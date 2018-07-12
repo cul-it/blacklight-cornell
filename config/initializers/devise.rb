@@ -224,7 +224,7 @@ Devise.setup do |config|
       :authn_requests_signed   => false,     # Enable or not signature on AuthNRequest
       :logout_requests_signed => true,     # Enable or not signature on Logout Request
       :logout_responses_signed => true,     # Enable or not signature on Logout Response
-      :want_assertions_signed => true,     # Enable or not the requirement of signed assertion
+      :want_assertions_signed => false,     # Enable or not the requirement of signed assertion
       :want_assertions_encrypted => true,     # adds <md:KeyDescriptor use="encryption">
       :metadata_signed => false,     # Enable or not signature on Metadata
       :digest_method => XMLSecurity::Document::SHA1,
