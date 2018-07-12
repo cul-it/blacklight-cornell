@@ -44,12 +44,6 @@
   <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %> 
-      <% if current_user %>
-        <%= "current_user" %>
-      <% end %>
-      <% if Bookbag.enabled? %>
-        <%= "Bookbag.enabled" %>
-      <% end %>
       <% if current_user && Bookbag.enabled? %>
         <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
           <%= emaillink_content.html_safe %>
