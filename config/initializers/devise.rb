@@ -221,8 +221,8 @@ Devise.setup do |config|
     certificate: ENV['SAML_IDP_CERT'],
     private_key: ENV['SAML_IDP_PRIVATE_KEY'],
     security: {
-      :authn_requests_signed   => true,     # Enable or not signature on AuthNRequest
-      :logout_requests_signed => false,     # Enable or not signature on Logout Request
+      :authn_requests_signed   => false,     # Enable or not signature on AuthNRequest
+      :logout_requests_signed => true,     # Enable or not signature on Logout Request
       :logout_responses_signed => false,     # Enable or not signature on Logout Response
       :want_assertions_signed => false,     # Enable or not the requirement of signed assertion
       :want_assertions_encrypted => true,     # adds <md:KeyDescriptor use="encryption">
