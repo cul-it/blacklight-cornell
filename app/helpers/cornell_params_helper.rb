@@ -344,7 +344,7 @@ def getOldTempLocations(doc)
   require 'json'
   require 'pp'
   @itemLocationArray = []
-  thisHash = JSON.parse(doc[:holdings_json])
+  thisHash = doc[:holdings_json].present? ? JSON.parse(doc[:holdings_json]) : {}
   Rails.logger.info("SticksAndStones = #{thisHash.inspect}")
   hrdHash = JSON.parse(doc[:holdings_record_display][0])
   Rails.logger.info("StickAndShorty = #{hrdHash["locations"][0]["name"].inspect}")
