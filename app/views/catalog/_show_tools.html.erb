@@ -50,8 +50,9 @@
             <%= emaillink_content.html_safe %>
           <% end %>
         <% else %>
-          <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
-          <%= emaillink_content.html_safe %>
+          <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
+            <%= emaillink_content.html_safe %>
+          <% end %>
         <% end %>
       <% else %>
         <% emaillink_content = '<i class="fa fa-envelope fa-disabled" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
