@@ -1081,8 +1081,12 @@ end
       label = title
     end
 
-    if vern.present?
+    if vern.present? && !title.nil?
       label = vern + ' / ' + label
+    else
+      if vern.present?
+        label = vern
+      end
     end
 
     label ||= doc['id']
