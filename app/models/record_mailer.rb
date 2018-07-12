@@ -12,6 +12,11 @@ class RecordMailer < ActionMailer::Base
     @message        = details[:message]
     @callnumber     = details[:callnumber]
     @status         = details[:status]
+
+    Rails.logger.level = 0
+    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: "in email_record"
+    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: @status.to_yaml
+
     if @callnumber.nil?
       @callnumber = params["callnumber"]
     end
