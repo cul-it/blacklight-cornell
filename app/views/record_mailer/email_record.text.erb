@@ -12,25 +12,8 @@
         <%= t('blacklight.email.text.callnumber', :callnumber => avail['callnumber']) %>
         <%= t('blacklight.email.text.location', :location => avail['location']) %>
         <%= t('blacklight.email.text.status', :status => avail['status']) %> 
+        <%= %>
     <% end %>
-<% end %>
-<% j = 0 %>
-<% k = 0 %>
-<% cnsize = @documents.size %>
-<% @callnumber[i].each do |callno|%>
-
-<%= t('blacklight.email.text.callnumber', :callnumber => callno) %>
-<% if !@location[i].nil? && !@location[i][j].nil %>
-    <%= t('blacklight.email.text.location', :location => @location[i][j]) %>
-<% end %>
-<% if !@status[j].nil? %>
-    <%= t('blacklight.email.text.status', :status => @status[cnsize - (j + 1)]) %> 
-                 
-<% end %>
-<% if !@templocation.blank? and @templocation.length > 0 and !@templocation[i].blank? and !@templocation[i][j].blank? %>
-<%= t('blacklight.email.text.templocation', :templocation => @templocation[i][j]) %>
-<% end %>
-<% j = j + 1 %>
 <% end %>
 <% i = i + 1 %>
 <% @host = {:host => "http://newcatalog.library.cornell.edu"} %>
