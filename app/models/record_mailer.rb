@@ -24,7 +24,25 @@ class RecordMailer < ActionMailer::Base
     @documents.each do |doc|
       if doc['availability_json'].present?
         availability = JSON.parse(doc['availability_json'])
-        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: availability: " + availability.inspect
+        #availability: {"available"=>true, "availAt"=>{"ILR Multi-Copy Storage"=>"QA276.12 .M648 2013"}, "unavailAt"=>{"ILR Library (Ives Hall)"=>"QA276.12 .M648 2013"}}
+        if availability['availAt'].present?
+          availability['availAt'].each do |key, val|
+            avail['location'] = key 
+            avail['callnumber'] = val
+            avail['status'] = 'available'
+            @availability << avail
+          end
+        end
+        if availability['unavailAt'].present?
+          availability['unavailAt'].each do |key, val|
+            avail['location'] = key 
+            avail['callnumber'] = val
+            avail['status'] = 'not available'
+            @availability << avail
+          end
+        end
+
+        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: @availability: " + @availability.inspect
       else
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
