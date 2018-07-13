@@ -20,14 +20,16 @@ class RecordMailer < ActionMailer::Base
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Params: " + params.inspect
     #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: documents: " + @documents.inspect
     #puts caller(0..10)
-    Rails.logger.level = saveLevel
 
-    @documents do |doc|
+    @documents.each do |doc|
       if doc['availability_json'].present?
         availability = JSON.parse(item.custom_data['availability_json'])
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: availability: " + availability
+      else
+        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
     end
+    Rails.logger.level = saveLevel
 
     if @callnumber.nil?
       @callnumber = params["callnumber"]
