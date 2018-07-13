@@ -9,10 +9,10 @@
 <%= document.to_email_text %>
 <% if !@availability[i].nil? %>
     <% @availability[i].each do |avail| %>
+        <%= %>
         <%= t('blacklight.email.text.callnumber', :callnumber => avail['callnumber']) %>
         <%= t('blacklight.email.text.location', :location => avail['location']) %>
         <%= t('blacklight.email.text.status', :status => avail['status']) %> 
-        <%= %>
     <% end %>
 <% end %>
 <% i = i + 1 %>
