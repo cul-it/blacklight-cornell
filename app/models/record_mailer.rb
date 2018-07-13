@@ -10,9 +10,6 @@ class RecordMailer < ActionMailer::Base
 
     @documents      = documents
     @message        = details[:message]
-    @callnumber     = details[:callnumber]
-    @status         = details[:status]
-
 
     @availability = []
     @documents.each do |doc|
@@ -42,49 +39,6 @@ class RecordMailer < ActionMailer::Base
       @availability << doc_availability
     end
 
-
-    if @callnumber.nil?
-      @callnumber = params["callnumber"]
-    end
-    if @status.nil?
-      @status = params["status"]
-    end
-    if details[:location].nil?
-      details[:location] = params["location"]
-    end
-    if details[:templocation].nil?
-      details[:templocation] = params["templocation"]
-    end
-
-    @callNumFirst = @callnumber.present? ? @callnumber.split('|| ') : nil
-    @callnumber = []
-    if @callNumFirst != nil
-      @callNumFirst.each do |calls|
-        @second = calls.split('| ')
-        @callnumber << @second
-      end
-    end
-
-    @statusFirst = @status.split('|| ')
-    @status = []
-    @statusFirst.each do |stats|
-     @second = stats.split('| ')
-     @status << @second
-    end
-    @location       = details[:location]
-    @locationFirst = @location.split('|| ')
-    @location = []
-    @locationFirst.each do |locs|
-      @second = locs.split('| ')
-      @location << @second
-    end
-    @templocation = details[:templocation]
-    @tempLocationFirst = @templocation.split('|| ')
-    @templocation = []
-    @tempLocationFirst.each do |locs|
-      @second = locs.split('| ')
-      @templocation << @second
-    end
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
 
