@@ -21,7 +21,6 @@ class BookBagsController < CatalogController
   append_before_filter :set_bag_name
   
   def set_bag_name
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: set_bag_name bookbags controller"
     @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
     user_session[:bookbag_count] = @bb.count

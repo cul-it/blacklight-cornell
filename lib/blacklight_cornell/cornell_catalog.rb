@@ -896,7 +896,6 @@ def check_params(params)
 
 
   def set_bag_name
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: set_bag_name cornell catalog controller"
      user_session[:bookbag_count] = nil unless user_session.nil?
      if current_user && Bookbag.enabled?
        @id = current_user.email
