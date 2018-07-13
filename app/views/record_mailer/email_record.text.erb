@@ -17,7 +17,8 @@
 <% end %>
 <% i = i + 1 %>
 <% @host = {:host => "http://newcatalog.library.cornell.edu"} %>
-<%= t('blacklight.email.text.url', :url =>polymorphic_path(document, {:only_path => false}.merge(@host))) %>
+<%= %>
+<%= t('blacklight.email.text.url', :url =>polymorphic_url(document, {:only_path => false}.merge(@host))) %>
 ---
 <% end %>
 
