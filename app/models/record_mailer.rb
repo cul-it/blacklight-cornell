@@ -23,7 +23,8 @@ class RecordMailer < ActionMailer::Base
 
     @documents.each do |doc|
       if doc['availability_json'].present?
-        availability = JSON.parse(doc)['availability_json']
+        json = doc['availability_json']
+        availability = JSON.parse(json)
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: availability: " + availability
       else
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
