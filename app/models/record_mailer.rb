@@ -13,12 +13,14 @@ class RecordMailer < ActionMailer::Base
     @callnumber     = details[:callnumber]
     @status         = details[:status]
 
+    saveLevel = Rails.logger.level
     Rails.logger.level = 0
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: email_record"
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Details: " + details.inspect
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Params: " + params.inspect
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: documents: " + @documents.inspect
     #puts caller(0..10)
+    Rails.logger.level = saveLevel
 
     if @callnumber.nil?
       @callnumber = params["callnumber"]
