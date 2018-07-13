@@ -17,7 +17,7 @@
     <%= t('blacklight.email.text.location', :location => @location[i][j]) %>
 <% end %>
 <% if !@status[j].nil? %>
-<%= t('blacklight.email.text.status', :status => @status[cnsize - (j + 1)]) %> 
+    <%= t('blacklight.email.text.status', :status => @status[cnsize - (j + 1)]) %> 
                  
 <% end %>
 <% if !@templocation.blank? and @templocation.length > 0 and !@templocation[i].blank? and !@templocation[i][j].blank? %>
