@@ -28,7 +28,7 @@ class RecordMailer < ActionMailer::Base
         if availability['availAt'].present?
           availability['availAt'].each do |key, val|
             avail = {'location' => key,
-              'callnumber'] => val,
+              'callnumber' => val,
               'status' => 'available'}
             @availability << avail
           end
@@ -36,7 +36,7 @@ class RecordMailer < ActionMailer::Base
         if availability['unavailAt'].present?
           availability['unavailAt'].each do |key, val|
             avail = {'location' => key,
-              'callnumber'] => val,
+              'callnumber' => val,
               'status' => 'not available'}
             @availability << avail
           end
