@@ -21,7 +21,9 @@ class RecordMailer < ActionMailer::Base
     #Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: documents: " + @documents.inspect
     #puts caller(0..10)
 
+    @availability = []
     @documents.each do |doc|
+      doc_availability = []
       if doc['availability_json'].present?
         availability = JSON.parse(doc['availability_json'])
         #availability: {"available"=>true, "availAt"=>{"ILR Multi-Copy Storage"=>"QA276.12 .M648 2013"}, "unavailAt"=>{"ILR Library (Ives Hall)"=>"QA276.12 .M648 2013"}}
@@ -30,7 +32,7 @@ class RecordMailer < ActionMailer::Base
             avail = {'location' => key,
               'callnumber' => val,
               'status' => 'available'}
-            @availability << avail
+            doc_availability << avail
           end
         end
         if availability['unavailAt'].present?
@@ -38,15 +40,16 @@ class RecordMailer < ActionMailer::Base
             avail = {'location' => key,
               'callnumber' => val,
               'status' => 'not available'}
-            @availability << avail
+            doc_availability << avail
           end
         end
-
-        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: @availability: " + @availability.inspect
       else
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
+      @availability << doc_availability
     end
+
+    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: @availability: " + @availability.inspect
     Rails.logger.level = saveLevel
 
     if @callnumber.nil?
