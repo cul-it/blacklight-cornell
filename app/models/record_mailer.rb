@@ -40,9 +40,6 @@ class RecordMailer < ActionMailer::Base
         @callnumber << @second
       end
     end
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Callnumber: " + @callnumber.inspect
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Callnumber: " + @callnumber[0].inspect
-    Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Callnumber: " + @callnumber[1].inspect
 
     @statusFirst = @status.split('|| ')
     @status = []

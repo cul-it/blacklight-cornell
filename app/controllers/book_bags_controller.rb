@@ -153,9 +153,6 @@ class BookBagsController < CatalogController
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     if request.post?
-      Rails.logger.level = 0
-      Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request: " + request.inspect)
-      Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  params: " + params.inspect)
       url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
         all_docs.each_slice(20) do |docs|
