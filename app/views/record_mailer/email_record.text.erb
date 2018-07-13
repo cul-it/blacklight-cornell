@@ -13,7 +13,9 @@
 <% @callnumber[i].each do |callno|%>
 
 <%= t('blacklight.email.text.callnumber', :callnumber => callno) %>
-<%= t('blacklight.email.text.location', :location => @location[i][j]) %>
+<% if !@location[i][j].nil? %>
+    <%= t('blacklight.email.text.location', :location => @location[i][j]) %>
+<% end %>
 <% if !@status[j].nil? %>
 <%= t('blacklight.email.text.status', :status => @status[cnsize - (j + 1)]) %> 
                  
