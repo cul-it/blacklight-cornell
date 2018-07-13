@@ -27,17 +27,17 @@ class RecordMailer < ActionMailer::Base
         #availability: {"available"=>true, "availAt"=>{"ILR Multi-Copy Storage"=>"QA276.12 .M648 2013"}, "unavailAt"=>{"ILR Library (Ives Hall)"=>"QA276.12 .M648 2013"}}
         if availability['availAt'].present?
           availability['availAt'].each do |key, val|
-            avail['location'] = key 
-            avail['callnumber'] = val
-            avail['status'] = 'available'
+            avail = {'location' => key,
+              'callnumber'] => val,
+              'status' => 'available'}
             @availability << avail
           end
         end
         if availability['unavailAt'].present?
           availability['unavailAt'].each do |key, val|
-            avail['location'] = key 
-            avail['callnumber'] = val
-            avail['status'] = 'not available'
+            avail = {'location' => key,
+              'callnumber'] => val,
+              'status' => 'not available'}
             @availability << avail
           end
         end
