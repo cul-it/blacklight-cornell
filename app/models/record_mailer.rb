@@ -17,7 +17,7 @@ class RecordMailer < ActionMailer::Base
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: email_record"
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Details: " + details.inspect
     Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: Params: " + params.inspect
-    puts caller(0..5)
+    puts caller(0..10)
 
     if @callnumber.nil?
       @callnumber = params["callnumber"]
