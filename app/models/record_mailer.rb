@@ -38,8 +38,9 @@ class RecordMailer < ActionMailer::Base
       else
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
-      @holdings = holdings_as_text(doc)
-      puts @holdings.inspect
+      holdings = {'holdings' => holdings_as_text(doc)}
+      doc_availability << holdings
+      puts doc_availability.inspect
       @availability << doc_availability
     end
 
