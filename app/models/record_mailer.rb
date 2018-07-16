@@ -2,7 +2,7 @@
 
 # Only works for documents with a #to_marc right now.
 class RecordMailer < ActionMailer::Base
-  include CornellHoldingsHelper
+  # include CornellHoldingsHelper
   default :from => "culsearch@cornell.edu"
   def email_record(documents, details, url_gen_params, params)
     #raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
@@ -38,9 +38,9 @@ class RecordMailer < ActionMailer::Base
       else
         Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
-      holdings = {'holdings' => holdings_as_text(doc)}
-      doc_availability << holdings
-      puts doc_availability.inspect
+      # holdings = {'holdings' => holdings_as_text(doc)}
+      # doc_availability << holdings
+      # puts doc_availability.inspect
       @availability << doc_availability
     end
 
