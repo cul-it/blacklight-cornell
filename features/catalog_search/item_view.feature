@@ -251,7 +251,7 @@ Feature: Item view
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728
-    Then I should see the labels 'Unavailable 10/07/13'
+    Then I should see the labels 'Lost--System Applied 10/07/13'
 
   # Availability for a Missing item Municipal innovations
   @all_item_view
@@ -297,14 +297,14 @@ Feature: Item view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 14)
     Given I request the item view for 5318858
-    Then I should see the label 'v.2 Unavailable 08/26/14'
+    Then I should see the label 'v.2 Lost--System Applied 08/26/14'
 
   # Availability for a lost item status 13
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 13)
     Given I request the item view for 259600
-    Then I should see the label 'Unavailable 06/16/13'
+    Then I should see the label 'Lost--Library Applied 06/16/13'
 
   # Make sure subfield z is displayed.
   @all_item_view
