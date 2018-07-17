@@ -127,7 +127,7 @@ en:
 
     email:
       form:
-        title: 'Email this'
+        title: 'Email this %{value}***'
         to: 'Email:'
         message: 'Message:'
         callnumber: 'Call number:'
