@@ -30,7 +30,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
       elsif (params['id'].present? && op.include?('email'))
-        "/catalog/#{params[:id]}"
+        "/catalog/afemail/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
          refp
       else
