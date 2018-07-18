@@ -134,10 +134,13 @@ class BookBagsController < CatalogController
   end
 
   def clear_selected
-    @bms =@bb.index
-    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
-    puts all_docs.inspect
+    @bms = @bb.index
+    puts 'bms'
     puts @bms.inspect
+    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
+    puts 'all_docs'
+    puts all_docs.inspect
+    puts 'bb'
     puts @bb.inspect
   end
 
