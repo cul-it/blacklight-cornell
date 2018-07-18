@@ -137,6 +137,8 @@ class BookBagsController < CatalogController
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     puts all_docs.inspect
+    puts @bms.inspect
+    puts @bb.inspect
   end
 
   def action_documents
