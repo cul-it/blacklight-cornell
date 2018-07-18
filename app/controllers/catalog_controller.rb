@@ -440,6 +440,15 @@ end
       }
     end
 
+
+config.add_search_field('title_starts',:label => "Title Begins With", :include_in_advanced_search => false) do |field|
+  field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
+  field.solr_local_parameters = {
+    :qf => '$title_starts_qf',
+    :pf => '$title_starts_pf'
+  }
+end
+    
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
     config.add_search_field('author/creator',:label => "Author") do |field|
@@ -562,15 +571,6 @@ end
          :qf => '$all_fields_starts',
          :pf => '$all_fields_starts'
       }
-    end
-
-     config.add_search_field('title_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
-       field.solr_local_parameters = {
-         :qf => '$title_starts_qf',
-         :pf => '$title_starts_pf'
-       }
     end
 
     config.add_search_field('journal title_starts',:include_in_advanced_search => false) do |field|
