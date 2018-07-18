@@ -135,12 +135,12 @@ class BookBagsController < CatalogController
 
   def clear_selected
     @bms = @bb.index
-    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
-    all_docs.each do |doc|
-      @bb.delete(doc)
+    @bms.each do |key|
+      @bb.delete(key)
     end
     @bms = @bb.index
     puts @bms.inspect
+    redirect_to :action => "index"
   end
 
   def action_documents
