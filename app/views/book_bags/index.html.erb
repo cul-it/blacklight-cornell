@@ -18,9 +18,11 @@
         <% end %>
       </div>
       <div class="search-filter">
-        <%= render 'select_all' %>
-        <%= render :partial => 'per_page_widget' %>
-        <%= render :partial => 'sort_widget' %>
+        <div class="search-widgets">
+          <%= render :partial => 'sort_widget' %>
+          <%= render :partial => 'per_page_widget' %>
+        </div>
+       <%= render 'select_all' %>
       </div>
     </div>
   </div>
