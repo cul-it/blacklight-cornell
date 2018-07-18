@@ -134,6 +134,7 @@ class BookBagsController < CatalogController
   end
 
   def clear_selected
+    respond_to :html
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     puts all_docs.inspect
