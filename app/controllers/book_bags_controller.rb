@@ -133,7 +133,7 @@ class BookBagsController < CatalogController
     redirect_to :action => "index"
   end
 
-  def clear_selected
+  def clearselected
     @bms =@bb.index
     all_docs = @bms.map {|b| b.sub!("bibid-",'')}
     puts all_docs.inspect
