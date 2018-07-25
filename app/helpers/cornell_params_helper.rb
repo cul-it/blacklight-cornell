@@ -311,10 +311,12 @@ def getLocations(doc)
        i = 0
        doc[:holdings_record_display].each do |hrd|
         myhash = JSON.parse(hrd)
-        if i == breakerlength - 1
-          @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
-        else
-          @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
+        unless !myhash["locations"][0]["name"].nil?
+         if i == breakerlength - 1
+           @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
+         else
+           @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
+         end
         end
         i = i + 1
      end
@@ -330,11 +332,13 @@ def getTempLocations(doc)
        i = 0
        doc[:holdings_record_display].each do |hrd|
         myhash = JSON.parse(hrd)
-        if i == breakerlength - 1
-          @itemLocationArray << myhash["locations"][0]["name"] + " || "
-        else
-          @itemLocationArray << myhash["locations"][0]["name"] + " | "
-        end
+         unless !myhash["locations"][0]["name"].nil?
+          if i == breakerlength - 1
+            @itemLocationArray << myhash["locations"][0]["name"] + " || "
+          else
+            @itemLocationArray << myhash["locations"][0]["name"] + " | "
+          end
+         end
         i = i + 1
      end
   return @itemLocationArray
@@ -344,21 +348,16 @@ def getOldTempLocations(doc)
   require 'json'
   require 'pp'
   @itemLocationArray = []
-  thisHash = JSON.parse(doc[:holdings_json])
-  Rails.logger.info("SticksAndStones = #{thisHash.inspect}")
+  thisHash = doc[:holdings_json].present? ? JSON.parse(doc[:holdings_json]) : {}
   hrdHash = JSON.parse(doc[:holdings_record_display][0])
-  Rails.logger.info("StickAndShorty = #{hrdHash["locations"][0]["name"].inspect}")
   if hrdHash["locations"][0]["name"] == "*Networked Resource"
-    Rails.logger.info("TicksAndHorty")
     @itemLocationArray << "*Networked Resource"
   else
     thisHash.each do |k, v|
-      Rails.logger.info("VENUS = #{v}")
       newHash = {}
       newHash = v
       locationHash = {}
       locationHash = v["location"]
-      Rail.logger.info("MickAndRorty = #{v}")
       if !locationHash['library'].nil?   
         @itemLocationArray << locationHash['name'].to_s + " || "
       end
@@ -377,9 +376,7 @@ def getItemStatus(doc)
 #       @fromSolrArray = []
 #       @fromSolrArray = doc[:holdings_record_display]
        hrdHash = JSON.parse(doc[:holdings_record_display][0])
-       Rails.logger.info("StickAndShorty = #{hrdHash["locations"][0]["name"].inspect}")
        if hrdHash["locations"][0]["name"] == "*Networked Resource"
-          Rails.logger.info("TicksAndHorty")
           @itemStatusArray << "*Networked Resource"
        else
          thisHash = JSON.parse(doc[:holdings_json])

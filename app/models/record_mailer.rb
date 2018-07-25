@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+
 # Only works for documents with a #to_marc right now.
 class RecordMailer < ActionMailer::Base
   default :from => "culsearch@cornell.edu"
@@ -10,49 +11,35 @@ class RecordMailer < ActionMailer::Base
 
     @documents      = documents
     @message        = details[:message]
-    @callnumber     = details[:callnumber]
-    @status         = details[:status]
-    if @callnumber.nil?
-      @callnumber = params["callnumber"]
-    end
-    if @status.nil?
-      @status = params["status"]
-    end
-    if details[:location].nil?
-      details[:location] = params["location"]
-    end
-    if details[:templocation].nil?
-      details[:templocation] = params["templocation"]
+
+    @availability = []
+    @documents.each do |doc|
+      doc_availability = []
+      if doc['availability_json'].present?
+        availability = JSON.parse(doc['availability_json'])
+        #availability: {"available"=>true, "availAt"=>{"ILR Multi-Copy Storage"=>"QA276.12 .M648 2013"}, "unavailAt"=>{"ILR Library (Ives Hall)"=>"QA276.12 .M648 2013"}}
+        if availability['availAt'].present?
+          availability['availAt'].each do |key, val|
+            avail = {'location' => key,
+              'callnumber' => val,
+              'status' => 'available'}
+            doc_availability << avail
+          end
+        end
+        if availability['unavailAt'].present?
+          availability['unavailAt'].each do |key, val|
+            avail = {'location' => key,
+              'callnumber' => val,
+              'status' => 'not available'}
+            doc_availability << avail
+          end
+        end
+      else
+        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
+      end
+      @availability << doc_availability
     end
 
-    @callNumFirst = @callnumber.present? ? @callnumber.split('|| ') : nil
-    @callnumber = []
-    if @callNumFirst != nil
-      @callNumFirst.each do |calls|
-        @second = calls.split('| ')
-        @callnumber << @second
-      end
-    end
-    @statusFirst = @status.split('|| ')
-    @status = []
-    @statusFirst.each do |stats|
-     @second = stats.split('| ')
-     @status << @second
-    end
-    @location       = details[:location]
-    @locationFirst = @location.split('|| ')
-    @location = []
-    @locationFirst.each do |locs|
-      @second = locs.split('| ')
-      @location << @second
-    end
-    @templocation = details[:templocation]
-    @tempLocationFirst = @templocation.split('|| ')
-    @templocation = []
-    @tempLocationFirst.each do |locs|
-      @second = locs.split('| ')
-      @templocation << @second
-    end
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
 

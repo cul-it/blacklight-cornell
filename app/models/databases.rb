@@ -1,6 +1,7 @@
 class Databases < ActiveRecord::Base
+  attr_accessible :id
   require 'dotenv'
-   # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
+    # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
     HTTPI.adapter = :net_http
   conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)
   ActiveRecord::Base.establish_connection(

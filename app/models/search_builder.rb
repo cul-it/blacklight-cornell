@@ -2,7 +2,7 @@
 # operations on strings are so prevalent must unfreeze them.
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
-  include BlacklightRangeLimit::RangeLimitBuilder
+#  include BlacklightRangeLimit::RangeLimitBuilder
 
 
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
@@ -329,7 +329,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           else
             hasNonBlankcount = hasNonBlankcount + 1
             if i <= my_params[:q_row].count - 1 #and  hasNonBlankcount > 1
-                if !my_params[:boolean_row][i.to_s.to_sym].nil?
+                if !my_params[:boolean_row].nil? and !my_params[:boolean_row][i.to_s.to_sym].nil?
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end

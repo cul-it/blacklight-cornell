@@ -86,42 +86,45 @@
 
                 <!-- solr verion of holdings -->
                 <div class="holdings">
-                  <% holdings = JSON.parse(@document['holdings_json']) %>
-                  <%#= JSON.parse(holdings).to_s.inspect %>
+                <%#= @document.inspect %>
+                 <% if !@document['holdings_json'].nil? %>
+                    <% holdings = JSON.parse(@document['holdings_json']) %>
+                    <%#= JSON.parse(holdings).to_s.inspect %>
                   
-                  <%#= getID.inspect %>
-                  <%#= holdings[getID].inspect %>
-                  <% circulating_items = [] %>
-                      <% rare_items = [] %>
-                      <% online_items = [] %>
+                    <%#= getID.inspect %>
+                    <%#= holdings[getID].inspect %>
+                    <% circulating_items = [] %>
+                    <% rare_items = [] %>
+                    <% online_items = [] %>
 
-                      <% holdings.each do |k,holding| %>
-                      <% if holding["location"].present? %>
-                        <% if holding["location"]["name"].include?('Rare') %>
-                          <% rare_items << holding %>
+                    <% holdings.each do |k,holding| %>
+                       <% if holding["location"].present? %>
+                          <% if holding["location"]["name"].include?('Rare') %>
+                             <% rare_items << holding %>
                           <% else %>
-                            <% circulating_items << holding %>
-                        <% end %>
-                      <% elsif holding["online"].present? %>
-                        <% online_items << holding %>
-                      <% end %>
-                      <% end %>
-
-                        <% if !circulating_items.blank? %>
-                          <% items = circulating_items.sort_by { |e| e["location"]["name"]  } %>
-                          <% group = "Circulating" %>
-                          <%= render 'holdings_group',:items => items, :group => group %>
-                        <% end %>
-
-                        <% if !rare_items.blank? %>
-                          <% items = rare_items.sort_by { |e| e["location"]["name"]  } %>
-                          <% group = "Rare" %>
-                          <% if circulating_items.present? %>
-                          <h3>Rare Items</h3>
+                             <% circulating_items << holding %>
                           <% end %>
-                          <%= render 'holdings_group',:items => items, :group => group %>
-                        <% end %>
-                    </div>
+                       <% elsif holding["online"].present? %>
+                          <% online_items << holding %>
+                       <% end %>
+                    <% end %>
+
+                    <% if !circulating_items.blank? %>
+                       <% items = circulating_items.sort_by { |e| e["location"]["name"]  } %>
+                       <% group = "Circulating" %>
+                       <%= render 'holdings_group',:items => items, :group => group %>
+                    <% end %>
+
+                    <% if !rare_items.blank? %>
+                       <% items = rare_items.sort_by { |e| e["location"]["name"]  } %>
+                       <% group = "Rare" %>
+                       <% if circulating_items.present? %>
+                          <h3>Rare Items</h3>
+                       <% end %>
+                       <%= render 'holdings_group',:items => items, :group => group %>
+                    <% end %>
+                  <% end %>
+                </div>
 
 
                 <%# access restrictions %>
