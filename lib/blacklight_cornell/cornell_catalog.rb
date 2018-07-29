@@ -133,7 +133,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       if params["search_field"] == "journal title"
         journal_titleHold = "journal title"
       end
-       params[:q] = sanitize(params[:q])
+       params[:q] = sanitize(params)
        check_params(params)
     else
       if params[:q].blank?
@@ -739,11 +739,18 @@ def check_params(params)
                  if fieldname == ''
                     params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
                  else
-                    if fieldname != "title"
+                    if fieldname != "title" and fieldname != "title_starts"
                       params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
                     else
                      #This should be cleaned up next week when I start removing redundancies and cleaning up code
-                      params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"' 
+                      if fieldname != "title_starts"
+                         params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"'
+                      else
+                         if qarray[0].include?('"')
+                           qarray[0] = qarray[0].gsub!('"','')
+                         end
+                         params[:q] << '+' << fieldname << ':"' << qarray[0] << '")'
+                      end 
                     end
                  end
               else
@@ -880,11 +887,11 @@ def check_params(params)
   end
   
   def sanitize(q)
-     if q.include?('<img') 
-       Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
+     if q[:q].include?('<img') 
+       Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
        redirect_to root_path
      else
-       q = q.rstrip
+       q = params[:q].rstrip
        while (q[-1] == "/" or q[-1] == "\\") do
          if q[-1] == "/" or q[-1] == "\\"
            q[-1] = ""
