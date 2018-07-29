@@ -442,6 +442,7 @@ end
 
 
 config.add_search_field('title_starts',:label => "Title Begins With", :include_in_advanced_search => false) do |field|
+  field.include_in_simple_select = true
   field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
   field.solr_local_parameters = {
     :qf => '$title_starts_qf',
