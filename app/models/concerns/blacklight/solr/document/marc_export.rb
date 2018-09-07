@@ -808,7 +808,7 @@ module Blacklight::Solr::Document::MarcExport
   end  
 
   def clean_end_punctuation(text)
-    if [".",",",":",";","/"].include? text[-1,1]
+    if text && [".",",",":",";","/"].include? text[-1,1]
       return text[0,text.length-1]
     end
     text
