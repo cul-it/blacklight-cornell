@@ -937,7 +937,7 @@ end
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   def email
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
-    docs = params[:id].split '|'
+    docs = params[:id]&.split '|'
     @response, @documents = fetch docs
     if request.post?
       url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
