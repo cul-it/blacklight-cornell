@@ -52,10 +52,10 @@ en:
         failure: 'Sorry, there was a problem deselecting this item.'
         action_confirm: 'Deselect this item?'
       clear:
-        action_title: 'Clear selected items'
-        action_confirm: 'Clear your selected items?'
-        success: 'Your selected items have been cleared.'
-        failure: 'Sorry, there was a problem clearing your selected items.'
+        action_title: 'Clear all items'
+        action_confirm: 'Remove all the items from your Book Bag?'
+        success: 'Your items have been cleared.'
+        failure: 'Sorry, there was a problem clearing your items.'
       bag:
         action_title: 'Add items to Book Bag for email and saving options'
         action_confirm: 'Add selected items to your Book Bag?'
