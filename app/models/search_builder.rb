@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 # operations on strings are so prevalent must unfreeze them.
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
