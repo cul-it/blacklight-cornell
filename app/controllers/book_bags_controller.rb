@@ -38,7 +38,6 @@ class BookBagsController < CatalogController
   def add
     @bibid = params[:id]
     value = "bibid-#{@bibid}"
-    Rails.logger.level = :debug
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     success = @bb.create(value)
@@ -57,7 +56,6 @@ class BookBagsController < CatalogController
 
   def addbookmarks
     @savedll = Rails.logger.level # at any time
-    Rails.logger.level = :debug
     if current_or_guest_user.bookmarks.count > 0
       bm = current_or_guest_user.bookmarks
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
@@ -84,7 +82,6 @@ class BookBagsController < CatalogController
   def delete
     @bibid = params[:id]
     value = "bibid-#{@bibid}"
-    Rails.logger.level = :debug
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     success = @bb.delete(value)
