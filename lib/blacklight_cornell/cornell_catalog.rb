@@ -119,6 +119,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
     set_bag_name 
     # make sure we are not going directly to home page
+   if !params[:qdisplay].nil?
+     params[:qdisplay] = ''
+   end
    search_session[:per_page] = params[:per_page]
     temp_search_field = ''
     journal_titleHold = ''
@@ -130,7 +133,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       if params["search_field"] == "journal title"
         journal_titleHold = "journal title"
       end
-       params[:q] = sanitize(params[:q])
+       params[:q] = sanitize(params)
        check_params(params)
     else
       if params[:q].blank?
@@ -149,7 +152,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
-    Rails.logger.info("FARTS = #{params[:q]}")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -719,8 +721,9 @@ def check_params(params)
      if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
        qparam_display = params[:q]
        params[:qdisplay] = params[:q]
+    #   params[:q] = parseQuoted(params[:q])
        if !params[:search_field].include?('browse')
-        qarray = params[:q].split
+        qarray = params[:q].split('" ')
        else
         qarray = [params[:q]]
        end
@@ -736,11 +739,18 @@ def check_params(params)
                  if fieldname == ''
                     params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
                  else
-                    if fieldname != "title"
+                    if fieldname != "title" and fieldname != "title_starts"
                       params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
                     else
                      #This should be cleaned up next week when I start removing redundancies and cleaning up code
-                      params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"' 
+                      if fieldname != "title_starts"
+                         params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"'
+                      else
+                         if qarray[0].include?('"')
+                           qarray[0] = qarray[0].gsub!('"','')
+                         end
+                         params[:q] << '+' << fieldname << ':"' << qarray[0] << '")'
+                      end 
                     end
                  end
               else
@@ -781,7 +791,8 @@ def check_params(params)
                  if bits.include?(':')
                    bits.gsub!(':','\\:')
                  end
-                 if bits.first == '"' and bits.last == '"'
+                 if bits.first == '"' 
+                    bits = bits + '"'
                     if fieldname == ''
                      params[:q] << '+quoted:' + bits + ' '
                     else 
@@ -804,7 +815,6 @@ def check_params(params)
           end
        end   
     end
-
     #    if params[:search_field] = "call number"
     #      params[:q] = "\"" << params[:q] << "\""
     #    end
@@ -817,7 +827,7 @@ def check_params(params)
     #    if params[:q].blank?
     #      params[:q] = '*'
     #    end 
-    Rails.logger.info("BROZETTI = #{params}")
+#    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
    return params
   end
   
@@ -877,11 +887,11 @@ def check_params(params)
   end
   
   def sanitize(q)
-     if q.include?('<img') 
-       Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q.inspect}")
+     if q[:q].include?('<img') 
+       Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
        redirect_to root_path
      else
-       q = q.rstrip
+       q = params[:q].rstrip
        while (q[-1] == "/" or q[-1] == "\\") do
          if q[-1] == "/" or q[-1] == "\\"
            q[-1] = ""
@@ -892,7 +902,17 @@ def check_params(params)
      end    
   end
 
-    
+  def parseQuoted(q)
+    if q.first == '"' and q.last == '"'
+      return q
+    else
+      howmany = q.count('"')
+      if !howmany.even?
+        q = q + '"'
+      end
+    end
+    return q
+  end  
 
 
   def set_bag_name
