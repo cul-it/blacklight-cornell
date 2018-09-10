@@ -1,8 +1,8 @@
-# rozen_string_literal: true
+# frozen_string_literal: true
 # operations on strings are so prevalent must unfreeze them.
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
-#  include BlacklightRangeLimit::RangeLimitBuilder
+  include BlacklightRangeLimit::RangeLimitBuilder
 
 
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
