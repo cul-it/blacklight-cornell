@@ -7,7 +7,14 @@
       <% end -%>
  <h2><%= "Book Bag" %></h2>
   <div class="results-info">
-    <%if @response.total_count < 1 %>
+    <% @selectedcount = 
+      if user_session.nil? || user_session[:bookbag_count].nil?
+        0
+      else
+        user_session[:bookbag_count]
+      end
+      %>
+    <%if @selectedcount < 1 %>
       <h2> BLANK </h2>
     <% else %>
       <div class="row">
