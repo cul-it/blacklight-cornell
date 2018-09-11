@@ -5,6 +5,7 @@ gem 'rails', '4.2.7.1'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
+gem "sprockets", '~> 3.7.2'
 
 # added for rails 4.
 gem 'activerecord-session_store'
