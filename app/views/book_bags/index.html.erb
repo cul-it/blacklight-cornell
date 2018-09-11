@@ -7,7 +7,7 @@
       <% end -%>
  <h2><%= "Book Bag" %></h2>
   <div class="results-info">
-    <%- if @document_list.blank? -%>
+    <%if @response.total_count < 1 %>
       <h2> BLANK </h2>
     <% else %>
       <div class="row">
