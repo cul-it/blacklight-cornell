@@ -49,7 +49,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'Email', :class => 'lightboxLink btn btn-xs', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'You must Sign in before you can email.'} do %>
+        <%= link_to "/users/auth/saml", {:id => 'emailLink', :name => 'Email', :class => 'lightboxLink btn btn-xs', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'You must Sign in before you can email.'} do %>
           <%= emaillink_content.html_safe %>
         <% end %>
       <% end %>
