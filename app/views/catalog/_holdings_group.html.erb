@@ -55,10 +55,14 @@
         <%= i["location"]["name"] %>
         <span class="map-it">
           <% if i['location']['hoursCode'].present? %>
-          <% unless i["location"]["hoursCode"] == "spif" %>
-          <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] %>
-          <% else %>
-            <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/", "aria-label" => i["location"]["name"] %>
+            <% if i["location"]["hoursCode"] == "spif" %>
+              <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/", "aria-label" => i["location"]["name"] %>
+            <% else %>
+              <% if i['location']['hoursCode'] == "ciser" %>
+                <%= link_to "Hours/Map", "http://ciser.cornell.edu/", "aria-label" => i["location"]["name"] %>
+              <% else %>
+                <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] %>
+              <% end %>
             <% end %>
           <% end %>
 
