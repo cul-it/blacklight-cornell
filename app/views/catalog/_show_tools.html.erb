@@ -49,7 +49,19 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        flash[:error] = "You must <a href='/users/auth/saml'>login with your Cornell NetID</a> to send email.".html_safe
+        <%= link_to "Open modal", "#my-modal", :class => "btn", "data-toggle" => "modal" %>
+        <div class="modal hide fade" id="my-modal" title="My modal">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <h3 id="myModalLabel">Modal header</h3>
+          </div>
+          <div class="modal-body">
+            Modal Body
+          </div>
+          <div class="modal-footer">
+            <button aria-hidden="true" class="btn" data-dismiss="modal">Close</button>
+          </div>
+        </div>
         <%= link_to "/users/auth/saml", {:id => 'emailLink', :name => 'Email', :class => 'lightboxLink btn btn-xs', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'You must Sign in before you can email.'} do %>
           <%= emaillink_content.html_safe %>
         <% end %>
