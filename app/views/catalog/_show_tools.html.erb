@@ -50,7 +50,8 @@
         <% end %>
       <% else %>
         <%= link_to "#", {:id => 'emailLink', :name => 'Email', :class => 'fa fa-envelope fa-disabled lightboxLink', :data => {:toggle => 'tooltip', :placement => 'above'}, :title => 'You must Sign in before you can email.'} do %>
-        <%= emaillink_content.html_safe %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
       <% end %>
    <% elsif bookbags_index %>
       <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
