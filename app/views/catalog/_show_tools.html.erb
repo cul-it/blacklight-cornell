@@ -49,9 +49,8 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to "/bookmarks/email_login_required", {:id => 'emailLink', :data => {:ajax_modal => "trigger"}, :class => "btn", "data-toggle" => "modal"} do %>
+        <%= link_to "/bookmarks/email_login_required", {:id => 'emailLink', :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
           <%= emaillink_content.html_safe %>
-          <div id="ajax-modal"><h2>My modal content</h2></div>
         <% end %>
         <%= link_to "/users/auth/saml", {:id => 'emailLink', :name => 'Email', :class => 'lightboxLink btn btn-xs', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'You must Sign in before you can email.'} do %>
           <%= emaillink_content.html_safe %>
