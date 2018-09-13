@@ -169,7 +169,7 @@ end
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
   
-  get 'bookmarks/email_login_required'
+  #get 'bookmarks/email_login_required'
 
 
 
