@@ -49,7 +49,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to "/bookmarks/email_login_required", {:data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
+        <%= link_to "/bookmarks/email_login_required", {:id => 'emailLink', :data => {:ajax_modal => "trigger", data-dismiss="modal"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
           <%= emaillink_content.html_safe %>
         <% end %>
         <%= link_to "/users/auth/saml", {:id => 'emailLink', :name => 'Email', :class => 'lightboxLink btn btn-xs', :data => {:toggle => 'tooltip', :placement => 'right'}, :title => 'You must Sign in before you can email.'} do %>
