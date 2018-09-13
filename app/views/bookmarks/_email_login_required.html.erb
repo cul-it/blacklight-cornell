@@ -1,9 +1,16 @@
-<div data-ajax-modal="container">  
-  <div id="ajax-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal menu" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      Login required for email
+    <div data-ajax-modal="container">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 class="modal-title">Request Placed</h3>
+      </div>
+  
+      <div class="modal-body">
+        <p>Some message</p>
+        <%= link_to "This result will still be within modal", some_link, :data => {:ajax_modal => "preserve"} %>
+      </div>
+
+
+      <div class="modal-footer">
+        <%= link_to "Close the modal", request_done_path, :class => "submit button dialog-close", :data => {:dismiss => "modal"} %>
       </div>
     </div>
-  </div>
-</div>
