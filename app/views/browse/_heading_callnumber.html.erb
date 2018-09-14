@@ -16,8 +16,8 @@
       </tr>
     </thead>
     <tbody></tbody>
-    <% encoded_heading = (data["params"]["q"]).gsub('&', '%26').gsub("\"", "'") %>
     <% if response.present? %>
+      <% encoded_heading = (response["params"]["q"]).gsub('&', '%26').gsub("\"", "'") %>
       <% response.each do |data| %>
          <tr>
           <td>
