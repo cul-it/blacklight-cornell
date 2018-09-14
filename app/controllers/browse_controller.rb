@@ -9,6 +9,7 @@ class BrowseController < ApplicationController
   @@browse_index_author = ENV['BROWSE_INDEX_AUTHOR'].nil? ? 'author' : ENV['BROWSE_INDEX_AUTHOR']
   @@browse_index_subject = ENV['BROWSE_INDEX_SUBJECT'].nil? ? 'subject' : ENV['BROWSE_INDEX_SUBJECT']
   @@browse_index_authortitle = ENV['BROWSE_INDEX_AUTHORTITLE'].nil? ? 'authortitle' : ENV['BROWSE_INDEX_AUTHORTITLE']
+  @@browse_index_callnumber = ENV['BROWSE_INDEX_CALLNUMBER'].nil? ? 'callnum' : ENV['BROWSE_INDEX_CALLNUMBER']
   def heading
    @heading='Browse'
   end
@@ -99,6 +100,25 @@ class BrowseController < ApplicationController
         params[:authq].gsub!('%20', ' ')
       end
 
+      if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call-Number"
+        # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
+        call_no_solr = "http://da-prod-solr.library.cornell.edu/solr"
+        dbclnt = HTTPClient.new
+        p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') +'" TO *]' }
+        start = {"start" => params[:start]}
+        url = call_no_solr + "/" + @@browse_index_callnumber + "/browse?wt=json&" + p.to_param + '&' + start.to_param 
+        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse url #{url}")
+        @headingsResultString = dbclnt.get_content( url )
+        if !@headingsResultString.nil?
+          y = @headingsResultString
+          @headingsResponseFull = JSON.parse(y)
+       else
+          @headingsResponseFull = eval("Could not find")
+       end
+       @headingsResponse = @headingsResponseFull
+       params[:authq].gsub!('%20', ' ')
+       #Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = headingResponse: " + @headingsResponse.inspect )
+      end
 
     end
     def info

@@ -1,0 +1,45 @@
+<div class="headings-list">
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th class="heading-count">
+          Titles
+        </th>
+        <th class="heading-name">
+          Format
+        </th>
+        <th class="heading-type">
+          Call Number
+        </th>
+        <th class="heading-type">
+          Availablility
+        </th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <% if response["response"].present? %>
+      <% params = response["responseHeader"]["params"] %>
+      <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
+      <% response["response"]["docs"].each do |data| %>
+         <tr>
+          <td>
+            <%= link_to '/catalog/' + data["bibid"].to_s do %>
+                <%= data["fulltitle_display"] %>
+            <% end %>
+          </td>
+          <td>
+            <%= data["format"][0] %>
+          </td>
+          <td>
+            <%= data["callnum_display"] %>
+          </td>
+          <td>
+          <% if data["availability_json"].present? %>
+            <%= render :partial => '/catalog/availability_json', :locals => { :document => data} %>
+          <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
