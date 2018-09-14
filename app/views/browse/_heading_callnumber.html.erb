@@ -33,6 +33,10 @@
           <td>
             <%= data["callnum_display"] %>
           </td>
+          <td>
+          <% if data["availability_json"].present? %>
+            <%= render :partial => 'availability_json', :locals => { :document => data} %>
+          </td>
         </tr>
       <% end %>
     <% end %>
