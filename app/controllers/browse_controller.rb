@@ -102,8 +102,21 @@ class BrowseController < ApplicationController
 
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call-Number"
         # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
-        @headingsResponseFull = eval("Call number browse")
-        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse #{solr}/databases?"+p.to_param)
+        call_no_solr = "http://da-prod-solr.library.cornell.edu"
+        dbclnt = HTTPClient.new
+        p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') +'" TO *]' }
+        start = {"start" => params[:start]}
+        url = base_solr + "/" + @@browse_index_callnumber + "/browse?wt=json&" + p.to_param + '&' + start.to_param 
+        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse url #{url}")
+        @headingsResultString = dbclnt.get_content( url )
+        if !@headingsResultString.nil?
+          y = @headingsResultString
+          @headingsResponseFull = JSON.parse(y)
+       else
+          @headingsResponseFull = eval("Could not find")
+       end
+       @headingsResponse = @headingsResponseFull['response']['docs']
+       params[:authq].gsub!('%20', ' ')
       end
 
     end
