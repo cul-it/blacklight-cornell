@@ -117,7 +117,7 @@ class BrowseController < ApplicationController
        end
        @headingsResponse = @headingsResponseFull['response']['docs']
        params[:authq].gsub!('%20', ' ')
-       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = "headingResponse: " + @headingsResponse.inspect )
+       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = headingResponse: " + @headingsResponse.inspect )
       end
 
     end
