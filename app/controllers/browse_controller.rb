@@ -103,6 +103,7 @@ class BrowseController < ApplicationController
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call number"
         # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
         @headingsResponseFull = eval("Call number browse")
+        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse #{solr}/databases?"+p.to_param)
       end
 
     end
