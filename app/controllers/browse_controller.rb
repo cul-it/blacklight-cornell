@@ -106,7 +106,7 @@ class BrowseController < ApplicationController
         dbclnt = HTTPClient.new
         p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') +'" TO *]' }
         start = {"start" => params[:start]}
-        url = base_solr + "/" + @@browse_index_callnumber + "/browse?wt=json&" + p.to_param + '&' + start.to_param 
+        url = call_no_solr + "/" + @@browse_index_callnumber + "/browse?wt=json&" + p.to_param + '&' + start.to_param 
         Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse url #{url}")
         @headingsResultString = dbclnt.get_content( url )
         if !@headingsResultString.nil?
@@ -117,6 +117,7 @@ class BrowseController < ApplicationController
        end
        @headingsResponse = @headingsResponseFull['response']['docs']
        params[:authq].gsub!('%20', ' ')
+       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = "headingResponse: " + @headingsResponse.inspect )
       end
 
     end
