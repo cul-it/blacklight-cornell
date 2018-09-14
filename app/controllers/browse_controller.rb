@@ -115,7 +115,7 @@ class BrowseController < ApplicationController
        else
           @headingsResponseFull = eval("Could not find")
        end
-       @headingsResponse = @headingsResponseFull['response']['docs']
+       @headingsResponse = @headingsResponseFull
        params[:authq].gsub!('%20', ' ')
        #Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = headingResponse: " + @headingsResponse.inspect )
       end

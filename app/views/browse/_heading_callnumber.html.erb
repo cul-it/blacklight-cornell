@@ -16,9 +16,10 @@
       </tr>
     </thead>
     <tbody></tbody>
-    <% if response.present? %>
-      <% encoded_heading = (response["params"]["q"]).gsub('&', '%26').gsub("\"", "'") %>
-      <% response.each do |data| %>
+    <% if response["response"].present? %>
+      <% params = response["responseHeader"]["params"] %>
+      <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
+      <% response["response"].each do |data| %>
          <tr>
           <td>
             <%= link_to '/catalog/' + data["bibid"] do %>
