@@ -19,7 +19,7 @@
     <% if response["response"].present? %>
       <% params = response["responseHeader"]["params"] %>
       <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
-      <% response["response"].each do |data| %>
+      <% response["response"]["docs"].each do |data| %>
          <tr>
           <td>
             <%= link_to '/catalog/' + data["bibid"] do %>
