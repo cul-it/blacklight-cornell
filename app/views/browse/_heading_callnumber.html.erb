@@ -21,7 +21,7 @@
       <% response.each do |data| %>
          <tr>
           <td>
-            <%= link_to '/catalog/' + data["bibid"] %>
+            <%= link_to '/catalog/' + data["bibid"] do %>
                 <%= data["fulltitle_display"] %>
             <% end %>
           </td>
