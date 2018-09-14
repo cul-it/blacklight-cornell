@@ -74,7 +74,6 @@ end
   get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
   get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
   get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
-  get '/browse_callnumber' => 'browse#index_callnumber', :as => 'browse_index_callnumber'
   
 
   match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
