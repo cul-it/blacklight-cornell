@@ -35,7 +35,7 @@
           </td>
           <td>
           <% if data["availability_json"].present? %>
-            <%= render :partial => 'availability_json', :locals => { :document => data} %>
+            <%= render :partial => '/catalog/availability_json', :locals => { :document => data} %>
           <% end %>
           </td>
         </tr>
