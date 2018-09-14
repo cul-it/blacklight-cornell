@@ -1143,7 +1143,9 @@ def tou
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
          elsif params[:search_field] == 'at_browse' && !params[:id]
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
-         end
+         elsif params[:search_field] == 'callnumber_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
+         end 
        end
      end
   
