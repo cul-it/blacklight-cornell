@@ -1,0 +1,38 @@
+<div class="headings-list">
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th class="heading-count">
+          Titles
+        </th>
+        <th class="heading-name">
+          Headings
+        </th>
+        <% unless params[:browse_type] == "Author-Title" %>
+          <th class="heading-type">
+            Type
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <% encoded_heading = (data["params"]["q"]).gsub('&', '%26').gsub("\"", "'") %>
+    <% if response.present? %>
+      <% response.each do |data| %>
+         <tr>
+          <td>
+            <%= link_to '/catalog/' + data["bibid"] %>
+                <%= data["fulltitle_display"] %>
+            <% end %>
+          </td>
+          <td>
+            <%= data["format"][0] %>
+          </td>
+          <td>
+            <%= data["callnum_display"] %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
