@@ -31,7 +31,7 @@
     </h3>
     <%= render 'pagination' %>
     <% if params[:browse_type] == "Call-Number" %>
-      <%= 'call number headings' %>
+      <%= render 'heading_callnumber', :response => @headingsResponse %>
     <% else %>
       <% if params[:order] == "reverse" %>
         <%= render 'heading', :response => @headingsResponse.reverse %>
