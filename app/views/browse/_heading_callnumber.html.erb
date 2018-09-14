@@ -22,7 +22,7 @@
       <% response["response"]["docs"].each do |data| %>
          <tr>
           <td>
-            <%= link_to '/catalog/' + data["bibid"] do %>
+            <%= link_to '/catalog/' + data["bibid"].to_s do %>
                 <%= data["fulltitle_display"] %>
             <% end %>
           </td>
