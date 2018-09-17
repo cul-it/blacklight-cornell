@@ -30,7 +30,7 @@ Feature: Browse search
         And I fill in the authorities search box with 'china'
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'anthropology of China'
+    Then I should see the label 'Chinese history and culture'
 
   @browse
   Scenario: Search for author-title combination
