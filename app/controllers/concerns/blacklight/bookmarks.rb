@@ -61,6 +61,8 @@ module Blacklight::Bookmarks
         render json: render_search_results_as_json
       end
 
+      format.email_login_required { Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = respond_to email_login_required") }
+
       additional_response_formats(format)
       document_export_formats(format)
     end
