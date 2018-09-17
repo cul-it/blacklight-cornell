@@ -497,6 +497,9 @@ end
         :pf => '$lc_callnum_pf',
       }
     end
+
+    config.add_search_field('callnumber_browse', :label => 'Call Number Browse',:include_in_advanced_search => false, :placeholder_text => 'TP640')
+
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -1141,7 +1144,9 @@ def tou
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
          elsif params[:search_field] == 'at_browse' && !params[:id]
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
-         end
+         elsif params[:search_field] == 'callnumber_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
+         end 
        end
      end
   
