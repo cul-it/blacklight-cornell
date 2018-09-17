@@ -63,7 +63,7 @@ module Blacklight::Bookmarks
       additional_response_formats(format)
       document_export_formats(format)
     end
-    Rails.logger.level = warn
+    Rails.logger.level = :warn
   end
 
   def update
