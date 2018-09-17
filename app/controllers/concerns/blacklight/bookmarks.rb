@@ -39,8 +39,6 @@ module Blacklight::Bookmarks
   end
 
   def index
-    Rails.logger.level = 0
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "bookmarks index")
     if current_user && Bookbag.enabled?
       flash[:notice] = I18n.t('blacklight.bookmarks.use_book_bag') 
       redirect_to '/book_bags/index'
@@ -50,6 +48,8 @@ module Blacklight::Bookmarks
 
     @response, @document_list = fetch(bookmark_ids)
 
+    Rails.logger.level = 0
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "bookmarks index")
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "response " + @response.inspect )
 
     respond_to do |format|
