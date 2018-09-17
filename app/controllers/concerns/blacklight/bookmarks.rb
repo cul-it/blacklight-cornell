@@ -50,8 +50,7 @@ module Blacklight::Bookmarks
 
     Rails.logger.level = 0
     Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "bookmarks index")
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "response: " + @response.inspect )
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "respond to: " + respond_to.inspect )
+    #Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "response: " + @response.inspect )
 
     respond_to do |format|
       format.html { }
