@@ -22,7 +22,7 @@
           <%= render :partial => "paginate_compact", :object => @response %>
         </span>
 
-        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
+        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
         <% if current_or_guest_user.bookmarks.count > 0  %>

@@ -74,6 +74,7 @@ end
   get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
   get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
   get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
+  
 
   match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon', :via => [:post, :put, :get]
@@ -163,6 +164,8 @@ end
   get 'book_bags/index(.:format)'
   get 'book_bags/citation'
   get 'book_bags/clear' => 'book_bags#clear'
+  get 'book_bags/clear_selected' => 'book_bags#clear_selected'
+  get 'book_bags/keep_selected' => 'book_bags#keep_selected'
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'

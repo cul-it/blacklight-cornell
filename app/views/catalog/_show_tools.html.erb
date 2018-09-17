@@ -22,7 +22,7 @@
 <% end %>
 <!-- TODO: TRANSLATE -->
 <% if bookmarks_index || citable  || bookbags_index%>
-  <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true"></i>' + t('blacklight.tools.cite') %>
+  <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true" alt=""></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
       <%= link_to "/bookmarks/citation", {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-xs'} do %>
@@ -41,7 +41,7 @@
 <% end %>
 
 <% if bookmarks_index || emailable  || bookbags_index %>
-  <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
+  <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true" alt=""></i>' + t('blacklight.tools.email') %>
   <li>
     <% if bookmarks_index %> 
       <% if current_user && Bookbag.enabled? %>
@@ -49,7 +49,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <% emaillink_content = '<i class="fa fa-envelope fa-disabled" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
+        <% emaillink_content = '<i class="fa fa-envelope fa-disabled" aria-hidden="true" alt=""></i>' + t('blacklight.tools.email') %>
         <%= emaillink_content.html_safe %>
       <% end %>
    <% elsif bookbags_index %>
@@ -67,7 +67,7 @@
 <% if bookmarks_index || exportable  || bookbags_index %>
   <li class="dropdown">
     <div class="btn-group">
-      <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Export <b class="caret"></b></a>
+      <a href="#" class="btn btn-default btn-xs" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true" alt=""></i>Export <b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
         <% if bookmarks_index  %>
           <li>
