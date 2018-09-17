@@ -21,6 +21,8 @@ BlacklightCornell::Application.routes.draw do
 resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
       concerns :exportable
 end
+  
+get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
 
 resources :bookmarks do
   concerns :exportable
@@ -169,8 +171,6 @@ end
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
-  
-  get 'bookmarks/email_login_required'
 
 
 
