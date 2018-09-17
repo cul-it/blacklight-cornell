@@ -24,8 +24,6 @@ end
   
 get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
 
-get 'catalog/email_login_required' => 'catalog#email_login_required'
-
 resources :bookmarks do
   concerns :exportable
 
