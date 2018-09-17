@@ -20,7 +20,12 @@
     <% if response["response"].present? %>
       <% params = response["responseHeader"]["params"] %>
       <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
-      <% response["response"]["docs"].each do |data| %>
+      <% if order == "reverse" %>
+        <% docs = response["response"]["docs"].reverse %>
+      <% else %>
+        <% docs = response["response"]["docs"] %>
+      <% end %>
+      <% docs.each do |data| %>
          <tr>
           <td>
             <%= data["callnum_display"] %>
