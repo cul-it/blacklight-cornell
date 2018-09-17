@@ -148,4 +148,9 @@ module Blacklight::Bookmarks
   def start_new_search_session?
     action_name == "index"
   end
+
+  def email_login_required
+    flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied
+  end
+
 end
