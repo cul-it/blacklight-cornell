@@ -130,6 +130,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     temp_search_field = ''
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
+      if params[:q].include?('%2520')
+        params[:q].gsub!('%2520',' ')
+      end
       if params["search_field"] == "journal title"
         journal_titleHold = "journal title"
       end
@@ -740,7 +743,12 @@ def check_params(params)
                     params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
                  else
                     if fieldname != "title" and fieldname != "title_starts"
-                      params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
+                      if fieldname != "number"
+                        params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname  << ':"' << qarray[0] << '"'
+                      else
+                        params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
+                      end
+
                     else
                      #This should be cleaned up next week when I start removing redundancies and cleaning up code
                       if fieldname != "title_starts"
