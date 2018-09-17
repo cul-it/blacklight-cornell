@@ -48,10 +48,6 @@ module Blacklight::Bookmarks
 
     @response, @document_list = fetch(bookmark_ids)
 
-    Rails.logger.level = 0
-    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "bookmarks index")
-    #Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "response: " + @response.inspect )
-
     respond_to do |format|
       format.html { }
       format.rss  { render :layout => false }
@@ -63,7 +59,6 @@ module Blacklight::Bookmarks
       additional_response_formats(format)
       document_export_formats(format)
     end
-    Rails.logger.level = :warn
   end
 
   def update
@@ -155,6 +150,10 @@ module Blacklight::Bookmarks
   end
 
   def email_login_required
+    Rails.logger.level = 0
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "bookmarks email_login_required")
+    Rails.logger.level = :warn
+
     flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied
     redirect_to :action => "index"
   end

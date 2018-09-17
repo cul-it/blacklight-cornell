@@ -22,7 +22,7 @@ resources :solr_documents, except: [:index], path: '/catalog', controller: 'cata
       concerns :exportable
 end
   
-get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
+get 'bookmarks/email_login_required'
 
 resources :bookmarks do
   concerns :exportable
