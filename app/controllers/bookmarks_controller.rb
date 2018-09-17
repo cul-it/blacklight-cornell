@@ -8,7 +8,7 @@ class BookmarksController < CatalogController
     Rails.logger.level = :warn
 
     flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied
-    redirect_to :back
+    redirect_to 'bookmarks'
   end
 
 end 
