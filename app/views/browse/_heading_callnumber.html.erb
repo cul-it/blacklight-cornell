@@ -2,14 +2,14 @@
   <table class="table table-responsive table-striped">
     <thead>
       <tr>
-        <th class="heading-count">
-          Titles
-        </th>
-        <th class="heading-name">
-          Format
-        </th>
         <th class="heading-type">
           Call Number
+        </th>
+        <th class="heading-type">
+          Title
+        </th>
+        <th class="heading-type">
+          Format
         </th>
         <th class="heading-type">
           Availablility
@@ -23,15 +23,15 @@
       <% response["response"]["docs"].each do |data| %>
          <tr>
           <td>
+            <%= data["callnum_display"] %>
+          </td>
+          <td>
             <%= link_to '/catalog/' + data["bibid"].to_s do %>
                 <%= data["fulltitle_display"] %>
             <% end %>
           </td>
           <td>
             <%= data["format"][0] %>
-          </td>
-          <td>
-            <%= data["callnum_display"] %>
           </td>
           <td>
           <% if data["availability_json"].present? %>
