@@ -50,6 +50,8 @@ module Blacklight::Bookmarks
 
     @response, @document_list = fetch(bookmark_ids)
 
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "response " + @response.inspect )
+
     respond_to do |format|
       format.html { }
       format.rss  { render :layout => false }
@@ -61,6 +63,7 @@ module Blacklight::Bookmarks
       additional_response_formats(format)
       document_export_formats(format)
     end
+    Rails.logger.level = warn
   end
 
   def update
