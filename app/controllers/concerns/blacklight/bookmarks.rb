@@ -39,6 +39,8 @@ module Blacklight::Bookmarks
   end
 
   def index
+    Rails.logger.level = 0
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "bookmarks index")
     if current_user && Bookbag.enabled?
       flash[:notice] = I18n.t('blacklight.bookmarks.use_book_bag') 
       redirect_to '/book_bags/index'
