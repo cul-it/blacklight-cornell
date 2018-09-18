@@ -43,3 +43,5 @@
 //= require jquery.waypointz.js
 //= require zz_inview.js
 //= require tooltip.js
+
+//= require blacklight_google_analytics
