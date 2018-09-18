@@ -15,4 +15,9 @@ class BookmarksController < CatalogController
     redirect_to 'bookmarks'
   end
 
+  # displays the email_login_required form partial... used by an AJAX request
+  def show_email_warning
+    render :partial=>"bookmarks/email_login_required"
+  end
+
 end 
