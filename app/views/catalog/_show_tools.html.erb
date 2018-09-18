@@ -53,7 +53,7 @@
           :url => { :action => "show_email_warning", :controller => "bookmarks" } %>
         <div id="email_warning">
         </div>
-        <%= link_to render(:partial => 'bookmarks/email_login_required'), {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
+        <%= link_to 'bookmarks/show_email_warning', {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
           <%= "first one" %>
         <% end %>
         <%= link_to render(:partial => 'bookmarks/email_login_required'), {:id => @document, :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
