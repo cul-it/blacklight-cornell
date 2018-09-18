@@ -50,7 +50,7 @@
         <% end %>
       <% else %>
         <%= link_to_remote "Email this", :update => "email_warning", 
-          :url => { :action => "show_email_warning", :controller => "bookmarks" %>
+          :url => { :action => "show_email_warning", :controller => "bookmarks" } %>
         <div id="email_warning">
         </div>
         <%= link_to render(:partial => 'bookmarks/email_login_required'), {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
