@@ -134,6 +134,7 @@ GEM
       marc-fastxmlwriter
       rails
       traject (~> 2.1)
+    blacklight_google_analytics (0.0.1.pre3)
     blacklight_range_limit (6.3.3)
       blacklight (>= 6.0.2)
       jquery-rails
@@ -597,6 +598,7 @@ DEPENDENCIES
   blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
+  blacklight_google_analytics
   blacklight_range_limit
   blacklight_unapi!
   bootstrap-sass
@@ -673,4 +675,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
