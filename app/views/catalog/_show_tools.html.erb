@@ -49,6 +49,8 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
+        <%= link_to render(:partial => 'bookmarks/email_login_required'), root_url %>
+        <%= "first one" %>
         <%= link_to render(:partial => 'bookmarks/email_login_required'), {:id => @document, :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
           <%= "Login required" %>
         <% end %>
