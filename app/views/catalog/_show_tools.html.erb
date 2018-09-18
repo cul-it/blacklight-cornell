@@ -49,7 +49,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to render(:partial => 'bookmarks/email_login_required'), root_url, {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
+        <%= link_to render(:partial => 'bookmarks/email_login_required'), {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
           <%= "first one" %>
         <% end %>
         <%= link_to render(:partial => 'bookmarks/email_login_required'), {:id => @document, :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
