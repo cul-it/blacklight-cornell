@@ -19,5 +19,10 @@ class BookmarksController < CatalogController
   def show_email_login_required_bookmarks
     render :partial=>"bookmarks/email_login_required"
   end
+ 
+  # same as show_email_login_required_bookmarks but for the catalog item view
+  def show_email_login_required_item
+    render :partial=>"bookmarks/email_login_required_item_view"
+  end
 
 end 
