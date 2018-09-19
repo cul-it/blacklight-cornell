@@ -28,7 +28,7 @@ class BookmarksController < CatalogController
     Rails.logger.level = :warn
 
     login = ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
-    render :partial=>"bookmarks/email_login_required_item_view", locals: { login_path: login }
+    render :partial=>"bookmarks/email_login_required_item_view", locals: { login_path: login, document_id: params[:id] }
     redirect_to solr_document_path('9763248')
   end
 

@@ -7,7 +7,7 @@
   
       <div class="modal-body">
         <h2><%= t('blacklight.bookmarks.email.warning') %></h2>
-        <%= t('blacklight.bookmarks.email.action.item_view.text', :href => link_to(t("blacklight.bookmarks.email.action.item_view.link_text"), login_path)).html_safe %>
+        <%= t('blacklight.bookmarks.email.action.item_view.text', :href => link_to(t("blacklight.bookmarks.email.action.item_view.link_text"), login_path, :id => document_id)).html_safe %>
       </div>
 
 
