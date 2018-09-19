@@ -49,12 +49,8 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to "Email this", :update => "email_warning", remote: true,
-          :url => { :action => "show_email_warning", :controller => "bookmarks" } %>
-        <div id="email_warning">
-        </div>
-        <%= link_to 'bookmarks/show_email_warning', {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
-          <%= "first one" %>
+        <%= link_to 'bookmarks/show_email_login_required_bookmarks', {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"}  do %>
+          <%= emaillink_content.html_safe %>
         <% end %>
         <%= link_to render(:partial => 'bookmarks/email_login_required'), {:id => @document, :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn", "data-toggle" => "modal"} do %>
           <%= "Login required" %>
