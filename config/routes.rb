@@ -24,7 +24,7 @@ end
   
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
-get 'bookmarks/show_email_login_required_item' => 'bookmarks#show_email_login_required_item'
+get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item'
 
 resources :bookmarks do
   concerns :exportable
