@@ -65,7 +65,8 @@ en:
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
       email:
-        warning:  'Emailing is currently limited to Cornell only.'
+        title: 'Email this'
+        warning: 'Emailing is currently limited to Cornell only.'
         action:
           item_view: 
             text: 'Please %{href} with your Cornell ID, then click the Email button again.'
