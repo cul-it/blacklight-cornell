@@ -58,8 +58,13 @@
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
-      <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-default btn-xs'} do %>
+      <% if current_user %>
+        <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-default btn-xs'} do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% else %>
         <%= emaillink_content.html_safe %>
+        <%= "not logged in" %>
       <% end %>
     <% end %>
   </li>
