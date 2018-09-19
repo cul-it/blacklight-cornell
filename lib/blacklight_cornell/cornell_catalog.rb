@@ -796,13 +796,14 @@ def check_params(params)
                  end
                end
              else
+               qarray = separate_quoted(params[:q])
                params[:q] = ''
                qarray.each do |bits|
                  if bits.include?(':')
                    bits.gsub!(':','\\:')
                  end
                  if bits.first == '"' 
-                    bits = bits + '"'
+                    #bits = bits + '"'
                     if fieldname == ''
                      params[:q] << '+quoted:' + bits + ' '
                     else 
@@ -840,6 +841,20 @@ def check_params(params)
 #    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
    return params
   end
+
+  def separate_quoted(string)
+    #string = "this \"is what not\" quoted \"but this is\""
+    if string.count('"').odd?
+      if string[-1] == '"'
+        string = string[0..-2]
+      else
+        string = string + '"'
+      end
+    end
+    tempStringArray = string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
+    return tempStringArray
+  end
+
   
   def cleanup_params(params)
     qparam_display = params[:qdisplay]
