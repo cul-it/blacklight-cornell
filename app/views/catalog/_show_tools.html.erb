@@ -49,16 +49,23 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <% emaillink_content = '<i class="fa fa-envelope fa-disabled" aria-hidden="true" alt=""></i>' + t('blacklight.tools.email') %>
-        <%= emaillink_content.html_safe %>
+        <%= link_to '/bookmarks/show_email_login_required_bookmarks', {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn btn-xs", "data-toggle" => "modal"}  do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
       <% end %>
    <% elsif bookbags_index %>
       <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-xs'} do %>
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
-      <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-default btn-xs'} do %>
-        <%= emaillink_content.html_safe %>
+      <% if current_user %>
+        <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-default btn-xs'} do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% else %>
+        <%= link_to email_require_login_path(:id => @document), {:id => 'email-link', :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn btn-default btn-xs", "data-toggle" => "modal"}  do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
       <% end %>
     <% end %>
   </li>

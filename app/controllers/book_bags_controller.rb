@@ -134,11 +134,16 @@ class BookBagsController < CatalogController
 
   def clear_selected
     @bms = @bb.index
+    puts @bms.inspect
     @bms.each do |key|
       @bb.delete(key)
     end
     @bms = @bb.index
     puts @bms.inspect
+    Rails.logger.level = :debug
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
+    Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} @bms = #{@bms.inspect}")
+    Rails.logger.level = :warn
     redirect_to :action => "index"
   end
 

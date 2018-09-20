@@ -45,8 +45,9 @@ class CatalogController < ApplicationController
         flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
-    session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/afemail/#{params[:id]}"
-    render :partial => 'catalog/email_cuwebauth'
+      session[:send_email_on_catalog_item_load] = (params['id'].present? && params['id'].include?('|')) ? false : true
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+      render :partial => 'catalog/email_cuwebauth'
     end
   end
 
