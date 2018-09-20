@@ -3,8 +3,6 @@
 Feature: Bookmarks for anonymous users
     I want to be sure anonymous users can cite, export, and print selected items
 
-
-
     @bookmarks_exists
     @saml_on
     Scenario: Does the bookmarks page exist
@@ -12,8 +10,6 @@ Feature: Bookmarks for anonymous users
         Then I should be on 'the bookmarks page'
         Then Sign in should link to Book Bags 
         And I should see a link "Selected Items"
-
-
 
     @saml_on
     @bookmarks_sign_in
@@ -25,8 +21,6 @@ Feature: Bookmarks for anonymous users
         And I expect Javascript _paq to be defined
         And click on link "Sign in"
         Then I should see the CUWebLogin page
-
-
 
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
@@ -46,9 +40,7 @@ Feature: Bookmarks for anonymous users
     | 3 |
     | 4 |
     | 5 |
-    
-
-
+ 
     @saml_on
     @bookmarks_sign_in_links
     Scenario: I should log in via Book_bags from the Bookmarks page
@@ -60,7 +52,6 @@ Feature: Bookmarks for anonymous users
         Then Sign in should link to the SAML login system
         When I literally go to bookmarks
         Then Sign in should link to Book Bags 
-
 
     @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
@@ -80,8 +71,6 @@ Feature: Bookmarks for anonymous users
         And the popup should include "Chicago 17th ed."
         And the popup should include "MLA 7th ed."
         And the popup should include "MLA 8th ed."
-
-
 
     @bookmarks_export_selected
     Scenario Outline: I should be able to export selected bookmarks
@@ -104,9 +93,6 @@ Feature: Bookmarks for anonymous users
     | RIS | endnote.ris |
     | EndNote | endnote.endnote |
     | EndNote XML | endnote.endnote_xml |
-
-
-
 
     @bookmarks_print_selected
     Scenario: I should be able to view citations for selected items
