@@ -67,3 +67,13 @@
        // but has been there for a while.
       -->
 <% end %>
+
+<% if session[:send_email_on_catalog_item_load] == true %>
+<% session.delete(:send_email_on_catalog_item_load) %>
+<script>
+document.onload = function() {
+    console.log( "ready!" );
+    $("#email-link").click();
+};
+</script>
+<% end %>

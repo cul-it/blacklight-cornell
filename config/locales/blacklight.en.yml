@@ -64,6 +64,14 @@ en:
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
+      email:
+        title: 'Email this'
+        warning: 'Emailing is currently limited to Cornell only.'
+        action:
+          item_view: 
+            text: 'Please %{href} with your Cornell ID, then click the Email button again.'
+            link_text: 'sign in'
+          bookmarks_view: 'Add items to Book Bag for email and saving options'
       list_title: 'Your selected items'
       delete: 'Remove'
 
