@@ -116,3 +116,4 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
 gem 'unicode_utils'
+gem 'blacklight_google_analytics'

@@ -1,0 +1,88 @@
+$(function () {
+  
+  BlacklightGoogleAnalytics = {}
+  
+  // Necessary to leave some time for the async GA code to run before the browser
+  // stops javascript execution and sends the user to the new page.
+  BlacklightGoogleAnalytics.pause = function(){
+    // pause to allow google script to run before going to new page
+		var date = new Date();
+		var curDate = null;
+		do {
+			curDate = new Date();
+		} while(curDate-date < 300);
+  }
+  
+  BlacklightGoogleAnalytics.console_log_error = function(err, values){
+    <% if Rails.env == 'development' %>
+    // good place to log in development
+    console.log(err);
+    console.log(values);
+    <% end %>
+  }
+  
+  BlacklightGoogleAnalytics.this_or_parent_id = function(that){
+    if (that.get(0).id.length > 0){
+      var identifier = that.get(0).id;
+    } else {
+      var identifier = that.parents('[id]:first').get(0).id;
+    }
+    return identifier;
+  }
+  
+	// all links get tracked
+  $('a').click(function () {
+		// tell analytics to save event
+		try {
+      var identifier = BlacklightGoogleAnalytics.this_or_parent_id($(this));  
+      // for facets we make the action the facet heading
+      if (identifier === 'facets') {
+        var action = $(this).parents("div:first").find("h3:first").text();
+      } else {
+        var action = 'clicked';
+      }      
+      var label = ($(this).text() || $(this).children('img:first').attr('alt'));
+			_gaq.push(['_trackEvent', identifier, action, label]);
+		} catch (err) {
+      BlacklightGoogleAnalytics.console_log_error(err, [identifier, action, label]);
+    }
+    BlacklightGoogleAnalytics.pause();		
+	}); 
+  
+  $('input,select').click(function(){
+    try {
+      var identifier = BlacklightGoogleAnalytics.this_or_parent_id($(this));  
+      var action = 'clicked';
+      var label = $(this).val();
+      _gaq.push(['_trackEvent', identifier, action, label]);
+    } catch (err){
+      BlacklightGoogleAnalytics.console_log_error(err, [identifier, action, label]);
+    }
+    BlacklightGoogleAnalytics.pause();
+  });
+ 
+  
+  //facet expand/collapse
+  $('#facets').on('click', 'h3', function(){
+    var label = $(this).text();
+    var heading_values = ['facets', 'collapse_expand', label];
+    try{
+      _gaq.push(['_trackEvent'].concat(heading_values));
+    } catch(err) {  
+      BlacklightGoogleAnalytics.console_log_error(err, heading_values);
+    }
+  });
+  
+  //which number in the search results was clicked on?
+  $('h3.index_title a').click(function(){
+    var result_number = $(this).data('counter');
+    var heading_values = ['result_number', 'click', result_number];
+    try{
+      _gaq.push(['_trackEvent'].concat(heading_values));
+    } catch(err) {  
+      BlacklightGoogleAnalytics.console_log_error(err, heading_values);
+    }
+  });
+    
+  
+});
