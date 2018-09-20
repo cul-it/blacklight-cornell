@@ -150,7 +150,7 @@ dd.blacklight-notes {
 	}
 }
 // make select box area wider behind the scenes so that tooltip isn't too narrow; need .catalog-show so this is only changed on the item view
-.catalog-show {
+.catalog-show, .bookmarks-show {
 	.show-select-box {
 		width: 100px;
 		text-align: right;
