@@ -71,7 +71,6 @@ Feature: Results list
 
 		@all_results_list @search_with_view_all_digital_collections
 	  Scenario: Search with view all books link
-      Given PENDING
 	    Given I literally go to search
 	    When I fill in "q" with 'game design'
 	    And I press 'Search'
