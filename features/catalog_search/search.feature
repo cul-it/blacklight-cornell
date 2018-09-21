@@ -17,6 +17,7 @@ Feature: Search
     And the page title should be "Cornell University Library Catalog"
     And I should see a stylesheet
 
+  @all_search
   @searchpage_types
   Scenario: Search Page search types
     When I am on the home page
