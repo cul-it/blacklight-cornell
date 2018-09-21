@@ -561,6 +561,7 @@ end
     "Conference Proceedings" => "group",
     "Video" => "video-camera",
     "Videos" => "video-camera",
+    "Map" => "globe",
     "Map or Globe" => "globe",
     "Maps and Globes" => "globe",
     "Manuscript/Archive" => "archive",
