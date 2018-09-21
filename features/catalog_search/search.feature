@@ -17,6 +17,7 @@ Feature: Search
     And the page title should be "Cornell University Library Catalog"
     And I should see a stylesheet
 
+  @searchpage_types
   Scenario: Search Page search types
     When I am on the home page
     Then the 'search_field' drop-down should have an option for 'All Fields'
@@ -27,6 +28,7 @@ Feature: Search
     Then the 'search_field' drop-down should have an option for 'Author'
     Then the 'search_field' drop-down should have an option for 'Subject'
     Then the 'search_field' drop-down should have an option for 'Call Number'
+    Then the 'search_field' drop-down should have an option for 'Call Number Browse'
     Then the 'search_field' drop-down should have an option for 'Publisher'
 
  @all_search
