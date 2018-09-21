@@ -41,8 +41,11 @@
           <td>
           <% if data["availability_json"].present? %>
             <% availability = JSON.parse(data['availability_json']) %>
-            <%= availability.inspect %>
-            <%= render :partial => '/catalog/availability_json', :locals => { :document => data} %>
+            <% if availability.online? %>
+              <%= "Online" %>
+            <% else %>
+              <%= render :partial => '/catalog/availability_json', :locals => { :document => data} %>
+            <% end %>
           <% end %>
           </td>
         </tr>
