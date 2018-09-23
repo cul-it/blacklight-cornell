@@ -44,6 +44,7 @@ Feature: Search
 # Combinatorial Algorithms, Algorithmic Press
   @adv_search
   @all_search
+  @search_title_or_publisher
   @searchpage
   @javascript
   Scenario: Advanced search with title OR publisher
