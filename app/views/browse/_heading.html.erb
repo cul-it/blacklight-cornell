@@ -2,20 +2,19 @@
   <table class="table table-responsive table-striped">
     <thead>
       <tr>
-        <th class="heading-count">
+        <th class="heading-count" scope="col">
           Titles
         </th>
-        <th class="heading-name">
+        <th class="heading-name" scope="col">
           Headings
         </th>
         <% unless params[:browse_type] == "Author-Title" %>
-          <th class="heading-type">
+          <th class="heading-type" scope="col">
             Type
           </th>
         <% end %>
       </tr>
     </thead>
-    <tbody></tbody>
     <% if response.present? %>
       <% response.each do |data| %>
         <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
