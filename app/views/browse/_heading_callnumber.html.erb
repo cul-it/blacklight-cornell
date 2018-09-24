@@ -1,22 +1,21 @@
 <div class="headings-list">
-  <table class="table table-responsive table-striped">
+  <table class="table table-responsive table-striped browse-callnumber">
     <thead>
       <tr>
-        <th class="heading-type">
+        <th class="headings-cn" scope="col">
           Call Number
         </th>
-        <th class="heading-type">
+        <th class="headings-cn-title" scope="col">
           Title
         </th>
-        <th class="heading-type">
+        <th class="headings-cn-forma hidden-xs" scope="col">
           Format
         </th>
-        <th class="heading-type">
-          Availablility
+        <th class="headings-cn-availability" scope="col">
+          Availability
         </th>
       </tr>
     </thead>
-    <tbody></tbody>
     <% if response["response"].present? %>
       <% params = response["responseHeader"]["params"] %>
       <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
@@ -35,7 +34,7 @@
                 <%= data["fulltitle_display"] %>
             <% end %>
           </td>
-          <td>
+          <td class="hidden-xs">
             <%= data["format"][0] %>
           </td>
           <td>

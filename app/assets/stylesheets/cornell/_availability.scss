@@ -31,7 +31,7 @@
 	}
 	.call-number {
 		margin-bottom: .5em;
-		font-family: courier, monospace;
+		font-family: $font-family-call-number;
 		span {
 			font-family: $realBaseFontFamily;
 		}
