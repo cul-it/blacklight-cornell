@@ -172,8 +172,8 @@ end
 
 BentoSearch.register_engine('Map') do |conf|
 	conf.engine = 'SolrEngine'
-	conf.title = 'Map'
-	conf.blacklight_format = 'Map'
+	conf.title = 'Maps and Globes'
+	conf.blacklight_format = 'Map or Globe'
 end
 
 BentoSearch.register_engine('Video') do |conf|
