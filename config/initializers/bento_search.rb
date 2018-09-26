@@ -172,7 +172,7 @@ end
 
 BentoSearch.register_engine('Map') do |conf|
 	conf.engine = 'SolrEngine'
-	conf.title = 'Maps'
+	conf.title = 'Map'
 	conf.blacklight_format = 'Map'
 end
 
