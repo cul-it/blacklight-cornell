@@ -164,16 +164,10 @@ BentoSearch.register_engine('Musical Score') do |conf|
 	conf.blacklight_format = 'Musical Score'
 end
 
-BentoSearch.register_engine('Map or Globe') do |conf|
-	conf.engine = 'SolrEngine'
-	conf.title = 'Maps and Globes'
-	conf.blacklight_format = 'Map or Globe'
-end
-
 BentoSearch.register_engine('Map') do |conf|
-	conf.engine = 'SolrEngine'
-	conf.title = 'Maps and Globes'
-	conf.blacklight_format = 'Map or Globe'
+  conf.engine = 'SolrEngine'
+  conf.title = 'Maps'
+  conf.blacklight_format = 'Map'
 end
 
 BentoSearch.register_engine('Video') do |conf|
