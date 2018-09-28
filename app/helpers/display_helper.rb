@@ -1229,8 +1229,11 @@ end
 
   # Parse other_id_display field for OCLC numbers
   def bookcover_oclc(document)
+    #Rails.logger.info("CONGAME = #{document.inspect}")
+#    Rails.logger.info("CONGAME = #{document['oclc_id_display']}")
+#    oclc_id = document['oclc_id_display'][0]
     other_ids = document['other_id_display']
-    oclc_id = other_ids.find { |e| /^\(OCoLC\)/ =~ e } unless other_ids.blank?
+    oclc_id = document['oclc_id_display'][0] #other_ids.find { |e| /^\(OCoLC\)/ =~ e } unless other_ids.blank?
     unless oclc_id.blank?
       # Remove '(OCLC)' prefix
       # -- really need to ask Frances about making OCLC# its own field
@@ -1238,6 +1241,14 @@ end
     end
   end
 
+  def bookcover_oclc(document)
+    if document['oclc_id_display'].nil?
+      oclc_id = ''
+    else
+      oclc_id = document['oclc_id_display'][0]
+    end
+    return oclc_id
+  end
   # Overrides original method from facets_helper_behavior.rb
   # -- Replace icon-remove (glyphicon) with appropriate Font Awesome classes
   # Standard display of a SELECTED facet value, no link, special span

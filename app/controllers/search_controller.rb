@@ -318,6 +318,10 @@ class SearchController < ApplicationController
       # (have to use double quotes; single returns an incorrect result set from Solr!)
       "(#{new_query}) OR phrase:\"#{search_query}\""
     else
+      if search_query.first == "'" and search_query.last == "'"
+        search_query = search_query.gsub("'","")
+        search_query = "(#{search_query}) OR phrase:\"#{search_query}\""
+      end
       search_query
     end
   end
