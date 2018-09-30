@@ -115,10 +115,9 @@ Feature: Select and export items from the result set
     Examples:
 
 |BibId | Format | SpecialContent | 
-| 1378974 | endnote |  '%9 Problem (M.Ed.)' |
-| 1378974 | ris | 'M3  - Problem (M.Ed.)' |
-| 1378974 | rdf_zotero | '<z:type>Problem (M.Ed.)</z:type>' |
-| 1378974 | endnote_xml| '<work-type>Problem (M.Ed.)</work-type>' |
+| 1378974 | endnote |  '%A Condie, Carol Joy' |
+| 1378974 | ris | 'AU  - Condie, Carol Joy' |
+| 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
 | 1002 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
@@ -187,7 +186,7 @@ Feature: Select and export items from the result set
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
     And I should see the text 'GR581 .C4313 2017'
     And I should see the text 'Olin Library'
-    And I should see the text '(OCoLC)982651297'
+    And I should see the text '982651297'
 
 #@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
 #  Scenario: User needs to be able to sort search results by acquired date
