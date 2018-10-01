@@ -5,6 +5,7 @@ gem 'rails', '4.2.7.1'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
+gem "sprockets", '~> 3.7.2'
 
 # added for rails 4.
 gem 'activerecord-session_store'
@@ -115,3 +116,4 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
 gem 'unicode_utils'
+gem 'blacklight_google_analytics'

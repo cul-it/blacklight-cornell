@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
+  include BlacklightGoogleAnalytics::ControllerExtraHead
 
-#  include BlacklightRangeLimit::ControllerOverride
+
+  include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
   include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
@@ -43,8 +45,9 @@ class CatalogController < ApplicationController
         flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
-    session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/afemail/#{params[:id]}"
-    render :partial => 'catalog/email_cuwebauth'
+      session[:send_email_on_catalog_item_load] = (params['id'].present? && params['id'].include?('|')) ? false : true
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+      render :partial => 'catalog/email_cuwebauth'
     end
   end
 
@@ -496,6 +499,9 @@ end
         :pf => '$lc_callnum_pf',
       }
     end
+
+    config.add_search_field('callnumber_browse', :label => 'Call Number Browse',:include_in_advanced_search => false, :placeholder_text => 'TP640')
+
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -1140,12 +1146,14 @@ def tou
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
          elsif params[:search_field] == 'at_browse' && !params[:id]
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
-         end
+         elsif params[:search_field] == 'callnumber_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
+         end 
        end
      end
   
-  def range_limit
-    redirect_to "/"
-  end
+#  def range_limit
+#    redirect_to "/"
+#  end
 
 end

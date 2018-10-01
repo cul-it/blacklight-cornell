@@ -47,8 +47,7 @@ Feature: Results list
     When I fill in "q" with 'mao tse tung untold'
     And I press 'Search'
     Then I should get bento results
-    #And I should see the text "珍藏毛泽东 = Mao Tse-tung untold"
-    And I should see the text " 珍藏毛泽东 / Zhen cang Mao Zedong"
+    And I should see the text "Zhen cang Mao Zedong"
 
 
   @all_results_list @search_with_no_best_bets

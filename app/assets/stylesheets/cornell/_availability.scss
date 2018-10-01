@@ -31,7 +31,7 @@
 	}
 	.call-number {
 		margin-bottom: .5em;
-		font-family: courier, monospace;
+		font-family: $font-family-call-number;
 		span {
 			font-family: $realBaseFontFamily;
 		}
@@ -115,9 +115,10 @@ h3.rare {
 	display: block;
 	line-height: 1.2em;
 	margin-top: 1em;
-	h5 { 
+	h4 { 
 		font-weight: 700;
 		margin-bottom: .5em;
+		font-size: 14px;
 	}
 }
 .item-requests {
