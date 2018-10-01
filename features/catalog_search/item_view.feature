@@ -225,7 +225,7 @@ Feature: Item view
   @DISCOVERYACCESS-1220
   Scenario: As a user I can see the number of requests placed on an item
     Given I request the item view for 7943432
-    Then I should see the label 'Requests'
+    Then I should see the label 'Request'
 
   # Make sure that blocking call number display does not cause availability display probs.
   # DISCOVERYACCESS-1386

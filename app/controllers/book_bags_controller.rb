@@ -56,7 +56,6 @@ class BookBagsController < CatalogController
 
   def addbookmarks
     @savedll = Rails.logger.level # at any time
-    Rails.logger.level = :debug
     if current_or_guest_user.bookmarks.count > 0
       bm = current_or_guest_user.bookmarks
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
@@ -133,9 +132,6 @@ class BookBagsController < CatalogController
     redirect_to :action => "index"
   end
 
-
-
-   
   def action_documents
     options =   {:per_page => 1000,:rows => 1000}
     @bms =@bb.index

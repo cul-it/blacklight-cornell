@@ -52,16 +52,26 @@ en:
         failure: 'Sorry, there was a problem deselecting this item.'
         action_confirm: 'Deselect this item?'
       clear:
-        action_title: 'Clear selected items'
-        action_confirm: 'Clear your selected items?'
-        success: 'Your selected items have been cleared.'
-        failure: 'Sorry, there was a problem clearing your selected items.'
+        action_title: 'Clear all items'
+        action_confirm: 
+          book_bag: 'Remove all the items from your Book Bag?'
+          bookmark: 'Remove all of your Selected Items?'
+        success: 'Your items have been cleared.'
+        failure: 'Sorry, there was a problem clearing your items.'
       bag:
         action_title: 'Add items to Book Bag for email and saving options'
         action_confirm: 'Add selected items to your Book Bag?'
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
+      email:
+        title: 'Email this'
+        warning: 'Emailing is currently limited to Cornell only.'
+        action:
+          item_view: 
+            text: 'Please %{href} with your Cornell ID, then click the Email button again.'
+            link_text: 'sign in'
+          bookmarks_view: 'Add items to Book Bag for email and saving options'
       list_title: 'Your selected items'
       delete: 'Remove'
 

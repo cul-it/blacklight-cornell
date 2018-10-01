@@ -15,7 +15,7 @@
     </div>
   <% end %>
   <% if @headingsResponse.present? %>
-    <h3>
+    <h2>
       <% if params[:browse_type] == "Author" %>
         <%= 'Browse "' + params[:authq] + '" in author headings' %>
       <% end %>
@@ -25,12 +25,19 @@
       <% if params[:browse_type] == "Author-Title" %>
         <%= 'Browse "' + params[:authq] + '" in author-title headings' %>
       <% end %>
-    </h3>
+      <% if params[:browse_type] == "Call-Number" %>
+        <%= 'Browse "' + params[:authq] + '" in call numbers' %>
+      <% end %>
+    </h2>
     <%= render 'pagination' %>
-    <% if params[:order] == "reverse" %>
-      <%= render 'heading', :response => @headingsResponse.reverse %>
+    <% if params[:browse_type] == "Call-Number" %>
+      <%= render 'heading_callnumber', :response => @headingsResponse, :order => params[:order] %>
     <% else %>
-      <%= render 'heading', :response => @headingsResponse %>
+      <% if params[:order] == "reverse" %>
+        <%= render 'heading', :response => @headingsResponse.reverse %>
+      <% else %>
+        <%= render 'heading', :response => @headingsResponse %>
+      <% end %>
     <% end %>
   <% end %>
   <% if !params[:authq].blank? && @headingsResponse.blank? && params[:browse_type].present? %>
