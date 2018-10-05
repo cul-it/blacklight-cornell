@@ -74,9 +74,16 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
         blacklight_params[:q] = blacklight_params[:q]
         else
-        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+          if blacklight_params[:search_field] != 'title_starts' 
+            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+          else
+            if !blacklight_params[:q].include?("title_starts")
+              blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+            end              
+          end
      #   blacklight_params[:q] = blacklight_params[:q]
         end
+
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
 #        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
