@@ -88,7 +88,6 @@ Feature: Bookmarks for anonymous users
     Examples:
     | item | filename |
     | RIS | endnote.ris |
-    | EndNote | endnote.endnote |
     | EndNote XML | endnote.endnote_xml |
 
     @bookmarks_print_selected
