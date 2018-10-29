@@ -134,7 +134,6 @@ GEM
       marc-fastxmlwriter
       rails
       traject (~> 2.1)
-    blacklight_google_analytics (0.0.1.pre3)
     blacklight_range_limit (6.3.3)
       blacklight (>= 6.0.2)
       jquery-rails
@@ -261,6 +260,7 @@ GEM
     gherkin (5.1.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    google-analytics-rails (1.1.1)
     guard (2.14.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -598,7 +598,6 @@ DEPENDENCIES
   blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
-  blacklight_google_analytics
   blacklight_range_limit
   blacklight_unapi!
   bootstrap-sass
@@ -620,6 +619,7 @@ DEPENDENCIES
   dotenv-rails
   exception_notification
   font-awesome-rails
+  google-analytics-rails (= 1.1.1)
   guard-rspec
   haml
   haml-rails
