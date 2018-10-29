@@ -85,4 +85,7 @@ BlacklightCornell::Application.configure do
   #  :room_name => ENV['HIPCHAT_ROOM_NAME']
   #}
 
+  # replace this with your tracker code
+  GA.tracker = "UA-8097093-12"
+
 end
