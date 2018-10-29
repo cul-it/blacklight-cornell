@@ -31,7 +31,11 @@
           </td>
           <td>
             <%= link_to '/catalog/' + data["bibid"].to_s do %>
+              <% if data["fulltitle_vern_display"].present? %>
+                <%= data["fulltitle_vern_display"] + ' / ' + data["fulltitle_display"] %>
+              <% else %>
                 <%= data["fulltitle_display"] %>
+              <% end %>
             <% end %>
           </td>
           <td class="hidden-xs">
