@@ -227,6 +227,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
+
     if !params[:qdisplay].blank?
       params[:q] = params[:qdisplay]
       search_session[:q] = params[:show_query]
@@ -234,6 +235,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session[:q] = params[:q] 
  #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
+
   end
 
 
@@ -729,7 +731,7 @@ def check_params(params)
        params[:qdisplay] = params[:q]
     #   params[:q] = parseQuoted(params[:q])
        if !params[:search_field].include?('browse')
-        qarray = params[:q].split('" ')
+        qarray = params[:q].split(' ')
        else
         qarray = [params[:q]]
        end
