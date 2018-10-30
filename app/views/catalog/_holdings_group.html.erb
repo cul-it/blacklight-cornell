@@ -17,7 +17,7 @@
 <% noncirc = true  %>
 <% end %>
 
-
+<%#= @document.inspect %>
 
 <% items.each do |i| %>
 <div class="holding">
@@ -122,7 +122,7 @@
         <% end %>
         </div>
 
-
+        <%#= i.inspect %>
         <div class="message">
           <% if i["holdings"].present? %>
             Library has: <%= holdings_html_safe(i["holdings"]) %>
@@ -137,7 +137,13 @@
 
         <div class="message">
           <% if i["supplements"].present? %>
-            Supplements: <%= i["supplements"].join('<br />').html_safe %>
+             <% if i["supplements"][0].include?('>') %>
+                  <% i["supplements"][0].gsub!('>','') %>
+                  <% if i["supplements"][0].include?('<') %>
+                     <% i["supplements"][0].gsub!('<','') %>
+                  <% end %>
+             <% end %>
+            Supplements: <%= [i["supplements"][0]].join('<br />').html_safe %>
           <% end %>
         </div>
 
