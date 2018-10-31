@@ -125,31 +125,26 @@
         <%#= i.inspect %>
         <div class="message">
           <% if i["holdings"].present? %>
-            Library has: <%= holdings_html_safe(i["holdings"]) %>
+            Library has: <% if i["holdings"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["holdings"]) %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["indexes"].present? %>
-            Indexes: <%= i["indexes"].join('<br />').html_safe %>
+             
+            Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["indexes"]) %> 
           <% end %>
         </div>
 
         <div class="message">
-          <% if i["supplements"].present? %>
-             <% if i["supplements"][0].include?('>') %>
-                  <% i["supplements"][0].gsub!('>','') %>
-                  <% if i["supplements"][0].include?('<') %>
-                     <% i["supplements"][0].gsub!('<','') %>
-                  <% end %>
-             <% end %>
-            Supplements: <%= [i["supplements"][0]].join('<br />').html_safe %>
+          <% if i["supplements"].present? %>             
+            Supplements: <% if i["supplements"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["supplements"]) %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["notes"].present? %>
-          Notes: <%= i["notes"].join('<br />').html_safe %>
+          Notes: <% if i["notes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["notes"]) %>
           <% end %>
         </div>
        

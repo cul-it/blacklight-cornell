@@ -397,7 +397,7 @@ end
 
     config.add_search_field('title', :label => "Title") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
-      field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
       # :solr_local_parameters will be sent using Solr LocalParams
       # syntax, as eg {! qf=$title_qf }. This is neccesary to use
@@ -444,7 +444,7 @@ end
 
 config.add_search_field('title_starts',:label => "Title Begins With", :include_in_advanced_search => false) do |field|
   field.include_in_simple_select = true
-  field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
+#  field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
   field.solr_local_parameters = {
     :qf => '$title_starts_qf',
     :pf => '$title_starts_pf'
@@ -454,7 +454,7 @@ end
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
     config.add_search_field('author/creator',:label => "Author") do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_qf',
         :pf => '$author_pf'
@@ -477,7 +477,7 @@ end
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject', :label => "Subject") do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
+ #     field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = {
         :qf => '$subject_qf',
@@ -571,7 +571,7 @@ end
 
     config.add_search_field('all_fields_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
       field.solr_local_parameters = {
          :qf => '$all_fields_starts',
          :pf => '$all_fields_starts'
@@ -590,7 +590,7 @@ end
 
     config.add_search_field('author/creator_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_starts_qf',
         :pf => '$author_starts_pf'
@@ -688,7 +688,7 @@ end
     end
     config.add_search_field('all_fields_quote',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
       field.solr_local_parameters = {
          :qf => '$all_fields_quot',
          :pf => '$all_fields_quot'
@@ -707,7 +707,7 @@ end
 
     config.add_search_field('author/creator_quote',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
         :qf => '$author_quot_qf',
         :pf => '$author_quot_pf'
@@ -926,7 +926,7 @@ end
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
-    config.spell_check_max = 5
+    config.spell_check_max = false
   end
 
   # Probably there's a better way to do this, but for now we'll make the mollom instance
