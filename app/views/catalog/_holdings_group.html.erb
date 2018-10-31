@@ -125,31 +125,57 @@
         <%#= i.inspect %>
         <div class="message">
           <% if i["holdings"].present? %>
-            Library has: <%= holdings_html_safe(i["holdings"]) %>
+             <% i["holdings"].each do |s| %>
+               <% if s.include?('>') %>
+                  <% s.gsub!('>','&gt') %>
+                  <% if s.include?('<') %>
+                     <% s.gsub!('<','&lt') %>
+                  <% end %>
+               <% end %>
+            <% end %>
+            Library has: <% if i["holdings"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["holdings"]) %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["indexes"].present? %>
-            Indexes: <%= i["indexes"].join('<br />').html_safe %>
+             <% i["indexes"].each do |b| %>
+               <% if b.include?('>') %>
+                  <% b.gsub!('>','&gt') %>
+                  <% if b.include?('<') %>
+                     <% b.gsub!('<','&lt') %>
+                  <% end %>
+               <% end %>
+            <% end %>
+            Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= i["indexes"].join('<br />').html_safe %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["supplements"].present? %>
-             <% if i["supplements"][0].include?('>') %>
-                  <% i["supplements"][0].gsub!('>','') %>
-                  <% if i["supplements"][0].include?('<') %>
-                     <% i["supplements"][0].gsub!('<','') %>
+             <% i["supplements"].each do |s| %>
+               <% if s.include?('>') %>
+                  <% s.gsub!('>','&gt') %>
+                  <% if s.include?('<') %>
+                     <% s.gsub!('<','&lt') %>
                   <% end %>
-             <% end %>
-            Supplements: <%= [i["supplements"][0]].join('<br />').html_safe %>
+               <% end %>
+            <% end %>
+            Supplements: <% if i["supplements"].size > 1 %> <br /> <% end %><%= i["supplements"].join('<br />').html_safe %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["notes"].present? %>
-          Notes: <%= i["notes"].join('<br />').html_safe %>
+          <% i["notes"].each do |n| %>
+               <% if n.include?('>') %>
+                  <% n.gsub!('>','&gt') %>
+                  <% if n.include?('<') %>
+                     <% n.gsub!('<','&lt') %>
+                  <% end %>
+               <% end %>
+            <% end %>
+          Notes: <% if i["notes"].size > 1 %> <br /> <% end %><%= i["notes"].join('<br />').html_safe %>
           <% end %>
         </div>
        
