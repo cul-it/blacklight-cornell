@@ -188,14 +188,15 @@ h4.suggest {
 	.select-item {
 		margin-top: 0;
 	}
-}
-
-// Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) {
 	.search-filter {
 		float: right;
 	}
 }
+
+// Medium devices (desktops, 992px and up)
+// @media (min-width: $screen-md) {
+	
+// }
 
 // Large devices (large desktops, 1200px and up)
 // @media (min-width: $screen-lg) {
