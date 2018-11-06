@@ -87,7 +87,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
 #        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
-        user_parameters[:q] = blacklight_params[:q]
+ #       user_parameters[:q] = blacklight_params[:q]
         user_parameters["mm"] = "1"
       end
     end
