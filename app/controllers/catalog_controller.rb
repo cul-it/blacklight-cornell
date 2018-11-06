@@ -782,10 +782,10 @@ end
     config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => '$author_cts_qf',
-         :pf => '$author_cts_pf'
-       }
+#       field.solr_local_parameters = {
+#         :qf => '$author_cts_qf',
+#         :pf => '$author_cts_pf'
+#       }
     end
 
     #combined subject CTS field made from the multiple subject browse fields
