@@ -362,6 +362,7 @@ end
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+    config.add_show_field 'works_about_display', :label => 'Works about'
   #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
@@ -544,6 +545,7 @@ end
          :pf => '$notes_pf'
        }
     end
+    
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
