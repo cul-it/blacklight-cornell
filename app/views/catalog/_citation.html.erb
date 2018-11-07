@@ -6,11 +6,15 @@
   <%  sym_name = "export_as_#{name}_citation_txt" %>
   <% @documents.each_with_index do |document,i| %>
     <%  if document.respond_to?(sym_name.to_sym) %>
-      <% d = document.send(sym_name.to_sym) %>
-       <% if i == 0  %>
-         <h4 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h4>
-       <% end %>
-      <%= (d[1]).html_safe %><br/>
+      <% begin %>
+        <% d = document.send(sym_name.to_sym) %>
+        <% if i == 0  %>
+          <h4 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h4>
+        <% end %>
+        <%= (d[1]).html_safe %><br/>
+      <% rescue %>
+        <%= ('').html_safe %><br/>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
