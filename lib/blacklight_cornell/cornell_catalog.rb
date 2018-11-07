@@ -185,7 +185,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @filters = params[:f] || []
     end
 
-    # clean up search_field and q params.  May be able to remove this
+   # clean up search_field and q params.  May be able to remove this
     cleanup_params(params)
 
     @expanded_results = {}
@@ -807,17 +807,17 @@ def check_params(params)
                  if bits.first == '"' 
                     #bits = bits + '"'
                     if fieldname == ''
-                     params[:q] << '+quoted:' + bits + ' '
+                     params[:q] = '+quoted:' + bits + ' '
                     else 
                      if !params[:search_field].include?('browse')
-                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                      params[:q] = '+' + fieldname + '_quoted:' + bits + ' '
                      end
                     end
                  else
                    if fieldname == ''
-                     params[:q] << '+' + bits + ' '
+                     params[:q] = '+' + bits + ' '
                    else
-                     params[:q] << '+' + fieldname + ':' + bits + ' '
+                     params[:q] = '+' + fieldname + ':' + bits + ' '
                    end
                  end
                end
@@ -825,6 +825,9 @@ def check_params(params)
              if params[:q].nil? or params[:q].blank?
                params[:q] = qparam_display
              end
+          end
+          if params[:search_field].include?('browse')
+            params[:q] = params[:search_field] + ":" + params[:q]
           end
        end   
     end
