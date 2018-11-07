@@ -782,10 +782,10 @@ end
     config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => '$author_cts_qf',
-         :pf => '$author_cts_pf'
-       }
+#       field.solr_local_parameters = {
+#         :qf => '$author_cts_qf',
+#         :pf => '$author_cts_pf'
+#       }
     end
 
     #combined subject CTS field made from the multiple subject browse fields
@@ -802,108 +802,108 @@ end
     config.add_search_field('author_pers_browse',:label=>'Author: Personal Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'author_pers_browse',
-         :pf => 'author_pers_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'author_pers_browse',
+#         :pf => 'author_pers_browse'
+#       }
     end
 
     config.add_search_field('author_corp_browse', :label=>'Author: Corporate Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'author_corp_browse',
-         :pf => 'author_corp_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'author_corp_browse',
+#         :pf => 'author_corp_browse'
+#       }
     end
 
     config.add_search_field('author_event_browse', :label=>'Author: Event') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'author_event_browse',
-         :pf => 'author_event_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'author_event_browse',
+#         :pf => 'author_event_browse'
+#       }
     end
     config.add_search_field('subject_pers_browse', :label => 'Subject: Personal Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_pers_browse',
-         :pf => 'subject_pers_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_pers_browse',
+#         :pf => 'subject_pers_browse'
+#       }
     end
 
     config.add_search_field('subject_corp_browse', :label => 'Subject: Corporate Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_corp_browse',
-         :pf => 'subject_corp_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_corp_browse',
+#         :pf => 'subject_corp_browse'
+#       }
     end
 
     config.add_search_field('subject_event_browse', :label => 'Subject: Event') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_event_browse',
-         :pf => 'subject_event_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_event_browse',
+#         :pf => 'subject_event_browse'
+#       }
     end
 
     config.add_search_field('subject_topic_browse', :label => 'Subject: Topic Term') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_topic_browse',
-         :pf => 'subject_topic_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_topic_browse',
+#         :pf => 'subject_topic_browse'
+#       }
     end
 
     config.add_search_field('subject_era_browse', :label => 'Subject: Chronological Term') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_era_browse',
-         :pf => 'subject_era_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_era_browse',
+#         :pf => 'subject_era_browse'
+#       }
     end
 
     config.add_search_field('subject_genr_browse', :label => 'Subject: Genre/Form Term') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_genr_browse',
-         :pf => 'subject_genr_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_genr_browse',
+#         :pf => 'subject_genr_browse'
+#       }
     end
 
     config.add_search_field('subject_geo_browse', :label => 'Subject: Geographic Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_geo_browse',
-         :pf => 'subject_geo_browse'
-       }
+ #      field.solr_local_parameters = {
+ #        :qf => 'subject_geo_browse',
+ #        :pf => 'subject_geo_browse'
+ #      }
     end
 
     config.add_search_field('subject_work_browse', :label => 'Subject: Work') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_work_browse',
-         :pf => 'subject_work_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_work_browse',
+#         :pf => 'subject_work_browse'
+#       }
     end
 
     config.add_search_field('authortitle_browse', :label => 'Author (sorted by title)') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'authortitle_browse',
-         :pf => 'authortitle_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'authortitle_browse',
+#         :pf => 'authortitle_browse'
+#       }
     end
 
 #    config.add_search_field('donor name') do |field|
