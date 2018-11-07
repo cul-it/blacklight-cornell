@@ -83,7 +83,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           end
      #   blacklight_params[:q] = blacklight_params[:q]
         end
-
+    # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
 #        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
