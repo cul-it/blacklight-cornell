@@ -1,0 +1,41 @@
+.myacct-col-5 {
+	width: 5%;
+}
+.myacct-col-10 {
+	width: 10%;
+}
+.myacct-col-50 {
+	width: 50%;
+}
+.myacct-col-20 {
+	width: 20%;
+}
+
+.blacklight-account {
+	p:first-child {
+		margin-top: 1em;
+	}
+}
+
+
+
+// MEDIA QUERIES
+// -------------------------
+
+// Small devices (tablets, 768px and up)
+// @media (min-width: $screen-sm) { 
+// }
+// Medium devices (desktops, 992px and up)
+@media (min-width: $screen-md) { 
+	.blacklight-account {
+		.tab-content {
+			padding-top: 1em;
+			margin-bottom: 2em;
+		}
+		.nav-tabs {
+			a {
+				font-size: 16px;
+			}
+		}
+	}
+}
