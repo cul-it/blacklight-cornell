@@ -503,10 +503,10 @@ end
 
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
-       field.solr_local_parameters = {
-         :qf => '$series_qf',
-         :pf => '$series_pf'
-       }
+     #  field.solr_local_parameters = {
+     #    :qf => '$series_qf',
+     #    :pf => '$series_pf'
+     #  }
     end
 
 
