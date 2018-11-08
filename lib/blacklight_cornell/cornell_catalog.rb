@@ -153,9 +153,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
      if params[:q_row] == ["",""]
        params.delete(:q_row)
      end
-      
-
     end
+    if !params[:q].nil? and !params[:q].include?(':') and params[:search_field].include?('cts')
+      params[:q] = params[:search_field] + ':' + params[:q]
+    end
+
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
