@@ -794,10 +794,10 @@ end
     config.add_search_field('subject_cts',:label=>'Subject') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => '$subject_cts_qf',
-         :pf => '$subject_cts_pf'
-       }
+#       field.solr_local_parameters = {
+#         :qf => '$subject_cts_qf',
+#         :pf => '$subject_cts_pf'
+#       }
     end
 
     #browse CTS fields. they do not appear in simple or advanced drop downs.
