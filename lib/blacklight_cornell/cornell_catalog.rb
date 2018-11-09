@@ -153,9 +153,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
      if params[:q_row] == ["",""]
        params.delete(:q_row)
      end
-      
-
     end
+    if !params[:search_field].nil?
+     if !params[:q].nil? and !params[:q].include?(':') and params[:search_field].include?('cts')
+       params[:q] = params[:search_field] + ':' + params[:q]
+     end
+    end
+
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
@@ -185,7 +189,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @filters = params[:f] || []
     end
 
-    # clean up search_field and q params.  May be able to remove this
+   # clean up search_field and q params.  May be able to remove this
     cleanup_params(params)
 
     @expanded_results = {}
@@ -227,6 +231,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
+
     if !params[:qdisplay].blank?
       params[:q] = params[:qdisplay]
       search_session[:q] = params[:show_query]
@@ -234,6 +239,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session[:q] = params[:q] 
  #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
+
   end
 
 
@@ -729,7 +735,7 @@ def check_params(params)
        params[:qdisplay] = params[:q]
     #   params[:q] = parseQuoted(params[:q])
        if !params[:search_field].include?('browse')
-        qarray = params[:q].split('" ')
+        qarray = params[:q].split(' ')
        else
         qarray = [params[:q]]
        end
@@ -805,17 +811,17 @@ def check_params(params)
                  if bits.first == '"' 
                     #bits = bits + '"'
                     if fieldname == ''
-                     params[:q] << '+quoted:' + bits + ' '
+                     params[:q] = '+quoted:' + bits + ' '
                     else 
                      if !params[:search_field].include?('browse')
-                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                      params[:q] = '+' + fieldname + '_quoted:' + bits + ' '
                      end
                     end
                  else
                    if fieldname == ''
-                     params[:q] << '+' + bits + ' '
+                     params[:q] = '+' + bits + ' '
                    else
-                     params[:q] << '+' + fieldname + ':' + bits + ' '
+                     params[:q] = '+' + fieldname + ':' + bits + ' '
                    end
                  end
                end
@@ -823,6 +829,9 @@ def check_params(params)
              if params[:q].nil? or params[:q].blank?
                params[:q] = qparam_display
              end
+          end
+          if params[:search_field].include?('browse')
+            params[:q] = params[:search_field] + ":" + params[:q]
           end
        end   
     end
