@@ -42,7 +42,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
       my_params = make_adv_query(blacklight_params)
       #blacklight_params = my_params
-      user_parameters["spellcheck.maxResultsForSuggest"] = 1
+      #user_parameters["spellcheck.maxResultsForSuggest"] = 0
       spellstring = ""
       if !my_params[:q_row].nil?
         blacklight_params[:q_row].each do |term|
@@ -50,7 +50,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           #spellstring  += term +  ' '
         end
       
-        user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
+      #  user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
       end
       user_parameters[:q] = blacklight_params[:q]
@@ -83,11 +83,11 @@ class SearchBuilder < Blacklight::SearchBuilder
           end
      #   blacklight_params[:q] = blacklight_params[:q]
         end
-
+    # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
 #        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
-        user_parameters[:q] = blacklight_params[:q]
+ #       user_parameters[:q] = blacklight_params[:q]
         user_parameters["mm"] = "1"
       end
     end
