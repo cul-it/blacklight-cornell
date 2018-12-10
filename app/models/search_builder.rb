@@ -32,8 +32,14 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def advsearch user_parameters
+    #user_parameters[:q] = 'title_starts:"Mad bad and dangerous to know"'
+    if blacklight_params[:search_field] == 'title_starts'
+      user_parameters[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+    end
+#    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
+#    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
     query_string = ""
     qparam_display = ""
     my_params = {}
