@@ -872,8 +872,10 @@ def check_params(params)
   
   def cleanup_params(params)
     qparam_display = params[:qdisplay]
-    if qparam_display.start_with?('"') and qparam_display.end_with?('"')
-      qparam_display = qparam_display[1..-1]
+    if !qparam_display.nil?
+      if qparam_display.start_with?('"') and qparam_display.end_with?('"')
+        qparam_display = qparam_display[1..-1]
+      end
     end
     query_string = params[:q]
     fieldname = ''
