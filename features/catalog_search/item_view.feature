@@ -267,7 +267,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
     Given I request the item view for 5729532
-    Then I should see the labels 'In transit'
+    Then I should see the labels 'Missing'
 
   # Availability for an In transit item bonsai culture and care
   @all_item_view
