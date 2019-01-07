@@ -8,8 +8,8 @@ Feature: Item view
   @e404
   Scenario: goto an invalid page
 
-  	When I literally go to abcdefg
-  	Then I should see an error
+    When I literally go to abcdefg
+    Then I should see an error
     Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
