@@ -28,7 +28,12 @@ end
     link_url = link_url.gsub('&','%26')
     link_url = link_url.gsub('"','%22')
 
-  end
+	end
+	
+def call_number_browse_link(call_number)
+	link_url = '/browse?utf8=✓&start=0&browse_type=Call-Number&authq=' + call_number
+	link_to(h(call_number), link_url)
+end
 
 end
 
