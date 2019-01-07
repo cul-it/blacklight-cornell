@@ -8,8 +8,8 @@ Feature: Item view
   @e404
   Scenario: goto an invalid page
 
-  	When I literally go to abcdefg
-  	Then I should see an error
+    When I literally go to abcdefg
+    Then I should see an error
     Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
@@ -744,3 +744,13 @@ Feature: Item view
     Given I request the item view for 330333
     Then I should see the label 'On-site use'
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+
+  # call number display in item view links to
+  # call number browse
+  @all_item_view
+  @DISCOVERYACCESS-4658
+  Scenario: View an items holding, and get a link to Call Number browse
+    Given I request the item view for 9862954
+    And click on link "PK2197.C46 Y39 2016"
+    Then I should see the label 'Browse "PK2197.C46 Y39 2016" in call numbers'
+    And I should see the text 'استاد سخن : چند معروف شعرائے چنيوٹ کے تناظر ميں‏'
