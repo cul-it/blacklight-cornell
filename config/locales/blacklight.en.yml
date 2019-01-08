@@ -54,8 +54,8 @@ en:
       clear:
         action_title: 'Clear all items'
         action_confirm: 
-          book_bag: 'Remove all the items from your Book Bag?'
-          bookmark: 'Remove all of your Selected Items?'
+          book_bag: 'Remove all items from your Book Bag?'
+          bookmark: 'Clear all selected items?'
         success: 'Your items have been cleared.'
         failure: 'Sorry, there was a problem clearing your items.'
       bag:
