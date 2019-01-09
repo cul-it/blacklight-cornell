@@ -16,7 +16,7 @@ Given /^I request the author title item view for (.*?)$/ do |at|
 end
 
 Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|
-  within (page.find(:id, id).find(:xpath,"//a[text()='#{text}']", visible: :all)) {
+  within (page.find(:id, id).find(:xpath,"//li/a[text()='#{text}']", visible: :all)) {
     click_link(text);
   }
 end
