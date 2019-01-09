@@ -16,5 +16,5 @@ Given /^I request the author title item view for (.*?)$/ do |at|
 end
 
 Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|
-  find ('#' + id).find('a', :text => /\Atext\z/).click()
+  page.find(:id, id).find('a', :text => /\Atext\z/).click()
 end
