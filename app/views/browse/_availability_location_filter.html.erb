@@ -1,0 +1,44 @@
+<%
+	libs = ["All",
+	  "Adelson Library",
+	  "Africana Library",
+	  "Bailey Hortorium ",
+	  "CISER Data Archive",
+	  "Fine Arts Library",
+	  "ILR Library",
+	  "ILR Library Kheel Center",
+	  "Kroch Library Asia",
+	  "Kroch Library Rare & Manuscripts",
+	  "Law Library",
+	  "Library Annex",
+	  "Mann Library",
+	  "Mathematics Library",
+	  "Music Library",
+	  "Nestle Library",
+	  "Olin Library",
+	  "Sage Hall Management Library",
+	  "Space Sciences Building",
+	  "Uris Library",
+	  "Veterinary Library"
+	]
+%>
+<div class="btn-group">
+    <a href="#" class="btn btn-default btn-sm" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability <b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
+        <% libs.each { |lib| %>
+            <% 
+            lib_encoded = URI::encode(lib)
+            if params[:fq]
+                checked = params[:fq] == "location:\"#{lib_encoded}\"" ? '✓ ' : ''
+            else 
+                checked = lib == 'All' ? '✓ ' : ''
+            end
+            %>
+            <% if lib == 'All' %>
+                <li><%= link_to "#{checked}#{lib}", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+            <% else %>
+                <li><%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+            <% end %>
+        <% } %>
+        </ul>
+</div>
