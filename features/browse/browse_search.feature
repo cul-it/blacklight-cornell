@@ -86,8 +86,8 @@ Feature: Browse search
       And I fill in the authorities search box with 'LO'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'search'
-      Then show me id "location-filter-menu"
-      And I click a link with text '<location>' within 'location-filter-menu'
+      Then show me id "location-filter-dropdown"
+      And I click a link with text '<location>' within 'location-filter-dropdown'
     Then I should see the label '<title>'
 
   Examples:
