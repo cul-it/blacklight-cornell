@@ -6,15 +6,15 @@ Feature: Browse search
 
   @browse
   Scenario: View the browse home page
-  	Given I literally go to browse
-  	Then I should see the text 'Browse through an alphabetical'
+    Given I literally go to browse
+    Then I should see the text 'Browse through an alphabetical'
 
   @browse
   Scenario: Search for an author
-  	Given I literally go to browse
+    Given I literally go to browse
         And I fill in the authorities search box with 'Dickens, Charles'
         And I press 'search'
-  	Then I should see the label 'Dickens, Charles, 1812-1870'
+    Then I should see the label 'Dickens, Charles, 1812-1870'
 
   @browse
   Scenario: Search for a subject
