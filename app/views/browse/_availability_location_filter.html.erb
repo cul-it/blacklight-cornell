@@ -24,7 +24,7 @@
 %>
 <div class="btn-group">
     <a href="#" class="btn btn-default btn-sm" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability <b class="caret"></b></a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
+    <ul class="dropdown-menu" id="location-filter-dropdown" role="menu" aria-labelledby="location-filter-menu">
         <% libs.each { |lib| %>
             <% 
             lib_encoded = URI::encode(lib)
