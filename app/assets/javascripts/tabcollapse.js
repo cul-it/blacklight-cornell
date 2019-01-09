@@ -1,0 +1,1 @@
+// $('#checkouts-tab').tabCollapse();
