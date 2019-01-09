@@ -86,7 +86,7 @@ Feature: Browse search
       And I fill in the authorities search box with 'LO'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'search'
-      Then show me hidden xpath "//*[@id=\"location-filter-dropdown\"]/li/a[text()=\"Adleson Library\"]"
+      Then show me hidden xpath "//*[@id='location-filter-dropdown']//a[text()='Adleson Library']"
       And I click a link with text '<location>' within 'location-filter-dropdown'
     Then I should see the label '<title>'
 
