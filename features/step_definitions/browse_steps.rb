@@ -14,3 +14,7 @@ end
 Given /^I request the author title item view for (.*?)$/ do |at|
   visit "/browse/info?authq=#{at}&browse_type=Author-Title"
 end
+
+Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|
+  find ('#' + id).find('a', :text => /\Atext\z/).click()
+end
