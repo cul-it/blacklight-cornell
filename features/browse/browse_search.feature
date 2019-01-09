@@ -71,7 +71,7 @@ Feature: Browse search
     Given I literally go to browse
       And I fill in the authorities search box with 'LP'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
-      And I press 'seach'
+      And I press 'search'
     Then I should see the label 'Whipped cream & other delights'
     Then click on first link "Sweet hands"
     Then I should see the label 'Dark lady'
