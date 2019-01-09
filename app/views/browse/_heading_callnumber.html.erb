@@ -12,8 +12,35 @@
           Format
         </th>
         <th class="headings-cn-availability" scope="col">
-          Availability
-        </th>
+          <div class="btn-group">
+            <a href="#" class="btn btn-default btn-sm" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
+              <li><%= link_to "All", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Adelson Library",  :fq => "location:\"Adelson+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Africana Library",  :fq => "location:\"Africana+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Bailey Hortorium ",  :fq => "location:\"Bailey+Hortorium\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "CISER Data Archive",  :fq => "location:\"CISER+Data+Archive\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Fine Arts Library",  :fq => "location:\"Fine+Arts+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "ILR Library",  :fq => "location:\"ILR+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "ILR Library Kheel Center",  :fq => "location:\"ILR+Library+Kheel+Center\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Kroch Library Asia",  :fq => "location:\"Kroch+Library+Asia\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Kroch Library Rare & Manuscripts",  :fq => "location:\"Kroch+Library+Rare+%26+Manuscripts\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Law Library",  :fq => "location:\"Law+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Library Annex",  :fq => "location:\"Library+Annex\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Mann Library",  :fq => "location:\"Mann+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Mathematics Library",  :fq => "location:\"Mathematics+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Music Library",  :fq => "location:\"Music+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Nestle Library",  :fq => "location:\"Nestle+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Olin Library",  :fq => "location:\"Olin+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Sage Hall Management Library",  :fq => "location:\"Sage+Hall+Management+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Space Sciences Building",  :fq => "location:\"Space+Sciences+Building\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Uris Library",  :fq => "location:\"Uris+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+              <li><%= link_to "Veterinary Library",  :fq => "location:\"Veterinary+Library\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+            </ul>
+          </div>
+          - : -
+          <%= puts availability_location_filter() %>
+        </th> 
       </tr>
     </thead>
     <% if response["response"].present? %>
