@@ -17,6 +17,6 @@ end
 
 Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|
   within (page.find(:id, id)) {
-    find(:xpath,"//a[text()='#{text}']").click()
+    click_link(text)
   }
 end
