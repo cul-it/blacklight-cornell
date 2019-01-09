@@ -6,15 +6,15 @@ Feature: Browse search
 
   @browse
   Scenario: View the browse home page
-  	Given I literally go to browse
-  	Then I should see the text 'Browse through an alphabetical'
+    Given I literally go to browse
+    Then I should see the text 'Browse through an alphabetical'
 
   @browse
   Scenario: Search for an author
-  	Given I literally go to browse
+    Given I literally go to browse
         And I fill in the authorities search box with 'Dickens, Charles'
         And I press 'search'
-  	Then I should see the label 'Dickens, Charles, 1812-1870'
+    Then I should see the label 'Dickens, Charles, 1812-1870'
 
   @browse
   Scenario: Search for a subject
@@ -63,3 +63,15 @@ Feature: Browse search
     Then I should see the label 'Hitchens, Bert'
     Then click on first link "Hitchens, Bert"
     Then I should see the label '1 - 4 of 4'
+
+  @browse
+  @call-number-browse
+  @DISCOVERYACCESS-4659
+  Scenario: Search for LPs
+    Given I literally go to browse
+      And I fill in the authorities search box with "LP"
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'seach'
+    Then I should see the label 'Whipped cream & other delights'
+    Then click on the first link "Sweet hands"
+    Then I should see the label 'Dark lady'
