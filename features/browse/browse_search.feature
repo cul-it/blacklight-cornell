@@ -91,5 +91,4 @@ Feature: Browse search
 
   Examples:
   | location | title |
-  | All | The beggar's opera |
   | Adleson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
