@@ -73,5 +73,5 @@ Feature: Browse search
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'seach'
     Then I should see the label 'Whipped cream & other delights'
-    Then click on the first link "Sweet hands"
+    Then click on first link "Sweet hands"
     Then I should see the label 'Dark lady'
