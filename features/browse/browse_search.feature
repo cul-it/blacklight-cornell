@@ -75,3 +75,21 @@ Feature: Browse search
     Then I should see the label 'Whipped cream & other delights'
     Then click on first link "Sweet hands"
     Then I should see the label 'Dark lady'
+
+
+  @browse
+  @call-number-browse
+  @call-number-browse-locations
+  @DISCOVERYACCESS-4659
+  Scenario Outline: Search for LPs
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LO'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+      And I select '<location>' from the 'location-filter-menu' drop-down
+    Then I should see the label '<title>'
+
+  Examples:
+  | location | title |
+  | All | The beggar's opera |
+  | Adleson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
