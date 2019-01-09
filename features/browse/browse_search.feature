@@ -69,7 +69,7 @@ Feature: Browse search
   @DISCOVERYACCESS-4659
   Scenario: Search for LPs
     Given I literally go to browse
-      And I fill in the authorities search box with "LP"
+      And I fill in the authorities search box with 'LP'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'seach'
     Then I should see the label 'Whipped cream & other delights'
