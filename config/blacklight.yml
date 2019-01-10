@@ -25,8 +25,8 @@
 #  #url: http://da-prod-solr1.library.cornell.edu/solr/blacklight2
 #  #url: http://dasolr.library.cornell.edu/solr/blacklight2
 #
-#test: &test
-#  url: http://da-prod-solr7.library.cornell.edu/solr/b4
+test: &test
+  url: http://da-prod-solr7.library.cornell.edu/solr/b11
 #  #url: http://da-prod-solr.library.cornell.edu/solr/b3
 #  #url: http://da-dev-solr.library.cornell.edu/solr/test
 #  #url: http://dasolr.library.cornell.edu/solr/blacklight2
@@ -41,4 +41,4 @@
   url: <%= ENV['SOLR_URL'] %>
 
 #cucumber:
-#  <<: *test
+  <<: *test
