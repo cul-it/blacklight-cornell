@@ -81,15 +81,35 @@ Feature: Browse search
   @call-number-browse
   @call-number-browse-locations
   @DISCOVERYACCESS-4659
-  Scenario Outline: Search for LPs
+  Scenario Outline: Search for call number LO in different locations
     Given I literally go to browse
       And I fill in the authorities search box with 'LO'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'search'
-      Then show me hidden xpath "//*[@id='location-filter-dropdown']//a[text()='Adleson Library']"
       And I click a link with text '<location>' within 'location-filter-dropdown'
     Then I should see the label '<title>'
 
   Examples:
   | location | title |
-  | Adleson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
+  | ✓ All | Publish! : the how-to magazine of desktop publishing |
+  | Adelson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
+  | Africana Library | The collected works of Scott Joplin |
+  | CISER Data Archive | Overall Real Property Tax Rates : Local Governments, 1981 |
+  | Fine Arts Library | Sonic rebellion : music as resistance : Detroit 1967-2017 |
+  | ILR Library | Mel Bay's immigrant songbook |
+  | ILR Library Kheel Center | Labor's troubadour |
+  | Kroch Library Asia | 往来物大系 / Ōraimono taikei |
+  | Kroch Library Rare & Manuscripts | Joh. Amos Comenii Orbis sensualium picti pars prima -[secunda] ... Der sichtbaren Welt erster Theil -[anderer Theil] ... |
+  | Law Library | Decisions of the Court of Appeals of Kentucky |
+  | Library Annex | The hollow crown, the fall and foibles of the kings and queens of England |
+  | Mann Library | Songs for the grange : set to music dedicated to the order of patrons of husbandry in the United States |
+  | Mathematics Library | The acoustical foundations of music |
+  | Music Library | Herb Alpert's Tijuana Brass. Vol. 2 |
+  | Nestle Library | Real good grammar, too : a handbook for students and professionals |
+  | Olin Library | Guardians of tradition, American schoolbooks of the nineteenth century |
+  | Sage Hall Management Library | Recording industry in numbers |
+  | Space Sciences Building | The book of the sky |
+  | Uris Library | Bhangra dance hits |
+  | Veterinary Library | Cornell '77 : the music, the myth, and the magnificence of the Grateful Dead's concert at Barton Hall |
+
+
