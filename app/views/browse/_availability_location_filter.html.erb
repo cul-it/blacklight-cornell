@@ -27,7 +27,7 @@
     <ul class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
         <% libs.each { |lib| %>
             <% 
-            lib_encoded = URI::encode(lib)
+			lib_encoded = CGI::escape(lib)
             if params[:fq]
                 checked = params[:fq] == "location:\"#{lib_encoded}\"" ? '✓ ' : ''
             else 
