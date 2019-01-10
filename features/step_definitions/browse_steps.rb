@@ -18,4 +18,15 @@ end
 Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|
   find(:xpath, "//*[@id='#{id}']//a[text()='#{text}']", visible:false).click
 end
+
+Given /^I click '(.*?)' in the first page navigator$/ do |text|
+  within(:xpath, "(//div[contains(@class, 'results-count')])[1]") do
+    click_link(text)
+  end
+end
+
+Given /^I click '(.*?)' in the last page navigator$/ do |text|
+  within(:xpath, "(//div[contains(@class, 'results-count')])[last()]") do
+    click_link(text)
+  end
 end
