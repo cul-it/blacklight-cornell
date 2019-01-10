@@ -11230,4 +11230,897 @@ http_interactions:
         {"image": {},"reference": {},"newspaper": {}}}'
     http_version: 
   recorded_at: Mon, 10 Dec 2018 14:36:59 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/callnum/browse?q=%5B%22LP%22%20TO%20*%5D&start=0&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Thu, 10 Jan 2019 15:59:25 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Jan 2019 15:59:25 GMT
+      Last-Modified:
+      - Thu, 10 Jan 2019 15:59:09 GMT
+      Etag:
+      - '"YmIzNzVhYzAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '11714'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":2516,
+            "params":{
+              "q":"[\"LP\" TO *]",
+              "start":"0",
+              "wt":"json"}},
+          "response":{"numFound":3301447,"start":0,"docs":[
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Motets",
+                "bibid":995657,
+                "callnum_display":"LP 1",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Whipped cream & other delights",
+                "bibid":996135,
+                "callnum_display":"LP 2",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"S.R.O.",
+                "bibid":995635,
+                "callnum_display":"LP 3",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Going places",
+                "bibid":996144,
+                "callnum_display":"LP 4",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Herb Alpert's Tijuana Brass. Vol. 2",
+                "bibid":995565,
+                "callnum_display":"LP 5",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Sweet hands",
+                "bibid":1041597,
+                "callnum_display":"LP 6",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Awakening",
+                "bibid":1041603,
+                "callnum_display":"LP 7",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Jim Hall live!",
+                "bibid":1041611,
+                "callnum_display":"LP 8",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Ira Sullivan",
+                "bibid":995959,
+                "callnum_display":"LP 9",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Musik zu \"Ein Sommernachtstraum\" : op. 21 u. 61",
+                "bibid":995501,
+                "callnum_display":"LP 10",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"6 sonatas and partitas for solo violin",
+                "bibid":3048340,
+                "callnum_display":"LP 11",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Ariadne auf Naxos : Oper in einem Aufzug",
+                "bibid":983436,
+                "callnum_display":"LP 12",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Norma",
+                "bibid":2670668,
+                "callnum_display":"LP 13",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Lucia di Lammermoor",
+                "bibid":2680549,
+                "callnum_display":"LP 14",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Manon",
+                "bibid":2670611,
+                "callnum_display":"LP 15",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Excerpts from Massenet's Manon",
+                "bibid":3132029,
+                "callnum_display":"LP 16",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"L'art musical et poetique de Guillaume de Machaut",
+                "bibid":976710,
+                "callnum_display":"LP 17",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Musica para guitarra",
+                "bibid":3139013,
+                "callnum_display":"LP 18",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Hurford plays Casavant",
+                "bibid":983767,
+                "callnum_display":"LP 19",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Musical Recording"],
+                "fulltitle_display":"Songs of farewell",
+                "bibid":983770,
+                "callnum_display":"LP 20",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Music Library A/V (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true}]
+          },
+          "facet_counts":{
+            "facet_queries":{
+              "{!ex=mq}acquired_dt:[NOW-1YEAR TO NOW-7DAY]":37481},
+            "facet_fields":{
+              "online":[
+                "At the Library",2761377,
+                "Online",539374],
+              "language_facet":[
+                "English",2008590,
+                "German",248974,
+                "French",148133,
+                "Spanish",129988,
+                "Chinese",107815,
+                "Russian",97454],
+              "location":[
+                "Adelson Library",10305,
+                "Adelson Library > Macaulay Library",369,
+                "Adelson Library > Main Collection",8941,
+                "Adelson Library > Museum of Vertebrates",875,
+                "Adelson Library > Reference",187,
+                "Africana Library",8064,
+                "Africana Library > Main Collection",7527,
+                "Africana Library > New Books Shelf",79,
+                "Africana Library > Reference",439,
+                "Africana Library > Reserve",24,
+                "Bailey Hortorium",13293,
+                "Bailey Hortorium > Main Collection",9038,
+                "Bailey Hortorium > Reference",4278,
+                "CISER Data Archive",952,
+                "Fine Arts Library",3137,
+                "Fine Arts Library > Main Collection",1816,
+                "Fine Arts Library > Reference",487,
+                "Fine Arts Library > Reserve",844,
+                "ILR Library",13127,
+                "ILR Library > Main Collection",12789,
+                "ILR Library > Reference",351,
+                "ILR Library > Reserve",26,
+                "ILR Library Kheel Center",2294,
+                "ILR Library Kheel Center > Main Collection",2183,
+                "ILR Library Kheel Center > Reference",112,
+                "Kroch Library Asia",231040,
+                "Kroch Library Asia > Main Collection",228229,
+                "Kroch Library Asia > Reference",2979,
+                "Kroch Library Asia > Reserve",3,
+                "Kroch Library Rare & Manuscripts",173929,
+                "Kroch Library Rare & Manuscripts > Main Collection",133596,
+                "Kroch Library Rare & Manuscripts > Reference",721,
+                "Kroch Library Rare & Manuscripts > Request in Advance",39767,
+                "Law Library",6712,
+                "Law Library > Main Collection",6013,
+                "Law Library > Rare Books",7,
+                "Law Library > Reference",85,
+                "Law Library > Request in Advance",19,
+                "Law Library > Reserve",595,
+                "Library Annex",1169505,
+                "Mann Library",115588,
+                "Mann Library > Circulation",2,
+                "Mann Library > Collection Development",17,
+                "Mann Library > Curriculum Materials Collection",341,
+                "Mann Library > Ellis Collection",549,
+                "Mann Library > Main Collection",104381,
+                "Mann Library > New Book Shelf",176,
+                "Mann Library > Reference",207,
+                "Mann Library > Reserve",132,
+                "Mann Library > Special Collections",10004,
+                "Mathematics Library",52666,
+                "Mathematics Library > Circulation Desk",242,
+                "Mathematics Library > Locked Press",1,
+                "Mathematics Library > Main Collection",52244,
+                "Mathematics Library > Reference",296,
+                "Mathematics Library > Reserve",92,
+                "Music Library",163433,
+                "Music Library > A/V",30511,
+                "Music Library > Circulation",3,
+                "Music Library > Main Collection",121745,
+                "Music Library > Reference",11379,
+                "Music Library > Reserve",229,
+                "Nestle Library",60,
+                "Nestle Library > Reserve",60,
+                "Olin Library",679678,
+                "Olin Library > Circulation Desk",23,
+                "Olin Library > Graduate Study Room 501",1478,
+                "Olin Library > Main Collection",674238,
+                "Olin Library > Maps",122,
+                "Olin Library > New & Noteworthy Books Shelf",710,
+                "Olin Library > Preservation Department",496,
+                "Olin Library > Reference",2073,
+                "Olin Library > Reserve",6,
+                "Olin Library > Room 305",1,
+                "Olin Library > Room 604-605",1407,
+                "Sage Hall Management Library",44,
+                "Sage Hall Management Library > Reference",8,
+                "Sage Hall Management Library > Reserve",36,
+                "Space Sciences Building",1965,
+                "Uris Library",146102,
+                "Uris Library > Asia A/V",9128,
+                "Uris Library > Asia A/V > China",2001,
+                "Uris Library > Asia A/V > Japan",762,
+                "Uris Library > Asia A/V > Korea",736,
+                "Uris Library > Asia A/V > South Asia",1739,
+                "Uris Library > Asia A/V > Southeast Asia",3179,
+                "Uris Library > Circulation",8,
+                "Uris Library > Main Collection",135914,
+                "Uris Library > Reference",598,
+                "Uris Library > Reserve",454,
+                "Uris Library > Reserve Willis Room ",76,
+                "Veterinary Library",8678,
+                "Veterinary Library > Core Resources",448,
+                "Veterinary Library > Main Collection",8315,
+                "Veterinary Library > Rare Books",2,
+                "Veterinary Library > Reference",11,
+                "Veterinary Library > Reserve ",25]},
+            "facet_ranges":{},
+            "facet_intervals":{},
+            "facet_heatmaps":{}}}
+    http_version: 
+  recorded_at: Thu, 10 Jan 2019 15:59:27 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/select?id=1041597&qt=document&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Jan 2019 15:59:28 GMT
+      Last-Modified:
+      - Thu, 10 Jan 2019 15:59:04 GMT
+      Etag:
+      - '"ZjM2MzJjMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '2585'
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZUhlYWRlciI6eyJ6a0Nvbm5lY3RlZCI6dHJ1ZSwic3RhdHVz
+        IjowLCJRVGltZSI6MTA1LCJwYXJhbXMiOnsicSI6InshcmF3IGY9aWQgdj0k
+        aWR9IiwicXQiOiJkb2N1bWVudCIsImVjaG9QYXJhbXMiOiJhbGwiLCJmbCI6
+        IioiLCJpZCI6IjEwNDE1OTciLCJjb2xsZWN0aW9uIjoiYjExIiwicm93cyI6
+        IjEiLCJ3dCI6Impzb24ifX0sInJlc3BvbnNlIjp7Im51bUZvdW5kIjoxLCJz
+        dGFydCI6MCwibWF4U2NvcmUiOjEzLjk4NzU0OCwiZG9jcyI6W3sicmVjb3Jk
+        X2RhdGVzX2Rpc3BsYXkiOlsie1wiYmliXCI6MTQ0OTM0ODQ3OTAwMCxcImhv
+        bGRpbmdzXCI6e1wiMTI2MDY0M1wiOjk1OTc0NTYwMDAwMH19Il0sImF1dGhv
+        cl9kaXNwbGF5IjoiTGllYm1hbiwgRGF2ZS4iLCJvcGVuc2VhcmNoX2Rpc3Bs
+        YXkiOlsiTGllYm1hbiwgRGF2ZS4iLCJTd2VldCBoYW5kcyIsIkphenogPiAx
+        OTcxLTE5ODAiLCIxOTcxIC0gMTk4MCIsIkphenoiLCJIb3Jpem9uIDsgMiIs
+        Ikhvcml6b24gKEEmTSBSZWNvcmRzIChGaXJtKSkgOyAyLiJdLCJhdXRob3Jf
+        anNvbiI6WyJ7XCJuYW1lMVwiOlwiTGllYm1hbiwgRGF2ZS5cIixcInNlYXJj
+        aDFcIjpcIkxpZWJtYW4sIERhdmUuXCIsXCJyZWxhdG9yXCI6XCJcIixcInR5
+        cGVcIjpcIlBlcnNvbmFsIE5hbWVcIixcImF1dGhvcml6ZWRGb3JtXCI6dHJ1
+        ZX0iXSwidGl0bGVfc21zX2NvbXBhdF9kaXNwbGF5IjpbIlN3ZWV0IGhhbmRz
+        Il0sInRpdGxlXzJsZXR0ZXJfcyI6WyJzdyJdLCJ0aXRsZV8xbGV0dGVyX3Mi
+        OlsicyJdLCJ0aXRsZV9kaXNwbGF5IjoiU3dlZXQgaGFuZHMiLCJmdWxsdGl0
+        bGVfZGlzcGxheSI6IlN3ZWV0IGhhbmRzIiwic3VidGl0bGVfZGlzcGxheSI6
+        IiIsInRpdGxlX3Jlc3BvbnNpYmlsaXR5X2Rpc3BsYXkiOlsiRGF2aWQgTGll
+        Ym1hbi4iXSwic3ViamVjdF9qc29uIjpbIlt7XCJzdWJqZWN0XCI6XCJKYXp6
+        XCIsXCJhdXRob3JpemVkXCI6dHJ1ZSxcInR5cGVcIjpcIlRvcGljYWwgVGVy
+        bVwifSx7XCJzdWJqZWN0XCI6XCIxOTcxLTE5ODAuXCIsXCJhdXRob3JpemVk
+        XCI6dHJ1ZX1dIl0sInN1YmplY3RfZGlzcGxheSI6WyJKYXp6ID4gMTk3MS0x
+        OTgwIl0sImZhc3RfYiI6dHJ1ZSwicHViX2luZm9fZGlzcGxheSI6WyJbQmV2
+        ZXJseSBIaWxscywgQ2FsaWYuXSA6IEEgJiBNLCBwMTk3NS4iXSwicHVicGxh
+        Y2VfZGlzcGxheSI6WyJbQmV2ZXJseSBIaWxscywgQ2FsaWYuXSJdLCJwdWJs
+        aXNoZXJfZGlzcGxheSI6WyJBICYgTS4iXSwicHViX2RhdGVfZGlzcGxheSI6
+        WyJwMTk3NSJdLCJkYXRhYmFzZV9iIjpmYWxzZSwidGl0bGVfc2VyaWVzX2Rp
+        c3BsYXkiOlsiSG9yaXpvbiAoQSZNIFJlY29yZHMgKEZpcm0pKSA7IDIuIl0s
+        InRpdGxlX3Nlcmllc19jdHMiOlsiSG9yaXpvbiAoQSZNIFJlY29yZHMgKEZp
+        cm0pKSA7IDIufEhvcml6b24gKEEmTSBSZWNvcmRzIChGaXJtKSkgOyJdLCJj
+        b250ZW50c19kaXNwbGF5IjpbIkRyLiBGYXVzdHVzIiwiRGFyayBsYWR5Iiwi
+        U3dlZXQgaGFuZCBSb3kiLCJBc2hpcmJhZCIsIldpdGhpbiB5b3UsIHdpdGhv
+        dXQgeW91IiwiTmFwYW5vY2giLCJMZWFuZS4iXSwibWFyY19kaXNwbGF5Ijoi
+        PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz48cmVjb3Jk
+        IHhtbG5zPVwiaHR0cDovL3d3dy5sb2MuZ292L01BUkMyMS9zbGltXCI+PGxl
+        YWRlcj4wMTQyNmNqbSBhMjIwMDM5NyBhIDQ1MDA8L2xlYWRlcj48Y29udHJv
+        bGZpZWxkIHRhZz1cIjAwMVwiPjEwNDE1OTc8L2NvbnRyb2xmaWVsZD48Y29u
+        dHJvbGZpZWxkIHRhZz1cIjAwNVwiPjIwMTUxMjA1MTU0NzU5LjA8L2NvbnRy
+        b2xmaWVsZD48Y29udHJvbGZpZWxkIHRhZz1cIjAwN1wiPnNkfGJzbWVubm1w
+        bG5lPC9jb250cm9sZmllbGQ+PGNvbnRyb2xmaWVsZCB0YWc9XCIwMDhcIj44
+        NTAxMTZzMTk3NcKgwqDCoMKgeHjCoGp6bsKgwqDCoGZnwqDCoMKgwqDCoMKg
+        wqDCoMKgwqDCoMKgwqBkPC9jb250cm9sZmllbGQ+PGRhdGFmaWVsZCB0YWc9
+        XCIwMTBcIiBpbmQxPVwiIFwiIGluZDI9XCIgXCI+PHN1YmZpZWxkIGNvZGU9
+        XCJhXCI+OTQ3NTI1OTMgL1I8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRh
+        ZmllbGQgdGFnPVwiMDI4XCIgaW5kMT1cIjBcIiBpbmQyPVwiMlwiPjxzdWJm
+        aWVsZCBjb2RlPVwiYVwiPlNQLTcwMjwvc3ViZmllbGQ+PHN1YmZpZWxkIGNv
+        ZGU9XCJiXCI+SG9yaXpvbjwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFm
+        aWVsZCB0YWc9XCIwMzNcIiBpbmQxPVwiMlwiIGluZDI9XCIgXCI+PHN1YmZp
+        ZWxkIGNvZGU9XCJhXCI+MTk3NTA3MjU8L3N1YmZpZWxkPjxzdWJmaWVsZCBj
+        b2RlPVwiYVwiPjE5NzUwNzI3PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT1c
+        ImFcIj4xOTc1MDcyOTwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9XCJhXCI+
+        MTk3NTA3MzA8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPVwiYlwiPjQzNjQ8
+        L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPVwiY1wiPkI5PC9zdWJmaWVsZD48
+        L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz1cIjAzNVwiIGluZDE9XCIgXCIg
+        aW5kMj1cIiBcIj48c3ViZmllbGQgY29kZT1cImFcIj4oQ1N0UkxJTilOWUNY
+        ODVSNTE8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPVwi
+        MDM1XCIgaW5kMT1cIiBcIiBpbmQyPVwiIFwiPjxzdWJmaWVsZCBjb2RlPVwi
+        YVwiPihOSUMpbm90aXNBRVAwOTczPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48
+        ZGF0YWZpZWxkIHRhZz1cIjAzNVwiIGluZDE9XCIgXCIgaW5kMj1cIiBcIj48
+        c3ViZmllbGQgY29kZT1cImFcIj4oT0NvTEMpNTUxNzE2Mzwvc3ViZmllbGQ+
+        PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCIwMzVcIiBpbmQxPVwiIFwi
+        IGluZDI9XCIgXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+MTA0MTU5Nzwvc3Vi
+        ZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCIwNDBcIiBpbmQx
+        PVwiIFwiIGluZDI9XCIgXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+R1ZhUzwv
+        c3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9XCJjXCI+RExDPC9zdWJmaWVsZD48
+        c3ViZmllbGQgY29kZT1cImRcIj5HWUc8L3N1YmZpZWxkPjxzdWJmaWVsZCBj
+        b2RlPVwiZFwiPk5JQzwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVs
+        ZCB0YWc9XCIwNDJcIiBpbmQxPVwiIFwiIGluZDI9XCIgXCI+PHN1YmZpZWxk
+        IGNvZGU9XCJhXCI+bGNjb3B5Y2F0PC9zdWJmaWVsZD48L2RhdGFmaWVsZD48
+        ZGF0YWZpZWxkIHRhZz1cIjA0NVwiIGluZDE9XCIgXCIgaW5kMj1cIiBcIj48
+        c3ViZmllbGQgY29kZT1cImFcIj54N3g3PC9zdWJmaWVsZD48L2RhdGFmaWVs
+        ZD48ZGF0YWZpZWxkIHRhZz1cIjEwMFwiIGluZDE9XCIxXCIgaW5kMj1cIiBc
+        Ij48c3ViZmllbGQgY29kZT1cImFcIj5MaWVibWFuLCBEYXZlLjwvc3ViZmll
+        bGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCIyNDVcIiBpbmQxPVwi
+        MVwiIGluZDI9XCIwXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+U3dlZXQgaGFu
+        ZHM8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPVwiaFwiPiAvPC9zdWJmaWVs
+        ZD48c3ViZmllbGQgY29kZT1cImNcIj5EYXZpZCBMaWVibWFuLjwvc3ViZmll
+        bGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCIyNjBcIiBpbmQxPVwi
+        IFwiIGluZDI9XCIgXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+W0JldmVybHkg
+        SGlsbHMsIENhbGlmLl0gOjwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9XCJi
+        XCI+QSAmYW1wOyBNLDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9XCJjXCI+
+        cDE5NzUuPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIHRhZz1c
+        IjMwMFwiIGluZDE9XCIgXCIgaW5kMj1cIiBcIj48c3ViZmllbGQgY29kZT1c
+        ImFcIj4xIHNvdW5kIGRpc2MgOjwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9
+        XCJiXCI+YW5hbG9nLCAzMyAxLzMgcnBtLCBzdGVyZW8gOzwvc3ViZmllbGQ+
+        PHN1YmZpZWxkIGNvZGU9XCJjXCI+MTIgaW4uPC9zdWJmaWVsZD48L2RhdGFm
+        aWVsZD48ZGF0YWZpZWxkIHRhZz1cIjQ5MFwiIGluZDE9XCIxXCIgaW5kMj1c
+        IiBcIj48c3ViZmllbGQgY29kZT1cImFcIj5Ib3Jpem9uIDs8L3N1YmZpZWxk
+        PjxzdWJmaWVsZCBjb2RlPVwidlwiPjI8L3N1YmZpZWxkPjwvZGF0YWZpZWxk
+        PjxkYXRhZmllbGQgdGFnPVwiNTAwXCIgaW5kMT1cIiBcIiBpbmQyPVwiIFwi
+        PjxzdWJmaWVsZCBjb2RlPVwiYVwiPkphenogZW5zZW1ibGVzLjwvc3ViZmll
+        bGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCI1MTFcIiBpbmQxPVwi
+        MFwiIGluZDI9XCIgXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+RmVhdHVyaW5n
+        IERhdmlkIExpZWJtYW4sIHRlbm9yIGFuZCBzb3ByYW5vIHNheG9waG9uZXMs
+        IGFsdG8gZmx1dGUsIGFuZCB3aW5kIGNoaW1lcy48L3N1YmZpZWxkPjwvZGF0
+        YWZpZWxkPjxkYXRhZmllbGQgdGFnPVwiNTE4XCIgaW5kMT1cIiBcIiBpbmQy
+        PVwiIFwiPjxzdWJmaWVsZCBjb2RlPVwiYVwiPlJlY29yZGVkIGF0IEtlbmR1
+        biBSZWNvcmRlcnMsIEJ1cmJhbmssIENhbGlmLiwgSnVseSAyNSwgMjcsIDI5
+        LCBhbmQgMzAsIDE5NzUuPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZp
+        ZWxkIHRhZz1cIjUwMFwiIGluZDE9XCIgXCIgaW5kMj1cIiBcIj48c3ViZmll
+        bGQgY29kZT1cImFcIj5EdXJhdGlvbjogNDU6MDAuPC9zdWJmaWVsZD48L2Rh
+        dGFmaWVsZD48ZGF0YWZpZWxkIHRhZz1cIjUwMFwiIGluZDE9XCIgXCIgaW5k
+        Mj1cIiBcIj48c3ViZmllbGQgY29kZT1cImFcIj5Qcm9ncmFtIG5vdGVzIGJ5
+        IEQuIExpZWJtYW4gb24gY29udGFpbmVyLjwvc3ViZmllbGQ+PC9kYXRhZmll
+        bGQ+PGRhdGFmaWVsZCB0YWc9XCI1MDVcIiBpbmQxPVwiMFwiIGluZDI9XCIg
+        XCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+RHIuIEZhdXN0dXMgLS0gRGFyayBs
+        YWR5IC0tIFN3ZWV0IGhhbmQgUm95IC0tIEFzaGlyYmFkIC0tIFdpdGhpbiB5
+        b3UsIHdpdGhvdXQgeW91IC0tIE5hcGFub2NoIC0tIExlYW5lLjwvc3ViZmll
+        bGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCI2NTBcIiBpbmQxPVwi
+        IFwiIGluZDI9XCIwXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+SmF6ejwvc3Vi
+        ZmllbGQ+PHN1YmZpZWxkIGNvZGU9XCJ5XCI+MTk3MS0xOTgwLjwvc3ViZmll
+        bGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCI2NDhcIiBpbmQxPVwi
+        IFwiIGluZDI9XCI3XCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+MTk3MSAtIDE5
+        ODA8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPVwiMlwiPmZhc3Q8L3N1YmZp
+        ZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgdGFnPVwiNjUwXCIgaW5kMT1c
+        IiBcIiBpbmQyPVwiN1wiPjxzdWJmaWVsZCBjb2RlPVwiYVwiPkpheno8L3N1
+        YmZpZWxkPjxzdWJmaWVsZCBjb2RlPVwiMlwiPmZhc3Q8L3N1YmZpZWxkPjxz
+        dWJmaWVsZCBjb2RlPVwiMFwiPihPQ29MQylmc3QwMDk4MjE2NTwvc3ViZmll
+        bGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCB0YWc9XCI4MzBcIiBpbmQxPVwi
+        IFwiIGluZDI9XCIwXCI+PHN1YmZpZWxkIGNvZGU9XCJhXCI+SG9yaXpvbiAo
+        QSZhbXA7TSBSZWNvcmRzIChGaXJtKSkgOzwvc3ViZmllbGQ+PHN1YmZpZWxk
+        IGNvZGU9XCJ2XCI+Mi48L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmll
+        bGQgdGFnPVwiOTA1XCIgaW5kMT1cIiBcIiBpbmQyPVwiIFwiPjxzdWJmaWVs
+        ZCBjb2RlPVwiYVwiPjE5OTgwMjE2MTIwMDAwLjA8L3N1YmZpZWxkPjwvZGF0
+        YWZpZWxkPjxkYXRhZmllbGQgdGFnPVwiOTQ4XCIgaW5kMT1cIjJcIiBpbmQy
+        PVwiIFwiPjxzdWJmaWVsZCBjb2RlPVwiYVwiPjIwMTQxMTE2PC9zdWJmaWVs
+        ZD48c3ViZmllbGQgY29kZT1cImJcIj5tPC9zdWJmaWVsZD48c3ViZmllbGQg
+        Y29kZT1cImRcIj5iYXRjaDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9XCJl
+        XCI+bHRzPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT1cInhcIj5hZGRmYXN0
+        PC9zdWJmaWVsZD48L2RhdGFmaWVsZD48L3JlY29yZD4iLCJpZCI6IjEwNDE1
+        OTciLCJiaWJpZF9kaXNwbGF5IjpbIjEwNDE1OTd8MjAxNTEyMDUxNTQ3NTki
+        XSwibGNfY29udHJvbG51bV9kaXNwbGF5IjpbIjk0NzUyNTkzIC9SIl0sImxj
+        X2NvbnRyb2xudW1fcyI6WyI5NDc1MjU5MyAvUiJdLCJkZXNjcmlwdGlvbl9k
+        aXNwbGF5IjpbIjEgc291bmQgZGlzYyA6IGFuYWxvZywgMzMgMS8zIHJwbSwg
+        c3RlcmVvIDsgMTIgaW4uIl0sIm5vdGVzIjpbIkphenogZW5zZW1ibGVzLiIs
+        IkZlYXR1cmluZyBEYXZpZCBMaWVibWFuLCB0ZW5vciBhbmQgc29wcmFubyBz
+        YXhvcGhvbmVzLCBhbHRvIGZsdXRlLCBhbmQgd2luZCBjaGltZXMuIiwiUmVj
+        b3JkZWQgYXQgS2VuZHVuIFJlY29yZGVycywgQnVyYmFuaywgQ2FsaWYuLCBK
+        dWx5IDI1LCAyNywgMjksIGFuZCAzMCwgMTk3NS4iLCJEdXJhdGlvbjogNDU6
+        MDAuIiwiUHJvZ3JhbSBub3RlcyBieSBELiBMaWVibWFuIG9uIGNvbnRhaW5l
+        ci4iXSwiaG9sZGluZ3NfZGlzcGxheSI6WyIxMjYwNjQzIl0sImhvbGRpbmdz
+        X3JlY29yZF9kaXNwbGF5IjpbIntcImlkXCI6XCIxMjYwNjQzXCIsXCJtb2Rp
+        ZmllZF9kYXRlXCI6bnVsbCxcImNvcHlfbnVtYmVyXCI6bnVsbCxcImNhbGxu
+        b3NcIjpbXCJMUCA2XCJdLFwibm90ZXNcIjpbXSxcImhvbGRpbmdzX2Rlc2Nc
+        IjpbXSxcInJlY2VudF9ob2xkaW5nc19kZXNjXCI6W10sXCJzdXBwbGVtZW50
+        YWxfaG9sZGluZ3NfZGVzY1wiOltdLFwiaW5kZXhfaG9sZGluZ3NfZGVzY1wi
+        OltdLFwibG9jYXRpb25zXCI6W3tcImNvZGVcIjpcIm11cyxhdlwiLFwibnVt
+        YmVyXCI6OTAsXCJuYW1lXCI6XCJNdXNpYyBMaWJyYXJ5IEEvViAoTm9uLUNp
+        cmN1bGF0aW5nKVwiLFwibGlicmFyeVwiOlwiTXVzaWMgTGlicmFyeVwifV19
+        Il0sImNhbGxudW1fc29ydCI6IkxQIDYiLCJpdGVtX3JlY29yZF9kaXNwbGF5
+        IjpbIntcImNvcHlfbnVtYmVyXCI6XCIxXCIsXCJpdGVtX3R5cGVfbmFtZVwi
+        Olwibm9jaXJjXCIsXCJpdGVtX2lkXCI6XCIyMzA5Njk4XCIsXCJ5ZWFyXCI6
+        XCJcIixcIml0ZW1fdHlwZV9pZFwiOlwiOVwiLFwiY2hyb25cIjpcIlwiLFwi
+        Y2FwdGlvblwiOlwiXCIsXCJob2xkc19wbGFjZWRcIjpcIjBcIixcInRlbXBf
+        bG9jYXRpb25cIjpcIjBcIixcIm9uX3Jlc2VydmVcIjpcIk5cIixcIml0ZW1f
+        ZW51bVwiOlwiXCIsXCJpdGVtX3NlcXVlbmNlX251bWJlclwiOlwiMVwiLFwi
+        dGVtcF9pdGVtX3R5cGVfaWRcIjpcIjBcIixcIm1maGRfaWRcIjpcIjEyNjA2
+        NDNcIixcInJlY2FsbHNfcGxhY2VkXCI6XCIwXCIsXCJjcmVhdGVfZGF0ZVwi
+        OlwiMjAwMC0wNS0zMSAwMDowMDowMC4wXCIsXCJpdGVtX2JhcmNvZGVcIjpc
+        IjMxOTI0MDgxMTE1Mjc1XCIsXCJtb2RpZnlfZGF0ZVwiOlwiMjAwNy0wNS0z
+        MSAxMDoxNjozMi4wXCIsXCJwZXJtX2xvY2F0aW9uXCI6e1wiY29kZVwiOlwi
+        bXVzLGF2XCIsXCJudW1iZXJcIjo5MCxcIm5hbWVcIjpcIk11c2ljIExpYnJh
+        cnkgQS9WIChOb24tQ2lyY3VsYXRpbmcpXCIsXCJsaWJyYXJ5XCI6XCJNdXNp
+        YyBMaWJyYXJ5XCJ9fSJdLCJpdGVtX2Rpc3BsYXkiOlsiMjMwOTY5OHwxMjYw
+        NjQzfDIwMDcwNTMxMTAxNjMyIl0sInB1Ymxpc2hlcl9udW1iZXJfZGlzcGxh
+        eSI6WyJTUC03MDIiXSwib3RoZXJfaWRfZGlzcGxheSI6WyIoQ1N0UkxJTilO
+        WUNYODVSNTEiLCIoTklDKW5vdGlzQUVQMDk3MyIsIjEwNDE1OTciXSwib2Ns
+        Y19pZF9kaXNwbGF5IjpbIjU1MTcxNjMiXSwiaG9sZGluZ3NfanNvbiI6Intc
+        IjEyNjA2NDNcIjp7XCJsb2NhdGlvblwiOntcImNvZGVcIjpcIm11cyxhdlwi
+        LFwibnVtYmVyXCI6OTAsXCJuYW1lXCI6XCJNdXNpYyBMaWJyYXJ5IEEvViAo
+        Tm9uLUNpcmN1bGF0aW5nKVwiLFwibGlicmFyeVwiOlwiTXVzaWMgTGlicmFy
+        eVwiLFwiaG91cnNDb2RlXCI6XCJtdXNpY1wifSxcImNhbGxcIjpcIkxQIDZc
+        IixcImNpcmNcIjpmYWxzZSxcImRhdGVcIjo5NTk3NDU2MDAsXCJpdGVtc1wi
+        OntcImNvdW50XCI6MSxcImF2YWlsXCI6MX19fSIsImF2YWlsYWJpbGl0eV9q
+        c29uIjoie1wiYXZhaWxhYmxlXCI6dHJ1ZSxcImF2YWlsQXRcIjp7XCJNdXNp
+        YyBMaWJyYXJ5IEEvViAoTm9uLUNpcmN1bGF0aW5nKVwiOlwiTFAgNlwifX0i
+        LCJpdGVtc19qc29uIjoie1wiMTI2MDY0M1wiOlt7XCJpZFwiOjIzMDk2OTgs
+        XCJjb3B5XCI6MSxcInNlcXVlbmNlXCI6MSxcImxvY2F0aW9uXCI6e1wiY29k
+        ZVwiOlwibXVzLGF2XCIsXCJudW1iZXJcIjo5MCxcIm5hbWVcIjpcIk11c2lj
+        IExpYnJhcnkgQS9WIChOb24tQ2lyY3VsYXRpbmcpXCIsXCJsaWJyYXJ5XCI6
+        XCJNdXNpYyBMaWJyYXJ5XCIsXCJob3Vyc0NvZGVcIjpcIm11c2ljXCJ9LFwi
+        Y2lyY0dycFwiOntcIjE4XCI6XCJNdXNpYyBDaXJjIEdyb3VwXCJ9LFwidHlw
+        ZVwiOntcImlkXCI6OSxcIm5hbWVcIjpcIm5vY2lyY1wifSxcInN0YXR1c1wi
+        OntcImF2YWlsYWJsZVwiOnRydWUsXCJjb2RlXCI6e1wiMVwiOlwiTm90IENo
+        YXJnZWRcIn19LFwiZGF0ZVwiOjExODA2MjA5OTJ9XX0iLCJibGFua2VudW1f
+        YiI6dHJ1ZSwiX3ZlcnNpb25fIjoxNjE2OTgzNzM1NjM4NDI1NjAwLCJ0aW1l
+        c3RhbXAiOiIyMDE4LTExLTEzVDAyOjI0OjE4LjczMloiLCJzdWJqZWN0X2Vy
+        YV9mYWNldCI6WyIxOTcxIC0gMTk4MCJdLCJwdWJfZGF0ZV9mYWNldCI6MTk3
+        NSwic291cmNlIjoiVm95YWdlciIsInR5cGUiOiJDYXRhbG9nIiwiZm9ybWF0
+        X21haW5fZmFjZXQiOiJNdXNpY2FsIFJlY29yZGluZyIsImF1dGhvcnRpdGxl
+        X2ZhY2V0IjpbIkxpZWJtYW4sIERhdmUuIHwgU3dlZXQgaGFuZHMiXSwic3Vi
+        amVjdF90b3BpY19maWxpbmciOlsiamF6eiIsImphenogMDAwMCAxOTcxIDE5
+        ODAiXSwic3ViamVjdF9lcmFfZmlsaW5nIjpbIjE5NzEgMTk4MCJdLCJhdXRo
+        b3JfcGVyc19maWxpbmciOlsibGllYm1hbiBkYXZlIl0sImF1dGhvcnRpdGxl
+        X2ZpbGluZyI6WyJsaWVibWFuIGRhdmUgMDAwMCBzd2VldCBoYW5kcyJdLCJs
+        b2NhdGlvbl9mYWNldCI6WyJNdXNpYyBMaWJyYXJ5Il0sImZhc3RfdG9waWNf
+        ZmFjZXQiOlsiSmF6eiJdLCJmb3JtYXQiOlsiTXVzaWNhbCBSZWNvcmRpbmci
+        XSwic3ViamVjdF90b3BpY19mYWNldCI6WyJKYXp6IiwiSmF6eiA+IDE5NzEt
+        MTk4MCJdLCJmYXN0X2VyYV9mYWNldCI6WyIxOTcxIC0gMTk4MCJdLCJvbmxp
+        bmUiOlsiQXQgdGhlIExpYnJhcnkiXSwiYXV0aG9yX2ZhY2V0IjpbIkxpZWJt
+        YW4sIERhdmUiXSwibG9jYXRpb24iOlsiTXVzaWMgTGlicmFyeSIsIk11c2lj
+        IExpYnJhcnkgPiBBL1YiXX1dfX0K
+    http_version: 
+  recorded_at: Thu, 10 Jan 2019 15:59:28 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/callnum/browse?q=%5B%22LO%22%20TO%20*%5D&start=0&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Thu, 10 Jan 2019 15:59:31 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Jan 2019 15:59:31 GMT
+      Last-Modified:
+      - Thu, 10 Jan 2019 15:59:25 GMT
+      Etag:
+      - '"YTczNzVhYzAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '11657'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":869,
+            "params":{
+              "q":"[\"LO\" TO *]",
+              "start":"0",
+              "wt":"json"}},
+          "response":{"numFound":3301490,"start":0,"docs":[
+              {
+                "format":["Journal/Periodical"],
+                "fulltitle_display":"Publish! : the how-to magazine of desktop publishing",
+                "bibid":2310182,
+                "callnum_display":"located in 2nd Floor Reading Room",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"A midsummer night's dream",
+                "bibid":1298693,
+                "callnum_display":"LONDON 4349",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"The beggar's opera",
+                "bibid":1975486,
+                "callnum_display":"LONDON A 4245",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Venus and Adonis",
+                "bibid":1298783,
+                "callnum_display":"LONDON A4250",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"The comedy of errors.  Complete and uncut in the text of The new Shakespeare",
+                "bibid":1975487,
+                "callnum_display":"LONDON A 4252",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Uris Library\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"The hollow crown,  the fall and foibles of the kings and queens of England",
+                "bibid":1975489,
+                "callnum_display":"LONDON A 4253",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Richard II",
+                "bibid":1298804,
+                "callnum_display":"LONDON A 4335",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"As you like it",
+                "bibid":1298873,
+                "callnum_display":"LONDON A 4336",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"The sonnets",
+                "bibid":1298665,
+                "callnum_display":"London A4341",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Macbeth",
+                "bibid":1298876,
+                "callnum_display":"LONDON A 4343",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Two gentlemen of Verona [and] A lover's complaint",
+                "bibid":1298784,
+                "callnum_display":"LONDON A 4344",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"The tempest ; and the Phoenix and the turtle",
+                "bibid":1298801,
+                "callnum_display":"LONDON A4346",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Timon of Athens",
+                "bibid":1298803,
+                "callnum_display":"LONDON A4350",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Twelfth night",
+                "bibid":1298898,
+                "callnum_display":"LONDON A4354",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Much ado about nothing",
+                "bibid":1298694,
+                "callnum_display":"LONDON A4362",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Love's labour's lost",
+                "bibid":1298808,
+                "callnum_display":"LONDON A4363",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"The taming of the shrew",
+                "bibid":1975309,
+                "callnum_display":"LONDON A 4367",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Le morte d'Arthur",
+                "bibid":1975311,
+                "callnum_display":"LONDON A 4369",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"All's well that ends well",
+                "bibid":1975315,
+                "callnum_display":"LONDON A 4370",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Uris Library\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Non-musical Recording"],
+                "fulltitle_display":"Titus Andronicus",
+                "bibid":1975316,
+                "callnum_display":"LONDON A 4371",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true}]
+          },
+          "facet_counts":{
+            "facet_queries":{
+              "{!ex=mq}acquired_dt:[NOW-1YEAR TO NOW-7DAY]":37481},
+            "facet_fields":{
+              "online":[
+                "At the Library",2761420,
+                "Online",539374],
+              "language_facet":[
+                "English",2008633,
+                "German",248974,
+                "French",148133,
+                "Spanish",129988,
+                "Chinese",107815,
+                "Russian",97454],
+              "location":[
+                "Adelson Library",10305,
+                "Adelson Library > Macaulay Library",369,
+                "Adelson Library > Main Collection",8941,
+                "Adelson Library > Museum of Vertebrates",875,
+                "Adelson Library > Reference",187,
+                "Africana Library",8064,
+                "Africana Library > Main Collection",7527,
+                "Africana Library > New Books Shelf",79,
+                "Africana Library > Reference",439,
+                "Africana Library > Reserve",24,
+                "Bailey Hortorium",13293,
+                "Bailey Hortorium > Main Collection",9038,
+                "Bailey Hortorium > Reference",4278,
+                "CISER Data Archive",952,
+                "Fine Arts Library",3137,
+                "Fine Arts Library > Main Collection",1816,
+                "Fine Arts Library > Reference",487,
+                "Fine Arts Library > Reserve",844,
+                "ILR Library",13127,
+                "ILR Library > Main Collection",12789,
+                "ILR Library > Reference",351,
+                "ILR Library > Reserve",26,
+                "ILR Library Kheel Center",2294,
+                "ILR Library Kheel Center > Main Collection",2183,
+                "ILR Library Kheel Center > Reference",112,
+                "Kroch Library Asia",231040,
+                "Kroch Library Asia > Main Collection",228229,
+                "Kroch Library Asia > Reference",2979,
+                "Kroch Library Asia > Reserve",3,
+                "Kroch Library Rare & Manuscripts",173929,
+                "Kroch Library Rare & Manuscripts > Main Collection",133596,
+                "Kroch Library Rare & Manuscripts > Reference",721,
+                "Kroch Library Rare & Manuscripts > Request in Advance",39767,
+                "Law Library",6712,
+                "Law Library > Main Collection",6013,
+                "Law Library > Rare Books",7,
+                "Law Library > Reference",85,
+                "Law Library > Request in Advance",19,
+                "Law Library > Reserve",595,
+                "Library Annex",1169545,
+                "Mann Library",115588,
+                "Mann Library > Circulation",2,
+                "Mann Library > Collection Development",17,
+                "Mann Library > Curriculum Materials Collection",341,
+                "Mann Library > Ellis Collection",549,
+                "Mann Library > Main Collection",104381,
+                "Mann Library > New Book Shelf",176,
+                "Mann Library > Reference",207,
+                "Mann Library > Reserve",132,
+                "Mann Library > Special Collections",10004,
+                "Mathematics Library",52666,
+                "Mathematics Library > Circulation Desk",242,
+                "Mathematics Library > Locked Press",1,
+                "Mathematics Library > Main Collection",52244,
+                "Mathematics Library > Reference",296,
+                "Mathematics Library > Reserve",92,
+                "Music Library",163433,
+                "Music Library > A/V",30511,
+                "Music Library > Circulation",3,
+                "Music Library > Main Collection",121745,
+                "Music Library > Reference",11379,
+                "Music Library > Reserve",229,
+                "Nestle Library",60,
+                "Nestle Library > Reserve",60,
+                "Olin Library",679678,
+                "Olin Library > Circulation Desk",23,
+                "Olin Library > Graduate Study Room 501",1478,
+                "Olin Library > Main Collection",674238,
+                "Olin Library > Maps",122,
+                "Olin Library > New & Noteworthy Books Shelf",710,
+                "Olin Library > Preservation Department",496,
+                "Olin Library > Reference",2073,
+                "Olin Library > Reserve",6,
+                "Olin Library > Room 305",1,
+                "Olin Library > Room 604-605",1407,
+                "Sage Hall Management Library",44,
+                "Sage Hall Management Library > Reference",8,
+                "Sage Hall Management Library > Reserve",36,
+                "Space Sciences Building",1965,
+                "Uris Library",146105,
+                "Uris Library > Asia A/V",9128,
+                "Uris Library > Asia A/V > China",2001,
+                "Uris Library > Asia A/V > Japan",762,
+                "Uris Library > Asia A/V > Korea",736,
+                "Uris Library > Asia A/V > South Asia",1739,
+                "Uris Library > Asia A/V > Southeast Asia",3179,
+                "Uris Library > Circulation",8,
+                "Uris Library > Main Collection",135917,
+                "Uris Library > Reference",598,
+                "Uris Library > Reserve",454,
+                "Uris Library > Reserve Willis Room ",76,
+                "Veterinary Library",8678,
+                "Veterinary Library > Core Resources",448,
+                "Veterinary Library > Main Collection",8315,
+                "Veterinary Library > Rare Books",2,
+                "Veterinary Library > Reference",11,
+                "Veterinary Library > Reserve ",25]},
+            "facet_ranges":{},
+            "facet_intervals":{},
+            "facet_heatmaps":{}}}
+    http_version: 
+  recorded_at: Thu, 10 Jan 2019 15:59:32 GMT
 recorded_with: VCR 4.0.0
