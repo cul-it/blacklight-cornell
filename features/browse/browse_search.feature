@@ -113,3 +113,27 @@ Feature: Browse search
   | Veterinary Library | Cornell '77 : the music, the myth, and the magnificence of the Grateful Dead's concert at Barton Hall |
 
 
+  @browse
+  @call-number-browse
+  @call-number-browse-navigation
+  @DISCOVERYACCESS-4659
+  Scenario Outline: Search for call number LO in different locations
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LO'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+      And I click a link with text 'Music Library' within 'location-filter-dropdown'
+    Then I should see the label 'Going places'
+      And I click '<go>' in the first page navigator
+      And I click '<back>' in the first page navigator
+    Then I should see the label 'Going places'
+      And I click '<go>' in the last page navigator
+      And I click '<back>' in the last page navigator
+    Then I should see the label 'Going places'
+
+
+  Examples:
+  | go | back |
+  | Next | Previous |
+  | Previous | Next |
+
