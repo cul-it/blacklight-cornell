@@ -47,7 +47,7 @@ module Blacklight::Bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
 
     max_bookmarks = 1000
-    if bookmark_ids > max_bookmarks
+    if bookmark_ids.count > max_bookmarks
       bookmark_ids = bookmark_ids.slice(0, max_bookmarks)
     end
 
