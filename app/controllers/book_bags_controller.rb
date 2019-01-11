@@ -13,6 +13,8 @@ class BookBagsController < CatalogController
    include Blacklight::Catalog
    include BlacklightCornell::CornellCatalog
 
+  MAX_BOOKBAGS_COUNT = 500
+
   #copy_blacklight_config_from(CatalogController)
   #
   before_action :authenticate_user!
