@@ -1,15 +1,10 @@
-<% if @document['availability_json'].present? %>
+<% if @document['holdings_json'].present? %>
     <% 
-    availability = JSON.parse(@document['availability_json']) 
+    holdings = JSON.parse(@document['holdings_json']) 
     callnumbers = []
-    if availability["availAt"].present?
-        availability["availAt"].each do |location,callnumber|
-            callnumbers << callnumber
-        end
-    end
-    if availability["unavailAt"].present?
-       availability["unavailAt"].each do |location,callnumber|
-            callnumbers << callnumber
+    holdings.each do |k,holding|
+        if holding['call'].present?
+            callnumbers << holding['call']
         end
     end
     %>
@@ -24,4 +19,3 @@
         </div>
     <% end %>
 <% end %>
-  
