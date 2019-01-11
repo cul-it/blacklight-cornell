@@ -68,11 +68,10 @@
                                                         <% end %>
                                                       <% end %>
                                                     </div>
-
-                                                <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
-                                                  <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
-                                                <% end %>
-                                              </div>
+                                                  <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
+                                                    <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
+                                                  <% end %>
+                                                </div>
                                             </li>
                                           <% end %>
                                         <% end %>
