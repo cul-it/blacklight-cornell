@@ -29,12 +29,15 @@ class Bookbag
 
   def create(value)
     begin  
-    @r.rpush  @bagname,value if @r && @r.count < BookBagsController::MAX_BOOKBAGS_COUNT
-    rescue
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
-      @@r = nil
-      @r = nil
-    end
+      if @r && @r.count < BookBagsController::MAX_BOOKBAGS_COUNT
+        raise 'Bookbag is is full'
+      end
+      @r.rpush  @bagname,value if @r
+      rescue
+        Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+        @@r = nil
+        @r = nil
+      end
   end
 
 
