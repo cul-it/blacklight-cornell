@@ -1,0 +1,21 @@
+<% if @document['holdings_json'].present? %>
+    <% 
+    holdings = JSON.parse(@document['holdings_json']) 
+    callnumbers = []
+    holdings.each do |k,holding|
+        if holding['call'].present?
+            callnumbers << holding['call']
+        end
+    end
+    %>
+    <% if callnumbers.any? %>
+        <div class="browse-call-number">
+            <h3>Browse related items by call number</h3>
+            <ul class="list-inline">
+            <% callnumbers.each do |callnumber| %>
+                <li><%= link_to callnumber, '/browse?' + {:browse_type => 'Call-Number', :authq => callnumber}.to_query, {:class => "btn btn-cul"} %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+<% end %>
