@@ -272,6 +272,19 @@ padding-left: 6em;
 	}
 }
 
+// Browse by call number links
+// ----------------------------
+.browse-call-number {
+	margin-top: 3em;
+	border-top: 5px solid $light-tan;
+	li {
+		font-size: 16px;
+	}
+	.btn, .btn:hover {
+		border-bottom: 0;
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 

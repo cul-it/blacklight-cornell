@@ -54,25 +54,24 @@
                                             <li>
                                               <div class="online-link"><%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
                                                 <div class="message"><%= summary_holdings.html_safe %></div>
-                                                        <div class="message">
-          													<% if @document["holdings_json"].present? %>
-            													<% holdings = JSON.parse(@document['holdings_record_display'][0]) %>
-            													<% getID = holdings["id"] %>
-            													<% if !JSON.parse(@document["holdings_json"])[getID]['holdings'].nil? %>
-            														<% sizer = JSON.parse(@document["holdings_json"])[getID]['holdings'].size %>
-            														<% if sizer != 1 %>
-             															Library has:<br/> <%= JSON.parse(@document["holdings_json"])[getID]['holdings'].join('<br>').html_safe %>
-            														<% else %>
-             															Library has: <%= JSON.parse(@document["holdings_json"])[getID]['holdings'] %>
-            														<% end %>
-            													<% end %>
-          													<% end %>
-        										</div>
-
-                                                <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
-                                                  <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
-                                                <% end %>
-                                              </div>
+                                                    <div class="message">
+                                                      <% if @document["holdings_json"].present? %>
+                                                        <% holdings = JSON.parse(@document['holdings_record_display'][0]) %>
+                                                        <% getID = holdings["id"] %>
+                                                        <% if !JSON.parse(@document["holdings_json"])[getID]['holdings'].nil? %>
+                                                          <% sizer = JSON.parse(@document["holdings_json"])[getID]['holdings'].size %>
+                                                          <% if sizer != 1 %>
+                                                            Library has:<br/> <%= JSON.parse(@document["holdings_json"])[getID]['holdings'].join('<br>').html_safe %>
+                                                          <% else %>
+                                                            Library has: <%= JSON.parse(@document["holdings_json"])[getID]['holdings'] %>
+                                                          <% end %>
+                                                        <% end %>
+                                                      <% end %>
+                                                    </div>
+                                                  <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
+                                                    <span class="terms-of-use"><a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a></span>
+                                                  <% end %>
+                                                </div>
                                             </li>
                                           <% end %>
                                         <% end %>
@@ -190,7 +189,9 @@
                         <div class="bookcover hidden-xs" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>"></div>
                       </div>
                       <%# item-cover %>
-                        <%= render_document_partial @document, :show %>
+                      <%= render_document_partial @document, :show %>
+                      <%= render :partial => 'catalog/call_number_browse_links' %>
+                      <%# browse-call-number %>
                       </div>
                       <%# col-sm-8 %>
                       </div>

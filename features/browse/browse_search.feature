@@ -25,12 +25,13 @@ Feature: Browse search
     Then I should see the label 'China > History'
 
   @browse
+  @browse_search_switch
   Scenario: Search for a subject and switch to catalog
     Given I literally go to browse
-        And I fill in the authorities search box with 'china'
+        And I fill in the authorities search box with 'china industrialization'
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'A companion to Chinese history'
+    Then I should see the label 'China's Industrialization Process'
 
   @browse
   Scenario: Search for author-title combination
