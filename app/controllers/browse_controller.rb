@@ -115,10 +115,6 @@ class BrowseController < ApplicationController
         if params[:fq]
           url = url + '&fq=' + params[:fq]
         end
-        save_logger = Rails.logger.level
-        Rails.logger.level = 0
-        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse url #{url}")
-        Rails.logger.level = save_logger
         @headingsResultString = dbclnt.get_content( url )
         if !@headingsResultString.nil?
           y = @headingsResultString

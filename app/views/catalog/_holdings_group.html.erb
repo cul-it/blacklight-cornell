@@ -48,7 +48,7 @@
 
     <% if pda == 'yes' %>
       <div class="location">
-        <%= call_number_browse_link(i["call"]) %>
+        <%= i["call"] %>
       </div>
     <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
       <div class="location">
@@ -77,7 +77,7 @@
     <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] != '' %>
       <div class="call-number">
       <% if pda != 'yes' %>
-        <%= call_number_browse_link(i["call"]) %>
+        <%= i["call"] %>
         <span class="text-it">
         <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right'}, :title =>
             'Text call number'} do %>
