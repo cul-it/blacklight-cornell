@@ -3,32 +3,54 @@
         <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
         <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
         <%= render_extra_head_content %>
-        <meta name=bagstupid />
       <% end -%>
- <h2><%= "Book Bag" %></h2>
-  <div class="results-info">
-    <div class="row">
-      <div class="col-sm-6">
-        <span class="results-count">
-          <%= render :partial => "paginate_compact", :object => @response %>
-        </span>
 
-        <%= link_to  book_bags_clear_path, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
-          <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
-        <% end %>
-      </div>
-      <div class="col-sm-3"> &nbsp</div>
-      <div class="col-sm-3">
-        <%= render :partial => 'sort_widget' %>
-        <%= render :partial => 'per_page_widget' %>
-      </div>
-    </div>
-  </div>
-  <div class="item-tools">
-    <ul class="fa-ul" id="item-tools">
-      <%= render :partial => 'catalog/show_tools' %>
+  <h2><%= "Book Bag" %></h2>
+  <div class="bookbag-tips">
+    <h3><i class="fa fa-info-circle" aria-hidden="true" alt="info"></i>Tips</h3>
+    <ul>
+      <li>You may save up to 500 items in your Book Bag.</li>
+      <li>Uncheck boxes to remove items from your Book Bag. Use the "Clear all items" link to remove all items.</li>
     </ul>
   </div>
+  <div class="results-info">
+    <% @selectedcount = 
+      if user_session.nil? || user_session[:bookbag_count].nil?
+        0
+      else
+        user_session[:bookbag_count]
+      end
+      %>
+    <%if @selectedcount < 1 %>
+      <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
+    <% else %>
+      <div class="row">
+        <div class="col-sm-6">
+          <span class="results-count">
+            <%= render :partial => "paginate_compact", :object => @response %>
+          </span>
+
+          <%= link_to  book_bags_clear_path, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.book_bag') }, :class => 'clear-bookmarks' do %>
+            <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
+          <% end %>
+        </div>
+        <div class="col-sm-6">
+          <div class="search-filter">
+            <div class="search-widgets">
+              <%= render :partial => 'sort_widget' %>
+              <%= render :partial => 'per_page_widget' %>
+            </div>
+            <%= render 'select_all' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="item-tools">
+      <ul class="fa-ul" id="item-tools">
+        <%= render :partial => 'catalog/show_tools' %>
+      </ul>
+    </div>
+  <% end %>
 
   <%= render_document_index %>
   <%= render 'results_pagination' %>

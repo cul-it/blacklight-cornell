@@ -79,6 +79,13 @@ div.request-options div.accordion-body .span4 {
   background: $light-tan;
 }
 
+// Make the label bold in instances where we are not using the label tag because would be an orphaned label (DISCOVERYACCESS-4676). Instead a div with the control-label class on it.
+.blacklight-request, .request {
+  .control-label {
+    font-weight: 700;
+  }
+}
+
 
 // Aeon screen
 // --------------------//

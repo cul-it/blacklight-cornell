@@ -53,6 +53,21 @@ body.blacklight-browse {
 	}
 }
 
+// Call Number Browse
+// ------------------------------------------
+.browse-callnumber {
+	// use monospace font for call number
+	td:first-child {
+		font-family: $font-family-call-number;
+	}
+	.online-label {
+		font-weight: 700;
+	}
+	i {
+		margin-right: .25em;
+	}
+}
+
 
 // CSS3 multiple columns
 // http://techneblog.com/article/creating-responsive-multiple-column-list
@@ -85,10 +100,6 @@ body.blacklight-browse {
 	font-size: 12px;
 	display: inline;
 	font-style: normal;
-}
-.heading-type {
-	font-size: 12px;
-	color: $medium-gray;
 }
 .headings-count {
 	width: 40px;
@@ -164,26 +175,25 @@ dl {
 
 // Small devices (tablets, 768px and up)
 @media (min-width: $screen-sm) { 
-	// .see-ref {
-	// 	ul {
-	// 		width: 80%;
-	//   		overflow: hidden;
-	// 	}
-	// 	li {
-	//   		float: left;
-	//   		display: inline;
-	// 	}
-	// 	.multicol li { width: 50%;}
-	// }
+	.headings-cn {
+		width: 30%;
+	}
 }
 
 // Medium devices (desktops, 992px and up)
 @media (min-width: $screen-md) {
-	// .see-ref {
-	// 	ul {
-	// 		width: 60%;
-	// 	}
-	// }
+	.headings-cn {
+		width: 25%;
+	}
+	.headings-cn-title {
+		width: 45%;
+	}
+	.headings-cn-format {
+		width: 10%;
+	}
+	.headings-cn-availability {
+		width: 20%;
+	}
 }
 
 

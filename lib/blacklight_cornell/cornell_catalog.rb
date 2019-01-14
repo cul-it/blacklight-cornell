@@ -30,7 +30,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
       elsif (params['id'].present? && op.include?('email'))
-        "/catalog/afemail/#{params[:id]}"
+        "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
          refp
       else
@@ -130,6 +130,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     temp_search_field = ''
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
+      if params[:q].include?('%2520')
+        params[:q].gsub!('%2520',' ')
+      end
+      if params[:search_field] == 'isbn%2Fissn' or params[:search_field] == 'isbn/issn'
+        params[:search_field] = 'isbnissn'
+      end
       if params["search_field"] == "journal title"
         journal_titleHold = "journal title"
       end
@@ -147,9 +153,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
      if params[:q_row] == ["",""]
        params.delete(:q_row)
      end
-      
-
     end
+    if !params[:search_field].nil?
+     if !params[:q].nil? and !params[:q].include?(':') and params[:search_field].include?('cts')
+       params[:q] = params[:search_field] + ':' + params[:q]
+     end
+    end
+
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
@@ -179,7 +189,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @filters = params[:f] || []
     end
 
-    # clean up search_field and q params.  May be able to remove this
+   # clean up search_field and q params.  May be able to remove this
     cleanup_params(params)
 
     @expanded_results = {}
@@ -221,6 +231,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
+
     if !params[:qdisplay].blank?
       params[:q] = params[:qdisplay]
       search_session[:q] = params[:show_query]
@@ -228,6 +239,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session[:q] = params[:q] 
  #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
+
   end
 
 
@@ -718,102 +730,115 @@ def check_params(params)
           params[:search_field] = 'all_fields'
         end     
      end
-     if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
-       qparam_display = params[:q]
+     if params[:search_field] == "title_starts"
        params[:qdisplay] = params[:q]
-    #   params[:q] = parseQuoted(params[:q])
-       if !params[:search_field].include?('browse')
-        qarray = params[:q].split('" ')
-       else
-        qarray = [params[:q]]
-       end
-        if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
-           params[:q] = params[:q]
-        else
-           if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
-              params[:q] = '('
-              if qarray.size == 1
-                 if qarray[0].include?(':')
-                   qarray[0].gsub!(':','\:')
-                 end
-                 if fieldname == ''
-                    params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
-                 else
-                    if fieldname != "title" and fieldname != "title_starts"
-                      params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
-                    else
-                     #This should be cleaned up next week when I start removing redundancies and cleaning up code
-                      if fieldname != "title_starts"
-                         params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"'
-                      else
-                         if qarray[0].include?('"')
-                           qarray[0] = qarray[0].gsub!('"','')
-                         end
-                         params[:q] << '+' << fieldname << ':"' << qarray[0] << '")'
-                      end 
-                    end
-                 end
-              else
-                 qarray.each do |bits|
-                    if bits.include?(':')
-                      bits.gsub!(':','\\:')
-                    end
-                    if fieldname == ''
-                       params[:q] << '+' << bits << ' '
-                    else
-                       params[:q] << '+' << fieldname << ':' << bits << ' '
-                    end
-                 end
-                 if fieldname == ''
-                    params[:q] << ') OR phrase:"' << qparam_display << '"'
-                 else
-                   if fieldname == "title"
-                    params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
-                   else
-                    params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
+       params[:q] = '"' + params[:q] + '"'
+     else 
+       if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
+         qparam_display = params[:q]
+         params[:qdisplay] = params[:q]
+      #   params[:q] = parseQuoted(params[:q])
+         if !params[:search_field].include?('browse')
+          qarray = params[:q].split(' ')
+         else
+          qarray = [params[:q]]
+         end
+          if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
+             params[:q] = params[:q]
+          else
+             if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
+                params[:q] = '('
+                if qarray.size == 1
+                   if qarray[0].include?(':')
+                     qarray[0].gsub!(':','\:')
                    end
-                 end
-              end
-           else
-             if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-               if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
-                  params[:q] = params[:q]
-                  params[:search_field] = fieldname << '_quoted'
-               else
-                 if fieldname == ''
-                  params[:q] = params[:q]
-                  params[:search_field] = 'quoted'
-                 end
-               end
-             else
-               params[:q] = ''
-               qarray.each do |bits|
-                 if bits.include?(':')
-                   bits.gsub!(':','\\:')
-                 end
-                 if bits.first == '"' 
-                    bits = bits + '"'
-                    if fieldname == ''
-                     params[:q] << '+quoted:' + bits + ' '
-                    else 
-                     if !params[:search_field].include?('browse')
-                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
+                   if fieldname == ''
+                      params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
+                   else
+                      if (fieldname != "title" and fieldname != "subject") and fieldname != "title_starts"
+                        params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
+                      else
+                       #This should be cleaned up next week when I start removing redundancies and cleaning up code
+                        if fieldname != "title_starts"
+                          if fieldname == "number" or fieldname == "title"
+                           params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"'
+                          else
+                           params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
+                          end
+                        else
+                           if qarray[0].include?('"')
+                             qarray[0] = qarray[0].gsub!('"','')
+                           end
+                           params[:q] << '+' << fieldname << ':"' << qarray[0] << '")'
+                        end 
+                      end
+                   end
+                else
+                   qarray.each do |bits|
+                      if bits.include?(':')
+                        bits.gsub!(':','\\:')
+                      end
+                      if fieldname == ''
+                         params[:q] << '+' << bits << ' '
+                      else
+                         params[:q] << '+' << fieldname << ':' << bits << ' '
+                      end
+                   end
+                   if fieldname == ''
+                      params[:q] << ') OR phrase:"' << qparam_display << '"'
+                   else
+                     if fieldname == "title"
+                      params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
+                     else
+                      params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
                      end
-                    end
+                   end
+                end
+             else
+               if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
+                 if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
+                    params[:q] = params[:q]
+                    params[:search_field] = fieldname << '_quoted'
                  else
                    if fieldname == ''
-                     params[:q] << '+' + bits + ' '
+                    params[:q] = params[:q]
+                    params[:search_field] = 'quoted'
+                   end
+                 end
+               else
+                 qarray = separate_quoted(params[:q])
+                 params[:q] = ''
+                 qarray.each do |bits|
+                   if bits.include?(':')
+                     bits.gsub!(':','\\:')
+                   end
+                   if bits.first == '"' 
+                      #bits = bits + '"'
+                      if fieldname == ''
+                       params[:q] = '+quoted:' + bits + ' '
+                      else 
+                        if !params[:search_field].include?('browse')
+                         params[:q] = '+' + fieldname + '_quoted:' + bits + ' '
+                        end
+                      end
                    else
-                     params[:q] << '+' + fieldname + ':' + bits + ' '
+                     if fieldname == ''
+                       params[:q] = '+' + bits + ' '
+                     else
+                       params[:q] = '+' + fieldname + ':' + bits + ' '
+                     end
                    end
                  end
                end
+               if params[:q].nil? or params[:q].blank?
+                 params[:q] = qparam_display
+               end
              end
-             if params[:q].nil? or params[:q].blank?
-               params[:q] = qparam_display
+             if params[:search_field].include?('browse')
+               params[:q] = params[:search_field] + ":" + params[:q]
              end
-          end
-       end   
+         end
+      end   
     end
     #    if params[:search_field] = "call number"
     #      params[:q] = "\"" << params[:q] << "\""
@@ -830,9 +855,28 @@ def check_params(params)
 #    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
    return params
   end
+
+  def separate_quoted(string)
+    #string = "this \"is what not\" quoted \"but this is\""
+    if string.count('"').odd?
+      if string[-1] == '"'
+        string = string[0..-2]
+      else
+        string = string + '"'
+      end
+    end
+    tempStringArray = string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
+    return tempStringArray
+  end
+
   
   def cleanup_params(params)
     qparam_display = params[:qdisplay]
+    if !qparam_display.nil?
+      if qparam_display.start_with?('"') and qparam_display.end_with?('"')
+        qparam_display = qparam_display[1..-1]
+      end
+    end
     query_string = params[:q]
     fieldname = ''
     if params[:search_field] == 'journal title'

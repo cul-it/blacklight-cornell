@@ -149,6 +149,20 @@ dd.blacklight-notes {
 		margin-right: 10px;
 	}
 }
+// make select box area wider behind the scenes so that tooltip isn't too narrow; need .catalog-show so this is only changed on the item view
+.catalog-show,
+.bookmarks-show {
+	.show-select-box {
+		width: 100px;
+		text-align: right;
+	}
+}
+.catalog-show, .bookmarks, .book_bags {
+	label.toggle_bookmark { 
+		margin-right: .5em;
+		font-size: 14px;
+	}
+}
 .main-content {
 	.item-tools {
 		a, a:hover {
@@ -163,7 +177,6 @@ dd.blacklight-notes {
 }
 .item-pagination {
 	margin-bottom: 2.2em;
-	font-size: 0.875em;
 }
 
 .fa-disabled {
@@ -256,6 +269,19 @@ padding-left: 6em;
 		font-weight: 300;
 		margin: 0 0 .25em;
 		border-bottom: 1px solid $light-tan;
+	}
+}
+
+// Browse by call number links
+// ----------------------------
+.browse-call-number {
+	margin-top: 3em;
+	border-top: 5px solid $light-tan;
+	li {
+		font-size: 16px;
+	}
+	.btn, .btn:hover {
+		border-bottom: 0;
 	}
 }
 

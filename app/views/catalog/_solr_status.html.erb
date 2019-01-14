@@ -1,7 +1,7 @@
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
   <div class="status">
     <span class="online-label">
-      <i class="fa fa-check fa-on-site" title="On-site use"></i>
+      <i class="fa fa-check fa-on-site" title="On-site use" alt="" aria-hidden="true"></i>
       <%= I18n.t('blacklight.catalog.available') %>
     </span>
     <%= I18n.t('blacklight.catalog.on_site') %>
@@ -9,12 +9,12 @@
   <% end %>
 
 <% if i["items"].present? %>
-  <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == false  %>
+  <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
     <%# i["items"]["avail"].each do |item| %>
 
       <div class="status">
         <span class="online-label">
-          <i class="fa fa-check"></i>
+          <i class="fa fa-check" alt="" aria-hidden="true"></i>
           <%= I18n.t('blacklight.catalog.available') %>
         </span>
         <% if i['copy'].present? %>
@@ -27,10 +27,10 @@
     <%# end %>
 
 
-  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true) %>
+  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
     <div class="status">
       <span class="online-label">
-        <i class="fa fa-check fa-on-site" title="On-site use"></i>
+        <i class="fa fa-check fa-on-site" title="On-site use" alt="" aria-hidden="true"></i>
         <%= I18n.t('blacklight.catalog.available') %>
       </span>
       <%= I18n.t('blacklight.catalog.on_site') %>
@@ -45,7 +45,7 @@
       <% end %>
      <% if !item["status"].nil? %>
       <div class="status">
-        <i class="fa fa-clock-o"></i>
+        <i class="fa fa-clock-o" alt="" aria-hidden="true"></i>
         <% if item['enum'].present?  %>
           <%= item['enum'] %>
         <% end %>
@@ -91,7 +91,7 @@
 <% if some_av == 'yes'  %>
   <div class="status">
       <span class="online-label">
-        <i class="fa fa-check"></i>
+        <i class="fa fa-check" alt="" aria-hidden="true"></i>
         <%= I18n.t('blacklight.catalog.available') %>
       </span>
       All other volumes/copies
@@ -101,6 +101,6 @@
 <% end %>
 <% if i["order"].present?  %>
   <div class="status">
-    <i class="fa fa-clock-o"></i> <%= I18n.t('blacklight.catalog.on_order') %>
+    <i class="fa fa-clock-o" alt="" aria-hidden="true"></i> <%= I18n.t('blacklight.catalog.on_order') %>
   </div>
 <% end %>

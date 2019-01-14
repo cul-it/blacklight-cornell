@@ -8,8 +8,8 @@ Feature: Item view
   @e404
   Scenario: goto an invalid page
 
-  	When I literally go to abcdefg
-  	Then I should see an error
+    When I literally go to abcdefg
+    Then I should see an error
     Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
@@ -225,7 +225,7 @@ Feature: Item view
   @DISCOVERYACCESS-1220
   Scenario: As a user I can see the number of requests placed on an item
     Given I request the item view for 7943432
-    Then I should see the label 'Requests'
+    Then I should see the label 'Request'
 
   # Make sure that blocking call number display does not cause availability display probs.
   # DISCOVERYACCESS-1386
@@ -267,7 +267,7 @@ Feature: Item view
   @DISCOVERYACCESS-1483
   Scenario: As a user I can see the availability for an In transit item
     Given I request the item view for 5729532
-    Then I should see the labels 'In transit'
+    Then I should see the labels 'Missing'
 
   # Availability for an In transit item bonsai culture and care
   @all_item_view
@@ -744,3 +744,21 @@ Feature: Item view
     Given I request the item view for 330333
     Then I should see the label 'On-site use'
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+
+  # item view links to call number browse
+  @all_item_view
+  @item_view_call_number_browse_links
+  @DISCOVERYACCESS-4781
+  Scenario Outline: View an items holding, and get a link to Call Number Browse for each call number
+    Given I request the item view for <bibid>
+      And click on first link "<call_number>"
+      Then I should see the label 'Browse "<call_number>" in call numbers'
+      And I should see the text '<related_title>'
+
+  Examples:
+  | bibid | call_number | related_title |
+  | 366639 | ++ U1 .A744 | United States army and navy journal |
+  | 366639 | Film N6390 | Quôc-triếu thư khế |
+  | 9862954 | PK2197.C46 Y39 2016 | Raftgān̲ va qāʾimān̲ : Darbhangah kā manẓūm adabī taz̲kirah |
+  | 8338813 | LD1357.5 .C67 2014 | Cornell indicators |
+  | 8338813 | Archives ARP 1164a | Corporate & foundation relations newsletter |

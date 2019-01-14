@@ -1,0 +1,58 @@
+<div class="headings-list">
+  <table class="table table-responsive table-striped browse-callnumber">
+    <thead>
+      <tr>
+        <th class="headings-cn" scope="col">
+          Call Number
+        </th>
+        <th class="headings-cn-title" scope="col">
+          Title
+        </th>
+        <th class="headings-cn-forma hidden-xs" scope="col">
+          Format
+        </th>
+        <th class="headings-cn-availability" scope="col">
+          <%= render :partial => 'browse/availability_location_filter' %>
+        </th> 
+      </tr>
+    </thead>
+    <% if response["response"].present? %>
+      <% params = response["responseHeader"]["params"] %>
+      <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
+      <% if order == "reverse" %>
+        <% docs = response["response"]["docs"].reverse %>
+      <% else %>
+        <% docs = response["response"]["docs"] %>
+      <% end %>
+      <% docs.each do |data| %>
+         <tr>
+          <td>
+            <%= data["callnum_display"] %>
+          </td>
+          <td>
+            <%= link_to '/catalog/' + data["bibid"].to_s do %>
+              <% if data["fulltitle_vern_display"].present? %>
+                <%= data["fulltitle_vern_display"] + ' / ' + data["fulltitle_display"] %>
+              <% else %>
+                <%= data["fulltitle_display"] %>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="hidden-xs">
+            <%= data["format"][0] %>
+          </td>
+          <td>
+          <% if data["availability_json"].present? %>
+            <% availability = JSON.parse(data['availability_json']) %>
+            <% if availability['online'].present? %>
+              <div class="online-label"><i class="fa fa-check" alt="" aria-hidden="true"></i>Online</div>
+            <% else %>
+              <%= render :partial => '/catalog/availability_json', :locals => { :document => data} %>
+            <% end %>
+          <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>

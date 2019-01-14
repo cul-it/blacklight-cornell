@@ -44,6 +44,7 @@ Feature: Search
 # Combinatorial Algorithms, Algorithmic Press
   @adv_search
   @all_search
+  @search_title_or_publisher
   @searchpage
   @javascript
   Scenario: Advanced search with title OR publisher
@@ -96,7 +97,7 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 20 of 42'
+    And I should see the label '1 - 20 of 43'
 
  @adv_search
  @all_search

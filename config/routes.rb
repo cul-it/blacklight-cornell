@@ -21,6 +21,10 @@ BlacklightCornell::Application.routes.draw do
 resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
       concerns :exportable
 end
+  
+#get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
+get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
+get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 
 resources :bookmarks do
   concerns :exportable
@@ -74,6 +78,7 @@ end
   get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
   get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
   get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
+  
 
   match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon', :via => [:post, :put, :get]
@@ -166,7 +171,6 @@ end
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
-  
 
 
 

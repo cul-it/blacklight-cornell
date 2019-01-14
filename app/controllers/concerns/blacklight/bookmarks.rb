@@ -148,4 +148,5 @@ module Blacklight::Bookmarks
   def start_new_search_session?
     action_name == "index"
   end
+
 end

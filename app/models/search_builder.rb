@@ -1,8 +1,8 @@
-# rozen_string_literal: true
+# frozen_string_literal: false
 # operations on strings are so prevalent must unfreeze them.
 class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
-#  include BlacklightRangeLimit::RangeLimitBuilder
+  include BlacklightRangeLimit::RangeLimitBuilder
 
 
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
@@ -32,8 +32,14 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def advsearch user_parameters
+    #user_parameters[:q] = 'title_starts:"Mad bad and dangerous to know"'
+    if blacklight_params[:search_field] == 'title_starts'
+      user_parameters[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+    end
+#    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
+#    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
     query_string = ""
     qparam_display = ""
     my_params = {}
@@ -42,7 +48,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
       my_params = make_adv_query(blacklight_params)
       #blacklight_params = my_params
-      user_parameters["spellcheck.maxResultsForSuggest"] = 1
+      #user_parameters["spellcheck.maxResultsForSuggest"] = 0
       spellstring = ""
       if !my_params[:q_row].nil?
         blacklight_params[:q_row].each do |term|
@@ -50,7 +56,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           #spellstring  += term +  ' '
         end
       
-        user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
+      #  user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
       end
       user_parameters[:q] = blacklight_params[:q]
@@ -72,15 +78,22 @@ class SearchBuilder < Blacklight::SearchBuilder
            blacklight_params[:search_field] = 'author'
         end
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
-        blacklight_params[:q] = blacklight_params[:q]
+          blacklight_params[:q] = blacklight_params[:q]
         else
-        blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts' 
+            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+          else
+            if !blacklight_params[:q].include?("title_starts")
+             #blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+            end              
+          end
      #   blacklight_params[:q] = blacklight_params[:q]
         end
+    # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
 #        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
-        user_parameters[:q] = blacklight_params[:q]
+ #       user_parameters[:q] = blacklight_params[:q]
         user_parameters["mm"] = "1"
       end
     end
