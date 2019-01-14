@@ -112,7 +112,9 @@ class BrowseController < ApplicationController
           p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') +'" TO *]' }
           url = call_no_solr + "/" + @@browse_index_callnumber + "/browse?wt=json&" + p.to_param + '&' + start.to_param 
         end
-        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__}  = " + "Call number browse url #{url}")
+        if params[:fq]
+          url = url + '&fq=' + params[:fq]
+        end
         @headingsResultString = dbclnt.get_content( url )
         if !@headingsResultString.nil?
           y = @headingsResultString
