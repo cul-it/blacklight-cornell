@@ -29,9 +29,7 @@ class Bookbag
 
   def create(value)
     begin  
-      raise 'hello create'
-      if @r && @r.count >= BookBagsController::MAX_BOOKBAGS_COUNT
-        raise 'Bookbag is is full'
+      if @r
       end
       @r.rpush  @bagname,value if @r
       rescue
