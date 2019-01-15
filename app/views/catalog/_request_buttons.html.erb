@@ -10,10 +10,10 @@
       <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
     <% elsif counter.blank? %>
       <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }  %>
-      <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } unless reading.empty?   %>
+      <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-default', :id => 'id_request' } unless reading.empty?   %>
     <% else %>
       <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } %>
-      <%= link_to "Request item for scanning", request_scan_path , { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }  unless reading.empty? %>
+      <%= link_to "Request item for scanning", request_scan_path , { :title => 'Request', :class => 'btn btn-default', :id => 'id_request' }  unless reading.empty? %>
     <% end %>
   <% end %>
 
