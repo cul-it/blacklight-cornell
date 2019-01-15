@@ -117,7 +117,7 @@ module Blacklight::Bookmarks
         end
       end
     rescue RangeError => msg
-      # render :partial => 'bookmarks/selected_item_limit'
+      render :partial => 'bookmarks/selected_item_limit'
       # redirect_to :back
     end
   end
