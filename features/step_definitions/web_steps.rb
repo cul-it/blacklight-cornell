@@ -198,7 +198,7 @@ When("I select {int} items per page") do |int|
 end
 
 Then("I should see {int} selected items") do |int|
-  expect(page.find(:xpath, "//a[@id='bookmarks_nav']/span").text).to eq(int)
+  expect(page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}"))
 end
 
 Then("I check Select all") do
