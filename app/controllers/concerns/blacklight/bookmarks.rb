@@ -46,6 +46,11 @@ module Blacklight::Bookmarks
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
 
+    max_bookmarks = BookBagsController::MAX_BOOKBAGS_COUNT
+    if bookmark_ids.count > max_bookmarks
+      bookmark_ids = bookmark_ids.slice(0, max_bookmarks)
+    end
+
     @response, @document_list = fetch(bookmark_ids)
 
     respond_to do |format|
@@ -74,33 +79,46 @@ module Blacklight::Bookmarks
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler.
   def create
-    @bookmarks = if params[:bookmarks]
-                   params[:bookmarks]
-                 else
-                   [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
-                 end
+    begin
+      @bookmarks = if params[:bookmarks]
+                    params[:bookmarks]
+                  else
+                    [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
+                  end
 
-    current_or_guest_user.save! unless current_or_guest_user.persisted?
+      current_or_guest_user.save! unless current_or_guest_user.persisted?
 
-    success = @bookmarks.all? do |bookmark|
-       current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
-    end
-
-    if request.xhr?
-      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(plain: "", status: "500")
-    else
-      if @bookmarks.any? && success
-        flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
-      elsif @bookmarks.any?
-        flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+      current_count = current_or_guest_user.bookmarks.count
+      new_count = @bookmarks.count
+      save_level = Rails.logger.level;  Rails.logger.level = Logger::WARN
+      if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
+        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
+        raise RangeError, 'Too many bookmarks'
+      end
+      Rails.logger.level = save_level
+      success = @bookmarks.all? do |bookmark|
+        current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
       end
 
-      if respond_to? :redirect_back
-        redirect_back fallback_location: bookmarks_path
+      if request.xhr? && success
+        success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(plain: "", status: "500")
       else
-        # Deprecated in Rails 5.0
-        redirect_to :back
+        if @bookmarks.any? && success
+          flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
+        elsif @bookmarks.any?
+          flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+        end
+
+        if respond_to? :redirect_back
+          redirect_back fallback_location: bookmarks_path
+        else
+          # Deprecated in Rails 5.0
+          redirect_to :back
+        end
       end
+    rescue RangeError => msg
+      render :partial => 'bookmarks/selected_item_limit'
+      # redirect_to :back
     end
   end
 
