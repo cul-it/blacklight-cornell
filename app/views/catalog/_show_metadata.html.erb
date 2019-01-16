@@ -63,7 +63,7 @@
                                                           <% if sizer != 1 %>
                                                             Library has:<br/> <%= JSON.parse(@document["holdings_json"])[getID]['holdings'].join('<br>').html_safe %>
                                                           <% else %>
-                                                            Library has: <%= JSON.parse(@document["holdings_json"])[getID]['holdings'] %>
+                                                            Library has: <%= JSON.parse(@document["holdings_json"])[getID]['holdings'][0].html_safe %>
                                                           <% end %>
                                                         <% end %>
                                                       <% end %>
