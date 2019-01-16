@@ -109,7 +109,7 @@ Then("I select the first {int} catalog results") do |int|
   end
 end
 
-Then /^there should be ([0-9+]) items selected$/ do |int|
+Then /^there should be ([0-9]+) items selected$/ do |int|
   page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
 end
 
