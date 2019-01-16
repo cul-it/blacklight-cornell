@@ -112,9 +112,7 @@ Feature: Bookmarks for anonymous users
 		When I fill in the search box with 'shirt'
 		And I press 'search'
         And I select 100 items per page
-        Then show me xpath "//*[@id='per_page-dropdown']"
         And I check Select all
-        And I sleep 15 seconds
-        Then show me xpath "//a[@id='bookmarks_nav']"
+        And I sleep 5 seconds
         Then I should see 100 selected items
 
