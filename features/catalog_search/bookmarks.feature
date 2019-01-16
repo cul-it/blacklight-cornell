@@ -106,3 +106,15 @@ Feature: Bookmarks for anonymous users
         Then the popup should include "Print"
         And the popup should include "Cancel"
 
+    @bookmarks_select_limit
+    Scenario: I should be limited to 500 selected items
+        Given I am on the home page
+		When I fill in the search box with 'shirt'
+		And I press 'search'
+        And I select 100 items per page
+        Then show me xpath "//*[@id='per_page-dropdown']"
+        And I check Select all
+        And I sleep 15 seconds
+        Then show me xpath "//a[@id='bookmarks_nav']"
+        Then I should see 100 selected items
+
