@@ -95,6 +95,7 @@ Feature: Browse search
   | ✓ All | Publish! : the how-to magazine of desktop publishing |
   | Adelson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
   | Africana Library | The collected works of Scott Joplin |
+  | Bailey Hortorium | L'architecture comparée dans l'Inde et l'Extrême-Orient, par Henri Marchal |
   | CISER Data Archive | Overall Real Property Tax Rates : Local Governments, 1981 |
   | Fine Arts Library | Sonic rebellion : music as resistance : Detroit 1967-2017 |
   | ILR Library | Mel Bay's immigrant songbook |
