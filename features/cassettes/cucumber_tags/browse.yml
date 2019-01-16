@@ -29978,4 +29978,864 @@ http_interactions:
         </searchRetrieveResponse>
     http_version: 
   recorded_at: Fri, 11 Jan 2019 17:44:53 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22Dickens,%20Charles,%201812-1870%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:23 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:23 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:08 GMT
+      Etag:
+      - '"ZDE1ZTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1945'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Dickens, Charles, 1812-1870\"",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"docs":[
+              {
+                "heading":"Dickens, Charles, 1812-1870",
+                "alternateForm":["Dickens, Karol, 1812-1870",
+                  "Digengsi, 1812-1870",
+                  "Dikens, Charlz, 1812-1870",
+                  "Dikensas, Čarlzas, 1812-1870",
+                  "Dikensi, Čʻarlz, 1812-1870",
+                  "Dikkens, Charlz, 1812-1870",
+                  "Ti-keng-ssu, 1812-1870",
+                  "Ṭikkan̲cu, Cārlacu, 1812-1870",
+                  "Ṭikkan̲s, Cārlas, 1812-1870",
+                  "Ṭikkan̲s, Cārls, 1812-1870",
+                  "Диккенс, Чарлз, 1812-1870",
+                  "דיקינס, צ׳רלס, 1812-1870",
+                  "דיקנס, טשרלס",
+                  "דיקנס, צ׳רלז, 1870־1812",
+                  "דיקנס, צ׳רלס",
+                  "דיקנס, צ׳רלס, 1812-1870",
+                  "דיקנס,ַ  צ׳רלז",
+                  "דיקענס, טש",
+                  "דיקענס, טש., 1812־1870",
+                  "דיקענס, טשארלז",
+                  "דיקענס, טשארלז, 1812־1870",
+                  "דיקקענס, טשארלז",
+                  "טשרלס, דיקנס",
+                  "チャールズ.ディケンズ, 1812-1870",
+                  "狄更斯查尔斯, 1812-1870"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "notes":["[\"For works of this author entered under other names, search also under:\",{\"header\":\"Boz, 1812-1870\"},\"and\",{\"header\":\"Sparks, Timothy, 1812-1870\"}]"],
+                "rda_json":"{\"Place of Death\":[\"Higham (Kent, England)\"],\"Field\":[\"English literature\"],\"Occupation\":[\"Authors, English\"],\"Birth Place\":[\"Portsea Island (England)\"]}",
+                "count":644,
+                "counts_json":"{\"worksBy\":644,\"worksAbout\":1023}"}]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:23 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22China%20%7C%20History%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:08 GMT
+      Etag:
+      - '"ZDE1ZTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '199'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"China | History\"",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"docs":[]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:28 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/subject/browse?q=%22China%20%7C%20History%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:11 GMT
+      Etag:
+      - '"MzM4YTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1035'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"China | History\"",
+              "wt":"json"}},
+          "response":{"numFound":3,"start":0,"docs":[
+              {
+                "heading":"China > History",
+                "alternateForm":["Chinese question"],
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":22648,
+                "counts_json":"{\"worksAbout\":22648}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Topical Term",
+                "blacklightField":"subject_topic_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":403,
+                "counts_json":"{\"worksAbout\":403}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Corporate Name",
+                "blacklightField":"subject_corp_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":2}"}]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:28 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22Prince.%20%7C%20Purple%20rain%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:08 GMT
+      Etag:
+      - '"ZDE1ZTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '205'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Prince. | Purple rain\"",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"docs":[]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:32 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/authortitle/browse?q=%22Prince.%20%7C%20Purple%20rain%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:07 GMT
+      Etag:
+      - '"YzVlY2MwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '431'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Prince. | Purple rain\"",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"docs":[
+              {
+                "heading":"Prince. | Purple rain",
+                "blacklightField":"authortitle_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":3,
+                "counts_json":"{\"worksAbout\":2,\"works\":3}"}]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:32 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/callnum/browse?fq=location:%22Bailey%20Hortorium%22&q=%5B%22LO%22%20TO%20*%5D&start=0&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 17:54:35 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 17:54:35 GMT
+      Last-Modified:
+      - Wed, 16 Jan 2019 17:53:32 GMT
+      Etag:
+      - '"OGUyYjNhYzAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '10290'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":14,
+            "params":{
+              "q":"[\"LO\" TO *]",
+              "start":"0",
+              "fq":"location:\"Bailey Hortorium\"",
+              "wt":"json"}},
+          "response":{"numFound":13293,"start":0,"docs":[
+              {
+                "format":["Book"],
+                "fulltitle_display":"The flora of the Assyrian monuments and its outcomes",
+                "bibid":1489196,
+                "callnum_display":"N7680 .B69",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Botanical treasures of Lewis & Clark : new art for the bicentennial",
+                "bibid":10321011,
+                "callnum_display":"N7680 .E98 2006",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Chinese garden architecture; a collection of photographs of minor Chinese buildings",
+                "bibid":1489274,
+                "callnum_display":"NA1540 .H84",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"L'architecture comparée dans l'Inde et l'Extrême-Orient, par Henri Marchal",
+                "bibid":114978,
+                "callnum_display":"NA1540 .I58",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"The architecture of country houses; including designs for cottages, farm houses, and villas, with remarks on interiors, furniture, and the best modes of warming and ventilating. With three hundred and twenty illustrations",
+                "bibid":1724671,
+                "callnum_display":"NA7561 .D75",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Cottage residences; or, A series of designs for rural cottages and cottage villas and their gardens and grounds, adapted to North America",
+                "bibid":1724672,
+                "callnum_display":"NA7561 .D75C 1842",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Cottage residences; or, A series of designs for rural cottages and cottage villas, and their gardens and grounds, adapted to North America",
+                "bibid":1489899,
+                "callnum_display":"NA7561 .D75C 1852",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Rural homes; or, Sketches of houses suited to American country life, with original plans, designs, &c",
+                "bibid":1489901,
+                "callnum_display":"NA7561 .W56",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Rural homes; or Sketches of houses suited to American country life, with original plans, designs, &c",
+                "bibid":1719204,
+                "callnum_display":"NA7561 .W56 1867",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Rural architecture. Being a complete description of farm houses, cottages, and out buildings, comprising wood houses, workshops ... &c. ... Also, the best method of conducting water into cattle yards and houses",
+                "bibid":1719167,
+                "callnum_display":"NA8201 .A42",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"The Munsell limit color cascade",
+                "bibid":273118,
+                "callnum_display":"ND1285 .M8L",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Color standards and color nomenclature",
+                "bibid":1715024,
+                "callnum_display":"ND1285 .R5",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\",\"Mann Library Special Collections (Non-Circulating)\":\"\",\"Library Annex\":\"\"},\"unavailAt\":{\"Mann Library\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Iris: studies in colour and talks about flowers",
+                "bibid":1715026,
+                "callnum_display":"ND1286 .D35",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Library Annex\":\"\",\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Beautiful botanicals : painting and drawing flowers and plants",
+                "bibid":5186216,
+                "callnum_display":"ND1400 .K53 2004",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Mann Library\":\"\"},\"unavailAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Index to botanical sketches (water colors) by Elsie McElroy Slater",
+                "bibid":3389880,
+                "callnum_display":"ND1839.S527 I573x",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Art and handicraft",
+                "bibid":1718819,
+                "callnum_display":"NK928 .S44",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"The Australian flora in applied art",
+                "bibid":1284124,
+                "callnum_display":"NK1560 .B16",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Flower garden primer; or, Gardening without tears",
+                "bibid":2057196,
+                "callnum_display":"NP1875 .C91x",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"The gardens of England in the southern & western counties",
+                "bibid":2057459,
+                "callnum_display":"NP4787.H47 G2x",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium Reference (Non-Circulating)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"The gardens of England in the northern counties",
+                "bibid":2057415,
+                "callnum_display":"NP4787.H74 G21x 1911",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Bailey Hortorium (ask at Mann Library Circulation)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true}]
+          },
+          "facet_counts":{
+            "facet_queries":{
+              "{!ex=mq}acquired_dt:[NOW-1YEAR TO NOW-7DAY]":199},
+            "facet_fields":{
+              "online":[
+                "At the Library",13293],
+              "language_facet":[
+                "English",10262,
+                "German",694,
+                "French",633,
+                "Spanish",606,
+                "Latin",322,
+                "Portuguese",183],
+              "location":[
+                "Adelson Library",25,
+                "Adelson Library > Main Collection",23,
+                "Adelson Library > Reference",2,
+                "Africana Library",1,
+                "Africana Library > Main Collection",1,
+                "Bailey Hortorium",13293,
+                "Bailey Hortorium > Main Collection",9038,
+                "Bailey Hortorium > Reference",4278,
+                "Fine Arts Library",1,
+                "Fine Arts Library > Reserve",1,
+                "ILR Library",3,
+                "ILR Library > Main Collection",2,
+                "ILR Library > Reference",1,
+                "Kroch Library Asia",6,
+                "Kroch Library Asia > Main Collection",5,
+                "Kroch Library Asia > Reference",1,
+                "Kroch Library Rare & Manuscripts",9,
+                "Kroch Library Rare & Manuscripts > Reference",1,
+                "Kroch Library Rare & Manuscripts > Request in Advance",8,
+                "Library Annex",3437,
+                "Mann Library",1737,
+                "Mann Library > Main Collection",1357,
+                "Mann Library > Reference",1,
+                "Mann Library > Special Collections",407,
+                "Mathematics Library",1,
+                "Mathematics Library > Reference",1,
+                "Olin Library",2,
+                "Olin Library > Graduate Study Room 501",1,
+                "Olin Library > Main Collection",1,
+                "Uris Library",15,
+                "Uris Library > Main Collection",15,
+                "Veterinary Library",2,
+                "Veterinary Library > Main Collection",2]},
+            "facet_ranges":{},
+            "facet_intervals":{},
+            "facet_heatmaps":{}}}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 17:54:35 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/callnum/browse?fq=location:%22ILR%20Library%22&q=%5B%22LO%22%20TO%20*%5D&start=20&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 18:09:39 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 18:09:39 GMT
+      Last-Modified:
+      - Wed, 16 Jan 2019 18:08:59 GMT
+      Etag:
+      - '"NWYyYjNhYzAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '10403'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":252,
+            "params":{
+              "q":"[\"LO\" TO *]",
+              "start":"20",
+              "fq":"location:\"ILR Library\"",
+              "wt":"json"}},
+          "response":{"numFound":13131,"start":20,"docs":[
+              {
+                "format":["Journal/Periodical"],
+                "fulltitle_display":"Overture",
+                "bibid":320547,
+                "callnum_display":"ML1 .O96",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Investigation of James C. Petrillo, the American Federation of Musicians, et al. Hearings before the special subcommittee of the Committee on Education and Labor, House of Representatives, Eightieth Congress, first-second, pursuant to H. Res. 111 (80th Congress)",
+                "bibid":1074164,
+                "callnum_display":"ML68 .U572",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Songs of American labor, industrialization, and the urban work experience : a discography",
+                "bibid":966215,
+                "callnum_display":"ML156.4.L2 R44",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Thesis",
+                  "Book"],
+                "fulltitle_display":"Pins and needles : an oral history",
+                "bibid":2184147,
+                "callnum_display":"ML410.R66 G61 1993a",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Fiddle and fight",
+                "bibid":4399831,
+                "callnum_display":"ML418.B695 A3 2001",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Wicked messenger : Bob Dylan and the 1960s, Chimes of freedom, revised and expanded",
+                "bibid":6098780,
+                "callnum_display":"ML420.D98 M167 2005",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\",\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Labor's troubadour",
+                "bibid":3973155,
+                "callnum_display":"ML420.G56 A3 2001",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Bound for glory",
+                "bibid":856222,
+                "callnum_display":"ML420.G98 A3",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Woody Guthrie : a life",
+                "bibid":484553,
+                "callnum_display":"ML420.G98 K6 1982",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\",\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Born in the U.S.A. : Bruce Springsteen and the American tradition",
+                "bibid":2954325,
+                "callnum_display":"ML420.S76 C85 1997",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Racing in the street : the Bruce Springsteen reader",
+                "bibid":6096330,
+                "callnum_display":"ML420.S77 R33 2004",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\",\"Library Annex\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Pads for woodwind instrument keys from Italy",
+                "bibid":2262113,
+                "callnum_display":"ML931 .U58 1993",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Institutional economics and the formation of preferences : the advent of pop music",
+                "bibid":5422545,
+                "callnum_display":"ML3470 .D64 2004",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"A race of singers : Whitman's working-class hero from Guthrie to Springsteen",
+                "bibid":3881970,
+                "callnum_display":"ML3477 .G36 2000",
+                "availability_json":"{\"available\":true,\"availAt\":{\"Cox Library of Music (Lincoln Hall)\":\"\",\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Guerrilla minstrels : John Lennon, Joe Hill, Woody Guthrie, Bob Dylan",
+                "bibid":1336787,
+                "callnum_display":"ML3477 .H22",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Creating country music : fabricating authenticity",
+                "bibid":3108175,
+                "callnum_display":"ML3524 .P48 1997",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Freedom in the air; song movements of the sixties",
+                "bibid":1074162,
+                "callnum_display":"ML3551 .D85",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Songs of work and freedom",
+                "bibid":1074163,
+                "callnum_display":"ML3551 .F78",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"American folksongs of protest",
+                "bibid":1078407,
+                "callnum_display":"ML3551 .G7",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true},
+              {
+                "format":["Book"],
+                "fulltitle_display":"Work and sing : a history of occupational and labor union songs in the United States",
+                "bibid":6697422,
+                "callnum_display":"ML3780 .C64 2010",
+                "availability_json":"{\"available\":true,\"availAt\":{\"ILR Library (Ives Hall)\":\"\"}}",
+                "online":["At the Library"],
+                "shelfloc":true}]
+          },
+          "facet_counts":{
+            "facet_queries":{
+              "{!ex=mq}acquired_dt:[NOW-1YEAR TO NOW-7DAY]":48},
+            "facet_fields":{
+              "online":[
+                "At the Library",13131],
+              "language_facet":[
+                "English",12906,
+                "French",96,
+                "Spanish",84,
+                "German",43,
+                "Japanese",24,
+                "Chinese",16],
+              "location":[
+                "Adelson Library",1,
+                "Adelson Library > Reference",1,
+                "Africana Library",13,
+                "Africana Library > Main Collection",12,
+                "Africana Library > Reference",1,
+                "Bailey Hortorium",3,
+                "Bailey Hortorium > Main Collection",2,
+                "Bailey Hortorium > Reference",1,
+                "Fine Arts Library",11,
+                "Fine Arts Library > Main Collection",3,
+                "Fine Arts Library > Reference",5,
+                "Fine Arts Library > Reserve",3,
+                "ILR Library",13131,
+                "ILR Library > Main Collection",12792,
+                "ILR Library > Reference",351,
+                "ILR Library > Reserve",27,
+                "ILR Library Kheel Center",28,
+                "ILR Library Kheel Center > Main Collection",5,
+                "ILR Library Kheel Center > Reference",24,
+                "Kroch Library Asia",14,
+                "Kroch Library Asia > Main Collection",11,
+                "Kroch Library Asia > Reference",3,
+                "Kroch Library Rare & Manuscripts",23,
+                "Kroch Library Rare & Manuscripts > Main Collection",1,
+                "Kroch Library Rare & Manuscripts > Reference",1,
+                "Kroch Library Rare & Manuscripts > Request in Advance",21,
+                "Law Library",31,
+                "Law Library > Main Collection",29,
+                "Law Library > Reference",1,
+                "Law Library > Reserve",2,
+                "Library Annex",703,
+                "Mann Library",192,
+                "Mann Library > Collection Development",1,
+                "Mann Library > Main Collection",191,
+                "Mann Library > Reference",1,
+                "Mann Library > Special Collections",1,
+                "Mathematics Library",145,
+                "Mathematics Library > Circulation Desk",4,
+                "Mathematics Library > Main Collection",141,
+                "Mathematics Library > Reference",4,
+                "Mathematics Library > Reserve",1,
+                "Music Library",19,
+                "Music Library > Main Collection",17,
+                "Music Library > Reference",2,
+                "Nestle Library",21,
+                "Nestle Library > Reserve",21,
+                "Olin Library",75,
+                "Olin Library > Main Collection",66,
+                "Olin Library > Preservation Department",1,
+                "Olin Library > Reference",9,
+                "Sage Hall Management Library",18,
+                "Sage Hall Management Library > Reference",5,
+                "Sage Hall Management Library > Reserve",13,
+                "Uris Library",143,
+                "Uris Library > Main Collection",142,
+                "Uris Library > Reserve",1,
+                "Veterinary Library",4,
+                "Veterinary Library > Main Collection",4]},
+            "facet_ranges":{},
+            "facet_intervals":{},
+            "facet_heatmaps":{}}}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 18:09:40 GMT
 recorded_with: VCR 4.0.0
