@@ -32,12 +32,14 @@
                 checked = params[:fq] == "location:\"#{lib_encoded}\"" ? '✓ ' : ''
             else 
                 checked = lib == 'All' ? '✓ ' : ''
-            end
+			end
+			start = params.has_key?(:start) ? params[:start] : 0
+			order = params.has_key?(:order) ? params[:order] : 'forward'
             %>
             <% if lib == 'All' %>
-                <li><%= link_to "#{checked}#{lib}", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+                <li><%= link_to "#{checked}#{lib}", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %></li>
             <% else %>
-                <li><%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => params[:start], :browse_type => params[:browse_type], :authq => params[:authq] %></li>
+                <li><%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %></li>
             <% end %>
         <% } %>
         </ul>
