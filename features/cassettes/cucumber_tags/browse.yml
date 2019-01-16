@@ -29978,4 +29978,316 @@ http_interactions:
         </searchRetrieveResponse>
     http_version: 
   recorded_at: Fri, 11 Jan 2019 17:44:53 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22Dickens,%20Charles,%201812-1870%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:23 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:23 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:08 GMT
+      Etag:
+      - '"ZDE1ZTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1945'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Dickens, Charles, 1812-1870\"",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"docs":[
+              {
+                "heading":"Dickens, Charles, 1812-1870",
+                "alternateForm":["Dickens, Karol, 1812-1870",
+                  "Digengsi, 1812-1870",
+                  "Dikens, Charlz, 1812-1870",
+                  "Dikensas, Čarlzas, 1812-1870",
+                  "Dikensi, Čʻarlz, 1812-1870",
+                  "Dikkens, Charlz, 1812-1870",
+                  "Ti-keng-ssu, 1812-1870",
+                  "Ṭikkan̲cu, Cārlacu, 1812-1870",
+                  "Ṭikkan̲s, Cārlas, 1812-1870",
+                  "Ṭikkan̲s, Cārls, 1812-1870",
+                  "Диккенс, Чарлз, 1812-1870",
+                  "דיקינס, צ׳רלס, 1812-1870",
+                  "דיקנס, טשרלס",
+                  "דיקנס, צ׳רלז, 1870־1812",
+                  "דיקנס, צ׳רלס",
+                  "דיקנס, צ׳רלס, 1812-1870",
+                  "דיקנס,ַ  צ׳רלז",
+                  "דיקענס, טש",
+                  "דיקענס, טש., 1812־1870",
+                  "דיקענס, טשארלז",
+                  "דיקענס, טשארלז, 1812־1870",
+                  "דיקקענס, טשארלז",
+                  "טשרלס, דיקנס",
+                  "チャールズ.ディケンズ, 1812-1870",
+                  "狄更斯查尔斯, 1812-1870"],
+                "headingTypeDesc":"Personal Name",
+                "blacklightField":"author_pers_browse",
+                "authority":true,
+                "mainEntry":true,
+                "notes":["[\"For works of this author entered under other names, search also under:\",{\"header\":\"Boz, 1812-1870\"},\"and\",{\"header\":\"Sparks, Timothy, 1812-1870\"}]"],
+                "rda_json":"{\"Place of Death\":[\"Higham (Kent, England)\"],\"Field\":[\"English literature\"],\"Occupation\":[\"Authors, English\"],\"Birth Place\":[\"Portsea Island (England)\"]}",
+                "count":644,
+                "counts_json":"{\"worksBy\":644,\"worksAbout\":1023}"}]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:23 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22China%20%7C%20History%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:08 GMT
+      Etag:
+      - '"ZDE1ZTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '199'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"China | History\"",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"docs":[]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:28 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/subject/browse?q=%22China%20%7C%20History%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:28 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:11 GMT
+      Etag:
+      - '"MzM4YTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '1035'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"China | History\"",
+              "wt":"json"}},
+          "response":{"numFound":3,"start":0,"docs":[
+              {
+                "heading":"China > History",
+                "alternateForm":["Chinese question"],
+                "headingTypeDesc":"Geographic Name",
+                "blacklightField":"subject_geo_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":22648,
+                "counts_json":"{\"worksAbout\":22648}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Topical Term",
+                "blacklightField":"subject_topic_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":403,
+                "counts_json":"{\"worksAbout\":403}"},
+              {
+                "heading":"China > History",
+                "headingTypeDesc":"Corporate Name",
+                "blacklightField":"subject_corp_browse",
+                "authority":false,
+                "mainEntry":false,
+                "count":2,
+                "counts_json":"{\"worksBy\":0,\"worksAbout\":2}"}]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:28 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/author/browse?q=%22Prince.%20%7C%20Purple%20rain%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:08 GMT
+      Etag:
+      - '"ZDE1ZTgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '205'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Prince. | Purple rain\"",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"docs":[]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:32 GMT
+- request:
+    method: get
+    uri: http://da-prod-solr7.library.cornell.edu/solr/authortitle/browse?q=%22Prince.%20%7C%20Purple%20rain%22&wt=json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      Accept:
+      - "*/*"
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Jan 2019 14:14:32 GMT
+      Last-Modified:
+      - Thu, 13 Dec 2018 05:13:07 GMT
+      Etag:
+      - '"YzVlY2MwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '431'
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":0,
+            "params":{
+              "q":"\"Prince. | Purple rain\"",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"docs":[
+              {
+                "heading":"Prince. | Purple rain",
+                "blacklightField":"authortitle_browse",
+                "authority":true,
+                "mainEntry":true,
+                "count":3,
+                "counts_json":"{\"worksAbout\":2,\"works\":3}"}]
+          }}
+    http_version: 
+  recorded_at: Wed, 16 Jan 2019 14:14:32 GMT
 recorded_with: VCR 4.0.0
