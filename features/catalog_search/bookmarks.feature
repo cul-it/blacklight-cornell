@@ -108,6 +108,7 @@ Feature: Bookmarks for anonymous users
 
     @bookmarks_select_limit
     Scenario: I should be limited to 500 selected items
+        Given PENDING
         Given I am on the home page
 		When I fill in the search box with 'shirt'
 		And I press 'search'
