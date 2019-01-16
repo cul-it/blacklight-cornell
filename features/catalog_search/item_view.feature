@@ -3,14 +3,14 @@ Feature: Item view
   In order to get information about a specific item
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
-  @all_item_view
-  @allow-rescue
-  @e404
-  Scenario: goto an invalid page
+#  @all_item_view
+#  @allow-rescue
+#  @e404
+#  Scenario: goto an invalid page
 
-    When I literally go to abcdefg
-    Then I should see an error
-    Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
+#    When I literally go to abcdefg
+#    Then I should see an error
+#    Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
   Scenario: View an items holdings
