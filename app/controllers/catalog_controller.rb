@@ -462,7 +462,7 @@ end
       }
     end
 
-    # add browse searches to simple search
+    # add browse searches to simple search trying to get merged
     config.add_search_field('author_browse') do |field|
       field.include_in_advanced_search = false
       field.label = 'Author Browse (A-Z) Sorted By Name'
