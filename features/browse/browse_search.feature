@@ -139,3 +139,19 @@ Feature: Browse search
   | Next | Previous |
   | Previous | Next |
 
+  @browse
+  @call-number-browse
+  @call-number-browse-navigate-switch-locations
+  @DISCOVERYACCESS-4659
+  Scenario: Switch locations after navigation
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LO'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+      And I click a link with text 'Music Library' within 'location-filter-dropdown'
+    Then I should see the label 'Going places'
+      And I click 'Next' in the first page navigator
+      And I click a link with text 'ILR Library' within 'location-filter-dropdown'
+    Then I should see the label 'Pins and needles : an oral history'
+
+
