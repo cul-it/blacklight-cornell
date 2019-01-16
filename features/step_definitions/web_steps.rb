@@ -191,3 +191,16 @@ end
 Then /^I should get a response with content-type "([^"]*)"$/ do |content_type|
   page.response_headers['Content-Type'].should == content_type
 end
+
+When("I select {int} items per page") do |int|
+  page.find(:css, "div#per_page-dropdown button.dropdown-toggle", visible: false).click
+  click_link("#{int} per page")
+end
+
+Then("I should see {int} selected items") do |int|
+  expect(page.find(:xpath, "//a[@id='bookmarks_nav']/span").text).to eq(int)
+end
+
+Then("I check Select all") do
+  page.find(:css, "input#select_all_input").click
+end
