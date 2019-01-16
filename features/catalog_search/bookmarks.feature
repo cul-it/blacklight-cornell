@@ -113,6 +113,11 @@ Feature: Bookmarks for anonymous users
 		And I press 'search'
         And I select 100 items per page
         And I check Select all
-        And I sleep 5 seconds
+        And I sleep 10 seconds
         Then I should see 100 selected items
+        And click on first link "Next »"
+        And I check Select all
+        And I sleep 10 seconds
+        Then I should see 200 selected items
+        And click on first link "Next »"
 
