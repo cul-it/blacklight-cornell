@@ -12,8 +12,8 @@
           Format
         </th>
         <th class="headings-cn-availability" scope="col">
-          Availability
-        </th>
+          <%= render :partial => 'browse/availability_location_filter' %>
+        </th> 
       </tr>
     </thead>
     <% if response["response"].present? %>

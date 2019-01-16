@@ -6,15 +6,15 @@ Feature: Browse search
 
   @browse
   Scenario: View the browse home page
-  	Given I literally go to browse
-  	Then I should see the text 'Browse through an alphabetical'
+    Given I literally go to browse
+    Then I should see the text 'Browse through an alphabetical'
 
   @browse
   Scenario: Search for an author
-  	Given I literally go to browse
+    Given I literally go to browse
         And I fill in the authorities search box with 'Dickens, Charles'
         And I press 'search'
-  	Then I should see the label 'Dickens, Charles, 1812-1870'
+    Then I should see the label 'Dickens, Charles, 1812-1870'
 
   @browse
   Scenario: Search for a subject
@@ -25,12 +25,13 @@ Feature: Browse search
     Then I should see the label 'China > History'
 
   @browse
+  @browse_search_switch
   Scenario: Search for a subject and switch to catalog
     Given I literally go to browse
-        And I fill in the authorities search box with 'china'
+        And I fill in the authorities search box with 'china industrialization'
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'A companion to Chinese history'
+    Then I should see the label 'China's Industrialization Process'
 
   @browse
   Scenario: Search for author-title combination
@@ -63,3 +64,77 @@ Feature: Browse search
     Then I should see the label 'Hitchens, Bert'
     Then click on first link "Hitchens, Bert"
     Then I should see the label '1 - 4 of 4'
+
+  @browse
+  @call-number-browse
+  @DISCOVERYACCESS-4659
+  Scenario: Search for LPs
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LP'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+    Then I should see the label 'Whipped cream & other delights'
+    Then click on first link "Sweet hands"
+    Then I should see the label 'Dark lady'
+
+
+  @browse
+  @call-number-browse
+  @call-number-browse-locations
+  @DISCOVERYACCESS-4659
+  Scenario Outline: Search for call number LO in different locations
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LO'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+      And I click a link with text '<location>' within 'location-filter-dropdown'
+    Then I should see the label '<title>'
+
+  Examples:
+  | location | title |
+  | ✓ All | Publish! : the how-to magazine of desktop publishing |
+  | Adelson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
+  | Africana Library | The collected works of Scott Joplin |
+  | CISER Data Archive | Overall Real Property Tax Rates : Local Governments, 1981 |
+  | Fine Arts Library | Sonic rebellion : music as resistance : Detroit 1967-2017 |
+  | ILR Library | Mel Bay's immigrant songbook |
+  | ILR Library Kheel Center | Labor's troubadour |
+  | Kroch Library Asia | 往来物大系 / Ōraimono taikei |
+  | Kroch Library Rare & Manuscripts | Joh. Amos Comenii Orbis sensualium picti pars prima -[secunda] ... Der sichtbaren Welt erster Theil -[anderer Theil] ... |
+  | Law Library | Decisions of the Court of Appeals of Kentucky |
+  | Library Annex | The hollow crown, the fall and foibles of the kings and queens of England |
+  | Mann Library | Songs for the grange : set to music dedicated to the order of patrons of husbandry in the United States |
+  | Mathematics Library | The acoustical foundations of music |
+  | Music Library | Herb Alpert's Tijuana Brass. Vol. 2 |
+  | Nestle Library | Real good grammar, too : a handbook for students and professionals |
+  | Olin Library | Guardians of tradition, American schoolbooks of the nineteenth century |
+  | Sage Hall Management Library | Recording industry in numbers |
+  | Space Sciences Building | The book of the sky |
+  | Uris Library | Bhangra dance hits |
+  | Veterinary Library | Cornell '77 : the music, the myth, and the magnificence of the Grateful Dead's concert at Barton Hall |
+
+
+  @browse
+  @call-number-browse
+  @call-number-browse-navigation
+  @DISCOVERYACCESS-4659
+  Scenario Outline: Search for call number LO in different locations
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LO'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+      And I click a link with text 'Music Library' within 'location-filter-dropdown'
+    Then I should see the label 'Going places'
+      And I click '<go>' in the first page navigator
+      And I click '<back>' in the first page navigator
+    Then I should see the label 'Going places'
+      And I click '<go>' in the last page navigator
+      And I click '<back>' in the last page navigator
+    Then I should see the label 'Going places'
+
+
+  Examples:
+  | go | back |
+  | Next | Previous |
+  | Previous | Next |
+

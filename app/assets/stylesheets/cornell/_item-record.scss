@@ -187,7 +187,7 @@ dd.blacklight-notes {
 // Librarian view
 // -------------------------
 
-.librarian-view { font-size: 12px; }
+.librarian-view { margin-left: -15px; }
 #marc_view { font-family: courier, monospace; }
 #marc_view .field { clear: both; }
 #marc_view .tag { 
@@ -269,6 +269,20 @@ padding-left: 6em;
 		font-weight: 300;
 		margin: 0 0 .25em;
 		border-bottom: 1px solid $light-tan;
+	}
+}
+
+// Browse by call number links
+// ----------------------------
+.browse-call-number {
+	margin-top: 3em;
+	margin-bottom: 3em;
+	border-top: 5px solid $light-tan;
+	li {
+		font-size: 16px;
+	}
+	.btn, .btn:hover {
+		border-bottom: 0;
 	}
 }
 
