@@ -395,6 +395,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        solr6query = ""
        journal_title_flag = 0
        # IF 1.2
+       Rails.logger.info("SPOOKY = #{my_params.inspect}")
        if !my_params[:boolean_row].nil? && !my_params[:search_field_row].nil?
           #convert hash to array The front end numbers boolean_row differently than the search_field, q_row arrays.
           for k in 0..my_params[:boolean_row].count - 1
@@ -405,17 +406,20 @@ class SearchBuilder < Blacklight::SearchBuilder
           #loop on the search_fields checking the q_rows for crappy user input.
           for i in 0..my_params[:search_field_row].count - 1
               #or dimwits cutting and pasting the quotes we are checking for in the next line
-#              my_params[:q_row][i].gsub!('”', '"')
-#              my_params[:q_row][i].gsub!('“', '"')
+              my_params[:q_row][i].gsub!('”', '"')
+              my_params[:q_row][i].gsub!('“', '"')
               #count to see if someone did not close their quotes 
-#              numquotes = my_params[:q_row][i].count '"'
+              numquotes = my_params[:q_row][i].count '"'
               #get rid of the offending quotes
-#              if numquotes == 1
-#                 my_params[:q_row][i].gsub!('"', '')
-#              end
-#              my_params[:q_row][i].gsub!(/[()]/, '')
-#              my_params[:q_row][i].gsub!(':','\:')
-              qarray = qtoken(my_params[:q_row][i])
+              if numquotes == 1
+                 if my_params[:q_row][i][0] == '"'
+                    my_params[:q_row][i]  = my_params[:q_row][i] + '"'
+                 end
+                # my_params[:q_row][i].gsub!('"', '')
+              end
+              my_params[:q_row][i].gsub!(/[()]/, '')
+              my_params[:q_row][i].gsub!(':','\:')
+#              qarray = qtoken(my_params[:q_row][i])
        
               if my_params[:op_row][i] == "phrase" or my_params[:search_field_row][i] == 'call number'
                   numquotes = my_params[:q_row][i].count '"'
