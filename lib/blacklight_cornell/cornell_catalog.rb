@@ -815,17 +815,17 @@ def check_params(params)
                    if bits.first == '"' 
                       #bits = bits + '"'
                       if fieldname == ''
-                       params[:q] = '+quoted:' + bits + ' '
+                       params[:q] << '+quoted:' + bits + ' '
                       else 
                         if !params[:search_field].include?('browse')
-                         params[:q] = '+' + fieldname + '_quoted:' + bits + ' '
+                         params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
                         end
                       end
                    else
                      if fieldname == ''
-                       params[:q] = '+' + bits + ' '
+                       params[:q] << '+' + bits + ' '
                      else
-                       params[:q] = '+' + fieldname + ':' + bits + ' '
+                       params[:q] << '+' + fieldname + ':' + bits + ' '
                      end
                    end
                  end
