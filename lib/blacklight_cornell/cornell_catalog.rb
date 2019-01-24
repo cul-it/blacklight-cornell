@@ -344,8 +344,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
-        if bookmark_ids.size > 500
-          bookmark_ids = bookmark_ids[0..500] 
+        if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
+          bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT] 
         end
         @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
@@ -815,17 +815,17 @@ def check_params(params)
                    if bits.first == '"' 
                       #bits = bits + '"'
                       if fieldname == ''
-                       params[:q] = '+quoted:' + bits + ' '
+                       params[:q] << '+quoted:' + bits + ' '
                       else 
                         if !params[:search_field].include?('browse')
-                         params[:q] = '+' + fieldname + '_quoted:' + bits + ' '
+                         params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
                         end
                       end
                    else
                      if fieldname == ''
-                       params[:q] = '+' + bits + ' '
+                       params[:q] << '+' + bits + ' '
                      else
-                       params[:q] = '+' + fieldname + ':' + bits + ' '
+                       params[:q] << '+' + fieldname + ':' + bits + ' '
                      end
                    end
                  end

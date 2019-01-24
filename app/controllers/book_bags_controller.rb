@@ -13,6 +13,8 @@ class BookBagsController < CatalogController
    include Blacklight::Catalog
    include BlacklightCornell::CornellCatalog
 
+  MAX_BOOKBAGS_COUNT = 500
+
   #copy_blacklight_config_from(CatalogController)
   #
   before_action :authenticate_user!
@@ -40,8 +42,10 @@ class BookBagsController < CatalogController
     value = "bibid-#{@bibid}"
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
-    success = @bb.create(value)
-    user_session[:bookbag_count] = @bb.count
+    if @bb.count < MAX_BOOKBAGS_COUNT
+      success = @bb.create(value)
+      user_session[:bookbag_count] = @bb.count
+    end
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
     else
@@ -65,6 +69,11 @@ class BookBagsController < CatalogController
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} user = #{current_user.inspect}")
       bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
+      bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
+      if bookmark_ids.count > bookmarks_max
+        # delete the extra bookmarks
+        bookmark_ids = bookmark_ids.split(0, bookmarks_max)
+      end
       if not bookmark_ids.to_s.empty?
         bookmark_ids.each do | v |
           if /[0-9]+/.match(v)
