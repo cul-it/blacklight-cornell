@@ -178,7 +178,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if journal_titleHold != ''
       params[:search_field] = journal_titleHold
     end
-
+    if params[:search_field] == 'author_quoted'
+      params[:search_field] = 'author/creator'
+    end
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
@@ -703,7 +705,7 @@ def check_params(params)
      if params[:search_field] == 'call number'
        fieldname = 'lc_callnum'
      else
-       if params[:search_field] == 'author/creator'
+       if params[:search_field] == 'author/creator' or params[:search_field] == 'author'
          fieldname = 'author' 
        else
          if params[:search_field] == 'all_fields'
@@ -801,18 +803,24 @@ def check_params(params)
                 end
              else
                if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-                 if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
+            #     if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
+                 if  fieldname != '' and fieldname != "lc_callnum" and !fieldname.include?('_cts')
                     params[:q] = params[:q]
                     params[:search_field] = fieldname << '_quoted'
+                    params[:q] = params[:search_field] + ':' + params[:q]
                  else
                    if fieldname == ''
-                    params[:q] = params[:q]
+                    params[:q] = "quoted:" + params[:q]
                     params[:search_field] = 'quoted'
                    end
                    if fieldname == "lc_callnum"
                      params[:qdisplay] = params[:q]
                  #    params[:q].gsub!('"','')
                      params[:q] = '+lc_callnum:' + params[:q]
+                   end
+                   if fieldname.include?('_cts')
+                     params[:qdisplay] = params[:q]
+                     params[:q] = fieldname + ':' + params[:q]
                    end
                  end
                else
