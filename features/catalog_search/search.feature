@@ -41,6 +41,16 @@ Feature: Search
     Then I should get results
     And I should see a facet called 'Call Number'
 
+ @all_search
+   @callnumber
+  Scenario: Perform a quoted call number search and see 1 result
+    Given I am on the home page
+    And I select 'Call Number' from the 'search_field' drop-down
+    And I fill in the search box with '"pl480"'
+    And I press 'search'
+    Then I should get results
+    And I should see the label '1 result'
+
 #Make sure constraint box appears
    @all_search
    @publisher
