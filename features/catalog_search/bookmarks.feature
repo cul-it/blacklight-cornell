@@ -108,17 +108,32 @@ Feature: Bookmarks for anonymous users
 
     @bookmarks_select_limit
     Scenario: I should be limited to 500 selected items
-        Given PENDING
+        #Given PENDING
         Given I am on the home page
 		When I fill in the search box with 'shirt'
 		And I press 'search'
         And I select 100 items per page
+        And I sleep 5 seconds
         And I check Select all
-        And I sleep 10 seconds
+        And I sleep 5 seconds
         Then I should see 100 selected items
         And click on first link "Next »"
         And I check Select all
-        And I sleep 10 seconds
+        And I sleep 5 seconds
         Then I should see 200 selected items
         And click on first link "Next »"
+        And I check Select all
+        And I sleep 5 seconds
+        Then I should see 300 selected items
+        And click on first link "Next »"
+        And I check Select all
+        And I sleep 5 seconds
+        Then I should see 400 selected items
+        And click on first link "Next »"
+        And I check Select all
+        And I sleep 5 seconds
+        Then I should see 500 selected items
+        And click on first link "Next »"
+        Then I select the first 1 catalog results
+        Then show me the page
 
