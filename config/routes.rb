@@ -65,7 +65,7 @@ end
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
   get 'oclc/:id' => 'catalog#oclc_request', :as => 'oclc_request'
   get 'backend/cuwebauth' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
-  get 'users/sign_in' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
+  get 'users/sign_in' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth_devise'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
