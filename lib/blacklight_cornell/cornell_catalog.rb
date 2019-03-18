@@ -140,7 +140,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         journal_titleHold = "journal title"
       end
        params[:q] = sanitize(params)
+       if params[:search_field] == 'call number' and !params[:q].include?('"')
+         tempQ = params[:q]
+       end
        check_params(params)
+       if !tempQ.nil?
+         params[:qdisplay] = tempQ
+       end
     else
       if params[:q].blank?
         temp_search_field = params[:search_field]
@@ -166,14 +172,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     (@response, @document_list) = search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
-    
     if temp_search_field != ''
       params[:search_field] = temp_search_field
     end
     if journal_titleHold != ''
       params[:search_field] = journal_titleHold
     end
-
+    if params[:search_field] == 'author_quoted'
+      params[:search_field] = 'author/creator'
+    end
     if @response[:responseHeader][:q_row].nil?
 #     params.delete(:q_row)
 #     params[:q] = @response[:responseHeader][:q]
@@ -698,7 +705,7 @@ def check_params(params)
      if params[:search_field] == 'call number'
        fieldname = 'lc_callnum'
      else
-       if params[:search_field] == 'author/creator'
+       if params[:search_field] == 'author/creator' or params[:search_field] == 'author'
          fieldname = 'author' 
        else
          if params[:search_field] == 'all_fields'
@@ -720,7 +727,7 @@ def check_params(params)
         params[:search_field] = 'lc_callnum'
         if !params[:q].nil?
           search_session[:q] = params[:q]
-          params[:qdisplay] = params[:q]
+    #      params[:qdisplay] = params[:q]
           if !params[:q].include?('"')
             params[:q] = '"' << params[:q] << '"'
           end
@@ -755,7 +762,7 @@ def check_params(params)
                    if fieldname == ''
                       params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
                    else
-                      if (fieldname != "title" and fieldname != "subject") and fieldname != "title_starts"
+                      if (fieldname != "title" and fieldname != "subject") and fieldname != "title_starts" and fieldname != 'lc_callnum'
                         params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
                       else
                        #This should be cleaned up next week when I start removing redundancies and cleaning up code
@@ -796,13 +803,24 @@ def check_params(params)
                 end
              else
                if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-                 if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
+            #     if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
+                 if  fieldname != '' and fieldname != "lc_callnum" and !fieldname.include?('_cts')
                     params[:q] = params[:q]
                     params[:search_field] = fieldname << '_quoted'
+                    params[:q] = params[:search_field] + ':' + params[:q]
                  else
                    if fieldname == ''
-                    params[:q] = params[:q]
+                    params[:q] = "quoted:" + params[:q]
                     params[:search_field] = 'quoted'
+                   end
+                   if fieldname == "lc_callnum"
+                     params[:qdisplay] = params[:q]
+                 #    params[:q].gsub!('"','')
+                     params[:q] = '+lc_callnum:' + params[:q]
+                   end
+                   if fieldname.include?('_cts')
+                     params[:qdisplay] = params[:q]
+                     params[:q] = fieldname + ':' + params[:q]
                    end
                  end
                else
@@ -815,17 +833,17 @@ def check_params(params)
                    if bits.first == '"' 
                       #bits = bits + '"'
                       if fieldname == ''
-                       params[:q] = '+quoted:' + bits + ' '
+                       params[:q] << '+quoted:' + bits + ' '
                       else 
                         if !params[:search_field].include?('browse')
-                         params[:q] = '+' + fieldname + '_quoted:' + bits + ' '
+                         params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
                         end
                       end
                    else
                      if fieldname == ''
-                       params[:q] = '+' + bits + ' '
+                       params[:q] << '+' + bits + ' '
                      else
-                       params[:q] = '+' + fieldname + ':' + bits + ' '
+                       params[:q] << '+' + fieldname + ':' + bits + ' '
                      end
                    end
                  end
