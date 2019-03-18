@@ -43,7 +43,9 @@ end
   sessions: 'users/sessions'
 }
 
-get 'users', :to => 'users/sessions#new'
+devise_for :users, path_names: {
+  sign_in: 'users/auth/saml', 
+}
 
 # rails 4
 #You should not use the `match` method in your router without specifying an HTTP method.
