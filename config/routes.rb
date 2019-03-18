@@ -43,10 +43,6 @@ end
   sessions: 'users/sessions'
 }
 
-devise_for :users, path_names: {
-  sign_in: 'users/auth/saml', 
-}
-
 # rails 4
 #You should not use the `match` method in your router without specifying an HTTP method.
 #If you want to expose your action to both GET and POST, add `via: [:get, :post]` option.
