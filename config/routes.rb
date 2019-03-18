@@ -40,8 +40,10 @@ end
 
  devise_for :users, controllers: {
   omniauth_callbacks: 'users/omniauth_callbacks',
-  #sessions: 'users/sessions'
+  sessions: 'users/sessions'
 }
+
+get 'users', :to => 'users/sessions#new'
 
 # rails 4
 #You should not use the `match` method in your router without specifying an HTTP method.
