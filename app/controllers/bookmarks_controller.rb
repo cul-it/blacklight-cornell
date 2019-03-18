@@ -2,6 +2,10 @@
 class BookmarksController < CatalogController  
   include Blacklight::Bookmarks
 
+  def can_add
+    return current_or_guest_user.bookmarks.count < book_bags::MAX_BOOKBAGS_COUNT
+  end
+
   # displays the email_login_required form partial... used by an AJAX request
   def show_email_login_required_bookmarks
     render :partial=>"bookmarks/email_login_required"
