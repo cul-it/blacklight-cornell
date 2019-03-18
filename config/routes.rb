@@ -40,7 +40,7 @@ end
 
  devise_for :users, controllers: {
   omniauth_callbacks: 'users/omniauth_callbacks',
-  sessions: 'users/sessions'
+  #sessions: 'users/sessions'
 }
 
 # rails 4
@@ -65,7 +65,6 @@ end
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
   get 'oclc/:id' => 'catalog#oclc_request', :as => 'oclc_request'
   get 'backend/cuwebauth' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
-  get 'users/sign_in' => 'sessions#new', :as => 'authenticate_cuwebauth_devise'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
