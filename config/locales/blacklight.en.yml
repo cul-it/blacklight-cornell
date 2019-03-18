@@ -64,6 +64,9 @@ en:
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
+      limit: 
+        title: 'Too many bookmarks'
+        warning: 'You may save up to %{max_count} selected items.'
       email:
         title: 'Email this'
         warning: 'Emailing is currently limited to Cornell only.'
