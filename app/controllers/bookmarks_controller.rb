@@ -17,4 +17,14 @@ class BookmarksController < CatalogController
     render :partial=>"bookmarks/email_login_required_item_view", locals: { login_path: login, document_id: params[:id] }
   end
 
+  # error - too many bookmarks
+  def show_selected_item_limit_bookmarks
+    render :partial=>"bookmarks/selected_item_limit"
+  end
+
+  # return an array of the top level location names from location facet
+  def get_library_location_names
+    results = Blacklight.solr.find( { :q => "id:*", })
+  end
+
 end 
