@@ -50,10 +50,19 @@
           <a href="http://www.library.cornell.edu">Cornell University Library</a>
         </div>
         <% if !part_of_catalog? and params[:controller] != 'advanced_search'%>
-          <h1>
-          <!-- set the @heading in the controller for the specialized view -->
-          <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
-          </h1>
+          <% if params[:controller] == 'users/sessions'%>
+            <!-- users/sessions does not have an index action -->
+            <script type="text/javascript">
+              window.location.href="<%=root_path%>" // put your correct path in a string here
+            </script>
+            return
+          <% else %>
+            <h1>
+            <a href="<%=root_path%>">Library Catalog</a>
+            <!-- set the @heading in the controller for the specialized view -->
+            <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
+            </h1>
+          <% end %>
         <% else %>
           <h1><a href="<%=root_path%>">Library Catalog</a></h1>
         <%end%>
