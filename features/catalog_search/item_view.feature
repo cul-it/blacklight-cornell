@@ -24,9 +24,11 @@ Feature: Item view
     Then I should see the label 'Request'
   @all_item_view
   @aeon
+    @reading_room_delivery
   Scenario: View an items holdings, and request from aeon
     Given I request the item view for 2083253
         #And click on link "Request for Reading Room Delivery"
+        Then show me id "id_request"
         Then it should have link "Request item for Reading Room Delivery" with value "http://voy-api.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="
   @all_item_view
   @aeon
