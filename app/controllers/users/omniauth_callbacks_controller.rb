@@ -74,6 +74,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def saml
     auth = request.env["omniauth.auth"] 
     semail = auth.info.email[0]
+    Rails.logger.level = Logger::WARN
+    Rails.logger.info("jgr25_debug #{__FILE__}:#{__LINE__} User=  #{User.inspect}" )
     u = User.where(email: semail).first
     if u
       @user = u
