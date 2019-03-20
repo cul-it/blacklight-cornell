@@ -126,11 +126,11 @@ Feature: Bookmarks for anonymous users
         Then I should see 300 selected items
         And click on first link "Next »"
         And I check Select all
-        And I sleep 15 seconds
+        And I sleep 5 seconds
         Then I should see 400 selected items
         And click on first link "Next »"
         And I check Select all
-        And I sleep 20 seconds
+        And I sleep 5 seconds
         Then I should see 500 selected items
         And click on first link "Next »"
         Then I select the first 1 catalog results
