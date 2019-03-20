@@ -1,3 +1,5 @@
+require 'spreewald/web_steps'
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
@@ -198,9 +200,14 @@ When("I select {int} items per page") do |int|
 end
 
 Then("I should see {int} selected items") do |int|
-  expect(page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}"))
+  patiently do
+    page.find(:xpath, "//a[@id='bookmarks_nav']/span")
+    page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}")
+  end
 end
 
 Then("I check Select all") do
-  page.find(:css, "input#select_all_input").click
+  patiently do
+    page.find(:css, "input#select_all_input").click
+  end
 end
