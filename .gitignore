@@ -43,3 +43,4 @@ db/test.sqlite3-journal
 *.rdb
 
 .DS_Store
+.idea/*

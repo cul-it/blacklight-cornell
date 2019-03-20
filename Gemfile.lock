@@ -1,4 +1,12 @@
 GIT
+  remote: git@github.com:makandra/spreewald.git
+  revision: ca6aeaed583518222929ec1892e5b75b35ed247e
+  specs:
+    spreewald (1.12.2)
+      cucumber
+      cucumber_priority (>= 0.3.0)
+
+GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
   revision: 73d9d9e477c23cdf748026cbd024c03bba1b257b
   branch: master
@@ -222,6 +230,8 @@ GEM
       railties (>= 4, < 6)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
+    cucumber_priority (0.3.2)
+      cucumber
     database_cleaner (1.7.0)
     deprecation (1.0.0)
       activesupport
@@ -656,6 +666,7 @@ DEPENDENCIES
   rvm-capistrano
   sass-rails (~> 5.0)
   savon (~> 2.11.1)
+  spreewald!
   sprockets (~> 3.7.2)
   sqlite3
   therubyracer (~> 0.12.2)
@@ -672,4 +683,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
