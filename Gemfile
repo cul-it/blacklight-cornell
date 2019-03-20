@@ -89,7 +89,7 @@ gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
-gem 'devise', '~> 4.2'
+gem 'devise', '~> 4.6.0'
 gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth'

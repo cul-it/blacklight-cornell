@@ -192,7 +192,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.3)
+    concurrent-ruby (1.1.5)
     confstruct (1.0.2)
       hashie (~> 3.3)
     crack (0.4.3)
@@ -225,7 +225,7 @@ GEM
     database_cleaner (1.7.0)
     deprecation (1.0.0)
       activesupport
-    devise (4.5.0)
+    devise (4.6.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
@@ -340,7 +340,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mini_mime (1.0.1)
-    mini_portile2 (2.3.0)
+    mini_portile2 (2.4.0)
     minitest (5.11.3)
     mollom (0.2.3)
     multi_json (1.13.1)
@@ -358,8 +358,8 @@ GEM
     net-ssh (5.0.2)
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
-    nokogiri (1.8.5)
-      mini_portile2 (~> 2.3.0)
+    nokogiri (1.10.1)
+      mini_portile2 (~> 2.4.0)
     nori (2.6.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -450,9 +450,9 @@ GEM
       actionpack (>= 3, < 6)
       redis (>= 3, < 5)
     ref (2.0.0)
-    responders (2.4.0)
-      actionpack (>= 4.2.0, < 5.3)
-      railties (>= 4.2.0, < 5.3)
+    responders (2.4.1)
+      actionpack (>= 4.2.0, < 6.0)
+      railties (>= 4.2.0, < 6.0)
     rsolr (2.2.1)
       builder (>= 2.1.2)
       faraday (>= 0.9.0)
@@ -610,7 +610,7 @@ DEPENDENCIES
   csl-styles!
   cucumber-rails
   database_cleaner
-  devise (~> 4.2)
+  devise (~> 4.6.0)
   devise-guests (~> 0.3)
   dotenv-deployment
   dotenv-rails
