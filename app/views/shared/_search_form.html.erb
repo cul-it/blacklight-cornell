@@ -6,14 +6,19 @@
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
-      <h2>*** jgr25 marker ***</h2>
-      <% save_level = Rails.logger.level; Rails.logger.level = Logger::DEBUG %>
-      <% linkback = link_back_to_catalog() %>
-      <% Rails.logger.debug("jgr25_debug !!!!!!#{__FILE__}:#{__LINE__} params =  #{linkback.inspect}") %>
-      <% cornell_params = cornell_params_for_search() %>
-      <% Rails.logger.debug("jgr25_debug !!!!!!#{__FILE__}:#{__LINE__} cornell_params =  #{cornell_params.inspect}") %>
-      <% Rails.logger.level = save_level %>
-      <%= render_hash_as_hidden_fields(cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8)).html_safe %>
+      <% hidden_params = cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
+      <% if hidden_params.empty? %>
+        <% session_params = session[:search] ? session[:search].dup : {} %>
+        <% Rails.logger.level = Logger::DEBUG %>
+        <% Rails.logger.debug("jgr25_debug !!!!!!#{__FILE__}:#{__LINE__} session_params before =  #{session_params.inspect}") %>
+        <% Rails.logger.debug("jgr25_debug #{__FILE__}:#{__LINE__} session_params sort =  #{session_params[:sort].inspect}") %>
+        <% hidden_params[:per_page] = session_params[:per_page] if session_params.key?(:per_page) %>
+        <% hidden_params[:sort] = session_params[:sort] if session_params.key?(:sort) %>
+        <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
+      <% end %>
+      <% Rails.logger.debug("jgr25_debug !!!!!!#{__FILE__}:#{__LINE__} hidden_params =  #{hidden_params.inspect}") %>
+      <% Rails.logger.level = Logger::WARN %>
+      <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-xs-6">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
