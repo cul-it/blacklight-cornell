@@ -122,7 +122,7 @@ Feature: Results list
   @search_with_view_all_journals_match_box_with_percent
   Scenario: Search with view all journals link
     Given I literally go to search
-    When I fill in "q" with 'beef'
+    When I fill in "q" with 'chicken and egg'
     And I press 'Search'
     Then I should get bento results
     Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
@@ -132,10 +132,10 @@ Feature: Results list
   Scenario: Search with view all books link
     Given I literally go to search
     #When I fill in "q" with '100% beef'
-    When I fill in "q" with 'beef'
+    When I fill in "q" with 'beefsteak'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_book" should match "2" nd "from Catalog" in "page_entries"
+    Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
 
   @all_results_list @search_with_view_all_computer_file_match_box_with_ampersand
   Scenario: Search with view all journals link
