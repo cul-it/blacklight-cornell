@@ -14,7 +14,7 @@ gem 'protected_attributes'
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
-  gem "spreewald", :git => 'git@github.com:makandra/spreewald.git'
+  gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
 end
 
 group :production,:staging do
