@@ -14,6 +14,7 @@ gem 'protected_attributes'
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
+  gem "spreewald", :git => 'git@github.com:makandra/spreewald.git'
 end
 
 group :production,:staging do
@@ -89,7 +90,7 @@ gem 'rvm-capistrano'
 gem 'capistrano'
 gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
-gem 'devise', '~> 4.2'
+gem 'devise', '~> 4.6.0'
 gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth'

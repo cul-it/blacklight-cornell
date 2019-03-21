@@ -1,4 +1,12 @@
 GIT
+  remote: git@github.com:makandra/spreewald.git
+  revision: ca6aeaed583518222929ec1892e5b75b35ed247e
+  specs:
+    spreewald (1.12.2)
+      cucumber
+      cucumber_priority (>= 0.3.0)
+
+GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
   revision: 73d9d9e477c23cdf748026cbd024c03bba1b257b
   branch: master
@@ -192,7 +200,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.3)
+    concurrent-ruby (1.1.5)
     confstruct (1.0.2)
       hashie (~> 3.3)
     crack (0.4.3)
@@ -222,10 +230,12 @@ GEM
       railties (>= 4, < 6)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
+    cucumber_priority (0.3.2)
+      cucumber
     database_cleaner (1.7.0)
     deprecation (1.0.0)
       activesupport
-    devise (4.5.0)
+    devise (4.6.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
@@ -340,7 +350,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mini_mime (1.0.1)
-    mini_portile2 (2.3.0)
+    mini_portile2 (2.4.0)
     minitest (5.11.3)
     mollom (0.2.3)
     multi_json (1.13.1)
@@ -358,8 +368,8 @@ GEM
     net-ssh (5.0.2)
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
-    nokogiri (1.8.5)
-      mini_portile2 (~> 2.3.0)
+    nokogiri (1.10.1)
+      mini_portile2 (~> 2.4.0)
     nori (2.6.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -450,9 +460,9 @@ GEM
       actionpack (>= 3, < 6)
       redis (>= 3, < 5)
     ref (2.0.0)
-    responders (2.4.0)
-      actionpack (>= 4.2.0, < 5.3)
-      railties (>= 4.2.0, < 5.3)
+    responders (2.4.1)
+      actionpack (>= 4.2.0, < 6.0)
+      railties (>= 4.2.0, < 6.0)
     rsolr (2.2.1)
       builder (>= 2.1.2)
       faraday (>= 0.9.0)
@@ -610,7 +620,7 @@ DEPENDENCIES
   csl-styles!
   cucumber-rails
   database_cleaner
-  devise (~> 4.2)
+  devise (~> 4.6.0)
   devise-guests (~> 0.3)
   dotenv-deployment
   dotenv-rails
@@ -656,6 +666,7 @@ DEPENDENCIES
   rvm-capistrano
   sass-rails (~> 5.0)
   savon (~> 2.11.1)
+  spreewald!
   sprockets (~> 3.7.2)
   sqlite3
   therubyracer (~> 0.12.2)
@@ -672,4 +683,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.17.1
+   1.17.3

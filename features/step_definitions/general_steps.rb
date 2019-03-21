@@ -9,6 +9,7 @@ Given /^PENDING/ do
   pending
 end
 
+
 Then /^I should see a stylesheet/ do
   page.should have_selector("link[rel=stylesheet]", :visible => false)
 end
