@@ -1,12 +1,4 @@
 GIT
-  remote: git@github.com:makandra/spreewald.git
-  revision: ca6aeaed583518222929ec1892e5b75b35ed247e
-  specs:
-    spreewald (1.12.2)
-      cucumber
-      cucumber_priority (>= 0.3.0)
-
-GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
   revision: 73d9d9e477c23cdf748026cbd024c03bba1b257b
   branch: master
@@ -53,6 +45,14 @@ GIT
   specs:
     borrow_direct (1.2.0)
       httpclient (~> 2.4)
+
+GIT
+  remote: https://github.com/makandra/spreewald.git
+  revision: ca6aeaed583518222929ec1892e5b75b35ed247e
+  specs:
+    spreewald (1.12.2)
+      cucumber
+      cucumber_priority (>= 0.3.0)
 
 GEM
   remote: https://rubygems.org/
