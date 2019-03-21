@@ -118,7 +118,8 @@ Feature: Results list
 
 
 
-  @all_results_list @search_with_view_all_journals_match_box_with_percent
+  @all_results_list 
+  @search_with_view_all_journals_match_box_with_percent
   Scenario: Search with view all journals link
     Given I literally go to search
     When I fill in "q" with 'beef'
@@ -126,7 +127,8 @@ Feature: Results list
     Then I should get bento results
     Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
 
-  @all_results_list @search_with_view_all_books_match_box_with_percent
+  @all_results_list 
+  @search_with_view_all_books_match_box_with_percent
   Scenario: Search with view all books link
     Given I literally go to search
     #When I fill in "q" with '100% beef'
