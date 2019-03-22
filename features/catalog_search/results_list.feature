@@ -334,3 +334,23 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And I should see the "fa-rss-square" class
+
+@all_results_list
+@DISCOVERYACCESS-4700
+@sticky_per_page_preference
+  Scenario Outline: Seach results display per page preference applies to new search
+    Given I am on the home page
+    When I fill in the search box with 'cheese'
+    And I press 'search'
+    Then I should get results
+    And I select <count> items per page
+    And I select the first search result
+    When I fill in the search box with 'crackers'
+    And I press 'search'   
+		And the 'per_page-dropdown' select list should default to '<count> per page'
+
+  Examples:
+    | count | 
+    | 20 |
+    | 50 |
+    | 100 |
