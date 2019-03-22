@@ -48,7 +48,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if   ENV['SAML_IDP_TARGET_URL']
       prepend_before_filter :set_return_path
     end
-    helper_method :search_action_url, :search_action_path, :search_facet_url
+    helper_method :search_action_url, :search_action_path, :search_facet_url, :display_helper
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
 #    before_filter :add_cjk_params_logic
