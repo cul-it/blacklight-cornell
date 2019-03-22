@@ -344,7 +344,7 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And I select <count> items per page
-    And I select the first search result
+    And I click on the first search result
     When I fill in the search box with 'crackers'
     And I press 'search'   
 		And the 'per_page-dropdown' select list should default to '<count> per page'
@@ -365,7 +365,7 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And I select the sort option '<sort_by>'
-    And I select the first search result
+    And I click on the first search result
     When I fill in the search box with 'crackers'
     And I press 'search'   
 		And the 'dropdown-menu' select list should default to '<sort_by>'

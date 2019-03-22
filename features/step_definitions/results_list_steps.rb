@@ -73,11 +73,10 @@ Then (/^I select the sort option '(.*)'$/) do | option |
   end
 end
 
-Then("I select the first search result") do
+Then("I click on the first search result") do
   patiently do
     within ('div#documents.documents-list') do
-      first_result = page.find(:xpath, '//a[@data-counter="1"]')
-      first_result.click
+      page.find(:xpath, '//a[@data-counter="1"]').click
     end
   end
 end
