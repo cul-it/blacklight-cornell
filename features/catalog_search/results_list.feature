@@ -354,3 +354,30 @@ Feature: Results list
     | 20 |
     | 50 |
     | 100 |
+
+
+@all_results_list
+@DISCOVERYACCESS-4700
+@sticky_sort_preference
+  Scenario Outline: Seach results display sort preference applies to new search
+    Given I am on the home page
+    When I fill in the search box with 'cheese'
+    And I press 'search'
+    Then I should get results
+    And I select the sort option '<sort_by>'
+    And I select the first search result
+    When I fill in the search box with 'crackers'
+    And I press 'search'   
+		And the 'dropdown-menu' select list should default to '<sort_by>'
+
+  Examples:
+    | sort_by | 
+    | relevance |
+    | year descending |
+    | year ascending |
+    | author A-Z |
+    | author Z-A |
+    | title A-Z |
+    | title Z-A |
+    | call number |
+ 
