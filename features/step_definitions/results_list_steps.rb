@@ -38,14 +38,14 @@ end
 
 Then /^I should see each item format$/ do
   within('#documents') do
-  	page.should have_css('.blacklight-title_display')
-  	page.should have_css('.blacklight-author_display')
+    page.should have_css('.blacklight-title_display')
+    page.should have_css('.blacklight-author_display')
   end
 end
 
 Then /^results should have a select checkbox$/ do
   within('#documents') do
-  	page.should have_selector('.bookmark_add')
+    page.should have_selector('.bookmark_add')
   end
 end
 
@@ -70,5 +70,13 @@ Then (/^I select the sort option '(.*)'$/) do | option |
   within ('div#sort-dropdown') do
     find(:css, 'button.dropdown-toggle').click
     click_on(option)
+  end
+end
+
+Then("I click on the first search result") do
+  patiently do
+    within ('div#documents.documents-list') do
+      page.find(:xpath, '//a[@data-counter="1"]').click
+    end
   end
 end
