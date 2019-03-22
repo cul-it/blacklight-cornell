@@ -28,13 +28,13 @@ Feature: Results list
 		And the 'per_page' select list should have an option for '100 per page'
 
 #        @all_results_list
-#	Scenario: Search with no results
+# Scenario: Search with no results
 #                Given PENDING
-#		Given I am on the home page
-#		When I fill in the search box with 'awfasdf acawfdfas'
-#		And I press 'search'
-#		#Then there should be 0 search results
-#		Then I should not get results
+#   Given I am on the home page
+#   When I fill in the search box with 'awfasdf acawfdfas'
+#   And I press 'search'
+#   #Then there should be 0 search results
+#   Then I should not get results
 
         @all_results_list
 	@next

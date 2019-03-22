@@ -38,14 +38,14 @@ end
 
 Then /^I should see each item format$/ do
   within('#documents') do
-  	page.should have_css('.blacklight-title_display')
-  	page.should have_css('.blacklight-author_display')
+    page.should have_css('.blacklight-title_display')
+    page.should have_css('.blacklight-author_display')
   end
 end
 
 Then /^results should have a select checkbox$/ do
   within('#documents') do
-  	page.should have_selector('.bookmark_add')
+    page.should have_selector('.bookmark_add')
   end
 end
 
