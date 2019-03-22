@@ -72,3 +72,12 @@ Then (/^I select the sort option '(.*)'$/) do | option |
     click_on(option)
   end
 end
+
+Then("I select the first search result") do
+  patiently do
+    within ('div#documents.documents-list') do
+      first_result = page.find(:xpath, '//a[@data-counter="1"]')
+      first_result.click
+    end
+  end
+end
