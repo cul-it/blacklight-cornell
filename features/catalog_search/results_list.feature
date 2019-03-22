@@ -78,7 +78,7 @@ Feature: Results list
 		Then I should get results
 
 		# DISCOVERYACCESS-7
-	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
+	# And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
 
 		# DISCOVERYACCESS-13 (tests for text description of format but not icon)
 		And I should see each item format
