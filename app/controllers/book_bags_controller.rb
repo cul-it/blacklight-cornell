@@ -37,6 +37,10 @@ class BookBagsController < CatalogController
     @bb = Bookbag.new(nil)
   end 
 
+  def can_add
+    return current_or_guest_user.bookmarks.count < MAX_BOOKBAGS_COUNT
+  end
+
   def add
     @bibid = params[:id]
     value = "bibid-#{@bibid}"
