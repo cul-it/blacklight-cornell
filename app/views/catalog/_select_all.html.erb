@@ -1,5 +1,4 @@
 <% can_add_books = current_or_guest_user.bookmarks.count + current_per_page < BookBagsController::MAX_BOOKBAGS_COUNT %>
-<% can_add_books = current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT %>
 <% if can_add_books %>
 <!-- credit to Princeton University Library -->
 <div class="checkbox select_all btn btn-default">
