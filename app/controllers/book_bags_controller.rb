@@ -74,7 +74,7 @@ class BookBagsController < CatalogController
       bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
-      if bookmark_ids.count > bookmarks_max
+      if bookmark_ids.count > bookmark_max
         # delete the extra bookmarks
         bookmark_ids = bookmark_ids.split(0, bookmarks_max)
       end
