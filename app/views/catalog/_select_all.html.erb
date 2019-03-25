@@ -8,12 +8,11 @@
   </label>
 </div>
 <% else %>
-<div class="btn btn-default disabled" style="margin-left:10px;line-height: 12px;">
-  <label for="select_all_input">
+<div class="checkbox select_all btn btn-default disabled">
     <span>
     <%= link_to '/bookmarks/show_selected_item_limit_bookmarks', {:name => 'Limit', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn btn-sm", "data-toggle" => "modal"}  do %>
           <%= "Selected items maximum: #{BookBagsController::MAX_BOOKBAGS_COUNT}" %>
         <% end %>
-  </label>
+    </span>
 </div>
 <% end %>
