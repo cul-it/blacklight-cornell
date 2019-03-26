@@ -93,9 +93,12 @@ class BentoSearch::InstitutionalRepositoriesEngine
         item.abstract = i['abstract_tesim'][0].to_s
       end
 
-      if i['content_metadata_image_iiif_info_ssm'].present?
-        item.format_str = i['content_metadata_image_iiif_info_ssm'][0].to_s
-        item.format_str = item.format_str.gsub('info.json','full/100,/0/native.jpg')
+      if i['media_URL_size_1_tesim'].present?
+        item.format_str = i['media_URL_size_1_tesim'][0].to_s
+      elsif i['image_tesim'].present?
+        item.format_str = i['image_tesim'][0].to_s
+      elsif i['awsthumbnail_tesim'].present?
+        item.format_str = i['awsthumbnail_tesim'][0].to_s
       end
 
       if i['date_tesim'].present?
