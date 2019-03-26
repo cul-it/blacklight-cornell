@@ -92,5 +92,11 @@ class BentoSearch::InstitutionalRepositoriesEngine
     return bento_results
   end
 
+  def self.default_configuration
+    {
+      :solr_url => "http://digcoll.internal.library.cornell.edu:8983/solr/digitalcollections2/"
+    }
+  end
+
 
 end
