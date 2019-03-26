@@ -41,9 +41,9 @@ class BentoSearch::InstitutionalRepositoriesEngine
    
     results = solr_response['response']['docs']
 
-    Rails.logger.level = Logger::DEBUG # jgr25
-    Rails.logger.debug "jgr25_debug results = #{results[0].to_yaml} \n#{__FILE__}:#{__LINE__}"
-    Rails.logger.level = Logger::WARN # jgr25
+    # Rails.logger.level = Logger::DEBUG # jgr25
+    # Rails.logger.debug "jgr25_debug results = #{results[0].to_yaml} \n#{__FILE__}:#{__LINE__}"
+    # Rails.logger.level = Logger::WARN # jgr25
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
@@ -115,9 +115,9 @@ class BentoSearch::InstitutionalRepositoriesEngine
     end
     bento_results.total_items = solr_response['response']['numFound']
     
-    Rails.logger.level = Logger::DEBUG # jgr25
-    Rails.logger.debug "jgr25_debug bento_results = #{bento_results.to_yaml} \n#{__FILE__}:#{__LINE__}"
-    Rails.logger.level = Logger::WARN # jgr25
+    # Rails.logger.level = Logger::DEBUG # jgr25
+    # Rails.logger.debug "jgr25_debug bento_results = #{bento_results.to_yaml} \n#{__FILE__}:#{__LINE__}"
+    # Rails.logger.level = Logger::WARN # jgr25
     return bento_results
   end
 
