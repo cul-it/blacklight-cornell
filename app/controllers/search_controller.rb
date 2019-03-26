@@ -194,7 +194,7 @@ class SearchController < ApplicationController
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
     elsif engine_id == 'institutionalRepositories'
       query = query.gsub('&', '%26')
-      "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
+      "institutional_repositories/index?q=#{query}"
     elsif engine_id =='libguides'
       query = query.gsub('&', '%26')
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
