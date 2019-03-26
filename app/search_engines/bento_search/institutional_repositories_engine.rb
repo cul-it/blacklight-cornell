@@ -10,7 +10,6 @@ class BentoSearch::InstitutionalRepositoriesEngine
   # BentoSearch::ResultItem objects for each hit in the current page. See individual class
   # documentation for more info.
   def search_implementation(args)
-    save_logger_level = Rails.logger.level; Rails.logger.level = Logger::DEBUG # jgr25
 
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort
@@ -24,13 +23,12 @@ class BentoSearch::InstitutionalRepositoriesEngine
     uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"
     url = Addressable::URI.parse(uri)
     url.normalize
-    Rails.logger.debug("jgr25_debug url = #{url.to_s} \n#{__FILE__}:#{__LINE__}")
 
-    Rails.logger.level = save_logger_level # jgr25
     portal_response = JSON.load(open(url.to_s))
 
-    Rails.logger.debug "mjc12test: #{portal_response}"
-    results = portal_response['response']['docs']
+    Rails.logger.level = Logger::DEBUG # jgr25
+    Rails.logger.debug "jgr25_debug results = #{results[0].to_yaml} \n#{__FILE__}:#{__LINE__}"
+    Rails.logger.level = Logger::WARN # jgr25
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
@@ -61,6 +59,10 @@ class BentoSearch::InstitutionalRepositoriesEngine
     end
     bento_results.total_items = portal_response['response']['pages']['total_count']
 
+    
+    Rails.logger.level = Logger::DEBUG # jgr25
+    Rails.logger.debug "jgr25_debug bento_results = #{bento_results.to_yaml} \n#{__FILE__}:#{__LINE__}"
+    Rails.logger.level = Logger::WARN # jgr25
     return bento_results
   end
 
