@@ -40,33 +40,51 @@ class BentoSearch::InstitutionalRepositoriesEngine
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
-      item.title = i['title_tesim'][0].to_s
-      [i['creator_facet_tesim']].each do |a|
-        item.authors << a
+
+      item.title =
+        if i['title_ssi'].present?
+          i['title_ssi'].to_s
+        elsif i['title_tesim'].present?
+          i['title_tesim'][0].to_s
+        else 
+          'Unknown title field'
+        end
+      
+      if i['author_t'].present?
+        item.authors << i['author_t'].to_s
+      else
+        item.authors << 'Unknown author field'
       end
+
       if i['collection_tesim'].present? && i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
-      item.abstract = i['collection_tesim'][0].to_s + " Collection in eCommons"
+        item.abstract = i['collection_tesim'][0].to_s + " Collection in eCommons"
       elsif i['collection_tesim'].present?
         item.abstract = i['collection_tesim'][0].to_s
-      elsif i['description_tesim'].present?
-        item.abstract = i['description_tesim'][0].to_s
+      elsif i['abstract_tesim'].present?
+        item.abstract = i['abstract_tesim'][0].to_s
       end
+
       if i['content_metadata_image_iiif_info_ssm'].present?
         item.format_str = i['content_metadata_image_iiif_info_ssm'][0].to_s
         item.format_str = item.format_str.gsub('info.json','full/100,/0/native.jpg')
-        end
+      end
+
       if i['date_tesim'].present?
         item.publication_date = i['date_tesim'][0].to_s
       end
-      if i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
-        item.link =i['handle_tesim'][0]
-      else
-      item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
-    end
+
+      item.link =
+        if i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
+          i['handle_tesim'][0]
+        elsif i['collection_website_ss'].present?
+          i['collection_website_ss'][0]
+        else 
+          "Unknown link"
+        end
+
       bento_results << item
     end
-    bento_results.total_items = portal_response['response']['pages']['total_count']
-
+    bento_results.total_items = solr_response['response']['numFound']
     
     Rails.logger.level = Logger::DEBUG # jgr25
     Rails.logger.debug "jgr25_debug bento_results = #{bento_results.to_yaml} \n#{__FILE__}:#{__LINE__}"
