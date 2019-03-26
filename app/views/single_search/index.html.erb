@@ -171,6 +171,14 @@
                 <% end %>
               </li>
               <li>
+                <% unless @institutionalRepositories.blank? %>
+                  <%= link_to '#instrepos' do %>
+                    <i class="fa fa-arrow-down"></i>
+                    Institutional Repositories
+                  <% end %>
+                <% end %>
+              </li>
+              <li>
                 <% unless @libguides.blank? %>
                   <%= link_to '#libguides' do %>
                     <i class="fa fa-arrow-down"></i>
