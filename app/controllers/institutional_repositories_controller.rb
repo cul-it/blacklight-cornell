@@ -9,7 +9,7 @@ class InstitutionalRepositoriesController < ApplicationController
   def index
     @query = params["q"].nil? ? '' : params["q"]
     @oq = @query
-    @page = params["page"].is_a?(Integer) ?  params["page"] : 1
+    @page = params["page"].nil? ?  1 : params["page"]
     @per_page = 5
     @results = BentoSearch.get_engine(:institutionalRepositories).search(@query, :oq => @oq, 
       :per_page => @per_page, :page => @page)
