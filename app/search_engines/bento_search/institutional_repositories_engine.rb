@@ -13,7 +13,10 @@ class BentoSearch::InstitutionalRepositoriesEngine
 
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort
-    Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
+    Rails.logger.level = Logger::DEBUG # jgr25
+    Rails.logger.debug("jgr25_debug BlacklightEngine search called. Query is #{args[:query]}}")
+    Rails.logger.debug("jgr25_debug BlacklightEngine search called. args is #{args.inspect}}")
+    Rails.logger.level = Logger::WARN # jgr25
     bento_results = BentoSearch::Results.new
 
     # Format is passed to the engine using the configuration set up in the bento_search initializer
