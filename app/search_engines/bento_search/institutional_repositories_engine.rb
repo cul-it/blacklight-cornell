@@ -18,13 +18,21 @@ class BentoSearch::InstitutionalRepositoriesEngine
 
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
-    format = configuration[:blacklight_format] || 'Digital Collections'
+    format = configuration[:blacklight_format] || 'Institutional Repositories'
     q = URI::encode(args[:oq])
-    uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"
+    uri = configuration.solr_url
     url = Addressable::URI.parse(uri)
     url.normalize
 
-    portal_response = JSON.load(open(url.to_s))
+    solr = RSolr.connect :url => url.to_s
+    solr_response = solr.get 'select', :params => {
+                                        :q => q,
+                                        :rows => 10,
+                                        :fl => 'id,title_ssi,title_tesim,author_t,collection_tesim,solr_loader_tesim,abstract_tesim,content_metadata_image_iiif_info_ssm,date_tesim,handle_tesim,collection_website_ss'
+                                       }
+  
+   
+    results = solr_response['response']['docs']
 
     Rails.logger.level = Logger::DEBUG # jgr25
     Rails.logger.debug "jgr25_debug results = #{results[0].to_yaml} \n#{__FILE__}:#{__LINE__}"
