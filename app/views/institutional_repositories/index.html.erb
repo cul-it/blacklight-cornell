@@ -1,0 +1,6 @@
+<div class="digitalcollections-search">
+    <h1> <%= @heading %> </h1>
+	<%= render :partial => 'ir_search_form' %>
+    <%= bento_search @results %>
+    <%= paginate @results.pagination %>
+</div>
