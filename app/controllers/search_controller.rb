@@ -13,7 +13,7 @@ class SearchController < ApplicationController
      Appsignal.increment_counter('search_index', 1)
 
       unless params["q"].nil?
-  		    @query = params['q']
+            @query = params['q']
           @query.slice! 'doi:'
           original_query = @query
 
