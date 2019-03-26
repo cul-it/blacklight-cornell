@@ -108,7 +108,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
       item.link =
         if i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
           i['handle_tesim'][0]
-        elsif i['id'].starts_with?('ss:')
+        elsif i['id'].starts_with?('ss:') || i['id'].starts_with?('hunt:') || i['id'].starts_with?('chla')
           "http://digital.library.cornell.edu/catalog/#{i['id']}"
         else 
           "Unknown link"
