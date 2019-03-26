@@ -27,11 +27,15 @@ class BentoSearch::InstitutionalRepositoriesEngine
     url = Addressable::URI.parse(uri)
     url.normalize
 
+    start = args[:page].is_a?(Integer) ? args[:page] - 1 : 0
+    per_page = args[:per_page].is_a?(Integer) ? args[:per_page] : 5
+
     solr = RSolr.connect :url => url.to_s
     solr_response = solr.get 'select', :params => {
                                         :q => q,
-                                        :rows => 10,
-                                        :fl => 'id,title_ssi,title_tesim,author_t,collection_tesim,solr_loader_tesim,abstract_tesim,content_metadata_image_iiif_info_ssm,date_tesim,handle_tesim,collection_website_ss'
+                                        :start => start,
+                                        :rows => per_page,
+                                        :fl => '*'
                                        }
   
    
