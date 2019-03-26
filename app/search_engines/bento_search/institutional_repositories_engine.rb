@@ -57,8 +57,30 @@ class BentoSearch::InstitutionalRepositoriesEngine
           'Unknown title field'
         end
       
-      if i['author_t'].present?
-        item.authors << i['author_t'].to_s
+      if i['author_tesim'].present?
+        [i['author_tesim']].each do |a|
+          next if a.nil?
+          item.authors << a
+        end
+      elsif i['creator_tesim'].present?
+        [i['creator_tesim']].each do |a|
+          next if a.nil?
+          item.authors << a
+        end
+      elsif i['creator_facet_tesim'].present?
+        [i['creator_facet_tesim']].each do |a|
+          next if a.nil?
+          item.authors << a
+        end
+      elsif i['author_display'].present?
+        [i['author_display']].each do |a|
+          next if a.nil?
+          # author_display comes in as a combined name and date with a pipe-delimited display name.
+          # bento_search does some slightly odd things to author strings in order to display them,
+          # so the raw string coming out of *our* display value turns into nonsense by default
+          # Telling to create a new Author with an explicit 'display' value seems to work.
+          item.authors << BentoSearch::Author.new({:display => a.to_s})
+        end
       else
         item.authors << 'Unknown author field'
       end
