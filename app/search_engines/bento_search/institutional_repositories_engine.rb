@@ -1,6 +1,7 @@
 class BentoSearch::InstitutionalRepositoriesEngine
 
   include BentoSearch::SearchEngine
+  include InstitutionalRepositoriesHelper
 
   # Next, at a minimum, you need to implement a #search_implementation method,
   # which takes a normalized hash of search instructions as input (see documentation
@@ -48,71 +49,10 @@ class BentoSearch::InstitutionalRepositoriesEngine
     results.each do |i|
       item = BentoSearch::ResultItem.new
 
-      item.title =
-        if i['title_ssi'].present?
-          i['title_ssi'].to_s
-        elsif i['title_tesim'].present?
-          i['title_tesim'][0].to_s
-        else 
-          'Unknown title field'
-        end
-      
-      if i['author_tesim'].present?
-        [i['author_tesim']].each do |a|
-          next if a.nil?
-          item.authors << a
-        end
-      elsif i['creator_tesim'].present?
-        [i['creator_tesim']].each do |a|
-          next if a.nil?
-          item.authors << a
-        end
-      elsif i['creator_facet_tesim'].present?
-        [i['creator_facet_tesim']].each do |a|
-          next if a.nil?
-          item.authors << a
-        end
-      elsif i['author_display'].present?
-        [i['author_display']].each do |a|
-          next if a.nil?
-          # author_display comes in as a combined name and date with a pipe-delimited display name.
-          # bento_search does some slightly odd things to author strings in order to display them,
-          # so the raw string coming out of *our* display value turns into nonsense by default
-          # Telling to create a new Author with an explicit 'display' value seems to work.
-          item.authors << BentoSearch::Author.new({:display => a.to_s})
-        end
-      else
-        item.authors << 'Unknown author field'
-      end
-
-      if i['collection_tesim'].present? && i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
-        item.abstract = i['collection_tesim'][0].to_s + " Collection in eCommons"
-      elsif i['collection_tesim'].present?
-        item.abstract = i['collection_tesim'][0].to_s
-      elsif i['abstract_tesim'].present?
-        item.abstract = i['abstract_tesim'][0].to_s
-      end
-
-      if i['media_URL_size_1_tesim'].present?
-        item.format_str = i['media_URL_size_1_tesim'][0].to_s
-      elsif i['image_tesim'].present?
-        item.format_str = i['image_tesim'][0].to_s
-      elsif i['awsthumbnail_tesim'].present?
-        item.format_str = i['awsthumbnail_tesim'][0].to_s
-      end
-
-      if i['date_tesim'].present?
-        item.publication_date = i['date_tesim'][0].to_s
-      end
-
-      item.link =
-        if i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
-          i['handle_tesim'][0]
-        elsif i['id'].starts_with?('ss:') || i['id'].starts_with?('hunt:') || i['id'].starts_with?('chla')
-          "http://digital.library.cornell.edu/catalog/#{i['id']}"
-        else 
-          "Unknown link"
-        end
+      item = solrResult2Bento(i, item)
+      Rails.logger.level = Logger::DEBUG # jgr25
+      Rails.logger.debug "jgr25_debug test = #{item.to_yaml} \n#{__FILE__}:#{__LINE__}"
+      Rails.logger.level = Logger::WARN # jgr25
 
       bento_results << item
     end
