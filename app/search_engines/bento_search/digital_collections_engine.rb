@@ -19,7 +19,7 @@ class BentoSearch::DigitalCollectionsEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
-    q = URI::encode(args[:oq])
+    q = URI::encode(args[:oq].gsub(" ","+"))
     uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"
     url = Addressable::URI.parse(uri)
     url.normalize
