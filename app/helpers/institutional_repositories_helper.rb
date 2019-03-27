@@ -63,7 +63,7 @@ module InstitutionalRepositoriesHelper
             r.publication_date = s['date_tesim'].shift
         end
         
-        if s['has_model_ssim'] == 'Page'
+        if s['has_model_ssim'].shift == 'Page'
             # pages link to the page reader
             id = s['id']
             parts = id.split("_")
