@@ -11,7 +11,7 @@ module InstitutionalRepositoriesHelper
         elsif id.starts_with?('ec:')
             return schemeEcommons(solrIn, resultItem)
         else
-            dlxs = ['chla', 'hunt', 'may', 'hearth', 'witchcraft', 'ezra']
+            dlxs = ['chla', 'hunt', 'may', 'hearth', 'witchcraft', 'ezra', 'hivebees']
             dlxs.each { |prefix|
                 if id.starts_with?(prefix)
                     return schemeDlxs(solrIn, resultItem)
