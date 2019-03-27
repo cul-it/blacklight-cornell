@@ -24,6 +24,10 @@ class BentoSearch::InstitutionalRepositoriesEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Institutional Repositories'
     q = URI::encode(args[:oq].gsub(" ","+"))
+    Rails.logger.level = Logger::DEBUG # jgr25
+    Rails.logger.debug "jgr25_debug q = #{q.to_yaml} \n#{__FILE__}:#{__LINE__}"
+    Rails.logger.level = Logger::WARN # jgr25
+
     uri = configuration.solr_url
     url = Addressable::URI.parse(uri)
     url.normalize
