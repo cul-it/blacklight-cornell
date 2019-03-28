@@ -38,7 +38,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
     solr = RSolr.connect :url => url.to_s
     solr_response = solr.get 'select', :params => {
                                         :q => q,
-                                        :fq => 'format_tesim:(Audio Book Image Journal Text)',
+                                        :fq => 'format_tesim:(Audio Book Image Journal Text Item)',
                                         :start => start * per_page,
                                         :rows => per_page,
                                         :fl => '*'
