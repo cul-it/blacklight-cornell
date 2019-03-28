@@ -22,6 +22,8 @@ module InstitutionalRepositoriesHelper
             Rails.logger.debug("\njgr25_debug \nUnknown Collection Prefix: #{id}\n#{__FILE__}:#{__LINE__}")
             Rails.logger.level = save_logger_level # jgr25
             resultItem.title = id
+            resultItem.link = '#'
+            resultItem.abstract = 'Unknown Collection ID Prefix'
             return resultItem
         end
     end
