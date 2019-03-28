@@ -30,7 +30,7 @@ module InstitutionalRepositoriesHelper
         # 'sharedshelf'
         r.title = s['title_tesim'].shift
         if s['creator_tesim'].present?
-            r.authors = s['creator_tesim'].clone
+            s['creator_tesim'].each { |a| r.authors << BentoSearch::Author.new({:display => a}) }
         end
         r.abstract = s['collection_tesim'].shift
         if s['date_tesim'].present?
@@ -50,7 +50,7 @@ module InstitutionalRepositoriesHelper
         # 'dlxs'
         r.title = s['title_tesim'].shift
         if s['creator_tesim'].present?
-            r.authors = s['creator_tesim'].clone
+            s['creator_tesim'].each { |a| r.authors << BentoSearch::Author.new({:display => a}) }
         end
         r.abstract = 
             if s['collection_tesim'].present?
@@ -86,7 +86,7 @@ module InstitutionalRepositoriesHelper
         # 'ecommons'
         r.title = s['title_tesim'].shift
         if s['creator_tesim'].present?
-            r.authors = s['creator_tesim'].clone
+            s['creator_tesim'].each { |a| r.authors << BentoSearch::Author.new({:display => a}) }
         end
         if s['abstract_tesim'].present?
             r.abstract = s['abstract_tesim'].shift
