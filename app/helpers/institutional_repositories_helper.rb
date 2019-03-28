@@ -17,7 +17,12 @@ module InstitutionalRepositoriesHelper
                     return schemeDlxs(solrIn, resultItem)
                 end
             }
-            return 'Unknown Collection Prefix: ' + id
+            save_logger_level = Rails.logger.level
+            Rails.logger.level = Logger::DEBUG # jgr25
+            Rails.logger.debug("\njgr25_debug \nUnknown Collection Prefix: #{id}\n#{__FILE__}:#{__LINE__}")
+            Rails.logger.level = save_logger_level # jgr25
+            resultItem.title = id
+            return resultItem
         end
     end
 
