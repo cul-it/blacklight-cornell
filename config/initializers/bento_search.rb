@@ -117,9 +117,9 @@ BentoSearch.register_engine('digitalCollections') do |conf|
 end
 
 BentoSearch.register_engine('institutionalRepositories') do |conf|
-	conf.engine = 'BentoSearch::InstitutionalRepositoriesEngine'
-	conf.title = 'Institutional Repositories'
-	conf.for_display = {:decorator => "DigitalCollections"}
+  conf.engine = 'BentoSearch::InstitutionalRepositoriesEngine'
+  conf.title = 'Institutional Repositories'
+  conf.for_display = {:decorator => "DigitalCollections"}
 end
 
 BentoSearch.register_engine('libguides') do |conf|
