@@ -72,11 +72,11 @@ class BentoSearch::InstitutionalRepositoriesEngine
   def self.default_configuration
     {
       # use this address for servers
-      #:solr_url => "http://digcoll.library.cornell.edu:8983/solr/digitalcollections2/"
+      :solr_url => "http://digcoll.library.cornell.edu:8983/solr/digitalcollections2/"
 
       # use this address for local development
-      :solr_url => "http://digcoll.internal.library.cornell.edu:8983/solr/digitalcollections2/"
+      #:solr_url => "http://digcoll.internal.library.cornell.edu:8983/solr/digitalcollections2/"
     }
   end
-
+  
 end
