@@ -26,8 +26,8 @@
       </div>
     <%# end %>
 
-
-  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
+  <%# Show on-site use note on item view; do not show if an item is noncirc and at the Library Annex %>
+  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true && i["location"]["name"] != "Library Annex") %>  
     <div class="status">
       <span class="online-label">
         <i class="fa fa-check fa-on-site" title="On-site use" alt="" aria-hidden="true"></i>
