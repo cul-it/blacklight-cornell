@@ -32,7 +32,14 @@ module InstitutionalRepositoriesHelper
 
     def schemeSharedShelf(s, r)
         # 'sharedshelf'
-        r.title = s['title_tesim'].shift
+        r.title = 
+            if s['title_tesim'].present?
+                s['title_tesim'].shift
+            elsif s['title_ssi'].present?
+                s['title_ssi']
+            else
+                s['id']
+            end
         if s['creator_tesim'].present?
             s['creator_tesim'].each { |a| r.authors << BentoSearch::Author.new({:display => a}) }
         end
