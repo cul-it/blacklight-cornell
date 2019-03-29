@@ -35,10 +35,19 @@ class BentoSearch::InstitutionalRepositoriesEngine
     start = args[:page].is_a?(Integer) ? args[:page] - 1 : 0
     per_page = args[:per_page].is_a?(Integer) ? args[:per_page] : 5
 
+    fq = 
+      if args[:use_dev_solr]
+        ''
+      elsif args[:search_pages_also]
+        'format_tesim:(Audio Book Image Journal Text Item Page)'
+      else
+        'format_tesim:(Audio Book Image Journal Text Item)'
+      end
+
     solr = RSolr.connect :url => url.to_s
     solr_response = solr.get 'select', :params => {
                                         :q => q,
-                                        :fq => 'format_tesim:(Audio Book Image Journal Text Item)',
+                                        :fq => fq,
                                         :start => start * per_page,
                                         :rows => per_page,
                                         :fl => '*'
@@ -55,9 +64,9 @@ class BentoSearch::InstitutionalRepositoriesEngine
       item = BentoSearch::ResultItem.new
 
       item = solrResult2Bento(i, item)
-      Rails.logger.level = Logger::DEBUG # jgr25
-      Rails.logger.debug "jgr25_debug test = #{item.to_yaml} \n#{__FILE__}:#{__LINE__}"
-      Rails.logger.level = Logger::WARN # jgr25
+      # Rails.logger.level = Logger::DEBUG # jgr25
+      # Rails.logger.debug "jgr25_debug test = #{item.to_yaml} \n#{__FILE__}:#{__LINE__}"
+      # Rails.logger.level = Logger::WARN # jgr25
 
       bento_results << item
     end
