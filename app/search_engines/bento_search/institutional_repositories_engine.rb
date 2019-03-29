@@ -28,7 +28,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
     Rails.logger.debug "jgr25_debug q = #{q.to_yaml} \n#{__FILE__}:#{__LINE__}"
     Rails.logger.level = Logger::WARN # jgr25
 
-    uri = configuration.solr_url
+    uri = get_solr_url(args)
     url = Addressable::URI.parse(uri)
     url.normalize
 
@@ -69,14 +69,19 @@ class BentoSearch::InstitutionalRepositoriesEngine
     return bento_results
   end
 
-  def self.default_configuration
-    {
+  def get_solr_url(args)
+      dev = args[:use_dev_solr].nil? ? '' : '-dev'
+      internal = args[:local_dev].nil? ? '' : 'internal.'
+
       # use this address for servers
-      :solr_url => "http://digcoll.library.cornell.edu:8983/solr/digitalcollections2/"
+      solr_url = "http://digcoll#{dev}.#{internal}library.cornell.edu:8983/solr/digitalcollections2/"
+    Rails.logger.level = Logger::DEBUG # jgr25
+    Rails.logger.debug "jgr25_debug solr_url = #{solr_url.to_yaml} \n#{__FILE__}:#{__LINE__}"
+    Rails.logger.level = Logger::WARN # jgr25
 
       # use this address for local development
       #:solr_url => "http://digcoll.internal.library.cornell.edu:8983/solr/digitalcollections2/"
-    }
+      return solr_url
   end
   
 end
