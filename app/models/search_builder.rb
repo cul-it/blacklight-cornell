@@ -362,24 +362,15 @@ class SearchBuilder < Blacklight::SearchBuilder
      if !my_params[:q_row].nil? and !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params) 
-     #  params = my_params
-     #  Rails.logger.info("POOS11 = #{params.inspect}")
-    #   this_is_it = make_new_adv_query(my_params)  
-    #   Rails.logger.info("POOS3 = #{this_is_it}") 
       
-        Rails.logger.info("BOOT = #{my_params.inspect}")
          q_rowArray = parse_Q_row(my_params)
-         Rails.logger.info("FOOT1 = #{q_rowArray.inspect}")
+
          my_params[:q_row] = q_rowArray
-         Rails.logger.info("FOOT2 = #{my_params[:q_row].inspect}")
+
          my_params[:q_row] = parse_QandOp_row(my_params)
-         Rails.logger.info("FOOT111 = #{my_params.inspect}")
- #        my_params = removeBlanks(my_params)
-         Rails.logger.info("FOOT21 = #{my_params[:q_row].inspect}")
- #        my_params[:q_row] = q_rowArray
-         Rails.logger.info("BOOTER3 = #{my_params}")
+
          test_q_string2 = groupBools(my_params)
-         Rails.logger.info("BOOTER4 = #{test_q_string2}")
+
          my_params[:q] = test_q_string2
       return my_params
      end
@@ -391,10 +382,10 @@ class SearchBuilder < Blacklight::SearchBuilder
      q_row_string = ''
      my_params[:search_field_row].each do |sfr|
        q_row_string = ""
-       Rails.logger.info("FOOT22 = #{my_params[:q_row][0].inspect}")
+
        sfr_name = get_sfr_name(sfr)
        if my_params[:q_row][index][0] == '"' and my_params[:op_row][index] != 'begins_with'
-         Rails.logger.info("STOOPID = #{my_params[:q_row][index]}")
+
          if sfr_name == ""
            sfr_name = "quoted:"
          else
@@ -404,9 +395,9 @@ class SearchBuilder < Blacklight::SearchBuilder
        else  
          
          split_q_string_Array = my_params[:q_row][index].split(' ')
-         Rails.logger.info("SPLITTER = #{split_q_string_Array.inspect}")
+
          if split_q_string_Array.length > 1 or sfr_name == 'lc_callnum'
-           Rails.logger.info("SPLITTER1 = #{my_params[:op_row][index]}")
+
            if my_params[:op_row][index] == 'AND'
              split_q_string_Array.each do |add_sfr|
                if sfr_name == ""
@@ -427,19 +418,13 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
                q_row_string = '((' + q_row_string + ') OR ' + sfr_name + ':"' + my_params[:q_row][index] + '")'
              end
-             Rails.logger.info("GROUPER = #{q_row_string}")
+
              q_rowArray << q_row_string          
            end
            if my_params[:op_row][index] == "phrase"
               split_q_string_Array.each do |add_sfr|
-                Rails.logger.info("SPOTTY = #{sfr_name}")
-#                if sfr_name == ""
-#                  q_row_string << '+' + add_sfr + " "
-#                else
                   q_row_string << add_sfr + " "
-#                end  
               end
-             Rails.logger.info("HUGETV = #{q_row_string}")
 
              if sfr_name != 'lc_callnum' and sfr_name != "" 
                if sfr_name == "notes_qf"
@@ -469,24 +454,22 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end  
               end
               q_row_string = '(' + q_row_string[0..-5] + ')'
-              Rails.logger.info("GROUPER3 = #{q_row_string}")
               q_rowArray << q_row_string
            end
-           Rails.logger.info("PARSEQOP = #{my_params[:op_row][index]}")
+
            if my_params[:op_row][index] == 'begins_with'
                 split_q_string_Array.each do |add_sfr|
                   q_row_string << add_sfr + " "
                 end
                 
                 if sfr_name == ""
-                  Rails.logger.info("SPOTS = #{q_row_string}")
+
                   if q_row_string[0] == '"'
                     q_row_string = 'title_starts:' + q_row_string[1..-1] 
                     if q_row_string[-2] != '"'
                       q_row_string = q_row_string[0..-1] + '"'
                     end
                   end
-                  Rails.logger.info("SPOTS = #{q_row_string}")
                 else
                   if q_row_string[0] == '"'
                      q_row_string = sfr_name + '_starts:' + q_row_string + ''
@@ -495,7 +478,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                   end
                 end
  
-                Rails.logger.info("GROUPER3 = #{q_row_string}")
                 q_rowArray << q_row_string   
            end
          else
@@ -565,55 +547,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 #       Rails.logger.info("BOOTERParseQ = #{q_rowArray}")
      end
      return q_rowArray
-   end
-   
-   def make_hide_adv_query(my_params = params || {})
-# Check to make sure this is an AS
-     # IF 1
-     this_is_it = ""
-     if !my_params[:q_row].nil? and !my_params[:q_row].blank?
-# Remove any blank rows in AS
-       my_params = removeBlanks(my_params) 
-       params = my_params
-       Rails.logger.info("POOS11 = #{params.inspect}")
-       this_is_it = make_new_adv_query(params)  
-       Rails.logger.info("POOS3 = #{this_is_it}") 
-      
- #      blacklight_params = fartingParams
-       newMyParams = {}
-       for i in 0..my_params[:boolean_row].count - 1
-         n = i + 1
-         n = n.to_s.to_sym
-         newMyParams[n] = my_params[:boolean_row][i]
-       end
-       my_params[:boolean_row] = newMyParams
-       # IF 1.1
-#       if my_params[:boolean_row] == {} or my_params[:boolean_row].nil?
-#         my_params = makesingle(my_params)
-# If reduction results in only one row return to cornell_catalog.rb
-#         my_params[:boolean_row] = {"1" => "AND"}
-        # my_params[:boolean_row] = blacklight_params[:boolean_row]
-       #  my_params[:q] = "((+Bibliotheca +Instituti +Historici) OR \"Bibliotheca Instituti Historici\")"
-#         return my_params
-       # end IF 1.1
-       end
-       solr6queryArray = []
-       q_string = ""
-       q_string2 = ""
-       q_string_hold = ""
-       q_stringArray = []
-       q_string2Array = []
-       opArray = []
-       newOpArray = []
-       solr6query = ""
-       journal_title_flag = 0
-       # IF 1.2
-       Rails.logger.info("SPOOKY = #{my_params.inspect}")
-         Rails.logger.info("POOTY = #{this_is_it}") 
-         my_params["q"] = this_is_it
-       return my_params
-
-  end  #def
+   end   
   
   def makesingle(my_params)
     op_name = my_params[:op_row][0]
@@ -941,7 +875,6 @@ class SearchBuilder < Blacklight::SearchBuilder
        newstring = ""
        if my_params[:q_row].length > 1
         my_params[:boolean_row].each do |bool|
-          Rails.logger.info("NEWT = #{bool}")
           if my_params[:q_row].length == 2 or index == 0
             newstring = "(" + newstring + my_params[:q_row][index] + " " + bool + " " + my_params[:q_row][index + 1] + ") "
             index = index + 2
