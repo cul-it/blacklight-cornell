@@ -133,6 +133,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       if params[:q].include?('%2520')
         params[:q].gsub!('%2520',' ')
       end
+      if params[:q].include?('%2F') or params[:q].include?('/')
+        params[:q].gsub!('%2F','')
+        params[:q].gsub!('/','')
+      end
       if params[:search_field] == 'isbn%2Fissn' or params[:search_field] == 'isbn/issn'
         params[:search_field] = 'isbnissn'
       end

@@ -364,13 +364,10 @@ class SearchBuilder < Blacklight::SearchBuilder
        my_params = removeBlanks(my_params) 
       
          q_rowArray = parse_Q_row(my_params)
-
          my_params[:q_row] = q_rowArray
-
          my_params[:q_row] = parse_QandOp_row(my_params)
-
          test_q_string2 = groupBools(my_params)
-
+      #   Rails.logger.info("BOOTER4 = #{test_q_string2}")
          my_params[:q] = test_q_string2
       return my_params
      end
@@ -382,22 +379,20 @@ class SearchBuilder < Blacklight::SearchBuilder
      q_row_string = ''
      my_params[:search_field_row].each do |sfr|
        q_row_string = ""
-
        sfr_name = get_sfr_name(sfr)
-       if my_params[:q_row][index][0] == '"' and my_params[:op_row][index] != 'begins_with'
 
+       if (my_params[:q_row][index][0] == "\"" or my_params[:q_row][index][1] == '"' ) and my_params[:op_row][index] != 'begins_with'
          if sfr_name == ""
            sfr_name = "quoted:"
          else
            sfr_name = sfr_name + '_quoted:'
          end
-         q_rowArray = sfr_name + my_params[:q_row][index]
+         q_rowArray << sfr_name + my_params[:q_row][index]#.gsub!('"','')
+   #      my_params[:q_row] = q_rowArray
        else  
          
          split_q_string_Array = my_params[:q_row][index].split(' ')
-
          if split_q_string_Array.length > 1 or sfr_name == 'lc_callnum'
-
            if my_params[:op_row][index] == 'AND'
              split_q_string_Array.each do |add_sfr|
                if sfr_name == ""
@@ -418,7 +413,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
                q_row_string = '((' + q_row_string + ') OR ' + sfr_name + ':"' + my_params[:q_row][index] + '")'
              end
-
              q_rowArray << q_row_string          
            end
            if my_params[:op_row][index] == "phrase"
@@ -436,9 +430,9 @@ class SearchBuilder < Blacklight::SearchBuilder
              end
               if sfr_name == '' or sfr_name == 'title' or sfr_name == 'number'
                 if sfr_name != ''
-                   q_row_string = sfr_name + '_phrase:"' + my_params[:q_row][index] + '"'
+                   q_row_string = sfr_name + '_quoted:"' + my_params[:q_row][index] + '"'
                 else
-                   q_row_string = sfr_name + 'phrase:"' + my_params[:q_row][index] + '"'
+                   q_row_string = sfr_name + 'quoted:"' + my_params[:q_row][index] + '"'
                 end
               else
                 q_row_string = "(" + sfr_name + ':"' + my_params[:q_row][index] + '")'
@@ -456,19 +450,19 @@ class SearchBuilder < Blacklight::SearchBuilder
               q_row_string = '(' + q_row_string[0..-5] + ')'
               q_rowArray << q_row_string
            end
-
            if my_params[:op_row][index] == 'begins_with'
                 split_q_string_Array.each do |add_sfr|
                   q_row_string << add_sfr + " "
                 end
                 
                 if sfr_name == ""
-
                   if q_row_string[0] == '"'
-                    q_row_string = 'title_starts:' + q_row_string[1..-1] 
+                    q_row_string = 'starts:"' + q_row_string[1..-1] 
                     if q_row_string[-2] != '"'
                       q_row_string = q_row_string[0..-1] + '"'
                     end
+                  else
+                    q_row_string = 'starts:"' + q_row_string + '"'                    
                   end
                 else
                   if q_row_string[0] == '"'
@@ -477,15 +471,36 @@ class SearchBuilder < Blacklight::SearchBuilder
                      q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
                   end
                 end
- 
                 q_rowArray << q_row_string   
            end
          else
+           if my_params[:op_row][index] == 'begins_with'
+             q_row_string = my_params[:q_row][index]
+              if sfr_name == ""
+                if q_row_string[0] == '"'
+                  q_row_string = 'title_starts:' + q_row_string[1..-1] 
+                  if q_row_string[-2] != '"'
+                    q_row_string = q_row_string[0..-1] + '"'
+                  end
+                else
+                  q_row_string = 'starts:"' + q_row_string + '"'
+                end
+               q_rowArray << q_row_string
+              else
+                if q_row_string[0] == '"'
+                   q_row_string = sfr_name + '_starts:' + q_row_string + ''
+                else
+                   q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
+                end
+                q_rowArray << q_row_string
+              end
+          else
            if sfr_name != ""
               q_rowArray << sfr_name + ":" + my_params[:q_row][index]
            else
               q_rowArray << my_params[:q_row][index]
            end
+          end
          end
        end
         index = index +1      
@@ -544,7 +559,6 @@ class SearchBuilder < Blacklight::SearchBuilder
        row.gsub!(/[()]/, '')
        row.gsub!(':','\:')
        q_rowArray << row
-#       Rails.logger.info("BOOTERParseQ = #{q_rowArray}")
      end
      return q_rowArray
    end   
@@ -846,7 +860,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:mm] = 1
         blacklight_params = my_params
   #      my_params[:q] = '(madness OR quoted:"mentally ill" OR quoted:"mental illness" OR insanity )' # OR phrase:("madness "mentally ill" "mental illness" insanity")'
-        Rails.logger.info("FINISHER = #{my_params}")
+        #Rails.logger.info("FINISHER = #{my_params}")
     return my_params
   
   end
