@@ -117,8 +117,13 @@ module Blacklight::Bookmarks
         end
       end
     rescue RangeError => msg
-      render :partial => 'bookmarks/selected_item_limit'
-      # redirect_to :back
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
+      Rails.logger.level = save_level
+      render :partial => '/bookmarks/selected_item_limit'
+      #redirect_to '/bookmarks/show_selected_item_limit_bookmarks'
+      #render(plain: msg, status: "500")
+      #redirect_to 'bookmarks/show_selected_item_limit_bookmarks'
     end
   end
 

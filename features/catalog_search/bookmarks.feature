@@ -107,12 +107,15 @@ Feature: Bookmarks for anonymous users
         And the popup should include "Cancel"
 
     @bookmarks_select_limit
+    @javascript
     Scenario: I should be limited to 500 selected items
         Given PENDING
+        # after many attempts to adjust timing and selection count, this just does not work reliably
         Given I am on the home page
 		When I fill in the search box with 'shirt'
 		And I press 'search'
         And I select 100 items per page
+        And I sleep 5 seconds
         And I check Select all
         And I sleep 5 seconds
         Then I should see 100 selected items
@@ -126,7 +129,7 @@ Feature: Bookmarks for anonymous users
         Then I should see 300 selected items
         And click on first link "Next »"
         And I check Select all
-        And I sleep 5 seconds
+        And I sleep 10 seconds
         Then I should see 400 selected items
         And click on first link "Next »"
         And I check Select all
@@ -136,3 +139,19 @@ Feature: Bookmarks for anonymous users
         Then I select the first 1 catalog results
         Then I should see 500 selected items
 
+    @bookmarks_book_select_limit
+    @javascript
+    Scenario Outline: My bookbag should be limited to 500 selected books
+        Given PENDING
+        # after many attempts to adjust timing and selection count, this just does not work reliably
+        Given I visit Books page '<page>' with '50' per page
+        And I check Select all
+        And I sleep 3 seconds
+        Then I should see <count> selected items
+
+
+    Examples:
+    | page | count |
+    | 2 | 50 |
+    | 3 | 100 |
+    | 4 | 150 |
