@@ -548,7 +548,7 @@ class SearchBuilder < Blacklight::SearchBuilder
      my_params[:q_row].each do |row|
        row.gsub!('”', '"')
        row.gsub!('“', '"')
-       #count to see if someone did not close their quotes 
+       row.gsub!('/','')       #count to see if someone did not close their quotes 
        numquotes = row.count '"'
        #get rid of the offending quotes
        if numquotes == 1
