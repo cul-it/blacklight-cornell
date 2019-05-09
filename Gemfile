@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
+ruby "2.3.3"
 
 gem 'rails', '4.2.11'
 gem "dotenv-rails"
@@ -101,7 +101,7 @@ gem 'omniauth-google-oauth2', '~> 0.4.1'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 4.0'
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', ">= 3.4.1"
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
