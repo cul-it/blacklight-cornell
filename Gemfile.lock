@@ -46,7 +46,6 @@ GIT
     borrow_direct (1.2.0)
       httpclient (~> 2.4)
 
-<<<<<<< HEAD
 PATH
   remote: ../blacklight-cornell-requests
   specs:
@@ -76,7 +75,6 @@ PATH
       borrow_direct
       rails (~> 4.2.7.1)
       xml-simple
-=======
 GIT
   remote: https://github.com/makandra/spreewald.git
   revision: ca6aeaed583518222929ec1892e5b75b35ed247e
@@ -84,7 +82,6 @@ GIT
     spreewald (1.12.2)
       cucumber
       cucumber_priority (>= 0.3.0)
->>>>>>> origin/master
 
 GEM
   remote: https://rubygems.org/
