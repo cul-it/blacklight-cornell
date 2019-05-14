@@ -187,7 +187,7 @@ dd.blacklight-notes {
 // Librarian view
 // -------------------------
 
-.librarian-view { font-size: 12px; }
+.librarian-view { margin-left: -15px; }
 #marc_view { font-family: courier, monospace; }
 #marc_view .field { clear: both; }
 #marc_view .tag { 
@@ -276,12 +276,14 @@ padding-left: 6em;
 // ----------------------------
 .browse-call-number {
 	margin-top: 3em;
+	margin-bottom: 3em;
 	border-top: 5px solid $light-tan;
 	li {
 		font-size: 16px;
 	}
 	.btn, .btn:hover {
 		border-bottom: 0;
+		margin-bottom: .75em;
 	}
 }
 

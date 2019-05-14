@@ -1,16 +1,19 @@
 <% for i in 2..2 do %>
   <div class="input_row">
-    <div class="boolean_row radio" role="radiogroup" aria-label="operators">
-      <label class="radio-inline">
-        <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked" aria-checked="true"> and
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR" aria-checked="false"> or
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT" aria-checked="false"> not
-      </label>
-    </div>
+    <fieldset>
+      <legend class="sr-only">Choose option</legend>
+      <div class="boolean_row radio" role="radiogroup" aria-label="operators">
+        <label class="radio-inline">
+          <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked" aria-checked="true"> and
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR" aria-checked="false"> or
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT" aria-checked="false"> not
+        </label>
+      </div>
+    </fieldset>
     <div class="form-group">
       <label for="q_row<%= i %>" class="sr-only"><%= t('blacklight.search.form.q') %></label>
       <%= text_field_tag "q_row[]", nil, :autocapitalize => "off", :id => "q_row#{i}", :class => "form-control" %>

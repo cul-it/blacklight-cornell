@@ -42,7 +42,7 @@ Feature: Browse search
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)'
     Then click on link "Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)"
     And I should get results
-    Then I should see the label '1 - 6 of 6'
+    Then I should see the label '1 - 7 of 7'
 
   @browse
   Scenario: Search for author-title combination
@@ -95,6 +95,7 @@ Feature: Browse search
   | ✓ All | Publish! : the how-to magazine of desktop publishing |
   | Adelson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
   | Africana Library | The collected works of Scott Joplin |
+  | Bailey Hortorium | L'architecture comparée dans l'Inde et l'Extrême-Orient, par Henri Marchal |
   | CISER Data Archive | Overall Real Property Tax Rates : Local Governments, 1981 |
   | Fine Arts Library | Sonic rebellion : music as resistance : Detroit 1967-2017 |
   | ILR Library | Mel Bay's immigrant songbook |
@@ -137,4 +138,20 @@ Feature: Browse search
   | go | back |
   | Next | Previous |
   | Previous | Next |
+
+  @browse
+  @call-number-browse
+  @call-number-browse-navigate-switch-locations
+  @DISCOVERYACCESS-4659
+  Scenario: Switch locations after navigation
+    Given I literally go to browse
+      And I fill in the authorities search box with 'LO'
+      And I select 'Call Number Browse' from the 'browse_type' drop-down
+      And I press 'search'
+      And I click a link with text 'Music Library' within 'location-filter-dropdown'
+    Then I should see the label 'Going places'
+      And I click 'Next' in the first page navigator
+      And I click a link with text 'ILR Library' within 'location-filter-dropdown'
+    Then I should see the label 'Pins and needles : an oral history'
+
 

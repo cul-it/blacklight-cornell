@@ -313,8 +313,8 @@ Feature: Select and export items from the result set
     And I select 'Verizon' from the 'carrier' drop-down
     And I press "Send"
     And I sleep 12 seconds
-    Then "6073516271@vtext.com" receives an email with "Shelter medicine for veterinarians and staf" in the content
+    Then "6073516271@vtext.com" receives an email with "Shelter medicine for veterinarian" in the content
     Then I should see "Shelter medicine for veterinarians and staf" in the email body
-    Then I should see "Veterinary Library Core Resource (Non-Circulating)" in the email body
+    Then I should see "Veterinary Library Core Resource (5 hour loan)" in the email body
     And I sleep 8 seconds
   

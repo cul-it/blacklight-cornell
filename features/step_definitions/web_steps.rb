@@ -1,3 +1,5 @@
+require 'spreewald/web_steps'
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
@@ -109,7 +111,7 @@ Then("I select the first {int} catalog results") do |int|
   end
 end
 
-Then /^there should be ([0-9+]) items selected$/ do |int|
+Then /^there should be ([0-9]+) items selected$/ do |int|
   page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
 end
 
@@ -190,4 +192,23 @@ end
 
 Then /^I should get a response with content-type "([^"]*)"$/ do |content_type|
   page.response_headers['Content-Type'].should == content_type
+end
+
+When("I select {int} items per page") do |int|
+  page.find(:css, "div#per_page-dropdown button.dropdown-toggle", visible: false).click
+  click_link("#{int} per page")
+end
+
+Then("I should see {int} selected items") do |int|
+  patiently do
+    what_is(page.find(:xpath, "//a[@id='bookmarks_nav']"))
+    page.find(:xpath, "//a[@id='bookmarks_nav']/span")
+    page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}")
+  end
+end
+
+Then("I check Select all") do
+  patiently do
+    page.find(:css, "input#select_all_input").click
+  end
 end
