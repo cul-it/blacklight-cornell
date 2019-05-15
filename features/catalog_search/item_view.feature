@@ -339,8 +339,8 @@ Feature: Item view
   @holdings
   @current_issues
   Scenario: As a user I can see the current issues information
-    Given I request the item view for 329763
-    Then I should see the label 'Current issue on display'
+    Given I request the item view for 2797907
+    Then I should see the label 'Current Issues'
 
   # Make sure PDA makes some sense  DISCOVERYACCESS-1356
   # Confusing availability labels for 8036458
