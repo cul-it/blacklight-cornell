@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby "2.5.5"
-#here we go again
+
 gem 'rails', '4.2.11'
 gem "dotenv-rails"
 gem "dotenv-deployment"
