@@ -31,7 +31,7 @@ Feature: Browse search
         And I fill in the authorities search box with 'china industrialization'
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'China's Industrialization Process'
+    Then I should see the label '转型、升级与创新 : 中国特色新型工业化的系统性研究'
 
   @browse
   Scenario: Search for author-title combination
