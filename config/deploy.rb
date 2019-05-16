@@ -8,7 +8,7 @@ set :scm_verbose, true
 #set :user, "es287"
 set :user, "rails"
 set :default_environment, {
-  'PATH' => "/opt/rh/devtoolset-2/root/usr/bin:$PATH"
+  'PATH' => "/opt/rh/devtoolset-2/root/usr/bin:$PATH",
   'PATH' => "/usr/local/rvm/gems/ruby-2.5.5/bin:/usr/local/rvm/gems/ruby-2.5.5@global/bin:/usr/local/rvm/rubies/ruby-2.5.5/bin:/usr/local/rvm/bin:$PATH",
   'RUBY_VERSION' => "ruby 2.5.5",
   'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.5.5",
