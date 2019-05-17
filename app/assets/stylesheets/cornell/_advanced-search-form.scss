@@ -8,8 +8,16 @@
 .as-tips {
   position:relative;
 	top:-10px;
-	font-size: 90%;
   margin-top: 0;
+  h3 {
+    margin-top: 0;
+  }
+  li {
+    margin-bottom: .5em;
+  }
+  ul {
+    padding-left: 18px;
+  }
 }
 .add-and-sort label {
   display: inline-block;
