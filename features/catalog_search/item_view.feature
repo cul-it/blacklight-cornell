@@ -569,12 +569,12 @@ Feature: Item view
 #    Then I should see the label 'Popular Reading Area'
 
 # this item is an online item, and has holding notes.
-  @DISCOVERYACCESS-3325
-  @online_holding_notes
-  @all_item_view
-    Scenario: Show the holding notes properly for online item.
-    Given I request the item view for 8797135
-    Then I should see the label 'Library has: 17th and 18th century Burney collection'
+#  @DISCOVERYACCESS-3325
+#  @online_holding_notes
+#  @all_item_view
+#    Scenario: Show the holding notes properly for online item.
+#    Given I request the item view for 8797135
+#    Then I should see the label 'Library has: 17th and 18th century Burney collection'
 
   # TODO: need bibids that match these cases
 # this item is an ordered item, received, and no item record.
