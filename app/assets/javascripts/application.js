@@ -21,8 +21,8 @@
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
 // this:
-//= require 'blacklight_range_limit.js'
-//= require 'range_limit_slider.js'
+//= require 'blacklight_range_limit'
+//  require 'range_limit_slider.js'
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
 //= require jquery-ui/autocomplete

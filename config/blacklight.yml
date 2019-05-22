@@ -41,4 +41,4 @@ test: &test
   url: <%= ENV['SOLR_URL'] %>
 
 #cucumber:
-  <<: *test
+#  <<: *test

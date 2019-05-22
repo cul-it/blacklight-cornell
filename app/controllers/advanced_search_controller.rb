@@ -6,9 +6,9 @@ class AdvancedSearchController < ApplicationController
 
   delegate :blacklight_config, to: :default_catalog_controller
 
-  before_filter :heading
+  before_action :heading
   if   ENV['SAML_IDP_TARGET_URL']
-    prepend_before_filter :set_return_path
+    prepend_before_action :set_return_path
   end
 
 

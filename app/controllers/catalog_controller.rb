@@ -3,13 +3,14 @@ class CatalogController < ApplicationController
   
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
-  include Blacklight::SearchHelper
+#  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
+  include Blacklight::DefaultComponentConfiguration
 
   if   ENV['SAML_IDP_TARGET_URL']
-    before_filter :authenticate_user!, only: [  :email, :oclc_request ]
-    #prepend_before_filter :set_return_path
+    before_action :authenticate_user!, only: [  :email, :oclc_request ]
+    #prepend_before_action :set_return_path
   end
 
   # Ensure that the configuration file is present

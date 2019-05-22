@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 # Methods added to this helper will be available to all templates in the hosting application
 module Blacklight::BlacklightHelperBehavior
-  include BlacklightUrlHelper
-  include BlacklightConfigurationHelper
-  include HashAsHiddenFieldsHelper
-  include RenderConstraintsHelper
-  include RenderPartialsHelper
-  include FacetsHelper
+  include UrlHelperBehavior
+  include HashAsHiddenFieldsHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'Blacklight version 7.0.0'
 
@@ -109,6 +105,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def document_has_value? document, field_config
+    Rails.logger.info("DOCUMENT_HAS_VALUE")
     document.has?(field_config.field) ||
       (document.has_highlight_field? field_config.field if field_config.highlight) ||
       field_config.accessor

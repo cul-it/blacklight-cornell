@@ -46,7 +46,7 @@
 
 module Blacklight::SearchHelper
   extend ActiveSupport::Concern
-  include Blacklight::RequestBuilders
+  include Blacklight::SearchService
 
   # a solr query method
   # @param [Hash] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)

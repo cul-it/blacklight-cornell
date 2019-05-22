@@ -82,6 +82,7 @@ end
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_pair_delimited_index_field_value args
+    Rails.logger.info("RENDER_PAIR_...")
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -1317,6 +1318,7 @@ end
     options = args.extract_options!
     document = args.shift || options[:document]
     field = args.shift || options[:field]
+    Rails.logger.info("FIELD = " + field.inspect)
     presenter(document).field_value field, options.except(:document, :field)
   end
 

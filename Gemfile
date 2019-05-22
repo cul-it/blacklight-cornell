@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
+ruby "2.5.5"
 
-gem 'rails', '4.2.11'
+gem 'rails', '5.2.3'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -9,7 +9,7 @@ gem "sprockets", '~> 3.7.2'
 
 # added for rails 4.
 gem 'activerecord-session_store'
-gem 'protected_attributes'
+gem 'protected_attributes_continued'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
@@ -17,20 +17,21 @@ group :development,:test, :integration do
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
 end
 
-group :production,:staging do
-  gem 'mysql'
-end
+#group :production,:staging do
+#  gem 'mysql'
+#end
 
 gem 'savon', '~> 2.11.1'
 gem 'parslet'
 gem 'ultraviolet'
 gem 'yaml_db'
-gem 'blacklight', '6.7.2'
-gem 'blacklight_range_limit'
-gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL6'
-gem 'kaminari', '0.15.0'
+gem 'blacklight', '7.0.1'
+gem 'blacklight_range_limit', '~> 7.0'
+gem 'blacklight_unapi', :path => '/usr/local/src/bc-unapi'
+#gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL6'
+gem 'kaminari', '>= 0.15'
 
-gem 'blacklight-hierarchy'
+gem 'blacklight-hierarchy', :path => '/usr/local/src/bc-hierarchy'
 gem 'htmlentities'
 gem 'json'
 gem 'httpclient'
@@ -69,7 +70,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara',"~> 2.1"
+  gem 'capybara','>= 2.3', '< 4'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false
@@ -80,7 +81,7 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
-  gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
+  gem 'mini_racer', platforms: :ruby
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
 
@@ -101,9 +102,10 @@ gem 'omniauth-google-oauth2', '~> 0.4.1'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 4.0'
 
-gem 'bootstrap-sass'
+gem 'bootstrap'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'blacklight_cornell_requests', path: '/usr/local/src/bc-requests'
+#gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
@@ -118,3 +120,6 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 gem 'citeproc-ruby'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
+
+# for Rails 5
+gem 'xmlrpc'
