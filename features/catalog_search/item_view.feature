@@ -504,7 +504,7 @@ Feature: Item view
  @DISCOVERYACCESS-1328
   Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes
     Given I request the item view for 28297
-    Then I should see the label 'This item is bound with'
+    Then I should see the label 'The v.75B item is bound with'
 
 #  @all_item_view
 # @boundwith
