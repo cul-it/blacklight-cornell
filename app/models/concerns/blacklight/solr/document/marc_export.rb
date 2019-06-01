@@ -808,7 +808,7 @@ module Blacklight::Solr::Document::MarcExport
   end  
 
   def clean_end_punctuation(text)
-    if [".",",",":",";","/"].include? text[-1,1]
+    if text && [".",",",":",";","/"].include?(text[-1,1])
       return text[0,text.length-1]
     end
     text
@@ -956,11 +956,11 @@ module Blacklight::Solr::Document::MarcExport
         field = record.find{|f| f.tag == '300'}
         if !field.nil?
 	  medium =  case 
-                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
+                       when  field['a']&.include?('sound disc') && (field['b']) && field['b']&.include?('digital')
                         'CD audio'
-                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
+                       when  field['a']&.include?('sound disc') && (field['b']) && field['b']&.include?('33')
                         'LP'
-                       when field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
+                       when field['a']&.include?('videodisc')&&(field['b']) && ((field['b']&.include?('sd.'))||field['b']&.include?('color') )
                         'DVD'
                      else
                      ''

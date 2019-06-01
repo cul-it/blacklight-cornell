@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
-
+ruby "2.5.5"
+#another try
 gem 'rails', '4.2.11'
 gem "dotenv-rails"
 gem "dotenv-deployment"
@@ -18,7 +18,7 @@ group :development,:test, :integration do
 end
 
 group :production,:staging do
-  gem 'mysql'
+  gem 'mysql2'
 end
 
 gem 'savon', '~> 2.11.1'
@@ -100,11 +100,14 @@ gem 'omniauth-saml'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 4.0'
-
-gem 'bootstrap-sass'
+gem 'xmlrpc'
+gem 'bootstrap-sass', '>= 3.4.1'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'dev'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
+#gem 'my_account', :path => '/Users/matt/code/d&a/my-account'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'dev'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
