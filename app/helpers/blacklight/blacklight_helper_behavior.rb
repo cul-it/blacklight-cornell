@@ -3,19 +3,22 @@
 module Blacklight::BlacklightHelperBehavior
   include UrlHelperBehavior
   include HashAsHiddenFieldsHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = 'Blacklight version 7.0.0'
+  include LayoutHelperBehavior
+  include IconHelperBehavior
 
   ##
-  # Get the name of this application, from either:
-  #  - the Rails configuration
-  #  - an i18n string (key: blacklight.application_name; preferred)
+  # Get the name of this application from an i18n string
+  # key: blacklight.application_name
+  # Try first in the current locale, then the default locale
   #
   # @return [String] the application name
   def application_name
-    return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
-
-    t('blacklight.application_name')
+    # It's important that we don't use ActionView::Helpers::CacheHelper#cache here
+    # because it returns nil.
+    Rails.cache.fetch 'blacklight/application_name' do
+      t('blacklight.application_name',
+        default: t('blacklight.application_name', locale: I18n.default_locale))
+    end
   end
 
   ##
@@ -25,14 +28,19 @@ module Blacklight::BlacklightHelperBehavior
   def render_page_title
     (content_for(:page_title) if content_for?(:page_title)) || @page_title || application_name
   end
+
+  # Blacklight-cornell customization
   def placeholder_text(field_def)
-      field_def.respond_to?(:placeholder_text) ? field_def.placeholder_text : t('blacklight.search.form.search.placeholder')
+    field_def.respond_to?(:placeholder_text) ? field_def.placeholder_text : t('blacklight.search.form.search.placeholder')
   end
+
+  # Blacklight-cornell customization
   def search_bar_select
-   blacklight_config.search_fields.collect do |_key, field_def|
-     [field_def.dropdown_label || field_def.label, field_def.key, { 'data-placeholder' => placeholder_text(field_def) }] if should_render_field?(field_def)
-   end.compact
- end
+    blacklight_config.search_fields.collect do |_key, field_def|
+      [field_def.dropdown_label || field_def.label, field_def.key, { 'data-placeholder' => placeholder_text(field_def) }] if should_render_field?(field_def)
+    end.compact
+  end
+
   ##
   # Create <link rel="alternate"> links from a documents dynamically
   # provided export formats.
@@ -44,8 +52,9 @@ module Blacklight::BlacklightHelperBehavior
   # @option options [Boolean] :unique ensures only one link is output for every
   #     content type, e.g. as required by atom
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
-  def render_link_rel_alternates(document=@document, options = {})
+  def render_link_rel_alternates(document = @document, options = {})
     return if document.nil?
+
     presenter(document).link_rel_alternates(options)
   end
 
@@ -53,7 +62,7 @@ module Blacklight::BlacklightHelperBehavior
   # Render OpenSearch headers for this search
   # @return [String]
   def render_opensearch_response_metadata
-    render :partial => 'catalog/opensearch_response_metadata'
+    render partial: 'catalog/opensearch_response_metadata'
   end
 
   ##
@@ -75,7 +84,11 @@ module Blacklight::BlacklightHelperBehavior
   # Render the search navbar
   # @return [String]
   def render_search_bar
-    render :partial=>'catalog/search_form'
+    search_bar_presenter.render
+  end
+
+  def search_bar_presenter
+    @search_bar ||= search_bar_presenter_class.new(controller, blacklight_config)
   end
 
   ##
@@ -85,6 +98,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_index_field? document, field_config
+    Deprecation.warn self, "should_render_index_field? is deprecated and will be removed in Blacklight 8. Use IndexPresenter#render_field? instead."
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
 
@@ -95,6 +109,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_show_field? document, field_config
+    Deprecation.warn self, "should_render_show_field? is deprecated and will be removed in Blacklight 8. Use ShowPresenter#render_field? instead."
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
 
@@ -105,7 +120,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def document_has_value? document, field_config
-    Rails.logger.info("DOCUMENT_HAS_VALUE")
+    Deprecation.warn self, "document_has_value? is deprecated and will be removed in Blacklight 8. Use DocumentPresenter#has_value? instead."
     document.has?(field_config.field) ||
       (document.has_highlight_field? field_config.field if field_config.highlight) ||
       field_config.accessor
@@ -117,11 +132,17 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def should_show_spellcheck_suggestions? response
-    response.total <= spell_check_max and response.spelling.words.any?
+    # The spelling response field may be missing from non solr repositories.
+    response.total <= spell_check_max &&
+      !response.spelling.nil? &&
+      response.spelling.words.any?
   end
 
   ##
   # Render the index field label for a document
+  #
+  # Translations for index field labels should go under blacklight.search.fields
+  # They are picked up from there by a value "%{label}" in blacklight.search.index.label
   #
   # @overload render_index_field_label(options)
   #   Use the default, document-agnostic configuration
@@ -140,45 +161,6 @@ module Blacklight::BlacklightHelperBehavior
     field = options[:field]
     html_escape t(:"blacklight.search.index.#{document_index_view_type}.label", default: :'blacklight.search.index.label', label: index_field_label(document, field))
   end
-
-  ##
-  # Render the index field label for a document
-  #
-  # @overload render_index_field_value(options)
-  #   Use the default, document-agnostic configuration
-  #   @param [Hash] opts
-  #   @option opts [String] :field
-  #   @option opts [String] :value
-  #   @option opts [String] :document
-  # @overload render_index_field_value(document, options)
-  #   Allow an extention point where information in the document
-  #   may drive the value of the field
-  #   @param [SolrDocument] doc
-  #   @param [Hash] opts
-  #   @option opts [String] :field
-  #   @option opts [String] :value
-  # @overload render_index_field_value(document, field, options)
-  #   Allow an extention point where information in the document
-  #   may drive the value of the field
-  #   @param [SolrDocument] doc
-  #   @param [String] field
-  #   @param [Hash] opts
-  #   @option opts [String] :value
-  # @deprecated use IndexPresenter#field_value
-  def render_index_field_value *args
-    render_field_value(*args)
-  end
-  deprecation_deprecate render_index_field_value: 'replaced by IndexPresenter#field_value'
-
-  # @deprecated use IndexPresenter#field_value
-  def render_field_value(*args)
-    options = args.extract_options!
-    document = args.shift || options[:document]
-
-    field = args.shift || options[:field]
-    presenter(document).field_value field, options.except(:document, :field)
-  end
-  deprecation_deprecate render_field_value: 'replaced by IndexPresenter#field_value'
 
   ##
   # Render the show field label for a document
@@ -203,41 +185,12 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render the index field label for a document
-  #
-  # @overload render_document_show_field_value(options)
-  #   Use the default, document-agnostic configuration
-  #   @param [Hash] opts
-  #   @option opts [String] :field
-  #   @option opts [String] :value
-  #   @option opts [String] :document
-  # @overload render_document_show_field_value(document, options)
-  #   Allow an extention point where information in the document
-  #   may drive the value of the field
-  #   @param [SolrDocument] doc
-  #   @param [Hash] opts
-  #   @option opts [String] :field
-  #   @option opts [String] :value
-  # @overload render_document_show_field_value(document, field, options)
-  #   Allow an extention point where information in the document
-  #   may drive the value of the field
-  #   @param [SolrDocument] doc
-  #   @param [String] field
-  #   @param [Hash] opts
-  #   @option opts [String] :value
-  # @deprecated use ShowPresenter#field_value
-  def render_document_show_field_value *args
-    render_field_value(*args)
-  end
-  deprecation_deprecate render_document_show_field_value: 'replaced by ShowPresenter#field_value'
-
-  ##
   # Get the value of the document's "title" field, or a placeholder
   # value (if empty)
   #
   # @param [SolrDocument] document
   # @return [String]
-  def document_heading document=nil
+  def document_heading document = nil
     document ||= @document
     presenter(document).heading
   end
@@ -249,7 +202,7 @@ module Blacklight::BlacklightHelperBehavior
   # @see #document_heading
   # @param [SolrDocument] document
   # @return [String]
-  def document_show_html_title document=nil
+  def document_show_html_title document = nil
     document ||= @document
 
     presenter(document).html_title
@@ -274,32 +227,14 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Get the value for a document's field, and prepare to render it.
-  # - highlight_field
-  # - accessor
-  # - solr field
-  #
-  # Rendering:
-  #   - helper_method
-  #   - link_to_search
-  # @param [SolrDocument] document
-  # @param [String] _field name
-  # @param [Blacklight::Configuration::Field] field_config solr field configuration
-  # @param [Hash] options additional options to pass to the rendering helpers
-  def get_field_values document, _field, field_config, options = {}
-    presenter(document).field_values field_config, options
-  end
-  deprecation_deprecate :get_field_values
-
-  ##
   # Get the current "view type" (and ensure it is a valid type)
   #
   # @param [Hash] query_params the query parameters to check
   # @return [Symbol]
-  def document_index_view_type query_params=params
+  def document_index_view_type query_params = params
     view_param = query_params[:view]
     view_param ||= session[:preferred_view]
-    if view_param and document_index_views.keys.include? view_param.to_sym
+    if view_param && document_index_views.key?(view_param.to_sym)
       view_param.to_sym
     else
       default_document_index_view_type
@@ -315,7 +250,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @param [String] format suffix
   # @yield
-  def with_format(format, &block)
+  def with_format(format)
     old_formats = formats
     self.formats = [format]
     yield
@@ -337,11 +272,8 @@ module Blacklight::BlacklightHelperBehavior
     case action_name
     when 'show', 'citation'
       show_presenter(document)
-    when 'index','oclc_request'
+    when 'index'
       index_presenter(document)
-    else
-      Deprecation.warn(Blacklight::BlacklightHelperBehavior, "Unable to determine presenter type for #{action_name} on #{controller_name}, falling back on deprecated Blacklight::DocumentPresenter")
-      presenter_class.new(document, self)
     end
   end
 
@@ -353,11 +285,6 @@ module Blacklight::BlacklightHelperBehavior
     index_presenter_class(document).new(document, self)
   end
 
-  def presenter_class
-    blacklight_config.document_presenter_class
-  end
-  deprecation_deprecate presenter_class: "replaced by show_presenter_class and index_presenter_class"
-
   ##
   # Override this method if you want to use a different presenter class
   def show_presenter_class(_document)
@@ -366,6 +293,10 @@ module Blacklight::BlacklightHelperBehavior
 
   def index_presenter_class(_document)
     blacklight_config.index.document_presenter_class
+  end
+
+  def search_bar_presenter_class
+    blacklight_config.index.search_bar_presenter_class
   end
 
   ##

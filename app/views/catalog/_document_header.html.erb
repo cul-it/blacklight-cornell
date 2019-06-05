@@ -1,3 +1,6 @@
+<% doc_presenter = index_presenter(document) %>
+<%# Rails.logger.info("THE DOCUMENT = " + document.inspect)%>
+
 <%# main title container for doc partial view -%>
 <h2 class="blacklight-title_display">
   <%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %>

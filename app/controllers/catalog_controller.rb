@@ -83,6 +83,9 @@ end
     config.show.partials << 'microformat'
     # end of unapi config.
 
+    ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
+    config.raw_endpoint.enabled = true
+
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       :qt => 'search',
@@ -292,6 +295,7 @@ end
     #config.add_index_field 'published_vern_display', :label => 'Published'
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
     config.add_index_field 'pub_date', :label => 'Publication date'
+    config.add_index_field 'pub_date_display', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition', :helper_method => :render_single_value
 
