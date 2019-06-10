@@ -107,7 +107,7 @@ Feature: Browse search
   | Mann Library | Songs for the grange : set to music dedicated to the order of patrons of husbandry in the United States |
   | Mathematics Library | The acoustical foundations of music |
   | Music Library | Herb Alpert's Tijuana Brass. Vol. 2 |
-  | Nestle Library | Real good grammar, too : a handbook for students and professionals |
+  | Nestle Library | Table decoration |
   | Olin Library | Guardians of tradition, American schoolbooks of the nineteenth century |
   | Sage Hall Management Library | Recording industry in numbers |
   | Space Sciences Building | The book of the sky |
