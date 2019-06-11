@@ -15,8 +15,8 @@
 	}
 	.location-online {
 		color: white;
-		background: $teal;
-		border-color: $teal;
+		background: $green;
+		border-color: $green;
 	}
 	.url_findingaid_display {
 		display: block;
@@ -47,7 +47,7 @@ h3.rare {
 	margin-bottom: 0;
 }
 .label-available {
-	background: $teal;
+	background: $green;
 	margin-right: .5em;
 	font-size: 90%;
 	font-weight: normal;
@@ -203,7 +203,7 @@ h3.rare {
 		margin-bottom: .25em;
 	}
 	.label-online:hover {
-		background: $teal;
+		background: $green;
 		pointer: none;
 	}
 	.other-form-online {
