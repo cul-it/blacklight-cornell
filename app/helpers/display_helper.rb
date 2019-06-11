@@ -274,7 +274,7 @@ end
   }
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp = Blacklight::DocumentPresenter.new()
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -596,6 +596,9 @@ end
     ic
   end
 
+  def hide_this_field field
+    return false
+  end
 
   def render_show_format_value field
     formats = []
@@ -965,7 +968,8 @@ end
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-
+    Rails.logger.info("MISSING LINK = " + link.inspect)
+    
     return link
   end
 
@@ -1139,12 +1143,11 @@ end
 
 
   # To vernaculate or not...that is the question
+  # tlw72: modified this method for Blacklight 7. Now the values are passed in rather
+  # than the field names.
   def the_vernaculator(engl, vern)
-    #presenter = Blacklight::ShowPresenter.new(@document, self)
-    #display = render_document_show_field_value :document => @document, :field => engl
-    display = field_value engl
-    #vernacular = render_document_show_field_value :document => @document, :field => vern
-    vernacular = field_value vern
+    display = engl
+    vernacular = vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
   end
@@ -1152,9 +1155,10 @@ end
   # Helper method to replace render_document_show_field_value with something that's
   # a little easier to call from a view. Requires a field name from the solr doc
   def field_value(field)
-    Blacklight::ShowPresenter.new(@document, self).field_value field
+    field_config = blacklight_config.show_fields[field]
+    Blacklight::ShowPresenter.new(@document, self).field_value field_config
   end
-##########
+
  def cornell_params_for_search(*args, &block)
       source_params, params_to_merge = case args.length
       when 0

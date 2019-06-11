@@ -301,10 +301,11 @@ end
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    # These 3 title related fields called directly in _show_metadata partial
+    # These title related fields called directly in _show_metadata partial
     # -- title_display
+    # -- title_vern_display
     # -- subtitle_display
-    # -- title_responsibility_display
+    # -- subtitle_vern_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_json', :label => 'Author, etc.'
     config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }

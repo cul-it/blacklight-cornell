@@ -1,4 +1,36 @@
 GIT
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: 54c751b2385ce176bf5d90e77972acc1321713c7
+  branch: BL7-upgrade
+  specs:
+    blacklight_cornell_requests (2.1.1)
+      activerecord-oracle_enhanced-adapter
+      blacklight
+      borrow_direct
+      dotenv
+      dotenv-deployment
+      dotenv-rails
+      exception_notification
+      haml (>= 3.0.0)
+      haml-rails
+      httpclient
+      i18n
+      net-ldap
+      nokogiri
+      protected_attributes_continued
+      rails (~> 5.1)
+      ruby-oci8
+
+GIT
+  remote: https://github.com/cul-it/blacklight-unapi
+  revision: c5f0aa26623db83871e728f566ca4c2c96e2dc90
+  branch: BL7-upgrade
+  specs:
+    blacklight_unapi (0.1.0)
+      blacklight
+      rails
+
+GIT
   remote: https://github.com/cul-it/csl-styles
   revision: c7b50754fc907247c7533deed09d69478a9669c9
   branch: master
@@ -30,34 +62,6 @@ PATH
       blacklight (>= 6, < 8)
       jquery-rails
       rails (>= 4.1, < 6)
-
-PATH
-  remote: /usr/local/src/bc-requests
-  specs:
-    blacklight_cornell_requests (2.1.1)
-      activerecord-oracle_enhanced-adapter
-      blacklight
-      borrow_direct
-      dotenv
-      dotenv-deployment
-      dotenv-rails
-      exception_notification
-      haml (>= 3.0.0)
-      haml-rails
-      httpclient
-      i18n
-      net-ldap
-      nokogiri
-      protected_attributes_continued
-      rails (~> 5.1)
-      ruby-oci8
-
-PATH
-  remote: /usr/local/src/bc-unapi
-  specs:
-    blacklight_unapi (0.1.0)
-      blacklight
-      rails
 
 GEM
   remote: https://rubygems.org/
@@ -94,7 +98,7 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
-    activerecord-oracle_enhanced-adapter (5.2.5)
+    activerecord-oracle_enhanced-adapter (5.2.6)
       activerecord (~> 5.2.0)
       ruby-plsql (>= 0.6.0)
     activerecord-session_store (1.1.3)

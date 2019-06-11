@@ -112,6 +112,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
+    Rails.logger.info("CORNELL CATALOG INDEX: AM I REACHING THIS CODE?")
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
@@ -256,7 +257,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get single document from the solr index
   def show
-    @response, @document = fetch params[:id]
+    Rails.logger.info("CORNELL CATALOG SHOW: AM I REACHING THIS CODE?")
+    @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
     set_bag_name 
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
@@ -293,7 +295,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
-      response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
+      response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
       search_session['per_page'] = query_params[:per_page]
       @search_context_response = response
@@ -344,7 +346,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # citation action
     def citation
-      @response, @documents = fetch(params[:id])
+      @response, @documents = search_service.fetch(params[:id])
     end
 
     # grabs a bunch of documents to export to endnote
@@ -361,7 +363,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
       else
-        @response, @documents = fetch(params[:id])
+        @response, @documents = search_service.fetch(params[:id])
       end
       fmt = params[:format]
       Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
@@ -455,7 +457,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
 
     def librarian_view
-      @response, @document = fetch params[:id]
+      @response, @document = search_service.fetch params[:id]
 
       respond_to do |format|
         format.html
