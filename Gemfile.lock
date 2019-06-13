@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/cul-it/blacklight-cornell-hierarchy
+  revision: 0da279f3df0d94e76aac4675f12c73820cc4672f
+  branch: master
+  specs:
+    blacklight-hierarchy (2.0.0)
+      blacklight (>= 6, < 8)
+      jquery-rails
+      rails (>= 4.1, < 6)
+
+GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
   revision: 54c751b2385ce176bf5d90e77972acc1321713c7
   branch: BL7-upgrade
@@ -54,14 +64,6 @@ GIT
       cucumber
       cucumber_priority (>= 0.3.0)
       rspec
-
-PATH
-  remote: /usr/local/src/bc-hierarchy
-  specs:
-    blacklight-hierarchy (2.0.0)
-      blacklight (>= 6, < 8)
-      jquery-rails
-      rails (>= 4.1, < 6)
 
 GEM
   remote: https://rubygems.org/
@@ -124,7 +126,7 @@ GEM
     appsignal (2.9.6)
       rack
     arel (9.0.0)
-    autoprefixer-rails (9.5.1.1)
+    autoprefixer-rails (9.6.0)
       execjs
     awesome_print (1.8.0)
     backports (3.14.0)
@@ -388,6 +390,7 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
+    mysql2 (0.5.2)
     namae (1.0.1)
     nenv (0.3.0)
     net-ldap (0.16.1)
@@ -677,6 +680,7 @@ DEPENDENCIES
   meta_request
   mini_racer
   mollom
+  mysql2
   net-ldap
   nokogiri
   omniauth

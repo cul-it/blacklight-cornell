@@ -5,7 +5,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::Configurable
 #  include Blacklight::SolrHelper
   include CornellCatalogHelper
-#  include Blacklight::SearchHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
@@ -56,7 +55,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
-#    rescue_from Blacklight::Exceptions::InvalidRequest, :with => :invalid_solr_id_error
+    # BLACKLIGHT 7 note: InvalidSolrID is no longer included as a Blacklight Excreption 
+    # and raises an unititialized constant error. A RecordNotFound error is now raised.
+    # rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
+    rescue_from Blacklight::Exceptions::RecordNotFound, :with => :record_not_found_error
     # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
     # The index action will more than likely throw this one.
     # Example, when the standard query parser is used, and a user submits a "bad" query.
@@ -112,7 +114,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
-    Rails.logger.info("CORNELL CATALOG INDEX: AM I REACHING THIS CODE?")
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
@@ -257,7 +258,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get single document from the solr index
   def show
-    Rails.logger.info("CORNELL CATALOG SHOW: AM I REACHING THIS CODE?")
     @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
     set_bag_name 
@@ -589,7 +589,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
-    def invalid_solr_id_error
+    def record_not_found_error
       if Rails.env == 'development'
         render # will give us the stack trace
       else

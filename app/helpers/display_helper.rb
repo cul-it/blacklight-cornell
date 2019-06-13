@@ -955,7 +955,7 @@ end
       #link_url = url_for(query_params)
     else
       Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} qp =  #{query_params.inspect}")
-      link_url = url_for(query_params)
+      link_url = url_for(query_params.permit)
     end
 
     if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
@@ -968,7 +968,6 @@ end
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-    Rails.logger.info("MISSING LINK = " + link.inspect)
     
     return link
   end
