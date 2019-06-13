@@ -11,22 +11,23 @@ $light-gray: #999;
 $pale-gray: #f3f3f3;
 $databases-light-gray: #ccc;
 $white: white;
+$line: #ddd;
 
 $tan: #d8d2c9;
 $dark-tan: #b3ab9e;
 $light-tan: #edebe7;
+$concrete: #757068;
 
-$teal: #2aa198;
-$dark-teal: #1f7972;
+// accessible green
+$green: #3C8542;
+$dark-green: #2C6132;
 
 $yellow: #e8bc0f;
 
 $blue: #0093D0;
 
-$bright-red: #eb2020;
-
-$available: $teal;
-$unavailable: $bright-red;
+$available: $green;
+$unavailable: $cornell-primary;
 $info: $blue;
 $rss: #e98300;
 
@@ -76,8 +77,8 @@ $font-family-call-number: 'Courier', monospace;
 
 // Buttons
 // -------------------------
-$btnInfoBackground:                 $teal;
-$btnInfoBackgroundHighlight:        $dark-teal;
+// $btnInfoBackground:                 $green;
+// $btnInfoBackgroundHighlight:        $dark-green;
 
 // Navbar
 // -------------------------

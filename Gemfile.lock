@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 73d9d9e477c23cdf748026cbd024c03bba1b257b
+  revision: e1dec893ec5dd7405485332d76c6faa1a5b30d10
   branch: master
   specs:
-    blacklight_cornell_requests (2.1.1)
+    blacklight_cornell_requests (2.1.2)
       activerecord-oracle_enhanced-adapter
       blacklight (>= 5.9)
       borrow_direct
@@ -41,10 +41,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: ccc702717169f61ec8ec6423d4a15abcb09a798e
+  revision: e5a42b11e08a44018da9c846d141bcfde8c62e1f
   branch: dev
   specs:
-    my_account (1.0beta1)
+    my_account (1.0beta2)
       blacklight (>= 5.9)
       borrow_direct
       rails (~> 4.2.11)
@@ -510,7 +510,7 @@ GEM
     rspec-support (3.8.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    ruby-oci8 (2.2.6.1)
+    ruby-oci8 (2.2.7)
     ruby-saml (1.9.0)
       nokogiri (>= 1.5.10)
     ruby_dep (1.5.0)
