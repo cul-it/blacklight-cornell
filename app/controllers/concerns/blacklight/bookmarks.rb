@@ -8,7 +8,7 @@ module Blacklight::Bookmarks
     ##
     # Give Bookmarks access to the CatalogController configuration
     include Blacklight::Configurable
-    include Blacklight::SearchHelper
+#    include Blacklight::SearchHelper
     include Blacklight::TokenBasedUser
 
     copy_blacklight_config_from(CatalogController)
@@ -35,6 +35,7 @@ module Blacklight::Bookmarks
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
   def search_action_url *args
+    Rails.logger.info("what the hell is going on (bookmarks)?")
     search_catalog_url(*args)
   end
 

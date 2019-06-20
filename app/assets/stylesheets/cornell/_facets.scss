@@ -97,7 +97,7 @@
 	a.remove:hover {
 		text-decoration: none;
 		background: white;
-		i { color: $concrete; }
+		i { color: $medium-gray; }
 	}
 	a.remove:active, a.remove:focus {
 		border: 0;
@@ -130,6 +130,7 @@
 	.count {
 		text-align: right;
 		float: right;
+		// color: $medium-gray;
 	}
 	.tickLabel { font-size: 0.875em; }
 	.missing,
@@ -180,22 +181,20 @@ form.range_limit {
 .advanced-facets {
 	clear: both;
 	padding: 1.5em 0 0;
+
+	.btn-info {
+		text-align: left;
+		background: $teal;
+		border-color: $teal;
+		i { margin: .1em 0 0 .5em; }
+	}
 	.btn {
-		// color: $dark-gray;
+		color: $white;
 		margin-bottom: .25em;
 		white-space: normal; // make long constraints wrap instead of break the layout DISCOVERYACCESS-1846
 	}
 	a:hover {
 		text-decoration: none;
-	}
-	i {
-		color: $cornell-primary;
-	}
-	i:hover {
-		color: $dark-gray;
-	}
-	.filter-value {
-		font-weight: 700;
 	}
 }
 .selected-facet {
@@ -228,10 +227,12 @@ form.range_limit {
 .facets-toggle:hover
 .facets-toggle:active,
 .facets-toggle:focus {
+    background: none;
 	border-radius: 0;
 	border: 1px solid $tan;
-	padding: 10px;
+	padding: 4px 9px;
 	clear: both;
+	float: right;
 	margin: 0;
 }
 .facets-toggle {
@@ -299,7 +300,7 @@ form.range_limit {
 // Facet toggle
 .panel-heading.collapse-toggle .panel-title:after {
 	padding-top: .25em;
-	color: $concrete;
+	color: $medium-gray;
 }
 
 // MEDIA QUERIES

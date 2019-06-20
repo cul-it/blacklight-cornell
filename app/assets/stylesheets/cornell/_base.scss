@@ -134,29 +134,50 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
+// CUL button - libraries
+// ------------------------
+
+.btn-libraries {
+	background: #16524d;
+	color: white;
+	border-color: #16524d;
+	text-shadow: none;
+	box-shadow: none;
+	margin-bottom: 1.5em;
+	font-family: $font-family-cul;
+	i {
+		color: $dark-teal;
+		margin-left: 3px;
+	}
+}
+.btn-libraries:hover,
+.btn-libraries:focus {
+	background: #16524d;
+	color: white;
+}
 .btn-secondary {
 	background: $dark-tan;
 }
 
-// CUL button - red
+// CUL button - generic teal
 // ------------------------------
 
 .btn-cul {
 	color: white;
-	background-color: $cornell-primary;
-	border-color: $cornell-primary;
+	background-color: $teal;
+	border-color: $teal;
 	background-image: none;
 }
 .btn-cul:hover,
 .btn-cul:active,
 .btn-cul:focus {
-	background-color: $cornell-primary-hover;
+	background-color: $dark-teal;
 	color: white;
-	border-color: $cornell-primary-hover;
+	border-color: $dark-teal;
 }
 .main-content {
 	.btn-cul {
-		border-bottom: 1px solid $dark-green;
+		border-bottom: 1px solid $dark-teal;
 	}
 }
 

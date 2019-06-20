@@ -11,24 +11,22 @@ $light-gray: #999;
 $pale-gray: #f3f3f3;
 $databases-light-gray: #ccc;
 $white: white;
-$line: #ddd;
 
 $tan: #d8d2c9;
 $dark-tan: #b3ab9e;
 $light-tan: #edebe7;
-$concrete: #757068;
-$concrete-hover: #605C56;
 
-// accessible green
-$green: #3C8542;
-$dark-green: #2C6132;
+$teal: #2aa198;
+$dark-teal: #1f7972;
 
 $yellow: #e8bc0f;
 
 $blue: #0093D0;
 
-$available: $green;
-$unavailable: $cornell-primary;
+$bright-red: #eb2020;
+
+$available: $teal;
+$unavailable: $bright-red;
 $info: $blue;
 $rss: #e98300;
 
@@ -78,8 +76,8 @@ $font-family-call-number: 'Courier', monospace;
 
 // Buttons
 // -------------------------
-// $btnInfoBackground:                 $green;
-// $btnInfoBackgroundHighlight:        $dark-green;
+$btnInfoBackground:                 $teal;
+$btnInfoBackgroundHighlight:        $dark-teal;
 
 // Navbar
 // -------------------------
@@ -90,3 +88,20 @@ $navbarCollapseDesktopWidth:      $navbarCollapseWidth + 1;
 // .danger color
 // -----------------
 $brand-danger: $cornell-primary;
+
+// temp for bootstrap 4 transition
+// --------------------------------
+$screen-sm: 768px !default;
+$screen-md: 992px !default;
+$screen-lg: 1200px !default;
+$gray-base: #000 !default;
+$gray: lighten($gray-base, 33.5%) !default; // #555
+$gray-dark: lighten($gray-base, 20%) !default;   // #333
+@mixin gradient-vertical($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%) {
+  background-image: -webkit-linear-gradient(top, $start-color $start-percent, $end-color $end-percent);  
+  background-image: -o-linear-gradient(top, $start-color $start-percent, $end-color $end-percent);  
+  background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent); 
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=0); 
+  background-repeat: repeat-x;
+}
+$border-radius-large: 6px !default;

@@ -104,30 +104,21 @@
           <% if i['boundWith'].present? %>
             <% bw = i['boundWith'] %>
             <% bwenums = [] %>
-            <%#= bw.size %>
               <% bw.each do |k,v| %>
-                <%#= k.inspect %>
-                <%#= v.inspect %>
                   <% @mi = v['masterBibId']%>
                   <% @mt = v["masterTitle"] %>
-                  <% @mte = v["thisEnum"] %>
-                  <% @mme = v["masterEnum"] %>
-                  <%# @mte = nil %>
-                  <%# bwenums = v["masterTitle"] %>
-                  <div class="message">
-                    <% if !@mme.nil? %>                       
-                         The <%= @mte %> item is bound with another item: <a href="/catalog/<%= @mi %>"> <%= @mt %>  <%= @mme %> </a>                      
-                    <% else %>                      
-                         The <%= @mte %> item is bound with another item: <a href="/catalog/<%= @mi %>"> <%= @mt %></a>                
-                    <% end %>
-                  </div>
+                  <% bwenums << v["masterEnum"] %>
               <% end %>
+                  <div class="message">
+                     <a href="/catalog/<%= @mi %>">This item is bound with another item. Requests must be made to that item: <%= @mt %>
+                       <%= bwenums.join(', ').html_safe %></a>
+                  </div>
             <% end %>
 
 
         <div class="message">
         <% if i['order'].present? %>
-          <%#= i['order'] %>
+          <%= i['order'] %>
         <% end %>
         </div>
 

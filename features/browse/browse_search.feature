@@ -31,7 +31,7 @@ Feature: Browse search
         And I fill in the authorities search box with 'china industrialization'
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label '转型、升级与创新 : 中国特色新型工业化的系统性研究'
+    Then I should see the label 'China's Industrialization Process'
 
   @browse
   Scenario: Search for author-title combination
@@ -107,7 +107,7 @@ Feature: Browse search
   | Mann Library | Songs for the grange : set to music dedicated to the order of patrons of husbandry in the United States |
   | Mathematics Library | The acoustical foundations of music |
   | Music Library | Herb Alpert's Tijuana Brass. Vol. 2 |
-  | Nestle Library | Table decoration |
+  | Nestle Library | Real good grammar, too : a handbook for students and professionals |
   | Olin Library | Guardians of tradition, American schoolbooks of the nineteenth century |
   | Sage Hall Management Library | Recording industry in numbers |
   | Space Sciences Building | The book of the sky |

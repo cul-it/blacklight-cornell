@@ -85,7 +85,7 @@ module BlacklightCornell
     config.assets.precompile += ['cornell/print.css']
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
-
+    config.action_controller.permit_all_parameters = true
 
 
     # Version of your assets, change this if you want to expire all your assets

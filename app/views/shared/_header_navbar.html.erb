@@ -12,7 +12,7 @@
         </div>
         <div class="library-menu col-xs-3 col-sm-6 text-right">
           <div class="dropdown">
-            <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
+            <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library"  onclick="javascript:_paq.push(['trackEvent', 'navigation', 'Hamburger menu']);">
               <i class="fa fa-bars" aria-hidden="true" title="Library menu" alt=""></i><span class="btn-library-label">Menu</span>
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="library-menu" role="navigation">
@@ -58,6 +58,7 @@
             return
           <% else %>
             <h1>
+            <a href="<%=root_path%>">Library Catalog</a>
             <!-- set the @heading in the controller for the specialized view -->
             <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
             </h1>

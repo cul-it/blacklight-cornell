@@ -375,7 +375,7 @@ Feature: Search
     And I fill in "q_row2" with 'Amsterdam'
     And I select 'all' from the 'op_row2' drop-down
     And I sleep 4 seconds
-    And I select 'Place of Publication' from the 'search_field_advanced2' drop-down
+    And I select 'Place Of Publication' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 8 of 8'
