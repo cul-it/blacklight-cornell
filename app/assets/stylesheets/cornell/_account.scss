@@ -15,6 +15,13 @@
 	p:first-child {
 		margin-top: 1em;
 	}
+	.label-default {
+		background: #e1e1e1;
+		color: $dark-gray;
+		font-weight: 400;
+		margin-left: .5em;
+		font-size: 80%;
+	}
 }
 
 

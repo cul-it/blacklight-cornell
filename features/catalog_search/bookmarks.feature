@@ -56,10 +56,10 @@ Feature: Bookmarks for anonymous users
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results    
-        Then I select the first 3 catalog results
+        Then I select the first 2 catalog results
         When I view my selected items
         Then I should be on 'the bookmarks page'
-        And there should be 3 items selected
+        And there should be 2 items selected
         Then I should see the text "Selected Items"
         And I should not see the text "You have no selected items."
         Then I should see the text "Cite"
