@@ -150,11 +150,13 @@ dd.blacklight-notes {
 	}
 }
 // make select box area wider behind the scenes so that tooltip isn't too narrow; need .catalog-show so this is only changed on the item view
+// BL7 and BS4 changes: text-align now center and added padding-top
 .catalog-show,
 .bookmarks-show {
 	.show-select-box {
 		width: 100px;
-		text-align: right;
+		text-align: center;
+		padding-top: 6px;
 	}
 }
 .catalog-show, .bookmarks, .book_bags {

@@ -55,7 +55,7 @@
 	                }) do %>
         <%= submit_tag(t('blacklight.bookmarks.add.button'),
                        id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                       class: "bookmark_add btn btn-default") %>
+                       class: "bookmark_add btn btn-outline-secondary") %>
        <%end%>
     <% end %>
    <% else %> 
@@ -70,7 +70,7 @@
 	               }) do %>
         <%= submit_tag(t('blacklight.bookmarks.remove.button'),
                        id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                       class: "bookmark_remove btn btn-default") %>
+                       class: "bookmark_remove btn btn-outline-secondary") %>
          <%end%>
       <% end %>
    <% end %>
