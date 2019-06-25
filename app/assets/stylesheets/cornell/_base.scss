@@ -239,3 +239,9 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	background: white;
 	padding-top: 1em;
 }
+
+// Bootstrap 4 temp fixes
+// -----------------------
+div.select_all label {
+	margin-bottom: 0.15rem;
+}
