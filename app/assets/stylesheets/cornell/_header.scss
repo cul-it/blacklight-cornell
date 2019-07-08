@@ -130,16 +130,16 @@ ul.blacklight-nav {
   color: white;
 }
 .library-menu {
-  padding: 0;
-  .dropdown-menu {
-    left: auto;
-    right: 0;
-    border-radius: 0;
-    background: rgba($dark-gray, 0.95);
-    a {
-      color: white;
-    }
-  }
+  // padding: 0;
+  // .dropdown-menu {
+  //   left: auto;
+  //   // right: 0;
+  //   border-radius: 0;
+  //   background: rgba($dark-gray, 0.95);
+  //   a {
+  //     color: white;
+  //   }
+  // }
 }
 
 // MEDIA QUERIES
@@ -156,45 +156,15 @@ ul.blacklight-nav {
       border-left: none;
     }
   }
-  .navbar-cul {
-    .nav {
-      li {
-        a { 
-          padding: 15px 10px;
-          font-size: 13px;
-        }
-      }
-    }
-  }
 }
 
 // Medium devices (desktops, 992px and up)
 @media (min-width: $screen-md) {
-  .navbar-cul {
-    .nav {
-      li {
-        a {
-          padding: 15px 20px;
-          font-size: 14px;
-        }
-      }
-    }
-  }
-  // header {
-  //   h1 {
-  //     font-size: 28px;
-  //   }
-  // }
   ul.blacklight-nav {
     float: right;
     li {
       font-size: 14px;
     }
   }
-  // .library-link {
-  //   a {
-  //     font-size: 18px;
-  //   }
-  // }
 }
 
