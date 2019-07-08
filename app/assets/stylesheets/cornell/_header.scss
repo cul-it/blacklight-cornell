@@ -64,10 +64,12 @@ ul.blacklight-nav {
       float: left;
       margin-bottom: .5em;
       padding: 0 8px;
-      font-size: 12px;
+      font-size: 13px;
+      border-left: 1px solid #ccc;
     }
     li:first-child {
       padding-left: 0;
+      border-left: none;
     }
     a.user-email,
     a.logout {
@@ -129,34 +131,13 @@ ul.blacklight-nav {
 .btn-library:focus {
   color: white;
 }
-.library-menu {
-  // padding: 0;
-  // .dropdown-menu {
-  //   left: auto;
-  //   // right: 0;
-  //   border-radius: 0;
-  //   background: rgba($dark-gray, 0.95);
-  //   a {
-  //     color: white;
-  //   }
-  // }
-}
 
 // MEDIA QUERIES
 // -------------------------
 
 // Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
-  ul.blacklight-nav {
-    li {
-      font-size: 12px;
-      border-left: 1px solid #ccc;
-    }
-    li:first-child {
-      border-left: none;
-    }
-  }
-}
+// @media (min-width: $screen-sm) { 
+// }
 
 // Medium devices (desktops, 992px and up)
 @media (min-width: $screen-md) {
