@@ -221,27 +221,6 @@ form.range_limit {
 	background-color: #dff0d8;
 }
 
-// Facet button on mobile
-// ---------------------------
-.facets-toggle,
-.facets-toggle:hover
-.facets-toggle:active,
-.facets-toggle:focus {
-    background: none;
-	border-radius: 0;
-	border: 1px solid $tan;
-	padding: 4px 9px;
-	clear: both;
-	float: right;
-	margin: 0;
-}
-.facets-toggle {
-	i {
-		margin-right: 0;
-		color: $dark-gray;
-	}
-}
-
 // More facets modal
 // ---------------------------
 // Add this to account for icons in the format facet
