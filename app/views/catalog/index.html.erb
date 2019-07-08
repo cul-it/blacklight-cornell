@@ -1,11 +1,11 @@
 <div class="row">
   <%# TODO: delete this bit, old call to sidebar partial in BL4 %>
   <%#= render :partial=>'sidebar' %>
-  <div id="sidebar" class="col-sm-5 col-md-4">
+  <div id="sidebar" class="col-md-4">
     <%= render 'search_sidebar' %>
   </div>
 
-  <div class="col-sm-7 col-md-8 main-text" id="results">
+  <div class="col-md-8 main-text" id="results">
       <%#= @response[:responseHeader]["params"]["q"].inspect %>
       <% unless has_search_parameters? %>
         <%# if there are no input/search related params, display the "home" partial -%>
