@@ -5,14 +5,14 @@
     <%= render 'search_sidebar' %>
   </div>
 
-  <div class="col-md-8 main-text" id="results">
+  <div class="col-md-8" id="results">
       <%#= @response[:responseHeader]["params"]["q"].inspect %>
       <% unless has_search_parameters? %>
         <%# if there are no input/search related params, display the "home" partial -%>
         <%= render 'home' %>
       <% else %>
 
-        <h2 class="hidden top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
+        <h2 class="sr-only top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
 
         <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
 
