@@ -118,6 +118,13 @@
   font-size: 12px;
 }
 
+// Make cursor into pointer when mousing over facets
+.facets {
+	.card-header {
+		cursor: pointer;
+	}
+}
+
 // PUBLICATION YEAR
 // -----------------------
 
