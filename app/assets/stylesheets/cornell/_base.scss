@@ -97,13 +97,6 @@ h3 { font-size: 20px; line-height: 1.5em;}
 		line-height: 1.5em;
 		font-size: 16px;
 	}
-	.lead {
-		font-size: 24px;
-	}
-	.well {
-		border: 1px solid #dedad3;
-		background: white;
-	}
 }
 .other-resources {
 	margin-top: 30px;
@@ -179,12 +172,11 @@ h3 { font-size: 20px; line-height: 1.5em;}
 }
 
 
-// Well overrides
+// Card customization
 // ------------------------
-
-.well {
-	border-radius: 0;
-	box-shadow: none;
+// Add old well background color to some cards
+.card-well {
+	background: $light-tan;
 }
 
 // Panel overrides
@@ -237,27 +229,25 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	padding-top: 1em;
 }
 
+
 // MEDIA QUERIES
 // -------------------------
 
-// Extra small devices (portrait phones, less than 576px)
-// No media query for `xs` since this is the default in Bootstrap
+  // /* Extra small devices (phones, up to 480px) */
+  // /* No media query since this is the default in Bootstrap */
 
-// Small devices (landscape phones, 576px and up)
-// @media (min-width: 576px) { ... }
-
-// // Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {
-	.home-message {
+  // /* Small devices (tablets, 768px and up) */
+  @media (min-width: @screen-sm) {
+  	.home-message {
 		margin-top: 2.2rem;
  	}
-}
+  }
 
-// // Large devices (desktops, 992px and up)
-// @media (min-width: 992px) { ... }
+  // /* Medium devices (desktops, 992px and up) */
+  // @media (min-width: @screen-md) { ... }
 
-// // Extra large devices (large desktops, 1200px and up)
-// @media (min-width: 1200px) { ... }
+  // /* Large devices (large desktops, 1200px and up) */
+  // @media (min-width: @screen-lg) { ... }
 
 // BOOTSTRAP 4 TEMP FIXES
 // -----------------------
