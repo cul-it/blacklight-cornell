@@ -1,6 +1,9 @@
 // .advanced-search-field {
 //   width: auto;
 // }
+ .advanced-search .form-control {
+   margin: 0 2px;
+}
 .add-row {
   margin: 1em 0;
 }
@@ -39,6 +42,10 @@ body.blacklight-advanced-index dl.dl-horizontal {
 .form-control {
   width: 25%;
   display: inline-block;
+}
+// tlw72: fix spacing caused by BL7 and BS4
+.adv-search-control{
+  margin: 0 0.15em;
 }
 
 .advanced_search {
