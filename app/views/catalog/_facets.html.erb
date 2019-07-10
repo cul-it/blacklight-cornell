@@ -2,7 +2,7 @@
 <% if has_facet_values? %>
 <div id="facets" class="facets sidenav facets-toggleable-sm">
 
-  <div class="navbar top-panel-heading">
+  <div class="navbar">
     <h2 class="facets-heading">
       <%= t('blacklight.search.facets.title') %>
     </h2>
@@ -14,7 +14,7 @@
   </div>
 
   <div id="facet-panel-collapse" class="facets-collapse collapse">
-	<%= render :partial=>'looking_for_more' %>
+	  <%= render :partial=>'looking_for_more' %>
     <%= render_facet_partials %>
   </div>
 </div>
