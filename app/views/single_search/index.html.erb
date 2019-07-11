@@ -4,10 +4,10 @@
       <div class="card card-well">
         <div class="card-body">
           <div class="row">
-            <div class="col-sm-9">
+            <div class="col-md-8">
               <%= render 'single_search/search_form' %>
             </div>
-            <div class="advanced-search-link col-sm-3 text-right">
+            <div class="advanced-search-link col-md-4">
               <%= link_to 'Catalog Advanced Search', '/advanced' %>
             </div>
           </div>
@@ -50,7 +50,7 @@
     <% if !@results.blank? or !result.blank? or !@websites.blank? %>
       <div class="bento_box row">
         <% if @results %>
-          <div class="col-sm-3 ">
+          <div class="col-md-3 ">
             <div class="navbar sidenav facets-toggleable-sm">
               <h2 class="all-results-header">All results</h2>
               <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-toggle="collapse" data-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
@@ -120,26 +120,20 @@
             </div>
           </div>
         <% end %>
-        <div class="col-sm-9" id="top">
+        <div class="col-md-9" id="top">
           <div class="navbar" id="jumpbar">
-            <ul class="list-inline">
-              <li class="top-results">
-                Top Results
-              </li>
-              <li>
+            <span class="top-results">Top Results</span>
+            <ul class="nav">
+              <li class="nav-item">
                 <% @top_4_results.from(1).to(0).each do |key, result| %>
-                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-                  -->
                   <%= link_to '#'+key.tr(" ", "_") do %>
                     <i class="fa fa-arrow-down"></i>
                     <%= BentoSearch.get_engine(key).configuration.title %>
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% @top_4_results.from(0).to(0).each do |key, result| %>
-                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-                  -->
                   <% unless result.blank? %>
                     <%= link_to '#'+key do %>
                       <i class="fa fa-arrow-down"></i>
@@ -148,17 +142,15 @@
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% @top_4_results.from(2).to(1).each do |key, result| %>
-                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-                  -->
                   <%= link_to '#'+key.tr(" ", "_") do %>
                     <i class="fa fa-arrow-down"></i>
                     <%= BentoSearch.get_engine(key).configuration.title %>
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% unless @digitalCollections.blank? %>
                   <%= link_to '#digcoll' do %>
                     <i class="fa fa-arrow-down"></i>
@@ -166,7 +158,7 @@
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% unless @libguides.blank? %>
                   <%= link_to '#libguides' do %>
                     <i class="fa fa-arrow-down"></i>

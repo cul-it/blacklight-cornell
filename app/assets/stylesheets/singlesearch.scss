@@ -48,9 +48,6 @@ div.view-all {
   .engine-title{
     text-transform: lowercase;
   }
-  .btn {
-    font-size: 12px;
-  }
   .all-link {
     margin-top: .5em;
   }
@@ -213,15 +210,6 @@ div.view-all {
   }
 }
 
-// Advanced link customized for single search
-// -----------------------------------------------//
-.search {
-  .advanced-search-link {
-    padding-left: 15px;
-    margin-top: 1em;
-  }
-}
-
 // Search options - customized from the same markup as catalog home page
 // -----------------------------------------------------------------------//
 .search-index,
@@ -276,7 +264,11 @@ div.view-all {
   }
 }
 
-// Advanced link customized for single search
+.advanced-search-link {
+  font-size: 14px;
+}
+
+// Jump links
 // -----------------------------------------------//
 #jumpbar {
   padding-bottom: 1em;
@@ -346,15 +338,6 @@ div.view-all {
   text-align: left;
 }
 
-// Override the default collapsed state -- copied out of gem - navbar.scss.css - stick this in here so IE8 will display the All Results panel - https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1202
-.results-collapse.collapse {
-  // display: none;
-}
-
-.chat {
-  margin: 0 0 1em;
-}
-
 // Availability
 // -----------------------
 
@@ -368,30 +351,20 @@ div.view-all {
   font-weight:500;
 }
 
+.all-results-header {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
-
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) {
-  .results-collapse,
-  .results-collapse.collapse {
-    display: block !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
+// Small devices (landscape phones, 576px and up)
+@include media-breakpoint-up(sm) {
   .bento_box {
     .top-panel-heading {
       margin-bottom: 0;
@@ -437,15 +410,19 @@ div.view-all {
     clear:right;
     margin-bottom:2em;
   }
+  .advanced-search-link {
+    text-align: right;
+  }
 }
 
-.all-results-header {
-  font-size: 18px;
-  margin-top: 0;
-}
-
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) {
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+  .results-collapse,
+  .results-collapse.collapse {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
   .single-search {
     .form-group {
       width: 60%;
@@ -455,10 +432,10 @@ div.view-all {
     text-align: right;
     margin-top: 20px;
   }
-  // Required to make the collapsing navbar work on regular desktops
-  // .results-collapse,
-  // .results-collapse.collapse {
-  //   height: auto !important;
-  //   overflow: visible !important;
-  // }
 }
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

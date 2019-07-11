@@ -16,40 +16,6 @@ body {
 	}
 }
 
-// Links
-// ------------------------
-
-// Add underlines to links in main content area so that they are easier to see / accessibility
-// .main-content,
-// .blacklight-nav,
-// footer {
-// 	a {
-// 		border-bottom: 1px dotted $light-gray;
-// 	}
-// 	a:hover,
-// 	a:active,
-// 	a:focus {
-// 		border-bottom: 1px solid $light-gray;
-// 		text-decoration: none;
-// 	}
-// }
-// No underlines for some elements in the main content area
-// .main-content {
-// 	.remove,
-// 	.remove:hover,
-// 	.label,
-// 	.label:hover,
-// 	.dropdown-menu a,
-// 	.dropdown-menu a:hover,
-// 	.rss-icon,
-// 	.rss-icon:hover,
-// 	.rss-icon:active,
-// 	.rss-icon:focus,
-// 	.facets .card-header a {
-// 		border-bottom: none;
-// 	}
-// }
-
 
 // Typography
 // ------------------------
@@ -59,18 +25,6 @@ h2 {
 	font-size: 26px;
 }
 h3 { font-size: 20px; line-height: 1.5em;}
-
-// Forms
-// ------------------------
-
-// This is needed as workaround for IE7-9 bug with font-famly on <select>
-// -- see cul-bootstrap-loader.css.scss and this issue for more details:
-// -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-622
-// input,
-// button,
-// textarea {
-//   font-family: $font-family-base;
-// }
 
 // Home page text
 // ------------------------
@@ -115,29 +69,23 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
-// CUL button - libraries
-// ------------------------
+// Override BS4 btn-secondary
+// ---------------------------
 
-.btn-libraries {
-	background: #16524d;
-	color: white;
-	border-color: #16524d;
-	text-shadow: none;
-	box-shadow: none;
-	margin-bottom: 1.5em;
-	font-family: $font-family-cul;
-	i {
-		color: $dark-teal;
-		margin-left: 3px;
-	}
-}
-.btn-libraries:hover,
-.btn-libraries:focus {
-	background: #16524d;
-	color: white;
-}
 .btn-secondary {
-	background: $dark-tan;
+	background: $concrete;
+}
+.btn-secondary:hover {
+	background: $concrete-hover;
+}
+.btn-outline-secondary {
+	border-color: $concrete;
+	color: $dark-gray;
+}
+.btn-outline-secondary:hover {
+	border-color: $concrete-hover;
+	color: white;
+	background: $concrete-hover;
 }
 
 // CUL button - generic teal
