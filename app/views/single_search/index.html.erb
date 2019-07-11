@@ -50,59 +50,53 @@
     <% if !@results.blank? or !result.blank? or !@websites.blank? %>
       <div class="bento_box row">
         <% if @results %>
-          <div class="col-sm-3">
-            <div class="top-panel-heading panel-heading">
-              <button aria-controls="results-collapse" aria-expanded="false" class="facets-toggle collapsed" data-target=".results-collapse" data-toggle="collapse" type="button">
-                <span class="sr-only">Toggle facets</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+          <div class="col-sm-3 ">
+            <div class="navbar sidenav facets-toggleable-sm">
+              <h2 class="all-results-header">All results</h2>
+              <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-toggle="collapse" data-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
+              <span class="sr-only">Toggle facets</span>
+                <span class="navbar-toggler-icon"></span>
               </button>
-              <h2 class="all-results-header">
-                All results
-              </h2>
             </div>
             <div class="results-collapse collapse">
               <div class="expand-search">
-                <% query = params[:q] || params[:query] %>
-                <% query = query.gsub('&', '%26') %>
-                <div class="panel-group">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        Looking for more?
-                      </h4>
-                    </div>
-                    <div class="panel-body">
-                      <ul class="fa-ul">
-                        <li>
-                          <i class="fa fa-arrow-right"></i>
-                          <%= link_to 'View all Catalog results', "/?q=#{query}" %>
-                        </li>
-                        <li>
-                          <i class="fa fa-arrow-right"></i>
-                          <%= link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
-                            Request from Libraries Worldwide
-                              <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
-                          <% end %>
-                        </li>
-                        <li>
-                          <i class="fa fa-arrow-right"></i>
-                          <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
-                        </li>
-                      </ul>
-                    </div>
+                <div class="card">
+                  <% query = params[:q] || params[:query] %>
+                  <% query = query.gsub('&', '%26') %>
+                  <div class="card-header">
+                    <h4 class="panel-title">
+                      Looking for more?
+                    </h4>
+                  </div>
+                  <div class="card-body">
+                    <ul class="fa-ul">
+                      <li>
+                        <i class="fa fa-arrow-right"></i>
+                        <%= link_to 'View all Catalog results', "/?q=#{query}" %>
+                      </li>
+                      <li>
+                        <i class="fa fa-arrow-right"></i>
+                        <%= link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
+                          Request from Libraries Worldwide
+                            <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
+                        <% end %>
+                      </li>
+                      <li>
+                        <i class="fa fa-arrow-right"></i>
+                        <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
-              <div class="panel panel-default" id="formats">
+              <div class="card" id="formats">
                 <% unless @more_results.length < 3 %>
-                  <div class="panel-heading">
-                    <h4 class="panel-title">
+                  <div class="card-header">
+                    <h4>
                       Format
                     </h4>
                   </div>
-                  <div class="panel-body">
+                  <div class="card-body">
                     <ul class="fa-ul" id="more-results">
                       <% @more_results.each do |key, result| %>
                         <% if !result.empty? and result.total_items > 0 %>
