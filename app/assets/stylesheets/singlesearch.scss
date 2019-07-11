@@ -165,25 +165,6 @@ div.view-all {
   padding-right:2em;
 }
 
-.all-formats {
-  background: $light-tan;
-  @include border-top-radius($border-radius-large);
-  @include border-bottom-radius($border-radius-large);
-  h3 {
-    font-size: 1.2em;
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
-    padding-bottom: 0;
-  }
-  ul.icons-ul {
-    margin-left: 1.8em;
-    list-style: none;
-  }
-  .no-results a {
-    color: #aaa;
-  }
-}
-
 // Sidebar
 // -----------------------------------------------//
 // expand-search rules also apply to catalog
@@ -192,10 +173,12 @@ div.view-all {
   ul {
     margin-left: 0;
     list-style: none;
+    margin-bottom: 0;
   }
   li {
     margin-bottom: 6px;
     line-height: 1.5em;
+    font-size: 14px;
   }
   i {
     color: $concrete;
@@ -285,12 +268,9 @@ div.view-all {
 }
 
 .results-collapse {
-  .well {
-    padding: 10px;
-    margin-top: 20px;
-    p {
-      padding: 0;
-      font-size: 1.1em;
+  .card-header {
+    h4 {
+      font-size: 1rem;
       margin-bottom: 0;
     }
   }
