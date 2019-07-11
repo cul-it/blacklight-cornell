@@ -79,8 +79,7 @@
 	h5 + div { padding-bottom: .5em; }
 }
 // TODO: ".count" may not be used in BL5
-.facet-count,
-.count {
+.facet-count {
   font-family: $monospace-font-family;
   font-size: 12px;
 }
@@ -95,6 +94,15 @@
 .expand-search {
 	margin-bottom: 1rem;
 	margin-top: .5rem;
+}
+
+// BL7 selected facet
+.facet-limit-active {
+	border-color: $concrete !important;
+	.card-header {
+		background: $concrete !important;
+		color: white;
+	}
 }
 
 // PUBLICATION YEAR

@@ -19,18 +19,7 @@ input.search-query { width: 35%; }
   .search-query {
     width: 100%;
   }
-  .btn-search {
-    margin-left: .5em;
-  }
 }
-
-// .single-search form {
-//   margin:0px;
-
-//   .btn {
-//     margin-left:.25em;
-//   }
-// }
 
 #top2 {
   .search-source {
@@ -252,11 +241,16 @@ div.view-all {
 
 // Search options - customized from the same markup as catalog home page
 // -----------------------------------------------------------------------//
-.search-index {
+.search-index,
+.blacklight-search-index {
   .other-resources {
     border-top: 1px solid $tan;
     padding-top: 1em;
     margin-top: 1.5em;
+    h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -412,11 +406,6 @@ div.view-all {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm) {
-  .single-search {
-    .btn-search {
-      margin-left: 0;
-    }
-  }
   .results-collapse,
   .results-collapse.collapse {
     display: block !important;
