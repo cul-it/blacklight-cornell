@@ -1,13 +1,15 @@
 <% if @results %>
   <div class="row">
     <div class="col-sm-12">
-      <div class="card card-body">
-        <div class="row">
-          <div class="col-sm-9">
-            <%= render 'single_search/search_form' %>
-          </div>
-          <div class="advanced-search-link col-sm-3 text-right">
-            <%= link_to 'Catalog Advanced Search', '/advanced' %>
+      <div class="card card-well">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-9">
+              <%= render 'single_search/search_form' %>
+            </div>
+            <div class="advanced-search-link col-sm-3 text-right">
+              <%= link_to 'Catalog Advanced Search', '/advanced' %>
+            </div>
           </div>
         </div>
       </div>
@@ -16,18 +18,18 @@
 <% else %>
   <div class="row">
     <div class="col-md-8 offset-md-2 empty-single-search">
-      <div class="card card-body">
-        <div class="search-info">
-          <a href="#about-this-search" class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
-            <i class="fa fa-info-circle" aria-hidden="true"></i>
-            About this search
-          </a>
+      <div class="card card-well">
+        <div class="card-body">
+          <div class="search-info">
+            <a href="#about-this-search" class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+              About this search
+            </a>
+          </div>
+          <h2>Search</h2>
+          <%= render 'single_search/search_form' %>
+          <%= render 'single_search/search_options' %>
         </div>
-        <h2>
-          Search
-        </h2>
-        <%= render 'single_search/search_form' %>
-        <%= render 'single_search/search_options' %>
       </div>
     </div>
   </div>
