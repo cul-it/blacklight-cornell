@@ -19,45 +19,36 @@ body {
 // Links
 // ------------------------
 
-// a { 
-// 	color: $link-primary;
-// }
-
-// a:hover {
-// 	color: $link-primary-hover;
-// 	text-decoration: underline;
-// }
-
 // Add underlines to links in main content area so that they are easier to see / accessibility
-.main-content,
-.blacklight-nav,
-footer {
-	a {
-		border-bottom: 1px dotted $light-gray;
-	}
-	a:hover,
-	a:active,
-	a:focus {
-		border-bottom: 1px solid $light-gray;
-		text-decoration: none;
-	}
-}
+// .main-content,
+// .blacklight-nav,
+// footer {
+// 	a {
+// 		border-bottom: 1px dotted $light-gray;
+// 	}
+// 	a:hover,
+// 	a:active,
+// 	a:focus {
+// 		border-bottom: 1px solid $light-gray;
+// 		text-decoration: none;
+// 	}
+// }
 // No underlines for some elements in the main content area
-.main-content {
-	.remove,
-	.remove:hover,
-	.label,
-	.label:hover,
-	.dropdown-menu a,
-	.dropdown-menu a:hover,
-	.rss-icon,
-	.rss-icon:hover,
-	.rss-icon:active,
-	.rss-icon:focus,
-	.facets .card-header a {
-		border-bottom: none;
-	}
-}
+// .main-content {
+// 	.remove,
+// 	.remove:hover,
+// 	.label,
+// 	.label:hover,
+// 	.dropdown-menu a,
+// 	.dropdown-menu a:hover,
+// 	.rss-icon,
+// 	.rss-icon:hover,
+// 	.rss-icon:active,
+// 	.rss-icon:focus,
+// 	.facets .card-header a {
+// 		border-bottom: none;
+// 	}
+// }
 
 
 // Typography
