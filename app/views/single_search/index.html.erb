@@ -1,7 +1,7 @@
 <% if @results %>
   <div class="row">
     <div class="col-sm-12">
-      <div class="well">
+      <div class="card card-body">
         <div class="row">
           <div class="col-sm-9">
             <%= render 'single_search/search_form' %>
@@ -16,7 +16,7 @@
 <% else %>
   <div class="row">
     <div class="col-md-8 offset-md-2 empty-single-search">
-      <div class="well">
+      <div class="card card-body">
         <div class="search-info">
           <a href="#about-this-search" class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
             <i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -242,7 +242,7 @@
                       </div>
                     <% end %>
                   <% else %>
-                    <div class="well">
+                    <div class="card card-body">
                       <p class="no-results no-margin">
                         No results from the
                         <%= link_to 'Catalog.', "https://newcatalog.library.cornell.edu" %>
