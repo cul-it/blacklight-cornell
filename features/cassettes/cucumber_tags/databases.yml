@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/select?rows=10&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?rows=10&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,553 +19,165 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:39 GMT
+      - Tue, 14 May 2019 18:16:51 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:15:22 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"NDlkMTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '3322'
+      - '2926'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJ6a0Nvbm5lY3RlZCI6dHJ1ZSwic3RhdHVz
-        IjowLCJRVGltZSI6NjYwLCJwYXJhbXMiOnsicm93cyI6IjEwIiwid3QiOiJq
-        c29uIn19LCJyZXNwb25zZSI6eyJudW1Gb3VuZCI6Nzk5NDI4Nywic3RhcnQi
-        OjAsIm1heFNjb3JlIjoxLjUxODUxMzksImRvY3MiOlt7ImF1dGhvcl9kaXNw
-        bGF5IjoiQmFnbGlvbmUsIExpc2EgQS4sIDE5NjItIGF1dGhvciIsInRpdGxl
-        X2Rpc3BsYXkiOiJXcml0aW5nIGEgcmVzZWFyY2ggcGFwZXIgaW4gcG9saXRp
-        Y2FsIHNjaWVuY2UiLCJmdWxsdGl0bGVfZGlzcGxheSI6IldyaXRpbmcgYSBy
-        ZXNlYXJjaCBwYXBlciBpbiBwb2xpdGljYWwgc2NpZW5jZSA6IGEgcHJhY3Rp
-        Y2FsIGd1aWRlIHRvIGlucXVpcnksIHN0cnVjdHVyZSwgYW5kIG1ldGhvZHMi
-        LCJzdWJ0aXRsZV9kaXNwbGF5IjoiYSBwcmFjdGljYWwgZ3VpZGUgdG8gaW5x
-        dWlyeSwgc3RydWN0dXJlLCBhbmQgbWV0aG9kcyIsInB1Yl9pbmZvX2Rpc3Bs
-        YXkiOlsiVGhvdXNhbmQgT2FrcywgQ2FsaWZvcm5pYSA6IENRIFByZXNzLCBh
-        biBJbXByaW50IG9mIFNBR0UgUHVibGljYXRpb25zLCBJbmMuLCBbMjAyMF0i
-        XSwicHViX2RhdGVfZGlzcGxheSI6WyJbMjAyMF0iXSwibGFuZ3VhZ2VfZGlz
-        cGxheSI6WyJFbmdsaXNoLiJdLCJpZCI6IjEwNjAyNzg5IiwiZWRpdGlvbl9k
-        aXNwbGF5IjpbIkZvdXJ0aCBFZGl0aW9uLiJdLCJob2xkaW5nc19yZWNvcmRf
-        ZGlzcGxheSI6WyJ7XCJpZFwiOlwiMTA5MDAyOTJcIixcIm1vZGlmaWVkX2Rh
-        dGVcIjpcIjIwMTkwMjIxMTIzNjUwXCIsXCJjb3B5X251bWJlclwiOm51bGws
-        XCJjYWxsbm9zXCI6W1wiSkE4NiAuQjI0IDIwMjBcIl0sXCJub3Rlc1wiOltd
-        LFwiaG9sZGluZ3NfZGVzY1wiOltdLFwicmVjZW50X2hvbGRpbmdzX2Rlc2Nc
-        IjpbXSxcInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjXCI6W10sXCJpbmRl
-        eF9ob2xkaW5nc19kZXNjXCI6W10sXCJsb2NhdGlvbnNcIjpbe1wiY29kZVwi
-        Olwib2xpblwiLFwibnVtYmVyXCI6OTksXCJuYW1lXCI6XCJPbGluIExpYnJh
-        cnlcIixcImxpYnJhcnlcIjpcIk9saW4gTGlicmFyeVwifV19Il0sIm9jbGNf
-        aWRfZGlzcGxheSI6WyIxMDQ5NTc3Mzk1Il0sImF2YWlsYWJpbGl0eV9qc29u
-        Ijoie1wiYXZhaWxhYmxlXCI6ZmFsc2UsXCJ1bmF2YWlsQXRcIjp7XCJPbGlu
-        IExpYnJhcnlcIjpcIkpBODYgLkIyNCAyMDIwXCJ9fSIsInB1Yl9kYXRlX2Zh
-        Y2V0IjoyMDIwLCJmb3JtYXQiOlsiQm9vayJdLCJvbmxpbmUiOlsiQXQgdGhl
-        IExpYnJhcnkiXSwic2NvcmUiOjEuNTE4NTEzOX0seyJhdXRob3JfZGlzcGxh
-        eSI6Ik1pbywgSmVmZmVyeSBTY290dCwgMTk1NC0gYXV0aG9yIiwidGl0bGVf
-        ZGlzcGxheSI6Ik11bHRpY3VsdHVyYWwgcHN5Y2hvbG9neSIsImZ1bGx0aXRs
-        ZV9kaXNwbGF5IjoiTXVsdGljdWx0dXJhbCBwc3ljaG9sb2d5IDogdW5kZXJz
-        dGFuZGluZyBvdXIgZGl2ZXJzZSBjb21tdW5pdGllcyIsInN1YnRpdGxlX2Rp
-        c3BsYXkiOiJ1bmRlcnN0YW5kaW5nIG91ciBkaXZlcnNlIGNvbW11bml0aWVz
-        IiwicHViX2luZm9fZGlzcGxheSI6WyJOZXcgWW9yaywgTmV3IFlvcmsgOiBP
-        eGZvcmQgVW5pdmVyc2l0eSBQcmVzcywgWzIwMjBdIl0sInB1Yl9kYXRlX2Rp
-        c3BsYXkiOlsiMjAyMCJdLCJsYW5ndWFnZV9kaXNwbGF5IjpbIkVuZ2xpc2gu
-        Il0sImlkIjoiMTA3NDY5NzUiLCJlZGl0aW9uX2Rpc3BsYXkiOlsiRmlmdGgg
-        ZWRpdGlvbi4iXSwiaG9sZGluZ3NfcmVjb3JkX2Rpc3BsYXkiOlsie1wiaWRc
-        IjpcIjExMDQzMzY4XCIsXCJtb2RpZmllZF9kYXRlXCI6XCIyMDE5MDMyMDA3
-        MzcyMVwiLFwiY29weV9udW1iZXJcIjpudWxsLFwiY2FsbG5vc1wiOltcIkhN
-        MTI3MSAuTTU1NSAyMDIwXCJdLFwibm90ZXNcIjpbXSxcImhvbGRpbmdzX2Rl
-        c2NcIjpbXSxcInJlY2VudF9ob2xkaW5nc19kZXNjXCI6W10sXCJzdXBwbGVt
-        ZW50YWxfaG9sZGluZ3NfZGVzY1wiOltdLFwiaW5kZXhfaG9sZGluZ3NfZGVz
-        Y1wiOltdLFwibG9jYXRpb25zXCI6W3tcImNvZGVcIjpcIm9saW5cIixcIm51
-        bWJlclwiOjk5LFwibmFtZVwiOlwiT2xpbiBMaWJyYXJ5XCIsXCJsaWJyYXJ5
-        XCI6XCJPbGluIExpYnJhcnlcIn1dfSJdLCJpdGVtX3JlY29yZF9kaXNwbGF5
-        IjpbIntcImNvcHlfbnVtYmVyXCI6XCIxXCIsXCJpdGVtX3R5cGVfbmFtZVwi
-        OlwiYm9va1wiLFwiaXRlbV9pZFwiOlwiMTA2NDE1NTNcIixcInllYXJcIjpc
-        IlwiLFwiaXRlbV90eXBlX2lkXCI6XCIzXCIsXCJjaHJvblwiOlwiXCIsXCJj
-        YXB0aW9uXCI6XCJcIixcImhvbGRzX3BsYWNlZFwiOlwiMFwiLFwidGVtcF9s
-        b2NhdGlvblwiOlwiMFwiLFwib25fcmVzZXJ2ZVwiOlwiTlwiLFwiaXRlbV9l
-        bnVtXCI6XCJcIixcIml0ZW1fc2VxdWVuY2VfbnVtYmVyXCI6XCIxXCIsXCJ0
-        ZW1wX2l0ZW1fdHlwZV9pZFwiOlwiMFwiLFwibWZoZF9pZFwiOlwiMTEwNDMz
-        NjhcIixcInJlY2FsbHNfcGxhY2VkXCI6XCIwXCIsXCJjcmVhdGVfZGF0ZVwi
-        OlwiMjAxOS0wMy0yMCAwNzozNzoyMS4wXCIsXCJpdGVtX2JhcmNvZGVcIjpc
-        IjMxOTI0MTI2MTkwNjcxXCIsXCJtb2RpZnlfZGF0ZVwiOlwiXCIsXCJwZXJt
-        X2xvY2F0aW9uXCI6e1wiY29kZVwiOlwib2xpblwiLFwibnVtYmVyXCI6OTks
-        XCJuYW1lXCI6XCJPbGluIExpYnJhcnlcIixcImxpYnJhcnlcIjpcIk9saW4g
-        TGlicmFyeVwifX0iXSwib2NsY19pZF9kaXNwbGF5IjpbIjEwNzY0NjEwMjAi
-        XSwiYXZhaWxhYmlsaXR5X2pzb24iOiJ7XCJhdmFpbGFibGVcIjp0cnVlLFwi
-        YXZhaWxBdFwiOntcIk9saW4gTGlicmFyeVwiOlwiSE0xMjcxIC5NNTU1IDIw
-        MjBcIn19IiwicHViX2RhdGVfZmFjZXQiOjIwMjAsImZvcm1hdCI6WyJCb29r
-        Il0sIm9ubGluZSI6WyJBdCB0aGUgTGlicmFyeSJdLCJzY29yZSI6MS41MTg1
-        MTM5fSx7ImF1dGhvcl9kaXNwbGF5IjoiU2Nod2FsYmUsIE1pY2hhZWwsIDE5
-        NTYtIGF1dGhvciIsInRpdGxlX2Rpc3BsYXkiOiJNYWtpbmcgYSBkaWZmZXJl
-        bmNlIiwiZnVsbHRpdGxlX2Rpc3BsYXkiOiJNYWtpbmcgYSBkaWZmZXJlbmNl
-        IDogdXNpbmcgc29jaW9sb2d5IHRvIGNyZWF0ZSBhIGJldHRlciB3b3JsZCIs
-        InN1YnRpdGxlX2Rpc3BsYXkiOiJ1c2luZyBzb2Npb2xvZ3kgdG8gY3JlYXRl
-        IGEgYmV0dGVyIHdvcmxkIiwicHViX2luZm9fZGlzcGxheSI6WyJOZXcgWW9y
-        aywgTlkgOiBPeGZvcmQgVW5pdmVyc2l0eSBQcmVzcywgWzIwMjBdIl0sInB1
-        Yl9kYXRlX2Rpc3BsYXkiOlsiMjAyMCJdLCJsYW5ndWFnZV9kaXNwbGF5Ijpb
-        IkVuZ2xpc2guIl0sImlkIjoiMTA3NTI1NDgiLCJob2xkaW5nc19yZWNvcmRf
-        ZGlzcGxheSI6WyJ7XCJpZFwiOlwiMTEwNDk0NDNcIixcIm1vZGlmaWVkX2Rh
-        dGVcIjpcIjIwMTkwMzI3MTA0NjQ2XCIsXCJjb3B5X251bWJlclwiOm51bGws
-        XCJjYWxsbm9zXCI6W1wiSE01ODUgLlMzNzcgMjAyMFwiXSxcIm5vdGVzXCI6
-        W10sXCJob2xkaW5nc19kZXNjXCI6W10sXCJyZWNlbnRfaG9sZGluZ3NfZGVz
-        Y1wiOltdLFwic3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2NcIjpbXSxcImlu
-        ZGV4X2hvbGRpbmdzX2Rlc2NcIjpbXSxcImxvY2F0aW9uc1wiOlt7XCJjb2Rl
-        XCI6XCJvbGluXCIsXCJudW1iZXJcIjo5OSxcIm5hbWVcIjpcIk9saW4gTGli
-        cmFyeVwiLFwibGlicmFyeVwiOlwiT2xpbiBMaWJyYXJ5XCJ9XX0iXSwiaXRl
-        bV9yZWNvcmRfZGlzcGxheSI6WyJ7XCJjb3B5X251bWJlclwiOlwiMVwiLFwi
-        aXRlbV90eXBlX25hbWVcIjpcImJvb2tcIixcIml0ZW1faWRcIjpcIjEwNjQ1
-        ODgxXCIsXCJ5ZWFyXCI6XCJcIixcIml0ZW1fdHlwZV9pZFwiOlwiM1wiLFwi
-        Y2hyb25cIjpcIlwiLFwiY2FwdGlvblwiOlwiXCIsXCJob2xkc19wbGFjZWRc
-        IjpcIjBcIixcInRlbXBfbG9jYXRpb25cIjpcIjBcIixcIm9uX3Jlc2VydmVc
-        IjpcIk5cIixcIml0ZW1fZW51bVwiOlwiXCIsXCJpdGVtX3NlcXVlbmNlX251
-        bWJlclwiOlwiMVwiLFwidGVtcF9pdGVtX3R5cGVfaWRcIjpcIjBcIixcIm1m
-        aGRfaWRcIjpcIjExMDQ5NDQzXCIsXCJyZWNhbGxzX3BsYWNlZFwiOlwiMFwi
-        LFwiY3JlYXRlX2RhdGVcIjpcIjIwMTktMDMtMjcgMTA6NDY6NDYuMFwiLFwi
-        aXRlbV9iYXJjb2RlXCI6XCIzMTkyNDEyNjE5OTkwNFwiLFwibW9kaWZ5X2Rh
-        dGVcIjpcIlwiLFwicGVybV9sb2NhdGlvblwiOntcImNvZGVcIjpcIm9saW5c
-        IixcIm51bWJlclwiOjk5LFwibmFtZVwiOlwiT2xpbiBMaWJyYXJ5XCIsXCJs
-        aWJyYXJ5XCI6XCJPbGluIExpYnJhcnlcIn19Il0sIm9jbGNfaWRfZGlzcGxh
-        eSI6WyIxMDU1NTY5ODQ5Il0sImF2YWlsYWJpbGl0eV9qc29uIjoie1wiYXZh
-        aWxhYmxlXCI6dHJ1ZSxcImF2YWlsQXRcIjp7XCJPbGluIExpYnJhcnlcIjpc
-        IkhNNTg1IC5TMzc3IDIwMjBcIn19IiwicHViX2RhdGVfZmFjZXQiOjIwMjAs
-        ImZvcm1hdCI6WyJCb29rIl0sIm9ubGluZSI6WyJBdCB0aGUgTGlicmFyeSJd
-        LCJzY29yZSI6MS41MTg1MTM5fSx7ImF1dGhvcl9kaXNwbGF5IjoiRWRlciwg
-        Vy4gRS4gKFdvbGZnYW5nIEVybnN0KSwgYXV0aG9yIiwidGl0bGVfZGlzcGxh
-        eSI6IlN5c3RlbWF0aWMgZW5naW5lZXJpbmcgZGVzaWduIiwiZnVsbHRpdGxl
-        X2Rpc3BsYXkiOiJTeXN0ZW1hdGljIGVuZ2luZWVyaW5nIGRlc2lnbiA6IGdl
-        bmVyYWwgbW9kZWwgb2YgcHJvY2VkdXJlcyBmb3Igc3lzdGVtYXRpYyBhbmQg
-        bWV0aG9kaWNhbCBlbmdpbmVlcmluZyBkZXNpZ25pbmciLCJzdWJ0aXRsZV9k
-        aXNwbGF5IjoiZ2VuZXJhbCBtb2RlbCBvZiBwcm9jZWR1cmVzIGZvciBzeXN0
-        ZW1hdGljIGFuZCBtZXRob2RpY2FsIGVuZ2luZWVyaW5nIGRlc2lnbmluZyIs
-        InB1Yl9pbmZvX2Rpc3BsYXkiOlsiQm9jYSBSYXRvbiwgRkwgOiBUYXlsb3Ig
-        JiBGcmFuY2lzIEdyb3VwLCBbMjAyMF0iXSwicHViX2RhdGVfZGlzcGxheSI6
-        WyJbMjAyMF0iXSwibGFuZ3VhZ2VfZGlzcGxheSI6WyJFbmdsaXNoLiJdLCJp
-        ZCI6IjEwNjM4OTk2IiwiZWRpdGlvbl9kaXNwbGF5IjpbIkZpcnN0IGVkaXRp
-        b24uIl0sImhvbGRpbmdzX3JlY29yZF9kaXNwbGF5IjpbIntcImlkXCI6XCIx
-        MDkzNjM0M1wiLFwibW9kaWZpZWRfZGF0ZVwiOlwiMjAxOTAyMDgxNTI1MjBc
-        IixcImNvcHlfbnVtYmVyXCI6bnVsbCxcImNhbGxub3NcIjpbXCJBdmFpbGFi
-        bGUgZm9yIHRoZSBMaWJyYXJ5IHRvIFB1cmNoYXNlXCJdLFwibm90ZXNcIjpb
-        XSxcImhvbGRpbmdzX2Rlc2NcIjpbXSxcInJlY2VudF9ob2xkaW5nc19kZXNj
-        XCI6W10sXCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzY1wiOltdLFwiaW5k
-        ZXhfaG9sZGluZ3NfZGVzY1wiOltdLFwibG9jYXRpb25zXCI6W3tcImNvZGVc
-        IjpcImN0cyxyZXZcIixcIm51bWJlclwiOjEyMCxcIm5hbWVcIjpcIkxpYnJh
-        cnkgVGVjaG5pY2FsIFNlcnZpY2VzIFJldmlldyBTaGVsdmVzXCIsXCJsaWJy
-        YXJ5XCI6bnVsbH1dfSJdLCJvY2xjX2lkX2Rpc3BsYXkiOlsiMTAyOTc3MDIw
-        MiJdLCJhdmFpbGFiaWxpdHlfanNvbiI6IntcImF2YWlsYWJsZVwiOnRydWUs
-        XCJhdmFpbEF0XCI6e1wiTGlicmFyeSBUZWNobmljYWwgU2VydmljZXMgUmV2
-        aWV3IFNoZWx2ZXNcIjpcIkF2YWlsYWJsZSBmb3IgdGhlIExpYnJhcnkgdG8g
-        UHVyY2hhc2VcIn19IiwicHViX2RhdGVfZmFjZXQiOjIwMjAsImZvcm1hdCI6
-        WyJCb29rIl0sInNjb3JlIjoxLjUxODUxMzl9LHsiYXV0aG9yX2Rpc3BsYXki
-        OiJXaGl0dGllciwgTmFuY3ksIDE5NjYtIGF1dGhvciIsInRpdGxlX2Rpc3Bs
-        YXkiOiJTdGF0aXN0aWNzIGZvciBzb2NpYWwgdW5kZXJzdGFuZGluZyIsImZ1
-        bGx0aXRsZV9kaXNwbGF5IjoiU3RhdGlzdGljcyBmb3Igc29jaWFsIHVuZGVy
-        c3RhbmRpbmcgOiB3aXRoIFN0YXRhIGFuZCBTUFNTIiwic3VidGl0bGVfZGlz
-        cGxheSI6IndpdGggU3RhdGEgYW5kIFNQU1MiLCJwdWJfaW5mb19kaXNwbGF5
-        IjpbIkxhbmhhbSA6IFJvd21hbiAmIExpdHRsZWZpZWxkLCBbMjAyMF0iXSwi
-        cHViX2RhdGVfZGlzcGxheSI6WyIyMDIwIl0sImxhbmd1YWdlX2Rpc3BsYXki
-        OlsiRW5nbGlzaC4iXSwiaWQiOiIxMDc1MjYxNSIsImhvbGRpbmdzX3JlY29y
-        ZF9kaXNwbGF5IjpbIntcImlkXCI6XCIxMTA0OTUxMVwiLFwibW9kaWZpZWRf
-        ZGF0ZVwiOlwiMjAxOTAzMjcxMDQ3MjBcIixcImNvcHlfbnVtYmVyXCI6bnVs
-        bCxcImNhbGxub3NcIjpbXCJRQTI3Ni4xMiAuVzUzNzUgMjAyMFwiXSxcIm5v
-        dGVzXCI6W10sXCJob2xkaW5nc19kZXNjXCI6W10sXCJyZWNlbnRfaG9sZGlu
-        Z3NfZGVzY1wiOltdLFwic3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2NcIjpb
-        XSxcImluZGV4X2hvbGRpbmdzX2Rlc2NcIjpbXSxcImxvY2F0aW9uc1wiOlt7
-        XCJjb2RlXCI6XCJtYXRoXCIsXCJudW1iZXJcIjo4MSxcIm5hbWVcIjpcIk1h
-        dGhlbWF0aWNzIExpYnJhcnkgKE1hbG90dCBIYWxsKVwiLFwibGlicmFyeVwi
-        OlwiTWF0aGVtYXRpY3MgTGlicmFyeVwifV19Il0sIml0ZW1fcmVjb3JkX2Rp
-        c3BsYXkiOlsie1wiY29weV9udW1iZXJcIjpcIjFcIixcIml0ZW1fdHlwZV9u
-        YW1lXCI6XCJib29rXCIsXCJpdGVtX2lkXCI6XCIxMDY0NTk0OVwiLFwieWVh
-        clwiOlwiXCIsXCJpdGVtX3R5cGVfaWRcIjpcIjNcIixcImNocm9uXCI6XCJc
-        IixcImNhcHRpb25cIjpcIlwiLFwiaG9sZHNfcGxhY2VkXCI6XCIwXCIsXCJ0
-        ZW1wX2xvY2F0aW9uXCI6XCIwXCIsXCJvbl9yZXNlcnZlXCI6XCJOXCIsXCJp
-        dGVtX2VudW1cIjpcIlwiLFwiaXRlbV9zZXF1ZW5jZV9udW1iZXJcIjpcIjFc
-        IixcInRlbXBfaXRlbV90eXBlX2lkXCI6XCIwXCIsXCJtZmhkX2lkXCI6XCIx
-        MTA0OTUxMVwiLFwicmVjYWxsc19wbGFjZWRcIjpcIjBcIixcImNyZWF0ZV9k
-        YXRlXCI6XCIyMDE5LTAzLTI3IDEwOjQ3OjIwLjBcIixcIml0ZW1fYmFyY29k
-        ZVwiOlwiMzE5MjQxMjYxOTczMjBcIixcIm1vZGlmeV9kYXRlXCI6XCJcIixc
-        InBlcm1fbG9jYXRpb25cIjp7XCJjb2RlXCI6XCJtYXRoXCIsXCJudW1iZXJc
-        Ijo4MSxcIm5hbWVcIjpcIk1hdGhlbWF0aWNzIExpYnJhcnkgKE1hbG90dCBI
-        YWxsKVwiLFwibGlicmFyeVwiOlwiTWF0aGVtYXRpY3MgTGlicmFyeVwifX0i
-        XSwib2NsY19pZF9kaXNwbGF5IjpbIjEwNTc3MzEwNjMiXSwiYXZhaWxhYmls
-        aXR5X2pzb24iOiJ7XCJhdmFpbGFibGVcIjp0cnVlLFwiYXZhaWxBdFwiOntc
-        Ik1hdGhlbWF0aWNzIExpYnJhcnkgKE1hbG90dCBIYWxsKVwiOlwiUUEyNzYu
-        MTIgLlc1Mzc1IDIwMjBcIn19IiwicHViX2RhdGVfZmFjZXQiOjIwMjAsImZv
-        cm1hdCI6WyJCb29rIl0sIm9ubGluZSI6WyJBdCB0aGUgTGlicmFyeSJdLCJz
-        Y29yZSI6MS41MTg1MTM5fSx7ImF1dGhvcl9kaXNwbGF5IjoiUmhvZGVzLCBN
-        YXR0aGV3IChNYXR0aGV3IEcuKSwgYXV0aG9yIiwidGl0bGVfZGlzcGxheSI6
-        IkEgZ3VpZGUgdG8gZWZmZWN0aXZlIHN0dWR5aW5nIGFuZCBsZWFybmluZyIs
-        ImZ1bGx0aXRsZV9kaXNwbGF5IjoiQSBndWlkZSB0byBlZmZlY3RpdmUgc3R1
-        ZHlpbmcgYW5kIGxlYXJuaW5nIDogcHJhY3RpY2FsIHN0cmF0ZWdpZXMgZnJv
-        bSB0aGUgc2NpZW5jZSBvZiBsZWFybmluZyIsInN1YnRpdGxlX2Rpc3BsYXki
-        OiJwcmFjdGljYWwgc3RyYXRlZ2llcyBmcm9tIHRoZSBzY2llbmNlIG9mIGxl
-        YXJuaW5nIiwicHViX2luZm9fZGlzcGxheSI6WyJOZXcgWW9yaywgTlkgOiBP
-        eGZvcmQgVW5pdmVyc2l0eSBQcmVzcywgWzIwMjBdIl0sInB1Yl9kYXRlX2Rp
-        c3BsYXkiOlsiWzIwMjBdIl0sImxhbmd1YWdlX2Rpc3BsYXkiOlsiRW5nbGlz
-        aC4iXSwiaWQiOiIxMDcxNzM5MyIsImhvbGRpbmdzX3JlY29yZF9kaXNwbGF5
-        IjpbIntcImlkXCI6XCIxMTAxNDA5N1wiLFwibW9kaWZpZWRfZGF0ZVwiOlwi
-        MjAxOTAzMTExMTE3NTJcIixcImNvcHlfbnVtYmVyXCI6bnVsbCxcImNhbGxu
-        b3NcIjpbXCJMQjIzOTUgLlI1NCAyMDIwXCJdLFwibm90ZXNcIjpbXSxcImhv
-        bGRpbmdzX2Rlc2NcIjpbXSxcInJlY2VudF9ob2xkaW5nc19kZXNjXCI6W10s
-        XCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzY1wiOltdLFwiaW5kZXhfaG9s
-        ZGluZ3NfZGVzY1wiOltdLFwibG9jYXRpb25zXCI6W3tcImNvZGVcIjpcIm9s
-        aW5cIixcIm51bWJlclwiOjk5LFwibmFtZVwiOlwiT2xpbiBMaWJyYXJ5XCIs
-        XCJsaWJyYXJ5XCI6XCJPbGluIExpYnJhcnlcIn1dfSJdLCJvY2xjX2lkX2Rp
-        c3BsYXkiOlsiMTA3NTUzMDQzMiJdLCJhdmFpbGFiaWxpdHlfanNvbiI6Intc
-        ImF2YWlsYWJsZVwiOmZhbHNlLFwidW5hdmFpbEF0XCI6e1wiT2xpbiBMaWJy
-        YXJ5XCI6XCJMQjIzOTUgLlI1NCAyMDIwXCJ9fSIsInB1Yl9kYXRlX2ZhY2V0
-        IjoyMDIwLCJmb3JtYXQiOlsiQm9vayJdLCJvbmxpbmUiOlsiQXQgdGhlIExp
-        YnJhcnkiXSwic2NvcmUiOjEuNTE4NTEzOX0seyJ0aXRsZV9kaXNwbGF5Ijoi
-        Q2FyZWVyIGRldmVsb3BtZW50IGludGVydmVudGlvbnMgZm9yIHNvY2lhbCBq
-        dXN0aWNlIiwiZnVsbHRpdGxlX2Rpc3BsYXkiOiJDYXJlZXIgZGV2ZWxvcG1l
-        bnQgaW50ZXJ2ZW50aW9ucyBmb3Igc29jaWFsIGp1c3RpY2UgOiBhZGRyZXNz
-        aW5nIG5lZWRzIGFjcm9zcyB0aGUgbGlmZXNwYW4gaW4gZWR1Y2F0aW9uYWws
-        IGNvbW11bml0eSwgYW5kIGVtcGxveW1lbnQgY29udGV4dHMiLCJzdWJ0aXRs
-        ZV9kaXNwbGF5IjoiYWRkcmVzc2luZyBuZWVkcyBhY3Jvc3MgdGhlIGxpZmVz
-        cGFuIGluIGVkdWNhdGlvbmFsLCBjb21tdW5pdHksIGFuZCBlbXBsb3ltZW50
-        IGNvbnRleHRzIiwicHViX2luZm9fZGlzcGxheSI6WyJMYW5oYW0sIE1hcnls
-        YW5kIDogUm93bWFuICYgTGl0dGxlZmllbGQsIFsyMDIwXSJdLCJwdWJfZGF0
-        ZV9kaXNwbGF5IjpbIjIwMjAiXSwibGFuZ3VhZ2VfZGlzcGxheSI6WyJFbmds
-        aXNoLiJdLCJpZCI6IjEwNjc3MzU3IiwiaG9sZGluZ3NfcmVjb3JkX2Rpc3Bs
-        YXkiOlsie1wiaWRcIjpcIjEwOTc0NDA5XCIsXCJtb2RpZmllZF9kYXRlXCI6
-        XCIyMDE5MDIyMTA3Mzg1MFwiLFwiY29weV9udW1iZXJcIjpudWxsLFwiY2Fs
-        bG5vc1wiOltcIkhGNTM4MSAuQzI2NTU3IDIwMjBcIl0sXCJub3Rlc1wiOltd
-        LFwiaG9sZGluZ3NfZGVzY1wiOltdLFwicmVjZW50X2hvbGRpbmdzX2Rlc2Nc
-        IjpbXSxcInN1cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjXCI6W10sXCJpbmRl
-        eF9ob2xkaW5nc19kZXNjXCI6W10sXCJsb2NhdGlvbnNcIjpbe1wiY29kZVwi
-        Olwib2xpblwiLFwibnVtYmVyXCI6OTksXCJuYW1lXCI6XCJPbGluIExpYnJh
-        cnlcIixcImxpYnJhcnlcIjpcIk9saW4gTGlicmFyeVwifV19Il0sIml0ZW1f
-        cmVjb3JkX2Rpc3BsYXkiOlsie1wiY29weV9udW1iZXJcIjpcIjFcIixcIml0
-        ZW1fdHlwZV9uYW1lXCI6XCJib29rXCIsXCJpdGVtX2lkXCI6XCIxMDYzMDAy
-        NFwiLFwieWVhclwiOlwiXCIsXCJpdGVtX3R5cGVfaWRcIjpcIjNcIixcImNo
-        cm9uXCI6XCJcIixcImNhcHRpb25cIjpcIlwiLFwiaG9sZHNfcGxhY2VkXCI6
-        XCIwXCIsXCJ0ZW1wX2xvY2F0aW9uXCI6XCIwXCIsXCJvbl9yZXNlcnZlXCI6
-        XCJOXCIsXCJpdGVtX2VudW1cIjpcIlwiLFwiaXRlbV9zZXF1ZW5jZV9udW1i
-        ZXJcIjpcIjFcIixcInRlbXBfaXRlbV90eXBlX2lkXCI6XCIwXCIsXCJtZmhk
-        X2lkXCI6XCIxMDk3NDQwOVwiLFwicmVjYWxsc19wbGFjZWRcIjpcIjBcIixc
-        ImNyZWF0ZV9kYXRlXCI6XCIyMDE5LTAyLTIxIDA3OjM4OjUwLjBcIixcIml0
-        ZW1fYmFyY29kZVwiOlwiMzE5MjQxMjYxODQ2MDlcIixcIm1vZGlmeV9kYXRl
-        XCI6XCJcIixcInBlcm1fbG9jYXRpb25cIjp7XCJjb2RlXCI6XCJvbGluXCIs
-        XCJudW1iZXJcIjo5OSxcIm5hbWVcIjpcIk9saW4gTGlicmFyeVwiLFwibGli
-        cmFyeVwiOlwiT2xpbiBMaWJyYXJ5XCJ9fSJdLCJvY2xjX2lkX2Rpc3BsYXki
-        OlsiMTA1NzIzNzg5MSJdLCJhdmFpbGFiaWxpdHlfanNvbiI6IntcImF2YWls
-        YWJsZVwiOnRydWUsXCJhdmFpbEF0XCI6e1wiT2xpbiBMaWJyYXJ5XCI6XCJI
-        RjUzODEgLkMyNjU1NyAyMDIwXCJ9fSIsInB1Yl9kYXRlX2ZhY2V0IjoyMDIw
-        LCJmb3JtYXQiOlsiQm9vayJdLCJvbmxpbmUiOlsiQXQgdGhlIExpYnJhcnki
-        XSwic2NvcmUiOjEuNTE4NTEzOX0seyJhdXRob3JfZGlzcGxheSI6IlJvc3Ms
-        IFN0ZXBoZW4gQS4sIGF1dGhvciIsInRpdGxlX2Rpc3BsYXkiOiJFc3NlbnRp
-        YWxzIG9mIGNvcnBvcmF0ZSBmaW5hbmNlIiwiZnVsbHRpdGxlX2Rpc3BsYXki
-        OiJFc3NlbnRpYWxzIG9mIGNvcnBvcmF0ZSBmaW5hbmNlIiwic3VidGl0bGVf
-        ZGlzcGxheSI6IiIsInB1Yl9pbmZvX2Rpc3BsYXkiOlsiTmV3IFlvcmssIE5Z
-        IDogTWNHcmF3LUhpbGwgRWR1Y2F0aW9uLCBbMjAyMF0iXSwicHViX2RhdGVf
-        ZGlzcGxheSI6WyJbMjAyMF0iXSwibGFuZ3VhZ2VfZGlzcGxheSI6WyJFbmds
-        aXNoLiJdLCJpZCI6IjEwNzQzNjM5IiwiZWRpdGlvbl9kaXNwbGF5IjpbIlRl
-        bnRoIGVkaXRpb24uIl0sImhvbGRpbmdzX3JlY29yZF9kaXNwbGF5IjpbIntc
-        ImlkXCI6XCIxMTA0MDE1MVwiLFwibW9kaWZpZWRfZGF0ZVwiOlwiMjAxOTAz
-        MTMwOTMxNDFcIixcImNvcHlfbnVtYmVyXCI6bnVsbCxcImNhbGxub3NcIjpb
-        XCJIRzQwMjYgLlI2NzYgMjAyMFwiXSxcIm5vdGVzXCI6W10sXCJob2xkaW5n
-        c19kZXNjXCI6W10sXCJyZWNlbnRfaG9sZGluZ3NfZGVzY1wiOltdLFwic3Vw
-        cGxlbWVudGFsX2hvbGRpbmdzX2Rlc2NcIjpbXSxcImluZGV4X2hvbGRpbmdz
-        X2Rlc2NcIjpbXSxcImxvY2F0aW9uc1wiOlt7XCJjb2RlXCI6XCJqZ3NtXCIs
-        XCJudW1iZXJcIjo1OSxcIm5hbWVcIjpcIklMUiBMaWJyYXJ5IChJdmVzIEhh
-        bGwpXCIsXCJsaWJyYXJ5XCI6XCJJTFIgTGlicmFyeVwifV19Il0sIm9jbGNf
-        aWRfZGlzcGxheSI6WyIxMDc4OTcxMTUyIl0sImF2YWlsYWJpbGl0eV9qc29u
-        Ijoie1wiYXZhaWxhYmxlXCI6dHJ1ZSxcImF2YWlsQXRcIjp7XCJJTFIgTGli
-        cmFyeSAoSXZlcyBIYWxsKVwiOlwiSEc0MDI2IC5SNjc2IDIwMjBcIn19Iiwi
-        cHViX2RhdGVfZmFjZXQiOjIwMjAsImZvcm1hdCI6WyJCb29rIl0sIm9ubGlu
-        ZSI6WyJBdCB0aGUgTGlicmFyeSJdLCJzY29yZSI6MS41MTg1MTM5fSx7ImF1
-        dGhvcl9kaXNwbGF5IjoiSGVybWFuc29uLCBKb2huIFcuIiwidGl0bGVfZGlz
-        cGxheSI6Ik1pbGxlciBhbmQgRXZhbnMnIEFuYXRvbXkgb2YgdGhlIGRvZyIs
-        ImZ1bGx0aXRsZV9kaXNwbGF5IjoiTWlsbGVyIGFuZCBFdmFucycgQW5hdG9t
-        eSBvZiB0aGUgZG9nIiwic3VidGl0bGVfZGlzcGxheSI6IiIsInB1Yl9pbmZv
-        X2Rpc3BsYXkiOlsiW1N0LiBMb3VpcywgTWlzc291cmldIDogRWxzZXZpZXIs
-        IMKpMjAyMC4iXSwicHViX2RhdGVfZGlzcGxheSI6WyLCqTIwMjAiXSwibGFu
-        Z3VhZ2VfZGlzcGxheSI6WyJFbmdsaXNoLiJdLCJpZCI6IjEwNzE3MDA0Iiwi
-        ZWRpdGlvbl9kaXNwbGF5IjpbIkZpZnRoIGVkaXRpb24uIl0sImhvbGRpbmdz
-        X3JlY29yZF9kaXNwbGF5IjpbIntcImlkXCI6XCIxMTAxMzcyOVwiLFwibW9k
-        aWZpZWRfZGF0ZVwiOlwiMjAxOTAzMjYwNzQyNDBcIixcImNvcHlfbnVtYmVy
-        XCI6bnVsbCxcImNhbGxub3NcIjpbXCJTRjc2Ny5ENiBNNTQgMjAyMFwiXSxc
-        Im5vdGVzXCI6W10sXCJob2xkaW5nc19kZXNjXCI6W10sXCJyZWNlbnRfaG9s
-        ZGluZ3NfZGVzY1wiOltdLFwic3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2Nc
-        IjpbXSxcImluZGV4X2hvbGRpbmdzX2Rlc2NcIjpbXSxcImxvY2F0aW9uc1wi
-        Olt7XCJjb2RlXCI6XCJ2ZXQsY29yZVwiLFwibnVtYmVyXCI6MTM1LFwibmFt
-        ZVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5IENvcmUgUmVzb3VyY2UgKDUgaG91
-        ciBsb2FuKVwiLFwibGlicmFyeVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5XCJ9
-        XX0iLCJ7XCJpZFwiOlwiMTEwMTM3MzBcIixcIm1vZGlmaWVkX2RhdGVcIjpc
-        IjIwMTkwMzI2MDc0NDQ3XCIsXCJjb3B5X251bWJlclwiOlwiMlwiLFwiY2Fs
-        bG5vc1wiOltcIlNGNzY3LkQ2IE01NCAyMDIwXCJdLFwibm90ZXNcIjpbXSxc
-        ImhvbGRpbmdzX2Rlc2NcIjpbXSxcInJlY2VudF9ob2xkaW5nc19kZXNjXCI6
-        W10sXCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzY1wiOltdLFwiaW5kZXhf
-        aG9sZGluZ3NfZGVzY1wiOltdLFwibG9jYXRpb25zXCI6W3tcImNvZGVcIjpc
-        InZldCxjb3JlXCIsXCJudW1iZXJcIjoxMzUsXCJuYW1lXCI6XCJWZXRlcmlu
-        YXJ5IExpYnJhcnkgQ29yZSBSZXNvdXJjZSAoNSBob3VyIGxvYW4pXCIsXCJs
-        aWJyYXJ5XCI6XCJWZXRlcmluYXJ5IExpYnJhcnlcIn1dfSIsIntcImlkXCI6
-        XCIxMTAxMzczMVwiLFwibW9kaWZpZWRfZGF0ZVwiOlwiMjAxOTAzMjYwNzQ2
-        MzFcIixcImNvcHlfbnVtYmVyXCI6XCIzXCIsXCJjYWxsbm9zXCI6W1wiU0Y3
-        NjcuRDYgTTU0IDIwMjBcIl0sXCJub3Rlc1wiOltdLFwiaG9sZGluZ3NfZGVz
-        Y1wiOltdLFwicmVjZW50X2hvbGRpbmdzX2Rlc2NcIjpbXSxcInN1cHBsZW1l
-        bnRhbF9ob2xkaW5nc19kZXNjXCI6W10sXCJpbmRleF9ob2xkaW5nc19kZXNj
-        XCI6W10sXCJsb2NhdGlvbnNcIjpbe1wiY29kZVwiOlwidmV0LGNvcmVcIixc
-        Im51bWJlclwiOjEzNSxcIm5hbWVcIjpcIlZldGVyaW5hcnkgTGlicmFyeSBD
-        b3JlIFJlc291cmNlICg1IGhvdXIgbG9hbilcIixcImxpYnJhcnlcIjpcIlZl
-        dGVyaW5hcnkgTGlicmFyeVwifV19Iiwie1wiaWRcIjpcIjExMDEzNzMyXCIs
-        XCJtb2RpZmllZF9kYXRlXCI6XCIyMDE5MDMyNjA3NDgyMFwiLFwiY29weV9u
-        dW1iZXJcIjpcIjRcIixcImNhbGxub3NcIjpbXCJTRjc2Ny5ENiBNNTQgMjAy
-        MFwiXSxcIm5vdGVzXCI6W10sXCJob2xkaW5nc19kZXNjXCI6W10sXCJyZWNl
-        bnRfaG9sZGluZ3NfZGVzY1wiOltdLFwic3VwcGxlbWVudGFsX2hvbGRpbmdz
-        X2Rlc2NcIjpbXSxcImluZGV4X2hvbGRpbmdzX2Rlc2NcIjpbXSxcImxvY2F0
-        aW9uc1wiOlt7XCJjb2RlXCI6XCJ2ZXQsY29yZVwiLFwibnVtYmVyXCI6MTM1
-        LFwibmFtZVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5IENvcmUgUmVzb3VyY2Ug
-        KDUgaG91ciBsb2FuKVwiLFwibGlicmFyeVwiOlwiVmV0ZXJpbmFyeSBMaWJy
-        YXJ5XCJ9XX0iLCJ7XCJpZFwiOlwiMTEwMTM3MzNcIixcIm1vZGlmaWVkX2Rh
-        dGVcIjpcIjIwMTkwMzI2MDc1MDMxXCIsXCJjb3B5X251bWJlclwiOlwiNVwi
-        LFwiY2FsbG5vc1wiOltcIlNGNzY3LkQ2IE01NCAyMDIwXCJdLFwibm90ZXNc
-        IjpbXSxcImhvbGRpbmdzX2Rlc2NcIjpbXSxcInJlY2VudF9ob2xkaW5nc19k
-        ZXNjXCI6W10sXCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzY1wiOltdLFwi
-        aW5kZXhfaG9sZGluZ3NfZGVzY1wiOltdLFwibG9jYXRpb25zXCI6W3tcImNv
-        ZGVcIjpcInZldCxjb3JlXCIsXCJudW1iZXJcIjoxMzUsXCJuYW1lXCI6XCJW
-        ZXRlcmluYXJ5IExpYnJhcnkgQ29yZSBSZXNvdXJjZSAoNSBob3VyIGxvYW4p
-        XCIsXCJsaWJyYXJ5XCI6XCJWZXRlcmluYXJ5IExpYnJhcnlcIn1dfSIsIntc
-        ImlkXCI6XCIxMTAxMzczNFwiLFwibW9kaWZpZWRfZGF0ZVwiOlwiMjAxOTAz
-        MjYwNzUxNTFcIixcImNvcHlfbnVtYmVyXCI6XCI2XCIsXCJjYWxsbm9zXCI6
-        W1wiU0Y3NjcuRDYgTTU0IDIwMjBcIl0sXCJub3Rlc1wiOltdLFwiaG9sZGlu
-        Z3NfZGVzY1wiOltdLFwicmVjZW50X2hvbGRpbmdzX2Rlc2NcIjpbXSxcInN1
-        cHBsZW1lbnRhbF9ob2xkaW5nc19kZXNjXCI6W10sXCJpbmRleF9ob2xkaW5n
-        c19kZXNjXCI6W10sXCJsb2NhdGlvbnNcIjpbe1wiY29kZVwiOlwidmV0LGNv
-        cmVcIixcIm51bWJlclwiOjEzNSxcIm5hbWVcIjpcIlZldGVyaW5hcnkgTGli
-        cmFyeSBDb3JlIFJlc291cmNlICg1IGhvdXIgbG9hbilcIixcImxpYnJhcnlc
-        IjpcIlZldGVyaW5hcnkgTGlicmFyeVwifV19Iiwie1wiaWRcIjpcIjExMDEz
-        NzM1XCIsXCJtb2RpZmllZF9kYXRlXCI6XCIyMDE5MDMyNjA3NTM0MFwiLFwi
-        Y29weV9udW1iZXJcIjpcIjdcIixcImNhbGxub3NcIjpbXCJTRjc2Ny5ENiBN
-        NTQgMjAyMFwiXSxcIm5vdGVzXCI6W10sXCJob2xkaW5nc19kZXNjXCI6W10s
-        XCJyZWNlbnRfaG9sZGluZ3NfZGVzY1wiOltdLFwic3VwcGxlbWVudGFsX2hv
-        bGRpbmdzX2Rlc2NcIjpbXSxcImluZGV4X2hvbGRpbmdzX2Rlc2NcIjpbXSxc
-        ImxvY2F0aW9uc1wiOlt7XCJjb2RlXCI6XCJ2ZXQsY29yZVwiLFwibnVtYmVy
-        XCI6MTM1LFwibmFtZVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5IENvcmUgUmVz
-        b3VyY2UgKDUgaG91ciBsb2FuKVwiLFwibGlicmFyeVwiOlwiVmV0ZXJpbmFy
-        eSBMaWJyYXJ5XCJ9XX0iLCJ7XCJpZFwiOlwiMTEwMTM3MzhcIixcIm1vZGlm
-        aWVkX2RhdGVcIjpcIjIwMTkwMzI2MDc1NTA2XCIsXCJjb3B5X251bWJlclwi
-        OlwiOFwiLFwiY2FsbG5vc1wiOltcIlNGNzY3LkQ2IE01NCAyMDIwXCJdLFwi
-        bm90ZXNcIjpbXSxcImhvbGRpbmdzX2Rlc2NcIjpbXSxcInJlY2VudF9ob2xk
-        aW5nc19kZXNjXCI6W10sXCJzdXBwbGVtZW50YWxfaG9sZGluZ3NfZGVzY1wi
-        OltdLFwiaW5kZXhfaG9sZGluZ3NfZGVzY1wiOltdLFwibG9jYXRpb25zXCI6
-        W3tcImNvZGVcIjpcInZldCxjb3JlXCIsXCJudW1iZXJcIjoxMzUsXCJuYW1l
-        XCI6XCJWZXRlcmluYXJ5IExpYnJhcnkgQ29yZSBSZXNvdXJjZSAoNSBob3Vy
-        IGxvYW4pXCIsXCJsaWJyYXJ5XCI6XCJWZXRlcmluYXJ5IExpYnJhcnlcIn1d
-        fSIsIntcImlkXCI6XCIxMTA0NzI5OVwiLFwibW9kaWZpZWRfZGF0ZVwiOlwi
-        MjAxOTAzMjUwOTA4MTBcIixcImNvcHlfbnVtYmVyXCI6XCI5XCIsXCJjYWxs
-        bm9zXCI6W10sXCJub3Rlc1wiOltdLFwiaG9sZGluZ3NfZGVzY1wiOltdLFwi
-        cmVjZW50X2hvbGRpbmdzX2Rlc2NcIjpbXSxcInN1cHBsZW1lbnRhbF9ob2xk
-        aW5nc19kZXNjXCI6W10sXCJpbmRleF9ob2xkaW5nc19kZXNjXCI6W10sXCJs
-        b2NhdGlvbnNcIjpbe1wiY29kZVwiOlwidmV0XCIsXCJudW1iZXJcIjoxMzMs
-        XCJuYW1lXCI6XCJWZXRlcmluYXJ5IExpYnJhcnkgKFNjaHVybWFuIEhhbGwp
-        XCIsXCJsaWJyYXJ5XCI6XCJWZXRlcmluYXJ5IExpYnJhcnlcIn1dfSJdLCJp
-        dGVtX3JlY29yZF9kaXNwbGF5IjpbIntcImNvcHlfbnVtYmVyXCI6XCIxXCIs
-        XCJpdGVtX3R5cGVfbmFtZVwiOlwiYm9va1wiLFwiaXRlbV9pZFwiOlwiMTA2
-        NDQxNzZcIixcInllYXJcIjpcIlwiLFwiaXRlbV90eXBlX2lkXCI6XCIzXCIs
-        XCJjaHJvblwiOlwiXCIsXCJjYXB0aW9uXCI6XCJcIixcImhvbGRzX3BsYWNl
-        ZFwiOlwiMFwiLFwidGVtcF9sb2NhdGlvblwiOlwiMFwiLFwib25fcmVzZXJ2
-        ZVwiOlwiTlwiLFwiaXRlbV9lbnVtXCI6XCJcIixcIml0ZW1fc2VxdWVuY2Vf
-        bnVtYmVyXCI6XCIxXCIsXCJ0ZW1wX2l0ZW1fdHlwZV9pZFwiOlwiMFwiLFwi
-        bWZoZF9pZFwiOlwiMTEwMTM3MjlcIixcInJlY2FsbHNfcGxhY2VkXCI6XCIw
-        XCIsXCJjcmVhdGVfZGF0ZVwiOlwiMjAxOS0wMy0yMiAxMToyODoxMC4wXCIs
-        XCJpdGVtX2JhcmNvZGVcIjpcIjMxOTI0MTI2NDc1NDg2XCIsXCJtb2RpZnlf
-        ZGF0ZVwiOlwiXCIsXCJwZXJtX2xvY2F0aW9uXCI6e1wiY29kZVwiOlwidmV0
-        LGNvcmVcIixcIm51bWJlclwiOjEzNSxcIm5hbWVcIjpcIlZldGVyaW5hcnkg
-        TGlicmFyeSBDb3JlIFJlc291cmNlICg1IGhvdXIgbG9hbilcIixcImxpYnJh
-        cnlcIjpcIlZldGVyaW5hcnkgTGlicmFyeVwifX0iLCJ7XCJjb3B5X251bWJl
-        clwiOlwiMlwiLFwiaXRlbV90eXBlX25hbWVcIjpcImJvb2tcIixcIml0ZW1f
-        aWRcIjpcIjEwNjQ0MTc4XCIsXCJ5ZWFyXCI6XCJcIixcIml0ZW1fdHlwZV9p
-        ZFwiOlwiM1wiLFwiY2hyb25cIjpcIlwiLFwiY2FwdGlvblwiOlwiXCIsXCJo
-        b2xkc19wbGFjZWRcIjpcIjBcIixcInRlbXBfbG9jYXRpb25cIjpcIjBcIixc
-        Im9uX3Jlc2VydmVcIjpcIk5cIixcIml0ZW1fZW51bVwiOlwiXCIsXCJpdGVt
-        X3NlcXVlbmNlX251bWJlclwiOlwiMVwiLFwidGVtcF9pdGVtX3R5cGVfaWRc
-        IjpcIjBcIixcIm1maGRfaWRcIjpcIjExMDEzNzMwXCIsXCJyZWNhbGxzX3Bs
-        YWNlZFwiOlwiMFwiLFwiY3JlYXRlX2RhdGVcIjpcIjIwMTktMDMtMjIgMTE6
-        Mjg6NTcuMFwiLFwiaXRlbV9iYXJjb2RlXCI6XCIzMTkyNDEyNjQ3NTQ3OFwi
-        LFwibW9kaWZ5X2RhdGVcIjpcIlwiLFwicGVybV9sb2NhdGlvblwiOntcImNv
-        ZGVcIjpcInZldCxjb3JlXCIsXCJudW1iZXJcIjoxMzUsXCJuYW1lXCI6XCJW
-        ZXRlcmluYXJ5IExpYnJhcnkgQ29yZSBSZXNvdXJjZSAoNSBob3VyIGxvYW4p
-        XCIsXCJsaWJyYXJ5XCI6XCJWZXRlcmluYXJ5IExpYnJhcnlcIn19Iiwie1wi
-        Y29weV9udW1iZXJcIjpcIjNcIixcIml0ZW1fdHlwZV9uYW1lXCI6XCJib29r
-        XCIsXCJpdGVtX2lkXCI6XCIxMDY0NDE4MlwiLFwieWVhclwiOlwiXCIsXCJp
-        dGVtX3R5cGVfaWRcIjpcIjNcIixcImNocm9uXCI6XCJcIixcImNhcHRpb25c
-        IjpcIlwiLFwiaG9sZHNfcGxhY2VkXCI6XCIwXCIsXCJ0ZW1wX2xvY2F0aW9u
-        XCI6XCIwXCIsXCJvbl9yZXNlcnZlXCI6XCJOXCIsXCJpdGVtX2VudW1cIjpc
-        IlwiLFwiaXRlbV9zZXF1ZW5jZV9udW1iZXJcIjpcIjFcIixcInRlbXBfaXRl
-        bV90eXBlX2lkXCI6XCIwXCIsXCJtZmhkX2lkXCI6XCIxMTAxMzczMVwiLFwi
-        cmVjYWxsc19wbGFjZWRcIjpcIjBcIixcImNyZWF0ZV9kYXRlXCI6XCIyMDE5
-        LTAzLTIyIDExOjMwOjE4LjBcIixcIml0ZW1fYmFyY29kZVwiOlwiMzE5MjQx
-        MjY0NzU2NDNcIixcIm1vZGlmeV9kYXRlXCI6XCJcIixcInBlcm1fbG9jYXRp
-        b25cIjp7XCJjb2RlXCI6XCJ2ZXQsY29yZVwiLFwibnVtYmVyXCI6MTM1LFwi
-        bmFtZVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5IENvcmUgUmVzb3VyY2UgKDUg
-        aG91ciBsb2FuKVwiLFwibGlicmFyeVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5
-        XCJ9fSIsIntcImNvcHlfbnVtYmVyXCI6XCI0XCIsXCJpdGVtX3R5cGVfbmFt
-        ZVwiOlwiYm9va1wiLFwiaXRlbV9pZFwiOlwiMTA2NDQxODZcIixcInllYXJc
-        IjpcIlwiLFwiaXRlbV90eXBlX2lkXCI6XCIzXCIsXCJjaHJvblwiOlwiXCIs
-        XCJjYXB0aW9uXCI6XCJcIixcImhvbGRzX3BsYWNlZFwiOlwiMFwiLFwidGVt
-        cF9sb2NhdGlvblwiOlwiMFwiLFwib25fcmVzZXJ2ZVwiOlwiTlwiLFwiaXRl
-        bV9lbnVtXCI6XCJcIixcIml0ZW1fc2VxdWVuY2VfbnVtYmVyXCI6XCIxXCIs
-        XCJ0ZW1wX2l0ZW1fdHlwZV9pZFwiOlwiMFwiLFwibWZoZF9pZFwiOlwiMTEw
-        MTM3MzJcIixcInJlY2FsbHNfcGxhY2VkXCI6XCIwXCIsXCJjcmVhdGVfZGF0
-        ZVwiOlwiMjAxOS0wMy0yMiAxMTozMToyMS4wXCIsXCJpdGVtX2JhcmNvZGVc
-        IjpcIjMxOTI0MTI2NDc1NDYwXCIsXCJtb2RpZnlfZGF0ZVwiOlwiXCIsXCJw
-        ZXJtX2xvY2F0aW9uXCI6e1wiY29kZVwiOlwidmV0LGNvcmVcIixcIm51bWJl
-        clwiOjEzNSxcIm5hbWVcIjpcIlZldGVyaW5hcnkgTGlicmFyeSBDb3JlIFJl
-        c291cmNlICg1IGhvdXIgbG9hbilcIixcImxpYnJhcnlcIjpcIlZldGVyaW5h
-        cnkgTGlicmFyeVwifX0iLCJ7XCJjb3B5X251bWJlclwiOlwiNVwiLFwiaXRl
-        bV90eXBlX25hbWVcIjpcImJvb2tcIixcIml0ZW1faWRcIjpcIjEwNjQ0MTkx
-        XCIsXCJ5ZWFyXCI6XCJcIixcIml0ZW1fdHlwZV9pZFwiOlwiM1wiLFwiY2hy
-        b25cIjpcIlwiLFwiY2FwdGlvblwiOlwiXCIsXCJob2xkc19wbGFjZWRcIjpc
-        IjBcIixcInRlbXBfbG9jYXRpb25cIjpcIjBcIixcIm9uX3Jlc2VydmVcIjpc
-        Ik5cIixcIml0ZW1fZW51bVwiOlwiXCIsXCJpdGVtX3NlcXVlbmNlX251bWJl
-        clwiOlwiMVwiLFwidGVtcF9pdGVtX3R5cGVfaWRcIjpcIjBcIixcIm1maGRf
-        aWRcIjpcIjExMDEzNzMzXCIsXCJyZWNhbGxzX3BsYWNlZFwiOlwiMFwiLFwi
-        Y3JlYXRlX2RhdGVcIjpcIjIwMTktMDMtMjIgMTE6MzI6MjQuMFwiLFwiaXRl
-        bV9iYXJjb2RlXCI6XCIzMTkyNDEyNjQ3NTQ1MlwiLFwibW9kaWZ5X2RhdGVc
-        IjpcIlwiLFwicGVybV9sb2NhdGlvblwiOntcImNvZGVcIjpcInZldCxjb3Jl
-        XCIsXCJudW1iZXJcIjoxMzUsXCJuYW1lXCI6XCJWZXRlcmluYXJ5IExpYnJh
-        cnkgQ29yZSBSZXNvdXJjZSAoNSBob3VyIGxvYW4pXCIsXCJsaWJyYXJ5XCI6
-        XCJWZXRlcmluYXJ5IExpYnJhcnlcIn19Iiwie1wiY29weV9udW1iZXJcIjpc
-        IjZcIixcIml0ZW1fdHlwZV9uYW1lXCI6XCJib29rXCIsXCJpdGVtX2lkXCI6
-        XCIxMDY0NDIxNlwiLFwieWVhclwiOlwiXCIsXCJpdGVtX3R5cGVfaWRcIjpc
-        IjNcIixcImNocm9uXCI6XCJcIixcImNhcHRpb25cIjpcIlwiLFwiaG9sZHNf
-        cGxhY2VkXCI6XCIwXCIsXCJ0ZW1wX2xvY2F0aW9uXCI6XCIwXCIsXCJvbl9y
-        ZXNlcnZlXCI6XCJOXCIsXCJpdGVtX2VudW1cIjpcIlwiLFwiaXRlbV9zZXF1
-        ZW5jZV9udW1iZXJcIjpcIjFcIixcInRlbXBfaXRlbV90eXBlX2lkXCI6XCIw
-        XCIsXCJtZmhkX2lkXCI6XCIxMTAxMzczNFwiLFwicmVjYWxsc19wbGFjZWRc
-        IjpcIjBcIixcImNyZWF0ZV9kYXRlXCI6XCIyMDE5LTAzLTIyIDExOjQyOjA5
-        LjBcIixcIml0ZW1fYmFyY29kZVwiOlwiMzE5MjQxMjY0NzU0NDVcIixcIm1v
-        ZGlmeV9kYXRlXCI6XCJcIixcInBlcm1fbG9jYXRpb25cIjp7XCJjb2RlXCI6
-        XCJ2ZXQsY29yZVwiLFwibnVtYmVyXCI6MTM1LFwibmFtZVwiOlwiVmV0ZXJp
-        bmFyeSBMaWJyYXJ5IENvcmUgUmVzb3VyY2UgKDUgaG91ciBsb2FuKVwiLFwi
-        bGlicmFyeVwiOlwiVmV0ZXJpbmFyeSBMaWJyYXJ5XCJ9fSIsIntcImNvcHlf
-        bnVtYmVyXCI6XCI3XCIsXCJpdGVtX3R5cGVfbmFtZVwiOlwiYm9va1wiLFwi
-        aXRlbV9pZFwiOlwiMTA2NDQyMTlcIixcInllYXJcIjpcIlwiLFwiaXRlbV90
-        eXBlX2lkXCI6XCIzXCIsXCJjaHJvblwiOlwiXCIsXCJjYXB0aW9uXCI6XCJc
-        IixcImhvbGRzX3BsYWNlZFwiOlwiMFwiLFwidGVtcF9sb2NhdGlvblwiOlwi
-        MFwiLFwib25fcmVzZXJ2ZVwiOlwiTlwiLFwiaXRlbV9lbnVtXCI6XCJcIixc
-        Iml0ZW1fc2VxdWVuY2VfbnVtYmVyXCI6XCIxXCIsXCJ0ZW1wX2l0ZW1fdHlw
-        ZV9pZFwiOlwiMFwiLFwibWZoZF9pZFwiOlwiMTEwMTM3MzVcIixcInJlY2Fs
-        bHNfcGxhY2VkXCI6XCIwXCIsXCJjcmVhdGVfZGF0ZVwiOlwiMjAxOS0wMy0y
-        MiAxMTo0MzowMS4wXCIsXCJpdGVtX2JhcmNvZGVcIjpcIjMxOTI0MTI2NDc1
-        NDM3XCIsXCJtb2RpZnlfZGF0ZVwiOlwiXCIsXCJwZXJtX2xvY2F0aW9uXCI6
-        e1wiY29kZVwiOlwidmV0LGNvcmVcIixcIm51bWJlclwiOjEzNSxcIm5hbWVc
-        IjpcIlZldGVyaW5hcnkgTGlicmFyeSBDb3JlIFJlc291cmNlICg1IGhvdXIg
-        bG9hbilcIixcImxpYnJhcnlcIjpcIlZldGVyaW5hcnkgTGlicmFyeVwifX0i
-        LCJ7XCJjb3B5X251bWJlclwiOlwiOFwiLFwiaXRlbV90eXBlX25hbWVcIjpc
-        ImJvb2tcIixcIml0ZW1faWRcIjpcIjEwNjQ0MjIxXCIsXCJ5ZWFyXCI6XCJc
-        IixcIml0ZW1fdHlwZV9pZFwiOlwiM1wiLFwiY2hyb25cIjpcIlwiLFwiY2Fw
-        dGlvblwiOlwiXCIsXCJob2xkc19wbGFjZWRcIjpcIjBcIixcInRlbXBfbG9j
-        YXRpb25cIjpcIjBcIixcIm9uX3Jlc2VydmVcIjpcIk5cIixcIml0ZW1fZW51
-        bVwiOlwiXCIsXCJpdGVtX3NlcXVlbmNlX251bWJlclwiOlwiMVwiLFwidGVt
-        cF9pdGVtX3R5cGVfaWRcIjpcIjBcIixcIm1maGRfaWRcIjpcIjExMDEzNzM4
-        XCIsXCJyZWNhbGxzX3BsYWNlZFwiOlwiMFwiLFwiY3JlYXRlX2RhdGVcIjpc
-        IjIwMTktMDMtMjIgMTE6NDQ6NDEuMFwiLFwiaXRlbV9iYXJjb2RlXCI6XCIz
-        MTkyNDEyNjQ3NTY4NFwiLFwibW9kaWZ5X2RhdGVcIjpcIlwiLFwicGVybV9s
-        b2NhdGlvblwiOntcImNvZGVcIjpcInZldCxjb3JlXCIsXCJudW1iZXJcIjox
-        MzUsXCJuYW1lXCI6XCJWZXRlcmluYXJ5IExpYnJhcnkgQ29yZSBSZXNvdXJj
-        ZSAoNSBob3VyIGxvYW4pXCIsXCJsaWJyYXJ5XCI6XCJWZXRlcmluYXJ5IExp
-        YnJhcnlcIn19Il0sImF2YWlsYWJpbGl0eV9qc29uIjoie1wiYXZhaWxhYmxl
-        XCI6dHJ1ZSxcImF2YWlsQXRcIjp7XCJWZXRlcmluYXJ5IExpYnJhcnkgQ29y
-        ZSBSZXNvdXJjZSAoNSBob3VyIGxvYW4pXCI6XCJTRjc2Ny5ENiBNNTQgMjAy
-        MFwiLFwiVmV0ZXJpbmFyeSBMaWJyYXJ5IChTY2h1cm1hbiBIYWxsKVwiOm51
-        bGx9fSIsInB1Yl9kYXRlX2ZhY2V0IjoyMDIwLCJmb3JtYXQiOlsiQm9vayJd
-        LCJvbmxpbmUiOlsiQXQgdGhlIExpYnJhcnkiXSwic2NvcmUiOjEuNTE4NTEz
-        OX0seyJhdXRob3JfZGlzcGxheSI6Ik5vcnRob3VzZSwgUGV0ZXIgR3V5LCBh
-        dXRob3IiLCJ0aXRsZV9kaXNwbGF5IjoiTGVhZGVyc2hpcCBjYXNlIHN0dWRp
-        ZXMgaW4gZWR1Y2F0aW9uIiwiZnVsbHRpdGxlX2Rpc3BsYXkiOiJMZWFkZXJz
-        aGlwIGNhc2Ugc3R1ZGllcyBpbiBlZHVjYXRpb24iLCJzdWJ0aXRsZV9kaXNw
-        bGF5IjoiIiwicHViX2luZm9fZGlzcGxheSI6WyJUaG91c2FuZCBPYWtzLCBD
-        YWxpZm9ybmlhIDogU0FHRSBQdWJsaWNhdGlvbnMsIEluYy4sIFsyMDE5XSJd
-        LCJwdWJfZGF0ZV9kaXNwbGF5IjpbIlsyMDE5XSJdLCJsYW5ndWFnZV9kaXNw
-        bGF5IjpbIkVuZ2xpc2guIl0sImlkIjoiMTA0NDMwODYiLCJlZGl0aW9uX2Rp
-        c3BsYXkiOlsiU2Vjb25kIGVkaXRpb24uIl0sImFjcXVpcmVkX2R0IjoiMjAx
-        OC0wOC0xNVQwMDowMDowMFoiLCJob2xkaW5nc19yZWNvcmRfZGlzcGxheSI6
-        WyJ7XCJpZFwiOlwiMTA3NDQ3ODZcIixcIm1vZGlmaWVkX2RhdGVcIjpcIjIw
-        MTgwODE2MDc1OTMxXCIsXCJjb3B5X251bWJlclwiOm51bGwsXCJjYWxsbm9z
-        XCI6W1wiTEIyODA2IC5ONjQgMjAxOVwiXSxcIm5vdGVzXCI6W10sXCJob2xk
-        aW5nc19kZXNjXCI6W10sXCJyZWNlbnRfaG9sZGluZ3NfZGVzY1wiOltdLFwi
-        c3VwcGxlbWVudGFsX2hvbGRpbmdzX2Rlc2NcIjpbXSxcImluZGV4X2hvbGRp
-        bmdzX2Rlc2NcIjpbXSxcImxvY2F0aW9uc1wiOlt7XCJjb2RlXCI6XCJtYW5u
-        XCIsXCJudW1iZXJcIjo2OSxcIm5hbWVcIjpcIk1hbm4gTGlicmFyeVwiLFwi
-        bGlicmFyeVwiOlwiTWFubiBMaWJyYXJ5XCJ9XX0iXSwiaXRlbV9yZWNvcmRf
-        ZGlzcGxheSI6WyJ7XCJjb3B5X251bWJlclwiOlwiMVwiLFwiaXRlbV90eXBl
-        X25hbWVcIjpcImJvb2tcIixcIml0ZW1faWRcIjpcIjEwNTM0MzQxXCIsXCJ5
-        ZWFyXCI6XCJcIixcIml0ZW1fdHlwZV9pZFwiOlwiM1wiLFwiY2hyb25cIjpc
-        IlwiLFwiY2FwdGlvblwiOlwiXCIsXCJob2xkc19wbGFjZWRcIjpcIjBcIixc
-        InRlbXBfbG9jYXRpb25cIjp7XCJjb2RlXCI6XCJlbnRcIixcIm51bWJlclwi
-        OjI1LFwibmFtZVwiOlwiTWFubiBMaWJyYXJ5IE5ldyBCb29rIFNoZWxmXCIs
-        XCJsaWJyYXJ5XCI6XCJNYW5uIExpYnJhcnlcIn0sXCJvbl9yZXNlcnZlXCI6
-        XCJOXCIsXCJpdGVtX2VudW1cIjpcIlwiLFwiaXRlbV9zZXF1ZW5jZV9udW1i
-        ZXJcIjpcIjFcIixcInRlbXBfaXRlbV90eXBlX2lkXCI6XCIwXCIsXCJtZmhk
-        X2lkXCI6XCIxMDc0NDc4NlwiLFwicmVjYWxsc19wbGFjZWRcIjpcIjBcIixc
-        ImNyZWF0ZV9kYXRlXCI6XCIyMDE4LTA4LTE2IDA3OjU5OjU0LjBcIixcIml0
-        ZW1fYmFyY29kZVwiOlwiMzE5MjQxMjQ5NzM1ODFcIixcIm1vZGlmeV9kYXRl
-        XCI6XCIyMDE4LTA4LTIwIDE0OjIwOjIwLjBcIixcInBlcm1fbG9jYXRpb25c
-        Ijp7XCJjb2RlXCI6XCJtYW5uXCIsXCJudW1iZXJcIjo2OSxcIm5hbWVcIjpc
-        Ik1hbm4gTGlicmFyeVwiLFwibGlicmFyeVwiOlwiTWFubiBMaWJyYXJ5XCJ9
-        fSJdLCJvY2xjX2lkX2Rpc3BsYXkiOlsiMTAwNzUwMDk0NyJdLCJhdmFpbGFi
-        aWxpdHlfanNvbiI6IntcImF2YWlsYWJsZVwiOnRydWUsXCJhdmFpbEF0XCI6
-        e1wiTWFubiBMaWJyYXJ5XCI6XCJMQjI4MDYgLk42NCAyMDE5XCJ9fSIsInB1
-        Yl9kYXRlX2ZhY2V0IjoyMDE5LCJmb3JtYXQiOlsiQm9vayJdLCJvbmxpbmUi
-        OlsiQXQgdGhlIExpYnJhcnkiXSwic2NvcmUiOjEuNTA1MTV9XX0sImZhY2V0
-        X2NvdW50cyI6eyJmYWNldF9xdWVyaWVzIjp7fSwiZmFjZXRfZmllbGRzIjp7
-        ImZvcm1hdCI6WyJCb29rIiw3MDAxODc2LCJKb3VybmFsL1BlcmlvZGljYWwi
-        LDQxODI2OCwiTWljcm9mb3JtIiwzNTU3NjQsIk11c2ljYWwgUmVjb3JkaW5n
-        IiwyMzI0MTYsIlRoZXNpcyIsMjAxOTQ0LCJWaWRlbyIsMTA3NTI0LCJNdXNp
-        Y2FsIFNjb3JlIiwxMDExMTAsIk1hcCIsNjQ5MTUsIk1hbnVzY3JpcHQvQXJj
-        aGl2ZSIsMTY5NDUsIk5vbi1tdXNpY2FsIFJlY29yZGluZyIsMTAyNzNdLCJv
-        bmxpbmUiOlsiQXQgdGhlIExpYnJhcnkiLDU5Mzg5MzgsIk9ubGluZSIsMjIw
-        NTk5OF0sImxhbmd1YWdlX2ZhY2V0IjpbIkVuZ2xpc2giLDQ5NTAwMzQsIkdl
-        cm1hbiIsNTQ3NTI3LCJGcmVuY2giLDM0MzQ5MCwiU3BhbmlzaCIsMjkzMjk3
-        LCJDaGluZXNlIiwyNzExMzgsIlJ1c3NpYW4iLDE4NzIyNCwiSXRhbGlhbiIs
-        MTU0MDgyLCJJbmRvbmVzaWFuIiwxNDE0NzcsIkphcGFuZXNlIiwxMDUwNzEs
-        IlZpZXRuYW1lc2UiLDc3ODMxXSwibG9jYXRpb25fZmFjZXQiOlsiTGlicmFy
-        eSBBbm5leCIsMjQyMTU4OCwiT2xpbiBMaWJyYXJ5IiwxNzA4OTE4LCJLcm9j
-        aCBMaWJyYXJ5IEFzaWEiLDYyODk2NywiS3JvY2ggTGlicmFyeSBSYXJlICYg
-        TWFudXNjcmlwdHMiLDUxMTc1NCwiTXVzaWMgTGlicmFyeSIsMjAyNTQ3LCJM
-        YXcgTGlicmFyeSIsMjAxNDIyLCJNYW5uIExpYnJhcnkiLDE2NjY1MiwiVXJp
-        cyBMaWJyYXJ5IiwxNTIzMzcsIklMUiBMaWJyYXJ5IiwxMTA5MzAsIk1hdGhl
-        bWF0aWNzIExpYnJhcnkiLDUyNjY0XX0sImZhY2V0X3JhbmdlcyI6e30sImZh
-        Y2V0X2ludGVydmFscyI6e30sImZhY2V0X2hlYXRtYXBzIjp7fX19Cg==
+      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":565,"params":{"rows":"10","wt":"json"}},"response":{"numFound":8029167,"start":0,"maxScore":1.5185139,"docs":[{"author_display":"Vaughan,
+        Elaine","title_display":"Community and Identity in Teacher Professional Talk:
+        Applying Corpus Methodologies","fulltitle_display":"Community and Identity
+        in Teacher Professional Talk: Applying Corpus Methodologies","subtitle_display":"","pub_info_display":["London
+        Routledge 2020"],"pub_date_display":["2020"],"language_display":["English."],"id":"10429314","acquired_dt":"2018-07-26T00:00:00Z","holdings_record_display":["{\"id\":\"10731588\",\"modified_date\":\"20180726085224\",\"copy_number\":null,\"callnos\":[\"Available
+        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
+        Technical Services Review Shelves\",\"library\":null}]}"],"oclc_id_display":["1046544858"],"availability_json":"{\"available\":true,\"availAt\":{\"Library
+        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","pub_date_facet":2020,"format":["Book"],"score":1.5185139},{"author_display":"Baglione,
+        Lisa A., 1962- author","title_display":"Writing a research paper in political
+        science","fulltitle_display":"Writing a research paper in political science
+        : a practical guide to inquiry, structure, and methods","subtitle_display":"a
+        practical guide to inquiry, structure, and methods","pub_info_display":["Thousand
+        Oaks, California : CQ Press, an Imprint of SAGE Publications, Inc., [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10602789","edition_display":["Fourth
+        Edition."],"acquired_dt":"2019-02-21T00:00:00Z","holdings_record_display":["{\"id\":\"10900292\",\"modified_date\":\"20190221123650\",\"copy_number\":null,\"callnos\":[\"JA86
+        .B24 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10630615\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10900292\",\"recalls_placed\":\"0\",\"create_date\":\"2019-02-21
+        12:42:50.0\",\"item_barcode\":\"31924126363724\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1049577395"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Olin
+        Library\":\"JA86 .B24 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Mio, Jeffery Scott, 1954-
+        author","title_display":"Multicultural psychology","fulltitle_display":"Multicultural
+        psychology : understanding our diverse communities","subtitle_display":"understanding
+        our diverse communities","pub_info_display":["New York, New York : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10746975","edition_display":["Fifth
+        edition."],"acquired_dt":"2019-03-20T00:00:00Z","holdings_record_display":["{\"id\":\"11043368\",\"modified_date\":\"20190320073721\",\"copy_number\":null,\"callnos\":[\"HM1271
+        .M555 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10641553\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11043368\",\"recalls_placed\":\"0\",\"create_date\":\"2019-03-20
+        07:37:21.0\",\"item_barcode\":\"31924126190671\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1076461020"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"HM1271 .M555 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Schwalbe, Michael, 1956-
+        author","title_display":"Making a difference","fulltitle_display":"Making
+        a difference : using sociology to create a better world","subtitle_display":"using
+        sociology to create a better world","pub_info_display":["New York, NY : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10752548","acquired_dt":"2019-03-27T00:00:00Z","holdings_record_display":["{\"id\":\"11049443\",\"modified_date\":\"20190327104646\",\"copy_number\":null,\"callnos\":[\"HM585
+        .S377 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10645881\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11049443\",\"recalls_placed\":\"0\",\"create_date\":\"2019-03-27
+        10:46:46.0\",\"item_barcode\":\"31924126199904\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1055569849"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"HM585 .S377 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Smith, Gene A., 1963-
+        author","title_display":"In harm''s way","fulltitle_display":"In harm''s way
+        : a history of the American military experience","subtitle_display":"a history
+        of the American military experience","pub_info_display":["New York : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762030","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058450\",\"modified_date\":\"20190410121341\",\"copy_number\":null,\"callnos\":[\"E181
+        .S564 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651929\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058450\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
+        12:13:42.0\",\"item_barcode\":\"31924126207277\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1061864106"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"E181 .S564 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Wen, Eric, 1953- author","title_display":"Graphic
+        music analysis","fulltitle_display":"Graphic music analysis","subtitle_display":"","pub_info_display":["Lanham
+        : Rowman & Littlefield Publishers, Inc., [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762019","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058439\",\"modified_date\":\"20190410121336\",\"copy_number\":null,\"callnos\":[\"MT6
+        .W3337 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
+        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651918\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058439\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
+        12:13:36.0\",\"item_barcode\":\"31924126208028\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
+        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}}"],"oclc_id_display":["1037884442"],"availability_json":"{\"available\":true,\"availAt\":{\"Cox
+        Library of Music (Lincoln Hall)\":\"MT6 .W3337 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Eder, W. E. (Wolfgang
+        Ernst), author","title_display":"Systematic engineering design","fulltitle_display":"Systematic
+        engineering design : general model of procedures for systematic and methodical
+        engineering designing","subtitle_display":"general model of procedures for
+        systematic and methodical engineering designing","pub_info_display":["Boca
+        Raton, FL : Taylor & Francis Group, [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10638996","edition_display":["First
+        edition."],"acquired_dt":"2019-02-08T00:00:00Z","holdings_record_display":["{\"id\":\"10936343\",\"modified_date\":\"20190208152520\",\"copy_number\":null,\"callnos\":[\"Available
+        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
+        Technical Services Review Shelves\",\"library\":null}]}"],"oclc_id_display":["1029770202"],"availability_json":"{\"available\":true,\"availAt\":{\"Library
+        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","pub_date_facet":2020,"format":["Book"],"score":1.5185139},{"author_display":"Desnoyers,
+        Charles, 1952- author","title_display":"Patterns of East Asian history","fulltitle_display":"Patterns
+        of East Asian history","subtitle_display":"","pub_info_display":["New York
+        : Oxford University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10814793","acquired_dt":"2019-04-24T00:00:00Z","holdings_record_display":["{\"id\":\"11110796\",\"modified_date\":\"20190424142307\",\"copy_number\":null,\"callnos\":[\"DS511
+        .D47 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"was\",\"number\":139,\"name\":\"Kroch
+        Library Asia\",\"library\":\"Kroch Library Asia\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10666269\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11110796\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-24
+        14:23:07.0\",\"item_barcode\":\"31924126214620\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"was\",\"number\":139,\"name\":\"Kroch
+        Library Asia\",\"library\":\"Kroch Library Asia\"}}"],"oclc_id_display":["1099201203"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Kroch
+        Library Asia\":\"DS511 .D47 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Newnan, Donald G., author","title_display":"Engineering
+        economic analysis","fulltitle_display":"Engineering economic analysis","subtitle_display":"","pub_info_display":["New
+        York : Oxford University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10825474","edition_display":["Fourteenth
+        Edition."],"acquired_dt":"2019-05-03T00:00:00Z","holdings_record_display":["{\"id\":\"11121156\",\"modified_date\":\"20190503145827\",\"copy_number\":null,\"callnos\":[\"Available
+        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
+        Technical Services Review Shelves\",\"library\":null}]}"],"oclc_id_display":["1080553809"],"availability_json":"{\"available\":true,\"availAt\":{\"Library
+        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","pub_date_facet":2020,"format":["Book"],"score":1.5185139},{"author_display":"Libby,
+        Robert, author","title_display":"Financial accounting","fulltitle_display":"Financial
+        accounting","subtitle_display":"","pub_info_display":["New York, NY : McGraw-Hill
+        Education, [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10828018","edition_display":["Tenth
+        edition."],"acquired_dt":"2019-05-13T00:00:00Z","holdings_record_display":["{\"id\":\"11123500\",\"modified_date\":\"20190513124305\",\"copy_number\":null,\"callnos\":[\"HF5635
+        .L684 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123502\",\"modified_date\":\"20190513124507\",\"copy_number\":\"2\",\"callnos\":[\"HF5635
+        .L684 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123504\",\"modified_date\":\"20190513124719\",\"copy_number\":\"3\",\"callnos\":[\"HF5635
+        .L684 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123505\",\"modified_date\":\"20190510161039\",\"copy_number\":\"4\",\"callnos\":[\"On
+        Order\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123506\",\"modified_date\":\"20190510161055\",\"copy_number\":\"5\",\"callnos\":[\"On
+        Order\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10673324\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11123500\",\"recalls_placed\":\"0\",\"create_date\":\"2019-05-13
+        12:43:52.0\",\"item_barcode\":\"31924126479934\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}}","{\"copy_number\":\"2\",\"item_type_name\":\"book\",\"item_id\":\"10673326\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11123502\",\"recalls_placed\":\"0\",\"create_date\":\"2019-05-13
+        12:45:53.0\",\"item_barcode\":\"31924126479926\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
+        Library (Ives Hall)\",\"library\":\"ILR Library\"}}"],"oclc_id_display":["1056201013","1056201013"],"availability_json":"{\"available\":true,\"availAt\":{\"ILR
+        Library (Ives Hall)\":\"On Order\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",7055214,"Journal/Periodical",397563,"Microform",355715,"Musical
+        Recording",234636,"Thesis",202250,"Video",106347,"Musical Score",101834,"Map",64934,"Manuscript/Archive",17005,"Non-musical
+        Recording",10328],"online":["At the Library",5949565,"Online",2230414],"language_facet":["English",4963349,"German",547061,"French",344337,"Spanish",293786,"Chinese",272474,"Russian",187642,"Italian",154457,"Indonesian",142158,"Japanese",105518,"Latin",80715],"location_facet":["Library
+        Annex",2427492,"Olin Library",1712927,"Kroch Library Asia",627132,"Kroch Library
+        Rare & Manuscripts",512488,"Music Library",202799,"Law Library",201766,"Mann
+        Library",166926,"Uris Library",152642,"ILR Library",111047,"Mathematics Library",52727]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}}}
+
+'
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:40 GMT
+  recorded_at: Tue, 14 May 2019 18:16:52 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:10:40 GMT
+      - Tue, 14 May 2019 18:16:52 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:40 GMT
+      - Tue, 14 May 2019 18:16:52 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:15:22 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"NDlkMTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '21428'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -577,7 +189,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":117,
+            "QTime":179,
             "params":{
               "q":"\"Anthropology\"",
               "indent":"true",
@@ -862,37 +474,37 @@ http_interactions:
                   "Theater, Film and Television"]}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:40 GMT
+  recorded_at: Tue, 14 May 2019 18:16:52 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:10:40 GMT
+      - Tue, 14 May 2019 18:16:52 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:40 GMT
+      - Tue, 14 May 2019 18:16:52 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:13:46 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"YThlMDYyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '3848'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -904,7 +516,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":79,
+            "QTime":52,
             "params":{
               "q":"\"Anthropology (Core)\"",
               "indent":"true",
@@ -946,37 +558,37 @@ http_interactions:
                   "Sociology and Rural Development (Core)"]}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:40 GMT
+  recorded_at: Tue, 14 May 2019 18:16:52 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/database?id=5366869&indent=true&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/database?id=5366869&indent=true&wt=json
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:10:40 GMT
+      - Tue, 14 May 2019 18:16:52 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:40 GMT
+      - Tue, 14 May 2019 18:16:52 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:15:22 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"NDlkMTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '1236'
+      - '1235'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -988,12 +600,12 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":6,
+            "QTime":8,
             "params":{
               "indent":"true",
               "id":"5366869",
               "wt":"json"}},
-          "response":{"numFound":1,"start":0,"maxScore":13.999214,"docs":[
+          "response":{"numFound":1,"start":0,"maxScore":14.01224,"docs":[
               {
                 "title_display":"AnthroSource",
                 "fulltitle_display":"AnthroSource",
@@ -1009,31 +621,31 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:40 GMT
+  recorded_at: Tue, 14 May 2019 18:16:52 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/databases?defType=dismax&indent=true&q=MLA&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databases?defType=dismax&indent=true&q=MLA&wt=json
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:10:49 GMT
+      - Tue, 14 May 2019 18:17:03 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:49 GMT
+      - Tue, 14 May 2019 18:17:04 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:16:53 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"ODRjYTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -1051,13 +663,23 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":488,
+            "QTime":246,
             "params":{
               "q":"MLA",
               "defType":"dismax",
               "indent":"true",
               "wt":"json"}},
-          "response":{"numFound":4,"start":0,"maxScore":617688.9,"docs":[
+          "response":{"numFound":4,"start":0,"maxScore":641542.0,"docs":[
+              {
+                "title_display":"MLA directory of periodicals",
+                "fulltitle_display":"MLA directory of periodicals",
+                "subtitle_display":"",
+                "id":"6961751",
+                "summary_display":["Presents detailed information on more than 7,100 periodicals in the areas of literature, language, linguistics, and folklore, with 4,400 currently indexed in the MLA International Bibliography. The entries list editorial addresses, phone numbers, fax numbers, e-mail addresses, frequency of publication, descriptions of the periodicals' scopes, circulation figures, subscription prices and addresses, advertising information, and submission guidelines."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/6961751|Connect to full text."],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CXE\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/6961751\"}"],
+                "sixfivethree":["Directories",
+                  "General Interest and Reference"]},
               {
                 "title_display":"MLA international bibliography",
                 "fulltitle_display":"MLA international bibliography",
@@ -1069,16 +691,6 @@ http_interactions:
                 "sixfivethree":["Arts and Humanities",
                   "Linguistics, Language and Literature (Core)",
                   "Theater, Film and Television (Core)"]},
-              {
-                "title_display":"MLA directory of periodicals",
-                "fulltitle_display":"MLA directory of periodicals",
-                "subtitle_display":"",
-                "id":"6961751",
-                "summary_display":["Presents detailed information on more than 7,100 periodicals in the areas of literature, language, linguistics, and folklore, with 4,400 currently indexed in the MLA International Bibliography. The entries list editorial addresses, phone numbers, fax numbers, e-mail addresses, frequency of publication, descriptions of the periodicals' scopes, circulation figures, subscription prices and addresses, advertising information, and submission guidelines."],
-                "url_access_display":["http://resolver.library.cornell.edu/misc/6961751|Connect to full text."],
-                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CXE\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/6961751\"}"],
-                "sixfivethree":["Directories",
-                  "General Interest and Reference"]},
               {
                 "title_display":"Literature online",
                 "fulltitle_display":"Literature online : the home of literature and criticism",
@@ -1103,35 +715,35 @@ http_interactions:
                   "Newspapers, Magazines and Current Events"]}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:50 GMT
+  recorded_at: Tue, 14 May 2019 18:17:04 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/databasesBySubject?indent=true&q=%22Images%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%22&wt=json
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:10:53 GMT
+      - Tue, 14 May 2019 18:17:07 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:53 GMT
+      - Tue, 14 May 2019 18:17:07 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:16:53 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"YTlkMTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1145,7 +757,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":47,
+            "QTime":252,
             "params":{
               "q":"\"Images\"",
               "indent":"true",
@@ -1573,37 +1185,37 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:53 GMT
+  recorded_at: Tue, 14 May 2019 18:17:07 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:10:53 GMT
+      - Tue, 14 May 2019 18:17:07 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:10:53 GMT
+      - Tue, 14 May 2019 18:17:07 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:09:54 GMT
+      - Tue, 14 May 2019 18:13:46 GMT
       Etag:
-      - '"ZWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"YThlMDYyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '2769'
+      - '2770'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1615,7 +1227,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":27,
+            "QTime":184,
             "params":{
               "q":"\"Images (Core)\"",
               "indent":"true",
@@ -1660,5 +1272,5 @@ http_interactions:
                   "Images (Core)"]}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:10:53 GMT
+  recorded_at: Tue, 14 May 2019 18:17:08 GMT
 recorded_with: VCR 4.0.0

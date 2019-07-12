@@ -2,28 +2,28 @@
 http_interactions:
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/culdigreg?q=*
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/culdigreg?q=*
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:11:00 GMT
+      - Tue, 14 May 2019 18:17:15 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:11:00 GMT
+      - Tue, 14 May 2019 18:17:15 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:10:56 GMT
+      - Tue, 14 May 2019 18:16:53 GMT
       Etag:
-      - '"OWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"ODRjYTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Via:
@@ -41,7 +41,7 @@ http_interactions:
           'responseHeader'=>{
             'zkConnected'=>true,
             'status'=>0,
-            'QTime'=>80,
+            'QTime'=>67,
             'params'=>{
               'q'=>'*'}},
           'response'=>{'numFound'=>85,'start'=>0,'docs'=>[
@@ -644,31 +644,31 @@ http_interactions:
                 'url_access_json'=>['{"providercode":"PRVAGG","description":"Digital collection","url":"http://resolver.library.cornell.edu/misc/5861081"}']}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:11:00 GMT
+  recorded_at: Tue, 14 May 2019 18:17:15 GMT
 - request:
     method: get
-    uri: http://da-prod-solr7.library.cornell.edu/solr/b11/culdigreg?q=hip%20hop
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/culdigreg?q=hip%20hop
     body:
       encoding: UTF-8
       string: ''
     headers:
       User-Agent:
-      - HTTPClient/1.0 (2.8.3, ruby 2.3.1 (2016-04-26))
+      - HTTPClient/1.0 (2.8.3, ruby 2.5.5 (2019-03-15))
       Accept:
       - "*/*"
       Date:
-      - Wed, 27 Mar 2019 16:11:06 GMT
+      - Tue, 14 May 2019 18:17:24 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Wed, 27 Mar 2019 16:11:06 GMT
+      - Tue, 14 May 2019 18:17:24 GMT
       Last-Modified:
-      - Wed, 27 Mar 2019 16:10:56 GMT
+      - Tue, 14 May 2019 18:16:53 GMT
       Etag:
-      - '"OWRhZWRjMDAwMDAwMDAwMFNvbHI="'
+      - '"ODRjYTEyMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Content-Length:
@@ -686,7 +686,7 @@ http_interactions:
           'responseHeader'=>{
             'zkConnected'=>true,
             'status'=>0,
-            'QTime'=>325,
+            'QTime'=>629,
             'params'=>{
               'q'=>'hip hop'}},
           'response'=>{'numFound'=>2,'start'=>0,'docs'=>[
@@ -706,5 +706,5 @@ http_interactions:
                 'url_access_json'=>['{"description":"Connect to Hip hop party and event flyers.","url":"http://hdl.handle.net/1813.001/8002837"}']}]
           }}
     http_version: 
-  recorded_at: Wed, 27 Mar 2019 16:11:06 GMT
+  recorded_at: Tue, 14 May 2019 18:17:25 GMT
 recorded_with: VCR 4.0.0
