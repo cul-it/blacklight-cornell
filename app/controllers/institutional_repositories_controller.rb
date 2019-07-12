@@ -1,6 +1,6 @@
 class InstitutionalRepositoriesController < ApplicationController
-  
-  before_filter :heading
+
+  before_action :heading
 
   def heading
     @heading='Institutional Repository Search'
