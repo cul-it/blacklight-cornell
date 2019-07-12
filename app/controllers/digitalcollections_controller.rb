@@ -3,7 +3,7 @@ class DigitalcollectionsController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-  before_filter :heading
+  before_action :heading
 
   def heading
    @heading='Digital Collections'

@@ -5,7 +5,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::Configurable
 #  include Blacklight::SolrHelper
   include CornellCatalogHelper
-  include Blacklight::SearchHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
@@ -46,17 +45,20 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   # own controller.
   included do
     if   ENV['SAML_IDP_TARGET_URL']
-      prepend_before_filter :set_return_path
+      prepend_before_action :set_return_path
     end
     helper_method :search_action_url, :search_action_path, :search_facet_url, :display_helper
-    before_filter :search_session, :history_session
-    before_filter :delete_or_assign_search_session_params, :only => :index
-#    before_filter :add_cjk_params_logic
-    after_filter :set_additional_search_session_values, :only=>:index
+    before_action :search_session, :history_session
+    before_action :delete_or_assign_search_session_params, :only => :index
+#    before_action :add_cjk_params_logic
+    after_action :set_additional_search_session_values, :only=>:index
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
-    rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
+    # BLACKLIGHT 7 note: InvalidSolrID is no longer included as a Blacklight Excreption 
+    # and raises an unititialized constant error. A RecordNotFound error is now raised.
+    # rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
+    rescue_from Blacklight::Exceptions::RecordNotFound, :with => :record_not_found_error
     # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
     # The index action will more than likely throw this one.
     # Example, when the standard query parser is used, and a user submits a "bad" query.
@@ -66,7 +68,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
 
     def search_action_path *args
-
       if args.first.is_a? Hash
         args.first[:only_path] = true
       end
@@ -92,8 +93,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     ActionController::Parameters.permit_all_parameters = true
     zparams = ActionController::Parameters.new(utf8: "✓", :boolean_row => {"1"=>"AND"}, q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["publisher number/other identifier", "publisher number/other identifier"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
-    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
     (@response, @document_list) = search_results(zparams)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     num = @response["response"]["numFound"]
@@ -115,8 +116,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def index
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
     set_bag_name 
     # make sure we are not going directly to home page
    if !params[:qdisplay].nil?
@@ -132,6 +133,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
       if params[:q].include?('%2520')
         params[:q].gsub!('%2520',' ')
+      end
+      if params[:q].include?('%2F') or params[:q].include?('/')
+        params[:q].gsub!('%2F','')
+        params[:q].gsub!('/','')
       end
       if params[:search_field] == 'isbn%2Fissn' or params[:search_field] == 'isbn/issn'
         params[:search_field] = 'isbnissn'
@@ -169,7 +174,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    (@response, @document_list) = search_results(params)
+    (@response, @document_list) = search_service.search_results #search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     if temp_search_field != ''
@@ -207,7 +212,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     tmp = BentoSearch::Results.new
     if !(params[:search_field] == 'call number')
     if expandable_search?
-      searcher = BentoSearch::MultiSearcher.new(:summon, :worldcat)
+      searcher = BentoSearch::ConcurrentSearcher.new(:summon, :worldcat)
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
       query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
@@ -252,7 +257,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get single document from the solr index
   def show
-    @response, @document = fetch params[:id]
+    @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
     set_bag_name 
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
@@ -289,7 +294,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
-      response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
+      response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
       search_session['per_page'] = query_params[:per_page]
       @search_context_response = response
@@ -340,7 +345,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # citation action
     def citation
-      @response, @documents = fetch(params[:id])
+      @response, @documents = search_service.fetch params[:id]
+      @documents = [ @documents ]
+      respond_to do |format|
+        format.html { render :layout => false }
+      end
     end
 
     # grabs a bunch of documents to export to endnote
@@ -357,7 +366,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
       else
-        @response, @documents = fetch(params[:id])
+        @response, @documents = search_service.fetch(params[:id])
       end
       fmt = params[:format]
       Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
@@ -451,7 +460,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
 
     def librarian_view
-      @response, @document = fetch params[:id]
+      @response, @document = search_service.fetch params[:id]
 
       respond_to do |format|
         format.html
@@ -506,6 +515,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
+        value = value.to_unsafe_h if key == "f"
         session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
@@ -583,7 +593,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
-    def invalid_solr_id_error
+    def record_not_found_error
       if Rails.env == 'development'
         render # will give us the stack trace
       else

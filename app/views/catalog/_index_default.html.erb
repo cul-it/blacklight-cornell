@@ -7,16 +7,17 @@
     <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
     <% formats = simple_render_index_field_value document, :field => 'format' %>
     <% formats.each do |format| %>
-    <%= format.html_safe %>
+      <span class="format">
+        <%= format.html_safe %>
+      </span>
     <% end %>
-    <span class="format"></span>
     <span class="blacklight-pub_info_display"><%= simple_render_index_field_value document, :field => 'pub_info_display' %></span>
     <span class="blacklight-language_display"><%= simple_render_index_field_value document, :field => 'language_display' %></span>
     <span class="blacklight-edition_display"><%= simple_render_index_field_value document, :field => 'edition_display' %></span>
 
   </div>
   <% if online_url(document) %>
-    <i class="fa fa-check" title="Available" aria-hidden="true" alt=""></i> <a class="status-online label label-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);" aria-label="Record <%=document.id%>">Online</a>
+    <i class="fa fa-check" title="Available" aria-hidden="true" alt=""></i> <a class="status-online badge badge-primary badge-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);" aria-label="Record <%=document.id%>">Online</a>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" >

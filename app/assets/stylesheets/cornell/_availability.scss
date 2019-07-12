@@ -15,8 +15,8 @@
 	}
 	.location-online {
 		color: white;
-		background: $teal;
-		border-color: $teal;
+		background: $green;
+		border-color: $green;
 	}
 	.url_findingaid_display {
 		display: block;
@@ -39,6 +39,9 @@
 	.status {
 		margin: 0 0 .5em 0;
 	}
+	.card-block {
+		padding: .5em;
+	}
 }
 .availability.well {
 	padding: 0;
@@ -47,7 +50,7 @@ h3.rare {
 	margin-bottom: 0;
 }
 .label-available {
-	background: $teal;
+	background: $green;
 	margin-right: .5em;
 	font-size: 90%;
 	font-weight: normal;
@@ -65,7 +68,6 @@ h3.rare {
 	margin: 0 .5em .25em 0;
 }
 .holdings-online {
-	border-bottom: 2px solid $light-tan;
 	padding-bottom: .5em;
 	.online-label {
 		font-size: 16px;
@@ -129,8 +131,8 @@ h3.rare {
 	.btn {
 		margin-bottom: 5px;
 	}
-	.btn-default {
-		border-bottom-color: #ccc; 
+	.btn-outline-secondary {
+		border-bottom-color: #6c757d; 
 		border-bottom-style: solid;
 	}
 }
@@ -197,13 +199,13 @@ h3.rare {
 		}
 	}
 	.other-form-title {
-		font-size: 110%;
+		font-size: 101%;
 		color: $gray-dark;
 		display: block;
 		margin-bottom: .25em;
 	}
 	.label-online:hover {
-		background: $teal;
+		background: $green;
 		pointer: none;
 	}
 	.other-form-online {

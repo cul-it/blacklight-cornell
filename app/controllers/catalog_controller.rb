@@ -3,13 +3,14 @@ class CatalogController < ApplicationController
   
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
-  include Blacklight::SearchHelper
+#  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
+  include Blacklight::DefaultComponentConfiguration
 
   if   ENV['SAML_IDP_TARGET_URL']
-    before_filter :authenticate_user!, only: [  :email, :oclc_request ]
-    #prepend_before_filter :set_return_path
+    before_action :authenticate_user!, only: [  :email, :oclc_request ]
+    #prepend_before_action :set_return_path
   end
 
   # Ensure that the configuration file is present
@@ -81,6 +82,9 @@ end
     config.index.partials << 'microformat'
     config.show.partials << 'microformat'
     # end of unapi config.
+
+    ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
+    config.raw_endpoint.enabled = true
 
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
@@ -291,15 +295,17 @@ end
     #config.add_index_field 'published_vern_display', :label => 'Published'
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
     config.add_index_field 'pub_date', :label => 'Publication date'
+    config.add_index_field 'pub_date_display', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition', :helper_method => :render_single_value
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    # These 3 title related fields called directly in _show_metadata partial
+    # These title related fields called directly in _show_metadata partial
     # -- title_display
+    # -- title_vern_display
     # -- subtitle_display
-    # -- title_responsibility_display
+    # -- subtitle_vern_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_json', :label => 'Author, etc.'
     config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }

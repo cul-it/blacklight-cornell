@@ -26,7 +26,6 @@
       </div>
     <%# end %>
 
-
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
     <div class="status">
       <span class="online-label">
@@ -61,19 +60,34 @@
               <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y") %>
             <% end %>
           <% elsif item["status"]["code"].keys[0] == "9" || item["status"]["code"].keys[0] == "10" %>
-            In transit <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            In transit 
+            <% if !item["status"]["date"].nil? %>
+              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            <% end %>
           <% elsif item["status"]["code"].keys[0] == "12" %>
-            Missing <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            Missing 
+            <% if !item["status"]["date"].nil? %>
+              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            <% end %>
           <% elsif item["status"]["code"].keys[0] == "23"|| item["status"]["code"].keys[0] == "25" %>
-            Requested <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            Requested 
+            <% if !item["status"]["date"].nil? %>
+              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            <% end %>
+          <%# Status 18 = At Bindery %>
           <% elsif item["status"]["code"].keys[0] == "18" %>
-              <%= item["status"]["code"].values[0] %> <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <%= item["status"]["code"].values[0] %> 
+              <% if !item["status"]["date"].nil? %>
+                <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <% end %>
+          <%# Status 7 = On Hold, 6 = Hold Request %>
           <% elsif item["status"]["code"].keys[0] == "7" || item["status"]["code"].keys[0] == "6" %>
               <%= item["status"]["code"].values[0] %>
           <% else %>
               <%= item["status"]["code"].values[0] %>
-          <%#=  Unavailable <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
-              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <% if !item["status"]["date"].nil? %>
+                <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <% end %>
           <% end %>
       <%end %>
       <% if item["recalls"].present? || item["holds"].present? %>
