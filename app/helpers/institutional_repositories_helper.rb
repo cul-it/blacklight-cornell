@@ -127,6 +127,7 @@ module InstitutionalRepositoriesHelper
         return r
     end
 
+    # copied from singlecore - for id:ss\:*
     def set_fq(environment)
         if environment == 'development'
           fq = '-active_fedora_model_ssi:"Page"
