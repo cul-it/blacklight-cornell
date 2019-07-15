@@ -92,8 +92,8 @@ class SearchBuilder < Blacklight::SearchBuilder
     # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
-#        blacklight_params[:q] = "(+title:ethnoarchaeology\\:) OR title:\"ethnoarchaeology\\:\""
- #       user_parameters[:q] = blacklight_params[:q]
+       # blacklight_params[:q] = "(+title:100%) OR title_phrase:\"100%\""
+        user_parameters[:q] = blacklight_params[:q]
         user_parameters["mm"] = "1"
       end
     end
@@ -856,7 +856,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 #       my_params.delete(:op_row)
  #      my_params.delete(:search_field_row)
  #      my_params.delete(:boolean_row)
-   #    my_params[:q] = "subject:(+hydrology) OR \"hydrology\""
+     #  my_params[:q] = "(title:hydrology) OR title_phrase:\"hydrology\""
         my_params[:mm] = 1
         blacklight_params = my_params
   #      my_params[:q] = '(madness OR quoted:"mentally ill" OR quoted:"mental illness" OR insanity )' # OR phrase:("madness "mentally ill" "mental illness" insanity")'
