@@ -1,16 +1,12 @@
 <% if @headingsResponse.present?  %>
-  <div class="return-link">
-    <% if !request.xhr? %>
+  <% if !request.xhr? %>
+    <div class="return-link">
       <%= link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to list
       <% end %>
-    <% else %>
-      <%= link_to "#" do %>
-        x
-      <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <% @headingsResponse.each do |data| %>
     <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
     <% if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil? %>
