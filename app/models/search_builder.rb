@@ -37,12 +37,15 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
     end
 #    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
+    Rails.logger.info("(*)(*)(*) USER PARAMETERS (*)(*)(*) ")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
 #    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
     query_string = ""
     qparam_display = ""
     my_params = {}
+    
+    user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks"
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
@@ -97,6 +100,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters["mm"] = "1"
       end
     end
+    Rails.logger.info("(*)(*)(*) " + user_parameters.inspect + " (*)(*)(*) ")
   end
 
   def cjk_query_addl_params(params)
