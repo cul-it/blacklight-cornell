@@ -9,7 +9,7 @@
 # however you want.
 # jetty_path is only required for rake tasks that need to know
 # how to start up solr, generally for automated testing.
-# 
+#
 
 integration:
   url: <%= ENV['SOLR_INT_SERVER'] %>
@@ -17,8 +17,8 @@ integration:
 development:
   url: <%= ENV['SOLR_DEV_SERVER'] %>
 
-#test: &test
-#  url: <%= ENV['SOLR_TEST_SERVER'] %>
+test: &test
+  url: <%= ENV['SOLR_PROD_SERVER'] %>
 
 production:
   url: <%= ENV['SOLR_PROD_SERVER'] %>
