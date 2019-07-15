@@ -345,10 +345,17 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # citation action
     def citation
-      @response, @documents = search_service.fetch params[:id]
-      @documents = [ @documents ]
+      # Determine whether we're on the show item page or the selected items page.
+      # The former will have an id.
+      if params.has_key?(:id)
+        @response, @documents = search_service.fetch params[:id]
+        @documents = [ @documents ]
+      else
+        @response, @documents = action_documents
+      end
       respond_to do |format|
         format.html { render :layout => false }
+        format.js { render :layout => false }
       end
     end
 

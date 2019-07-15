@@ -25,7 +25,7 @@
   <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true" alt=""></i>' + t('blacklight.tools.cite') %>
   <li>
     <% if bookmarks_index %>
-      <%= link_to "/bookmarks/citation", {:id => 'citationLink', :name => 'citation', :class => 'lightboxLink btn btn-sm'} do %>
+      <%= link_to "/bookmarks/citation", {:id => 'citationLink', :name => 'citation', :class => 'lightboxLink btn btn-sm', data: {}.merge({ blacklight_modal: "trigger" })} do %>
         <%= citelink_content.html_safe %>
       <% end %>
    <% elsif bookbags_index %>
@@ -33,7 +33,7 @@
         <%= citelink_content.html_safe %>
       <% end %>
    <% elsif citable %>
-      <%= link_to citation_solr_document_path(:id => @document), {:id => 'citationLink', :name => 'citation', :class => 'lightboxLink btn btn-default btn-sm', data: {}.merge({ blacklight_modal: "trigger" }) } do %>
+      <%= link_to citation_solr_document_path(:id => @document), {:id => 'citation', :name => 'citationSolr', :class => 'lightboxLink btn btn-default btn-sm', data: {}.merge({ blacklight_modal: "trigger" }) } do %>
         <%= citelink_content.html_safe %>
       <% end %>
 <% end %>
