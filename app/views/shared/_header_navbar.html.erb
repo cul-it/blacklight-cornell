@@ -58,7 +58,6 @@
             return
           <% else %>
             <h1>
-            <a href="<%=root_path%>">Library Catalog</a>
             <!-- set the @heading in the controller for the specialized view -->
             <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
             </h1>
