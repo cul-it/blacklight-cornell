@@ -215,25 +215,13 @@ padding-left: 6em;
 
 // Authorities info popup
 // ----------------------------- //
-#document {
+.catalog-show {
 	.popover {
 		max-width: 100%;
 		h2 {
 			margin: 0 0 .25em 0;
 			font-size: 18px;
 			line-height: 1.2em;
-		}
-		.return-link {
-			float: right;
-			a {
-				color: $medium-gray;
-				border: 0;
-				font-weight: 700;
-			}
-			a:hover, a:active, a:focus {
-				color: $light-gray;
-				border: 0;
-			}
 		}
 		.author-works {
 			margin-left: 0;
@@ -254,6 +242,9 @@ padding-left: 6em;
 				margin-left: 0;
 				margin-bottom: 0;
 			}
+		}
+		a {
+			cursor: pointer;
 		}
 	}
 	.info-button, .info-button:hover, .info-button:active, .info-button:focus {
