@@ -85,7 +85,7 @@ Feature: Results list
 			And I should see the text "or use advanced search"
 
   @all_results_list @search_with_view_all_libguides
-  Scenario: Search and find a course guide 
+  Scenario: Search and find a course guide
 	    Given I literally go to search
 	    When I fill in "q" with 'chemical process design course guide'
 	    And I press 'Search'
@@ -127,7 +127,7 @@ Feature: Results list
     Then I should get bento results
     Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
 
-  @all_results_list 
+  @all_results_list
   @search_with_view_all_books_match_box_with_percent
   Scenario: Search with view all books link
     Given I literally go to search
