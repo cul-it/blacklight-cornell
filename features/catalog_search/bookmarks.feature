@@ -8,7 +8,7 @@ Feature: Bookmarks for anonymous users
     Scenario: Does the bookmarks page exist
         When I literally go to bookmarks
         Then I should be on 'the bookmarks page'
-        Then Sign in should link to Book Bags 
+        Then Sign in should link to Book Bags
         And I should see a link "Selected Items"
 
     #@saml_on
@@ -24,7 +24,7 @@ Feature: Bookmarks for anonymous users
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
-		Then I should get results    
+		Then I should get results
         And there should be 0 items selected
         Then I select the first <count> catalog results
         When I literally go to bookmarks
@@ -37,7 +37,7 @@ Feature: Bookmarks for anonymous users
     | 3 |
     | 4 |
     | 5 |
- 
+
     #@saml_on
     @bookmarks_sign_in_links
     Scenario: I should log in via Book_bags from the Bookmarks page
@@ -48,14 +48,14 @@ Feature: Bookmarks for anonymous users
         When I literally go to advanced
         Then Sign in should link to the SAML login system
         When I literally go to bookmarks
-        Then Sign in should link to Book Bags 
+        Then Sign in should link to Book Bags
 
     @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
-		Then I should get results    
+		Then I should get results
         Then I select the first 3 catalog results
         When I view my selected items
         Then I should be on 'the bookmarks page'
@@ -74,7 +74,7 @@ Feature: Bookmarks for anonymous users
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
-		Then I should get results    
+		Then I should get results
         Then I select the first 3 catalog results
         When I view my selected items
         Then I should be on 'the bookmarks page'
@@ -95,7 +95,7 @@ Feature: Bookmarks for anonymous users
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
-		Then I should get results    
+		Then I should get results
         Then I select the first 3 catalog results
         When I view my selected items
         Then I should be on 'the bookmarks page'

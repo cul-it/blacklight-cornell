@@ -167,22 +167,24 @@ Feature: Results list
   #  I could not get the checkIP step to pass so i removed the count check step.
   @all_results_list @search_with_view_all_article_match_box
   Scenario: Search with view all article link should match bento box total
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with 'stress testing cardio horse insights'
     And I press 'Search'
     Then I should get bento results
-    #Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
+    Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
 
 
   #Given PENDING
   #  I could not get the checkIP step to pass so i removed the count check step.
   @all_results_list @search_with_view_all_article_match_box
   Scenario: Search with view all article link should match bento box total
+    Given PENDING
     Given I literally go to search
     When I fill in "q" with 'photoplethysmography methodological studies arterial stiffness'
     And I press 'Search'
     Then I should get bento results
-    #Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
+    Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
 
 
   # Given PENDING
