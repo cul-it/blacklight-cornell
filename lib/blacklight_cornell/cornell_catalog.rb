@@ -367,7 +367,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
           bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT] 
         end
-        @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
+        @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
       else
         @response, @documents = search_service.fetch(params[:id])

@@ -10,10 +10,9 @@
     %>
     <% if callnumbers.any? %>
         <div class="browse-call-number">
-            <h3>Browse related items by call number</h3>
-            <ul class="list-inline">
+            <h3 class="mt-4">Browse related items by call number</h3>
             <% callnumbers.each do |callnumber| %>
-                <li><%= link_to callnumber, '/browse?' + {:browse_type => 'Call-Number', :authq => callnumber}.to_query, {:class => "btn btn-cul"} %></li>
+                <%= link_to callnumber, '/browse?' + {:browse_type => 'Call-Number', :authq => callnumber}.to_query, {:class => "btn btn-cul mb-2"} %>
             <% end %>
             </ul>
         </div>

@@ -1,16 +1,12 @@
 <% if @headingsResponse.present?  %>
-  <div class="return-link">
-    <% if !request.xhr? %>
+  <% if !request.xhr? %>
+    <div class="return-link">
       <%= link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to list
       <% end %>
-    <% else %>
-      <%= link_to "#" do %>
-        x
-      <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <% @headingsResponse.each do |data| %>
     <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
     <% if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil? %>
@@ -86,9 +82,9 @@
           Reference Info
         </h3>
       <% end %>
-      <dl class="dl-horizontal">
+      <dl>
         <% if !data["notes"].nil? %>
-          <dt>
+          <d4>
             Scope note:
           </dt>
           <dd>
@@ -121,7 +117,7 @@
             <% sa=JSON.parse(data["seeAlso"]) %>
             <% sa.each do |r,h| %>
               <% if r.blank? %>
-                <dt>
+                <d4>
                   See Also:
                 </dt>
               <% end %>
@@ -183,7 +179,7 @@
           <% end %>
         <% end %>
         <% if !data["alternateForm"].nil? && !request.xhr? %>
-          <dt>
+          <d4>
             Alternate form(s):
           </dt>
           <% data["alternateForm"].each do |af| %>
@@ -193,7 +189,7 @@
           <% end %>
         <% end %>
         <% if data["headingTypeDesc"].present? && !request.xhr? %>
-          <dt>
+          <d4>
             Headings type:
           </dt>
           <dd>
@@ -208,11 +204,11 @@
           </h3>
         <% end %>
         <% if data["rda_json"].present? %>
-          <dl class="dl-horizontal">
+          <dl>
             <% rda=JSON.parse(data["rda_json"]) %>
             <% rda.each do |t,d| %>
               <% unless t == "Gender" %>
-              <dt>
+              <d4>
                 <%= t + ':' %>
               </dt>
               <% d.each do |data| %>
