@@ -113,3 +113,8 @@ end
 #     page.should have_selector("#{elem}[#{attribute}=#{value}][#{attribute2}=#{value2}]")
 #   end
 # end
+
+
+Then("I should see a {string} tag with url containing {string}") do |string, string2|
+  expect(page).to have_xpath("//#{string}[contains(@src,'#{string2}')]")
+end
