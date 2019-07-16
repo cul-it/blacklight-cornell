@@ -32,28 +32,33 @@ Feature: Browse search
         And I select 'Subject' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'China's Industrialization Process'
+    Then click on link "China's Industrialization Process"
 
   @browse
   Scenario: Search for author-title combination
-    Given I literally go to browse
-        And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio'
-        And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
+    Given I am on the browse page
+        And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio (1805)'
+        And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)'
-    Then click on link "Beethoven, Ludwig van, 1770-1827. | Fidelio (1805)"
+    Then I should see the label 'Beethoven, Ludwig van, 1770-1827 | Fidelio (1805)'
+    Then click on link "Beethoven, Ludwig van, 1770-1827"
+    Then I should see the label 'Beethoven, Ludwig van, 1770-1827'
+    Then click on first link "Beethoven, Ludwig van, 1770-1827"
     And I should get results
-    Then I should see the label '1 - 7 of 7'
+    Then I should see the label '1 - 20 of'
 
   @browse
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Hitchens, Bert'
-        And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
+        And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'Hitchens, Bert. | End of the line'
-    Then click on link "Hitchens, Bert. | End of the line"
-    And I should get results
-    Then I should see the label '1 result'
+        Then I should see the label 'Hitchens, Bert'
+        Then click on first link "Hitchens, Bert"
+#    	Then I should see the label 'Hitchens, Bert. | End of the line'
+#    	Then click on link "Hitchens, Bert. | End of the line"
+        And I should get results
+        Then I should see the label '4 catalog results'
 
   @browse
   Scenario: Search for author-title combination
@@ -92,8 +97,8 @@ Feature: Browse search
 
   Examples:
   | location | title |
-  | ✓ All | Publish! : the how-to magazine of desktop publishing |
-  | Adelson Library | A distributional study of the reptiles of Maryland and the District of Columbia |
+  | located in 2nd Floor Reading Room | Publish! : the how-to magazine of desktop publishing |
+  | London 4349 | A midsummer night's dream |
   | Africana Library | The collected works of Scott Joplin |
   | Bailey Hortorium | L'architecture comparée dans l'Inde et l'Extrême-Orient, par Henri Marchal |
   | CISER Data Archive | Overall Real Property Tax Rates : Local Governments, 1981 |
