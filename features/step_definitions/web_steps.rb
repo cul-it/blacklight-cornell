@@ -136,7 +136,7 @@ When("I view my selected items") do
 end
 
 When("I view my citations") do
-  page.find(:xpath, '//a[@id="citeLink"]').click
+  page.find(:xpath, '//a[@id="citationLink"]').click
 end
 
 def what_is(element)
