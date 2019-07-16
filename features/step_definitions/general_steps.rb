@@ -75,7 +75,7 @@ Then /I should select checkbox "(.*)"$/i do |target|
 end
 
 Then /I should select radio "(.*)"$/i do |target|
-  case target 
+  case target
     when 'OR'
       page.all(:xpath, "//input[@value='OR']").first.click
     when 'AND'
