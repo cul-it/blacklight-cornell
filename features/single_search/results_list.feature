@@ -157,10 +157,6 @@ Feature: Results list
 
   @all_results_list @search_with_view_all_book_match_box_ampersand
   Scenario: Search with view all books link  with ampersand
-    Given PENDING
-    Given I literally go to search
-    When I fill in "q" with 'america & nepal'
-    And I press 'Search'
     Given I literally go to search
     When I fill in "q" with 'america & nepal'
     And I press 'Search'
