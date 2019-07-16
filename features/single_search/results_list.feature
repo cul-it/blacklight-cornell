@@ -106,7 +106,7 @@ Feature: Results list
     When I fill in "q" with 'nature morte'
     And I press 'Search'
     # Then I should get bento results
-    Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list @search_with_view_all_manuscript_archive
   Scenario: Search with view all music link
@@ -114,7 +114,7 @@ Feature: Results list
     When I fill in "q" with 'george burr upton'
     And I press 'Search'
     Then I should get bento results
-		Then box "link_top_manuscript_archive" should match "0" th "from Catalog" in "page_entries"
+		Then box "link_top_manuscript_archive" should match "0" th "from Catalog" in "page-entries"
 
 
 
@@ -125,7 +125,7 @@ Feature: Results list
     When I fill in "q" with 'chicken and egg'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list
   @search_with_view_all_books_match_box_with_percent
@@ -135,7 +135,7 @@ Feature: Results list
     When I fill in "q" with 'beefsteak'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_book" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list @search_with_view_all_computer_file_match_box_with_ampersand
   Scenario: Search with view all journals link
@@ -143,7 +143,7 @@ Feature: Results list
     When I fill in "q" with '100 Vietnamese painters & sculptors'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_computer_file" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_computer_file" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list @search_with_view_all_journals_match_box_ampersand
   Scenario: Search with view all journals link  with ampersand
@@ -151,7 +151,7 @@ Feature: Results list
     When I fill in "q" with 'u & lc'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page-entries"
 
 
   @all_results_list @search_with_view_all_book_match_box_ampersand
@@ -164,7 +164,7 @@ Feature: Results list
     When I fill in "q" with 'america & nepal'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_book" should match "0" th "from Catalog" in "page-entries"
 
   #  Given PENDING
   #  I could not get the checkIP step to pass so i removed the count check step.
@@ -196,7 +196,7 @@ Feature: Results list
     When I fill in "q" with 'Gold debts'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_book" should match "0" th "from Catalog" in "page_entries"
+    Then box "link_top_book" should match "0" th "from Catalog" in "page-entries"
 
 
 # Combinatorial Algorithms, Algorithmic Press
