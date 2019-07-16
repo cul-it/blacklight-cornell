@@ -200,7 +200,6 @@ Feature: Results list
 # there is duplicate code here to defeat the 'circular dependency' problem,
 # which sometimes results in false failures.
 @all_results_list
-@javascript
   Scenario: Perform an search with an unquoted call number
     Given I literally go to search
     When I fill in "q" with 'QA76.6 .C85 1972'
@@ -217,7 +216,6 @@ Feature: Results list
 # there is duplicate code here to defeat the 'circular dependency' problem,
 # which sometimes results in false failures.
 @all_results_list
-@javascript
   Scenario: Perform an search with a quoted call number
     Given I literally go to search
     When I fill in "q" with quoted 'QA76.6 .C85 1972'
