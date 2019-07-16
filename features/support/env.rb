@@ -69,10 +69,11 @@ require 'capybara/email'
 Capybara.default_selector = :css
 # by default, uses selenium for javascript, but using poltergeist allows using phantomjs
 require 'capybara/poltergeist'
+options = {js_errors: false, :phantomjs => Phantomjs.path, timeout: 2.minute}
 Capybara.register_driver :poltergeist do |app|
   #Capybara::Poltergeist::Driver.new(app, {debug: false})
   #Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute,js_errors: false)
-  Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute)
+  Capybara::Poltergeist::Driver.new(app, options)
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.server = :webrick
