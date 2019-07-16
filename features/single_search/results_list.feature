@@ -218,8 +218,12 @@ Feature: Results list
     Then I should get bento results
     And I should see the text "Combinatorial algorithms"
 
+# bent search result digital collections thumbnails
+@all_results_list
+  Scenario: Search results should contain thumbnails
     Given I literally go to search
-    When I fill in "q" with quoted 'QA76.6 .C85 1972'
+    When I fill in "q" with 'New York Times'
     And I press 'search'
     Then I should get bento results
-    And I should see the text "Combinatorial algorithms"
+    And I should see the "img-thumbnail" class 3 times
+    And I should see a "img" tag with url containing "size0"
