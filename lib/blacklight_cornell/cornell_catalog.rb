@@ -23,6 +23,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
+    refp =""
     refp.sub!('/range_limit','') unless refp.nil?
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
     session[:cuwebauth_return_path] =
@@ -173,6 +174,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
+    Rails.logger.info("Buttocks25 #{params}")
+    params[:sort]= ''
+    #params = {"utf8"=>"✓", "controller"=>"catalog", "action"=>"index", "q"=>"(+title:100%) OR title_phrase:\"100%\"", "search_field"=>"title", "qdisplay"=>"100%"}
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     (@response, @document_list) = search_service.search_results #search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -345,17 +349,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # citation action
     def citation
-      # Determine whether we're on the show item page or the selected items page.
-      # The former will have an id.
-      if params.has_key?(:id)
-        @response, @documents = search_service.fetch params[:id]
-        @documents = [ @documents ]
-      else
-        @response, @documents = action_documents
-      end
+      @response, @documents = search_service.fetch params[:id]
+      @documents = [ @documents ]
       respond_to do |format|
         format.html { render :layout => false }
-        format.js { render :layout => false }
       end
     end
 
@@ -888,6 +885,8 @@ def check_params(params)
     #      params[:q] = '*'
     #    end 
 #    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
+#    params[:q] = "(title:100%) OR title_phrase:\"100%\""
+    Rails.logger.info("Butt2 = #{params}")
    return params
   end
 
