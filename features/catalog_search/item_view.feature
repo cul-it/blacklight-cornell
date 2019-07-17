@@ -144,12 +144,14 @@ Feature: Item view
     Given I request the item view for 30000
     Then I should see the label 'Library Annex'
 
-  # Availability simple, one location, and is NOT available
-  # Inequality, Anthony B Atkinson. 
+  # The Kroch copy of this book has been checked out since July 1992.
+  # https://newcatalog.library.cornell.edu/catalog/1208939
+  # As a backup, I think this is a different patron who has had this book since October 1992:
+  # https://newcatalog.library.cornell.edu/catalog/473013
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
-    Given I request the item view for 8916645
+    Given I request the item view for 1208939
     Then I should see the label 'Checked out, due'
 
   # availability -- several copies,all copy1, checked out.
