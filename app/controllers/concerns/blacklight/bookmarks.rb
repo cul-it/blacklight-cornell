@@ -37,6 +37,13 @@ module Blacklight::Bookmarks
     search_catalog_url(*args)
   end
 
+  def citation
+    @response, @documents = action_documents
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
+
   def index
     # if block is custom code
     if current_user && Bookbag.enabled?
