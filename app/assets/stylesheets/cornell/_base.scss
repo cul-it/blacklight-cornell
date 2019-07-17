@@ -244,8 +244,11 @@ div.select_all label {
 }
 
 .dl-horizontal dt {
-
     float: left;
     clear: left;
     text-align: right;
+}
+
+.modal-header {
+	display: block !important;
 }
