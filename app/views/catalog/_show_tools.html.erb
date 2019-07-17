@@ -49,7 +49,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to '/bookmarks/show_email_login_required_bookmarks', {:name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn btn-sm", "data-toggle" => "modal"}  do %>
+        <%= link_to '/bookmarks/show_email_login_required_bookmarks', {:name => 'Email', :data => {:blacklight_modal => "trigger"}, :class => "lightboxLink btn btn-sm", "data-toggle" => "modal"}  do %>
           <%= emaillink_content.html_safe %>
         <% end %>
       <% end %>
@@ -63,7 +63,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to email_require_login_path(:id => @document), {:id => 'email-link', :name => 'Email', :data => {:ajax_modal => "trigger"}, :class => "lightboxLink btn btn-default btn-sm", "data-toggle" => "modal"}  do %>
+        <%= link_to email_require_login_path(:id => @document), {:id => 'email-link', :name => 'Email', :data => {:blacklight_modal => "trigger"}, :class => "lightboxLink btn btn-default btn-sm", "data-toggle" => "modal"}  do %>
           <%= emaillink_content.html_safe %>
         <% end %>
       <% end %>
