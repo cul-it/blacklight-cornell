@@ -77,7 +77,10 @@ class SearchBuilder < Blacklight::SearchBuilder
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
            blacklight_params[:q] = "(lc_callnum:\"" + blacklight_params[:q] + "\") OR lc_callnum_phrase:\"" + blacklight_params[:q] + "\""
-           blacklight_params[:sort] = "callnum_sort"
+           blacklight_params[:sort] = "callnum_sort asc"
+           user_parameters[:q] = blacklight_params[:q]
+           user_parameters[:sort] = blacklight_params[:sort]
+          # user_parameters[:sort_order] = "asc"
           #user_parameters[:sort] = blacklight_params[:sort]
         end
         if blacklight_params[:search_field] == 'author/creator'
