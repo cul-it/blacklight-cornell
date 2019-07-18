@@ -75,8 +75,8 @@ end
 
 Then("I click on the first search result") do
   patiently do
-    within ('div#documents.documents-list') do
-      page.find(:xpath, '//a[@data-counter="1"]').click
+    within (page.find('#documents')) do
+      first(:css, 'h2.blacklight-title_display a').click
     end
   end
 end
