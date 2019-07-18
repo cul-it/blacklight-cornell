@@ -72,15 +72,23 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
+      Rails.logger.info("MYCALL = #{user_parameters}")
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
+           blacklight_params[:q] = "(lc_callnum:\"" + blacklight_params[:q] + "\") OR lc_callnum_phrase:\"" + blacklight_params[:q] + "\""
+           blacklight_params[:sort] = "callnum_sort asc"
+           user_parameters[:q] = blacklight_params[:q]
+           user_parameters[:sort] = blacklight_params[:sort]
+          # user_parameters[:sort_order] = "asc"
+          #user_parameters[:sort] = blacklight_params[:sort]
         end
         if blacklight_params[:search_field] == 'author/creator'
            blacklight_params[:search_field] = 'author'
         end
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
-          blacklight_params[:q] = blacklight_params[:q]
+          blacklight_params[:q] = "(\"" + blacklight_params[:q] + "\") OR phrase:\"" + blacklight_params[:q] + "\""
+         # blacklight_params[:q] = blacklight_params[:q]
         else
           if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts' 
             blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
@@ -94,8 +102,9 @@ class SearchBuilder < Blacklight::SearchBuilder
     # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
        # blacklight_params[:search_field] = ''
-       # blacklight_params[:q] = "(+title:100%) OR title_phrase:\"100%\""
+     #   blacklight_params[:q] = "(+lc_callnum:\"PQ6657.U37 P63\") OR lc_callnum_phrase:\"PQ6657.U37 P63\""
         user_parameters[:q] = blacklight_params[:q]
+        
         user_parameters["mm"] = "1"
       end
     end
@@ -172,6 +181,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def massage_params(params)
+    Rails.logger.info("MYCALL = #{params}")
     rowHash = {}
     opArray = []
     query_string = ""
@@ -266,6 +276,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 
 
   def parse_single(params)
+    Rails.logger.info("MYCALL = #{params}")
     query_string = ""
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
@@ -305,6 +316,7 @@ class SearchBuilder < Blacklight::SearchBuilder
            end
          end
       end
+      Rails.logger.info("MYCALL = #{query_string}")
       return query_string
   end
 
@@ -507,7 +519,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        end
         index = index +1      
      end
-    
+    Rail.logger.info("MYCALL = #{q_rowArray}")
  
      return q_rowArray     
    end
