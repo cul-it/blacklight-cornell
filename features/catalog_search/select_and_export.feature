@@ -21,7 +21,7 @@ Feature: Select and export items from the result set
     Then I should see the text '%E Prattis, J. I'
     Then I should see the text '%I American Anthropological Association'
     Then I should see the text '%@ 091316710X'
-    Then I should see the text '%T Reflections  the anthropological muse'
+    Then I should see the text '%T Reflections'
     Then I should see the text '%K Anthropology Poetry.'
     Then I should see the text '%K American poetry 20th century.'
     Then I should see the text '%K Anthropologists' writings, English.'
@@ -36,11 +36,11 @@ Feature: Select and export items from the result set
     Then I should see the text '%0 Electronic Book'
     Then I should see the text '%A Boyle, P. R'
     Then I should see the text '%C Ames, Iowa'
-    Then I should see the text '%T Cephalopods  ecology and fisheries' 
     Then I should see the text '%D 2005'
     Then I should see the text '%E Rodhouse, Paul'
     Then I should see the text '%I Blackwell Science'
     Then I should see the text '%@ 0632060484 (hardback : alk. paper)'
+    Then I should see the text '%T Cephalopods'
 
 ###
 ###
