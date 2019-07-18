@@ -519,9 +519,9 @@ class SearchBuilder < Blacklight::SearchBuilder
        end
         index = index +1
      end
-    Rail.logger.info("MYCALL = #{q_rowArray}")
- 
-     return q_rowArray     
+    Rails.logger.info("MYCALL = #{q_rowArray}")
+
+     return q_rowArray
    end
 
    def get_sfr_name(sfr)
