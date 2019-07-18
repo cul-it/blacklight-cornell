@@ -204,7 +204,6 @@ end
 
 Then("I should see {int} selected items") do |int|
   patiently do
-    what_is(page.find(:xpath, "//a[@id='bookmarks_nav']"))
     page.find(:xpath, "//a[@id='bookmarks_nav']/span")
     page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}")
   end
