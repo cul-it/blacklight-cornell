@@ -142,8 +142,11 @@ end
 def what_is(element)
   puts "\n********************* what is V\n"
   puts page.current_url.inspect
+  puts "\n"
   puts element.inspect
+  puts "\n"
   puts element['innerHTML']
+  puts "\n"
   puts "\n********************* what is ^\n"
 end
 
@@ -201,7 +204,6 @@ end
 
 Then("I should see {int} selected items") do |int|
   patiently do
-    what_is(page.find(:xpath, "//a[@id='bookmarks_nav']"))
     page.find(:xpath, "//a[@id='bookmarks_nav']/span")
     page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}")
   end

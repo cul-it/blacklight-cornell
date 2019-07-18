@@ -36,7 +36,7 @@ Feature: Browse search
 
   @browse
   Scenario: Search for author-title combination
-    Given I am on the browse page
+    Given I literally go to browse
         And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio (1805)'
         And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
