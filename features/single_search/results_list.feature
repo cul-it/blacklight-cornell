@@ -121,7 +121,7 @@ Feature: Results list
   @all_results_list
   @search_with_view_all_journals_match_box_with_percent
   Scenario: Search with view all journals link
-    Given PENDING - counts disagree 122 vs 150
+    #Given PENDING - counts disagree 122 vs 150
     Given I literally go to search
     When I fill in "q" with 'chicken and egg'
     And I press 'Search'
