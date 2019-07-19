@@ -66,7 +66,7 @@ Feature: Results list
     When I fill in "q" with 'nature'
     And I press 'Search'
     When I follow "link_top_book"
-    And I should see the text "The nature of desire"
+    And I should see the text "the double helix"
 
 		@all_results_list @search_with_view_all_digital_collections
 	  Scenario: Search with view all books link
