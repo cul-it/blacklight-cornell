@@ -18,7 +18,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   #    solr_parameters[:sort] = browsing_sortby.field
     end
   end
-  
+
   #sort call number searches by call number
   def sortby_callnum user_parameters
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
@@ -43,7 +43,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     query_string = ""
     qparam_display = ""
     my_params = {}
-    
+
     user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present?
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
@@ -57,7 +57,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           spellstring += term += ' '
           #spellstring  += term +  ' '
         end
-      
+
       #  user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
       end
@@ -66,7 +66,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
-    else 
+    else
       if blacklight_params[:q].nil?
         blacklight_params[:q] = ''
       end
@@ -90,21 +90,21 @@ class SearchBuilder < Blacklight::SearchBuilder
           blacklight_params[:q] = "(\"" + blacklight_params[:q] + "\") OR phrase:\"" + blacklight_params[:q] + "\""
          # blacklight_params[:q] = blacklight_params[:q]
         else
-          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts' 
+          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
             blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
           else
             if !blacklight_params[:q].include?("title_starts")
              #blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
-            end              
+            end
           end
      #   blacklight_params[:q] = blacklight_params[:q]
         end
     # justa placeholder
-    #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q] 
+    #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
        # blacklight_params[:search_field] = ''
      #   blacklight_params[:q] = "(+lc_callnum:\"PQ6657.U37 P63\") OR lc_callnum_phrase:\"PQ6657.U37 P63\""
         user_parameters[:q] = blacklight_params[:q]
-        
+
         user_parameters["mm"] = "1"
       end
     end
@@ -121,7 +121,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       if num_cjk_uni(params[:q]) > 0
         cjk_query_addl_params({}, params)
       end
-      
+
       if num_uni > 0
         case params[:search_field]
           when 'all_fields', nil
@@ -343,7 +343,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           end
        end
        hasNonBlankcount = 0
-       for i in 0..my_params[:q_row].count - 1  
+       for i in 0..my_params[:q_row].count - 1
           if my_params[:q_row][i].blank? or my_params[:q_row][i].nil?
           #  if i == 0
           #    next
@@ -358,7 +358,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end
- #           if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+ #           if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?)
  #               if !my_params[:boolean_row][i.to_s.to_sym].nil?
  #               testBRow << my_params[:boolean_row][i.to_s.to_sym]
  #               end
@@ -371,12 +371,12 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:boolean_row] = testBRow
        return my_params
      end
-  
+
    def make_adv_query(my_params = params || {})
      if !my_params[:q_row].nil? and !my_params[:q_row].blank?
 # Remove any blank rows in AS
-       my_params = removeBlanks(my_params) 
-      
+       my_params = removeBlanks(my_params)
+
          q_rowArray = parse_Q_row(my_params)
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
@@ -386,7 +386,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       return my_params
      end
    end
-   
+
    def parse_QandOp_row(my_params)
      index = 0
      q_rowArray = []
@@ -403,8 +403,8 @@ class SearchBuilder < Blacklight::SearchBuilder
          end
          q_rowArray << sfr_name + my_params[:q_row][index]#.gsub!('"','')
    #      my_params[:q_row] = q_rowArray
-       else  
-         
+       else
+
          split_q_string_Array = my_params[:q_row][index].split(' ')
          if split_q_string_Array.length > 1 or sfr_name == 'lc_callnum'
            if my_params[:op_row][index] == 'AND'
@@ -413,7 +413,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  q_row_string << '+' + add_sfr + " "
                else
                  q_row_string << '+' + sfr_name + ':' + add_sfr + " "
-               end  
+               end
              end
              if sfr_name == '' or sfr_name == 'title' or sfr_name == 'number'
                if sfr_name != ''
@@ -427,14 +427,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
                q_row_string = '((' + q_row_string + ') OR ' + sfr_name + ':"' + my_params[:q_row][index] + '")'
              end
-             q_rowArray << q_row_string          
+             q_rowArray << q_row_string
            end
            if my_params[:op_row][index] == "phrase"
               split_q_string_Array.each do |add_sfr|
                   q_row_string << add_sfr + " "
               end
 
-             if sfr_name != 'lc_callnum' and sfr_name != "" 
+             if sfr_name != 'lc_callnum' and sfr_name != ""
                if sfr_name == "notes_qf"
                  sfr_name = "notes"
                end
@@ -459,7 +459,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                   q_row_string <<  add_sfr + " OR "
                 else
                   q_row_string << sfr_name + ':' + add_sfr + " OR "
-                end  
+                end
               end
               q_row_string = '(' + q_row_string[0..-5] + ')'
               q_rowArray << q_row_string
@@ -468,15 +468,15 @@ class SearchBuilder < Blacklight::SearchBuilder
                 split_q_string_Array.each do |add_sfr|
                   q_row_string << add_sfr + " "
                 end
-                
+
                 if sfr_name == ""
                   if q_row_string[0] == '"'
-                    q_row_string = 'starts:"' + q_row_string[1..-1] 
+                    q_row_string = 'starts:"' + q_row_string[1..-1]
                     if q_row_string[-2] != '"'
                       q_row_string = q_row_string[0..-1] + '"'
                     end
                   else
-                    q_row_string = 'starts:"' + q_row_string + '"'                    
+                    q_row_string = 'starts:"' + q_row_string + '"'
                   end
                 else
                   if q_row_string[0] == '"'
@@ -485,14 +485,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                      q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
                   end
                 end
-                q_rowArray << q_row_string   
+                q_rowArray << q_row_string
            end
          else
            if my_params[:op_row][index] == 'begins_with'
              q_row_string = my_params[:q_row][index]
               if sfr_name == ""
                 if q_row_string[0] == '"'
-                  q_row_string = 'title_starts:' + q_row_string[1..-1] 
+                  q_row_string = 'title_starts:' + q_row_string[1..-1]
                   if q_row_string[-2] != '"'
                     q_row_string = q_row_string[0..-1] + '"'
                   end
@@ -517,13 +517,13 @@ class SearchBuilder < Blacklight::SearchBuilder
           end
          end
        end
-        index = index +1      
+        index = index +1
      end
-    Rail.logger.info("MYCALL = #{q_rowArray}")
- 
-     return q_rowArray     
+    Rails.logger.info("MYCALL = #{q_rowArray}")
+
+     return q_rowArray
    end
-   
+
    def get_sfr_name(sfr)
       if sfr == "author/creator"
         sfr = "author"
@@ -555,14 +555,14 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
       return sfr
    end
-       
-   
+
+
    def parse_Q_row(my_params)
      q_rowArray = []
      my_params[:q_row].each do |row|
        row.gsub!('”', '"')
        row.gsub!('“', '"')
-       #count to see if someone did not close their quotes 
+       #count to see if someone did not close their quotes
        numquotes = row.count '"'
        #get rid of the offending quotes
        if numquotes == 1
@@ -575,15 +575,15 @@ class SearchBuilder < Blacklight::SearchBuilder
        q_rowArray << row
      end
      return q_rowArray
-   end   
-  
+   end
+
   def makesingle(my_params)
     op_name = my_params[:op_row][0]
     query = my_params[:q_row][0]
     field_name = my_params[:search_field_row][0]
     op_name = my_params[:op_row][0]
     query = ""
-    journal_title_flag = 0    
+    journal_title_flag = 0
               fieldNames = blacklight_config.search_fields["#{field_name}"]
               if !fieldNames.nil?
                 solr_stuff = fieldNames["key"]
@@ -624,7 +624,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                 end
                 field_name = solr_stuff
                 if op_name == 'begins_with'
-                    query << "" 
+                    query << ""
                     if field_name == 'all_fields'
                        query << "starts"
                     else
@@ -635,8 +635,8 @@ class SearchBuilder < Blacklight::SearchBuilder
                       end
                     end
                  else
-                    if op_name == 'phrase' 
-                      query << "" 
+                    if op_name == 'phrase'
+                      query << ""
                       if field_name == ''
                         query << "quoted:"
                       else
@@ -670,12 +670,12 @@ class SearchBuilder < Blacklight::SearchBuilder
                      newq << field_name << "_quoted:" << qarray[0] << ')'
                    end
                  end
-               else 
+               else
                  if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum:'
                    if qarray[0].first == '"' and qarray[0].last ==  '"'
                      qarray[0] = qarray[0][1...-1]
                    end
-                   
+
                    if op_name == 'begins_with'
                       if field_name == ''
                          field_name = 'starts'
@@ -705,7 +705,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                        field_name = field_name + ':'
                       end
                    end
-                      
+
                    if journal_title_flag == 1
                    newq = '' + newq
                    newq << '' << field_name << ':' << qarray[0] << '' #") OR ' << field_name << '"' << qarray[0] << '") AND format:"Journal/Periodical"'
@@ -732,7 +732,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  end
                end
             else
-              if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'  
+              if op_name == 'begins_with' or op_name == 'phrase' or field_name == 'lc_callnum'
                    if op_name == 'begins_with'
                           if field_name == ''
                              field_name = 'starts:'
@@ -746,7 +746,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                           if my_params[:q_row][0].start_with? '"' and my_params[:q_row][0].end_with? '"'
                             my_params[:q_row][0] = my_params[:q_row][0][1...-1]
                           end
-                      
+
                    else
                           if op_name == 'phrase'
                                  if field_name == ''
@@ -765,15 +765,15 @@ class SearchBuilder < Blacklight::SearchBuilder
                           else
                               field_name = field_name + ':'
                           end
-                   end 
-                   if journal_title_flag == 1 
+                   end
+                   if journal_title_flag == 1
                     newq = '' + newq
                     newq << '' << field_name << '"' << my_params[:q_row][0] << '"'# OR ' << field_name << '"' << my_params[:q_row][0] << '") AND format:"Journal/Periodical"'
                     journal_title_flag = 0
                    else
                     newq << '' << field_name << '"' << my_params[:q_row][0] << '"'# OR ' << field_name << '"' << my_params[:q_row][0] << '"'
                    end
-              else  
+              else
                   newqcount = 1
                   quoted = ''
                   quotedUnder = ''
@@ -794,7 +794,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                               if field_name != 'lc_callnum'
                                 quoted = field_name + '_quoted:'
                               else
-                                quoted = field_name 
+                                quoted = field_name
                               end
                             end
                           end
@@ -834,7 +834,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                                end
                              end
                            end
-                        end  
+                        end
                    end
                    if field_name == ''
                       newq << ')'# OR "' << my_params[:q_row][0] << '"'
@@ -850,19 +850,19 @@ class SearchBuilder < Blacklight::SearchBuilder
                                        else
                                          newq << ''# OR ' << field_name << '_phrase:"' << my_params[:q_row][0] << '"'
                                        end
-                               else  
+                               else
                                  newq << ''# OR ' << field_name << ':"' << my_params[:q_row][0] << '"'
                                end
                          end
                    end
               end
           end#encoding: UTF-8
-  
+
 #            querystring = newq #my_params[:q_row][0]
 #            if field_name == "lc_callnum" or op_name == "phrase" or op_name == "begins_with"
 #              query = "\"" + querystring + "\" "
-#            else   
-#              query = query << querystring 
+#            else
+#              query = query << querystring
 #            end
             my_params[:q] = newq #query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
@@ -876,9 +876,9 @@ class SearchBuilder < Blacklight::SearchBuilder
   #      my_params[:q] = '(madness OR quoted:"mentally ill" OR quoted:"mental illness" OR insanity )' # OR phrase:("madness "mentally ill" "mental illness" insanity")'
         #Rails.logger.info("FINISHER = #{my_params}")
     return my_params
-  
+
   end
-  
+
   def qtoken(q_string)
     qnum = q_string.count('"')
     if qnum % 2 == 1
@@ -888,11 +888,11 @@ class SearchBuilder < Blacklight::SearchBuilder
       q_string.gsub!(')','')
       p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
     return p
-    
+
   end
-    
+
   def groupBools(my_params)
-     if my_params[:q_row].length == 1 
+     if my_params[:q_row].length == 1
        if my_params[:q_row][0].include?('journaltitle:')
          my_params[:q_row][0].gsub!('journaltitle','title')
          my_params[:q_row][0] = '(' + my_params[:q_row][0] + ' AND format:Journal/Periodical)'
@@ -916,7 +916,7 @@ class SearchBuilder < Blacklight::SearchBuilder
             end
             index = index + 1
           end
-         
+
         end
        else
           if my_params[:q_row][0].include?('journaltitle:')
@@ -926,11 +926,11 @@ class SearchBuilder < Blacklight::SearchBuilder
          newstring = my_params[:q_row][0]
        end
        return newstring
-     end 
+     end
   end
 
-  
-  def reorderBooleanRow(paramshash) 
+
+  def reorderBooleanRow(paramshash)
     newHash = {}
     newKey = 1
     paramshash.each do |key, value|
@@ -940,6 +940,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
    return newHash
   end
-  
+
 end
 

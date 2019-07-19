@@ -1,0 +1,135 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/select?rows=10&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 18 Jul 2019 19:37:04 GMT
+      Last-Modified:
+      - Thu, 18 Jul 2019 19:34:33 GMT
+      Etag:
+      - '"MjFkMzQ2MDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Via:
+      - 1.1 da-prod-solr7.library.cornell.edu
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '3128'
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":656,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7988507,"start":0,"maxScore":1.5185139,"docs":[{"author_display":"Vaughan,
+        Elaine","title_display":"Community and Identity in Teacher Professional Talk:
+        Applying Corpus Methodologies","fulltitle_display":"Community and Identity
+        in Teacher Professional Talk: Applying Corpus Methodologies","subtitle_display":"","pub_info_display":["London
+        Routledge 2020"],"pub_date_display":["2020"],"language_display":["English."],"id":"10429314","acquired_dt":"2018-07-26T00:00:00Z","holdings_record_display":["{\"id\":\"10731588\",\"modified_date\":\"20180726085224\",\"copy_number\":null,\"callnos\":[\"Available
+        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
+        Technical Services Review Shelves\",\"library\":null}]}"],"oclc_id_display":["1046544858"],"availability_json":"{\"available\":true,\"availAt\":{\"Library
+        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","pub_date_facet":2020,"format":["Book"],"score":1.5185139},{"author_display":"Baglione,
+        Lisa A., 1962- author","title_display":"Writing a research paper in political
+        science","fulltitle_display":"Writing a research paper in political science
+        : a practical guide to inquiry, structure, and methods","subtitle_display":"a
+        practical guide to inquiry, structure, and methods","pub_info_display":["Thousand
+        Oaks, California : CQ Press, an Imprint of SAGE Publications, Inc., [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10602789","edition_display":["Fourth
+        Edition."],"acquired_dt":"2019-02-21T00:00:00Z","holdings_record_display":["{\"id\":\"10900292\",\"modified_date\":\"20190221123650\",\"copy_number\":null,\"callnos\":[\"JA86
+        .B24 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10630615\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"10900292\",\"recalls_placed\":\"0\",\"create_date\":\"2019-02-21
+        12:42:50.0\",\"item_barcode\":\"31924126363724\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1049577395"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Olin
+        Library\":\"JA86 .B24 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Yin, Kun., author","title_display":"Design
+        of Novel Biosensors for Optical Sensing and Their Applications in Environmental
+        Analysis","fulltitle_display":"Design of Novel Biosensors for Optical Sensing
+        and Their Applications in Environmental Analysis","subtitle_display":"","pub_info_display":["Singapore
+        : Springer Singapore : Imprint: Springer, 2020."],"pub_date_display":["2020"],"language_display":["English."],"id":"10832037","url_access_display":["http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-13-6488-4|Full
+        text available from SpringerLink ebooks - Earth and Environmental Science
+        (Contemporary) Connect to text."],"url_access_json":["{\"providercode\":\"PRVAVX\",\"dbcode\":\"0D8\",\"description\":\"Full
+        text available from SpringerLink ebooks - Earth and Environmental Science
+        (Contemporary) Connect to text.\",\"ssid\":\"ssj0002135574\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-13-6488-4\"}"],"acquired_dt":"2019-05-14T00:00:00Z","holdings_record_display":["{\"id\":\"11127410\",\"modified_date\":\"20190514145312\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Resource\",\"library\":null}]}"],"oclc_id_display":["1089754186"],"availability_json":"{\"online\":true}","pub_date_facet":2020,"format":["Book"],"online":["Online"],"score":1.5185139},{"author_display":"WARD,
+        IAN.","title_display":"ENGLISH LEGAL HISTORIES","fulltitle_display":"ENGLISH
+        LEGAL HISTORIES","subtitle_display":"","pub_info_display":["[S.l.] : HART
+        PUBLISHING, 2020."],"pub_date_display":["2020"],"language_display":["English."],"id":"10883995","holdings_record_display":["{\"id\":\"11165585\",\"modified_date\":\"20190620125730\",\"copy_number\":null,\"callnos\":[\"On
+        order\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"law\",\"number\":63,\"name\":\"Law
+        Library (Myron Taylor Hall)\",\"library\":\"Law Library\"}]}"],"oclc_id_display":["1097578655"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Law
+        Library (Myron Taylor Hall)\":\"On order as of 6/20/19\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"title_display":"The Oxford handbook of
+        comic book studies","fulltitle_display":"The Oxford handbook of comic book
+        studies","subtitle_display":"","pub_info_display":["New York, NY : Oxford
+        University Press, [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10864478","url_access_display":["http://proxy.library.cornell.edu/login?url=https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780190917944.001.0001/oxfordhb-9780190917944|Full
+        text available from Oxford Handbooks Online 2019 Literature Connect to text."],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"OAPHE\",\"description\":\"Full
+        text available from Oxford Handbooks Online 2019 Literature Connect to text.\",\"ssid\":\"ssib035343164\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780190917944.001.0001/oxfordhb-9780190917944\"}"],"acquired_dt":"2019-06-11T00:00:00Z","holdings_record_display":["{\"id\":\"11159442\",\"modified_date\":\"20190611162251\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Resource\",\"library\":null}]}"],"oclc_id_display":["1104456487"],"availability_json":"{\"online\":true}","pub_date_facet":2020,"format":["Book"],"online":["Online"],"score":1.5185139},{"author_display":"Silberstein,
+        Fanchon","title_display":"Art Insight: Understanding Art and Why It Matters","fulltitle_display":"Art
+        Insight: Understanding Art and Why It Matters","subtitle_display":"","pub_info_display":["Intellect
+        (UK) 2020"],"pub_date_display":["2020"],"language_display":["English."],"id":"10975998","holdings_record_display":["{\"id\":\"11256806\",\"modified_date\":\"20190717110046\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"fine\",\"number\":31,\"name\":\"Fine
+        Arts Library (B56 Sibley Hall)\",\"library\":\"Fine Arts Library\"}]}"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Fine
+        Arts Library (B56 Sibley Hall)\":\"On order as of 7/18/19\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Wen, Eric, 1953- author","title_display":"Graphic
+        music analysis","fulltitle_display":"Graphic music analysis","subtitle_display":"","pub_info_display":["Lanham
+        : Rowman & Littlefield Publishers, Inc., [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762019","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058439\",\"modified_date\":\"20190410121336\",\"copy_number\":null,\"callnos\":[\"MT6
+        .W3337 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
+        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651918\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058439\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
+        12:13:36.0\",\"item_barcode\":\"31924126208028\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
+        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}}"],"oclc_id_display":["1037884442"],"availability_json":"{\"available\":true,\"availAt\":{\"Cox
+        Library of Music (Lincoln Hall)\":\"MT6 .W3337 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Smith, Gene A., 1963-
+        author","title_display":"In harm''s way","fulltitle_display":"In harm''s way
+        : a history of the American military experience","subtitle_display":"a history
+        of the American military experience","pub_info_display":["New York : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762030","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058450\",\"modified_date\":\"20190410121341\",\"copy_number\":null,\"callnos\":[\"E181
+        .S564 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651929\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058450\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
+        12:13:42.0\",\"item_barcode\":\"31924126207277\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1061864106"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"E181 .S564 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Schwalbe, Michael, 1956-
+        author","title_display":"Making a difference","fulltitle_display":"Making
+        a difference : using sociology to create a better world","subtitle_display":"using
+        sociology to create a better world","pub_info_display":["New York, NY : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10752548","acquired_dt":"2019-03-27T00:00:00Z","holdings_record_display":["{\"id\":\"11049443\",\"modified_date\":\"20190327104646\",\"copy_number\":null,\"callnos\":[\"HM585
+        .S377 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10645881\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11049443\",\"recalls_placed\":\"0\",\"create_date\":\"2019-03-27
+        10:46:46.0\",\"item_barcode\":\"31924126199904\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1055569849"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"HM585 .S377 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Mio, Jeffery Scott, 1954-
+        author","title_display":"Multicultural psychology","fulltitle_display":"Multicultural
+        psychology : understanding our diverse communities","subtitle_display":"understanding
+        our diverse communities","pub_info_display":["New York, New York : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10746975","edition_display":["Fifth
+        edition."],"acquired_dt":"2019-03-20T00:00:00Z","holdings_record_display":["{\"id\":\"11043368\",\"modified_date\":\"20190320073721\",\"copy_number\":null,\"callnos\":[\"HM1271
+        .M555 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10641553\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11043368\",\"recalls_placed\":\"0\",\"create_date\":\"2019-03-20
+        07:37:21.0\",\"item_barcode\":\"31924126190671\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1076461020"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"HM1271 .M555 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",7007515,"Journal/Periodical",403710,"Microform",355708,"Musical
+        Recording",234708,"Thesis",202400,"Video",106062,"Musical Score",101882,"Map",64973,"Manuscript/Archive",17127,"Non-musical
+        Recording",10366],"online":["At the Library",5960316,"Online",2179558],"language_facet":["English",4870757,"German",548850,"French",345585,"Spanish",294436,"Chinese",272759,"Russian",187670,"Italian",154899,"Indonesian",142802,"Japanese",105737,"Latin",80785],"location_facet":["Library
+        Annex",2431504,"Olin Library",1716842,"Kroch Library Asia",627714,"Kroch Library
+        Rare & Manuscripts",513395,"Music Library",203031,"Law Library",202112,"Mann
+        Library",166879,"Uris Library",152837,"ILR Library",111192,"Mathematics Library",52733]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}}}
+
+        '
+    http_version: 
+  recorded_at: Thu, 18 Jul 2019 19:37:05 GMT
+recorded_with: VCR 4.0.0

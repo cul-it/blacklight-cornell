@@ -1,4 +1,4 @@
-# encoding: utf-8 
+# encoding: utf-8
 Feature: Select and export items from the result set
 
 	In order to save results for later
@@ -12,94 +12,94 @@ Feature: Select and export items from the result set
 		# set immediately via JavaScript
 @all_select_and_export
 @citations
-  Scenario: User needs to send a book record to endnote format (might go to zotero) 
-    Given I request the item view for 1001 
+  Scenario: User needs to send a book record to endnote format (might go to zotero)
+    Given I request the item view for 1001
     Given I request the item view for 1001.endnote
     Then I should see the text '%0 Book'
     Then I should see the text '%C Washington, D.C.'
-    Then I should see the text '%D 1985' 
-    Then I should see the text '%E Prattis, J. I' 
-    Then I should see the text '%I American Anthropological Association' 
+    Then I should see the text '%D 1985'
+    Then I should see the text '%E Prattis, J. I'
+    Then I should see the text '%I American Anthropological Association'
     Then I should see the text '%@ 091316710X'
-    Then I should see the text '%T Reflections  the anthropological muse'
-    Then I should see the text '%K Anthropology Poetry.' 
-    Then I should see the text '%K American poetry 20th century.' 
-    Then I should see the text '%K Anthropologists' writings, English.' 
-    Then I should see the text '%K Anthropologists' writings, American.' 
+    Then I should see the text '%T Reflections'
+    Then I should see the text '%K Anthropology Poetry.'
+    Then I should see the text '%K American poetry 20th century.'
+    Then I should see the text '%K Anthropologists' writings, English.'
+    Then I should see the text '%K Anthropologists' writings, American.'
 
 
 @all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 9305118 
+    Given I request the item view for 9305118
     Given I request the item view for 9305118.endnote
     Then I should see the text '%0 Electronic Book'
     Then I should see the text '%A Boyle, P. R'
     Then I should see the text '%C Ames, Iowa'
-    Then I should see the text '%D 2005' 
-    Then I should see the text '%E Rodhouse, Paul' 
-    Then I should see the text '%I Blackwell Science' 
-    Then I should see the text '%@ 0632060484 (hardback : alk. paper)' 
-    Then I should see the text '%T Cephalopods  ecology and fisheries' 
+    Then I should see the text '%D 2005'
+    Then I should see the text '%E Rodhouse, Paul'
+    Then I should see the text '%I Blackwell Science'
+    Then I should see the text '%@ 0632060484 (hardback : alk. paper)'
+    Then I should see the text '%T Cephalopods'
 
 ###
 ###
 ##
-# <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:z=\"http://www.zotero.org/namespaces/export#\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:vcard=\"http://nwalsh.com/rdf/vCard#\" xmlns:foaf=\"http://xmlns.com/foaf/0.1/\" xmlns:bib=\"http://purl.org/net/biblio#\" xmlns:prism=\"http://prismstandard.org/namespaces/1.2/basic/\" xmlns:dcterms=\"http://purl.org/dc/terms/\">\n          
-# <bib:Book>\n            
-# <z:itemType>book</z:itemType>\n            
-# <dc:title>Reflections : the anthropological muse</dc:title>\n            
-# <bib:authors>\n              
-# <rdf:Seq>\n                
-# <rdf:li>\n                  
-# <foaf:Person>\n                    
+# <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:z=\"http://www.zotero.org/namespaces/export#\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:vcard=\"http://nwalsh.com/rdf/vCard#\" xmlns:foaf=\"http://xmlns.com/foaf/0.1/\" xmlns:bib=\"http://purl.org/net/biblio#\" xmlns:prism=\"http://prismstandard.org/namespaces/1.2/basic/\" xmlns:dcterms=\"http://purl.org/dc/terms/\">\n
+# <bib:Book>\n
+# <z:itemType>book</z:itemType>\n
+# <dc:title>Reflections : the anthropological muse</dc:title>\n
+# <bib:authors>\n
+# <rdf:Seq>\n
+# <rdf:li>\n
+# <foaf:Person>\n
 # <foaf:surname>Prattis
-# </foaf:surname>\n                    
+# </foaf:surname>\n
 # <foaf:givenname>J. I
-# </foaf:givenname>\n                  
-# </foaf:Person>\n                
-# </rdf:li>\n              
-# </rdf:Seq>\n            
-# </bib:authors>\n            
-# <dc:publisher>\n              
-# <foaf:Organization>\n                
-# <vcard:adr>\n                  
-# <vcard:Address>\n                    
+# </foaf:givenname>\n
+# </foaf:Person>\n
+# </rdf:li>\n
+# </rdf:Seq>\n
+# </bib:authors>\n
+# <dc:publisher>\n
+# <foaf:Organization>\n
+# <vcard:adr>\n
+# <vcard:Address>\n
 # <vcard:locality>Washington, D.C.
-# </vcard:locality>\n                  
-# </vcard:Address>\n                
-# </vcard:adr>\n                
+# </vcard:locality>\n
+# </vcard:Address>\n
+# </vcard:adr>\n
 # <foaf:name>American Anthropological Association
-# </foaf:name>\n              
-# </foaf:Organization>\n            
-# </dc:publisher>\n            
+# </foaf:name>\n
+# </foaf:Organization>\n
+# </dc:publisher>\n
 # <dc:date>1985
-# </dc:date>\n            
+# </dc:date>\n
 # <z:language>English
-# </z:language>\n            
-# <dc:subject>Anthropologists' writings, American.   </dc:subject>\n            
-# <dc:subject>Anthropology Poetry.  # </dc:subject>\n            
-# <dc:subject>American poetry 20th century. 
-# </dc:subject>\n            
-# <dc:subject>Anthropologists' writings, English.   </dc:subject>\n            
-# <dc:subject>English poetry 20th century.   </dc:subject>\n            
-# <dc:identifier>ISBN 091316710X :  </dc:identifier>\n            
-# <dc:coverage>Library Annex  PS591.A58 R33  </dc:coverage>\n            
-# <dc:subject>\n              
-# <dcterms:LCC>\n                
-# <rdf:value>Library Annex  PS591.A58 R33  </rdf:value>\n              
-# </dcterms:LCC>\n            
-# </dc:subject>\n            
-# <dc:identifier>\n              
+# </z:language>\n
+# <dc:subject>Anthropologists' writings, American.   </dc:subject>\n
+# <dc:subject>Anthropology Poetry.  # </dc:subject>\n
+# <dc:subject>American poetry 20th century.
+# </dc:subject>\n
+# <dc:subject>Anthropologists' writings, English.   </dc:subject>\n
+# <dc:subject>English poetry 20th century.   </dc:subject>\n
+# <dc:identifier>ISBN 091316710X :  </dc:identifier>\n
+# <dc:coverage>Library Annex  PS591.A58 R33  </dc:coverage>\n
+# <dc:subject>\n
+# <dcterms:LCC>\n
+# <rdf:value>Library Annex  PS591.A58 R33  </rdf:value>\n
+# </dcterms:LCC>\n
+# </dc:subject>\n
+# <dc:identifier>\n
 #<dcterms:URI><rdf:value>http://newcatalog.library.cornell.edu/catalog/1001</rdf:value></dcterms:URI>
-# </dc:identifier>\n          
-# </bib:Book>\n        
+# </dc:identifier>\n
+# </bib:Book>\n
 # </rdf:RDF>
 @citations
 @rdf_zotero
 @all_select_and_export
-  Scenario: User needs to send a book record to ris format (might go to zotero) 
-    Given I request the item view for 1001 
+  Scenario: User needs to send a book record to ris format (might go to zotero)
+    Given I request the item view for 1001
     Given I request the item view for 1001.rdf_zotero
     Then I should see the xml text '<z:itemType>book</z:itemType'
     Then I should see the xml text '<dc:title>Reflections: the anthropological muse</dc:title>'
@@ -108,13 +108,13 @@ Feature: Select and export items from the result set
 
 @all_select_and_export
 
-  Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN. 
-    Given I request the item view for <BibId> 
+  Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN.
+    Given I request the item view for <BibId>
     Given I request the item view for <BibId>.<Format>
-    Then I should see the xml text <SpecialContent> 
+    Then I should see the xml text <SpecialContent>
     Examples:
 
-|BibId | Format | SpecialContent | 
+|BibId | Format | SpecialContent |
 | 1378974 | endnote |  '%A Condie, Carol Joy' |
 | 1378974 | ris | 'AU  - Condie, Carol Joy' |
 | 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
@@ -124,17 +124,17 @@ Feature: Select and export items from the result set
 | 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
 
 @all_select_and_export
-  Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook 
-    Given I request the item view for <BibId> 
+  Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
+    Given I request the item view for <BibId>
     Given I request the item view for <BibId>.<Format>
-    Then I should see the xml text <DoiXmlContent> 
-    Then I should see the xml text <UrlXmlContent> 
+    Then I should see the xml text <DoiXmlContent>
+    Then I should see the xml text <UrlXmlContent>
     Examples:
 
 |BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0' |
-| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%U https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0' |
-| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</url>' | 
+| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'UR  - https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4' |
+| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%U https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4' |
+| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4</url>' |
 | 9496646 | rdf_zotero | '<dc:description>DOI 10.1007/978-3-319-27177-4</dc:description>' | '<rdf:value>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</rdf:value>' |
 
 #UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0
@@ -153,7 +153,7 @@ Feature: Select and export items from the result set
 @citations
 @rdf_zotero
 @all_select_and_export
-  Scenario: User needs to send a book record to rdf zotero format (might go to zotero) 
+  Scenario: User needs to send a book record to rdf zotero format (might go to zotero)
     Given I request the item view for 3261564
     Given I request the item view for 3261564.rdf_zotero
     Then I should see the xml text '<z:itemType>audioRecording</z:itemType>'
@@ -166,7 +166,7 @@ Feature: Select and export items from the result set
 # </dcterms:LCC>
 
 @all_select_and_export
-  Scenario: User needs to send a book record to rdf zotero format (might go to zotero) 
+  Scenario: User needs to send a book record to rdf zotero format (might go to zotero)
     Given I request the item view for 10055679
     Given I request the item view for 10055679.rdf_zotero
     Then I should see the xml path 'dcterms','//dcterms:LCC','http://purl.org/dc/terms/','Mann Library  SF98.A5 M35 2017'
@@ -192,7 +192,7 @@ Feature: Select and export items from the result set
 #  Scenario: User needs to be able to sort search results by acquired date
 #  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
 #  by the acquired date of items.
-#    Given PENDING 
+#    Given PENDING
 #  When I go to the catalog page
 #    And I fill in the search box with 'knots rope'
 #    And I press 'search'
@@ -200,8 +200,8 @@ Feature: Select and export items from the result set
 #    And the first search result should be 'Encyclopedia of knots and fancy rope work'
 #    And the 'sort' select list should have an option for 'date acquired'
 #    Then I select the sort option 'date acquired'
-#    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa' 
-#  Given PENDING  
+#    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa'
+#  Given PENDING
 
 @all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
   Scenario: User needs to see the date acquired in a JSON feed
@@ -262,26 +262,26 @@ Feature: Select and export items from the result set
 #@select_and_email
 #@javascript
 #  Scenario: User sends a record by email
-#    Given PENDING 
+#    Given PENDING
 #    Given I request the item view for 8767648
 #    And click on link "Email"
 #    And I fill in "to" with "quentin@example.com"
 #    And I sleep 2 seconds
 #    And I press "Send"
 #    And I sleep 2 seconds
-#    Then "quentin@example.com" receives an email with "Marvel masterworks" in the content 
+#    Then "quentin@example.com" receives an email with "Marvel masterworks" in the content
 #    Then I should see "Marvel masterworks" in the email body
 #    Then I should see "Lee, Stan" in the email body
   #  Then I should see "Status: v.1   c. 1 Checked out, due 2017-09-29" in the email body
 
-#    Given PENDING 
+#    Given PENDING
 #search for marvel masterworks, and get two results, select, and email them
 # cannot test this without login
 #@all_select_and_export
 #@javascript
 #@select_and_email
-#  Scenario: Search with 2 results, select, and email them 
-#    Given PENDING 
+#  Scenario: Search with 2 results, select, and email them
+#    Given PENDING
 #    Given I am on the home page
 #    When I fill in the search box with 'marvel masterworks'
 #    And I press "search"
@@ -293,12 +293,12 @@ Feature: Select and export items from the result set
 #    And I fill in "to" with "squentin@example.com"
 #    And I press "Send"
 #    And I sleep 4 seconds
-#    Then "squentin@example.com" receives an email with "Marvel masterworks" in the content 
+#    Then "squentin@example.com" receives an email with "Marvel masterworks" in the content
 #    Then I should see "Status: available" in the email body
 #    Then I should see "Coward" in the email body
 #    Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
 #
-  
+
 @all_select_and_export
 @DISCOVERYACCESS-1670
 @DISCOVERYACCESS-1777
@@ -306,7 +306,7 @@ Feature: Select and export items from the result set
 @javascript
 @popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
-    Given I request the item view for 7981095 
+    Given I request the item view for 7981095
     And click on first link "Text"
     And I sleep 15 seconds
     And I fill in "to" with "6073516271"
@@ -317,4 +317,4 @@ Feature: Select and export items from the result set
     Then I should see "Shelter medicine for veterinarians and staf" in the email body
     Then I should see "Veterinary Library Core Resource (5 hour loan)" in the email body
     And I sleep 8 seconds
-  
+
