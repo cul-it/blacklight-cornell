@@ -13,7 +13,7 @@ Feature: Databases List
   @databases
   Scenario: Make sure list contains known database
   	Given I literally go to databases
-  	Then I should see the label 'General Interest and Reference Biographies'
+  	Then I should see the label 'General Interest and Reference'
 
   @mla
   @databases
