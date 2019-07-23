@@ -174,11 +174,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
-    params[:sort]= ''
+    #params[:sort]= ''
     #params = {"utf8"=>"✓", "controller"=>"catalog", "action"=>"index", "q"=>"(+title:100%) OR title_phrase:\"100%\"", "search_field"=>"title", "qdisplay"=>"100%"}
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    #params[:q] = 'lc_callnum:pl480'
-    (@response, @documents) = search_service.search_results #search_results(params)
+ 
+    (@response, deprecated_document_list) = search_service.search_results #search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     if temp_search_field != ''
