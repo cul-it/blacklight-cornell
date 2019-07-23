@@ -102,9 +102,6 @@ end
         'format' => 1
     }
 
-    # Needed for Blacklight 7. May want to consider adding these for bookmarks and email as well.
-    config.add_show_tools_partial(:sms, if: :render_sms_action?, callback: :sms_action, validator: :validate_sms_params)
-
     config.per_page = [20,50,100]
 
     ## list of clickable display fields mapped to target index field
