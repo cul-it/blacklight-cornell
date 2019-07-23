@@ -413,54 +413,79 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 ##        end
 ##      end
 ##    end
-     def sms_action documents
-       to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-       tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
-       tiny = tiny_url(tinyPass)
-       mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
-       print mail.pretty_inspect
-       if mail.respond_to? :deliver_now
-         mail.deliver_now
-       else
-         mail.deliver
-       end
-     end
-    # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
-    def sms
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-      if request.post?
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
-        tiny = tiny_url(tinyPass)
-        if params[:to]
-          phone_num = params[:to].gsub(/[^\d]/, '')
-          unless params[:carrier].blank?
-            if phone_num.length != 10
-              flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
-            else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
-            end
-
-          else
-            flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
-          end
-        else
-          flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
-        end
-
-        unless flash[:error]
-          email.deliver
-          flash[:success] = 'Text sent'
-          redirect_to facet_catalog_path(params['id']) unless request.xhr?
-        end
-      end
-      unless !request.xhr? && flash[:success]
-        respond_to do |format|
-          format.js { render :layout => false }
-          format.html
-        end
+    def sms_action documents
+      to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
+      tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
+      tiny = tiny_url(tinyPass)
+      mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
+      print mail.pretty_inspect
+      if mail.respond_to? :deliver_now
+        mail.deliver_now
+      else
+        mail.deliver
       end
     end
+
+    def validate_sms_params
+      if params[:to].blank?
+        flash.now[:error] = I18n.t('blacklight.sms.errors.to.blank')
+      elsif params[:carrier].blank?
+        flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
+      elsif params[:to].gsub(/[^\d]/, '').length != 10
+        flash.now[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
+      elsif !sms_mappings.value?(params[:carrier])
+        flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
+      end
+
+      flash[:error].blank?
+    end
+
+#    Now handled in the sms_action above and set up by the add_show_tools_partial config setting in the catalog controller.
+#    So this code can just get deleted at some point. -- tlw72
+#    SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+#    def sms
+#      @response, @documents  = search_service.fetch(params[:id])
+#      @documents = [@documents]
+#      if request.post?
+#        Rails.logger.info("************ +++++++++ SMS POST REQUEST +++++++++ **************")
+#        Rails.logger.info("************ +++++++++ SMS POST REQUEST PARAMS +++++++++ **************")
+#        Rails.logger.info(params.inspect)
+#        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
+#        tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
+#        tiny = tiny_url(tinyPass)
+#        if params[:to]
+#          Rails.logger.info("************ +++++++++ PARAMS[:TO] +++++++++ **************")
+#          phone_num = params[:to].gsub(/[^\d]/, '')
+#          unless params[:carrier].blank?
+#            if phone_num.length != 10
+#              flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
+#            else
+#              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
+#              Rails.logger.info("************ +++++++++ EMAIL!!!! +++++++++ **************")
+#              Rails.logger.info(email.inspect)
+#            end
+#
+#          else
+#            flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
+#          end
+#        else
+#          flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
+#        end
+#
+#        unless flash[:error]
+#          Rails.logger.info("************ ++++++++++++++++++ **************")
+#           Rails.logger.info("UNLESS FLASH ERROR")
+#          email.deliver
+#          flash[:success] = 'Text sent'
+#          redirect_to facet_catalog_path(params['id']) unless request.xhr?
+#        end
+#      end
+#      unless !request.xhr? && flash[:success]
+#        respond_to do |format|
+#          format.html { render :layout => false }
+#        end
+#      end
+#    end
 
 
     def librarian_view

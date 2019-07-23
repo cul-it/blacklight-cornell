@@ -182,6 +182,7 @@ en:
           blank: "You must enter a recipient's phone number in order to send this message."
         carrier:
           blank: 'You must select a carrier.'
+      success: 'The text has been sent.'
 
     back_to_search: 'Back to catalog results'
     back_to_bookmarks: 'Back to selected items'
