@@ -49,16 +49,12 @@ class SearchBuilder < Blacklight::SearchBuilder
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
       my_params = make_adv_query(blacklight_params)
-      #blacklight_params = my_params
-      #user_parameters["spellcheck.maxResultsForSuggest"] = 0
       spellstring = ""
       if !my_params[:q_row].nil?
         blacklight_params[:q_row].each do |term|
           spellstring += term += ' '
           #spellstring  += term +  ' '
         end
-
-      #  user_parameters["spellcheck.q"]= spellstring #blacklight_params["show_query"].gsub('"','')
       else
       end
       user_parameters[:q] = blacklight_params[:q]
@@ -66,20 +62,24 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
-    else
-      if blacklight_params[:q].nil?
-        blacklight_params[:q] = ''
-      end
+    else 
+#      if blacklight_params[:q].nil?
+#        blacklight_params[:q] = ''
+#      end
     # End of secondary parsing
 #    search_session[:q] = user_parameters[:show_query]
-      Rails.logger.info("MYCALL = #{user_parameters}")
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
-           blacklight_params[:q] = "(lc_callnum:\"" + blacklight_params[:q] + "\") OR lc_callnum_phrase:\"" + blacklight_params[:q] + "\""
-           blacklight_params[:sort] = "callnum_sort asc"
-           user_parameters[:q] = blacklight_params[:q]
-           user_parameters[:sort] = blacklight_params[:sort]
+           if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
+             query_string = blacklight_params[:q]
+           else
+             query_string = '"' + blacklight_params[:q].gsub('"','') + '"'
+           end
+           blacklight_params[:q] = "(lc_callnum:" + query_string + ') OR lc_callnum:' + query_string 
+      #      blacklight_params[:sort] = "callnum_sort asc"
+           user_parameters[:search_field] = blacklight_params[:search_field]
+   #        user_parameters[:sort] = blacklight_params[:sort]
           # user_parameters[:sort_order] = "asc"
           #user_parameters[:sort] = blacklight_params[:sort]
         end
@@ -87,8 +87,13 @@ class SearchBuilder < Blacklight::SearchBuilder
            blacklight_params[:search_field] = 'author'
         end
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
-          blacklight_params[:q] = "(\"" + blacklight_params[:q] + "\") OR phrase:\"" + blacklight_params[:q] + "\""
-         # blacklight_params[:q] = blacklight_params[:q]
+           returned_query = parse_all_fields_query(blacklight_params[:q])
+           if returned_query == ''
+            blacklight_params[:q] = ''
+           else
+             blacklight_params[:q] = '(' +  returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
+             end
+#         # blacklight_params[:q] = blacklight_params[:q]
         else
           if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
             blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
@@ -181,7 +186,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def massage_params(params)
-    Rails.logger.info("MYCALL = #{params}")
     rowHash = {}
     opArray = []
     query_string = ""
@@ -276,7 +280,6 @@ class SearchBuilder < Blacklight::SearchBuilder
 
 
   def parse_single(params)
-    Rails.logger.info("MYCALL = #{params}")
     query_string = ""
     query_rowArray = params[:q_row]
     op_rowArray = params[:op_row]
@@ -316,7 +319,6 @@ class SearchBuilder < Blacklight::SearchBuilder
            end
          end
       end
-      Rails.logger.info("MYCALL = #{query_string}")
       return query_string
   end
 
@@ -381,7 +383,6 @@ class SearchBuilder < Blacklight::SearchBuilder
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
          test_q_string2 = groupBools(my_params)
-      #   Rails.logger.info("BOOTER4 = #{test_q_string2}")
          my_params[:q] = test_q_string2
       return my_params
      end
@@ -519,9 +520,8 @@ class SearchBuilder < Blacklight::SearchBuilder
        end
         index = index +1
      end
-    Rails.logger.info("MYCALL = #{q_rowArray}")
-
-     return q_rowArray
+ 
+     return q_rowArray     
    end
 
    def get_sfr_name(sfr)
@@ -866,11 +866,6 @@ class SearchBuilder < Blacklight::SearchBuilder
 #            end
             my_params[:q] = newq #query #   "_query_:\"{!edismax  qf=$lc_callnum_qf pf=$lc_callnum_pf}\"1451621175\\\" "#OR (  _query_:\"{!edismax  qf=$title_qf pf=$title_pf}catch-22\")"
           end
-#       my_params.delete(:q_row)
-#       my_params.delete(:op_row)
- #      my_params.delete(:search_field_row)
- #      my_params.delete(:boolean_row)
-     #  my_params[:q] = "(title:hydrology) OR title_phrase:\"hydrology\""
         my_params[:mm] = 1
         blacklight_params = my_params
   #      my_params[:q] = '(madness OR quoted:"mentally ill" OR quoted:"mental illness" OR insanity )' # OR phrase:("madness "mentally ill" "mental illness" insanity")'
@@ -929,7 +924,23 @@ class SearchBuilder < Blacklight::SearchBuilder
      end
   end
 
-
+  def parse_all_fields_query(query)
+    return_query = ''
+    tokenArray = []
+    if query.include?(' ')
+      tokenArray = query.split(' ')
+      tokenArray.each do |bits|
+          if bits.include?(':')
+             bits.gsub!(':','\\:')
+          end
+          return_query << '+' << bits << ' '
+      end
+    else
+      return_query = query
+    end
+    return return_query
+  end
+        
   def reorderBooleanRow(paramshash)
     newHash = {}
     newKey = 1

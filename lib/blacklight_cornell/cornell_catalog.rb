@@ -174,11 +174,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
-    Rails.logger.info("Buttocks25 #{params}")
     params[:sort]= ''
     #params = {"utf8"=>"✓", "controller"=>"catalog", "action"=>"index", "q"=>"(+title:100%) OR title_phrase:\"100%\"", "search_field"=>"title", "qdisplay"=>"100%"}
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    (@response, @document_list) = search_service.search_results #search_results(params)
+    #params[:q] = 'lc_callnum:pl480'
+    (@response, @documents) = search_service.search_results #search_results(params)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     if temp_search_field != ''
@@ -286,14 +286,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def setup_next_and_previous_documents
     query_params = session[:search] ? session[:search].dup : {}
 
-    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
-       check_params(query_params)
-    else
-      if query_params[:q].blank?
-        temp_search_field = query_params[:search_field]
-        query_params[:search_field] = 'all_fields'
-      end
-    end
+#    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
+#       check_params(query_params)
+#    else
+#      if query_params[:q].blank?
+#        temp_search_field = query_params[:search_field]
+#        query_params[:search_field] = 'all_fields'
+#          end
+#    end
 
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
@@ -427,7 +427,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
      end
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def sms
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      #@response, @documents = @response, @documents = search_service.fetch(params[:id])
+      (@response, deprecated_document_list) = search_service.fetch(params[:id])
       if request.post?
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
         tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
@@ -830,7 +832,7 @@ def check_params(params)
                    if fieldname == "lc_callnum"
                      params[:qdisplay] = params[:q]
                  #    params[:q].gsub!('"','')
-                     params[:q] = '+lc_callnum:' + params[:q]
+                     params[:q] = '(+lc_callnum:' + params[:q] + ') OR lc_callnum:' + params[:q] + ''
                    end
                    if fieldname.include?('_cts')
                      params[:qdisplay] = params[:q]

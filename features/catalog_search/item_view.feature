@@ -341,8 +341,8 @@ Feature: Item view
   @holdings
   @current_issues
   Scenario: As a user I can see the current issues information
-    Given I request the item view for 1629165
-    Then I should see the label 'Current issues in Periodicals Room'
+    Given I request the item view for 329763
+    Then I should see the label 'Subscription cancelled after 2009'
 
   # Make sure PDA makes some sense  DISCOVERYACCESS-1356
   # Confusing availability labels for 8036458
