@@ -277,7 +277,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @document.export_formats.each_key do | format_name |
         # It's important that the argument to send be a symbol;
         # if it's a string, it makes Rails unhappy for unclear reasons.
-         format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
+         format.send(format_name.to_sym) { render :body => @document.export_as(format_name), :layout => false }
       end
 
     end
