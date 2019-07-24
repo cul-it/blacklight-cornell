@@ -70,7 +70,6 @@ class SearchBuilder < Blacklight::SearchBuilder
 #    search_session[:q] = user_parameters[:show_query]
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
         if blacklight_params[:search_field] == 'call number'
-          Rails.logger.info("BOOGY = #{blacklight_params}")
            blacklight_params[:search_field] = 'lc_callnum'
            if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
              query_string = blacklight_params[:q]
@@ -81,7 +80,6 @@ class SearchBuilder < Blacklight::SearchBuilder
       #      blacklight_params[:sort] = "callnum_sort asc"
            user_parameters[:search_field] = blacklight_params[:search_field]
            if blacklight_params[:sort].nil? or blacklight_params[:sort] == 'callnum_sort asc, pub_date_sort desc' #or blacklight_params[:sort] == '' or blacklight_params.nil?
-             Rails.logger.info("BOOGY3")
              blacklight_params[:sort] = 'callnum_sort asc, pub_date_sort desc'
            end
            user_parameters[:sort] = blacklight_params[:sort]
@@ -103,7 +101,7 @@ class SearchBuilder < Blacklight::SearchBuilder
              end
             end
 #           user_parameters[:q] = blacklight_params[:q]
-            Rails.logger.info("QUEEF = #{blacklight_params}")
+            
         else
           if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
             blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
