@@ -179,6 +179,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
  
     (@response, deprecated_document_list) = search_service.search_results #search_results(params)
+    @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     if temp_search_field != ''
