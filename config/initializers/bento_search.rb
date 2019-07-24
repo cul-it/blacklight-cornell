@@ -80,7 +80,7 @@ BentoSearch.register_engine('worldcat') do |conf|
   # assume all users are affiliates and have servicelevel=full access.
   conf.auth = true
   # Link to Worldcat Discovery, ensure sort by "relevance only"
-  conf.link = ENV['WORLDCAT_URL'] + '/search?qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc&queryString='
+  conf.link = "#{ENV['WORLDCAT_URL']}/search?qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc&queryString="
 end
 
 
