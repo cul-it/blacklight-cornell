@@ -3,21 +3,21 @@
 Feature: Bookmarks for anonymous users
     I want to be sure anonymous users can cite, export, and print selected items
 
-#    @bookmarks_exists
-#    #@saml_on
-#    Scenario: Does the bookmarks page exist
-#        When I literally go to bookmarks
-#        Then I should be on 'the bookmarks page'
-#        Then Sign in should link to Book Bags
-#        And I should see a link "Selected Items"
+    @bookmarks_exists
+    #@saml_on
+    Scenario: Does the bookmarks page exist
+        When I literally go to bookmarks
+        Then I should be on 'the bookmarks page'
+        Then Sign in should link to Book Bags
+        And I should see a link "Selected Items"
 
     #@saml_on
-#    @bookmarks_sign_in
-#    Scenario: If I try to sign in, I have to log in
-#        #Given PENDING Piwik javascript variable _paq is undefined
-#        When I literally go to bookmarks
-#        And click on link "Sign in"
-#        Then I should see the CUWebLogin page
+    @bookmarks_sign_in
+    Scenario: If I try to sign in, I have to log in
+        #Given PENDING Piwik javascript variable _paq is undefined
+        When I literally go to bookmarks
+        And click on link "Sign in"
+        Then I should see the CUWebLogin page
 
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
