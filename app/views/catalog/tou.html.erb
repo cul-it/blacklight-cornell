@@ -20,7 +20,7 @@
     <h2>
      <% if !@db.present? %>
           <table class="table table-bordered table-striped">
-            <caption>License terms and permissions for this resource</caption>
+            <caption class="sr-only">License terms and permissions for this resource</caption>
             <thead>
               <tr>
                 <th scope="col">
@@ -93,7 +93,7 @@
           <% data = @ermDBResult[0] %>
             <% if data.present? %>
               <table class="table table-bordered table-striped">
-                <caption>License terms and permissions for this resource</caption>
+                <caption class="sr-only">License terms and permissions for this resource</caption>
                 <thead>
                   <tr>
                     <th scope="col">
@@ -286,7 +286,7 @@
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
-            <caption>License terms and permissions for this resource</caption>
+            <caption class="sr-only">License terms and permissions for this resource</caption>
             <thead>
               <tr>
                 <th scope="col">

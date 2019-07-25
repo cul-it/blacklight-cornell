@@ -25,9 +25,9 @@
     <% link_url = ss_uri_encode(link_url) %>
     <div class="view-all">
       <% if key == "libguides" %>
-        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-default", :id => "link_top_libguides" %>
+        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
         <% else %>
-      <%= link_to link_url, :class => "btn btn-default", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
+      <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
         -->
@@ -71,12 +71,6 @@
 
 
 
-    </div>
-    <div class="top-link visible-xs">
-      <%= link_to '#top' do %>
-        <i class="fa fa-arrow-up"></i>
-        Top
-      <% end %>
     </div>
   <% end %>
 <% end %>

@@ -1,5 +1,5 @@
-<div class="headings-list">
-  <table class="table table-responsive table-striped browse-callnumber">
+<div class="headings-list table-responsive">
+  <table class="table table-striped browse-callnumber">
     <thead>
       <tr>
         <th class="headings-cn" scope="col">
@@ -8,7 +8,7 @@
         <th class="headings-cn-title" scope="col">
           Title
         </th>
-        <th class="headings-cn-forma hidden-xs" scope="col">
+        <th class="headings-cn-format" scope="col">
           Format
         </th>
         <th class="headings-cn-availability" scope="col">
@@ -38,7 +38,7 @@
               <% end %>
             <% end %>
           </td>
-          <td class="hidden-xs">
+          <td>
             <%= data["format"][0] %>
           </td>
           <td>

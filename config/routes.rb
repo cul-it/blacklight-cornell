@@ -1,8 +1,10 @@
 BlacklightCornell::Application.routes.draw do
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
-  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
-
+# as option causing invalid route name, already in use error
+#  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+  match 'catalog/unapi', :to => "catalog#unapi", :via => [:get]
+  
   Blacklight::Marc.add_routes(self)
 
   root :to => "catalog#index"
@@ -176,5 +178,4 @@ devise_for :users, controllers: {
 
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
-  mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end

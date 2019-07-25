@@ -1,7 +1,8 @@
 <% if back_to_catalog_needed %>
   <% session[:search][:controller] == 'advanced_search' ? link_label = 'Back to results' : '' %>
   <% link_back = link_back_to_catalog({:label => link_label}) %>
-  <% if link_back %>
+<% if link_back and link_back.class.to_s != "ActiveSupport::SafeBuffer"%>
+<%# if link_back %>
     <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
         <% opts = ENV['RAILS_ENV'] != 'test' ?  
          {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  } 
@@ -18,9 +19,9 @@
  <% content_for(:head) do -%>
         <%  render_link_rel_alternates          %>
         <%= render_opensearch_response_metadata %>
-        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
-        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
-        <%= render_extra_head_content %>
+        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss').permit), :title => t('blacklight.search.rss_feed') ) %>
+        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom').permit), :title => t('blacklight.search.atom_feed') ) %>
+        <%# render_extra_head_content %>
  <% end -%>
 
 <% sidebar_items << render_document_sidebar_partial %>

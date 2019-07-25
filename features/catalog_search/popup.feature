@@ -18,7 +18,7 @@ Feature: Select and export items from the result set
     And I sleep 5 seconds
     Then I should see the label 'You have no selected items'
     Given I request the item view for 7981095
-    Then I should select checkbox "toggle_bookmark_7981095"
+    Then I should select checkbox "toggle-bookmark_7981095"
     And I sleep 5 seconds
     And click on link "Selected Items"
     Then I should see the label 'Shelter medicine for veterinarians and staff'
@@ -33,7 +33,7 @@ Feature: Select and export items from the result set
     And click on link "Selected Items"
     And I sleep 5 seconds
     Given I request the item view for 7981095
-    Then I should select checkbox "toggle_bookmark_7981095"
+    Then I should select checkbox "toggle-bookmark_7981095"
     And I sleep 5 seconds
     And click on link "Selected Items"
     Then I should see the label 'Shelter medicine for veterinarians and staff'
@@ -49,7 +49,7 @@ Feature: Select and export items from the result set
     And click on link "Selected Items"
     And I sleep 5 seconds
     Given I request the item view for 7981095
-    Then I should select checkbox "toggle_bookmark_7981095"
+    Then I should select checkbox "toggle-bookmark_7981095"
     And I sleep 5 seconds
     And click on link "Selected Items"
     Then I should see the label 'Shelter medicine for veterinarians and staff'

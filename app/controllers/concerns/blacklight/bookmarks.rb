@@ -8,7 +8,6 @@ module Blacklight::Bookmarks
     ##
     # Give Bookmarks access to the CatalogController configuration
     include Blacklight::Configurable
-    include Blacklight::SearchHelper
     include Blacklight::TokenBasedUser
 
     copy_blacklight_config_from(CatalogController)
@@ -25,7 +24,7 @@ module Blacklight::Bookmarks
   def action_documents
     bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-    fetch(bookmark_ids)
+    search_service.fetch(bookmark_ids)
   end
 
   def action_success_redirect_path
@@ -38,7 +37,15 @@ module Blacklight::Bookmarks
     search_catalog_url(*args)
   end
 
+  def citation
+    @response, @documents = action_documents
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
+
   def index
+    # if block is custom code
     if current_user && Bookbag.enabled?
       flash[:notice] = I18n.t('blacklight.bookmarks.use_book_bag') 
       redirect_to '/book_bags/index'
@@ -46,17 +53,19 @@ module Blacklight::Bookmarks
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
 
+    # next line and if block are custom code
     max_bookmarks = BookBagsController::MAX_BOOKBAGS_COUNT
     if bookmark_ids.count > max_bookmarks
       bookmark_ids = bookmark_ids.slice(0, max_bookmarks)
     end
 
-    @response, @document_list = fetch(bookmark_ids)
+    @response, deprecated_document_list = search_service.fetch(bookmark_ids)
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
 
     respond_to do |format|
-      format.html { }
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
+      format.html {}
+      format.rss  { render layout: false }
+      format.atom { render layout: false }
       format.json do
         render json: render_search_results_as_json
       end
@@ -79,15 +88,17 @@ module Blacklight::Bookmarks
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler.
   def create
+    # begin and rescue block are custom code
     begin
       @bookmarks = if params[:bookmarks]
-                    params[:bookmarks]
-                  else
-                    [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
-                  end
-
+                     permit_bookmarks[:bookmarks]
+                   else
+                     [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
+                   end
+  
       current_or_guest_user.save! unless current_or_guest_user.persisted?
-
+  
+      # next 8 lines are custom code
       current_count = current_or_guest_user.bookmarks.count
       new_count = @bookmarks.count
       save_level = Rails.logger.level;  Rails.logger.level = Logger::WARN
@@ -99,22 +110,17 @@ module Blacklight::Bookmarks
       success = @bookmarks.all? do |bookmark|
         current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
       end
-
-      if request.xhr? && success
-        success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(plain: "", status: "500")
+  
+      if request.xhr?
+        success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
       else
         if @bookmarks.any? && success
-          flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
+          flash[:notice] = I18n.t('blacklight.bookmarks.add.success', count: @bookmarks.length)
         elsif @bookmarks.any?
-          flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+          flash[:error] = I18n.t('blacklight.bookmarks.add.failure', count: @bookmarks.length)
         end
-
-        if respond_to? :redirect_back
-          redirect_back fallback_location: bookmarks_path
-        else
-          # Deprecated in Rails 5.0
-          redirect_to :back
-        end
+  
+        redirect_back fallback_location: bookmarks_path
       end
     rescue RangeError => msg
       save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
@@ -130,24 +136,28 @@ module Blacklight::Bookmarks
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be.
   def destroy
-    bookmark = current_or_guest_user.bookmarks.find_by(document_id: params[:id], document_type: blacklight_config.document_model.to_s)
-
-    if bookmark && bookmark.delete && bookmark.destroyed?
-      if request.xhr?
-        render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }})
-      elsif respond_to? :redirect_back
-        redirect_back fallback_location: bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success')
+    @bookmarks =
+      if params[:bookmarks]
+        permit_bookmarks[:bookmarks]
       else
-        # Deprecated in Rails 5.0
-        redirect_to :back, notice: I18n.t('blacklight.bookmarks.remove.success')
+        [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
+      end
+
+    success = @bookmarks.all? do |bookmark|
+      bookmark = current_or_guest_user.bookmarks.find_by(bookmark)
+      bookmark && bookmark.delete && bookmark.destroyed?
+    end
+
+    if success
+      if request.xhr?
+        render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } })
+      else
+        redirect_back fallback_location: bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success')
       end
     elsif request.xhr?
       head 500 # ajaxy request needs no redirect and should not have flash set
-    elsif respond_to? :redirect_back
-      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     else
-      # Deprecated in Rails 5.0
-      redirect_to :back, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
+      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     end
   end
 
@@ -157,14 +167,15 @@ module Blacklight::Bookmarks
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
     end
-    redirect_to :action => "index"
+    redirect_to action: "index"
   end
 
-  protected
+  private
 
   def verify_user
-    unless current_or_guest_user or (action == "index" and token_or_current_or_guest_user)
-      flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied
+    unless current_or_guest_user || (action == "index" && token_or_current_or_guest_user)
+      flash[:notice] = I18n.t('blacklight.bookmarks.need_login')
+      raise Blacklight::Exceptions::AccessDenied
     end
   end
 
@@ -172,4 +183,7 @@ module Blacklight::Bookmarks
     action_name == "index"
   end
 
+  def permit_bookmarks
+    params.permit(bookmarks: [:document_id, :document_type])
+  end
 end

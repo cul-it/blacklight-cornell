@@ -23,10 +23,11 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
   controller = @controller.class.to_s.downcase.sub('controller','')
+  search_service = Blacklight::SearchService.new(config: blacklight_config, user_params: search_state.to_h)
   @document_list.each do |doc|
     xml.entry do
       xml.title   doc.to_semantic_values[:title][0] || doc.id
-      (response, dl ) = @controller.fetch(doc.id)
+      (response, dl ) = search_service.fetch(doc.id)
       # updated is required, for now we'll just set it to now, sorry
       xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
       xml.link    "rel" => "alternate", "type" => "text/html", "href" => url_for(:controller=>'catalog',:action => 'show',  :id => doc.id )

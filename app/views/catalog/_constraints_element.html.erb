@@ -10,7 +10,7 @@
 -%>
 
 <%- unless options[:remove].blank? -%>
-  <a href="<%= url_for(options[:remove]) %>" class="btn btn-default" title="Remove">
+  <a href="<%= url_for(options[:remove]) %>" class="btn btn-light" title="Remove">
 <%- end -%>
     <%- if label.blank? -%>
       <span class="filter-label"><%= "All Fields" + raw(label) %></span>:

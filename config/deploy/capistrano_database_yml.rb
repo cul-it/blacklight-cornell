@@ -68,7 +68,7 @@
 #     database: #{shared_path}/db/test.sqlite3
 #     <<: *base
 #   production:
-#     adapter: mysql2
+#     adapter: mysql
 #     database: #{application}_production
 #     username: #{user}
 #     password: #{Capistrano::CLI.ui.ask("Enter MySQL database password: ")}

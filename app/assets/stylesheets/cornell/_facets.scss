@@ -1,16 +1,5 @@
 .facets {
 	background: white;
-	h5 {
-		line-height: 1.2em;
-		font-size: 14px;
-		cursor: pointer;
-		color: $dark-gray;
-		i {
-			float: right;
-			margin-right: 0;
-			color: $light-gray;
-		}
-	}
 	ul {
 		margin: 0 0 5px 10px;
 		padding: 0;
@@ -18,7 +7,6 @@
 	}
 	li {
 		font-size: 13px;
-		color: $medium-gray;
 		padding-right: 50px;
 	}
 	p {
@@ -31,29 +19,9 @@
 	}
 	.navbar {
 		margin-bottom: 0;
-		padding: 0 0 5px 10px;
+		padding: 0;
 	}
 	a:hover { background: white; }
-	.top-panel-heading {
-		padding: 0;
-		border-radius: 0;
-		border: 0 !important;
-		overflow: hidden;
-	}
-	.panel-heading{
-		a {
-			border-bottom: 0;
-			background-color: inherit;
-			text-decoration: none;
-		}
-	}
-	.top-panel-heading {
-		h2 {
-			padding-left: 0;
-			font-size: 18px;
-			margin-top: .5em;
-		}
-	}
 }
 .facet-values {
 	.facet-label {
@@ -69,6 +37,9 @@
 			padding-bottom: 0;
 		}
 	}
+}
+.facets-heading {
+	font-size: 1.25rem;
 }
 
 // OVERRIDE #FACETS - TODO: do we still need this in BL5?
@@ -97,7 +68,7 @@
 	a.remove:hover {
 		text-decoration: none;
 		background: white;
-		i { color: $concrete; }
+		i { color: $medium-gray; }
 	}
 	a.remove:active, a.remove:focus {
 		border: 0;
@@ -106,16 +77,32 @@
 		color: $dark-gray;
 	}
 	h5 + div { padding-bottom: .5em; }
-	.top-panel-heading {
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
 }
 // TODO: ".count" may not be used in BL5
-.facet-count,
-.count {
+.facet-count {
   font-family: $monospace-font-family;
   font-size: 12px;
+}
+
+// Make cursor into pointer when mousing over facets
+.facets {
+	.card-header {
+		cursor: pointer;
+	}
+}
+
+.expand-search {
+	margin-bottom: 1rem;
+	margin-top: .5rem;
+}
+
+// BL7 selected facet
+.facet-limit-active {
+	border-color: $concrete !important;
+	.card-header {
+		background: $concrete !important;
+		color: white;
+	}
 }
 
 // PUBLICATION YEAR
@@ -130,6 +117,7 @@
 	.count {
 		text-align: right;
 		float: right;
+		// color: $medium-gray;
 	}
 	.tickLabel { font-size: 0.875em; }
 	.missing,
@@ -180,19 +168,23 @@ form.range_limit {
 .advanced-facets {
 	clear: both;
 	padding: 1.5em 0 0;
-	.btn {
-		// color: $dark-gray;
-		margin-bottom: .25em;
-		white-space: normal; // make long constraints wrap instead of break the layout DISCOVERYACCESS-1846
-	}
-	a:hover {
-		text-decoration: none;
-	}
-	i {
+
+	// .btn-info {
+	// 	text-align: left;
+	// 	background: $teal;
+	// 	border-color: $teal;
+	// 	i { margin: .1em 0 0 .5em; }
+	// }
+	// .btn {
+	// 	color: $white;
+	// 	margin-bottom: .25em;
+	// 	white-space: normal; // make long constraints wrap instead of break the layout DISCOVERYACCESS-1846
+	// }
+	// a:hover {
+	// 	text-decoration: none;
+	// }
+	i { 
 		color: $cornell-primary;
-	}
-	i:hover {
-		color: $dark-gray;
 	}
 	.filter-value {
 		font-weight: 700;
@@ -213,6 +205,7 @@ form.range_limit {
 
 .constraints-bar {
 	background: white;
+	padding-bottom: .5rem;
 }
 
 // Active facet panel
@@ -220,25 +213,6 @@ form.range_limit {
 
 .panel-success > .panel-heading, .facet_limit-active > .panel-heading {
 	background-color: #dff0d8;
-}
-
-// Facet button on mobile
-// ---------------------------
-.facets-toggle,
-.facets-toggle:hover
-.facets-toggle:active,
-.facets-toggle:focus {
-	border-radius: 0;
-	border: 1px solid $tan;
-	padding: 10px;
-	clear: both;
-	margin: 0;
-}
-.facets-toggle {
-	i {
-		margin-right: 0;
-		color: $dark-gray;
-	}
 }
 
 // More facets modal
@@ -296,30 +270,14 @@ form.range_limit {
 	}
 }
 
-// Facet toggle
-.panel-heading.collapse-toggle .panel-title:after {
-	padding-top: .25em;
-	color: $concrete;
-}
-
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
-
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) {
+// Small devices (landscape phones, 576px and up)
+@include media-breakpoint-up(sm) {
 	.facets {
 		h5 {
 			font-size: 12px;
@@ -340,8 +298,8 @@ form.range_limit {
 	}
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) {
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	.facets {
 		h5 {
 			font-size: 14px;
@@ -363,6 +321,9 @@ form.range_limit {
 		}
 	}
 }
-/* Large devices (desktops, 1200px and up) */
-// @media (min-width: $screen-lg) {
-// }
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

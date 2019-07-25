@@ -12,22 +12,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:17:15 GMT
+      - Fri, 19 Jul 2019 18:05:56 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:17:15 GMT
+      - Fri, 19 Jul 2019 18:05:56 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:16:53 GMT
+      - Fri, 19 Jul 2019 18:05:28 GMT
       Etag:
-      - '"ODRjYTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"MzlmNDYwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - text/plain;charset=utf-8
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -41,7 +41,7 @@ http_interactions:
           'responseHeader'=>{
             'zkConnected'=>true,
             'status'=>0,
-            'QTime'=>67,
+            'QTime'=>945,
             'params'=>{
               'q'=>'*'}},
           'response'=>{'numFound'=>85,'start'=>0,'docs'=>[
@@ -644,7 +644,7 @@ http_interactions:
                 'url_access_json'=>['{"providercode":"PRVAGG","description":"Digital collection","url":"http://resolver.library.cornell.edu/misc/5861081"}']}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:17:15 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:57 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/culdigreg?q=hip%20hop
@@ -657,22 +657,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:17:24 GMT
+      - Fri, 19 Jul 2019 18:06:04 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:17:24 GMT
+      - Fri, 19 Jul 2019 18:06:04 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:16:53 GMT
+      - Fri, 19 Jul 2019 18:05:28 GMT
       Etag:
-      - '"ODRjYTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"ZTE2YjQ2MDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - text/plain;charset=utf-8
       Content-Length:
-      - '2354'
+      - '2355'
       Via:
       - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
@@ -686,7 +686,7 @@ http_interactions:
           'responseHeader'=>{
             'zkConnected'=>true,
             'status'=>0,
-            'QTime'=>629,
+            'QTime'=>1131,
             'params'=>{
               'q'=>'hip hop'}},
           'response'=>{'numFound'=>2,'start'=>0,'docs'=>[
@@ -706,5 +706,5 @@ http_interactions:
                 'url_access_json'=>['{"description":"Connect to Hip hop party and event flyers.","url":"http://hdl.handle.net/1813.001/8002837"}']}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:17:25 GMT
+  recorded_at: Fri, 19 Jul 2019 18:06:05 GMT
 recorded_with: VCR 4.0.0
