@@ -9,6 +9,7 @@ module CornellCatalogHelper
 
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
+    Rails.logger.info("EXPANDABLE_SEARCH: " + params.inspect)
     params[:q].present? and !params[:advanced_search] and !params[:click_to_search]
   end
 

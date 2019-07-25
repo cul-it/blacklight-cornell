@@ -38,9 +38,8 @@ class BentoSearch::DigitalCollectionsEngine
       elsif i['description_tesim'].present?
         item.abstract = i['description_tesim'][0].to_s
       end
-      if i['content_metadata_image_iiif_info_ssm'].present?
-        item.format_str = i['content_metadata_image_iiif_info_ssm'][0].to_s
-        item.format_str = item.format_str.gsub('info.json','full/100,/0/native.jpg')
+      if i['media_URL_size_0_tesim'].present?
+        item.format_str = i['media_URL_size_0_tesim'][0].to_s
         end
       if i['date_tesim'].present?
         item.publication_date = i['date_tesim'][0].to_s

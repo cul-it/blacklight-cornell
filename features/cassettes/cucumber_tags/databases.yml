@@ -19,24 +19,24 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:16:51 GMT
+      - Thu, 18 Jul 2019 19:37:04 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:15:22 GMT
+      - Thu, 18 Jul 2019 19:34:33 GMT
       Etag:
-      - '"NDlkMTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"MjFkMzQ2MDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
-      - 1.1 da-prod-solr9.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '2926'
+      - '3128'
       Connection:
       - close
     body:
       encoding: ASCII-8BIT
-      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":565,"params":{"rows":"10","wt":"json"}},"response":{"numFound":8029167,"start":0,"maxScore":1.5185139,"docs":[{"author_display":"Vaughan,
+      string: '{"responseHeader":{"zkConnected":true,"status":0,"QTime":656,"params":{"rows":"10","wt":"json"}},"response":{"numFound":7988507,"start":0,"maxScore":1.5185139,"docs":[{"author_display":"Vaughan,
         Elaine","title_display":"Community and Identity in Teacher Professional Talk:
         Applying Corpus Methodologies","fulltitle_display":"Community and Identity
         in Teacher Professional Talk: Applying Corpus Methodologies","subtitle_display":"","pub_info_display":["London
@@ -55,6 +55,62 @@ http_interactions:
         12:42:50.0\",\"item_barcode\":\"31924126363724\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
         Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1049577395"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Olin
         Library\":\"JA86 .B24 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Yin, Kun., author","title_display":"Design
+        of Novel Biosensors for Optical Sensing and Their Applications in Environmental
+        Analysis","fulltitle_display":"Design of Novel Biosensors for Optical Sensing
+        and Their Applications in Environmental Analysis","subtitle_display":"","pub_info_display":["Singapore
+        : Springer Singapore : Imprint: Springer, 2020."],"pub_date_display":["2020"],"language_display":["English."],"id":"10832037","url_access_display":["http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-13-6488-4|Full
+        text available from SpringerLink ebooks - Earth and Environmental Science
+        (Contemporary) Connect to text."],"url_access_json":["{\"providercode\":\"PRVAVX\",\"dbcode\":\"0D8\",\"description\":\"Full
+        text available from SpringerLink ebooks - Earth and Environmental Science
+        (Contemporary) Connect to text.\",\"ssid\":\"ssj0002135574\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&isbn=978-981-13-6488-4\"}"],"acquired_dt":"2019-05-14T00:00:00Z","holdings_record_display":["{\"id\":\"11127410\",\"modified_date\":\"20190514145312\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Resource\",\"library\":null}]}"],"oclc_id_display":["1089754186"],"availability_json":"{\"online\":true}","pub_date_facet":2020,"format":["Book"],"online":["Online"],"score":1.5185139},{"author_display":"WARD,
+        IAN.","title_display":"ENGLISH LEGAL HISTORIES","fulltitle_display":"ENGLISH
+        LEGAL HISTORIES","subtitle_display":"","pub_info_display":["[S.l.] : HART
+        PUBLISHING, 2020."],"pub_date_display":["2020"],"language_display":["English."],"id":"10883995","holdings_record_display":["{\"id\":\"11165585\",\"modified_date\":\"20190620125730\",\"copy_number\":null,\"callnos\":[\"On
+        order\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"law\",\"number\":63,\"name\":\"Law
+        Library (Myron Taylor Hall)\",\"library\":\"Law Library\"}]}"],"oclc_id_display":["1097578655"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Law
+        Library (Myron Taylor Hall)\":\"On order as of 6/20/19\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"title_display":"The Oxford handbook of
+        comic book studies","fulltitle_display":"The Oxford handbook of comic book
+        studies","subtitle_display":"","pub_info_display":["New York, NY : Oxford
+        University Press, [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10864478","url_access_display":["http://proxy.library.cornell.edu/login?url=https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780190917944.001.0001/oxfordhb-9780190917944|Full
+        text available from Oxford Handbooks Online 2019 Literature Connect to text."],"url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"OAPHE\",\"description\":\"Full
+        text available from Oxford Handbooks Online 2019 Literature Connect to text.\",\"ssid\":\"ssib035343164\",\"url\":\"http://proxy.library.cornell.edu/login?url=https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780190917944.001.0001/oxfordhb-9780190917944\"}"],"acquired_dt":"2019-06-11T00:00:00Z","holdings_record_display":["{\"id\":\"11159442\",\"modified_date\":\"20190611162251\",\"copy_number\":null,\"callnos\":null,\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"serv,remo\",\"number\":128,\"name\":\"*Networked
+        Resource\",\"library\":null}]}"],"oclc_id_display":["1104456487"],"availability_json":"{\"online\":true}","pub_date_facet":2020,"format":["Book"],"online":["Online"],"score":1.5185139},{"author_display":"Silberstein,
+        Fanchon","title_display":"Art Insight: Understanding Art and Why It Matters","fulltitle_display":"Art
+        Insight: Understanding Art and Why It Matters","subtitle_display":"","pub_info_display":["Intellect
+        (UK) 2020"],"pub_date_display":["2020"],"language_display":["English."],"id":"10975998","holdings_record_display":["{\"id\":\"11256806\",\"modified_date\":\"20190717110046\",\"copy_number\":null,\"callnos\":[],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"fine\",\"number\":31,\"name\":\"Fine
+        Arts Library (B56 Sibley Hall)\",\"library\":\"Fine Arts Library\"}]}"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Fine
+        Arts Library (B56 Sibley Hall)\":\"On order as of 7/18/19\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Wen, Eric, 1953- author","title_display":"Graphic
+        music analysis","fulltitle_display":"Graphic music analysis","subtitle_display":"","pub_info_display":["Lanham
+        : Rowman & Littlefield Publishers, Inc., [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762019","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058439\",\"modified_date\":\"20190410121336\",\"copy_number\":null,\"callnos\":[\"MT6
+        .W3337 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
+        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651918\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058439\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
+        12:13:36.0\",\"item_barcode\":\"31924126208028\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
+        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}}"],"oclc_id_display":["1037884442"],"availability_json":"{\"available\":true,\"availAt\":{\"Cox
+        Library of Music (Lincoln Hall)\":\"MT6 .W3337 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Smith, Gene A., 1963-
+        author","title_display":"In harm''s way","fulltitle_display":"In harm''s way
+        : a history of the American military experience","subtitle_display":"a history
+        of the American military experience","pub_info_display":["New York : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762030","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058450\",\"modified_date\":\"20190410121341\",\"copy_number\":null,\"callnos\":[\"E181
+        .S564 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651929\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058450\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
+        12:13:42.0\",\"item_barcode\":\"31924126207277\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1061864106"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"E181 .S564 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
+        the Library"],"score":1.5185139},{"author_display":"Schwalbe, Michael, 1956-
+        author","title_display":"Making a difference","fulltitle_display":"Making
+        a difference : using sociology to create a better world","subtitle_display":"using
+        sociology to create a better world","pub_info_display":["New York, NY : Oxford
+        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10752548","acquired_dt":"2019-03-27T00:00:00Z","holdings_record_display":["{\"id\":\"11049443\",\"modified_date\":\"20190327104646\",\"copy_number\":null,\"callnos\":[\"HM585
+        .S377 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10645881\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11049443\",\"recalls_placed\":\"0\",\"create_date\":\"2019-03-27
+        10:46:46.0\",\"item_barcode\":\"31924126199904\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
+        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1055569849"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
+        Library\":\"HM585 .S377 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
         the Library"],"score":1.5185139},{"author_display":"Mio, Jeffery Scott, 1954-
         author","title_display":"Multicultural psychology","fulltitle_display":"Multicultural
         psychology : understanding our diverse communities","subtitle_display":"understanding
@@ -66,88 +122,16 @@ http_interactions:
         07:37:21.0\",\"item_barcode\":\"31924126190671\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
         Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1076461020"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
         Library\":\"HM1271 .M555 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
-        the Library"],"score":1.5185139},{"author_display":"Schwalbe, Michael, 1956-
-        author","title_display":"Making a difference","fulltitle_display":"Making
-        a difference : using sociology to create a better world","subtitle_display":"using
-        sociology to create a better world","pub_info_display":["New York, NY : Oxford
-        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10752548","acquired_dt":"2019-03-27T00:00:00Z","holdings_record_display":["{\"id\":\"11049443\",\"modified_date\":\"20190327104646\",\"copy_number\":null,\"callnos\":[\"HM585
-        .S377 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
-        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10645881\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11049443\",\"recalls_placed\":\"0\",\"create_date\":\"2019-03-27
-        10:46:46.0\",\"item_barcode\":\"31924126199904\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
-        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1055569849"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
-        Library\":\"HM585 .S377 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
-        the Library"],"score":1.5185139},{"author_display":"Smith, Gene A., 1963-
-        author","title_display":"In harm''s way","fulltitle_display":"In harm''s way
-        : a history of the American military experience","subtitle_display":"a history
-        of the American military experience","pub_info_display":["New York : Oxford
-        University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762030","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058450\",\"modified_date\":\"20190410121341\",\"copy_number\":null,\"callnos\":[\"E181
-        .S564 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
-        Library\",\"library\":\"Olin Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651929\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058450\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
-        12:13:42.0\",\"item_barcode\":\"31924126207277\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"olin\",\"number\":99,\"name\":\"Olin
-        Library\",\"library\":\"Olin Library\"}}"],"oclc_id_display":["1061864106"],"availability_json":"{\"available\":true,\"availAt\":{\"Olin
-        Library\":\"E181 .S564 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
-        the Library"],"score":1.5185139},{"author_display":"Wen, Eric, 1953- author","title_display":"Graphic
-        music analysis","fulltitle_display":"Graphic music analysis","subtitle_display":"","pub_info_display":["Lanham
-        : Rowman & Littlefield Publishers, Inc., [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10762019","acquired_dt":"2019-04-10T00:00:00Z","holdings_record_display":["{\"id\":\"11058439\",\"modified_date\":\"20190410121336\",\"copy_number\":null,\"callnos\":[\"MT6
-        .W3337 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
-        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10651918\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11058439\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-10
-        12:13:36.0\",\"item_barcode\":\"31924126208028\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"mus\",\"number\":88,\"name\":\"Cox
-        Library of Music (Lincoln Hall)\",\"library\":\"Music Library\"}}"],"oclc_id_display":["1037884442"],"availability_json":"{\"available\":true,\"availAt\":{\"Cox
-        Library of Music (Lincoln Hall)\":\"MT6 .W3337 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
-        the Library"],"score":1.5185139},{"author_display":"Eder, W. E. (Wolfgang
-        Ernst), author","title_display":"Systematic engineering design","fulltitle_display":"Systematic
-        engineering design : general model of procedures for systematic and methodical
-        engineering designing","subtitle_display":"general model of procedures for
-        systematic and methodical engineering designing","pub_info_display":["Boca
-        Raton, FL : Taylor & Francis Group, [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10638996","edition_display":["First
-        edition."],"acquired_dt":"2019-02-08T00:00:00Z","holdings_record_display":["{\"id\":\"10936343\",\"modified_date\":\"20190208152520\",\"copy_number\":null,\"callnos\":[\"Available
-        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
-        Technical Services Review Shelves\",\"library\":null}]}"],"oclc_id_display":["1029770202"],"availability_json":"{\"available\":true,\"availAt\":{\"Library
-        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","pub_date_facet":2020,"format":["Book"],"score":1.5185139},{"author_display":"Desnoyers,
-        Charles, 1952- author","title_display":"Patterns of East Asian history","fulltitle_display":"Patterns
-        of East Asian history","subtitle_display":"","pub_info_display":["New York
-        : Oxford University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10814793","acquired_dt":"2019-04-24T00:00:00Z","holdings_record_display":["{\"id\":\"11110796\",\"modified_date\":\"20190424142307\",\"copy_number\":null,\"callnos\":[\"DS511
-        .D47 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"was\",\"number\":139,\"name\":\"Kroch
-        Library Asia\",\"library\":\"Kroch Library Asia\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10666269\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11110796\",\"recalls_placed\":\"0\",\"create_date\":\"2019-04-24
-        14:23:07.0\",\"item_barcode\":\"31924126214620\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"was\",\"number\":139,\"name\":\"Kroch
-        Library Asia\",\"library\":\"Kroch Library Asia\"}}"],"oclc_id_display":["1099201203"],"availability_json":"{\"available\":false,\"unavailAt\":{\"Kroch
-        Library Asia\":\"DS511 .D47 2020\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
-        the Library"],"score":1.5185139},{"author_display":"Newnan, Donald G., author","title_display":"Engineering
-        economic analysis","fulltitle_display":"Engineering economic analysis","subtitle_display":"","pub_info_display":["New
-        York : Oxford University Press, [2020]"],"pub_date_display":["2020"],"language_display":["English."],"id":"10825474","edition_display":["Fourteenth
-        Edition."],"acquired_dt":"2019-05-03T00:00:00Z","holdings_record_display":["{\"id\":\"11121156\",\"modified_date\":\"20190503145827\",\"copy_number\":null,\"callnos\":[\"Available
-        for the Library to Purchase\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"cts,rev\",\"number\":120,\"name\":\"Library
-        Technical Services Review Shelves\",\"library\":null}]}"],"oclc_id_display":["1080553809"],"availability_json":"{\"available\":true,\"availAt\":{\"Library
-        Technical Services Review Shelves\":\"Available for the Library to Purchase\"}}","pub_date_facet":2020,"format":["Book"],"score":1.5185139},{"author_display":"Libby,
-        Robert, author","title_display":"Financial accounting","fulltitle_display":"Financial
-        accounting","subtitle_display":"","pub_info_display":["New York, NY : McGraw-Hill
-        Education, [2020]"],"pub_date_display":["[2020]"],"language_display":["English."],"id":"10828018","edition_display":["Tenth
-        edition."],"acquired_dt":"2019-05-13T00:00:00Z","holdings_record_display":["{\"id\":\"11123500\",\"modified_date\":\"20190513124305\",\"copy_number\":null,\"callnos\":[\"HF5635
-        .L684 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123502\",\"modified_date\":\"20190513124507\",\"copy_number\":\"2\",\"callnos\":[\"HF5635
-        .L684 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123504\",\"modified_date\":\"20190513124719\",\"copy_number\":\"3\",\"callnos\":[\"HF5635
-        .L684 2020\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123505\",\"modified_date\":\"20190510161039\",\"copy_number\":\"4\",\"callnos\":[\"On
-        Order\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}","{\"id\":\"11123506\",\"modified_date\":\"20190510161055\",\"copy_number\":\"5\",\"callnos\":[\"On
-        Order\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}]}"],"item_record_display":["{\"copy_number\":\"1\",\"item_type_name\":\"book\",\"item_id\":\"10673324\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11123500\",\"recalls_placed\":\"0\",\"create_date\":\"2019-05-13
-        12:43:52.0\",\"item_barcode\":\"31924126479934\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}}","{\"copy_number\":\"2\",\"item_type_name\":\"book\",\"item_id\":\"10673326\",\"year\":\"\",\"item_type_id\":\"3\",\"chron\":\"\",\"caption\":\"\",\"holds_placed\":\"0\",\"temp_location\":\"0\",\"on_reserve\":\"N\",\"item_enum\":\"\",\"item_sequence_number\":\"1\",\"temp_item_type_id\":\"0\",\"mfhd_id\":\"11123502\",\"recalls_placed\":\"0\",\"create_date\":\"2019-05-13
-        12:45:53.0\",\"item_barcode\":\"31924126479926\",\"modify_date\":\"\",\"perm_location\":{\"code\":\"jgsm\",\"number\":59,\"name\":\"ILR
-        Library (Ives Hall)\",\"library\":\"ILR Library\"}}"],"oclc_id_display":["1056201013","1056201013"],"availability_json":"{\"available\":true,\"availAt\":{\"ILR
-        Library (Ives Hall)\":\"On Order\"}}","pub_date_facet":2020,"format":["Book"],"online":["At
-        the Library"],"score":1.5185139}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",7055214,"Journal/Periodical",397563,"Microform",355715,"Musical
-        Recording",234636,"Thesis",202250,"Video",106347,"Musical Score",101834,"Map",64934,"Manuscript/Archive",17005,"Non-musical
-        Recording",10328],"online":["At the Library",5949565,"Online",2230414],"language_facet":["English",4963349,"German",547061,"French",344337,"Spanish",293786,"Chinese",272474,"Russian",187642,"Italian",154457,"Indonesian",142158,"Japanese",105518,"Latin",80715],"location_facet":["Library
-        Annex",2427492,"Olin Library",1712927,"Kroch Library Asia",627132,"Kroch Library
-        Rare & Manuscripts",512488,"Music Library",202799,"Law Library",201766,"Mann
-        Library",166926,"Uris Library",152642,"ILR Library",111047,"Mathematics Library",52727]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}}}
+        the Library"],"score":1.5185139}]},"facet_counts":{"facet_queries":{},"facet_fields":{"format":["Book",7007515,"Journal/Periodical",403710,"Microform",355708,"Musical
+        Recording",234708,"Thesis",202400,"Video",106062,"Musical Score",101882,"Map",64973,"Manuscript/Archive",17127,"Non-musical
+        Recording",10366],"online":["At the Library",5960316,"Online",2179558],"language_facet":["English",4870757,"German",548850,"French",345585,"Spanish",294436,"Chinese",272759,"Russian",187670,"Italian",154899,"Indonesian",142802,"Japanese",105737,"Latin",80785],"location_facet":["Library
+        Annex",2431504,"Olin Library",1716842,"Kroch Library Asia",627714,"Kroch Library
+        Rare & Manuscripts",513395,"Music Library",203031,"Law Library",202112,"Mann
+        Library",166879,"Uris Library",152837,"ILR Library",111192,"Mathematics Library",52733]},"facet_ranges":{},"facet_intervals":{},"facet_heatmaps":{}}}
 
-'
+        '
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:16:52 GMT
+  recorded_at: Thu, 18 Jul 2019 19:37:05 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%22&wt=json
@@ -160,24 +144,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:16:52 GMT
+      - Fri, 19 Jul 2019 18:05:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:16:52 GMT
+      - Fri, 19 Jul 2019 18:05:32 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:15:22 GMT
+      - Fri, 19 Jul 2019 18:05:18 GMT
       Etag:
-      - '"NDlkMTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"YzE2YjQ2MDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '21428'
       Via:
-      - 1.1 da-prod-solr9.library.cornell.edu
+      - 1.1 da-prod-solr7.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -189,7 +173,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":179,
+            "QTime":162,
             "params":{
               "q":"\"Anthropology\"",
               "indent":"true",
@@ -474,7 +458,7 @@ http_interactions:
                   "Theater, Film and Television"]}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:16:52 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:32 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Anthropology%20(Core)%22&wt=json
@@ -487,24 +471,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:16:52 GMT
+      - Fri, 19 Jul 2019 18:05:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:16:52 GMT
+      - Fri, 19 Jul 2019 18:05:32 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:13:46 GMT
+      - Fri, 19 Jul 2019 18:05:28 GMT
       Etag:
-      - '"YThlMDYyMDAwMDAwMDAwMFNvbHI="'
+      - '"MzlmNDYwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '3848'
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -516,7 +500,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":52,
+            "QTime":28,
             "params":{
               "q":"\"Anthropology (Core)\"",
               "indent":"true",
@@ -558,7 +542,7 @@ http_interactions:
                   "Sociology and Rural Development (Core)"]}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:16:52 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:32 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/database?id=5366869&indent=true&wt=json
@@ -571,22 +555,22 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:16:52 GMT
+      - Fri, 19 Jul 2019 18:05:32 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:16:52 GMT
+      - Fri, 19 Jul 2019 18:05:32 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:15:22 GMT
+      - Fri, 19 Jul 2019 18:05:28 GMT
       Etag:
-      - '"NDlkMTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"MzlmNDYwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '1235'
+      - '1236'
       Via:
       - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
@@ -600,12 +584,12 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":8,
+            "QTime":10,
             "params":{
               "indent":"true",
               "id":"5366869",
               "wt":"json"}},
-          "response":{"numFound":1,"start":0,"maxScore":14.01224,"docs":[
+          "response":{"numFound":1,"start":0,"maxScore":13.47822,"docs":[
               {
                 "title_display":"AnthroSource",
                 "fulltitle_display":"AnthroSource",
@@ -621,7 +605,7 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:16:52 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:32 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databases?defType=dismax&indent=true&q=MLA&wt=json
@@ -634,24 +618,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:17:03 GMT
+      - Fri, 19 Jul 2019 18:05:44 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:17:04 GMT
+      - Fri, 19 Jul 2019 18:05:44 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:16:53 GMT
+      - Fri, 19 Jul 2019 18:05:41 GMT
       Etag:
-      - '"ODRjYTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"NmU2ZTdhMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
       - '4576'
       Via:
-      - 1.1 da-prod-solr7.library.cornell.edu
+      - 1.1 da-prod-solr8.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -663,23 +647,13 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":246,
+            "QTime":366,
             "params":{
               "q":"MLA",
               "defType":"dismax",
               "indent":"true",
               "wt":"json"}},
-          "response":{"numFound":4,"start":0,"maxScore":641542.0,"docs":[
-              {
-                "title_display":"MLA directory of periodicals",
-                "fulltitle_display":"MLA directory of periodicals",
-                "subtitle_display":"",
-                "id":"6961751",
-                "summary_display":["Presents detailed information on more than 7,100 periodicals in the areas of literature, language, linguistics, and folklore, with 4,400 currently indexed in the MLA International Bibliography. The entries list editorial addresses, phone numbers, fax numbers, e-mail addresses, frequency of publication, descriptions of the periodicals' scopes, circulation figures, subscription prices and addresses, advertising information, and submission guidelines."],
-                "url_access_display":["http://resolver.library.cornell.edu/misc/6961751|Connect to full text."],
-                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CXE\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/6961751\"}"],
-                "sixfivethree":["Directories",
-                  "General Interest and Reference"]},
+          "response":{"numFound":4,"start":0,"maxScore":625401.5,"docs":[
               {
                 "title_display":"MLA international bibliography",
                 "fulltitle_display":"MLA international bibliography",
@@ -691,6 +665,16 @@ http_interactions:
                 "sixfivethree":["Arts and Humanities",
                   "Linguistics, Language and Literature (Core)",
                   "Theater, Film and Television (Core)"]},
+              {
+                "title_display":"MLA directory of periodicals",
+                "fulltitle_display":"MLA directory of periodicals",
+                "subtitle_display":"",
+                "id":"6961751",
+                "summary_display":["Presents detailed information on more than 7,100 periodicals in the areas of literature, language, linguistics, and folklore, with 4,400 currently indexed in the MLA International Bibliography. The entries list editorial addresses, phone numbers, fax numbers, e-mail addresses, frequency of publication, descriptions of the periodicals' scopes, circulation figures, subscription prices and addresses, advertising information, and submission guidelines."],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/6961751|Connect to full text."],
+                "url_access_json":["{\"providercode\":\"PRVEBS\",\"dbcode\":\"CXE\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/6961751\"}"],
+                "sixfivethree":["Directories",
+                  "General Interest and Reference"]},
               {
                 "title_display":"Literature online",
                 "fulltitle_display":"Literature online : the home of literature and criticism",
@@ -715,7 +699,7 @@ http_interactions:
                   "Newspapers, Magazines and Current Events"]}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:17:04 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:44 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%22&wt=json
@@ -728,18 +712,18 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:17:07 GMT
+      - Fri, 19 Jul 2019 18:05:48 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:17:07 GMT
+      - Fri, 19 Jul 2019 18:05:48 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:16:53 GMT
+      - Fri, 19 Jul 2019 18:05:28 GMT
       Etag:
-      - '"YTlkMTEyMDAwMDAwMDAwMFNvbHI="'
+      - '"MzlmNDYwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Via:
@@ -757,7 +741,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":252,
+            "QTime":146,
             "params":{
               "q":"\"Images\"",
               "indent":"true",
@@ -1116,8 +1100,8 @@ http_interactions:
                 "subtitle_display":"",
                 "id":"6371992",
                 "summary_display":["Oxford Art Online enables access and cross-search functionality to Grove and Oxford reference content in one location. Provides access to Grove Art Online, Benezit Dictionary of Artists, The Encyclopedia of Aesthetics, The Oxford Companion to Western Art, and The Concise Oxford Dictionary of Art Terms. Includes image partnerships with ARTstor, the British Museum, the Museum of Modern Art, the Metropolitan Museum of Art, Art Images for College Teaching, Art Resource, Artists Rights Society and numerous international art galleries and artists."],
-                "url_access_display":["http://resolver.library.cornell.edu/misc/3835895|Connect to full text."],
-                "url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"BWG\",\"description\":\"Connect to full text.\",\"url\":\"http://resolver.library.cornell.edu/misc/3835895\"}"],
+                "url_access_display":["http://resolver.library.cornell.edu/misc/3835895|Access limited to 11 users."],
+                "url_access_json":["{\"providercode\":\"PRVASL\",\"dbcode\":\"BWG\",\"description\":\"Access limited to 11 users.\",\"url\":\"http://resolver.library.cornell.edu/misc/3835895\"}"],
                 "sixfivethree":["Art and Architecture (Core)",
                   "Arts and Humanities",
                   "Dictionaries and Encyclopedias",
@@ -1185,7 +1169,7 @@ http_interactions:
                   "Social Sciences"]}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:17:07 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:48 GMT
 - request:
     method: get
     uri: http://da-prod-solr.library.cornell.edu/solr/blacklight/databasesBySubject?indent=true&q=%22Images%20(Core)%22&wt=json
@@ -1198,24 +1182,24 @@ http_interactions:
       Accept:
       - "*/*"
       Date:
-      - Tue, 14 May 2019 18:17:07 GMT
+      - Fri, 19 Jul 2019 18:05:48 GMT
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Tue, 14 May 2019 18:17:07 GMT
+      - Fri, 19 Jul 2019 18:05:48 GMT
       Last-Modified:
-      - Tue, 14 May 2019 18:13:46 GMT
+      - Fri, 19 Jul 2019 18:05:28 GMT
       Etag:
-      - '"YThlMDYyMDAwMDAwMDAwMFNvbHI="'
+      - '"MzlmNDYwMDAwMDAwMDAwU29scg=="'
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '2770'
+      - '2769'
       Via:
-      - 1.1 da-prod-solr8.library.cornell.edu
+      - 1.1 da-prod-solr9.library.cornell.edu
       Vary:
       - Accept-Encoding
       Connection:
@@ -1227,7 +1211,7 @@ http_interactions:
           "responseHeader":{
             "zkConnected":true,
             "status":0,
-            "QTime":184,
+            "QTime":57,
             "params":{
               "q":"\"Images (Core)\"",
               "indent":"true",
@@ -1272,5 +1256,5 @@ http_interactions:
                   "Images (Core)"]}]
           }}
     http_version: 
-  recorded_at: Tue, 14 May 2019 18:17:08 GMT
+  recorded_at: Fri, 19 Jul 2019 18:05:48 GMT
 recorded_with: VCR 4.0.0

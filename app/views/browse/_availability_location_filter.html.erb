@@ -22,9 +22,9 @@
 	  "Veterinary Library"
 	]
 %>
-<div class="btn-group" id="location-filter-dropdown">
-    <a href="#" class="btn btn-default btn-sm" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability <b class="caret"></b></a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
+<div id="location-filter-dropdown dropdown">
+    <a href="#" class="btn btn-default btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability</a>
+    <div class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
         <% libs.each { |lib| %>
             <% 
 			lib_encoded = CGI::escape(lib)
@@ -37,9 +37,9 @@
 			order = params.has_key?(:order) ? params[:order] : 'forward'
             %>
             <% if lib == 'All' %>
-                <li><%= link_to "#{checked}#{lib}", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %></li>
+                <div class="dropdown-item"><%= link_to "#{checked}#{lib}", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %></div>
             <% else %>
-                <li><%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %></li>
+                <div class="dropdown-item"><%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %></div>
             <% end %>
         <% } %>
         </ul>

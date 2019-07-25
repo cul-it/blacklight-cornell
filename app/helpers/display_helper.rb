@@ -1,7 +1,6 @@
 module DisplayHelper
 include ActionView::Helpers::NumberHelper
 
-
   def render_first_available_partial(partials, options)
     partials.each do |partial|
       begin
@@ -13,8 +12,6 @@ include ActionView::Helpers::NumberHelper
 
     raise "No partials found from #{partials.inspect}"
   end
-
-
 
   def field_value_separator
     '<br>'
@@ -28,10 +25,6 @@ include ActionView::Helpers::NumberHelper
     end
   end
 end
-
-
-
-
 
   # for display of | delimited fields
   # only displays the string before the first |
@@ -82,6 +75,7 @@ end
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_pair_delimited_index_field_value args
+    Rails.logger.info("RENDER_PAIR_...")
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -113,8 +107,6 @@ end
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
-
-
 
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
@@ -273,7 +265,7 @@ end
   }
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp = Blacklight::DocumentPresenter.new()
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -346,7 +338,6 @@ end
                 link_to(v, add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
               end.join(sep_display).html_safe
 
-
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
           ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
@@ -368,8 +359,6 @@ end
               link_to(v, add_search_params(args[:field], '"' + v + '"'))
             end.join(sep_display).html_safe
           end
-
-
 
         elsif clickable_setting[:pair_list_json]
           ## fields such as title are hierarchical
@@ -399,9 +388,6 @@ end
             end
             display_list.join(sep_display).html_safe
 
-
-
-
           else
             value_array.map do |v|
               link_to(v, add_search_params(args[:field], '"' + v + '"'))
@@ -422,7 +408,6 @@ end
       # what other form of input to handle?
     end
   end
-
 
   def add_search_params(field, value)
     new_search_params = {
@@ -595,6 +580,9 @@ end
     ic
   end
 
+  def hide_this_field field
+    return false
+  end
 
   def render_show_format_value field
     formats = []
@@ -721,7 +709,6 @@ end
       if @add_row_style == :text
         out << s[0]
       else
-
 
          Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
 
@@ -964,7 +951,7 @@ end
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-
+    
     return link
   end
 
@@ -1002,8 +989,6 @@ end
 #    end
 #  end
 
-
-
   # Overrides original method from facets_helper_behavior.rb
   # Renders a count value for facet limits with comma delimeter
   # Removed override, blacklight 5 provides commas
@@ -1012,8 +997,6 @@ end
    # content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
     #content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   #end
-
-
 
   # Overrides original method from blacklight_helper_behavior.rb
   # -- Updated to handle arrays (multiple fields specified in config)
@@ -1043,9 +1026,6 @@ end
     #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
     presenter(doc).label field, opts
   end
-
-
-
 
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
@@ -1135,15 +1115,12 @@ end
     end
   end
 
-
-
   # To vernaculate or not...that is the question
+  # tlw72: modified this method for Blacklight 7. Now the values are passed in rather
+  # than the field names.
   def the_vernaculator(engl, vern)
-    #presenter = Blacklight::ShowPresenter.new(@document, self)
-    #display = render_document_show_field_value :document => @document, :field => engl
-    display = field_value engl
-    #vernacular = render_document_show_field_value :document => @document, :field => vern
-    vernacular = field_value vern
+    display = engl
+    vernacular = vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
   end
@@ -1151,9 +1128,10 @@ end
   # Helper method to replace render_document_show_field_value with something that's
   # a little easier to call from a view. Requires a field name from the solr doc
   def field_value(field)
-    Blacklight::ShowPresenter.new(@document, self).field_value field
+    field_config = blacklight_config.show_fields[field]
+    Blacklight::ShowPresenter.new(@document, self).field_value field_config
   end
-##########
+
  def cornell_params_for_search(*args, &block)
       source_params, params_to_merge = case args.length
       when 0
@@ -1196,7 +1174,6 @@ end
     def cornell_add_facet_params_and_redirect(field, item)
       search_state.add_facet_params_and_redirect(field, item)
     end
-
 
 ##########
 
@@ -1254,10 +1231,6 @@ end
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
 
-
-
-
-
   def render_facet_item(solr_field, item)
     if solr_field == 'format'
       format = item.value
@@ -1282,11 +1255,8 @@ end
       else
         render_facet_value(solr_field, item)
       end
-
     end
-
   end
-
 
   def render_facet_value(facet_solr_field, item, options ={})
     path = search_action_path(cornell_add_facet_params_and_redirect(facet_solr_field, item))
@@ -1317,7 +1287,8 @@ end
     options = args.extract_options!
     document = args.shift || options[:document]
     field = args.shift || options[:field]
-    presenter(document).field_value field, options.except(:document, :field)
+    field_config = blacklight_config.index_fields[field]
+    presenter(document).field_value field_config, options.except(:document, :field)
   end
 
   def simple_render_document_index_label(*args)
@@ -1351,7 +1322,6 @@ end
     params[:q] = showText
     ## Uses overridden render_search_to_s_q(params) function below originally from app/helper/blacklight/search_history_constraints_helper_behavior.rb
     showText = link_to_previous_search(params)
-
 
     return showText
   end
@@ -1394,7 +1364,6 @@ end
     return linkText
   end
 
-
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
     if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
@@ -1411,7 +1380,9 @@ end
   end
 
   def render_extra_head_content
+    if !@extra_head_content.nil?
     @extra_head_content.join("\n").html_safe
+    end
   end
 
   def render_head_content
@@ -1443,8 +1414,6 @@ end
       url.starts_with?("/catalog/")
     end
   end
-
-
 
   def random_image
     require 'open-uri'
@@ -1505,7 +1474,6 @@ end
     end
     result = result.to_sentence.html_safe
   end
-
 
 # Render the search query constraint
   def render_search_to_s_q(params)

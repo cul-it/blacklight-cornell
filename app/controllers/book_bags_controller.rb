@@ -19,8 +19,8 @@ class BookBagsController < CatalogController
   #
   before_action :authenticate_user!
 
-  before_filter :heading
-  append_before_filter :set_bag_name
+  before_action :heading
+  append_before_action :set_bag_name
   
   def set_bag_name
     @id = current_user.email

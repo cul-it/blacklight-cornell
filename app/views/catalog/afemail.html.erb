@@ -1,5 +1,5 @@
 <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
-<%= link_to email_solr_document_path(:id => @id), {:id => 'afemail-link', :class => 'lightboxLink btn btn-default btn-xs'}  do %>
+<%= link_to email_solr_document_path(:id => @id), {:id => 'afemail-link', :class => 'lightboxLink btn btn-default btn-sm'}  do %>
   <%= emaillink_content.html_safe %>
 <% end %>
 

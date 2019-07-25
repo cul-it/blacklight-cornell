@@ -126,7 +126,7 @@ Feature: Item view
   @request_button
   @all_item_view
   @saml_off
-  Scenario: As a user I can request an item, when not SAML involved. 
+  Scenario: As a user I can request an item, when not SAML involved.
     Given I request the item view for 30000
     Then it should have link "Request item" with value "/request/30000"
 
@@ -144,12 +144,14 @@ Feature: Item view
     Given I request the item view for 30000
     Then I should see the label 'Library Annex'
 
-  # Availability simple, one location, and is NOT available
-  # Inequality, Anthony B Atkinson. 
+  # The Kroch copy of this book has been checked out since July 1992.
+  # https://newcatalog.library.cornell.edu/catalog/1208939
+  # As a backup, I think this is a different patron who has had this book since October 1992:
+  # https://newcatalog.library.cornell.edu/catalog/473013
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
-    Given I request the item view for 8916645
+    Given I request the item view for 1208939
     Then I should see the label 'Checked out, due'
 
   # availability -- several copies,all copy1, checked out.
@@ -339,8 +341,8 @@ Feature: Item view
   @holdings
   @current_issues
   Scenario: As a user I can see the current issues information
-    Given I request the item view for 2797907
-    Then I should see the label 'Current Issues'
+    Given I request the item view for 329763
+    Then I should see the label 'Subscription cancelled after 2009'
 
   # Make sure PDA makes some sense  DISCOVERYACCESS-1356
   # Confusing availability labels for 8036458
@@ -504,7 +506,7 @@ Feature: Item view
  @DISCOVERYACCESS-1328
   Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes
     Given I request the item view for 28297
-    Then I should see the label 'The v.75B item is bound with'
+    Then I should see the label 'This item is bound with'
 
 #  @all_item_view
 # @boundwith
@@ -569,12 +571,12 @@ Feature: Item view
 #    Then I should see the label 'Popular Reading Area'
 
 # this item is an online item, and has holding notes.
-#  @DISCOVERYACCESS-3325
-#  @online_holding_notes
-#  @all_item_view
-#    Scenario: Show the holding notes properly for online item.
-#    Given I request the item view for 8797135
-#    Then I should see the label 'Library has: 17th and 18th century Burney collection'
+  @DISCOVERYACCESS-3325
+  @online_holding_notes
+  @all_item_view
+    Scenario: Show the holding notes properly for online item.
+    Given I request the item view for 8797135
+    Then I should see the label 'Library has: 17th and 18th century Burney collection'
 
   # TODO: need bibids that match these cases
 # this item is an ordered item, received, and no item record.
