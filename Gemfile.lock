@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:cul-it/blacklight-cornell-hierarchy.git
+  remote: https://github.com/cul-it/blacklight-cornell-hierarchy
   revision: 0da279f3df0d94e76aac4675f12c73820cc4672f
   branch: master
   specs:
