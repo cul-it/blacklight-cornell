@@ -6,7 +6,6 @@ gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
-
 # added for rails 4.
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
@@ -45,6 +44,7 @@ gem 'rufus-scheduler'
 gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
+gem 'mini_racer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
