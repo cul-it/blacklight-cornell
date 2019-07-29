@@ -8,7 +8,7 @@
 
   #Added Bootstrap class well and 'hidden-phone' for the tools-bar
 -%>
-<% if request.path != '/bookmarks'  && request.path != '/book_bags/index' %>
+<% if request.path != '/bookmarks'  && request.path != '/book_bags/index' && request.path != '/book_bags/citation' %>
   <% citable = is_citable(@document) %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
@@ -29,7 +29,7 @@
         <%= citelink_content.html_safe %>
       <% end %>
    <% elsif bookbags_index %>
-      <%= link_to "/book_bags/citation", {:id => 'citationLink', :name => 'citation', :class => 'lightboxLink btn btn-sm'} do %>
+      <%= link_to "/book_bags/citation", {:id => 'citationLink', :name => 'citation', :class => 'lightboxLink btn btn-sm', data: {}.merge({ blacklight_modal: "trigger" })} do %>
         <%= citelink_content.html_safe %>
       <% end %>
    <% elsif citable %>

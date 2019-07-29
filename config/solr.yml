@@ -12,13 +12,13 @@
 # 
 
 integration:
-  url: <%= ENV['SOLR_INT_SERVER'] %>
+  url: <%= ENV['SOLR_URL'] %>
 
 development:
-  url: <%= ENV['SOLR_DEV_SERVER'] %>
+  url: <%= ENV['SOLR_URL'] %>
 
 test: &test
-  url: <%= ENV['SOLR_TEST_SERVER'] %>
+  url: <%= ENV['SOLR_URL'] %>
 
 production:
   url: <%= ENV['SOLR_PROD_SERVER'] %>
