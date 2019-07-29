@@ -116,7 +116,7 @@ class BookBagsController < CatalogController
   def index
     @bms =@bb.index
     docs = @bms.map {|b| b.sub!("bibid-",'')}
-    @response,@documents = fetch docs
+    @response,@documents = search_service.fetch docs
     @document_list =  @documents
     @bookmarks = docs.map {|b| Bookmarklite.new(b)}
     respond_to do |format|
@@ -150,7 +150,7 @@ class BookBagsController < CatalogController
     @bms =@bb.index
     docs = @bms.map {|b| b.sub!("bibid-",'')}
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} docs = #{docs.inspect}")
-    fetch docs, options
+    search_service.fetch docs, options
   end
 
   def email
@@ -165,7 +165,7 @@ class BookBagsController < CatalogController
       url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
       if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
         all_docs.each_slice(20) do |docs|
-          @response, @documents = fetch docs
+          @response, @documents = search_service.fetch docs
           # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  docs  = #{docs.inspect}")
           url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
           email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
@@ -182,7 +182,7 @@ class BookBagsController < CatalogController
 
     @bms =@bb.index
     docs = @bms.map {|b| b.sub!("bibid-",'')}
-    @response, @documents = fetch docs
+    @response, @documents = search_service.fetch docs
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
     if   ENV['SAML_IDP_TARGET_URL']
@@ -216,10 +216,10 @@ class BookBagsController < CatalogController
       if params[:id].nil?
         @bms =@bb.index
         docs = @bms.map {|b| b.sub!("bibid-",'')}
-        @response, @documents = fetch(docs, :per_page => 1000,:rows => 1000)
+        @response, @documents = search_service.fetch(docs, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
       else
-        @response, @documents = fetch(params[:id])
+        @response, @documents = search_service.fetch(params[:id])
       end
       respond_to do |format|
         format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
