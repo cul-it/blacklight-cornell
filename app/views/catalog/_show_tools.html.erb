@@ -8,7 +8,7 @@
 
   #Added Bootstrap class well and 'hidden-phone' for the tools-bar
 -%>
-<% if request.path != '/bookmarks'  && request.path != '/book_bags/index' %>
+<% if request.path != '/bookmarks'  && request.path != '/book_bags/index' && request.path != '/book_bags/citation' %>
   <% citable = is_citable(@document) %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
