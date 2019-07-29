@@ -375,27 +375,32 @@ def getItemStatus(doc)
       # @hideArray = create_condensed_full(doc)
 #       @fromSolrArray = []
 #       @fromSolrArray = doc[:holdings_record_display]
+       Rails.logger.info("getItemStatus doc = " + doc.inspect)
        hrdHash = JSON.parse(doc[:holdings_record_display][0])
        if hrdHash["locations"][0]["name"] == "*Networked Resource"
           @itemStatusArray << "*Networked Resource"
        else
-         thisHash = JSON.parse(doc[:holdings_json])
-         thisHash.each do |k, v|
-           newHash = {}
-           newHash = v
-           newHash['location'].each do |d, e|
-             if d.to_s == "avail" #and d.to_s != "count"
-               if e == "true"
-                 @itemStatusArray << "Available" + " || "
-               else
-                 @itemsStatusArray << "Unavailable" + " || "
+         if doc[:holdings_json].present? 
+           thisHash = JSON.parse(doc[:holdings_json])
+           thisHash.each do |k, v|
+             newHash = {}
+             newHash = v
+             newHash['location'].each do |d, e|
+               if d.to_s == "avail" #and d.to_s != "count"
+                 if e == "true"
+                   @itemStatusArray << "Available" + " || "
+                 else
+                   @itemsStatusArray << "Unavailable" + " || "
+                 end
+          #    else 
+          #      if d.to_s != "count"
+          #        @itemStatusArray << "Unavailable" + " || "
+          #      end
                end
-        #    else 
-        #      if d.to_s != "count"
-        #        @itemStatusArray << "Unavailable" + " || "
-        #      end
-             end
-           end  
+             end  
+           end
+         else
+           @itemStatusArray << "Availability unknown"
          end
        end
   return @itemStatusArray

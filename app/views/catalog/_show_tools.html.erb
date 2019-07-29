@@ -45,7 +45,7 @@
   <li>
     <% if bookmarks_index %> 
       <% if current_user && Bookbag.enabled? %>
-        <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-sm'} do %>
+        <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-sm'} do %>
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
@@ -54,12 +54,12 @@
         <% end %>
       <% end %>
    <% elsif bookbags_index %>
-      <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :class => 'lightboxLink btn btn-sm'} do %>
+      <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-sm'} do %>
         <%= emaillink_content.html_safe %>
       <% end %>
     <% elsif emailable %>
       <% if current_user %>
-        <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :class => 'lightboxLink btn btn-default btn-sm'} do %>
+        <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-default btn-sm'} do %>
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
