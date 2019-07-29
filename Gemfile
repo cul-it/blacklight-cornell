@@ -10,6 +10,7 @@ gem "sprockets", '~> 3.7.2'
 # added for rails 4.
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
+gem 'mini_racer', platforms: :ruby
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
