@@ -42,7 +42,6 @@
   </div>
   <% end %>
   <%if bookbags %> 
-   <div class="show-select-box">
    <% if !bookbagged? document.id  %>
     <% if can_add_books %>
       <%= form_tag( "/book_bags/add/#{document.id}" , 
@@ -75,7 +74,6 @@
          <%end%>
       <% end %>
    <% end %>
-  </div>
 <% else %>
   &nbsp;
 <% end %>
