@@ -29,6 +29,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
+      elsif (op.include?('/book_bags/email'))
+        "/book_bags/email"
       elsif (params['id'].present? && op.include?('email'))
         "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
