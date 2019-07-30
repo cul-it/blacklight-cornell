@@ -162,7 +162,7 @@ class BookBagsController < CatalogController
 
   # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
   def email_action documents
-    mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options)
+    mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
     if mail.respond_to? :deliver_now
       mail.deliver_now
     else
