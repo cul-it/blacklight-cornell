@@ -197,35 +197,35 @@ class BookBagsController < CatalogController
 
     # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
 
-    @bms =@bb.index
-    docs = @bms.map {|b| b.sub!("bibid-",'')}
-    @response, @documents = search_service.fetch docs
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
-    if   ENV['SAML_IDP_TARGET_URL']
-      if request.xhr? && flash[:success]
-        if docs.size < 2
-
-          if !params[:id][0].nil?
-            bibid = params[:id][0] 
-            render :js => "window.location = '/catalog/#{bibid}'"
-          else
-            render :js => "window.location = '/catalog"
-          end
-
-        else
-          render :js => "window.location = '/book_bags/index'"
-        end
-        return
-      end
-    end
-    unless !request.xhr? && flash[:success]
-      respond_to do |format|
-        format.js { render :layout => false }
-        format.html
-      end
-    end
-  end
+#   @bms =@bb.index
+#   docs = @bms.map {|b| b.sub!("bibid-",'')}
+#   @response, @documents = search_service.fetch docs
+#   Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+#   Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
+#   if   ENV['SAML_IDP_TARGET_URL']
+#     if request.xhr? && flash[:success]
+#       if docs.size < 2
+#
+#         if !params[:id][0].nil?
+#           bibid = params[:id][0] 
+#           render :js => "window.location = '/catalog/#{bibid}'"
+#         else
+#           render :js => "window.location = '/catalog"
+#         end
+#
+#       else
+#         render :js => "window.location = '/book_bags/index'"
+#       end
+#       return
+#     end
+#   end
+#   unless !request.xhr? && flash[:success]
+#     respond_to do |format|
+#       format.js { render :layout => false }
+#       format.html
+#     end
+#   end
+# end
 
     # grabs a bunch of documents to export to endnote or ris.
     def endnote
