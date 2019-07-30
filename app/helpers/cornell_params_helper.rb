@@ -375,7 +375,6 @@ def getItemStatus(doc)
       # @hideArray = create_condensed_full(doc)
 #       @fromSolrArray = []
 #       @fromSolrArray = doc[:holdings_record_display]
-       Rails.logger.info("getItemStatus doc = " + doc.inspect)
        hrdHash = JSON.parse(doc[:holdings_record_display][0])
        if hrdHash["locations"][0]["name"] == "*Networked Resource"
           @itemStatusArray << "*Networked Resource"
