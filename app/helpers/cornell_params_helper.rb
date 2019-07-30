@@ -399,7 +399,7 @@ def getItemStatus(doc)
              end  
            end
          else
-           @itemStatusArray << "Availability unknown"
+           @itemStatusArray << ""
          end
        end
   return @itemStatusArray
