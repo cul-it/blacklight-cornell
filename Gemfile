@@ -46,7 +46,7 @@ gem 'rufus-scheduler'
 gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
-gem 'mini_racer', platforms: :ruby
+#gem 'mini_racer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
