@@ -15,7 +15,7 @@ class BookBagsController < CatalogController
 
   MAX_BOOKBAGS_COUNT = 500
 
-  copy_blacklight_config_from(CatalogController)
+  # copy_blacklight_config_from(CatalogController)
   #
   before_action :authenticate_user!
 

@@ -44,7 +44,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     qparam_display = ""
     my_params = {}
 
-    user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present?
+    user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present? || blacklight_params["controller"] == "book_bags"
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
