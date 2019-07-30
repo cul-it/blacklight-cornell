@@ -153,30 +153,47 @@ class BookBagsController < CatalogController
     search_service.fetch docs, options
   end
 
-  def email
-    # file = File.open("jgr25_debug.log", File::WRONLY | File::APPEND | File::CREAT)
-    # logger = Logger.new(file)
-    # logger.level = :info
-    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
-    @bms =@bb.index
-    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
-    if request.post?
-      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-        all_docs.each_slice(20) do |docs|
-          @response, @documents = search_service.fetch docs
-          # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  docs  = #{docs.inspect}")
-          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-          email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-          email.deliver_now
-        end
-        flash[:success] = "Email sent"
-        redirect_to solr_document_path(params[:id]) unless request.xhr?
-      else
-        flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-      end
+  def citation
+    @response, @documents = action_documents
+    respond_to do |format|
+      format.html { render :layout => false }
     end
+  end
+
+  # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+  def email_action documents
+    mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options)
+    if mail.respond_to? :deliver_now
+      mail.deliver_now
+    else
+      mail.deliver
+    end
+  end
+
+#  def email
+#    # file = File.open("jgr25_debug.log", File::WRONLY | File::APPEND | File::CREAT)
+#    # logger = Logger.new(file)
+#    # logger.level = :info
+#    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+#    # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  request.post?  = #{request.post?.inspect}")
+#    @bms =@bb.index
+#    all_docs = @bms.map {|b| b.sub!("bibid-",'')}
+#    if request.post?
+#      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+#      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+#        all_docs.each_slice(20) do |docs|
+#          @response, @documents = search_service.fetch docs
+#          # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  docs  = #{docs.inspect}")
+#          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+#          email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+#          email.deliver_now
+#        end
+#        flash[:success] = "Email sent"
+#        redirect_to solr_document_path(params[:id]) unless request.xhr?
+#      else
+#        flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+#      end
+#    end
 
     # logger.info("jgr25_debug #{__FILE__}:#{__LINE__}  finished emails  = #{flash.inspect}")
 
