@@ -202,6 +202,11 @@ h4.suggest {
 	.search-filter {
 		float: right;
 	}
+	.search-filter {
+		.select_all.btn {
+			margin-left: 0
+		}
+	}
 }
 
 // Medium devices (desktops, 992px and up)
