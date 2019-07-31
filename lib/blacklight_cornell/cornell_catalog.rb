@@ -453,6 +453,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       flash[:error].blank?
     end
 
+    def validate_email_params
+      if params[:to].blank?
+        flash.now[:error] = I18n.t('blacklight.email.errors.to.blank')
+      elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
+        flash.now[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
+      end
+
+      flash[:error].blank?
+    end
+
     # Now handled in the sms_action above and set up by the add_show_tools_partial config setting in the catalog controller.
     # So this code can just get deleted at some point. -- tlw72
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
