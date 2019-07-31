@@ -9,6 +9,7 @@
       <% hidden_params = cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
       <% if hidden_params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
+		<% session_params[:f] = session_params[:f].to_unsafe_h if session_params[:f].present? %>  
         <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
       <% end %>
       <%= render_hash_as_hidden_fields(hidden_params) %>
