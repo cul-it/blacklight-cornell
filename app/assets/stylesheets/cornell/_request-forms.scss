@@ -49,7 +49,7 @@
 div.accordion-heading.request-options {
   margin-left: 10px;
   position: relative;
-  top: 5px;
+  top: -10px;
 }
 div.request-options div.accordion-group {border:none;}
 div.request-options div.accordion-inner {
@@ -80,11 +80,11 @@ div.request-options div.accordion-body .span4 {
 }
 
 // Make the label bold in instances where we are not using the label tag because would be an orphaned label (DISCOVERYACCESS-4676). Instead a div with the control-label class on it.
-.blacklight-request, .request {
-  .control-label {
-    font-weight: 700;
-  }
-}
+// .blacklight-request, .request {
+//   .control-label {
+//     font-weight: 700;
+//   }
+// }
 
 
 // Aeon screen
@@ -119,17 +119,17 @@ div.request-options div.accordion-body .span4 {
   tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
     {background-color: $white;}
 
-  thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-    background-color: $light-tan;
-    color: $gray;
-  }
+  // thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
+  //   background-color: $light-tan;
+  //   color: $gray;
+  // }
 
   // Add this to make thead always have a tan background because after adding caption to table it turns white
-  thead {
-    th {
-      background-color: $light-tan;
-    }
-  }
+  // thead {
+  //   th {
+  //     background-color: $light-tan;
+  //   }
+  // }
 
   caption {
     color: $medium-gray;
@@ -138,6 +138,7 @@ div.request-options div.accordion-body .span4 {
 }
 
 .form-alternative-action{
+  margin-top: 1rem;
   h3 {  
     margin-top: 2em;
     font-size: 18px;
@@ -146,7 +147,7 @@ div.request-options div.accordion-body .span4 {
 
 // BD success/failure message
 // -------------------------//
-.request-message.well {
+.request-message.card {
   margin-top: 1em;
   margin-bottom: 0;
   p {

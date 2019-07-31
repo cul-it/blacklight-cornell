@@ -9,20 +9,20 @@
 }
 #sort { width: auto; }
 .as-tips {
-  position:relative;
-	top:-10px;
-	font-size: 90%;
-  margin-top: 0;
+  margin-top: 1rem;
 }
 .add-and-sort label {
   display: inline-block;
   vertical-align: middle;
 }
-.form-inline {
+form.advanced {
   .boolean_row {
-    margin-bottom: 0.2em;
-    margin-top: .75em;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
     width: 100%;
+  }
+  .form-group {
+    margin-bottom: 0;
   }
 }
 .as-examples {

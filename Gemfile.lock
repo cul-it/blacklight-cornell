@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:cul-it/blacklight-cornell-hierarchy.git
+  remote: https://github.com/cul-it/blacklight-cornell-hierarchy
   revision: 0da279f3df0d94e76aac4675f12c73820cc4672f
   branch: master
   specs:
@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 78a80f27c32c26a63ca10edf6665f65ce9b4d750
+  revision: bb4cc31ce125396601397588ef61bbb5c50a5810
   branch: BL7-upgrade
   specs:
     blacklight_cornell_requests (3.0)
@@ -51,10 +51,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 65f6ca910db0f65be304921af7cd0e68fb6e46f5
+  revision: 31ba7a112d6707e3eb0d2bf1815c88870b1d688c
   branch: BL7-upgrade
   specs:
-    my_account (1.0beta3)
+    my_account (1.0)
       blacklight (>= 7.0)
       borrow_direct
       rails (~> 5.1)
