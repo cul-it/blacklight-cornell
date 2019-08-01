@@ -7,6 +7,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 # add a comment so we can do a trivial PR
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
+#  self.default_processor_chain += [:advsearch]
 
   def sortby_title_when_browsing user_parameters
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
@@ -33,9 +34,9 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   def advsearch user_parameters
     #user_parameters[:q] = 'title_starts:"Mad bad and dangerous to know"'
-    if blacklight_params[:search_field] == 'title_starts'
-      user_parameters[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
-    end
+#    if blacklight_params[:search_field] == 'title_starts'
+#      user_parameters[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+#    end
 #    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
@@ -44,7 +45,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     qparam_display = ""
     my_params = {}
 
-    user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present? || blacklight_params["controller"] == "book_bags"
+    user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present?
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
@@ -62,13 +63,25 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters[:search_field] = "advanced"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
-    else 
-#      if blacklight_params[:q].nil?
-#        blacklight_params[:q] = ''
-#      end
+    else # simple search code below
+      if blacklight_params[:q].nil?
+        blacklight_params[:q] = ''
+     end
     # End of secondary parsing
-#    search_session[:q] = user_parameters[:show_query]
+#      search_session[:q] = user_parameters[:show_query]
+      journal_title_hack = 0
+      #check for author/creator param
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
+        if blacklight_params[:search_field].include?('_cts')
+       #   blacklight_params[:q] = blacklight_params[1..-2]
+          blacklight_params[:search_field] = blacklight_params[:search_field][0..-5]
+        end
+        #check for author/creator param
+        if blacklight_params[:search_field] == 'author/creator' or blacklight_params[:search_field] == 'author%2Fcreator'
+          blacklight_params[:search_field] = 'author'
+        end
+ 
+        #check for call number search
         if blacklight_params[:search_field] == 'call number'
            blacklight_params[:search_field] = 'lc_callnum'
            if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
@@ -86,42 +99,228 @@ class SearchBuilder < Blacklight::SearchBuilder
           # user_parameters[:sort_order] = "asc"
           #user_parameters[:sort] = blacklight_params[:sort]
         end
-        if blacklight_params[:search_field] == 'author/creator'
-           blacklight_params[:search_field] = 'author'
-        end
+#        user_parameters[:q] = blacklight_params[:q]        
+        
+        # All fields search calls parse_all_fields_query
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
            returned_query = parse_all_fields_query(blacklight_params[:q])
            if returned_query == ''
             blacklight_params[:q] = ''
            else
-             if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-                blacklight_params[:q] = '(' +  returned_query + ') OR phrase:' + blacklight_params[:q] 
+             if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"' and blacklight_params[:q].count('"') == 2
+                blacklight_params[:q] = 'quoted:' + blacklight_params[:q] 
              else
-               blacklight_params[:q] = '(' + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'               
+               if !blacklight_params[:q].include?('"')
+                 blacklight_params[:q] = '(' + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
+               else
+                 query_string = '('
+                 return_query = checkMixedQuoted(blacklight_params)
+                 return_query.each do |token|
+                    query_string = query_string + token + ' '
+                  end
+                  query_string = query_string.rstrip
+                 query_string = query_string + ')'
+                 blacklight_params[:q] = query_string
+               end
              end
-            end
-#           user_parameters[:q] = blacklight_params[:q]
-            
+           end
         else
-          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
-            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
-          else
-            if !blacklight_params[:q].include?("title_starts")
-             #blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+#           user_parameters[:q] = blacklight_params[:q]            
+           #Not an all fields search test if query is quoted
+          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"' and blacklight_params[:q].count('"') == 2 and !blacklight_params[:search_field].include?('_cts')
+            if blacklight_params[:search_field] == 'author' or blacklight_params[:search_field == 'author_quoted']
+              if blacklight_params[:search_field] == 'author_quoted' 
+                blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+              else
+                blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
+              end 
+            end  
+            if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'title_quoted' or blacklight_params[:search_field] == 'subject' or blacklight_params[:search_field] == 'subject_quoted'
+              if blacklight_params[:search_field] == 'subject_quoted' or blacklight_params[:search_field] == 'title_quoted'
+                blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+              else
+                blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
+              end 
             end
-          end
-     #   blacklight_params[:q] = blacklight_params[:q]
-        end
+            if blacklight_params[:search_field] == 'title_starts'
+              blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+            end
+#          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
+#            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+          else
+            #check if this is a crazy multi quoted multi token search
+            if blacklight_params[:q].include?('"')
+               if blacklight_params[:search_field] == 'author/creator'
+                  blacklight_params[:search_field] = 'author'
+               end
+               if blacklight_params[:q].first != '('
+                 if blacklight_params[:q].include?('"')
+                   query_string = '('
+                   return_query = checkMixedQuoted(blacklight_params)
+                   return_query.each do |token|
+                   query_string = query_string + token + ' '
+                 end
+                 query_string = query_string.rstrip
+                 query_string = query_string + ')'
+                 blacklight_params[:q] = query_string
+               end
+            else
+              blacklight_params[:search_field] = 'author'
+              blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+            end
+            user_parameters["mm"] = "1"
+         end
+       end
+       if blacklight_params[:search_field].include?('_browse')
+         blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+       end
+       #queries are not all fields nor quoted  go ahead
+       if !blacklight_params[:q].include?(':')  #query has not been created so go ahead
+         query_array = blacklight_params[:q].split(' ')
+         clean_array = []
+         new_query = ''
+           query_string = ''
+           if query_array.size > 1
+             query_array.each do |token|
+                query_string = '+' + blacklight_params[:search_field] + ':' + token
+                clean_array << query_string
+             end
+             new_query = '('
+             clean_array.each do |query|
+                new_query = new_query + query + ' '
+             end
+             new_query = new_query.rstrip
+             new_query = new_query + ') OR ' + blacklight_params[:search_field] + '_phrase:"' + blacklight_params[:q] + '"'
+             blacklight_params[:q] = new_query             
+           else
+             blacklight_params[:q] = '+' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
+           end
+       end
+       user_parameters[:q] = blacklight_params[:q]
+       end
     # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
        # blacklight_params[:search_field] = ''
      #   blacklight_params[:q] = "(+lc_callnum:\"PQ6657.U37 P63\") OR lc_callnum_phrase:\"PQ6657.U37 P63\""
         user_parameters[:q] = blacklight_params[:q]
+        user_parameters[:f] = blacklight_params[:f]
         user_parameters[:sort] = blacklight_params[:sort]
-
+       # user_parameters[:q] = 'subject_quoted:\"architecture\"'
         user_parameters["mm"] = "1"
       end
     end
+  
+  end
+  
+  def parseQuotedQuery(quotedQuery)
+    queryArray = []
+    token_string = ''
+    length_counter = 0
+    quote_flag = 0
+    quotedQuery.each_char do |x|
+      length_counter = length_counter + 1
+      if x != '"' and x != ' '
+          token_string = token_string + x
+      end
+      if x == ' '
+        if quote_flag != 0
+          token_string = token_string + x
+        else
+          queryArray << token_string
+          token_string = ''
+        end
+      end
+      if x == '"' and quote_flag == 0
+        if token_string != ''
+          queryArray << token_string
+          token_string = x
+          quote_flag = 1
+        else
+          token_string = x
+          quote_flag = 1
+         end
+      end
+      if x == '"' and quote_flag == 1
+        if token_string != '' and token_string != '"'
+          token_string = token_string + x
+          queryArray << token_string
+          token_string = ''
+          quote_flag = 0
+        end
+      end
+      if length_counter == quotedQuery.size
+        queryArray << token_string
+      end
+    end
+    cleanArray = []
+    queryArray.each do |toke|
+      if toke != ''
+        if !toke.blank?
+          cleanArray << toke.rstrip
+        end
+      end
+    end
+    queryArray = cleanArray
+    return queryArray
+  end
+  
+  def checkMixedQuoted(blacklight_params)
+      returnArray = []
+      addFieldsArray = []
+      if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
+        if blacklight_params[:q].count('"') > 2
+          returnArray = parseQuotedQuery(blacklight_params[:q])
+          returnArray.each do |token|
+            if blacklight_params[:search_field] == 'all_fields'
+              if token.first == '"'
+                token = '+quoted:' + token
+              else
+                token = '+' + token
+              end
+            else
+              if token.first == '"'
+                if !blacklight_params[:search_field] == 'all_fields'
+                  token = '+' + blacklight_params[:search_field] + '_quoted:' + token
+                else
+                  token = '+' + 'quoted:' + token
+                end
+              else
+                if !blacklight_params[:search_field] == 'all_fields'
+                  token = '+' + blacklight_params[:search_field] +':' + token
+                else
+                  token = '+' + token
+                end
+              end
+            end  
+            addFieldsArray << token
+          end
+          returnArray = addFieldsArray
+          return returnArray
+        else
+          returnArray << blacklight_params[:q]
+          return returnArray
+        end
+      else
+        clearArray = []
+        returnArray = parseQuotedQuery(blacklight_params[:q])
+        returnArray.each do |token|
+          if blacklight_params[:search_field] == 'all_fields'
+            if token.first == '"'
+              clearArray << '+quoted:' + token
+            else
+              clearArray << '+' + token
+            end
+          else
+            if token.first == '"'
+              clearArray << '+' + blacklight_params[:search_field] + '_quoted:' + token
+            else
+              clearArray << '+' + blacklight_params[:search_field] + ':' + token
+            end
+          end            
+        end
+        returnArray = clearArray
+        return returnArray
+      end
   end
 
   def cjk_query_addl_params(params)
@@ -192,6 +391,29 @@ class SearchBuilder < Blacklight::SearchBuilder
        end
     end
     return countit
+  end
+  
+  def parse_simple_search_query(blacklight_params)
+    return_query = ''
+    simp_search_field = blacklight_params[:search_field]
+    simp_search_query = blacklight_params[:q]
+ #   if simp_search_field != 'title_starts'
+    qArray = simp_search_query.split(' ')
+    if qArray.size > 1
+      qArray.each do |token|
+        token = '+' + simp_search_field + ':' + token + ' '
+        return_query << token
+      end
+      return_query = return_query[0..-2]
+      if simp_search_field != 'title_starts'
+      return_query = '(' + return_query + ') OR ' + simp_search_field + '_phrase:"' + blacklight_params[:q] + '"'
+      else 
+        return_query = simp_search_field + ':"' + blacklight_params[:q] + '"'
+      end
+    else
+      return_query = '(+' + simp_search_field + ':' + qArray[0] + ') OR ' + simp_search_field + '_phrase:"' + qArray[0] + '"'  
+    end
+    return return_query
   end
 
   def massage_params(params)

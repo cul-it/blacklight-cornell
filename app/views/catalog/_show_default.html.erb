@@ -2,7 +2,7 @@
 <dl class="row">
   <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
-	    <dt class="blacklight-<%= solr_fname.parameterize %> col-sm-3 text-sm-right"><%= render_document_show_field_label document, :field => solr_fname %></dt>
+	    <dt class="blacklight-<%= solr_fname.parameterize %> col-sm-3"><%= render_document_show_field_label document, :field => solr_fname %></dt>
       <dd class="blacklight-<%= solr_fname.parameterize %> col-sm-9">
        
         <% if  solr_fname == 'author_json' -%>
