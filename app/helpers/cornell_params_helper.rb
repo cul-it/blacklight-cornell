@@ -523,8 +523,11 @@ def render_advanced_constraints_query(my_params = params)
 #      if (@advanced_query.keyword_queries.count == 2)
     facetparams = ""
     if (my_params[:f].present?)
-      if(my_params[:f].count > 1)
-      end
+      # With Rails 5 my_params[:f].count throws an error because the paras are now an object.
+      # Commenting the block out since it doesn't  appear to do anything. If needed, the error
+      # can be fixed this way: my_params.to_h[:f].count > 1
+      # if(my_params[:f].count > 1)
+      # end
       start1 = "f["
       next1 = ""
       count = 0
