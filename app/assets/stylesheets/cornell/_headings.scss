@@ -103,22 +103,18 @@
 // Headings heading view
 // ------------------------------------------
 body.blacklight-browse-info,
-body.blacklight-browse-show_subject {
+body.blacklight-browse-show_subject,
+.browse-info,
+.browse-show_subject {
 	.main-content {
 		padding-bottom: .5em;
 	}
-	dl {
-		margin-bottom: 60px;
+	.dl-horizontal {
+		margin-bottom: 2rem;
+		dt {
+			font-weight: normal;
+		}
 	}
-	dt {
-		color: $medium-gray;
-		font-weight: normal;
-	}
-	dd {
-		margin-bottom: .5em;
-		line-height: 1.5em;
-	}
-	.reference:first-child { margin-top: 0; }
 }
 .reference-note {
 	font-style: italic;
@@ -137,7 +133,6 @@ body.blacklight-browse-show_subject {
 }
 dl {
 	.author-works {
-		font-size: 12px;
 		margin-left: .6em;
 		display: inline-block;
 		margin-bottom: 0;
