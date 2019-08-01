@@ -33,8 +33,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def advsearch user_parameters
-    Rails.logger.info("FIXMYWAGON = #{blacklight_params}")
-    Rails.logger.info("FIXMYWAGON1 = #{user_parameters}")
     #user_parameters[:q] = 'title_starts:"Mad bad and dangerous to know"'
 #    if blacklight_params[:search_field] == 'title_starts'
 #      user_parameters[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
@@ -75,10 +73,8 @@ class SearchBuilder < Blacklight::SearchBuilder
       #check for author/creator param
       if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
         if blacklight_params[:search_field].include?('_cts')
-          Rails.logger.info("WOODOO = #{blacklight_params}")
        #   blacklight_params[:q] = blacklight_params[1..-2]
           blacklight_params[:search_field] = blacklight_params[:search_field][0..-5]
-          Rails.logger.info("WOOOHOOO = #{blacklight_params}")
         end
         #check for author/creator param
         if blacklight_params[:search_field] == 'author/creator' or blacklight_params[:search_field] == 'author%2Fcreator'
@@ -119,7 +115,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                else
                  query_string = '('
                  return_query = checkMixedQuoted(blacklight_params)
-                 Rails.logger.info("AOC = #{return_query}")
                  return_query.each do |token|
                     query_string = query_string + token + ' '
                   end
@@ -127,7 +122,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                  query_string = query_string + ')'
                  blacklight_params[:q] = query_string
                end
-               Rails.logger.info("ABC = #{blacklight_params}")                 
              end
            end
         else
@@ -141,16 +135,12 @@ class SearchBuilder < Blacklight::SearchBuilder
                 blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
               end 
             end  
-            Rails.logger.info("POOPIE = #{blacklight_params}")
             if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'title_quoted' or blacklight_params[:search_field] == 'subject' or blacklight_params[:search_field] == 'subject_quoted'
               if blacklight_params[:search_field] == 'subject_quoted' or blacklight_params[:search_field] == 'title_quoted'
                 blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
               else
                 blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
               end 
-          #    Rails.logger.info("BIGGLY3 = #{blacklight_params[:q]}")
-        #      user_parameters[:q] = blacklight_params[:q]
-            #  user_parameters[:search_field] = blacklight_params[:search_field]
             end
             if blacklight_params[:search_field] == 'title_starts'
               blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
@@ -159,7 +149,6 @@ class SearchBuilder < Blacklight::SearchBuilder
 #            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
           else
             #check if this is a crazy multi quoted multi token search
-            Rails.logger.info("BOOKER1 = #{blacklight_params[:search_field]}")
             if blacklight_params[:q].include?('"')
                if blacklight_params[:search_field] == 'author/creator'
                   blacklight_params[:search_field] = 'author'
@@ -168,18 +157,14 @@ class SearchBuilder < Blacklight::SearchBuilder
                  if blacklight_params[:q].include?('"')
                    query_string = '('
                    return_query = checkMixedQuoted(blacklight_params)
-                   Rails.logger.info("AOC = #{return_query}")
                    return_query.each do |token|
                    query_string = query_string + token + ' '
                  end
                  query_string = query_string.rstrip
                  query_string = query_string + ')'
                  blacklight_params[:q] = query_string
-                 Rails.logger.info("MULTIPASS = #{blacklight_params[:q]}")
                end
-               Rails.logger.info("BOOKER2")
             else
-              Rails.logger.info("BOOKER = #{blacklight_params[:search_field]}")
               blacklight_params[:search_field] = 'author'
               blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
             end
@@ -220,17 +205,14 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters[:q] = blacklight_params[:q]
         user_parameters[:f] = blacklight_params[:f]
         user_parameters[:sort] = blacklight_params[:sort]
-Rails.logger.info("BIGGLY4 = #{user_parameters}")
        # user_parameters[:q] = 'subject_quoted:\"architecture\"'
         user_parameters["mm"] = "1"
       end
     end
   
-  Rails.logger.info("BIGGLY5 = #{user_parameters[:q]}")
   end
   
   def parseQuotedQuery(quotedQuery)
-    Rails.logger.info("PQQ1 = #{quotedQuery}")
     queryArray = []
     token_string = ''
     length_counter = 0
@@ -321,7 +303,6 @@ Rails.logger.info("BIGGLY4 = #{user_parameters}")
       else
         clearArray = []
         returnArray = parseQuotedQuery(blacklight_params[:q])
-        Rails.logger.info("SQUEEKS3 = #{blacklight_params[:search_field]}")
         returnArray.each do |token|
           if blacklight_params[:search_field] == 'all_fields'
             if token.first == '"'
@@ -336,10 +317,8 @@ Rails.logger.info("BIGGLY4 = #{user_parameters}")
               clearArray << '+' + blacklight_params[:search_field] + ':' + token
             end
           end            
-         Rails.logger.info("SQUEEKS = #{clearArray}")
         end
         returnArray = clearArray
-        Rails.logger.info("QUIX = #{returnArray}")
         return returnArray
       end
   end
@@ -434,7 +413,6 @@ Rails.logger.info("BIGGLY4 = #{user_parameters}")
     else
       return_query = '(+' + simp_search_field + ':' + qArray[0] + ') OR ' + simp_search_field + '_phrase:"' + qArray[0] + '"'  
     end
-    Rails.logger.info("BIGGLY2 = #{return_query}")
     return return_query
   end
 

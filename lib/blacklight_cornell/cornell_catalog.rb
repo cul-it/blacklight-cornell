@@ -171,11 +171,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = params[:search_field] + ':' + params[:q]
      end
     end
-     
-    if params[:q].include?('_cts')
-      display = params[:q].split(':')
-      params[:q] = display[1]
-    end
+    if !params[:q].nil? 
+     if params[:q].include?('_cts')
+       display = params[:q].split(':')
+       params[:q] = display[1]
+     end
+     end
     
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
@@ -184,7 +185,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
    #params[:q] = '(+title_quoted:"A news" +title:Reporter)'
 #    params[:search_field] = 'advanced'
- Rails.logger.info("BUTTHEAD = #{params.inspect}")
    #params[:q] = '(water)'
     (@response, deprecated_document_list) = search_service.search_results #search_results(params)
     @document_list = deprecated_document_list
@@ -263,7 +263,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #      params[:q] = qparam_display
       search_session[:q] = params[:q] 
  #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
-      Rails.logger.info("WOOTOO = #{params[:show_query]}")
     end
 
   end
@@ -913,7 +912,6 @@ def check_params(params)
     #    end 
 #    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
 #    params[:q] = "(title:100%) OR title_phrase:\"100%\""
-    Rails.logger.info("Butt2 = #{params}")
    return params
   end
 
