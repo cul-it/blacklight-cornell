@@ -10,24 +10,26 @@
         <div class="cornell-logo col-6">
           <a href="http://www.cornell.edu">Cornell University</a>
         </div>
-        <div class="library-menu col-6 text-right">
-          <div class="dropdown">
-            <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library"  onclick="javascript:_paq.push(['trackEvent', 'navigation', 'Hamburger menu']);">
-              <i class="fa fa-bars" aria-hidden="true" title="Library menu" alt=""></i><span class="btn-library-label">Menu</span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="library-menu">
-              <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
-              <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
-              <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries and Hours</a>
-              <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Textbook Reserves</a>
-              <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
-              <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
-              <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
-              <a href="http://www.library.cornell.edu/help" class="dropdown-item">Help</a>
-              <a href="/myaccount/login" class="dropdown-item">My Account</a>
+        <% if part_of_catalog? %>
+          <div class="library-menu col-6 text-right">
+            <div class="dropdown">
+              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
+                <i class="fa fa-bars" aria-hidden="true" title="Library menu" alt=""></i><span class="btn-library-label">Menu</span>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="library-menu">
+                <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
+                <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
+                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries and Hours</a>
+                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Textbook Reserves</a>
+                <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
+                <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
+                <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
+                <a href="http://www.library.cornell.edu/help" class="dropdown-item">Help</a>
+                <a href="/myaccount/login" class="dropdown-item">My Account</a>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div> <!-- /container -->
