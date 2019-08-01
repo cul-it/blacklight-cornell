@@ -29,8 +29,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
-      elsif (op.include?('/book_bags/email'))
-        "/book_bags/email"
       elsif (params['id'].present? && op.include?('email'))
         "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
@@ -151,7 +149,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        if params[:search_field] == 'call number' and !params[:q].include?('"')
          tempQ = params[:q]
        end
-       check_params(params)
+      # check_params(params)
        if !tempQ.nil?
          params[:qdisplay] = tempQ
        end
@@ -173,13 +171,21 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = params[:search_field] + ':' + params[:q]
      end
     end
-
+     
+    if params[:q].include?('_cts')
+      display = params[:q].split(':')
+      params[:q] = display[1]
+    end
+    
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     #params[:sort]= ''
     #params = {"utf8"=>"✓", "controller"=>"catalog", "action"=>"index", "q"=>"(+title:100%) OR title_phrase:\"100%\"", "search_field"=>"title", "qdisplay"=>"100%"}
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
- 
+   #params[:q] = '(+title_quoted:"A news" +title:Reporter)'
+#    params[:search_field] = 'advanced'
+ Rails.logger.info("BUTTHEAD = #{params.inspect}")
+   #params[:q] = '(water)'
     (@response, deprecated_document_list) = search_service.search_results #search_results(params)
     @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -209,7 +215,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 
    # clean up search_field and q params.  May be able to remove this
-    cleanup_params(params)
+  #  cleanup_params(params)
 
     @expanded_results = {}
     ['worldcat', 'summon'].each do |key|
@@ -257,6 +263,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #      params[:q] = qparam_display
       search_session[:q] = params[:q] 
  #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
+      Rails.logger.info("WOOTOO = #{params[:show_query]}")
     end
 
   end
@@ -416,16 +423,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 ##        end
 ##      end
 ##    end
-    # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
-    def email_action documents
-      mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
-      if mail.respond_to? :deliver_now
-        mail.deliver_now
-      else
-        mail.deliver
-      end
-    end
-
     def sms_action documents
       to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
       tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
@@ -448,16 +445,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         flash.now[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
       elsif !sms_mappings.value?(params[:carrier])
         flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
-      end
-
-      flash[:error].blank?
-    end
-
-    def validate_email_params
-      if params[:to].blank?
-        flash.now[:error] = I18n.t('blacklight.email.errors.to.blank')
-      elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
-        flash.now[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
       end
 
       flash[:error].blank?
