@@ -44,3 +44,6 @@ db/test.sqlite3-journal
 
 .DS_Store
 .idea/*
+
+#ignore dev tool
+config/initializers/renderer.rb
