@@ -144,6 +144,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
       if params["search_field"] == "journal title"
         journal_titleHold = "journal title"
+#        params[:f] = {'format' => ['Journal/Periodical']}
       end
        params[:q] = sanitize(params)
        if params[:search_field] == 'call number' and !params[:q].include?('"')
@@ -177,7 +178,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = display[1]
      end
      end
-    
+  
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     #params[:sort]= ''
