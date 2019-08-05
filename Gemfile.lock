@@ -51,7 +51,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: c85e26c1961ddea3cb9468bd525a2814f6347072
+  revision: ff4141ff362de5f67ca992b36cf58c3bee0f73c2
   branch: BL7-upgrade
   specs:
     my_account (1.0)
@@ -494,7 +494,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.4)
+    rails-html-sanitizer (1.1.0)
       loofah (~> 2.2, >= 2.2.2)
     railties (5.2.3)
       actionpack (= 5.2.3)
