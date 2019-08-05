@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: bb4cc31ce125396601397588ef61bbb5c50a5810
+  revision: f42e7986d09b58722f440b2ddd290185d7e833bd
   branch: BL7-upgrade
   specs:
     blacklight_cornell_requests (3.0)
@@ -275,10 +275,10 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dot-properties (0.1.3)
-    dotenv (2.7.4)
+    dotenv (2.7.5)
     dotenv-deployment (0.0.2)
-    dotenv-rails (2.7.4)
-      dotenv (= 2.7.4)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
     erubi (1.8.0)
     erubis (2.7.0)
