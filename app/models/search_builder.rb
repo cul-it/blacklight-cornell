@@ -251,7 +251,11 @@ class SearchBuilder < Blacklight::SearchBuilder
              if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'number'
               new_query = new_query + ') OR ' + blacklight_params[:search_field] + '_phrase:"' + blacklight_params[:q] + '"'
              else
-              new_query = new_query + ') OR '  + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+              if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
+                new_query = new_query + ') OR ' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
+              else 
+               new_query = new_query + ') OR '  + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+              end
              end
              blacklight_params[:q] = new_query             
            else
