@@ -29,6 +29,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
+      elsif (op.include?('/book_bags/email'))
+        "/book_bags/email"
       elsif (params['id'].present? && op.include?('email'))
         "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
@@ -445,6 +447,26 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         flash.now[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
       elsif !sms_mappings.value?(params[:carrier])
         flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
+      end
+
+      flash[:error].blank?
+    end
+
+    # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+    def email_action documents
+      mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
+      if mail.respond_to? :deliver_now
+        mail.deliver_now
+      else
+        mail.deliver
+      end
+    end
+
+    def validate_email_params
+      if params[:to].blank?
+        flash.now[:error] = I18n.t('blacklight.email.errors.to.blank')
+      elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
+        flash.now[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
       end
 
       flash[:error].blank?
