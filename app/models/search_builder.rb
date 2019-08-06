@@ -193,6 +193,13 @@ class SearchBuilder < Blacklight::SearchBuilder
                 blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
               end 
             end  
+            if blacklight_params[:search_field] == 'publisher' or blacklight_params[:search_field == 'publisher_quoted']
+              if blacklight_params[:search_field] == 'publisher_quoted' 
+                blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+              else
+                blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
+              end 
+            end  
             if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'title_quoted' or blacklight_params[:search_field] == 'subject' or blacklight_params[:search_field] == 'subject_quoted'
               if blacklight_params[:search_field] == 'subject_quoted' or blacklight_params[:search_field] == 'title_quoted'
                 blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
