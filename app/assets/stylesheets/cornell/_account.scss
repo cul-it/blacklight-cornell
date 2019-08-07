@@ -15,25 +15,28 @@
 	p:first-child {
 		margin-top: 1em;
 	}
-	.label-default {
-		background: #e1e1e1;
-		color: $dark-gray;
-		font-weight: 400;
-		margin-left: .5em;
-		font-size: 80%;
-	}
 }
 
-
+// Guest ID styling
+// -------------------
+.guest-id {
+	padding-top: 1rem;
+	border-top: 1px solid #ddd;
+	margin-top: 2rem;
+}
 
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up)
-// @media (min-width: $screen-sm) { 
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
 // }
-// Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) { 
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	.blacklight-account {
 		.tab-content {
 			padding-top: 1em;
@@ -45,4 +48,17 @@
 			}
 		}
 	}
+	.guest-id {
+		border-left: 1px solid #ddd;
+		padding-left: 2rem;
+		border-top: 0;
+		padding-top: 0;
+		margin-top: 0;
+	}
 }
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

@@ -379,23 +379,27 @@ def getItemStatus(doc)
        if hrdHash["locations"][0]["name"] == "*Networked Resource"
           @itemStatusArray << "*Networked Resource"
        else
-         thisHash = JSON.parse(doc[:holdings_json])
-         thisHash.each do |k, v|
-           newHash = {}
-           newHash = v
-           newHash['location'].each do |d, e|
-             if d.to_s == "avail" #and d.to_s != "count"
-               if e == "true"
-                 @itemStatusArray << "Available" + " || "
-               else
-                 @itemsStatusArray << "Unavailable" + " || "
+         if doc[:holdings_json].present? 
+           thisHash = JSON.parse(doc[:holdings_json])
+           thisHash.each do |k, v|
+             newHash = {}
+             newHash = v
+             newHash['location'].each do |d, e|
+               if d.to_s == "avail" #and d.to_s != "count"
+                 if e == "true"
+                   @itemStatusArray << "Available" + " || "
+                 else
+                   @itemsStatusArray << "Unavailable" + " || "
+                 end
+          #    else 
+          #      if d.to_s != "count"
+          #        @itemStatusArray << "Unavailable" + " || "
+          #      end
                end
-        #    else 
-        #      if d.to_s != "count"
-        #        @itemStatusArray << "Unavailable" + " || "
-        #      end
-             end
-           end  
+             end  
+           end
+         else
+           @itemStatusArray << ""
          end
        end
   return @itemStatusArray
@@ -519,8 +523,11 @@ def render_advanced_constraints_query(my_params = params)
 #      if (@advanced_query.keyword_queries.count == 2)
     facetparams = ""
     if (my_params[:f].present?)
-      if(my_params[:f].count > 1)
-      end
+      # With Rails 5 my_params[:f].count throws an error because the paras are now an object.
+      # Commenting the block out since it doesn't  appear to do anything. If needed, the error
+      # can be fixed this way: my_params.to_h[:f].count > 1
+      # if(my_params[:f].count > 1)
+      # end
       start1 = "f["
       next1 = ""
       count = 0

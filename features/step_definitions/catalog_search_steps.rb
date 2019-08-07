@@ -81,8 +81,11 @@ end
 #   end
 # end
 
+@javascript
 Then /^I should get results$/ do
-  page.should have_selector(".document")
+  patiently do
+    page.find(:css, "#documents")
+  end
 end
 
 Then /^I should not get results$/ do

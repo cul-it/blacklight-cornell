@@ -19,7 +19,8 @@ Then /^the page title should be "(.*?)"$/ do |title|
   # https://github.com/jnicklas/capybara/issues/863
   #first('title').native.text == title
   #first('title').text == title
-  first('title') == title
+  #first('title') == title
+  expect(page).to have_title "#{title}"
 end
 
 Then /^the '(.*?)' drop\-down should have an option for '(.*?)'$/ do |menu, option|
@@ -71,11 +72,11 @@ Then /I should see "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, 
 end
 
 Then /I should select checkbox "(.*)"$/i do |target|
-  find(:css, "\##{target}").set(true)
+  find(:css, "\##{target}").trigger('click')
 end
 
 Then /I should select radio "(.*)"$/i do |target|
-  case target 
+  case target
     when 'OR'
       page.all(:xpath, "//input[@value='OR']").first.click
     when 'AND'
@@ -113,3 +114,8 @@ end
 #     page.should have_selector("#{elem}[#{attribute}=#{value}][#{attribute2}=#{value2}]")
 #   end
 # end
+
+
+Then("I should see a {string} tag with url containing {string}") do |string, string2|
+  expect(page).to have_xpath("//#{string}[contains(@src,'#{string2}')]")
+end
