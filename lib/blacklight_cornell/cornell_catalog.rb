@@ -354,7 +354,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
           render :layout => false
         end
         format.json do
-          render :json => get_opensearch_response
+          render :json => search_service.opensearch_response
         end
       end
     end
