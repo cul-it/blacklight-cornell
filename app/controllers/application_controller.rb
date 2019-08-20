@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
         @extra_head_content ||= []
    end
 
-   def show_login_action 
+   def show_login_action
      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} logging in before hook")
    end
 
@@ -32,10 +32,10 @@ protected
       super
     else
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate redirect to saml ")
-      if ENV['SAML_IDP_TARGET_URL'] 
+      if ENV['SAML_IDP_TARGET_URL']
         #redirect_to 'http://es287-dev.library.cornell.edu:8988/saml.html'
         redirect_to request.base_url + '/saml.html'
-      end 
+      end
       #redirect_to 'http://es287-dev.library.cornell.edu:8986/users/auth/saml'
       #redirect_to new_user_session_path, :notice => 'if you want to add a notice'
       ## if you want render 404 page
@@ -43,7 +43,7 @@ protected
     end
   end
 
-  if false 
+  if false
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
