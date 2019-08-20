@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
 
   set_callback :logging_in_user, :before, :show_login_action
 
+  after_action :allow_libwizard_iframe
+
 # An array of strings to be added to HTML HEAD section of view.
 # See ApplicationHelper#render_head_content for details.
    def extra_head_content
@@ -63,6 +65,12 @@ protected
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
   end
+  end
+
+  private
+
+  def allow_libwizard_iframe
+    response.headers['X-Frame-Options'] = 'ALLOW-FROM https://wwwtest.library.cornell.edu'
   end
 
 end
