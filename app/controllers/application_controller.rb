@@ -70,7 +70,7 @@ protected
   private
 
   def allow_libwizard_iframe
-    response.headers['X-Frame-Options'] = 'ALLOW-FROM https://wwwtest.library.cornell.edu'
+    response.headers['X-Frame-Options'] = 'ALLOW-FROM https://cornell.libwizard.com'
   end
 
 end
