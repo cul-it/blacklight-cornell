@@ -33,7 +33,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/blacklight-unapi
-  revision: c5f0aa26623db83871e728f566ca4c2c96e2dc90
+  revision: 8774c50cdd9ffce42a9b6f4e3a1318791c5aff55
   branch: BL7-upgrade
   specs:
     blacklight_unapi (0.1.0)
@@ -419,7 +419,7 @@ GEM
       net-ssh (>= 4.0.0)
     netrc (0.11.0)
     nio4r (2.4.0)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     nori (2.6.0)
     notiffany (0.1.1)
@@ -494,7 +494,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.1.0)
+    rails-html-sanitizer (1.2.0)
       loofah (~> 2.2, >= 2.2.2)
     railties (5.2.3)
       actionpack (= 5.2.3)
