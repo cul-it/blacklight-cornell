@@ -317,7 +317,7 @@ end
     config.add_show_field 'pub_manu_display', :label => 'Manufactured'
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
     config.add_show_field 'publisher_number_display', :label => 'Publisher number'
-    config.add_show_field 'other_identifier_display', :label => 'Other identifier'
+    config.add_show_field 'doi_display', :label => 'DOI'
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
