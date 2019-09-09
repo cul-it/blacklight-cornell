@@ -76,7 +76,7 @@ class BookBagsController < CatalogController
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
       if bookmark_ids.count > bookmark_max
         # delete the extra bookmarks
-        bookmark_ids = bookmark_ids.split(0, bookmarks_max)
+        bookmark_ids = bookmark_ids.split(0, bookmark_max)
       end
       if not bookmark_ids.to_s.empty?
         bookmark_ids.each do | v |
