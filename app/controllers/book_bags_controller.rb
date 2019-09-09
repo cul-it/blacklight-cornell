@@ -21,7 +21,7 @@ class BookBagsController < CatalogController
 
   before_action :heading
   append_before_action :set_bag_name
-  
+
   def set_bag_name
     @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
@@ -35,7 +35,7 @@ class BookBagsController < CatalogController
   def initialize
     super
     @bb = Bookbag.new(nil)
-  end 
+  end
 
   def can_add
     return current_or_guest_user.bookmarks.count < MAX_BOOKBAGS_COUNT
@@ -57,7 +57,7 @@ class BookBagsController < CatalogController
         format.html { }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
-        format.json { render json:   { }      } 
+        format.json { render json:   { }      }
       end
      end
   end
@@ -207,7 +207,7 @@ class BookBagsController < CatalogController
 #       if docs.size < 2
 #
 #         if !params[:id][0].nil?
-#           bibid = params[:id][0] 
+#           bibid = params[:id][0]
 #           render :js => "window.location = '/catalog/#{bibid}'"
 #         else
 #           render :js => "window.location = '/catalog"
