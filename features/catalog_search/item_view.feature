@@ -126,7 +126,7 @@ Feature: Item view
   @request_button
   @all_item_view
   @saml_off
-  Scenario: As a user I can request an item, when not SAML involved. 
+  Scenario: As a user I can request an item, when not SAML involved.
     Given I request the item view for 30000
     Then it should have link "Request item" with value "/request/30000"
 
@@ -144,12 +144,14 @@ Feature: Item view
     Given I request the item view for 30000
     Then I should see the label 'Library Annex'
 
-  # Availability simple, one location, and is NOT available
-  # Inequality, Anthony B Atkinson. 
+  # The Kroch copy of this book has been checked out since July 1992.
+  # https://newcatalog.library.cornell.edu/catalog/1208939
+  # As a backup, I think this is a different patron who has had this book since October 1992:
+  # https://newcatalog.library.cornell.edu/catalog/473013
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
-    Given I request the item view for 8916645
+    Given I request the item view for 1208939
     Then I should see the label 'Checked out, due'
 
   # availability -- several copies,all copy1, checked out.
@@ -340,7 +342,7 @@ Feature: Item view
   @current_issues
   Scenario: As a user I can see the current issues information
     Given I request the item view for 329763
-    Then I should see the label 'Current issue on display'
+    Then I should see the label 'Subscription cancelled after 2009'
 
   # Make sure PDA makes some sense  DISCOVERYACCESS-1356
   # Confusing availability labels for 8036458
@@ -644,7 +646,6 @@ Feature: Item view
   Scenario: Show link to finding aid when present
     Given I request the item view for 2070362
     Then I should see the label 'Finding aid'
-    Then I should see the label 'Folder listing'
     And it should have link "Finding aid" with value "http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM03970"
 
 #Attacking trigonometry problems

@@ -143,7 +143,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	opacity: 1;
 }
 .modal {
-	h3 {
+	h1 {
 		font-weight: 700;
 		margin: 0;
 	}
@@ -153,6 +153,16 @@ h3 { font-size: 20px; line-height: 1.5em;}
 }
 .modal-title {
 	font-size: 24px;
+	float: left;
+}
+.modal-body {
+	h2 {
+		font-size: 20px;
+		margin-top: 1rem;
+	}
+	h2:first-child {
+		margin-top: 0;
+	}
 }
 
 // Miscellaneous
@@ -169,7 +179,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 }
 
 
-
+// MEDIA QUERIES
 // -------------------------
 
 // Extra small devices (portrait phones, less than 576px)
@@ -235,8 +245,11 @@ div.select_all label {
 }
 
 .dl-horizontal dt {
-
     float: left;
     clear: left;
     text-align: right;
+}
+
+.modal-header {
+	display: block !important;
 }

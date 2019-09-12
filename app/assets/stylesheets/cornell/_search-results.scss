@@ -164,8 +164,9 @@ body.book_bags-index #documents .document {
 
 // Search history
 // ------------------------------------------
-.search_history {
-	.filterName { margin-right: 0.25em; }
+.search-history {
+	a:hover { text-decoration: none;}
+	.filter-name { margin-right: 0.25em;}
 	.label {
 		display: inline;
 		color: white;
@@ -200,6 +201,11 @@ h4.suggest {
 	}
 	.search-filter {
 		float: right;
+	}
+	.search-filter {
+		.select_all.btn {
+			margin-left: 0
+		}
 	}
 }
 

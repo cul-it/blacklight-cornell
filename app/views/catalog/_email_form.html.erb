@@ -1,8 +1,12 @@
 <%- unless flash[:success] %>
-<%= form_tag url_for(:controller => self.controller.class.to_s.underscore.to_s.sub!("_controller",''), :action => "email"), :id => 'email_form', :class => "ajax_form", :method => :post do %>
+<%= form_tag url_for(:controller => self.controller.class.to_s.underscore.to_s.sub!("_controller",''), :action => "email"), 
+						data: { blacklight_modal: 'trigger' },
+						:id => 'email_form', 
+						:class => "modal_form", 
+						:method => :post do %>
 
   <div class="modal-body">
-    <%= render :partial=>'/flash_msg' %>
+    <%= render :partial=>'/shared/flash_msg' %>
 
 
     <div class="form-group">
@@ -45,7 +49,7 @@
 <% end %>
 <%- else %>
 <div class="modal-body">
-  <%= render :partial=>'/flash_msg' %>
+  <%= render :partial=>'/shared/flash_msg' %>
     <span class="ajax-close-modal"/>
     </div>
 <%- end %>

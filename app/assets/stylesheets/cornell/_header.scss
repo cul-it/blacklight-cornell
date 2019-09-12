@@ -82,9 +82,6 @@ ul.blacklight-nav {
     a.logout {
       font-size: .9em;
     }
-   	a:hover {
-    	text-decoration: none;
-    }
     a.user-email:hover,
     a.logout:hover {
       background: none;
@@ -130,6 +127,11 @@ ul.blacklight-nav {
 .btn-library:active,
 .btn-library:focus {
   color: white;
+}
+
+// Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
+.secondary-catalog-link {
+  font-size: 14px;
 }
 
 // MEDIA QUERIES

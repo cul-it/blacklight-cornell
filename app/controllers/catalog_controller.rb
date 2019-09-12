@@ -317,7 +317,7 @@ end
     config.add_show_field 'pub_manu_display', :label => 'Manufactured'
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
     config.add_show_field 'publisher_number_display', :label => 'Publisher number'
-    config.add_show_field 'other_identifier_display', :label => 'Other identifier'
+    config.add_show_field 'doi_display', :label => 'DOI'
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
@@ -955,42 +955,42 @@ end
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   # but now we removed mollom captcha.
-  def email
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
-    docs = params[:id].split '|'
-    @response, @documents = fetch docs
-    if request.post?
-      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-        email.deliver_now
-        flash[:success] = "Email sent"
-        redirect_to solr_document_path(params[:id]) unless request.xhr?
-      else
-          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-      end
-    end
-
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
-    if   ENV['SAML_IDP_TARGET_URL']
-      if request.xhr? && flash[:success]
-        if docs.size < 2
-          render :js => "window.location = '/catalog/#{params[:id]}'"
-        else
-          render :js => "window.location = '/bookmarks'"
-        end
-        return
-      end
-    end
-    unless !request.xhr? && flash[:success]
-      respond_to do |format|
-        format.js { render :layout => false }
-        format.html
-      end
-    end
-  end
+#  def email
+#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
+#    docs = params[:id].split '|'
+#    @response, @documents = search_service.fetch docs
+#    if request.post?
+#      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+#      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+#        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+#        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+#        email.deliver_now
+#        flash[:success] = "Email sent"
+#        redirect_to solr_document_path(params[:id]) unless request.xhr?
+#      else
+#          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+#      end
+#    end
+#
+#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
+#    if   ENV['SAML_IDP_TARGET_URL']
+#      if request.xhr? && flash[:success]
+#        if docs.size < 2
+#          render :js => "window.location = '/catalog/#{params[:id]}'"
+#        else
+#          render :js => "window.location = '/bookmarks'"
+#        end
+#        return
+#      end
+#    end
+#    unless !request.xhr? && flash[:success]
+#      respond_to do |format|
+#        format.js { render :layout => false }
+#        format.html
+#      end
+#    end
+#  end
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)

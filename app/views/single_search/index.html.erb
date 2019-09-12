@@ -41,7 +41,7 @@
       <% query = query.gsub('&', '%26') %>
       <p class="no-results">
         Your search returned 0 results. Try searching
-        <%= link_to 'Libraries Worldwide', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
+        <%= link_to 'Libraries Worldwide', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
         or
         <%= link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend" %>
       </p>
@@ -76,7 +76,7 @@
                       </li>
                       <li>
                         <i class="fa fa-arrow-right"></i>
-                        <%= link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
+                        <%= link_to "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
                           Request from Libraries Worldwide
                             <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
                         <% end %>
@@ -235,7 +235,7 @@
                         No results from the
                         <%= link_to 'Catalog.', "https://newcatalog.library.cornell.edu" %>
                         Try searching
-                        <%= link_to 'Libraries Worldwide.', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
+                        <%= link_to 'Libraries Worldwide.', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
                       </p>
                     </div>
                   <% end %>

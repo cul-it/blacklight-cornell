@@ -69,12 +69,12 @@ Then /^I should see an error$/ do
 end
 
 Then(/^I sleep (\d+) seconds$/) do |wait_seconds|
-  sleep wait_seconds.to_i 
+  sleep wait_seconds.to_i
 end
 
 When /^I accept popup$/ do
   page.evaluate_script('window.confirm = function() { return true; }')
-  #page.driver.browser.switch_to.alert.accept    
+  #page.driver.browser.switch_to.alert.accept
 end
 
 When /^I dismiss popup$/ do
@@ -103,7 +103,7 @@ Then("I should see the CUWebLogin page") do
 end
 
 Then("I select the first {int} catalog results") do |int|
-  @all_checkboxes = page.all(:css, "input.toggle_bookmark")
+  @all_checkboxes = page.all(:css, "input.toggle-bookmark")
   i = 0
   while i < int
     page.find(:xpath, @all_checkboxes[i].path).set(true)
@@ -118,7 +118,7 @@ end
 Then("Sign in should link to the SAML login system") do
   if ENV['GOOGLE_CLIENT_ID']
     page.find(:xpath, "//a[@href='/logins']", :text => "Sign in")
-  else 
+  else
     page.find(:xpath, "//a[@href='/users/auth/saml']", :text => "Sign in")
   end
 end
@@ -136,14 +136,17 @@ When("I view my selected items") do
 end
 
 When("I view my citations") do
-  page.find(:xpath, '//a[@id="citeLink"]').click
+  page.find(:xpath, '//a[@id="citationLink"]').click
 end
 
 def what_is(element)
   puts "\n********************* what is V\n"
   puts page.current_url.inspect
+  puts "\n"
   puts element.inspect
+  puts "\n"
   puts element['innerHTML']
+  puts "\n"
   puts "\n********************* what is ^\n"
 end
 
@@ -186,7 +189,7 @@ Then("the popup should include {string}") do |string|
       @path = "\/\/*[text()=\'#{string}\']"
       Find(:xpath, @path )
     end
-  rescue => exception    
+  rescue => exception
   end
 end
 
@@ -201,7 +204,6 @@ end
 
 Then("I should see {int} selected items") do |int|
   patiently do
-    what_is(page.find(:xpath, "//a[@id='bookmarks_nav']"))
     page.find(:xpath, "//a[@id='bookmarks_nav']/span")
     page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}")
   end

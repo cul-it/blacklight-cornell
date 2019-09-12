@@ -375,7 +375,7 @@ Feature: Search
     And I fill in "q_row2" with 'Amsterdam'
     And I select 'all' from the 'op_row2' drop-down
     And I sleep 4 seconds
-    And I select 'Place Of Publication' from the 'search_field_advanced2' drop-down
+    And I select 'Place of Publication' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 8 of 8'
@@ -544,7 +544,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row2" with 'sargent, charles sprague'
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
 

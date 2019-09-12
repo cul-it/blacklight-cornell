@@ -180,4 +180,5 @@ devise_for :users, controllers: {
 
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
+  mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end

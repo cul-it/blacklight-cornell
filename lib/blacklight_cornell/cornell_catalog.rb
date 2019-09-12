@@ -23,11 +23,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
+    refp =""
     refp.sub!('/range_limit','') unless refp.nil?
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
+      elsif (op.include?('/book_bags/email'))
+        "/book_bags/email"
       elsif (params['id'].present? && op.include?('email'))
         "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
@@ -95,7 +98,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    (@response, @document_list) = search_results(zparams)
+    (@response, @document_list) = search_service.oclc_search_results(zparams)
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     num = @response["response"]["numFound"]
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} num = #{num.inspect}"
@@ -143,12 +146,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       end
       if params["search_field"] == "journal title"
         journal_titleHold = "journal title"
+#        params[:f] = {'format' => ['Journal/Periodical']}
       end
        params[:q] = sanitize(params)
        if params[:search_field] == 'call number' and !params[:q].include?('"')
          tempQ = params[:q]
        end
-       check_params(params)
+      # check_params(params)
        if !tempQ.nil?
          params[:qdisplay] = tempQ
        end
@@ -170,11 +174,23 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = params[:search_field] + ':' + params[:q]
      end
     end
-
+    if !params[:q].nil? 
+     if params[:q].include?('_cts')
+       display = params[:q].split(':')
+       params[:q] = display[1]
+     end
+     end
+  
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
+    #params[:sort]= ''
+    #params = {"utf8"=>"✓", "controller"=>"catalog", "action"=>"index", "q"=>"(+title:100%) OR title_phrase:\"100%\"", "search_field"=>"title", "qdisplay"=>"100%"}
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    (@response, @document_list) = search_service.search_results #search_results(params)
+   #params[:q] = '(+title_quoted:"A news" +title:Reporter)'
+#    params[:search_field] = 'advanced'
+   #params[:q] = '(water)'
+    (@response, deprecated_document_list) = search_service.search_results #search_results(params)
+    @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
     if temp_search_field != ''
@@ -202,7 +218,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
 
    # clean up search_field and q params.  May be able to remove this
-    cleanup_params(params)
+  #  cleanup_params(params)
 
     @expanded_results = {}
     ['worldcat', 'summon'].each do |key|
@@ -236,7 +252,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
-      format.json { render json: { response: { document: @document_list } } }
+      format.json { render json: { response: { document: deprecated_document_list } } }
     end
     
      if !params[:q_row].nil?       
@@ -273,7 +289,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       @document.export_formats.each_key do | format_name |
         # It's important that the argument to send be a symbol;
         # if it's a string, it makes Rails unhappy for unclear reasons.
-         format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
+         format.send(format_name.to_sym) { render :body => @document.export_as(format_name), :layout => false }
       end
 
     end
@@ -282,14 +298,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def setup_next_and_previous_documents
     query_params = session[:search] ? session[:search].dup : {}
 
-    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
-       check_params(query_params)
-    else
-      if query_params[:q].blank?
-        temp_search_field = query_params[:search_field]
-        query_params[:search_field] = 'all_fields'
-      end
-    end
+#    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
+#       check_params(query_params)
+#    else
+#      if query_params[:q].blank?
+#        temp_search_field = query_params[:search_field]
+#        query_params[:search_field] = 'all_fields'
+#          end
+#    end
 
     if search_session['counter'] 
       index = search_session['counter'].to_i - 1
@@ -338,7 +354,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
           render :layout => false
         end
         format.json do
-          render :json => get_opensearch_response
+          render :json => search_service.opensearch_response
         end
       end
     end
@@ -363,7 +379,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
           bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT] 
         end
-        @response, @documents = fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
+        @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
       else
         @response, @documents = search_service.fetch(params[:id])
@@ -409,54 +425,91 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 ##        end
 ##      end
 ##    end
-     def sms_action documents
-       to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-       tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
-       tiny = tiny_url(tinyPass)
-       mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
-       print mail.pretty_inspect
-       if mail.respond_to? :deliver_now
-         mail.deliver_now
-       else
-         mail.deliver
-       end
-     end
-    # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
-    def sms
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-      if request.post?
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
-        tiny = tiny_url(tinyPass)
-        if params[:to]
-          phone_num = params[:to].gsub(/[^\d]/, '')
-          unless params[:carrier].blank?
-            if phone_num.length != 10
-              flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
-            else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
-            end
-
-          else
-            flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
-          end
-        else
-          flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
-        end
-
-        unless flash[:error]
-          email.deliver
-          flash[:success] = 'Text sent'
-          redirect_to facet_catalog_path(params['id']) unless request.xhr?
-        end
-      end
-      unless !request.xhr? && flash[:success]
-        respond_to do |format|
-          format.js { render :layout => false }
-          format.html
-        end
+    def sms_action documents
+      to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
+      tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
+      tiny = tiny_url(tinyPass)
+      mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
+      print mail.pretty_inspect
+      if mail.respond_to? :deliver_now
+        mail.deliver_now
+      else
+        mail.deliver
       end
     end
+    
+    def validate_sms_params
+      if params[:to].blank?
+        flash.now[:error] = I18n.t('blacklight.sms.errors.to.blank')
+      elsif params[:carrier].blank?
+        flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
+      elsif params[:to].gsub(/[^\d]/, '').length != 10
+        flash.now[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
+      elsif !sms_mappings.value?(params[:carrier])
+        flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
+      end
+
+      flash[:error].blank?
+    end
+
+    # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+    def email_action documents
+      mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
+      if mail.respond_to? :deliver_now
+        mail.deliver_now
+      else
+        mail.deliver
+      end
+    end
+
+    def validate_email_params
+      if params[:to].blank?
+        flash.now[:error] = I18n.t('blacklight.email.errors.to.blank')
+      elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
+        flash.now[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
+      end
+
+      flash[:error].blank?
+    end
+
+    # Now handled in the sms_action above and set up by the add_show_tools_partial config setting in the catalog controller.
+    # So this code can just get deleted at some point. -- tlw72
+    # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+    # def sms
+    #  (@response, deprecated_document_list) = search_service.fetch(params[:id])
+    #  if request.post?
+    #    url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
+    #    tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
+    #    tiny = tiny_url(tinyPass)
+    #    if params[:to]
+    #      phone_num = params[:to].gsub(/[^\d]/, '')
+    #      unless params[:carrier].blank?
+    #        if phone_num.length != 10
+    #          flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
+    #        else
+    #          email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier], :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny}, url_gen_params)
+    #        end
+    #
+    #      else
+    #        flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
+    #      end
+    #    else
+    #      flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
+    #    end
+    #
+    #    unless flash[:error]
+    #      email.deliver
+    #      flash[:success] = 'Text sent'
+    #      redirect_to facet_catalog_path(params['id']) unless request.xhr?
+    #    end
+    #  end
+    #  unless !request.xhr? && flash[:success]
+    #    respond_to do |format|
+    #      format.js { render :layout => false }
+    #      format.html
+    #    end
+    #  end
+    #end
 
 
     def librarian_view
@@ -826,7 +879,7 @@ def check_params(params)
                    if fieldname == "lc_callnum"
                      params[:qdisplay] = params[:q]
                  #    params[:q].gsub!('"','')
-                     params[:q] = '+lc_callnum:' + params[:q]
+                     params[:q] = '(+lc_callnum:' + params[:q] + ') OR lc_callnum:' + params[:q] + ''
                    end
                    if fieldname.include?('_cts')
                      params[:qdisplay] = params[:q]
@@ -881,6 +934,7 @@ def check_params(params)
     #      params[:q] = '*'
     #    end 
 #    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
+#    params[:q] = "(title:100%) OR title_phrase:\"100%\""
    return params
   end
 
