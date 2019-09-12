@@ -382,21 +382,23 @@ def getItemStatus(doc)
          if doc[:holdings_json].present?
            thisHash = JSON.parse(doc[:holdings_json])
            thisHash.each do |k, v|
-             newHash = {}
-             newHash = v
-             newHash['location'].each do |d, e|
-               if d.to_s == "avail" #and d.to_s != "count"
-                 if e == "true"
-                   @itemStatusArray << "Available" + " || "
-                 else
-                   @itemsStatusArray << "Unavailable" + " || "
-                 end
-          #    else 
-          #      if d.to_s != "count"
-          #        @itemStatusArray << "Unavailable" + " || "
-          #      end
-               end
-             end  
+            if v.present?
+              newHash = {}
+              newHash = v
+              newHash['location'].each do |d, e|
+                if d.to_s == "avail" #and d.to_s != "count"
+                  if e == "true"
+                    @itemStatusArray << "Available" + " || "
+                  else
+                    @itemsStatusArray << "Unavailable" + " || "
+                  end
+            #    else
+            #      if d.to_s != "count"
+            #        @itemStatusArray << "Unavailable" + " || "
+            #      end
+                end
+              end
+            end
            end
          else
            @itemStatusArray << ""
