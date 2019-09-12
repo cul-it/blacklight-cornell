@@ -70,15 +70,15 @@ module CornellParamsHelper
      if query_string =~ /^\".*\"$/ or query_string.include?('"')
        params[:search_field] = params[:search_field] + '_quote'
        return query_string
-     else 
+     else
        unless query_string.nil?
          params[:q_row] = parse_stem(query_string)
        end
-       return query_string       
+       return query_string
      end
 #    end
   end
- 
+
   def parse_stem(query_string)
     string_chars = query_string.chars
     quoteFlag = 0
@@ -127,15 +127,15 @@ module CornellParamsHelper
         params[:search_field_row] << search_field + "_quote"
         wordArray = []
         quoteFlag = 0
-      else 
+      else
         if quoteFlag == 0
           params[:q_row] << wordArray.join.strip
            params[:op_row] << "AND"
-          params[:search_field_row] << search_field 
+          params[:search_field_row] << search_field
          wordArray = []
         end
       end
-    end 
+    end
     times = params[:q_row].count
     for j in 1..times -1
       x = j
@@ -230,7 +230,7 @@ end
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end
-            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?)
               if my_params[:boolean_row].nil?
                 my_params[:boolean_row] = {"1" => "AND"}
               else
@@ -258,9 +258,9 @@ end
    temp_loc_text = []
 #   temp_loc_Full = create_condensed_full(doc)
    temp_loc_Full = doc[:holdings_json]
-   doc['holdings_record_display'].each do |holding| 
+   doc['holdings_record_display'].each do |holding|
       holding = JSON.parse(holding)
- 
+
       if !holding["locations"].nil? #and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
         temp_loc_text = holding["locations"][0]['name']
       end
@@ -358,7 +358,7 @@ def getOldTempLocations(doc)
       newHash = v
       locationHash = {}
       locationHash = v["location"]
-      if !locationHash['library'].nil?   
+      if !locationHash['library'].nil?
         @itemLocationArray << locationHash['name'].to_s + " || "
       end
     end
@@ -379,7 +379,7 @@ def getItemStatus(doc)
        if hrdHash["locations"][0]["name"] == "*Networked Resource"
           @itemStatusArray << "*Networked Resource"
        else
-         if doc[:holdings_json].present? 
+         if doc[:holdings_json].present?
            thisHash = JSON.parse(doc[:holdings_json])
            thisHash.each do |k, v|
              newHash = {}
@@ -424,7 +424,7 @@ end
     query = params[:y]
     content = ""
     content << render_constraint_element(label, query,
-          :remove => "?#{field}") 
+          :remove => "?#{field}")
     content.html_safe
   end
 
@@ -450,7 +450,7 @@ end
     end
     return content.html_safe
   end
- 
+
 end
 
 def deep_copy(o)
@@ -463,7 +463,7 @@ def render_advanced_constraints_query(my_params = params)
 
   if !my_params[:q_row].nil?
      my_params = removeBlanks(my_params)
-     
+
   end
   if my_params[:search_field] == 'advanced'
  #   my_params.delete(:q)
@@ -495,7 +495,7 @@ def render_advanced_constraints_query(my_params = params)
       my_params.delete(:sort)
       my_params.delete(:search_field)
  #     my_params.delete(:boolean_row)
-      
+
       my_params[:search_field] = hold_search_field_row
       content = ""
       content << render_constraints(my_params)
@@ -562,8 +562,8 @@ def render_advanced_constraints_query(my_params = params)
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
 #        if my_params[:search_field_row][i] == "begins_with"
 #          sfr = sfr << "_starts"
-#    
-        n = i - 1        
+#
+        n = i - 1
        # n = n.to_s
         if !my_params[:boolean_row].nil?
           if !my_params[:boolean_row][n].nil?
@@ -610,7 +610,7 @@ def render_advanced_constraints_query(my_params = params)
            if hold[1].include?('&')
              hold[1] = hold[1].gsub!('&','%26')
            end
-           
+
            if my_params[:op_row][andorcount] == "OR"
              lastq = qtoken(hold[1])
              if lastq.size > 1
@@ -638,7 +638,7 @@ def render_advanced_constraints_query(my_params = params)
          if !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
           remove_string = my_params["q"]
           label = search_field_def_for_key(my_params[:search_field])[:label]
-            
+
           if(params[:f].nil?)
             removeString = "?"
           else
@@ -698,7 +698,7 @@ def render_advanced_constraints_query(my_params = params)
    #               end
    #             end
    #           end
-                
+
                if x >= 0 and x <= temp_boolean_rows.count
                    opval = temp_boolean_rows[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
@@ -707,18 +707,18 @@ def render_advanced_constraints_query(my_params = params)
                end
 
                autoparam = ""
-               
-                   
+
+
                autoparam = ""
                for qp in 0..temp_q_row.length - 1
-                  
+
                   autoparam << "q_row[]=" << CGI.escape(temp_q_row[qp]) << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
                   if qp < temp_q_row.length - 1
                     autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_rows[qp] << "&"
                   end
 
-                 
-                 
+
+
                end
                querybuttontext = my_params[:q_row][x] #parts[1]
                if querybuttontext.include?('%26')
@@ -736,7 +736,7 @@ def render_advanced_constraints_query(my_params = params)
                  )
 
        end
-       
+
        if !my_params[:q].nil?
          content << render_simple_constraints_filters(my_params)
        else
@@ -896,7 +896,7 @@ def makeRemoveString(my_params, facet_key)
       boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][0] + "&"
      end
    end
-    
+
   else
     boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
   end
@@ -1006,7 +1006,7 @@ def makeEditRemoveString(my_params, facet_key)
 #      boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][] + "&"
      end
    end
-    
+
   else
     boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
   end
@@ -1094,7 +1094,7 @@ def make_show_query(params)
 
 #  params[:show_query] = 'title = water AND subject = ice'
   for i in 0..params[:search_field_row].count - 1
-    showquery = params[:search_field_row][i] + " = " + params[:q_row][i] 
+    showquery = params[:search_field_row][i] + " = " + params[:q_row][i]
     if !params[:boolean_row].nil? and !params[:boolean_row][i+1].nil?
       showquery = showquery + " " + params[:boolean_row][i+1] + " "
     end
@@ -1120,7 +1120,7 @@ end
     end
       p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
     return p
-  
+
   end
 
 end
