@@ -385,17 +385,15 @@ def getItemStatus(doc)
             if v.present?
               newHash = {}
               newHash = v
-              newHash['location'].each do |d, e|
-                if d.to_s == "avail" #and d.to_s != "count"
-                  if e == "true"
-                    @itemStatusArray << "Available" + " || "
-                  else
-                    @itemsStatusArray << "Unavailable" + " || "
+              if newHash['location'].present?
+                newHash['location'].each do |d, e|
+                  if d.to_s == "avail" #and d.to_s != "count"
+                    if e == "true"
+                      @itemStatusArray << "Available" + " || "
+                    else
+                      @itemsStatusArray << "Unavailable" + " || "
+                    end
                   end
-            #    else
-            #      if d.to_s != "count"
-            #        @itemStatusArray << "Unavailable" + " || "
-            #      end
                 end
               end
             end
