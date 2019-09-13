@@ -16,7 +16,7 @@ end
     <div class="browse-call-number">
         <h3 class="mt-4">Browse related items by call number</h3>
         <% callnumbers.each do |callnumber| %>
-            <%= link_to callnumber, '/browse?' + {:browse_type => 'Call-Number', :authq => callnumber}.to_query, {:class => "btn btn-cul"} %>
+            <%= link_to callnumber, '/browse?' + {:browse_type => 'Call-Number', :authq => callnumber}.to_query, {:class => "btn btn-cul mb-2"} %>
         <% end %>
     </div>
 <% end %>
