@@ -955,16 +955,16 @@ module Blacklight::Solr::Document::MarcExport
       if medium.blank?
         field = record.find{|f| f.tag == '300'}
         if !field.nil?
-	  medium =  case 
-                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
-                        'CD audio'
-                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
-                        'LP'
-                       when field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
-                        'DVD'
-                     else
-                     ''
-                   end
+	          medium =  case 
+                        when  field['a'].present? && field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
+                         'CD audio'
+                        when  field['a'].present? && field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
+                         'LP'
+                        when field['a'].present? && field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
+                         'DVD'
+                        else
+                         ''
+                      end
         end
         Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       end
