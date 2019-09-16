@@ -227,10 +227,6 @@ div.view-all {
 
 .empty-single-search {
   margin-top: 2em;
-  .well {
-    font-size:1.2em;
-    padding: 19px 19px 0 19px;
-  }
   form {
     padding-bottom: 2.5em;
   }
@@ -312,14 +308,6 @@ div.view-all {
 // give summon alert a little more space between it and the header
 .item {
   .alert { margin-top: 1em; }
-}
-
-// no results
-.no-results {
-  font-size: 14px;
-}
-.no-margin {
-  margin-bottom: 0;
 }
 
 // Search info -- tooltip on home page -- lifted from CUL site
