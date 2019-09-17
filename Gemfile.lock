@@ -365,6 +365,8 @@ GEM
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
     language_list (1.2.1)
+    leaflet-rails (1.5.1)
+      rails (>= 4.2.0)
     libnotify (0.9.4)
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
@@ -442,6 +444,9 @@ GEM
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
+    omniauth-rails_csrf_protection (0.1.2)
+      actionpack (>= 4.2)
+      omniauth (>= 1.3.1)
     omniauth-saml (1.10.1)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.7)
@@ -595,7 +600,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.1)
+    sqlite3 (1.3.13)
     summon (2.0.5)
       json
     temple (0.8.1)
@@ -646,6 +651,8 @@ GEM
     xmlrpc (0.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    xray-rails (0.3.2)
+      rails (>= 3.1.0)
     yaml_db (0.7.0)
       rails (>= 3.0)
       rake (>= 0.8.7)
@@ -695,6 +702,7 @@ DEPENDENCIES
   jquery-ui-rails (= 5.0.5)
   json
   kaminari (>= 0.15)
+  leaflet-rails
   libnotify
   marc
   meta_request
@@ -707,6 +715,7 @@ DEPENDENCIES
   omniauth
   omniauth-facebook (~> 4.0)
   omniauth-google-oauth2 (~> 0.4.1)
+  omniauth-rails_csrf_protection
   omniauth-saml
   parslet
   phantomjs
@@ -729,7 +738,7 @@ DEPENDENCIES
   savon (~> 2.11.1)
   spreewald!
   sprockets (~> 3.7.2)
-  sqlite3
+  sqlite3 (~> 1.3.13)
   uglifier (>= 1.0.3)
   ultraviolet
   unicode
@@ -738,6 +747,7 @@ DEPENDENCIES
   webmock
   webrat
   xmlrpc
+  xray-rails
   yaml_db
 
 RUBY VERSION

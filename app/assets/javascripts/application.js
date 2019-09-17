@@ -10,7 +10,6 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-// require bootstrap-sprockets can likely delete this
 
 // Required by Blacklight
 //= require jquery
@@ -18,6 +17,8 @@
 //= require bootstrap
 //= require blacklight/blacklight
 
+//= require bootstrap-sprockets
+//= require leaflet
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
 // this:
@@ -43,3 +44,17 @@
 //= require zz_inview.js
 //= require tooltip.js
 
+// Added for LD4P
+//= require narrativeLocation.js
+//= require print_button.js
+//= require pops.js
+//= require wikidata.js
+//= require discogs.js
+//= require jquery.anchorscroll.js
+//= require browse_placeholder.js
+//= alternate_suggestions.js
+//= require jquery.waypointz.js
+//= require zz_inview.js
+//= require tooltip.js
+//= require integrateLinks.js
+//= require indexAdditionalSearch.js

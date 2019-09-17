@@ -1,4 +1,18 @@
 <div id="document" class="<%= render_document_class %> col-sm-12">
+  <%# Begin %>
+  <%  work_id = @document["workid_display"].present? ? @document["workid_display"][0] : "" %>
+  <input type="hidden" id="work_id" value="<%= work_id %>">
+  <% title_resp = @document['title_responsibility_display'].present? ? @document['title_responsibility_display'][0] : "" %>	
+  <input type="hidden" id="title_resp" value="<%= title_resp %>">
+  <input type="hidden" id="title" value="<%= @document['title_display'] if @document['title_display'].present? %>">
+  <input type="hidden" id="subtitle" value="<%= @document['subtitle_display'] if @document['subtitle_display'].present? %>">
+  <input type="hidden" id="pub_date" value="<%= @document['pub_date_facet'] if @document['pub_date_facet'].present? %>">
+  <input type="hidden" id="publisher" value="<%= @document['publisher_display'][0] if @document['publisher_display'].present? %>">
+  <input type="hidden" id="publisher_nbr" value="<%= @document['publisher_number_display'][0] if @document['publisher_number_display'].present? %>">
+  <input type="hidden" id="other_tile" value="<%= @document['title_other_display'].join(" ") if @document['title_other_display'].present? %>">
+  <% 	author_json_parsed = @document['author_json'].present? ? ActiveSupport::JSON.decode(@document['author_json'][0]) : "" %>
+  <input type="hidden" id="author" value="<%= author_json_parsed["search1"] %>">
+  <input type="hidden" id="format" value="<%= @document['format_main_facet'] %>">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
   <%
     # With Blacklight 7, we can't access these using field_value. So get them all out of 
@@ -32,7 +46,7 @@
   </div>
   <div class="row">
     <div class="col-md-4 order-md-8">
-	  <div class="availability card" style="margin-bottom:10px">
+	  <div class="availability card" id="availability-panel" style="margin-bottom:10px">
 	    <div class="card-header">
 	      Availability
 	    </div>
@@ -199,6 +213,9 @@
 	  <%# end col-md-4 %>
 	  <div class="col-md-8 order-md-4">
 	    <div class="pull-right item-cover">
+	      <% if @document["format_main_facet"] == "Musical Recording"%>
+			<div id="discogs-image"></div>
+		  <% end %>
 	      <div class="bookcover d-none d-sm-inline" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>"></div>
 	    </div>
 	    <%# item-cover %>

@@ -1,0 +1,55 @@
+
+// Top row with author's image and name
+.kp-content .kp-flexrow {
+  display: flex;
+}
+.kp-content figure.kp-entity-image {
+  margin-right: 10px;
+}
+.kp-content figure.kp-entity-image > img {
+  max-width: 100px;
+  max-height: 100px;
+}
+.kp-content h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+.kp-content .kp-source {
+  font-size: smaller;
+  margin-top: 5px;
+}
+
+// List items and heading
+.kp-content h4 {
+  margin: 10px 0 4px 0;
+}
+.kp-content ul {
+  list-style: none;
+  padding: 0 !important;
+  margin-bottom: 0;
+}
+.kp-content li:before {
+  content: "•";
+  padding-right: 3px;
+}
+
+// Button to expand list
+.kp-content button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 15px 0 0;
+  font-size: smaller;
+  display: none;
+}
+
+// Truncate long titles with ellipsis
+.kp-content li > a {
+  vertical-align: top;
+  display: inline-block; 
+  max-width: 24em; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  margin: 0;
+}
