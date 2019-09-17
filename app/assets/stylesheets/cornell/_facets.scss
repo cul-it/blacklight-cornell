@@ -42,6 +42,12 @@
 	font-size: 1.25rem;
 }
 
+.sidenav {
+	.navbar-toggler {
+		margin-bottom: 1rem;
+	}
+}
+
 // OVERRIDE #FACETS - TODO: do we still need this in BL5?
 // -------------------------
 
@@ -168,21 +174,6 @@ form.range_limit {
 .advanced-facets {
 	clear: both;
 	padding: 1.5em 0 0;
-
-	// .btn-info {
-	// 	text-align: left;
-	// 	background: $teal;
-	// 	border-color: $teal;
-	// 	i { margin: .1em 0 0 .5em; }
-	// }
-	// .btn {
-	// 	color: $white;
-	// 	margin-bottom: .25em;
-	// 	white-space: normal; // make long constraints wrap instead of break the layout DISCOVERYACCESS-1846
-	// }
-	// a:hover {
-	// 	text-decoration: none;
-	// }
 	i { 
 		color: $cornell-primary;
 	}
@@ -206,22 +197,6 @@ form.range_limit {
 .constraints-bar {
 	background: white;
 	padding-bottom: .5rem;
-}
-
-// Active facet panel
-// -----------------------
-
-.panel-success > .panel-heading, .facet_limit-active > .panel-heading {
-	background-color: #dff0d8;
-}
-
-// More facets modal
-// ---------------------------
-// Add this to account for icons in the format facet
-.modal-dialog {
-	.facet-values {
-		padding-left: 15px;
-	}
 }
 
 // Hierarchical call number facet
