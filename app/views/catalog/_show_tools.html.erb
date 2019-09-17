@@ -5,8 +5,6 @@
   # contains Bookmark/Folder functionality shown on both results and
   # item view. While "document tools" contains external export type
   # functions by default only on detail.
-
-  #Added Bootstrap class well and 'hidden-phone' for the tools-bar
 -%>
 <% if request.path != '/bookmarks'  && request.path != '/book_bags/index' && request.path != '/book_bags/citation' %>
   <% citable = is_citable(@document) %>
