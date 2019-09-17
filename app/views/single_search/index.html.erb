@@ -39,7 +39,7 @@
     <% if !@query.nil? && @results.empty? && @websites.blank? && result.blank? %>
       <% query = params[:q] || params[:query] %>
       <% query = query.gsub('&', '%26') %>
-      <p class="no-results">
+      <p class="mt-4">
         Your search returned 0 results. Try searching
         <%= link_to 'Libraries Worldwide', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
         or
@@ -231,7 +231,7 @@
                     <% end %>
                   <% else %>
                     <div class="card card-body">
-                      <p class="no-results no-margin">
+                      <p>
                         No results from the
                         <%= link_to 'Catalog.', "https://newcatalog.library.cornell.edu" %>
                         Try searching
