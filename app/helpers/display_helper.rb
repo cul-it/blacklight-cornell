@@ -1287,9 +1287,13 @@ end
     options = args.extract_options!
     document = args.shift || options[:document]
     field = args.shift || options[:field]
-    Rails.logger.info("&^&^&^&^&^&^& the field " + field.inspect)
     field_config = blacklight_config.index_fields[field]
-    presenter(document).field_value field_config, options.except(:document, :field)
+    if presenter(document).nil?
+      ip = Blacklight::IndexPresenter.new()
+      ip(document).field_value field_config, options.except(:document, :field)
+    else
+      presenter(document).field_value field_config, options.except(:document, :field)
+    end
   end
 
   def simple_render_document_index_label(*args)

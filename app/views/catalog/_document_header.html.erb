@@ -1,7 +1,6 @@
 <%# main title container for doc partial view -%>
 <!--  start rendering document header -->
 <h2 class="blacklight-title_display">
-  <% Rails.logger.info("&^&^&^&^&^&^ fulltitle_display " + document['fulltitle_display'].inspect)%>
   <%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %>
   <%= link_to_document document, :label=>document_show_link_field(document), :counter => (document_counter + 1 + @response.params[:start].to_i) %>
   <% unless document['pub_date_display'].nil? %>
