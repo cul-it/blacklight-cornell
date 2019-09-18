@@ -429,7 +429,7 @@ end
         end
         info_button = '<a href="#" role="button" tabindex = "0" base-url="' + request.base_url + 
         '" data-auth-type="subject" heading-type="' + type + '" data-auth="' + json_value + '" datasearch-poload="/browse/info?authq=' + 
-        json_value + '&amp;browse_type=Subject' + headingtype + '" id="info" class="info-button hidden-xs"><span class="label label-info">' + 
+        json_value + '&amp;browse_type=Subject' + headingtype + '" id="info" class="info-button hidden-xs"><span class="badge badge-primary">' + 
     'i</span></a>'
       end
       

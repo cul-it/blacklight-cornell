@@ -17,12 +17,12 @@
               <% else search = heading['search1']  %>
               <% end %>
               <%# show heading popover for everything bigger than smartphone %>
-            <a href='#' role="button" tabindex = "0" base-url="<%= root_url %>" data-auth-type='author' data-auth='<%=search %>' datasearch-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button hidden-xs"><span class="label label-info">
+            <a href='#' role="button" tabindex = "0" base-url="<%= root_url %>" data-auth-type='author' data-auth='<%=search %>' datasearch-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button hidden-xs"><span class="badge badge-primary">
               i
             </span>
             </a>
             <%# link directly to heading on smartphone %>
-            <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button visible-xs"><span class="label label-info">
+            <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button visible-xs"><span class="badge badge-primary">
               Info
             </span>
             </a>

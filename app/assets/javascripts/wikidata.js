@@ -260,7 +260,7 @@ var processWikidata = {
                   }
                   
                   narrativeLocationLabel = "<span  id='geo" + fastURI + "'>" + narrativeLocationLabel + "</span>" + 
-                  "<a href='#' role='button' data-map='map' " + geoInfoAttr + " id='info' class='info-button hidden-xs' label='" + narrativeLocationLabel + "' fastURI='" + fastURI + "'><span class='label label-info'>i</span></a>";
+                  "<a href='#' role='button' data-map='map' " + geoInfoAttr + " id='info' class='info-button hidden-xs' label='" + narrativeLocationLabel + "' fastURI='" + fastURI + "'><span class='badge badge-primary'>i</span></a>";
                 }
                 fieldValue.push(narrativeLocationLabel);
               }
