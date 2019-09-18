@@ -118,8 +118,8 @@ var buildAlternateSuggestions = {
 
 
   displaySuggestions: function(suggestions) {
-      var opening_html = "<div class='expand-search'><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Related searches</h3>"
-                     + "</div><div class='panel-body'><ul class='fa-ul'>";
+      var opening_html = "<div class='expand-search'><div class='card'><div class='card-header'>Related searches"
+                     + "</div><div class='card-body'><ul class='fa-ul'>";
       var closing_html = "</ul></div></div></div>";
       var list_html = "";
       if ( suggestions.length ) {
