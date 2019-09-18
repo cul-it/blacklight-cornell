@@ -7,9 +7,9 @@ function renderWikidataLegend(wikiURI) {
           dt_margin_top = "10px";
           dd_margin_top = "15px";
         }
-        var the_html = '<dt class="blacklight-donor_display" style="margin-top:' + dt_margin_top + ';">'
+        var the_html = '<dt class="blacklight-donor_display col-sm-3" style="margin-top:' + dt_margin_top + ';">'
                     + '<div class="wikidata-bgc" style="width:40px;display:inline-block">&nbsp;</div></dt>'
-                    + '<dd class="blacklight-donor_display" style="margin-top:' + dd_margin_top + ';">'
+                    + '<dd class="blacklight-donor_display col-sm-9" style="margin-top:' + dd_margin_top + ';">'
                     + '<a href="' + wikiURI + '" target="_blank">From the Wikidata entry <i class="fa fa-external-link"></i></a></dd>';
 
         $('dl.dl-horizontal').append(the_html);
@@ -185,8 +185,8 @@ var processDiscogs = {
   },
 
   renderPublished: function(year, labels, country) {
-    var the_html = '<dt class="blacklight-pub_info_display"><span class="discogs-bgc" style="padding:0 2px;">Published:</span></dt>'
-                    + '<dd class="blacklight-pub_info_display">';
+    var the_html = '<dt class="blacklight-pub_info_display col-sm-3"><span class="discogs-bgc" style="padding:0 2px;">Published:</span></dt>'
+                    + '<dd class="blacklight-pub_info_display col-sm-9">';
     if ( country.length ) {
         the_html += country + " : ";
     }
@@ -217,8 +217,8 @@ var processDiscogs = {
   },
 
   renderContributors: function(artists) {
-      var the_html = '<dt class="blacklight-author_addl_json"><span class="discogs-bgc" style="padding:0 2px;">Contributors:</span></dt>'
-                    + '<dd class="blacklight-author_addl_json">';
+      var the_html = '<dt class="blacklight-author_addl_json col-sm-3"><span class="discogs-bgc" style="padding:0 2px;">Contributors:</span></dt>'
+                    + '<dd class="blacklight-author_addl_json col-sm-9">';
       var contributors = []
       // build an array that eliminates duplicate names and combines roles
       artists.forEach(function(item) {
@@ -263,8 +263,8 @@ var processDiscogs = {
       addDiscogsLegend = true;
   },
   renderContents: function(tracks) {
-    var the_html = '<dt class="blacklight-contents_display"><span class="discogs-bgc" style="padding:0 2px;">Table of contents:</span></dt>'
-                    + '<dd class="blacklight-author_addl_json"><ul>';
+    var the_html = '<dt class="blacklight-contents_display col-sm-3"><span class="discogs-bgc" style="padding:0 2px;">Table of contents:</span></dt>'
+                    + '<dd class="blacklight-author_addl_json col-sm-9"><ul>';
   	$.each(tracks, function(i, val) {
   		the_html += '<li>' + val["title"] + ' (' + val["duration"] + ')' + "</li>";
   	});
@@ -296,15 +296,15 @@ var processDiscogs = {
           });          
       }
 
-      var the_html = '<dt class="blacklight-notes"><span class="discogs-bgc" style="padding:0 2px;">Notes:</span></dt>';
-      the_html += '<dd class="blacklight-notes">' + notes + companiesStr + "</dd>";
+      var the_html = '<dt class="blacklight-notes col-sm-3"><span class="discogs-bgc" style="padding:0 2px;">Notes:</span></dt>';
+      the_html += '<dd class="blacklight-notes col-sm-9">' + notes + companiesStr + "</dd>";
       $('dl.dl-horizontal').append(the_html); 
       addDiscogsLegend = true;
   },
   
   renderGenres: function(styles, genres) {
-    var the_html = '<dt class="blacklight-subject_json"><span class="discogs-bgc" style="padding:0 2px;">Genres:</span></dt>'
-                    + '<dd class="blacklight-subject_json">';
+    var the_html = '<dt class="blacklight-subject_json col-sm-3"><span class="discogs-bgc" style="padding:0 2px;">Genres:</span></dt>'
+                    + '<dd class="blacklight-subject_json col-sm-9">';
     if ( genres.length ) {
       	the_html += genres.join(", ") + ", ";
     }    
@@ -330,9 +330,9 @@ var processDiscogs = {
 
   renderDiscogsLegend: function(uri) {
       var the_text = "From the Discogs database";
-      var the_html = '<dt id="discogs-legend" class="blacklight-donor_display" style="margin-top:50px;">'
+      var the_html = '<dt id="discogs-legend col-sm-3" class="blacklight-donor_display" style="margin-top:50px;">'
                   + '<div class="discogs-bgc" style="width:40px;display:inline-block">&nbsp;</div></dt>'
-                  + '<dd class="blacklight-donor_display" style="margin-top:55px;">';
+                  + '<dd class="blacklight-donor_display col-sm-9" style="margin-top:55px;">';
       if ( uri != undefined && uri.length ) {
           the_html += '<a href="' + uri + '" target="_blank">' + the_text + ' <i class="fa fa-external-link"></i></i></a></dd>';
       }
@@ -382,8 +382,8 @@ var processDiscogs = {
   },
   
   renderNotesAddenda: function(title, type) {
-      var the_html = '<dt class="blacklight-notes" >Notes:</dt>';
-      var title_html = '<dd class="blacklight-notes"><span class="wikidata-bgc" style="padding:0 2px;margin-top:20px">' + type 
+      var the_html = '<dt class="blacklight-notes col-sm-3" >Notes:</dt>';
+      var title_html = '<dd class="blacklight-notes col-sm-9"><span class="wikidata-bgc" style="padding:0 2px;margin-top:20px">' + type 
                         + ':</span><span id="' + type.replace(" ","").toLowerCase() + '" style="padding-left:4px">' + title + '</span></dd>';
 
       if ( $('dt#discogs-legend').length ) {
