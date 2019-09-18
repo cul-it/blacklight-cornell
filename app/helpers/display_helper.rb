@@ -1288,6 +1288,7 @@ end
     document = args.shift || options[:document]
     field = args.shift || options[:field]
     field_config = blacklight_config.index_fields[field]
+    Rails.logger.info("&^&^&^&^&^&^&^&^ presenter " + presenter(document).class.name.inspect)
     presenter(document).field_value field_config, options.except(:document, :field)
   end
 
