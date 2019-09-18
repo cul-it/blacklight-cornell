@@ -1,19 +1,29 @@
  <%# default partial to display solr document fields in catalog index view -%>
  <%# This file is needed to display icon images in results display -%>
-
-  <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
-
+  <% unless document['title_uniform_display'].nil? %>
+      <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
+  <% end %>
   <div class="data-block">
-    <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
-    <% formats = simple_render_index_field_value document, :field => 'format' %>
-    <% formats.each do |format| %>
-      <span class="format">
-        <%= format.html_safe %>
-      </span>
+	<% unless document['author_display'].nil? %>
+      <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
     <% end %>
-    <span class="blacklight-pub_info_display"><%= simple_render_index_field_value document, :field => 'pub_info_display' %></span>
-    <span class="blacklight-language_display"><%= simple_render_index_field_value document, :field => 'language_display' %></span>
-    <span class="blacklight-edition_display"><%= simple_render_index_field_value document, :field => 'edition_display' %></span>
+    <% unless document['format'].nil? %>
+      <% formats = simple_render_index_field_value document, :field => 'format' %>
+      <% formats.each do |format| %>
+        <span class="format">
+          <%= format.html_safe %>
+        </span>
+      <% end %>
+    <% end %>
+    <% unless document['pub_info_display'].nil? %>
+      <span class="blacklight-pub_info_display"><%= simple_render_index_field_value document, :field => 'pub_info_display' %></span>
+    <% end %>
+    <% unless document['language_display'].nil? %>
+      <span class="blacklight-language_display"><%= simple_render_index_field_value document, :field => 'language_display' %></span>
+    <% end %>
+    <% unless document['edition_display'].nil? %>
+      <span class="blacklight-edition_display"><%= simple_render_index_field_value document, :field => 'edition_display' %></span>
+    <% end %>
 
   </div>
   <% if online_url(document) %>
