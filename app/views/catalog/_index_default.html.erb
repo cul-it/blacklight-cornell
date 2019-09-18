@@ -4,12 +4,12 @@
       <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
   <% end %>
   <div class="data-block">
-	<% Rails.logger.info("&^&^&^&^&^&^& author_display =>") %>
+	<% Rails.logger.info("$@$@$@$@$@ author_display =>") %>
 	<% unless document['author_display'].nil? %>
       <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
     <% end %>
-	<% Rails.logger.info("&^&^&^&^&^&^& format =>") %>
-    <% unless document['format'].nil? %>
+	<% Rails.logger.info("$@$@$@$@$@ format =>") %>
+    <% unless document['formats'].nil? %>
       <% formats = simple_render_index_field_value document, :field => 'format' %>
       <% formats.each do |format| %>
         <span class="format">
@@ -17,15 +17,15 @@
         </span>
       <% end %>
     <% end %>
-	<% Rails.logger.info("&^&^&^&^&^&^& pub_info_display =>") %>
+	<% Rails.logger.info("$@$@$@$@$@ pub_info_display =>") %>
     <% unless document['pub_info_display'].nil? %>
       <span class="blacklight-pub_info_display"><%= simple_render_index_field_value document, :field => 'pub_info_display' %></span>
     <% end %>
-	<% Rails.logger.info("&^&^&^&^&^&^& language_display =>") %>
+	<% Rails.logger.info("$@$@$@$@$@ language_display =>") %>
     <% unless document['language_display'].nil? %>
       <span class="blacklight-language_display"><%= simple_render_index_field_value document, :field => 'language_display' %></span>
     <% end %>
-	<% Rails.logger.info("&^&^&^&^&^&^& edition_display =>") %>
+	<% Rails.logger.info("$@$@$@$@$@ edition_display =>") %>
     <% unless document['edition_display'].nil? %>
       <span class="blacklight-edition_display"><%= simple_render_index_field_value document, :field => 'edition_display' %></span>
     <% end %>
