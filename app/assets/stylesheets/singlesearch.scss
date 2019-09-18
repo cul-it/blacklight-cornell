@@ -266,13 +266,18 @@ div.view-all {
 
 // Jump links
 // -----------------------------------------------//
+
+.top-results {
+  text-transform: uppercase;
+  font-weight: 700;
+  padding-top: .3rem;
+  padding-right: .75rem;
+}
 #jumpbar {
   padding-bottom: 1em;
+  padding-left: 0;
+  padding-right: 0;
   margin-bottom: 1em;
-  .top-results {
-    text-transform: uppercase;
-    font-weight: 700;
-  }
   li {
     font-size: 14px;
   }
@@ -423,7 +428,11 @@ div.view-all {
 }
 
 // Large devices (desktops, 992px and up)
-// @include media-breakpoint-up(lg) { ... }
+@include media-breakpoint-up(lg) {
+  .top-results {
+    float: left;
+  }
+}
 
 // Extra large devices (large desktops, 1200px and up)
 // @include media-breakpoint-up(xl) { ... }
