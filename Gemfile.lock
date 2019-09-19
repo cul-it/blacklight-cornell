@@ -41,6 +41,18 @@ GIT
       rails
 
 GIT
+  remote: https://github.com/cul-it/blacklight_eds_gem
+  revision: 725cbdaa3989c46df7f1e86a3188a42b1ad0df96
+  branch: develop
+  specs:
+    blacklight_eds (0.1.0)
+      addressable
+      blacklight (~> 7.0.0, >= 5.8.0)
+      ebsco-discovery-service-api
+      htmlentities
+      sanitize
+
+GIT
   remote: https://github.com/cul-it/csl-styles
   revision: c7b50754fc907247c7533deed09d69478a9669c9
   branch: master
@@ -278,6 +290,7 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
+    ebsco-discovery-service-api (1.1.12)
     erubi (1.8.0)
     erubis (2.7.0)
     et-orbi (1.2.2)
@@ -419,6 +432,8 @@ GEM
     nio4r (2.5.1)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
+    nokogumbo (2.0.1)
+      nokogiri (~> 1.8, >= 1.8.4)
     nori (2.6.0)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -556,6 +571,10 @@ GEM
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
     safe_yaml (1.0.5)
+    sanitize (5.1.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.8.0)
+      nokogumbo (~> 2.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -664,6 +683,7 @@ DEPENDENCIES
   blacklight-hierarchy!
   blacklight-marc
   blacklight_cornell_requests!
+  blacklight_eds!
   blacklight_range_limit (~> 7.0)
   blacklight_unapi!
   bootstrap
