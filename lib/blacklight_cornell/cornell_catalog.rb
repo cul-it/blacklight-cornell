@@ -107,14 +107,18 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       target = @document_list[0].response["response"]["docs"][0]["id"] 
       logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
       redirect_to(root_url() + "/request/#{target}")
-     elsif num >  1 
-        logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
-        respond_to do |format|
-          format.html { render :text => 'OCLCd does not map to unique record', :status => '404' }
-        end
-     else
+    elsif num >  1 
+      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
+      flash.now.alert = "The OCLC ID #{oid.inspect} does not map to a unique identifier."
+      respond_to do |format|
+        format.html { render :text => 'OCLCd does not map to unique record', :status => '404' }
+      end
+    else
       logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id not found = #{oid.inspect}"
-      render :text => 'Not Found', :status => '404'
+      flash.now.alert = "The OCLC ID #{oid.inspect} was not found."
+      respond_to do |format|
+        format.html { render :text => 'Not Found', :status => '404' }
+      end
     end
   end
 
