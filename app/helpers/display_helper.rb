@@ -1289,7 +1289,7 @@ end
     field = args.shift || options[:field]
     field_config = blacklight_config.index_fields[field]
     if presenter(document).nil?
-      Blacklight::IndexPresenter(document).field_value field_config, options.except(:document, :field)
+      Blacklight::IndexPresenter.new(document).field_value field_config, options.except(:document, :field)
     else
       presenter(document).field_value field_config, options.except(:document, :field)
     end
