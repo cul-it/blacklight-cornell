@@ -49,7 +49,6 @@
         <%= render 'sort_and_per_page' %>
         
         <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
-		<% session[:doc_count] = 0 %>
         <%= render_document_index %>
         <%= render 'results_pagination' %>
 
