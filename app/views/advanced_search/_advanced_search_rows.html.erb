@@ -3,15 +3,21 @@
     <fieldset>
       <legend class="sr-only">Choose option</legend>
       <div class="boolean_row radio adv-search-control" role="radiogroup" aria-label="operators">
-        <label class="radio-inline">
-          <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked" aria-checked="true"> and
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR" aria-checked="false"> or
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT" aria-checked="false"> not
-        </label>
+        <div class="form-check form-check-inline">
+          <label>
+            <input type="radio" name="boolean_row[<%= i-1 %>]" value="AND" checked="checked" aria-checked="true"> and
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label>
+            <input type="radio" name="boolean_row[<%= i-1 %>]" value="OR" aria-checked="false"> or
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label>
+            <input type="radio" name="boolean_row[<%= i-1 %>]" value="NOT" aria-checked="false"> not
+          </label>
+        </div>
       </div>
     </fieldset>
     <div class="form-group">

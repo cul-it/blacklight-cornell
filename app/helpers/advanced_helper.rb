@@ -124,17 +124,21 @@ module AdvancedHelper
           params[:q_row][i] = params[:q_row][i]
         end
 
-         next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
+         next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
          boolean_row_values.each do |key, value|
            n = i - 1 #= i.to_s
            if key == params[:boolean_row][n]
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            else
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            end
          end
          next2rows << "</div>"
@@ -164,20 +168,24 @@ module AdvancedHelper
       end
     else
       next2rows = ""
-      next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
+      next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
       boolean_row_values.each do |key, value|
            if params[:boolean_row][1].blank?
              params[:boolean_row][1] = "AND"
            end
            n = 1.to_s
            if key == params[:boolean_row][1]
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            else
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            end
       end
       next2rows << "</select></div></div>"
