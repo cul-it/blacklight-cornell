@@ -4,12 +4,14 @@ BlacklightCornell::Application.routes.draw do
 # as option causing invalid route name, already in use error
 #  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
   match 'catalog/unapi', :to => "catalog#unapi", :via => [:get]
-  
+
   Blacklight::Marc.add_routes(self)
 
   root :to => "catalog#index"
 
   mount Blacklight::Engine => '/'
+
+  mount BlacklightEds::Engine, at: "eds"
 
   concern :searchable, Blacklight::Routes::Searchable.new
   concern :exportable, Blacklight::Routes::Exportable.new
