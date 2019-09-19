@@ -1288,11 +1288,9 @@ end
     document = args.shift || options[:document]
     field = args.shift || options[:field]
     field_config = blacklight_config.index_fields[field]
-    if presenter(document).nil?
-      Blacklight::IndexPresenter.new(document).field_value field_config, options.except(:document, :field)
-    else
-      presenter(document).field_value field_config, options.except(:document, :field)
-    end
+    Rails.logger.info("&*&*&*&*&*&*&*& Presenter Class = " + presenter(document).class.name.inspect)
+    Rails.logger.info("&*&*&*&*&*&*&*& Field = " + options[:field].inspect)
+    presenter(document).field_value field_config, options.except(:document, :field)
   end
 
   def simple_render_document_index_label(*args)
