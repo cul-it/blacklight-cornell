@@ -108,8 +108,10 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
       redirect_to(root_url() + "/request/#{target}")
      elsif num >  1 
-      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
-      render :text => 'OCLCd does not map to unique record', :status => '404'
+        logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
+        respond_to do |format|
+          format.html { render :text => 'OCLCd does not map to unique record', :status => '404' }
+        end
      else
       logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id not found = #{oid.inspect}"
       render :text => 'Not Found', :status => '404'
@@ -118,6 +120,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
+    
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
@@ -190,7 +193,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
    #params[:q] = '(+title_quoted:"A news" +title:Reporter)'
 #    params[:search_field] = 'advanced'
    #params[:q] = '(water)'
-    (@response, deprecated_document_list) = search_service.search_results #search_results(params)
+    (@response, deprecated_document_list) = search_service.search_results
     @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
