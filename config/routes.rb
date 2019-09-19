@@ -25,7 +25,7 @@ BlacklightCornell::Application.routes.draw do
 resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
       concerns :exportable
 end
-  
+
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
@@ -83,7 +83,7 @@ devise_for :users, controllers: {
   get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
   get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
   get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
-  
+
 
   match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
   match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon', :via => [:post, :put, :get]
@@ -162,7 +162,7 @@ devise_for :users, controllers: {
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
- 
+
   # Bookbag routes.
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
