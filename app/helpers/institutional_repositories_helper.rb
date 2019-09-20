@@ -34,7 +34,7 @@ module InstitutionalRepositoriesHelper
 
     def schemeSharedShelf(s, r)
         # 'sharedshelf'
-        r.title = 
+        r.title =
             if s['title_tesim'].present?
                 s['title_tesim'].shift
             elsif s['title_ssi'].present?
@@ -49,11 +49,11 @@ module InstitutionalRepositoriesHelper
         if s['date_tesim'].present?
             r.publication_date = s['date_tesim'].shift
         end
-    
+
         if s['media_URL_size_1_tesim'].present?
             r.format_str = s['media_URL_size_1_tesim'].shift
         end
-    
+
         r.link = "http://digital.library.cornell.edu/catalog/#{s['id']}"
 
         return r
@@ -65,7 +65,7 @@ module InstitutionalRepositoriesHelper
         if s['creator_tesim'].present?
             s['creator_tesim'].each { |a| r.authors << BentoSearch::Author.new({:display => a}) }
         end
-        r.abstract = 
+        r.abstract =
             if s['collection_tesim'].present?
                 s['collection_tesim'].shift
             elsif s['subject_tesim'].present?
@@ -80,7 +80,7 @@ module InstitutionalRepositoriesHelper
         if s['date_tesim'].present?
             r.publication_date = s['date_tesim'].shift
         end
-        
+
         if s['has_model_ssim'].shift == 'Page'
             # pages link to the page reader
             id = s['id']
@@ -138,8 +138,8 @@ module InstitutionalRepositoriesHelper
           AND -(collection_tesim:"Cornell Collection of Blaschka Invertebrate Models" AND portal_sequence_isi:[2 TO *])
           AND -(collection_tesim:"Seneca Haudenosaunee Archaeological Materials, circa 1688-1754" AND work_sequence_isi:[2 TO *])
           AND -(collection_tesim:"Icelandic Stereoscopes" AND work_sequence_isi:[2 TO *])'
-    
-    
+
+
         elsif environment == 'production'
           fq = '(collection_tesim:"Adler Hip Hop Archive"  AND -adler_status:"Suppress for portal")
           OR collection_tesim:"Indonesian Music Archive"
@@ -194,6 +194,6 @@ module InstitutionalRepositoriesHelper
           ))'
         end
       end
-    
+
 end
 
