@@ -3,13 +3,15 @@ module InstitutionalRepositoriesHelper
 
     # https://www.rubydoc.info/gems/bento_search/1.4.2/BentoSearch/ResultItem
     # DLXS: chla, hunt, may, hearth, witchcraft, ezra
-    
+
     def solrResult2Bento(solrIn, resultItem)
         id = solrIn['id']
         if id.starts_with?('ss:')
             return schemeSharedShelf(solrIn, resultItem)
         elsif id.starts_with?('ec:')
             return schemeEcommons(solrIn, resultItem)
+        elsif id.starts_with?('ec.oai:')
+            return schemeOai(solrIn, resultItem)
         elsif id.starts_with?('slaw.') | id.starts_with?('dcilr.') | id.starts_with?('ssha.')
             return schemeOai(solrIn, resultItem)
         else
