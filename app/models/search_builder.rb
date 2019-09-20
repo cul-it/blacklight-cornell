@@ -124,7 +124,6 @@ class SearchBuilder < Blacklight::SearchBuilder
 
         
       if blacklight_params[:search_field] == 'journal title'
-        Rails.logger.info("SQUEE = #{blacklight_params[:q]}")
       #   blacklight_params[:search_field] = 'title'
        # if !blacklight_params[:q].include?(':')
          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
@@ -158,7 +157,6 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
         
         
-        Rails.logger.info("WORKERSUNITE = #{blacklight_params[:q]}")      
         # All fields search calls parse_all_fields_query
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
            returned_query = parse_all_fields_query(blacklight_params[:q])
