@@ -86,7 +86,6 @@ devise_for :users, controllers: {
   
 
   match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
-  match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon', :via => [:post, :put, :get]
   get '/databases' => 'databases#index', :as => 'databases_index'
   get '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
   get '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
