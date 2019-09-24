@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 4dc15df4856e9bd8b0d4da26d2c030da70039c32
+  revision: afc82393f1c90b39cbc8e2f6c7a44df7ef0bcdad
   branch: master
   specs:
-    blacklight_cornell_requests (3.0.2)
+    blacklight_cornell_requests (3.0.3)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -398,7 +398,7 @@ GEM
     mini_portile2 (2.4.0)
     mini_racer (0.2.6)
       libv8 (>= 6.9.411)
-    minitest (5.11.3)
+    minitest (5.12.0)
     mollom (0.2.3)
     multi_json (1.13.1)
     multi_test (0.1.2)
@@ -416,7 +416,7 @@ GEM
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
     netrc (0.11.0)
-    nio4r (2.5.1)
+    nio4r (2.5.2)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     nori (2.6.0)
@@ -598,12 +598,12 @@ GEM
     sqlite3 (1.4.1)
     summon (2.0.5)
       json
-    temple (0.8.1)
+    temple (0.8.2)
     textpow (1.4.0)
       plist (>= 3.0.1)
     thor (0.20.3)
     thread_safe (0.3.6)
-    tilt (2.0.9)
+    tilt (2.0.10)
     timers (4.3.0)
     traject (2.3.4)
       concurrent-ruby (>= 0.8.0)
