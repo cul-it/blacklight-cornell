@@ -9,6 +9,7 @@
     subtitle_vern_display = @document['subtitle_vern_display'] # 10615953
     responsibility = @document['title_responsibility_display']
     url_access_json = @document['url_access_json']
+    holdings_json = @document['holdings_json']
     restrictions_display = @document['restrictions_display']
     other_availability_json = @document['other_availability_json']
     workid_display = @document['workid_display']
@@ -47,58 +48,111 @@
 	        <% end %>
 	      <% end %>
 	      <%# online %>
+	      <%#= online_url(@document).inspect %>
 	      <% if online_url(@document) %>
-	        <%#  holdings_condensed = create_condensed_full(@document) %>
+
 	        <%  summary_holdings = '' %>
-	        <%#  if holdings_condensed[0]['summary_holdings'] %>
-	        <%# summary_holdings=(holdings_condensed[0]['summary_holdings'].html_safe + "<br/>".html_safe).html_safe%><%#  end %>
 	        <!-- render display link start -->
-	        <% online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
+	        <%# online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
 	        <!-- render display link end -->
 	        <div class="holdings-online">
 	          <div class="online-label">
 	            <i class="fa fa-check" alt="" aria-hidden="true"></i>Online
 	        </div>
 	        <ul class="list-unstyled">
-	          <% if  url_access_json.present?  %>
-	            <% url_access_json.each do |link| %>
-	              <% l = JSON.parse(link) %>
-	              <% if l["description"].present? %>
-	                <% label = l["description"] %>
-	              <% else %>
-	                <% label = t('blacklight.url.message')  %><% end %>
-	                <li>
-	                  <div class="online-link">
-	                    <%= link_to(process_online_title(label), l["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
-	                    <div class="message">
-	                      <%= summary_holdings.html_safe %>
-	                    </div>
-	                    <div class="message">
-	                      <% if @document["holdings_json"].present? %>
-	                        <% holdings = JSON.parse(@document['holdings_record_display'][0]) %>
-	                        <% getID = holdings["id"] %>
-	                        <% if !JSON.parse(@document["holdings_json"])[getID]['holdings'].nil? %>
-	                          <% sizer = JSON.parse(@document["holdings_json"])[getID]['holdings'].size %>
-	                          <% if sizer != 1 %>
-	                            Library has:<br/> <%= JSON.parse(@document["holdings_json"])[getID]['holdings'].join('<br>').html_safe %>
-	                          <% else %>
-	                            Library has: <%= JSON.parse(@document["holdings_json"])[getID]['holdings'][0].html_safe %>
+	        
+	         <% if @document["holdings_json"].present? %>
+	         <% holdings = JSON.parse(@document['holdings_record_display'][0]) %>
+	         <% getID = holdings["id"] %>
+                            <%#= JSON.parse(@document["holdings_json"])[getID]["holdings"].inspect %>
+             <% holdings_json = JSON.parse(holdings_json) %>
+                            <%#= JSON.parse(@document["holdings_json"]).inspect %>
+                            <%#= holdings_json[getID]["links"].inspect %>
+                            <%#= holdings_json[getID]["links"][0]["description"].inspect %>
+                            <%#= holdings.inspect %>
+              <% end %>	 
+              <% holdings_json.each do |key, value|  %>
+              <%#= value["online"].inspect %>
+              <% if value["online"] == true %>
+               	<%#=  value.inspect %>
+               		<% value["links"].each do | link | %>
+                  		<%#=  link["url"].inspect %>
+                  		<%#= link["description"].inspect %>
+                  		<% if link["description"].present? %>
+                  		  <% label = link["description"] %>
+                  		<% else %>
+                  		  <% label = t('blacklight.url.message')  %>
+                  		<% end %>
+                  		
+	                    <li>
+	                       <div class="online-link">
+	                          <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
+	                          <div class="message">
+	                             <%= summary_holdings.html_safe %>
+	                          </div>
+	                          <div class="message">
+	                          <%#= key.inspect %>
+	                          <% if key.present? %>
+	                             <%#= value.inspect %>
+	                             <% holdings = value %>
+	                             <% getID = key %>
+	                             <% if !value['holdings'].nil? %>
+	                                  <% sizer = value['holdings'].size %>
+	                                  <% if sizer != 1 %>
+	                                       Library has:<br/> <%= value['holdings'].join('<br>').html_safe %>
+	                                  <% else %>
+	                                       Library has: <%= value['holdings'][0].html_safe %>
+	                                  <% end %>
+	                            <% end %>
+	                            <% if !value['indexes'].nil? %>
+	                               <% sizer = value['indexes'].size %>
+	                               <% if sizer != 0 %>
+	                                  <br>Indexes: <%= value['indexes'].join('<br>').html_safe %>
+	                               <% else %>
+	                                  Indexes: <%= value['indexes'][0].html_safe %>
+	                               <% end %>
+	                            <% end %>
+	                            <% if !value['notes'].nil? %>
+	                               <% sizer = value['notes'].size %>
+	                               <% if sizer != 0 %>
+	                                  <br>Notes: <%= value['notes'].join('<br>').html_safe %>
+	                               <% else %>
+	                                  Notes: <%= value['notes'][0].html_safe %>
+	                               <% end %>
+	                            <% end %>
+	                            <% if !value['supplements'].nil? %>
+	                               <% sizer = value['supplements'].size %>
+	                               <% if sizer != 0 %>
+	                                  <br>Supplements: <%= value['supplements'].join('<br>').html_safe %>
+	                               <% else %>
+	                                  Supplements: <%= value['supplements'][0].html_safe %>
+	                               <% end %>
+	                            <% end %>
 	                          <% end %>
-	                        <% end %>
-	                      <% end %>
-	                    </div>
-	                    <% if l["dbcode"].present? && l["providercode"].present? && online_url(@document) %>
-	                      <span class="terms-of-use">
-		                    <a href="/catalog/tou/<%= @document[:id] %>/<%= l["providercode"] %>/<%= l["dbcode"] %>">Terms of use</a>
-		                  </span>
-	                    <% end %>
-	                  </div>
-	                </li>
-	              <% end %>
+	                          </div>
+	                          <% if link["dbcode"].present? && link["providercode"].present? %>  
+	                             <span class="terms-of-use">
+		                         <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
+		                         </span>
+	                          <% end %>
+	                        </div>
+	                    </li>
+	                    <HR>
+	              <%# end %>
+                  		
+                  		
+                  		
+                  		
+                  		
+                  		
+                <% end %>	
+                <% end %>  		
+
 	            <% end %>
 	          </ul>
 	        </div>
             <%# online-holdings %>
+           
 	      <% end %>
 	      <%# end online %>
 	      <%# print holdings %>
@@ -146,7 +200,7 @@
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('"', '') %>
 	        </span>
 	      <% end %>
-	      <%# end availability.well %>
+	      <%# end availability %>
 	    </div>
 	  </div>
 	  <%# other forms %>

@@ -7,12 +7,6 @@
 
   <div class="col-sm-9" id="results">
 
-      <%# unless has_search_parameters? %>
-      <% unless true  %>
-        <%# if there are no input/search related params, display the "home" partial -%>
-        <%= render 'home' %>
-      <% else %>
-
         <h2 class="hidden top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
 
         <% @page_title = t('blacklight.search.title', :application_name => 'blacklight') %>
@@ -47,8 +41,6 @@
         <%= render 'results_pagination' %>
 
         <%end%>
-
-      <% end %>
 
   </div><!--/.main-content -->
 </div>
