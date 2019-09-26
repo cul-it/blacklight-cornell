@@ -62,8 +62,8 @@
 	        <ul class="list-unstyled">
 	        
 	         <% if @document["holdings_json"].present? %>
-	         <% holdings = JSON.parse(@document['holdings_record_display'][0]) %>
-	         <% getID = holdings["id"] %>
+	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
+	         <%# getID = holdings["id"] %>
                             <%#= JSON.parse(@document["holdings_json"])[getID]["holdings"].inspect %>
              <% holdings_json = JSON.parse(holdings_json) %>
                             <%#= JSON.parse(@document["holdings_json"]).inspect %>
