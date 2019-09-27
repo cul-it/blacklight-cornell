@@ -57,7 +57,10 @@
 	        <!-- render display link end -->
 	        <div class="holdings-online">
 	          <div class="online-label">
+	           	        <% if is_online? @document %>
+	           
 	            <i class="fa fa-check" alt="" aria-hidden="true"></i>Online
+	            <%end %>
 	        </div>
 	        <ul class="list-unstyled">
 	        
@@ -70,7 +73,7 @@
                             <%#= holdings_json[getID]["links"].inspect %>
                             <%#= holdings_json[getID]["links"][0]["description"].inspect %>
                             <%#= holdings.inspect %>
-               
+             	 
               <% holdings_json.each do |key, value|  %>
               <%#= value["online"].inspect %>
               <% if value["online"] == true %>
@@ -142,8 +145,8 @@
                   		
                   		
                   		
-           <% end %>	       		
                   		
+              <% end %>	     		
                   		
                 <% end %>	
                 <% end %>  		
