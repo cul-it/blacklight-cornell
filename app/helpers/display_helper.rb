@@ -483,7 +483,7 @@ end
 
   def is_online? document
    Rails.logger.debug("es287_debug @@@@ #{__FILE__}:#{__LINE__} url =  #{document['url_access_display'].inspect}")
-    ( document['url_access_display'].present?  && document['url_access_display'].size > 0) ?
+    ( document['online'].present?  && document['online'].include?('Online')) ?
         true
       :
         false
