@@ -14,7 +14,7 @@ gem 'mini_racer', platforms: :ruby
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.13' #latest 1.4 results in error
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
 end
 
@@ -68,6 +68,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'meta_request'
   gem 'awesome_print'
+  gem 'xray-rails' # Adding to explore which views are used
 end
 
 group :test do
@@ -102,6 +103,8 @@ gem 'omniauth-saml'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 4.0'
+  # To handle omniauth security
+gem "omniauth-rails_csrf_protection"
 gem 'xmlrpc'
 gem 'bootstrap'
 gem 'font-awesome-rails'
@@ -122,3 +125,6 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 gem 'citeproc-ruby'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
+
+# LD4P
+gem 'leaflet-rails'

@@ -13,7 +13,7 @@
  *= require 'blacklight/hierarchy/hierarchy'
 
  *= require 'jquery-ui.min.css'
-
+ *= require 'leaflet'
 
  *
  * Used by blacklight_range_limit
@@ -26,4 +26,5 @@
 @import 'cornell/variables';
 @import 'blacklight';
 @import 'cornell/cul-catalog';
+@import 'cornell/knowledge-panel';
 @import 'singlesearch';

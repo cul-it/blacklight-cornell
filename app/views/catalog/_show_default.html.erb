@@ -1,40 +1,43 @@
 <%# default partial to display solr document fields in catalog show view -%>
-<dl class="row">
+<dl class="row" id="itemDetails" base-url="<%= root_url %>">
   <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
 	    <dt class="blacklight-<%= solr_fname.parameterize %> col-sm-3"><%= render_document_show_field_label document, :field => solr_fname %></dt>
-      <dd class="blacklight-<%= solr_fname.parameterize %> col-sm-9">
+        <dd class="blacklight-<%= solr_fname.parameterize %> col-sm-9">
        
         <% if  solr_fname == 'author_json' -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
           <% authname = field_value solr_fname %>
           <% document['author_json'].each do |authority| %>
-          <% heading = JSON.parse(authority) %>
-          <% if heading["authorizedForm"] == true %> 
-          <% type = heading['type']  %>
-          <% if heading['search2'].present?  %>
-          <% search = heading['search2'] %>
-          <% else search = heading['search1']  %>
+            <% heading = JSON.parse(authority) %>
+            <% if heading["authorizedForm"] == true %> 
+              <% type = heading['type']  %>
+              <% if heading['search2'].present?  %>
+                <% search = heading['search2'] %>
+              <% else search = heading['search1']  %>
+              <% end %>
+              <%# show heading popover for everything bigger than smartphone %>
+            <a href='#' role="button" tabindex = "0" base-url="<%= root_url %>" data-auth-type='author' data-auth='<%=search %>' datasearch-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button hidden-xs"><span class="badge badge-primary">
+              i
+            </span>
+            </a>
+            <%# link directly to heading on smartphone %>
+            <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button visible-xs"><span class="badge badge-primary">
+              Info
+            </span>
+            </a>
           <% end %>
-          <%# show heading popover for everything bigger than smartphone %>
-          <a href='#' role="button" tabindex="0" data-trigger="focus" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button d-none d-sm-inline"><span class="badge badge-info">
-            Info
-          </span>
-          </a>
-          <%# link directly to heading on smartphone %>
-          <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button d-inline d-sm-none"><span class="badge badge-primary">
-            Info
-          </span>
-          </a>
           <% end %>
-          <% end %>
-       
-          <% elsif display_link? solr_fname -%>   
+        <% elsif  solr_fname == 'subject_json'-%> 
+            <% authname = field_value solr_fname %>
+            <% document['subject_json'].each do |subjectArray| %>
+              <% subjects = JSON.parse(subjectArray) %>
+              <%= render_clickable_document_show_field_value :value => subjectArray, :document => document, :field => solr_fname, :root_url => root_url %> 
+            <% end %>       
+        <% elsif display_link? solr_fname -%>   
            <%= render_display_link :document => document, :field => solr_fname %>
-
         <% elsif display_clickable? solr_fname -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
-        
         <% else -%>
           <%= field_value solr_fname %>
         <% end -%>

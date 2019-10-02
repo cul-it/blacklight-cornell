@@ -326,17 +326,7 @@ end
           end.join(sep_display).html_safe
 
         elsif clickable_setting[:json]
-          json_value=''
-              subject = JSON.parse(value)
-              subject.map do |sub|
-                v = sub["subject"]
-                  if !json_value.empty?
-                  json_value += sep_index + v
-                  else
-                  json_value += v
-                  end
-                link_to(v, add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
-              end.join(sep_display).html_safe
+          display_subject_headings(value, sep_index, sep_display, args)
 
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
@@ -407,6 +397,44 @@ end
     else
       # what other form of input to handle?
     end
+  end
+
+  ## Hierarchical rendition of subject headings with info box button next to them
+  def display_subject_headings(value, sep_index, sep_display, args)
+    field = args[:field]
+    root_url = args[:root_url]
+    json_value=''
+    subject = JSON.parse(value)
+    style_text = ""
+    indent = 0
+    type = ""
+    subject.map do |sub|
+    v = sub["subject"]
+      if !json_value.empty?
+        indent += 10
+        style_text = "margin-left:" + indent.to_s + "px;"
+        json_value += sep_index + v
+        #type = "Topical Term"
+        #What particular type will work in library seems up in the air, so leave empty and get all content ack
+        type = ""
+      else
+        type = sub["type"]
+        json_value += v
+      end
+      info_button = ""
+      if sub.key?("authorized") && sub["authorized"] == true
+        headingtype = ""
+        if !type.empty?
+          headingtype = '&amp;headingtype=' + type
+        end
+        info_button = '<a href="#" role="button" tabindex = "0" base-url="' + request.base_url + 
+        '" data-auth-type="subject" heading-type="' + type + '" data-auth="' + json_value + '" datasearch-poload="/browse/info?authq=' + 
+        json_value + '&amp;browse_type=Subject' + headingtype + '" id="info" class="info-button hidden-xs"><span class="badge badge-primary">' + 
+    'i</span></a>'
+      end
+      
+      "<div style='" + style_text + "'>" + link_to(v, add_search_params(field, '"' + json_value + '"'), class: "hierarchical") + "&nbsp;" + info_button + "</div>"
+     end.join(" ").html_safe
   end
 
   def add_search_params(field, value)

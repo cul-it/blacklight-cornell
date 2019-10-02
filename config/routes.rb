@@ -23,6 +23,10 @@ BlacklightCornell::Application.routes.draw do
 resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
       concerns :exportable
 end
+
+#Adding proxy controller to access external URLs like digital collections
+get 'proxy/search'  
+get 'proxy/facet' 
   
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
