@@ -1,19 +1,19 @@
 var addDiscogsLegend = false;
 function renderWikidataLegend(wikiURI) {
-        var dt_margin_top = "50px";
-        var dd_margin_top = "55px";
-
-        if ( $('dt#discogs-legend').length ) {
-          dt_margin_top = "10px";
-          dd_margin_top = "15px";
-        }
-        var the_html = '<dt class="blacklight-donor_display col-sm-3" style="margin-top:' + dt_margin_top + ';">'
-                    + '<div class="wikidata-bgc" style="width:40px;display:inline-block">&nbsp;</div></dt>'
-                    + '<dd class="blacklight-donor_display col-sm-9" style="margin-top:' + dd_margin_top + ';">'
-                    + '<a href="' + wikiURI + '" target="_blank">From the Wikidata entry <i class="fa fa-external-link"></i></a></dd>';
-
-        $('dl.dl-horizontal').append(the_html);
-    }
+  var margin_top = "50px";
+//  var dd_margin_top = "50px";
+  
+  if ( $('dt#discogs-legend').length ) {
+    margin_top = "10px";
+//    dd_margin_top = "10px";
+  }
+  var the_html = '<dt class="blacklight-donor_display col-sm-2" style="margin-top:' + margin_top + ';text-align:right">'
+              + '<div class="wikidata-bgc" style="width:40px;display:inline-block">&nbsp;</div></dt>'
+              + '<dd class="blacklight-donor_display col-sm-9" style="margin-top:' + margin_top + ';">'
+              + '<a href="' + wikiURI + '" target="_blank">From the Wikidata entry <i class="fa fa-external-link"></i></a></dd>';
+  
+  $('dl#itemDetails').append(the_html);
+}
 var processDiscogs = {
   onLoad: function() {
       
@@ -258,7 +258,7 @@ var processDiscogs = {
           $('dt.blacklight-notes').before(the_html);
 	  }
 	  else {
-	      $('dl.dl-horizontal').append(the_html);  
+	      $('dl#itemDetails').append(the_html);  
 	  }
       addDiscogsLegend = true;
   },
@@ -279,7 +279,7 @@ var processDiscogs = {
       $('dt.blacklight-notes').before(the_html);
 	}
 	else {
-	    $('dl.dl-horizontal').append(the_html);  
+	    $('dl#itemDetails').append(the_html);  
 	}
   	addDiscogsLegend = true;
   },
@@ -298,7 +298,7 @@ var processDiscogs = {
 
       var the_html = '<dt class="blacklight-notes col-sm-3"><span class="discogs-bgc" style="padding:0 2px;">Notes:</span></dt>';
       the_html += '<dd class="blacklight-notes col-sm-9">' + notes + companiesStr + "</dd>";
-      $('dl.dl-horizontal').append(the_html); 
+      $('dl#itemDetails').append(the_html); 
       addDiscogsLegend = true;
   },
   
@@ -330,16 +330,16 @@ var processDiscogs = {
 
   renderDiscogsLegend: function(uri) {
       var the_text = "From the Discogs database";
-      var the_html = '<dt id="discogs-legend col-sm-3" class="blacklight-donor_display" style="margin-top:50px;">'
+      var the_html = '<dt id="discogs-legend" class="blacklight-donor_display col-sm-2" style="margin-top:50px;text-align:right">'
                   + '<div class="discogs-bgc" style="width:40px;display:inline-block">&nbsp;</div></dt>'
-                  + '<dd class="blacklight-donor_display col-sm-9" style="margin-top:55px;">';
+                  + '<dd class="blacklight-donor_display col-sm-9" style="margin-top:50px;">';
       if ( uri != undefined && uri.length ) {
           the_html += '<a href="' + uri + '" target="_blank">' + the_text + ' <i class="fa fa-external-link"></i></i></a></dd>';
       }
       else {
           the_html += the_text + '</dd>';
       }
-      $('dl.dl-horizontal').append(the_html);
+      $('dl#itemDetails').append(the_html);
   },
 
   getWikidata: function(master_id) {
@@ -383,18 +383,21 @@ var processDiscogs = {
   
   renderNotesAddenda: function(title, type) {
       var the_html = '<dt class="blacklight-notes col-sm-3" >Notes:</dt>';
-      var title_html = '<dd class="blacklight-notes col-sm-9"><span class="wikidata-bgc" style="padding:0 2px;margin-top:20px">' + type 
-                        + ':</span><span id="' + type.replace(" ","").toLowerCase() + '" style="padding-left:4px">' + title + '</span></dd>';
+      var title_html = '<span class="wikidata-bgc" style="padding:0 2px;margin-top:20px">' + type 
+                        + ':</span><span id="' + type.replace(" ","").toLowerCase() + '" style="padding-left:4px">' + title + '</span>';
 
-      if ( $('dt#discogs-legend').length ) {
-          $('dt#discogs-legend').before(title_html);
-      }
-      else if ( $('dt.blacklight-notes').length ) {
-          $('dl.dl-horizontal').append(title_html);
+      if ( $('dt.blacklight-notes').length ) {
+          title_html = "<br/>" + title_html;
+          $('dd.blacklight-notes').append(title_html);
       }
       else {
-          the_html += title_html;
-          $('dl.dl-horizontal').append(the_html); 
+          the_html += "<dd class='blacklight-notes col-sm-9'>" + title_html + "</dd>";
+          if ( $('dt#discogs-legend').length ) {
+            $('dt#discogs-legend').before(the_html);
+          }
+          else {
+            $('dl#itemDetails').append(the_html);     
+          }
       }
       // check the catalog to see if we have this work
       processDiscogs.checkTheCatalog(title, type.replace(" ","").toLowerCase());

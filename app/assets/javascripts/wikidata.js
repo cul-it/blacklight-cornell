@@ -185,18 +185,18 @@ var processWikidata = {
       $.ajax({
         url : authorityUrl,
         type: 'GET',
-      dataType: 'json',
-      complete: function(xhr, status) {
+        dataType: 'json',
+        complete: function(xhr, status) {
           var results = $.parseJSON(xhr.responseText);
-        if ( !jQuery.isEmptyObject(results) ) {
-        var label = results["label"][0].replace(". ",". | ");
-        // var format = $('input#format').val();
-        var href = '/browse?utf8=%E2%9C%93&authq=' + label.replace(" ","+") + '&start=0&browse_type=Subject'
-        var browseHtml = '<div style="margin-top:-25px;"><h3><a href="' + href + '">Browse related items by subject</a></h3></div>';
-            $('div.browse-call-number').append("<h4>- or -</h4>");
-            $('div.browse-call-number').after(browseHtml);
+          if ( !jQuery.isEmptyObject(results) ) {
+            var label = results["label"][0].replace(". ",". | ").replace("- ","- | ");
+            var href = '/browse?utf8=%E2%9C%93&authq=' + label.replace(" ","+") + '&start=0&browse_type=Subject'
+            var browseHtml = '<div style="margin-top:-25px;"><h3>Browse related items by subject</h3><ul class="list-inline"><li>'
+                             + '<a  class="btn btn-cul" href="' + href + '">' + results["label"][0] + '</a></li></ul></div>';
+              $('div.browse-call-number').append("<h4>- or -</h4>");
+              $('div.browse-call-number').after(browseHtml);
           }
-      }
+        }
       });
   },
     
@@ -259,8 +259,8 @@ var processWikidata = {
                     geoInfoAttr += " lat='" + geoInfo["Point"]["lat"] + "' lon='" + geoInfo["Point"]["lon"] + "' ";
                   }
                   
-                  narrativeLocationLabel = "<span  id='geo" + fastURI + "'>" + narrativeLocationLabel + "</span>" + 
-                  "<a href='#' role='button' data-map='map' " + geoInfoAttr + " id='info' class='info-button hidden-xs' label='" + narrativeLocationLabel + "' fastURI='" + fastURI + "'><span class='badge badge-primary'>i</span></a>";
+                  narrativeLocationLabel = "<span id='geo" + fastURI + "'>" + narrativeLocationLabel + " </span>" + 
+                  "<a href='#' role='button' data-map='map' " + geoInfoAttr + " id='info' class='info-button hidden-xs' label='" + narrativeLocationLabel + "' fastURI='" + fastURI + "'> <span class='badge badge-primary'>i</span></a>";
                 }
                 fieldValue.push(narrativeLocationLabel);
               }
@@ -277,8 +277,8 @@ var processWikidata = {
   
   generateItemViewRow: function(fieldName, fieldValue, wikidataURI) {
     var fieldNameId = fieldName.replace(/\s/g, '');
-    return  "<dt class='blacklight-" + fieldNameId + "'><span  class='wikidata-bgc'>" + fieldName + ":</span></dt>"
-    + "<dd class='blacklight-" + fieldNameId + "'>" + fieldValue + "</dd>";
+    return  "<dt class='blacklight-" + fieldNameId + " col-sm-3'><span  class='wikidata-bgc'>" + fieldName + ":</span></dt>"
+    + "<dd class='blacklight-" + fieldNameId + " col-sm-9'>" + fieldValue + "</dd>";
     
   },
   
