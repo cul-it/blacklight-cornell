@@ -138,7 +138,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
                query_string = '((' + query_string.rstrip + ') OR title_phrase:"' + blacklight_params[:q] + '")'
              else
-               query_string = 'title:' + '"' + blacklight_params[:q].gsub('"','') + '"'
+               query_string = '(title:' + '"' + blacklight_params[:q].gsub('"','') + '" OR title_phrase:"' + blacklight_params[:q].gsub('"', '') + '") '
              end
          end
 #           blacklight_params[:q] = "(lc_callnum:" + query_string + ') OR lc_callnum:' + query_string 
@@ -264,7 +264,11 @@ class SearchBuilder < Blacklight::SearchBuilder
              end
              blacklight_params[:q] = new_query             
            else
-             blacklight_params[:q] = '+' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
+             if blacklight_params[:search_field] == 'title'
+               blacklight_params[:q] = 'title:' + blacklight_params[:q] +  ' OR title_phrase:"' + blacklight_params[:q] + '"'
+             else
+               blacklight_params[:q] = '+' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
+             end
            end
        end
        user_parameters[:q] = blacklight_params[:q]
