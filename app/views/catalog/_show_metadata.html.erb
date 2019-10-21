@@ -76,7 +76,7 @@
              	 
               <% holdings_json.each do |key, value|  %>
               <%#= value["online"].inspect %>
-              <% if value["online"] == true %>
+              <% if value["online"] == true and !value["links"].nil? %>
                	<%#=  value.inspect %>
                		<% value["links"].each do | link | %>
                   		<%#=  link["url"].inspect %>
