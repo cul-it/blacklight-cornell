@@ -56,12 +56,11 @@
 	        <%# online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
 	        <!-- render display link end -->
 	        <div class="holdings-online">
-	          <div class="online-label">
-	           	        <% if is_online? @document %>
-	           
-	            <i class="fa fa-check" alt="" aria-hidden="true"></i>Online
-	            <%end %>
-	        </div>
+	        	<% if is_online? @document %>
+	        		<div class="online-label">
+	            		<i class="fa fa-check" alt="" aria-hidden="true"></i>Online
+	        		</div>
+	        	<%end %>
 	        <ul class="list-unstyled">
 	        
 	         <% if @document["holdings_json"].present? %>
@@ -135,12 +134,12 @@
 	                          </div>
 	                          <% if link["dbcode"].present? && link["providercode"].present? %>  
 	                             <span class="terms-of-use">
-		                         <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
+	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
+		                         	<a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                         </span>
 	                          <% end %>
 	                        </div>
 	                    </li>
-	                    <HR>
 	              <%# end %>
                   		
                   		
