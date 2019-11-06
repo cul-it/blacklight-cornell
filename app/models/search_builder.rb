@@ -10,7 +10,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 #  self.default_processor_chain += [:advsearch]
 
   def sortby_title_when_browsing user_parameters
-    Rails.logger.info("MONDAY = #{user_parameters}")
+
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
     # if no search term is submitted and user hasn't specified a sort
@@ -42,7 +42,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
 #    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
-    Rails.logger.info("MONDAY = #{user_parameters}")
+
     query_string = ""
     qparam_display = ""
     my_params = {}
@@ -158,7 +158,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         #user_parameters[:sort] = blacklight_params[:sort]
       end
         
-        Rails.logger.info("BOOYAH2 = #{blacklight_params[:search_field]}")
+
         # All fields search calls parse_all_fields_query
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
            returned_query = parse_all_fields_query(blacklight_params[:q])
@@ -173,7 +173,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                else
                  query_string = '('
                  return_query = checkMixedQuoted(blacklight_params)
-                 Rails.logger.info("BOOYAH = #{return_query}")
+
                  return_query.each do |token|
                     query_string = query_string + token + ' '
                   end
@@ -223,7 +223,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  if blacklight_params[:q].include?('"')
                    query_string = '('
                    return_query = checkMixedQuoted(blacklight_params)
-                   Rails.logger.info("BOOYAH3 = #{return_query}")
+
                    return_query.each do |token|
                    query_string = query_string + token + ' '
                  end
@@ -344,14 +344,14 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
     def parseAdvQuotedQuery(quotedQuery)
-      Rails.logger.info("MELANIA = #{quotedQuery}")
+
       queryArray = []
       token_string = ''
       length_counter = 0
       quote_flag = 0
       quotedQuery.each do |term|
         term.each_char do | x |
-           Rails.logger.info("XXXXX = #{x}")
+
            length_counter = length_counter + 1
            if x != '"' and x != ' '
               token_string = token_string + x
@@ -383,11 +383,11 @@ class SearchBuilder < Blacklight::SearchBuilder
              end
            end
            if length_counter == term.size
-             Rails.logger.info("YYYYY = #{term.size}")
+
              queryArray << token_string
              length_counter = 0
            end
-           Rails.logger.info("MELANKA = #{queryArray}")
+
         end
       #  quote_flag = 0
       end
@@ -400,20 +400,20 @@ class SearchBuilder < Blacklight::SearchBuilder
           end
         end
         queryArray = cleanArray
-        Rails.logger.info("MELANIA2 = #{queryArray}")
+
         length_counter = 0
         return queryArray
     end
   
   
     def checkAdvMixedQuoted(my_params)
-      Rails.logger.info("BOOYAH46 = #{my_params[:q_row]}")
+
         returnArray = []
         addFieldsArray = []
         if my_params[:q_row].first == '"' and my_params[:q_row].last == '"'
           if my_params[:q_row].count('"') > 2
             returnArray = parseAdvQuotedQuery(my_params[:q_row])
-            Rails.logger.info("BOOYAH47 = #{returnArray}")
+
             returnArray.each do |token|
               if my_params[:search_field_row] == 'all_fields'
                 if token.first == '"'
@@ -446,11 +446,11 @@ class SearchBuilder < Blacklight::SearchBuilder
           end
         else
           clearArray = []
-          Rails.logger.info("AKNAVI = #{my_params[:q_row]}")
+
           returnArray = parseAdvQuotedQuery(my_params[:q_row])
-          Rails.logger.info("IVANKA = #{returnArray}")
+
           returnArray.each do |token|
-          Rails.logger.info("JARED = #{my_params}")
+
             if my_params[:search_field_row][0] == 'all_fields'
               if token.first == '"'
                 clearArray << '+quoted:' + token
@@ -465,7 +465,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               end
             end            
           end
-          Rails.logger.info("TRUMP = #{clearArray}")
+
           returnArray = clearArray
           return returnArray
         end
@@ -473,7 +473,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   
     
   def checkMixedQuoted(blacklight_params)
-    Rails.logger.info("BOOYAH46 = #{blacklight_params}")
+
       returnArray = []
       addFieldsArray = []
       if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
@@ -818,11 +818,11 @@ class SearchBuilder < Blacklight::SearchBuilder
      if !my_params[:q_row].nil? and !my_params[:q_row].blank?
 # Remove any blank rows in AS
        my_params = removeBlanks(my_params)
-        Rails.logger.info("BOOYAH55 = #{blacklight_params}")
+
          q_rowArray = parse_Q_row(my_params)
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
-         Rails.logger.info("SOOKIE12 = #{my_params[:q_row]}")
+
          test_q_string2 = groupBools(my_params)
          my_params[:q] = test_q_string2
       return my_params
@@ -835,11 +835,11 @@ class SearchBuilder < Blacklight::SearchBuilder
      q_row_string = ''
      hold_row = []
      row_number = 0
-     Rails.logger.info("SOOKIE100 = #{my_params}")
+
      my_params[:search_field_row].each do |sfr|
        q_row_string = ""
        sfr_name = get_sfr_name(sfr)
-       Rails.logger.info("KURDS = #{my_params[:q_row]}")
+
        if my_params[:q_row][row_number].include? '"'
        hold_row = checkAdvMixedQuoted(my_params)
        else
@@ -848,7 +848,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        row_number = row_number + 1
        if hold_row[0].include?('+') or hold_row.include?(':')
        #  if my_params[:search_field_row][0] == 'all_fields'
-         Rails.logger.info("SOOKIE = #{hold_row}")
+
           
           fixString = hold_row.join(' ')
           fixString = fixString.gsub('"]:',':')
@@ -859,12 +859,12 @@ class SearchBuilder < Blacklight::SearchBuilder
           q_rowArray << fixString
        #   q_rowArray << my_params[:q_row].join(' ')
             
-          Rails.logger.info("SOOKIE2 = #{q_rowArray}")
+
        #  else
           # my_params[:search_field_row] = my_params[:search_field_row][0].to_s
        #  end
        else
-               Rails.logger.info("BLOOYAH = #{my_params[:q_row][index][0]}")
+
                if (my_params[:q_row][index][0] == "\"" or my_params[:q_row][index][1] == '"' ) and my_params[:op_row][index] != 'begins_with'
                  if sfr_name == ""
                    sfr_name = "quoted:"
