@@ -576,7 +576,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
-        value = value.to_unsafe_h if key == "f"
+        value = value.to_unsafe_h if key == "f" && value.present?
         session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
