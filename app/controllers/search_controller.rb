@@ -91,6 +91,7 @@ class SearchController < ApplicationController
     begin
       @engine = BentoSearch.get_engine(params[:engine])
     rescue BentoSearch::NoSuchEngine => e
+      # DA-5405
       @engine = params[:engine]
       @error_msg = e.message
       flash.now[:error] = 'There is no registered search engine for the the type "' + @engine + '."'
