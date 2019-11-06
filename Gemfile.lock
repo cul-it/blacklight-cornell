@@ -51,10 +51,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 43f64163307610d1a17361cb44f5aa47168e11bd
-  branch: master
+  revision: 2a6291d23bbc354692c66e29313e6c587d10cf23
+  branch: dev
   specs:
-    my_account (1.0.3)
+    my_account (1.0.4)
       blacklight (>= 7.0)
       borrow_direct
       rails (~> 5.1)
