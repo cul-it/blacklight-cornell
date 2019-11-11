@@ -38,7 +38,7 @@
 	      Availability
 	    </div>
 	    <div class="card-block">
-	      <%# finding aid %>
+	      <%# check the document rather than the finding_aid() method %>
 	      <% if @document['url_findingaid_display'].present? %>
 				<% if @document['url_findingaid_display'].size == 1 %>
 					<% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
