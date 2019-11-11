@@ -5,7 +5,8 @@ class AeonController < ApplicationController
   
   def request_aeon
     #resp, document = get_solr_response_for_doc_id(params[:bibid])
-    resp, document = fetch (@id) 
+    # DISCOVERYACCESS-5324 update to use BL7 search service.
+    resp, document = search_service.fetch(@id) 
     aeon = Aeon.new
     request_options, target, @holdings = aeon.request_aeon document, params
     _display request_options, target, document
