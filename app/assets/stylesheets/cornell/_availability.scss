@@ -46,15 +46,6 @@
 h3.rare {
 	margin-bottom: 0;
 }
-.label-available {
-	background: $green;
-	margin-right: .5em;
-	font-size: 90%;
-	font-weight: normal;
-	i {
-		color: white;
-	}
-}
 .holding,
 .holdings-error {
 	margin-bottom: 1em;
@@ -158,10 +149,6 @@ h3.rare {
 		margin-bottom: 1em;
 		font-size: 20px;
 	}
-	.label-online {
-		color: white;
-		font-size: 12px;
-	}
 	p {
 		margin-top: 2em;
 	}
@@ -185,10 +172,6 @@ h3.rare {
 		color: $gray-dark;
 		display: block;
 		margin-bottom: .25em;
-	}
-	.label-online:hover {
-		background: $green;
-		pointer: none;
 	}
 	.other-form-online {
 		span {
