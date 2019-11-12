@@ -141,19 +141,6 @@ class BackendController < ApplicationController
 #    Blacklight.solr_config
 #  end
 
-  # This acts as a receiver for a JavaScript notification that a user has dismissed
-  # the ie9-only warning that appears at the top of catalog pages. We want to
-  # remember that so that the warning doesn't keep appearing during the user's
-  # session. (This only affects users on IE9 browsers)
-  def dismiss_ie9_warning
-
-    respond_to do |format|
-      format.js { render nothing: true }
-    end
-
-    session[:hide_ie9_warning] = true
-  end
-
   # The route /backend/cuwebauth should exist and be protected by CUWebAuth.
   # This corresponding method simply sets a session variable with the netid
   # and sends you back to wherever you came from.
