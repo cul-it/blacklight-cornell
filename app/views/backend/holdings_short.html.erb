@@ -20,7 +20,7 @@
       <% else %>
         <% location = multiple_locations %>
       <% end %>
-      <i class="fa fa-check" title="Available" alt=""></i>
+      <i class="fa fa-check" title="Available"></i>
     <% elsif unavailable.size > 0 %>
       <% if unavailable.size === 1 && loc_count === 1 %>
         <% location = unavailable.keys()[0] %>
@@ -33,7 +33,7 @@
           <% location = multiple_locations %>
         <% end %>
       <% end %>
-      <i class="fa fa-clock-o" title="Available by request" alt=""></i>
+      <i class="fa fa-clock-o" title="Available by request"></i>
     <% else %>
       <% ## location = entry['summary']['holdinglocs'][0] %>
       <% xlocation = entry['records'][0]['location_name'] %>
@@ -46,9 +46,9 @@
         <% callnumber = entry['records'][0]['call_number'] %>
       <% end %>
       <% if entry['summary']['onotes'].size > 0 %>
-        <i class="fa fa-clock-o" alt="" title="On order"></i>
+        <i class="fa fa-clock-o" title="On order"></i>
       <% else %>
-        <i class="fa fa-check" alt="" title="On site use"></i>
+        <i class="fa fa-check" title="On site use"></i>
         <% callnumber = pda == 'no' ? entry['records'][0]['call_number'] : '' %>
         <% # %i{:class => 'fa fa-question-circle', :title => 'Status unknown'} %>
       <% end %>
