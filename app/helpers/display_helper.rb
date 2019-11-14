@@ -1182,7 +1182,7 @@ end
     unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
-      start = core.rindex(/http:\/\//) + 7
+      start = core.rindex(/:\/\//) + 3
       display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
       display.html_safe
     end
