@@ -1,6 +1,10 @@
-<% @page_title = "Advanced Search - #{application_name}" %>
+<% if params["action"] == "edit" %>
+	<% @page_title = "Advanced Search Edit - #{application_name}" %>
+<% else %>
+	<% @page_title = "Advanced Search - #{application_name}" %>
+<% end %>
       <%#= hidden_field_tag(:search_field, 'advanced') %>
-      <%= hidden_field_tag(:advanced_query, 'yes') %>
+      <%#= hidden_field_tag(:advanced_query, 'yes') %>
       <% params[:advanced_query] = 'yes' %>
 
 <%= render 'advanced_search_form' %>
