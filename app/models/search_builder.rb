@@ -4,7 +4,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
 
-# add a comment so we can do a trivial PR
+# add another comment so we can do a trivial PR
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
 #  self.default_processor_chain += [:advsearch]
