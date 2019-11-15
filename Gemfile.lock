@@ -51,7 +51,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 2a6291d23bbc354692c66e29313e6c587d10cf23
+  revision: c40bf299ef4c0e3bad2a15e095df13d3517e8bd1
   branch: dev
   specs:
     my_account (1.0.4)
@@ -398,7 +398,7 @@ GEM
     mini_portile2 (2.4.0)
     mini_racer (0.2.6)
       libv8 (>= 6.9.411)
-    minitest (5.12.2)
+    minitest (5.13.0)
     mollom (0.2.3)
     multi_json (1.13.1)
     multi_test (0.1.2)
@@ -417,7 +417,7 @@ GEM
       net-ssh (>= 4.0.0)
     netrc (0.11.0)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     nori (2.6.0)
     notiffany (0.1.3)
@@ -500,7 +500,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (13.0.0)
+    rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -625,6 +625,8 @@ GEM
     unf_ext (0.0.7.6)
     unicode (0.4.4.4)
     unicode_utils (1.4.0)
+    utf8-cleaner (0.2.5)
+      activesupport
     vcr (5.0.0)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -734,6 +736,7 @@ DEPENDENCIES
   ultraviolet
   unicode
   unicode_utils
+  utf8-cleaner
   vcr
   webmock
   webrat

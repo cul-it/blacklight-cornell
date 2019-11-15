@@ -188,7 +188,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = display[1]
      end
      end
-  
+     params[:mm] = "100"
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     #params[:sort]= ''
