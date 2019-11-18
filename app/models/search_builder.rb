@@ -63,6 +63,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters[:q] = blacklight_params[:q]
  #     blacklight_params[:q] = user_parameters[:q]
       user_parameters[:search_field] = "advanced"
+      #user_parameters["mm"] = "100"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
     else # simple search code below
@@ -235,6 +236,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               blacklight_params[:search_field] = 'author'
               blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
             end
+         #   user_parameters["mm"] = "100"
             user_parameters["mm"] = "1"
          end
        end
@@ -285,6 +287,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters[:f] = blacklight_params[:f]
         user_parameters[:sort] = blacklight_params[:sort]
        # user_parameters[:q] = 'subject_quoted:\"architecture\"'
+        #user_parameters["mm"] = "100"
         user_parameters["mm"] = "1"
       end
     end
