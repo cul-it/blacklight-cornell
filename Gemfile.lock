@@ -625,6 +625,8 @@ GEM
     unf_ext (0.0.7.6)
     unicode (0.4.4.4)
     unicode_utils (1.4.0)
+    utf8-cleaner (0.2.5)
+      activesupport
     vcr (5.0.0)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -734,6 +736,7 @@ DEPENDENCIES
   ultraviolet
   unicode
   unicode_utils
+  utf8-cleaner
   vcr
   webmock
   webrat
