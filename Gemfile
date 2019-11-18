@@ -46,6 +46,7 @@ gem 'rufus-scheduler'
 gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
+gem 'utf8-cleaner'
 #gem 'mini_racer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
@@ -106,6 +107,7 @@ gem 'xmlrpc'
 gem 'bootstrap'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
+#gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/blacklight-cornell-requests-Nov'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'dev'
