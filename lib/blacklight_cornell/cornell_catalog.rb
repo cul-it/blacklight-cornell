@@ -98,7 +98,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    (@response, @document_list) = search_service.oclc_search_results(zparams)
+    (@response, deprecated_document_list) = search_service.oclc_search_results(zparams)
+    @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     num = @response["response"]["numFound"]
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} num = #{num.inspect}"
@@ -106,17 +107,24 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       target = @document_list[0].response["response"]["docs"][0]["id"] 
       logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
       redirect_to(root_url() + "/request/#{target}")
-     elsif num >  1 
+    elsif num >  1 
       logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
-      render :text => 'OCLCd does not map to unique record', :status => '404'
-     else
+      flash.now.alert = "The OCLC ID #{oid.inspect} does not map to a unique identifier."
+      respond_to do |format|
+        format.html { render :text => 'OCLCd does not map to unique record', :status => '404' }
+      end
+    else
       logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id not found = #{oid.inspect}"
-      render :text => 'Not Found', :status => '404'
+      flash.now.alert = "The OCLC ID #{oid.inspect} was not found."
+      respond_to do |format|
+        format.html { render :text => 'Not Found', :status => '404' }
+      end
     end
   end
 
   # get search results from the solr index
   def index
+    
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
@@ -180,7 +188,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = display[1]
      end
      end
-  
+      #params[:mm] = "100"
+      params[:mm] = "1"
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     #params[:sort]= ''
@@ -189,7 +198,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
    #params[:q] = '(+title_quoted:"A news" +title:Reporter)'
 #    params[:search_field] = 'advanced'
    #params[:q] = '(water)'
-    (@response, deprecated_document_list) = search_service.search_results #search_results(params)
+    (@response, deprecated_document_list) = search_service.search_results
     @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
@@ -568,9 +577,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
-        value = value.to_unsafe_h if key == "f"
-        session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
-          value.blank?
+        if !value.nil?
+          value = value.to_unsafe_h if key == "f"
+          session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
+            value.blank?
+        end
       end
       session[:gearch] = {}
       params.each_pair do |key, value|

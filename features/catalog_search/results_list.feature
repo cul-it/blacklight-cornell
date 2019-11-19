@@ -199,7 +199,7 @@ Feature: Results list
     And I select 'Journal Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
-    And it should have link "Online" with value "/catalog/5374340"
+    #And it should have link "Online" with value "/catalog/5374340"
 
 
 

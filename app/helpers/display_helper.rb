@@ -483,7 +483,7 @@ end
 
   def is_online? document
    Rails.logger.debug("es287_debug @@@@ #{__FILE__}:#{__LINE__} url =  #{document['url_access_display'].inspect}")
-    ( document['url_access_display'].present?  && document['url_access_display'].size > 0) ?
+    ( document['online'].present?  && document['online'].include?('Online')) ?
         true
       :
         false
@@ -1182,7 +1182,7 @@ end
     unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
-      start = core.rindex(/http:\/\//) + 7
+      start = core.rindex(/:\/\//) + 3
       display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
       display.html_safe
     end
@@ -1288,7 +1288,13 @@ end
     document = args.shift || options[:document]
     field = args.shift || options[:field]
     field_config = blacklight_config.index_fields[field]
-    presenter(document).field_value field_config, options.except(:document, :field)
+    # the field presenter is needed for oclc requests.
+    if presenter(document).nil?
+      fp = Blacklight::FieldPresenter.new(self, document, field_config, options.except(:document, :field))
+      fp.render
+    else
+      presenter(document).field_value field_config, options.except(:document, :field)
+    end
   end
 
   def simple_render_document_index_label(*args)
