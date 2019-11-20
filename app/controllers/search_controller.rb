@@ -273,7 +273,7 @@ class SearchController < ApplicationController
             'url_online_access' => d['url_access_display'],
             'availability_json' => d['availability_json'],
           }
-        
+
         item.format = d['format']
         bento_set << item
 
