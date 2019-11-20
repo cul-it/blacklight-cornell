@@ -74,6 +74,15 @@ BentoSearch.register_engine('summon') do |conf|
   conf.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q='
 end
 
+# connection to EBSCO Discovery Service used by the bento/single search
+require "#{Rails.root}/config/ebsco_dbs.rb"
+BentoSearch.register_engine('ebscohost') do |conf|
+	conf.engine = 'BentoSearch::EbscoHostEngine'
+	conf.profile_id = ENV['EBSCO_USER'] + '.main.' + ENV['EBSCO_PROFILE']
+	conf.profile_password = ENV['EBSCO_PASSWORD']
+	conf.databases = $ebsco_dbs
+end
+
 BentoSearch.register_engine('worldcat') do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
   conf.api_key = ENV['WORLDCAT_API_KEY']
