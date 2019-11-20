@@ -139,6 +139,13 @@ class SearchController < ApplicationController
   #  Rails.logger.debug("#{__FILE__}:#{__LINE__} @catalog_host=  #{@catalog_host.inspect}")
     top1 = top4 = secondary = []
 
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
+    ebsco = BentoSearch.get_engine('ebscohost')
+    info = ebsco.get('edsamd.090')
+    puts 'EBSCO Info: ' + info.to_yaml
+    Rails.logger.level = save_level
+
     # Sort formats alphabetically for more results
     more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
 
