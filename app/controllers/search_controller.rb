@@ -32,7 +32,7 @@ class SearchController < ApplicationController
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           titem = BentoSearch::ResultItem.new
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
+          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results
 
