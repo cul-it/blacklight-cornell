@@ -1362,8 +1362,9 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def groupBools(my_params)
+     Rails.logger.info("DEEDEE = #{my_params}")
      if my_params[:q_row].length == 1
-       if my_params[:q_row][0].include?('journaltitle:')
+       if my_params[:q_row][0].include?('journaltitle_starts:') or my_params[:q_row][0].include?('journaltitle:')
          my_params[:q_row][0].gsub!('journaltitle','title')
          my_params[:q_row][0] = '(' + my_params[:q_row][0] + ' AND format:Journal/Periodical)'
        end
