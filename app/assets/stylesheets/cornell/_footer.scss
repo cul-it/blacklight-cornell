@@ -6,6 +6,13 @@ footer {
 	a, a:hover {
 		color: $dark-gray;
 	}
+	a {
+		border-bottom: 1px dotted $medium-gray;
+	}
+	a:hover {
+		text-decoration: none;
+		border-bottom: 1px solid $medium-gray;
+	}
 	.footer-nav {
 		margin-top: .25em;
 		margin-bottom: 1.5em;
@@ -85,21 +92,15 @@ footer {
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
 
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	.feedback-link { 
 		text-align: right;
 	}
@@ -121,3 +122,9 @@ footer {
 		text-align: right;
 	}
 }
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

@@ -188,7 +188,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = display[1]
      end
      end
-  
+      #params[:mm] = "100"
+      params[:mm] = "1"
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     #params[:sort]= ''
@@ -576,9 +577,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
-        value = value.to_unsafe_h if key == "f"
-        session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
-          value.blank?
+        if !value.nil?
+          value = value.to_unsafe_h if key == "f"
+          session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
+            value.blank?
+        end
       end
       session[:gearch] = {}
       params.each_pair do |key, value|
