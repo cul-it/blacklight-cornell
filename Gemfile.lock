@@ -51,8 +51,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: b8e65fbdc94c0704934a473cda19cc37b073d803
-  branch: master
+  revision: c315994c0374bff57a0784222004cec42a40524d
+  branch: dev
   specs:
     my_account (1.0.3)
       blacklight (>= 7.0)
