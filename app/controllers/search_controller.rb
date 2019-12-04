@@ -89,6 +89,11 @@ class SearchController < ApplicationController
               result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
             end
           end
+          if !@results['ebscohost'].nil?
+            @results['ebscohost'].each do |result|
+              result.link = 'http://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
+            end
+          end
 
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
