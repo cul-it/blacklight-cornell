@@ -26,7 +26,10 @@
     <div class="view-all">
       <% if key == "libguides" %>
         <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
-        <% else %>
+      <% elsif key == "ebscohost" %>
+        <% count = result.total_items && result.total_items > 1 ? result.total_items : '' %>
+        <%= link_to "View All #{count} EBSCO", link_url, :class => "btn btn-outline-secondary btn-sm" %>
+      <% else %>
       <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
