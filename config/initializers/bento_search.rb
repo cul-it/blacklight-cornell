@@ -78,7 +78,7 @@ end
 require "#{Rails.root}/config/ebsco_dbs.rb"
 BentoSearch.register_engine('ebscohost') do |conf|
 	conf.engine = 'BentoSearch::EbscoHostEngine'
-	conf.profile_id = ENV['EBSCO_USER'] + '.main.' + ENV['EBSCO_PROFILE']
+	conf.profile_id = ENV['EBSCO_USER'] + '.' + ENV['EBSCO_GROUP'] + '.' + ENV['EBSCO_PROFILE']
 	conf.profile_password = ENV['EBSCO_PASSWORD']
 	conf.databases = $ebsco_dbs
 end
