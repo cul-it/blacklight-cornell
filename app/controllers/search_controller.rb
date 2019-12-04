@@ -245,6 +245,10 @@ class SearchController < ApplicationController
     elsif engine_id =='libguides'
       query = query.gsub('&', '%26')
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
+    elsif engine_id == 'ebscohost'
+      query = query.gsub('&', '%26')
+      query = "http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
+
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
