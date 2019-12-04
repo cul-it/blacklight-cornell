@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-class ModifyErmData < ActiveRecord::Migration
+class ModifyErmData < ActiveRecord::Migration[5.2]
   def up
-  if !ActiveRecord::Base.connection.table_exists? "erm_data" 
+  if !ActiveRecord::Base.connection.table_exists? "erm_data"
   create_table "erm_data", id: false, force: true do |t|
     t.integer "id"
     t.string  "Collection_Name",                                  :limit => 128
@@ -114,7 +114,7 @@ class ModifyErmData < ActiveRecord::Migration
     t.string  "Post_Print_Archive_Conditions",                    :limit => 256
     t.string  "Post_Print_Archive_Restrictions_Number",           :limit => 128
     t.string  "Post_Print_Archive_Restrictions_Unit",             :limit => 128
-    t.text  "Post_Print_Archive_Note" 
+    t.text  "Post_Print_Archive_Note"
     t.string  "Incorporation_Of_Images_Figures_And_Tables_Right", :limit =>     256
      t.text    "Incorporation_Of_Images_Figures_And_Tables_Note"
      t.string  "Public_Performance_Right",                         :limit =>     256
