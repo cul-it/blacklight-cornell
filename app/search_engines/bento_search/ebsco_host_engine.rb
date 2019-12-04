@@ -598,7 +598,8 @@ class BentoSearch::EbscoHostEngine
     {
       # /Search
       :base_url => "http://eit.ebscohost.com/Services/SearchService.asmx",
-      :databases => []
+      :databases => [],
+      :title => "Articles & Full Text - EBSCO Discovery Service"
     }
   end
 
