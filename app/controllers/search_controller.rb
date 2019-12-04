@@ -37,6 +37,23 @@ class SearchController < ApplicationController
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results.dup
 
+          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in index after search"
+          @results.each do |key, val|
+            puts 'Results key: ' + key
+            # if key == 'ebscohost'
+            #   puts 'ebsco values: ' + val.to_yaml
+            # end
+            # if key == 'summon_bento'
+            #   puts 'summon_bento values: ' + val.to_yaml
+            # end
+            # if key == 'solr'
+            #   puts 'solr values: ' + val.to_yaml
+            # end
+          end
+          #puts 'Results: ' + @results['ebscohost'].to_yaml
+          Rails.logger.level = save_level
+
           # Reset query to make it show up properly for the user on the results page
           @query = original_query
 
@@ -47,8 +64,20 @@ class SearchController < ApplicationController
           else
             facet_results = {}
           end
+
+
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
+    puts 'facet Results: ' + facet_results.to_yaml
+    Rails.logger.level = save_level
+
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
+
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: after facet_solr_results"
+    puts 'scores: ' + @scores.to_yaml
+    Rails.logger.level = save_level
 
           if !@results['summon_bento'].nil?
             @results['summon_bento'].each do |result|
@@ -140,13 +169,6 @@ class SearchController < ApplicationController
   #  Rails.logger.debug("#{__FILE__}:#{__LINE__} @catalog_host=  #{@catalog_host.inspect}")
     top1 = top4 = secondary = []
 
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
-    ebsco = BentoSearch.get_engine('ebscohost')
-    info = ebsco.get('edsamd.090')
-    puts 'EBSCO Info: ' + info.to_yaml
-    Rails.logger.level = save_level
-
     # Sort formats alphabetically for more results
     more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
 
@@ -166,6 +188,17 @@ class SearchController < ApplicationController
 
     # Sort the remaining format results by total number of hits
     #results = results.sort_by { |key, result| result.total_items.to_i }
+
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
+    puts 'max_scores: ' + max_scores.to_yaml
+    max_scores.each do |key, result|
+      puts 'max_score key: ' + "#{key}" + ' val: ' + max_scores[key].to_yaml
+    end
+    results.each do |key, val|
+      puts 'results key: ' + key
+    end
+    Rails.logger.level = save_level
 
     # Sort the remaining format results by max relevancy score
     results = results.sort_by { |key, result| max_scores[key] }
