@@ -177,7 +177,8 @@ class SearchController < ApplicationController
     @digitalCollections = results.delete('digitalCollections')
     @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
-    top1 << ['summon_bento', results.delete('summon_bento')]
+    #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
+    top1 << ['ebscohost', results.delete('ebscohost')]
     top4 = top1
 
     if display_type == 'fixed'
