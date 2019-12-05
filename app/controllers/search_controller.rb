@@ -66,18 +66,18 @@ class SearchController < ApplicationController
           end
 
 
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
-    puts 'facet Results: ' + facet_results.to_yaml
-    Rails.logger.level = save_level
+    # save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    # Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
+    # puts 'facet Results: ' + facet_results.to_yaml
+    # Rails.logger.level = save_level
 
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
 
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: after facet_solr_results"
-    puts 'scores: ' + @scores.to_yaml
-    Rails.logger.level = save_level
+    # save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    # Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: after facet_solr_results"
+    # puts 'scores: ' + @scores.to_yaml
+    # Rails.logger.level = save_level
 
           if !@results['summon_bento'].nil?
             @results['summon_bento'].each do |result|
@@ -195,16 +195,16 @@ class SearchController < ApplicationController
     # Sort the remaining format results by total number of hits
     #results = results.sort_by { |key, result| result.total_items.to_i }
 
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
-    puts 'max_scores: ' + max_scores.to_yaml
-    max_scores.each do |key, result|
-      puts 'max_score key: ' + "#{key}" + ' val: ' + max_scores[key].to_yaml
-    end
-    results.each do |key, val|
-      puts 'results key: ' + key
-    end
-    Rails.logger.level = save_level
+    # save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    # Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in sort_panes"
+    # puts 'max_scores: ' + max_scores.to_yaml
+    # max_scores.each do |key, result|
+    #   puts 'max_score key: ' + "#{key}" + ' val: ' + max_scores[key].to_yaml
+    # end
+    # results.each do |key, val|
+    #   puts 'results key: ' + key
+    # end
+    # Rails.logger.level = save_level
 
     # Sort the remaining format results by max relevancy score
     results = results.sort_by { |key, result| max_scores[key] }
