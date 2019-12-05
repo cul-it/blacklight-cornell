@@ -1,6 +1,6 @@
 defaults: &DEFAULTS
   default:
-    username: <%= ENV['EBSCO_USER'] %>
+    user_id: <%= ENV['EBSCO_USER'] %>
     password: <%= ENV['EBSCO_PASSWORD'] %>
     profile: <%= ENV['EBSCO_PROFILE'] %>
 

@@ -17,7 +17,7 @@
   <% # uses 'query'.This ordinarily is fine, but since we want this layout to work %>
   <% # for both, we have to look for both, oh well. %>
   <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-  <% if key != 'summon_bento' && key != "digitalCollections" && key != 'ebscohost' %>
+  <% if key != 'summon_bento' && key != "digitalCollections" && key != 'ebsco_ds' %>
     <% link_url = request.protocol + request.host_with_port + '/' + link_url %>
   <% end %>
   <% if result %>
@@ -26,7 +26,7 @@
     <div class="view-all">
       <% if key == "libguides" %>
         <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
-      <% elsif key == "ebscohost" %>
+      <% elsif key == "ebsco_ds" %>
         <% count = result.total_items && result.total_items > 1 ? result.total_items : '' %>
         <%= link_to "View All #{count} EBSCO", link_url, :class => "btn btn-outline-secondary btn-sm" %>
       <% else %>

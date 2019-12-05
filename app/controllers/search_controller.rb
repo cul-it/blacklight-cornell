@@ -33,7 +33,7 @@ class SearchController < ApplicationController
           titem = BentoSearch::ResultItem.new
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
           #searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
-          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :bestbet, :digitalCollections, :libguides)
+          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :bestbet, :digitalCollections, :libguides)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results.dup
 
@@ -41,7 +41,7 @@ class SearchController < ApplicationController
           Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in index after search"
           @results.each do |key, val|
             puts 'Results key: ' + key
-            # if key == 'ebscohost'
+            # if key == 'ebsco_ds'
             #   puts 'ebsco values: ' + val.to_yaml
             # end
             # if key == 'summon_bento'
@@ -51,7 +51,7 @@ class SearchController < ApplicationController
             #   puts 'solr values: ' + val.to_yaml
             # end
           end
-          #puts 'Results: ' + @results['ebscohost'].to_yaml
+          #puts 'Results: ' + @results['ebsco_ds'].to_yaml
           Rails.logger.level = save_level
 
           # Reset query to make it show up properly for the user on the results page
@@ -89,11 +89,11 @@ class SearchController < ApplicationController
               result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
             end
           end
-          if !@results['ebscohost'].nil?
-            @results['ebscohost'].each do |result|
-              result.link = 'http://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-            end
-          end
+          # if !@results['ebsco_ds'].nil?
+          #   @results['ebsco_ds'].each do |result|
+          #     result.link = 'http://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
+          #   end
+          # end
 
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
@@ -183,7 +183,7 @@ class SearchController < ApplicationController
     @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
     #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
-    top1 << ['ebscohost', results.delete('ebscohost')]
+    top1 << ['ebsco_ds', results.delete('ebsco_ds')]
     top4 = top1
 
     if display_type == 'fixed'
@@ -245,7 +245,7 @@ class SearchController < ApplicationController
     elsif engine_id =='libguides'
       query = query.gsub('&', '%26')
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
-    elsif engine_id == 'ebscohost'
+    elsif engine_id == 'ebsco_ds'
       query = query.gsub('&', '%26')
       query = "http://proxy.library.cornell.edu/login?url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
 
