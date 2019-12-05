@@ -247,7 +247,7 @@ class SearchController < ApplicationController
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
     elsif engine_id == 'ebscohost'
       query = query.gsub('&', '%26')
-      query = "http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
+      query = "http://proxy.library.cornell.edu/login?url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
 
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
