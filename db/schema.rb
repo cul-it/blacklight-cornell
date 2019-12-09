@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_09_20_143824) do
+ActiveRecord::Schema.define(version: 2019_09_18_190200) do
 
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID"
@@ -183,7 +183,7 @@ ActiveRecord::Schema.define(version: 2017_09_20_143824) do
     t.text "data"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["session_id"], name: "index_sessions_on_session_id"
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
