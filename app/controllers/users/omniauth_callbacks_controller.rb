@@ -72,7 +72,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def saml
-    auth = request.env["omniauth.auth"] 
+
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in omniauth_callbacks_controller saml"
+    puts results.to_yaml
+    Rails.logger.level = save_level
+
+    auth = request.env["omniauth.auth"]
     semail = auth.info.email[0]
     u = User.where(email: semail).first
     if u
