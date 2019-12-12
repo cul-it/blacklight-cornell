@@ -305,7 +305,7 @@ class SearchController < ApplicationController
       # create modified query: (+x +y +z) OR "x y z"
       new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
       # (have to use double quotes; single returns an incorrect result set from Solr!)
-      "(#{new_query}) OR phrase:\"#{search_query}\""
+      search_query = "(#{new_query}) OR phrase:\"#{search_query}\""
     else
       search_query
     end
@@ -318,9 +318,10 @@ class SearchController < ApplicationController
         search_query !~ /AND|OR|NOT/
         #search_query =~ /\w.+?\s\w.+?/
       # create modified query: (+x +y +z) OR "x y z"
-      new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
+      new_query = search_query.split.map {|w| "+\"#{w}\""}.join(' ')
+      Rails.logger.info("BENTO = #{new_query}")
       # (have to use double quotes; single returns an incorrect result set from Solr!)
-      "(#{new_query}) OR phrase:\"#{search_query}\""
+      search_query =  "(#{new_query}) OR phrase:\"#{search_query}\""
     else
       if search_query.first == "'" and search_query.last == "'"
         search_query = search_query.gsub("'","")
