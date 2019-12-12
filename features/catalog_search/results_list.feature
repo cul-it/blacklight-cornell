@@ -277,7 +277,7 @@ Feature: Results list
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
     And I sleep 10 seconds
-    Then I should see the text 'introducing feminist theology'
+    Then I should see the text "Now that we're men"
     Then click on first link "Back to catalog results"
     Then I should get results
 
