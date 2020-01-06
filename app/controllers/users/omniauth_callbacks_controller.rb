@@ -75,7 +75,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in omniauth_callbacks_controller saml"
-    puts results.to_yaml
     Rails.logger.level = save_level
 
     auth = request.env["omniauth.auth"]
