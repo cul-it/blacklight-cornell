@@ -122,7 +122,7 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
-    activerecord-oracle_enhanced-adapter (5.2.6)
+    activerecord-oracle_enhanced-adapter (5.2.8)
       activerecord (~> 5.2.0)
       ruby-plsql (>= 0.6.0)
     activerecord-session_store (1.1.3)
