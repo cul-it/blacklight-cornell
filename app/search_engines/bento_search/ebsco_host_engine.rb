@@ -130,12 +130,6 @@ class BentoSearch::EbscoHostEngine
   def search_implementation(args)
     url = query_url(args)
 
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: ebsco search_implementation"
-    puts 'args: ' + args.to_yaml
-    puts 'url: ' + url.to_yaml
-    Rails.logger.level = save_level
-
     Rails.logger.debug("EbscoHostEngine Search for: #{url}")
 
     results = BentoSearch::Results.new
@@ -163,11 +157,6 @@ class BentoSearch::EbscoHostEngine
          if fault
            results.error[:error_info] = text_if_present fault.at_xpath("./Message")
          end
-
-         save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-         Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: ebsco search_implementation error"
-         puts 'error results: ' + results.to_yaml
-         Rails.logger.level = save_level
 
          return results
     end
