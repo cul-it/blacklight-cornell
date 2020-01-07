@@ -89,7 +89,7 @@ BentoSearch.register_engine('ebsco_ds') do |conf|
 	conf.user_id = ENV['EBSCO_USER']
 	conf.password = ENV['EBSCO_PASSWORD']
 	conf.profile = ENV['EBSCO_PROFILE']
-	conf.title = "EBSCO Discovery Service"
+	conf.title = "Articles & Full Text"
 end
 
 BentoSearch.register_engine('worldcat') do |conf|
