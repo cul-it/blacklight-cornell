@@ -206,6 +206,14 @@ class BentoSearch::EdsEngine
 
         url = construct_search_url(args)
 
+saved_logger_level = Rails.logger.level
+Rails.logger.level = 0
+Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: in catalog search_implementation"
+Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: args: " + args.inspect
+puts 'url: ' + url.to_yaml
+puts 'session_token: ' + session_token.to_yaml
+Rails.logger.level = saved_logger_level
+
         response = get_with_auth(url, session_token)
 
         results = BentoSearch::Results.new
