@@ -91,6 +91,7 @@ BentoSearch.register_engine('ebsco_ds') do |conf|
 	conf.profile = ENV['EBSCO_PROFILE']
 	conf.title = "Articles & Full Text"
 	conf.for_display = {:decorator => "ArticleDecorator"}
+	conf.highlighting = false
 end
 
 BentoSearch.register_engine('worldcat') do |conf|
