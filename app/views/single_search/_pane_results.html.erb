@@ -27,10 +27,14 @@
       <% if key == "libguides" %>
         <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
       <% elsif key == "ebsco_ds" %>
-        <% count = result.total_items && result.total_items > 1 ? result.total_items : '' %>
-        <% all_url = '#' #BentoSearch.get_engine(key).get_with_auth(link_url,123) %>
-        <%= link_to "View All #{count} EBSCO all", all_url, :class => "btn btn-outline-secondary btn-sm" %>
-        <%= link_to "View All #{count} EBSCO", link_url, :class => "btn btn-outline-secondary btn-sm" %>
+        <% auth = BentoSearch.get_engine(key).get_auth_token %>
+        <% all_url = link_url + auth %>
+        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
+          View
+          <%= number_with_delimiter(result.total_items) %>
+          <%= BentoSearch.get_engine(key).configuration.title %>
+          <i class="fa fa-angle-double-right"></i>
+        <% end %>
       <% else %>
       <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
         View
