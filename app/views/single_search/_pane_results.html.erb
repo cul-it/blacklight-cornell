@@ -29,7 +29,7 @@
       <% elsif key == "ebsco_ds" %>
         <% auth = BentoSearch.get_engine(key).get_auth_token %>
         <% bq = ss_encode(params[:q] || params[:query]) %>
-        <% all_url = 'https://eds-a-ebscohost-com.proxy.library.cornell.edu/eds/results?vid=0&bquery=' + bq + '%40sdc-v-sessmgr03&sid=' + auth %>
+        <% all_url = 'http://proxy.library.cornell.edu/login?url=http://search.ebscohost.com/login.aspx?direct=true&site=ehost-live&scope=site&type=1&profid=eit&authtype=ip,sso&custid=s9001366.main.eit&bQuery=' + bq %>
         <%= link_to all_url, :class => "btn btn-outline-secondary btn-sm" do %>
           View
           <%= number_with_delimiter(result.total_items) %>
