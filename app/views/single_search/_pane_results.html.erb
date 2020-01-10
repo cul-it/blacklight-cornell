@@ -27,7 +27,7 @@
       <% if key == "libguides" %>
         <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
       <% elsif key == "ebsco_ds" %>
-        <% bq = CGI.escape(ss_encode(params[:q] || params[:query])) %>
+        <% bq = ss_encode(params[:q] || params[:query]) %>
         <% edsq = {direct: true, authtype: "ip,uid", profile: "wsapi", bQuery: bq } %>
         <% edsuri = URI::HTTP.build(host: 'search.ebscohost.com', query: URI.encode_www_form(edsq)) %>
         <% all_url = 'http://proxy.library.cornell.edu/login?url=' + edsuri.to_s %>
