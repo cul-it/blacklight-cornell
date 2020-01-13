@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class ModifyErmDataDateToDatetime < ActiveRecord::Migration
+class ModifyErmDataDateToDatetime < ActiveRecord::Migration[5.2]
   def up
   if !ActiveRecord::Base.connection.table_exists? "erm_data" 
   create_table "erm_data", id: false, force: true do |t|
