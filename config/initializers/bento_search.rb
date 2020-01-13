@@ -90,7 +90,7 @@ BentoSearch.register_engine('ebsco_ds') do |conf|
 	conf.password = ENV['EBSCO_PASSWORD']
 	conf.profile = ENV['EBSCO_PROFILE']
 	conf.title = "Articles & Full Text"
-	conf.for_display = {:decorator => "ArticleDecorator"}
+	conf.for_display = {:decorator => "EdsArticleDecorator"}
 	conf.highlighting = false
 end
 
@@ -109,7 +109,7 @@ BentoSearch.register_engine('summonArticles') do |conf|
   conf.title = 'Newspaper Articles'
 	conf.access_id =  ENV['SUMMON_ACCESS_ID']
 	conf.secret_key = ENV['SUMMON_SECRET_KEY']
-  conf.for_display = {:decorator => "ArticleDecorator"}
+  conf.for_display = {:decorator => "EdsArticleDecorator"}
   conf.highlighting = false
   # More details on Summon Search API commands here:
   # http://api.summon.serialssolutions.com/help/api/search/commands
