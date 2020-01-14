@@ -9,6 +9,32 @@ GIT
       rails (>= 4.1, < 6)
 
 GIT
+<<<<<<< HEAD
+=======
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: eb6789ed69b91c9e9f504670c71952c1c6187210
+  branch: temporary_patch
+  specs:
+    blacklight_cornell_requests (3.0.4)
+      activerecord-oracle_enhanced-adapter
+      blacklight
+      borrow_direct
+      dotenv
+      dotenv-deployment
+      dotenv-rails
+      exception_notification
+      haml (>= 3.0.0)
+      haml-rails
+      httpclient
+      i18n
+      net-ldap
+      nokogiri
+      protected_attributes_continued
+      rails (~> 5.1)
+      ruby-oci8
+
+GIT
+>>>>>>> 2cedc890deaa063809404d20bdb316454cb7b299
   remote: https://github.com/cul-it/blacklight-unapi
   revision: 8774c50cdd9ffce42a9b6f4e3a1318791c5aff55
   branch: BL7-upgrade
@@ -556,7 +582,7 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    ruby-oci8 (2.2.7)
+    ruby-oci8 (2.2.8)
     ruby-plsql (0.7.1)
     ruby-saml (1.11.0)
       nokogiri (>= 1.5.10)
