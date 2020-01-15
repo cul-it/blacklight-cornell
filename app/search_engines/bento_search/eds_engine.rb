@@ -302,9 +302,11 @@ class BentoSearch::EdsEngine
               next unless link = node.at_xpath("./link")
               next unless link["linkterm"].presence || link["linkTerm"].presence
 
+              link_label = helper.strip_tags(url_item.at_xpath("./Label").to_s)
+
               item.other_links << BentoSearch::Link.new(
                 :url => link["linkterm"] || link["linkTerm"],
-                :label => helper.strip_tags(data_element.text).presence || "Link"
+                :label => link_label.presence || helper.strip_tags(data_element.text).presence || "Link"
                 )
             else
               # it's just a straight URL in data element, with only label we've
