@@ -413,13 +413,6 @@ class BentoSearch::EdsEngine
 
           item.extend CitationMessDecorator
 
-          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in EdsArticleDecorator links"
-          item.other_links.each { |link|
-            puts 'other_links: ' + link.label + ' -> ' + link.url
-          }
-          Rails.logger.level = save_level
-
           # replace the link into EDS search with link to full text
           found = false
           item.other_links.each { |link|
