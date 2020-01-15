@@ -10,7 +10,10 @@ Rails.logger.level = save_level
 
       parts = []
 
-      if self.source_title.present?
+      if self.custom_data[:citation_blob].present?
+        parts << _h.content_tag("span", self.custom_data['citation_blob'], :class => "source_title")
+        parts << ". "
+      elsif self.source_title.present?
         parts << _h.content_tag("span", self.source_title, :class => "source_title")
         parts << ". "
       elsif self.publisher.present?
