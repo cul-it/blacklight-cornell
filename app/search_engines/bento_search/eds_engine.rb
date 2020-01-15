@@ -419,6 +419,17 @@ class BentoSearch::EdsEngine
             puts 'other_links: ' + link.label + ' -> ' + link.url
           }
           Rails.logger.level = save_level
+
+          # replace the link into EDS search with link to full text
+          found = false
+          item.other_links.each { |link|
+            if link.label =~ /online access/i || link.label =~ /access url/i
+              item.link = link.url
+              item.link_is_fulltext = true
+              found = true
+              break
+            end
+          }
           results << item
         end
       end
