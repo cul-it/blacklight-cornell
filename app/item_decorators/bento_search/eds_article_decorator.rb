@@ -3,11 +3,6 @@ module BentoSearch
 
     def render_source_info
 
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in EdsArticleDecorator render_source_info"
-puts self.to_yaml
-Rails.logger.level = save_level
-
       parts = []
 
       if self.custom_data[:citation_blob].present?
