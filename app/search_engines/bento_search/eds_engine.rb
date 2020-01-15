@@ -194,8 +194,6 @@ class BentoSearch::EdsEngine
     return url
   end
 
-
-
   def search_implementation(args)
     results = BentoSearch::Results.new
 
@@ -260,11 +258,6 @@ class BentoSearch::EdsEngine
               item.authors << BentoSearch::Author.new(:display => author_xml.text)
             end
           end
-
-          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in search_implementation"
-          puts "fulltext: " + record_xml.at_xpath("./FullText").to_yaml
-          Rails.logger.level = save_level
 
           # PLink is main inward facing EBSCO link, put it as
           # main link.
