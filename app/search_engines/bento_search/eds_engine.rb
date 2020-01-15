@@ -661,7 +661,7 @@ class BentoSearch::EdsEngine
       "AU" => {:semantic => :author},
       "TI" => {:semantic => :title},
       "SU" => {:semantic => :subject},
-      "SO" => {}, # source, journal name
+      "SO" => {:semantic => :source_title}, # source, journal name
       "AB" => {}, # abstract
       "IS" => {:semantic => :issn},
       "IB" => {:semantic => :isbn},
