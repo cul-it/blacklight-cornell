@@ -37,23 +37,6 @@ class SearchController < ApplicationController
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results.dup
 
-          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in index after search"
-          @results.each do |key, val|
-            puts 'Results key: ' + key
-            # if key == 'ebsco_ds'
-            #   puts 'ebsco values: ' + val.to_yaml
-            # end
-            # if key == 'summon_bento'
-            #   puts 'summon_bento values: ' + val.to_yaml
-            # end
-            # if key == 'solr'
-            #   puts 'solr values: ' + val.to_yaml
-            # end
-          end
-          #puts 'Results: ' + @results['ebsco_ds'].to_yaml
-          Rails.logger.level = save_level
-
           # Reset query to make it show up properly for the user on the results page
           @query = original_query
 
