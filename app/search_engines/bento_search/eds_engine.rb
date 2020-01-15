@@ -430,6 +430,18 @@ class BentoSearch::EdsEngine
               break
             end
           }
+          if !found
+            item.other_links.each { |link|
+              if link.label =~ /full text/i
+                item.link = link.url
+                item.link_is_fulltext = true
+                found = true
+                break
+              end
+            }
+          end
+          item.other_links = []
+
           results << item
         end
       end
