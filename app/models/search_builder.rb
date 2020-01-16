@@ -50,7 +50,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present? || blacklight_params["controller"] == "book_bags"
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
- 
+    # fix return to search links 
     if blacklight_params[:q_row].present? and blacklight_params[:q].present?
       blacklight_params.delete('q')
     end
