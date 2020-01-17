@@ -4,7 +4,7 @@
     <% link_url = ss_uri_encode(link_url) %>
   <% end %>
   <h2 class="search-source">
-    <% unless key == "libuides" %>
+    <% unless key == "libguides" %>
     <%= link_to link_url, :title => "View all" do %>
       <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
       <%= BentoSearch.get_engine(key).configuration.title %>
