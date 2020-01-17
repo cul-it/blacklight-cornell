@@ -58,6 +58,9 @@ module SingleSearchHelper
     when "digitalCollections"
       link = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
     else
+      # our app chooses to use 'q' as the query param; the ajax loading controller
+      # uses 'query'.This ordinarily is fine, but since we want this layout to work
+      # for both, we have to look for both, oh well.
       link = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
       link = request.protocol + request.host_with_port + '/' + link
     end
