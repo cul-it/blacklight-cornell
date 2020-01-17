@@ -31,7 +31,7 @@ gem 'blacklight_range_limit', '~> 7.0'
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 gem 'kaminari', '>= 0.15'
 
-gem 'blacklight-hierarchy', :git => 'https://github.com/cul-it/blacklight-cornell-hierarchy', :branch => 'master'
+gem 'blacklight-hierarchy'
 gem 'htmlentities'
 gem 'json'
 gem 'httpclient'
