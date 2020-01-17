@@ -4,8 +4,8 @@ if File.exists? yaml_file
   if profiles.present? and profiles.has_key? Rails.env
     Rails.application.config.eds_profiles = profiles[Rails.env]
   else
-    Rails.logger.silence_warnings "No configuration found for #{Rails.env} environment in config/eds.yml"
+    Rails.logger.info "No configuration found for #{Rails.env} environment in config/eds.yml"
   end
 else
-  Rails.logger.silence_stderr 'File not found: config/eds.yml'
+  Rails.logger.info 'File not found: config/eds.yml'
 end
