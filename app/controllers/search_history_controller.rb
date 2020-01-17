@@ -5,11 +5,14 @@ class SearchHistoryController < ApplicationController
   helper RangeLimitHelper
 
   def set_return_path
+save_level = Rails.logger.level; Rails.logger.level = Logger::DEBUG
+Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in SearchHistoryController set_return_path"
+
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
-    if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
-      op = session[:cuwebauth_return_path]  
+    if op.include?('logins') && !session[:cuwebauth_return_path].blank?
+      op = session[:cuwebauth_return_path]
     end
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
@@ -27,6 +30,9 @@ class SearchHistoryController < ApplicationController
         op
       end
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+
+Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: leaving SearchHistoryController set_return_path"
+Rails.logger.level = save_level
     return true
   end
 

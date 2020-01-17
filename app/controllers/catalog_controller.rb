@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
-  
+
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
+  include Blacklight::DefaultComponentConfiguration
 #  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
-  include Blacklight::DefaultComponentConfiguration
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
@@ -457,7 +457,7 @@ config.add_search_field('title_starts',:label => "Title Begins With", :include_i
    # :pf => '$title_starts_pf'
   }
 end
-    
+
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
     config.add_search_field('author/creator',:label => "Author") do |field|
@@ -551,7 +551,7 @@ end
 #         :pf => '$notes_pf'
        }
     end
-    
+
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -948,7 +948,7 @@ end
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
-  def logins 
+  def logins
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
@@ -1154,10 +1154,10 @@ def tou
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
          elsif params[:search_field] == 'callnumber_browse' && !params[:id]
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
-         end 
+         end
        end
      end
-  
+
 #  def range_limit
 #    redirect_to "/"
 #  end
