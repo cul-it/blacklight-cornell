@@ -37,6 +37,7 @@
 
 //= require print_button.js
 //= require pops.js
+//= require subject_browse.js
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
