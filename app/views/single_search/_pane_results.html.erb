@@ -1,14 +1,11 @@
 <div class="<%= key %> bento_compartment" id="<%= key.tr(" ", "_") %>">
   <% if result %>
-    <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-    <% link_url = ss_uri_encode(link_url) %>
+    <% link_url = bento_all_results_link(key) %>
   <% end %>
   <h2 class="search-source">
-    <% unless key == "libuides" %>
     <%= link_to link_url, :title => "View all" do %>
       <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
       <%= BentoSearch.get_engine(key).configuration.title %>
-    <% end %>
     <% end %>
   </h2>
 </div>
@@ -16,23 +13,12 @@
   <% # our app chooses to use 'q' as the query param; the ajax loading controller %>
   <% # uses 'query'.This ordinarily is fine, but since we want this layout to work %>
   <% # for both, we have to look for both, oh well. %>
-  <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-  <% if key != 'summon_bento' && key != "digitalCollections" && key != 'ebsco_ds' %>
-    <% link_url = request.protocol + request.host_with_port + '/' + link_url %>
-  <% end %>
-  <% if result %>
     <%= bento_search result  %>
-    <% link_url = ss_uri_encode(link_url) %>
     <div class="view-all">
       <% if key == "libguides" %>
         <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
       <% elsif key == "ebsco_ds" %>
-        <% bq = ss_encode(params[:q] || params[:query]) %>
-        <% edsq = {direct: true, authtype: "ip,uid", profile: "eds", bQuery: bq,
-        custid: "s9001366", groupid: "main" } %>
-        <% edsuri = URI::HTTP.build(host: 'search.ebscohost.com', query: URI.encode_www_form(edsq)) %>
-        <% all_url = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + edsuri.to_s %>
-        <%= link_to all_url, :class => "btn btn-outline-secondary btn-sm" do %>
+        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
           View
           <%= number_with_delimiter(result.total_items) %>
           <%= BentoSearch.get_engine(key).configuration.title %>
@@ -84,5 +70,4 @@
 
 
     </div>
-  <% end %>
 <% end %>
