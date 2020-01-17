@@ -1,8 +1,6 @@
 <div class="<%= key %> bento_compartment" id="<%= key.tr(" ", "_") %>">
   <% if result %>
-    <%= "All Results Link: " + all_results_link(key, result) %>
-    <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-    <% link_url = ss_uri_encode(link_url) %>
+    <% link_url = bento_all_results_link(key) %>
   <% end %>
   <h2 class="search-source">
     <% unless key == "libguides" %>
