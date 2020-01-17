@@ -43,7 +43,7 @@ module SingleSearchHelper
     end
   end
 
-  def all_results_link(key, result)
+  def bento_all_results_link(key)
     case key
     when "libguides"
       link = 'http://guides.library.cornell.edu/libguides/home'
