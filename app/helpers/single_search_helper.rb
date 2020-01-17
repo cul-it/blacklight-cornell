@@ -43,4 +43,10 @@ module SingleSearchHelper
     end
   end
 
+  def all_results_link(key, result)
+    link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+    link_url = ss_uri_encode(link_url)
+
+  end
+
 end
