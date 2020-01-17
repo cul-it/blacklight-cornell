@@ -53,19 +53,19 @@ class SearchController < ApplicationController
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
 
-          if !@results['summon_bento'].nil?
-            @results['summon_bento'].each do |result|
-              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
-            end
-          end
-          if !@results['summonArticles'].nil?
-            @results['summonArticles'].each do |result|
-              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
-            end
-          end
+          # if !@results['summon_bento'].nil?
+          #   @results['summon_bento'].each do |result|
+          #     result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+          #   end
+          # end
+          # if !@results['summonArticles'].nil?
+          #   @results['summonArticles'].each do |result|
+          #     result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+          #   end
+          # end
           # if !@results['ebsco_ds'].nil?
           #   @results['ebsco_ds'].each do |result|
-          #     result.link = 'http://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
+          #     result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
           #   end
           # end
 
@@ -210,7 +210,7 @@ class SearchController < ApplicationController
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
     elsif engine_id == 'ebsco_ds'
       query = query.gsub('&', '%26')
-      query = "http://proxy.library.cornell.edu/login?url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
+      query = "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
 
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
