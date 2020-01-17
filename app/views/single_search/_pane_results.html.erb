@@ -3,11 +3,9 @@
     <% link_url = bento_all_results_link(key) %>
   <% end %>
   <h2 class="search-source">
-    <% unless key == "libguides" %>
     <%= link_to link_url, :title => "View all" do %>
       <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
       <%= BentoSearch.get_engine(key).configuration.title %>
-    <% end %>
     <% end %>
   </h2>
 </div>
