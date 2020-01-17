@@ -14,5 +14,5 @@ class CreateBookmarks < ActiveRecord::Migration[5.2]
   def self.down
     drop_table :bookmarks
   end
-  
+
 end

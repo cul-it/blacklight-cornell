@@ -4,12 +4,14 @@ BlacklightCornell::Application.routes.draw do
 # as option causing invalid route name, already in use error
 #  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
   match 'catalog/unapi', :to => "catalog#unapi", :via => [:get]
-  
+
   Blacklight::Marc.add_routes(self)
 
   root :to => "catalog#index"
 
   mount Blacklight::Engine => '/'
+
+  mount BlacklightEds::Engine, at: "eds"
 
   concern :searchable, Blacklight::Routes::Searchable.new
   concern :exportable, Blacklight::Routes::Exportable.new
@@ -23,7 +25,7 @@ BlacklightCornell::Application.routes.draw do
 resources :solr_documents, except: [:index], path: '/catalog', controller: 'catalog' do
       concerns :exportable
 end
-  
+
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
@@ -80,7 +82,7 @@ devise_for :users, controllers: {
   get '/browse_subject' => 'browse#index_subject', :as => 'browse_index_subject'
   get '/browse/heading_subject' => 'browse#show_subject', :as => 'browse_show_subject'
   get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
-  
+
 
   match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
   get '/databases' => 'databases#index', :as => 'databases_index'
@@ -158,7 +160,7 @@ devise_for :users, controllers: {
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
- 
+
   # Bookbag routes.
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
