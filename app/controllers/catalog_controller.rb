@@ -3,7 +3,7 @@ class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
-#  include Blacklight::DefaultComponentConfiguration
+  include Blacklight::DefaultComponentConfiguration
 #  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
