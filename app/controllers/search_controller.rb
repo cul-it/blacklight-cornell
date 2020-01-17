@@ -36,8 +36,8 @@ class SearchController < ApplicationController
           #searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
           searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :web, :bestbet, :digitalCollections, :libguides)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
-          #@results = searcher.results.dup
-          @results = searcher.results
+          @results = searcher.results.dup
+          #@results = searcher.results
 
           # Reset query to make it show up properly for the user on the results page
           @query = original_query
