@@ -34,7 +34,7 @@ class SearchController < ApplicationController
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :ebsco_ds, :web, :bestbet, :summonArticles)
           #searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
-          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :web, :bestbet, :digitalCollections, :libguides)
+          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :bestbet, :digitalCollections, :libguides)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results.dup
           #@results = searcher.results
