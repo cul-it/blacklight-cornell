@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class InsertErmData < ActiveRecord::Migration[5.2]
   def up
-  if !ActiveRecord::Base.connection.table_exists? "erm_data" 
+  if !ActiveRecord::Base.connection.table_exists? "erm_data"
    create_table "erm_data", :id => false, :force => true do |t|
     t.integer "id"
     t.string  "Collection_Name",                                  :limit => 128
