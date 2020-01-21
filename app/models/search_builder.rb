@@ -46,6 +46,13 @@ class SearchBuilder < Blacklight::SearchBuilder
     query_string = ""
     qparam_display = ""
     my_params = {}
+    if !blacklight_params[:search_field_row].nil? and blacklight_params[:search_field_row[0]] == "publisher number/other identifier"
+      blacklight_params[:search_field_row[0]] = "number"
+    end
+    if !blacklight_params[:search_field].nil? and blacklight_params[:search_field] == "publisher number/other identifier"
+      blacklight_params[:search_field] = "number"
+    end
+
 
     user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present? || blacklight_params["controller"] == "book_bags"
 
