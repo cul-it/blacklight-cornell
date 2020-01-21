@@ -227,6 +227,8 @@ form.range_limit {
 #facets ul.facet-hierarchy li.h-node.twiddle-open {
 	list-style-image: none;
 }
+/* Commenting these two out. The open and close icons are now controlled
+/* in the blacklight_hierarchy initializer.
 #facets ul.facet-hierarchy li.h-node:before {
 	font-family: FontAwesome;
 	display: inline-block;
@@ -238,6 +240,10 @@ form.range_limit {
 }
 #facets ul.facet-hierarchy li.h-node.twiddle-open:before {
 	content: "\f147";
+}
+*/
+button.toggle-handle {
+	background-color: #fff;
 }
 .h-node {
 	ul {
