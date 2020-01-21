@@ -1,19 +1,9 @@
 GIT
-  remote: https://github.com/cul-it/blacklight-cornell-hierarchy
-  revision: 0da279f3df0d94e76aac4675f12c73820cc4672f
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: 06d0ac46a63e8e53aab4f5bd2edf01197a31172d
   branch: master
   specs:
-    blacklight-hierarchy (2.0.0)
-      blacklight (>= 6, < 8)
-      jquery-rails
-      rails (>= 4.1, < 6)
-
-GIT
-  remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: eb6789ed69b91c9e9f504670c71952c1c6187210
-  branch: temporary_patch
-  specs:
-    blacklight_cornell_requests (3.0.4)
+    blacklight_cornell_requests (3.0.5)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -172,6 +162,10 @@ GEM
       kaminari (>= 0.15)
       nokogiri (~> 1.6)
       rails (~> 5.1)
+    blacklight-hierarchy (4.0.0)
+      blacklight (> 6.20, < 8.0)
+      jquery-rails
+      rails (>= 5.1, < 7)
     blacklight-marc (6.2.0)
       blacklight (> 6.1, < 8.a)
       library_stdnums
@@ -680,7 +674,7 @@ DEPENDENCIES
   awesome_print
   bento_search
   blacklight (= 7.0.1)
-  blacklight-hierarchy!
+  blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
   blacklight_eds!
