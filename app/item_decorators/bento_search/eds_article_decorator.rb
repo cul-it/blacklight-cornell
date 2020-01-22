@@ -32,7 +32,16 @@ module BentoSearch
     end
 
   def render_citation_details
-    return nil
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in EdsArticleDecorator render_citation_details"
+    puts 'custom_data: ' + self.custom_data.to_yaml
+    Rails.logger.level = save_level
+    result_elements = []
+    result_elements.push  self.custom_data[:citation_blob]
+
+    return nil if result_elements.empty?
+
+    return result_elements.join(", ").html_safe
   end
 
 end
