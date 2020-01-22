@@ -44,5 +44,20 @@ module BentoSearch
     return result_elements.join(", ").html_safe
   end
 
+  # debugging jgr25
+  # Mix-in a default missing title marker for empty titles
+  # (Used to combine title and subtitle when those were different fields)
+  def complete_title
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in EdsArticleDecorator complete_title"
+    puts 'self: ' + self.to_yaml
+    Rails.logger.level = save_level
+    if self.title.present?
+      self.title
+    else
+      I18n.translate("bento_search.missing_title")
+    end
+  end
+
 end
 end
