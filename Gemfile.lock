@@ -53,10 +53,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: c315994c0374bff57a0784222004cec42a40524d
+  revision: d00cbe612eb7495771c86b74344a3250f0d8b529
   branch: dev
   specs:
-    my_account (1.0.3)
+    my_account (1.0.6)
       blacklight (>= 7.0)
       borrow_direct
       rails (~> 5.1)
@@ -715,7 +715,7 @@ DEPENDENCIES
   mini_racer
   mollom
   my_account!
-  mysql2
+  mysql2 (= 0.5.2)
   net-ldap
   nokogiri
   omniauth

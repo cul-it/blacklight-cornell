@@ -19,7 +19,7 @@ group :development,:test, :integration do
 end
 
 group :production,:staging do
-  gem 'mysql2'
+  gem 'mysql2', '0.5.2'
 end
 
 gem 'savon', '~> 2.11.1'
