@@ -415,6 +415,7 @@ class BentoSearch::EdsEngine
 
           # replace the link into EDS search with link to full text
           found = false
+          original_item_link = item.link
           item.other_links.each { |link|
             if link.label =~ /online access/i || link.label =~ /access url/i
               item.link = link.url
@@ -433,7 +434,13 @@ class BentoSearch::EdsEngine
               end
             }
           end
-          item.other_links = []
+          # item.other_links = []
+          if item.other_links.present?
+            item.other_links << BentoSearch::Link.new(
+              :url => original_item_link,
+              :label => 'Original Link'
+            )
+           end
 
           results << item
         end
