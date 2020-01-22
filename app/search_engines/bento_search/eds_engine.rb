@@ -202,6 +202,8 @@ class BentoSearch::EdsEngine
     begin
       with_session(end_user_auth) do |session_token|
 
+        hit_count = args[:per_page]
+        args[:per_page] = hit_count * 7
         url = construct_search_url(args)
 
         response = get_with_auth(url, session_token)
@@ -213,6 +215,13 @@ class BentoSearch::EdsEngine
         end
 
         response.xpath("./SearchResponseMessageGet/SearchResult/Data/Records/Record").each do |record_xml|
+
+          # remove restricted results titled 'Record Not Available -- log in to see full results'
+          access_level = record_xml.at_xpath("./Header/AccessLevel").try(:text)
+          next if access_level.to_i < 3
+          hit_count -= 1
+          break if hit_count < 0
+
           item = BentoSearch::ResultItem.new
 
           item.title   = prepare_eds_payload( element_by_group(record_xml, "Ti"), true )
@@ -440,8 +449,7 @@ class BentoSearch::EdsEngine
               :url => original_item_link,
               :label => 'Original Link'
             )
-           end
-
+          end
           results << item
         end
       end
