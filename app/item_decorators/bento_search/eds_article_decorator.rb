@@ -16,9 +16,9 @@ module BentoSearch
         parts << ". "
       end
 
-      # if text = self.render_citation_details
-      #   parts << text << "."
-      # end
+      if text = self.render_citation_details
+        parts << text << "."
+      end
 
       return _h.safe_join(parts, "")
     end
