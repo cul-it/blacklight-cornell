@@ -32,10 +32,6 @@ module BentoSearch
     end
 
   def render_citation_details
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in EdsArticleDecorator render_citation_details"
-    puts 'custom_data: ' + self.custom_data.to_yaml
-    Rails.logger.level = save_level
     result_elements = []
     result_elements.push  self.custom_data[:citation_blob]
 
@@ -48,10 +44,6 @@ module BentoSearch
   # Mix-in a default missing title marker for empty titles
   # (Used to combine title and subtitle when those were different fields)
   def complete_title
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: in EdsArticleDecorator complete_title"
-    puts 'self: ' + self.to_yaml
-    Rails.logger.level = save_level
     if self.title.present?
       self.title
     else

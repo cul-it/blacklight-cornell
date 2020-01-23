@@ -422,7 +422,9 @@ class BentoSearch::EdsEngine
 
           item.extend CitationMessDecorator
 
-          # item.other_links = []
+          # removes the links to Get It! Cornell and others from bottom of bento search result
+          item.other_links = []
+
           results << item
         end
       end
