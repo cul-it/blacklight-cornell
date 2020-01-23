@@ -53,7 +53,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 116aa7a09db030cafce34c382373fa9691b3f8c9
+  revision: 0987cc066bebb28b9df46ed76ba29d95df2b2dd7
   branch: dev
   specs:
     my_account (1.1.0)
