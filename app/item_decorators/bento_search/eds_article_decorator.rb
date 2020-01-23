@@ -16,9 +16,9 @@ module BentoSearch
         parts << ". "
       end
 
-      # if text = self.render_citation_details
-      #   parts << text << "."
-      # end
+      if text = self.render_citation_details
+        parts << text << "."
+      end
 
       return _h.safe_join(parts, "")
     end
@@ -32,7 +32,12 @@ module BentoSearch
     end
 
   def render_citation_details
-    return nil
+    result_elements = []
+    result_elements.push  self.custom_data[:citation_blob]
+
+    return nil if result_elements.empty?
+
+    return result_elements.join(", ").html_safe
   end
 
 end
