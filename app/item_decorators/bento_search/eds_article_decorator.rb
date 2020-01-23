@@ -40,16 +40,5 @@ module BentoSearch
     return result_elements.join(", ").html_safe
   end
 
-  # debugging jgr25
-  # Mix-in a default missing title marker for empty titles
-  # (Used to combine title and subtitle when those were different fields)
-  def complete_title
-    if self.title.present?
-      self.title
-    else
-      I18n.translate("bento_search.missing_title")
-    end
-  end
-
 end
 end
