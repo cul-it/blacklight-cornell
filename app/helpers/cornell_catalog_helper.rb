@@ -1615,8 +1615,10 @@ end
 	  col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
 	  location = Hash(holdings_condensed[holding])
 
-	  col_loc << location["location"]["name"] unless location.blank?
-  end
+	  if location["location"].present? && location["location"]["name"].present?
+			col_loc << location["location"]["name"]
+	  end
+	end
 
 	description = []
 	description << document['subtitle_display'] unless document['subtitle_display'].blank?
