@@ -217,7 +217,12 @@ class BentoSearch::EdsEngine
           results.total_items = 0
         end
 
-        response.xpath("./SearchResponseMessageGet/SearchResult/Data/Records/Record").each do |record_xml|
+        total_hit_count = results.total_items
+        args[:per_page] = required_hit_count
+        max_page = (results.total_items / required_hit_count).ceil()
+        for page in 1..max_page do
+          args[:page] = page
+          url = construct_search_url(args)
 
           # remove restricted results titled 'Record Not Available -- log in to see full results'
           access_level = record_xml.at_xpath("./Header/AccessLevel").try(:text)
@@ -431,8 +436,13 @@ class BentoSearch::EdsEngine
           results << item
         end
       end
+          end # respons each do
+          break if required_hit_count < 0
+        end # for
+      end # with_session
 
       return results
+    #end # begin
     rescue EdsCommException => e
       results.error ||= {}
       results.error[:exception] = e
@@ -440,8 +450,7 @@ class BentoSearch::EdsEngine
       results.error[:http_body] = e.http_body
       return results
     end
-
-  end
+  end # search_implementation
 
   # Difficult to get individual elements out of an EDS XML <Record>
   # response, requires weird xpath, so we do it for you.
