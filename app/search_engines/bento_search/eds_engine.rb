@@ -224,23 +224,17 @@ class BentoSearch::EdsEngine
           args[:page] = page
           url = construct_search_url(args)
 
-          # remove restricted results titled 'Record Not Available -- log in to see full results'
-          access_level = record_xml.at_xpath("./Header/AccessLevel").try(:text)
-          next if access_level.to_i < 3
-          hit_count -= 1
-          break if hit_count < 0
+          response = get_with_auth(url, session_token)
 
-          item = BentoSearch::ResultItem.new
+          response.xpath("./SearchResponseMessageGet/SearchResult/Data/Records/Record").each do |record_xml|
 
-          item.title   = prepare_eds_payload( element_by_group(record_xml, "Ti"), true )
+            # remove restricted results titled 'Record Not Available -- log in to see full results'
+            access_level = record_xml.at_xpath("./Header/AccessLevel").try(:text)
 
-          # To get a unique id, we need to pull out db code and accession number
-          # and combine em with colon, accession number is not unique by itself.
-          db           = record_xml.at_xpath("./Header/DbId").try(:text)
-          accession    = record_xml.at_xpath("./Header/An").try(:text)
-          if db && accession
-            item.unique_id    = "#{db}:#{accession}"
-          end
+            # access level 1 shows 'Record Not Available -- log in to see full results' for title
+            next if access_level.to_i < 2
+            required_hit_count -= 1
+            break if required_hit_count < 0
 
 
           if item.title.nil? && ! end_user_auth
