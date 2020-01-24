@@ -119,13 +119,10 @@ module Blacklight::Bookmarks
         elsif @bookmarks.any?
           flash[:error] = I18n.t('blacklight.bookmarks.add.failure', count: @bookmarks.length)
         end
-  
+
         redirect_back fallback_location: bookmarks_path
       end
     rescue RangeError => msg
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: params: " + params.inspect
-      Rails.logger.level = save_level
       render :partial => '/bookmarks/selected_item_limit'
       #redirect_to '/bookmarks/show_selected_item_limit_bookmarks'
       #render(plain: msg, status: "500")
