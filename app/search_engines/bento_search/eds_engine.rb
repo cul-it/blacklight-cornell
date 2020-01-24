@@ -202,8 +202,9 @@ class BentoSearch::EdsEngine
     begin
       with_session(end_user_auth) do |session_token|
 
-        hit_count = args[:per_page]
-        args[:per_page] = hit_count * 7
+        # first time just get total item count
+        required_hit_count = args[:per_page]
+        args[:per_page] = 0
         url = construct_search_url(args)
 
         response = get_with_auth(url, session_token)
@@ -212,6 +213,8 @@ class BentoSearch::EdsEngine
 
         if (hits_node = at_xpath_text(response, "./SearchResponseMessageGet/SearchResult/Statistics/TotalHits"))
           results.total_items = hits_node.to_i
+        else
+          results.total_items = 0
         end
 
         response.xpath("./SearchResponseMessageGet/SearchResult/Data/Records/Record").each do |record_xml|
