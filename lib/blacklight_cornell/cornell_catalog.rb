@@ -20,7 +20,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
       op = session[:cuwebauth_return_path]  
     end
-    op.sub!('/range_limit','')
+    op.dup.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
     refp = request.referer
     refp =""
@@ -188,7 +188,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = display[1]
      end
      end
-  
+      #params[:mm] = "100"
+      params[:mm] = "1"
  #      params[:q] = '"journal of parasitology"'
  #     params[:search_field] = 'quoted'
     #params[:sort]= ''
@@ -304,8 +305,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
   def setup_next_and_previous_documents
+    
     query_params = session[:search] ? session[:search].dup : {}
-
 #    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
 #       check_params(query_params)
 #    else
@@ -320,6 +321,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
+      if query_params[:per_page].nil?
+        query_params[:per_page] = '20'
+      end
       search_session['per_page'] = query_params[:per_page]
       @search_context_response = response
       @previous_document = documents.first
@@ -576,9 +580,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     def delete_or_assign_search_session_params
       session[:search] = {}
       params.each_pair do |key, value|
-        value = value.to_unsafe_h if key == "f"
-        session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
-          value.blank?
+        if !value.nil?
+          value = value.to_unsafe_h if key == "f"
+          session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
+            value.blank?
+        end
       end
       session[:gearch] = {}
       params.each_pair do |key, value|

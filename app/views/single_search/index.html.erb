@@ -9,6 +9,7 @@
             </div>
             <div class="advanced-search-link col-md-4">
               <%= link_to 'Catalog Advanced Search', '/advanced' %>
+                    <%#= params[:q].inspect %>
             </div>
           </div>
         </div>
@@ -21,7 +22,7 @@
       <div class="card card-well">
         <div class="card-body">
           <div class="search-info">
-            <a href="#about-this-search" class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
+            <a href="#" class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
               <i class="fa fa-info-circle" aria-hidden="true"></i>
               About this search
             </a>
@@ -102,8 +103,7 @@
                         <% if !result.empty? and result.total_items > 0 %>
                           <li>
                             <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
-                            <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-                            <% link_url = ss_uri_encode(link_url) %>
+                            <% link_url = bento_all_results_link(key) %>
                             <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :class => "facet_link_" + downcast(key) do %>
                               <%= BentoSearch.get_engine(key).configuration.title %>
                               <!-- ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])

@@ -101,7 +101,6 @@ h2.advanced-search { margin: 0; }
     }
     .tips-link {
       font-weight: normal;
-      color: $link-primary;
       text-transform: none;
     }
   }
@@ -123,21 +122,15 @@ h2.advanced-search { margin: 0; }
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
 
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
   .search-bar {
     padding-bottom: 1em;
   }
@@ -147,20 +140,19 @@ h2.advanced-search { margin: 0; }
   }
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) {
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
   .search-nav {
     padding-left: 15px;
+    margin-top: .5em;
     li {
       font-size: 13px;
     }
-  }
-  .search-nav {
-    margin-top: .5em;
     .nav {
       float: right;
     }
   }
 }
 
-
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

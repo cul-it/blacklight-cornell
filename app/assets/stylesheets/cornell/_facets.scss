@@ -201,48 +201,10 @@ form.range_limit {
 
 // Hierarchical call number facet
 // ------------------------------------
-.facet-hierarchy {
-	li,
-	.facet_select,
-	.selected {
-		margin-bottom: 8px;
-	}
-	ul {
-		margin-top: .5em;
-		margin-bottom: 1em;
-	}
-}
-// Gem overrides
-#facets ul.facet-hierarchy {
-	margin-left: 0;
-}
+
+// Indent child lists - default has no indentation
 #facets ul.facet-hierarchy ul {
-	margin-left: 16px;
-}
-#facets ul.facet-hierarchy ul li {
-	margin-left: 15px;
-	margin-bottom: 6px;
-}
-#facets ul.facet-hierarchy li.h-node,
-#facets ul.facet-hierarchy li.h-node.twiddle-open {
-	list-style-image: none;
-}
-#facets ul.facet-hierarchy li.h-node:before {
-	font-family: FontAwesome;
-	display: inline-block;
-	content: "\f196";
-	cursor: pointer;
-	margin-right: 5px;
-	vertical-align: middle;
-	color: $dark-gray;
-}
-#facets ul.facet-hierarchy li.h-node.twiddle-open:before {
-	content: "\f147";
-}
-.h-node {
-	ul {
-		list-style-type: square;
-	}
+	margin-left: 14px;
 }
 
 // MEDIA QUERIES

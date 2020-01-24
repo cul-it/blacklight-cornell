@@ -38,12 +38,16 @@
 	      Availability
 	    </div>
 	    <div class="card-block">
-	      <%# finding aid %>
-	      <% if finding_aid(@document) %>
-	        <% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
+	      <%# check the document rather than the finding_aid() method %>
+	      <% if @document['url_findingaid_display'].present? %>
+				<% if @document['url_findingaid_display'].size == 1 %>
+					<% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
+				<% else %>
+					<% url_findingaid_display = render_display_link :value => @document['url_findingaid_display'], :field => 'url_findingaid_display', :format => 'default'%>
+				<% end %>
 	        <% if url_findingaid_display.present? %>
 	          <span class="url_findingaid_display" id="finding_aid">
-	            <i class="fa fa-check" alt="" aria-hidden="true"></i><%= url_findingaid_display %>
+	            <i class="fa fa-check" aria-hidden="true"></i><%= url_findingaid_display %>
               </span>
 	        <% end %>
 	      <% end %>
@@ -56,12 +60,11 @@
 	        <%# online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
 	        <!-- render display link end -->
 	        <div class="holdings-online">
-	          <div class="online-label">
-	           	        <% if is_online? @document %>
-	           
-	            <i class="fa fa-check" alt="" aria-hidden="true"></i>Online
-	            <%end %>
-	        </div>
+	        	<% if is_online? @document %>
+	        		<div class="online-label">
+	            		<i class="fa fa-check" aria-hidden="true"></i>Online
+	        		</div>
+	        	<%end %>
 	        <ul class="list-unstyled">
 	        
 	         <% if @document["holdings_json"].present? %>
@@ -135,12 +138,12 @@
 	                          </div>
 	                          <% if link["dbcode"].present? && link["providercode"].present? %>  
 	                             <span class="terms-of-use">
-		                         <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
+	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
+		                         	<a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                         </span>
 	                          <% end %>
 	                        </div>
 	                    </li>
-	                    <HR>
 	              <%# end %>
                   		
                   		
@@ -223,7 +226,7 @@
 	              <% formats = f["format"].split(",") %>
 	                <% formats.each do |format| %>
 	                  <span class="other-form-format">
-	                    <i class="fa fa-<%= formats_icon_mapping(format) %>" alt="" aria-hidden="true"></i><%= format %>
+	                    <i class="fa fa-<%= formats_icon_mapping(format) %>" aria-hidden="true"></i><%= format %>
 	                  </span>
 	                <% end %>
 	                <% if f["pub_date"].present? %>

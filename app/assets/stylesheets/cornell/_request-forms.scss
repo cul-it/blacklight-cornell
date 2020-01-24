@@ -101,22 +101,8 @@ div.request-options div.accordion-body .span4 {
 
 .request-options {
   margin-top: 5px;
-
   tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
     {background-color: $white;}
-
-  // thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-  //   background-color: $light-tan;
-  //   color: $gray;
-  // }
-
-  // Add this to make thead always have a tan background because after adding caption to table it turns white
-  // thead {
-  //   th {
-  //     background-color: $light-tan;
-  //   }
-  // }
-
   caption {
     color: $medium-gray;
     text-align: center;
@@ -150,15 +136,26 @@ div.request-options div.accordion-body .span4 {
     color: $green;
   }
 }
-
-
+ 
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
   .ill-link {
     margin-top: 0;
   }
 }
- 
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

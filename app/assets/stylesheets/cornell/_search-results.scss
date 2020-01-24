@@ -142,11 +142,6 @@ body.book_bags-index #documents .document {
 		margin-left: -15px;
 	}
 }
-.label-online {
-	background: $teal;
-	font-weight: normal;
-}
-.label-online:hover { background: $dark-teal; }
 .form-horizontal {
 	.toggle_bookmark {
 		padding-top: 0;
@@ -191,8 +186,15 @@ h4.suggest {
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) {
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}
@@ -209,11 +211,8 @@ h4.suggest {
 	}
 }
 
-// Medium devices (desktops, 992px and up)
-// @media (min-width: $screen-md) {
-	
-// }
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
 
-// Large devices (large desktops, 1200px and up)
-// @media (min-width: $screen-lg) {
-// }
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

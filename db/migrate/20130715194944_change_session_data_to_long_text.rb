@@ -1,4 +1,4 @@
-class ChangeSessionDataToLongText < ActiveRecord::Migration
+class ChangeSessionDataToLongText < ActiveRecord::Migration[5.2]
   def up
   	change_column :sessions, :data, :longtext
   end

@@ -9,7 +9,6 @@ module CornellCatalogHelper
 
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
-    Rails.logger.info("EXPANDABLE_SEARCH: " + params.inspect)
     params[:q].present? and !params[:advanced_search] and !params[:click_to_search]
   end
 
@@ -1604,12 +1603,21 @@ end
 	pub_disc << document['pub_info_display'].join(' ') unless document['pub_info_display'].blank?
 	pub_disc << document['description_display'] unless document['description_display'].blank?
 	#holdings_condensed = create_condensed_full(document)
-	holdings_condensed = JSON.parse(document[:holdings_record_display][0]).with_indifferent_access
+	
+	holdings_condensed = JSON.parse(document[:holdings_json]).with_indifferent_access
+	  
 	#holdings_condensed = create_condensed_full(document)
-	holdArray = document['holdings_record_display'].to_a
+	holdArray = document['holdings_display'].to_a
+	
 	col_loc = []
-	col_loc << holdings_condensed['callnos'][0] unless holdings_condensed['callnos'].nil? 
-	col_loc << holdings_condensed['locations'][0]['name'] unless document['holdings_record_display'].blank?
+	holdArray = holdArray[0].split('|')
+	holdArray.each do |holding|
+	  col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil? 
+	  location = Hash(holdings_condensed[holding])
+	
+	  col_loc << location["location"]["name"] unless location.blank?
+  end
+  
 	description = []
 	description << document['subtitle_display'] unless document['subtitle_display'].blank?
 	description << pub_disc.join(' -- ') unless pub_disc.blank?

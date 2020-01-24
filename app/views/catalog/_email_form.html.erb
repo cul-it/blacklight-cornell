@@ -21,18 +21,24 @@
       </label>
       <%= text_area_tag :message, params[:message], :class => "form-control" %>
     </div>
+	<%# 
+		Commented out the temp locations. The method in cornell_params_helper was identical to
+		getLoctions (until the DISCOVERYACCESS-5573 update), and there isn't anything in the holdings
+		that identify temporary locations. Leaving the pieces here in case the requirements get defined.
+		tlw72
+	%>
     <% @callNosArray = [] %>
     <% @locationNameArray = [] %>
-    <% @tempLocationsArray = [] %>
+    <%# @tempLocationsArray = [] %>
     <% @statusArray = [] %>
     <% @documents.each do |doc| %>
       <% @locationNameArray.push(getLocations(doc)) %>
-      <% @tempLocationsArray.push(getTempLocations(doc))%>
+      <%# @tempLocationsArray.push(getTempLocations(doc))%>
       <% @callNosArray.push(getCallNos(doc))%>
       <% @statusArray.push(getItemStatus(doc))%>
       <%=hidden_field_tag "id[]", doc.id %>
       <%=hidden_field_tag "location", @locationNameArray %>
-      <%=hidden_field_tag "templocation", @tempLocationsArray %>
+      <%#hidden_field_tag "templocation", @tempLocationsArray %>
       <%=hidden_field_tag "callnumber", @callNosArray%>
       <%=hidden_field_tag "itemStatus", @itemStatusArray%>
     <% end %>
