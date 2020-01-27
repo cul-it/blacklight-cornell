@@ -99,7 +99,7 @@ class BentoSearch::EdsEngine
   # We used to keep in constant, but that's not good for custom setting,
   # we now use class_attribute, but in a weird backwards-compat way for
   # anyone who might be using the constant.
-  HttpTimeout = 4
+  HttpTimeout = 14
 
   class_attribute :http_timeout, instance_writer: false
   def self.http_timeout
