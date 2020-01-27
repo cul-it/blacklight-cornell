@@ -16,7 +16,7 @@ module BentoSearch
         parts << ". "
       end
 
-      if text = self.render_citation_details
+      if text = self.render_citation_details && text.present?
         parts << text << "."
       end
 
