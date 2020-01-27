@@ -86,6 +86,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
+  @DISCOVERYACCESS-5739
   Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
