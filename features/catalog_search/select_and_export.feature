@@ -115,7 +115,7 @@ Feature: Select and export items from the result set
     Then I should see the xml text <SpecialContent>
     Examples:
 
-|BibId | Format | SpecialContent |
+| BibId | Format | SpecialContent |
 | 1378974 | endnote |  '%A Condie, Carol Joy' |
 | 1378974 | ris | 'AU  - Condie, Carol Joy' |
 | 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
@@ -123,7 +123,7 @@ Feature: Select and export items from the result set
 | 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
-| 6112378 | rss | '<author>Subzwari, Syed Hamid Hussain, 1966-</author>'
+| 6112378 | rss | '<title>The Kalabagh Dam</title>' |
 
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
