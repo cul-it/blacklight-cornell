@@ -126,6 +126,12 @@ Feature: Select and export items from the result set
 | 6112378 | rss | '<title>The Kalabagh Dam</title>' |
 
 @all_select_and_export
+@DISCOVERYACCESS-5438
+  Scenario: As a developer, I want a sanity check for basic rss feed function
+    Given I literally go to /catalog.rss
+    Then I should see the xml text '<title>Search Results | Cornell University Library Catalog</title>'
+
+@all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
     Given I request the item view for <BibId>
     Given I request the item view for <BibId>.<Format>
