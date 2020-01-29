@@ -133,6 +133,7 @@ Feature: Select and export items from the result set
 
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
+	Given PENDING
     Given I request the item view for <BibId>
     Given I request the item view for <BibId>.<Format>
     Then I should see the xml text <DoiXmlContent>
