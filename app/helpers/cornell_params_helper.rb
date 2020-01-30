@@ -408,13 +408,13 @@ def getItemStatus(doc)
           tmpStr += " || " if loop_count < hash_size
           tmpStr += " | " if loop_count == hash_size
           @itemStatusArray << tmpStr
-        elsif newHash['items']["avail"].present?
+        elsif newHash['items'].present? and newHash['items']["avail"].present?
           tmpStr = "Available"
           tmpStr += " at " + newHash['location']["name"] if newHash['location'].present?
           tmpStr += " || " if loop_count < hash_size
           tmpStr += " | " if loop_count == hash_size
           @itemStatusArray << tmpStr
-        elsif newHash['items']["unavail"].present?
+        elsif newHash['items'].present? and newHash['items']["unavail"].present?
           tmpStr = "Unavailable"
           tmpStr += " at " + newHash['location']["name"] if newHash['location'].present?
           tmpStr += " || " if loop_count < hash_size
