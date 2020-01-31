@@ -233,6 +233,11 @@ class BentoSearch::EdsEngine
 
             # access level 1 shows 'Record Not Available -- log in to see full results' for title
             next if access_level.to_i < 2
+
+            # remove newspapers from search results
+            format_str = at_xpath_text record_xml, "./Header/PubType"
+            next if format_str.downcase().include? 'news'
+
             required_hit_count -= 1
             break if required_hit_count < 0
 
