@@ -218,8 +218,9 @@ class BentoSearch::EdsEngine
         end
 
         total_hit_count = results.total_items
-        args[:per_page] = required_hit_count
-        max_page = (results.total_items / required_hit_count).ceil()
+        per_page = 30
+        args[:per_page] = per_page
+        max_page = (results.total_items / per_page).ceil()
         for page in 1..max_page do
           args[:page] = page
           url = construct_search_url(args)
