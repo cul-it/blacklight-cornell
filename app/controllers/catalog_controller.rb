@@ -3,9 +3,9 @@ class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
-  include Blacklight::DefaultComponentConfiguration
 #  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
+  include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
 
   if   ENV['SAML_IDP_TARGET_URL']
