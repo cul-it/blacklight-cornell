@@ -13,10 +13,9 @@
   <a href="<%= url_for(options[:remove]) %>" class="btn btn-light" title="Remove">
 <%- end -%>
     <%- if label.blank? -%>
-      <span class="filter-label"><%= "All Fields" + raw(label) %></span>:
+      <%= content_tag :span, "All Fields", class: 'filter-label' %>
     <%- else -%>
-      <span class="filter-label"><%= raw(label) %></span>:
-
+      <%= content_tag :span, label, class: 'filter-label' %>
     <%- end -%>
     <%- unless value.blank? -%>
       <%= content_tag :span, value, class: 'filter-value', title: value %>
