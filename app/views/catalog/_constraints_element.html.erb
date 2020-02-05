@@ -13,11 +13,12 @@
   <a href="<%= url_for(options[:remove]) %>" class="btn btn-light" title="Remove">
 <%- end -%>
     <%- if label.blank? -%>
-      <%= content_tag :span, "All Fields", class: 'filter-label' %>
+      <%= content_tag :span, "All Fields", class: 'filter-label' %>:
     <%- else -%>
-      <%= content_tag :span, label, class: 'filter-label' %>
+      <%= content_tag :span, label, class: 'filter-label' %>:
     <%- end -%>
     <%- unless value.blank? -%>
+      <%= raw(value) %>
       <%= content_tag :span, value, class: 'filter-value', title: value %>
     <%- end -%>
     <i class="fa fa-times fa-inverse"></i>
