@@ -18,7 +18,6 @@
       <%= content_tag :span, label, class: 'filter-label' %>:
     <%- end -%>
     <%- unless value.blank? -%>
-      <%= raw(value) %>
       <%= content_tag :span, value, class: 'filter-value', title: value %>
     <%- end -%>
     <i class="fa fa-times fa-inverse"></i>
