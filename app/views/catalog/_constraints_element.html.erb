@@ -16,10 +16,10 @@
       <span class="filter-label"><%= "All Fields" + raw(label) %></span>:
     <%- else -%>
       <span class="filter-label"><%= raw(label) %></span>:
-      
+
     <%- end -%>
     <%- unless value.blank? -%>
-      <span class="filter-value"><%= raw(value) %></span>
+      <%= content_tag :span, value, class: 'filter-value', title: value %>
     <%- end -%>
     <i class="fa fa-times fa-inverse"></i>
 <%- unless options[:remove].blank? -%>
