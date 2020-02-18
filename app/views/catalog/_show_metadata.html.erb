@@ -76,8 +76,8 @@
                             <%#= holdings_json[getID]["links"].inspect %>
                             <%#= holdings_json[getID]["links"][0]["description"].inspect %>
                             <%#= holdings.inspect %>
-             	 
               <% holdings_json.each do |key, value|  %>
+          <% if holdings_json[key]["active"].nil? or holdings_json[key]["active"] == true %>
               <%#= value["online"].inspect %>
               <% if value["online"] == true and !value["links"].nil? %>
                	<%#=  value.inspect %>
@@ -155,6 +155,7 @@
                 <% end %>  		
 
 	            <% end %>
+	           <% end %>
 	          </ul>
 	        </div>
             <%# online-holdings %>
@@ -174,6 +175,9 @@
 	          <% rare_items = [] %>
 	          <% online_items = [] %>
 	          <% holdings.each do |k,holding| %>
+	          <%#= holdings[k]["active"].inspect %>
+       		<% if holdings[k]["active"].nil? or holdings[k]["active"] == true %>	          
+	          
 	             <% if holding["location"].present? %>
 	                <% if holding["location"]["name"].include?('Rare') %>
 	                   <% rare_items << holding %>
@@ -197,6 +201,7 @@
 	             <% end %>
 	             <%= render 'holdings_group',:items => items, :group => group %>
 	          <% end %>
+	        <% end %>
 	        <% end %>
 	      </div>
 	      <%# access restrictions %>
