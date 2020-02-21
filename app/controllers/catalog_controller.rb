@@ -173,13 +173,15 @@ end
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
-    config.default_document_solr_params = {}
-    #  :qt => 'document',
+    config.default_document_solr_params = { #}
+      :qt => 'document',
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # :fl => '*',
     #  # :rows => 1
     #  # :q => '{!raw f=id v=$id}'
-    #}
+    }
+    config.document_solr_path = 'select'
+    config.document_unique_id_param = 'id'
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
