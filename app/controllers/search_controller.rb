@@ -27,7 +27,9 @@ class SearchController < ApplicationController
           # Only do the following if the query isn't already quoted
           else
       #      @query = objectify_query @query
-            @query = checkMixedQuotedBento(@query).join(' ')
+            if @query.include?('"')
+              @query = checkMixedQuotedBento(@query).join(' ')
+            end
             @query = @query
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
