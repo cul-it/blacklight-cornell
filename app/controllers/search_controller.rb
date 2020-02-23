@@ -27,6 +27,9 @@ class SearchController < ApplicationController
           # Only do the following if the query isn't already quoted
           else
       #      @query = objectify_query @query
+            if @query.include?('"')
+              @query = checkMixedQuotedBento(@query).join(' ')
+            end
             @query = @query
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
@@ -344,4 +347,96 @@ class SearchController < ApplicationController
       search_query
     end
   end
+  
+  
+def checkMixedQuotedBento(query)
+
+      returnArray = []
+      addFieldsArray = []
+      if query.first == '"' and query.last == '"'
+        if query.count('"') > 2
+          returnArray = parseQuotedQueryBento(query)
+          returnArray.each do |token|
+              if token.first == '"'
+                token = '+quoted:' + token
+              else
+                token = '+' + token
+              end
+            
+            addFieldsArray << token
+          end
+          returnArray = addFieldsArray
+          return returnArray
+        else
+          returnArray << query
+          return returnArray
+        end
+      else
+        clearArray = []
+        returnArray = parseQuotedQueryBento(query)
+        returnArray.each do |token|
+            if token.first == '"'
+              clearArray << '+quoted:' + token
+            else
+              clearArray << '+' + token
+            end
+                    
+        end
+        returnArray = clearArray
+        return returnArray
+      end
+  end
+  
+def parseQuotedQueryBento(quotedQuery)
+   queryArray = []
+   token_string = ''
+   length_counter = 0
+   quote_flag = 0
+   quotedQuery.each_char do |x|
+     length_counter = length_counter + 1
+     if x != '"' and x != ' '
+         token_string = token_string + x
+     end
+     if x == ' '
+       if quote_flag != 0
+         token_string = token_string + x
+       else
+         queryArray << token_string
+         token_string = ''
+       end
+     end
+     if x == '"' and quote_flag == 0
+       if token_string != ''
+         queryArray << token_string
+         token_string = x
+         quote_flag = 1
+       else
+         token_string = x
+         quote_flag = 1
+        end
+     end
+     if x == '"' and quote_flag == 1
+       if token_string != '' and token_string != '"'
+         token_string = token_string + x
+         queryArray << token_string
+         token_string = ''
+         quote_flag = 0
+       end
+     end
+     if length_counter == quotedQuery.size
+       queryArray << token_string
+     end
+   end
+   cleanArray = []
+   queryArray.each do |toke|
+     if toke != ''
+       if !toke.blank?
+         cleanArray << toke.rstrip
+       end
+     end
+   end
+   queryArray = cleanArray
+   return queryArray
+ end
+  
 end
