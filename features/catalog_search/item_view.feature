@@ -450,7 +450,7 @@ Feature: Item view
     | 115113 | "United States. Bureau of Foreign and Domestic Commerce. Commerce reports July 1921-July 1925 (OCoLC)1533465" | "Title" | "Survey of current business (Online)" |
     # test issued_with_display
     | 115621 | "Online version: Zeitschrift für Kunstgeschichte (OCoLC)565894191" | "Title" | "Zeitschrift für Kunstgeschichte" |
-    | 301950 | "Lincoln law review v. 14, no. 1 (1983)" | "Title" | "Lincoln law review" |
+    #| 301950 | "Lincoln law review v. 14, no. 1 (1983)" | "Title" | "Lincoln law review" |
     # test split_into_display
     | 264095 | "Together" | "Title" | "Together" |
     | 264095 | "New Christian advocate" | "Title" | "New Christian advocate" |
