@@ -371,6 +371,7 @@ end
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
+    config.add_show_field 'awards_display', :label => 'Awards'
   #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
