@@ -1,4 +1,6 @@
 BlacklightCornell::Application.routes.draw do
+  get 'institutional_repositories/index'
+
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
 # as option causing invalid route name, already in use error
