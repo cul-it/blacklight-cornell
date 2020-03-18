@@ -8,8 +8,8 @@ class SearchHistoryController < ApplicationController
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
-    if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
-      op = session[:cuwebauth_return_path]  
+    if op.include?('logins') && !session[:cuwebauth_return_path].blank?
+      op = session[:cuwebauth_return_path]
     end
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")

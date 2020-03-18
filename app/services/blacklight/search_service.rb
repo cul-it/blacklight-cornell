@@ -79,6 +79,9 @@ module Blacklight
     # Get the previous and next document from a search result
     # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
     def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})
+      if !request_params[:q_row].nil? and !request_params[:q].nil?
+        request_params.delete(:q)
+      end
       p = previous_and_next_document_params(index)
       query = search_builder.with(request_params).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
       response = repository.search(query)

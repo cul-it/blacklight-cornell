@@ -31,16 +31,16 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 9305118
-    Given I request the item view for 9305118.endnote
+    Given I request the item view for 8702871
+    Given I request the item view for 8702871.endnote
     Then I should see the text '%0 Electronic Book'
-    Then I should see the text '%A Boyle, P. R'
-    Then I should see the text '%C Ames, Iowa'
-    Then I should see the text '%D 2005'
-    Then I should see the text '%E Rodhouse, Paul'
-    Then I should see the text '%I Blackwell Science'
-    Then I should see the text '%@ 0632060484 (hardback : alk. paper)'
-    Then I should see the text '%T Cephalopods'
+    Then I should see the text '%A Iglesias, José'
+    Then I should see the text '%C Dordrecht'
+    Then I should see the text '%D 2014'
+    Then I should see the text '%E Fuentes, Lidia'
+    Then I should see the text '%I Springer Netherlands'
+    Then I should see the text '%@ 9789401786478 (print)'
+    Then I should see the text '%T Cephalopod Culture'
 
 ###
 ###
@@ -107,6 +107,7 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<rdf:value>Library Annex  PS591.A58 R33</rdf:value>'
 
 @all_select_and_export
+@DISCOVERYACCESS-5430
 
   Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN.
     Given I request the item view for <BibId>
@@ -114,7 +115,7 @@ Feature: Select and export items from the result set
     Then I should see the xml text <SpecialContent>
     Examples:
 
-|BibId | Format | SpecialContent |
+| BibId | Format | SpecialContent |
 | 1378974 | endnote |  '%A Condie, Carol Joy' |
 | 1378974 | ris | 'AU  - Condie, Carol Joy' |
 | 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
@@ -122,9 +123,17 @@ Feature: Select and export items from the result set
 | 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
 | 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
+| 6112378 | rss | '<title>The Kalabagh Dam</title>' |
+
+@all_select_and_export
+@DISCOVERYACCESS-5438
+  Scenario: As a developer, I want a sanity check for basic rss feed function
+    Given I literally go to /catalog.rss
+    Then I should see the xml text '<title>Search Results | Cornell University Library Catalog</title>'
 
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
+	Given PENDING
     Given I request the item view for <BibId>
     Given I request the item view for <BibId>.<Format>
     Then I should see the xml text <DoiXmlContent>
@@ -180,7 +189,8 @@ Feature: Select and export items from the result set
 
 @all_select_and_export @DISCOVERYANDACCESS-3766  @DISCOVERYANDACCESS-3766_basic
   Scenario: User needs to see zombies as a JSON feed
-  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  #When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
     And I should see the text 'At the Library'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
@@ -205,15 +215,17 @@ Feature: Select and export items from the result set
 
 @all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
   Scenario: User needs to see the date acquired in a JSON feed
-  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
-    Then I should see the text 'Zombies : an anthropological investigation of the living dead'
+ # When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Vervaeke&q_row[]=Zombies&q_row[]=Vervaeke&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Vervaeke&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+    Then I should see the text 'Zombies in Western culture'
     And I should see the text 'acquired_dt'
-    And I should see the text '2017-10-23T00:00:00Z'
+    And I should see the text '2019-01-17T00:00:00Z'
     And I should get a response with content-type "application/json; charset=utf-8"
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss
   Scenario: User needs to see zombies as an rss feed
-  When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  #When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
     Then I should see the xml text '<title>Zombies : an anthropological investigation of the living dead</title>'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
     And I should see the text 'GR581 .C4313 2017 -- Olin Library'
@@ -221,7 +233,8 @@ Feature: Select and export items from the result set
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_atom
   Scenario Outline: User needs to see zombies as an atom feed
-  When I literally go to /catalog.atom?content_format=<Format>&advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  #When I literally go to /catalog.atom?content_format=<Format>&advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Charlier&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  When I literally go to /catalog.atom?content_format=<Format>&advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
     Then I should see the xml text '<title>Zombies</title>'
     And I should see the xml text '<XmlContent>'
     And I should see the text '<TextContent>'

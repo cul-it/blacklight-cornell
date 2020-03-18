@@ -94,6 +94,7 @@ Feature: Results list
 
   @all_results_list @search_with_view_all_libguides
   Scenario: Search with view all books link
+      Given PENDING
 	    Given I literally go to search
 	    When I fill in "q" with 'African American Historical Newspapers Online'
 	    And I press 'Search'
@@ -105,8 +106,8 @@ Feature: Results list
     Given I literally go to search
     When I fill in "q" with 'nature morte'
     And I press 'Search'
-    # Then I should get bento results
-    Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page-entries"
+     Then I should get bento results
+   # Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list @search_with_view_all_manuscript_archive
   Scenario: Search with view all music link
@@ -114,7 +115,7 @@ Feature: Results list
     When I fill in "q" with 'george burr upton'
     And I press 'Search'
     Then I should get bento results
-		Then box "link_top_manuscript_archive" should match "0" th "from Catalog" in "page-entries"
+#		Then box "link_top_manuscript_archive" should match "0" th "from Catalog" in "page-entries"
 
 
 
@@ -152,7 +153,7 @@ Feature: Results list
     When I fill in "q" with 'u & lc'
     And I press 'Search'
     Then I should get bento results
-    Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page-entries"
+ #   Then box "link_top_journal_periodical" should match "0" th "from Catalog" in "page-entries"
 
 
   @all_results_list @search_with_view_all_book_match_box_ampersand

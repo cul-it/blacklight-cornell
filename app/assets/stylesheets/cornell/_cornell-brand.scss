@@ -31,33 +31,26 @@
 }
 
 // Skip to content link
-// http://webaim.org/techniques/skipnav/
+// https://webaim.org/techniques/css/invisiblecontent/#skipnavlinks
 // ---------------------------------------
+
 #skiptocontent,
 #skiptoresults {
 	a {
-		padding:6px;
-		position: absolute;
-		top:-40px;
-		left:0px;
-		color:white;
-		border-right:1px solid white;
-		border-bottom:1px solid white;
-		border-bottom-right-radius:8px;
-		background:transparent;
-		-webkit-transition: top 1s ease-out, background 1s linear;
-	    transition: top 1s ease-out, background 1s linear;
-	    z-index: 100;
- 	}
+		position:absolute;
+		left:-10000px;
+		top:auto;
+		width:1px;
+		height:1px;
+		overflow:hidden;
+	}
+} 
+ 
+#skiptocontent,
+#skiptoresults {
+	a:focus {
+		position:static;
+		width:auto;
+		height:auto;
+	}
 }
-
-// MEDIA QUERIES
-// -------------------------
-
-/* Small devices (tablets, 768px and up) */
-// @media (min-width: $screen-sm) { 
-// }
-
-/* Medium devices (desktops, 992px and up) */
-// @media (min-width: $screen-md) {
-// }

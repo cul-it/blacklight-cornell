@@ -23,7 +23,12 @@
   <div class="document blacklight-database-name clearfix">
     <div class="document-data">
       <% @db.each do |data| %>
+           
+           <% url_access_json = JSON.parse(data["url_access_json"][0]) %>
+           <%# data_json = JSON.parse(data) %>
+           <%#= data["summary_display"][0].inspect %>
         <h3 class="blacklight-title_display">
+         <% if !data["url_access_display"].nil? %>
           <%= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
             <% if data["fulltitle_vern_display"].present? %>
               <%= data["fulltitle_vern_display"] %>
@@ -31,6 +36,18 @@
               <%= data["fulltitle_display"] %>
             <% end %>
           <% end %>
+         <% else %>
+           <%# url_access_json = JSON.parse(data["url_access_json"][0]) %>
+           <%#= url_access_json["url"].inspect %>
+           <%= link_to url_access_json["url"],  :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
+            <% if data["fulltitle_vern_display"].present? %>
+              <%= data["fulltitle_vern_display"] %>
+            <% else %>
+              <%= data["fulltitle_display"] %>
+            <% end %>
+          <% end %>
+           
+         <% end %>
         </h3>
         <div class="description">
           <p>
@@ -39,7 +56,11 @@
             <% end %>
           </p>
            <p>
-            <%= link_to data["url_access_display"][0].split('|')[1],data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
+           <% if url_access_json["description"].present? %>
+            <%= link_to url_access_json["description"],url_access_json["url"], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
+           <% else %> 
+            <%= link_to t('blacklight.url.message'),url_access_json["url"], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
+           <% end %>
           </p>
            <% if data['sixfivethree'].present? %>
               <p>

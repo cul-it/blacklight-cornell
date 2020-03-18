@@ -1,15 +1,12 @@
 $cornell-primary: #b31b1b;
 $cornell-primary-hover: #990f26;
-$cornell-font: verdana, sans-serif;
-$cornell-blue: #6eb4cd;
-$cornell-blue-border: #4892ac;
-$cornell-medium-blue: #0068ac;
+$cornell-blue: #6eb4cd; // used in facets
+$cornell-blue-border: #4892ac; // used in facets
 
 $dark-gray: #222;
 $medium-gray: #666;
 $light-gray: #999;
-$pale-gray: #f3f3f3;
-$databases-light-gray: #ccc;
+$databases-light-gray: #ccc; // used in databases
 $white: white;
 
 $tan: #d8d2c9;
@@ -19,29 +16,19 @@ $concrete: #757068;
 $concrete-hover: #605C56;
 
 // accessible green
-$green: #3C8542;
+$green: #3C8542; // $available color
 $dark-green: #2C6132;
 
-$teal: #2aa198;
-$dark-teal: #1f7972;
+$yellow: #e8bc0f; // referenced but not sure this ever displays?
 
-$yellow: #e8bc0f;
-
-$blue: #0093D0;
-
-$bright-red: #eb2020;
+$blue: #0093D0; // $info color
 
 $available: $green;
 $unavailable: $cornell-primary;
 $info: $blue;
 $rss: #e98300;
 
-$bright-blue: #0068ac;
-
-$link-primary: #0071BD;
-$link-primary-hover: black;
-
-$link-color: #0071BD;
+$link-color: #005FBD; // not sure where link-color is referenced but this sets the site-wide link color
 
 // -------------------
 // Boostrap overrides
@@ -78,12 +65,7 @@ url(//fonts.googleapis.com/css?family=Montserrat);
 
 $font-family-call-number: 'Courier', monospace;
 
-// Buttons
-// -------------------------
-$btnInfoBackground:                 $teal;
-$btnInfoBackgroundHighlight:        $dark-teal;
-
-// Navbar
+// Navbar - not sure if this is used or where it is referenced
 // -------------------------
 $navbarCollapseWidth:             767px !default;
 $navbarCollapseDesktopWidth:      $navbarCollapseWidth + 1;

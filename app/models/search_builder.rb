@@ -4,12 +4,13 @@ class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
 
-# add a comment so we can do a trivial PR
+# again add a comment so we can do a trivial PR
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
 #  self.default_processor_chain += [:advsearch]
 
   def sortby_title_when_browsing user_parameters
+
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
     # if no search term is submitted and user hasn't specified a sort
@@ -41,14 +42,27 @@ class SearchBuilder < Blacklight::SearchBuilder
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
 #    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
+
     query_string = ""
     qparam_display = ""
     my_params = {}
+    if !blacklight_params[:search_field_row].nil? and blacklight_params[:search_field_row[0]] == "publisher number/other identifier"
+      blacklight_params[:search_field_row[0]] = "number"
+    end
+    if !blacklight_params[:search_field].nil? and blacklight_params[:search_field] == "publisher number/other identifier"
+      blacklight_params[:search_field] = "number"
+    end
+
 
     user_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present? || blacklight_params["controller"] == "book_bags"
 
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
-    if blacklight_params[:q_row].present? #and !blacklight_params[:q_row][0].blank?
+    # fix return to search links 
+    if blacklight_params[:q_row].present? and blacklight_params[:q].present?
+      blacklight_params.delete('q')
+    end
+
+    if blacklight_params[:q_row].present? and blacklight_params[:q].blank?
       my_params = make_adv_query(blacklight_params)
       spellstring = ""
       if !my_params[:q_row].nil?
@@ -61,12 +75,21 @@ class SearchBuilder < Blacklight::SearchBuilder
       user_parameters[:q] = blacklight_params[:q]
  #     blacklight_params[:q] = user_parameters[:q]
       user_parameters[:search_field] = "advanced"
+      #user_parameters["mm"] = "100"
       user_parameters["mm"] = "1"
       user_parameters["defType"] = "edismax"
     else # simple search code below
       if blacklight_params[:q].nil?
         blacklight_params[:q] = ''
-     end
+      end
+      if !blacklight_params[:advanced_query].nil?
+        blacklight_params.delete("advanced_query")
+        blacklight_params.delete("search_field_row")
+        blacklight_params.delete(:q_row)
+        blacklight_params.delete(:op_row)
+        blacklight_params.delete(:boolean_row)
+        blacklight_params.delete(:count)
+      end
     # End of secondary parsing
 #      search_session[:q] = user_parameters[:show_query]
       journal_title_hack = 0
@@ -76,6 +99,9 @@ class SearchBuilder < Blacklight::SearchBuilder
           if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
             blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q] 
           else
+            if blacklight_params[:q].include?('"')
+              blacklight_params[:q].gsub!('"', '')
+            end    
             blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
           end
         end
@@ -124,7 +150,6 @@ class SearchBuilder < Blacklight::SearchBuilder
 
         
       if blacklight_params[:search_field] == 'journal title'
-        Rails.logger.info("SQUEE = #{blacklight_params[:q]}")
       #   blacklight_params[:search_field] = 'title'
        # if !blacklight_params[:q].include?(':')
          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
@@ -139,7 +164,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
                query_string = '((' + query_string.rstrip + ') OR title_phrase:"' + blacklight_params[:q] + '")'
              else
-               query_string = 'title:' + '"' + blacklight_params[:q].gsub('"','') + '"'
+               query_string = '(title:' + '"' + blacklight_params[:q].gsub('"','') + '" OR title_phrase:"' + blacklight_params[:q].gsub('"', '') + '") '
              end
          end
 #           blacklight_params[:q] = "(lc_callnum:" + query_string + ') OR lc_callnum:' + query_string 
@@ -157,8 +182,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         #user_parameters[:sort] = blacklight_params[:sort]
       end
         
-        
-        Rails.logger.info("WORKERSUNITE = #{blacklight_params[:q]}")      
+
         # All fields search calls parse_all_fields_query
         if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
            returned_query = parse_all_fields_query(blacklight_params[:q])
@@ -169,10 +193,17 @@ class SearchBuilder < Blacklight::SearchBuilder
                 blacklight_params[:q] = 'quoted:' + blacklight_params[:q] 
              else
                if !blacklight_params[:q].include?('"')
-                 blacklight_params[:q] = '(' + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
+                # returned_query = simple_fix(returned_query)
+                 if returned_query[0] != '+'
+                    blacklight_params[:q] = '(+"' + returned_query + '") OR phrase:"' + blacklight_params[:q] + '"'
+                 else
+                    blacklight_params[:q] = '('  + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
+                 end
+                 user_parameters[:q] = blacklight_params[:q]
                else
                  query_string = '('
                  return_query = checkMixedQuoted(blacklight_params)
+
                  return_query.each do |token|
                     query_string = query_string + token + ' '
                   end
@@ -202,7 +233,7 @@ class SearchBuilder < Blacklight::SearchBuilder
             end  
             if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'title_quoted' or blacklight_params[:search_field] == 'subject' or blacklight_params[:search_field] == 'subject_quoted'
               if blacklight_params[:search_field] == 'subject_quoted' or blacklight_params[:search_field] == 'title_quoted'
-                blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
+                blacklight_params[:q] = '(+' + blacklight_params[:search_field] + ':' + blacklight_params[:q] + ')'
               else
                 blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
               end 
@@ -222,6 +253,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                  if blacklight_params[:q].include?('"')
                    query_string = '('
                    return_query = checkMixedQuoted(blacklight_params)
+
                    return_query.each do |token|
                    query_string = query_string + token + ' '
                  end
@@ -233,6 +265,7 @@ class SearchBuilder < Blacklight::SearchBuilder
               blacklight_params[:search_field] = 'author'
               blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
             end
+         #   user_parameters["mm"] = "100"
             user_parameters["mm"] = "1"
          end
        end
@@ -247,7 +280,7 @@ class SearchBuilder < Blacklight::SearchBuilder
            query_string = ''
            if query_array.size > 1
              query_array.each do |token|
-                query_string = '+' + blacklight_params[:search_field] + ':' + token
+                query_string = '+' + blacklight_params[:search_field] + ':"' + token + '"'
                 clean_array << query_string
              end
              new_query = '('
@@ -266,7 +299,15 @@ class SearchBuilder < Blacklight::SearchBuilder
              end
              blacklight_params[:q] = new_query             
            else
-             blacklight_params[:q] = '+' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
+             if blacklight_params[:search_field] == 'title'
+               blacklight_params[:q] = '(+title:' + blacklight_params[:q] +  ') OR title_phrase:"' + blacklight_params[:q] + '"'
+             else
+               if blacklight_params[:q].first != '"+'
+                 blacklight_params[:q] = '(+' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '") OR ' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+               else
+                 blacklight_params[:q] = "fart"
+               end
+             end
            end
        end
        user_parameters[:q] = blacklight_params[:q]
@@ -279,11 +320,31 @@ class SearchBuilder < Blacklight::SearchBuilder
         user_parameters[:f] = blacklight_params[:f]
         user_parameters[:sort] = blacklight_params[:sort]
        # user_parameters[:q] = 'subject_quoted:\"architecture\"'
+        #user_parameters["mm"] = "100"
         user_parameters["mm"] = "1"
       end
     end
   
   end
+  
+  def simple_fix(returned_query)
+    tokenArray = returned_query.split(' ')
+    if tokenArray.size == 1
+      returned_query = '"' + returned_query + '"'
+      return returned_query
+    else
+      test_string = ''
+      tokenArray.each do | token |
+        if token[0] == '+'
+          token.gsub!('+','')
+        end
+        test_string = test_string + '+"' + token + '" '
+      end
+      return test_string
+    end
+  end
+          
+      
   
   def parseQuotedQuery(quotedQuery)
     queryArray = []
@@ -336,8 +397,167 @@ class SearchBuilder < Blacklight::SearchBuilder
     queryArray = cleanArray
     return queryArray
   end
+
+    def parseAdvQuotedQuery(quotedQuery)
+      quotedQuery = quotedQuery.split(',')
+      quotedQuery[0].each do | qq |
+        queryArray = []
+        token_string = ''
+        length_counter = 0
+        quote_flag = 0
+    #    qq.each do |term|
+          qq.each_char do | x |
+
+             length_counter = length_counter + 1
+             if x != '"' and x != ' '
+              token_string = token_string + x
+             end
+             if x == ' '
+               if quote_flag != 0
+                 token_string = token_string + x
+               else
+                 queryArray << token_string
+                 token_string = ''
+               end
+             end
+             if x == '"' and quote_flag == 0 and 
+               if token_string != ''
+                 queryArray << token_string
+                 token_string = x
+                 quote_flag = 1
+               else
+                 token_string = x
+                 quote_flag = 1
+               end
+             end
+             if x == '"' and quote_flag == 1
+               if token_string != '' and token_string != '"'
+                 token_string = token_string + x
+                 queryArray << token_string
+                 token_string = ''
+                 quote_flag = 0
+               end
+             end
+             if length_counter == qq.size
+
+               queryArray << token_string
+               length_counter = 0
+             end
+
+         # end        
+      #  quote_flag = 0
+      end
+        cleanArray = []
+        queryArray.each do |toke|
+          if toke != ''
+            if !toke.blank?
+              cleanArray << toke.rstrip
+            end
+          end
+        end
+        queryArray = cleanArray
+
+        length_counter = 0
+        return queryArray
+      end
+    end
   
+  
+    def checkAdvMixedQuoted(my_params)
+      newreturnArray = []
+        returnArray = []
+        addFieldsArray = []
+        termsArray = my_params[:q_row].split(',')
+        termsArray[0].each do | term |
+          if (my_params[:op_row][0] == 'begins_with' and my_params[:search_field_row][0] == 'title') or my_params[:search_field_row][0] == 'call number'
+            if my_params[:op_row][0] == 'begins_with'
+               returnArray << 'title_starts:"' + my_params[:q_row][0].gsub!('"', '') + '"'
+            else
+               returnArray << 'lc_callnum:"' + my_params[:q_row][0].gsub!('"', '') + '"'
+            end
+          else
+              if term.first != '"' and term.last != '"'
+                 if term.count('"') >= 2
+                    returnArray = parseAdvQuotedQuery(term)
+
+                    returnArray.each do |token|
+                        if my_params[:search_field_row] == 'all_fields'
+                            if token.first == '"'
+                              token = '+quoted:' + token
+                            else
+                              token = '+' + token
+                            end
+                        else
+                           sfr = get_sfr_name(my_params[:search_field_row])
+                           if token.first == '"'
+                              if !my_params[:search_field_row] == 'all_fields'
+                                token = '+' + sfr + '_quoted:' + token
+                              else
+                                token = '+' + 'quoted:' + token
+                              end
+                           else
+                              if !my_params[:search_field_row] == 'all_fields'
+                                  token = '+' + sfr +':' + token
+                              else
+                                  token = '+' + token
+                              end
+                           end
+                        end  
+                        addFieldsArray << token
+                    end
+                    returnArray = addFieldsArray.join
+                    return returnArray
+                 else
+                    returnArray << my_params[:q_row]
+                    #    return returnArray
+                 end
+              else
+                newArray = []
+
+                clearArray = []
+                newArray << term
+                returnArray = parseAdvQuotedQuery(newArray)
+                returnArray.each do |token|
+
+                  if my_params[:search_field_row][0] == 'all_fields'
+                    if token.first == '"'
+                      clearArray << '+quoted:' + token
+                    else
+                      clearArray << '+"' + token + '"'
+                    end
+                  else
+                    sfr = get_sfr_name(my_params[:search_field_row][0].to_s)
+                    
+                    if token.first == '"'
+                      if sfr != 'lc_callnum'
+                        clearArray << '+' + sfr + '_quoted:' + token
+                      else
+                        clearArray << sfr + ':' + token
+                      end
+                    else
+                      if sfr != 'lc_callnum'
+                        clearArray << '+' + sfr + ':"' + token + '"'
+                      else 
+                        clearArray << sfr + ':' + token
+                      end
+                    end
+                  end            
+                end
+                newreturnArray << clearArray.join( ' ')
+                #returnArray <<  returnArray
+          
+              end
+           end
+         end
+         if !newreturnArray.empty?
+           returnArray = newreturnArray
+         end
+       return returnArray
+    end
+  
+    
   def checkMixedQuoted(blacklight_params)
+
       returnArray = []
       addFieldsArray = []
       if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
@@ -352,14 +572,16 @@ class SearchBuilder < Blacklight::SearchBuilder
               end
             else
               if token.first == '"'
+                sfr = get_sfr_name(blacklight_params[:search_field])
                 if !blacklight_params[:search_field] == 'all_fields'
-                  token = '+' + blacklight_params[:search_field] + '_quoted:' + token
+                  token = '+' + sfr + '_quoted:' + token
                 else
                   token = '+' + 'quoted:' + token
                 end
               else
+                sfr = get_sfr_name(blacklight_params[:search_field])
                 if !blacklight_params[:search_field] == 'all_fields'
-                  token = '+' + blacklight_params[:search_field] +':' + token
+                  token = '+' + sfr +':' + token
                 else
                   token = '+' + token
                 end
@@ -384,10 +606,11 @@ class SearchBuilder < Blacklight::SearchBuilder
               clearArray << '+' + token
             end
           else
+            sfr = get_sfr_name(blacklight_params[:search_field])
             if token.first == '"'
-              clearArray << '+' + blacklight_params[:search_field] + '_quoted:' + token
+              clearArray << '+' + sfr + '_quoted:' + token
             else
-              clearArray << '+' + blacklight_params[:search_field] + ':' + token
+              clearArray << '+' + sfr + ':' + token
             end
           end            
         end
@@ -675,7 +898,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:op_row] = testOpRow
         my_params[:search_field_row] = testSFRow
         my_params[:boolean_row] = testBRow
-       return my_params
+          return my_params
      end
 
    def make_adv_query(my_params = params || {})
@@ -696,135 +919,184 @@ class SearchBuilder < Blacklight::SearchBuilder
      index = 0
      q_rowArray = []
      q_row_string = ''
+     hold_row = []
+     row_number = 0
+
      my_params[:search_field_row].each do |sfr|
        q_row_string = ""
        sfr_name = get_sfr_name(sfr)
-
-       if (my_params[:q_row][index][0] == "\"" or my_params[:q_row][index][1] == '"' ) and my_params[:op_row][index] != 'begins_with'
-         if sfr_name == ""
-           sfr_name = "quoted:"
-         else
-           sfr_name = sfr_name + '_quoted:'
-         end
-         q_rowArray << sfr_name + my_params[:q_row][index]#.gsub!('"','')
-   #      my_params[:q_row] = q_rowArray
+       if my_params[:q_row][row_number].include? '"'
+          hold_row = checkAdvMixedQuoted(my_params)
        else
-
-         split_q_string_Array = my_params[:q_row][index].split(' ')
-         if split_q_string_Array.length > 1 or sfr_name == 'lc_callnum'
-           if my_params[:op_row][index] == 'AND'
-             split_q_string_Array.each do |add_sfr|
-               if sfr_name == ""
-                 q_row_string << '+' + add_sfr + " "
-               else
-                 q_row_string << '+' + sfr_name + ':' + add_sfr + " "
-               end
-             end
-             if sfr_name == '' or sfr_name == 'title' or sfr_name == 'number'
-               if sfr_name != ''
-                  q_row_string = '((' + q_row_string + ') OR ' + sfr_name + '_phrase:"' + my_params[:q_row][index] + '")'
-               else
-                  q_row_string = '((' + q_row_string + ') OR ' + sfr_name + 'phrase:"' + my_params[:q_row][index] + '")'
-               end
-             else
-               if sfr_name == "notes_qf"
-                 sfr_name = "notes_qf"
-               end
-               q_row_string = '((' + q_row_string + ') OR ' + sfr_name + ':"' + my_params[:q_row][index] + '")'
-             end
-             q_rowArray << q_row_string
-           end
-           if my_params[:op_row][index] == "phrase"
-              split_q_string_Array.each do |add_sfr|
-                  q_row_string << add_sfr + " "
-              end
-
-             if sfr_name != 'lc_callnum' and sfr_name != ""
-               if sfr_name == "notes_qf"
-                 sfr_name = "notes"
-               end
-                 sfr_name = sfr_name + '_quoted'
-             else
-               sfr_name = sfr_name + ''
-             end
-              if sfr_name == '' or sfr_name == 'title' or sfr_name == 'number'
-                if sfr_name != ''
-                   q_row_string = sfr_name + '_quoted:"' + my_params[:q_row][index] + '"'
-                else
-                   q_row_string = sfr_name + 'quoted:"' + my_params[:q_row][index] + '"'
-                end
-              else
-                q_row_string = "(" + sfr_name + ':"' + my_params[:q_row][index] + '")'
-              end
-             q_rowArray << q_row_string
-           end
-           if my_params[:op_row][index] == 'OR'
-              split_q_string_Array.each do |add_sfr|
-                if sfr_name == ""
-                  q_row_string <<  add_sfr + " OR "
-                else
-                  q_row_string << sfr_name + ':' + add_sfr + " OR "
-                end
-              end
-              q_row_string = '(' + q_row_string[0..-5] + ')'
-              q_rowArray << q_row_string
-           end
-           if my_params[:op_row][index] == 'begins_with'
-                split_q_string_Array.each do |add_sfr|
-                  q_row_string << add_sfr + " "
-                end
-
-                if sfr_name == ""
-                  if q_row_string[0] == '"'
-                    q_row_string = 'starts:"' + q_row_string[1..-1]
-                    if q_row_string[-2] != '"'
-                      q_row_string = q_row_string[0..-1] + '"'
-                    end
-                  else
-                    q_row_string = 'starts:"' + q_row_string + '"'
-                  end
-                else
-                  if q_row_string[0] == '"'
-                     q_row_string = sfr_name + '_starts:' + q_row_string + ''
-                  else
-                     q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
-                  end
-                end
-                q_rowArray << q_row_string
-           end
-         else
-           if my_params[:op_row][index] == 'begins_with'
-             q_row_string = my_params[:q_row][index]
-              if sfr_name == ""
-                if q_row_string[0] == '"'
-                  q_row_string = 'title_starts:' + q_row_string[1..-1]
-                  if q_row_string[-2] != '"'
-                    q_row_string = q_row_string[0..-1] + '"'
-                  end
-                else
-                  q_row_string = 'starts:"' + q_row_string + '"'
-                end
-               q_rowArray << q_row_string
-              else
-                if q_row_string[0] == '"'
-                   q_row_string = sfr_name + '_starts:' + q_row_string + ''
-                else
-                   q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
-                end
-                q_rowArray << q_row_string
-              end
-          else
-           if sfr_name != ""
-              q_rowArray << sfr_name + ":" + my_params[:q_row][index]
-           else
-              q_rowArray << my_params[:q_row][index]
-           end
-          end
-         end
+          hold_row = my_params[:q_row]
        end
-        index = index +1
+       
+       #row_number = row_number + 1
+       if hold_row[row_number].include?('+') or hold_row.include?(':')
+       #  if my_params[:search_field_row][0] == 'all_fields'
+
+      #    fixString = hold_row
+          fixString = hold_row[row_number] #.join(' ')
+          fixString = fixString.gsub('"]:',':')
+          fixString = fixString.gsub('"]_','_')
+          fixString = fixString.gsub('+["','+')
+          fixString = fixString.gsub(']', '')
+       fixString = fixString.gsub('[', '')
+          q_rowArray << fixString
+        #  my_params[:q_row][index] = fixString
+       #   q_rowArray << my_params[:q_row].join(' ')
+            
+       #  else
+          # my_params[:search_field_row] = my_params[:search_field_row][0].to_s
+       #  end
+       else
+               if (my_params[:q_row][row_number][0] == "\"" or my_params[:q_row][row_number][1] == '"' ) and my_params[:op_row][index] != 'begins_with'
+                 if sfr_name == ""
+                   sfr_name = "quoted:"
+                 else
+                   if sfr_name == 'notes_qf'
+                     sfr_name = 'notes'
+                   end
+                   sfr_name = sfr_name + '_quoted:'
+                 end
+             #    q_rowArray << sfr_name + my_params[:q_row][index]#.gsub!('"','')
+           #      my_params[:q_row] = q_rowArray
+               else
+                 split_q_string_Array = my_params[:q_row][row_number].split(' ')
+                 if split_q_string_Array.length > 1 and sfr_name != 'lc_callnum'
+                   if my_params[:op_row][row_number] == 'AND' 
+                     split_q_string_Array.each do |add_sfr|
+                       if sfr_name == ""
+                         q_row_string << '+"' + add_sfr + '" '
+                       else
+                         
+                         q_row_string << '+' + sfr_name + ':"' + add_sfr + '" '
+                       end
+                     end
+                     if sfr_name == '' or sfr_name == 'title' or sfr_name == 'number'
+                       if sfr_name != ''
+                          q_row_string = '((' + q_row_string + ') OR (' + sfr_name + '_phrase:"' + my_params[:q_row][index] + '"))'
+                       else
+                          q_row_string = '((' + q_row_string + ') OR (' + sfr_name + 'phrase:"' + my_params[:q_row][index] + '"))'
+                       end
+                     else
+                       
+                       if sfr_name != 'lc_callnum'
+                         q_row_string = '((' + q_row_string + ') OR (' + sfr_name + ':"' + my_params[:q_row][index] + '"))'
+                       else
+                         q_row_string = '(' + q_row_string + ')'
+                        end
+                     end
+                     q_rowArray << q_row_string
+                   end
+                   if my_params[:op_row][row_number] == "phrase"
+                      split_q_string_Array.each do |add_sfr|
+                          q_row_string << add_sfr + " "
+                      end
+        
+                     if sfr_name != 'lc_callnum' and sfr_name != ""
+                         if sfr_name == 'notes_qf'
+                           sfr_name = 'notes'
+                         end
+                         sfr_name = sfr_name + '_quoted'
+                     else
+                       sfr_name = sfr_name + ''
+                     end
+                      if sfr_name == '' or sfr_name == 'title' or sfr_name == 'number'
+                        if sfr_name != ''
+                           q_row_string = sfr_name + '_quoted:"' + my_params[:q_row][row_number] + '"'
+                        else
+                           q_row_string = sfr_name + 'quoted:"' + my_params[:q_row][row_number] + '"'
+                        end
+                      else
+                        q_row_string = "(" + sfr_name + ':"' + my_params[:q_row][row_number] + '")'
+                      end
+                     q_rowArray << q_row_string
+                   end
+                   if my_params[:op_row][row_number] == 'OR'
+                      split_q_string_Array.each do |add_sfr|
+                        if sfr_name == ""
+                          q_row_string <<  add_sfr + " OR "
+                        else
+                          q_row_string << sfr_name + ':' + add_sfr + " OR "
+                        end
+                      end
+                      q_row_string = '(' + q_row_string[0..-5] + ')'
+                      q_rowArray << q_row_string
+                   end
+                   if my_params[:op_row][row_number] == 'begins_with'
+                        split_q_string_Array.each do |add_sfr|
+                          q_row_string << add_sfr + " "
+                        end
+        
+                        if sfr_name == ""
+                          if q_row_string[0] == '"'
+                            q_row_string = 'starts:"' + q_row_string[1..-1]
+                            if q_row_string[-2] != '"'
+                              q_row_string = q_row_string[0..-1] + '"'
+                            end
+                          else
+                            q_row_string = 'starts:"' + q_row_string + '"'
+                          end
+                        else
+                          if q_row_string[0] == '"'
+                             q_row_string = sfr_name + '_starts:' + q_row_string + ''
+                          else
+                             q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
+                          end
+                        end
+                        q_rowArray << q_row_string
+                   end
+                 else
+                   
+                   if my_params[:op_row][index] == 'begins_with'
+                     q_row_string = my_params[:q_row][index]
+                      if sfr_name == ""
+                        if q_row_string[0] == '"'
+                          q_row_string = 'title_starts:' + q_row_string[1..-1]
+                          if q_row_string[-2] != '"'
+                            q_row_string = q_row_string[0..-1] + '"'
+                          end
+                        else
+                          q_row_string = 'starts:"' + q_row_string + '"'
+                        end
+                       q_rowArray << q_row_string
+                      else
+                        if q_row_string[0] == '"'
+                           q_row_string = sfr_name + '_starts:' + q_row_string + ''
+                        else
+                           q_row_string = sfr_name + '_starts:"' + q_row_string + '"'
+                        end
+                        q_rowArray << q_row_string
+                      end
+                  else
+                   if sfr_name != "" 
+                      if sfr_name == 'title' or sfr_name == 'number'
+                          q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + '_phrase:"' + my_params[:q_row][row_number] + '")'
+                      else
+                        if sfr_name != 'lc_callnum'
+                          if my_params[:search_field_row][row_number] == 'journal title'
+                            q_rowArray << '((+title:"' + my_params[:q_row][row_number] + '" OR title_phrase:"' + my_params[:q_row][row_number] + '") AND format:Journal/Periodical)'
+                          else
+                           q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + ':"' + my_params[:q_row][row_number] + '")'
+                          end   
+                        else
+                           q_rowArray << '' + sfr_name + ':"' + my_params[:q_row][row_number] + '"'                         
+                        end
+                      end
+                   else
+                      q_rowArray << '((+"' + my_params[:q_row][row_number] + '") OR phrase:"' + my_params[:q_row][row_number] + '")'
+                   end
+                  end
+                 end
+               end
+              # q_rowArray = ['(' + q_rowArray[0] + ')']       
+                index = index +1
+                
+       end
+       row_number = row_number + 1
      end
- 
+     # q_rowArray = ['(' + q_rowArray[0] + ')']    
      return q_rowArray     
    end
 
@@ -873,6 +1145,8 @@ class SearchBuilder < Blacklight::SearchBuilder
           if row[0] == '"'
              row  = row + '"'
           end
+       else
+          row.gsub('"', '')
        end
        row.gsub!(/[()]/, '')
        row.gsub!(':','\:')
@@ -1191,39 +1465,33 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def groupBools(my_params)
-     if my_params[:q_row].length == 1
-       if my_params[:q_row][0].include?('journaltitle:')
-         my_params[:q_row][0].gsub!('journaltitle','title')
-         my_params[:q_row][0] = '(' + my_params[:q_row][0] + ' AND format:Journal/Periodical)'
+     for a in 0..my_params[:q_row].size - 1 do
+       if my_params[:q_row][a].include?('journaltitle:') or my_params[:q_row][a].include?('journaltitle_starts')
+         my_params[:q_row][a].gsub!('journaltitle','title') 
+         my_params[:q_row][a] = '(' + my_params[:q_row][a] + ' AND format:Journal/Periodical )'
        end
-       return my_params[:q_row][0]
+     end
+
+     if my_params[:q_row].size == 1          
+       return '( ' + my_params[:q_row][0] + ' )'
      else
        index = 0
        newstring = ""
-       if my_params[:q_row].length > 1
-        my_params[:boolean_row].each do |bool|
-          if my_params[:q_row].length == 2 or index == 0
-            newstring = "(" + newstring + my_params[:q_row][index] + " " + bool + " " + my_params[:q_row][index + 1] + ") "
-            index = index + 2
+       if my_params[:q_row].size > 1
+         #newstring = my_params[:q_row][0]
+         for a in 0..my_params[:q_row].size - 1 do
+          if a == 0
+            newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
           else
-            if my_params[:q_row][index].include?('journaltitle:')
-              my_params[:q_row][index].gsub('journaltitle','title')
-              my_params[:q_row][index] = '(' + my_params[:q_row][index] + ' AND format:Journal/Periodical)'
+            if a < my_params[:q_row].size  and a > 1
+                newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a -1] + ' ' + my_params[:q_row][a] + ')'
+                a = a + 1
+             #newstring = '(' + my_params[:q_row][index] + ' )' + bool + '( ' + my_params[:q_row][index + 1] + ')'
             end
-            if index < my_params[:q_row].length  and my_params[:q_row].length > 2
-             newstring = '(' + newstring + ' ' + bool + ' ' + my_params[:q_row][index] + ')'
-            end
-            index = index + 1
-          end
-
+           end
+           a = 1
+         end
         end
-       else
-          if my_params[:q_row][0].include?('journaltitle:')
-            my_params[:q_row][0].gsub('journaltitle','title')
-            my_params[:q_row][0] = '(' + my_params[:q_row][index] + ' AND format:Journal/Periodical)'
-          end
-         newstring = my_params[:q_row][0]
-       end
        return newstring
      end
   end
@@ -1240,7 +1508,7 @@ class SearchBuilder < Blacklight::SearchBuilder
           if bits.include?(':')
              bits.gsub!(':','\\:')
           end
-          return_query << '+' << bits << ' '
+          return_query << '+"' << bits << '" '
       end
     else
         return_query = query

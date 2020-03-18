@@ -29,9 +29,9 @@ Feature: Databases List
   	Given I literally go to databases/subject/Images
   	Then I should see the label 'ARTstor'
 
-  @DISCOVERYACCESS-2325
-  @databases
-  Scenario: Make sure list contains known collection
-  	Given I literally go to databases/subject/Images
-  	Then it should have link "ARTstor" with value "http://resolver.library.cornell.edu/misc/5346517"
+#  @DISCOVERYACCESS-2325
+#  @databases
+#  Scenario: Make sure list contains known collection
+#  	Given I literally go to databases/subject/Images
+#  	Then it should have link "ARTstor" with value "http://resolver.library.cornell.edu/misc/5346517"
 

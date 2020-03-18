@@ -86,6 +86,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
+  @DISCOVERYACCESS-5739
   Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
@@ -97,7 +98,7 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 20 of 43'
+    And I should see the label '1 - 20 of'
 
  @adv_search
  @all_search

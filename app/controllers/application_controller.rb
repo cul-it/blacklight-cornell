@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   # these methods in order to perform user specific actions.
   #prepend_before_filter :set_return_path
 
+  require 'ebsco-discovery-service-api'
+  helper BlacklightEds::Engine.helpers
+
   layout 'blacklight'
 
   #protect_from_forgery with:  :exception

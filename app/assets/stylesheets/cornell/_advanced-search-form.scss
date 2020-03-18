@@ -1,7 +1,4 @@
-// .advanced-search-field {
-//   width: auto;
-// }
- .advanced-search .form-control {
+.advanced-search .form-control {
    margin: 0 2px;
 }
 .add-row {
@@ -57,8 +54,15 @@ body.blacklight-advanced-index dl.dl-horizontal {
 // MEDIA QUERIES
 // -------------------------
 
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
   .form-inline {
     .advanced-search-field.form-control {
       width: 25%;
@@ -76,8 +80,8 @@ body.blacklight-advanced-index dl.dl-horizontal {
   }
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) { 
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
   .form-inline {
     .advanced-search-field.form-control {
       width: 40%;
@@ -95,8 +99,8 @@ body.blacklight-advanced-index dl.dl-horizontal {
   }
 }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg) { 
+// Extra large devices (large desktops, 1200px and up)
+@include media-breakpoint-up(xl) {
   .form-inline {
     .advanced-search-field.form-control {
       width: auto;

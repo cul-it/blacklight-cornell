@@ -74,6 +74,26 @@ BentoSearch.register_engine('summon') do |conf|
   conf.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q='
 end
 
+# connection to EBSCO Host used by the bento/single search
+# require "#{Rails.root}/config/ebsco_dbs.rb"
+# BentoSearch.register_engine('ebscohost') do |conf|
+# 	conf.engine = 'BentoSearch::EbscoHostEngine'
+# 	conf.profile_id = ENV['EBSCO_USER'] + '.' + ENV['EBSCO_GROUP'] + '.' + ENV['EBSCO_PROFILE']
+# 	conf.profile_password = ENV['EBSCO_PASSWORD']
+# 	conf.databases = $ebsco_dbs
+# end
+
+# connection to EDS (EBSCO Discovery Service) used by the bento/single search
+BentoSearch.register_engine('ebsco_ds') do |conf|
+	conf.engine = 'BentoSearch::EdsEngine'
+	conf.user_id = ENV['EBSCO_USER']
+	conf.password = ENV['EBSCO_PASSWORD']
+	conf.profile = ENV['EBSCO_PROFILE']
+	conf.title = "Articles & Full Text"
+	conf.for_display = {:decorator => "EdsArticleDecorator"}
+	conf.highlighting = false
+end
+
 BentoSearch.register_engine('worldcat') do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
   conf.api_key = ENV['WORLDCAT_API_KEY']
@@ -89,7 +109,7 @@ BentoSearch.register_engine('summonArticles') do |conf|
   conf.title = 'Newspaper Articles'
 	conf.access_id =  ENV['SUMMON_ACCESS_ID']
 	conf.secret_key = ENV['SUMMON_SECRET_KEY']
-  conf.for_display = {:decorator => "ArticleDecorator"}
+  conf.for_display = {:decorator => "EdsArticleDecorator"}
   conf.highlighting = false
   # More details on Summon Search API commands here:
   # http://api.summon.serialssolutions.com/help/api/search/commands

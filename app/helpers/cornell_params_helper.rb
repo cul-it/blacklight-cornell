@@ -248,8 +248,6 @@ end
        return my_params
      end
 
-
-
  def getHoldingsServiceTempLocations(doc)
    require 'json'
    require 'pp'
@@ -278,48 +276,69 @@ end
 
  def getCallNos(doc)
    require 'json'
-         @recordCallNumArray = []
-        myhash = {}
-        breakerlength = doc[:holdings_record_display].length
-        i = 0
-        doc[:holdings_record_display].each do |hrd|
-         myhash = JSON.parse(hrd)
-         if myhash["callnos"].nil?
-           testString = "No Call Number"
+   @recordCallNumArray = []
+   myhash = {}
+
+   if doc[:holdings_json].present?
+     thisHash = JSON.parse(doc[:holdings_json])
+     hash_size = thisHash.size
+     loop_count = 0
+     thisHash.each do |k, v|
+       loop_count += 1
+       if v.present?
+         newHash = {}
+         newHash = v
+         if newHash["online"].present? and newHash["online"] == true
+           tmpStr = "*Networked resource, No Call Number"
+           tmpStr += " || " if loop_count < hash_size
+           tmpStr += " | " if loop_count == hash_size
+           @recordCallNumArray << tmpStr
+         elsif newHash['call'].present?
+           tmpStr = newHash['call']
+           tmpStr += " || " if loop_count < hash_size
+           tmpStr += " | " if loop_count == hash_size
+           @recordCallNumArray << tmpStr
          else
-           testString = myhash["callnos"][0]
-           if testString == '' or testString.nil?
-             testString = "No Call Number, possibly still on order. Please contact the Circulation Desk at (607) 255-4245 or email okucirc@cornell.edu"
-           end
+           @recordCallNumArray << "No Call Number, possibly still on order. Please contact the Circulation Desk at (607) 255-4245 or email okucirc@cornell.edu"
          end
-         if i == breakerlength - 1
-           @recordCallNumArray << testString + " || "
-         else
-           @recordCallNumArray << testString + " | "
-         end
-         i = i + 1
-      end
+       end
+     end
+   end
    return @recordCallNumArray
  end
 
+# Similar to getItemStatus but without the available/unavailable. Is this really needed?
 def getLocations(doc)
   require 'json'
   require 'pp'
-       @recordLocsNameArray = []
-       myhash = {}
-       breakerlength = doc[:holdings_record_display].length
-       i = 0
-       doc[:holdings_record_display].each do |hrd|
-        myhash = JSON.parse(hrd)
-        unless !myhash["locations"][0]["name"].nil?
-         if i == breakerlength - 1
-           @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
-         else
-           @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
-         end
+  @recordLocsNameArray = []
+  myhash = {}
+
+  if doc[:holdings_json].present?
+    thisHash = JSON.parse(doc[:holdings_json])
+    hash_size = thisHash.size
+    loop_count = 0
+    thisHash.each do |k, v|
+      loop_count += 1
+      if v.present?
+        newHash = {}
+        newHash = v
+        if newHash["online"].present? and newHash["online"] == true
+          tmpStr = "*Networked resource"
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @recordLocsNameArray << tmpStr
+        elsif newHash['location']["name"].present?
+          tmpStr = newHash['location']["name"]
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @recordLocsNameArray << tmpStr
+        else
+          @recordLocsNameArray << ""
         end
-        i = i + 1
-     end
+      end
+    end
+  end
   return @recordLocsNameArray
 end
 
@@ -328,19 +347,21 @@ def getTempLocations(doc)
   require 'pp'
        @itemLocationArray = []
        myhash = {}
-       breakerlength = doc[:holdings_record_display].length
-       i = 0
-       doc[:holdings_record_display].each do |hrd|
-        myhash = JSON.parse(hrd)
-         unless !myhash["locations"][0]["name"].nil?
-          if i == breakerlength - 1
-            @itemLocationArray << myhash["locations"][0]["name"] + " || "
-          else
-            @itemLocationArray << myhash["locations"][0]["name"] + " | "
+       if doc[:holdings_record_display].present?
+          breakerlength = doc[:holdings_record_display].length
+          i = 0
+          doc[:holdings_record_display].each do |hrd|
+           myhash = JSON.parse(hrd)
+            unless !myhash["locations"][0]["name"].nil?
+             if i == breakerlength - 1
+               @itemLocationArray << myhash["locations"][0]["name"] + " || "
+             else
+               @itemLocationArray << myhash["locations"][0]["name"] + " | "
+             end
+            end
+           i = i + 1
           end
-         end
-        i = i + 1
-     end
+       end
   return @itemLocationArray
 end
 
@@ -369,39 +390,42 @@ end
 def getItemStatus(doc)
   require 'json'
   require 'pp'
-       @itemStatusArray = []
-       @hideArray = []
-       thisHash = {}
-      # @hideArray = create_condensed_full(doc)
-#       @fromSolrArray = []
-#       @fromSolrArray = doc[:holdings_record_display]
-       hrdHash = JSON.parse(doc[:holdings_record_display][0])
-       if hrdHash["locations"][0]["name"] == "*Networked Resource"
-          @itemStatusArray << "*Networked Resource"
-       else
-         if doc[:holdings_json].present?
-           thisHash = JSON.parse(doc[:holdings_json])
-           thisHash.each do |k, v|
-            if v.present?
-              newHash = {}
-              newHash = v
-              if newHash['location'].present?
-                newHash['location'].each do |d, e|
-                  if d.to_s == "avail" #and d.to_s != "count"
-                    if e == "true"
-                      @itemStatusArray << "Available" + " || "
-                    else
-                      @itemsStatusArray << "Unavailable" + " || "
-                    end
-                  end
-                end
-              end
-            end
-           end
-         else
-           @itemStatusArray << ""
-         end
-       end
+
+  @itemStatusArray = []
+  @hideArray = []
+  thisHash = {}
+  if doc[:holdings_json].present?
+    thisHash = JSON.parse(doc[:holdings_json])
+    hash_size = thisHash.size
+    loop_count = 0
+    thisHash.each do |k, v|
+      loop_count += 1
+      if v.present?
+        newHash = {}
+        newHash = v
+        if newHash["online"].present? and newHash["online"] == true
+          tmpStr = "*Networked resource"
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @itemStatusArray << tmpStr
+        elsif newHash['items'].present? and newHash['items']["avail"].present?
+          tmpStr = "Available"
+          tmpStr += " at " + newHash['location']["name"] if newHash['location'].present?
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @itemStatusArray << tmpStr
+        elsif newHash['items'].present? and newHash['items']["unavail"].present?
+          tmpStr = "Unavailable"
+          tmpStr += " at " + newHash['location']["name"] if newHash['location'].present?
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @itemStatusArray << tmpStr
+        else
+          @itemStatusArray << ""
+        end
+      end
+    end
+  end
   return @itemStatusArray
 end
 

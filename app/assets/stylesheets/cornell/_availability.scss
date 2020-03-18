@@ -46,15 +46,6 @@
 h3.rare {
 	margin-bottom: 0;
 }
-.label-available {
-	background: $green;
-	margin-right: .5em;
-	font-size: 90%;
-	font-weight: normal;
-	i {
-		color: white;
-	}
-}
 .holding,
 .holdings-error {
 	margin-bottom: 1em;
@@ -62,16 +53,14 @@ h3.rare {
 	padding-top: .5em;
 }
 .online-label {
-	margin: 0 .5em .25em 0;
+	margin: 0 .5em .5em 0;
 }
 .holdings-online {
-	padding-bottom: .5em;
 	.online-label {
 		font-size: 16px;
 	}
 	.message {
 		font-size: 14px;
-		margin-top: .25em;
 	}
 }
 .holding:first-child {
@@ -94,22 +83,25 @@ h3.rare {
 }
 .share-options { min-width: auto; }
 .message {
-	margin: 0 0 .5em 0;
-	line-height: 1.4em;
+	// margin: 0 0 .5em 0;
+	// line-height: 1.4em;
 	word-wrap: break-word;
 }
 .online-link {
-	margin-bottom: .4em;
+	margin-bottom: .75rem;
+	padding-bottom: .75rem;
 	line-height: 1.2em;
 	font-size: 16px;
-	a {
-		font-size: 90%;
-	}
+	border-bottom: 2px solid $light-tan;
+}
+.online-access {
+	margin-bottom: .25em;
+	display: inline-block;
 }
 .access-restriction {
 	display: block;
 	line-height: 1.2em;
-	margin-top: 1em;
+	margin-top: .25em;
 	h4 { 
 		font-weight: 700;
 		margin-bottom: .5em;
@@ -129,30 +121,18 @@ h3.rare {
 		border-bottom-style: solid;
 	}
 }
-
+.terms-of-use {
+	font-size: 13px;
+	.fa {
+		color: $tan;
+		font-size: 90%;
+	}
+}
 .google-books-link {
 	margin: 1.5em 0 0;
 	padding-top: 1em;
 	border-top: solid 2px #d8d2c9;
 }
-.holdings {
-	// th:first-child,
-	// th:nth-child(2),
-	// td:first-child,
-	// td:nth-child(2) {
-	// 	width: 30%;
-	// }
-	// padding: 0 1em;
-}
-// .holdings-online {
-// 	// th:first-child,
-// 	// th:nth-child(2) {
-// 	// 	width: 30%;
-// 	// }
-// 	// table {
-// 	// 	margin-bottom: 1em;
-// 	// }
-// }
 
 #request-loading-spinner {
 	position: relative;
@@ -168,10 +148,6 @@ h3.rare {
 	h4 {
 		margin-bottom: 1em;
 		font-size: 20px;
-	}
-	.label-online {
-		color: white;
-		font-size: 12px;
 	}
 	p {
 		margin-top: 2em;
@@ -197,30 +173,10 @@ h3.rare {
 		display: block;
 		margin-bottom: .25em;
 	}
-	.label-online:hover {
-		background: $green;
-		pointer: none;
-	}
 	.other-form-online {
 		span {
 			margin-right: 0;
 		}
 	}
-	// .online-label,
-	// .at-library-label {
-	// 	font-weight: 700;
-	// }
+
 }
-
-
-// MEDIA QUERIES
-// -------------------------
-
-// Small devices (tablets, 768px and up)
-// @media (min-width: $screen-sm) { 
-// }
-
-// Medium devices (desktops, 992px and up)
-// @media (min-width: $screen-md) {
-// }
-

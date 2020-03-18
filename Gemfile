@@ -19,7 +19,7 @@ group :development,:test, :integration do
 end
 
 group :production,:staging do
-  gem 'mysql2'
+  gem 'mysql2', '0.5.2'
 end
 
 gem 'savon', '~> 2.11.1'
@@ -31,7 +31,7 @@ gem 'blacklight_range_limit', '~> 7.0'
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 gem 'kaminari', '>= 0.15'
 
-gem 'blacklight-hierarchy', :git => 'https://github.com/cul-it/blacklight-cornell-hierarchy', :branch => 'master'
+gem 'blacklight-hierarchy'
 gem 'htmlentities'
 gem 'json'
 gem 'httpclient'
@@ -46,6 +46,7 @@ gem 'rufus-scheduler'
 gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
+gem 'utf8-cleaner'
 #gem 'mini_racer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
@@ -105,10 +106,11 @@ gem 'omniauth-facebook', '~> 4.0'
 gem 'xmlrpc'
 gem 'bootstrap'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+#gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
-#gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
-gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'master'
+# gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'dev'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
@@ -122,3 +124,4 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 gem 'citeproc-ruby'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
+gem 'blacklight_eds', :git => 'https://github.com/cul-it/blacklight_eds_gem', :branch => 'develop'

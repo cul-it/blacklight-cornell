@@ -87,20 +87,20 @@
       <% if item.link_is_fulltext?.present? && item.format_str.present?%>
           <p class="bento_item_other_links">
         <span class="format">
-          <i class="fa fa-check" title="Full text" alt="" aria-hidden="true"></i> Full text <%= item.format_str.downcase %>
+          <i class="fa fa-check" title="Full text" aria-hidden="true"></i> Full text <%= item.format_str.downcase %>
         </span>
       </p>
       <% elsif !item.link_is_fulltext?.present? && item.format_str.present? && item.engine_id=="summon_bento"%>
       <p class="bento_item_other_links">
     <span class="format">
-      <i class="fa fa-pencil" title="Citation only" alt="" aria-hidden="true"></i> Citation only
+      <i class="fa fa-pencil" title="Citation only" aria-hidden="true"></i> Citation only
     </span>
   </p>
       <% end %>
     </div>
     <% if is_cataloged(item.link) %>
       <% if item.custom_data['url_online_access'].present? %>
-        <i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <a class="status-online location badge badge-primary badge-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>" aria-label="Record <%= item.unique_id %>">Online</a>
+        <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online location badge badge-primary badge-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>" aria-label="Record <%= item.unique_id %>">Online</a>
       <% end %>
       <% if item.custom_data['availability_json'].present? %>
       <% availability = JSON.parse(item.custom_data['availability_json']) %>
@@ -108,7 +108,7 @@
           <% if availability["availAt"].present? %>
           <% availability["availAt"].each do |location,callnumber| %>
           <div class="bento_item_avail">
-            <i class="fa fa-check" alt="" title="Available" aria-hidden="true"></i>
+            <i class="fa fa-check" title="Available" aria-hidden="true"></i>
             <span class="location">
               <% unless location == "Library Technical Services Review Shelves" %>
               <%= "#{location}" %>
@@ -129,7 +129,7 @@
             <% if availability["unavailAt"].present? %>
             <% availability["unavailAt"].each do |location,callnumber| %>
           <div class="bento_item_avail">
-            <i class="fa fa-clock-o" aria-hidden="true" alt="" title="Available by request"></i>
+            <i class="fa fa-clock-o" aria-hidden="true" title="Available by request"></i>
             <span class="location">
               <% unless location == "Library Technical Services Review Shelves" %>
                 <%= "#{location}" %>

@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
-  
+
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
 #  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
-  include BlacklightUnapi::ControllerExtension
   include Blacklight::DefaultComponentConfiguration
+  include BlacklightUnapi::ControllerExtension
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
@@ -173,13 +173,15 @@ end
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
-    config.default_document_solr_params = {}
-    #  :qt => 'document',
+    config.default_document_solr_params = { #}
+      :qt => 'document',
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # :fl => '*',
     #  # :rows => 1
     #  # :q => '{!raw f=id v=$id}'
-    #}
+    }
+    config.document_solr_path = 'select'
+    config.document_unique_id_param = 'id'
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
@@ -369,6 +371,7 @@ end
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
+    config.add_show_field 'awards_display', :label => 'Awards'
   #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
@@ -457,7 +460,7 @@ config.add_search_field('title_starts',:label => "Title Begins With", :include_i
    # :pf => '$title_starts_pf'
   }
 end
-    
+
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
     config.add_search_field('author/creator',:label => "Author") do |field|
@@ -551,7 +554,7 @@ end
 #         :pf => '$notes_pf'
        }
     end
-    
+
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -948,7 +951,7 @@ end
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
-  def logins 
+  def logins
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
@@ -1154,10 +1157,10 @@ def tou
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
          elsif params[:search_field] == 'callnumber_browse' && !params[:id]
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
-         end 
+         end
        end
      end
-  
+
 #  def range_limit
 #    redirect_to "/"
 #  end

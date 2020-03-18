@@ -14,8 +14,9 @@
       <span class="blacklight-edition_display"><%= simple_render_index_field_value :document => document, :field => 'edition_display' %></span>
 
   </div>
-  <% if online_url(document) %>
-    <i class="fa fa-check" title="Available" aria-hidden="true" alt=""></i> <a class="status-online badge badge-primary badge-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);" aria-label="Record <%=document.id%>">Online</a>
+  
+  <% if is_online? document  %>
+    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online badge badge-primary badge-online" href="<%= 'catalog/' + document.id %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);" aria-label="Record <%=document.id%>">Online</a>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" >
