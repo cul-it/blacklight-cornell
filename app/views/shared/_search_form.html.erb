@@ -18,7 +18,7 @@
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
-              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off", :autofocus => true %>
+              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
           </div>
 
           <% unless search_fields.empty? %>
