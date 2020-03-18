@@ -27,14 +27,20 @@ class SearchController < ApplicationController
           # Only do the following if the query isn't already quoted
           else
       #      @query = objectify_query @query
+            if @query.include?('"')
+              @query = checkMixedQuotedBento(@query).join(' ')
+            end
             @query = @query
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           titem = BentoSearch::ResultItem.new
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :bestbet, :digitalCollections, :institutionalRepositories, :libguides, :summonArticles)
+          #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :ebsco_ds, :web, :bestbet, :summonArticles)
+          #searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
+          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
-          @results = searcher.results
+          @results = searcher.results.dup
+          #@results = searcher.results
 
           # Reset query to make it show up properly for the user on the results page
           @query = original_query
@@ -46,19 +52,25 @@ class SearchController < ApplicationController
           else
             facet_results = {}
           end
+
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
 
-          if !@results['summon_bento'].nil?
-            @results['summon_bento'].each do |result|
-              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
-            end
-          end
-          if !@results['summonArticles'].nil?
-            @results['summonArticles'].each do |result|
-              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
-            end
-          end
+          # if !@results['summon_bento'].nil?
+          #   @results['summon_bento'].each do |result|
+          #     result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+          #   end
+          # end
+          # if !@results['summonArticles'].nil?
+          #   @results['summonArticles'].each do |result|
+          #     result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+          #   end
+          # end
+          # if !@results['ebsco_ds'].nil?
+          #   @results['ebsco_ds'].each do |result|
+          #     result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+          #   end
+          # end
 
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
@@ -91,7 +103,11 @@ class SearchController < ApplicationController
     begin
       @engine = BentoSearch.get_engine(params[:engine])
     rescue BentoSearch::NoSuchEngine => e
-      render :status => 404, :text => e.message
+      # DA-5405
+      @engine = params[:engine]
+      @error_msg = e.message
+      flash.now[:error] = 'There is no registered search engine for the the type "' + @engine + '."'
+      render :status => 404, :text => e.message, :template => "single_search/single_search"
       return
     end
 
@@ -144,7 +160,8 @@ class SearchController < ApplicationController
     @institutionalRepositories = results.delete('institutionalRepositories')
     @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
-    top1 << ['summon_bento', results.delete('summon_bento')]
+    #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
+    top1 << ['ebsco_ds', results.delete('ebsco_ds')]
     top4 = top1
 
     if display_type == 'fixed'
@@ -198,6 +215,10 @@ class SearchController < ApplicationController
     elsif engine_id =='libguides'
       query = query.gsub('&', '%26')
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
+    elsif engine_id == 'ebsco_ds'
+      query = query.gsub('&', '%26')
+      query = "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
+
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
@@ -266,7 +287,7 @@ class SearchController < ApplicationController
             'url_online_access' => d['url_access_display'],
             'availability_json' => d['availability_json'],
           }
-        
+
         item.format = d['format']
         bento_set << item
 
@@ -305,7 +326,7 @@ class SearchController < ApplicationController
       # create modified query: (+x +y +z) OR "x y z"
       new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
       # (have to use double quotes; single returns an incorrect result set from Solr!)
-      "(#{new_query}) OR phrase:\"#{search_query}\""
+      search_query = "(#{new_query}) OR phrase:\"#{search_query}\""
     else
       search_query
     end
@@ -318,9 +339,10 @@ class SearchController < ApplicationController
         search_query !~ /AND|OR|NOT/
         #search_query =~ /\w.+?\s\w.+?/
       # create modified query: (+x +y +z) OR "x y z"
-      new_query = search_query.split.map {|w| "+#{w}"}.join(' ')
+      new_query = search_query.split.map {|w| "+\"#{w}\""}.join(' ')
+      Rails.logger.info("BENTO = #{new_query}")
       # (have to use double quotes; single returns an incorrect result set from Solr!)
-      "(#{new_query}) OR phrase:\"#{search_query}\""
+      search_query =  "(#{new_query}) OR phrase:\"#{search_query}\""
     else
       if search_query.first == "'" and search_query.last == "'"
         search_query = search_query.gsub("'","")
@@ -329,4 +351,96 @@ class SearchController < ApplicationController
       search_query
     end
   end
+
+
+def checkMixedQuotedBento(query)
+
+      returnArray = []
+      addFieldsArray = []
+      if query.first == '"' and query.last == '"'
+        if query.count('"') > 2
+          returnArray = parseQuotedQueryBento(query)
+          returnArray.each do |token|
+              if token.first == '"'
+                token = '+quoted:' + token
+              else
+                token = '+' + token
+              end
+
+            addFieldsArray << token
+          end
+          returnArray = addFieldsArray
+          return returnArray
+        else
+          returnArray << query
+          return returnArray
+        end
+      else
+        clearArray = []
+        returnArray = parseQuotedQueryBento(query)
+        returnArray.each do |token|
+            if token.first == '"'
+              clearArray << '+quoted:' + token
+            else
+              clearArray << '+' + token
+            end
+
+        end
+        returnArray = clearArray
+        return returnArray
+      end
+  end
+
+def parseQuotedQueryBento(quotedQuery)
+   queryArray = []
+   token_string = ''
+   length_counter = 0
+   quote_flag = 0
+   quotedQuery.each_char do |x|
+     length_counter = length_counter + 1
+     if x != '"' and x != ' '
+         token_string = token_string + x
+     end
+     if x == ' '
+       if quote_flag != 0
+         token_string = token_string + x
+       else
+         queryArray << token_string
+         token_string = ''
+       end
+     end
+     if x == '"' and quote_flag == 0
+       if token_string != ''
+         queryArray << token_string
+         token_string = x
+         quote_flag = 1
+       else
+         token_string = x
+         quote_flag = 1
+        end
+     end
+     if x == '"' and quote_flag == 1
+       if token_string != '' and token_string != '"'
+         token_string = token_string + x
+         queryArray << token_string
+         token_string = ''
+         quote_flag = 0
+       end
+     end
+     if length_counter == quotedQuery.size
+       queryArray << token_string
+     end
+   end
+   cleanArray = []
+   queryArray.each do |toke|
+     if toke != ''
+       if !toke.blank?
+         cleanArray << toke.rstrip
+       end
+     end
+   end
+   queryArray = cleanArray
+   return queryArray
+ end
+
 end
