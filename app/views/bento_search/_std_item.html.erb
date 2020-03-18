@@ -28,7 +28,7 @@
 
 
   <div class="bento_item clearfix"  <%= dbid %>  data-unique-id="<%= item.unique_id %>" <%= atl_data.html_safe %> >
-    <% if item.format_str && (item.link).include?('digital')%>
+    <% if item.format_str && item.link.present? && (item.link).include?('digital')%>
      <div class="pull-left" style="margin-right:10px">
         <img src="<%= item.format_str  %>" class="img-responsive img-thumbnail" alt="">
         </div>
@@ -37,7 +37,7 @@
 
 
     <div class="bento_item_body ">
-      
+
 
 
 
