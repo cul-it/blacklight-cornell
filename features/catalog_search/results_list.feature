@@ -27,14 +27,13 @@ Feature: Results list
 		And the 'per_page' select list should have an option for '50 per page'
 		And the 'per_page' select list should have an option for '100 per page'
 
-#        @all_results_list
-# Scenario: Search with no results
-#                Given PENDING
-#   Given I am on the home page
-#   When I fill in the search box with 'awfasdf acawfdfas'
-#   And I press 'search'
+        @all_results_list
+ Scenario: Search with no results
+   Given I am on the home page
+   When I fill in the search box with 'awfasdf acawfdfas'
+   And I press 'search'
 #   #Then there should be 0 search results
-#   Then I should not get results
+   Then I should not get results
 
         @all_results_list
 	@next
@@ -204,7 +203,6 @@ Feature: Results list
 
 
   # DISCOVERYACCESS-1407
-  # Given PENDING
   @all_results_list
   @DISCOVERYACCESS-1407
   @availability
