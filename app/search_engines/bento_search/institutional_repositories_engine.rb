@@ -35,7 +35,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
     start = args[:page].is_a?(Integer) ? args[:page] - 1 : 0
     per_page = args[:per_page].is_a?(Integer) ? args[:per_page] : 5
 
-    fq = 
+    fq =
       if args[:use_dev_solr]
         ''
       elsif args[:search_pages_also]
@@ -52,8 +52,8 @@ class BentoSearch::InstitutionalRepositoriesEngine
                                         :rows => per_page,
                                         :fl => '*'
                                        }
-  
-   
+
+
     results = solr_response['response']['docs']
 
     # Rails.logger.level = Logger::DEBUG # jgr25
@@ -71,7 +71,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
       bento_results << item
     end
     bento_results.total_items = solr_response['response']['numFound']
-    
+
     # Rails.logger.level = Logger::DEBUG # jgr25
     # Rails.logger.debug "jgr25_debug bento_results = #{bento_results.to_yaml} \n#{__FILE__}:#{__LINE__}"
     # Rails.logger.level = Logger::WARN # jgr25
