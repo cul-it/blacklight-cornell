@@ -13,7 +13,7 @@ class SearchController < ApplicationController
      Appsignal.increment_counter('search_index', 1)
 
       unless params["q"].nil?
-  		    @query = params['q']
+            @query = params['q']
           @query.slice! 'doi:'
           original_query = @query
 
@@ -37,7 +37,7 @@ class SearchController < ApplicationController
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
           #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :ebsco_ds, :web, :bestbet, :summonArticles)
           #searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
-          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :bestbet, :digitalCollections, :libguides)
+          searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_ds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results.dup
           #@results = searcher.results
@@ -157,6 +157,7 @@ class SearchController < ApplicationController
     # Remove articles and digital collections from top 4 logic
     @summonArticles = results.delete('summonArticles')
     @digitalCollections = results.delete('digitalCollections')
+    @institutionalRepositories = results.delete('institutionalRepositories')
     @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
     #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
@@ -208,6 +209,9 @@ class SearchController < ApplicationController
     elsif engine_id == 'digitalCollections'
       query = query.gsub('&', '%26')
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
+    elsif engine_id == 'institutionalRepositories'
+      query = query.gsub('&', '%26')
+      "institutional_repositories/index?q=#{query}"
     elsif engine_id =='libguides'
       query = query.gsub('&', '%26')
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
@@ -347,8 +351,8 @@ class SearchController < ApplicationController
       search_query
     end
   end
-  
-  
+
+
 def checkMixedQuotedBento(query)
 
       returnArray = []
@@ -362,7 +366,7 @@ def checkMixedQuotedBento(query)
               else
                 token = '+' + token
               end
-            
+
             addFieldsArray << token
           end
           returnArray = addFieldsArray
@@ -380,13 +384,13 @@ def checkMixedQuotedBento(query)
             else
               clearArray << '+' + token
             end
-                    
+
         end
         returnArray = clearArray
         return returnArray
       end
   end
-  
+
 def parseQuotedQueryBento(quotedQuery)
    queryArray = []
    token_string = ''
@@ -438,5 +442,5 @@ def parseQuotedQueryBento(quotedQuery)
    queryArray = cleanArray
    return queryArray
  end
-  
+
 end

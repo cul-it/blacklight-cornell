@@ -1,0 +1,35 @@
+<div class="well clearfix">
+  <div class="row">
+    <div class="search-tools">
+      <%= form_tag '/institutional_repositories/index', :method => :get, :class => 'form-inline search-form' do %>
+        <% if !params[:q_row].present? %>
+          <div class="form-group col-xs-8 col-sm-6">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+            <%= text_field_tag :q, params[:q], :placeholder => 'Search for institutional repository items, e.g. honeybee', :class => "form-control", :id => "q", :autocapitalize => "off" %>
+          </div>
+          <div class="checkbox btn btn-default">
+            <label for="use_dev_solr">
+              <%= check_box_tag 'use_dev_solr', 1, params[:use_dev_solr] %>
+              <span>Dev Solr</span>
+            </label>
+          </div>
+          <div class="checkbox btn btn-default">
+            <label for="search_pages_also">
+              <%= check_box_tag 'search_pages_also', 1, params[:search_pages_also] %>
+              <span>Include Pages</span>
+            </label>
+          </div>
+          <div class="checkbox btn btn-default">
+            <label for="local_dev">
+              <%= check_box_tag 'local_dev', 1, params[:local_dev] %>
+              <span>Local Development</span>
+            </label>
+          </div>
+          <button id="search-btn" class="btn btn-search" type="submit">
+            <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -54,6 +54,8 @@
             Research Guides
         <% elsif BentoSearch.get_engine(key).configuration.title == 'Digital Collections' %>
             Items
+        <% elsif BentoSearch.get_engine(key).configuration.title == 'Institutional Repositories' %>
+            Items
         <% else %>
           from Catalog
 
