@@ -88,6 +88,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
       # use this address for local development
       #:solr_url => "http://digcoll.internal.library.cornell.edu:8983/solr/repositories/"
 
+    solr_url = ENV['IR_SOLR_URL']
     Rails.logger.level = Logger::DEBUG # jgr25
     Rails.logger.debug "jgr25_debug solr_url = #{solr_url.to_yaml} \n#{__FILE__}:#{__LINE__}"
     Rails.logger.level = Logger::WARN # jgr25
