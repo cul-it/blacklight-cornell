@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 ruby "2.5.5"
 #another try
-gem 'rails', '5.2.3'
+gem 'rails', '5.2.4'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
+
 
 # added for rails 4.
 gem 'activerecord-session_store'
