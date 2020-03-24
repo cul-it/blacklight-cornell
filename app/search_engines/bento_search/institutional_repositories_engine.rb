@@ -72,8 +72,6 @@ class BentoSearch::InstitutionalRepositoriesEngine
   end
 
   def get_solr_url(args)
-      internal = args[:local_dev].nil? ? '' : 'internal.'
-
       # use this address for servers
       solr_url = "http://digcoll#{dev}.#{internal}library.cornell.edu:8983/solr/repositories/"
 
