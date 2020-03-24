@@ -5,31 +5,52 @@ module InstitutionalRepositoriesHelper
     # DLXS: chla, hunt, may, hearth, witchcraft, ezra
 
     def solrResult2Bento(solrIn, resultItem)
-        id = solrIn['id']
-        if id.starts_with?('ss:')
-            return schemeSharedShelf(solrIn, resultItem)
-        elsif id.starts_with?('ec:')
-            return schemeEcommons(solrIn, resultItem)
-        elsif id.starts_with?('ec.oai:')
-            return schemeOai(solrIn, resultItem)
-        elsif id.starts_with?('slaw.') | id.starts_with?('dcilr.') | id.starts_with?('ssha.')
+
+        # save_logger_level = Rails.logger.level
+        # Rails.logger.level = Logger::DEBUG # jgr25
+        # Rails.logger.debug("\njgr25_debug \nCollection Prefix: #{id}\n#{__FILE__}:#{__LINE__}")
+        # Rails.logger.level = save_logger_level # jgr25
+
+        if solrIn['metadata_structure_tesim'].present? && solrIn['metadata_structure_tesim'].shift == 'oai'
             return schemeOai(solrIn, resultItem)
         else
-            dlxs = ['chla', 'hunt', 'may', 'hearth', 'witchcraft', 'ezra', 'hivebees', 'bol:']
-            dlxs.each { |prefix|
-                if id.starts_with?(prefix)
-                    return schemeDlxs(solrIn, resultItem)
-                end
-            }
+            id = solrIn['id']
             save_logger_level = Rails.logger.level
             Rails.logger.level = Logger::DEBUG # jgr25
             Rails.logger.debug("\njgr25_debug \nUnknown Collection Prefix: #{id}\n#{__FILE__}:#{__LINE__}")
             Rails.logger.level = save_logger_level # jgr25
-            resultItem.title = id
+            resultItem.title = solrIn['id']
             resultItem.link = '#'
-            resultItem.abstract = 'Unknown Collection ID Prefix'
+            resultItem.abstract = 'Unknown metadata structure'
             return resultItem
         end
+
+        # if id.starts_with?('ss:')
+        #     return schemeSharedShelf(solrIn, resultItem)
+        # elsif id.starts_with?('ec:')
+        #     return schemeOai(solrIn, resultItem)
+        # elsif id.starts_with?('ec.oai:')
+        #     return schemeOai(solrIn, resultItem)
+        # elsif id.starts_with?('slaw.') | id.starts_with?('dcilr.') | id.starts_with?('ssha.')
+        #     return schemeOai(solrIn, resultItem)
+        # elsif id.starts_with?('glop:')
+        #     return schemeOai(solrIn, resultItem)
+        # else
+        #     dlxs = ['chla', 'hunt', 'may', 'hearth', 'witchcraft', 'ezra', 'hivebees', 'bol:']
+        #     dlxs.each { |prefix|
+        #         if id.starts_with?(prefix)
+        #             return schemeDlxs(solrIn, resultItem)
+        #         end
+        #     }
+        #     save_logger_level = Rails.logger.level
+        #     Rails.logger.level = Logger::DEBUG # jgr25
+        #     Rails.logger.debug("\njgr25_debug \nUnknown Collection Prefix: #{id}\n#{__FILE__}:#{__LINE__}")
+        #     Rails.logger.level = save_logger_level # jgr25
+        #     resultItem.title = id
+        #     resultItem.link = '#'
+        #     resultItem.abstract = 'Unknown Collection ID Prefix'
+        #     return resultItem
+        # end
     end
 
     def schemeSharedShelf(s, r)
