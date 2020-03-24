@@ -35,14 +35,14 @@ class BentoSearch::InstitutionalRepositoriesEngine
     start = args[:page].is_a?(Integer) ? args[:page] - 1 : 0
     per_page = args[:per_page].is_a?(Integer) ? args[:per_page] : 5
 
-    fq =
-      if args[:use_dev_solr]
-        ''
-      elsif args[:search_pages_also]
-        'format_tesim:(Audio Book Image Journal Text Item Page)'
-      else
-        'format_tesim:(Audio Book Image Journal Text Item)'
-      end
+    fq = set_fq()
+      # if args[:use_dev_solr]
+      #   ''
+      # elsif args[:search_pages_also]
+      #   'format_tesim:(Audio Book Image Journal Text Item Page)'
+      # else
+      #   'format_tesim:(Audio Book Image Journal Text Item)'
+      # end
 
     solr = RSolr.connect :url => url.to_s
     solr_response = solr.get 'select', :params => {
