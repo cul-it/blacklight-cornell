@@ -36,13 +36,6 @@ class BentoSearch::InstitutionalRepositoriesEngine
     per_page = args[:per_page].is_a?(Integer) ? args[:per_page] : 5
 
     fq = set_fq()
-      # if args[:use_dev_solr]
-      #   ''
-      # elsif args[:search_pages_also]
-      #   'format_tesim:(Audio Book Image Journal Text Item Page)'
-      # else
-      #   'format_tesim:(Audio Book Image Journal Text Item)'
-      # end
 
     solr = RSolr.connect :url => url.to_s
     solr_response = solr.get 'select', :params => {
@@ -79,7 +72,6 @@ class BentoSearch::InstitutionalRepositoriesEngine
   end
 
   def get_solr_url(args)
-      dev = args[:use_dev_solr].nil? ? '' : '-dev'
       internal = args[:local_dev].nil? ? '' : 'internal.'
 
       # use this address for servers

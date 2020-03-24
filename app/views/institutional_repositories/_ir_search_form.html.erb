@@ -8,12 +8,6 @@
             <%= text_field_tag :q, params[:q], :placeholder => 'Search for institutional repository items, e.g. honeybee', :class => "form-control", :id => "q", :autocapitalize => "off" %>
           </div>
           <div class="checkbox btn btn-default">
-            <label for="use_dev_solr">
-              <%= check_box_tag 'use_dev_solr', 1, params[:use_dev_solr] %>
-              <span>Dev Solr</span>
-            </label>
-          </div>
-          <div class="checkbox btn btn-default">
             <label for="search_pages_also">
               <%= check_box_tag 'search_pages_also', 1, params[:search_pages_also] %>
               <span>Include Pages</span>
