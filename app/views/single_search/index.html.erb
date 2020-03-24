@@ -276,7 +276,7 @@
               </div>
             <% end %>
           </div>
-          <% if 'hide institutionalRepositories bento box output'.nil? %>
+          <% if 'institutionalRepositories bento box output'.present? %>
           <div class="bento7" id="instrepos">
             <% if @institutionalRepositories.present? %>
               <div class="web-pane">
