@@ -137,12 +137,6 @@ module InstitutionalRepositoriesHelper
         # 'oai'
         if s['display_target_tesim'].present?
 
-            # save_logger_level = Rails.logger.level
-            # Rails.logger.level = Logger::DEBUG # jgr25
-            # Rails.logger.debug("\njgr25_debug \nschemeOai title: \n#{__FILE__}:#{__LINE__}")
-            # puts s.to_yaml
-            # Rails.logger.level = save_logger_level # jgr25
-
             if s['title_tesim'].present?
                 r.title = s['title_tesim'].shift
             else
