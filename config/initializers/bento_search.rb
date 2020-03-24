@@ -138,7 +138,7 @@ end
 
 BentoSearch.register_engine('institutionalRepositories') do |conf|
   conf.engine = 'BentoSearch::InstitutionalRepositoriesEngine'
-  conf.title = 'Institutional Repositories'
+  conf.title = 'Repositories'
   conf.for_display = {:decorator => "DigitalCollections"}
 end
 
