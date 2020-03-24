@@ -26,13 +26,29 @@ module BentoSearch
         end
 
         return _h.safe_join(parts, "")
-      end
-
-      # if enough info is present that there will be non-empty render_source_info
-      # should be over-ridden to match display_source_info
-      def has_source_info?
-        self.any_present?(:repository_tesim)
-      end
-
     end
+
+    # if enough info is present that there will be non-empty render_source_info
+    # should be over-ridden to match display_source_info
+    def has_source_info?
+        self.repository_tesim.first.present?
+    end
+
+    # outputs a date for display, from #publication_date or #year.
+    # Uses it's own logic to decide whether to output entire date or just
+    # year, if it has a complete date. (If volume and issue are present,
+    # just year).
+    #
+    # Over-ride in a decorator if you want to always or never or different
+    # logic for complete date. Or if you want to change the format of the date,
+    # etc.
+    def display_date
+        if self.publication_date
+          self.publication_date
+        else
+          nil
+        end
+    end
+
+end
 end
