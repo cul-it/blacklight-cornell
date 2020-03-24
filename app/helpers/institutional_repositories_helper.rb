@@ -174,7 +174,18 @@ module InstitutionalRepositoriesHelper
                 dt = Time.parse(s['r1_date_tesim'].shift)
                 r.publication_date = dt.strftime("%Y-%m-%d")
             end
-            r.link = s['r1_identifier_tesim'].pop
+
+            # find an identifier that looks like a link
+            ident = JSON.parse(s['identifier_hash_tesim'].shift)
+            ident.each { |i|
+                if i['identifier'].starts_with?('http')
+                    r.link = i['identifier']
+                    break
+                end
+            }
+            if r.link.nil?
+                r.link = s['r1_identifier_tesim'].pop
+            end
         else
             r.id = s['id']
             r.link = '#'
