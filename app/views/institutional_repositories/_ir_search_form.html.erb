@@ -1,0 +1,17 @@
+<div class="well clearfix">
+  <div class="row">
+    <div class="search-tools">
+      <%= form_tag '/institutional_repositories/index', :method => :get, :class => 'form-inline search-form' do %>
+        <% if !params[:q_row].present? %>
+          <div class="form-group col-xs-8 col-sm-6">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+            <%= text_field_tag :q, params[:q], :placeholder => 'Search for institutional repository items, e.g. honeybee', :class => "form-control", :id => "q", :autocapitalize => "off" %>
+          </div>
+          <button id="search-btn" class="btn btn-search" type="submit">
+            <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
