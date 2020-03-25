@@ -207,6 +207,17 @@ div.view-all {
   }
 }
 
+// Repositories results page
+// -------------------------------- //
+
+.institutionalrepository-search {
+  .form-group {
+    .ir-search {
+      width: 100%;
+    }
+  }
+}
+
 // Search options - customized from the same markup as catalog home page
 // -----------------------------------------------------------------------//
 .search-index,

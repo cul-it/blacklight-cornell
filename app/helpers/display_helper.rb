@@ -568,7 +568,8 @@ end
     "Library Websites" => "desktop",
     "Miscellaneous" => "ellipsis-h",
     "Object" => "trophy",
-    "Objects" => "trophy"
+    "Objects" => "trophy",
+    "Repositories" => "building"
   }
 
   def formats_icon_mapping(format)
