@@ -3,7 +3,7 @@ class InstitutionalRepositoriesController < ApplicationController
   before_action :heading
 
   def heading
-    @heading='Institutional Repository Search'
+    @heading='Search'
   end
 
   def index

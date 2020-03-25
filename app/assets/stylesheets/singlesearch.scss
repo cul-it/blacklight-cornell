@@ -217,6 +217,14 @@ div.view-all {
     }
   }
 }
+.blacklight-institutional_repositories {
+  h2 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-bottom: .2em;
+    border-bottom: 5px solid $light-tan;
+  }
+}
 
 // Search options - customized from the same markup as catalog home page
 // -----------------------------------------------------------------------//
