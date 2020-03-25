@@ -180,38 +180,11 @@ Feature: Item view
     Given I request the item view for 44112
     Then I should not see the label 'Temporarily shelved'
 
-  # the black atlantic modernity and double consciousness
-  #@all_item_view
-  #@availability
-  #@DISCOVERYACCESS-988
-  #@nomusic
-  #@request
-  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-  # Given PENDING
-  #  Given I request the item view for 2269649
-  #  Then I should not see the label 'Music Library Reserve'
-
-  #@availability
-  #@DISCOVERYACCESS-988
-  #@templocation
-  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-  #  Given I request the item view for 8635196
-  #  Then I should see the label 'ILR Library Reserve'
-
-  #@availability
-  #@DISCOVERYACCESS-988
-  #Scenario: As a user I can see the availability for an item at a temporary location that overrides the permanent location.
-  #  Given I request the item view for 44112
-  #  Then I should see the label '2 volumes'
-
-  # Availability for an on order item.  "Race , ethnicity, and multiculturalism, by Maulana Karenga"
-  #@all_item_view
   @availability
   Scenario: As a user I can see the availability for an item on order
     Given I request the item view for 2696727
     Then I should see the label 'On Order'
 
-  # On the other hand some subscriptions remain "on order" for years, and should NOT
   # display on order. DISCOVERYACCESS-1407
   @all_item_view
   @availability
@@ -382,7 +355,6 @@ Feature: Item view
   #@DISCOVERYACCESS-1430
   #@DISCOVERYACCESS-1483
   #Scenario: As a user I can see the how many copies are available
-  # Given PENDING
   #  Given I request the item view for 7728655
   #  Then I should see the label 'Available 1 copy'
 
@@ -513,7 +485,6 @@ Feature: Item view
 # @DISCOVERYACCESS-1903
 # @DISCOVERYACCESS-1328
 #  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
-#   Given PENDING
 #    Given I request the item view for 118111
 #    Then I should see the label 'This item is bound with'
 
@@ -556,7 +527,6 @@ Feature: Item view
     And it should have link "Revision of the genus Cinchona" with value "/catalog/3147365"
     And it should have link "Memoirs of the New York Botanical Garden" with value "/catalog/297559"
 
-   #Given PENDING
   @all_item_view
  @boundwith
  @DISCOVERYACCESS-2295
@@ -584,7 +554,6 @@ Feature: Item view
 #  @DISCOVERYACCESS-3243
 #  @all_item_view
 #    Scenario: Show the status properly for a received item, with no item record.
-#   Given PENDING
 #    Given I request the item view for 9763600
 #    Then I should see the label 'On-site use'
 #    Then I should not see the label 'On order'
@@ -671,14 +640,6 @@ Feature: Item view
     And it should have link "The Eugene M. Kaufmann, Jr. Endowment Fund." with value "http://plates.library.cornell.edu/donor/DNR00386"
     And it should have link "The Arthur H. and Mary Marden Dean Book Fund." with value "http://plates.library.cornell.edu/donor/DNR00373"
 
-
-#  @all_item_view
-#  @DISCOVERYACCESS-2881
-#  Scenario: Show link to other online content
-#   Given PENDING
-#    Given I request the item view for 3602582
-#    Then I should see the label 'Other online content'
-#    And it should have link "Other online content" with value "http://hdl.handle.net/1813/43326"
 
 
   @all_item_view
