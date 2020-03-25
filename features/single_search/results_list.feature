@@ -68,21 +68,21 @@ Feature: Results list
     When I follow "link_top_book"
     And I should see the text "the double helix"
 
-		@all_results_list @search_with_view_all_digital_collections
+   @all_results_list @search_with_view_all_digital_collections
 	  Scenario: Search with view all books link
 	    Given I literally go to search
 	    When I fill in "q" with 'game design'
 	    And I press 'Search'
 	    Then I should get bento results
-	    And I should see the text "Def Jam"
+	    And I should see the text "The basketball game"
 
-		@all_results_list @search_with_view_advanced_link
-		Scenario: Search with view all books link
-			Given I literally go to search
-			When I fill in "q" with 'game design'
-			And I press 'Search'
-			Then I should get bento results
-			And I should see the text "or use advanced search"
+  @all_results_list @search_with_view_advanced_link
+  Scenario: Search with view all books link
+	    Given I literally go to search
+	    When I fill in "q" with 'game design'
+	    And I press 'Search'
+	    Then I should get bento results
+	    And I should see the text "or use advanced search"
 
   @all_results_list @search_with_view_all_libguides
   Scenario: Search and find a course guide
@@ -221,5 +221,3 @@ Feature: Results list
     When I fill in "q" with 'New York Times'
     And I press 'search'
     Then I should get bento results
-    And I should see the "img-thumbnail" class 3 times
-    And I should see a "img" tag with url containing "size0"
