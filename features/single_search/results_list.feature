@@ -94,12 +94,11 @@ Feature: Results list
 
   @all_results_list @search_with_view_all_libguides
   Scenario: Search with view all books link
-      Given PENDING
 	    Given I literally go to search
-	    When I fill in "q" with 'African American Historical Newspapers Online'
+	    When I fill in "q" with 'Translations'
 	    And I press 'Search'
 	    Then I should get bento results
-	    And I should see the text "research guide"
+	    And I should see the text "Research Guides"
 
   @all_results_list @search_with_view_all_music_match_box
   Scenario: Search with view all music link
@@ -122,7 +121,6 @@ Feature: Results list
   @all_results_list
   @search_with_view_all_journals_match_box_with_percent
   Scenario: Search with view all journals link
-    #Given PENDING - counts disagree 122 vs 150
     Given I literally go to search
     When I fill in "q" with 'chicken and egg'
     And I press 'Search'
@@ -163,32 +161,27 @@ Feature: Results list
     And I press 'Search'
     Then I should get bento results
     Then box "link_top_book" should match "0" th "from Catalog" in "page-entries"
-
-  #  Given PENDING
-  #  I could not get the checkIP step to pass so i removed the count check step.
-  @all_results_list @search_with_view_all_article_match_box
-  Scenario: Search with view all article link should match bento box total
-    Given PENDING
-    Given I literally go to search
-    When I fill in "q" with 'stress testing cardio horse insights'
-    And I press 'Search'
-    Then I should get bento results
-    Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
+#The following tests that reference link_top_summon_bento are failing because they can not fine .bento1 in the css returned from the search
+#  #  I could not get the checkIP step to pass so i removed the count check step.
+#  @all_results_list @search_with_view_all_article_match_box
+#  Scenario: Search with view all article link should match bento box total
+#    Given I literally go to search
+#    When I fill in "q" with 'stress testing cardio horse insights'
+#    And I press 'Search'
+#    Then I should get bento results
+#    Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
 
 
-  #Given PENDING
-  #  I could not get the checkIP step to pass so i removed the count check step.
-  @all_results_list @search_with_view_all_article_match_box
-  Scenario: Search with view all article link should match bento box total
-    Given PENDING
-    Given I literally go to search
-    When I fill in "q" with 'photoplethysmography methodological studies arterial stiffness'
-    And I press 'Search'
-    Then I should get bento results
-    Then box "link_top_summon_bento" should match "0" th "from Articles & Full Text" in "summary"
+#  #  I could not get the checkIP step to pass so i removed the count check step.
+#  @all_results_list @search_with_view_all_article_match_box
+#  Scenario: Search with view all article link should match bento box total
+#    Given I literally go to search
+#    When I fill in "q" with 'photoplethysmography methodological studies arterial stiffness'
+#    And I press 'Search'
+#    Then I should get bento results
+  #  Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
 
 
-  # Given PENDING
   @all_results_list @search_with_view_all_top_book_match_box_ampersand_and_others
   Scenario: Search with view all books  (top) link  with ampersand and others
     Given I literally go to search

@@ -24,7 +24,6 @@ Feature: Select and export items from the result set
     Then I should see the label 'Shelter medicine for veterinarians and staff'
 
 # there is a popup dialog, but poltergeist auto clicks okay,
-#  Given PENDING
 @all_select_and_export
 @javascript
 @popup
@@ -40,7 +39,6 @@ Feature: Select and export items from the result set
     And I confirm popup "Clear all items"
     Then I should see the label 'You have no selected items'
 
-  #Given PENDING
 # there is a popup dialog, but poltergeist auto clicks okay,
 @javascript
 @popup
