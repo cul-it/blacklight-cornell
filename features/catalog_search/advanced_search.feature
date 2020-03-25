@@ -452,7 +452,6 @@ Feature: Search
  @javascript
  @DISCOVERYACCESS-3350
   Scenario: Perform a 2 row  advanced search with a blank in one field.
-   # Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -541,7 +540,6 @@ Feature: Search
  @adv_title_percent
  @javascript
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
-    #Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row2" with 'sargent, charles sprague'
