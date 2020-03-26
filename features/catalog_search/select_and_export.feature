@@ -133,7 +133,6 @@ Feature: Select and export items from the result set
 
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
-	Given PENDING
     Given I request the item view for <BibId>
     Given I request the item view for <BibId>.<Format>
     Then I should see the xml text <DoiXmlContent>
@@ -141,10 +140,10 @@ Feature: Select and export items from the result set
     Examples:
 
 |BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'UR  - https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4' |
-| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%U https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4' |
-| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4</url>' |
-| 9496646 | rdf_zotero | '<dc:description>DOI 10.1007/978-3-319-27177-4</dc:description>' | '<rdf:value>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4</rdf:value>' |
+| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'M2  - http://newcatalog.library.cornell.edu/catalog/9496646' |
+| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%Z http://newcatalog.library.cornell.edu/catalog/9496646' |
+| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<language>English</language>' |
+#| 9496646 | rdf_zotero | '<dc:description>DOI 10.1007/978-3-319-27177-4</dc:description>' | '<rdf:value>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4</rdf:value>' |
 
 #UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0
 #M2  - http://newcatalog.library.cornell.edu/catalog/9496646
@@ -198,20 +197,6 @@ Feature: Select and export items from the result set
     And I should see the text 'Olin Library'
     And I should see the text '982651297'
 
-#@all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_sort
-#  Scenario: User needs to be able to sort search results by acquired date
-#  To replace http://newbooks.mannlib.cornell.edu we need to be able to sort search results
-#  by the acquired date of items.
-#    Given PENDING
-#  When I go to the catalog page
-#    And I fill in the search box with 'knots rope'
-#    And I press 'search'
-#    Then I should get results
-#    And the first search result should be 'Encyclopedia of knots and fancy rope work'
-#    And the 'sort' select list should have an option for 'date acquired'
-#    Then I select the sort option 'date acquired'
-#    And the first search result should be 'A knot is where you tie a piece of rope : Burmese writing in Iowa'
-#  Given PENDING
 
 @all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
   Scenario: User needs to see the date acquired in a JSON feed
@@ -264,53 +249,6 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<title>The cheese and the worms</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="application/x-research-info-systems">'
-
-@all_select_and_export
-# cannot test this without login
-#Then I should see the label '<content type="application/x-research-info-systems">'
-# Pending causes an error in jenkins
-# DISCOVERYACCESS-1633 -- email should contain proper location, and temporary location, if appropriate
-#@all_select_and_export
-#@DISCOVERYACCESS-1633
-#@select_and_email
-#@javascript
-#  Scenario: User sends a record by email
-#    Given PENDING
-#    Given I request the item view for 8767648
-#    And click on link "Email"
-#    And I fill in "to" with "quentin@example.com"
-#    And I sleep 2 seconds
-#    And I press "Send"
-#    And I sleep 2 seconds
-#    Then "quentin@example.com" receives an email with "Marvel masterworks" in the content
-#    Then I should see "Marvel masterworks" in the email body
-#    Then I should see "Lee, Stan" in the email body
-  #  Then I should see "Status: v.1   c. 1 Checked out, due 2017-09-29" in the email body
-
-#    Given PENDING
-#search for marvel masterworks, and get two results, select, and email them
-# cannot test this without login
-#@all_select_and_export
-#@javascript
-#@select_and_email
-#  Scenario: Search with 2 results, select, and email them
-#    Given PENDING
-#    Given I am on the home page
-#    When I fill in the search box with 'marvel masterworks'
-#    And I press "search"
-#    Then I should get results
-#    Then I should select checkbox "toggle_bookmark_8767648"
-#    Then I should select checkbox "toggle_bookmark_1947165"
-#    Then click on link "Selected Items"
-#    And click on link "Email"
-#    And I fill in "to" with "squentin@example.com"
-#    And I press "Send"
-#    And I sleep 4 seconds
-#    Then "squentin@example.com" receives an email with "Marvel masterworks" in the content
-#    Then I should see "Status: available" in the email body
-#    Then I should see "Coward" in the email body
-#    Then I should see "Location:  Music Library A/V (Non-Circulating)" in the email body
-#
 
 @all_select_and_export
 @DISCOVERYACCESS-1670
