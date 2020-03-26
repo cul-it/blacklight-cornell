@@ -1,5 +1,5 @@
 <div class="col-12 col-lg-8">
-    <ul class="blacklight-nav" role="navigation" aria-label="primary">
+    <ul class="blacklight-nav">
       <% if ENV['SAML_IDP_TARGET_URL'] %>
         <% if current_user %>
           <li>
@@ -18,7 +18,6 @@
             %>
             <li>
               <%= link_to 'Sign in', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
-            </li>
             </li>
           <% end %>
         <% end %>
