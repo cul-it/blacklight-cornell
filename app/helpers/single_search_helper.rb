@@ -36,7 +36,7 @@ module SingleSearchHelper
   end
 
   def is_catalog_pane?(pane)
-    if pane == 'Articles & Full Text' || pane == 'Library Guides' || pane == 'Digital Collections' || pane == 'Institutional Repositories'
+    if pane == 'Articles & Full Text' || pane == 'Library Guides' || pane == 'Digital Collections' || pane == 'Repositories'
       false
     else
        true
