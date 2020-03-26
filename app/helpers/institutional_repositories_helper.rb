@@ -179,14 +179,20 @@ module InstitutionalRepositoriesHelper
                 r.publication_date = dt.strftime("%Y-%m-%d")
             end
 
-            # find an identifier that looks like a link
-            ident = JSON.parse(s['identifier_hash_tesim'].shift)
-            ident.each { |i|
-                if i['identifier'].starts_with?('http')
-                    r.link = i['identifier']
-                    break
-                end
-            }
+            # Find the link to the item
+            if s['id'].starts_with?("ec:")
+                # ecommons handle
+                r.link = 'https://hdl.handle.net/' + s['id'].split(':')[1]
+            elsif s['identifier_hash_tesim'].present?
+                # find an identifier that looks like a link
+                ident = JSON.parse(s['identifier_hash_tesim'].shift)
+                ident.each { |i|
+                    if i['identifier'].starts_with?('http')
+                        r.link = i['identifier']
+                        break
+                    end
+                }
+            end
             if r.link.nil?
                 r.link = s['r1_identifier_tesim'].pop
             end
