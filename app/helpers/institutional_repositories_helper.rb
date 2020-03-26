@@ -183,12 +183,12 @@ module InstitutionalRepositoriesHelper
             if s['id'].starts_with?("ec:")
                 # ecommons handle
                 r.link = 'https://hdl.handle.net/' + s['id'].split(':')[1]
-            elsif s['identifier_hash_tesim'].present?
+            elsif s['r1_identifier_tesim'].present?
                 # find an identifier that looks like a link
-                ident = JSON.parse(s['identifier_hash_tesim'].shift)
+                ident = s['r1_identifier_tesim']
                 ident.each { |i|
-                    if i['identifier'].starts_with?('http')
-                        r.link = i['identifier']
+                    if (i =~ /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix) == 0
+                        r.link = i
                         break
                     end
                 }
