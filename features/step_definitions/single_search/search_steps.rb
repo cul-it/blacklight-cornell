@@ -23,6 +23,16 @@ Then /^I should not get bento results$/ do
   end
 end
 
+
+Then("I should get Institutional Repository results") do
+  page.should have_selector("#institutionalRepositories")
+end
+
+Then("when I view all Repositories Items") do
+  click_link("link_top_institutional_repositories")
+end
+
+
 Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
      total = all('.view-all')[nth.to_i]
      total.should have_content(type)
