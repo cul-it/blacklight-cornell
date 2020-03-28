@@ -25,7 +25,7 @@ end
 
 
 Then("I should get Institutional Repository results") do
-  page.should have_selector("#institutionalRepositories")
+  page.should have_selector("div#institutionalRepositories")
 end
 
 Then("when I view all Repositories Items") do
