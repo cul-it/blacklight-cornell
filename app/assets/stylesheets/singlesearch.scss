@@ -207,6 +207,25 @@ div.view-all {
   }
 }
 
+// Repositories results page
+// -------------------------------- //
+
+.institutionalrepository-search {
+  .form-group {
+    .ir-search {
+      width: 100%;
+    }
+  }
+}
+.blacklight-institutional_repositories {
+  h2 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-bottom: .2em;
+    border-bottom: 5px solid $light-tan;
+  }
+}
+
 // Search options - customized from the same markup as catalog home page
 // -----------------------------------------------------------------------//
 .search-index,
@@ -398,6 +417,12 @@ div.view-all {
     width:45%;
     float:right;
     clear:right;
+    margin-bottom:2em;
+  }
+  .bento7 {
+    width:45%;
+    float:left;
+    clear:left;
     margin-bottom:2em;
   }
   .advanced-search-link {

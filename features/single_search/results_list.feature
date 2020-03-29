@@ -221,3 +221,21 @@ Feature: Results list
     When I fill in "q" with 'New York Times'
     And I press 'search'
     Then I should get bento results
+
+# Institutional Repository search
+@all_results_list @ir_search
+Scenario Outline: Search with institutional repository results for each IR
+  Given I literally go to search
+  When I fill in "q" with '<query>'
+  And I press 'Search'
+  Then I should get Institutional Repository results
+  And when I view all Repositories Items
+  Then I should see the text "<repository>"
+
+Examples:
+  | query | repository |
+  | eye tracking | eCommons |
+  | eye tracking | The Scholarly Commons |
+  | labor unrest | DigitalCommons@ILR |
+  | torts | Scholarship@Cornell Law |
+  | barley | Agricultural Experiment Station |
