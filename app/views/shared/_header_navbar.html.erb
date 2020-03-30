@@ -49,6 +49,8 @@
               window.location.href="<%=root_path%>" // just go home
             </script>
             return
+          <% elsif params[:controller] == 'institutional_repositories'%>
+            <h1><a href="/search">Search</a></h1>
           <% else %>
             <h1>
             <!-- set the @heading in the controller for the specialized view -->
