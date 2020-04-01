@@ -1,0 +1,15 @@
+<div class="institutionalrepository-search">
+	<%= render :partial => 'ir_search_form' %>
+    <% if @results.total_items > 0 %>
+        <h2>Repositories</h2>
+        <%= bento_search @results %>
+        <%= paginate @results.pagination,{:theme => 'blacklight'} %>
+    <% else %>
+        <p class="no-results">
+        Your search returned 0 results. Try searching
+        <a href="http://cornell.worldcat.org/search?q=spi eoshf a skre&amp;fq=&amp;dblist=638&amp;qt=sort&amp;se=nodgr&amp;sd=desc&amp;qt=sort_nodgr_desc">Libraries Worldwide</a>
+        or
+        <a href="http://www.library.cornell.edu/services/request/recommend">recommend a purchase.</a>
+        </p>
+    <% end %>
+</div>

@@ -276,6 +276,15 @@
               </div>
             <% end %>
           </div>
+          <% if 'institutionalRepositories bento box output'.present? %>
+          <div class="bento7" id="instrepos">
+            <% if @institutionalRepositories.present? %>
+              <div class="web-pane">
+                <%= render 'single_search/pane_results', :key => 'institutionalRepositories', :result => @institutionalRepositories %>
+              </div>
+            <% end %>
+          </div>
+          <% end %>
         </div>
       </div>
     <% end %>
