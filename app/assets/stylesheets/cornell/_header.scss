@@ -54,6 +54,17 @@ header {
   }
 }
 
+// Announcement banner
+// ---------------------//
+
+.announcement {
+  padding: .75em 0;
+  background: #fcf8e3;
+  p {
+    margin-bottom: 0;
+  }
+}
+
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
@@ -132,6 +143,15 @@ ul.blacklight-nav {
 // Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
 .secondary-catalog-link {
   font-size: 14px;
+}
+
+// Chat widget - override header border rule
+// ------------------------------------------
+.lcs_slide_out {
+  header {
+    border-bottom: 0;
+    padding: 0;
+  }
 }
 
 // MEDIA QUERIES
