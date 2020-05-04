@@ -84,10 +84,9 @@ class DatabasesController < ApplicationController
 end
 
   def tou
-
     clnt = HTTPClient.new
     Appsignal.increment_counter('db_tou', 1)
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
+    Rails.logger.info("jac244 #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
     solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
@@ -107,9 +106,9 @@ end
           else
             providercode = possibleprovidercode
             dbcode = ActiveSupport::JSON.decode(@dbResponse['response']['docs'][0]['url_access_json'][0])['dbcode']
-            Rails.logger.info("PASSKET = #{dbcode}")
+        #    Rails.logger.info("PASSKET = #{dbcode}")
             @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
-            Rails.logger.info("CASKETKEY #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
+         #   Rails.logger.info("CASKETKEY #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
             if @ermDBResult.size < 1
               #@ermDBResult = ::Erm_data.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
               @ermDBResult = ::Erm_data.where(Database_Code: ['',nil], Provider_Code: providercode, Prevailing: 'true')
@@ -133,6 +132,9 @@ end
           end
         end
      end
+   else
+    Rails.logger.info("StankyButters = #{@dbResponse['response']['docs']}")
+    @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
    end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
 

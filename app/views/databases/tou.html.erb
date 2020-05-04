@@ -3,6 +3,10 @@
 <div class="row database-subject">
   <div class="page-title col-sm-12">
     <div class="return-link">
+       <% if !@db.present? %>
+         <%= @defaultRightsText.to_s %>
+         <br>
+       <% end %>
       <%= link_to "/databases/" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to Databases
