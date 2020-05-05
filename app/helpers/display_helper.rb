@@ -926,15 +926,15 @@ end
       query_params[:per_page] = "20"
     end
     test = (query_params[:counter].to_i % query_params[:per_page].to_i)
-      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0' 
-         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) 
+      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0'
+         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i)
       else
          pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) + 1
       end
-      
+
       query_params[:page] = pageNumber.to_s
-      
-    
+
+
     if !query_params[:q_row].nil?
         if (!query_params[:q_row].nil? && query_params[:q_row].size == 2)
             if query_params[:q_row][1] == ''
@@ -972,7 +972,7 @@ end
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-    
+
     return link
   end
 
