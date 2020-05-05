@@ -210,7 +210,6 @@ Feature: Search
   @all_search
   @DISCOVERYACCESS-5984
   Scenario: Perform a librarian_view on an item known to have MARC record problems
-    Given PENDING
     Given I request the item view for 7928197
     Then I should not see the "librarianLink" element
     And I literally go to /catalog/7928197/librarian_view

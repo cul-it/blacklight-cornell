@@ -26,7 +26,7 @@ Given /^I select ["'](.*?)["'] from the ["'](.*?)["'] drop\-down$/ do |option, m
 end
 
 Then /^I should not see the "([^\"]*)" element$/ do |id|
-  page.should_not have_selector("##{id}")
+   page.should_not have_selector("##{id}")
 end
 
 Then /^I should see the "([^\"]*)" element$/ do |id|
