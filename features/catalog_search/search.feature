@@ -206,3 +206,12 @@ Feature: Search
     And I sleep 8 seconds
     And I should see the "fa-clock-o" class
     And I should see the label 'Olin Library'
+
+  @all_search
+  @DISCOVERYACCESS-5984
+  Scenario: Perform a librarian_view on an item known to have MARC record problems
+    Given PENDING
+    Given I request the item view for 7928197
+    Then I should see the "librarianLink" element
+    And click on link "Librarian View"
+    Then show me the page
