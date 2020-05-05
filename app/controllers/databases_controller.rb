@@ -86,7 +86,7 @@ end
   def tou
     clnt = HTTPClient.new
     Appsignal.increment_counter('db_tou', 1)
-    Rails.logger.info("jac244 #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
+    Rails.logger.info("JAC244 #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
     solr = Blacklight.connection_config[:url]
     p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
     @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
@@ -133,7 +133,6 @@ end
         end
      end
    else
-    Rails.logger.info("StankyButters = #{@dbResponse['response']['docs']}")
     @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
    end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
