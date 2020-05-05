@@ -6,7 +6,6 @@
     <div class="document blacklight-database-name clearfix">
       <div class="document-data">
         <h3 class="blacklight-title_display">
-          <% if data["url_access_display"].nil? || data["url_access_display"].size == 0  || data["url_access_display"].size > 1 %> 
 <%
 if data["url_access_json"].present? && data["url_access_json"].size > 1
   save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
@@ -18,6 +17,7 @@ if data["url_access_json"].present? && data["url_access_json"].size > 1
   Rails.logger.level = save_level
 end
 %>
+          <% if data["url_access_json"].nil? || data["url_access_json"].size != 1 %>
             <% dbid = data["id"] %>
             <%= link_to "/databases/show/#{dbid}" do %>
               <% if data["fulltitle_vern_display"].present? %>
