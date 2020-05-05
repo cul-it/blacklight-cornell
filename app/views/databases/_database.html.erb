@@ -19,7 +19,7 @@ end
 %>
           <% if data["url_access_json"].nil? || data["url_access_json"].size != 1 %>
             <% dbid = data["id"] %>
-            <%= link_to "/databases/show/#{dbid}" do %>
+            <%= link_to "/catalog/#{dbid}" do %>
               <% if data["fulltitle_vern_display"].present? %>
                 <%= data["fulltitle_vern_display"] %>
               <% else %>
