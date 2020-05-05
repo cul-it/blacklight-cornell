@@ -25,12 +25,12 @@ Given /^I select ["'](.*?)["'] from the ["'](.*?)["'] drop\-down$/ do |option, m
   find('#' + menu).find(:option,"#{option}").select_option
 end
 
-# Then /^I should not see the "([^\"]*)" element$/ do |id|
-#   page.should_not have_selector("##{id}")
-# end
+Then /^I should not see the "([^\"]*)" element$/ do |id|
+  page.should_not have_selector("##{id}")
+end
 
 Then /^I should see the "([^\"]*)" element$/ do |id|
-   page.should have_selector("##{id}")
+  page.should have_selector("##{id}")
 end
 
 Then(/^I should see the "([^\"]*)" class$/) do |id|
