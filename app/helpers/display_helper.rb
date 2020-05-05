@@ -494,15 +494,6 @@ end
       :
         false
   end
-  def online_url(document)
-    if document['url_access_display'].present?
-      if document['url_access_display'].size > 1
-        solr_document_path(document)
-      else
-        render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
-      end
-    end
-  end
 
   def finding_aid(document)
     if document['url_findingaid_display'].present?
