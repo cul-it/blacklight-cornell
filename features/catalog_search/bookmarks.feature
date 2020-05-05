@@ -53,7 +53,7 @@ Feature: Bookmarks for anonymous users
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
-		Then I should get results    
+		Then I should get results
         Then I select the first 2 catalog results
         When I view my selected items
         Then I should be on 'the bookmarks page'
