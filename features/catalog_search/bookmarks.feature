@@ -17,24 +17,24 @@ Feature: Bookmarks for anonymous users
         When I literally go to bookmarks
         Then Sign in should link to Book Bags
 
-#    @bookmarks_select_items
-#    Scenario Outline: I can see the count of my selected items
-#        Given I am on the home page
-#		When I fill in the search box with 'rope work'
-#		And I press 'search'
-#		Then I should get results
-#        And there should be 0 items selected
-#        Then I select the first <count> catalog results
-#        When I literally go to bookmarks
-#        And there should be <count> items selected
+    @bookmarks_select_items
+    Scenario Outline: I can see the count of my selected items
+        Given I am on the home page
+            When I fill in the search box with 'rope work'
+            And I press 'search'
+            Then I should get results
+        And there should be 0 items selected
+        Then I select the first <count> catalog results
+        When I literally go to bookmarks
+        And there should be <count> items selected
 
-#    Examples:
-#    | count |
-#    | 1 |
-#    | 2 |
-#    | 3 |
-#    | 4 |
-#    | 5 |
+    Examples:
+    | count |
+    | 1 |
+    | 2 |
+    | 3 |
+    | 4 |
+    | 5 |
 
     #@saml_on
     @bookmarks_sign_in_links
