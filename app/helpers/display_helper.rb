@@ -1513,4 +1513,67 @@ end
     end
     render_search_to_s_element(label , render_filter_value(params['q']) )
   end
+
+  def access_url_is_list?(args)
+    args['url_access_json'].present? && args['url_access_json'].size != 1
+  end
+
+  def access_url_single(args)
+    if !args["url_access_json"].present? || access_url_is_list?(args)
+      nil
+    else
+      url_access_json = JSON.parse(args["url_access_json"][0])
+      if url_access_json['url'].present?
+        url_access_json['url']
+      else
+        nil
+      end
+    end
+  end
+
+  def access_z_note(args)
+    if args['url_access_json'].present? && !access_url_is_list?(args)
+      single = JSON.parse(args["url_access_json"][0])
+      if single.present? && single['description'].present?
+        excludes = [
+          'Connect to resource.',
+          'Connect to full text.',
+          'Connect to full text',
+          'Current issues',
+          'Connect to image database.',
+          'Connect to full text:',
+          'Connect to AGRICOLA.',
+          'Connect to AGU digital library - Books.'&&
+          'Connect to full-text',
+          'Connect to American Founding Era.',
+          'Connect to AnthroSource.',
+          'Connect to ATLA religion database.',
+          'Connect to site.',
+          'Black Literature Index Connect to full text.',
+          'Connect to CenStats.',
+          'Connect to Europa World Plus.',
+          'Connect to Gale Directory Library.',
+          'Connect to resource',
+          'Connect to collection.',
+          'Connect to LLMC Digital',
+          'For instructions on how to use Lynda.com',
+          'Connect to database.',
+          'Connect to SPIE Digital Library.',
+          'Connect to TRID.',
+          'Connect to World news connection.'
+          ]
+        if excludes.include? single['description']
+          nil
+        else
+          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in access_z_note"
+          puts single['description'].to_yaml
+          Rails.logger.level = save_level
+          return single['description']
+        end
+      end
+    end
+    nil
+  end
+
 end
