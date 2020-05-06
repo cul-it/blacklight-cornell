@@ -324,6 +324,7 @@ end
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_json', :label => 'Subject'
+    config.add_show_field 'keyword_display', :label => 'Keyword'
     config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
     config.add_show_field 'description_display', :label => 'Description', helper_method: :html_safe
     config.add_show_field 'issn_display', :label => 'ISSN'
@@ -364,6 +365,7 @@ end
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
+    config.add_show_field 'cast_display', :label => 'Cast'
     config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
