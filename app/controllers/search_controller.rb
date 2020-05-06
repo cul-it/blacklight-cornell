@@ -284,7 +284,7 @@ class SearchController < ApplicationController
         item.unique_id = "#{d['id']}"
         item.link = "/catalog/#{d['id']}"
           item.custom_data = {
-            'url_online_access' => d['url_access_display'],
+            'url_online_access' => access_url_single(d),
             'availability_json' => d['availability_json'],
           }
 
