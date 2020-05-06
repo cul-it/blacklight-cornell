@@ -14,6 +14,7 @@ Feature: Bookmarks for anonymous users
     @saml_on
     @bookmarks_sign_in
     Scenario: If I try to sign in, I have to log in
+        Given PENDING
         When I literally go to bookmarks
         Then Sign in should link to Book Bags
 
