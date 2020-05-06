@@ -35,3 +35,23 @@ Feature: Databases List
 #  	Given I literally go to databases/subject/Images
 #  	Then it should have link "ARTstor" with value "http://resolver.library.cornell.edu/misc/5346517"
 
+  @databases
+  @DISCOVERYACCESS-5764
+  Scenario: Display the z-note information for databases
+      Given I literally go to databases/title/b
+      Then I should see the label 'British national bibliography'
+      And I should see the label 'Catalogue has its own navigation buttons.'
+
+  @databases
+  @DISCOVERYACCESS-5764
+  Scenario: Databases with multple links should link to the item view
+      Given I literally go to databases/title/a
+      And click on link "Artefacts Canada. Humanities"
+      Then I should see the label 'Artefacts Canada (Humanities.)'
+      And I should see the label 'Canadian Heritage Information Network.'
+
+  @databases
+  @DISCOVERYACCESS-5764
+  Scenario: Databases with single links should link to the resource
+      Given I literally go to databases/title/a
+      Then the link "ARTstor" should go to "http://resolver.library.cornell.edu/misc/5346517"
