@@ -216,3 +216,7 @@ Then("I check Select all") do
     page.find(:css, "input#select_all_input").click
   end
 end
+
+Then("the link {string} should go to {string}") do |string, string2|
+  expect(page).to have_link("#{string}", href: "#{string2}")
+end
