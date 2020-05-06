@@ -17,7 +17,7 @@ if data["url_access_json"].present? && data["url_access_json"].size > 1
   Rails.logger.level = save_level
 end
 %>
-          <% if data["url_access_json"].nil? || data["url_access_json"].size != 1 %>
+          <% if access_url_is_list?(data) %>
             <% dbid = data["id"] %>
             <%= link_to "/catalog/#{dbid}" do %>
               <% if data["fulltitle_vern_display"].present? %>
@@ -27,8 +27,8 @@ end
               <% end %>
             <% end %>
           <% else %>
-            <% url_access_json = JSON.parse(data["url_access_json"][0]) %>
-              <%= link_to url_access_json['url'], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink']);" do %>
+            <% access_url = access_url_single(data) %>
+              <%= link_to access_url, :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink']);" do %>
                 <% if data["fulltitle_vern_display"].present? %>
                   <%= data["fulltitle_vern_display"] %>
                 <% else %>
@@ -39,8 +39,9 @@ end
         </h3>
         <div class="description">
           <p class="z-note">
-            <% if !data["url_access_display"].nil? && data["url_access_display"][0].split('|')[1] != 'Connect to resource.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text' && data["url_access_display"][0].split('|')[1] != 'Current issues' && data["url_access_display"][0].split('|')[1] != 'Connect to image database.' && data["url_access_display"][0].split('|')[1] != 'Connect to full text:' && data["url_access_display"][0].split('|')[1] != 'Connect to AGRICOLA.' && data["url_access_display"][0].split('|')[1] != 'Connect to AGU digital library - Books.'&&data["url_access_display"][0].split('|')[1] != 'Connect to full-text' && data["url_access_display"][0].split('|')[1] != 'Connect to American Founding Era.' && data["url_access_display"][0].split('|')[1] != 'Connect to AnthroSource.' && data["url_access_display"][0].split('|')[1] != 'Connect to ATLA religion database.' && data["url_access_display"][0].split('|')[1] != 'Connect to site.' && data["url_access_display"][0].split('|')[1] != 'Black Literature Index Connect to full text.' && data["url_access_display"][0].split('|')[1] != 'Connect to CenStats.' && data["url_access_display"][0].split('|')[1] != 'Connect to Europa World Plus.' && data["url_access_display"][0].split('|')[1] != 'Connect to Gale Directory Library.' && data["url_access_display"][0].split('|')[1] != 'Connect to resource' && data["url_access_display"][0].split('|')[1] != 'Connect to collection.' && data["url_access_display"][0].split('|')[1] != 'Connect to LLMC Digital' && data["url_access_display"][0].split('|')[1] != 'For instructions on how to use Lynda.com' && data["url_access_display"][0].split('|')[1] != 'Connect to database.' && data["url_access_display"][0].split('|')[1] != 'Connect to SPIE Digital Library.' && data["url_access_display"][0].split('|')[1] != 'Connect to TRID.' && data["url_access_display"][0].split('|')[1] != 'Connect to World news connection.' %>
-              <%= data["url_access_display"][0].split('|')[1] %>
+            <% znote = access_z_note(data) %>
+            <% if znote.present? %>
+             <%= znote %>
             <% end %>
           </p>
           <p>
