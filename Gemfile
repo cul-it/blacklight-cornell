@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 ruby "2.5.5"
 #another try
-gem 'rails', '5.2.4'
+gem 'rails', '5.2.4.2'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
-
+gem "actionview", ">= 5.2.4.2"
 # added for rails 4.
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
