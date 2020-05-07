@@ -119,8 +119,8 @@ describe Blacklight::Solr::Document::MarcExport do
     eids = ["8125253","8696757","8867518","5558811"]                     
     # add on url information.
     # more than url is required.
-    eids.each { |id| 
-      @book_recs[id]['url_access_display'] = ["http://example.com"]
+    eids.each { |id|
+      @book_recs[id]['url_access_json'] = [url => "http://example.com"].to_json
       @book_recs[id]["online"]= ["Online"]
     }
     #music
@@ -392,8 +392,8 @@ CITE_MATCH
       match_style['cse'] = @cse_match_style
       match_style['chicago'] = @chicago_match_style
       match_style['apa'] = @apa_match_style
-      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
-      ["mla","mla8","cse","chicago","apa"].each   do |fmt| 
+      @book_recs[id]['url_access_json'] = [url => "http://opac.newsbank.com/select/evans/385"].to_json
+      ["mla","mla8","cse","chicago","apa"].each   do |fmt|
         cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
       end
       # Account irregular name for mla7 citation -- ..as_mla_...
@@ -635,8 +635,8 @@ CITE_MATCH
     it "should export a typical ebook record correctly" do
       id = "5558811"
       @book_recs[id]["online"]= ["Online"]
-      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
-      @book_recs[id]['language_facet'] = ["Algonquian (Other)"] 
+      @book_recs[id]['url_access_json'] = ['url' => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['language_facet'] = ["Algonquian (Other)"]
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
