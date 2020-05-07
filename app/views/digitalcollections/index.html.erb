@@ -7,11 +7,10 @@
 				<div class="document blacklight-digitalcollections-name clearfix">
 					<div class="document-data">
 						<h2 class="blacklight-title_display">
-							<% if data["url_access_display"].present? && data["fulltitle_display"].present? && data["url_access_display"].length == 1 %>
-								<% data["url_access_display"].each do |link| %>
-									<%= link_to link.split('|')[0] do %>
-									  <%= data["fulltitle_display"] %>
-									<% end %>
+							<% access_url = access_url_first(data) %>
+							<% if access_url.present? %>
+								<%= link_to access_url do %>
+									<%= data["fulltitle_display"] %>
 								<% end %>
 							<% else %>
 								<% if data["id"].present? %>
