@@ -63,9 +63,6 @@ Rails.logger.level = save_level
 	      <% end %>
 
 	        <%  summary_holdings = '' %>
-	        <!-- render display link start -->
-	        <%# online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-	        <!-- render display link end -->
 	        <div class="holdings-online">
 	        	<% if is_online? @document %>
 	        		<div class="online-label">
