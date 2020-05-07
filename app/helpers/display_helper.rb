@@ -103,7 +103,6 @@ end
   end
 
   # :format arg specifies what should be returned
-  # * the raw array (url_access_display in availability on item page)
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
@@ -482,7 +481,6 @@ end
   end
 
   def is_online? document
-   Rails.logger.debug("es287_debug @@@@ #{__FILE__}:#{__LINE__} url =  #{document['url_access_display'].inspect}")
     ( document['online'].present?  && document['online'].include?('Online')) ?
         true
       :
