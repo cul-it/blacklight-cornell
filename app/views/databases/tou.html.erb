@@ -48,19 +48,19 @@
            <p>
            <% if url_access_json["description"].present? %>
             <%= link_to url_access_json["description"],url_access_json["url"], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
-           <% else %> 
+           <% else %>
             <%= link_to t('blacklight.url.message'),url_access_json["url"], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
            <% end %>
           </p>
            <% if data['sixfivethree'].present? %>
               <p>
-                Subject(s): 
+                Subject(s):
                 <% data["sixfivethree"].each do |s| %>
                   <%= link_to s,"/databases/subject/#{s}", :title => "Subject: #{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
                 <% end %>
               </p>
             <% end %>
-         
+
         </div>
         <% if @ermDBResult.present? %>
           <% data = @ermDBResult[0] %>
@@ -254,8 +254,8 @@
                 <% end %>
               </tbody>
             </table>
-            
-          <% end %>           
+
+          <% end %>
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
