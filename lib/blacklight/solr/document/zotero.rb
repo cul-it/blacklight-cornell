@@ -74,13 +74,9 @@ module Blacklight::Solr::Document::Zotero
  #       </dcterms:URI>
  #   </dc:identifier>
   def generate_rdf_url(b)
-    if !self['url_access_display'].blank?
-      ul = self['url_access_display'].first.split('|').first
-       ul.sub!('http://proxy.library.cornell.edu/login?url=','')
-       ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
-    end
-    b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}  unless ul.blank? 
-  end   
+    ul = access_url_first_filtered(self)
+    b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}  unless ul.blank?
+  end
     #<dcterms:abstract>Backup of websites is often not considered until </dcterms:abstract>
     
   def generate_rdf_abstract(b)

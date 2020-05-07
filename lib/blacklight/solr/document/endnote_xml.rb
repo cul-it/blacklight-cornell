@@ -152,11 +152,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     bld.abstract(k.join(' ')) unless k.blank?
   end
   def generate_enx_urls(bld,ty)
-    if !self['url_access_display'].blank?
-      ul = self['url_access_display'].first.split('|').first
-      ul.sub!('http://proxy.library.cornell.edu/login?url=','')
-      ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
-    end
+    ul = access_url_first_filtered(self)
     bld.urls() { bld.tag!("web-urls") { bld.url(ul)}}  unless ul.blank?
   end
 
