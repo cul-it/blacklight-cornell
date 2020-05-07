@@ -1526,6 +1526,20 @@ end
     nil
   end
 
+  def access_url_all(args)
+    if args['url_access_json'].present?
+      all = []
+      args['url_access_json'].each do |json|
+        url_access = JSON.parse(json)
+        if url_access['url'].present?
+          all << url_access['url']
+        end
+      end
+      return all.size > 0 ? all : nil
+    end
+    nil
+  end
+
   def access_url_single(args)
     if !args["url_access_json"].present? || access_url_is_list?(args)
       nil
