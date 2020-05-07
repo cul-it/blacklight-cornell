@@ -12,8 +12,6 @@ if data["url_access_json"].present? && data["url_access_json"].size > 1
   Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in _database.html.erb"
   puts "url_access_json for " + data['id'].to_s
   puts data['url_access_json'].to_yaml
-  puts "url_access_display for " + data['id'].to_s
-  puts data['url_access_display'].to_yaml
   Rails.logger.level = save_level
 end
 %>
