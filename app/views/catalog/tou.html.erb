@@ -57,7 +57,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>          
+          </table>
      <% end %>
       Terms of use
     </h2>
@@ -83,9 +83,6 @@
             <% if data["summary_display"].present? %>
               <%= data["summary_display"][0] %>
             <% end %>
-          </p>
-          <p>
-            <%#= link_to data["url"][0].split('|')[1],data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'catalog', 'outlink_tou_url']);" %>
           </p>
         </div>
         <% if @ermDBResult.present? %>
@@ -282,7 +279,7 @@
                 </tbody>
               </table>
           <% end %>
-          
+
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
@@ -327,9 +324,9 @@
         <% end %>
       <% else %>
         Not an e-book or database record.  Check out why a link was created for this bibID.
-      <% end %>        
       <% end %>
-      <% else %> 
+      <% end %>
+      <% else %>
         Invalid record ID
       <% end %>
     </div>

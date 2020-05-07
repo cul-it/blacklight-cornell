@@ -103,7 +103,6 @@ end
   end
 
   # :format arg specifies what should be returned
-  # * the raw array (url_access_display in availability on item page)
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
@@ -482,7 +481,6 @@ end
   end
 
   def is_online? document
-   Rails.logger.debug("es287_debug @@@@ #{__FILE__}:#{__LINE__} url =  #{document['url_access_display'].inspect}")
     ( document['online'].present?  && document['online'].include?('Online')) ?
         true
       :
@@ -493,15 +491,6 @@ end
         true
       :
         false
-  end
-  def online_url(document)
-    if document['url_access_display'].present?
-      if document['url_access_display'].size > 1
-        solr_document_path(document)
-      else
-        render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
-      end
-    end
   end
 
   def finding_aid(document)
@@ -935,15 +924,15 @@ end
       query_params[:per_page] = "20"
     end
     test = (query_params[:counter].to_i % query_params[:per_page].to_i)
-      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0' 
-         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) 
+      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0'
+         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i)
       else
          pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) + 1
       end
-      
+
       query_params[:page] = pageNumber.to_s
-      
-    
+
+
     if !query_params[:q_row].nil?
         if (!query_params[:q_row].nil? && query_params[:q_row].size == 2)
             if query_params[:q_row][1] == ''
@@ -981,7 +970,7 @@ end
     link = {}
     link[:url] = link_url
     link[:label] = opts[:label]
-    
+
     return link
   end
 
@@ -1522,4 +1511,108 @@ end
     end
     render_search_to_s_element(label , render_filter_value(params['q']) )
   end
+
+  def access_url_is_list?(args)
+    args['url_access_json'].present? && args['url_access_json'].size != 1
+  end
+
+  def access_url_first(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['url'].present?
+        return url_access['url']
+      end
+    end
+    nil
+  end
+
+  def access_url_first_description(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['description'].present?
+        return url_access['description']
+      end
+    end
+    nil
+  end
+
+
+  def access_url_first_filtered(args)
+    access_url = access_url_first(args)
+    if access_url.present?
+        access_url.sub!('http://proxy.library.cornell.edu/login?url=','')
+        access_url.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+        return access_url
+    end
+    nil
+  end
+
+  def access_url_all(args)
+    if args['url_access_json'].present?
+      all = []
+      args['url_access_json'].each do |json|
+        url_access = JSON.parse(json)
+        if url_access['url'].present?
+          all << url_access['url']
+        end
+      end
+      return all.size > 0 ? all : nil
+    end
+    nil
+  end
+
+  def access_url_single(args)
+    if !args["url_access_json"].present? || access_url_is_list?(args)
+      nil
+    else
+      url_access = JSON.parse(args["url_access_json"][0])
+      if url_access['url'].present?
+        url_access['url']
+      else
+        nil
+      end
+    end
+  end
+
+  def access_z_note(args)
+    if args['url_access_json'].present? && !access_url_is_list?(args)
+      single = JSON.parse(args["url_access_json"][0])
+      if single.present? && single['description'].present?
+        excludes = [
+          'Connect to resource.',
+          'Connect to full text.',
+          'Connect to full text',
+          'Current issues',
+          'Connect to image database.',
+          'Connect to full text:',
+          'Connect to AGRICOLA.',
+          'Connect to AGU digital library - Books.'&&
+          'Connect to full-text',
+          'Connect to American Founding Era.',
+          'Connect to AnthroSource.',
+          'Connect to ATLA religion database.',
+          'Connect to site.',
+          'Black Literature Index Connect to full text.',
+          'Connect to CenStats.',
+          'Connect to Europa World Plus.',
+          'Connect to Gale Directory Library.',
+          'Connect to resource',
+          'Connect to collection.',
+          'Connect to LLMC Digital',
+          'For instructions on how to use Lynda.com',
+          'Connect to database.',
+          'Connect to SPIE Digital Library.',
+          'Connect to TRID.',
+          'Connect to World news connection.'
+          ]
+        if excludes.include? single['description']
+          nil
+        else
+          return single['description']
+        end
+      end
+    end
+    nil
+  end
+
 end

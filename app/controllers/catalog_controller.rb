@@ -92,7 +92,6 @@ end
       :rows => 20,
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
-#      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
       :defType => 'edismax',
       :"f.lc_callnum_facet.facet.limit" => "-1"
     }
@@ -154,7 +153,6 @@ end
     }
 
     config.display_link = {
-        'url_access_display' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
