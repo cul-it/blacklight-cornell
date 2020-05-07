@@ -312,8 +312,9 @@ module Blacklight::Solr::Document::MarcExport
     id = "id #{csl}"
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}id=#{id.inspect}")
     ul = ''
-    if !self['url_access_display'].blank?
-       ul = self['url_access_display'].first.split('|').first
+    access_url = access_url_single(self)
+    if access_url.present?
+       ul = access_url
        # might have proxy link -- http://proxy.library.cornell.edu/login?url=http://site.ebrary.com/lib/cornell/Top?id=11014930
        # or gateway link
        ul.sub!('http://proxy.library.cornell.edu/login?url=','')
