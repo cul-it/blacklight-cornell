@@ -25,12 +25,15 @@
     <div class="document-data">
       <% @db.each do |data| %>
         <h4 class="blacklight-title_display">
-          <%= link_to data["url_access_display"][0].split('|')[0] do %>
+          <% access_url = access_url_single(data) %>
+          <% if access_url.present? %>
+          <%= link_to access_url do %>
             <% if data["fulltitle_vern_display"].present? %>
               <%= data["fulltitle_vern_display"] %>
             <% else %>
               <%= data["fulltitle_display"] %>
             <% end %>
+          <% end %>
           <% end %>
         </h4>
         <div class="description">
