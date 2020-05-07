@@ -37,7 +37,7 @@ module Blacklight::Solr::Document::Endnote
       "020.a" => "%@" ,
       "022.a" => "%@" ,
       "245.a,245.b" => "%T" ,
-      "250.a" => "%7" 
+      "250.a" => "%7"
     }
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     marc_obj = to_marc
@@ -70,7 +70,7 @@ module Blacklight::Solr::Document::Endnote
       else
         second_value = []
       end
-      
+
       if marc_obj[first_value[0].to_s]
         marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
           if field[first_value[1]].to_s or field[second_value[1]].to_s
@@ -90,7 +90,7 @@ module Blacklight::Solr::Document::Endnote
     #"264.a" => "%C" ,
     #"260.b" => "%I" ,
     #"264.b" => "%I" ,
-    # publisher, and place. 
+    # publisher, and place.
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
     place = ''
     pname = ''
@@ -102,18 +102,18 @@ module Blacklight::Solr::Document::Endnote
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
     #"264.c" => "%D" ,
     #"260.c" => "%D" ,
-    pdate = setup_pub_date(to_marc) 
+    pdate = setup_pub_date(to_marc)
     if ty == 'Thesis'
       th = setup_thesis_info(to_marc)
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
       pname = th[:inst].to_s
       pdate = th[:date].to_s unless th[:date].blank?
       thtype = th[:type].to_s
-      text << "%9 #{thtype}\n" unless  thtype.blank? 
+      text << "%9 #{thtype}\n" unless  thtype.blank?
     end
-    text << "%I #{pname}\n" unless  pname.blank? 
-    text << "%C #{place}\n" unless  place.blank? 
-    text << "%D #{pdate}\n" unless  pdate.blank? 
+    text << "%I #{pname}\n" unless  pname.blank?
+    text << "%C #{place}\n" unless  place.blank?
+    text << "%D #{pdate}\n" unless  pdate.blank?
     # "024.a" => "%R" ,
     doi = setup_doi(to_marc)
     text << "%R #{doi}\n" unless  doi.blank?
@@ -125,7 +125,7 @@ module Blacklight::Solr::Document::Endnote
     text += "%Z http://newcatalog.library.cornell.edu/catalog/#{id}\n"
     text = generate_en_keywords(text,ty)
     # add a blank line to separate from possible next.
-    text << "\n"  
+    text << "\n"
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
     text
   end
@@ -136,7 +136,7 @@ module Blacklight::Solr::Document::Endnote
     kw.each do |k|
           text += "%K #{k}\n"   unless k.blank?
     end unless kw.blank?
-    text 
+    text
   end
 
 #Examples
@@ -148,7 +148,7 @@ module Blacklight::Solr::Document::Endnote
 #%I   Houghton
 #%C  Boston
 #%N  2nd
-# 
+#
 # %0  Journal Article
 # %A  Herbert H. Clark
 # %D  1982
@@ -156,7 +156,7 @@ module Blacklight::Solr::Document::Endnote
 # %B  Language
 # %V  58
 # %P  332-373
-#  
+#
 #  %0  Thesis
 #  %A  Cantucci, Elena
 #  %T  Permian strata in South-East Asia
@@ -167,7 +167,7 @@ module Blacklight::Solr::Document::Endnote
 
 end
 
-# documentation -- 
+# documentation --
 #https://www.citavi.com/sub/manual5/en/importing_an_endnote_tagged_file.html
 # Importing an EndNote Tagged File
 #
@@ -229,7 +229,7 @@ end
 # %B Secondary Title (of a Book or Conference Name)
 # %C Place Published
 # %D Year
-# %E Editor /Secondary Author 
+# %E Editor /Secondary Author
 # %F Label
 # %G Language
 # %H Translated Author

@@ -87,9 +87,9 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     end
 
     if !editors.empty?
-      editors.each { |e|     
+      editors.each { |e|
         output += "ED  - #{e}\n"
-      } 
+      }
     end
 
     # publication year
@@ -130,7 +130,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     kw =   setup_kw_info(to_marc)
     kw.each do |k|
 
-      output +=  "KW  - #{k}" + "\n" unless k.empty? 
+      output +=  "KW  - #{k}" + "\n" unless k.empty?
     end
     nt =   setup_notes_info(to_marc)
     nt.each do |n|

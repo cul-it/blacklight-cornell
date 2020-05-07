@@ -12,7 +12,7 @@ module Blacklight::Solr::Document::Zotero
   end
 
   def export_as_rdf_zotero
-   generate_rdf_zotero  
+   generate_rdf_zotero
   end
 
 
@@ -25,13 +25,13 @@ module Blacklight::Solr::Document::Zotero
     if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
       ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"
     end
-    tag = case ty 
-       when 'videoRecording' 
-        "Recording" 
+    tag = case ty
+       when 'videoRecording'
+        "Recording"
        when  'audioRecording'
-        "Recording" 
+        "Recording"
        when  'map'
-        "Image" 
+        "Image"
       else
         "Book"
       end
@@ -45,7 +45,7 @@ module Blacklight::Solr::Document::Zotero
     'xmlns:bib' => "http://purl.org/net/biblio#",
     'xmlns:prism' => "http://prismstandard.org/namespaces/1.2/basic/",
     'xmlns:dcterms' =>"http://purl.org/dc/terms/") do
-      builder.bib(tag.to_sym) do 
+      builder.bib(tag.to_sym) do
         builder.z(:itemType,"#{ty}")
         builder.dc(:title, title.strip)
         generate_rdf_authors(builder,ty)
@@ -65,7 +65,7 @@ module Blacklight::Solr::Document::Zotero
       end
     end
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
-    builder.target! 
+    builder.target!
   end
 
  #   <dc:identifier>
@@ -78,7 +78,7 @@ module Blacklight::Solr::Document::Zotero
     b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}  unless ul.blank?
   end
     #<dcterms:abstract>Backup of websites is often not considered until </dcterms:abstract>
-    
+
   def generate_rdf_abstract(b)
     k = setup_abst_info(to_marc)
     b.dcterms(:abstract,k.join(' ')) unless k.blank?
@@ -103,7 +103,7 @@ module Blacklight::Solr::Document::Zotero
   end
 
   def generate_rdf_holdings(b)
-    where = setup_holdings_info(b) 
+    where = setup_holdings_info(b)
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{where.inspect}"
     #b.dc(:coverage,where.join("\n")) unless where.blank? or where.join("").blank?
     b.dc(:subject) { b.dcterms(:LCC) { b.rdf(:value,where.join("//")) }}  unless where.blank? or where.join("").blank?
@@ -114,14 +114,14 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_isbn(b)
     isbns = setup_isbn_info(to_marc)
     isbns.each do |k|
-      b.dc(:identifier,"ISBN #{k}") unless k.blank? 
+      b.dc(:identifier,"ISBN #{k}") unless k.blank?
     end
   end
     #<dc:identifier>DOI 10.1371/journal.pone.0118512</dc:identifier>
   def generate_rdf_doi(b)
     doi = setup_doi(to_marc)
-    b.dc(:description,"DOI #{doi}") unless doi.blank? 
-    b.dc(:description,"just some random text") unless doi.blank? 
+    b.dc(:description,"DOI #{doi}") unless doi.blank?
+    b.dc(:description,"just some random text") unless doi.blank?
   end
 
     # edition
@@ -136,7 +136,7 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_kw(b)
     kw =   setup_kw_info(to_marc)
     kw.each do |k|
-      b.dc(:subject,k) unless k.empty? 
+      b.dc(:subject,k) unless k.empty?
     end
   end
 
@@ -179,13 +179,13 @@ module Blacklight::Solr::Document::Zotero
   def generate_rdf_pubdate(b)
     # publication year
     yr  = "#{setup_pub_date(to_marc)}"
-    b.dc(:date,yr) unless yr.empty? 
+    b.dc(:date,yr) unless yr.empty?
   end
 
   def generate_rdf_person(b,p)
     surname = p
     surname, givenname = p.split(',') unless !p.include?(",")
-    b.foaf(:Person) do 
+    b.foaf(:Person) do
       sn = surname.index('(').nil? ? surname : surname[0,surname.index('(')].rstrip
       b.foaf(:surname,sn.strip) unless sn.blank?
       b.foaf(:givenname,givenname.strip) unless givenname.blank?
@@ -216,24 +216,24 @@ module Blacklight::Solr::Document::Zotero
     #pa = primary_authors + secondary_authors
     author_text = ''
     editor_text = ''
-    auty =  case ty 
-              when 'videoRecording'  
-                'contributors' 
-              when 'audioRecording'  
+    auty =  case ty
+              when 'videoRecording'
+                'contributors'
+              when 'audioRecording'
                 primary_authors.blank? ? 'contributors' : 'performers'
-              when 'map'  
+              when 'map'
                 primary_authors.blank? ? 'contributors' : 'cartographers'
               else
                 'authors'
-             end 
+             end
     if !pa.blank?
       ns = ['contributors','authors','editors'].include?(auty)  ? 'bib' : 'z'
-      bld.tag!("#{ns}:#{auty}") { 
+      bld.tag!("#{ns}:#{auty}") {
         bld.rdf(:Seq) {
             pa.map { |a|     bld.rdf(:li) { generate_rdf_person(bld,a) } }
         }
       }
-    end 
+    end
     edty = ty == 'videoRecording' ? 'contributors' : 'editors'
     if !editors.blank?
       bld.bib(edty.to_sym ) {
@@ -241,14 +241,14 @@ module Blacklight::Solr::Document::Zotero
             editors.map { |a|     bld.rdf(:li) { generate_rdf_person(bld,a) } }
         }
       }
-    end 
+    end
     if pa.blank? && editors.blank? && !relators.blank?
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
-      relators.each { |n,r| 
-        rel = relator_to_zotero(r[0]) 
+      relators.each { |n,r|
+        rel = relator_to_zotero(r[0])
         ns = ['contributors','authors','editors'].include?(rel)  ? 'bib' : 'z'
         bld.tag!("#{ns}:#{rel}") { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
-        #if ['contributors','authors','editors'].include?(rel) 
+        #if ['contributors','authors','editors'].include?(rel)
         #  bld.bib(rel.to_sym) { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
         #else
         #  bld.z(rel.to_sym) { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
@@ -257,20 +257,15 @@ module Blacklight::Solr::Document::Zotero
     end
   end
 
-  # if e-resource  
-  #  put catalog link in coverage 
-  # else 
-  #  put in url field. 
+  # if e-resource
+  #  put catalog link in coverage
+  # else
+  #  put in url field.
   def generate_rdf_catlink(b,ty)
-    ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}" 
+    ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}"
     # if no elect access data, 'description' field.
     b.dc(:description,ul)
-    #if self['url_access_display'].blank?
-      #b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}
-      #else 
-      #b.dc(:coverage,ul)
-    #eend
-  end 
+  end
   # add info specific to an item type.
   def generate_rdf_specific(b,ty)
     case ty
@@ -278,20 +273,20 @@ module Blacklight::Solr::Document::Zotero
         th = setup_thesis_info(to_marc)
         typ = th[:type].to_s
         Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{th.inspect}"
-        b.z(:type,typ)  
+        b.z(:type,typ)
       else
     end
-  end 
+  end
 
   def relator_to_zotero(rel)
-    if RELATOR_CODES_ZRDF.has_key?(rel) 
-      RELATOR_CODES_ZRDF[rel] 
-    else  
+    if RELATOR_CODES_ZRDF.has_key?(rel)
+      RELATOR_CODES_ZRDF[rel]
+    else
       "contributors"
-    end 
+    end
   end
-  
-    
+
+
 FACET_TO_ZOTERO_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ANCIENT"=>"ANCIENT", "ART"=>"ART", "BILL"=>"BILL", "BLOG"=>"BLOG",
   "Book"=>"book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"CHART",
@@ -577,7 +572,7 @@ RELATOR_CODES_ZRDF = {
  "wat" => "contributors",
  "win" => "contributors",
  "wpr" => "contributors",
- "wst" => "contributors" 
+ "wst" => "contributors"
 }
 end
 #<rdf:RDF
