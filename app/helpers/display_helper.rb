@@ -1530,9 +1530,9 @@ end
     if !args["url_access_json"].present? || access_url_is_list?(args)
       nil
     else
-      url_access_json = JSON.parse(args["url_access_json"][0])
-      if url_access_json['url'].present?
-        url_access_json['url']
+      url_access = JSON.parse(args["url_access_json"][0])
+      if url_access['url'].present?
+        url_access['url']
       else
         nil
       end
