@@ -31,7 +31,7 @@ class BentoSearch::SolrEngineSingle
                                         'group.limit' => 3,
                                         'group.ngroups' => 'true',
                                         :sort => 'score desc, pub_date_sort desc, title_sort asc',
-                                        :fl => 'id,pub_date_display,format,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,url_access_display,availability_json',
+                                        :fl => 'id,pub_date_display,format,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,availability_json',
                                         :mm => 1
                                         #:defType => 'edismax'
                                        }

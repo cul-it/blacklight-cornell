@@ -1,11 +1,11 @@
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
   <%
-    # With Blacklight 7, we can't access these using field_value. So get them all out of 
+    # With Blacklight 7, we can't access these using field_value. So get them all out of
     # the Solr doc right up front.
     title_display = @document['title_display']
     title_vern_display = @document['title_vern_display'] # 10751949
-    subtitle_display = @document['subtitle_display'] 
+    subtitle_display = @document['subtitle_display']
     subtitle_vern_display = @document['subtitle_vern_display'] # 10615953
     responsibility = @document['title_responsibility_display']
     url_access_json = @document['url_access_json']
@@ -15,6 +15,7 @@
     workid_display = @document['workid_display']
     workid_facet = @document['workid_facet']
   %>
+
   <% # bookmark/folder functions -%>
   <div class="document-header">
   <%
@@ -51,14 +52,8 @@
               </span>
 	        <% end %>
 	      <% end %>
-	      <%# online %>
-	      <%#= online_url(@document).inspect %>
-	      <%# if online_url(@document) %>
 
 	        <%  summary_holdings = '' %>
-	        <!-- render display link start -->
-	        <%# online_links = render_display_link :document => @document, :field => 'url_access_display', :format => 'raw' %>
-	        <!-- render display link end -->
 	        <div class="holdings-online">
 	        	<% if is_online? @document %>
 	        		<div class="online-label">
@@ -66,7 +61,7 @@
 	        		</div>
 	        	<%end %>
 	        <ul class="list-unstyled">
-	        
+
 	         <% if @document["holdings_json"].present? %>
 	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
 	         <%# getID = holdings["id"] %>
@@ -89,7 +84,7 @@
                   			<% else %>
                   		  		<% label = t('blacklight.url.message')  %>
                   			<% end %>
-                  		
+
 	                    <li>
 	                       <div class="online-link">
 	                          <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
@@ -136,7 +131,7 @@
 	                            <% end %>
 	                          <% end %>
 	                          </div>
-	                          <% if link["dbcode"].present? && link["providercode"].present? %>  
+	                          <% if link["dbcode"].present? && link["providercode"].present? %>
 	                             <span class="terms-of-use">
 	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
 		                         	<a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
@@ -145,21 +140,21 @@
 	                        </div>
 	                    </li>
 	              <%# end %>
-                  		
-                  		
-                  		
-                  		
-              <% end %>	     		
-                  		
-                <% end %>	
-                <% end %>  		
+
+
+
+
+              <% end %>
+
+                <% end %>
+                <% end %>
 
 	            <% end %>
 	           <% end %>
 	          </ul>
 	        </div>
             <%# online-holdings %>
-           
+
 	      <%# end %>
 	      <%# end online %>
 	      <%# print holdings %>
@@ -176,8 +171,8 @@
 	          <% online_items = [] %>
 	          <% holdings.each do |k,holding| %>
 	          <%#= holdings[k]["active"].inspect %>
-       			<% if holdings[k]["active"].nil? or holdings[k]["active"] == true %>	          
-	          
+       			<% if holdings[k]["active"].nil? or holdings[k]["active"] == true %>
+
 	             		<% if holding["location"].present? %>
 	                		<% if holding["location"]["name"].include?('Rare') %>
 	                   			<% rare_items << holding %>
