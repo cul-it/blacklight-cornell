@@ -1526,6 +1526,15 @@ end
     nil
   end
 
+  def access_url_first_description(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['description'].present?
+        return url_access['description']
+      end
+    end
+    nil
+  end
   def access_url_all(args)
     if args['url_access_json'].present?
       all = []
