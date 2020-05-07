@@ -1597,10 +1597,6 @@ end
         if excludes.include? single['description']
           nil
         else
-          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in access_z_note"
-          puts single['description'].to_yaml
-          Rails.logger.level = save_level
           return single['description']
         end
       end

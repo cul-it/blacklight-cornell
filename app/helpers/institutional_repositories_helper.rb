@@ -107,21 +107,6 @@ module InstitutionalRepositoriesHelper
                 r.title = s['id']
             end
             if s['agent_hash_tesim'].present?
-
-                # save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-                # Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in schemeOai"
-                # puts s['agent_hash_tesim'].inspect
-                # j = s['agent_hash_tesim'].shift
-                # puts j.to_yaml
-                # puts JSON.parse(j).to_yaml
-                # ja= JSON.parse(j)
-                # ja.each { |t|
-                #     puts 't:' + t.inspect
-                #     puts 'a:' + t['agent'].inspect
-                # }
-                # Rails.logger.level = save_level
-
-
                 agents = JSON.parse(s['agent_hash_tesim'].shift)
                 agents.each { |a| r.authors << BentoSearch::Author.new({:display => a['agent']}) }
             end

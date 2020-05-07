@@ -6,15 +6,6 @@
     <div class="document blacklight-database-name clearfix">
       <div class="document-data">
         <h3 class="blacklight-title_display">
-<%
-if data["url_access_json"].present? && data["url_access_json"].size > 1
-  save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-  Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in _database.html.erb"
-  puts "url_access_json for " + data['id'].to_s
-  puts data['url_access_json'].to_yaml
-  Rails.logger.level = save_level
-end
-%>
           <% if access_url_is_list?(data) %>
             <% dbid = data["id"] %>
             <%= link_to "/catalog/#{dbid}" do %>

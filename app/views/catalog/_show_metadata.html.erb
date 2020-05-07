@@ -15,13 +15,6 @@
     workid_display = @document['workid_display']
     workid_facet = @document['workid_facet']
   %>
-<%
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in _show_metadata.html.erb"
-puts "url_access_json for " + @document['id'].to_s
-puts url_access_json.to_yaml
-Rails.logger.level = save_level
-%>
 
   <% # bookmark/folder functions -%>
   <div class="document-header">
