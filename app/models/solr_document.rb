@@ -116,9 +116,21 @@ class SolrDocument
     end
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
     where
-  end 
+  end
 
+  # code here accessible to endnote_xml.rb, endnote.rb, ris.rb, zotero.rb
+  def access_url_first_filtered(record)
+    if record['url_access_json'].present? && record["url_access_json"].first.present?
+      url_access = JSON.parse(record['url_access_json'].first)
+      if url_access['url'].present?
+        access_url = url_access['url']
+        access_url.sub!('http://proxy.library.cornell.edu/login?url=','')
+        access_url.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+        return access_url
+      end
+    end
+    nil
+  end
 
- 
 
 end

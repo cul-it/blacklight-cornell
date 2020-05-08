@@ -13,20 +13,6 @@ module Blacklight::Solr::Document::RIS
     document.will_export_as(:zotero, "application/x-research-info-systems")
   end
 
-  # can't figure out how to access this code from a helper!!!
-  def access_url_first_filtered(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
-      if url_access['url'].present?
-        access_url = url_access['url']
-        access_url.sub!('http://proxy.library.cornell.edu/login?url=','')
-        access_url.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
-        return access_url
-      end
-    end
-    nil
-  end
-
   def export_as_ris
     export_ris
   end
