@@ -1516,51 +1516,6 @@ end
     args['url_access_json'].present? && args['url_access_json'].size != 1
   end
 
-  def access_url_first(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
-      if url_access['url'].present?
-        return url_access['url']
-      end
-    end
-    nil
-  end
-
-  def access_url_first_description(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
-      if url_access['description'].present?
-        return url_access['description']
-      end
-    end
-    nil
-  end
-
-
-  def access_url_first_filtered(args)
-    access_url = access_url_first(args)
-    if access_url.present?
-        access_url.sub!('http://proxy.library.cornell.edu/login?url=','')
-        access_url.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
-        return access_url
-    end
-    nil
-  end
-
-  def access_url_all(args)
-    if args['url_access_json'].present?
-      all = []
-      args['url_access_json'].each do |json|
-        url_access = JSON.parse(json)
-        if url_access['url'].present?
-          all << url_access['url']
-        end
-      end
-      return all.size > 0 ? all : nil
-    end
-    nil
-  end
-
   def access_url_single(args)
     if !args["url_access_json"].present? || access_url_is_list?(args)
       nil
@@ -1611,6 +1566,40 @@ end
           return single['description']
         end
       end
+    end
+    nil
+  end
+
+  def access_url_first(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['url'].present?
+        return url_access['url']
+      end
+    end
+    nil
+  end
+
+  def access_url_first_description(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['description'].present?
+        return url_access['description']
+      end
+    end
+    nil
+  end
+
+  def access_url_all(args)
+    if args['url_access_json'].present?
+      all = []
+      args['url_access_json'].each do |json|
+        url_access = JSON.parse(json)
+        if url_access['url'].present?
+          all << url_access['url']
+        end
+      end
+      return all.size > 0 ? all : nil
     end
     nil
   end
