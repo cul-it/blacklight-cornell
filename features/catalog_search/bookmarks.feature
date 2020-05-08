@@ -11,10 +11,8 @@ Feature: Bookmarks for anonymous users
         Then Sign in should link to Book Bags
         And I should see a link "Selected Items"
 
-    @saml_on
     @bookmarks_sign_in
-    Scenario: If I try to sign in, I have to log in
-        Given PENDING
+    Scenario: If I try to sign in from bookmarks, I have to log in via book bags
         When I literally go to bookmarks
         Then Sign in should link to Book Bags
 
