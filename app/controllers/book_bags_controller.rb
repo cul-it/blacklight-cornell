@@ -10,8 +10,8 @@ end
 
 class BookBagsController < CatalogController
 #class BookBagsController < ApplicationController
-   include Blacklight::Catalog
-   include BlacklightCornell::CornellCatalog
+  include Blacklight::Catalog
+  include BlacklightCornell::CornellCatalog
 
   MAX_BOOKBAGS_COUNT = 500
 
@@ -34,7 +34,7 @@ class BookBagsController < CatalogController
 
   def initialize
     super
-    @bb = Bookbag.new(nil)
+    @bb = BookBag.new(nil)
   end
 
   def can_add

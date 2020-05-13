@@ -203,7 +203,7 @@ class BentoSearch::EdsEngine
       with_session(end_user_auth) do |session_token|
 
         # first time just get total item count
-        required_hit_count = args[:per_page]
+        required_hit_count = [args[:per_page], 1].max
         args[:per_page] = 0
         url = construct_search_url(args)
 
