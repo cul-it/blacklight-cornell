@@ -1,5 +1,5 @@
-  <%-bookmarks = !(BookBag.enabled? and current_user)
-     bookbags = BookBag.enabled? && current_user
+  <%-bookmarks = !(Bookbag.enabled? and current_user)
+     bookbags = Bookbag.enabled? && current_user
      can_add_books = current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT
   %>
 <% if current_or_guest_user %>
