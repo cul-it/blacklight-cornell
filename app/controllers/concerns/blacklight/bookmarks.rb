@@ -167,9 +167,6 @@ module Blacklight::Bookmarks
     redirect_to action: "index"
   end
 
-  def export
-  end
-
   private
 
   def verify_user
