@@ -28,11 +28,12 @@ class BookBagsController < CatalogController
       user = current_or_guest_user
     else
       :authenticate_user!
+      user = current_user
     end
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in create_scanit_link"
-    puts user.to_yaml
-    puts user.inspect
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+    puts user.email.to_yaml
+    puts user.email.inspect
     Rails.logger.level = save_level
   end
 
@@ -82,6 +83,7 @@ class BookBagsController < CatalogController
 
   def addbookmarks
     @savedll = Rails.logger.level # at any time
+    Rails.logger.level = Logger::INFO
     if current_or_guest_user.bookmarks.count > 0
       bm = current_or_guest_user.bookmarks
       Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
