@@ -18,17 +18,8 @@ class BookBag
             :database => ENV['BAG_MYSQL_DATABASE'] )
     @@bagname = nil
 
-    begin
-      @@con.query("CREATE TABLE IF NOT EXISTS \
-        book_bags(bagname varchar(255), bibid int unsigned, PRIMARY KEY (bagname, bibid))")
-    rescue Mysql2::error => e
-      @@con = nil
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag"
-      puts e.error.to_yaml
-      puts e.errno.inspect
-      Rails.logger.level = save_level
-    end
+    @@con.query("CREATE TABLE IF NOT EXISTS \
+      book_bags(bagname varchar(255), bibid int unsigned, PRIMARY KEY (bagname, bibid))")
 
   else
     @@con = nil
