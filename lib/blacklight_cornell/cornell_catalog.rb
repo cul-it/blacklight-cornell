@@ -1057,9 +1057,9 @@ def check_params(params)
 
   def set_bag_name
      user_session[:bookbag_count] = nil unless user_session.nil?
-     if current_user && BookBag.enabled?
+     if current_user && Bookbag.enabled?
        @id = current_user.email
-       @bb = BookBag.new("#{@id}-bookbag-default")
+       @bb = Bookbag.new("#{@id}-bookbag-default")
        user_session[:bookbag_count] = @bb.count
      end
    end
