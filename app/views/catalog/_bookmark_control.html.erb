@@ -41,11 +41,11 @@
 	  <% end %>
   </div>
   <% end %>
-  <%if bookbags %>
+  <%if bookbags %> 
    <% if !bookbagged? document.id  %>
     <% if can_add_books %>
-      <%= form_tag( "/book_bags/add/#{document.id}" ,
-                    method: :put,
+      <%= form_tag( "/book_bags/add/#{document.id}" , 
+                    method: :put, 
                     class: "bookmark-toggle",
 	                data: {
 	                   "doc-id" => document.id,
@@ -58,7 +58,7 @@
                        class: "bookmark_add btn btn-outline-secondary") %>
        <%end%>
     <% end %>
-   <% else %>
+   <% else %> 
       <%= form_tag( "/book_bags/add/#{document.id}" ,
                    method: :delete,
                    class: "bookmark-toggle",
