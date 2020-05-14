@@ -10,8 +10,8 @@ end
 
 class BookBagsController < CatalogController
 #class BookBagsController < ApplicationController
-  include Blacklight::Catalog
-  include BlacklightCornell::CornellCatalog
+   include Blacklight::Catalog
+   include BlacklightCornell::CornellCatalog
 
   MAX_BOOKBAGS_COUNT = 500
 
