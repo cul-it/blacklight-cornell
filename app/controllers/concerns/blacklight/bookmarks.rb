@@ -172,8 +172,12 @@ module Blacklight::Bookmarks
     Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
     puts 'export'.to_yaml
     puts 'export'.inspect
-    bb = BookBag.new('jgr25@cornell.edu')
-    puts bb.to_yaml
+    email = 'jgr25@cornell.edu'
+    bb = BookBag.new(email)
+    bb.create(123)
+    bb.create(456)
+    bag = bb.index
+    puts bag.to_yaml
     Rails.logger.level = save_level
     redirect_to action: "index"
   end
