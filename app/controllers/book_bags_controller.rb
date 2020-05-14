@@ -105,7 +105,7 @@ class BookBagsController < CatalogController
             success = @bb.create(v)
           end
         end
-        user_session[:bookbag_count] = @bb.count
+        user_session[:bookbag_count] = @bb.count unless user_session.nil?
       end
     end
     Rails.logger.level = @savedll
