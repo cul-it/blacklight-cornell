@@ -95,9 +95,9 @@ module Blacklight::Bookmarks
                    else
                      [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
                    end
-  
+
       current_or_guest_user.save! unless current_or_guest_user.persisted?
-  
+
       # next 8 lines are custom code
       current_count = current_or_guest_user.bookmarks.count
       new_count = @bookmarks.count
@@ -110,7 +110,7 @@ module Blacklight::Bookmarks
       success = @bookmarks.all? do |bookmark|
         current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
       end
-  
+
       if request.xhr?
         success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
       else
@@ -183,4 +183,5 @@ module Blacklight::Bookmarks
   def permit_bookmarks
     params.permit(bookmarks: [:document_id, :document_type])
   end
+
 end
