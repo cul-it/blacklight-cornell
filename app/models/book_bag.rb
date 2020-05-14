@@ -54,7 +54,7 @@ class BookBag
       end
       # @con.rpush  @bagname,value if @con
     rescue
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+      Rails.logger.error("BookBag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
       @@con = nil
       @con = nil
     end
@@ -66,7 +66,7 @@ class BookBag
       @con.query("DELETE FROM book_bags WHERE bagname='#{@bagname}' AND value='#{value}'")
       # @con.lrem  @bagname,99,value if @con
     rescue
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
+      Rails.logger.error("BookBag connect error:  #{__FILE__}:#{__LINE__}  value = #{value.inspect}")
       @@con = nil
       @con = nil
     end
@@ -81,7 +81,7 @@ class BookBag
       end
       # c = @con.lrange(@bagname,0,-1) if @con
     rescue
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  @con = #{@con.inspect}")
+      Rails.logger.error("BookBag connect error:  #{__FILE__}:#{__LINE__}  @con = #{@con.inspect}")
       c =[]
       @@con = nil
       @con = nil
@@ -97,7 +97,7 @@ class BookBag
       c = bibs.num_rows
       # c = @con.lrange(@bagname,0,-1).uniq.size if @con
     rescue
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  @con = #{@con.inspect}")
+      Rails.logger.error("BookBag connect error:  #{__FILE__}:#{__LINE__}  @con = #{@con.inspect}")
       c = 0
       @@con = nil
       @con = nil
@@ -112,7 +112,7 @@ class BookBag
       c = con.affected_rows
       # c = @con.del(@bagname,0)  if @con
     rescue
-      Rails.logger.error("Bookbag connect error:  #{__FILE__}:#{__LINE__}  @con = #{@con.inspect}")
+      Rails.logger.error("BookBag connect error:  #{__FILE__}:#{__LINE__}  @con = #{@con.inspect}")
       c = 0
       @@con = nil
       @con = nil
