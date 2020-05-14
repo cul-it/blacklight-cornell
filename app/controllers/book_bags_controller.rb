@@ -34,7 +34,7 @@ class BookBagsController < CatalogController
 
   def initialize
     super
-    @bb = BookBag.new(nil)
+    @bb = Bookbag.new(nil)
   end
 
   def can_add
