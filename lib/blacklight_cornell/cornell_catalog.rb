@@ -124,6 +124,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
+    # check to see if the search limit has been exceeded
+    session["search_limit_exceeded"] = false
+    search_limit = Rails.configuration.search_limit
+    page_i = params[:page].to_i
+    per_page_i = params[:per_page].present? ? params[:per_page].to_i : 20
+    requested_results = per_page_i * page_i
+    if requested_results > search_limit
+      logger.debug("******** #{__FILE__}:#{__LINE__}:#{__method__}: search limit exceeded.")
+      session["search_limit_exceeded"] = true
+    end
 
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
@@ -198,7 +208,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
    #params[:q] = '(+title_quoted:"A news" +title:Reporter)'
 #    params[:search_field] = 'advanced'
    #params[:q] = '(water)'
-    (@response, deprecated_document_list) = search_service.search_results
+    (@response, deprecated_document_list) = search_service.search_results session["search_limit_exceeded"]
     @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
@@ -257,6 +267,9 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     end
     end
     @controller = self
+    if session["search_limit_exceeded"]
+      flash.now.alert = I18n.t('blacklight.search.search_limit_exceeded')
+    end
     respond_to do |format|
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
