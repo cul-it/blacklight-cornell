@@ -17,10 +17,63 @@ class BookBagsController < CatalogController
 
   # copy_blacklight_config_from(CatalogController)
   #
-  before_action :authenticate_user!
+  before_action authenticate
 
   before_action :heading
   append_before_action :set_bag_name
+
+  def authenticate
+    if ENV['DEBUG_USER'].present? && Rails.env.development?
+      mock_auth
+      :authenticate_user!
+      if current_user
+        flash[:success] = "Found Current User"
+        user = current_user
+      else
+        flash[:failure] = "No user found"
+        user = current_or_guest_user
+      end
+    else
+      :authenticate_user!
+      user = current_user
+    end
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+    puts user.email.to_yaml
+    puts user.email.inspect
+    Rails.logger.level = save_level
+  end
+
+  def mock_auth
+    if ENV['DEBUG_USER'].present? && Rails.env.development?
+      OmniAuth.config.test_mode = true
+      #OmniAuth.add_mock(:saml, {:uid => '12356', {:info => {:email => 'jgr25@cornell.edu'}}})
+      OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
+        provider: "saml",
+        "saml_resp" => saml_resp ,
+        uid: "12345678910",
+        extra: {raw_info: {} } ,
+        info: {
+          email: "ditester@example.com",
+          name: ["Diligent Tester"],
+          netid: "mjc12",
+          groups: ["staff","student"],
+          primary: ["staff"],
+          first_name: "Diligent",
+          last_name: "Tester"
+        },
+        credentials: {
+          token: "abcdefg12345",
+          refresh_token: "12345abcdefg",
+          expires_at: DateTime.now
+        }
+      })
+    end
+  end
+
+  def saml_resp
+    'hello'
+  end
 
   def set_bag_name
     @id = current_user.email
