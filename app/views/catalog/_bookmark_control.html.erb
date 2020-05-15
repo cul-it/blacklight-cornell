@@ -1,5 +1,5 @@
-  <%-bookmarks = !(BookBag.enabled? and current_user)
-     bookbags = BookBag.enabled? && current_user
+  <%-bookmarks = !(Bookbag.enabled? and current_user)
+     bookbags = Bookbag.enabled? && current_user
      can_add_books = current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT
   %>
 <% if current_or_guest_user %>
@@ -41,11 +41,11 @@
 	  <% end %>
   </div>
   <% end %>
-  <%if bookbags %>
+  <%if bookbags %> 
    <% if !bookbagged? document.id  %>
     <% if can_add_books %>
-      <%= form_tag( "/book_bags/add/#{document.id}" ,
-                    method: :put,
+      <%= form_tag( "/book_bags/add/#{document.id}" , 
+                    method: :put, 
                     class: "bookmark-toggle",
 	                data: {
 	                   "doc-id" => document.id,
@@ -58,7 +58,7 @@
                        class: "bookmark_add btn btn-outline-secondary") %>
        <%end%>
     <% end %>
-   <% else %>
+   <% else %> 
       <%= form_tag( "/book_bags/add/#{document.id}" ,
                    method: :delete,
                    class: "bookmark-toggle",

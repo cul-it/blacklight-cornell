@@ -41,8 +41,8 @@
 <% if bookmarks_index || emailable  || bookbags_index %>
   <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
   <li>
-    <% if bookmarks_index %>
-      <% if current_user && BookBag.enabled? %>
+    <% if bookmarks_index %> 
+      <% if current_user && Bookbag.enabled? %>
         <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-sm'} do %>
           <%= emaillink_content.html_safe %>
         <% end %>
@@ -83,9 +83,6 @@
           </li>
             <li>
             <%= link_to t('blacklight.tools.endnote_xml'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote_xml'), {:class => 'piwik_download dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
-            </li>
-            <li>
-            <%= link_to 'Selected', bookmarks_export_path(:name => "Book Bag", :class => 'piwik_download dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items')%>
             </li>
         <% elsif bookbags_index  %>
           <li>

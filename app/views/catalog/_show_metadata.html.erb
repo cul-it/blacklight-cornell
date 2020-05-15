@@ -61,7 +61,6 @@
 	        		</div>
 	        	<%end %>
 	        <ul class="list-unstyled">
-
 	         <% if @document["holdings_json"].present? %>
 	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
 	         <%# getID = holdings["id"] %>
@@ -80,13 +79,16 @@
                   			<%#=  link["url"].inspect %>
                   			<%#= link["description"].inspect %>
                   			<% if link["description"].present? %>
-                  		  		<% label = link["description"] %>
+                  		  		<% label = link["description"] %> 
                   			<% else %>
-                  		  		<% label = t('blacklight.url.message')  %>
+                  		  		<% label = t('blacklight.url.message')  %> 
                   			<% end %>
 
 	                    <li>
 	                       <div class="online-link">
+                                    <% if label.include?("Temporary Access") %>
+                                     <% label = "Information for users about temporary access." %>
+                                    <% end %>
 	                          <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
 	                          <div class="message">
 	                             <%= summary_holdings.html_safe %>
@@ -116,9 +118,9 @@
 	                            <% if !value['notes'].nil? %>
 	                               <% sizer = value['notes'].size %>
 	                               <% if sizer != 0 %>
-	                                  <br>Notes: <%= value['notes'].join('<br>').html_safe %>
+	                                  <br>Notes: <%= value['notes'].join('<br>').html_safe %> 
 	                               <% else %>
-	                                  Notes: <%= value['notes'][0].html_safe %>
+	                                  Notes: <%= value['notes'][0].html_safe %> 
 	                               <% end %>
 	                            <% end %>
 	                            <% if !value['supplements'].nil? %>
@@ -131,6 +133,7 @@
 	                            <% end %>
 	                          <% end %>
 	                          </div>
+                                     
 	                          <% if link["dbcode"].present? && link["providercode"].present? %>
 	                             <span class="terms-of-use">
 	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
