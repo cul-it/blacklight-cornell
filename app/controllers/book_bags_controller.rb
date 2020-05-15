@@ -17,7 +17,7 @@ class BookBagsController < CatalogController
 
   # copy_blacklight_config_from(CatalogController)
   #
-  before_action authenticate
+  before_action :authenticate
 
   before_action :heading
   append_before_action :set_bag_name
