@@ -105,7 +105,7 @@ class BookBagsController < CatalogController
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     if @bb.count < MAX_BOOKBAGS_COUNT
-      success = @bb.create(value)
+      success = @bb.create_all([value])
       user_session[:bookbag_count] = @bb.count
     end
     if request.xhr?
@@ -138,12 +138,12 @@ class BookBagsController < CatalogController
         bookmark_ids = bookmark_ids.split(0, bookmark_max)
       end
       if not bookmark_ids.to_s.empty?
-        bookmark_ids.each do | v |
-          if /[0-9]+/.match(v)
-            v.prepend('bibid-')
-            success = @bb.create(v)
-          end
-        end
+        @bb.create_all(bookmark_ids)
+        # bookmark_ids.each do | v |
+        #   if /[0-9]+/.match(v)
+        #     v.prepend('bibid-')
+        #     success = @bb.create(v)
+        #   end
         user_session[:bookbag_count] = @bb.count unless user_session.nil?
       end
     end
@@ -153,10 +153,10 @@ class BookBagsController < CatalogController
 
   def delete
     @bibid = params[:id]
-    value = "bibid-#{@bibid}"
+    value = [@bibid]
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
-    success = @bb.delete(value)
+    success = @bb.delete_all(value)
     user_session[:bookbag_count] = @bb.count
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
@@ -303,8 +303,4 @@ class BookBagsController < CatalogController
       end
     end
 
-
-
-
-
-end
+  end
