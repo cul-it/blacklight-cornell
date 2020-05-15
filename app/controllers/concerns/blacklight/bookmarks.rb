@@ -47,7 +47,7 @@ module Blacklight::Bookmarks
   def index
     # if block is custom code
     if current_user && Bookbag.enabled?
-      flash[:notice] = I18n.t('blacklight.bookmarks.use_book_bag') 
+      flash[:notice] = I18n.t('blacklight.bookmarks.use_book_bag')
       redirect_to '/book_bags/index'
     end
     @bookmarks = token_or_current_or_guest_user.bookmarks
@@ -95,9 +95,9 @@ module Blacklight::Bookmarks
                    else
                      [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
                    end
-  
+
       current_or_guest_user.save! unless current_or_guest_user.persisted?
-  
+
       # next 8 lines are custom code
       current_count = current_or_guest_user.bookmarks.count
       new_count = @bookmarks.count
@@ -110,7 +110,7 @@ module Blacklight::Bookmarks
       success = @bookmarks.all? do |bookmark|
         current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
       end
-  
+
       if request.xhr?
         success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
       else
@@ -164,6 +164,22 @@ module Blacklight::Bookmarks
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
     end
+    redirect_to action: "index"
+  end
+
+  def export
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
+    puts 'export'.to_yaml
+    puts 'export'.inspect
+    email = 'jgr25@cornell.edu'
+    bb = BookBag.new(email)
+    bb.create(123)
+    bb.create(456)
+    bb.create(789)
+    bag = bb.index
+    puts bag.to_yaml
+    Rails.logger.level = save_level
     redirect_to action: "index"
   end
 
