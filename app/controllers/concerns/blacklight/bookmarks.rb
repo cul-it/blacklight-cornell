@@ -174,9 +174,8 @@ module Blacklight::Bookmarks
     puts 'export'.inspect
     email = 'jgr25@cornell.edu'
     bb = BookBag.new(email)
-    bb.create(123)
-    bb.create(456)
-    bb.create(789)
+    list = [123, 456, 890]
+    bb.create_all(list)
     bag = bb.index
     puts bag.to_yaml
     Rails.logger.level = save_level
