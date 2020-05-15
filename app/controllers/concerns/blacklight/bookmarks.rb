@@ -176,6 +176,7 @@ module Blacklight::Bookmarks
     bb = BookBag.new(email)
     bb.create(123)
     bb.create(456)
+    bb.create(789)
     bag = bb.index
     puts bag.to_yaml
     Rails.logger.level = save_level
