@@ -19,6 +19,7 @@ module Blacklight
     # @param [Hash] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
     # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used.
     # @return [Blacklight::Solr::Response] the solr response object
+    # added exceeded argument for DISCOVERYACCESS-5854, deep paging (tlw72).
     def search_results(exceeded = false)
       # if the search limit has been exceeded, set the page param to the last viewable page
       if exceeded
