@@ -10,40 +10,22 @@ end
 
 class BookBagsController < CatalogController
 #class BookBagsController < ApplicationController
-  include Blacklight::Catalog
-  include BlacklightCornell::CornellCatalog
+   include Blacklight::Catalog
+   include BlacklightCornell::CornellCatalog
 
   MAX_BOOKBAGS_COUNT = 500
 
   # copy_blacklight_config_from(CatalogController)
   #
-  #before_action :authenticate_user!
-  before_action :authenticate
+  before_action :authenticate_user!
 
   before_action :heading
   append_before_action :set_bag_name
 
-  def authenticate
-    if ENV['DEBUG_USER'].present?
-      user = current_or_guest_user
-    else
-      :authenticate_user!
-    end
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in create_scanit_link"
-    puts user.to_yaml
-    puts user.inspect
-    Rails.logger.level = save_level
-  end
-
   def set_bag_name
-    if ENV['DEBUG_USER'].present?
-      @id = current_or_guest_user.email
-    else
-      @id = current_user.email
-    end
+    @id = current_user.email
     @bb.bagname = "#{@id}-bookbag-default"
-    user_session[:bookbag_count] = @bb.count unless user_session.nil?
+    user_session[:bookbag_count] = @bb.count
   end
 
   def heading
@@ -52,7 +34,7 @@ class BookBagsController < CatalogController
 
   def initialize
     super
-    @bb = BookBag.new(nil)
+    @bb = Bookbag.new(nil)
   end
 
   def can_add
