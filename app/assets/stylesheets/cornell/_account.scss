@@ -11,11 +11,7 @@
 	width: 20%;
 }
 
-.blacklight-account {
-	p:first-child {
-		margin-top: 1em;
-	}
-}
+
 
 // Guest ID styling
 // -------------------
@@ -23,6 +19,9 @@
 	padding-top: 1rem;
 	border-top: 1px solid #ddd;
 	margin-top: 2rem;
+}
+.guest-id-info {
+	margin-top: 1em;
 }
 
 // MEDIA QUERIES
