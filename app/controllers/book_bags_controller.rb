@@ -77,9 +77,11 @@ class BookBagsController < CatalogController
   end
 
   def set_bag_name
-    @id = current_user.email
-    @bb.bagname = "#{@id}-bookbag-default"
-    user_session[:bookbag_count] = @bb.count
+    if current_user
+      @id = current_user.email
+      @bb.bagname = "#{@id}-bookbag-default"
+      user_session[:bookbag_count] = @bb.count
+    end
   end
 
   def heading
