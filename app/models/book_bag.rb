@@ -27,7 +27,7 @@ class BookBag
       client = connect
       client.query("CREATE TABLE IF NOT EXISTS \
         book_bags(bagname varchar(255), bibid int unsigned, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (bagname, bibid))")
-    rescue Mysql2::error => e
+    rescue Mysql2::Error => e
       save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
       Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag"
       puts e.error.to_yaml
@@ -132,5 +132,19 @@ class BookBag
     end
     c
   end
+
+  def debug
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag debug"
+    puts "@@bagname:\n" + @@bagname.to_yaml
+    puts "@bagname:\n" + @bagname.to_yaml
+    num  = self.count
+    puts "Count:\n" + num.inspect
+    bibs = self.index
+    puts "Index:\n" + bibs.to_yaml
+    Rails.logger.level = save_level
+  end
+
+
 
 end
