@@ -20,7 +20,7 @@ class BookBagsController < CatalogController
   before_action :authenticate
 
   before_action :heading
-  append_before_action :set_bag_name
+  append_before_action :set_book_bag_name
 
   def authenticate
     if ENV['DEBUG_USER'].present? && Rails.env.development?
@@ -76,7 +76,7 @@ class BookBagsController < CatalogController
     'hello'
   end
 
-  def set_bag_name
+  def set_book_bag_name
     if current_user
       @id = current_user.email
       @bb.bagname = "#{@id}-bookbag-default"
