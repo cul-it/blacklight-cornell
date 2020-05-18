@@ -27,6 +27,7 @@ class BookBagsController < CatalogController
       mock_auth
       :authenticate_user!
       if current_user
+        set_bag_name
         flash[:success] = "Found Current User"
         user = current_user
       else
