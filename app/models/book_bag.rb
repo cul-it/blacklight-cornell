@@ -8,6 +8,7 @@ require 'dotenv'
 class BookBag
 
   attr_accessor :bagname
+  @@bagname = nil;
 
   def connect
     Dotenv.load!
