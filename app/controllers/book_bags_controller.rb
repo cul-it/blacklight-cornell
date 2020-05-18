@@ -58,30 +58,63 @@ class BookBagsController < CatalogController
 
   def authenticate
     if ENV['DEBUG_USER'].present? && Rails.env.development?
+      request.env["devise.mapping"] = Devise.mappings[:user] # If using Devise
+      request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:saml]
+
+      if user_signed_in?
+          #******************
+          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+          Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
+          msg = ['******************']
+          msg << "user already signed in"
+          msg << '******************'
+          puts msg.to_yaml
+          Rails.logger.level = save_level
+          #*******************
+      end
+
       mock_auth
       :authenticate_user!
       if current_user
-        set_bag_name
-        flash[:success] = "Found Current User"
+        set_book_bag_name
+        msg = []
+        msg << "Found Current User in book_bags_controller authenticate"
+        msg << "bagname: " + @bb.bagname + " count: " + @bb.count.to_s
+        msg << "session: " + user_session.present?.to_s
         user = current_user
+        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+        puts msg.to_yaml
+        Rails.logger.level = save_level
       else
-        flash[:failure] = "No user found"
+        msg = []
+        msg << "No user found"
         user = current_or_guest_user
-      end
+        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+        puts msg.to_yaml
+        Rails.logger.level = save_level
+     end
     else
       :authenticate_user!
       user = current_user
     end
+    #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-    puts user.email.to_yaml
-    puts user.email.inspect
+    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
+    msg = ['******************']
+    msg << "user email: " + user.email.to_s
+    msg << '******************'
+    puts msg.to_yaml
     Rails.logger.level = save_level
+    #*******************
+
   end
 
   def mock_auth
     if ENV['DEBUG_USER'].present? && Rails.env.development?
       OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:saml] = nil
       #OmniAuth.add_mock(:saml, {:uid => '12356', {:info => {:email => 'jgr25@cornell.edu'}}})
       OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
         provider: "saml",
@@ -91,7 +124,7 @@ class BookBagsController < CatalogController
         info: {
           email: "ditester@example.com",
           name: ["Diligent Tester"],
-          netid: "mjc12",
+          netid: "jgr25",
           groups: ["staff","student"],
           primary: ["staff"],
           first_name: "Diligent",
@@ -112,9 +145,15 @@ class BookBagsController < CatalogController
 
   def set_book_bag_name
     if current_user
-      @id = current_user.email
+      @id = current_user.email.to_s
       @bb.bagname = "#{@id}-bookbag-default"
       user_session[:bookbag_count] = @bb.count
+    else
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+      msg = "called set_book_bag_name with no current_user\n"
+      puts msg.to_yaml
+      Rails.logger.level = save_level
     end
   end
 
@@ -125,6 +164,16 @@ class BookBagsController < CatalogController
   def initialize
     super
     @bb = BookBag.new(nil)
+    #******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+    msg = ['******************']
+    msg << "init @bb"
+    msg << '******************'
+    puts msg.to_yaml
+    Rails.logger.level = save_level
+    #*******************
+    @bb.debug
   end
 
   def can_add
