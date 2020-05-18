@@ -60,7 +60,7 @@ class BookBag
   def create_all(list)
     begin
       client = connect
-      statement = client.prepare("INSERT INTO book_bags(bagname,bibid) VALUES(? , ?)")
+      statement = client.prepare("INSERT IGNORE INTO book_bags(bagname,bibid) VALUES(? , ?)")
       list.each do |bib|
         statement.execute(@@bagname, bib)
       end
