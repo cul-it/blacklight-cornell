@@ -278,4 +278,14 @@ class BookBagsController < CatalogController
     end
   end
 
+  def export
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+    msg= "book_bags_controler.rb export"
+    puts msg.to_yaml
+    @bb.debug
+    Rails.logger.level = save_level
+    redirect_to :action => "index"
+  end
+
 end
