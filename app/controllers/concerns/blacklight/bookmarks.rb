@@ -46,7 +46,7 @@ module Blacklight::Bookmarks
 
   def index
     # if block is custom code
-    if current_user && Bookbag.enabled?
+    if current_user && BookBag.enabled?
       flash[:notice] = I18n.t('blacklight.bookmarks.use_book_bag')
       redirect_to '/book_bags/index'
     end
