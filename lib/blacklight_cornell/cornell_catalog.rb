@@ -1056,7 +1056,19 @@ def check_params(params)
 
 
   def set_bag_name
-     user_session[:bookbag_count] = nil unless user_session.nil?
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ['******************']
+msg << "current_user: " + current_user.email.to_s unless current_user.nil?
+msg << "Bookbag enabled: " + BookBag.enabled?.to_s
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+
+    user_session[:bookbag_count] = nil unless user_session.nil?
      if current_user && BookBag.enabled?
        @id = current_user.email
        @bb = BookBag.new("#{@id}-bookbag-default")

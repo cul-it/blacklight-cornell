@@ -172,16 +172,29 @@ module Blacklight::Bookmarks
     Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
     puts 'export'.to_yaml
     puts 'export'.inspect
-    email = 'jgr25@cornell.edu'
-    bb = BookBag.new(email)
-    bb.create_table
-    list = [123, 456, 890]
-    bb.create_all(list)
-    bb.debug
-    list = [123, 890]
-    bb.delete_all(list)
-    bb.debug
-    puts "Delete\n" + bag.to_yaml
+    if current_user
+      puts "Current user:\n" + current_user.email.to_yaml
+    elsif current_or_guest_user
+      puts "Guest user:\n" + current_or_guest_user.email.to_yaml
+    else
+      puts "No user\n"
+    end
+    if user_session
+      puts "Session:\n" + user_session.to_yaml
+    else
+      puts "No session\n"
+    end
+
+    # email = 'jgr25@cornell.edu'
+    # bb = BookBag.new(email)
+    # bb.create_table
+    # list = [123, 456, 890]
+    # bb.create_all(list)
+    # bb.debug
+    # list = [123, 890]
+    # bb.delete_all(list)
+    # bb.debug
+    # puts "Delete\n" + bb.to_yaml
     Rails.logger.level = save_level
     redirect_to action: "index"
   end

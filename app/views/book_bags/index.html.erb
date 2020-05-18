@@ -13,8 +13,16 @@
       <li>Uncheck boxes to remove items from your Book Bag. Use the "Clear all items" link to remove all items.</li>
     </ul>
   </div>
+  <% if ENV['DEBUG_USER'].present? && Rails.env.development? %>
+  <ul id="debug-book-bag">
+    <li>current_or_guest_user: <%= current_or_guest_user.to_s %></li>
+    <li>current_user: <%= current_user.to_s %></li>
+    <li>BookBag.enabled?: <%= BookBag.enabled?.to_s %></li>
+    <li>user_session: <%= user_session.present?.to_s %></li>
+  </ul>
+  <% end %>
   <div class="results-info">
-    <% @selectedcount = 
+    <% @selectedcount =
       if user_session.nil? || user_session[:bookbag_count].nil?
         0
       else
