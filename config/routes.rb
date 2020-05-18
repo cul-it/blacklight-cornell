@@ -32,6 +32,7 @@ end
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
+get 'bookmarks/export' => 'bookmarks#export'
 
 resources :bookmarks do
   concerns :exportable
@@ -163,7 +164,7 @@ devise_for :users, controllers: {
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  # Bookbag routes.
+  # BookBag routes.
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
   get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
