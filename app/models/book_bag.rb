@@ -142,9 +142,18 @@ class BookBag
     puts "Count:\n" + num.inspect
     bibs = self.index
     puts "Index:\n" + bibs.to_yaml
+    # current_user, current_or_guest_user, user_session are all undefined
     Rails.logger.level = save_level
   end
 
+  def export
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+    msg= "BookBag export"
+    puts msg.to_yaml
+    Rails.logger.level = save_level
+    debug
+  end
 
 
 end
