@@ -107,10 +107,10 @@ class BookBag
     c = 0
     begin
       client = connect
-      bibs = client.query("SELECT bibid FROM book_bags WHERE bagname='#{@@bagname}'")
-      c = bibs.num_rows
+      bibs = client.query("SELECT bibid FROM book_bags WHERE bagname='#{@bagname}'")
+      c = bibs.count
       # c = @con.lrange(@bagname,0,-1).uniq.size if @con
-    rescue Mysql2::error => e
+    rescue Mysql2::Error => e
       raise "BookBag count error: " + e.error
     ensure
       client.close unless client.nil?
@@ -122,10 +122,10 @@ class BookBag
     c = 0
     begin
       client = connect
-      client.query("DELETE FROM book_bags WHERE bagname='#{@@bagname}'")
+      client.query("DELETE FROM book_bags WHERE bagname='#{@bagname}'")
       c = con.affected_rows
       # c = @con.del(@bagname,0)  if @con
-    rescue Mysql2::error => e
+    rescue Mysql2::Error => e
       raise "BookBag count error: " + e.error
     ensure
       client.close unless client.nil?
