@@ -50,11 +50,11 @@ class BookBag
   end
 
   def self.enabled?
-   return @bagname.present?
+   return @@bagname.present?
   end
 
   def enabled?
-   return @bagname.present?
+   return @@bagname.present?
   end
 
   def create_all(list)
@@ -62,9 +62,9 @@ class BookBag
       client = connect
       statement = client.prepare("INSERT IGNORE INTO book_bags(bagname,bibid) VALUES(? , ?)")
       list.each do |bib|
-        statement.execute(@@bagname, bib)
+        statement.execute(@bagname, bib)
       end
-    rescue Mysql2::error => e
+    rescue Mysql2::Error => e
       raise "BookBag create_all error: " + e.error
     ensure
       client.close unless client.nil?
@@ -74,11 +74,11 @@ class BookBag
   def delete_all(list)
     begin
       client = connect
-      statement = client.prepare("DELETE FROM book_bags WHERE bagname=? AND value=?")
+      statement = client.prepare("DELETE FROM book_bags WHERE bagname = ? AND bibid = ?")
       list.each do |bib|
-        statement.execute(@@bagname, bib)
+        statement.execute(@bagname, bib)
       end
-    rescue Mysql2::error => e
+    rescue Mysql2::Error => e
       raise "BookBag delete_all error: " + e.error
     ensure
       client.close unless client.nil?
@@ -89,12 +89,12 @@ class BookBag
     c = []
     begin
       client = connect
-      bibs = client.query("SELECT bibid FROM book_bags WHERE bagname='#{@@bagname}'")
+      bibs = client.query("SELECT bibid FROM book_bags WHERE bagname='#{@bagname}'")
       bibs.each do |bib|
         c << bib
       end
       # c = @con.lrange(@bagname,0,-1) if @con
-    rescue Mysql2::error => e
+    rescue Mysql2::Error => e
       raise "BookBag index error: " + e.error
     ensure
       client.close unless client.nil?
