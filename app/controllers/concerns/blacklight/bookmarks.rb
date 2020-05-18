@@ -174,10 +174,14 @@ module Blacklight::Bookmarks
     puts 'export'.inspect
     email = 'jgr25@cornell.edu'
     bb = BookBag.new(email)
+    bb.create_table
     list = [123, 456, 890]
     bb.create_all(list)
-    bag = bb.index
-    puts bag.to_yaml
+    bb.debug
+    list = [123, 890]
+    bb.delete_all(list)
+    bb.debug
+    puts "Delete\n" + bag.to_yaml
     Rails.logger.level = save_level
     redirect_to action: "index"
   end
