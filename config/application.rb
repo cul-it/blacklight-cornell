@@ -90,6 +90,9 @@ module BlacklightCornell
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # Search results limit, to prevent deep paging issues
+    config.search_limit = 20000
   end
 end
 if true 
