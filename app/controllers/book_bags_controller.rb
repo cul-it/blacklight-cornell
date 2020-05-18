@@ -22,6 +22,40 @@ class BookBagsController < CatalogController
   before_action :heading
   append_before_action :set_book_bag_name
 
+  def sign_in
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
+    msg = ['******************']
+    msg << "Before:"
+    if user_signed_in?
+      msg << "signed in as " + current_user.email
+    elsif current_or_guest_user
+      msg << "guest user " + current_or_guest_user.email
+    else
+      msg << "no user"
+    end
+    msg << "session: " + user_session.present?.to_s
+    request.env["devise.mapping"] = Devise.mappings[:user] # If using Devise
+    request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:saml]
+    OmniAuth.config.mock_auth[:saml] = nil
+    mock_auth
+    :authenticate_user!
+    msg << "After:"
+    if user_signed_in?
+      msg << "signed in as " + current_user.email
+    elsif current_or_guest_user
+      msg << "guest user " + current_or_guest_user.email
+    else
+      msg << "no user"
+    end
+    msg << "session: " + user_session.present?.to_s
+    msg << '******************'
+    puts msg.to_yaml
+    Rails.logger.level = save_level
+    #*******************
+    redirect_to :action => "index"
+  end
+
   def authenticate
     if ENV['DEBUG_USER'].present? && Rails.env.development?
       mock_auth
