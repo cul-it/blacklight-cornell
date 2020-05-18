@@ -12,13 +12,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 #  include ActsAsTinyURL
 Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
- 
+
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
-    if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
-      op = session[:cuwebauth_return_path]  
+    if op.include?('logins') && !session[:cuwebauth_return_path].blank?
+      op = session[:cuwebauth_return_path]
     end
     op.dup.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
@@ -58,7 +58,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
-    # BLACKLIGHT 7 note: InvalidSolrID is no longer included as a Blacklight Excreption 
+    # BLACKLIGHT 7 note: InvalidSolrID is no longer included as a Blacklight Excreption
     # and raises an unititialized constant error. A RecordNotFound error is now raised.
     # rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
     rescue_from Blacklight::Exceptions::RecordNotFound, :with => :record_not_found_error
@@ -103,11 +103,11 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
     num = @response["response"]["numFound"]
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} num = #{num.inspect}"
-    if num == 1 
-      target = @document_list[0].response["response"]["docs"][0]["id"] 
+    if num == 1
+      target = @document_list[0].response["response"]["docs"][0]["id"]
       logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
       redirect_to(root_url() + "/request/#{target}")
-    elsif num >  1 
+    elsif num >  1
       logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
       flash.now.alert = "The OCLC ID #{oid.inspect} does not map to a unique identifier."
       respond_to do |format|
@@ -124,12 +124,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
   # get search results from the solr index
   def index
-    
+
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    set_bag_name 
+    set_bag_name
     # make sure we are not going directly to home page
    if !params[:qdisplay].nil?
      params[:qdisplay] = ''
@@ -182,7 +182,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
        params[:q] = params[:search_field] + ':' + params[:q]
      end
     end
-    if !params[:q].nil? 
+    if !params[:q].nil?
      if params[:q].include?('_cts')
        display = params[:q].split(':')
        params[:q] = display[1]
@@ -263,8 +263,8 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       format.atom { render :layout => false }
       format.json { render json: { response: { document: deprecated_document_list } } }
     end
-    
-     if !params[:q_row].nil?       
+
+     if !params[:q_row].nil?
        params[:show_query] = make_show_query(params)
        search_session[:q] = params[:show_query]
      end
@@ -273,7 +273,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       params[:q] = params[:qdisplay]
       search_session[:q] = params[:show_query]
 #      params[:q] = qparam_display
-      search_session[:q] = params[:q] 
+      search_session[:q] = params[:q]
  #     params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
 
@@ -284,7 +284,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   def show
     @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
-    set_bag_name 
+    set_bag_name
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     respond_to do |format|
       format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
@@ -305,7 +305,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   end
 
   def setup_next_and_previous_documents
-    
+
     query_params = session[:search] ? session[:search].dup : {}
 #    if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
 #       check_params(query_params)
@@ -316,7 +316,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 #          end
 #    end
 
-    if search_session['counter'] 
+    if search_session['counter']
       index = search_session['counter'].to_i - 1
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
@@ -338,7 +338,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       search_session['counter'] = params[:counter]
       #search_session[:per_page] = params[:per_page]
 
-      path = 
+      path =
         if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
           URI.parse(params[:redirect]).path
         else
@@ -389,7 +389,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
         if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
-          bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT] 
+          bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
         end
         @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
         Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
@@ -399,7 +399,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       fmt = params[:format]
       Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
       respond_to do |format|
-        format.endnote_xml { render "show.endnote_xml" ,layout: false } 
+        format.endnote_xml { render "show.endnote_xml" ,layout: false }
         format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
         format.ris         { render 'ris', :layout => false }
       end
@@ -449,7 +449,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         mail.deliver
       end
     end
-    
+
     def validate_sms_params
       if params[:to].blank?
         flash.now[:error] = I18n.t('blacklight.sms.errors.to.blank')
@@ -595,7 +595,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
 
     # Saves the current search (if it does not already exist) as a models/search object
     # then adds the id of the search object to session[:history]
-    
+
     #jac244 Commented out code because it was creating 2 entries in search history 9/27/2016
     def save_current_search_params
       # If it's got anything other than controller, action, total, we
@@ -714,15 +714,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       uri_parsed = confirmed_uri
       shorten = Rails.application.config.url_shorten
       logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
-      if !shorten.empty? 
+      if !shorten.empty?
         escaped_uri = URI.escape("#{shorten}#{confirmed_uri}")
-        begin 
+        begin
           uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
           #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
         rescue StandardError  => e
           logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
           Appsignal.send_error(e)
-          uri_parsed = confirmed_uri 
+          uri_parsed = confirmed_uri
          end
       end
       return uri_parsed
@@ -783,7 +783,7 @@ def check_params(params)
        fieldname = 'lc_callnum'
      else
        if params[:search_field] == 'author/creator' or params[:search_field] == 'author'
-         fieldname = 'author' 
+         fieldname = 'author'
        else
          if params[:search_field] == 'all_fields'
            fieldname = ''
@@ -812,12 +812,12 @@ def check_params(params)
         else
           params[:q] =  '' or params[:q].nil?
           params[:search_field] = 'all_fields'
-        end     
+        end
      end
      if params[:search_field] == "title_starts"
        params[:qdisplay] = params[:q]
        params[:q] = '"' + params[:q] + '"'
-     else 
+     else
        if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
          qparam_display = params[:q]
          params[:qdisplay] = params[:q]
@@ -854,7 +854,7 @@ def check_params(params)
                              qarray[0] = qarray[0].gsub!('"','')
                            end
                            params[:q] << '+' << fieldname << ':"' << qarray[0] << '")'
-                        end 
+                        end
                       end
                    end
                 else
@@ -907,11 +907,11 @@ def check_params(params)
                    if bits.include?(':')
                      bits.gsub!(':','\\:')
                    end
-                   if bits.first == '"' 
+                   if bits.first == '"'
                       #bits = bits + '"'
                       if fieldname == ''
                        params[:q] << '+quoted:' + bits + ' '
-                      else 
+                      else
                         if !params[:search_field].include?('browse')
                          params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
                         end
@@ -933,7 +933,7 @@ def check_params(params)
                params[:q] = params[:search_field] + ":" + params[:q]
              end
          end
-      end   
+      end
     end
     #    if params[:search_field] = "call number"
     #      params[:q] = "\"" << params[:q] << "\""
@@ -946,7 +946,7 @@ def check_params(params)
 
     #    if params[:q].blank?
     #      params[:q] = '*'
-    #    end 
+    #    end
 #    params[:q] = '(+\\\"combined heat and power\\\") AND (+cogeneration)'
 #    params[:q] = "(title:100%) OR title_phrase:\"100%\""
    return params
@@ -965,7 +965,7 @@ def check_params(params)
     return tempStringArray
   end
 
-  
+
   def cleanup_params(params)
     qparam_display = params[:qdisplay]
     if !qparam_display.nil?
@@ -1005,7 +1005,7 @@ def check_params(params)
             if params[:search_field].include?('_')
               params[:search_field].gsub!('_','')
             end
-          end  
+          end
         end
     end
     if params[:search_field] == 'call number'
@@ -1023,11 +1023,11 @@ def check_params(params)
       params[:search_field] = 'publisher number/other identifier'
     end
     # end of cleanup of search_field and q params
-    return params 
+    return params
   end
-  
+
   def sanitize(q)
-     if q[:q].include?('<img') 
+     if q[:q].include?('<img')
        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
        redirect_to root_path
      else
@@ -1035,11 +1035,11 @@ def check_params(params)
        while (q[-1] == "/" or q[-1] == "\\") do
          if q[-1] == "/" or q[-1] == "\\"
            q[-1] = ""
-           q = q.rstrip 
+           q = q.rstrip
          end
        end
        return q
-     end    
+     end
   end
 
   def parseQuoted(q)
