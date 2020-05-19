@@ -106,7 +106,7 @@ class BookBagsController < CatalogController
         uid: "12345678910",
         extra: {raw_info: {} } ,
         info: {
-          email: "ditester@example.com",
+          email: ["ditester@example.com"],
           name: ["Diligent Tester"],
           netid: "jgr25",
           groups: ["staff","student"],
