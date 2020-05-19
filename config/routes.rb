@@ -40,6 +40,11 @@ resources :bookmarks do
   collection do
     delete 'clear'
   end
+
+  resources :book_bags do
+    concerns :searchable
+  end
+
 end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
