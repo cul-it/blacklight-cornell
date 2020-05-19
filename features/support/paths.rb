@@ -19,7 +19,7 @@ module NavigationHelpers
     when /the home\s?page/
       root_path
 
-    
+
     when /the catalog page/
       search_catalog_path
 
@@ -31,6 +31,9 @@ module NavigationHelpers
 
     when /the facet page for "([^\"]*)"/
       facet_catalog_path($1)
+
+    when /BookBag/
+      'book_bags/index'
 
     when /the search page/
       search_index_path
