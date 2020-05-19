@@ -59,7 +59,17 @@ class BookBag
 
   def create_all(list)
     begin
-      client = connect
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << list.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+    client = connect
       statement = client.prepare("INSERT IGNORE INTO book_bags(bagname,bibid) VALUES(? , ?)")
       list.each do |bib|
         statement.execute(@bagname, bib)
@@ -73,6 +83,16 @@ class BookBag
 
   def delete_all(list)
     begin
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << list.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
       client = connect
       statement = client.prepare("DELETE FROM book_bags WHERE bagname = ? AND bibid = ?")
       list.each do |bib|
@@ -126,7 +146,7 @@ class BookBag
       c = client.affected_rows
       # c = @con.del(@bagname,0)  if @con
     rescue Mysql2::Error => e
-      raise "BookBag count error: " + e.error
+      raise "BookBag clear error: " + e.error
     ensure
       client.close unless client.nil?
     end
