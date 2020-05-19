@@ -1,10 +1,10 @@
 <div class="announcement" aria-label="Announcement" role="complementary">
+  <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
   <div class="container">
-    <p class="text-center"><a href="https://library.cornell.edu/covid-19">COVID-19 Library Service Updates</a></p>
+    <p class="text-center"><a href="https://library.cornell.edu/covid-19">Enhanced online resources and other COVID-19 updates &raquo;</a></p>
   </div>
 </div>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
-  <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
   <%# if search results, add a link to skip facets for screen readers %>
   <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
     <div id="skiptoresults"><a href="#results">skip to search results</a></div>

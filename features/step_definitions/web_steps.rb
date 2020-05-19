@@ -96,10 +96,12 @@ Then("I should see a link {string}") do |string|
 end
 
 Then("I should see the CUWebLogin page") do
-  page.find("h1", :text => "CUWebLogin")
-  page.find("input.input-submit")
-  page.find("a", :text => "IT Service Desk")
-  page.find("a", :text => "I don't have a NetID, now what?")
+  patiently do
+    page.should have_content("CUWebLogin")
+    page.find("input.input-submit")
+    page.find("a", :text => "IT Service Desk")
+    page.find("a", :text => "I don't have a NetID, now what?")
+  end
 end
 
 Then("I select the first {int} catalog results") do |int|
@@ -213,4 +215,8 @@ Then("I check Select all") do
   patiently do
     page.find(:css, "input#select_all_input").click
   end
+end
+
+Then("the link {string} should go to {string}") do |string, string2|
+  expect(page).to have_link("#{string}", href: "#{string2}")
 end

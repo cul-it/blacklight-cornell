@@ -3,6 +3,10 @@
 <div class="row database-subject">
   <div class="page-title col-sm-12">
     <div class="return-link">
+       <% if !@db.present? %>
+         <%= @defaultRightsText.to_s %>
+         <br>
+       <% end %>
       <%= link_to "/databases/" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to Databases
@@ -23,31 +27,17 @@
   <div class="document blacklight-database-name clearfix">
     <div class="document-data">
       <% @db.each do |data| %>
-           
-           <% url_access_json = JSON.parse(data["url_access_json"][0]) %>
-           <%# data_json = JSON.parse(data) %>
-           <%#= data["summary_display"][0].inspect %>
+        <% access_url = access_url_first(data) %>
         <h3 class="blacklight-title_display">
-         <% if !data["url_access_display"].nil? %>
-          <%= link_to data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
+        <% if access_url.present? %>
+          <%= link_to access_url, :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
             <% if data["fulltitle_vern_display"].present? %>
               <%= data["fulltitle_vern_display"] %>
             <% else %>
               <%= data["fulltitle_display"] %>
             <% end %>
           <% end %>
-         <% else %>
-           <%# url_access_json = JSON.parse(data["url_access_json"][0]) %>
-           <%#= url_access_json["url"].inspect %>
-           <%= link_to url_access_json["url"],  :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
-            <% if data["fulltitle_vern_display"].present? %>
-              <%= data["fulltitle_vern_display"] %>
-            <% else %>
-              <%= data["fulltitle_display"] %>
-            <% end %>
-          <% end %>
-           
-         <% end %>
+        <% end %>
         </h3>
         <div class="description">
           <p>
@@ -56,21 +46,22 @@
             <% end %>
           </p>
            <p>
-           <% if url_access_json["description"].present? %>
-            <%= link_to url_access_json["description"],url_access_json["url"], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
-           <% else %> 
-            <%= link_to t('blacklight.url.message'),url_access_json["url"], :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
+           <% access_desc = access_url_first_description(data) %>
+           <% if access_desc.present? && access_url.present? %>
+            <%= link_to access_desc, access_url, :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
+           <% elsif access_url.present? %>
+            <%= link_to t('blacklight.url.message'),access_url, :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_url']);" %>
            <% end %>
           </p>
            <% if data['sixfivethree'].present? %>
               <p>
-                Subject(s): 
+                Subject(s):
                 <% data["sixfivethree"].each do |s| %>
                   <%= link_to s,"/databases/subject/#{s}", :title => "Subject: #{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
                 <% end %>
               </p>
             <% end %>
-         
+
         </div>
         <% if @ermDBResult.present? %>
           <% data = @ermDBResult[0] %>
@@ -264,8 +255,8 @@
                 <% end %>
               </tbody>
             </table>
-            
-          <% end %>           
+
+          <% end %>
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">

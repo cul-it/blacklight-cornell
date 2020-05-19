@@ -20,10 +20,10 @@ module Blacklight::Solr::Document::Endnote_xml
   # endnote import format; the %0 is likely to be entirely illegal, the
   # rest of the data is barely correct but messy. TODO, a new version of this,
   # or better yet just an export_as_ris instead, which will be more general
-  # purpose. 
+  # purpose.
   # I reversed the sense of end_note_format table -- to allow multiple fields to map to
   # same endnote field. (es287@cornell.edu)
- 
+
 FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
   "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
@@ -45,16 +45,16 @@ FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
 # # I don't know how to figure this out except by trial and error.
 # I exported records from endnote X8 to determine these.
 #
-FACET_TO_ENDNOTE_NUMERIC_VALUE =  { 
-  "Audiovisual Material"=>"3", 
-  "Book"=>"6", 
+FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
+  "Audiovisual Material"=>"3",
+  "Book"=>"6",
   "Computer Program"=>"9",
-  "Film or Broadcast"=>"21", 
-  "Manuscript" => "36", 
-  "Map" => "20", 
-  "Music" => "61", 
+  "Film or Broadcast"=>"21",
+  "Manuscript" => "36",
+  "Map" => "20",
+  "Music" => "61",
   "Online Database" => "45",
-  "Thesis" => "32", 
+  "Thesis" => "32",
 }
 # the xml format is defined here, in attached zip file:
 # http://kbportal.thomson.com/display/2/index.aspx?tab=browse&c=&cpc=&cid=&cat=&catURL=&r=0.4727451
@@ -80,12 +80,12 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     builder.tag!("xml") do
       builder.records() do
         builder.record() do
-          builder.database("MyLibrary") 
+          builder.database("MyLibrary")
           builder.tag!("source-app","Cornell University Library","name" => "CULIB")
-          builder.tag!("ref-type",num_ty,"name" => ty) 
+          builder.tag!("ref-type",num_ty,"name" => ty)
           generate_enx_contributors(builder,ty)
-          builder.titles() do 
-            builder.title(title)  
+          builder.titles() do
+            builder.title(title)
           end
           generate_enx_edition(builder,ty)
           generate_enx_keywords(builder,ty)
@@ -111,7 +111,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
   def generate_enx_work_type(bld,ty)
     if ty == 'Thesis'
       thdata =   setup_thesis_info(to_marc)
-      bld.tag!("work-type",thdata[:type].to_s) 
+      bld.tag!("work-type",thdata[:type].to_s)
     end
   end
 
@@ -152,11 +152,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     bld.abstract(k.join(' ')) unless k.blank?
   end
   def generate_enx_urls(bld,ty)
-    if !self['url_access_display'].blank?
-      ul = self['url_access_display'].first.split('|').first
-      ul.sub!('http://proxy.library.cornell.edu/login?url=','')
-      ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
-    end
+    ul = access_url_first_filtered(self)
     bld.urls() { bld.tag!("web-urls") { bld.url(ul)}}  unless ul.blank?
   end
 
@@ -174,7 +170,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
   end
 
   def generate_enx_isbn(bld,ty)
-    isbns = setup_isbn_info(to_marc) 
+    isbns = setup_isbn_info(to_marc)
     bld.isbn(isbns.join(" ; "))   unless isbns.blank?
   end
 
@@ -218,9 +214,9 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     yr  = "#{setup_pub_date(to_marc)}"
     if !yr.empty?
       bld.dates() do
-        bld.year(yr) 
+        bld.year(yr)
         bld.tag!("pub-dates") do
-          bld.date(yr) 
+          bld.date(yr)
         end
       end
     end
@@ -241,18 +237,18 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     editors = authors[:editors]
     pa = primary_authors.blank? ? secondary_authors : primary_authors
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote pa = #{pa.inspect}"
-    bld.contributors() do 
+    bld.contributors() do
       if !pa.blank?
-        bld.authors() do 
-          pa.map { |a| bld.author(a) } 
+        bld.authors() do
+          pa.map { |a| bld.author(a) }
         end
       end
       if !editors.blank?
-        bld.tag!("tertiary-authors") do 
-          editors.map { |a| bld.author(a) } 
+        bld.tag!("tertiary-authors") do
+          editors.map { |a| bld.author(a) }
         end
       end
-     
+
     end
   end
 

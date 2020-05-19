@@ -92,7 +92,6 @@ end
       :rows => 20,
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
-#      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
       :defType => 'edismax',
       :"f.lc_callnum_facet.facet.limit" => "-1"
     }
@@ -154,7 +153,6 @@ end
     }
 
     config.display_link = {
-        'url_access_display' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
@@ -324,6 +322,7 @@ end
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_json', :label => 'Subject'
+    config.add_show_field 'keyword_display', :label => 'Keyword'
     config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
     config.add_show_field 'description_display', :label => 'Description', helper_method: :html_safe
     config.add_show_field 'issn_display', :label => 'ISSN'
@@ -364,6 +363,7 @@ end
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
+    config.add_show_field 'cast_display', :label => 'Cast'
     config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
