@@ -172,7 +172,9 @@ Rails.logger.level = save_level
     puts msg.to_yaml
     Rails.logger.level = save_level
     #*******************
-    @bb.debug
+    if @response.nil?
+      @response = Blacklight::Solr::Response.new({ response: { numFound: 0 } }, start: 0, rows: 10)
+    end
   end
 
   def can_add
