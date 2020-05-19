@@ -123,7 +123,7 @@ class BookBag
     begin
       client = connect
       client.query("DELETE FROM book_bags WHERE bagname='#{@bagname}'")
-      c = con.affected_rows
+      c = client.affected_rows
       # c = @con.del(@bagname,0)  if @con
     rescue Mysql2::Error => e
       raise "BookBag count error: " + e.error
