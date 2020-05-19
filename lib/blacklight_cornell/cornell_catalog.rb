@@ -1071,7 +1071,8 @@ Rails.logger.level = save_level
     user_session[:bookbag_count] = nil unless user_session.nil?
      if current_user && BookBag.enabled?
        @id = current_user.email
-       @bb = BookBag.new("#{@id}-bookbag-default")
+       @bb = BookBag.new
+       @bb.set_bagname("#{@id}-bookbag-default")
        user_session[:bookbag_count] = @bb.count
      end
    end

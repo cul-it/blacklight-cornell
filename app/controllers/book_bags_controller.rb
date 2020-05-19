@@ -162,7 +162,7 @@ Rails.logger.level = save_level
 
   def initialize
     super
-    @bb = BookBag.new(nil)
+    @bb = BookBag.new
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"

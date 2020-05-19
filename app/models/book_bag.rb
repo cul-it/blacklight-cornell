@@ -38,7 +38,7 @@ class BookBag
     end
   end
 
-  def initialize(bagname)
+  def set_bagname(bagname)
     if bagname.present?
       if bagname.to_s.match(/^[0-9a-zA-Z@\-_\.]+$/)
         @bagname = bagname
