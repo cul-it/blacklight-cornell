@@ -254,7 +254,23 @@ Rails.logger.level = save_level
 
   def index
     @bms =@bb.index
-    docs = @bms.map {|b| b.sub!("bibid-",'')}
+    if (@bb.is_a? BookBag)
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ['******************']
+msg << "@bb"
+msg << @bms.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+
+      docs = @bms.each {|v| v.to_s }
+    else
+      docs = @bms.map {|b| b.sub!("bibid-",'')}
+    end
     @response,@documents = search_service.fetch docs
     @document_list =  @documents
     @bookmarks = docs.map {|b| Bookmarklite.new(b)}
