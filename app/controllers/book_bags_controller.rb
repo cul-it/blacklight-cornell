@@ -183,7 +183,7 @@ Rails.logger.level = save_level
 
   def add
     @bibid = params[:id]
-    value = "bibid-#{@bibid}"
+    value = @bibid
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     if @bb.count < MAX_BOOKBAGS_COUNT
