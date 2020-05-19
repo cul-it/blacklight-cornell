@@ -257,6 +257,7 @@ en:
       librarian_view:
         title: 'Librarian View'
         leader: 'LEADER %{leader}'
+      search_limit_exceeded: 'Search limit exceeded. To view additional results, modify your search using the available filters.'
       start_over: 'Start over'
       show:
         title: '%{document_title} - %{application_name}'

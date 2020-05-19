@@ -58,5 +58,13 @@
 
   </div><!--/.main-content -->
 </div>
-
+<% if session["search_limit_exceeded"] %>
+	<%= javascript_tag do %>
+		var search_exceeded = true;
+	<% end %>
+<% else %>
+	<%= javascript_tag do %>
+		var search_exceeded = false;
+	<% end %>
+<% end %>
 
