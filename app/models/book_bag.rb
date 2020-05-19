@@ -91,7 +91,7 @@ class BookBag
       client = connect
       bibs = client.query("SELECT bibid FROM book_bags WHERE bagname='#{@bagname}'")
       bibs.each do |bib|
-        c << bib
+        c << bib['bibid']
       end
       # c = @con.lrange(@bagname,0,-1) if @con
     rescue Mysql2::Error => e
