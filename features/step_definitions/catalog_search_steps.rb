@@ -121,3 +121,12 @@ end
 #  end
 # end
 
+# this step requires .env to include DEBUG_USER and the development environment
+When("I sign in to BookBag") do
+  visit 'book_bags/index'
+  click_link "Sign in"
+end
+
+Given("we are in the development environment") do
+  expect(ENV['RAILS_ENV']).to eq('development')
+end
