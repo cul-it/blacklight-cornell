@@ -25,7 +25,7 @@ class BookBagsController < CatalogController
   def sign_in
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
-    msg = ['******************']
+    msg = ["****************** #{__method__}"]
     msg << "Before:"
     if user_signed_in?
       msg << "signed in as " + current_user.email
@@ -35,6 +35,7 @@ class BookBagsController < CatalogController
       msg << "no user"
     end
     msg << "session: " + user_session.present?.to_s
+    msg << @response.inspect
     msg << '******************'
     puts msg.to_yaml
     Rails.logger.level = save_level
@@ -49,7 +50,7 @@ class BookBagsController < CatalogController
           #******************
           save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
           Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
-          msg = ['******************']
+          msg = ["****************** #{__method__}"]
           msg << "user already signed in"
           msg << '******************'
           puts msg.to_yaml
@@ -86,8 +87,8 @@ class BookBagsController < CatalogController
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
-    msg = ['******************']
-    msg << "user email: " + user.email.to_s
+    msg = ["****************** #{__method__}"]
+    msg << "user email: " + user.email.to_s unless user.nil?
     msg << '******************'
     puts msg.to_yaml
     Rails.logger.level = save_level
@@ -136,7 +137,7 @@ class BookBagsController < CatalogController
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ['******************']
+msg = ["****************** #{__method__}"]
 msg << "user: "
 msg << current_user.email.to_yaml
 msg << "id: " + @id.to_s
@@ -150,7 +151,7 @@ Rails.logger.level = save_level
      else
       save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
       Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-      msg = "called set_book_bag_name with no current_user\n"
+      msg = "called set_book_bag_name with no current_user"
       puts msg.to_yaml
       Rails.logger.level = save_level
     end
@@ -166,7 +167,7 @@ Rails.logger.level = save_level
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-    msg = ['******************']
+    msg = ["****************** #{__method__}"]
     msg << "init @bb"
     msg << '******************'
     puts msg.to_yaml
@@ -256,23 +257,25 @@ Rails.logger.level = save_level
 
   def index
     @bms =@bb.index
-    if (@bb.is_a? BookBag)
+    if @bb.is_a? BookBag
+      docs = @bms.count > 1 ? @bms.each {|v| v.to_s } : @bms[0].to_s
+    else
+      docs = @bms.map {|b| b.sub!("bibid-",'')}
+    end
 
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ['******************']
+msg = ["****************** #{__method__}"]
 msg << "@bb"
+msg << "Old style" unless @bb.is_a? BookBag
+# msg << "Bagname: " + @bb.bagname unless @bb.nil?
 msg << @bms.inspect
+msg << docs.inspect
 msg << '******************'
 puts msg.to_yaml
 Rails.logger.level = save_level
 #*******************
-
-      docs = @bms.each {|v| v.to_s }
-    else
-      docs = @bms.map {|b| b.sub!("bibid-",'')}
-    end
     @response,@documents = search_service.fetch docs
     @document_list =  @documents
     @bookmarks = docs.map {|b| Bookmarklite.new(b)}
