@@ -129,10 +129,25 @@ class BookBagsController < CatalogController
 
   def set_book_bag_name
     if current_user
-      @id = current_user.email.to_s
-      @bb.bagname = "#{@id}-bookbag-default"
+      @id = current_user.email
+      @bb.set_bagname("#{@id}-bookbag-default")
       user_session[:bookbag_count] = @bb.count
-    else
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ['******************']
+msg << "user: "
+msg << current_user.email.to_yaml
+msg << "id: " + @id.to_s
+msg << "@bb.bagname " + @bb.bagname.to_s
+msg << "@bb.count " + @bb.count.to_s
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+
+     else
       save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
       Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
       msg = "called set_book_bag_name with no current_user\n"
