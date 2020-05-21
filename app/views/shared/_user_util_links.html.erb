@@ -23,6 +23,28 @@
         <% end %>
       <% end %>
 
+      <li>
+      <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+              <%= t('blacklight.header_links.bookmarks') %>
+              (<span data-role='bookmark-counter'><%= guest_user.bookmarks.count %></span>)
+              <% end %>
+      </li>
+      <li>
+      <%= link_to "/book_bags/index", id:'bookmarks_nav' do %>
+            <% @selectedcount =
+              if !current_user || !BookBag.enabled?
+                '?'
+              elsif user_session.nil? || user_session[:bookbag_count].nil?
+                0
+              else
+                user_session[:bookbag_count]
+              end
+              %>
+            <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
+            <% end %>
+      </li>
+
+<%if false %>
       <% if current_user && BookBag.enabled? %>
         <li>
             <%= link_to "/book_bags/index", id:'bookmarks_nav' do %>
@@ -58,6 +80,7 @@
           </li>
         <% end %>
       <% end %>
+<% end %>
 
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
       <li>
