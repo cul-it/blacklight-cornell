@@ -312,13 +312,10 @@ module Blacklight::Solr::Document::MarcExport
     id = "id #{csl}"
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}id=#{id.inspect}")
     ul = ''
-    access_url = access_url_single(self)
+    # access_url_first_filtered - filters out proxy and encompass url prefixes
+    access_url = access_url_first_filtered(self)
     if access_url.present?
        ul = access_url
-       # might have proxy link -- http://proxy.library.cornell.edu/login?url=http://site.ebrary.com/lib/cornell/Top?id=11014930
-       # or gateway link
-       ul.sub!('http://proxy.library.cornell.edu/login?url=','')
-       ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
     end
     doi_data = setup_doi(record).blank? ? "" : setup_doi(record)
     Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}doi_data=#{doi_data.inspect}")
