@@ -187,6 +187,15 @@ When("I am certain Javascript _paq is defined") do
   expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
 end
 
+def find_popup_window
+  patiently do
+     popup = page.find(:xpath, '//*[@id="blacklight-modal"]', :visible => :all)
+     popup.visible?
+     @content = popup.find('div.modal-content', :visible => :all)
+     @content.visible?
+  end
+  @content
+end
 
 Then("the popup should include {string}") do |string|
   begin
