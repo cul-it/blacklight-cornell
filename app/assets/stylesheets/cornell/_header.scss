@@ -7,7 +7,6 @@ header {
     display: inline-block;
     line-height: 1em;
     font-size: 28px;
-    font-weight: 700;
     text-transform: uppercase;
   	a { 
       color: $dark-gray;}
@@ -42,17 +41,18 @@ header {
 }
 .catalog-name {
   font-family: $font-family-cul;
+  margin: 10px 0;
 }
-.library-link {
-  a {
-    font-size: 18px;
-    color: $dark-gray;
-  }
-  a:hover, a:active, a:focus {
-    color: $dark-gray;
-    text-decoration: none;
-  }
-}
+// .library-link {
+//   a {
+//     font-size: 18px;
+//     color: $dark-gray;
+//   }
+//   a:hover, a:active, a:focus {
+//     color: $dark-gray;
+//     text-decoration: none;
+//   }
+// }
 
 // Announcement banner
 // ---------------------//
@@ -75,7 +75,7 @@ header {
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
-  	margin: 1.75em 0 0 0;
+  	margin: .6em 0 0 0;
     padding: 0;
   	list-style: none;
   	li {
@@ -176,6 +176,9 @@ ul.blacklight-nav {
     .container {
       border-radius: 0 0 8px 8px;
     }
+  }
+  .catalog-name {
+    margin: 5px 0;
   }
 }
 
