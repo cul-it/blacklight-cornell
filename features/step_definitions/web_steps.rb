@@ -199,10 +199,9 @@ end
 
 Then("the popup should include {string}") do |string|
   begin
-    popup = find_popup_window
-    within(popup) do
-      @path = "\/\/*[text()=\'#{string}\']"
-      find(:xpath, @path )
+    @popup = find_popup_window
+    patiently do
+      @popup.find(:xpath, "//*[text()=\"#{string}\"]", :visible => :all).visible?
     end
   rescue Exception => e
     puts "popup exception: #{e}"
