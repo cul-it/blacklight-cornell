@@ -9,17 +9,27 @@ class BookBag
 
   attr_accessor :bagname
   @@bagname = nil;
+  @client = nil;
 
   def connect
-    Dotenv.load!
-    if ENV['BAG_MYSQL_HOST'].present?
-      client = Mysql2::Client.new(:host => ENV['BAG_MYSQL_HOST'],
-              :username => ENV['BAG_MYSQL_USER'],
-              :password => ENV['BAG_MYSQL_PASSWORD'],
-              :database => ENV['BAG_MYSQL_DATABASE'] )
-    else
-      raise 'Missing BookBag configuration.'
+    if @client.nil? || @client.info.nil?
+      if ENV['BAG_MYSQL_HOST'].nil?
+        Dotenv.load!
+      end
+      if ENV['BAG_MYSQL_HOST'].present?
+        @client = Mysql2::Client.new(:host => ENV['BAG_MYSQL_HOST'],
+                :username => ENV['BAG_MYSQL_USER'],
+                :password => ENV['BAG_MYSQL_PASSWORD'],
+                :database => ENV['BAG_MYSQL_DATABASE'] )
+      else
+        raise 'Missing BookBag configuration.'
+      end
     end
+    @client
+  end
+
+  def disconnect
+    # let garbage collector
   end
 
   def create_table
@@ -34,7 +44,7 @@ class BookBag
       puts e.errno.inspect
       Rails.logger.level = save_level
     ensure
-      client.close
+      disconnect
     end
   end
 
@@ -77,7 +87,7 @@ Rails.logger.level = save_level
     rescue Mysql2::Error => e
       raise "BookBag create_all error: " + e.error
     ensure
-      client.close unless client.nil?
+      disconnect
     end
   end
 
@@ -101,7 +111,7 @@ Rails.logger.level = save_level
     rescue Mysql2::Error => e
       raise "BookBag delete_all error: " + e.error
     ensure
-      client.close unless client.nil?
+      disconnect
     end
   end
 
@@ -117,7 +127,7 @@ Rails.logger.level = save_level
     rescue Mysql2::Error => e
       raise "BookBag index error: " + e.error
     ensure
-      client.close unless client.nil?
+      disconnect
     end
     c
   end
@@ -133,7 +143,7 @@ Rails.logger.level = save_level
     rescue Mysql2::Error => e
       raise "BookBag count error: " + e.error
     ensure
-      client.close unless client.nil?
+      disconnect
     end
     c
   end
@@ -148,7 +158,7 @@ Rails.logger.level = save_level
     rescue Mysql2::Error => e
       raise "BookBag clear error: " + e.error
     ensure
-      client.close unless client.nil?
+      disconnect
     end
     c
   end
