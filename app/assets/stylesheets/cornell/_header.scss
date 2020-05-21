@@ -1,7 +1,7 @@
 header {
   background: white;
   border-bottom: 1px solid $tan;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
  	h1 {
     margin: 0;
     display: inline-block;
@@ -58,17 +58,24 @@ header {
 // ---------------------//
 
 .announcement {
-  padding: .75em 0;
-  background: #fcf8e3;
+  background: white;
+  .container {
+    background: #1a665f; //slightly darker teal to account for scrolling over teal comm bar on www home page
+    padding: .75em 18px;
+  }
   p {
     margin-bottom: 0;
+  }
+  a, a:hover {
+    color: white;
+    text-decoration: underline;
   }
 }
 
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
-  	margin: 1em 0 0 0;
+  	margin: 1.75em 0 0 0;
     padding: 0;
   	list-style: none;
   	li {
@@ -117,13 +124,13 @@ ul.blacklight-nav {
 //-----------------------------------------
 
 .btn-library {
-  background: $cornell-primary;
-  color: white;
+  background: $light-tan;
+  color: $dark-gray;
   text-transform: uppercase;
   border-radius: 0;
   margin-top: .25em;
   i {
-    color: white;
+    color: $cornell-primary;
     font-size: 20px;
   }
   span {
@@ -137,7 +144,7 @@ ul.blacklight-nav {
 .btn-library:hover,
 .btn-library:active,
 .btn-library:focus {
-  color: white;
+  color: black;
 }
 
 // Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
@@ -164,6 +171,11 @@ ul.blacklight-nav {
 @include media-breakpoint-up(sm) {
   .secondary-catalog-link {
     float: right;
+  }
+  .announcement {
+    .container {
+      border-radius: 0 0 8px 8px;
+    }
   }
 }
 
