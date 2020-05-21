@@ -7,21 +7,22 @@ Feature: Book Bags for logged in users
     @book_bags_sign_in
     Scenario: I can sign in to book bags
         Given we are in the development environment
-        And I sign in to Book Bag
+        And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
 
     @book_bags_select
     Scenario Outline: Items I select can be added to my book bag
         Given we are in the development environment
         And I sign in to BookBag
+        And I empty the BookBag
+        Then there should be 0 items in the BookBag
         When I go to the home page
         And I fill in the search box with 'rope work'
         And I press 'search'
         Then I should get results
-        And there should be 0 items selected
-        Then I select the first <count> catalog results
+        And I select the first <count> catalog results
         When I go to BookBag
-        And there should be <count> items selected
+        Then there should be <count> items in the BookBag
 
     Examples:
     | count |
@@ -30,5 +31,7 @@ Feature: Book Bags for logged in users
     | 3 |
     | 4 |
     | 5 |
+    | 10 |
+    | 20 |
 
 
