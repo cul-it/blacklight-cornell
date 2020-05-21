@@ -226,6 +226,13 @@ Then("I should see {int} selected items") do |int|
   end
 end
 
+Then("load {int} selected items") do |int|
+  expect(page).to have_css('div@documents')
+  # main = page.find('div#main-container')
+  # docs = main.find(:xpath, '//div[@id="documents"]')
+  # docs.find(:xpath, "div[#{int}]")
+end
+
 Then("I check Select all") do
   patiently do
     page.find(:css, "input#select_all_input").click
