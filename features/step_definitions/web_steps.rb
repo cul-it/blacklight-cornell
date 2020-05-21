@@ -241,3 +241,14 @@ end
 Then("the link {string} should go to {string}") do |string, string2|
   expect(page).to have_link("#{string}", href: "#{string2}")
 end
+
+Then("I clear the SQLite transactions") do
+  clear_sqlite
+end
+
+def clear_sqlite
+  if ENV['RAILS_ENV'] == 'development'
+    ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+    puts 'cleared SQLite'
+  end
+end
