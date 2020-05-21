@@ -3,9 +3,6 @@
 }
 .cornell-identity {
 	background: white;
-	.container {
-		background: $cornell-primary;
-	}
 }
 .library-brand {
 	font-family: $font-family-cul;
@@ -26,7 +23,7 @@
 		width: 199px;
 		height: 45px;
 		text-indent: -9999em;
-		background: url("/img/cornell-reduced-white.svg") no-repeat;
+		background: url("/img/cornell-reduced-red.svg") no-repeat;
 	}
 }
 
