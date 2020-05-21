@@ -194,7 +194,9 @@ Then("the popup should include {string}") do |string|
       @path = "\/\/*[text()=\'#{string}\']"
       Find(:xpath, @path )
     end
-  rescue => exception
+  rescue Exception => e
+    puts "popup exception: #{e}"
+    fail("now")
   end
 end
 
