@@ -23,10 +23,14 @@ class BookBagsController < CatalogController
   append_before_action :set_book_bag_name
 
   def sign_in
+    authenticate
+    # user_saml_omniauth_authorize_path
+    @move_bookmarks = params[:move_bookmarks].present?
+
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
     msg = ["****************** #{__method__}"]
-    msg << "Before:"
+    msg << "Post Sign in:"
     if user_signed_in?
       msg << "signed in as " + current_user.email
     elsif current_or_guest_user
@@ -36,6 +40,7 @@ class BookBagsController < CatalogController
     end
     msg << "session: " + user_session.present?.to_s
     msg << @response.inspect
+    msg << "move bookmarks: " + @move_bookmarks.to_s
     msg << '******************'
     puts msg.to_yaml
     Rails.logger.level = save_level
@@ -99,11 +104,11 @@ class BookBagsController < CatalogController
   def mock_auth
     if ENV['DEBUG_USER'].present? && Rails.env.development?
       OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:saml] = nil
+      #OmniAuth.config.mock_auth[:saml] = nil
       #OmniAuth.add_mock(:saml, {:uid => '12356', {:info => {:email => 'jgr25@cornell.edu'}}})
       OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
         provider: "saml",
-        "saml_resp" => saml_resp ,
+        "saml_resp" => 'hello' ,
         uid: "12345678910",
         extra: {raw_info: {} } ,
         info: {
@@ -122,10 +127,6 @@ class BookBagsController < CatalogController
         }
       })
     end
-  end
-
-  def saml_resp
-    'hello'
   end
 
   def set_book_bag_name
@@ -188,7 +189,7 @@ Rails.logger.level = save_level
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     if @bb.count < MAX_BOOKBAGS_COUNT
-      success = @bb.create_all([value])
+      success = @bb.cache(value)
       user_session[:bookbag_count] = @bb.count
     end
     if request.xhr?
@@ -236,10 +237,10 @@ Rails.logger.level = save_level
 
   def delete
     @bibid = params[:id]
-    value = [@bibid]
+    value = @bibid
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
-    success = @bb.delete_all(value)
+    success = @bb.uncache(value)
     user_session[:bookbag_count] = @bb.count
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
@@ -258,7 +259,7 @@ Rails.logger.level = save_level
   def index
     @bms =@bb.index
     if @bb.is_a? BookBag
-      docs = @bms.count > 1 ? @bms.each {|v| v.to_s } : @bms[0].to_s
+      docs = @bms.each {|v| v.to_s }
     else
       docs = @bms.map {|b| b.sub!("bibid-",'')}
     end
@@ -271,14 +272,18 @@ msg << "@bb"
 msg << "Old style" unless @bb.is_a? BookBag
 # msg << "Bagname: " + @bb.bagname unless @bb.nil?
 msg << @bms.inspect
-msg << docs.inspect
+msg << "docs: " + (docs.present? ? docs.inspect : "not present")
 msg << '******************'
 puts msg.to_yaml
 Rails.logger.level = save_level
 #*******************
-    @response,@documents = search_service.fetch docs
-    @document_list =  @documents
-    @bookmarks = docs.map {|b| Bookmarklite.new(b)}
+    if docs.present?
+      @response,@documents = search_service.fetch docs
+      @document_list =  @documents
+      @bookmarks = docs.map {|b| Bookmarklite.new(b)}
+    else
+
+    end
     respond_to do |format|
       format.html { }
       format.rss  { render :layout => false }
