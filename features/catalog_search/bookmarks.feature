@@ -57,14 +57,18 @@ Feature: Bookmarks for anonymous users
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 2 items selected
+        And I sleep 20 seconds
+        Then show me the page
+        Then load 2 selected items
         Then I should see the text "Selected Items"
-        And I should not see the text "You have no selected items."
         Then I should see the text "Cite"
         And I view my citations
+        Then show me the page
         Then the popup should include "APA 6th ed."
         And the popup should include "Chicago 17th ed."
         And the popup should include "MLA 7th ed."
         And the popup should include "MLA 8th ed."
+        And the popup should include "Mojo"
 
     @bookmarks_export_selected
     Scenario Outline: I should be able to export selected bookmarks
