@@ -115,6 +115,14 @@ Rails.logger.level = save_level
     end
   end
 
+  def cache(bibid)
+    create_all([bibid.to_s])
+  end
+
+  def uncache(bibid)
+    delete_all([bibid.to_s])
+  end
+
   def index
     c = []
     begin
