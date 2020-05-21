@@ -199,9 +199,10 @@ end
 
 Then("the popup should include {string}") do |string|
   begin
-    within_window(page.driver.browser.get_window_handles.last) do
+    popup = find_popup_window
+    within(popup) do
       @path = "\/\/*[text()=\'#{string}\']"
-      Find(:xpath, @path )
+      find(:xpath, @path )
     end
   rescue Exception => e
     puts "popup exception: #{e}"
