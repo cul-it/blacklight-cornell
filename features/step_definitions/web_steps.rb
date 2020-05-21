@@ -117,6 +117,14 @@ Then /^there should be ([0-9]+) items selected$/ do |int|
   page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
 end
 
+When("there should be {int} items in the BookBag") do |int|
+  expect(page.find(:xpath, '//span[@data-role="bookmark-counter"]').text).to eq(int.to_s)
+end
+
+Given("I empty the BookBag") do
+  visit 'book_bags/clear'
+end
+
 Then("Sign in should link to the SAML login system") do
   if ENV['GOOGLE_CLIENT_ID']
     page.find(:xpath, "//a[@href='/logins']", :text => "Sign in")
