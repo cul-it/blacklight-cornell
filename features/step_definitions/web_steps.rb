@@ -106,9 +106,12 @@ end
 
 Then("I select the first {int} catalog results") do |int|
   @all_checkboxes = page.all(:css, "input.toggle-bookmark")
+  @confirm = page.all(:css, "label.toggle-bookmark")
   i = 0
   while i < int
     page.find(:xpath, @all_checkboxes[i].path).set(true)
+    # wait for the ajax processing until the item shows up checked
+    page.find(:xpath, @confirm[i].path)[:class].include?("checked")
     i += 1
   end
 end
