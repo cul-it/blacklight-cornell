@@ -13,6 +13,20 @@
       <li>Uncheck boxes to remove items from your Book Bag. Use the "Clear all items" link to remove all items.</li>
     </ul>
   </div>
+  <% if !current_user || !BookBag.enabled? %>
+    <%= link_to 'Sign in to enable your Book Bag', user_saml_omniauth_authorize_path, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
+    <%= form_with(url: user_saml_omniauth_authorize_path, method: "get") do %>
+      <%= check_box_tag(:move_bookmarks) %>
+      <%= label_tag(:move_bookmarks, "Add Selected Items to Book Bag") %><br />
+     <%= submit_tag("Sign in to enable your Book Bag") %>
+    <% end %>
+  <% else %>
+    <% if guest_user.bookmarks.count > 0 %>
+      <%= link_to addbookmarks_index_path, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'add-bookmarks' do %>
+            <i class="fa fa-bookmark"></i> <%= t('blacklight.bookmarks.bag.action_confirm') %>
+          <% end %>
+    <% end %>
+  <% end %>
   <% if ENV['DEBUG_USER'].present? && Rails.env.development? %>
   <ul id="debug-book-bag">
     <li>current_or_guest_user: <%= current_or_guest_user.to_s %></li>
