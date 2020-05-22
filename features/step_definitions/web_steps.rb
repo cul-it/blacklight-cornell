@@ -197,6 +197,7 @@ def find_popup_window
   @content
 end
 
+# this is for blacklight-modal style modal regions within the page
 Then("the popup should include {string}") do |string|
   begin
     @popup = find_popup_window
