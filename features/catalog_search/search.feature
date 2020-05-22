@@ -221,15 +221,16 @@ Feature: Search
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with '<title>'
-    And I sleep 1 seconds
-    Then I should get results
-    And I should not see the text "<title>"
-    Then I request the item view for "<bibid>"
-    And I should see "Sorry, you have requested a record that doesn't exist."
+    And I press 'search'
+    And I sleep 8 seconds
+    Then show me the page
+    Then the search results should not contain "<title>"
+    And I request the item view for "<bibid>"
+    Then I should see "Sorry, you have requested a record that doesn't exist."
 
   Examples:
   | bibid | title |
   | 2740306 | Manifest / James Ford Bell Library. Associates. |
-  | 2940172 | Boletim de integração latino-americana |
-  | 3051761 | Asia gas report |
-  | 3828983 | International Series in Heating, Ventilation and Refrigeration |
+  # | 2940172 | Boletim de integração latino-americana |
+  # | 3051761 | Asia gas report |
+  # | 3828983 | International Series in Heating, Ventilation and Refrigeration |
