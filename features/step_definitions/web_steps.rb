@@ -210,6 +210,31 @@ Then("the popup should include {string}") do |string|
   end
 end
 
+Then("the modal opened by the {string} link should include {string}") do |string, string2|
+  patiently do
+    wait_cache = Capybara.default_max_wait_time
+    Capybara.default_max_wait_time = 20
+    link = page.find_link(string)
+    puts "link: " + link.inspect
+    #modal = page.window_opened_by{link.click}
+    modal = link.click
+    Capybara.default_max_wait_time = wait_cache
+    # puts modal.inspect
+    # page.switch_to_window(modal)
+    body = page.driver.browser.body
+    puts body.to_yaml
+    what_is modal
+    within_window modal do
+      page.should have_content(string2)
+    end
+  end
+end
+
+Then("exploration") do
+  visit "bookmarks"
+  modal = page.driver.browser.default_max_wait_time
+  puts modal.to_yaml
+end
 Then /^I should get a response with content-type "([^"]*)"$/ do |content_type|
   page.response_headers['Content-Type'].should == content_type
 end
