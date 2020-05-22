@@ -106,9 +106,12 @@ end
 
 Then("I select the first {int} catalog results") do |int|
   @all_checkboxes = page.all(:css, "input.toggle-bookmark")
+  @confirm = page.all(:css, "label.toggle-bookmark")
   i = 0
   while i < int
     page.find(:xpath, @all_checkboxes[i].path).set(true)
+    # wait for the ajax processing until the item shows up checked
+    page.find(:xpath, @confirm[i].path)[:class].include?("checked")
     i += 1
   end
 end
@@ -184,14 +187,44 @@ When("I am certain Javascript _paq is defined") do
   expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
 end
 
+def find_popup_window
+  patiently do
+     popup = page.find(:xpath, '//*[@id="blacklight-modal"]', :visible => :all)
+     popup.visible?
+     @content = popup.find('div.modal-content', :visible => :all)
+     @content.visible?
+  end
+  @content
+end
 
+# this is for blacklight-modal style modal regions within the page
 Then("the popup should include {string}") do |string|
   begin
-    within_window(page.driver.browser.get_window_handles.last) do
-      @path = "\/\/*[text()=\'#{string}\']"
-      Find(:xpath, @path )
+    @popup = find_popup_window
+    patiently do
+      @popup.find(:xpath, "//*[text()=\"#{string}\"]", :visible => :all).visible?
     end
-  rescue => exception
+  rescue Exception => e
+    puts "popup exception: #{e}"
+    fail("now")
+  end
+end
+
+Then("the modal opened by the {string} link should include {string}") do |string, string2|
+  patiently do
+    wait_cache = Capybara.default_max_wait_time
+    Capybara.default_max_wait_time = 20
+    modal = page.window_opened_by{page.click_link(string)}
+    Capybara.default_max_wait_time = wait_cache
+    within_window modal do
+      page.should have_content(string2)
+    end
+  end
+end
+
+Then("the url of link {string} should contain {string}") do |string, string2|
+  urls = page.all(:xpath, "//a[text()=\"#{string}\"]", count: 1).map do |link|
+    expect(link[:href]).to include("#{string2}")
   end
 end
 
@@ -211,6 +244,11 @@ Then("I should see {int} selected items") do |int|
   end
 end
 
+Then("load {int} selected items") do |int|
+  docs = page.find(:xpath, "//div[@id='documents']")
+  docs.find(:xpath, "div[#{int}]")
+end
+
 Then("I check Select all") do
   patiently do
     page.find(:css, "input#select_all_input").click
@@ -219,4 +257,21 @@ end
 
 Then("the link {string} should go to {string}") do |string, string2|
   expect(page).to have_link("#{string}", href: "#{string2}")
+end
+
+Then("I clear the SQLite transactions") do
+  clear_sqlite
+end
+
+def clear_sqlite
+  if ENV['RAILS_ENV'] == 'development'
+    ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+    puts 'cleared SQLite'
+  end
+end
+
+Then("there should be a print bookmarks button") do
+  within page.find("ul#item-tools") do
+    expect(find(:xpath, "//a[@href='#print']").text).to include("Print")
+  end
 end
