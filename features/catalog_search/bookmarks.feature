@@ -69,7 +69,7 @@ Feature: Bookmarks for anonymous users
         And the popup should include "MLA 8th ed."
 
     @bookmarks_export_selected
-    Scenario Outline: I should be able to export selected bookmarks
+    Scenario: I should be able to export selected bookmarks
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
@@ -84,10 +84,6 @@ Feature: Bookmarks for anonymous users
         And click on link "<item>"
         Then the popup should include "<filename>"
 
-    Examples:
-    | item | filename |
-    | RIS | endnote.ris |
-    | EndNote XML | endnote.endnote_xml |
 
     @bookmarks_print_selected
     Scenario: I should be able to view citations for selected items
