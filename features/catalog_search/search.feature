@@ -217,20 +217,19 @@ Feature: Search
 
   @all_search
   @DISCOVERYACCESS-5826
-  Scenario Outline: Solr should not return suppressed records
+  Scenario Outline: The catalog should not return suppressed records
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
     And I fill in the search box with '<title>'
     And I press 'search'
     And I sleep 8 seconds
-    Then show me the page
     Then the search results should not contain "<title>"
-    And I request the item view for "<bibid>"
+    And I request the item view for <bibid>
     Then I should see "Sorry, you have requested a record that doesn't exist."
 
   Examples:
   | bibid | title |
   | 2740306 | Manifest / James Ford Bell Library. Associates. |
-  # | 2940172 | Boletim de integração latino-americana |
-  # | 3051761 | Asia gas report |
-  # | 3828983 | International Series in Heating, Ventilation and Refrigeration |
+  | 3051761 | Asia gas report |
+  | 2940172 | Boletim de integração latino-americana |
+  | 3828983 | International Series in Heating, Ventilation and Refrigeration |
