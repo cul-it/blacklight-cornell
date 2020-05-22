@@ -214,16 +214,8 @@ Then("the modal opened by the {string} link should include {string}") do |string
   patiently do
     wait_cache = Capybara.default_max_wait_time
     Capybara.default_max_wait_time = 20
-    link = page.find_link(string)
-    puts "link: " + link.inspect
-    #modal = page.window_opened_by{link.click}
-    modal = link.click
+    modal = page.window_opened_by{page.click_link(string)}
     Capybara.default_max_wait_time = wait_cache
-    # puts modal.inspect
-    # page.switch_to_window(modal)
-    body = page.driver.browser.body
-    puts body.to_yaml
-    what_is modal
     within_window modal do
       page.should have_content(string2)
     end
