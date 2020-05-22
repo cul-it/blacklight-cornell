@@ -88,20 +88,19 @@ Feature: Bookmarks for anonymous users
         And the url of link "EndNote XML" should contain "endnote.endnote_xml"
 
     @bookmarks_print_selected
-    Scenario: I should be able to view citations for selected items
+    Scenario: I should be able to print selected items
         Given I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
+        And I sleep 2 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
         Then I should see the text "Selected Items"
         And I should not see the text "You have no selected items."
-        And click on link "Print"
-        Then the popup should include "Print"
-        And the popup should include "Cancel"
+        And there should be a print bookmarks button
 
 #    @bookmarks_select_limit
 #    @javascript
