@@ -269,3 +269,9 @@ def clear_sqlite
     puts 'cleared SQLite'
   end
 end
+
+Then("there should be a print bookmarks button") do
+  within page.find("ul#item-tools") do
+    expect(find(:xpath, "//a[@href='#print']").text).to include("Print")
+  end
+end
