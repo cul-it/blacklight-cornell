@@ -92,7 +92,7 @@ Then /^I should not get results$/ do
   page.should_not have_selector("div.document")
 end
 
-Then("the search results should not contain {string}") do |string|
+Then("the search results should not contain title {string}") do |string|
   patiently do
     docs = page.all(:css, "div.document-data h2.blacklight-title_display a")
     docs.each do |doc|

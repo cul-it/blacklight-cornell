@@ -223,7 +223,7 @@ Feature: Search
     And I fill in the search box with '<title>'
     And I press 'search'
     And I sleep 8 seconds
-    Then the search results should not contain "<title>"
+    Then the search results should not contain title "<title>"
     And I request the item view for <bibid>
     Then I should see "Sorry, you have requested a record that doesn't exist."
 
