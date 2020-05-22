@@ -241,6 +241,13 @@ Then("exploration") do
   modal = page.driver.browser.default_max_wait_time
   puts modal.to_yaml
 end
+
+Then("the url of link {string} should contain {string}") do |string, string2|
+  urls = page.all(:xpath, "//a[text()=\"#{string}\"]", count: 1).map do |link|
+    expect(link[:href]).to include("#{string2}")
+  end
+end
+
 Then /^I should get a response with content-type "([^"]*)"$/ do |content_type|
   page.response_headers['Content-Type'].should == content_type
 end
