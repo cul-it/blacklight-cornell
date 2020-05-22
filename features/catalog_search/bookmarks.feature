@@ -75,9 +75,11 @@ Feature: Bookmarks for anonymous users
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
+        And I sleep 2 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
+        Then load 3 selected items
         Then I should see the text "Selected Items"
         And I should not see the text "You have no selected items."
         Then click on link "Export"
