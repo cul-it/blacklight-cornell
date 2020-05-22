@@ -12,11 +12,11 @@
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
-        <div class="cornell-logo col-6">
-          <a href="http://www.cornell.edu">Cornell University</a>
+        <div class="cornell-logo col-12 col-sm-9">
+          <a href="http://library.cornell.edu"><%= image_tag "cornell/layout/cul-logo.svg" , alt: "Cornell University Library", class: "img-responsive" %></a>
         </div>
         <% if part_of_catalog? %>
-          <div class="library-menu col-6 text-right">
+          <div class="library-menu col-sm-3 text-right d-none d-sm-block">
             <div class="dropdown">
               <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
                 <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
@@ -25,7 +25,7 @@
                 <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
                 <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
                 <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries and Hours</a>
-                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Textbook Reserves</a>
+                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Reserves</a>
                 <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
                 <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
                 <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
@@ -44,9 +44,6 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-lg-4 catalog-name">
-        <div class="library-link">
-          <a href="http://www.library.cornell.edu">Cornell University Library</a>
-        </div>
         <% if !part_of_catalog? and params[:controller] != 'advanced_search'%>
           <% if params[:controller] == 'users/sessions'%>
             <!-- users/sessions does not have an index action -->
@@ -70,7 +67,7 @@
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
         <div class="col-sm-3 col-lg-8 d-none d-sm-block">
-          <p class="mt-3"><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog</a></p>
+          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog</a></p>
         </div>
       <% end %>
     </div>
