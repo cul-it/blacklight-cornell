@@ -87,6 +87,25 @@ Feature: Bookmarks for anonymous users
         And the url of link "RIS" should contain "endnote.ris"
         And the url of link "EndNote XML" should contain "endnote.endnote_xml"
 
+    @bookmarks_modal
+    Scenario: I can examine the contents of a modal window
+        Given I am on the home page
+        When I fill in the search box with 'Minerbi, Marco'
+		And I press 'search'
+        Then I select the first 1 catalog results
+        And I sleep 2 seconds
+        When I view my selected items
+        Then I should be on 'the bookmarks page'
+        And there should be 1 items selected
+        Then load 1 selected items
+        And I should not see the text "You have no selected items."
+        Then click on link "Export"
+        And the url of link "<item>" should contain "<filename>"
+        Then the modal opened by the "EndNote" link should include "endnote.endnote"
+
+    @bookmarks_brute
+    Scenario: hacking
+        Given exploration
 
     @bookmarks_print_selected
     Scenario: I should be able to view citations for selected items
