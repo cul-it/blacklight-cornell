@@ -210,12 +210,6 @@ Then("the popup should include {string}") do |string|
   end
 end
 
-Then("the modal dialog should include {string}") do |string|
-  within_window(page.driver.browser.get_window_handles.last) do
-    page.should have_content(string)
-  end
-end
-
 Then("the modal opened by the {string} link should include {string}") do |string, string2|
   patiently do
     wait_cache = Capybara.default_max_wait_time
@@ -234,12 +228,6 @@ Then("the modal opened by the {string} link should include {string}") do |string
       page.should have_content(string2)
     end
   end
-end
-
-Then("exploration") do
-  visit "bookmarks"
-  modal = page.driver.browser.default_max_wait_time
-  puts modal.to_yaml
 end
 
 Then("the url of link {string} should contain {string}") do |string, string2|
