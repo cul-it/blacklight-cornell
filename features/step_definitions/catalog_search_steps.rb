@@ -94,7 +94,10 @@ end
 
 Then("the search results should not contain {string}") do |string|
   patiently do
-    expect(page.find("div#main-container")).not_to include(string)
+    docs = page.all(:css, "div.document-data h2.blacklight-title_display a")
+    docs.each do |doc|
+      expect(doc.text).not_to include(string)
+    end
   end
 end
 
