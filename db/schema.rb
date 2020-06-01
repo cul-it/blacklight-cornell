@@ -10,14 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_12_172125) do
-
-  create_table "bib_lists", force: :cascade do |t|
-    t.string "name"
-    t.integer "bibid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2019_09_18_190200) do
 
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID"
