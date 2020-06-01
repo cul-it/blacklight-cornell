@@ -47,6 +47,10 @@
       </div>
     <% end %>
 
+    <% if ENV["SERVICE_ALERT"] == "on" %>
+      <%= render partial: 'shared/alert' %>
+    <% end %>
+
     <% if part_of_catalog? %>
       <div class="constraints-bar">
         <div class="container">
