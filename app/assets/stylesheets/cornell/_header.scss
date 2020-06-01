@@ -161,6 +161,16 @@ ul.blacklight-nav {
   }
 }
 
+// System alert - for things like service outages
+// -----------------------------------------------
+.system-alert {
+  background: white;
+  padding-top: .5rem;
+  .alert {
+    margin-bottom: 0;
+  }
+}
+
 // MEDIA QUERIES
 // -------------------------
 
