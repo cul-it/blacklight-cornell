@@ -6,7 +6,7 @@ set :use_sudo, false
 set :scm, :git
 set :scm_verbose, true 
 #set :user, "es287"
-set :user, "rails"
+set :user, "jenkins"
 set :default_environment, {
   'PATH' => "/usr/local/rvm/gems/ruby-2.5.5/bin:/usr/local/rvm/gems/ruby-2.5.5@global/bin:/usr/local/rvm/rubies/ruby-2.5.5/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-2/root/usr/bin:$PATH",
   'RUBY_VERSION' => "ruby-2.5.5",
@@ -29,7 +29,7 @@ set :bundle_flags,    "--deployment "
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
-set :stages, ["integration","development", "staging", "production","production-new"]
+set :stages, ["integration","development","integration-aws","production-aws","staging", "production","production-new"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
 
