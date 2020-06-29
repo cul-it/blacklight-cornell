@@ -586,9 +586,9 @@ Feature: Item view
 @all_item_view
 @tou
   Scenario: Show links to terms of use on electronic books
-  Given I request the item view for 8191346
+  Given I request the item view for 11493262
   #Then I should see the text 'Terms of use'
-  Then I should see the text 'Early English books tract supplement interim guide 1070.m.4 '
+  Then I should see the text 'Scholastici orthodoxi specimen'
 
 # Forró and redemptive regionalism from the Brazilian northeast
 @tou
