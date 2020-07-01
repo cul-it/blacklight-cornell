@@ -22,13 +22,13 @@ Feature: Item view
   Scenario: View an items holdings
     Given I request the item view for 8753977
     Then I should see the label 'Request'
-  @all_item_view
-  @aeon
-    @reading_room_delivery
-  Scenario: View an items holdings, and request from aeon
-    Given I request the item view for 2083253
-        #And click on link "Request for Reading Room Delivery"
-        Then it should have link "Request item for Reading Room Delivery" with value "http://voy-api.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="
+  #@all_item_view
+  #@aeon
+  #  @reading_room_delivery
+  #Scenario: View an items holdings, and request from aeon
+  #  Given I request the item view for 2083253
+  #      #And click on link "Request for Reading Room Delivery"
+  #      Then it should have link "Request item for Reading Room Delivery" with value "http://voy-api.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="
   @all_item_view
   @aeon
   #Scenario: View an items holdings, and request from aeon
@@ -156,16 +156,17 @@ Feature: Item view
 
   # availability -- several copies,all copy1, checked out.
   # Directory American Veterinary Medical Association
-  @all_item_view
-  @availability
-  @javascript
-  @bibid1902405
-  @DISCOVERYACCESS-1659
-  @request
-  Scenario: As a user I can see the availability for an item
-    Given I request the item view for 1902405
-    #Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
-    Then I should see the label 'Request'
+  # Temporarily commenting out while the Covid-19 changes are in place
+  #@all_item_view
+  #@availability
+  #@javascript
+  #@bibid1902405
+  #@DISCOVERYACCESS-1659
+  #@request
+  #Scenario: As a user I can see the availability for an item
+  #  Given I request the item view for 1902405
+  #  #Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
+  #  Then I should see the label 'Request'
 
 
   # when there is a perm location, and temp and all items for holding are at temp
@@ -586,9 +587,9 @@ Feature: Item view
 @all_item_view
 @tou
   Scenario: Show links to terms of use on electronic books
-  Given I request the item view for 8191346
+  Given I request the item view for 11493262
   #Then I should see the text 'Terms of use'
-  Then I should see the text 'Early English books tract supplement interim guide 1070.m.4 '
+  Then I should see the text 'Scholastici orthodoxi specimen'
 
 # Forró and redemptive regionalism from the Brazilian northeast
 @tou
