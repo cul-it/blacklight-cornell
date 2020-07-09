@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 2608387de7fbc3affd61b9f1424deda1bfce2a86
+  revision: cbb63973e30df11d39f8adbef99a8f9ce3c5439b
   branch: master
   specs:
-    blacklight_cornell_requests (3.1.6)
+    blacklight_cornell_requests (3.2.0)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -425,7 +425,7 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    nokogumbo (2.0.1)
+    nokogumbo (2.0.2)
       nokogiri (~> 1.8, >= 1.8.4)
     nori (2.6.0)
     notiffany (0.1.3)
@@ -479,7 +479,7 @@ GEM
       pry (~> 0.10)
     public_suffix (4.0.1)
     raabro (1.1.6)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-contrib (2.1.0)
       rack (~> 2.0)
     rack-test (1.1.0)
@@ -563,7 +563,7 @@ GEM
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
     safe_yaml (1.0.5)
-    sanitize (5.1.0)
+    sanitize (5.2.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.8.0)
       nokogumbo (~> 2.0)
