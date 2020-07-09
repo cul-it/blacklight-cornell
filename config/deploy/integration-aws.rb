@@ -20,7 +20,9 @@ role :db, "newcatalog7.library.cornell.edu", :primary => true
 set :deploy_to, "/cul/web/newcatalog-int-aws.library.cornell.edu/rails-app"
 #this avoids an error message from git, but i don't think it's really necessary.
 #as i don't think the message actually affects what gets installed.
+set :rails_env, 'integration'
 set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
 task :install_env, :roles => [ :app, :db, :web ] do
   run "cp #{deploy_to}/../conf/latest-integration.env  #{shared_path}/.env"
+  run "cat #{shared_path}/.env"
 end
