@@ -92,6 +92,16 @@ Then /^I should not get results$/ do
   page.should_not have_selector("div.document")
 end
 
+Then("the search results should not contain title {string}") do |string|
+  patiently do
+    docs = page.all(:css, "div.document-data h2.blacklight-title_display a")
+    docs.each do |doc|
+      expect(doc.text).not_to include(string)
+    end
+  end
+end
+
+
 # Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do |filter, text|
 #   page.should have_selector("div#facets div h3", :content => filter)
 #   page.should have_selector("div#facets div span.selected", :content => text)
