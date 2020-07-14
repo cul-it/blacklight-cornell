@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: cbb63973e30df11d39f8adbef99a8f9ce3c5439b
+  revision: f8a8b46b4bbdc6e434a7d9465bab2827928cfe57
   branch: master
   specs:
-    blacklight_cornell_requests (3.2.0)
+    blacklight_cornell_requests (3.2.1)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
