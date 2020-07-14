@@ -21,6 +21,7 @@ Feature: Book Bags for logged in users
         And I press 'search'
         Then I should get results
         And I select the first <count> catalog results
+        Then navigation should show Book Bag contains <count>
         When I go to BookBag
         Then there should be <count> items in the BookBag
 
