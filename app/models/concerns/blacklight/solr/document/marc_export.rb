@@ -34,7 +34,6 @@ module Blacklight::Solr::Document::MarcExport
   # is in-line with what we had before, but at least now attached
   # to the document extension where it belongs.
   def export_as_apa_citation_txt
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     citeproc_citation( to_marc,'apa')
   end
 
@@ -784,8 +783,8 @@ module Blacklight::Solr::Document::MarcExport
     if !title_info_field.nil?
       a_title_info = title_info_field.find{|s| s.code == 'a'}
       b_title_info = title_info_field.find{|s| s.code == 'b'}
-      a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil?
-      b_title_info = clean_end_punctuation(b_title_info.value.strip) unless b_title_info.nil?
+      a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil? || a_title_info.value.nil?
+      b_title_info = clean_end_punctuation(b_title_info.value.strip) unless b_title_info.nil? || b_title_info.value.nil?
       text += a_title_info unless a_title_info.nil?
       if !a_title_info.nil? and !b_title_info.nil?
         text += ": "
@@ -806,6 +805,7 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def clean_end_punctuation(text)
+    text = "" if text.nil?
     if [".",",",":",";","/"].include? text[-1,1]
       return text[0,text.length-1]
     end
