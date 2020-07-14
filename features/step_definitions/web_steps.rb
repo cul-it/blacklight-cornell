@@ -128,6 +128,11 @@ Then("navigation should show Book Bag contains {int}") do |int|
     expect(page.find('a#book_bags_nav > span > span').text).to eq(int.to_s)
   end
 end
+
+Then /^navigation should( not)? show '([^']*)'$/ do |negation, string|
+  patiently do
+    negation ? page.first('ul.blacklight-nav').should_not(have_content(string)) : page.first('ul.blacklight-nav').should(have_content(string))
+  end
 end
 
 Then("the BookBag should be empty") do
