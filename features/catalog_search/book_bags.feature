@@ -15,7 +15,7 @@ Feature: Book Bags for logged in users
         Given we are in the development environment
         And I sign in to BookBag
         And I empty the BookBag
-        Then there should be 0 items in the BookBag
+        Then the BookBag should be empty
         When I go to the home page
         And I fill in the search box with 'rope work'
         And I press 'search'

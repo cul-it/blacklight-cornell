@@ -120,6 +120,11 @@ Then /^there should be ([0-9]+) items selected$/ do |int|
   page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
 end
 
+
+Then("the BookBag should be empty") do
+  page.find('div.results-info p', text: 'You have no selected items.')
+end
+
 When("there should be {int} items in the BookBag") do |int|
   expect(page.find(:xpath, '//span[@data-role="bookmark-counter"]').text).to eq(int.to_s)
 end
