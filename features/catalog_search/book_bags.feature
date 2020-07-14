@@ -35,18 +35,19 @@ Feature: Book Bags for logged in users
         And I press 'search'
         Then I should get results
         And I select the first <count> catalog results
+        And I sleep <sleep> seconds
         Then navigation should show Book Bag contains <count>
         When I go to BookBag
         Then there should be <count> items in the BookBag
 
     Examples:
-    | count |
-    | 1 |
-    | 2 |
-    | 3 |
-    | 4 |
-    | 5 |
-    | 10 |
-    | 20 |
+    | count | sleep |
+    | 1 | 2 |
+    | 2 | 2 |
+    | 3 | 2 |
+    | 4 | 2 |
+    | 5 | 3 |
+    | 10 | 5 |
+    | 20 | 9 |
 
 
