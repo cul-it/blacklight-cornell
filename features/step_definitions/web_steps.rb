@@ -139,10 +139,16 @@ Then("the BookBag should be empty") do
   page.find('div.results-info p', text: 'You have no selected items.')
 end
 
-When("there should be {int} items in the BookBag") do |int|
+Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
   patiently do
     within page.find('div.results-info') do
-      expect(find('.page-entries > strong:nth-child(3)').text).to eq(int.to_s)
+      if int == "0"
+        page.find('div.results-info p', text: 'You have no selected items.')
+      elsif int == "1"
+        expect(find('.page-entries > strong:nth-child(1)').text).to eq('1 result')
+      else
+        expect(find('.page-entries > strong:nth-child(3)').text).to eq(int.to_s)
+      end
     end
   end
 end
