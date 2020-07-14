@@ -129,7 +129,11 @@ Then("the BookBag should be empty") do
 end
 
 When("there should be {int} items in the BookBag") do |int|
-  expect(page.find(:xpath, '//span[@data-role="bookmark-counter"]').text).to eq(int.to_s)
+  patiently do
+    within page.find('div.results-info') do
+      expect(find('.page-entries > strong:nth-child(3)').text).to eq(int.to_s)
+    end
+  end
 end
 
 Given("I empty the BookBag") do
