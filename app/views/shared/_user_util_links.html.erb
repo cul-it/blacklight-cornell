@@ -23,12 +23,14 @@
         <% end %>
       <% end %>
 
+      <% if !(current_user && BookBag.enabled?) %>
       <li>
       <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
               <%= t('blacklight.header_links.bookmarks') %>
               (<span data-role='bookmark-counter'><%= guest_user.bookmarks.count %></span>)
               <% end %>
       </li>
+      <% else %>
       <li>
       <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
             <% @selectedcount =
