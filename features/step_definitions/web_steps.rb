@@ -110,8 +110,11 @@ Then("I select the first {int} catalog results") do |int|
   i = 0
   while i < int
     page.find(:xpath, @all_checkboxes[i].path).set(true)
-    # wait for the ajax processing until the item shows up checked
-    page.find(:xpath, @confirm[i].path)[:class].include?("checked")
+    i += 1
+  end
+  # wait for the ajax processing until the item shows up checked
+  while i < int
+    page.find(:xpath, @confirm[i].path).should have_content("Selected")
     i += 1
   end
 end
