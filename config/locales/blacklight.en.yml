@@ -39,7 +39,8 @@ en:
           button: 'Add to selected items'
       title: 'Selected Items'
       no_bookmarks: 'You have no selected items.'
-      use_book_bag: 'Please use the book bag while you are logged in.'
+      use_book_bag: 'Please use Book Bag while you are signed in.'
+      use_bookmarks: 'Please use Selected Items unless you are signed in.'
       add:
         button: 'Select'
         success:
@@ -61,6 +62,7 @@ en:
       bag:
         action_title: 'Add items to Book Bag for email and saving options'
         action_confirm: 'Add selected items to your Book Bag?'
+        login_add: 'Sign in and add Selected Items to Book Bag'
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
