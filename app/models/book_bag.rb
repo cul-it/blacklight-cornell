@@ -10,6 +10,7 @@ class BookBag
   attr_accessor :bagname
   @@bagname = nil;
   @client = nil;
+  @@bookmarkname = nil;
 
   def connect
     if @client.nil? || @client.info.nil?
@@ -53,10 +54,20 @@ class BookBag
       if bagname.to_s.match(/^[0-9a-zA-Z@\-_\.]+$/)
         @bagname = bagname
         @@bagname = bagname
+        find_bookmark_name
       else
         raise 'BookBag initialize invalid bookbag name: (' + bagname + ')'
       end
     end
+  end
+
+  def find_bookmark_name
+    if @@bagname.present?
+      @@bookmarkname = @@bagname + '-bm'
+    else
+      raise 'Tring to set bookmark name before bagname.'
+    end
+    @@bookmarkname
   end
 
   def self.enabled?
@@ -176,6 +187,7 @@ Rails.logger.level = save_level
     Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag debug"
     puts "@@bagname:\n" + @@bagname.to_yaml
     puts "@bagname:\n" + @bagname.to_yaml
+    puts "@@bookmarkname:\n" + @@bookmarkname.to_yaml
     num  = self.count
     puts "Count:\n" + num.inspect
     bibs = self.index
