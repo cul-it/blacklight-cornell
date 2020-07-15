@@ -54,7 +54,7 @@ en:
         action_confirm: 'Deselect this item?'
       clear:
         action_title: 'Clear all items'
-        action_confirm: 
+        action_confirm:
           book_bag: 'Remove all items from your Book Bag?'
           bookmark: 'Clear all selected items?'
         success: 'Your items have been cleared.'
@@ -66,14 +66,14 @@ en:
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
-      limit: 
+      limit:
         title: 'Too many bookmarks'
         warning: 'You may save up to %{max_count} selected items.'
       email:
         title: 'Email this'
         warning: 'Emailing is currently limited to Cornell only.'
         action:
-          item_view: 
+          item_view:
             text: 'Please %{href} with your Cornell ID, then click the Email button again.'
             link_text: 'sign in'
           bookmarks_view: 'Add items to Book Bag for email and saving options'
