@@ -205,5 +205,50 @@ Rails.logger.level = save_level
     debug
   end
 
+  def replace_bookmarks(list)
+    begin
+
+      #******************
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+      msg = ["****************** #{__method__}"]
+      msg << list.inspect
+      msg << '******************'
+      puts msg.to_yaml
+      Rails.logger.level = save_level
+      #*******************
+      bookmarks_name = find_bookmark_name
+      client = connect
+      statement = client.prepare("DELETE FROM book_bags WHERE bagname = ?")
+      statement.execute(bookmarks_name)
+      statement = client.prepare("INSERT IGNORE INTO book_bags(bagname,bibid) VALUES(? , ?)")
+      list.each do |bib|
+        statement.execute(bookmarks_name, bib)
+      end
+    rescue Mysql2::Error => e
+      raise "BookBag #{__method__} error: " + e.error
+    ensure
+      disconnect
+    end
+  end
+
+  def get_bookmarks
+    c = []
+    begin
+      bookmarks_name = find_bookmark_name
+      client = connect
+      bibs = client.query("SELECT bibid FROM book_bags WHERE bagname='#{bookmarks_name}'")
+      bibs.each do |bib|
+        c << bib['bibid'].to_s
+      end
+      # c = @con.lrange(@bagname,0,-1) if @con
+    rescue Mysql2::Error => e
+      raise "BookBag #{__method__} error: " + e.error
+    ensure
+      disconnect
+    end
+    c
+  end
+
 
 end
