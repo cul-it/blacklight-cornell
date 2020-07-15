@@ -11,7 +11,7 @@
             <% @goo_sign_in_link = user_google_oauth2_omniauth_authorize_path%>
             <% @sign_in_link =
               if request.env['PATH_INFO'] == "/bookmarks"
-                '/book_bags/sign_in.html'
+                '/book_bags/sign_in'
               else
                ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
               end
