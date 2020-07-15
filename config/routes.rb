@@ -181,6 +181,10 @@ devise_for :users, controllers: {
   get 'book_bags/export' => 'book_bags#export'
   get 'book_bags/sign_in' => 'book_bags#sign_in'
 
+  resources :book_bags do
+    concerns :searchable
+  end
+
 
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
