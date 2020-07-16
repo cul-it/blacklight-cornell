@@ -330,12 +330,12 @@ puts msg.to_yaml
 Rails.logger.level = save_level
 #*******************
     if docs.present?
+      @bookmarks = docs.map {|b| Bookmarklite.new(b)}
       @response,@documents = search_service.fetch docs
       @document_list =  @documents
-      @bookmarks = docs.map {|b| Bookmarklite.new(b)}
     end
     respond_to do |format|
-      format.html { }
+      format.html {}
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
       format.json do
