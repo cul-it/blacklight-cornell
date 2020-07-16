@@ -909,6 +909,9 @@ end
     if params[:controller] == 'bookmarks'
       docID = doc.id
       link_to label, '/bookmarks/' + docID
+    elsif params[:controller] == 'book_bags'
+      docID = doc.id
+      link_to label, '/book_bags/' + docID
     else
       link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
     end
