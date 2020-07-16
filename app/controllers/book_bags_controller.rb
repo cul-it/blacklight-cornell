@@ -17,10 +17,10 @@ class BookBagsController < CatalogController
 
   # copy_blacklight_config_from(CatalogController)
   #
-  # before_action :authenticate
+  before_action :authenticate
 
   before_action :heading
-  # append_before_action :set_book_bag_name
+  append_before_action :set_book_bag_name
 
   def sign_out
     bookmark_ids = @bb.get_bookmarks
