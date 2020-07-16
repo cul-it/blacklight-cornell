@@ -348,7 +348,15 @@ Rails.logger.level = save_level
 
   def clear
     success = @bb.clear
-    Rails.logger.info("es289_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << @bb.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
     if success
       if current_or_guest_user.bookmarks.count > 0
         current_or_guest_user.bookmarks.clear
