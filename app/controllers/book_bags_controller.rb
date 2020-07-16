@@ -22,23 +22,23 @@ class BookBagsController < CatalogController
   before_action :heading
   append_before_action :set_book_bag_name
 
-  def sign_out
-    bookmark_ids = @bb.get_bookmarks
-    redirect_to destroy_user_session_path
-    if (bookmark_ids.present?)
-      if (current_or_guest_user.bookmarks.present?)
-        bookmark_ids.each do | bm |
-          current_or_guest_user.bookmarks.where(bm).exists? || current_or_guest_user.bookmarks.create(bm)
-        end
-      end
-    end
-  end
+#   def sign_out
+#     bookmark_ids = @bb.get_bookmarks
+#     redirect_to destroy_user_session_path
+#     if (bookmark_ids.present?)
+#       if (current_or_guest_user.bookmarks.present?)
+#         bookmark_ids.each do | bm |
+#           current_or_guest_user.bookmarks.where(bm).exists? || current_or_guest_user.bookmarks.create(bm)
+#         end
+#       end
+#     end
+#   end
 
   def sign_in
     if current_or_guest_user.bookmarks.count > 0
       bm = current_or_guest_user.bookmarks
       @bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
-      redirect_to destroy_user_session_path and return
+      # redirect_to destroy_user_session_path and return
     end
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
