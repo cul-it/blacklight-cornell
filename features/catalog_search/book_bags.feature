@@ -44,8 +44,8 @@ Feature: Book Bags for logged in users
     | count | sleep |
     | 1 | 2 |
     | 2 | 2 |
-    | 3 | 2 |
-    | 4 | 2 |
+    | 3 | 3 |
+    | 4 | 3 |
     | 5 | 3 |
     | 10 | 5 |
     | 20 | 9 |
