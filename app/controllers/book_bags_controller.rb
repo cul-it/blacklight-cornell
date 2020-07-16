@@ -109,31 +109,33 @@ Rails.logger.level = save_level
           #*******************
       end
 
+
       mock_auth
       :authenticate_user!
-      if current_user
-        set_book_bag_name
-        msg = []
-        msg << "Found Current User in book_bags_controller authenticate"
-        msg << "bagname: " + @bb.bagname + " count: " + @bb.count.to_s
-        msg << "session: " + user_session.present?.to_s
-        user = current_user
-        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-        puts msg.to_yaml
-        Rails.logger.level = save_level
-      else
-        msg = []
-        msg << "No user found"
-        user = current_or_guest_user
-        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-        puts msg.to_yaml
-        Rails.logger.level = save_level
-     end
+
     else
       :authenticate_user!
       user = current_user
+    end
+    if current_user
+      set_book_bag_name
+      msg = []
+      msg << "Found Current User in book_bags_controller authenticate"
+      msg << "bagname: " + @bb.bagname + " count: " + @bb.count.to_s
+      msg << "session: " + user_session.present?.to_s
+      user = current_user
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+      puts msg.to_yaml
+      Rails.logger.level = save_level
+    else
+      msg = []
+      msg << "No user found"
+      user = current_or_guest_user
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+      puts msg.to_yaml
+      Rails.logger.level = save_level
     end
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
