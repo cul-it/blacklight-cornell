@@ -182,6 +182,7 @@ devise_for :users, controllers: {
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
   get 'book_bags/export' => 'book_bags#export'
   get 'book_bags/sign_in' => 'book_bags#sign_in'
+  get 'book_bags/sign_out' => 'book_bags#sign_out'
 
 
 
