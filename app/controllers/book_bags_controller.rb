@@ -333,8 +333,6 @@ Rails.logger.level = save_level
       @response,@documents = search_service.fetch docs
       @document_list =  @documents
       @bookmarks = docs.map {|b| Bookmarklite.new(b)}
-    else
-
     end
     respond_to do |format|
       format.html { }
