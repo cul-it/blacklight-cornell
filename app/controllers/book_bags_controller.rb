@@ -372,8 +372,17 @@ Rails.logger.level = save_level
     options =   {:per_page => 1000,:rows => 1000}
     @bms =@bb.index
     docs = @bms.map {|b| b.sub!("bibid-",'')}
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} docs = #{docs.inspect}")
-    search_service.fetch docs, options
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << '@bms: ' + @bms.inspect
+msg << 'docs ' + docs.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+    search_service.fetch(docs, options)
   end
 
   def citation
@@ -418,6 +427,18 @@ Rails.logger.level = save_level
     @bb.debug
     Rails.logger.level = save_level
     redirect_to :action => "index"
+  end
+
+  def track
+  #******************
+  save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+  Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+  msg = ["****************** #{__method__}"]
+  msg << 'tracking'.inspect
+  msg << '******************'
+  puts msg.to_yaml
+  Rails.logger.level = save_level
+  #*******************
   end
 
 end
