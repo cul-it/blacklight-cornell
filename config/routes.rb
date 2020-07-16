@@ -166,8 +166,6 @@ devise_for :users, controllers: {
   # match ':controller(/:action(/:id))(.:format)'
 
   # BookBag routes.
-  resources :book_bags
-
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
   get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
