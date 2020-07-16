@@ -166,6 +166,8 @@ devise_for :users, controllers: {
   # match ':controller(/:action(/:id))(.:format)'
 
   # BookBag routes.
+  resources :book_bags
+
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
   get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
@@ -180,10 +182,6 @@ devise_for :users, controllers: {
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
   get 'book_bags/export' => 'book_bags#export'
   get 'book_bags/sign_in' => 'book_bags#sign_in'
-
-  resources :book_bags do
-    concerns :searchable
-  end
 
 
 
