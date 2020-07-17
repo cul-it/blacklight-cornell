@@ -190,33 +190,26 @@ Rails.logger.level = save_level
   end
 
   def addbookmarks
-    @savedll = Rails.logger.level # at any time
-    Rails.logger.level = Logger::INFO
-    if current_or_guest_user.bookmarks.count > 0
-      bm = current_or_guest_user.bookmarks
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmarks = #{bm.inspect}")
-      bm.each do | b |
-        Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bookmark = #{b.inspect}")
-      end
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} user = #{current_user.inspect}")
-      bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
-      Rails.logger.info("jgr25_debug #{__FILE__} #{__LINE__} #{__method__} bibs = #{bookmark_ids.inspect}")
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+    if @saved_bookmarks.present? && @saved_bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
-      if bookmark_ids.count > bookmark_max
+      if @saved_bookmarks.count > bookmark_max
         # delete the extra bookmarks
-        bookmark_ids = bookmark_ids.split(0, bookmark_max)
+        @saved_bookmarks = @saved_bookmarks.split(0, bookmark_max)
       end
-      if not bookmark_ids.to_s.empty?
-        @bb.create_all(bookmark_ids)
-        # bookmark_ids.each do | v |
-        #   if /[0-9]+/.match(v)
-        #     v.prepend('bibid-')
-        #     success = @bb.create(v)
-        #   end
-        user_session[:bookbag_count] = @bb.count unless user_session.nil?
+      if not @saved_bookmarks.to_s.empty?
+        @bb.create_all(@saved_bookmarks)
       end
+      @saved_bookmarks = []
     end
-    Rails.logger.level = @savedll
     redirect_to :action => "index"
   end
 
