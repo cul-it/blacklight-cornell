@@ -17,84 +17,20 @@ class BookBagsController < CatalogController
 
   # copy_blacklight_config_from(CatalogController)
   #
+  before_action :save_bookmarks
   before_action :authenticate
 
   before_action :heading
   append_before_action :set_book_bag_name
 
-#   def sign_out
-#     bookmark_ids = @bb.get_bookmarks
-#     redirect_to destroy_user_session_path
-#     if (bookmark_ids.present?)
-#       if (current_or_guest_user.bookmarks.present?)
-#         bookmark_ids.each do | bm |
-#           current_or_guest_user.bookmarks.where(bm).exists? || current_or_guest_user.bookmarks.create(bm)
-#         end
-#       end
-#     end
-#   end
-
-  def sign_in
-    if current_or_guest_user.bookmarks.count > 0
-      bm = current_or_guest_user.bookmarks
-      @bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
-      # redirect_to destroy_user_session_path and return
+  def save_bookmarks
+    if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
+      @saved_bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
     end
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << "before athenticate"
-msg << "current_user: " + current_user.inspect
-msg << "current_or_guest_user: " + current_or_guest_user.inspect
-msg << "user_signed_in?: " + user_signed_in?.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-    :authenticate
-    redirect_to user_saml_omniauth_authorize_path and return
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << "after authenticate"
-msg << "current_user: " + current_user.inspect
-msg << "current_or_guest_user: " + current_or_guest_user.inspect
-msg << "user_signed_in?: " + user_signed_in?.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-    @bb.replace_bookmarks(@bookmark_ids)
-
-    # user_saml_omniauth_authorize_path
-    @move_bookmarks = params[:move_bookmarks].present?
-
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
-    msg = ["****************** #{__method__}"]
-    msg << "Post Sign in:"
-    if user_signed_in?
-      msg << "signed in as " + current_user.email
-    elsif current_or_guest_user
-      msg << "guest user " + current_or_guest_user.email
-    else
-      msg << "no user"
-    end
-    msg << "session: " + user_session.present?.to_s
-    msg << @response.inspect
-    msg << "move bookmarks: " + @move_bookmarks.to_s
-    msg << "bookmarks: " + bookmark_ids.to_yaml unless bookmark_ids.nil?
-    msg << '******************'
-    puts msg.to_yaml
-    Rails.logger.level = save_level
-    #*******************
-    redirect_to :action => "index"
   end
 
   def authenticate
+
     if ENV['DEBUG_USER'].present? && Rails.env.development?
 
       if user_signed_in?
@@ -213,6 +149,7 @@ Rails.logger.level = save_level
   def initialize
     super
     @bb = BookBag.new
+    @saved_bookmarks = [];
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
