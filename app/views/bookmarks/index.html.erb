@@ -12,6 +12,9 @@
 <%- elsif @document_list.blank? -%>
 
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
+  <p><%= link_to book_bags_index_path do %>
+    <%= t('blacklight.bookmarks.find_book_bag') %>
+    <% end %></p>
 
 <% else %>
   <div class="results-info">

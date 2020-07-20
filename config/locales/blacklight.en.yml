@@ -41,6 +41,7 @@ en:
       no_bookmarks: 'You have no selected items.'
       use_book_bag: 'Please use Book Bag while you are signed in.'
       use_bookmarks: 'Please use Selected Items unless you are signed in.'
+      find_book_bag: 'Retrieve items from your Book Bag.'
       add:
         button: 'Select'
         success:
