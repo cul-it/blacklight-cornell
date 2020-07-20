@@ -27,21 +27,6 @@ class BookBagsController < CatalogController
     book_bags_index
   end
 
-  def save_bookmarks
-    if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
-      @saved_bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << @saved_bookmarks.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-    end
-  end
-
   def authenticate
 
     if ENV['DEBUG_USER'].present? && Rails.env.development?
@@ -167,7 +152,6 @@ Rails.logger.level = save_level
     msg = ["****************** #{__method__}"]
     msg << "init @bb"
     msg << "@bb.present? " + @bb.present?.inspect
-    msg << "@saved_bookmarks " + @saved_bookmarks.inspect
     msg << '******************'
     puts msg.to_yaml
     Rails.logger.level = save_level
@@ -217,6 +201,28 @@ Rails.logger.level = save_level
   end
 
   helper_method :saved_bookmarks_count
+
+
+  def save_bookmarks
+    if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
+      session[:bookmarks_for_book_bags] = guest_user.bookmarks.collect { |b| b.document_id.to_s }
+    end
+  end
+
+  helper_method :save_bookmarks
+
+  def get_saved_bookmarks
+    session[:bookmarks_for_book_bags]
+  end
+
+  helper_method :get_saved_bookmarks
+
+  def clear_saved_bookmarks
+    session[:bookmarks_for_book_bags] = nil;
+  end
+
+  helper_method :clear_saved_bookmarks
+
 
   def addbookmarks
     bookmarks = get_saved_bookmarks
