@@ -62,7 +62,7 @@ en:
         failure: 'Sorry, there was a problem clearing your items.'
       bag:
         action_title: 'Add items to Book Bag for email and saving options'
-        action_confirm: 'Add selected items to your Book Bag?'
+        action_confirm: 'Add %{count} Selected Items to your Book Bag?'
         login_add: 'Sign in and add Selected Items to Book Bag'
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
