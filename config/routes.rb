@@ -166,9 +166,9 @@ devise_for :users, controllers: {
   # match ':controller(/:action(/:id))(.:format)'
 
   # BookBag routes.
-  resources :book_bags, path: '/book_bags', controller: 'book_bags' do
-    concerns :searchable
-  end
+  # resources :book_bags, path: '/book_bags', controller: 'book_bags' do
+  #   concerns :exportable
+  # end
   #   # concerns :exportable
     # concerns :searchable
 
