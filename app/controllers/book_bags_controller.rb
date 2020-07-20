@@ -188,6 +188,21 @@ Rails.logger.level = save_level
      end
   end
 
+  def saved_bookmarks_count
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+    count = @saved_bookmarks.present? ? @saved_bookmarks.count : 0
+  end
+
+  helper_method :saved_bookmarks_count
+
   def addbookmarks
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
