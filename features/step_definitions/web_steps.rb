@@ -316,3 +316,23 @@ Then("there should be a print bookmarks button") do
     expect(find(:xpath, "//a[@href='#print']").text).to include("Print")
   end
 end
+
+Then("I sign in") do
+  click_link("Sign in")
+end
+
+Then("I sign out") do
+  click_link("Sign out")
+end
+
+
+Given("the test user is available") do
+  if ENV['DEBUG_USER'].nil?
+    raise 'The test user is not available'
+  end
+end
+
+Then("I clear transactions") do
+  # https://stackoverflow.com/questions/7154664/ruby-sqlite3busyexception-database-is-locked
+  ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+end
