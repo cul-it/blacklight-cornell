@@ -27,6 +27,9 @@
         <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
+        <span class="col-sm-6"><%= link_to book_bags_index_path do %>
+    <%= t('blacklight.bookmarks.find_book_bag') %>
+    <% end %></span>
       </div>
       <div class="col-sm-6">
         <%= render :partial => 'per_page_widget' %>
