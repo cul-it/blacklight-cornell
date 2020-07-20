@@ -161,16 +161,18 @@ Rails.logger.level = save_level
 
   def initialize
     super
-    @bb = BookBag.new
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
     msg = ["****************** #{__method__}"]
     msg << "init @bb"
+    msg << "@bb.present? " + @bb.present?.inspect
+    msg << "@saved_bookmarks " + @saved_bookmarks.inspect
     msg << '******************'
     puts msg.to_yaml
     Rails.logger.level = save_level
     #*******************
+    @bb = BookBag.new unless @bb.present?
     if @response.nil?
       @response = Blacklight::Solr::Response.new({ response: { numFound: 0 } }, start: 0, rows: 10)
     end
