@@ -23,6 +23,10 @@ class BookBagsController < CatalogController
   before_action :heading
   append_before_action :set_book_bag_name
 
+  def action_success_redirect_path
+    book_bags_index
+  end
+
   def save_bookmarks
     if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
       @saved_bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
