@@ -251,14 +251,18 @@ Rails.logger.level = save_level
   def index
     # if !user_signed_in?
     #   flash[:notice] = I18n.t('blacklight.bookmarks.use_bookmarks')
-    #   redirect_to bookmarks_path
-    # end
+    #   redirect_to
+    params.permit(:move_bookmarks)
+
     @bms =@bb.index
     if @bb.is_a? BookBag
       docs = @bms.each {|v| v.to_s }
     else
       docs = @bms.map {|b| b.sub!("bibid-",'')}
     end
+
+    addbookmarks unless params[:move_bookmarks].nil?
+
 
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
