@@ -359,23 +359,23 @@ Rails.logger.level = save_level
   end
 
   # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
-  def email_action documents
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << 'email'.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-    mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
-    if mail.respond_to? :deliver_now
-      mail.deliver_now
-    else
-      mail.deliver
-    end
-  end
+#   def email_action documents
+# #******************
+# save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+# Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+# msg = ["****************** #{__method__}"]
+# msg << documents.inspect
+# msg << '******************'
+# puts msg.to_yaml
+# Rails.logger.level = save_level
+# #*******************
+#     mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
+#     if mail.respond_to? :deliver_now
+#       mail.deliver_now
+#     else
+#       mail.deliver
+#     end
+#   end
 
   # grabs a bunch of documents to export to endnote or ris.
   def endnote
@@ -408,7 +408,7 @@ Rails.logger.level = save_level
   save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
   Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
   msg = ["****************** #{__method__}"]
-  msg << 'tracking'.inspect
+  msg << params.inspect
   msg << '******************'
   puts msg.to_yaml
   Rails.logger.level = save_level
