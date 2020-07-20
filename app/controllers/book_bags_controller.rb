@@ -320,8 +320,7 @@ Rails.logger.level = save_level
 
   def action_documents
     options =   {:per_page => 1000,:rows => 1000}
-    @bms =@bb.index
-    docs = @bms.map {|b| b.sub!("bibid-",'')}
+    docs = @bb.index
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
@@ -356,8 +355,7 @@ Rails.logger.level = save_level
   def endnote
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     if params[:id].nil?
-      @bms =@bb.index
-      docs = @bms.map {|b| b.sub!("bibid-",'')}
+      docs = @bb.index
       @response, @documents = search_service.fetch(docs, :per_page => 1000,:rows => 1000)
       Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
     else
