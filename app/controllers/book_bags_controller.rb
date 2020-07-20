@@ -274,6 +274,8 @@ msg << "Old style" unless @bb.is_a? BookBag
 msg << @bms.inspect
 msg << "docs: " + (docs.present? ? docs.inspect : "not present")
 msg << '******************'
+msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
+msg << 'params: ' + params.inspect
 puts msg.to_yaml
 Rails.logger.level = save_level
 #*******************
