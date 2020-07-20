@@ -166,5 +166,30 @@ After('@omniauth_test') do
   OmniAuth.config.test_mode = false
 end
 
+# https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
+AfterStep do
+  wait_for_ajax
+end
+
+After do
+  wait_for_ajax
+end
+
+# https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
+def wait_for_ajax
+  timeout = [Capybara.default_max_wait_time, 20].max
+  Timeout.timeout(timeout) do
+    loop until finished_all_ajax_requests?
+  end
+end
+
+def finished_all_ajax_requests?
+  begin
+    page.evaluate_script('(typeof jQuery !== "undefined") ? jQuery.active : 0').zero?
+  rescue Exception => e
+    puts e
+  end
+end
+
 @all_item_view
 @all_item_view
