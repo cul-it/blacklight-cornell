@@ -174,7 +174,7 @@ devise_for :users, controllers: {
 
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
-  get 'book_bags/addbookmarks' => 'book_bags#addbookmarks'
+  get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
   # #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
   get 'book_bags/delete/:id' => 'book_bags#delete', :as => 'delete_index', :constraints => { :id => /.+/}
@@ -186,6 +186,7 @@ devise_for :users, controllers: {
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
   get 'book_bags/export' => 'book_bags#export'
+  match 'book_bags/track', via: [:get, :post]
   get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
   #  get 'book_bags' => 'book_bags#index'
 
