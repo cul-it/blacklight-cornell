@@ -22,8 +22,10 @@
       <% end %>
      <%= submit_tag("Sign in to enable your Book Bag") %>
     <% end %>
+    <%= link_to 'Sign in to enable your Book Bag', user_saml_omniauth_authorize_path, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag' %>
   <% else %>
-    <% if guest_user.bookmarks.count > 0 %>
+    <%= saved_bookmarks_count %>
+    <% if saved_bookmarks_count > 0 %>
       <%= link_to addbookmarks_index_path, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm') }, :class => 'add-bookmarks' do %>
             <i class="fa fa-bookmark"></i> <%= t('blacklight.bookmarks.bag.action_confirm') %>
           <% end %>
