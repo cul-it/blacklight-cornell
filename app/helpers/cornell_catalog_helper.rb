@@ -1639,6 +1639,20 @@ end
     end
   end
 
+  def save_bookmarks
+	if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
+		session[:bookmarks_for_book_bags] = guest_user.bookmarks.collect { |b| b.document_id.to_s }
+	end
+  end
+
+  def get_saved_bookmarks
+	session[:bookmarks_for_book_bags]
+  end
+
+  def clear_saved_bookmarks
+	session[:bookmarks_for_book_bags] = nil;
+  end
+
 end
 
 # End of Module

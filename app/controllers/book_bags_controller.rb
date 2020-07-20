@@ -219,25 +219,27 @@ Rails.logger.level = save_level
   helper_method :saved_bookmarks_count
 
   def addbookmarks
+    bookmarks = get_saved_bookmarks
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
 msg = ["****************** #{__method__}"]
 msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
+msg << 'bookmarks: ' + bookmarks.inspect
 msg << '******************'
 puts msg.to_yaml
 Rails.logger.level = save_level
 #*******************
-    if @saved_bookmarks.present? && @saved_bookmarks.count > 0
+    if bookmarks.present? && bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
-      if @saved_bookmarks.count > bookmark_max
+      if bookmarks.count > bookmark_max
         # delete the extra bookmarks
-        @saved_bookmarks = @saved_bookmarks.split(0, bookmark_max)
+        bookmarks = bookmarks.split(0, bookmark_max)
       end
-      if not @saved_bookmarks.to_s.empty?
-        @bb.create_all(@saved_bookmarks)
+      if not bookmarks.to_s.empty?
+        @bb.create_all(bookmarks)
       end
-      @saved_bookmarks = []
+      clear_saved_bookmarks
     end
     redirect_to :action => "index"
   end
