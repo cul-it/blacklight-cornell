@@ -30,6 +30,15 @@ class BookBagsController < CatalogController
   def save_bookmarks
     if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
       @saved_bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << @saved_bookmarks.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
     end
   end
 
