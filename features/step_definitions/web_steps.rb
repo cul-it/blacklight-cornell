@@ -177,6 +177,10 @@ When("I view my selected items") do
   visit '/bookmarks'
 end
 
+When("I view my bookmarks") do
+  visit '/bookmarks'
+end
+
 When("I view my citations") do
   page.find(:xpath, '//a[@id="citationLink"]').click
 end
