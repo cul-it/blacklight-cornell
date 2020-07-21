@@ -151,7 +151,7 @@ Rails.logger.level = save_level
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    set_bag_name
+    # set_bag_name
     # make sure we are not going directly to home page
    if !params[:qdisplay].nil?
      params[:qdisplay] = ''
@@ -309,7 +309,7 @@ Rails.logger.level = save_level
   def show
     @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
-    set_bag_name
+    # set_bag_name
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     respond_to do |format|
       format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
@@ -1080,26 +1080,26 @@ def check_params(params)
   end
 
 
-  def set_bag_name
+#   def set_bag_name
 
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ['******************']
-msg << "current_user: " + current_user.email.to_s unless current_user.nil?
-msg << "Bookbag enabled: " + BookBag.enabled?.to_s
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
+# #******************
+# save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+# Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+# msg = ['******************' + " #{__method__}"]
+# msg << "current_user: " + current_user.email.to_s unless current_user.nil?
+# msg << "Bookbag enabled: " + BookBag.enabled?.to_s
+# msg << '******************'
+# puts msg.to_yaml
+# Rails.logger.level = save_level
+# #*******************
 
-    user_session[:bookbag_count] = nil unless user_session.nil?
-     if current_user && BookBag.enabled?
-       @id = current_user.email
-       @bb = BookBag.new
-       @bb.set_bagname("#{@id}-bookbag-default")
-       user_session[:bookbag_count] = @bb.count
-     end
-   end
+#     user_session[:bookbag_count] = nil unless user_session.nil?
+#      if current_user && BookBag.enabled?
+#        @id = current_user.email
+#        @bb = BookBag.new
+#        @bb.set_bagname("#{@id}-bookbag-default")
+#        user_session[:bookbag_count] = @bb.count
+#      end
+#    end
 
 end
