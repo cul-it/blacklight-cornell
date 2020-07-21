@@ -13,11 +13,14 @@ class BookBagsController < CatalogController
    include Blacklight::Catalog
    include BlacklightCornell::CornellCatalog
 
+   require "bookmark_preservation"
+   include BookmarkPreservation
+
   MAX_BOOKBAGS_COUNT = 500
 
   # copy_blacklight_config_from(CatalogController)
   #
-  before_action :save_bookmarks
+  before_action :save_bookmarks_for_book_bags
   before_action :authenticate
 
   before_action :heading
@@ -116,6 +119,7 @@ class BookBagsController < CatalogController
       @id = current_user.email
       @bb.set_bagname("#{@id}-bookbag-default")
       user_session[:bookbag_count] = @bb.count
+      # session[:cuwebauth_return_path]
 
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
@@ -126,6 +130,7 @@ msg << current_user.email.to_yaml
 msg << "id: " + @id.to_s
 msg << "@bb.bagname " + @bb.bagname.to_s
 msg << "@bb.count " + @bb.count.to_s
+msg << "session[:cuwebauth_return_path] " + session[:cuwebauth_return_path].inspect
 msg << '******************'
 puts msg.to_yaml
 Rails.logger.level = save_level
@@ -187,50 +192,12 @@ Rails.logger.level = save_level
      end
   end
 
-  def saved_bookmarks_count
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-    count = @saved_bookmarks.present? ? @saved_bookmarks.count : 0
-  end
-
-  helper_method :saved_bookmarks_count
-
-
-  def save_bookmarks
-    if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
-      session[:bookmarks_for_book_bags] = guest_user.bookmarks.collect { |b| b.document_id.to_s }
-    end
-  end
-
-  helper_method :save_bookmarks
-
-  def get_saved_bookmarks
-    session[:bookmarks_for_book_bags]
-  end
-
-  helper_method :get_saved_bookmarks
-
-  def clear_saved_bookmarks
-    session[:bookmarks_for_book_bags] = nil;
-  end
-
-  helper_method :clear_saved_bookmarks
-
-
   def addbookmarks
     bookmarks = get_saved_bookmarks
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
 msg = ["****************** #{__method__}"]
-msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
 msg << 'bookmarks: ' + bookmarks.inspect
 msg << '******************'
 puts msg.to_yaml
@@ -297,7 +264,6 @@ msg << "Old style" unless @bb.is_a? BookBag
 msg << @bms.inspect
 msg << "docs: " + (docs.present? ? docs.inspect : "not present")
 msg << '******************'
-msg << '@saved_bookmarks: ' + @saved_bookmarks.inspect
 msg << 'params: ' + params.inspect
 puts msg.to_yaml
 Rails.logger.level = save_level

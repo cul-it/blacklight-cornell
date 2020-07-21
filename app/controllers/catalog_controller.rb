@@ -8,6 +8,9 @@ class CatalogController < ApplicationController
   include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
 
+  require "bookmark_preservation"
+  include BookmarkPreservation
+
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
     #prepend_before_action :set_return_path
