@@ -33,6 +33,7 @@ Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
 msg = ["****************** #{__method__}"]
 msg << "params " + params.inspect
 msg << "op " + op.inspect
+msg << "request " + request.original_fullpath.inspect
 msg << '******************'
 puts msg.to_yaml
 Rails.logger.level = save_level
