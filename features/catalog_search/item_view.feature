@@ -724,8 +724,8 @@ Feature: Item view
 
   Examples:
   | bibid | call_number | related_title |
-  | 366639 | ++ U1 .A744 | United States army and navy journal |
-  | 366639 | Film N6390 | Quôc-triếu thư khế |
-  | 9862954 | PK2197.C46 Y39 2016 | Raftgān̲ va qāʾimān̲ : Darbhangah kā manẓūm adabī taz̲kirah |
-  | 8338813 | LD1357.5 .C67 2014 | Cornell indicators |
-  | 8338813 | Archives ARP 1164a | Corporate & foundation relations newsletter |
+  | 366639 | ++ U1 .A744 | Army and navy journal. |
+  | 366639 | Film N6390 | United States army and navy journal. |
+  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
+  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
+  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
