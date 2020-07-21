@@ -14,7 +14,6 @@
     </ul>
   </div>
   <% if !(current_user && BookBag.enabled?) %>
-    <% save_bookmarks %>
     <%= link_to 'Sign in to enable your Book Bag', user_saml_omniauth_authorize_path, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
     <%= form_with(url: user_saml_omniauth_authorize_path, method: "get") do %>
       <% if guest_user.bookmarks.count > 0 %>
@@ -25,7 +24,7 @@
     <% end %>
     <%= link_to 'Sign in to enable your Book Bag', user_saml_omniauth_authorize_path, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag' %>
   <% else %>
-    <% bookmarks = get_saved_bookmarks %>
+    <% bookmarks = nil %> <%#get_saved_bookmarks %>
     <% if bookmarks.present? && bookmarks.count > 0 %>
       <%= link_to addbookmarks_index_path, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) }, :class => 'add-bookmarks' do %>
             <i class="fa fa-bookmark"></i> <%= t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) %>
@@ -38,6 +37,7 @@
     <li>current_user: <%= current_user.to_s %></li>
     <li>BookBag.enabled?: <%= BookBag.enabled?.to_s %></li>
     <li>user_session: <%= user_session.present?.to_s %></li>
+    <li>params: <%= params.inspect %>
   </ul>
   <% end %>
   <div class="results-info">
