@@ -10,6 +10,10 @@
   <% citable = is_citable(@document) %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
+  <% if current_user && !Bookbag.enabled? %>
+    <%# enable book_bags by running the before_actions %>
+    <% save_bookmarks_for_book_bags %>
+  <% end %>
 <% elsif request.path == '/bookmarks'  %>
   <% bookmarks_index = true %>
 <% else %>
