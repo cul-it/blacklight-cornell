@@ -87,7 +87,7 @@ Feature: Book Bags for logged in users
         Given we are in any development or test environment
         And the test user is available
         And I go to <page>
-        And I sign in to BookBag
+        And I sign in
         Then I should see "You are logged in as Diligent Tester."
         And navigation should show 'Book Bag'
         And I sign out
