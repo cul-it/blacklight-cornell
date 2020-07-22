@@ -9,7 +9,6 @@ class Bookmarklite
 end
 
 class BookBagsController < CatalogController
-#class BookBagsController < ApplicationController
    include Blacklight::Catalog
    include BlacklightCornell::CornellCatalog
 
