@@ -83,7 +83,7 @@ class BookBagsController < CatalogController
   end
 
   def mock_auth
-    if ENV['DEBUG_USER'].present? && Rails.env.development?
+    if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
       OmniAuth.config.test_mode = true
       #OmniAuth.config.mock_auth[:saml] = nil
       #OmniAuth.add_mock(:saml, {:uid => '12356', {:info => {:email => 'jgr25@cornell.edu'}}})
