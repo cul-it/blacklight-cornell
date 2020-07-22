@@ -318,11 +318,11 @@ Then("there should be a print bookmarks button") do
 end
 
 Then("I sign in") do
-  click_link("Sign in")
+  visit "/users/auth/saml"
 end
 
 Then("I sign out") do
-  click_link("Sign out")
+  visit "/users/sign_out"
 end
 
 
