@@ -177,7 +177,7 @@ end
 
 # https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
 def wait_for_ajax
-  timeout = [Capybara.default_max_wait_time, 10].max
+  timeout = [Capybara.default_max_wait_time, 15].max
   Timeout.timeout(timeout) do
     loop until finished_all_ajax_requests?
   end
