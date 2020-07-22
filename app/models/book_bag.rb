@@ -80,16 +80,6 @@ class BookBag
 
   def create_all(list)
     begin
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << list.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     client = connect
       statement = client.prepare("INSERT IGNORE INTO book_bags(bagname,bibid) VALUES(? , ?)")
       list.each do |bib|
@@ -104,16 +94,6 @@ Rails.logger.level = save_level
 
   def delete_all(list)
     begin
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << list.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
       client = connect
       statement = client.prepare("DELETE FROM book_bags WHERE bagname = ? AND bibid = ?")
       list.each do |bib|
@@ -207,16 +187,6 @@ Rails.logger.level = save_level
 
   def replace_bookmarks(list)
     begin
-
-      #******************
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-      msg = ["****************** #{__method__}"]
-      msg << list.inspect
-      msg << '******************'
-      puts msg.to_yaml
-      Rails.logger.level = save_level
-      #*******************
       bookmarks_name = find_bookmark_name
       client = connect
       statement = client.prepare("DELETE FROM book_bags WHERE bagname = ?")
