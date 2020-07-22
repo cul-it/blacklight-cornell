@@ -87,7 +87,7 @@ Feature: Book Bags for logged in users
         Given we are in any development or test environment
         And the test user is available
         And I go to <page>
-        And I sign in
+        And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
         And navigation should show 'Book Bag'
         And I sign out
@@ -106,7 +106,7 @@ Feature: Book Bags for logged in users
         Given we are in any development or test environment
         And the test user is available
         And I am on the home page
-        And I sign in
+        And I sign in to BookBag
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
@@ -127,8 +127,7 @@ Feature: Book Bags for logged in users
     Scenario: I should be able to export selected bookmarks
         Given we are in any development or test environment
         And the test user is available
-        When I go to BookBag
-        And I sign in
+        And I sign in to BookBag
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
@@ -148,7 +147,7 @@ Feature: Book Bags for logged in users
         Given we are in any development or test environment
         And the test user is available
         And I am on the home page
-        And I sign in
+        And I sign in to BookBag
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
