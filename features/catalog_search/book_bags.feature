@@ -107,6 +107,7 @@ Feature: Book Bags for logged in users
         And the test user is available
         And I am on the home page
         And I sign in to BookBag
+        And I empty the BookBag
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
@@ -128,6 +129,7 @@ Feature: Book Bags for logged in users
         Given we are in any development or test environment
         And the test user is available
         And I sign in to BookBag
+        And I empty the BookBag
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
@@ -148,6 +150,7 @@ Feature: Book Bags for logged in users
         And the test user is available
         And I am on the home page
         And I sign in to BookBag
+        And I empty the BookBag
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
