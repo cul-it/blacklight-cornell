@@ -14,8 +14,6 @@ class BookBagsController < CatalogController
 
   MAX_BOOKBAGS_COUNT = 500
 
-  # copy_blacklight_config_from(CatalogController)
-  #
   before_action :save_bookmarks_for_book_bags
   before_action :authenticate
 
@@ -43,8 +41,6 @@ class BookBagsController < CatalogController
   def mock_auth
     if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
       OmniAuth.config.test_mode = true
-      #OmniAuth.config.mock_auth[:saml] = nil
-      #OmniAuth.add_mock(:saml, {:uid => '12356', {:info => {:email => 'jgr25@cornell.edu'}}})
       OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
         provider: "saml",
         "saml_resp" => 'hello' ,
@@ -147,9 +143,6 @@ class BookBagsController < CatalogController
   end
 
   def index
-    # if !user_signed_in?
-    #   flash[:notice] = I18n.t('blacklight.bookmarks.use_bookmarks')
-    #   redirect_to
     params.permit(:move_bookmarks)
 
     @bms =@bb.index
