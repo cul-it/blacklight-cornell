@@ -29,57 +29,15 @@ class BookBagsController < CatalogController
   def authenticate
 
     if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
-
-      if user_signed_in?
-          #******************
-          save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-          Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
-          msg = ["****************** #{__method__}"]
-          msg << "user already signed in"
-          msg << '******************'
-          puts msg.to_yaml
-          Rails.logger.level = save_level
-          #*******************
-      end
-
-
       mock_auth
       :authenticate_user!
-
     else
       :authenticate_user!
       user = current_user
     end
     if current_user
       set_book_bag_name
-      msg = []
-      msg << "Found Current User in book_bags_controller authenticate"
-      msg << "bagname: " + @bb.bagname + " count: " + @bb.count.to_s
-      msg << "session: " + user_session.present?.to_s
-      user = current_user
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-      puts msg.to_yaml
-      Rails.logger.level = save_level
-    else
-      msg = []
-      msg << "No user found"
-      user = current_or_guest_user
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-      puts msg.to_yaml
-      Rails.logger.level = save_level
     end
-    #******************
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:\n"
-    msg = ["****************** #{__method__}"]
-    msg << "user email: " + user.email.to_s unless user.nil?
-    msg << '******************'
-    puts msg.to_yaml
-    Rails.logger.level = save_level
-    #*******************
-
   end
 
   def mock_auth
@@ -115,29 +73,6 @@ class BookBagsController < CatalogController
       @id = current_user.email
       @bb.set_bagname("#{@id}-bookbag-default")
       user_session[:bookbag_count] = @bb.count
-      # session[:cuwebauth_return_path]
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << "user: "
-msg << current_user.email.to_yaml
-msg << "id: " + @id.to_s
-msg << "@bb.bagname " + @bb.bagname.to_s
-msg << "@bb.count " + @bb.count.to_s
-msg << "session[:cuwebauth_return_path] " + session[:cuwebauth_return_path].inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-
-     else
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-      msg = "called set_book_bag_name with no current_user"
-      puts msg.to_yaml
-      Rails.logger.level = save_level
     end
   end
 
@@ -146,18 +81,7 @@ Rails.logger.level = save_level
   end
 
   def initialize
-    @@jgr25_debug = 1
     super
-    #******************
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-    msg = ["****************** #{__method__}"]
-    msg << "init @bb"
-    msg << "@bb.present? " + @bb.present?.inspect
-    msg << '******************'
-    puts msg.to_yaml
-    Rails.logger.level = save_level
-    #*******************
     @bb = BookBag.new unless @bb.present?
     if @response.nil?
       @response = Blacklight::Solr::Response.new({ response: { numFound: 0 } }, start: 0, rows: 10)
@@ -171,8 +95,6 @@ Rails.logger.level = save_level
   def add
     @bibid = params[:id]
     value = @bibid
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     if @bb.count < MAX_BOOKBAGS_COUNT
       success = @bb.cache(value)
       user_session[:bookbag_count] = @bb.count
@@ -191,15 +113,6 @@ Rails.logger.level = save_level
 
   def addbookmarks
     bookmarks = get_saved_bookmarks
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << 'bookmarks: ' + bookmarks.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     if bookmarks.present? && bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
       if bookmarks.count > bookmark_max
@@ -217,8 +130,6 @@ Rails.logger.level = save_level
   def delete
     @bibid = params[:id]
     value = @bibid
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} @bb = #{@bb.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} value = #{value.inspect}")
     success = @bb.uncache(value)
     user_session[:bookbag_count] = @bb.count
     if request.xhr?
@@ -250,21 +161,6 @@ Rails.logger.level = save_level
 
     addbookmarks unless params[:move_bookmarks].nil?
 
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << "@bb"
-msg << "Old style" unless @bb.is_a? BookBag
-# msg << "Bagname: " + @bb.bagname unless @bb.nil?
-msg << @bms.inspect
-msg << "docs: " + (docs.present? ? docs.inspect : "not present")
-msg << '******************'
-msg << 'params: ' + params.inspect
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     if docs.present?
       @bookmarks = docs.map {|b| Bookmarklite.new(b)}
       @response,@documents = search_service.fetch docs
@@ -284,15 +180,6 @@ Rails.logger.level = save_level
 
   def clear
     success = @bb.clear
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << @bb.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     if success
       if current_or_guest_user.bookmarks.count > 0
         current_or_guest_user.bookmarks.clear
@@ -307,16 +194,6 @@ Rails.logger.level = save_level
   def action_documents
     options =   {:per_page => 1000,:rows => 1000}
     docs = @bb.index
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << '@bms: ' + @bms.inspect
-msg << 'docs ' + docs.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     search_service.fetch(docs, options)
   end
 
@@ -373,33 +250,12 @@ Rails.logger.level = save_level
   end
 
   def track
-  #******************
-  save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-  Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-  msg = ["****************** #{__method__}"]
-  msg << params.inspect
-  msg << '******************'
-  puts msg.to_yaml
-  Rails.logger.level = save_level
-  #*******************
   end
 
   def save_bookmarks_for_book_bags
     if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
       session[:bookmarks_for_book_bags] = guest_user.bookmarks.collect { |b| b.document_id.to_s }
     end
-  #******************
-  if @@jgr25_debug
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-    msg = ["****************** #{__method__}"]
-    msg << "guest_user.bookmarks.count " + guest_user.bookmarks.count.inspect unless guest_user.bookmarks.nil?
-    msg << "session[:bookmarks_for_book_bags] " + session[:bookmarks_for_book_bags].inspect
-    msg << '******************'
-    puts msg.to_yaml
-    Rails.logger.level = save_level
-  end
-  #*******************
   end
 
   def get_saved_bookmarks
@@ -409,6 +265,5 @@ Rails.logger.level = save_level
   def clear_saved_bookmarks
       session[:bookmarks_for_book_bags] = nil;
   end
-
 
 end
