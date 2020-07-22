@@ -6,14 +6,14 @@ Feature: Book Bags for logged in users
 
     @book_bags_sign_in
     Scenario: I can sign in to book bags
-        Given we are in the development environment
+        Given we are in any development or test environment
         And the test user is available
         And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
 
     @book_bags_navigation
     Scenario: The navigation area reminds me if I am logged in to Book Bags
-        Given we are in the development environment
+        Given we are in any development or test environment
         And I go to the home page
         Then navigation should show 'Sign in'
         And navigation should show 'Selected Items'
@@ -27,7 +27,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_select
     Scenario Outline: Items I select can be added to my book bag
-        Given we are in the development environment
+        Given we are in any development or test environment
         And I sign in to BookBag
         And I empty the BookBag
         Then the BookBag should be empty
@@ -52,7 +52,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_bookmarks_redirect
     Scenario: Bookmarks redirect logged in users to Book Bags
-        Given we are in the development environment
+        Given we are in any development or test environment
         And I sign in to BookBag
         Then navigation should show 'Book Bag'
         And I view my bookmarks
@@ -61,7 +61,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_persisit
     Scenario: Items in the book bag should persist through logout
-        Given we are in the development environment
+        Given we are in any development or test environment
         And I sign in to BookBag
         And I empty the BookBag
         Then the BookBag should be empty
@@ -84,7 +84,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page
-        Given we are in the development environment
+        Given we are in any development or test environment
         And the test user is available
         And I go to <page>
         And I sign in
@@ -103,7 +103,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_cite_selected
     Scenario: I should be able to view citations for selected items
-        Given we are in the development environment
+        Given we are in any development or test environment
         And the test user is available
         And I am on the home page
         And I sign in
@@ -125,7 +125,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_export_selected
     Scenario: I should be able to export selected bookmarks
-        Given we are in the development environment
+        Given we are in any development or test environment
         And the test user is available
         When I go to BookBag
         And I sign in
@@ -145,7 +145,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_print_selected
     Scenario: I should be able to print selected items
-        Given we are in the development environment
+        Given we are in any development or test environment
         And the test user is available
         And I am on the home page
         And I sign in

@@ -28,7 +28,7 @@ class BookBagsController < CatalogController
 
   def authenticate
 
-    if ENV['DEBUG_USER'].present? && Rails.env.development?
+    if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
 
       if user_signed_in?
           #******************
