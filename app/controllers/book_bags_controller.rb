@@ -13,9 +13,6 @@ class BookBagsController < CatalogController
    include Blacklight::Catalog
    include BlacklightCornell::CornellCatalog
 
-   require "bookmark_preservation"
-   include BookmarkPreservation
-
   MAX_BOOKBAGS_COUNT = 500
 
   # copy_blacklight_config_from(CatalogController)
