@@ -86,7 +86,7 @@
     <% end %>
   </div>
 
-<% if ENV['RAILS_ENV'] == 'test' %>
+<% if ENV['RAILS_ENV'] != 'production' %>
 <script>
   _paq = []
 </script>
