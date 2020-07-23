@@ -275,6 +275,12 @@ Then("the modal opened by the {string} link should include {string}") do |string
   end
 end
 
+Then("I close the popup") do
+  # @popup = find_popup_window
+  # @popup.find('button.blacklight-modal-close', :visible => :all).trigger('click')
+  visit current_path
+end
+
 Then("the url of link {string} should contain {string}") do |string, string2|
   urls = page.all(:xpath, "//a[text()=\"#{string}\"]", count: 1).map do |link|
     expect(link[:href]).to include("#{string2}")
