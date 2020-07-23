@@ -231,9 +231,28 @@ class BookBagsController < CatalogController
       bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
       session[:bookmarks_for_book_bags] = bookmarks unless bookmarks.count < 1
     end
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << "count " + guest_user.bookmarks.count.inspect unless guest_user.bookmarks.nil?
+msg << "session[:bookmarks_for_book_bags] " + session[:bookmarks_for_book_bags].inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
   end
 
   def get_saved_bookmarks
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+msg << "session[:bookmarks_for_book_bags] " + session[:bookmarks_for_book_bags].inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
       session[:bookmarks_for_book_bags]
   end
 
