@@ -68,7 +68,7 @@ Then /^I should see an error$/ do
   (400 .. 599).should include(page.status_code)
 end
 
-Then(/^I sleep (\d+) seconds$/) do |wait_seconds|
+Then(/^I sleep (\d+) seconds?$/) do |wait_seconds|
   sleep wait_seconds.to_i
 end
 
@@ -110,14 +110,51 @@ Then("I select the first {int} catalog results") do |int|
   i = 0
   while i < int
     page.find(:xpath, @all_checkboxes[i].path).set(true)
-    # wait for the ajax processing until the item shows up checked
-    page.find(:xpath, @confirm[i].path)[:class].include?("checked")
+    i += 1
+  end
+  # wait for the ajax processing until the item shows up checked
+  while i < int
+    page.find(:xpath, @confirm[i].path).should have_content("Selected")
     i += 1
   end
 end
 
 Then /^there should be ([0-9]+) items selected$/ do |int|
   page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
+end
+
+Then("navigation should show Book Bag contains {int}") do |int|
+  patiently do
+    expect(page.find('a#book_bags_nav > span > span').text).to eq(int.to_s)
+  end
+end
+
+Then /^navigation should( not)? show '([^']*)'$/ do |negation, string|
+  patiently do
+    negation ? page.first('ul.blacklight-nav').should_not(have_content(string)) : page.first('ul.blacklight-nav').should(have_content(string))
+  end
+end
+
+Then("the BookBag should be empty") do
+  page.find('div.results-info p', text: 'You have no selected items.')
+end
+
+Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
+  patiently do
+    within page.find('div.results-info') do
+      if int == "0"
+        page.find('div.results-info p', text: 'You have no selected items.')
+      elsif int == "1"
+        expect(find('.page-entries > strong:nth-child(1)').text).to eq('1 result')
+      else
+        expect(find('.page-entries > strong:nth-child(3)').text).to eq(int.to_s)
+      end
+    end
+  end
+end
+
+Given("I empty the BookBag") do
+  visit 'book_bags/clear'
 end
 
 Then("Sign in should link to the SAML login system") do
@@ -132,12 +169,26 @@ Then("Sign in should link to the login systems") do
   page.find(:xpath, "//a[@href='/logins']", :text => "Sign in")
 end
 
-Then("Sign in should link to Book Bags") do
-  page.find(:xpath, "//a[@href='/book_bags/index']", :text => "Sign in")
+Then("I should see a link to Book Bags") do
+  page.find(:xpath, "//a[@href='/book_bags/index']")
 end
 
 When("I view my selected items") do
   visit '/bookmarks'
+end
+
+When("I view my bookmarks") do
+  visit '/bookmarks'
+end
+
+Then("I disable ajax activity completion") do
+  # true/enable is the default - wait for javascript activity to finish after each step
+  $wait_for_ajax_to_run = false
+end
+
+Then("I enable ajax activity completion") do
+  # true/enable is the default - wait for javascript activity to finish after each step
+  $wait_for_ajax_to_run = true
 end
 
 When("I view my citations") do
@@ -222,6 +273,12 @@ Then("the modal opened by the {string} link should include {string}") do |string
   end
 end
 
+Then("I close the popup") do
+  # @popup = find_popup_window
+  # @popup.find('button.blacklight-modal-close', :visible => :all).trigger('click')
+  visit current_path
+end
+
 Then("the url of link {string} should contain {string}") do |string, string2|
   urls = page.all(:xpath, "//a[text()=\"#{string}\"]", count: 1).map do |link|
     expect(link[:href]).to include("#{string2}")
@@ -264,9 +321,12 @@ Then("I clear the SQLite transactions") do
 end
 
 def clear_sqlite
-  if ENV['RAILS_ENV'] == 'development'
-    ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
-    puts 'cleared SQLite'
+  begin
+    # https://stackoverflow.com/questions/7154664/ruby-sqlite3busyexception-database-is-locked
+    ActiveRecord::Base.connection.execute("END;")
+    # ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+  rescue Exception => e
+    fail ("clear_sqlite: #{e}") unless e.to_s.include? 'no transaction is active'
   end
 end
 
@@ -274,4 +334,23 @@ Then("there should be a print bookmarks button") do
   within page.find("ul#item-tools") do
     expect(find(:xpath, "//a[@href='#print']").text).to include("Print")
   end
+end
+
+Then("I sign in") do
+  visit "/users/auth/saml"
+end
+
+Then("I sign out") do
+  visit "/users/sign_out"
+end
+
+
+Given("the test user is available") do
+  if ENV['DEBUG_USER'].nil?
+    raise 'The test user is not available'
+  end
+end
+
+Then("I clear transactions") do
+  clear_sqlite
 end
