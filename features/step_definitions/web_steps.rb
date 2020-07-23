@@ -68,7 +68,7 @@ Then /^I should see an error$/ do
   (400 .. 599).should include(page.status_code)
 end
 
-Then(/^I sleep (\d+) seconds$/) do |wait_seconds|
+Then(/^I sleep (\d+) seconds?$/) do |wait_seconds|
   sleep wait_seconds.to_i
 end
 
