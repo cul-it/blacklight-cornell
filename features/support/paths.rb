@@ -36,7 +36,7 @@ module NavigationHelpers
       facet_catalog_path($1)
 
     when /BookBag/
-      'book_bags/index'
+      '/book_bags/index'
 
     when /the search page/
       search_index_path
