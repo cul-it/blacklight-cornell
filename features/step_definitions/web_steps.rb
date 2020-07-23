@@ -321,8 +321,13 @@ Then("I clear the SQLite transactions") do
 end
 
 def clear_sqlite
-  # https://stackoverflow.com/questions/7154664/ruby-sqlite3busyexception-database-is-locked
-  ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+  begin
+    # https://stackoverflow.com/questions/7154664/ruby-sqlite3busyexception-database-is-locked
+    ActiveRecord::Base.connection.execute("END;")
+    # ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+  rescue Exception => e
+    fail ("clear_sqlite: #{e}") unless e.to_s.include? 'no transaction is active'
+  end
 end
 
 Then("there should be a print bookmarks button") do
