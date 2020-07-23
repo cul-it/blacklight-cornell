@@ -140,11 +140,9 @@ When("I sign in to BookBag") do
 end
 
 Given("we are in the development environment") do
-  clear_sqlite
   expect(ENV['RAILS_ENV']).to eq('development')
 end
 
 Given("we are in any development or test environment") do
-  clear_sqlite
   expect(ENV['RAILS_ENV']).not_to eq('production')
 end
