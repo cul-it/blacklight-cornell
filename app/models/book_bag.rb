@@ -14,17 +14,29 @@ class BookBag
 
   def connect
     if @client.nil? || @client.info.nil?
-      if ENV['BAG_MYSQL_HOST'].nil?
-        Dotenv.load!
+      if (Rails.env.development? || Rails.env.test?)
+        if ENV['BAG_MYSQL_HOST'].nil?
+          Dotenv.load!
+        end
+        if ENV['BAG_MYSQL_HOST'].present?
+          @client = Mysql2::Client.new(:host => ENV['BAG_MYSQL_HOST'],
+                  :username => ENV['BAG_MYSQL_USER'],
+                  :password => ENV['BAG_MYSQL_PASSWORD'],
+                  :database => ENV['BAG_MYSQL_DATABASE'] )
+        else
+          raise 'Missing BookBag configuration.'
+        end
+      elsif Rails.env.production?
+        if ENV['BAG_PROD_MYSQL_HOST'].present?
+          @client = Mysql2::Client.new(:host => ENV['BAG_PROD_MYSQL_HOST'],
+                  :username => ENV['BAG_PROD_MYSQL_USER'],
+                  :password => ENV['BAG_PROD_MYSQL_PASSWORD'],
+                  :database => ENV['BAG_PROD_MYSQL_DATABASE'] )
+        else
+          raise 'Missing BookBag configuration.'
+        end
       end
-      if ENV['BAG_MYSQL_HOST'].present?
-        @client = Mysql2::Client.new(:host => ENV['BAG_MYSQL_HOST'],
-                :username => ENV['BAG_MYSQL_USER'],
-                :password => ENV['BAG_MYSQL_PASSWORD'],
-                :database => ENV['BAG_MYSQL_DATABASE'] )
-      else
-        raise 'Missing BookBag configuration.'
-      end
+
     end
     @client
   end
