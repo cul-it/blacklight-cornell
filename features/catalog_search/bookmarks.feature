@@ -61,9 +61,9 @@ Feature: Bookmarks for anonymous users
         Then load 2 selected items
         And I should not see the text "You have no selected items."
         Then I should see the text "Cite"
+        And I clear transactions
         Then I disable ajax activity completion
         And I view my citations
-        And I clear transactions
         And I sleep 3 seconds
         Then the popup should include "APA 6th ed."
         And the popup should include "Chicago 17th ed."

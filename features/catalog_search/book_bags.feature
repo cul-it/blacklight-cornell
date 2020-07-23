@@ -116,9 +116,9 @@ Feature: Book Bags for logged in users
         When I go to BookBag
         And there should be 2 items in the BookBag
         Then I should see the text "Cite"
+        And I clear transactions
         Then I disable ajax activity completion
         And I view my citations
-        And I clear transactions
         And I sleep 3 seconds
         Then the popup should include "APA 6th ed."
         And the popup should include "Chicago 17th ed."
