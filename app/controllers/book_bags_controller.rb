@@ -227,8 +227,9 @@ class BookBagsController < CatalogController
   end
 
   def save_bookmarks_for_book_bags
-    if guest_user.bookmarks.present? && guest_user.bookmarks.count > 0
-      session[:bookmarks_for_book_bags] = guest_user.bookmarks.collect { |b| b.document_id.to_s }
+    if guest_user.bookmarks.present?
+      bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
+      session[:bookmarks_for_book_bags] = bookmarks unless bookmarks.count < 1
     end
   end
 
