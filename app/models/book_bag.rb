@@ -27,6 +27,9 @@ class BookBag
           raise 'Missing BookBag configuration.'
         end
       elsif Rails.env.production?
+        if ENV['BAG_PROD_MYSQL_HOST'].nil?
+          Dotenv.load!
+        end
         if ENV['BAG_PROD_MYSQL_HOST'].present?
           @client = Mysql2::Client.new(:host => ENV['BAG_PROD_MYSQL_HOST'],
                   :username => ENV['BAG_PROD_MYSQL_USER'],
