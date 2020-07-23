@@ -127,6 +127,7 @@ Feature: Book Bags for logged in users
         Then I close the popup
         And I sleep 1 second
         Then I enable ajax activity completion
+        And I clear transactions
 
     @book_bags_export_selected
     Scenario: I should be able to export selected bookmarks
