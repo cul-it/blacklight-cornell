@@ -174,10 +174,12 @@ Then("I should see a link to Book Bags") do
 end
 
 When("I view my selected items") do
+  clear_sqlite
   visit '/bookmarks'
 end
 
 When("I view my bookmarks") do
+  clear_sqlite
   visit '/bookmarks'
 end
 
@@ -305,10 +307,8 @@ Then("I clear the SQLite transactions") do
 end
 
 def clear_sqlite
-  if ENV['RAILS_ENV'] == 'development'
-    ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
-    puts 'cleared SQLite'
-  end
+  # https://stackoverflow.com/questions/7154664/ruby-sqlite3busyexception-database-is-locked
+  ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
 end
 
 Then("there should be a print bookmarks button") do
@@ -333,6 +333,5 @@ Given("the test user is available") do
 end
 
 Then("I clear transactions") do
-  # https://stackoverflow.com/questions/7154664/ruby-sqlite3busyexception-database-is-locked
-  ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
+  clear_sqlite
 end
