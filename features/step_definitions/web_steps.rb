@@ -169,8 +169,8 @@ Then("Sign in should link to the login systems") do
   page.find(:xpath, "//a[@href='/logins']", :text => "Sign in")
 end
 
-Then("Sign in should link to Book Bags") do
-  page.find(:xpath, "//a[@href='/book_bags/index']", :text => "Sign in")
+Then("I should see a link to Book Bags") do
+  page.find(:xpath, "//a[@href='/book_bags/index']")
 end
 
 When("I view my selected items") do
