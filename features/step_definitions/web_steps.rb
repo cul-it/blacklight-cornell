@@ -174,12 +174,10 @@ Then("I should see a link to Book Bags") do
 end
 
 When("I view my selected items") do
-  clear_sqlite
   visit '/bookmarks'
 end
 
 When("I view my bookmarks") do
-  clear_sqlite
   visit '/bookmarks'
 end
 
