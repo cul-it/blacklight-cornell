@@ -130,6 +130,7 @@ Before do
   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
   sql = 'delete from sessions;'
   ActiveRecord::Base.connection.execute(sql)
+  $wait_for_ajax_to_run = true
 end
 # OR do this, but not both.
 #Seed the DB
@@ -168,11 +169,11 @@ end
 
 # https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
 AfterStep do
-  wait_for_ajax
+  wait_for_ajax if $wait_for_ajax_to_run
 end
 
 After do
-  wait_for_ajax
+  wait_for_ajax if $wait_for_ajax_to_run
 end
 
 # https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
