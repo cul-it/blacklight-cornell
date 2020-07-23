@@ -82,23 +82,23 @@ Feature: Book Bags for logged in users
         Then there should be 5 items in the BookBag
         And I should see 'Professional rope access : a guide to working safely at height'
 
-    @book_bags_sign_in_anywhere
-    Scenario Outline: I should be able to log in with the test user from any page
-        Given we are in any development or test environment
-        And the test user is available
-        And I go to <page>
-        And I sign in
-        Then I should see "You are logged in as Diligent Tester."
-        And navigation should show 'Book Bag'
-        And I sign out
+    # @book_bags_sign_in_anywhere
+    # Scenario Outline: I should be able to log in with the test user from any page
+    #     Given we are in any development or test environment
+    #     And the test user is available
+    #     And I go to <page>
+    #     And I sign in
+    #     Then I should see "You are logged in as Diligent Tester."
+    #     And navigation should show 'Book Bag'
+    #     And I sign out
 
-    Examples:
-        | page |
-        | the home page  |
-        | the bookmarks page |
-        | the detail page for id 11153474 |
-        | the search history page |
-        | the search everything page |
+    # Examples:
+    #     | page |
+    #     | the home page  |
+    #     | the bookmarks page |
+    #     | the detail page for id 11153474 |
+    #     | the search history page |
+    #     | the search everything page |
 
 
     @book_bags_cite_selected
