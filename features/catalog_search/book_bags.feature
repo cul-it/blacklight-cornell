@@ -142,7 +142,6 @@ Feature: Book Bags for logged in users
         Then click on link "Export"
         And the url of link "EndNote" should contain "endnote.endnote"
         And the url of link "RIS" should contain "endnote.ris"
-        And the url of link "EndNote XML" should contain "endnote.endnote_xml"
 
     @book_bags_print_selected
     Scenario: I should be able to print selected items
