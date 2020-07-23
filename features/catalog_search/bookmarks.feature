@@ -61,12 +61,17 @@ Feature: Bookmarks for anonymous users
         Then load 2 selected items
         And I should not see the text "You have no selected items."
         Then I should see the text "Cite"
+        Then I disable ajax activity completion
         And I view my citations
-        And I sleep 2 seconds
+        And I clear transactions
+        And I sleep 3 seconds
         Then the popup should include "APA 6th ed."
         And the popup should include "Chicago 17th ed."
         And the popup should include "MLA 7th ed."
         And the popup should include "MLA 8th ed."
+        Then I close the popup
+        And I sleep 1 second
+        Then I enable ajax activity completion
 
     @bookmarks_export_selected
     Scenario: I should be able to export selected bookmarks

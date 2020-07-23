@@ -116,6 +116,7 @@ Feature: Book Bags for logged in users
         When I go to BookBag
         And there should be 2 items in the BookBag
         Then I should see the text "Cite"
+        Then I disable ajax activity completion
         And I view my citations
         And I clear transactions
         And I sleep 3 seconds
@@ -123,6 +124,9 @@ Feature: Book Bags for logged in users
         And the popup should include "Chicago 17th ed."
         And the popup should include "MLA 7th ed."
         And the popup should include "MLA 8th ed."
+        Then I close the popup
+        And I sleep 1 second
+        Then I enable ajax activity completion
 
     @book_bags_export_selected
     Scenario: I should be able to export selected bookmarks
