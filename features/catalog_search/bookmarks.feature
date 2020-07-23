@@ -72,6 +72,8 @@ Feature: Bookmarks for anonymous users
         Then I close the popup
         And I sleep 1 second
         Then I enable ajax activity completion
+        And I clear transactions
+
 
     @bookmarks_export_selected
     Scenario: I should be able to export selected bookmarks
@@ -90,6 +92,8 @@ Feature: Bookmarks for anonymous users
         Then click on link "Export"
         And the url of link "EndNote" should contain "endnote.endnote"
         And the url of link "RIS" should contain "endnote.ris"
+        And I clear transactions
+
 
     @bookmarks_print_selected
     Scenario: I should be able to print selected items
