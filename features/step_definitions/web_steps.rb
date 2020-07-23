@@ -183,6 +183,16 @@ When("I view my bookmarks") do
   visit '/bookmarks'
 end
 
+Then("I disable ajax activity completion") do
+  # true/enable is the default - wait for javascript activity to finish after each step
+  $wait_for_ajax_to_run = false
+end
+
+Then("I enable ajax activity completion") do
+  # true/enable is the default - wait for javascript activity to finish after each step
+  $wait_for_ajax_to_run = true
+end
+
 When("I view my citations") do
   page.find(:xpath, '//a[@id="citationLink"]').click
 end
