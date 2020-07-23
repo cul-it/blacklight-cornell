@@ -161,9 +161,9 @@ Feature: Book Bags for logged in users
         Then I select the first 3 catalog results
         And I sleep 2 seconds
         When I view my selected items
-        Then I should be on 'the bookmarks page'
+        Then I should be on 'BookBags'
         And there should be 3 items selected
-        Then I should see the text "Selected Items"
+        Then I should see the text "Book Bag"
         And I should not see the text "You have no selected items."
         And there should be a print bookmarks button
 
