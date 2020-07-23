@@ -191,7 +191,9 @@ Feature: Book Bags for logged in users
         Then click on link "Add 3 Selected Items to your Book Bag"
         And there should be 3 items in the BookBag
 
-
+    # @book_bags_clear_test
+    # Scenario: I want to test
+    #     Given I clear transactions
 
 
 
