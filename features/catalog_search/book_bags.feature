@@ -164,11 +164,12 @@ Feature: Book Bags for logged in users
         And there should be a print bookmarks button
 
     @book_bags_save_bookmarks_to_book_bag
-    Sceanrio: When I have Selected Items I should be able to add them to my Book Bag
+    Scenario: When I have Selected Items I should be able to add them to my Book Bag
         Given we are in any development or test environment
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
+        And I sign out
         And I am on the home page
 		When I fill in the search box with 'rope work'
 		And I press 'search'
@@ -176,10 +177,16 @@ Feature: Book Bags for logged in users
         Then I select the first 3 catalog results
         And I sleep 2 seconds
         When I view my selected items
-        And I click on link "Retrieve items from your Book Bag."
-        And I click on link "Sign in to enable your Book Bag"
-        Then I should see "You are logged in as Diligent Tester."
+        Then I should be on 'the bookmarks page'
+        And there should be 3 items selected
+        And click on link "Retrieve items from your Book Bag."
+        Then I should be on 'BookBag'
+        And the BookBag should be empty
+        Then click on link "Sign in to enable your Book Bag"
+        And I should see "You are logged in as Diligent Tester."
         And I should see "Add 3 Selected Items to your Book Bag"
+        Then click on link "Add 3 Selected Items to your Book Bag"
+        And there should be 3 items in the BookBag
 
 
 
