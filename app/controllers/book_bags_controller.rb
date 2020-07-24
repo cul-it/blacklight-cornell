@@ -152,8 +152,6 @@ class BookBagsController < CatalogController
       docs = @bms.map {|b| b.sub!("bibid-",'')}
     end
 
-    addbookmarks unless params[:move_bookmarks].nil?
-
     if docs.present?
       @bookmarks = docs.map {|b| Bookmarklite.new(b)}
       @response,@documents = search_service.fetch docs
