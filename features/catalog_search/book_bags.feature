@@ -96,7 +96,7 @@ Feature: Book Bags for logged in users
     Examples:
         | page |
         | the home page  |
-        | the bookmarks page |
+        # | the bookmarks page | - redirects to book bags
         | the detail page for id 11153474 |
         | the search history page |
         | the search everything page |
