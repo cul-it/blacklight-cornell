@@ -19,7 +19,7 @@
         <% end %>
       <% end %>
 
-      <% if !(current_user && BookBag.enabled?) %>
+      <% if !current_user %>
       <li>
       <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
               <%= t('blacklight.header_links.bookmarks') %>
@@ -30,10 +30,10 @@
       <li>
       <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
             <% @selectedcount =
-              if user_session.nil? || user_session[:bookbag_count].nil?
-                0
-              else
+              if BookBag.enabled? && user_session.present? && user_session[:bookbag_count].present?
                 user_session[:bookbag_count]
+              else
+                '?'
               end
               %>
             <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
