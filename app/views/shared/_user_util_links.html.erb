@@ -19,7 +19,7 @@
         <% end %>
       <% end %>
 
-      <% if !(current_user && BookBag.enabled?) %>
+      <% if !current_user %>
       <li>
       <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
               <%= t('blacklight.header_links.bookmarks') %>
