@@ -15,13 +15,11 @@ Feature: Book Bags for logged in users
     Scenario: The navigation area reminds me if I am logged in to Book Bags
         Given we are in any development or test environment
         And I go to the home page
-        Then navigation should show 'Sign in'
         And navigation should show 'Selected Items'
         And navigation should not show 'Book Bag'
         Then I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
         And I go to the home page
-        Then navigation should show 'Sign out'
         And navigation should not show 'Selected Items'
         And navigation should show 'Book Bag'
 
