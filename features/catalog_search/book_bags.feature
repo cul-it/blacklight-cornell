@@ -46,7 +46,7 @@ Feature: Book Bags for logged in users
     | 3 | 3 |
     | 4 | 3 |
     | 5 | 3 |
-    | 10 | 5 |
+    | 10 | 6 |
     | 20 | 9 |
 
     @book_bags_bookmarks_redirect
