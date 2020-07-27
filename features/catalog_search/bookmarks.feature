@@ -8,13 +8,13 @@ Feature: Bookmarks for anonymous users
     Scenario: Does the bookmarks page exist
         When I literally go to bookmarks
         Then I should be on 'the bookmarks page'
-        Then I should see a link to Book Bags
+        Then I should see a link "Sign in to email items or save them to Book Bag"
         And I should see a link "Selected Items"
 
     @bookmarks_sign_in
     Scenario: If I try to sign in from bookmarks, I have to log in via book bags
         When I literally go to bookmarks
-        Then I should see a link to Book Bags
+        Then I should see a link "Sign in to email items or save them to Book Bag"
 
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
