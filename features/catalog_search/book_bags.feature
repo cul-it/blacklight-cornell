@@ -15,13 +15,11 @@ Feature: Book Bags for logged in users
     Scenario: The navigation area reminds me if I am logged in to Book Bags
         Given we are in any development or test environment
         And I go to the home page
-        Then navigation should show 'Sign in'
         And navigation should show 'Selected Items'
         And navigation should not show 'Book Bag'
         Then I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
         And I go to the home page
-        Then navigation should show 'Sign out'
         And navigation should not show 'Selected Items'
         And navigation should show 'Book Bag'
 
@@ -44,11 +42,11 @@ Feature: Book Bags for logged in users
     Examples:
     | count | sleep |
     | 1 | 2 |
-    | 2 | 2 |
+    | 2 | 3 |
     | 3 | 3 |
     | 4 | 3 |
     | 5 | 3 |
-    | 10 | 5 |
+    | 10 | 6 |
     | 20 | 9 |
 
     @book_bags_bookmarks_redirect
@@ -180,15 +178,13 @@ Feature: Book Bags for logged in users
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
-        And I sleep 2 seconds
+        And I sleep 4 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
-        And click on link "Retrieve items from your Book Bag."
+        And I follow "Sign in to email items or save them to Book Bag" within "span.bookmarks-login"
         Then I should be on 'BookBag'
         And the BookBag should be empty
-        Then click on link "Sign in to enable your Book Bag"
-        And I should see "You are logged in as Diligent Tester."
         And I should see "Add 3 Selected Items to your Book Bag"
         Then click on link "Add 3 Selected Items to your Book Bag"
         And there should be 3 items in the BookBag

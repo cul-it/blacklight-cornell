@@ -27,4 +27,11 @@ class BookmarksController < CatalogController
     results = Blacklight.solr.find( { :q => "id:*", })
   end
 
+  # save bookmarks and log in to book bags
+  def bookmarks_book_bags_login
+    # hack to return to book_bags page after login
+    session[:cuwebauth_return_path] = book_bags_index_path
+    redirect_to user_saml_omniauth_authorize_path
+  end
+
 end

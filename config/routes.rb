@@ -33,6 +33,7 @@ get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_log
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
 get 'bookmarks/export' => 'bookmarks#export'
+get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
 
 resources :bookmarks do
   concerns :exportable
