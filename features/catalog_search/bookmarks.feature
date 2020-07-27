@@ -35,18 +35,6 @@ Feature: Bookmarks for anonymous users
     | 4 |
     | 5 |
 
-    #@saml_on
-    @bookmarks_sign_in_links
-    Scenario: I should log in via Book_bags from the Bookmarks page
-        Given I am on the home page
-        Then Sign in should link to the SAML login system
-        When I literally go to search_history
-        Then Sign in should link to the SAML login system
-        When I literally go to advanced
-        Then Sign in should link to the SAML login system
-        When I literally go to bookmarks
-        Then I should see a link to Book Bags
-
     @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
         Given I am on the home page
