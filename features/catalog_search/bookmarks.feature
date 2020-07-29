@@ -8,13 +8,13 @@ Feature: Bookmarks for anonymous users
     Scenario: Does the bookmarks page exist
         When I literally go to bookmarks
         Then I should be on 'the bookmarks page'
-        Then Sign in should link to Book Bags
+        Then I should see a link "Sign in to email items or save them to Book Bag"
         And I should see a link "Selected Items"
 
     @bookmarks_sign_in
     Scenario: If I try to sign in from bookmarks, I have to log in via book bags
         When I literally go to bookmarks
-        Then Sign in should link to Book Bags
+        Then I should see a link "Sign in to email items or save them to Book Bag"
 
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
@@ -35,18 +35,6 @@ Feature: Bookmarks for anonymous users
     | 4 |
     | 5 |
 
-    #@saml_on
-    @bookmarks_sign_in_links
-    Scenario: I should log in via Book_bags from the Bookmarks page
-        Given I am on the home page
-        Then Sign in should link to the SAML login system
-        When I literally go to search_history
-        Then Sign in should link to the SAML login system
-        When I literally go to advanced
-        Then Sign in should link to the SAML login system
-        When I literally go to bookmarks
-        Then Sign in should link to Book Bags
-
     @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
         Given I am on the home page
@@ -61,12 +49,19 @@ Feature: Bookmarks for anonymous users
         Then load 2 selected items
         And I should not see the text "You have no selected items."
         Then I should see the text "Cite"
+        And I clear transactions
+        Then I disable ajax activity completion
         And I view my citations
-        And I sleep 2 seconds
+        And I sleep 3 seconds
         Then the popup should include "APA 6th ed."
         And the popup should include "Chicago 17th ed."
         And the popup should include "MLA 7th ed."
         And the popup should include "MLA 8th ed."
+        Then I close the popup
+        And I sleep 1 second
+        Then I enable ajax activity completion
+        And I clear transactions
+
 
     @bookmarks_export_selected
     Scenario: I should be able to export selected bookmarks
@@ -85,7 +80,8 @@ Feature: Bookmarks for anonymous users
         Then click on link "Export"
         And the url of link "EndNote" should contain "endnote.endnote"
         And the url of link "RIS" should contain "endnote.ris"
-        And the url of link "EndNote XML" should contain "endnote.endnote_xml"
+        And I clear transactions
+
 
     @bookmarks_print_selected
     Scenario: I should be able to print selected items

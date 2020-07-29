@@ -1,11 +1,8 @@
 <%# Temporary variable for Covid-19 special processing %>
 <% 
-  requestable_libraries = "Library Annex, Mann Library, Olin Library, Kroch Library Asia, Uris Library, ILR Library" 
   available_qualifier = ""
   if @document['etas_facet'].present?
 	available_qualifier = " online only"
-#  elsif i['location'].present? && i['location']['library'].present?
-#	available_qualifier = " for article/chapter scan" if !requestable_libraries.include?(i['location']['library'])
   end
 %>
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>

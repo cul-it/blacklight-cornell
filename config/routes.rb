@@ -32,6 +32,8 @@ end
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
+get 'bookmarks/export' => 'bookmarks#export'
+get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
 
 resources :bookmarks do
   concerns :exportable
@@ -39,6 +41,7 @@ resources :bookmarks do
   collection do
     delete 'clear'
   end
+
 end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
@@ -163,21 +166,32 @@ devise_for :users, controllers: {
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  # Bookbag routes.
+  # BookBag routes.
+  # resources :book_bags, path: '/book_bags', controller: 'book_bags' do
+  #   concerns :exportable
+  # end
+  #   # concerns :exportable
+    # concerns :searchable
+
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
   get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
-  #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
+  # #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
   get 'book_bags/delete/:id' => 'book_bags#delete', :as => 'delete_index', :constraints => { :id => /.+/}
-  get 'book_bags/index(.:format)'
+  # get 'book_bags/index(.:format)' => 'book_bags#index'
+  get 'book_bags/index' => 'book_bags#index'
   get 'book_bags/citation'
   get 'book_bags/clear' => 'book_bags#clear'
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
-
-
+  get 'book_bags/export' => 'book_bags#export'
+  match 'book_bags/track', via: [:get, :post]
+  get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
+  get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
+  get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
+  #  get 'book_bags' => 'book_bags#index'
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
