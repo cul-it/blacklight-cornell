@@ -1143,6 +1143,17 @@ def tou
     end
 
   end
+  
+  
+def new_tou
+
+  title_id = params[:title_id]
+  id = params[:id]
+  @newTouResult = ::Term_Of_Use.where(title_id: title_id)
+  return params, @newTouResult
+
+end 
+
   #def oclc_request
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
   #end
