@@ -6,7 +6,13 @@
   </div>
 
   <div class="col-md-8" id="results">
-      <%#= @response[:responseHeader].inspect %>
+      <% if @response[:responseHeader]["params"]["q"].present? %>
+       Your search: <%= @response[:responseHeader]["params"]["q"].inspect %>
+      <% else %>
+        <%if @response[:responseHeader]["params"]["q_row"].present? %>
+          Your search: <%= @response[:responseHeader]["params"]["q_row"].inspect %>
+       <% end %>
+      <% end %>
       <% unless has_search_parameters? %>
         <%# if there are no input/search related params, display the "home" partial -%>
         <%= render 'home' %>
@@ -38,14 +44,6 @@
           <%end%>
           Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
         <%else%>
-      <% if @response[:responseHeader]["params"]["search_field"] != "advanced" %>
-       Your search: <%= userQuery(@response[:responseHeader]["params"]["q"]).inspect %><br>
-      <% else %>
-        <%if @response[:responseHeader]["params"]["q"].present? %>
-          Your advanced search: <%= userQuery(@response[:responseHeader]["params"]["q"]).inspect %><br>
-       <% end %>
-      <% end %>
-        
           <% r = pluralize(@response.total_count,'catalog result') %>
           <%= "#{r}" %>
           <% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
