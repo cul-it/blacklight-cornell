@@ -6,13 +6,6 @@
   </div>
 
   <div class="col-md-8" id="results">
-      <% if @response[:responseHeader]["params"]["q"].present? %>
-       Your search: <%= @response[:responseHeader]["params"]["q"].inspect %>
-      <% else %>
-        <%if @response[:responseHeader]["params"]["q_row"].present? %>
-          Your search: <%= @response[:responseHeader]["params"]["q_row"].inspect %>
-       <% end %>
-      <% end %>
       <% unless has_search_parameters? %>
         <%# if there are no input/search related params, display the "home" partial -%>
         <%= render 'home' %>
