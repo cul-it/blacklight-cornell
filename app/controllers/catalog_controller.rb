@@ -1176,4 +1176,11 @@ end
 #    redirect_to "/"
 #  end
 
+# https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
+def search_service_context
+  {
+    current_user: current_user
+  }
+end
+
 end

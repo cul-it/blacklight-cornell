@@ -130,6 +130,7 @@ Before do
   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
   sql = 'delete from sessions;'
   ActiveRecord::Base.connection.execute(sql)
+  $wait_for_ajax_to_run = true
 end
 # OR do this, but not both.
 #Seed the DB
@@ -137,5 +138,59 @@ end
 #fixtures_folder = File.join(Rails.root, 'features', 'fixtures')
 #fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
 #ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
+
+Before('@omniauth_test') do
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
+    provider: "saml",
+    "saml_resp" => 'hello' ,
+    uid: "12345678910",
+    extra: {raw_info: {} } ,
+    info: {
+      email: ["ditester@example.com"],
+      name: ["Diligent Tester"],
+      netid: "jgr25",
+      groups: ["staff","student"],
+      primary: ["staff"],
+      first_name: "Diligent",
+      last_name: "Tester"
+    },
+    credentials: {
+      token: "abcdefg12345",
+      refresh_token: "12345abcdefg",
+      expires_at: DateTime.now
+    }
+  })
+end
+
+After('@omniauth_test') do
+  OmniAuth.config.test_mode = false
+end
+
+# https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
+AfterStep do
+  wait_for_ajax if $wait_for_ajax_to_run
+end
+
+After do
+  wait_for_ajax if $wait_for_ajax_to_run
+end
+
+# https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044
+def wait_for_ajax
+  timeout = [Capybara.default_max_wait_time, 60].max
+  Timeout.timeout(timeout) do
+    loop until finished_all_ajax_requests?
+  end
+end
+
+def finished_all_ajax_requests?
+  begin
+    page.evaluate_script('(typeof jQuery !== "undefined") ? jQuery.active : 0').zero?
+  rescue Exception => e
+    puts e
+  end
+end
+
 @all_item_view
 @all_item_view

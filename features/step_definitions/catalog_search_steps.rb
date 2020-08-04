@@ -131,3 +131,18 @@ end
 #  end
 # end
 
+# this step requires .env to include DEBUG_USER and the development environment
+When("I sign in to BookBag") do
+  visit 'book_bags/index'
+  # 'Sign In' blacklight-nav link is not available on Jenkins since
+  # ENV['SAML_IDP_TARGET_URL’] is undefined there
+  click_link "Sign in to enable your Book Bag"
+end
+
+Given("we are in the development environment") do
+  expect(ENV['RAILS_ENV']).to eq('development')
+end
+
+Given("we are in any development or test environment") do
+  expect(ENV['RAILS_ENV']).not_to eq('production')
+end

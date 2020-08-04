@@ -39,6 +39,11 @@
   border-bottom: solid 5px $light-tan;
 }
 
+.bookmarks-login {
+	display: block;
+	margin-bottom: 1em;
+}
+
 // Bookbag tips
 .bookbag-tips {
 	margin-bottom: 1em;
@@ -80,7 +85,13 @@
 }
 
 // Large devices (desktops, 992px and up)
-// @include media-breakpoint-up(lg) { ... }
+@include media-breakpoint-up(lg) {
+	.bookmarks-login {
+		margin-left: 1em;
+		display: inline;
+		margin-bottom: 0;
+	}
+}
 
 // Extra large devices (large desktops, 1200px and up)
 // @include media-breakpoint-up(xl) { ... }
