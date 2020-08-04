@@ -79,6 +79,11 @@ module CornellParamsHelper
 #    end
   end
 
+  def userQuery(query_string)
+   #update to reflect userGroup feedback 
+     return query_string
+  end
+  
   def parse_stem(query_string)
     string_chars = query_string.chars
     quoteFlag = 0
