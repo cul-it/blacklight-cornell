@@ -35,12 +35,15 @@
         <% end %>
       <% end %>
     <% else   %>
-      <%= link_to "/browse?authq=" + params[:authq] + "&start=" + previous +"&browse_type=" + params[:browse_type] +  "&order=" + params[:order] + location do %>
-        &laquo; Previous 
-      <% end %>
+      <% if !params[:authq].nil? and !params[:browse_type].nil? and !params[:order].nil? %>
+      
+        <%= link_to "/browse?authq=" + params[:authq] + "&start=" + previous +"&browse_type=" + params[:browse_type] +  "&order=" + params[:order] + location do %>
+          &laquo; Previous 
+        <% end %>
       | 
-      <%= link_to "/browse?authq=" + params[:authq] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + "&order=" + params[:order] + location do %>
-        Next &raquo;
+        <%= link_to "/browse?authq=" + params[:authq] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + "&order=" + params[:order] + location do %>
+          Next &raquo;
+        <% end %>
       <% end %>
     <% end %>
   </div>
