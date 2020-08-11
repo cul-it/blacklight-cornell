@@ -94,6 +94,17 @@ BentoSearch.register_engine('ebsco_ds') do |conf|
 	conf.highlighting = false
 end
 
+# official supported eds search
+BentoSearch.register_engine('ebsco_eds') do |conf|
+	conf.engine = 'BentoSearch::EbscoEdsEngine'
+	conf.user_id = ENV['EDS_USER']
+	conf.password = ENV['EDS_PASSWORD']
+	conf.profile = ENV['EDS_PROFILE']
+	conf.title = "Articles & Full Text (eds)"
+	conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
+	conf.highlighting = false
+end
+
 BentoSearch.register_engine('worldcat') do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
   conf.api_key = ENV['WORLDCAT_API_KEY']

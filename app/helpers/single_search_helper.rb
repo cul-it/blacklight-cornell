@@ -47,6 +47,16 @@ module SingleSearchHelper
     case key
     when "libguides"
       link = 'http://guides.library.cornell.edu/libguides/home'
+    when "ebsco_eds"
+      bq = ss_encode(params[:q] || params[:query])
+      if bq.present?
+        edsq = {direct: true, authtype: "ip,uid", profile: "eds", bQuery: bq,
+          custid: "s9001366", groupid: "main" }
+        edsuri = URI::HTTP.build(host: 'search.ebscohost.com', query: URI.encode_www_form(edsq))
+      else
+        edsuri = 'http://search.ebscohost.com/login.aspx?authtype=ip,guest&profile=eds&Groupid=main&custid=s9001366'
+      end
+      link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + edsuri.to_s
     when "ebsco_ds"
       bq = ss_encode(params[:q] || params[:query])
       if bq.present?
@@ -76,6 +86,7 @@ module SingleSearchHelper
     eds_total = 0
     bq = ss_encode(params[:q] || params[:query])
     if bq.present?
+      searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_eds)
       searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_ds)
       searcher.search(bq, :per_page => 0)
       searcher.results.each_pair do |key, result|
