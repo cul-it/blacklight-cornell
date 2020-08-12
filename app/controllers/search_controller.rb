@@ -162,7 +162,6 @@ class SearchController < ApplicationController
     # Top 2 are books and articles, regardless of display_type
     #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
     top1 << ['ebsco_eds', results.delete('ebsco_eds')]
-    # top1 << ['ebsco_ds', results.delete('ebsco_ds')]
     top4 = top1
 
     if display_type == 'fixed'
@@ -219,10 +218,6 @@ class SearchController < ApplicationController
     elsif engine_id == 'ebsco_eds'
       query = query.gsub('&', '%26')
       query = "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
-    elsif engine_id == 'ebsco_ds'
-      query = query.gsub('&', '%26')
-      query = "http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
-
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.

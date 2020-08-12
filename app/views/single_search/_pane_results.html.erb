@@ -24,13 +24,6 @@
           <%= BentoSearch.get_engine(key).configuration.title %>
           <i class="fa fa-angle-double-right"></i>
         <% end %>
-      <% elsif key == "ebsco_ds" %>
-        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
-          View
-          <%= number_with_delimiter(result.total_items) %>
-          <%= BentoSearch.get_engine(key).configuration.title %>
-          <i class="fa fa-angle-double-right"></i>
-        <% end %>
       <% else %>
       <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
         View
