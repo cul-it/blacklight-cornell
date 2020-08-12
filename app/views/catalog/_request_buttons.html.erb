@@ -3,7 +3,7 @@
 <% request_context_path = request_path(group,params[:id],aeon_codes,@document) %>
 <% request_scan_path = sub_tilde_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document) %>
 <%# Temporary variable for Covid-19 closures.%>
-<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library"] %>
+<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library", "Law Library"] %>
 <% @group = group %>
 <div class="item-requests">
   <% counter = params[:counter] || session[:search][:counter] %>
