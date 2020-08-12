@@ -22,35 +22,90 @@ class BentoSearch::EbscoEdsEngine
     end
 
     def search_implementation(args)
-        # results = BentoSearch::Results.new
+
+        session = EBSCO::EDS::Session.new({
+            :user => ENV['EDS_USER'],
+            :pass => ENV['EDS_PASS'],
+            :profile => ENV['EDS_PROFILE']
+        })
 
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        session = EBSCO::EDS::Session.new({
-            :user => ENV['EDS_USER'],
-            :pass => ENV['EDS_PASSWORD'],
-            :profile => ENV['EDS_PROFILE']
-        })
-
         q = args[:query]
+        required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
+        per_page = 3;
 
-        # results = []
+        sq = {
+            'q' => args[:query],
+            'start' => 0,
+            'per_page' => per_page
+        }
 
-        # results = session.simple_search(args[:query])
+        response = session.search(sq)
+        total_hits = response.stat_total_hits
 
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-msg << "args: " + args.inspect
-msg << "q: " + q.inspect
-msg << "session: " + session.inspect
-msg << '******************'
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
+        results.total_items = total_hits.to_i
 
+        catch :enough_hits do
+            found = 0
+            page = 0
+            max_page = (total_hits / per_page).ceil
+            for page in 0..max_page
+
+                sq = {
+                    'q' => args[:query],
+                    'start' => page,
+                    'per_page' => per_page
+                }
+
+                response = session.search(sq)
+
+                response.records.each do |rec|
+                    # access_level = rec.eds_access_level()
+                    # puts "access_level: " + access_level.inspect
+                    # next if access_level.to_i < 2
+                    found += 1
+                    throw :enough_hits if found > required_hit_count
+
+                    item = BentoSearch::ResultItem.new
+                    item.title = rec.eds_title().present? ? rec.eds_title() : I18n.translate("bento_search.eds.record_not_available")
+                    item.abstract = rec.eds_abstract()
+                    item.unique_id = rec.id
+                    authors = rec.eds_authors()
+                    authors.each do | author |
+                        item.authors << BentoSearch::Author.new(:display => author)
+                    end
+                    item.link = rec.eds_plink()
+                    links = rec.eds_fulltext_links()
+                    if links.present?
+                        item.link_is_fulltext = true
+                    else
+                        links = rec.eds_all_links()
+                    end
+                    links.each do | link |
+                        item.other_links << BentoSearch::Link.new(
+                            :url => link[:url],
+                            :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                            :label => link[:label]
+                            )
+                    end
+                    item.format_str = rec.eds_publication_type()
+                    item.doi = rec.eds_document_doi()
+                    if rec.eds_page_start().present?
+                        item.start_page = rec.eds_page_start().to_s
+                        if rec.eds_page_count().present?
+                            item.end_page = (rec.eds_page_start().to_i + rec.eds_page_count().to_i - 1).to_s
+                        end
+                    end
+                    date = rec.eds_publication_date
+                    ymd = date.split('-').map(&:to_i)
+                    item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    results << item
+                end
+            end
+        end # enough hits already
+        return results
     end
 
 end
