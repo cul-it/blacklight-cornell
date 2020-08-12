@@ -7,7 +7,7 @@
 			<ul class="fa-ul">
 				<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="<%= @expanded_results['worldcat'][:url] %>" onclick="javascript:_paq.push(['trackEvent', 'expandsearch', 'WCL']);">Request from Libraries Worldwide (<%= number_with_delimiter(@expanded_results['worldcat'][:count]) %>+)</a></li>
 				<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="<%= bento_all_results_link('ebsco_eds') %>"onclick="javascript:_paq.push(['trackEvent', 'expandsearch', 'EDS']);">Search Articles &amp; Full Text (eds) (<%= number_with_delimiter(bento_eds_count()) %>)</a></li>
-				<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="<%= bento_all_results_link('ebsco_ds') %>"onclick="javascript:_paq.push(['trackEvent', 'expandsearch', 'EDS']);">Search Articles &amp; Full Text (<%= number_with_delimiter(bento_eds_count()) %>)</a></li>
+				<%# <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="<%= bento_all_results_link('ebsco_ds') %>"onclick="javascript:_paq.push(['trackEvent', 'expandsearch', 'EDS']);">Search Articles &amp; Full Text (<%= number_with_delimiter(bento_eds_count()) %>)</a></li> %>
 				<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="http://www.library.cornell.edu/services/request/recommend" onclick="javascript:_paq.push(['trackEvent', 'expandsearch', 'recommendpurchase']);">Recommend a Purchase</a></li>
 			</ul>
 		</div>

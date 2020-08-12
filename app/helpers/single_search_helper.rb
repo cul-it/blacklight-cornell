@@ -87,7 +87,7 @@ module SingleSearchHelper
     bq = ss_encode(params[:q] || params[:query])
     if bq.present?
       searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_eds)
-      searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_ds)
+      # searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_ds)
       searcher.search(bq, :per_page => 0)
       searcher.results.each_pair do |key, result|
         eds_total = result.total_items.to_s
