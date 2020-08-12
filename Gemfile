@@ -125,5 +125,4 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 gem 'citeproc-ruby'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
-gem 'blacklight_eds', :git => 'https://github.com/cul-it/blacklight_eds_gem', :branch => 'develop'
 gem 'ebsco-eds'
