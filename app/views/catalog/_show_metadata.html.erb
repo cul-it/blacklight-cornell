@@ -133,13 +133,26 @@
 	                            <% end %>
 	                          <% end %>
 	                          </div>
-                                     
-	                          <% if link["dbcode"].present? && link["providercode"].present? %>
-	                             <span class="terms-of-use">
+	                           <%#= @document['title_display'].inspect %>
+                               <% parsed_json = JSON.parse(@document['url_access_json'][0]) %>
+                               <%#= parsed_json['titleid'] %> 
+                               <%#= @document['id'] %>
+                               <% if parsed_json['titleid'].present? %> 
+ 	                              <span class="terms-of-use">
+ 	                              <%#= @document.inspect %>
 	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
-		                         	<a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
-		                         </span>
-	                          <% end %>
+                                    <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id'] %> ">Terms of use</a>
+ 		                           </span>
+                               
+                               <% else %>     
+	                             <% if link["dbcode"].present? && link["providercode"].present? %>
+	                               <span class="terms-of-use">
+	                             	  <span class="fa fa-chevron-right" aria-hiden="true"></span>
+		                         	  <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
+		                           </span>
+	                            <% else %>
+                                <% end %>
+                              <% end %>
 	                        </div>
 	                    </li>
 	              <%# end %>
