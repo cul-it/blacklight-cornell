@@ -1,4 +1,5 @@
 <?php
+#add a line to fool github
 $filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
