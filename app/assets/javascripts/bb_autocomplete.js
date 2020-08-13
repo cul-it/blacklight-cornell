@@ -1,4 +1,4 @@
-// Add autocomplete for the main site search box — ony for Best Bets results
+// Add autocomplete for the main site search box — only for Best Bets results
 (function ($) {
   $(document).ready(function() {
 
