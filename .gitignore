@@ -18,6 +18,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+faraday.log
 
 # Ignore config files with sensitive data
 config/newrelic.yml

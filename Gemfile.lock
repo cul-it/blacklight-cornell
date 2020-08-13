@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: aacde0d8e939b958a86321aabfd969ac54168a42
+  revision: 3ac09eaa7e41c783dc5b6cf1be7ca384994c216e
   branch: master
   specs:
-    blacklight_cornell_requests (3.2.5)
+    blacklight_cornell_requests (3.2.9)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -29,18 +29,6 @@ GIT
     blacklight_unapi (0.1.0)
       blacklight
       rails
-
-GIT
-  remote: https://github.com/cul-it/blacklight_eds_gem
-  revision: e1f8b09ea39de6ecb6aee4440bad5a76dca8f862
-  branch: develop
-  specs:
-    blacklight_eds (0.1.0)
-      addressable
-      blacklight (~> 7.0.0, >= 5.8.0)
-      ebsco-discovery-service-api
-      htmlentities
-      sanitize
 
 GIT
   remote: https://github.com/cul-it/csl-styles
@@ -155,6 +143,8 @@ GEM
       openurl (>= 0.3.1, < 1.1)
       rails (>= 3.2.3, < 6)
       summon
+    bibtex-ruby (5.1.4)
+      latex-decode (~> 0.0)
     blacklight (7.0.1)
       deprecation
       globalid
@@ -223,6 +213,7 @@ GEM
     citeproc-ruby (1.1.10)
       citeproc (~> 1.0, >= 1.0.9)
       csl (~> 1.5)
+    climate_control (0.2.0)
     cliver (0.3.2)
     coderay (1.1.2)
     coffee-rails (4.2.2)
@@ -235,6 +226,7 @@ GEM
     concurrent-ruby (1.1.6)
     confstruct (1.0.2)
       hashie (~> 3.3)
+    connection_pool (2.2.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
@@ -284,7 +276,22 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
-    ebsco-discovery-service-api (1.1.12)
+    ebsco-eds (1.1.0)
+      activesupport (~> 5.2)
+      bibtex-ruby (~> 5.1, >= 5.1.0)
+      citeproc (>= 1.0.4, < 2.0)
+      citeproc-ruby (~> 1.0, >= 1.0.2)
+      climate_control (~> 0)
+      csl (~> 1.4)
+      csl-styles (~> 1.0, >= 1.0.1.5)
+      dotenv (~> 2.2)
+      faraday (~> 0)
+      faraday-detailed_logger (~> 2.0)
+      faraday_middleware (~> 0.11)
+      net-http-persistent (~> 3.1)
+      public_suffix (~> 4.0)
+      require_all (~> 2.0)
+      sanitize (~> 5.0)
     erubi (1.9.0)
     erubis (2.7.0)
     et-orbi (1.2.2)
@@ -295,6 +302,10 @@ GEM
     execjs (2.7.0)
     faraday (0.17.0)
       multipart-post (>= 1.2, < 3)
+    faraday-detailed_logger (2.3.0)
+      faraday (>= 0.8, < 2)
+    faraday_middleware (0.14.0)
+      faraday (>= 0.7.4, < 1.0)
     ffi (1.11.2)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
@@ -372,6 +383,7 @@ GEM
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
     language_list (1.2.1)
+    latex-decode (0.3.1)
     libnotify (0.9.4)
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
@@ -413,6 +425,8 @@ GEM
     mysql2 (0.5.2)
     namae (1.0.1)
     nenv (0.3.0)
+    net-http-persistent (3.1.0)
+      connection_pool (~> 2.2)
     net-ldap (0.16.2)
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
@@ -518,6 +532,7 @@ GEM
       actionpack (>= 3)
       redis (>= 3, < 5)
     regexp_parser (1.6.0)
+    require_all (2.0.0)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -678,7 +693,6 @@ DEPENDENCIES
   blacklight-hierarchy
   blacklight-marc
   blacklight_cornell_requests!
-  blacklight_eds!
   blacklight_range_limit (~> 7.0)
   blacklight_unapi!
   bootstrap
@@ -698,6 +712,7 @@ DEPENDENCIES
   devise-guests (~> 0.3)
   dotenv-deployment
   dotenv-rails
+  ebsco-eds
   exception_notification
   font-awesome-rails
   google-analytics-rails (= 1.1.1)
