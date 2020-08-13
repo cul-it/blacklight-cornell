@@ -47,7 +47,7 @@ module SingleSearchHelper
     case key
     when "libguides"
       link = 'http://guides.library.cornell.edu/libguides/home'
-    when "ebsco_ds"
+    when "ebsco_eds"
       bq = ss_encode(params[:q] || params[:query])
       if bq.present?
         edsq = {direct: true, authtype: "ip,uid", profile: "eds", bQuery: bq,
@@ -76,7 +76,7 @@ module SingleSearchHelper
     eds_total = 0
     bq = ss_encode(params[:q] || params[:query])
     if bq.present?
-      searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_ds)
+      searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_eds)
       searcher.search(bq, :per_page => 0)
       searcher.results.each_pair do |key, result|
         eds_total = result.total_items.to_s

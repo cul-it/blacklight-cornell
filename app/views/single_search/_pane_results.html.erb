@@ -17,7 +17,7 @@
     <div class="view-all">
       <% if key == "libguides" %>
         <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
-      <% elsif key == "ebsco_ds" %>
+      <% elsif key == "ebsco_eds" %>
         <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
           View
           <%= number_with_delimiter(result.total_items) %>
