@@ -1,4 +1,5 @@
 <?php
+#lets see what happens
 $filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
