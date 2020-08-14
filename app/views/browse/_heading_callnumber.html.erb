@@ -1,3 +1,6 @@
+<% if @headingsResponse.present? && @headingsResponse["response"]["docs"][0]['classification_display'].present? %>
+    <div id="cn-browse-class"><%= @headingsResponse["response"]["docs"][0]['classification_display']%></div>
+<% end %>
 <div class="headings-list table-responsive">
   <table class="table table-striped browse-callnumber">
     <thead>
@@ -6,7 +9,7 @@
           Call Number
         </th>
         <th class="headings-cn-title" scope="col">
-          Title
+          Citation
         </th>
         <th class="headings-cn-format" scope="col">
           Format
@@ -16,7 +19,7 @@
         </th> 
       </tr>
     </thead>
-    <% if response["response"].present? %>
+    <% if response["response"].present?%>
       <% params = response["responseHeader"]["params"] %>
       <% encoded_heading = (params["q"]).gsub('&', '%26').gsub("\"", "'") %>
       <% if order == "reverse" %>
@@ -31,10 +34,8 @@
           </td>
           <td>
             <%= link_to '/catalog/' + data["bibid"].to_s do %>
-              <% if data["fulltitle_vern_display"].present? %>
-                <%= data["fulltitle_vern_display"] + ' / ' + data["fulltitle_display"] %>
-              <% else %>
-                <%= data["fulltitle_display"] %>
+              <% if data["cite_preescaped_display"].present? %>
+                <%== data["cite_preescaped_display"] %>
               <% end %>
             <% end %>
           </td>

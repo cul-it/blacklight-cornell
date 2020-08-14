@@ -1,5 +1,5 @@
 module BentoSearch
-  class EdsArticleDecorator < StandardDecorator
+  class EbscoEdsArticleDecorator < StandardDecorator
 
     def render_source_info
 

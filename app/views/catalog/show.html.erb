@@ -4,8 +4,8 @@
 <% if link_back and link_back.class.to_s != "ActiveSupport::SafeBuffer"%>
 <%# if link_back %>
     <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
-        <% opts = ENV['RAILS_ENV'] != 'test' ?  
-         {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  } 
+        <% opts = ENV['RAILS_ENV'] != 'test' ?
+         {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  }
          : {:class => 'return-link', :title => 'return to previous page'}  %>
       <%= link_to link_back[:url], opts do %>
         <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>

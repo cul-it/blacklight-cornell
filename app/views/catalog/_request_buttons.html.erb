@@ -2,7 +2,8 @@
 <% # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}" %>
 <% request_context_path = request_path(group,params[:id],aeon_codes,@document) %>
 <% request_scan_path = sub_tilde_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document) %>
-<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library"] %>
+<%# Temporary variable for Covid-19 closures.%>
+<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library", "Law Library"] %>
 <% @group = group %>
 <div class="item-requests">
   <% counter = params[:counter] || session[:search][:counter] %>
@@ -12,16 +13,16 @@
     <% elsif counter.blank? %>
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }  %>
       <% if !@document['etas_facet'].present? %>
-          <% if !@document["location_facet"].nil? %>
-              <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } unless (requestable_libraries & @document["location_facet"]).empty? %>
+          <% if !@document["location"].nil? %>
+              <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } unless (requestable_libraries & @document["location"]).empty? %>
               <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } unless reading.empty?   %>
-              <% end %>
           <% end %>
+      <% end %>
     <% else %>
-      <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } %>
+      <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } Delete this?%>
        <% if !@document['etas_facet'].present? %>
-          <% if !@document["location_facet"].nil? %>
-      	      <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } unless (requestable_libraries & @document["location_facet"]).empty? %>
+          <% if !@document["location"].nil? %>
+      	      <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } unless (requestable_libraries & @document["location"]).empty? %>
               <%= link_to "Request item for scanning", request_scan_path , { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' }  unless reading.empty? %>
           <% end %>
        <% end %>

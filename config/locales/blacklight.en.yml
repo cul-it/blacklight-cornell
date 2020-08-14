@@ -39,7 +39,9 @@ en:
           button: 'Add to selected items'
       title: 'Selected Items'
       no_bookmarks: 'You have no selected items.'
-      use_book_bag: 'Please use the book bag while you are logged in.'
+      use_book_bag: 'Please use Book Bag while you are signed in.'
+      use_bookmarks: 'Please use Selected Items unless you are signed in.'
+      find_book_bag: 'Sign in to email items or save them to Book Bag'
       add:
         button: 'Select'
         success:
@@ -53,25 +55,26 @@ en:
         action_confirm: 'Deselect this item?'
       clear:
         action_title: 'Clear all items'
-        action_confirm: 
+        action_confirm:
           book_bag: 'Remove all items from your Book Bag?'
           bookmark: 'Clear all selected items?'
         success: 'Your items have been cleared.'
         failure: 'Sorry, there was a problem clearing your items.'
       bag:
         action_title: 'Add items to Book Bag for email and saving options'
-        action_confirm: 'Add selected items to your Book Bag?'
+        action_confirm: 'Add %{count} Selected Items to your Book Bag?'
+        login_add: 'Sign in and add Selected Items to Book Bag'
         success: 'Your selected items have been added to your Book Bag.'
         failure: 'Sorry, there was a problem adding your selected items.'
       need_login: 'Please log in to manage and view your selected items.'
-      limit: 
+      limit:
         title: 'Too many bookmarks'
         warning: 'You may save up to %{max_count} selected items.'
       email:
         title: 'Email this'
         warning: 'Emailing is currently limited to Cornell only.'
         action:
-          item_view: 
+          item_view:
             text: 'Please %{href} with your Cornell ID, then click the Email button again.'
             link_text: 'sign in'
           bookmarks_view: 'Add items to Book Bag for email and saving options'

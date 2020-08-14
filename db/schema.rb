@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_18_190200) do
+ActiveRecord::Schema.define(version: 2020_05_19_175736) do
 
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID"
@@ -21,16 +21,16 @@ ActiveRecord::Schema.define(version: 2019_09_18_190200) do
   end
 
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "document_id"
     t.string "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "user_type"
     t.string "document_type"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
@@ -172,8 +172,8 @@ ActiveRecord::Schema.define(version: 2019_09_18_190200) do
   create_table "searches", force: :cascade do |t|
     t.text "query_params"
     t.integer "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "user_type"
     t.index ["user_id"], name: "index_searches_on_user_id"
   end
@@ -181,10 +181,97 @@ ActiveRecord::Schema.define(version: 2019_09_18_190200) do
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
+  create_table "term_of_uses", id: false, force: :cascade do |t|
+    t.string "id", limit: 128
+    t.string "title_id", limit: 128
+    t.string "package_id", limit: 256
+    t.string "record_title", limit: 512
+    t.string "record_title_label", limit: 512
+    t.string "authorised_users_label", limit: 128
+    t.string "authorised_users_value", limit: 512
+    t.string "authorised_users_internal", limit: 12
+    t.integer "authorised_users_weight", limit: 4
+    t.string "walk-in_access_label", limit: 128
+    t.string "walk-in_access_value", limit: 5
+    t.string "walk-in_access_internal", limit: 12
+    t.integer "walk-in_access_weight", limit: 4
+    t.text "walk-in_access_description"
+    t.string "electronic_ill_label", limit: 128
+    t.string "electronic_ill_value", limit: 128
+    t.string "electronic_ill_internal", limit: 12
+    t.integer "electronic_ill_weight", limit: 4
+    t.text "electronic_ill_description"
+    t.string "secure_electronic_ill_label", limit: 128
+    t.string "secure_electronic_ill_value", limit: 128
+    t.string "secure_electronic_ill_internal", limit: 12
+    t.integer "secure_electronic_ill_weight", limit: 4
+    t.text "secure_electronic_ill_description"
+    t.string "sharing_for_scholarly_use_label", limit: 128
+    t.string "sharing_for_scholarly_use_value", limit: 128
+    t.string "sharing_for_scholarly_use_internal", limit: 12
+    t.integer "sharing_for_scholarly_use_weight", limit: 4
+    t.text "sharing_for_scholarly_use_description"
+    t.string "cure_period_for_breach_unit_label", limit: 128
+    t.string "cure_period_for_breach_unit_value", limit: 128
+    t.string "cure_period_for_breach_unit_internal", limit: 12
+    t.integer "cure_period_for_breach_unit_weight", limit: 4
+    t.text "cure_period_for_breach_unit_description"
+    t.string "ill_record_keeping_label", limit: 128
+    t.string "ill_record_keeping_value", limit: 128
+    t.string "ill_record_keeping_internal", limit: 12
+    t.integer "ill_record_keeping_weight", limit: 4
+    t.text "ill_record_keeping_description"
+    t.string "electronic_link_label", limit: 128
+    t.string "electronic_link_value", limit: 128
+    t.string "electronic_link_internal", limit: 12
+    t.integer "electronic_link_weight", limit: 4
+    t.text "electronic_link_description"
+    t.string "governing_law_label", limit: 128
+    t.string "governing_law_value", limit: 128
+    t.string "governing_law_internal", limit: 12
+    t.integer "governing_law_weight", limit: 4
+    t.text "governing_law_description"
+    t.string "general_permissions_label", limit: 128
+    t.text "general_permissions_value"
+    t.string "general_permissions_internal", limit: 12
+    t.integer "general_permissions_weight", limit: 4
+    t.text "general_permissions_description"
+    t.string "general_restrictions_label", limit: 128
+    t.text "general_restrictions_value"
+    t.string "general_restrictions_internal", limit: 12
+    t.integer "general_restrictions_weight", limit: 4
+    t.text "general_restrictions_description"
+    t.string "cure_period_for_breach_label", limit: 128
+    t.integer "cure_period_for_breach_value", limit: 4
+    t.string "cure_period_for_breach_internal", limit: 12
+    t.integer "cure_period_for_breach_weight", limit: 4
+    t.text "cure_period_for_breach_description"
+    t.string "course_reserve_label", limit: 128
+    t.string "course_reserve_value", limit: 128
+    t.string "course_reserve_internal", limit: 12
+    t.integer "course_reserve_weight", limit: 4
+    t.text "course_reserve_description"
+    t.string "ill_general_label", limit: 128
+    t.string "ill_general_value", limit: 128
+    t.string "ill_general_internal", limit: 12
+    t.integer "ill_general_weight", limit: 4
+    t.text "ill_general_description"
+    t.string "fair_use_clause_indicator_label", limit: 128
+    t.string "fair_use_clause_indicator_value", limit: 128
+    t.string "fair_use_clause_indicator_internal", limit: 12
+    t.integer "fair_use_clause_indicator_weight", limit: 4
+    t.text "fair_use_clause_indicator_description"
+    t.string "packageID", limit: 128
+    t.string "packageName", limit: 256
+    t.string "packageUrl", limit: 512
+    t.string "package_providerID", limit: 512
+    t.string "package_providerName", limit: 128
   end
 
   create_table "users", force: :cascade do |t|
@@ -198,8 +285,8 @@ ActiveRecord::Schema.define(version: 2019_09_18_190200) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "guest", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
