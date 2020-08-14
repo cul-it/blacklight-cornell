@@ -32,7 +32,8 @@ class BentoSearch::EbscoEdsEngine
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        q = args[:query]
+        # q = args[:query]
+        q = args[:oq]
         Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
