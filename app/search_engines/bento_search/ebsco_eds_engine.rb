@@ -33,11 +33,12 @@ class BentoSearch::EbscoEdsEngine
         xml, response, exception = nil, nil, nil
 
         q = args[:query]
+        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
 
         sq = {
-            'q' => args[:query],
+            'q' => q,
             'start' => 0,
             'per_page' => per_page
         }
@@ -54,7 +55,7 @@ class BentoSearch::EbscoEdsEngine
             for page in 0..max_page
 
                 sq = {
-                    'q' => args[:query],
+                    'q' => q,
                     'start' => page,
                     'per_page' => per_page
                 }
@@ -105,6 +106,7 @@ class BentoSearch::EbscoEdsEngine
                 end
             end
         end # enough hits already
+        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} results: " + results.inspect
         return results
     end
 
