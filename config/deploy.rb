@@ -29,7 +29,7 @@ set :bundle_flags,    "--deployment "
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
-set :stages, ["integration","development", "staging", "production","production-new"]
+set :stages, ["integration","development","integration-aws","integration-ld4p3","staging", "production","production-new"]
 set :default_stage, "staging"
 default_run_options[:pty] = true
 
