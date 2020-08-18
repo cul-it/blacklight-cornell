@@ -27,7 +27,8 @@ set :bundle_flags,    "--deployment "
 #role  :web, "culsearchdev.library.cornell.edu"
 #role  :db, "culsearchdev.library.cornell.edu", :primary => true
 
-require 'bundler/capistrano'
+#require 'bundler/capistrano'
+require 'capistrano/bundler'
 require 'capistrano/ext/multistage'
 
 set :stages, ["integration","development","integration-aws","production-aws","staging", "production","production-new"]
