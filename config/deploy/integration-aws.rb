@@ -1,5 +1,5 @@
 
-server 'newcatalog7.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
+server 'newcatalog7.library.cornell.edu', :app, :web, :db, user: 'rails', keys: '~/.ssh/id_rsa' 
 
 
 #server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
