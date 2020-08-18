@@ -8,7 +8,7 @@
 # Then /^I should see a stylesheet/ do
 #   page.should have_selector("link[rel=stylesheet]", :visible => false)
 # end
-# 
+#
 # Then /^the page title should be "(.*?)"$/ do |title|
 #   # Capybara 2 ignores invisible text
 #   # https://github.com/jnicklas/capybara/issues/863
@@ -29,10 +29,16 @@ Then(/^I should see the text "([^"]*)"$/) do |arg1|
    page.should have_content(arg1)
 end
 
+Then("I should see any text {string}") do |string|
+   # // case insensitive
+   page.should have_content(/#{string}/i)
+end
+
+
 # Then(/^I should see the text "(.*?)"$/) do |arg1|
 #   page.should have_content(arg1)
 # end
-# 
+#
 # Then(/^I should not see the text "(.*?)"$/) do |arg1|
 #   page.should_not have_content(arg1)
 # end
