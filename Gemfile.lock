@@ -174,13 +174,11 @@ GEM
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.0.1)
-    capistrano (3.14.1)
+    capistrano (2.15.4)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
-    capistrano-bundler (2.0.1)
-      capistrano (~> 3.1)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
     capybara (3.29.0)
@@ -573,9 +571,8 @@ GEM
       sexp_processor (~> 4.9)
     rufus-scheduler (3.6.0)
       fugit (~> 1.1, >= 1.1.6)
-    rvm1-capistrano3 (1.4.0)
-      capistrano (~> 3.0)
-      sshkit (>= 1.2)
+    rvm-capistrano (1.5.0)
+      capistrano (>= 2.15.4)
     safe_yaml (1.0.5)
     sanitize (5.2.1)
       crass (~> 1.0.2)
@@ -699,8 +696,7 @@ DEPENDENCIES
   blacklight_unapi!
   bootstrap
   borrow_direct!
-  capistrano (~> 3.14)
-  capistrano-bundler (~> 2.0)
+  capistrano
   capistrano-ext
   capybara (>= 2.3, < 4)
   capybara-email
@@ -757,7 +753,7 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   rufus-scheduler
-  rvm1-capistrano3
+  rvm-capistrano
   sass-rails (~> 5.0)
   savon (~> 2.11.1)
   spreewald!
