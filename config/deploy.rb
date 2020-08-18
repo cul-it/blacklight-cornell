@@ -7,7 +7,6 @@ set :scm, :git
 set :scm_verbose, true 
 #set :user, "es287"
 set :user, "rails"
-set :ssh_options, {:forward_agent => true }
 set :default_environment, {
   'PATH' => "/usr/local/rvm/gems/ruby-2.5.5/bin:/usr/local/rvm/gems/ruby-2.5.5@global/bin:/usr/local/rvm/rubies/ruby-2.5.5/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-2/root/usr/bin:$PATH",
   'RUBY_VERSION' => "ruby-2.5.5",
@@ -27,8 +26,7 @@ set :bundle_flags,    "--deployment "
 #role  :web, "culsearchdev.library.cornell.edu"
 #role  :db, "culsearchdev.library.cornell.edu", :primary => true
 
-#require 'bundler/capistrano'
-require 'capistrano/bundler'
+require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 
 set :stages, ["integration","development","integration-aws","production-aws","staging", "production","production-new"]
