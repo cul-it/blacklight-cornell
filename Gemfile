@@ -90,7 +90,7 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '5.0.5'
 gem 'rvm-capistrano'
-gem 'capistrano'
+gem 'capistrano', '2.15.4'
 gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
