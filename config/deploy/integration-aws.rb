@@ -1,3 +1,10 @@
+set :ssh_options, {
+  user: "rails",
+  keys: '~/.ssh/id_rsa',
+}
+
+
+
 #server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
 role :app, "newcatalog7.library.cornell.edu"
 role :web, "newcatalog7.library.cornell.edu"
