@@ -1150,7 +1150,7 @@ def new_tou
   Rails.logger.info("Sully = #{ENV['OKAPI_URL']}")
   Rails.logger.info("Sully1 = #{ENV['TENANT_ID']}")
   Rails.logger.info("Sully3 = #{ENV['X_OKAPI_TOKEN']}")
-  @packageName = ""
+  packageName = ""
   title_id = params[:title_id]
   id = params[:id]
   clnt = HTTPClient.new
@@ -1170,7 +1170,7 @@ def new_tou
   Rails.logger.info("Sully5 = #{recordTitle}")
   parsley = parsed["included"].each do | parsley |
     packageID = parsley["attributes"]["packageId"]
-    @packageName = parsley["attributes"]["packageName"]
+    packageName = parsley["attributes"]["packageName"]
     packageUrl = parsley["attributes"]["url"]
     package_providerID = parsley["attributes"]["providerName"]
     command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
@@ -1183,12 +1183,13 @@ def new_tou
         outtxt3 = `curl #{command3}`
         Rails.logger.info("Sully24 = #{outtxt3}")
         parsed3 = JSON.parse(outtxt3)
+        parsed3['packageName'] = packageName
         @newTouResult << parsed3      
  #       return params, @newTouResult 
       end
     end
 end
-     return params, @newTouResult, @packageName
+     return params, @newTouResult
  
   
 

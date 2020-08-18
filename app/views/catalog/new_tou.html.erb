@@ -25,24 +25,26 @@
   <div class="document blacklight-database-name clearfix">
     <div class="document-data">
       <%# @newTouResult.each do |data| %>
-      <% data =  @newTouResult[0] %>
-      <%#= @packageName.inspect %>
-       <h3 class="blacklight-title_display">
+      <%# data =  @newTouResult[0] %>
+      <%#= datapackageName.inspect %>
        	<%# if data["title_id"].nil? %>
           <%#= link_to data["packageUrl"], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
             <%# if data["packageName"].present? %>
-              <%= @packageName %>
+              <%#= @packageName %>
             <%# else %>
               <%#= data["packageUrl"] %>
             <%# end %>
           <%# end %>
-        </h3>
+
         <%#= params.inspect %> 
         <% if @newTouResult.present? %>
             <%#= @newTouResult.inspect %>
-            <% data = @newTouResult[0] %>
+            <% @newTouResult.each do | data | %>
             <% if data.present? %>
-              <table class="table table-bordered table-striped">
+       <h3 class="blacklight-title_display">
+                                       <%= data['packageName'] %>
+         </h3>
+                      <table class="table table-bordered table-striped">
                 <caption class="sr-only">License terms and permissions for this resource</caption>
                 <thead>
                   <tr>
@@ -58,6 +60,7 @@
                   </tr>
                 </thead>
                 <tbody>
+
                   <%#= data['customProperties']['generalPermissions'].inspect %> 
                   <% if data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['generalPermissions'][0]['value'].include?(';')  %>
                     <tr>
@@ -69,7 +72,11 @@
                         
                       </td>
                       <td>
-                        <%= data['customProperties']['authorizedUsers'][0]['type']['label'] %>
+                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>                        
+                        <% end %>
                       </td>
 
                     </tr>
@@ -83,7 +90,11 @@
                         <%= data['customProperties']['walkInAccess'][0]['value']['label'] %> 
                       </td>
                       <td>
-                        <%= data['customProperties']['walkInAccess'][0]['type']['description'] %>
+                        <% if !data['customProperties']['walkInAccess'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['walkInAccess'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['walkInAccess'][0]['type']['description'] %>
+                        <% end %>
                       </td>
                     </tr>
                   <% end %>
@@ -96,7 +107,11 @@
                         <%= data['customProperties']['illElectronic'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['illElectronic'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['illElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illElectronic'][0]['type']['description'] %> 
+                        <% end %>
                       </td>
                     </tr>
                   <% end %>
@@ -109,7 +124,11 @@
                         <%= data['customProperties']['illSecureElectronic'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['illSecureElectronic'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
+                        <% end %>  
                       </td>
                     </tr>
                   <% end %>
@@ -122,11 +141,15 @@
                         <%= data['customProperties']['scholarlySharing'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['scholarlySharing'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['scholarlySharing'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['scholarlySharing'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['scholarlySharing'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                      </tr>
                   <% end %>
-                  <% if data['customProperties']["curePeriodBreachUnit"][0]["internal"] == false  %>
+                  <% if !data['customProperties']["curePeriodBreachUnit"].nil? and data['customProperties']["curePeriodBreachUnit"][0]["internal"] == false  %>
                     <tr>
                       <td>
                         <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['label'] %>
@@ -135,7 +158,11 @@
                         <%= data['customProperties']['curePeriodBreachUnit'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['curePeriodBreachUnit'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['curePeriodBreachUnit'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -148,7 +175,11 @@
                         <%= data['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -161,7 +192,11 @@
                         <%= data['customProperties']['governingLaw'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['governingLaw'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['governingLaw'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['governingLaw'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['governingLaw'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -174,7 +209,11 @@
                         <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['generalPermissions'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['generalPermissions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalPermissions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -187,20 +226,11 @@
                         <%= data['customProperties']['generalRestrictions'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['generalRestrictions'][0]['value'] %> 
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if !data["customProperties"]["curePeriodBreachUnit"][0]["internal"].nil? and data["customProperties"]["curePeriodBreachUnit"][0]["internal"] == false  %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['label'] %>
-                      </td>
-                       <td>
-                        <%= data['customProperties']['curePeriodBreachUnit'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %> 
+                        <% if !data['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalRestrictions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalRestrictions'][0]['value'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -213,7 +243,11 @@
                         <%= data['customProperties']['courseReserve'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['courseReserve'][0]['type']['description'] %> 
+                         <% if !data['customProperties']['courseReserve'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['courseReserve'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['courseReserve'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -226,7 +260,11 @@
                         <%= data['customProperties']['illGeneralSelect'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['illGeneralSelect'][0]['type']['description'] %> 
+                          <% if !data['customProperties']['illGeneralSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illGeneralSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illGeneralSelect'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
@@ -239,13 +277,18 @@
                         <%= data['customProperties']['fairUseClause'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['customProperties']['fairUseClause'][0]['type']['description'] %> 
-                      </td>
+                          <% if !data['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['fairUseClause'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['fairUseClause'][0]['type']['description'] %>
+                        <% end %> 
+                      </td> 
                     </tr>
                   <% end %>
                   <%#= data.inspect %>
                 </tbody>
               </table>
+            <% end %>
            <% end %>
         <% else %>
 
