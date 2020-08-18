@@ -14,13 +14,13 @@ class BentoSearch::BestBetEngine
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort, :oq
     bento_results = BentoSearch::Results.new
-    q = URI::encode(args[:oq].gsub(" ","+"))
+    q = args[:oq].gsub(" ","%20")
     Rails.logger.debug "mjc12test: #{__FILE__} #{__LINE__} url parameter: #{q}"
-    best_bet = []
-    begin
+    best_bet = [] 
+    begin 
       best_bet = JSON.load(open("https://bestbets.library.cornell.edu/match/#{q}"))
-    rescue Exception => e
-      best_bet = []
+    rescue Exception => e 
+      best_bet = [] 
       result = BentoSearch::ResultItem.new
       Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
     end
