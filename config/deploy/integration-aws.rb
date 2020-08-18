@@ -1,11 +1,11 @@
 
-#server 'newcatalog7.library.cornell.edu', :app, :web, :db', 
+server 'newcatalog7.library.cornell.edu', roles: [:app, :web, :db], user: 'jenkins' 
 
 
 #server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
-role :app, "newcatalog7.library.cornell.edu"
-role :web, "newcatalog7.library.cornell.edu"
-role :db, "newcatalog7.library.cornell.edu", :primary => true
+#role :app, "newcatalog7.library.cornell.edu", :ssh_options
+#role :web, "newcatalog7.library.cornell.edu"
+#role :db, "newcatalog7.library.cornell.edu", :primary => true
 
 #role :app, "newcatalog8.library.cornell.edu"
 #role :web, "newcatalog8.library.cornell.edu"
@@ -27,7 +27,7 @@ set :deploy_to, "/cul/web/newcatalog-int-aws.library.cornell.edu/rails-app"
 set :rails_env, 'integration'
 #set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
 task :install_env, :roles => [ :app, :db, :web ] do
-  set :ssh_options, { user: 'jenkins', keys: '~/.ssh/id_rsa' }
+#  set :ssh_options, { user: 'jenkins', keys: '~/.ssh/id_rsa' }
   run "cp #{deploy_to}/../conf/latest-integration.env  #{shared_path}/.env"
   run "cat #{shared_path}/.env"
 end
