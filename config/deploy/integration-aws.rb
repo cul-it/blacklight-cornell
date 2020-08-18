@@ -1,10 +1,12 @@
 
-server 'newcatalog7.library.cornell.edu', :app, :web, :db', ssh_options: { user: 'rails', keys: '~/.ssh/id_rsa' }
+#server 'newcatalog7.library.cornell.edu', :app, :web, :db', 
+
+set :ssh_options, { user: 'rails', keys: '~/.ssh/id_rsa' }
 
 #server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
-#role :app, "newcatalog7.library.cornell.edu"
-#role :web, "newcatalog7.library.cornell.edu"
-#role :db, "newcatalog7.library.cornell.edu", :primary => true
+role :app, "newcatalog7.library.cornell.edu"
+role :web, "newcatalog7.library.cornell.edu"
+role :db, "newcatalog7.library.cornell.edu", :primary => true
 
 #role :app, "newcatalog8.library.cornell.edu"
 #role :web, "newcatalog8.library.cornell.edu"
