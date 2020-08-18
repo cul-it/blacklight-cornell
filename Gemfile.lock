@@ -172,7 +172,7 @@ GEM
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.0.1)
-    capistrano (2.15.4)
+    capistrano (2.15.9)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -697,7 +697,7 @@ DEPENDENCIES
   blacklight_unapi!
   bootstrap
   borrow_direct!
-  capistrano (= 2.15.4)
+  capistrano (= 2.15.9)
   capistrano-ext
   capybara (>= 2.3, < 4)
   capybara-email
