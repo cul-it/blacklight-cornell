@@ -2,7 +2,6 @@
 role :app, %w{rails@newcatalog7.library.cornell.edu}
 role :web, %w{rails@newcatalog7.library.cornell.edu}
 role :db, %w{rails@newcatalog7.library.cornell.edu}, :primary => true
-
 #role :app, "newcatalog8.library.cornell.edu"
 #role :web, "newcatalog8.library.cornell.edu"
 #role :db, "newcatalog8.library.cornell.edu", :primary => true
