@@ -1150,29 +1150,29 @@ def new_tou
   title_id = params[:title_id]
   id = params[:id]
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
-  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + ENV['OKAPI_URL'] + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
-  outtxt = `curl #{command}`
-  parsed = JSON.parse(outtxt)
-  recordTitle = parsed["data"]["attributes"]["name"]
-  parsley = parsed["included"].each do | parsley |
-    packageID = parsley["attributes"]["packageId"]
-    packageName = parsley["attributes"]["packageName"]
-    packageUrl = parsley["attributes"]["url"]
-    package_providerID = parsley["attributes"]["providerName"]
-    command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
-    outtxt2 = `curl #{command2}`
-    if outtxt2 != '[]'
-      parsed2 = JSON.parse(outtxt2)
-      if !parsed2[0]["linkedLicenses"][0].nil?
-        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-        command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
-        outtxt3 = `curl #{command3}`
-        parsed3 = JSON.parse(outtxt3)
-        parsed3['packageName'] = packageName
-        @newTouResult << parsed3      
-      end
-    end
-  end
+#  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + ENV['OKAPI_URL'] + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+#  outtxt = `curl #{command}`
+#  parsed = JSON.parse(outtxt)
+#  recordTitle = parsed["data"]["attributes"]["name"]
+#  parsley = parsed["included"].each do | parsley |
+#    packageID = parsley["attributes"]["packageId"]
+#    packageName = parsley["attributes"]["packageName"]
+#    packageUrl = parsley["attributes"]["url"]
+#    package_providerID = parsley["attributes"]["providerName"]
+#    command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+#    outtxt2 = `curl #{command2}`
+#    if outtxt2 != '[]'
+#      parsed2 = JSON.parse(outtxt2)
+#      if !parsed2[0]["linkedLicenses"][0].nil?
+#        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+#        command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+#        outtxt3 = `curl #{command3}`
+#        parsed3 = JSON.parse(outtxt3)
+#        parsed3['packageName'] = packageName
+#        @newTouResult << parsed3      
+#      end
+#    end
+#  end
   return params, @newTouResult
 end 
 
