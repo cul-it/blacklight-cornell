@@ -1,4 +1,4 @@
-server 'aws-108-114.internal.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
+server 'aws-108-114.internal.library.cornell.edu', 'aws-108-199.internal.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
 
 #server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
 #role :app, "aws-108-114.internal.library.cornell.edu"
