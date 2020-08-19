@@ -7,6 +7,7 @@ class CatalogController < ApplicationController
   include BlacklightCornell::CornellCatalog
   include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
+#  require 'net/http'
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
@@ -1146,11 +1147,51 @@ def tou
   
   
 def new_tou
-
+  Rails.logger.info("Sully = #{ENV['OKAPI_URL']}")
+  Rails.logger.info("Sully1 = #{ENV['TENANT_ID']}")
+  Rails.logger.info("Sully3 = #{ENV['X_OKAPI_TOKEN']}")
+  packageName = ""
   title_id = params[:title_id]
   id = params[:id]
-  @newTouResult = ::Term_Of_Use.where(title_id: title_id)
-  return params, @newTouResult
+  clnt = HTTPClient.new
+  solr = Blacklight.connection_config[:url]
+  p = {"id" => params[:id], "wt" => 'json', "indent"=>"true"} 
+  @testTitle = clnt.get_content("#{solr}/database?" + p.to_param)
+  Rails.logger.info("Sully22 = #{@testTitle.inspect}")  
+  @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
+  Rails.logger.info("Sully = #{ENV['OKAPI_URL']}")
+  Rails.logger.info("Sully1 = #{ENV['TENANT_ID']}")
+  Rails.logger.info("Sully3 = #{ENV['X_OKAPI_TOKEN']}")
+  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + ENV['OKAPI_URL'] + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+  outtxt = `curl #{command}`
+  Rails.logger.info("Sully2 = #{outtxt}")
+  parsed = JSON.parse(outtxt)
+  recordTitle = parsed["data"]["attributes"]["name"]
+  Rails.logger.info("Sully5 = #{recordTitle}")
+  parsley = parsed["included"].each do | parsley |
+    packageID = parsley["attributes"]["packageId"]
+    packageName = parsley["attributes"]["packageName"]
+    packageUrl = parsley["attributes"]["url"]
+    package_providerID = parsley["attributes"]["providerName"]
+    command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+    outtxt2 = `curl #{command2}`
+    if outtxt2 != '[]'
+      parsed2 = JSON.parse(outtxt2)
+      if !parsed2[0]["linkedLicenses"][0].nil?
+        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+        command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+        outtxt3 = `curl #{command3}`
+        Rails.logger.info("Sully24 = #{outtxt3}")
+        parsed3 = JSON.parse(outtxt3)
+        parsed3['packageName'] = packageName
+        @newTouResult << parsed3      
+ #       return params, @newTouResult 
+      end
+    end
+end
+     return params, @newTouResult
+ 
+  
 
 end 
 
