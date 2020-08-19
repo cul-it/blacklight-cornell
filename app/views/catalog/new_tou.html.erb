@@ -1,7 +1,7 @@
 <%# Terms of Use page %>
 
 <%#= render :partial => 'tou_search_form'  %>
-
+<%#= @newTouResult.inspect %>
 <%#= @dbResponse.inspect %>
 <%#= @ermDBResult[0].inspect %>
 <%#= @db.inspect %>
@@ -19,464 +19,279 @@
       <% end %>
     </div>
     <h2>
-     <% if !@newTouResult.present? %>
-          <table class="table table-bordered table-striped">
-            <caption class="sr-only">License terms and permissions for this resource</caption>
-            <thead>
-              <tr>
-                <th scope="col">
-                  License Term
-                </th>
-                <th scope="col">
-                  Note
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  Authorized Users
-                </td>
-                <td>
-                  Faculty, Staff, Students, Walk-in users, Weill Medical
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Permitted - (Digitally Copy)
-                </td>
-                <td>
-                  Authorized Users may electronically display, download, print, and digitally copy a reasonable portion (generally one or two articles or one book chapter) of the Licensed Materials.
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Restricted - Other Use Restrictions (Public Note)
-                </td>
-                <td>
-                  Authorized users are not permitted to modify or create a derivative work of the Licensed Materials, may not remove, obscure or modify any copyright or other notices included in the Licensed Materials, and may not use the Licensed Materials for commercial purposes, including but not limited to the sale of the Licensed Materials or bulk reproduction or distribution of the Licensed Materials in any form without the prior written permission of Licensor.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-     <% end %>
-      Terms of use
-    </h2>
   </div>
 </div>
 <div class="resources">
   <div class="document blacklight-database-name clearfix">
     <div class="document-data">
-      <% @newTouResult.each do |data| %>
-      <%#= @newTouResult[0].inspect %>
-       <h3 class="blacklight-title_display">
-       	<% if !data["title_id"].nil? %>
-          <%= link_to data["packageUrl"], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
-            <% if data["packageName"].present? %>
-              <%= data["packageName"] %>
-            <% else %>
-              <%= data["packageUrl"] %>
-            <% end %>
-          <% end %>
-        </h3>
-        <div class="description">
-          <p>Package Provider ID = <%= data["package_providerID"] %></p>
-          <p>Package ID = <%= data["packageID"] %></p>
-          <p>Package Provider Name = <%= data["package_providerName"] %></p>
-          
-            <%# if data["authorised_users_value"].present? %>
-              <%#= data["authorised_users_value"] %>
+      <%# @newTouResult.each do |data| %>
+      <%# data =  @newTouResult[0] %>
+      <%#= datapackageName.inspect %>
+       	<%# if data["title_id"].nil? %>
+          <%#= link_to data["packageUrl"], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
+            <%# if data["packageName"].present? %>
+              <%#= @packageName %>
+            <%# else %>
+              <%#= data["packageUrl"] %>
             <%# end %>
-          </p>
-        </div>
+          <%# end %>
+
+        <%#= params.inspect %> 
         <% if @newTouResult.present? %>
             <%#= @newTouResult.inspect %>
-          <% data = @newTouResult[0] %>
+            <% @newTouResult.each do | data | %>
             <% if data.present? %>
-              <table class="table table-bordered table-striped">
+       <h3 class="blacklight-title_display">
+                                       <%= data['packageName'] %>
+         </h3>
+                      <table class="table table-bordered table-striped">
                 <caption class="sr-only">License terms and permissions for this resource</caption>
                 <thead>
                   <tr>
                     <th scope="col">
-                      Label
+                      License Term
                     </th>
                     <th scope="col">
-                      Description
+                      Permissions
                     </th>
                     <th scope="col">
-                      Value
-                    </th>
-                    <th scope="col">
-                      Weight
+                      Note
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <% if data['authorised_users_internal'] == "false"  %>
+
+                  <%#= data['customProperties']['generalPermissions'].inspect %> 
+                  <% if data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['generalPermissions'][0]['value'].include?(';')  %>
                     <tr>
                       <td>
-                        Authorised Users
+                        Authorized Users
                       </td>
                       <td>
-                        <%= data['authorised_users_label'] %>
+                          <%= data['customProperties']['generalPermissions'][0]['value'].gsub!(';',',') %>
+                        
                       </td>
                       <td>
-                        <%= data['authorised_users_value'] %>
+                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>                        
+                        <% end %>
                       </td>
-                      <td>
-                        <%= data['authorised_users_weight'] %>
-                      </td>
+
                     </tr>
                   <% end %>
-                  <% if data['walk-in_access_internal'] == "false" %>
+                  <% if !data['customProperties']['walkInAccess'].nil? and data['customProperties']['walkInAccess'][0]['internal'] == false %>
                     <tr>
                       <td>
-                        <%= data['walk-in_access_label'] %> 
+                        <%= data['customProperties']['walkInAccess'][0]['type']['label'] %> 
                       </td>                    
                       <td>
-                        <%= data['walk-in_access_description'] %> 
+                        <%= data['customProperties']['walkInAccess'][0]['value']['label'] %> 
                       </td>
                       <td>
-                        <%= data['walk-in_access_value'] %>
-                      </td>
-                      <td>
-                        <%= data['walk-in_access_weight'] %>
+                        <% if !data['customProperties']['walkInAccess'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['walkInAccess'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['walkInAccess'][0]['type']['description'] %>
+                        <% end %>
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['electronic_ill_internal'] == "false" %>
+                  <% if data['customProperties']['illElectronic'][0]['internal'] == false %>
                     <tr>
                       <td>
-                        <%= data['electronic_ill_label'] %> 
+                        <%= data['customProperties']['illElectronic'][0]['type']['label'] %> 
                       </td>                    
-                      <td>
-                        <%= data['electronic_ill_description'] %> 
+                       <td>
+                        <%= data['customProperties']['illElectronic'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['electronic_ill_value'] %>
-                      </td>
-                      <td>
-                        <%= data['electronic_ill_weight'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['secure_electronic_ill_internal'] == "false"  %>
-                    <tr>
-                      <td>
-                        <%= data['secure_electronic_ill_label'] %>
-                      </td>
-                      <td>
-                        <%= data['secure_electronic_ill_description'] %>
-                      </td>
-                      <td>
-                        <%= data['secure_electronic_ill_value'] %>
-                      </td>
-                      <td>
-                        <%= data['secure_electronic_ill_weight'] %>
+                        <% if !data['customProperties']['illElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illElectronic'][0]['type']['description'] %> 
+                        <% end %>
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['sharing_for_scholarly_use_internal'] == "false"  %>
+                  <% if !data['customProperties']['illSecureElectronic'].nil? and data['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['sharing_for_scholarly_use_label'] %>
+                        <%= data['customProperties']['illSecureElectronic'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illSecureElectronic'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['sharing_for_scholarly_use_description'] %>
-                      </td>
-                      <td>
-                        <%= data['sharing_for_scholarly_use_value'] %>
-                      </td>
-                      <td>
-                        <%= data['sharing_for_scholarly_use_weight'] %>
+                        <% if !data['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
+                        <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['cure_period_for_breach_unit_internal'] == "false"  %>
+                  <% if !data['customProperties']['scholarlySharing'].nil? and data['customProperties']['scholarlySharing'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data[' cure_period_for_breach_unit_label'] %>
+                        <%= data['customProperties']['scholarlySharing'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['scholarlySharing'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data[' cure_period_for_breach_unit_description'] %>
+                        <% if !data['customProperties']['scholarlySharing'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['scholarlySharing'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['scholarlySharing'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                     </tr>
+                  <% end %>
+                  <% if !data['customProperties']["curePeriodBreachUnit"].nil? and data['customProperties']["curePeriodBreachUnit"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['curePeriodBreachUnit'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data[' cure_period_for_breach_unit_value'] %>
-                      </td>
-                      <td>
-                        <%= data[' cure_period_for_breach_unit_weight'] %>
+                        <% if !data['customProperties']['curePeriodBreachUnit'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['curePeriodBreachUnit'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['ill_record_keeping_internal'] == "false"  %>
+                  <% if !data['customProperties']["illRecordKeepingSelect"].nil? and data['customProperties']["illRecordKeepingSelect"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['ill_record_keeping_label'] %>
+                        <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['ill_record_keeping_description'] %>
-                      </td>
-                      <td>
-                        <%= data['ill_record_keeping_value'] %>
-                      </td>
-                      <td>
-                        <%= data['ill_record_keeping_weight'] %>
+                        <% if !data['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['governing_law_internal'] == "false"  %>
+                  <% if !data["customProperties"]["governingLaw"].nil? and data["customProperties"]["governingLaw"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['governing_law_label'] %>
+                        <%= data['customProperties']['governingLaw'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['governingLaw'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['governing_law_description'] %>
-                      </td>
-                      <td>
-                        <%= data['governing_law_value'] %>
-                      </td>
-                      <td>
-                        <%= data['governing_law_weight'] %>
+                        <% if !data['customProperties']['governingLaw'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['governingLaw'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['governingLaw'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['general_permissions_internal'] == "false"  %>
+                  <% if !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['general_permissions_label'] %>
+                        <%= data['customProperties']['generalPermissions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['general_permissions_description'] %>
-                      </td>
-                      <td>
-                        <%= data['general_permissions_value'] %>
-                      </td>
-                      <td>
-                        <%= data['general_permissions_weight'] %>
+                        <% if !data['customProperties']['generalPermissions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalPermissions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['general_restrictions_internal'] == "false"  %>
+                  <% if !data["customProperties"]["generalRestrictions"].nil? and data["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['general_restrictions_label'] %>
+                        <%= data['customProperties']['generalRestrictions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['generalRestrictions'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['general_restrictions_description'] %>
-                      </td>
-                      <td>
-                        <%= data['general_restrictions_value'] %>
-                      </td>
-                      <td>
-                        <%= data['general_restrictions_weight'] %>
+                        <% if !data['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalRestrictions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalRestrictions'][0]['value'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['cure_period_for_breach_internal'] == "false"  %>
+                  <% if !data["customProperties"]["courseReserve"].nil? and data["customProperties"]["courseReserve"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['cure_period_for_breach_label'] %>
+                        <%= data['customProperties']['courseReserve'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['courseReserve'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['cure_period_for_breach_description'] %>
-                      </td>
-                      <td>
-                        <%= data['cure_period_for_breach_value'] %>
-                      </td>
-                      <td>
-                        <%= data['cure_period_for_breach_weight'] %>
+                         <% if !data['customProperties']['courseReserve'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['courseReserve'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['courseReserve'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['course_reserve_internal'] == "false"  %>
+                  <% if !data["customProperties"]["illGeneralSelect"].nil? and data["customProperties"]["illGeneralSelect"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['course_reserve_label'] %>
+                        <%= data['customProperties']['illGeneralSelect'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illGeneralSelect'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['course_reserve_description'] %>
-                      </td>
-                      <td>
-                        <%= data['course_reserve_value'] %>
-                      </td>
-                      <td>
-                        <%= data['course_reserve_weight'] %>
+                          <% if !data['customProperties']['illGeneralSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illGeneralSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['illGeneralSelect'][0]['type']['description'] %>
+                        <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if data['ill_general_internal'] == "false"  %>
+                  <% if !data["customProperties"]["fairUseClause"].nil? and data["customProperties"]["fairUseClause"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['ill_general_label'] %>
+                        <%= data['customProperties']['fairUseClause'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['fairUseClause'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <%= data['ill_general_description'] %>
-                      </td>
-                      <td>
-                        <%= data['ill_general_value'] %>
-                      </td>
-                      <td>
-                        <%= data['ill_general_weight'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['fair_use_clause_indicator_internal'] == "false"  %>
-                    <tr>
-                      <td>
-                        <%= data['fair_use_clause_indicator_label'] %>
-                      </td>
-                      <td>
-                        <%= data['fair_use_clause_indicator_description'] %>
-                      </td>
-                      <td>
-                        <%= data['fair_use_clause_indicator_value'] %>
-                      </td>
-                      <td>
-                        <%= data['fair_use_clause_indicator_weight'] %>
-                      </td>
+                          <% if !data['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['fairUseClause'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['fairUseClause'][0]['type']['description'] %>
+                        <% end %> 
+                      </td> 
                     </tr>
                   <% end %>
                   <%#= data.inspect %>
-                  <% if data['Digitally_Copy'].present? || data['Digitally_Copy_Note'].present? %>
-                    <tr>
-                      <td>
-                        Digitally Copy
-                      </td>
-                      <td>
-                        <%= data['Digitally_Copy'] %>
-                      </td>
-                      <td>
-                        <%= data['Digitally_Copy_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['Scholarly_Sharing'].present? || data['Scholarly_Sharing_Note'].present? %>
-                    <tr>
-                      <td>
-                        Scholarly Sharing
-                      </td>
-                      <td>
-                        <%= data['Scholarly_Sharing'] %>
-                      </td>
-                      <td>
-                        <%= data['Scholarly_Sharing_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['ILL_General'].present? %>
-                    <tr>
-                      <td>
-                        ILL General
-                      </td>
-                      <td>
-                        <%= data['ILL_General'] %>
-                      </td>
-                      <td></td>
-                    </tr>
-                  <% end %>
-                  <% if data['ILL_Secure_Electronic'].present? %>
-                    <tr>
-                      <td>
-                        ILL Secure Electronic
-                      </td>
-                      <td>
-                        <%= data['ILL_Secure_Electronic'] %>
-                      </td>
-                      <td></td>
-                    </tr>
-                  <% end %>
-                  <% if data['ILL_Electronic_email'].present? %>
-                    <tr>
-                      <td>
-                        ILL Electronic (email)
-                      </td>
-                      <td>
-                        <%= data['ILL_Electronic_email'] %>
-                      </td>
-                      <td></td>
-                    </tr>
-                  <% end %>
-                  <% if data['ILL_Record_Keeping'].present? || data['ILL_Record_Keeping_Note'].present? %>
-                    <tr>
-                      <td>
-                        ILL Record Keeping
-                      </td>
-                      <td>
-                        <%= data['ILL_Record_Keeping'] %>
-                      </td>
-                      <td>
-                        <%= data['ILL_Record_Keeping_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['Course_Reserve'].present? || data['Course_Reserve_Note'].present? %>
-                    <tr>
-                      <td>
-                        Course Reserve
-                      </td>
-                      <td>
-                        <%= data['Course_Reserve'] %>
-                      </td>
-                      <td>
-                        <%= data['Course_Reserve_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['Electronic_Link'].present? || data['Electonic_Link_Note'].present? %>
-                    <tr>
-                      <td>
-                        Electronic Link
-                      </td>
-                      <td>
-                        <%= data['Electronic_Link'] %>
-                      </td>
-                      <td>
-                        <%= data['Electronic_Link_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['Course_Pack_Print'].present? %>
-                    <tr>
-                      <td>
-                        Course Pack Print
-                      </td>
-                      <td>
-                        <%= data['Course_Pack_Print'] %>
-                      </td>
-                      <td>
-                        <%= data['Course_Pack_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['Course_Pack_Electronic'].present? %>
-                    <tr>
-                      <td>
-                        Course Pack Electronic
-                      </td>
-                      <td>
-                        <%= data['Course_Pack_Electronic'] %>
-                      </td>
-                      <td>
-                        <%= data['Course_Pack_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['Other_Use_Restrictions_Public_Note'].present? %>
-                    <tr>
-                      <td>
-                        Other Use Restrictions
-                      </td>
-                      <td colspan="2">
-                        <%= data['Other_Use_Restrictions_Public_Note'] %>
-                      </td>
-                    </tr>
-                  <% end %>
                 </tbody>
               </table>
-          <% end %>
+            <% end %>
+           <% end %>
+        <% else %>
 
-        <% end %>
-        <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
             <caption class="sr-only">License terms and permissions for this resource</caption>
             <thead>
@@ -516,14 +331,10 @@
               </tr>
             </tbody>
           </table>
-        <% end %>
-      <% else %>
-        Not an e-book or database record.  Check out why a link was created for this bibID.
-      <% end %>
-      <% end %>
-      <% else %>
-        Invalid record ID
-      <% end %>
+       <% end %>
+     <% end %>
+    
     </div>
   </div>
 </div>
+
