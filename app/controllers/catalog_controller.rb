@@ -1153,7 +1153,8 @@ def new_tou
 
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
    if ENV['OKAPI_URL'].nil?
-     ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
+     Rails.logger.info("SWEETARTS")
+    # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
    end
    if ENV['TENANT_ID'].nil?
      ENV['TENANT_ID'] = 'fs00001034'
