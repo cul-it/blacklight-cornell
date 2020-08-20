@@ -1149,6 +1149,9 @@ def new_tou
   packageName = ""
   title_id = params[:title_id]
   id = params[:id]
+  if ENV['OKAPI_URL'].nil?
+    params[:id] = "nuts"
+  end
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
 #  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + ENV['OKAPI_URL'] + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
 #  outtxt = `curl #{command}`
