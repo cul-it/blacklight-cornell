@@ -13,8 +13,6 @@ BlacklightCornell::Application.routes.draw do
 
   mount Blacklight::Engine => '/'
 
-  mount BlacklightEds::Engine, at: "eds"
-
   concern :searchable, Blacklight::Routes::Searchable.new
   concern :exportable, Blacklight::Routes::Exportable.new
 

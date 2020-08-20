@@ -19,8 +19,16 @@ class BentoSearch::LibguidesEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Research Guides'
-    q = args[:oq].gsub(" ","+")
-    guides_response = JSON.load(open("http://lgapi-us.libapps.com/1.1/guides/?site_id=45&search_terms=#{q}&status=1&key=#{ENV['LIBGUIDES_API_KEY']}"))
+    q = URI::encode(args[:oq].gsub(" ","+"))
+    guides_response = []
+    guides_url = "http://lgapi-us.libapps.com/1.1/guides/?site_id=45&search_terms=#{q}&status=1&key=#{ENV['LIBGUIDES_API_KEY']}"
+    begin
+      guides_response = JSON.load(open(guides_url))
+    rescue Exception => e
+      guides_response = []
+      Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
+      Rails.logger.error "Guides URL: " + guides_url
+    end
 
     Rails.logger.debug "mjc12test: #{guides_response}"
     results = guides_response[0,3]

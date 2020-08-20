@@ -83,14 +83,14 @@ end
 # 	conf.databases = $ebsco_dbs
 # end
 
-# connection to EDS (EBSCO Discovery Service) used by the bento/single search
-BentoSearch.register_engine('ebsco_ds') do |conf|
-	conf.engine = 'BentoSearch::EdsEngine'
-	conf.user_id = ENV['EBSCO_USER']
-	conf.password = ENV['EBSCO_PASSWORD']
-	conf.profile = ENV['EBSCO_PROFILE']
+# official supported eds search
+BentoSearch.register_engine('ebsco_eds') do |conf|
+	conf.engine = 'BentoSearch::EbscoEdsEngine'
+	conf.user_id = ENV['EDS_USER']
+	conf.password = ENV['EDS_PASS']
+	conf.profile = ENV['EDS_PROFILE']
 	conf.title = "Articles & Full Text"
-	conf.for_display = {:decorator => "EdsArticleDecorator"}
+	conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
 	conf.highlighting = false
 end
 
@@ -109,7 +109,7 @@ BentoSearch.register_engine('summonArticles') do |conf|
   conf.title = 'Newspaper Articles'
 	conf.access_id =  ENV['SUMMON_ACCESS_ID']
 	conf.secret_key = ENV['SUMMON_SECRET_KEY']
-  conf.for_display = {:decorator => "EdsArticleDecorator"}
+  conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
   conf.highlighting = false
   # More details on Summon Search API commands here:
   # http://api.summon.serialssolutions.com/help/api/search/commands

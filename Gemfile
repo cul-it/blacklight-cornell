@@ -89,8 +89,8 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '5.0.5'
-gem 'rvm-capistrano'
-gem 'capistrano'
+gem 'rvm-capistrano', '1.5.6'
+gem 'capistrano', '2.15.9'
 gem 'capistrano-ext'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
@@ -125,4 +125,4 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 gem 'citeproc-ruby'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
-gem 'blacklight_eds', :git => 'https://github.com/cul-it/blacklight_eds_gem', :branch => 'develop'
+gem 'ebsco-eds'
