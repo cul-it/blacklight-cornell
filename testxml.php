@@ -1,5 +1,5 @@
 <?php
-# added env values to config in Jenkins more
+# added env values to config in Jenkins one more
 $filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
