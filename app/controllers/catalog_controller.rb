@@ -1152,18 +1152,18 @@ def new_tou
   id = params[:id]
 
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
-#   if !ENV['OKAPI_URL'].nil?
-#     Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
-#    # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
-#   end
-#   if !ENV['TENANT_ID'].nil?
-#     Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
-#    # ENV['TENANT_ID'] = 'fs00001034'
-#   end
-#   if !ENV['X_OKAPI_TOKEN'].nil?
-#     Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
-#    # ENV['X_OKAPI_TOKEN'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWMyNDQiLCJ1c2VyX2lkIjoiYWVjMjBiMzctODRlMy00Nzk2LTkzMTQtOTdlMDdlMGE2NzI2IiwiaWF0IjoxNTk3MTU5MzcwLCJ0ZW5hbnQiOiJmczAwMDAxMDM0In0.p5tU1dNnkRYFMRcHleD5p112kUxoYYnyP2IeM0J25Q0'
-#   end
+   if !ENV['OKAPI_URL'].nil?
+     Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
+    # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
+   end
+   if !ENV['TENANT_ID'].nil?
+     Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
+    # ENV['TENANT_ID'] = 'fs00001034'
+   end
+   if !ENV['X_OKAPI_TOKEN'].nil?
+     Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
+    # ENV['X_OKAPI_TOKEN'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWMyNDQiLCJ1c2VyX2lkIjoiYWVjMjBiMzctODRlMy00Nzk2LTkzMTQtOTdlMDdlMGE2NzI2IiwiaWF0IjoxNTk3MTU5MzcwLCJ0ZW5hbnQiOiJmczAwMDAxMDM0In0.p5tU1dNnkRYFMRcHleD5p112kUxoYYnyP2IeM0J25Q0'
+   end
 #  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + ENV['OKAPI_URL'] + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
 #  outtxt = `curl #{command}`
 
