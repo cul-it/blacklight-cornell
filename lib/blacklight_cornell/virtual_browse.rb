@@ -138,20 +138,23 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return final_array.join(" : ")
   end
   
+  # /get_previous
   def previous_callnumber
     @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",0,8)
     respond_to do |format|
       format.js
     end
   end
-  
+
+  # /get_next
   def next_callnumber
     @next_doc =  get_surrounding_docs(params["callnum"],"forward",1,8)
     respond_to do |format|
       format.js
     end
   end
-  
+
+  # /get_carousel
   def build_carousel
     @callnumber = params["callnum"]
     previous_eight = get_surrounding_docs(params["callnum"],"reverse",0,8)
