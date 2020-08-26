@@ -1,5 +1,30 @@
+<% if @headingsResponse.present? && @headingsResponse["response"]["docs"][0]['callnum_display'].present? %>
+  <div id="view-type-dropdown-cn" data-callnumber="<%= @headingsResponse["response"]["docs"][0]['callnum_display']%>">
+    <ul class="fa-ul-crap" style="list-style:none;">
+      <li class="dropdown">
+        <div class="btn-group">
+          <a id="vb-view-type" href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ccc;">
+      	    <i class="fa fa-align-justify" aria-hidden="true">&nbsp;&nbsp;</i>View type <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
+            <li>
+              <a id="vb-view-list" class="piwik_download dropdown-item" href="javascript:void(0);">
+      	        <i class="fa fa-check browse-type-check"></i> <i class="fa fa-align-justify" aria-hidden="true">&nbsp;&nbsp;</i>List
+      	      </a>
+            </li>
+            <li>
+              <a id="vb-view-virtual" class="piwik_download dropdown-item" href="javascript:void(0);">
+      	        <i class="fa fa-th"></i>&nbsp;&nbsp;Virtual
+      	      </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+<% end %>
 <% if @headingsResponse.present? && @headingsResponse["response"]["docs"][0]['classification_display'].present? %>
-    <div id="cn-browse-class"><%= @headingsResponse["response"]["docs"][0]['classification_display']%></div>
+  <div id="cn-browse-class"><%== @headingsResponse["response"]["docs"][0]['classification_display'].gsub('>','<i class="fa fa-caret-right class-caret"></i>')%></div>
 <% end %>
 <div class="headings-list table-responsive">
   <table class="table table-striped browse-callnumber">
