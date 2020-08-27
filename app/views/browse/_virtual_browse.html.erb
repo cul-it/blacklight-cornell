@@ -1,0 +1,110 @@
+<%
+	if response[8]['display_class_label'] != ""
+	    classification = response[8]['display_class_label']
+	else
+	   classification =  response[8]['format']
+	end
+
+%>
+<div id="view-type-dropdown">
+  <ul class="fa-ul-crap" style="list-style:none;">
+    <li class="dropdown">
+      <div class="btn-group">
+        <a id="vb-view-type" href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ccc;">
+    	    <i class="fa fa-th" aria-hidden="true">&nbsp;&nbsp;</i>View type <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
+          <li>
+            <a id="vb-view-list" class="piwik_download dropdown-item" href="javascript:void(0);">
+    	        <i class="fa fa-align-justify" aria-hidden="true">&nbsp;&nbsp;</i>List
+    	      </a>
+          </li>
+          <li>
+            <a id="vb-view-virtual" class="piwik_download dropdown-item" href="javascript:void(0);">
+    	        <i class="fa fa-check browse-type-check"></i> <i class="fa fa-th"></i>&nbsp;&nbsp;Virtual
+    	      </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="">
+  <div></div>
+  <div id="classification" class="row class-heading-full" data-anchor-label="<%= classification%>" data-keep-count="false" data-next-count="0" data-prev-count="0">
+    <div class="vb-scroll-nav"><a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left"> <i class="fa fa-chevron-left"></i> </a></div>
+	<div class="vb-current-class"><%== classification.gsub(' : ','<i class="fa fa-caret-right class-caret"></i>') %></div>
+	<div class="vb-scroll-nav"><a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right"> <i class="fa fa-chevron-right"></i> </a></div>
+    <img id="vb-time-indicator" src="/assets/cornell/virtual-browse/indicator1.gif" alt"processing time indicator" />
+  </div>
+	  <div id="outer-container" class="slides-full" >
+		<div class="inner-container" id="prev-reroute" style="display:none;">
+			<div class="vb-reroute">
+				<a href="/browse?authq=<%=response[0]['callnumber']%>&browse_type=virtual">
+					<div> <i class="fa fa-chevron-left"></i> </div>
+					<div> View more browse results</div>
+				</a>
+			</div>
+		</div>
+	<% count = 0 %>
+  	<% response.each_with_index do |doc, i| %>
+      <div class="inner-container<% if count == 8 %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['display_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+	    <div class="vb-callnum-hdr-full">
+	      <%= doc['callnumber'] %>
+		</div>
+	    <div id="<%= doc['id'] %>" class="vb-img-container">
+  			<img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+		</div>
+		  <div class="vb-title">
+		   <%= get_format_string(doc['format'].downcase)%>&nbsp;
+		   <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>">
+		     <% if doc['title'].length <= 52 %>
+		     	<%= doc['title'] %>
+		     <% else %>
+		     	<%= doc['title'][0..52] + "..."%>
+		     <% end %>
+		   </a> 
+		   <% if doc['pub_date'].present? %>
+		     <div><%= doc['pub_date'].sub("[","").sub("]","") %></div>
+		   <% end %>
+		</div>
+		<div class="vb-footer">
+		  <% avail = JSON.parse(doc["availability"]) %>
+			<div class="vb-location"><%#doc['location']%></div>
+		  <% if avail["availAt"].present? %>
+			<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
+		  <% elsif avail["online"].present? %>
+			<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
+		  <% elsif avail["unavailAt"].present? %>
+			<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+		  <% end %>
+		</div>
+	  </div>
+	  <% count += 1 %>
+	<% end %>
+	<div class="inner-container" id="next-reroute" style="display:none">
+		<div class="vb-reroute">
+			<a href="/browse?authq=<%=response[16]['callnumber']%>&browse_type=virtual">
+				<div>View more browse results </div>
+				<div> <i class="fa fa-chevron-right"></i></div>
+			</a>
+		</div>
+	</div>
+  </div>
+  <div id="return-home-full" class="return-home"><a id="return-home-link" href="javascript:void(0);">Return to start</a></div>
+  <div class="preview-container-full">
+    <div class="vb-pointer-full"></div>
+    <div id="preview" class="vb-preview-full">
+      <h5 id="preview-heading" ><a id="prev-title" href="#"></a></h5>
+      <dl  class="row preview-dl">
+      	<dt id="label-author" class="vb-dt">Author:</dt>
+      	<dd id="prev-author" class="vb-dd"></dd>
+      	<dt id="label-publisher" class="vb-dt">Publisher:</dt>
+      	<dd id="prev-publisher" class="vb-dd"></dd>
+      	<dt id="label-date" class="vb-dt">Date:</dt>
+      	<dd id="prev-date" class="vb-dd"></dd>
+      	<dt id="label-available" class="vb-dt">Available at:</dt>
+      	<dd id="prev-available" class="vb-dd"></dd>
+      </dl>
+    </div>
+</div>
