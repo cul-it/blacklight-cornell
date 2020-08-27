@@ -10,7 +10,7 @@ gem "actionview", ">= 5.2.4.2"
 # added for rails 4.
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
-gem 'mini_racer', platforms: :ruby
+gem 'mini_racer', '=0.2.9', platforms: :ruby
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
