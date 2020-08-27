@@ -102,7 +102,6 @@ class BrowseController < ApplicationController
       end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call-Number"
         # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
-        Rails.logger.info("TW ******************************* PARAMS " + params.inspect)
         call_no_solr = base_solr
         start = {"start" => params[:start]}
         dbclnt = HTTPClient.new
