@@ -1,5 +1,5 @@
 <?php
-# specia two add a comment
+# add a comment
 $filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
