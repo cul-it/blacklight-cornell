@@ -16,11 +16,11 @@ class Location < ActiveRecord::Base
         else
           base_url
      end
-    location_url 
+    location_url
   end
 
   def self.aeon_eligible?(code)
-    ret = false 
+    ret = false
     code.delete!(' ')
     rec = where("code = ?", code).first
     rec ?  rec.rmc_aeon : ret
@@ -28,6 +28,6 @@ class Location < ActiveRecord::Base
 
   def aeon_eligible?(code)
     code.delete!(' ')
-    return where("code = ?", code).rmc_aeon 
+    return where("code = ?", code).rmc_aeon
   end
 end
