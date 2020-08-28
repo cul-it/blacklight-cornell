@@ -15,11 +15,11 @@ Feature: Select and export items from the result set
   Scenario: User select an item for list, and then see item in list.
     Given I request the item view for 7981095
     And click on link "Selected Items"
-    And I sleep 5 seconds
+    And I sleep 6 seconds
     Then I should see the label 'You have no selected items'
     Given I request the item view for 7981095
     Then I should select checkbox "toggle-bookmark_7981095"
-    And I sleep 5 seconds
+    And I sleep 6 seconds
     And click on link "Selected Items"
     Then I should see the label 'Shelter medicine for veterinarians and staff'
 
@@ -30,10 +30,10 @@ Feature: Select and export items from the result set
   Scenario: User select an item for list, and then clears list.
     Given I request the item view for 7981095
     And click on link "Selected Items"
-    And I sleep 5 seconds
+    And I sleep 6 seconds
     Given I request the item view for 7981095
     Then I should select checkbox "toggle-bookmark_7981095"
-    And I sleep 5 seconds
+    And I sleep 6 seconds
     And click on link "Selected Items"
     Then I should see the label 'Shelter medicine for veterinarians and staff'
     And I confirm popup "Clear all items"
@@ -45,10 +45,10 @@ Feature: Select and export items from the result set
   Scenario: User select an item for list, and then clicks clear list but then cancels..
     Given I request the item view for 7981095
     And click on link "Selected Items"
-    And I sleep 5 seconds
+    And I sleep 6 seconds
     Given I request the item view for 7981095
     Then I should select checkbox "toggle-bookmark_7981095"
-    And I sleep 5 seconds
+    And I sleep 6 seconds
     And click on link "Selected Items"
     Then I should see the label 'Shelter medicine for veterinarians and staff'
     And I cancel popup "Clear all items"

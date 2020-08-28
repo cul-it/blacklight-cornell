@@ -42,7 +42,7 @@ Feature: Bookmarks for anonymous users
 		And I press 'search'
 		Then I should get results
         Then I select the first 2 catalog results
-        And I sleep 2 seconds
+        And I sleep 5 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 2 items selected
@@ -52,7 +52,7 @@ Feature: Bookmarks for anonymous users
         And I clear transactions
         Then I disable ajax activity completion
         And I view my citations
-        And I sleep 3 seconds
+        And I sleep 5 seconds
         Then the popup should include "APA 6th ed."
         And the popup should include "Chicago 17th ed."
         And the popup should include "MLA 7th ed."
@@ -70,7 +70,7 @@ Feature: Bookmarks for anonymous users
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
-        And I sleep 2 seconds
+        And I sleep 5 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
@@ -90,7 +90,7 @@ Feature: Bookmarks for anonymous users
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
-        And I sleep 2 seconds
+        And I sleep 5 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
