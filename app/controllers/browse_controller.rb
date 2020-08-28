@@ -17,6 +17,8 @@ class BrowseController < ApplicationController
     def index
         base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
+        
+      biscuits = "good"
 
       Appsignal.increment_counter('browse_index', 1)
       authq = params[:authq]
