@@ -74,9 +74,9 @@ var  carouselActions = {
           	
           	// When scolling, check to see if we need to retrieve more and if the class heading needs to change.
           	if ( $('.inner-container-primary').offset().left > oc_ro ) {
-              if ( carouselActions.isInViewport($('#outer-container').children().eq(3)) && $('#outer-container').children().eq(1).attr("data-callnumber") != current_previous ) {
-                  current_previous = $('#outer-container').children().eq(1).attr("data-callnumber");
-                  carouselActions.getPrevious($('#outer-container').children().eq(1).attr("data-callnumber"));
+              if ( carouselActions.isInViewport($('#outer-container').children().eq(3)) && $('#outer-container').children().eq(1).attr("id") != current_previous ) {
+                  current_previous = $('#outer-container').children().eq(1).attr("id");
+                  carouselActions.getPrevious($('.inner-container-primary').attr("data-callnumber"));
               }
               if ( $('.inner-container-primary').attr("data-status") == undefined ) { 
                 $('.inner-container-primary').attr("data-status","not visible");
@@ -86,9 +86,10 @@ var  carouselActions = {
               }
             }
             else if ( $('.inner-container-primary').offset().left < (oc_lo - $('.inner-container-primary').width()) ) {
-                if ( carouselActions.isInViewport($('#outer-container').children("div:nth-last-child(4)")) && $('#outer-container').children("div:nth-last-child(2)").attr("data-callnumber") != current_next ) {
-                    current_next = $('#outer-container').children("div:nth-last-child(2)").attr("data-callnumber");
-                    carouselActions.getNext($('#outer-container').children("div:nth-last-child(2)").attr("data-callnumber"));
+                if ( carouselActions.isInViewport($('#outer-container').children("div:nth-last-child(4)")) && $('#outer-container').children("div:nth-last-child(2)").attr("id") != current_next ) {
+                    current_next = $('#outer-container').children("div:nth-last-child(2)").attr("id");
+                    //carouselActions.getNext($('#outer-container').children("div:nth-last-child(2)").attr("data-callnumber"));
+                    carouselActions.getNext($('.inner-container-primary').attr("data-callnumber"));
                 }
                 if ( $('.inner-container-primary').attr("data-status") == undefined ) { 
                   $('.inner-container-primary').attr("data-status","not visible");
@@ -228,7 +229,7 @@ var  carouselActions = {
         var remote = true;
         setTimeout(function(){ $('#vb-time-indicator').show(); }, 1000);
         $.ajax({
-          url : "/get_previous?callnum=" + callnumber,
+          url : "/get_previous?callnum=" + callnumber + "&start=" + prevCount,
           type: 'GET',
           data: remote,
           complete: function(xhr, status) {
@@ -251,7 +252,7 @@ var  carouselActions = {
         var remote = true;
         setTimeout(function(){ $('#vb-time-indicator').show(); }, 1000);
         $.ajax({
-          url : "/get_next?callnum=" + callnumber,
+          url : "/get_next?callnum=" + callnumber + "&start=" + nextCount,
           type: 'GET',
           data: remote,
           complete: function(xhr, status) {

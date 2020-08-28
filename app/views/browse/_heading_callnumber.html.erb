@@ -23,8 +23,8 @@
     </ul>
   </div>
 <% end %>
-<% if @headingsResponse.present? && @headingsResponse["response"]["docs"][0]['classification_display'].present? %>
-  <div id="cn-browse-class"><%== @headingsResponse["response"]["docs"][0]['classification_display'].gsub('>','<i class="fa fa-caret-right class-caret"></i>')%></div>
+<% if @headingsResponse.present? %>
+  <div id="cn-browse-class"><%= @class_display %></div>
 <% end %>
 <div class="headings-list table-responsive">
   <table class="table table-striped browse-callnumber">

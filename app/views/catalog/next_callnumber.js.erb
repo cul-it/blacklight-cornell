@@ -51,7 +51,7 @@ reroute = ""
     	avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
     end 
     
-    the_html += '<div class="inner-container" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc["display_class_label"] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
+    the_html += '<div class="inner-container" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc["internal_class_label"] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
     the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
     the_html += '<div class="vb-img-container" >' + '<img width="120px" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '"/></div>' 
     the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '">' + the_title + '</a></div>'

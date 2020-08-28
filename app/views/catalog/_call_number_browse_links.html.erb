@@ -27,14 +27,19 @@
 		if @next_eight[0]['display_class_label'] != ""
 		    classification = @next_eight[0]['display_class_label']
 		else
-		   classification =  @new_carousel[8]['format']
+		   classification =  @next_eight[0]['format']
+		end
+		if @next_eight[0]['internal_class_label'] != ""
+		    internal_class = @next_eight[0]['internal_class_label']
+		else
+		   internal_class =  @next_eight[0]['format']
 		end
 
 	%>
 	<div class="">
-	  <div id="classification" class="row class-heading" data-anchor-label="<%= classification%>" data-keep-count="true" data-next-count="0" data-prev-count="0">
+	  <div id="classification" class="row class-heading" data-anchor-label="<%= internal_class%>" data-keep-count="true" data-next-count="0" data-prev-count="0">
         <div class="vb-browse-link"><a href="/browse?authq=<%=callnumbers[0]%>&browse_type=virtual">Expanded view</a></div>		<div class="vb-scroll-nav"><a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left"> <i class="fa fa-chevron-left"></i> </a></div>
-		<div class="vb-current-class"><%== classification.gsub(' : ','<i class="fa fa-caret-right class-caret"></i>') %></div>
+		<div class="vb-current-class"><%= classification %></div>
 		<div class="vb-scroll-nav"><a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right"> <i class="fa fa-chevron-right"></i> </a></div>
 	    <img id="vb-time-indicator" src="/assets/cornell/virtual-browse/indicator1.gif" alt"processing time indicator" />
 	  </div>
@@ -48,7 +53,7 @@
 				</div>
 			</div>
 	  	<% @previous_eight.reverse.each do |doc| %>
-	      <div class="inner-container"  id="<%= doc['id'] %>" data-title="<%= doc['title'] %>" data-locations="<%= doc['locations'].join(', ') %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['display_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+	      <div class="inner-container"  id="<%= doc['id'] %>" data-title="<%= doc['title'] %>" data-locations="<%= doc['locations'].join(', ') %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
 		    <div class="vb-callnum-hdr">
 		      <%= doc['callnumber'] %>
 			</div>
@@ -82,7 +87,7 @@
 		<% end %>
 		<% first = true %>
 	  	<% @next_eight.each_with_index do |doc, i| %>
-	      <div class="inner-container<% if first %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['display_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+	      <div class="inner-container<% if first %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
 		  <% first = false %>
 		    <div class="vb-callnum-hdr">
 		      <%= doc['callnumber'] %>

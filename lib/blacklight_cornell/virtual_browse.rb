@@ -61,8 +61,12 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["locations"] = process_availability(doc["availability_json"])
     tmp_hash["citation"] = doc["cite_preescaped_display"].present? ? doc["cite_preescaped_display"] : ""
     tmp_hash["callnumber"] = doc["callnum_display"].present? ? doc["callnum_display"] : ""
-    tmp_hash["full_class_label"] = doc["classification_display"].present? ? doc["classification_display"] : ""
-    tmp_hash["display_class_label"] = build_class_label(doc["classification_display"])
+    # the difference between these next two: "internal_class_label" gets used in the data attribute 
+    # of some elements, while the "display_class_label" gets displayed in the UI and has the added
+    # font awesomne html
+    classification = doc["classification_display"].present? ? doc["classification_display"] : ""
+    tmp_hash["internal_class_label"] = build_class_label(classification)
+    tmp_hash["display_class_label"] = tmp_hash["internal_class_label"].gsub(' : ','<i class="fa fa-caret-right class-caret"></i>').html_safe
     tmp_hash["img_url"] = get_googlebooks_image(response["response"]["docs"][0]["oclc_id_display"], response["response"]["docs"][0]["isbn_t"], the_format)
 
     return tmp_hash
@@ -116,8 +120,12 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   end
 
   def build_class_label(classlabel)
-    tmp_array = classlabel.split(">")
     final_array = []
+    if classlabel == ""
+      final_array << classlabel
+      return final_array
+    end
+    tmp_array = classlabel.split(">")
     count = 0
     add = true
     skipped_first = false
@@ -140,7 +148,8 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   
   # /get_previous
   def previous_callnumber
-    @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",0,8)
+    start = (params["start"].to_i * 8)
+    @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",start,8)
     respond_to do |format|
       format.js
     end
@@ -148,7 +157,8 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # /get_next
   def next_callnumber
-    @next_doc =  get_surrounding_docs(params["callnum"],"forward",1,8)
+    start = (params["start"].to_i * 8) + 1
+    @next_doc =  get_surrounding_docs(params["callnum"],"forward",start,8)
     respond_to do |format|
       format.js
     end

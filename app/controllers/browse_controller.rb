@@ -17,8 +17,6 @@ class BrowseController < ApplicationController
     def index
         base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
-        
-      biscuits = "good"
 
       Appsignal.increment_counter('browse_index', 1)
       authq = params[:authq]
@@ -104,7 +102,6 @@ class BrowseController < ApplicationController
       end
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call-Number"
         # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
-        Rails.logger.info("TW ******************************* PARAMS " + params.inspect)
         call_no_solr = base_solr
         start = {"start" => params[:start]}
         dbclnt = HTTPClient.new
@@ -122,11 +119,14 @@ class BrowseController < ApplicationController
         if !@headingsResultString.nil?
           y = @headingsResultString
           @headingsResponseFull = JSON.parse(y)
-       else
+        else
           @headingsResponseFull = eval("Could not find")
-       end
-       @headingsResponse = @headingsResponseFull
-       params[:authq].gsub!('%20', ' ')
+        end
+        @headingsResponse = @headingsResponseFull
+        if @headingsResponse["response"]["docs"][0]['classification_display'].present?
+          @class_display = @headingsResponse["response"]["docs"][0]['classification_display'].gsub(' > ',' <i class="fa fa-caret-right class-caret"></i> ').html_safe
+        end
+        params[:authq].gsub!('%20', ' ')
       end
       
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "virtual"

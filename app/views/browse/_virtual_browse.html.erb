@@ -4,6 +4,11 @@
 	else
 	   classification =  response[8]['format']
 	end
+	if response[8]['internal_class_label'] != ""
+	    internal_class = response[8]['internal_class_label']
+	else
+	   internal_class =  response[8]['format']
+	end
 
 %>
 <div id="view-type-dropdown">
@@ -31,9 +36,9 @@
 </div>
 <div class="">
   <div></div>
-  <div id="classification" class="row class-heading-full" data-anchor-label="<%= classification%>" data-keep-count="false" data-next-count="0" data-prev-count="0">
+  <div id="classification" class="row class-heading-full" data-anchor-label="<%= internal_class%>" data-keep-count="false" data-next-count="0" data-prev-count="0">
     <div class="vb-scroll-nav"><a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left"> <i class="fa fa-chevron-left"></i> </a></div>
-	<div class="vb-current-class"><%== classification.gsub(' : ','<i class="fa fa-caret-right class-caret"></i>') %></div>
+	<div class="vb-current-class"><%= classification %></div>
 	<div class="vb-scroll-nav"><a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right"> <i class="fa fa-chevron-right"></i> </a></div>
     <img id="vb-time-indicator" src="/assets/cornell/virtual-browse/indicator1.gif" alt"processing time indicator" />
   </div>
@@ -48,7 +53,7 @@
 		</div>
 	<% count = 0 %>
   	<% response.each_with_index do |doc, i| %>
-      <div class="inner-container<% if count == 8 %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['display_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+      <div class="inner-container<% if count == 8 %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
 	    <div class="vb-callnum-hdr-full">
 	      <%= doc['callnumber'] %>
 		</div>
