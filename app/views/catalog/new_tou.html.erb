@@ -1,0 +1,330 @@
+<%# Terms of Use page %>
+
+<%#= render :partial => 'tou_search_form'  %>
+<%#= @newTouResult.inspect %>
+<%#= @dbResponse.inspect %>
+<%#= @ermDBResult[0].inspect %>
+<%#= @db.inspect %>
+
+
+<!-- get params. compare to codes in bib. display code that matches by calling tou helper -->
+<div class="row database-subject">
+  <div class="page-title col-sm-12">
+    <div class="return-link">
+     <% if !@newTouResult.nil? %>
+     <%#= params.inspect %>
+      <%= link_to "/catalog/#{params["id"]}" do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Item
+      <% end %>
+    </div>
+    <h2>
+  </div>
+</div>
+<div class="resources">
+  <div class="document blacklight-database-name clearfix">
+    <div class="document-data">
+      <%# @newTouResult.each do |data| %>
+      <%# data =  @newTouResult[0] %>
+      <%#= datapackageName.inspect %>
+       	<%# if data["title_id"].nil? %>
+          <%#= link_to data["packageUrl"], :onclick => "javascript:_paq.push(['trackEvent', 'book_tou', 'outlink_book_tou_title']);" do %>
+            <%# if data["packageName"].present? %>
+              <%#= @packageName %>
+            <%# else %>
+              <%#= data["packageUrl"] %>
+            <%# end %>
+          <%# end %>
+
+        <%#= params.inspect %> 
+        <% if @newTouResult.present? %>
+            <%#= @newTouResult.inspect %>
+            <% @newTouResult.each do | data | %>
+            <% if data.present? %>
+       <h3 class="blacklight-title_display">
+                                       <%= data['packageName'] %>
+         </h3>
+                      <table class="table table-bordered table-striped">
+                <caption class="sr-only">License terms and permissions for this resource</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      License Term
+                    </th>
+                    <th scope="col">
+                      Permissions
+                    </th>
+                    <th scope="col">
+                      Note
+                    </th>
+                  </tr>
+                </thead>
+                <tbody> 
+
+                  <%#= data['customProperties']['generalPermissions'].inspect %> 
+                  <% if data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
+                    <tr>
+                      <td>
+                        Authorized Users
+                      </td>
+                      <td>
+                          <%= data['customProperties']['authorizedUsers'][0]['value'].gsub!(';',',') %>
+                        
+                      </td>
+                      <td>
+                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% else %>
+                    <% if !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['generalPermissions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['generalPermissions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalPermissions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                       <td>
+                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                        <% end %>
+                      </td>
+                    </tr>
+                   <% end %>                  
+                  <% end %>
+                  <% if !data["customProperties"]["generalRestrictions"].nil? and data["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['generalRestrictions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['generalRestrictions'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalRestrictions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalRestrictions'][0]['value'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                  
+                  <% if !data['customProperties']['walkInAccess'].nil? and data['customProperties']['walkInAccess'][0]['internal'] == false %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['walkInAccess'][0]['type']['label'] %> 
+                      </td>                    
+                      <td>
+                        <%= data['customProperties']['walkInAccess'][0]['value']['label'] %> 
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['walkInAccess'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['walkInAccess'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['walkInAccess'][0]['type']['description'] %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data['customProperties']['scholarlySharing'].nil? and data['customProperties']['scholarlySharing'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['scholarlySharing'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['scholarlySharing'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['scholarlySharing'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['scholarlySharing'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['scholarlySharing'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                     </tr>
+                  <% end %>
+                  <% if !data['customProperties']["curePeriodBreachUnit"].nil? and data['customProperties']["curePeriodBreachUnit"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['curePeriodBreachUnit'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['curePeriodBreachUnit'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['curePeriodBreachUnit'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data["customProperties"]["governingLaw"].nil? and data["customProperties"]["governingLaw"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['governingLaw'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['governingLaw'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['governingLaw'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['governingLaw'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['governingLaw'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data["customProperties"]["courseReserve"].nil? and data["customProperties"]["courseReserve"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['courseReserve'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['courseReserve'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                         <% if !data['customProperties']['courseReserve'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['courseReserve'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['courseReserve'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data["customProperties"]["fairUseClause"].nil? and data["customProperties"]["fairUseClause"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['fairUseClause'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['fairUseClause'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                          <% if !data['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['fairUseClause'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['fairUseClause'][0]['type']['description'] %>
+                        <% end %> 
+                      </td> 
+                    </tr>
+                  <% end %>
+                  <% if !data["customProperties"]["illGeneralSelect"].nil? and data["customProperties"]["illGeneralSelect"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['illGeneralSelect'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illGeneralSelect'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                          <% if !data['customProperties']['illGeneralSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illGeneralSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['illGeneralSelect'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data['customProperties']["illRecordKeepingSelect"].nil? and data['customProperties']["illRecordKeepingSelect"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['illSecureElectronic'].nil? and data['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['illSecureElectronic'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illSecureElectronic'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                  <%#= data.inspect %>
+                </tbody>
+              </table>
+            <% end %>
+           <% end %>
+        <% else %>
+
+          <table class="table table-bordered table-striped">
+            <caption class="sr-only">License terms and permissions for this resource</caption>
+            <thead>
+              <tr>
+                <th scope="col">
+                  License Term
+                </th>
+                <th scope="col">
+                  Note
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Authorized Users
+                </td>
+                <td>
+                  Faculty, Staff, Students, Walk-in users, Weill Medical
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Permitted - (Digitally Copy)
+                </td>
+                <td>
+                  Authorized Users may electronically display, download, print, and digitally copy a reasonable portion (generally one or two articles or one book chapter) of the Licensed Materials.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Restricted - Other Use Restrictions (Public Note)
+                </td>
+                <td>
+                  Authorized users are not permitted to modify or create a derivative work of the Licensed Materials, may not remove, obscure or modify any copyright or other notices included in the Licensed Materials, and may not use the Licensed Materials for commercial purposes, including but not limited to the sale of the Licensed Materials or bulk reproduction or distribution of the Licensed Materials in any form without the prior written permission of Licensor.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+       <% end %>
+     <% end %>
+    
+    </div>
+  </div>
+</div>

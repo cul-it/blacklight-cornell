@@ -97,7 +97,7 @@ devise_for :users, controllers: {
 # # get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   get '/databases/tou/:id' => 'databases#tou', :as => 'databases_tou'
   get '/catalog/tou/:id/:providercode/:dbcode' => 'catalog#tou', :as => 'catalog_tou'
-#  get '/catalog/new_tou/:title_id/:id' => 'catalog#new_tou', :as => 'catalog_new_tou'
+  get '/catalog/new_tou/:title_id/:id' => 'catalog#new_tou', :as => 'catalog_new_tou'
 
   get '/databases/erm_update' => 'databases#erm_update', :as => 'erm_update'
   get '/search', :to => 'search#index', :as => 'search_index'
