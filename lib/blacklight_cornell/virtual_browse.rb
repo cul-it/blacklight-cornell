@@ -204,7 +204,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   def get_googlebooks_image(oclc, isbn, format)
     if oclc.present? and !oclc.include?("not found")
-      oclc_url = "https://books.google.com/books?bibkeys=OCLC:#{oclc[0]}&jscmd=viewapi&callback=?"
+      oclc_url = "https://books.google.com/books?bibkeys=OCLC:#{oclc}&jscmd=viewapi&callback=?"
       result = Net::HTTP.get(URI.parse(oclc_url))
       result = eval(result.gsub("var _GBSBookInfo = ",""))
       if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
@@ -212,7 +212,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       end
     end
     if isbn.present? and !isbn.include?("not found")
-      isbn_url = "https://books.google.com/books?bibkeys=OCLC:#{isbn[0]}&jscmd=viewapi&callback=?"
+      isbn_url = "https://books.google.com/books?bibkeys=OCLC:#{isbn}&jscmd=viewapi&callback=?"
       result = Net::HTTP.get(URI.parse(isbn_url))
       result = eval(result.gsub("var _GBSBookInfo = ",""))
       if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
