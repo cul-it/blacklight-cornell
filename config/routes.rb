@@ -108,6 +108,12 @@ devise_for :users, controllers: {
   get '/advanced', :to =>'advanced_search#index', :as => 'advanced_search_index'
   get '/edit', :to =>'advanced_search#edit', :as => 'advanced_search_edit'
 
+  # Virtual callnumber browse
+  # first three are for ajax calls from the item view page
+  get "/get_previous" => 'catalog#previous_callnumber', as: 'get_previous'
+  get "/get_next" => 'catalog#next_callnumber', as: 'get_next'
+  get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

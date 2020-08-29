@@ -2,6 +2,7 @@
 class BrowseController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
+  include BlacklightCornell::VirtualBrowse
   #include BlacklightUnapi::ControllerExtension
   before_action :heading
   before_action :redirect_catalog
@@ -16,8 +17,6 @@ class BrowseController < ApplicationController
     def index
         base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
-        
-      biscuits = "good"
 
       Appsignal.increment_counter('browse_index', 1)
       authq = params[:authq]
@@ -101,7 +100,6 @@ class BrowseController < ApplicationController
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
       end
-
       if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call-Number"
         # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
         call_no_solr = base_solr
@@ -121,11 +119,21 @@ class BrowseController < ApplicationController
         if !@headingsResultString.nil?
           y = @headingsResultString
           @headingsResponseFull = JSON.parse(y)
-       else
+        else
           @headingsResponseFull = eval("Could not find")
-       end
-       @headingsResponse = @headingsResponseFull
-       params[:authq].gsub!('%20', ' ')
+        end
+        @headingsResponse = @headingsResponseFull
+        if @headingsResponse["response"]["docs"][0]['classification_display'].present?
+          @class_display = @headingsResponse["response"]["docs"][0]['classification_display'].gsub(' > ',' <i class="fa fa-caret-right class-caret"></i> ').html_safe
+        end
+        params[:authq].gsub!('%20', ' ')
+      end
+      
+      if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "virtual"
+        previous_eight = get_surrounding_docs(params[:authq],"reverse",0,8)
+        next_eight = get_surrounding_docs(params[:authq],"forward",0,9)
+        @headingsResponse = previous_eight.reverse() + next_eight
+        params[:authq].gsub!('%20', ' ')
       end
 
     end
