@@ -4,10 +4,11 @@
       "warning_type": "Mass Assignment",
       "warning_code": 60,
       "fingerprint": "214e078d81e28a61aeffd369d08c178d4b9738057e7c64c962c44337f03115b6",
+      "check_name": "ModelAttrAccessible",
       "message": "Potentially dangerous attribute available for mass assignment",
       "file": "app/models/location.rb",
       "line": null,
-      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": ":voyager_id",
       "render_path": null,
       "location": {
@@ -22,10 +23,11 @@
       "warning_type": "Mass Assignment",
       "warning_code": 60,
       "fingerprint": "65432a25d6f006a5e58a744f07ec94ac40988653cc11067b58043a5575e272cf",
+      "check_name": "ModelAttrAccessible",
       "message": "Potentially dangerous attribute available for mass assignment",
       "file": "app/models/bookmark.rb",
       "line": null,
-      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": ":document_id",
       "render_path": null,
       "location": {
@@ -40,10 +42,11 @@
       "warning_type": "Dangerous Eval",
       "warning_code": 13,
       "fingerprint": "90c67e5c25a830a3a3a1090dfb8bdbb4f564aebbb266207d3b9d541366611f47",
+      "check_name": "Evaluation",
       "message": "User input in eval",
       "file": "app/controllers/digitalcollections_controller.rb",
-      "line": 40,
-      "link": "http://brakemanscanner.org/docs/warning_types/dangerous_eval/",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_eval/",
       "code": "eval(HTTPClient.new.get_content((\"#{Blacklight.connection_config[:url]}/culdigreg?\" + { \"q\" => params[:q] }.to_param)))",
       "render_path": null,
       "location": {
@@ -57,23 +60,37 @@
     },
     {
       "warning_type": "Cross-Site Request Forgery",
-      "warning_code": 86,
-      "fingerprint": "9e450b4277235e592c083dc95e4902a07537932fa4f1bfb631d7b2438066564d",
-      "message": "protect_from_forgery should be configured with 'with: :exception'",
-      "file": "app/controllers/application_controller.rb",
-      "line": 10,
-      "link": "http://brakemanscanner.org/docs/warning_types/cross-site_request_forgery/",
-      "code": "protect_from_forgery(:with => :null_session)",
+      "warning_code": 116,
+      "fingerprint": "c8697fda60549ca065789e2ea74c94effecef88b2b5483bae17ddd62ece47194",
+      "check_name": "CSRFTokenForgeryCVE",
+      "message": "Rails 5.2.4.2 has a vulnerability that may allow CSRF token forgery. Upgrade to Rails 5.2.4.3 or patch",
+      "file": "Gemfile.lock",
+      "line": 501,
+      "link": "https://groups.google.com/g/rubyonrails-security/c/NOjKiGeXUgw",
+      "code": null,
       "render_path": null,
-      "location": {
-        "type": "controller",
-        "controller": "ApplicationController"
-      },
+      "location": null,
       "user_input": null,
       "confidence": "Medium",
-      "note": "just want to ignore this."
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 110,
+      "fingerprint": "d882f63ce96c28fb6c6e0982f2a171460e4b933bfd9b9a5421dca21eef3f76da",
+      "check_name": "CookieSerialization",
+      "message": "Use of unsafe cookie serialization strategy `:marshal` might lead to remote code execution",
+      "file": "config/initializers/cookies_serializer.rb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
+      "code": "Rails.application.config.action_dispatch.cookies_serializer = :marshal",
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
     }
   ],
-  "updated": "2016-10-31 13:48:06 -0400",
-  "brakeman_version": "3.4.0"
+  "updated": "2020-08-28 16:27:15 -0400",
+  "brakeman_version": "4.9.0"
 }
