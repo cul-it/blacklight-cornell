@@ -24,6 +24,7 @@
 	    </div>
     </div>
 	<%
+	  if @next_eight.present?
 		if @next_eight[0]['display_class_label'] != ""
 		    classification = @next_eight[0]['display_class_label']
 		else
@@ -34,7 +35,7 @@
 		else
 		   internal_class =  @next_eight[0]['format']
 		end
-
+      end
 	%>
 	<div class="">
 	  <div id="classification" class="row class-heading" data-anchor-label="<%= internal_class%>" data-keep-count="true" data-next-count="0" data-prev-count="0">

@@ -319,7 +319,6 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         @previous_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"reverse",0,8)
         @next_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"forward",0,9)
       end
-      
     end
   end
 

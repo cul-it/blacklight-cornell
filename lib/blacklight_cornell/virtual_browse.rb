@@ -28,7 +28,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     if !solrResultString.nil?
       y = solrResultString
       solrResponseFull = JSON.parse(y)
-       solrResponseFull["response"]["docs"].each do |doc|          
+      solrResponseFull["response"]["docs"].each do |doc|          
         tmp_hash = get_document_details(doc)
         return_array.push(tmp_hash)
       end
@@ -38,9 +38,33 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return return_array
   end
 
+  # temporary until the callnumber index is updated to include the oclc_id and isbn
+  def bypass_search_service(id)
+    return_array = []
+    solr_url = ENV['SOLR_URL'] + "/select?fq=id%3A" + id.to_s + "&q=*%3A*&fl=oclc_id_display%2Cisbn_t"
+    dbclnt = HTTPClient.new
+    solrResultString = dbclnt.get_content( solr_url )    
+    if !solrResultString.nil?
+      solrResponseFull = JSON.parse(solrResultString)
+      if solrResponseFull["response"]["docs"].present? and solrResponseFull["response"]["docs"][0]["oclc_id_display"].present?
+        return_array.push(solrResponseFull["response"]["docs"][0]["oclc_id_display"][0])
+      else
+        return_array.push("OCLC ID not found")
+      end
+      if solrResponseFull["response"]["docs"].present? and solrResponseFull["response"]["docs"][0]["isbn_t"].present?
+        return_array.push(solrResponseFull["response"]["docs"][0]["isbn_t"][0])
+      else
+        return_array.push("ISBN not found")
+      end
+    else
+      return_array.push("None found")
+    end
+    return return_array
+  end
+
   def get_document_details(doc)
     tmp_hash = {}
-    response, document = search_service.fetch(doc['bibid'])
+    oclc_isbn = bypass_search_service(doc['bibid'])
     tmp_hash["id"] = doc["bibid"]
     tmp_hash["location"] = doc["location"].present? ? doc["location"] : ""
     tmp_hash["title"] = doc["fulltitle_display"].present? ? doc["fulltitle_display"] : ""
@@ -67,7 +91,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     classification = doc["classification_display"].present? ? doc["classification_display"] : ""
     tmp_hash["internal_class_label"] = build_class_label(classification)
     tmp_hash["display_class_label"] = tmp_hash["internal_class_label"].gsub(' : ','<i class="fa fa-caret-right class-caret"></i>').html_safe
-    tmp_hash["img_url"] = get_googlebooks_image(response["response"]["docs"][0]["oclc_id_display"], response["response"]["docs"][0]["isbn_t"], the_format)
+    tmp_hash["img_url"] = get_googlebooks_image(oclc_isbn[0], oclc_isbn[1], the_format)
 
     return tmp_hash
   end
@@ -122,8 +146,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   def build_class_label(classlabel)
     final_array = []
     if classlabel == ""
-      final_array << classlabel
-      return final_array
+      return ""
     end
     tmp_array = classlabel.split(">")
     count = 0
@@ -180,7 +203,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   end
 
   def get_googlebooks_image(oclc, isbn, format)
-    if oclc.present?
+    if oclc.present? and !oclc.include?("not found")
       oclc_url = "https://books.google.com/books?bibkeys=OCLC:#{oclc[0]}&jscmd=viewapi&callback=?"
       result = Net::HTTP.get(URI.parse(oclc_url))
       result = eval(result.gsub("var _GBSBookInfo = ",""))
@@ -188,7 +211,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
         return result.values[0][:thumbnail_url]
       end
     end
-    if isbn.present?
+    if isbn.present? and !isbn.include?("not found")
       isbn_url = "https://books.google.com/books?bibkeys=OCLC:#{isbn[0]}&jscmd=viewapi&callback=?"
       result = Net::HTTP.get(URI.parse(isbn_url))
       result = eval(result.gsub("var _GBSBookInfo = ",""))
