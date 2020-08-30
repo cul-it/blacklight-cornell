@@ -222,6 +222,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return set_cover_image(format)
   end
   
+  # When there's no image from google books
   def set_cover_image(format)
     case format
     when "Book"
