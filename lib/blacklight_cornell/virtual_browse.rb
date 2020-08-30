@@ -225,27 +225,27 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   def set_cover_image(format)
     case format
     when "Book"
-      return "/assets/cornell/virtual-browse/book_cvr.png"
+      return "cornell/virtual-browse/book_cvr.png"
     when "Journal/Periodical"
-      return "/assets/cornell/virtual-browse/journal_cvr.png"
+      return "cornell/virtual-browse/journal_cvr.png"
     when "Manuscript/Archive"
-      return "/assets/cornell/virtual-browse/manuscript_cvr.png"
+      return "cornell/virtual-browse/manuscript_cvr.png"
     when "Map"
-      return "/assets/cornell/virtual-browse/map_cvr.png"
+      return "cornell/virtual-browse/map_cvr.png"
     when "Musical Recording"
-      return "/assets/cornell/virtual-browse/musical_recording_cvr.png"
+      return "cornell/virtual-browse/musical_recording_cvr.png"
     when "Musical Score"
-      return "/assets/cornell/virtual-browse/musical_score_cvr.png"
+      return "cornell/virtual-browse/musical_score_cvr.png"
     when "Non-musical Recording"
-      return "/assets/cornell/virtual-browse/non_musical_cvr.png"
+      return "cornell/virtual-browse/non_musical_cvr.png"
     when "Thesis"
-      return "/assets/cornell/virtual-browse/thesis_cvr.png"
+      return "cornell/virtual-browse/thesis_cvr.png"
     when "Video"
-      return "/assets/cornell/virtual-browse/video_cvr.png"
+      return "cornell/virtual-browse/video_cvr.png"
     when "Microform"
-      return "/assets/cornell/virtual-browse/microform_cvr.png"
+      return "cornell/virtual-browse/microform_cvr.png"
     else
-      return "/assets/cornell/virtual-browse/generic_cvr.png"
+      return "cornell/virtual-browse/generic_cvr.png"
     end
     
   end
