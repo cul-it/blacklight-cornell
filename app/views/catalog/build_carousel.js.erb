@@ -42,6 +42,14 @@ count = 0
     	the_title = doc['title'][0..52] + "..."
     end 
 
+    img_string = ""
+    if doc['img_url'].include?("cornell")
+      the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]
+      img_string = image_tag(doc['img_url'], alt: the_type, style: "width:120px")
+    else
+      img_string = '<img width="120px" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
+    end
+
     avail_str = ""
     avail = JSON.parse(doc["availability"])
     if avail["availAt"].present? 
@@ -70,7 +78,7 @@ count = 0
     the_html += prev_reroute if count == 0
     the_html += '<div class="inner-container' + primary_class + '" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc['internal_class_label'] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
     the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
-    the_html += '<div class="vb-img-container" >' + '<img width="120px" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '"/></div>' 
+    the_html += '<div class="vb-img-container" >' + img_string + '</div>' 
     the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '">' + the_title + '</a></div>'
     the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
     the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
