@@ -227,7 +227,7 @@
   }
 }
 .vb-pointer-full {
-    background-image: url("cornell/preview-pointer.png");
+    background-image: url(asset_path("cornell/preview-pointer.png"));
     background-repeat: no-repeat;
 	background-position: center;
 	height: 15px;
@@ -444,7 +444,7 @@
     }
 }
 .vb-pointer {
-    background-image: url("/assets/cornell/preview-pointer.png");
+    background-image: image-url("cornell/preview-pointer.png");
     background-repeat: no-repeat;
 	background-position: center;
 	height: 15px;
