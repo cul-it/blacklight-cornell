@@ -24,12 +24,16 @@
     <% if params[:browse_type] == "Author-Title" %>
       <%= 'Browse "' + params[:authq] + '" in author-title headings' %>
     <% end %>
-    <% if params[:browse_type] == "Call-Number" %>
+    <% if params[:browse_type] == "Call-Number" || params[:browse_type] == "virtual" %>
       <%= 'Browse "' + params[:authq] + '" in call numbers' %>
     <% end %>
   </h2>
-  <%= render 'pagination' %>
-  <% if params[:browse_type] == "Call-Number" %>
+  <% if params[:browse_type] != "virtual" %>
+    <%= render 'pagination' %>
+  <% end %>
+  <% if params[:browse_type] == "virtual" %>
+    <%= render 'virtual_browse', :response => @headingsResponse%>
+  <% elsif params[:browse_type] == "Call-Number" %>
     <%= render 'heading_callnumber', :response => @headingsResponse, :order => params[:order] %>
   <% else %>
     <% if params[:order] == "reverse" %>
@@ -49,6 +53,6 @@
     Please enter a query
   </h2>
 <% end %>
-<% if @headingsResponse.present? %>
+<% if @headingsResponse.present? && params[:browse_type] != "virtual" %>
   <%= render 'pagination' %>
 <% end %>
