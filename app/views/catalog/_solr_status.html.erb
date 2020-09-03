@@ -50,7 +50,14 @@
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
      <% if !item["status"].nil? %>
-      <div class="status">
+      <% if item["status"].to_s.include?("Withdrawn") && @document['etas_facet'].present?%>
+         <div class="status <%=item["status"]%>">
+             <i class="fa fa-clock-o" aria-hidden="true"></i>
+             Unavailable for loan
+         </div>
+         <% break %>
+      <% end %>
+      <div class="status <%=item["status"]%>">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         <% if item['enum'].present?  %>
           <%= item['enum'] %>
