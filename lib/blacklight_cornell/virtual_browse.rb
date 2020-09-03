@@ -64,6 +64,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return return_array
   end
 
+  # pulls values from the solr document and returns them in a hash
   def get_document_details(doc)
     tmp_hash = {}
     oclc_isbn = bypass_search_service(doc['bibid'])
