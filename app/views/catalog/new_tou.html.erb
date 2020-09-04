@@ -40,7 +40,7 @@
         <% if @newTouResult.present? %>
             <%#= @newTouResult.inspect %>
             <% @newTouResult.each do | data | %>
-            <% if data.present? %>
+            <% if data.present?  %>
        <h3 class="blacklight-title_display">
                                        <%= data['packageName'] %>
          </h3>
@@ -59,28 +59,71 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody> 
 
                   <%#= data['customProperties']['generalPermissions'].inspect %> 
-                  <% if data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['generalPermissions'][0]['value'].include?(';')  %>
+               
+                  <% if !data['customProperties']['authorizedUsers'].nil? and data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
                     <tr>
                       <td>
                         Authorized Users
                       </td>
                       <td>
-                          <%= data['customProperties']['generalPermissions'][0]['value'].gsub!(';',',') %>
+                          <%= data['customProperties']['authorizedUsers'][0]['value'].gsub!(';',',') %>
                         
                       </td>
                       <td>
                         <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
                           <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
                         <% else %>
-                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>                        
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
                         <% end %>
                       </td>
-
+                    </tr>
+                  <% else %>
+                    <% if !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['generalPermissions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['generalPermissions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalPermissions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                       <td>
+                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                        <% end %>
+                      </td>
+                    </tr>
+                   <% end %>                  
+                  <% end %>
+                  <% if !data["customProperties"]["generalRestrictions"].nil? and data["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['generalRestrictions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['generalRestrictions'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['generalRestrictions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['generalRestrictions'][0]['value'] %>
+                        <% end %> 
+                      </td>
                     </tr>
                   <% end %>
+                  
                   <% if !data['customProperties']['walkInAccess'].nil? and data['customProperties']['walkInAccess'][0]['internal'] == false %>
                     <tr>
                       <td>
@@ -95,40 +138,6 @@
                         <% else %>
                           <%#= data['customProperties']['walkInAccess'][0]['type']['description'] %>
                         <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if data['customProperties']['illElectronic'][0]['internal'] == false %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['illElectronic'][0]['type']['label'] %> 
-                      </td>                    
-                       <td>
-                        <%= data['customProperties']['illElectronic'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <% if !data['customProperties']['illElectronic'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illElectronic'][0]['publicNote'] %>
-                        <% else %>
-                          <%#= data['customProperties']['illElectronic'][0]['type']['description'] %> 
-                        <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if !data['customProperties']['illSecureElectronic'].nil? and data['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['illSecureElectronic'][0]['type']['label'] %>
-                      </td>
-                       <td>
-                        <%= data['customProperties']['illSecureElectronic'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <% if !data['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
-                        <% else %>
-                          <%#= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
-                        <% end %>  
                       </td>
                     </tr>
                   <% end %>
@@ -166,23 +175,6 @@
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data['customProperties']["illRecordKeepingSelect"].nil? and data['customProperties']["illRecordKeepingSelect"][0]["internal"] == false  %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['label'] %>
-                      </td>
-                       <td>
-                        <%= data['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <% if !data['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
-                        <% else %>
-                          <%#= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
-                        <% end %> 
-                      </td>
-                    </tr>
-                  <% end %>
                   <% if !data["customProperties"]["governingLaw"].nil? and data["customProperties"]["governingLaw"][0]["internal"] == false  %>
                     <tr>
                       <td>
@@ -196,40 +188,6 @@
                           <%= data['customProperties']['governingLaw'][0]['publicNote'] %>
                         <% else %>
                           <%#= data['customProperties']['governingLaw'][0]['type']['description'] %>
-                        <% end %> 
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['generalPermissions'][0]['type']['label'] %>
-                      </td>
-                       <td>
-                        <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <% if !data['customProperties']['generalPermissions'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['generalPermissions'][0]['publicNote'] %>
-                        <% else %>
-                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'] %>
-                        <% end %> 
-                      </td>
-                    </tr>
-                  <% end %>
-                  <% if !data["customProperties"]["generalRestrictions"].nil? and data["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['generalRestrictions'][0]['type']['label'] %>
-                      </td>
-                       <td>
-                        <%= data['customProperties']['generalRestrictions'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <% if !data['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['generalRestrictions'][0]['publicNote'] %>
-                        <% else %>
-                          <%= data['customProperties']['generalRestrictions'][0]['value'] %>
                         <% end %> 
                       </td>
                     </tr>
@@ -251,6 +209,23 @@
                       </td>
                     </tr>
                   <% end %>
+                  <% if !data["customProperties"]["fairUseClause"].nil? and data["customProperties"]["fairUseClause"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['fairUseClause'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['fairUseClause'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                          <% if !data['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['fairUseClause'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['fairUseClause'][0]['type']['description'] %>
+                        <% end %> 
+                      </td> 
+                    </tr>
+                  <% end %>
                   <% if !data["customProperties"]["illGeneralSelect"].nil? and data["customProperties"]["illGeneralSelect"][0]["internal"] == false  %>
                     <tr>
                       <td>
@@ -268,21 +243,38 @@
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["fairUseClause"].nil? and data["customProperties"]["fairUseClause"][0]["internal"] == false  %>
+                  <% if !data['customProperties']["illRecordKeepingSelect"].nil? and data['customProperties']["illRecordKeepingSelect"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['fairUseClause'][0]['type']['label'] %>
+                        <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['fairUseClause'][0]['value']['label'] %>
+                        <%= data['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
                       </td>
                       <td>
-                          <% if !data['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['fairUseClause'][0]['publicNote'] %>
+                        <% if !data['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['fairUseClause'][0]['type']['description'] %>
+                          <%#= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
                         <% end %> 
-                      </td> 
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['illSecureElectronic'].nil? and data['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['illSecureElectronic'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illSecureElectronic'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
                     </tr>
                   <% end %>
                   <%#= data.inspect %>

@@ -7,6 +7,8 @@ class CatalogController < ApplicationController
   include BlacklightCornell::CornellCatalog
   include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
+  require 'net/http'
+  require 'uri'
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
@@ -1152,45 +1154,74 @@ def new_tou
   id = params[:id]
 
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
-   if !ENV['OKAPI_URL'].nil?
-     Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
-    # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
-   end
-   if !ENV['TENANT_ID'].nil?
-     Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
-    # ENV['TENANT_ID'] = 'fs00001034'
-   end
-   if !ENV['X_OKAPI_TOKEN'].nil?
-     Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
+  # if !ENV['OKAPI_URL'].nil?
+  #   Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
+  #  # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
+  # end
+  # if !ENV['TENANT_ID'].nil?
+  #   Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
+  #  # ENV['TENANT_ID'] = 'fs00001034'
+  # end
+  # if !ENV['X_OKAPI_TOKEN'].nil?
+  #   Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
     # ENV['X_OKAPI_TOKEN'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWMyNDQiLCJ1c2VyX2lkIjoiYWVjMjBiMzctODRlMy00Nzk2LTkzMTQtOTdlMDdlMGE2NzI2IiwiaWF0IjoxNTk3MTU5MzcwLCJ0ZW5hbnQiOiJmczAwMDAxMDM0In0.p5tU1dNnkRYFMRcHleD5p112kUxoYYnyP2IeM0J25Q0'
-   end
-#  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + ENV['OKAPI_URL'] + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+  # end
+  okapi_url = ENV['OKAPI_URL']
+  okapi_tenant = ENV['TENANT_ID']
+  okapi_token = ENV['X_OKAPI_TOKEN']
+  uri = URI(okapi_url + '/eholdings/titles/' + title_id + '?include=resources' )
+  req = Net::HTTP::Get.new(uri)
+  req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+  req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+  req['Accept'] = 'application/vnd.api+json'
+  
+  res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+  outtxt = res.body  
+#  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
 #  outtxt = `curl #{command}`
-
-#  parsed = JSON.parse(outtxt)
-#  recordTitle = parsed["data"]["attributes"]["name"]
+  parsed = JSON.parse(outtxt)
+  recordTitle = parsed["data"]["attributes"]["name"]
  
-#  parsley = parsed["included"].each do | parsley |
-#    packageID = parsley["attributes"]["packageId"]
-#    packageName = parsley["attributes"]["packageName"]
-#    packageUrl = parsley["attributes"]["url"]
-#    package_providerID = parsley["attributes"]["providerName"]
-#    command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
-#    outtxt2 = `curl #{command2}`
-#    if outtxt2 != '[]'
-#      parsed2 = JSON.parse(outtxt2)
-#      if !parsed2[0]["linkedLicenses"][0].nil?
-#        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-#        command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
-#        outtxt3 = `curl #{command3}`
-#       
-#        parsed3 = JSON.parse(outtxt3)
-#        parsed3['packageName'] = packageName
-#        @newTouResult << parsed3      
+  parsley = parsed["included"].each do | parsley |
+    packageID = parsley["attributes"]["packageId"]
+    packageName = parsley["attributes"]["packageName"]
+    packageUrl = parsley["attributes"]["url"]
+    package_providerID = parsley["attributes"]["providerName"]
+    uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
+    req = Net::HTTP::Get.new(uri)
+    req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+    req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+    req['Accept'] = 'application/json'
+    
+    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+    outtxt2 = res.body  
+    
+ #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+ #   outtxt2 = `curl #{command2}`
+    if outtxt2 != '[]'
+      parsed2 = JSON.parse(outtxt2)
+      if !parsed2[0]["linkedLicenses"][0].nil?
+        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+        uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
+        req = Net::HTTP::Get.new(uri)
+        req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+        req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+        req['Accept'] = 'application/json'
+
+        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+        outtxt3 = res.body  
+        
+ #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+ #       outtxt3 = `curl #{command3}`
+       
+        parsed3 = JSON.parse(outtxt3)
+        
+        parsed3['packageName'] = packageName
+        @newTouResult << parsed3      
 #        return params, @newTouResult 
-#      end
-#    end
-# end
+      end
+    end
+ end
      return params, @newTouResult
 
 end 
