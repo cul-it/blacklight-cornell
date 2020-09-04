@@ -40,7 +40,7 @@
         <% if @newTouResult.present? %>
             <%#= @newTouResult.inspect %>
             <% @newTouResult.each do | data | %>
-            <% if data.present? %>
+            <% if data.present?  %>
        <h3 class="blacklight-title_display">
                                        <%= data['packageName'] %>
          </h3>
@@ -62,7 +62,8 @@
                 <tbody> 
 
                   <%#= data['customProperties']['generalPermissions'].inspect %> 
-                  <% if data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
+               
+                  <% if !data['customProperties']['authorizedUsers'].nil? and data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
                     <tr>
                       <td>
                         Authorized Users
