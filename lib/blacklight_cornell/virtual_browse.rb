@@ -99,6 +99,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return tmp_hash
   end
 
+  # Builds an array of the availability information
   def process_availability(avail_json)
     availability = JSON.parse(avail_json)
     tmp_array = []
