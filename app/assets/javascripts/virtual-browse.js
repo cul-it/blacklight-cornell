@@ -143,7 +143,7 @@ var  carouselActions = {
          window.location = url.replace("authq=",authq);
       });
   },
-  
+  // scrolls the user to the starting point of the carousel
   et_scroll_home: function() {
       visCount = 0
       $('#outer-container').children().each(function() {
