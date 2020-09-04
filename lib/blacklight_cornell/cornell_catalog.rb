@@ -315,6 +315,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
         # if it's a string, it makes Rails unhappy for unclear reasons.
          format.send(format_name.to_sym) { render :body => @document.export_as(format_name), :layout => false }
       end
+      # for the visual shelf browse
       if @document['callnumber_display'].present?
         @previous_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"reverse",0,8)
         @next_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"forward",0,9)
