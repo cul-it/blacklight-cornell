@@ -16,6 +16,7 @@ group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
+  gem 'brakeman'
 end
 
 group :production,:staging do

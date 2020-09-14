@@ -50,5 +50,5 @@ features/cassettes/cucumber_tags/*
 #ignore dev tool
 config/initializers/renderer.rb
 
-# breakman test results
-breakman-output.*
+# brakeman test results
+brakeman-output.*
