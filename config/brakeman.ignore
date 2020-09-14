@@ -37,60 +37,8 @@
       "user_input": null,
       "confidence": "Weak",
       "note": ""
-    },
-    {
-      "warning_type": "Dangerous Eval",
-      "warning_code": 13,
-      "fingerprint": "90c67e5c25a830a3a3a1090dfb8bdbb4f564aebbb266207d3b9d541366611f47",
-      "check_name": "Evaluation",
-      "message": "User input in eval",
-      "file": "app/controllers/digitalcollections_controller.rb",
-      "line": 38,
-      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_eval/",
-      "code": "eval(HTTPClient.new.get_content((\"#{Blacklight.connection_config[:url]}/culdigreg?\" + { \"q\" => params[:q] }.to_param)))",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "DigitalcollectionsController",
-        "method": "searchdigreg"
-      },
-      "user_input": "params[:q]",
-      "confidence": "High",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross-Site Request Forgery",
-      "warning_code": 116,
-      "fingerprint": "c8697fda60549ca065789e2ea74c94effecef88b2b5483bae17ddd62ece47194",
-      "check_name": "CSRFTokenForgeryCVE",
-      "message": "Rails 5.2.4.2 has a vulnerability that may allow CSRF token forgery. Upgrade to Rails 5.2.4.3 or patch",
-      "file": "Gemfile.lock",
-      "line": 501,
-      "link": "https://groups.google.com/g/rubyonrails-security/c/NOjKiGeXUgw",
-      "code": null,
-      "render_path": null,
-      "location": null,
-      "user_input": null,
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "Remote Code Execution",
-      "warning_code": 110,
-      "fingerprint": "d882f63ce96c28fb6c6e0982f2a171460e4b933bfd9b9a5421dca21eef3f76da",
-      "check_name": "CookieSerialization",
-      "message": "Use of unsafe cookie serialization strategy `:marshal` might lead to remote code execution",
-      "file": "config/initializers/cookies_serializer.rb",
-      "line": 3,
-      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
-      "code": "Rails.application.config.action_dispatch.cookies_serializer = :marshal",
-      "render_path": null,
-      "location": null,
-      "user_input": null,
-      "confidence": "Medium",
-      "note": ""
     }
   ],
-  "updated": "2020-08-28 16:27:15 -0400",
-  "brakeman_version": "4.9.0"
+  "updated": "2020-09-14 15:38:44 -0400",
+  "brakeman_version": "4.9.1"
 }
