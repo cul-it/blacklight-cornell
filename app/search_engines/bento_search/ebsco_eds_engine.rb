@@ -67,7 +67,18 @@ class BentoSearch::EbscoEdsEngine
                     # access_level = rec.eds_access_level()
                     # puts "access_level: " + access_level.inspect
                     # next if access_level.to_i < 2
-                    found += 1
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+access_level = rec.eds_access_level()
+msg << "access_level: " + access_level.inspect
+msg << '******************'
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+                found += 1
                     throw :enough_hits if found > required_hit_count
 
                     item = BentoSearch::ResultItem.new
