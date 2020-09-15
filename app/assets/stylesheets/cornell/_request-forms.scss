@@ -72,6 +72,16 @@ div.request-options div.accordion-body .span4 {
 //   }
 // }
 
+// Pickup locations - set max width of select list so it doesn't break the width of the mobile screen
+select#pickup-locations {
+  max-width: 100%;
+}
+
+// Textarea on request forms - make sure it doesn't get too small on mobile
+textarea.form-control {
+  width: 100%;
+}
+
 
 // Aeon screen
 // --------------------//
@@ -151,6 +161,9 @@ div.request-options div.accordion-body .span4 {
 @include media-breakpoint-up(md) {
   .ill-link {
     margin-top: 0;
+  }
+  textarea.form-control {
+    width: 50%;
   }
 }
 
