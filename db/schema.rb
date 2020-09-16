@@ -12,6 +12,13 @@
 
 ActiveRecord::Schema.define(version: 2020_05_19_175736) do
 
+  create_table "bib_lists", force: :cascade do |t|
+    t.string "name"
+    t.integer "bibid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID"
     t.integer "LOCATION_ID"
@@ -21,16 +28,16 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
   end
 
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "document_id"
     t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "user_type"
     t.string "document_type"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
@@ -172,8 +179,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
   create_table "searches", force: :cascade do |t|
     t.text "query_params"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "user_type"
     t.index ["user_id"], name: "index_searches_on_user_id"
   end
@@ -181,8 +188,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
@@ -285,8 +292,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "guest", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
