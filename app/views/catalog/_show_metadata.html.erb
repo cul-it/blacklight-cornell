@@ -79,9 +79,9 @@
                   			<%#=  link["url"].inspect %>
                   			<%#= link["description"].inspect %>
                   			<% if link["description"].present? %>
-                  		  		<% label = link["description"] %> 
+                  		  		<% label = link["description"] %>
                   			<% else %>
-                  		  		<% label = t('blacklight.url.message')  %> 
+                  		  		<% label = t('blacklight.url.message')  %>
                   			<% end %>
 
 	                    <li>
@@ -118,9 +118,9 @@
 	                            <% if !value['notes'].nil? %>
 	                               <% sizer = value['notes'].size %>
 	                               <% if sizer != 0 %>
-	                                  <br>Notes: <%= value['notes'].join('<br>').html_safe %> 
+	                                  <br>Notes: <%= value['notes'].join('<br>').html_safe %>
 	                               <% else %>
-	                                  Notes: <%= value['notes'][0].html_safe %> 
+	                                  Notes: <%= value['notes'][0].html_safe %>
 	                               <% end %>
 	                            <% end %>
 	                            <% if !value['supplements'].nil? %>
@@ -135,16 +135,16 @@
 	                          </div>
 	                           <%#= @document['title_display'].inspect %>
                                <% parsed_json = JSON.parse(@document['url_access_json'][0]) %>
-                               <%#= parsed_json['titleid'] %> 
+                               <%#= parsed_json['titleid'] %>
                                <%#= @document['id'] %>
-                               <% if parsed_json['titleid'].present? %> 
+                               <% if parsed_json['titleid'].present? %>
  	                              <span class="terms-of-use">
  	                              <%#= @document.inspect %>
 	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
                                     <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id']	%> ">Terms of use</a>
  		                           </span>
-                               
-                               <% else %>     
+
+                               <% else %>
 	                             <% if link["dbcode"].present? && link["providercode"].present? %>
 	                               <span class="terms-of-use">
 	                             	  <span class="fa fa-chevron-right" aria-hiden="true"></span>
@@ -287,5 +287,9 @@
     <%# row %>
   </div>
   <%# doc_ %>
+  <%# DISCOVERYACCESS-6275 %>
+  <div id="syndetics_unbound"></div>
+  <script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624"
+					type="text/javascript"></script>
 </div>
 <%# end #document %>
