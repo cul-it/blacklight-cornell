@@ -40,34 +40,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return return_array
   end
 
-  # temporary until the callnumber index is updated to include the oclc_id and isbn
-  def bypass_search_service(id)
-    return_array = []
-    solr_url = ENV['SOLR_URL'] + "/select?fq=id%3A" + id.to_s + "&q=*%3A*&fl=oclc_id_display%2Cisbn_t"
-    dbclnt = HTTPClient.new
-    solrResultString = dbclnt.get_content( solr_url )    
-    if !solrResultString.nil?
-      solrResponseFull = JSON.parse(solrResultString)
-      if solrResponseFull["response"]["docs"].present? and solrResponseFull["response"]["docs"][0]["oclc_id_display"].present?
-        return_array.push(solrResponseFull["response"]["docs"][0]["oclc_id_display"][0])
-      else
-        return_array.push("OCLC ID not found")
-      end
-      if solrResponseFull["response"]["docs"].present? and solrResponseFull["response"]["docs"][0]["isbn_t"].present?
-        return_array.push(solrResponseFull["response"]["docs"][0]["isbn_t"][0])
-      else
-        return_array.push("ISBN not found")
-      end
-    else
-      return_array.push("None found")
-    end
-    return return_array
-  end
-
   # pulls values from the solr document and returns them in a hash
   def get_document_details(doc)
     tmp_hash = {}
-    oclc_isbn = bypass_search_service(doc['bibid'])
     tmp_hash["id"] = doc["bibid"]
     tmp_hash["location"] = doc["location"].present? ? doc["location"] : ""
     tmp_hash["title"] = doc["fulltitle_display"].present? ? doc["fulltitle_display"] : ""
@@ -79,7 +54,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       end
     else
       the_format = ""
-    end  
+    end
+    oclc_id = doc["oclc_id_display"].present? ? doc["oclc_id_display"][0] : ""
+    isbn = doc["isbn_display"].present? ? doc["isbn_display"][0].split(" ")[0] : ""
     tmp_hash["format"] = the_format
     tmp_hash["pub_date"] = doc["pub_date_display"].present? ? doc["pub_date_display"] : ""
     tmp_hash["publisher"] = doc["publisher_display"].present? ? doc["publisher_display"] : ""
@@ -94,8 +71,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     classification = doc["classification_display"].present? ? doc["classification_display"] : ""
     tmp_hash["internal_class_label"] = build_class_label(classification)
     tmp_hash["display_class_label"] = tmp_hash["internal_class_label"].gsub(' : ','<i class="fa fa-caret-right class-caret"></i>').html_safe
-    tmp_hash["img_url"] = get_googlebooks_image(oclc_isbn[0], oclc_isbn[1], the_format)
-
+    # tmp_hash["img_url"] = get_googlebooks_image(oclc_isbn[0], oclc_isbn[1], the_format)
+    tmp_hash["img_url"] = get_googlebooks_image(oclc_id, isbn, the_format)
+    
     return tmp_hash
   end
 
