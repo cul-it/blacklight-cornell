@@ -42,8 +42,8 @@ Feature: Book Bags for logged in users
     Examples:
     | count | sleep |
     | 3 | 5 |
-    | 4 | 5 |
-    | 5 | 5 |
+    | 4 | 6 |
+    | 5 | 6 |
     | 10 | 6 |
     | 20 | 9 |
 
