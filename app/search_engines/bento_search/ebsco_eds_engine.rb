@@ -26,6 +26,7 @@ class BentoSearch::EbscoEdsEngine
         session = EBSCO::EDS::Session.new({
             :user => ENV['EDS_USER'],
             :pass => ENV['EDS_PASS'],
+            :guest => true,
             :profile => ENV['EDS_PROFILE']
         })
 
@@ -74,6 +75,7 @@ Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
 msg = ["****************** #{__method__}"]
 access_level = rec.eds_access_level()
 msg << "access_level: " + access_level.inspect
+msg << "rec: " + rec.inspect
 msg << '******************'
 puts msg.to_yaml
 Rails.logger.level = save_level
