@@ -55,6 +55,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     else
       the_format = ""
     end
+    # oclc_id and isbn are used to get the images from googlebooks
     oclc_id = doc["oclc_id_display"].present? ? doc["oclc_id_display"][0] : ""
     isbn = doc["isbn_display"].present? ? doc["isbn_display"][0].split(" ")[0] : ""
     tmp_hash["format"] = the_format
