@@ -267,8 +267,9 @@ Feature: Results list
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
-    And I sleep 10 seconds
+    And I sleep 20 seconds
     Then I should see the text "Now that we're men"
+    And I sleep 10 seconds
     Then click on first link "Back to catalog results"
     Then I should get results
 

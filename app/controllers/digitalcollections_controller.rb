@@ -33,9 +33,9 @@ class DigitalcollectionsController < ApplicationController
         solr = Blacklight.connection_config[:url]
         p = {"q" =>params[:q] }
         Rails.logger.debug("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/culdigreg?" + p.to_param)
-        @digregResultString = dbclnt.get_content("#{solr}/culdigreg?" + p.to_param)
+        @digregResultString = dbclnt.get_content("#{solr}/culdigreg?" + p.to_param + '&wt=json')
         if !@digregResultString.nil?
-           @digregResponseFull = eval(@digregResultString)
+           @digregResponseFull = JSON.parse(@digregResultString)
         else
            @digregResponseFull = eval("Could not find")
         end
