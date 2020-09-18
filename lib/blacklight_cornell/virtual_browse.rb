@@ -100,6 +100,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     return tmp_array
   end
 
+  # we can probably delete this.
   def call_number_setup(callnumber,facet)
     callnumber = callnumber_cleanup(callnumber)
   	tmp_array = []
