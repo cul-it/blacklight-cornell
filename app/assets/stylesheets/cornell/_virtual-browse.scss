@@ -219,7 +219,7 @@
     word-wrap: break-word;
 	background-color: white;
 	background-clip: border-box;
-	border: 1px solid rgba(0, 0, 0, 0.125);
+	border: 1px solid rgba(0, 0, 0, 0.2);
 	border-radius: 0.25rem;
   @media (max-width: 609px) {
 	width: 452px;
@@ -300,6 +300,7 @@
   vertical-align: middle;
   border-bottom: solid 2px #ababab;
   height:212px;
+  overflow: hidden;
 }
 .vb-callnum-hdr {
   position: relative;
@@ -419,7 +420,7 @@
     word-wrap: break-word;
 	background-color: white;
 	background-clip: border-box;
-	border: 1px solid rgba(0, 0, 0, 0.125);
+	border: 1px solid rgba(0, 0, 0, 0.2);
 	border-radius: 0.25rem;
 }
 .vb-preview > dl > dt, .vb-preview-full > dl > dt {
@@ -541,40 +542,8 @@
 #return-home-disabled {
     color: #ababab;
 }
-.current-preview-keeper {
-    -webkit-box-shadow: 0 8px 6px -6px black;
-    -moz-box-shadow: 0 8px 6px -6px black;
-    box-shadow: 0 8px 6px -6px black;
-}
-.current-preview
-{
-    position:relative;
-    -webkit-box-shadow:0 2px 5px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-       -moz-box-shadow:0 2px 5px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-            box-shadow:0 2px 5px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-}
-.current-preview:before, .current-preview:after
-{
-    content:"";
-    position:absolute;
-    z-index:-1;
-    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    box-shadow:0 0 20px rgba(0,0,0,0.8);
-    top:50%;
-    bottom:0;
-    left:10px;
-    right:10px;
-    -moz-border-radius:100px / 10px;
-    border-radius:100px / 10px;
-}
-.current-preview:after
-{
-    right:10px;
-    left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg);
-       -moz-transform:skew(8deg) rotate(3deg);
-        -ms-transform:skew(8deg) rotate(3deg);
-         -o-transform:skew(8deg) rotate(3deg);
-            transform:skew(8deg) rotate(3deg);
+.current-preview {
+    -webkit-box-shadow: 0px 5px 5px #95815a;
+    -moz-box-shadow: 0px 5px 5px #95815a;
+    box-shadow: 0px 5px 5px #95815a;
 }
