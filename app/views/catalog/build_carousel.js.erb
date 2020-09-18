@@ -79,7 +79,7 @@ count = 0
     the_html += '<div class="inner-container' + primary_class + '" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc['internal_class_label'] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
     the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
     the_html += '<div class="vb-img-container" >' + img_string + '</div>' 
-    the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '">' + the_title + '</a></div>'
+    the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1">' + the_title + '</a></div>'
     the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
     the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
     the_html += next_reroute if count == 16
