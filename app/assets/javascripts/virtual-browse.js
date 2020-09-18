@@ -81,37 +81,26 @@ var  carouselActions = {
               if ( $('.inner-container-primary').attr("data-status") == undefined ) { 
                 $('.inner-container-primary').attr("data-status","not visible");
                 $('.return-home').show();
-                //label = $('#outer-container').children().eq(1).attr("data-classification");
-          	    //$('.vb-current-class').html(label.replace(/ : /g,' <i class="fa fa-caret-right class-caret"></i> '));
               }
             }
             else if ( $('.inner-container-primary').offset().left < (oc_lo - $('.inner-container-primary').width()) ) {
                 if ( carouselActions.isInViewport($('#outer-container').children("div:nth-last-child(4)")) && $('#outer-container').children("div:nth-last-child(2)").attr("id") != current_next ) {
                     current_next = $('#outer-container').children("div:nth-last-child(2)").attr("id");
-                    //carouselActions.getNext($('#outer-container').children("div:nth-last-child(2)").attr("data-callnumber"));
                     carouselActions.getNext($('.inner-container-primary').attr("data-callnumber"));
                 }
                 if ( $('.inner-container-primary').attr("data-status") == undefined ) { 
                   $('.inner-container-primary').attr("data-status","not visible");
                   $('.return-home').show();
-                  //label = $('#outer-container').children("div:nth-last-child(2)").attr("data-classification");
-            	  //$('.vb-current-class').html(label.replace(/ : /g,' <i class="fa fa-caret-right class-caret"></i> '));
                 }
             }
             else {
               if ( $('.inner-container-primary').attr("data-status") == "not visible" ) {
                 $('.inner-container-primary').removeAttr("data-status");
                 $('.return-home').hide();
-                  //$('.vb-current-class').html($('#classification').attr("data-anchor-label").replace(/ : /g,' <i class="fa fa-caret-right class-caret"></i> '));
-            	  
               }
             }
             
       });
-      
-//      $( window ).resize(function() {
-//        carouselActions.et_scroll_home();
-//      });
       
       $('#vb-scroll-left').click(function() {
           var leftPos = $('#outer-container').scrollLeft();
@@ -143,6 +132,43 @@ var  carouselActions = {
          window.location = url.replace("authq=",authq);
       });
   },
+  
+  setup_click_for_preview: function() {
+      var leftPos = $('#outer-container').scrollLeft();
+      $('div.inner-container').each(function() {
+          $(this).unbind("click").click(function() {
+               carouselActions.click_for_preview(this);
+          });
+      });
+  },
+
+  click_for_preview: function(object) {
+      var leftPos = $('#outer-container').scrollLeft();
+      if ( $('.slides').length ) {
+          if ( $(window).width() > 535 && $(object).position().left < 50 ) {
+              console.log("current click - " + $(object).attr("id"));
+              $("#outer-container").animate({
+                    scrollLeft: leftPos - 200
+              }, 800);
+          }
+          else if ( $(window).width() > 535 && $(object).position().left > 300 ){
+              console.log("current click - " + $(object).attr("id"));
+               $("#outer-container").animate({
+                     scrollLeft: leftPos + 200
+               }, 800);
+          }
+          else if ( $(window).width() < 536 && $(object).position().left > 100 ) {
+              $("#outer-container").animate({
+                    scrollLeft: leftPos - 200
+              }, 800);
+          }
+      }
+      else if ( $('.slides-full').length ) {
+          console.log("window width - " + $(window).width());
+          console.log("scroll width - " + $('div#outer-container').width());
+          console.log("you clicked - " + $(object).position().left);
+      } 
+  },
   // scrolls the user to the starting point of the carousel
   et_scroll_home: function() {
       visCount = 0
@@ -167,6 +193,11 @@ var  carouselActions = {
 	  // add/remove highlighting
       carouselActions.remove_highlighting();
       $(selected).addClass("current-preview");
+      // if this is the starting point (initially selected item), reset the red border color
+      if ( $(selected).hasClass("inner-container-primary") ) {
+          $(selected).attr("style","border-color: #b31b1b !important");
+      }
+      
       // now map data attributes to the preview panel
       $('#prev-title').html($(selected).data("title"));
       href_str = "/catalog/" + $(selected).attr("id")
@@ -212,6 +243,10 @@ var  carouselActions = {
   remove_highlighting: function() {
       $('#outer-container').children().each(function() {
            $(this).removeClass("current-preview");
+           // if this is the starting point (initially selected item), remove the red border color
+           if ( $(this).hasClass("inner-container-primary") ) {
+               $(this).attr("style","border-color: #dadada !important");
+           }
       });
   },
   
@@ -220,7 +255,7 @@ var  carouselActions = {
       var keepCount = $('#classification').attr("data-keep-count");
       // If we've already retrieved previous docs twice, we're done;
       // so instead display a link to the main CN browse page.
-      if ( prevCount == 2 && keepCount == "true" ) {
+      if ( prevCount == 3 && keepCount == "true" ) {
           $("#prev-reroute").show();
       }
       else {
@@ -233,6 +268,10 @@ var  carouselActions = {
           type: 'GET',
           data: remote,
           complete: function(xhr, status) {
+            if ( prevCount < 2 && keepCount == "true" ) {
+              carouselActions.et_scroll_home();
+            }
+            //carouselActions.setup_click_for_preview();
           }
         }); 
       } 
@@ -243,7 +282,7 @@ var  carouselActions = {
       var keepCount = $('#classification').attr("data-keep-count");
       // If we've already retrieved ensuing/next docs twice, we're done;
       // so instead display a link to the main CN browse page.
-      if ( nextCount == 2 && keepCount == "true" ) {
+      if ( nextCount == 3 && keepCount == "true" ) {
           $("#next-reroute").show();
       }
       else {
@@ -256,7 +295,8 @@ var  carouselActions = {
           type: 'GET',
           data: remote,
           complete: function(xhr, status) {
-              //console.log("got next = " + callnumber);
+              console.log("got next = " + callnumber);
+              //carouselActions.setup_click_for_preview();
           }
         }); 
      }
@@ -296,7 +336,11 @@ var  carouselActions = {
 };
 Blacklight.onLoad(function() {
   if ( $('body').prop('className').indexOf("catalog-show") >= 0 ) {
-    carouselActions.onLoad();   
+    if ( $('div.vb-select').length ) {
+      carouselActions.onLoad();
+      carouselActions.getPrevious($('div.inner-container-primary').data("callnumber"));
+      carouselActions.getNext($('div.inner-container-primary').data("callnumber"));
+    }
   }
   if ( $('body').prop('className').indexOf("browse-index") >= 0 ) {
       if ( $('#outer-container').length ) {
@@ -305,11 +349,6 @@ Blacklight.onLoad(function() {
           $('#browse_type').val("Call-Number");
           carouselActions.onLoad();
       }
-//    if ( window.location.href.indexOf("browse_type=virtual") > 0 ) {
-//        $('#vb-view-type > i').removeClass("fa-align-justify");
-//        $('#vb-view-type > i').addClass("fa-th");
-//        $('#browse_type').val("Call-Number");
-//    } 
       if ( window.location.href.indexOf("browse_type=Call-Number") > 0 ) {
           $('a#vb-view-virtual').click(function() {
               $('#vb-view-type > i').removeClass("fa-align-justify");
