@@ -2,7 +2,7 @@
 <% if @document['callnumber_display'].present? %>
    <% callnumbers = @document['callnumber_display'] %>
 <% end %>
-<% if callnumbers.any? %>
+<% if callnumbers.any? && !callnumbers[0].include?("ONLINE")%>
     <div class="browse-call-number vb-call-number">
         <h3 class="mt-4">Browse related items by call number</h3>
           <div class="vb-select">
