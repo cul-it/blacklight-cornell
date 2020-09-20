@@ -132,7 +132,8 @@ var  carouselActions = {
          window.location = url.replace("authq=",authq);
       });
   },
-  
+
+  // not currently used, but keeping in place for the time being (tlw72 9/20)
   setup_click_for_preview: function() {
       var leftPos = $('#outer-container').scrollLeft();
       $('div.inner-container').each(function() {
