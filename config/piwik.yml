@@ -9,13 +9,10 @@
 # id_site
 #   The id of your website inside Piwik
 #
-# id_site2 -- another site id  associated with the site2_path
-# site2_path -- a path to associate with another site id.
+
 production:
   piwik:
     id_site: 2
-    site2_path: /search 
-    id_site2: 67 
     url: webstats.library.cornell.edu
     disabled: false
     use_async: true
@@ -23,8 +20,6 @@ production:
 development:
   piwik:
     id_site: 2
-    site2_path: /search 
-    id_site2: 67
     url: webstats.library.cornell.edu
     disabled: true 
     use_async: false
@@ -41,8 +36,6 @@ test:
 integration:
   piwik:
     id_site: 2
-    site2_path: /search 
-    id_site2: 67
     url: webstats.library.cornell.edu
     disabled: true 
     use_async: false
