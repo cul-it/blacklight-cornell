@@ -29,3 +29,22 @@ Feature: Search
       | 6024 | job level prior training sexual harassment | The impact of job level and prior training on sexual harassment labeling and remedy choice. |
       | 6025 | building sustainable hybrid organizations: the case of commercial microfinance organizations | building sustainable hybrid organizations: the case of commercial microfinance organizations |
 
+  @DISCOVERYACCESS-6359
+  Scenario Outline: When I search, the EDS results I see should be accessible
+    When I go to the search page
+    When I fill in "q" with '<search>'
+    And I press 'Search'
+    Then I should get bento results
+    And I should not see the text 'BAD LINK'
+
+  Examples:
+      | search | comment |
+      | Hunting, Gathering, and Stone Age Cooking | |
+      | Norton Anthology of World Religions: Islam | |
+      | HR system "strength" bowen ostroff | |
+      | Superbugs versus Outsourced Cleaners | |
+      | eye tracking | |
+      | labor unrest | |
+      | torts | |
+      | barley | |
+
