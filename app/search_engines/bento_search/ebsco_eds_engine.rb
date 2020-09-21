@@ -105,14 +105,14 @@ class BentoSearch::EbscoEdsEngine
                     # next if access_level.to_i < 2
 
 #******************
-# save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-# Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-# msg = ["****************** #{__method__}"]
-# access_level = rec.eds_access_level()
-# msg << "access_level: " + access_level.inspect
-# msg << "rec: " + rec.inspect
-# msg << '******************'
-# puts msg.to_yaml
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = ["****************** #{__method__}"]
+access_level = rec.eds_access_level()
+msg << "access_level: " + access_level.inspect
+msg << "rec isbns: " + rec.eds_isbns().inspect
+msg << '******************'
+puts msg.to_yaml
 # Rails.logger.level = save_level
 #*******************
                 found += 1
@@ -134,22 +134,37 @@ class BentoSearch::EbscoEdsEngine
                         links = rec.eds_all_links()
                     end
 
+                    links.each do | link |
+                        if url_exist?(link[:url])
+                            item.other_links << BentoSearch::Link.new(
+                                :url => link[:url],
+                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                                :label => link[:label]
+                                )
+                        else
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
+msg = [" #{__method__} ".center(60,'Z')]
 msg << "title: " + item.title.inspect
-msg << "links: " + links.inspect
-msg << '******************'
+msg << "bad link: " + link.inspect
+msg << 'Z' * 60
 puts msg.to_yaml
 Rails.logger.level = save_level
 #*******************
-                    links.each do | link |
+                            item.other_links << BentoSearch::Link.new(
+                                :url => link[:url],
+                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                                :label => ['BAD LINK:', link[:label]].join(' ')
+                                )
+                        end
+                    end
+
+                    rec.eds_isbns().each do | isbn |
                         item.other_links << BentoSearch::Link.new(
-                            :url => link[:url],
-                            :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                            :label => link[:label]
-                            )
+                            :url => 'https://isbnsearch.org/isbn/' + isbn,
+                            :label => 'ISBN'
+                        )
                     end
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()
