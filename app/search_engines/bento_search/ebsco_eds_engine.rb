@@ -21,6 +21,41 @@ class BentoSearch::EbscoEdsEngine
         client.connect_timeout = client.send_timeout = client.receive_timeout = HttpTimeout
     end
 
+    def url_exist?(url_string)
+        url = URI.parse(url_string)
+        req = Net::HTTP.start(url.host, url.port)
+        req.use_ssl = (url.scheme == 'https')
+        req.open_timeout = 3 # in seconds
+        req.read_timeout = 3 # in seconds
+        address = [url.path.presence || '/', url.query.presence].compact.join('?')
+        res = req.head(address)
+        if res.kind_of?(Net::HTTPRedirection)
+            puts 'redirection to ' + res['location']
+            url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
+            # true # dont follow redirects
+        else
+          ! %W(4 5).include?(res.code[0]) # Not from 4xx or 5xx families
+        end
+      rescue URI::Error => e
+        puts 'uri error'
+        puts e.message
+        false #false if badly formed url
+      rescue Errno::ENOENT => e
+        puts 'ENOENT error'
+        puts e.message
+        false #false if can't find the server
+      rescue Net::ReadTimeout => e
+        puts 'timeout error'
+        puts e.message
+        true # assume it was a slow good link
+      rescue => e
+        puts 'other exception'
+        puts "Exception Class: #{ e.class.name }"
+        puts "Exception Message: #{ e.message }"
+        false
+    end
+
+
     def search_implementation(args)
 
         session = EBSCO::EDS::Session.new({
