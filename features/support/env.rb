@@ -131,6 +131,7 @@ Before do
   sql = 'delete from sessions;'
   ActiveRecord::Base.connection.execute(sql)
   $wait_for_ajax_to_run = true
+  Capybara.app_host = 'https://newcatalog-int-aws.library.cornell.edu'
 end
 # OR do this, but not both.
 #Seed the DB
