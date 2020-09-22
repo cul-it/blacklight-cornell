@@ -76,7 +76,7 @@ class BentoSearch::EbscoEdsEngine
                     query: q,
                     page: page,
                     results_per_page: per_page,
-                    limiters: ['FT:Y']
+                    limiters: ['FT1:Y', 'FT:Y'] # Cornell collection, full text
                 }
 
                 response = session.search(sq)
