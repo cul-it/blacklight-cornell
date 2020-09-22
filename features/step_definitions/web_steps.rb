@@ -1,7 +1,12 @@
 require 'spreewald/web_steps'
 
+def show_url
+  puts "\n" + URI.parse(current_url).to_s + "\n"
+end
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
+  show_url()
 end
 
 When /^(?:|I )fill in "([^"]*)" with ['"]([^'"]*)['"]$/ do |field, value|
@@ -37,10 +42,12 @@ end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
+  show_url()
 end
 
 When /^(?:|I )literally go to (.+)$/ do |page_name|
   visit page_name
+  show_url()
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
