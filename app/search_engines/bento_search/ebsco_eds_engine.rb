@@ -55,6 +55,18 @@ class BentoSearch::EbscoEdsEngine
         false
     end
 
+    def add_limiters(session)
+        # if true
+        #     session.add_limiter('FT1', 'Y') # library collection
+        #     session.add_limiter('FT', 'Y') # full text available online now
+        #     session.add_limiter('RV', 'Y') # peer reviewed
+        #     session.add_limiter('LA99', 'Spanish')
+        # else
+        #     session.remove_limiter('FT1') # library collection
+        #     session.remove_limiter('FT') # full text available online now
+        #     session.remove_limiter('RV') # peer reviewed
+        # end
+    end
 
     def search_implementation(args)
 
@@ -81,6 +93,7 @@ class BentoSearch::EbscoEdsEngine
         }
 
         response = session.search(sq)
+        add_limiters(session)
         total_hits = response.stat_total_hits
 
         results.total_items = total_hits.to_i
@@ -98,6 +111,7 @@ class BentoSearch::EbscoEdsEngine
                 }
 
                 response = session.search(sq)
+                add_limiters(session)
 
                 response.records.each do |rec|
                     # access_level = rec.eds_access_level()
