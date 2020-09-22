@@ -1,0 +1,63 @@
+.myacct-col-5 {
+	width: 5%;
+}
+.myacct-col-10 {
+	width: 10%;
+}
+.myacct-col-50 {
+	width: 50%;
+}
+.myacct-col-20 {
+	width: 20%;
+}
+
+
+
+// Guest ID styling
+// -------------------
+.guest-id {
+	padding-top: 1rem;
+	border-top: 1px solid #ddd;
+	margin-top: 2rem;
+}
+.guest-id-info {
+	margin-top: 1em;
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.blacklight-account {
+		.tab-content {
+			padding-top: 1em;
+			margin-bottom: 2em;
+		}
+		.nav-tabs {
+			a {
+				font-size: 16px;
+			}
+		}
+	}
+	.guest-id {
+		border-left: 1px solid #ddd;
+		padding-left: 2rem;
+		border-top: 0;
+		padding-top: 0;
+		margin-top: 0;
+	}
+}
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

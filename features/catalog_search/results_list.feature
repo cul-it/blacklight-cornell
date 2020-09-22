@@ -27,14 +27,6 @@ Feature: Results list
 		And the 'per_page' select list should have an option for '50 per page'
 		And the 'per_page' select list should have an option for '100 per page'
 
-#        @all_results_list
-#	Scenario: Search with no results
-#                Given PENDING
-#		Given I am on the home page
-#		When I fill in the search box with 'awfasdf acawfdfas'
-#		And I press 'search'
-#		#Then there should be 0 search results
-#		Then I should not get results
 
         @all_results_list
 	@next
@@ -78,7 +70,7 @@ Feature: Results list
 		Then I should get results
 
 		# DISCOVERYACCESS-7
-	#	And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
+	# And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
 
 		# DISCOVERYACCESS-13 (tests for text description of format but not icon)
 		And I should see each item format
@@ -199,12 +191,11 @@ Feature: Results list
     And I select 'Journal Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
-    And it should have link "Online" with value "/catalog/5374340"
+    #And it should have link "Online" with value "/catalog/5374340"
 
 
 
   # DISCOVERYACCESS-1407
-  # Given PENDING
   @all_results_list
   @DISCOVERYACCESS-1407
   @availability
@@ -276,8 +267,9 @@ Feature: Results list
     And I sleep 10 seconds
     Then I should see the text 'edited by Courtney E. Martin and J. Courtney Sullivan.'
     Then click on first link "Next »"
+    And I sleep 20 seconds
+    Then I should see the text "Now that we're men"
     And I sleep 10 seconds
-    Then I should see the text 'introducing feminist theology'
     Then click on first link "Back to catalog results"
     Then I should get results
 
@@ -334,3 +326,50 @@ Feature: Results list
     And I press 'search'
     Then I should get results
     And I should see the "fa-rss-square" class
+
+@all_results_list
+@DISCOVERYACCESS-4700
+@sticky_per_page_preference
+  Scenario Outline: Seach results display per page preference applies to new search
+    Given I am on the home page
+    When I fill in the search box with 'cheese'
+    And I press 'search'
+    Then I should get results
+    And I select <count> items per page
+    And I click on the first search result
+    When I fill in the search box with 'crackers'
+    And I press 'search'   
+		And the 'per_page' select list should default to '<count> per page'
+
+  Examples:
+    | count | 
+    | 20 |
+    | 50 |
+    | 100 |
+
+
+@all_results_list
+@DISCOVERYACCESS-4700
+@sticky_sort_preference
+  Scenario Outline: Seach results display sort preference applies to new search
+    Given I am on the home page
+    When I fill in the search box with 'cheese'
+    And I press 'search'
+    Then I should get results
+    And I select the sort option '<sort_by>'
+    And I click on the first search result
+    When I fill in the search box with 'crackers'
+    And I press 'search'   
+		And the 'sort' select list should default to 'Sort by <sort_by>'
+
+  Examples:
+    | sort_by | 
+    | relevance |
+    | year descending |
+    | year ascending |
+    | author A-Z |
+    | author Z-A |
+    | title A-Z |
+    | title Z-A |
+    | call number |
+ 

@@ -44,6 +44,7 @@ Feature: Search
 # Combinatorial Algorithms, Algorithmic Press
   @adv_search
   @all_search
+  @search_title_or_publisher
   @searchpage
   @javascript
   Scenario: Advanced search with title OR publisher
@@ -85,6 +86,7 @@ Feature: Search
   @all_search
   @searchpage
   @javascript
+  @DISCOVERYACCESS-5739
   Scenario: Advanced search with title NOT publisher
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
@@ -96,7 +98,7 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 20 of 43'
+    And I should see the label '1 - 20 of'
 
  @adv_search
  @all_search
@@ -136,17 +138,15 @@ Feature: Search
     Then I should get results
     And I should see the label 'of 1'
 
- @adv_search
- @all_search
- @peabody
- @javascript
-  Scenario: Perform an advanced search by title with colon, as title with colon see results
-    When I literally go to advanced
-    And I fill in "q_row1" with 'ethnoarchaeology:'
-    And I select 'Title' from the 'search_field_advanced' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-    And I should see the label 'of 4'
+ #
+ #@javascript
+ # Scenario: Perform an advanced search by title with colon, colon should be ignored.
+ #   When I literally go to advanced
+ #   And I fill in "q_row1" with 'ethnoarchaeology:'
+ #   And I select 'Title' from the 'search_field_advanced' drop-down
+ #   And I press 'advanced_search'
+ #   Then I should get results
+ #   And I should see the label '1 - 20 of'
 
 # Combinatorial Algorithms, Algorithmic Press
  @adv_search
@@ -376,10 +376,10 @@ Feature: Search
     And I fill in "q_row2" with 'Amsterdam'
     And I select 'all' from the 'op_row2' drop-down
     And I sleep 4 seconds
-    And I select 'Place Of Publication' from the 'search_field_advanced2' drop-down
+    And I select 'Place of Publication' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 8 of 8'
+    And I should see the label '1 - 9 of 9'
     And I should see the label 'Modify advanced'
 
  @begins_with
@@ -452,7 +452,6 @@ Feature: Search
  @javascript
  @DISCOVERYACCESS-3350
   Scenario: Perform a 2 row  advanced search with a blank in one field.
-   # Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with ' '
     And I fill in "q_row2" with 'we were once'
@@ -494,7 +493,7 @@ Feature: Search
     And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
-    And I sleep 8 seconds
+    And I sleep 10 seconds
     Then click on first link "Next »"
     And I sleep 8 seconds
     And I should see the label 'A sea-fight'
@@ -541,11 +540,10 @@ Feature: Search
  @adv_title_percent
  @javascript
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
-    #Given PENDING
     When I literally go to advanced
     And I fill in "q_row1" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row2" with 'sargent, charles sprague'
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
 

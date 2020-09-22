@@ -1,6 +1,6 @@
 <% if ( (ENV['RAILS_ENV']  != "development")   && (ENV['RAILS_ENV'] != "test" )) then %>
 <%= ENV['RAILS_ENV'] %>:
-  adapter: mysql
+  adapter: mysql2
   host: <%= ENV['MYSQL_HOST'] %>
   database: <%= ENV['MYSQL_DATABASE'] %>
   username: <%= ENV['MYSQL_USERNAME'] %>

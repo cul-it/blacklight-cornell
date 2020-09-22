@@ -10,25 +10,24 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+// require bootstrap-sprockets can likely delete this
+
+// Required by Blacklight
 //= require jquery
-//= require bootstrap-sprockets
-
-
-
-
-
+//= require popper
+//= require bootstrap
+//= require blacklight/blacklight
 
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
 // this:
-//= require 'blacklight_range_limit.js'
-//= require 'range_limit_slider.js'
+//= require 'blacklight_range_limit'
+
+
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
 //
-// Required by Blacklight
-//= require blacklight/blacklight
 //= require_tree .
 //
 //= require blacklight_cornell_requests
@@ -38,8 +37,10 @@
 
 //= require print_button.js
 //= require pops.js
+//= require subject_browse.js
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
 //= require zz_inview.js
 //= require tooltip.js
+

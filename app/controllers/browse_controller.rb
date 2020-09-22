@@ -2,13 +2,15 @@
 class BrowseController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
+  include BlacklightCornell::VirtualBrowse
   #include BlacklightUnapi::ControllerExtension
-  before_filter :heading
+  before_action :heading
   before_action :redirect_catalog
   #attr_accessible :authq, :start, :order, :browse_type
   @@browse_index_author = ENV['BROWSE_INDEX_AUTHOR'].nil? ? 'author' : ENV['BROWSE_INDEX_AUTHOR']
   @@browse_index_subject = ENV['BROWSE_INDEX_SUBJECT'].nil? ? 'subject' : ENV['BROWSE_INDEX_SUBJECT']
   @@browse_index_authortitle = ENV['BROWSE_INDEX_AUTHORTITLE'].nil? ? 'authortitle' : ENV['BROWSE_INDEX_AUTHORTITLE']
+  @@browse_index_callnumber = ENV['BROWSE_INDEX_CALLNUMBER'].nil? ? 'callnum' : ENV['BROWSE_INDEX_CALLNUMBER']
   def heading
    @heading='Browse'
   end
@@ -98,7 +100,41 @@ class BrowseController < ApplicationController
         @headingsResponse = @headingsResponseFull['response']['docs']
         params[:authq].gsub!('%20', ' ')
       end
-
+      if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Call-Number"
+        # http://da-prod-solr.library.cornell.edu/solr/callnum/browse?q=%7B!tag=mq%7D%5B%22HD8011%22%20TO%20*%5D
+        call_no_solr = base_solr
+        start = {"start" => params[:start]}
+        dbclnt = HTTPClient.new
+        if params[:order] == "reverse"
+          p =  {"q" => '[* TO "' + params[:authq].gsub("\\"," ").gsub('"',' ') +'"}' }
+          url = call_no_solr + "/" + @@browse_index_callnumber + "/reverse?wt=json&" + p.to_param + '&' + start.to_param
+        else
+          p =  {"q" => '["' + params[:authq].gsub("\\"," ").gsub('"',' ') +'" TO *]' }
+          url = call_no_solr + "/" + @@browse_index_callnumber + "/browse?wt=json&" + p.to_param + '&' + start.to_param
+        end
+        if params[:fq]
+          url = url + '&fq=' + params[:fq]
+        end
+        @headingsResultString = dbclnt.get_content( url )
+        if !@headingsResultString.nil?
+          y = @headingsResultString
+          @headingsResponseFull = JSON.parse(y)
+        else
+          @headingsResponseFull = eval("Could not find")
+        end
+        @headingsResponse = @headingsResponseFull
+        if @headingsResponse["response"]["docs"][0]['classification_display'].present?
+          @class_display = @headingsResponse["response"]["docs"][0]['classification_display'].gsub(' > ',' <i class="fa fa-caret-right class-caret"></i> ').html_safe
+        end
+        params[:authq].gsub!('%20', ' ')
+      end
+      
+      if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "virtual"
+        previous_eight = get_surrounding_docs(params[:authq],"reverse",0,8)
+        next_eight = get_surrounding_docs(params[:authq],"forward",0,9)
+        @headingsResponse = previous_eight.reverse() + next_eight
+        params[:authq].gsub!('%20', ' ')
+      end
 
     end
     def info

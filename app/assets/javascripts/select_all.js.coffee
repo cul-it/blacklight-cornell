@@ -6,11 +6,13 @@ class SelectAllManager
     this.prepopulate_value()
     this.bind_element()
   prepopulate_value: ->
-    if $("input.toggle_bookmark:checked").length == $("input.toggle_bookmark").length
+    if $("input.toggle-bookmark:checked").length == $("input.toggle-bookmark").length
       @element.prop('checked', true)
+    else
+      @element.prop('checked', false)
   bind_element: ->
     parent = this
-    $("input.toggle_bookmark").click ->
+    $("input.toggle-bookmark").click ->
       unless this.checked
         parent.element.prop('checked', false)
       else
@@ -21,6 +23,6 @@ class SelectAllManager
       else
         parent.unbookmark_all()
   bookmark_all: ->
-    $("input.toggle_bookmark:not(:checked)").click()
+    $("input.toggle-bookmark:not(:checked)").click()
   unbookmark_all: ->
-    $("input.toggle_bookmark:checked").click()
+    $("input.toggle-bookmark:checked").click()

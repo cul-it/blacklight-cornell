@@ -1,4 +1,4 @@
-// Add autocomplete for the main site search box — ony for Best Bets results
+// Add autocomplete for the main site search box — only for Best Bets results
 (function ($) {
   $(document).ready(function() {
 
@@ -26,10 +26,3 @@
     }
   });
 })(jQuery);
-
-// When the IE9 warning message is dismissed, send an AJAX call to the server
-// to remember that fact in the user session so that he/she doesn't keep seeing
-// the same message
-function hideIE9Warning() {
-    $.post('/backend/dismiss_ie9_warning');
-}

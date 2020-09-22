@@ -1,17 +1,3 @@
-// h1.request-type {
-//   font-size: 1.5em;
-//   font-weight: 600;
-// }
-
-// Well
-// --------------------//
-.aeon-request_aeon,
-.request {
-  .well {
-    background: white;
-  }
-}
-
 .item-title-request {
   margin-top: 0;
   font-size: 24px;
@@ -49,7 +35,7 @@
 div.accordion-heading.request-options {
   margin-left: 10px;
   position: relative;
-  top: 5px;
+  top: -10px;
 }
 div.request-options div.accordion-group {border:none;}
 div.request-options div.accordion-inner {
@@ -77,6 +63,23 @@ div.request-options div.accordion-body .span4 {
   padding-top: 1em;
   padding-bottom: .5em;
   background: $light-tan;
+}
+
+// Make the label bold in instances where we are not using the label tag because would be an orphaned label (DISCOVERYACCESS-4676). Instead a div with the control-label class on it.
+// .blacklight-request, .request {
+//   .control-label {
+//     font-weight: 700;
+//   }
+// }
+
+// Pickup locations - set max width of select list so it doesn't break the width of the mobile screen
+select#pickup-locations {
+  max-width: 100%;
+}
+
+// Textarea on request forms - make sure it doesn't get too small on mobile
+textarea.form-control {
+  width: 100%;
 }
 
 
@@ -108,22 +111,8 @@ div.request-options div.accordion-body .span4 {
 
 .request-options {
   margin-top: 5px;
-
   tbody > tr:nth-child(2n) > td, tbody > tr:nth-child(2n+1) > th 
     {background-color: $white;}
-
-  thead:first-child tr:first-child > th:last-child, thead:first-child tr:first-child th {
-    background-color: $light-tan;
-    color: $gray;
-  }
-
-  // Add this to make thead always have a tan background because after adding caption to table it turns white
-  thead {
-    th {
-      background-color: $light-tan;
-    }
-  }
-
   caption {
     color: $medium-gray;
     text-align: center;
@@ -131,6 +120,7 @@ div.request-options div.accordion-body .span4 {
 }
 
 .form-alternative-action{
+  margin-top: 1rem;
   h3 {  
     margin-top: 2em;
     font-size: 18px;
@@ -139,7 +129,7 @@ div.request-options div.accordion-body .span4 {
 
 // BD success/failure message
 // -------------------------//
-.request-message.well {
+.request-message.card {
   margin-top: 1em;
   margin-bottom: 0;
   p {
@@ -153,18 +143,32 @@ div.request-options div.accordion-body .span4 {
     color: $cornell-primary;
   }
   .fa-check {
-    color: $teal;
-  }
-}
-
-
-// MEDIA QUERIES
-// -------------------------
-
-// Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
-  .ill-link {
-    margin-top: 0;
+    color: $green;
   }
 }
  
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+  .ill-link {
+    margin-top: 0;
+  }
+  textarea.form-control {
+    width: 50%;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

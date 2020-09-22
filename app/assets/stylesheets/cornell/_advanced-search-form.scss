@@ -1,25 +1,25 @@
-// .advanced-search-field {
-//   width: auto;
-// }
+.advanced-search .form-control {
+   margin: 0 2px;
+}
 .add-row {
   margin: 1em 0;
 }
 #sort { width: auto; }
 .as-tips {
-  position:relative;
-	top:-10px;
-	font-size: 90%;
-  margin-top: 0;
+  margin-top: 1rem;
 }
 .add-and-sort label {
   display: inline-block;
   vertical-align: middle;
 }
-.form-inline {
+form.advanced {
   .boolean_row {
-    margin-bottom: 0.2em;
-    margin-top: .75em;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
     width: 100%;
+  }
+  .form-group {
+    margin-bottom: 0;
   }
 }
 .as-examples {
@@ -40,6 +40,10 @@ body.blacklight-advanced-index dl.dl-horizontal {
   width: 25%;
   display: inline-block;
 }
+// tlw72: fix spacing caused by BL7 and BS4
+.adv-search-control{
+  margin: 0 0.15em;
+}
 
 .advanced_search {
   .main-content {
@@ -47,20 +51,18 @@ body.blacklight-advanced-index dl.dl-horizontal {
   }
 }
 
-// radio buttons spacing for operators
-.advanced {
-  .radio-inline {
-    input {
-      margin-right: .25em;
-    }
-  }
-}
-
 // MEDIA QUERIES
 // -------------------------
 
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
   .form-inline {
     .advanced-search-field.form-control {
       width: 25%;
@@ -78,8 +80,8 @@ body.blacklight-advanced-index dl.dl-horizontal {
   }
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) { 
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
   .form-inline {
     .advanced-search-field.form-control {
       width: 40%;
@@ -97,8 +99,8 @@ body.blacklight-advanced-index dl.dl-horizontal {
   }
 }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg) { 
+// Extra large devices (large desktops, 1200px and up)
+@include media-breakpoint-up(xl) {
   .form-inline {
     .advanced-search-field.form-control {
       width: auto;

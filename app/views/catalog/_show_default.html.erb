@@ -1,9 +1,9 @@
 <%# default partial to display solr document fields in catalog show view -%>
-<dl class="dl-horizontal">
+<dl class="row">
   <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
-	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label document, :field => solr_fname %></dt>
-      <dd class="blacklight-<%= solr_fname.parameterize %>">
+	    <dt class="blacklight-<%= solr_fname.parameterize %> col-sm-3"><%= render_document_show_field_label document, :field => solr_fname %></dt>
+      <dd class="blacklight-<%= solr_fname.parameterize %> col-sm-9">
        
         <% if  solr_fname == 'author_json' -%>
           <%= render_clickable_document_show_field_value :document => document, :field => solr_fname %>
@@ -17,12 +17,12 @@
           <% else search = heading['search1']  %>
           <% end %>
           <%# show heading popover for everything bigger than smartphone %>
-          <a href='#' role="button" tabindex = "0" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button hidden-xs"><span class="label label-info">
+          <a href='#' role="button" tabindex="0" data-trigger="focus" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button d-none d-sm-inline"><span class="badge badge-info">
             Info
           </span>
           </a>
           <%# link directly to heading on smartphone %>
-          <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button visible-xs"><span class="label label-info">
+          <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button d-inline d-sm-none"><span class="badge badge-primary">
             Info
           </span>
           </a>

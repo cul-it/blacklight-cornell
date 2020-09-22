@@ -1,4 +1,4 @@
-class CreateErmData < ActiveRecord::Migration
+class CreateErmData < ActiveRecord::Migration[5.2]
   def up
   create_table "erm_data", :id => false, :force => true do |t|
     t.integer "id"

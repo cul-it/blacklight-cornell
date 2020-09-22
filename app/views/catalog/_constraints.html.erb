@@ -3,7 +3,7 @@
 <% params[:q] = params[:show_query] if  params[:show_query]%>
 <% if params[:action] != 'edit' && query_has_constraints? || params[:range].present? %>
   <div class="selected-facets">
-  	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-secondary" %>
+  	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-light" %>
     <span class="constraints-label hidden"><% t('blacklight.search.filters.title') %></span>
     <%#= params.inspect %>
     <%if params[:q_row].nil? && params[:f].nil? %>

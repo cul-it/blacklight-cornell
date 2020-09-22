@@ -85,12 +85,20 @@ module BlacklightCornell
     config.assets.precompile += ['cornell/print.css']
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+<<<<<<< HEAD
 
     # custom error pages
     config.exceptions_app = self.routes
+=======
+    config.action_controller.permit_all_parameters = true
+
+>>>>>>> dev
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # Search results limit, to prevent deep paging issues
+    config.search_limit = 20000
   end
 end
 if true 

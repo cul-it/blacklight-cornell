@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 class SearchHistoryController < ApplicationController
   include Blacklight::SearchHistory
+  helper BlacklightRangeLimit::ViewHelperOverride
+  helper RangeLimitHelper
 
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
-    if op.include?('logins') && !session[:cuwebauth_return_path].blank?   
-      op = session[:cuwebauth_return_path]  
+    if op.include?('logins') && !session[:cuwebauth_return_path].blank?
+      op = session[:cuwebauth_return_path]
     end
     op.sub!('/range_limit','')
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
@@ -33,7 +35,7 @@ class SearchHistoryController < ApplicationController
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   if   ENV['SAML_IDP_TARGET_URL']
-      prepend_before_filter :set_return_path
+      prepend_before_action :set_return_path
   end
 
 end

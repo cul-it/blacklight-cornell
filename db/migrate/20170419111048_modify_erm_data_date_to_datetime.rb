@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-class ModifyErmDataDateToDatetime < ActiveRecord::Migration
+class ModifyErmDataDateToDatetime < ActiveRecord::Migration[5.2]
   def up
-  if !ActiveRecord::Base.connection.table_exists? "erm_data" 
+  if !ActiveRecord::Base.connection.table_exists? "erm_data"
   create_table "erm_data", id: false, force: true do |t|
     t.integer  "id",                                               limit: 4
     t.string   "Collection_Name",                                  limit: 128
@@ -122,7 +122,7 @@ class ModifyErmDataDateToDatetime < ActiveRecord::Migration
     t.string   "Training_Materials_Right",                         limit: 256
     t.text     "Training_Materials_Note"
   end
-  
+
   end
 
   end

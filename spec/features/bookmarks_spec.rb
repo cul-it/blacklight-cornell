@@ -23,10 +23,10 @@ RSpec.feature "user saves bookmarks" do
    #VCR.use_cassette('feature/rope_work') do
      click_button('Search') 
    #end 
-   select_check_boxes(3)
+   select_check_boxes(2)
    visit '/bookmarks' 
    expect(page).to have_content("Selected Items")
-   expect(page).to have_content("of 3")
+   expect(page).to have_content("of 2")
   end
 
   def select_check_boxes(n)

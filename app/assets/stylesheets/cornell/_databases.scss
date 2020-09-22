@@ -1,27 +1,14 @@
 // Custom styles for database pages 
 // -----------------------------------
 
-.databases-search {
-	.well {
-		.row {
-			margin-left: 0;
-		}
-	}
-}
 .databases-az {
-	.nav-pills {
-		margin-bottom: 0;
-		li {
-			float: left !important;
-		}
-		a {
-			border: 1px solid #ddd;
-			margin-bottom: 5px;
-			padding: 8px 12px !important;
-		}
-		a:hover, a:active, a:focus {
-			background: $light-tan;			
-		}
+	a {
+		border: 1px solid #ddd;
+		margin-bottom: 5px;
+		padding: 8px 12px !important;
+	}
+	a:hover, a:active, a:focus {
+		background: $light-tan;			
 	}
 }
 .databases-search {
@@ -69,19 +56,19 @@
 			margin-left: 0;
 		}
 	}
-	caption {
-		text-align: center;
-		color: $medium-gray;
-	}
-	// Add this to make thead always have a tan background because after adding caption to table it turns white
-	thead {
-	    th {
-	      background-color: $light-tan;
-	    }
-	}
 }
 .blacklight-database-name:first-child {
 	padding-top: 0;
+}
+.databases-subject {
+	i {
+		color: $tan;
+	}
+	.return-link {
+		i {
+			color: $link-color;
+		}
+	}
 }
 .databases-subject,
 .databases-searchdb,
@@ -112,36 +99,11 @@
 	}
 }
 
-// Section nav list treatment - taken from beta.library, but tweaked 
-// --------------------------------------------------------------------
-.nav-section { 
-	list-style: none;
-	padding: 0;
-	margin: 0 0 1.5em 0;
-	li {
-		font-size: 14px;
-		padding: 4px 0 4px 0;
-		a {
-			display: inline-block;
-			padding: 0;
-			
-		}
-		a:hover {
-			background: inherit;
-		}
-		i { 
-			color: $databases-light-gray;
-			margin-top: 6px;
-			margin-left: 0;
-			margin-right: 6px;
-		}
-	}
-}
 .sub-search {
 	margin-top: 20px;
 }
 
-// Subject or A-Z list page - some ttaken from blacklight and edited
+// Subject or A-Z list page - some taken from blacklight and edited
 // --------------------------------------------------------------------
 
 .database-subject {
@@ -194,16 +156,5 @@
 	margin-top: 0;
 	.document-data {
 		p { font-size: 14px; }
-	}
-}
-
-// Collapsible A-Z nav 
-// -----------------------------------
-.btn-az {
-	display: none;
-	padding: 7px 10px;
-	.fa-bars { 
-		color: $light-gray;
-		margin-left: 3px;
 	}
 }

@@ -1,4 +1,4 @@
-<div class="other-resources clearfix">
+<div class="other-resources">
   <h2>
     Other resources
   </h2>
@@ -7,7 +7,7 @@
       <%= link_to 'Library Catalog', '/'  %>
     </li>
     <li>
-      <%= link_to 'Articles & Full Text', "http://cornell.summon.serialssolutions.com/" %>
+       <%= render :partial => 'shared/link_articles_fulltext' %>
     </li>
     <li>
       <%= link_to 'Databases', '/databases' %>

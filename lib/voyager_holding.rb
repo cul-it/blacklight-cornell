@@ -1,7 +1,7 @@
 class Holding
 
   #HOLDINGS_URL = "http://bearberry.cc.columbia.edu:7014/vxws/GetHoldingsService"
-  HOLDINGS_URL = "http://catalog.library.cornell.edu:7074/vxws/GetHoldingsService"
+  HOLDINGS_URL = "http://POOPYBUTT.catalog.library.cornell.edu:7074/vxws/GetHoldingsService"
   COOKIE_STORE = Rails.root.to_s + "/tmp/cookies/holding_cookies.dat"
 
   attr_reader :bibid

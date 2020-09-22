@@ -3,10 +3,10 @@ require 'spec_helper'
 require 'bl_monkeys'
 require 'stringio'
 
-# NOTE: most of these functions and tests are copied directly from 
+# NOTE: most of these functions and tests are copied directly from
 # # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
 
-def marc_from_xml(string)    
+def marc_from_xml(string)
   # NOTE: somewhere, one of the blacklight gems is changing the parser
   #   # used by XMLReader. Unless it's specified here ('rexml'), this function will
   #     # fail to produce any output
@@ -32,18 +32,32 @@ describe Blacklight::Solr::Document::MarcExport do
       def xsetup_holdings_info(marc)
         ['']
       end
-      def setup_holdings_info(record)
+      def ysetup_holdings_info(record)
         if  self["holdings_record_display"].blank?
           return ['']
         end
         holdings_arr = self["holdings_record_display"]
         holdings = []
         where_arr = holdings_arr.collect { | h |  JSON.parse(h).with_indifferent_access }
-        where = where_arr.collect do | h |  
+        where = where_arr.collect do | h |
            "#{h['locations'][0]['library']}  #{h['callnos'][0]}" unless h.blank? or h['locations'].blank? or h['callnos'].blank?
          end
          where
        end
+       def setup_holdings_info(record)
+         where = ['']
+        if (self["holdings_json"].present?)
+          holdings_json = JSON.parse(self["holdings_json"])
+          holdings_keys = holdings_json.keys
+          where = holdings_keys.collect do
+            | k |
+            l = holdings_json[k]
+            "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
+           end
+        end
+        where
+      end
+
 
 
       attr_accessor :to_marc
@@ -54,7 +68,7 @@ describe Blacklight::Solr::Document::MarcExport do
         self.to_marc = marc_from_xml(marc_xml_str)
       end
 
-      def [](key) 
+      def [](key)
         if key.kind_of?(Integer)
           return @atts[key]
         else
@@ -65,68 +79,68 @@ describe Blacklight::Solr::Document::MarcExport do
         return nil
       end
 
-      def []=(key,value) 
+      def []=(key,value)
           for i in 0...@atts.length
              if key == @atts[i][:name]
                @atts[i][:name] = key
-               @atts[i][:value] = value 
+               @atts[i][:value] = value
                return @atts[i][:value]
              end
           end
-        @atts <<  {:name =>key,:value => value} 
+        @atts <<  {:name =>key,:value => value}
       end
 
     end
-  
-# the file xmldata, and the various <bibid>.rb files,from the support directory supplies marcxml data for testing.  
+
+# the file xmldata, and the various <bibid>.rb files,from the support directory supplies marcxml data for testing.
 # in all of these definitions below.
   before(:all) do
-    @book_recs = {} 
+    @book_recs = {}
     # descriptive strings from the csl files.
     @apa_match_style = "American Psychological Association 6th edition"
     @cse_match_style = "The Council of Science Editors style 8th edition, Citation-Sequence system: numbers in text, sorted by order of appearance in text."
     @chicago_match_style = "Chicago format with full notes and bibliography"
     @mla_match_style = "This style adheres to the MLA 7th edition handbook and contains modifications to these types of sources: e-mail, forum posts, interviews, manuscripts, maps, presentations, TV broadcasts, and web pages."
     @mla8_match_style = "This style adheres to the MLA 8th edition handbook. Follows the structure of references as outlined in the MLA Manual closely"
-    dclass = MockMarcDocument 
+    dclass = MockMarcDocument
     dclass.use_extension( Blacklight::Solr::Document::Endnote )
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
             "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
             "8392067", "8696757", "8867518", "8632993","9305118", "9448862", "9496646", "9939352", "10055679",]
     # Turn all the xml data into MockMarcDocuments records.
-    ids.each { |id| 
+    ids.each { |id|
       @book_recs[id]                      = dclass.new( send("rec#{id}"))
       @book_recs[id]['id'] = id
       # just a stub valid only for bibid 10055679#
-      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"SF98.A5 M35 2017\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\"}]}"]
+      @book_recs[id]['holdings_json']  = "{\"10368366\":{\"location\":{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\",\"hoursCode\":\"mann\"},\"call\":\"SF98.A5 M35 2017\",\"circ\":true,\"date\":1506532638,\"items\":{\"count\":1,\"unavail\":[{\"id\":10369482,\"status\":{\"code\":{\"3\":\"Renewed\"},\"due\":1541286000,\"date\":1509719141}}]}}}"
     }
     # Fix up some parameters supplied by SOLR
     #electronic
-    eids = ["8125253","8696757","8867518","5558811"]                     
+    eids = ["8125253","8696757","8867518","5558811"]
     # add on url information.
     # more than url is required.
-    eids.each { |id| 
-      @book_recs[id]['url_access_display'] = ["http://example.com"]
+    eids.each { |id|
+      @book_recs[id]['url_access_json'] = [url => "http://example.com"].to_json
       @book_recs[id]["online"]= ["Online"]
     }
     #music
-    mids = ["3261564"]                     
-    mids.each { |id| 
+    mids = ["3261564"]
+    mids.each { |id|
       @book_recs[id]['format'] = ["Musical Recording"]
-    } 
+    }
     #video
-    @book_recs["6788245"]["format"] = ["Video"] 
+    @book_recs["6788245"]["format"] = ["Video"]
     #thesis
-    @book_recs["5494906"]["format"] = ["Thesis"] 
-    @book_recs["1378974"]["format"] = ["Thesis"] 
+    @book_recs["5494906"]["format"] = ["Thesis"]
+    @book_recs["1378974"]["format"] = ["Thesis"]
     #map
-    @book_recs["1676023"]["format"] =['Map or Globe'] 
+    @book_recs["1676023"]["format"] =['Map or Globe']
     @book_record                     = dclass.new( book_record )
     @typical_record                     = dclass.new( standard_citation )
     @music_record                       = dclass.new( music_record )
-    @music_record['format'] = ['Musical Recording'] 
+    @music_record['format'] = ['Musical Recording']
     @dissertation_record                = dclass.new( dissertation_note_xml )
-    @dissertation_record['format'] = ['Thesis'] 
+    @dissertation_record['format'] = ['Thesis']
     @record_without_245b                = dclass.new( record1_xml )
     @three_authors_record               = dclass.new( three_authors_xml )
     @record_without_authors             = dclass.new( record2_xml )
@@ -141,7 +155,7 @@ describe Blacklight::Solr::Document::MarcExport do
     @record_utf8_decomposed             = dclass.new( utf8_decomposed_record_xml )
 
   end
-  
+
   describe "export_as_cse_citation_txt" do
     it "should handle a typical record correctly" do
       expect(@typical_record.export_as_cse_citation_txt()[1]).to eq("Ferree DC, Warrington IJ, editors. Apples: botany, production, and uses. Oxon, U.K.: CABI Pub.; 2003.")
@@ -192,20 +206,20 @@ describe Blacklight::Solr::Document::MarcExport do
       expect(@record_without_citable_data.export_as_chicago_citation_txt()[1]).to eq("")
     end
   end
-  
+
   describe "export_as_apa_citation_txt" do
     it "should format a standard citation correctly" do
       expect(@typical_record.export_as_apa_citation_txt()[1]).to eq("Ferree, D. C., &amp; Warrington, I. J. (Eds.). (2003). <i>Apples: botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
-    
+
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_apa_citation_txt()[1]).to eq("Janetzky, K., &amp; Brüchle, B. (1988). <i>The horn.</i> London: Batsford.")
     end
-    
+
     it "should format a citation without any authors correctly" do
       expect(@record_without_authors.export_as_apa_citation_txt()[1]).to eq("<i>Final report to the Honorable John J. Gilligan, Governor.</i> (1971). [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs.")
     end
-    
+
     it "should not fail if there is no citation data" do
       expect(@record_without_citable_data.export_as_apa_citation_txt()[1]).to eq("")
     end
@@ -213,22 +227,22 @@ describe Blacklight::Solr::Document::MarcExport do
     it "should not bomb with a null pointer if there if author data is empty" do
       expect(@record_with_bad_author.export_as_apa_citation_txt()[1]).to match(/.*Brüchle, B.*1988.*/)
     end
-    
+
   end
-  
+
   describe "export_as_mla_citation_txt" do
     it "should format a standard MLA citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003. Print.")
     end
 
-# Must not interpret analytic additional personal names as applying to citation. 
+# Must not interpret analytic additional personal names as applying to citation.
 # DISCOVERYACCESS-4195
     it "should format an analytic entry correctly for mla (7)" do
       id = "8632993"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @mla_match_style 
+      match_style = @mla_match_style
       # because of the here doc syntax, the variable always ends in newline.
       # so, must account for that when we handle the expect.
       match_str =  <<'CITE_MATCH'
@@ -236,7 +250,7 @@ Formichi,  Chiara, ed. <i>Religious Pluralism, State and Society in Asia.</i> Lo
 CITE_MATCH
       expect(cite_text + "\n").to match(match_str)
       expect(cite_style).to match(match_style)
-    end 
+    end
 # DISCOVERYACCESS-1677
 # roman numerals need to be properly eliminated from the date field.
 # DISCOVERYACCESS-1677
@@ -245,7 +259,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @mla_match_style 
+      match_style = @mla_match_style
       # because of the here doc syntax, the variable always ends in newline.
       # so, must account for that when we handle the expect.
       match_str =  <<'CITE_MATCH'
@@ -262,7 +276,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @chicago_match_style 
+      match_style = @chicago_match_style
       match_str =  <<'CITE_MATCH'
 Funk,  Tom. <i>Advanced Social Media Marketing: How to Lead, Launch, and Manage a Successful Social Media Program.</i> Berkeley, CA: Apress, 2013. https://doi.org/10.1007/978-1-4302-4408-0.
 CITE_MATCH
@@ -274,14 +288,14 @@ CITE_MATCH
 
 #      DISCOVERYACCESS-1677
 # Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
-#For a book with two authors, note that only the 
+#For a book with two authors, note that only the
 #first-listed name is inverted in the bibliography entry.
     it "should format an 2 author book  correctly for chicago" do
       id = "6146988"
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @chicago_match_style 
+      match_style = @chicago_match_style
       match_str =  <<'CITE_MATCH'
 Ward,  Geoffrey C, and Ken Burns. <i>The War: an Intimate History, 1941-1945.</i> New York: A.A. Knopf, 2007.
 CITE_MATCH
@@ -296,7 +310,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @chicago_match_style 
+      match_style = @chicago_match_style
       match_str =  <<'CITE_MATCH'
 Memorial University of Newfoundland. <i>Geology Report.</i> St. John's, n.d.
 CITE_MATCH
@@ -312,7 +326,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @chicago_match_style 
+      match_style = @chicago_match_style
       match_str =  <<'CITE_MATCH'
 Modemuseum Provincie Antwerpen. <i>Fashion Game Changers: Reinventing the 20th-Century Silhouette.</i> Edited by Karen van Godtsenhoven, Miren Arzalluz, and Kaat Debo. London: Bloomsbury Visual Arts, an imprint of Bloomsbury Publishing PLC, 2016.
 CITE_MATCH
@@ -322,7 +336,7 @@ CITE_MATCH
       expect(cite_style).to eq(match_style)
     end
 
- # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+ # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists-
  #  16 #Shannon, Timothy J. The Seven Years' War In North America : a Brief History with Documents. Boston: Bedford/St    . Martin's, 2014.'
  # has a 264 with indicator 1, and another with indicator 4.
     it "should format use citation date information properly for MLA" do
@@ -330,7 +344,7 @@ CITE_MATCH
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       cite_style = cite_info[0]
       cite_text = cite_info[1]
-      match_style = @mla_match_style 
+      match_style = @mla_match_style
       match_str =  <<'CITE_MATCH'
 Shannon,  Timothy J. <i>The Seven Years' War in North America: a Brief History with Documents.</i> Boston: Bedford/St. Martin's, 2014. Print.
 CITE_MATCH
@@ -343,7 +357,7 @@ CITE_MATCH
     it "should format use citation date information properly for MLA" do
       id = "8867518"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
-      match_style = @mla_match_style 
+      match_style = @mla_match_style
       match_str =  <<'CITE_MATCH'
 Fitch,  G. Michael. <i>The Impact of Hand-Held and Hands-Free Cell Phone Use on Driving Performance and Safety-Critical Event Risk: Final Report.</i> [Washington, DC]: U.S. Department of Transportation, National Highway Traffic Safety Administration, 2013. Web.
 CITE_MATCH
@@ -357,7 +371,7 @@ CITE_MATCH
     it "should format use corporate author information properly for MLA" do
       id = "3902220"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
-      match_style = @mla_match_style 
+      match_style = @mla_match_style
       match_str =  <<'CITE_MATCH'
 National Research Council. <i>Beyond Six Billion: Forecasting the World's Population.</i> Washington, D.C.: National Academy Press, 2000. Print.
 CITE_MATCH
@@ -378,8 +392,8 @@ CITE_MATCH
       match_style['cse'] = @cse_match_style
       match_style['chicago'] = @chicago_match_style
       match_style['apa'] = @apa_match_style
-      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
-      ["mla","mla8","cse","chicago","apa"].each   do |fmt| 
+      @book_recs[id]['url_access_json'] = [url => "http://opac.newsbank.com/select/evans/385"].to_json
+      ["mla","mla8","cse","chicago","apa"].each   do |fmt|
         cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
       end
       # Account irregular name for mla7 citation -- ..as_mla_...
@@ -401,7 +415,7 @@ Eliot, J., Cotton, J., &amp; Boyle, R. (1685). <i>Mamusse wunneetupanatamwe Up-B
 CITE_MATCH
       # because of the here doc syntax, the variable always ends in newline, but the returned string does not.
       # so, must account for that when we handle the expect.
-        ["mla7","mla8","cse","chicago","apa"].each   do |fmt| 
+        ["mla7","mla8","cse","chicago","apa"].each   do |fmt|
       expect(cite_info[fmt][1] + "\n").to match(match_str[fmt]), "Bibid #{id} #{fmt} citation text does not match. Created string '#{cite_info[fmt][1]}'  does not match required text: '#{match_str[fmt]}' "
       expect(cite_info[fmt][0]).to match(match_style[fmt]), "Bibid #{id} #{fmt} style description does not match. Created string '#{cite_info[fmt][0]}'  does not match required text: '#{match_style[fmt]}' "
       end
@@ -438,8 +452,8 @@ CITE_MATCH
 # Uris Library Reference (Non-Circulating) BF76.7 .P83 2010
 # examples:
 # Shotton, M. A. (1989) Computer addition? A study of computer dependency. London, England: Taylor & Francis
-# Gregory, G., & Parry, T. (2006). Designing brain-compatible learning (3rd ed.). Thousand Oaks, CA: Corwin. 
-# 24 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists- 
+# Gregory, G., & Parry, T. (2006). Designing brain-compatible learning (3rd ed.). Thousand Oaks, CA: Corwin.
+# 24 # DISCOVERYACCESS-1677 -Publication info isn't in citation even if it exists-
 #
     it "should format APA citation information properly" do
       id = "8069112"
@@ -476,7 +490,7 @@ end
  # Because of citeas, all fields should be the same.
     it "should format manuscript citation information properly" do
       id = "2083900"
-      @book_recs[id]['format'] = ['Manuscript/Archive'] 
+      @book_recs[id]['format'] = ['Manuscript/Archive']
       mla7_cite_info = @book_recs[id].export_as_mla_citation_txt()
       mla8_cite_info = @book_recs[id].export_as_mla8_citation_txt()
       cse_cite_info = @book_recs[id].export_as_cse_citation_txt()
@@ -509,20 +523,20 @@ CITE_MATCH
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_mla_citation_txt()[1]).to eq("Janetzky,  Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988. Print.")
     end
-    
+
     it "should format a citation without any authors correctly" do
       expect(@record_without_authors.export_as_mla_citation_txt()[1]).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971. Print.")
     end
-    
+
     it "should format a citation with 4+ authors correctly" do
       expect(@record_with_10plus_authors.export_as_mla_citation_txt()[1]).to eq("Greer,  Lowell et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001. Print.")
     end
-    
+
     it "should not fail if there is no citation data" do
-      expect(@record_without_citable_data.export_as_mla_citation_txt()[1]).to eq(" Print.")      
+      expect(@record_without_citable_data.export_as_mla_citation_txt()[1]).to eq(" Print.")
     end
   end
-  
+
   describe "export_as_openurl_ctx_kev" do
     it "should create the appropriate context object for books" do
       record = @typical_record.export_as_openurl_ctx_kev('Book')
@@ -568,7 +582,7 @@ CITE_MATCH
     end
 
     describe "for UTF-8 record" do
-      it "should export in Unicode normalized C form" do        
+      it "should export in Unicode normalized C form" do
         @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
 
         if defined? Unicode
@@ -587,58 +601,58 @@ CITE_MATCH
         line =~ /^(..?)  - (.*)$/
         ris_entries[$1] << $2
       end
-      expect(ris_entries["TY"]).to eq(Set.new(["SOUND"])) 
-      expect(ris_entries["TI"]).to eq(Set.new(["Music for horn"])) 
-      expect(ris_entries["PY"]).to eq(Set.new(["2001"])) 
-      expect(ris_entries["PB"]).to eq(Set.new([" Harmonia Mundi USA"])) 
-      expect(ris_entries["CY"]).to eq(Set.new(["[United States]"])) 
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"])) 
-      expect(ris_entries["N1"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"])) 
-      expect(ris_entries["ER"]).to eq(Set.new([""])) 
+      expect(ris_entries["TY"]).to eq(Set.new(["SOUND"]))
+      expect(ris_entries["TI"]).to eq(Set.new(["Music for horn"]))
+      expect(ris_entries["PY"]).to eq(Set.new(["2001"]))
+      expect(ris_entries["PB"]).to eq(Set.new([" Harmonia Mundi USA"]))
+      expect(ris_entries["CY"]).to eq(Set.new(["[United States]"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"]))
+      expect(ris_entries["N1"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"]))
+      expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
-#SN  - 091316710X : 
+#SN  - 091316710X :
     it "should export a typical book record correctly" do
       id = "1001"
-      @book_recs[id]['holdings_record_display']  = ["{\"id\":\"10368366\",\"modified_date\":\"20170927131718\",\"copy_number\":null,\"callnos\":[\"PS591.A58 R33\"],\"notes\":[],\"holdings_desc\":[],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"mann\",\"number\":69,\"name\":\"Library Annex\",\"library\":\"Library Annex\"}]}"]
+      @book_recs[id]['holdings_json']  = "{\"5195\":{\"location\":{\"code\":\"olin,anx\",\"number\":101,\"name\":\"Library Annex\",\"library\":\"Library Annex\",\"hoursCode\":\"annex\"},\"call\":\"PS591.A58 R33\",\"circ\":true,\"date\":959745600,\"items\":{\"count\":1,\"avail\":1}}}"
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
         line =~ /^(..?)  - (.*)$/
         ris_entries[$1] << $2
       end
-      expect(ris_entries["TY"]).to eq(Set.new(["BOOK"])) 
-      expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"])) 
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"])) 
-      expect(ris_entries["PY"]).to eq(Set.new(["1985"])) 
+      expect(ris_entries["TY"]).to eq(Set.new(["BOOK"]))
+      expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"]))
+      expect(ris_entries["PY"]).to eq(Set.new(["1985"]))
       expect(ris_entries["KW"]).to eq(Set.new(["Anthropologists' writings, American. ", "Anthropology Poetry. ", "American poetry 20th century. ", "Anthropologists' writings, English. ", "English poetry 20th century. "]))
-      expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"])) 
-      expect(ris_entries["CY"]).to eq(Set.new(["Washington, D.C."])) 
-      expect(ris_entries["SN"]).to eq(Set.new(["091316710X  "])) 
-      expect(ris_entries["CN"]).to eq(Set.new(["Library Annex  PS591.A58 R33"])) 
-      expect(ris_entries["ER"]).to eq(Set.new([""])) 
+      expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"]))
+      expect(ris_entries["CY"]).to eq(Set.new(["Washington, D.C."]))
+      expect(ris_entries["SN"]).to eq(Set.new(["091316710X  "]))
+      expect(ris_entries["CN"]).to eq(Set.new(["Library Annex  PS591.A58 R33"]))
+      expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
 
     it "should export a typical ebook record correctly" do
       id = "5558811"
       @book_recs[id]["online"]= ["Online"]
-      @book_recs[id]['url_access_display'] = ["http://opac.newsbank.com/select/evans/385"]
-      @book_recs[id]['language_facet'] = ["Algonquian (Other)"] 
+      @book_recs[id]['url_access_json'] = ['url' => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['language_facet'] = ["Algonquian (Other)"]
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
       ris_file.each_line do |line|
         line =~ /^(..?)  - (.*)$/
         ris_entries[$1] << $2
       end
-      expect(ris_entries["TY"]).to eq(Set.new(["EBOOK"])) 
-      expect(ris_entries["AU"]).to eq(Set.new(["Company for Propagation of the Gospel in New England and the Parts Adjacent in America"])) 
-      expect(ris_entries["TI"]).to eq(Set.new(["Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament"])) 
-      expect(ris_entries["PY"]).to eq(Set.new(["1685"])) 
-      expect(ris_entries["PB"]).to eq(Set.new([" Printeuoop nashpe Samuel Green."])) 
-      expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"])) 
-      expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."])) 
+      expect(ris_entries["TY"]).to eq(Set.new(["EBOOK"]))
+      expect(ris_entries["AU"]).to eq(Set.new(["Company for Propagation of the Gospel in New England and the Parts Adjacent in America"]))
+      expect(ris_entries["TI"]).to eq(Set.new(["Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament"]))
+      expect(ris_entries["PY"]).to eq(Set.new(["1685"]))
+      expect(ris_entries["PB"]).to eq(Set.new([" Printeuoop nashpe Samuel Green."]))
+      expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"]))
+      expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."]))
       expect(ris_entries["UR"]).to eq(Set.new(["http://opac.newsbank.com/select/evans/385"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/#{id}"])) 
-      expect(ris_entries["ER"]).to eq(Set.new([""])) 
+      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/#{id}"]))
+      expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
   end
 #
@@ -662,8 +676,8 @@ CITE_MATCH
       expect(endnote_entries["T"]).to eq(Set.new(["Music for horn "]))
 
       #nothing extra
-      #expect(Set.new(endnote_entries.keys)).to eq(Set.new(["0", "C", "D", "E", "I", "T"]))      
-      expect(Set.new(endnote_entries.keys)).to eq(Set.new(["0", "E", "T", "I", "C", "D", "Z", nil]))      
+      #expect(Set.new(endnote_entries.keys)).to eq(Set.new(["0", "C", "D", "E", "I", "T"]))
+      expect(Set.new(endnote_entries.keys)).to eq(Set.new(["0", "E", "T", "I", "C", "D", "Z", nil]))
     end
   end
 
@@ -675,8 +689,8 @@ CITE_MATCH
       include Blacklight::Solr::Document::MarcExport
     end
 
-    before(:each) do 
-      dclass = MockMarcDocument 
+    before(:each) do
+      dclass = MockMarcDocument
       dclass.use_extension( Blacklight::Solr::Document::Endnote )
       @typical_record                     = dclass.new( standard_citation )
     end
@@ -694,61 +708,61 @@ CITE_MATCH
   describe "Format exports" do
     it "should export the title and type in multiple formats correctly" do
       ti_ids = ["1001", "1676023", "3261564", "5494906", "5558811", "6788245"]
-      ti_data = {} 
-      ti_output = {} 
-      ti_data["1001"] = 
+      ti_data = {}
+      ti_output = {}
+      ti_data["1001"] =
                 {"endnote" => {"title" => "%T Reflections  the anthropological muse","type" => "%0 Book"},
                 "ris" => {"title" => "TI  - Reflections: the anthropological muse", "type" => "TY  - BOOK"},
                 "endnote_xml"=>{"title"=>"<title>Reflections: the anthropological muse</title>", "type" => "<ref-type name=\"Book\">6</ref-type>"},
                 "rdf_zotero"=>{"title"=>"<dc:title>Reflections: the anthropological muse</dc:title>", "type" => "<z:itemType>book</z:itemType>"}}
-      # Sound, music 
-      ti_data["3261564"] = 
+      # Sound, music
+      ti_data["3261564"] =
                {"ris" => { "title"=> 'TI  - Debabrata Biśvāsa'  , "type" => 'TY  - SOUND' },
                 "endnote"  => {"title"=> '%T Debabrata Biśvāsa'  , "type" => '%0 Music' },
                 "endnote_xml"  => {"title"=> '<title>Debabrata Biśvāsa</title>'  , "type" =>'<ref-type name="Music">61</ref-type>'  },
                 "rdf_zotero" =>  {"title"=>'<dc:title>Debabrata Biśvāsa</dc:title>'  , "type" => '<z:itemType>audioRecording</z:itemType>' }}
-      #EBOOK 
-      ti_data["5558811"] = 
+      #EBOOK
+      ti_data["5558811"] =
                { "ris" =>    {"title" => 'TI  - Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament',"type" =>'TY  - EBOOK'},
                  "endnote" => {"title" => '%T Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament', "type" =>  '%0 Electronic Book'},
                  "endnote_xml" => {"title" => '<title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</title>', "type" => "<ref-type name=\"Book\">6</ref-type>"},
                  "rdf_zotero" => { "title" =>  '<dc:title>Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament</dc:title>', "type" =>  '<z:itemType>book</z:itemType>'}
 }
       #Thesis
-      ti_data["5494906"] = 
+      ti_data["5494906"] =
           { "ris" =>           {"title" => 'TI  - Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700',"type" =>'TY  - THES'},
             "endnote" =>       {"title" => '%T Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '%0 Thesis'},
             "endnote_xml" =>   {"title" => '<title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700</title>', "type" => "<ref-type name=\"Thesis\">32</ref-type>"},
              "rdf_zotero" =>   {"title" =>  '<dc:title>Geschlechter, Liebe und Ehe in der Auffassung von Londoner Zeitschriften um 1700', "type" =>  '<z:itemType>thesis</z:itemType>'}
 }
-      ti_data["6788245"] = 
+      ti_data["6788245"] =
           { "ris" =>           {"title" => 'TI  - Harry Potter and the half-blood prince',"type" =>'TY  - VIDEO'},
              "endnote" =>      {"title" => '%T Harry Potter and the half-blood prince', "type" =>  '%0 Film or Broadcast'},
              "endnote_xml" =>  {"title" => '<title>Harry Potter and the half-blood prince', "type" => "<ref-type name=\"Film or Broadcast\">21</ref-type>"},
              "rdf_zotero" =>   {"title" =>  '<dc:title>Harry Potter and the half-blood prince', "type" =>  '<z:itemType>videoRecording</z:itemType>'}
 }
-      ti_data["1676023"] = 
+      ti_data["1676023"] =
           { "ris" =>           {"title" => 'TI  - Middle Earth: being a map',"type" =>'TY  - MAP'},
             "endnote" =>       {"title" => '%T Middle Earth  being a map', "type" =>  '%0 Map'},
             "endnote_xml" =>   {"title" => '<title>Middle Earth: being a map', "type" => "<ref-type name=\"Map\">20</ref-type>"},
             "rdf_zotero" =>    {"title" =>  '<dc:title>Middle Earth: being a map', "type" =>  '<z:itemType>map</z:itemType>'}
 }
       ti_ids.each   do  | id |
-        ti_output[id] = {} 
-        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {} 
-        ti_output[id]["rdf_zotero"] = {} 
+        ti_output[id] = {}
+        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {}
+        ti_output[id]["rdf_zotero"] = {}
         ti_output[id]["ris"] = @book_recs[id].export_as_ris()
         ti_output[id]["endnote"] = @book_recs[id].export_as_endnote()
         ti_output[id]["endnote_xml"] = @book_recs[id].export_as_endnote_xml()
         ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
-      end 
-      ti_ids.each   do |id| 
-        ["endnote","ris","endnote_xml","rdf_zotero"].each   do |fmt| 
-          ["title","type"].each   do |fld| 
-             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
-             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
-             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
-             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id},should output the #{fld} in format '#{fmt}' properly." 
+      end
+      ti_ids.each   do |id|
+        ["endnote","ris","endnote_xml","rdf_zotero"].each   do |fmt|
+          ["title","type"].each   do |fld|
+             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}."
+             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'."
+             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly."
+             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id},should output the #{fld} in format '#{fmt}' properly."
           end
         end
        end
@@ -756,25 +770,25 @@ CITE_MATCH
 
 #185 | 10055679 | endnote |  '%L  Mann Library  SF98.A5 M35 2017' |
 #186 | 10055679 | ris |  'CN - Mann Library  SF98.A5 M35 2017' |
-#188 | 10055679 | endnote_xml |  '<call-num>Mann Library  SF98.A5 M35 2017</call-num>' | 
+#188 | 10055679 | endnote_xml |  '<call-num>Mann Library  SF98.A5 M35 2017</call-num>' |
 #187 | 10055679 | rdf_zotero |  'Mann Library  SF98.A5 M35 2017' |
 # SN  - 9781426217661  1426217668
 # KW  - Chickens Marketing
     it "should export the call number, and isbn in multiple formats correctly" do
       ti_ids = [ "10055679" ]
-      ti_data = {} 
-      ti_output = {} 
+      ti_data = {}
+      ti_output = {}
       ti_ids.each   do  | id |
-        ti_output[id] = {} 
-        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {} 
-        ti_output[id]["rdf_zotero"] = {} 
-        expect(@book_recs[id]).not_to  be_nil, "You must supply a MockMarcDocument to match for bib id:#{id}." 
+        ti_output[id] = {}
+        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {}
+        ti_output[id]["rdf_zotero"] = {}
+        expect(@book_recs[id]).not_to  be_nil, "You must supply a MockMarcDocument to match for bib id:#{id}."
         ti_output[id]["ris"] = @book_recs[id].export_as_ris()
         ti_output[id]["endnote"] = @book_recs[id].export_as_endnote()
         ti_output[id]["endnote_xml"] = @book_recs[id].export_as_endnote_xml()
         ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
-      end 
-     ti_data["10055679"] = 
+      end
+     ti_data["10055679"] =
           { "ris" =>  {'callnumber' => 'CN  - Mann Library  SF98.A5 M35 2017','isbn' =>'9781426217661  1426217668',"kw" =>"KW  - Chickens Marketing"},
           "endnote" =>{'callnumber' => '%L  Mann Library  SF98.A5 M35 2017' ,'isbn' =>'%@ 9781426217661',"kw" =>"%K Chickens Marketing"},
           "endnote_xml"=>{'callnumber'=>'<call-num>Mann Library  SF98.A5 M35 2017</call-num>','isbn' =>'<isbn>9781426217661  ; 1426217668 </isbn>',"kw" =>"<keyword>Chickens Marketing. </keyword>"},
@@ -782,18 +796,18 @@ CITE_MATCH
              Set.new(['<dc:identifier>ISBN 1426217668 </dc:identifier>','<dc:identifier>ISBN 9781426217661 </dc:identifier>']),
              "kw" =>"<dc:subject>Chickens Marketing. </dc:subject>"}
           }
-      ti_ids.each   do |id| 
-        ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
-          ["callnumber","isbn","kw"].each   do |fld| 
-             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
-             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
-             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
+      ti_ids.each   do |id|
+        ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt|
+          ["callnumber","isbn","kw"].each   do |fld|
+             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}."
+             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'."
+             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly."
              if ti_data[id][fmt][fld].is_a? Set
                ti_data[id][fmt][fld].each {|exp|
-                 expect(ti_output[id][fmt]).to include(exp),"Bib id:#{id},should output #{fld} in format '#{fmt}'  did not match #{exp} properly." 
+                 expect(ti_output[id][fmt]).to include(exp),"Bib id:#{id},should output #{fld} in format '#{fmt}'  did not match #{exp} properly."
                }
              else
-               expect(ti_output[id][fmt]).to include(ti_data[id][fmt][fld]),"Bib id:#{id},should output the #{fld} in format '#{fmt}' properly." 
+               expect(ti_output[id][fmt]).to include(ti_data[id][fmt][fld]),"Bib id:#{id},should output the #{fld} in format '#{fmt}' properly."
              end
           end
         end
@@ -802,19 +816,19 @@ CITE_MATCH
 
     it "should export the author,publisher,date,place in multiple formats correctly" do
       ti_ids = [ "1378974","3261564","5494906","6788245","9496646","9939352" ]
-      ti_data = {} 
-      ti_output = {} 
+      ti_data = {}
+      ti_output = {}
       ti_ids.each   do  | id |
-        ti_output[id] = {} 
-        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {} 
-        ti_output[id]["rdf_zotero"] = {} 
-        expect(@book_recs[id]).not_to  be_nil, "You must supply a MockMarcDocument to match for bib id:#{id}." 
+        ti_output[id] = {}
+        ti_output[id]["ris"] = ti_output[id]["endnote"] = ti_output[id]["endnote_xml"] = {}
+        ti_output[id]["rdf_zotero"] = {}
+        expect(@book_recs[id]).not_to  be_nil, "You must supply a MockMarcDocument to match for bib id:#{id}."
         ti_output[id]["ris"] = @book_recs[id].export_as_ris()
         ti_output[id]["endnote"] = @book_recs[id].export_as_endnote()
         ti_output[id]["endnote_xml"] = @book_recs[id].export_as_endnote_xml()
         ti_output[id]["rdf_zotero"] = @book_recs[id].export_as_rdf_zotero()
-      end 
-     ti_data["1378974"] = 
+      end
+     ti_data["1378974"] =
           { "ris" =>          {'author' => 'AU  - Condie, Carol Joy','year' =>'PY  - 1954',
                                'publisher' => 'PB  - Cornell Univ','place' => 'CY  - [Ithaca, N.Y.]'},
             "endnote" =>      {'author' => '%A Condie, Carol Joy', 'year' =>  '%D  1954',
@@ -824,45 +838,45 @@ CITE_MATCH
             "rdf_zotero" =>   {'author' => '<foaf:surname>Condie</foaf:surname>','year'=>'<dc:date>1954</dc:date>',
                                'publisher' => '<foaf:name>Cornell Univ','place' => '<vcard:locality>[Ithaca, N.Y.]'}
           }
-     ti_data["5494906"] = 
+     ti_data["5494906"] =
           { "ris" =>           {'author'=>'AU  - Gauger, Wilhelm Peter Joachim' ,'year'=> 'PY  - 1965','publisher'=>'PB  - Freie Universität Berlin','place'=>'CY  - Berlin' },
           "endnote"=>          {'author'=>'%A Gauger, Wilhelm Peter Joachim' ,'year'=> '%D 1965','publisher'=>'%I Freie Universität Berlin','place'=>'%C Berlin'} ,
           "endnote_xml"=>      {'author'=>'author>Gauger, Wilhelm Peter Joachim</author>' ,'year'=> '<date>1965</date>','publisher' =>'<publisher>Ernst-Reuter-Gesellschaft</publisher>','place'=>'pub-location>Berlin</pub-location>' },
           "rdf_zotero"=>       {'author'=>'<foaf:surname>Gauger</foaf:surname>' ,'year'=> '<dc:date>1965</dc:date>','publisher'=>'<foaf:name>Freie Universität Berlin</foaf:name>','place'=>'<vcard:locality>Berlin</vcard:locality>' }
           }
-     ti_data["3261564"] = 
+     ti_data["3261564"] =
           { "ris" =>           {'author'=> 'AU  - Cakrabarttī, Utpalendu' , 'year'=> 'PY  - 1983' ,'publisher'=> 'PB  -  INRECO' ,'place'=> 'CY  - Calcutta' },
             "endnote" =>       {'author'=> '%A Cakrabarttī, Utpalendu' ,'year'=> '%D 1983' ,'publisher'=> '%I INRECO' ,'place'=> '%C Calcutta' },
-            "endnote_xml" =>   {'author'=> '<author>Cakrabarttī, Utpalendu</author>' ,'year'=> '<year>1983</year>' ,'publisher'=> '<publisher>INRECO</publisher>' ,'place'=> '<pub-location>Calcutta</pub-location>' }, 
+            "endnote_xml" =>   {'author'=> '<author>Cakrabarttī, Utpalendu</author>' ,'year'=> '<year>1983</year>' ,'publisher'=> '<publisher>INRECO</publisher>' ,'place'=> '<pub-location>Calcutta</pub-location>' },
             "rdf_zotero"=>     {'author'=>'<foaf:surname>Cakrabarttī</foaf:surname>','year'=>'<dc:date>1983</dc:date>','publisher'=>'<foaf:name>INRECO</foaf:name>','place'=>'<vcard:locality>Calcutta</vcard:locality>' },
           }
-     ti_data["6788245"] = 
+     ti_data["6788245"] =
           {"ris" =>             {"author" => 'AU  - Warner Bros. Pictures' ,'year' =>  'PY  - 2009' ,'publisher' =>  'PB  -  Warner Home Video' ,'place' => 'CY  - Burbank, CA' },
           "endnote" =>          {"author" => '%E Radcliffe, Daniel' ,'year' =>  '%D 2009' ,'publisher' =>  '%I Warner Home Video' ,'place' => '%C Burbank, CA' },
           "endnote_xml" =>      {"author" => '<author>Radcliffe, Daniel</author>' ,'year' =>  '<year>2009</year>' ,'publisher' =>  '<publisher>Warner Home Video</publisher>','place' =>'<pub-location>Burbank, CA</pub-location>' },
           "rdf_zotero" =>       {"author" => '<foaf:surname>Radcliffe</foaf:surname>' ,'year' =>  '<dc:date>2009</dc:date>' ,'publisher' =>  '<foaf:name>Warner Home Video</foaf:name>','place' =>'<vcard:locality>Burbank, CA</vcard:locality>' },
           }
 
-     ti_data["9939352"] = 
+     ti_data["9939352"] =
           {"ris" => {"author" => 'AU  - Gray, Afsaneh' ,'year' =>  'PY  - 2017' ,'publisher' => 'PB  -  Oberon Books' ,'place' => 'CY  - London' },
            "endnote" => {"author"=> '%A Gray, Afsaneh' ,'year' =>  '%D 2017' ,'publisher' => '%I Oberon Books' ,'place' => '%C London' },
            "endnote_xml"=> {"author"=>'author>Gray, Afsaneh</author>','year' =>'<date>2017</date>','publisher' =>'publisher>Oberon Books</publisher>','place' =>'pub-location>London</pub-location>' },
             "rdf_zotero"=> {"author"=>'<foaf:surname>Gray</foaf:surname>','year' =>'<dc:date>2017</dc:date>','publisher' =>'<foaf:name>Oberon Books</foaf:name>','place' =>'<vcard:locality>London</vcard:locality>' },
 }
-     ti_data["9496646"] = 
+     ti_data["9496646"] =
      { "ris" => {"author"=> 'AU  - Bindal, Ahmet' ,'year' => 'PY  - 2016' ,'publisher' => 'PB  -  Springer International Publishing' ,'place' => 'CY  - Cham'  },
        "endnote" => {"author"=> '%A Bindal, Ahmet' ,'year' => '%D 2016' ,'publisher' =>  '%I Springer International Publishing' ,'place' => '%C Cham'  },
-       "endnote_xml" => {"author"=> '<author>Bindal, Ahmet</author>' ,'year' => '<year>2016</year>' ,'publisher' => '<publisher>Springer International Publishing</publisher>' ,'place' => '<pub-location>Cham</pub-location>'  }, 
+       "endnote_xml" => {"author"=> '<author>Bindal, Ahmet</author>' ,'year' => '<year>2016</year>' ,'publisher' => '<publisher>Springer International Publishing</publisher>' ,'place' => '<pub-location>Cham</pub-location>'  },
        "rdf_zotero" => {"author"=> '<foaf:surname>Bindal</foaf:surname>' ,'year' => '<dc:date>2016</dc:date>' ,'publisher' => '<foaf:name>Springer International Publishing</foaf:name>' ,'place' => '<vcard:locality>Cham</vcard:locality>'   },
 }
 
-      ti_ids.each   do |id| 
-        ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt| 
-          ["author","year","publisher","place"].each   do |fld| 
-             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}." 
-             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'." 
-             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly." 
-             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id}, should output the #{fld} in format '#{fmt}' properly." 
+      ti_ids.each   do |id|
+        ["ris","endnote","endnote_xml","rdf_zotero"].each   do |fmt|
+          ["author","year","publisher","place"].each   do |fld|
+             expect(ti_data[id]).not_to  be_nil, "You must supply data to match for bib id:#{id}."
+             expect(ti_data[id][fmt]).not_to  be_nil, "You must supply format data to match for bib id:#{id} for format '#{fmt}'."
+             expect(ti_data[id][fmt][fld]).not_to  be_nil, "You must supply field text to match for bib id:#{id}, #{fld} in format '#{fmt}' properly."
+             expect(ti_output[id][fmt]).to  include(ti_data[id][fmt][fld]), "For bib id:#{id}, should output the #{fld} in format '#{fmt}' properly."
           end
         end
        end

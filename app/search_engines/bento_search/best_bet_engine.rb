@@ -32,8 +32,8 @@ class BentoSearch::BestBetEngine
     # once we get back to the controller!
 
     # If there is a best bet, it should look like this:
-    # [{"id"=>1, "name"=>"Oxford English Dictionary", 
-    # "url"=>"http://resolver.library.cornell.edu/misc/3862894", 
+    # [{"id"=>1, "name"=>"Oxford English Dictionary",
+    # "url"=>"http://resolver.library.cornell.edu/misc/3862894",
     # "created_at"=>"2014-02-10T21:22:53.000Z", "updated_at"=>"2014-02-11T21:14:28.000Z"}]
     result.title = best_bet[0]['name'] unless best_bet.empty?
     result.link = best_bet[0]['url']unless best_bet.empty?

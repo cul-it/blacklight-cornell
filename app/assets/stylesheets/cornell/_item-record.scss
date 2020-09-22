@@ -33,8 +33,8 @@ h3.responsibility {
 .item-cover {
 	margin: 0 0 2em 2em;
 	text-align: center;
+	
 }
-
 // Availability anchor button
 // ----------------------------- //
 .availability-link {
@@ -55,37 +55,37 @@ h3.responsibility {
 	 h2 {
 	 	line-height: 32px;
 	 	margin-top: 0; }
+	 dl {
+		dt {
+			display: inline;
+			font-weight: normal;
+			overflow: visible;
+			text-overflow: inherit;
+			white-space: normal;
+			}
+		dd {
+			// Fix to keep dd aligned with long dt that wraps
+			// -- can't use .clearfix because we only want to clear left
+			&:after {
+				display: table;
+				content: "";
+				clear: left;
+			}
+			ul {
+				padding-left: 18px;
+			}
+			li {
+				margin-bottom: .25em;
+			}
+			@media (max-width: $screen-sm) {
+				margin-left: 12px;
+			}
+		}
+	}
 }
 label.toggle_bookmark { 
 	min-width: 4em;
 	margin-right: 1.5em;
-}
-dl.dl-horizontal {
-	dt {
-		width: 150px;
-		display: inline;
-		color: $medium-gray;
-		margin-right: 10px;
-		font-weight: normal;
-		overflow: visible;
-		text-overflow: inherit;
-		white-space: normal;
-		}
-	dd {
-		// Fix to keep dd aligned with long dt that wraps
-		// -- can't use .clearfix because we only want to clear left
-		&:after {
-			display: table;
-			content: "";
-			clear: left;
-		}
-		ul {
-			padding-left: 18px;
-		}
-		li {
-			margin-bottom: .25em;
-		}
-	}
 }
 
 dd.blacklight-notes {
@@ -149,6 +149,22 @@ dd.blacklight-notes {
 		margin-right: 10px;
 	}
 }
+// make select box area wider behind the scenes so that tooltip isn't too narrow; need .catalog-show so this is only changed on the item view
+// BL7 and BS4 changes: text-align now center and added padding-top
+.catalog-show,
+.bookmarks-show {
+	.show-select-box {
+		width: 100px;
+		text-align: center;
+		padding-top: 6px;
+	}
+}
+.catalog-show, .bookmarks, .book_bags {
+	label.toggle_bookmark { 
+		margin-right: .5em;
+		font-size: 14px;
+	}
+}
 .main-content {
 	.item-tools {
 		a, a:hover {
@@ -163,7 +179,6 @@ dd.blacklight-notes {
 }
 .item-pagination {
 	margin-bottom: 2.2em;
-	font-size: 0.875em;
 }
 
 .fa-disabled {
@@ -174,7 +189,7 @@ dd.blacklight-notes {
 // Librarian view
 // -------------------------
 
-.librarian-view { font-size: 12px; }
+.librarian-view { margin-left: -15px; }
 #marc_view { font-family: courier, monospace; }
 #marc_view .field { clear: both; }
 #marc_view .tag { 
@@ -200,25 +215,13 @@ padding-left: 6em;
 
 // Authorities info popup
 // ----------------------------- //
-#document {
+.catalog-show {
 	.popover {
 		max-width: 100%;
 		h2 {
 			margin: 0 0 .25em 0;
 			font-size: 18px;
 			line-height: 1.2em;
-		}
-		.return-link {
-			float: right;
-			a {
-				color: $medium-gray;
-				border: 0;
-				font-weight: 700;
-			}
-			a:hover, a:active, a:focus {
-				color: $light-gray;
-				border: 0;
-			}
 		}
 		.author-works {
 			margin-left: 0;
@@ -240,6 +243,9 @@ padding-left: 6em;
 				margin-bottom: 0;
 			}
 		}
+		a {
+			cursor: pointer;
+		}
 	}
 	.info-button, .info-button:hover, .info-button:active, .info-button:focus {
 		border-bottom: 0;
@@ -259,11 +265,33 @@ padding-left: 6em;
 	}
 }
 
+// Browse by call number links
+// ----------------------------
+.browse-call-number {
+	margin-top: 3em;
+	margin-bottom: 3em;
+	border-top: 5px solid $light-tan;
+	li {
+		font-size: 16px;
+	}
+	.btn, .btn:hover {
+		border-bottom: 0;
+		margin-bottom: .75em;
+	}
+}
+
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	.return-link {
 		font-size: 14px;
 	}
@@ -275,15 +303,15 @@ padding-left: 6em;
 	#document {
 		margin-top: 0;
 	}
-	// .cover {
-	// 	text-align: center;
-	// }
 	dl.dl-horizontal {
 		dd {
 			margin-left: 165px;
 		}
 	}
 }
-// Medium devices (desktops, 992px and up)
-// @media (min-width: $screen-md) { 
-// }
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

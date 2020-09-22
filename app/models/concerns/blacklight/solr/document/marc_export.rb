@@ -4,13 +4,13 @@
 # it for your own custom Blacklight document Marc extension too -- just
 # include this module in any document extension (or any other class)
 # that provides a #to_marc returning a ruby-marc object.  This module will add
-# in export_as translation methods for a variety of formats. 
+# in export_as translation methods for a variety of formats.
 module Blacklight::Solr::Document::MarcExport
-  
+
   def self.register_export_formats(document)
     document.will_export_as(:xml)
     document.will_export_as(:marc, "application/marc")
-    # marcxml content type: 
+    # marcxml content type:
     # http://tools.ietf.org/html/draft-denenberg-mods-etc-media-types-00
     document.will_export_as(:marcxml, "application/marcxml+xml")
     document.will_export_as(:openurl_ctx_kev, "application/x-openurl-ctx-kev")
@@ -27,17 +27,16 @@ module Blacklight::Solr::Document::MarcExport
     to_marc.to_xml.to_s
   end
   alias_method :export_as_xml, :export_as_marcxml
-  
-  
+
+
   # TODO This exporting as formatted citation thing should be re-thought
   # redesigned at some point to be more general purpose, but this
   # is in-line with what we had before, but at least now attached
-  # to the document extension where it belongs. 
+  # to the document extension where it belongs.
   def export_as_apa_citation_txt
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     citeproc_citation( to_marc,'apa')
   end
-  
+
   def export_as_cse_citation_txt
     citeproc_citation( to_marc,'council-of-science-editors')
   end
@@ -69,8 +68,8 @@ module Blacklight::Solr::Document::MarcExport
   # more sensibly. The "format" argument was in the old marc.marc.to_zotero
   # call, but didn't neccesarily do what it thought it did anyway. Left in
   # for now for backwards compatibilty, but should be replaced by
-  # just ruby OpenURL. 
-  def export_as_openurl_ctx_kev(format = nil)  
+  # just ruby OpenURL.
+  def export_as_openurl_ctx_kev(format = nil)
     title = to_marc.find{|field| field.tag == '245'}
     author = to_marc.find{|field| field.tag == '100'}
     corp_author = to_marc.find{|field| field.tag == '110'}
@@ -117,7 +116,7 @@ module Blacklight::Solr::Document::MarcExport
 
   # This format used to be called 'refworks', which wasn't really
   # accurate, sounds more like 'refworks tagged format'. Which this
-  # is not, it's instead some weird under-documented Refworks 
+  # is not, it's instead some weird under-documented Refworks
   # proprietary marc-ish in text/plain format. See
   # http://robotlibrarian.billdueber.com/sending-marcish-data-to-refworks/
   def export_as_refworks_marc_txt
@@ -142,9 +141,9 @@ module Blacklight::Solr::Document::MarcExport
     # it seems to want C form normalization, although RefWorks support
     # couldn't tell me that. -jrochkind
     text = ActiveSupport::Multibyte::Unicode.normalize(text, :c)
-    
+
     return text
-  end 
+  end
  FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
    "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
    "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
@@ -179,7 +178,7 @@ module Blacklight::Solr::Document::MarcExport
       "022.a" => "%@" ,
       "245.a,245.b" => "%T" ,
       "856.u" => "%U" ,
-      "250.a" => "%7" 
+      "250.a" => "%7"
     }
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     marc_obj = to_marc
@@ -213,7 +212,7 @@ module Blacklight::Solr::Document::MarcExport
       else
         second_value = []
       end
-      
+
       if marc_obj[first_value[0].to_s]
         marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
           if field[first_value[1]].to_s or field[second_value[1]].to_s
@@ -234,7 +233,7 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   protected
- 
+
   def citeproc_citation(record,csl)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
@@ -279,7 +278,7 @@ module Blacklight::Solr::Document::MarcExport
           family,given = nam.split(",")
           a =  CiteProc::Name.new(:family => family, :given => given)
         else
-          b = nam.index('(').nil? ? nam : nam[0,nam.index('(')].rstrip 
+          b = nam.index('(').nil? ? nam : nam[0,nam.index('(')].rstrip
           a =  CiteProc::Name.new(:literal => b)
         end
         authors_final << a
@@ -291,7 +290,7 @@ module Blacklight::Solr::Document::MarcExport
           family,given = nam.split(",")
           a =  CiteProc::Name.new(:family => family, :given => given)
         else
-          b = nam.index('(').nil? ? nam : nam[0,nam.index('(')].rstrip 
+          b = nam.index('(').nil? ? nam : nam[0,nam.index('(')].rstrip
           a =  CiteProc::Name.new(:literal => b)
         end
         editors_final << a
@@ -312,12 +311,10 @@ module Blacklight::Solr::Document::MarcExport
     id = "id #{csl}"
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}id=#{id.inspect}")
     ul = ''
-    if !self['url_access_display'].blank?
-       ul = self['url_access_display'].first.split('|').first
-       # might have proxy link -- http://proxy.library.cornell.edu/login?url=http://site.ebrary.com/lib/cornell/Top?id=11014930
-       # or gateway link
-       ul.sub!('http://proxy.library.cornell.edu/login?url=','')
-       ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+    # access_url_first_filtered - filters out proxy and encompass url prefixes
+    access_url = access_url_first_filtered(self)
+    if access_url.present?
+       ul = access_url
     end
     doi_data = setup_doi(record).blank? ? "" : setup_doi(record)
     Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}doi_data=#{doi_data.inspect}")
@@ -329,13 +326,13 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}medium=#{medium.inspect}")
     Rails.logger.debug("es287_debug****#{__FILE__} #{__LINE__} #{__method__}ty =#{ty.inspect}")
     if ty == 'manuscript'
-     if csl == 'modern-language-association-7th-edition'     
+     if csl == 'modern-language-association-7th-edition'
        item = CiteProc::Item.new(
        :id => id,
        :type => ty,
        'title' => citeas,
        )
-     else 
+     else
        item = CiteProc::Item.new(
        :id => id,
        :type => ty,
@@ -355,7 +352,7 @@ module Blacklight::Solr::Document::MarcExport
         :publisher => publisher ,
         :DOI => doi_data,
         :URL => ul,
-        'publisher-place' => publisher_place 
+        'publisher-place' => publisher_place
       )
     end
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} item=#{item.inspect}")
@@ -366,7 +363,7 @@ module Blacklight::Solr::Document::MarcExport
     if !sty.info.summary.nil?
       desc  = sty.info.summary.to_s
     else
-      desc  = sty.title 
+      desc  = sty.title
     end
     #cp.options()[:style].titleize + "<br/>" + (cp.render :bibliography, id: id)[0]
     txt = cp.render :bibliography, id: id
@@ -381,7 +378,7 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_final = []
-    
+
     #setup formatted author list
     #authors = get_author_list(record)
     all_authors = get_all_authors(record)
@@ -440,10 +437,10 @@ module Blacklight::Solr::Document::MarcExport
     # Edition
     edition_data = setup_edition(record)
     text += edition_data + " " unless edition_data.nil?
-    
+
     # Publication
     text += setup_pub_info_mla8(record) + ", " unless setup_pub_info(record).nil?
-    
+
     # Get Pub Date
     text += setup_pub_date(record) unless setup_pub_date(record).nil?
     if text[-1,1] != "."
@@ -456,7 +453,7 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
     authors_final = []
-    
+
     #setup formatted author list
     #authors = get_author_list(record)
     all_authors = get_all_authors(record)
@@ -516,10 +513,10 @@ module Blacklight::Solr::Document::MarcExport
     # Edition
     edition_data = setup_edition(record)
     text += edition_data + " " unless edition_data.nil?
-    
+
     # Publication
     text += setup_pub_info(record) + ", " unless setup_pub_info(record).nil?
-    
+
     # Get Pub Date
     text += setup_pub_date(record) unless setup_pub_date(record).nil?
     if text[-1,1] != "."
@@ -533,7 +530,7 @@ module Blacklight::Solr::Document::MarcExport
     text = ''
     authors_list = []
     authors_list_final = []
-    
+
     #setup formatted author list
     authors = apa_get_author_list(record)
     authors.each do |l|
@@ -560,15 +557,15 @@ module Blacklight::Solr::Document::MarcExport
     end
     # Get Pub Date
     text += "(" + setup_pub_date(record) + "). " unless setup_pub_date(record).nil?
-    
+
     # setup title info
     title = setup_title_info(record)
     text += "<i>" + title + "</i> " unless title.nil?
-    
+
     # Edition
     edition_data = setup_edition(record)
     text += edition_data + " " unless edition_data.nil?
-    
+
     # Publisher info
     text += setup_pub_info(record) unless setup_pub_info(record).nil?
     unless text.blank?
@@ -598,7 +595,7 @@ module Blacklight::Solr::Document::MarcExport
     #print STANDARD_INFO  + "text = #{text}"
     return nil if text.strip.blank?
     clean_end_punctuation(text.strip)
-  end 
+  end
   def setup_pub_info(record)
     text = ''
     pub_info_field = record.find{|f| f.tag == '260'}
@@ -644,21 +641,21 @@ module Blacklight::Solr::Document::MarcExport
   def get_contrib_roles(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     contributors = ["100","110","111","700","710","711" ]
-    relators = {} 
+    relators = {}
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
       if field["a"]
         contributor = clean_end_punctuation(field["a"])
-        relators[contributor] = [] if relators[contributor].nil?  
+        relators[contributor] = [] if relators[contributor].nil?
         field.find_all{|sf| sf.code == 'e' }.each do |sfe|
-          code = code_for_relation(clean_end_punctuation(sfe.value))  if sfe 
+          code = code_for_relation(clean_end_punctuation(sfe.value))  if sfe
           relators[contributor] << code if code
         end
         field.find_all{|sf| sf.code == '4' }.each do |sf4|
-          relators[contributor] << clean_end_punctuation(sf4.value) if sf4 
+          relators[contributor] << clean_end_punctuation(sf4.value) if sf4
         end
       end
-    end 
+    end
     relators
   end
 
@@ -704,9 +701,9 @@ module Blacklight::Solr::Document::MarcExport
         elsif relators.include?(compiler_code)
           compilers << field["a"]
         else
-          if setup_editors_flag(record) 
+          if setup_editors_flag(record)
             editors << field["a"]
-          else 
+          else
             secondary_authors << field["a"]
           end
         end
@@ -719,16 +716,16 @@ module Blacklight::Solr::Document::MarcExport
     secondary_authors.each_with_index do |a,i|
       secondary_authors[i] = a.gsub(/[\.,]$/,'')
     end
-    primary_authors.uniq! 
-    corporate_authors.uniq! 
-    primary_corporate_authors.uniq! 
-    secondary_corporate_authors.uniq! 
-    translators.uniq! 
-    editors.uniq! 
-    compilers.uniq! 
-    secondary_authors.uniq! 
+    primary_authors.uniq!
+    corporate_authors.uniq!
+    primary_corporate_authors.uniq!
+    secondary_corporate_authors.uniq!
+    translators.uniq!
+    editors.uniq!
+    compilers.uniq!
+    secondary_authors.uniq!
     secondary_authors.delete_if { |a| primary_authors.include?(a) }
-    meeting_authors.uniq! 
+    meeting_authors.uniq!
 
     ret = {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
     :secondary_authors => secondary_authors, :meeting_authors => meeting_authors, :primary_corporate_authors => primary_corporate_authors, :secondary_corporate_authors => secondary_corporate_authors }
@@ -750,7 +747,7 @@ module Blacklight::Solr::Document::MarcExport
     end
     new_text.join(" ")
   end
-  
+
   # This will replace the mla_citation_title method with a better understanding of how MLA and Chicago citation titles are formatted.
   # This method will take in a string and capitalize all of the non-prepositions.
   def citation_title(title_text)
@@ -774,7 +771,7 @@ module Blacklight::Solr::Document::MarcExport
     if title_info_field
       c_title_info = title_info_field.find{|s| s.code == 'c'}
       if (c_title_info and c_title_info.value and c_title_info.value.include?("edited"))
-        edited = true 
+        edited = true
       end
     end
   edited
@@ -786,33 +783,34 @@ module Blacklight::Solr::Document::MarcExport
     if !title_info_field.nil?
       a_title_info = title_info_field.find{|s| s.code == 'a'}
       b_title_info = title_info_field.find{|s| s.code == 'b'}
-      a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil?
-      b_title_info = clean_end_punctuation(b_title_info.value.strip) unless b_title_info.nil?
+      a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil? || a_title_info.value.nil?
+      b_title_info = clean_end_punctuation(b_title_info.value.strip) unless b_title_info.nil? || b_title_info.value.nil?
       text += a_title_info unless a_title_info.nil?
       if !a_title_info.nil? and !b_title_info.nil?
         text += ": "
       end
       text += b_title_info unless b_title_info.nil?
     end
-    
+
     return nil if text.strip.blank?
     text.gsub!(' : ' ,': ')
     clean_end_punctuation(text.strip) + "."
   end
-  
+
   def apa_clean_end_punctuation(text)
     if [".,"].include? text[-2,2]
       return text[0,text.length-1]
     end
     text
-  end  
+  end
 
   def clean_end_punctuation(text)
+    text = "" if text.nil?
     if [".",",",":",";","/"].include? text[-1,1]
       return text[0,text.length-1]
     end
     text
-  end  
+  end
 
   def setup_series(record)
     field = record.find{|f| f.tag == '490'}
@@ -839,9 +837,9 @@ module Blacklight::Solr::Document::MarcExport
       return nil
     else
       return data
-    end    
+    end
   end
-  
+
 
   def apa_get_author_list(record)
     author_list = []
@@ -875,11 +873,11 @@ module Blacklight::Solr::Document::MarcExport
         author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
       end
     end
-    
+
     author_list.uniq!
     author_list
   end
-  
+
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def old_get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
@@ -905,7 +903,7 @@ module Blacklight::Solr::Document::MarcExport
     end
     {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
   end
-  
+
   def abbreviate_name(name)
     return name unless name =~ /,/
     name_parts = name.split(", ")
@@ -921,7 +919,7 @@ module Blacklight::Solr::Document::MarcExport
     return name unless name =~ /,/
     temp_name = name.split(", ")
     return temp_name.last + " " + temp_name.first
-  end 
+  end
 
 
 # dvd sample:
@@ -950,26 +948,26 @@ module Blacklight::Solr::Document::MarcExport
       field = record.find{|f| f.tag == '347'}
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
-      medium = data.nil? ?  "" : data 
+      medium = data.nil? ?  "" : data
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       if medium.blank?
         field = record.find{|f| f.tag == '300'}
         if !field.nil?
-	  medium =  case 
-                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
-                        'CD audio'
-                       when  field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
-                        'LP'
-                       when field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
-                        'DVD'
-                     else
-                     ''
-                   end
+	          medium =  case
+                        when  field['a'].present? && field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
+                         'CD audio'
+                        when  field['a'].present? && field['a'].include?('sound disc') && (field['b']) && field['b'].include?('33')
+                         'LP'
+                        when field['a'].present? && field['a'].include?('videodisc')&&(field['b']) && ((field['b'].include?('sd.'))||field['b'].include?('color') )
+                         'DVD'
+                        else
+                         ''
+                      end
         end
         Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       end
     end
-    medium  = case 
+    medium  = case
                 when medium.include?('DVD')
                   'DVD'
                 when medium.include?('CD audio')
@@ -981,7 +979,7 @@ module Blacklight::Solr::Document::MarcExport
               end
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
     medium
-  end 
+  end
 
   def setup_citeas(record,ty)
     citeas = ''
@@ -991,7 +989,7 @@ module Blacklight::Solr::Document::MarcExport
         citeas = field['a'] unless field.nil?
     end
   citeas.to_s
-  end 
+  end
 
   def setup_fmt(record)
     ty = 'book'
@@ -1013,17 +1011,17 @@ module Blacklight::Solr::Document::MarcExport
     else
       thdata = field['a'].to_s
       values = thdata.split("--")
-      case 
+      case
         when values.length == 1
-          thesis[:type]  = field['a'].to_s 
+          thesis[:type]  = field['a'].to_s
         when values.length == 2
-          thesis[:type]  = values[0] 
+          thesis[:type]  = values[0]
             # might look like Cornell Univ., June 1954
             spli = values[1].split(",")
           if spli.length == 1
-            thesis[:inst]  = clean_end_punctuation(spli[0]) 
+            thesis[:inst]  = clean_end_punctuation(spli[0])
           else
-            thesis[:inst]  = clean_end_punctuation(spli[0]) 
+            thesis[:inst]  = clean_end_punctuation(spli[0])
             thesis[:date]  = clean_end_punctuation(spli[spli.length-1])
            end
       end
@@ -1033,11 +1031,11 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def relation_for_code(c)
-    RELATORS.key(c) 
+    RELATORS.key(c)
   end
 
   def code_for_relation(r)
-    RELATORS[r.downcase] 
+    RELATORS[r.downcase]
   end
 
 
@@ -1309,10 +1307,10 @@ module Blacklight::Solr::Document::MarcExport
     "writer of added text" => "wat",
     "writer of introduction" => "win",
     "writer of preface" => "wpr",
-    "writer of supplementary textual content" => "wst" 
+    "writer of supplementary textual content" => "wst"
   }
 
- 
+
 FACET_TO_CITEPROC_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
   "ANCIENT"=>"ANCIENT", "ART"=>"ART", "BILL"=>"BILL", "BLOG"=>"BLOG",
   "Book"=>"book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"CHART",
@@ -1327,7 +1325,7 @@ FACET_TO_CITEPROC_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
    "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
    "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"song", "Musical Recording"=>"song",
    "STAND"=>"STAND",
-   "STAT"=>"STAT", "Thesis"=>"thesis", "UNPB"=>"UNPB", 
+   "STAT"=>"STAT", "Thesis"=>"thesis", "UNPB"=>"UNPB",
    "Video"=>"motion_picture"
-   } 
+   }
 end

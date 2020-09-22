@@ -11,11 +11,11 @@ end
 Then /^I should get bento results$/ do
   page.should  have_selector('.bento1')
   bento1 = all('.bento1')[0].text
-  bento1.should match(/[a-zA-Z]+/) 
+  bento1.should match(/[a-zA-Z]+/)
 end
 
 Then /^I should not get bento results$/ do
-  if false 
+  if false
     anytext= all('.bento1')[0].text
     anytext.should_not match(/[a-zA-Z]+/)
   else
@@ -23,9 +23,19 @@ Then /^I should not get bento results$/ do
   end
 end
 
+
+Then("I should get Institutional Repository results") do
+  page.should have_selector("div#institutionalRepositories")
+end
+
+Then("when I view all Repositories Items") do
+  click_link("link_top_institutional_repositories")
+end
+
+
 Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
      total = all('.view-all')[nth.to_i]
-     total.should have_content(type) 
+     total.should have_content(type)
      #print "total on bento box page is #{total.text}\n"
      num = total.text.match(/([0-9,]+)/)[0]
      #print "#{__FILE__} #{__LINE__} num is #{num}\n"
@@ -35,9 +45,9 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
        cmd =  "wget -O -  '#{href}' 2>/dev/null"
        page2 = `#{cmd}`
       sleep 3
-       pagedom = Nokogiri::HTML(page2)   
-       pagedom.css('.'+divtag)[0].should_not be_nil 
-       numx = pagedom.css('.'+divtag)[0].text 
+       pagedom = Nokogiri::HTML(page2)
+       pagedom.css('.'+divtag)[0].should_not be_nil
+       numx = pagedom.css('.'+divtag)[0].text
        #print "total2 on view all page is #{numx}\n"
        numx.should_not be_nil
        numx.match(/of\s+(\d+)/).should_not be_nil
@@ -59,9 +69,9 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
 end
 
 Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
-  
+
   total = all('.view-all')[nth.to_i]
-  total.should have_content(type) 
+  total.should have_content(type)
   #print "total on bento box page is #{total.text}\n"
   num = total.text.match(/([0-9,]+)/)[0]
   #print "#{__FILE__} #{__LINE__} num is #{num}\n"
@@ -73,10 +83,10 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
     when type.match("from Articles")
       cmd =  "wget -O -  '#{href}' 2>/dev/null"
       page2 = `#{cmd}`
-      pagedom = Nokogiri::HTML(page2)   
+      pagedom = Nokogiri::HTML(page2)
       #print "pagedom: #{pagedom}"
-      pagedom.css("##{divtag}")[0].should_not be_nil 
-      numx = pagedom.css("##{divtag}")[0].text 
+      pagedom.css("##{divtag}")[0].should_not be_nil
+      numx = pagedom.css("##{divtag}")[0].text
       #print "total2 on view all page is #{numx}\n"
       #page.find(".#{divtag}").should_not be_nil
       #numx = page.find(".#{divtag}").text
@@ -89,14 +99,14 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
       #cmd =  "wget -O -  '#{href}' 2>/dev/null"
       #print "****cmd is #{cmd}"
       #page2 = `#{cmd}`
-      #page2 = page 
+      #page2 = page
       #print "++++ #{page2}"
-      #pagedom = Nokogiri::HTML(page2)   
-      #pagedom.css('.'+divtag)[0].should_not be_nil 
-      #numx = pagedom.css('.'+divtag)[0].text 
-      page.find(".#{divtag}").should_not be_nil 
+      #pagedom = Nokogiri::HTML(page2)
+      #pagedom.css('.'+divtag)[0].should_not be_nil
+      #numx = pagedom.css('.'+divtag)[0].text
+      page.find(".#{divtag}").should_not be_nil
       numx = page.find(".#{divtag}").text
-      #print "total2 on view (line #{__LINE__}  all page is '#{numx}'\n"
+      #print "numx on view (line #{__LINE__}  all page is '#{numx}'\n"
       numx.should_not be_nil
       if numx.match(/of\s+(\d+)/)
         numx.match(/of\s+(\d+)/).should_not be_nil
@@ -127,4 +137,3 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
     diff = (num2.to_i - num.to_i).abs
     diff.should <=(20)
 end
-

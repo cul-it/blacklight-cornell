@@ -1,6 +1,7 @@
 class Databases < ActiveRecord::Base
+  attr_accessible :id
   require 'dotenv'
-   # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
+    # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
     HTTPI.adapter = :net_http
   conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)
   ActiveRecord::Base.establish_connection(
@@ -58,6 +59,11 @@ class Databases < ActiveRecord::Base
        status = k.xpath(sprintf('./%s', "Status/Content")).inner_text
        reviewer = k.xpath(sprintf('./%s', "Reviewer/Content")).inner_text
        reviewerNote = k.xpath(sprintf('./%s', "ReviewerNote/Content")).inner_text
+       if !reviewerNote.blank?
+
+          reviewerNote.gsub!('"',' ')
+          reviewerNote.gsub!("'"," ")
+       end
        licenseReplacedBy = k.xpath(sprintf('./%s', "LicenseReplacedBy/Content")).inner_text
        licenseReplaces = k.xpath(sprintf('./%s', "LicenseReplaces/Content")).inner_text
        executionDate = k.xpath(sprintf('./%s', "ExecutionDate/Content")).inner_text
@@ -112,6 +118,8 @@ class Databases < ActiveRecord::Base
        citationRequirementDetail = licenseTerms.xpath(sprintf('./%s', "CitationRequirementDetail/Content")).inner_text
        digitallyCopy = licenseTerms.xpath(sprintf('./%s', "DigitallyCopy/Content")).inner_text
        digitallyCopyNote = licenseTerms.xpath(sprintf('./%s', "DigitallyCopyNote/Content")).inner_text.gsub('"','\\"')
+       digitallyCopyNote = digitallyCopyNote.gsub('“','\\"')
+       digitallyCopyNote = digitallyCopyNote.gsub('”','\\"')
        printCopy = licenseTerms.xpath(sprintf('./%s', "PrintCopy/Content")).inner_text
        printCopyNote = licenseTerms.xpath(sprintf('./%s', "PrintCopyNote/Content")).inner_text
        scholarlySharing = licenseTerms.xpath(sprintf('./%s', "ScholarlySharing/Content")).inner_text
@@ -258,7 +266,7 @@ class Databases < ActiveRecord::Base
            prevailing =  resource.xpath(sprintf('./%s',"Prevailing")).inner_text
            resourceNames = " Collection_Name, Collection_ID, Provider_Name, Provider_Code, Database_Name, Database_Code, Database_Status, Title_Name, Title_ID, Title_Status, ISSN, eISSN, ISBN, SSID, Prevailing"
            resourceValues = " \"" +  collectionName + "\", \"" + libraryCollectionId + "\", \"" + providerName + "\", \"" + providerCode + "\", \"" + databaseName + "\", \"" + databaseCode + "\", \"" + databaseStatus + "\", \"" + titleName + "\", \"" + titleId + "\", \"" + titleStatus + "\", \"" + iSSN + "\", \"" + eISSN + "\", \"" + iSBN + "\", \"" + sSID + "\", \"" + prevailing + "\""
-           #output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
+        #   output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
 #            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
            insert = Erm_data.connection.raw_connection.prepare(sql)
@@ -267,7 +275,7 @@ class Databases < ActiveRecord::Base
          end
        else
            #puts "No Resources.\n";
-    #       output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
+         #  output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
           # puts sql
            insert = Erm_data.connection.raw_connection.prepare(sql)

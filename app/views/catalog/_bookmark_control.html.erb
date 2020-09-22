@@ -1,5 +1,6 @@
-  <%-bookmarks = !(Bookbag.enabled? and current_user)
-     bookbags = Bookbag.enabled? && current_user
+  <%-bookmarks = !(BookBag.enabled? and current_user)
+     bookbags = BookBag.enabled? && current_user
+     can_add_books = current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT
   %>
 <% if current_or_guest_user %>
   <%-
@@ -8,28 +9,71 @@
   # the data-doc-id attribute is used by our JS that converts to a checkbox/label.
   -%>
   <%if bookmarks %>
-  <% unless bookmarked? document %>
-      <%= form_tag( bookmark_path( document ), :method => :put, :class => "bookmark_toggle", "data-doc-id" => document.id, :'data-present' => t('blacklight.search.bookmarks.present'), :'data-absent' => t('blacklight.search.bookmarks.absent'), :'data-inprogress' => t('blacklight.search.bookmarks.inprogress')) do %>
-        <%= submit_tag(t('blacklight.bookmarks.add.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add btn btn-default") %>
-      <% end %>
-  <% else %>
-      <%= form_tag( bookmark_path( document ), :method => :delete, :class => "bookmark_toggle", "data-doc-id" => document.id, :'data-present' => t('blacklight.search.bookmarks.present'), :'data-absent' => t('blacklight.search.bookmarks.absent'), :'data-inprogress' => t('blacklight.search.bookmarks.inprogress')) do %>
-        <%= submit_tag(t('blacklight.bookmarks.remove.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove btn btn-default") %>
-      <% end %>
+  <div class="show-select-box">
+	  <% unless bookmarked? document %>
+	    <%= form_tag(bookmark_path(document),
+	                 method: :put,
+	                 class: 'bookmark-toggle d-none',
+	                 data: {
+	                   'doc-id' => document.id,
+	                   present: t('blacklight.search.bookmarks.present'),
+	                   absent: t('blacklight.search.bookmarks.absent'),
+	                   inprogress: t('blacklight.search.bookmarks.inprogress')
+	                }) do %>
+	      <%= submit_tag(t('blacklight.bookmarks.add.button'),
+	                     id: "bookmark_toggle_#{document.id.to_s.parameterize}",
+	                     class: "bookmark-add btn btn-outline-secondary") %>
+	    <% end %>
+	  <% else %>
+	    <%= form_tag(bookmark_path(document),
+	                 method: :delete,
+	                 class: "bookmark-toggle d-none",
+	                 data: {
+	                   'doc-id' => document.id,
+	                   present: t('blacklight.search.bookmarks.present'),
+	                   absent: t('blacklight.search.bookmarks.absent'),
+	                   inprogress: t('blacklight.search.bookmarks.inprogress')
+	                }) do %>
+	      <%= submit_tag(t('blacklight.bookmarks.remove.button'),
+	                     id: "bookmark_toggle_#{document.id.to_s.parameterize}",
+	                     class: "bookmark-remove btn btn-outline-secondary") %>
+	    <% end %>
+	  <% end %>
+  </div>
   <% end %>
-  <% end %>
-  <%if bookbags %> 
+  <%if bookbags %>
    <% if !bookbagged? document.id  %>
-      <%= form_tag( "/book_bags/add/#{document.id}" , :method => :put, :class => "bookmark_toggle", "data-doc-id" => document.id, :'data-present' => t('blacklight.search.bookmarks.present'), :'data-absent' => t('blacklight.search.bookmarks.absent'), :'data-inprogress' => t('blacklight.search.bookmarks.inprogress')) do %>
-        <%= submit_tag(t('blacklight.bookmarks.add.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add btn btn-default") %>
+    <% if can_add_books %>
+      <%= form_tag( "/book_bags/add/#{document.id}" ,
+                    method: :put,
+                    class: "bookmark-toggle",
+	                data: {
+	                   "doc-id" => document.id,
+	                   present: t('blacklight.search.bookmarks.present'),
+	                   absent: t('blacklight.search.bookmarks.absent'),
+	                   inprogress: t('blacklight.search.bookmarks.inprogress')
+	                }) do %>
+        <%= submit_tag(t('blacklight.bookmarks.add.button'),
+                       id: "bookmark_toggle_#{document.id.to_s.parameterize}",
+                       class: "bookmark_add btn btn-outline-secondary") %>
        <%end%>
-      <% else %> 
-      <%= form_tag( "/book_bags/add/#{document.id}" , :method => :delete, :class => "bookmark_toggle", "data-doc-id" => document.id, :'data-present' => t('blacklight.search.bookmarks.present'), :'data-absent' => t('blacklight.search.bookmarks.absent'), :'data-inprogress' => t('blacklight.search.bookmarks.inprogress')) do %>
-        <%= submit_tag(t('blacklight.bookmarks.remove.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove btn btn-default") %>
+    <% end %>
+   <% else %>
+      <%= form_tag( "/book_bags/add/#{document.id}" ,
+                   method: :delete,
+                   class: "bookmark-toggle",
+	               data: {
+	                 "doc-id" => document.id,
+	                 present: t('blacklight.search.bookmarks.present'),
+	                 absent: t('blacklight.search.bookmarks.absent'),
+	                 inprogress: t('blacklight.search.bookmarks.inprogress')
+	               }) do %>
+        <%= submit_tag(t('blacklight.bookmarks.remove.button'),
+                       id: "bookmark_toggle_#{document.id.to_s.parameterize}",
+                       class: "bookmark_remove btn btn-outline-secondary") %>
          <%end%>
       <% end %>
    <% end %>
-
 <% else %>
   &nbsp;
 <% end %>

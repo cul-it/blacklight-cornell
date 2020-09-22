@@ -1,13 +1,12 @@
 header {
   background: white;
   border-bottom: 1px solid $tan;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
  	h1 {
     margin: 0;
     display: inline-block;
     line-height: 1em;
     font-size: 28px;
-    font-weight: 700;
     text-transform: uppercase;
   	a { 
       color: $dark-gray;}
@@ -42,22 +41,41 @@ header {
 }
 .catalog-name {
   font-family: $font-family-cul;
+  margin: 10px 0;
 }
-.library-link {
-  a {
-    font-size: 18px;
-    color: $dark-gray;
+// .library-link {
+//   a {
+//     font-size: 18px;
+//     color: $dark-gray;
+//   }
+//   a:hover, a:active, a:focus {
+//     color: $dark-gray;
+//     text-decoration: none;
+//   }
+// }
+
+// Announcement banner
+// ---------------------//
+
+.announcement {
+  background: white;
+  .container {
+    background: #1a665f; //slightly darker teal to account for scrolling over teal comm bar on www home page
+    padding: .75em 18px;
   }
-  a:hover, a:active, a:focus {
-    color: $dark-gray;
-    text-decoration: none;
+  p {
+    margin-bottom: 0;
+  }
+  a, a:hover {
+    color: white;
+    text-decoration: underline;
   }
 }
 
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
-  	margin: 1em 0 0 0;
+  	margin: .6em 0 0 0;
     padding: 0;
   	list-style: none;
   	li {
@@ -65,9 +83,11 @@ ul.blacklight-nav {
       margin-bottom: .5em;
       padding: 0 8px;
       font-size: 12px;
+      border-left: 1px solid #ccc;
     }
     li:first-child {
       padding-left: 0;
+      border-left: none;
     }
     a.user-email,
     a.logout {
@@ -79,9 +99,6 @@ ul.blacklight-nav {
     }
     a.logout {
       font-size: .9em;
-    }
-   	a:hover {
-    	text-decoration: none;
     }
     a.user-email:hover,
     a.logout:hover {
@@ -107,13 +124,13 @@ ul.blacklight-nav {
 //-----------------------------------------
 
 .btn-library {
-  background: $cornell-primary;
-  color: white;
+  background: $light-tan;
+  color: $dark-gray;
   text-transform: uppercase;
   border-radius: 0;
   margin-top: .25em;
   i {
-    color: white;
+    color: $cornell-primary;
     font-size: 20px;
   }
   span {
@@ -127,74 +144,67 @@ ul.blacklight-nav {
 .btn-library:hover,
 .btn-library:active,
 .btn-library:focus {
-  color: white;
+  color: black;
 }
-.library-menu {
-  padding: 0;
-  .dropdown-menu {
-    left: auto;
-    right: 0;
-    border-radius: 0;
-    background: rgba($dark-gray, 0.95);
-    a {
-      color: white;
-    }
+
+// Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
+.secondary-catalog-link {
+  font-size: 14px;
+}
+
+// Chat widget - override header border rule
+// ------------------------------------------
+.lcs_slide_out {
+  header {
+    border-bottom: 0;
+    padding: 0;
+  }
+}
+
+// System alert - for things like service outages
+// -----------------------------------------------
+.service-alert {
+  background: white;
+  padding-top: .5rem;
+  .alert {
+    margin-bottom: 0;
   }
 }
 
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
-  ul.blacklight-nav {
-    li {
-      font-size: 12px;
-      border-left: 1px solid #ccc;
-    }
-    li:first-child {
-      border-left: none;
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+@include media-breakpoint-up(sm) {
+  .secondary-catalog-link {
+    float: right;
+  }
+  .announcement {
+    .container {
+      border-radius: 0 0 8px 8px;
     }
   }
-  .navbar-cul {
-    .nav {
-      li {
-        a { 
-          padding: 15px 10px;
-          font-size: 13px;
-        }
-      }
-    }
+  .catalog-name {
+    margin: 5px 0;
   }
 }
 
-// Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) {
-  .navbar-cul {
-    .nav {
-      li {
-        a {
-          padding: 15px 20px;
-          font-size: 14px;
-        }
-      }
-    }
-  }
-  // header {
-  //   h1 {
-  //     font-size: 28px;
-  //   }
-  // }
+// Medium devices (tablets, 768px and up)
+// @include media-breakpoint-up(md) {
+// }
+
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
   ul.blacklight-nav {
     float: right;
     li {
       font-size: 14px;
     }
   }
-  // .library-link {
-  //   a {
-  //     font-size: 18px;
-  //   }
-  // }
 }
 
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

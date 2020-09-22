@@ -20,9 +20,17 @@ body.book_bags-index #documents .document {
 	margin: 0 0 .5em 0;
 	font-weight: normal;
 	line-height: 1.5em;
-	font-size: 18px;
+	font-size: 20px;
 	a {
 		margin-left: .25em;
+	}
+}
+
+// Document - BL7 adjustment
+// ---------------
+.documents-list {
+	.document {
+		padding-bottom: 1rem;
 	}
 }
 
@@ -30,8 +38,8 @@ body.book_bags-index #documents .document {
 // ------------------------------------------
 .document-data {
 	span {
-		font-size: 12px;
-		margin-bottom: .5em;
+		font-size: 14px;
+		margin-bottom: .5rem;
 	}
 	.shadow-record {
 		margin-top: .15em;
@@ -43,9 +51,7 @@ body.book_bags-index #documents .document {
 	}
 	.blacklight-title_uniform_display {
 		display: block;
-		margin-top: -.2em;
-		font-size: 14px;
-		color: $dark-gray;
+		// color: $dark-gray;
 	}
 	.blacklight-author_display {
 		display: block;
@@ -68,9 +74,7 @@ body.book_bags-index #documents .document {
 	}
 }
 .data-block {
-	margin-top: .4em;
 	line-height: 1em;
-	margin-bottom: .5em;
 }
 
 // Availability status
@@ -98,7 +102,7 @@ body.book_bags-index #documents .document {
 
 #sort-dropdown,
 #per_page-dropdown {
-	font-size: 12px;
+	font-size: .9rem;
 	margin-bottom: 5px;
 	.btn {
 		font-size: inherit;
@@ -115,7 +119,7 @@ body.book_bags-index #documents .document {
 .search-filter {
 	.select_all.btn {
 		padding: 5px 12px 4px 12px;
-		font-size: 12px;
+		font-size: .9rem;
 		margin-left: .5em;
 		margin-top: 0;
 	}
@@ -138,11 +142,6 @@ body.book_bags-index #documents .document {
 		margin-left: -15px;
 	}
 }
-.label-online {
-	background: $teal;
-	font-weight: normal;
-}
-.label-online:hover { background: $dark-teal; }
 .form-horizontal {
 	.toggle_bookmark {
 		padding-top: 0;
@@ -151,11 +150,18 @@ body.book_bags-index #documents .document {
 .select-item {
 	margin-top: 1em;
 }
+.badge-online {
+	background: $green;
+}
+.badge-primary.badge-online:hover {
+	background: $dark-green;
+}
 
 // Search history
 // ------------------------------------------
-.search_history {
-	.filterName { margin-right: 0.25em; }
+.search-history {
+	a:hover { text-decoration: none;}
+	.filter-name { margin-right: 0.25em;}
 	.label {
 		display: inline;
 		color: white;
@@ -180,23 +186,33 @@ h4.suggest {
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) {
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	#sortAndPerPage {
 		padding-bottom: 0;
 	}
 	.select-item {
 		margin-top: 0;
 	}
-}
-
-// Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) {
 	.search-filter {
 		float: right;
 	}
+	.search-filter {
+		.select_all.btn {
+			margin-left: 0
+		}
+	}
 }
 
-// Large devices (large desktops, 1200px and up)
-// @media (min-width: $screen-lg) {
-// }
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

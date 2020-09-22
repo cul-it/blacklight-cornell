@@ -1,7 +1,14 @@
+<%# Temporary variable for Covid-19 special processing %>
+<% 
+  available_qualifier = ""
+  if @document['etas_facet'].present?
+	available_qualifier = " online only"
+  end
+%>
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
   <div class="status">
     <span class="online-label">
-      <i class="fa fa-check fa-on-site" title="On-site use"></i>
+      <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
       <%= I18n.t('blacklight.catalog.available') %>
     </span>
     <%= I18n.t('blacklight.catalog.on_site') %>
@@ -9,13 +16,13 @@
   <% end %>
 
 <% if i["items"].present? %>
-  <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == false  %>
+  <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
     <%# i["items"]["avail"].each do |item| %>
 
       <div class="status">
         <span class="online-label">
-          <i class="fa fa-check"></i>
-          <%= I18n.t('blacklight.catalog.available') %>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <%= I18n.t('blacklight.catalog.available') %> <%= available_qualifier %>
         </span>
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
@@ -26,21 +33,32 @@
       </div>
     <%# end %>
 
-
-  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true) %>
+  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
     <div class="status">
       <span class="online-label">
-        <i class="fa fa-check fa-on-site" title="On-site use"></i>
+        <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
         <%= I18n.t('blacklight.catalog.available') %>
       </span>
       <%= I18n.t('blacklight.catalog.on_site') %>
     </div>
 
 
-  <% elsif i["items"]["unavail"].present? %>
+  <% elsif i["items"]["unavail"].present?  %>
     <% i["items"]["unavail"].each do |item| %>
-      <div class="status">
-        <i class="fa fa-clock-o"></i>
+      <% if item["boundWith"] == true %>
+         <% item["status"] = {} %>
+         <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
+      <% end %>
+     <% if !item["status"].nil? %>
+      <% if item["status"].to_s.include?("Withdrawn") && @document['etas_facet'].present?%>
+         <div class="status <%=item["status"]%>">
+             <i class="fa fa-clock-o" aria-hidden="true"></i>
+             Unavailable for loan
+         </div>
+         <% break %>
+      <% end %>
+      <div class="status <%=item["status"]%>">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
         <% if item['enum'].present?  %>
           <%= item['enum'] %>
         <% end %>
@@ -56,17 +74,34 @@
               <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y") %>
             <% end %>
           <% elsif item["status"]["code"].keys[0] == "9" || item["status"]["code"].keys[0] == "10" %>
-            In transit <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            In transit 
+            <% if !item["status"]["date"].nil? %>
+              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            <% end %>
           <% elsif item["status"]["code"].keys[0] == "12" %>
-            Missing <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            Missing 
+            <% if !item["status"]["date"].nil? %>
+              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            <% end %>
           <% elsif item["status"]["code"].keys[0] == "23"|| item["status"]["code"].keys[0] == "25" %>
-            Requested <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            Requested 
+            <% if !item["status"]["date"].nil? %>
+              <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+            <% end %>
+          <%# Status 18 = At Bindery %>
           <% elsif item["status"]["code"].keys[0] == "18" %>
-              <%= item["status"]["code"].values[0] %> <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <%= item["status"]["code"].values[0] %> 
+              <% if !item["status"]["date"].nil? %>
+                <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <% end %>
+          <%# Status 7 = On Hold, 6 = Hold Request %>
           <% elsif item["status"]["code"].keys[0] == "7" || item["status"]["code"].keys[0] == "6" %>
               <%= item["status"]["code"].values[0] %>
           <% else %>
-            Unavailable <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <%= item["status"]["code"].values[0] %>
+              <% if !item["status"]["date"].nil? %>
+                <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
+              <% end %>
           <% end %>
       <%end %>
       <% if item["recalls"].present? || item["holds"].present? %>
@@ -75,6 +110,7 @@
         (Requests: <%= item["holds"] + item["recalls"] %>)
       <% end %>
     </div>
+    <% end %>
   <%end %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>
     <% some_av = 'yes' %>
@@ -83,7 +119,7 @@
 <% if some_av == 'yes'  %>
   <div class="status">
       <span class="online-label">
-        <i class="fa fa-check"></i>
+        <i class="fa fa-check" aria-hidden="true"></i>
         <%= I18n.t('blacklight.catalog.available') %>
       </span>
       All other volumes/copies
@@ -93,6 +129,6 @@
 <% end %>
 <% if i["order"].present?  %>
   <div class="status">
-    <i class="fa fa-clock-o"></i> <%= I18n.t('blacklight.catalog.on_order') %>
+    <i class="fa fa-clock-o" aria-hidden="true"></i> <%= I18n.t('blacklight.catalog.on_order') %>
   </div>
 <% end %>

@@ -1,7 +1,6 @@
 module DisplayHelper
 include ActionView::Helpers::NumberHelper
 
-
   def render_first_available_partial(partials, options)
     partials.each do |partial|
       begin
@@ -13,8 +12,6 @@ include ActionView::Helpers::NumberHelper
 
     raise "No partials found from #{partials.inspect}"
   end
-
-
 
   def field_value_separator
     '<br>'
@@ -28,10 +25,6 @@ include ActionView::Helpers::NumberHelper
     end
   end
 end
-
-
-
-
 
   # for display of | delimited fields
   # only displays the string before the first |
@@ -82,6 +75,7 @@ end
   # only displays the string before the first |
   # otherwise, it does same as render_index_field_value
   def render_pair_delimited_index_field_value args
+    Rails.logger.info("RENDER_PAIR_...")
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -109,12 +103,9 @@ end
   end
 
   # :format arg specifies what should be returned
-  # * the raw array (url_access_display in availability on item page)
   # * url only (search results)
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
-
-
 
   def render_display_link args
     label = blacklight_config.display_link[args[:field]][:label]
@@ -273,7 +264,7 @@ end
   }
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
+    dp = Blacklight::DocumentPresenter.new()
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -346,7 +337,6 @@ end
                 link_to(v, add_search_params(args[:field], '"' + json_value + '"'), class: "hierarchical")
               end.join(sep_display).html_safe
 
-
         elsif clickable_setting[:pair_list]
           ## fields such as title are hierarchical
           ## e.g. display value 1 | search value 1 | display value 2 | search value 2 ...
@@ -368,8 +358,6 @@ end
               link_to(v, add_search_params(args[:field], '"' + v + '"'))
             end.join(sep_display).html_safe
           end
-
-
 
         elsif clickable_setting[:pair_list_json]
           ## fields such as title are hierarchical
@@ -399,9 +387,6 @@ end
             end
             display_list.join(sep_display).html_safe
 
-
-
-
           else
             value_array.map do |v|
               link_to(v, add_search_params(args[:field], '"' + v + '"'))
@@ -422,7 +407,6 @@ end
       # what other form of input to handle?
     end
   end
-
 
   def add_search_params(field, value)
     new_search_params = {
@@ -497,8 +481,7 @@ end
   end
 
   def is_online? document
-   Rails.logger.debug("es287_debug @@@@ #{__FILE__}:#{__LINE__} url =  #{document['url_access_display'].inspect}")
-    ( document['url_access_display'].present?  && document['url_access_display'].size > 0) ?
+    ( document['online'].present?  && document['online'].include?('Online')) ?
         true
       :
         false
@@ -508,15 +491,6 @@ end
         true
       :
         false
-  end
-  def online_url(document)
-    if document['url_access_display'].present?
-      if document['url_access_display'].size > 1
-        solr_document_path(document)
-      else
-        render_display_link(:document => document, :field => 'url_access_display', :format => 'url')
-      end
-    end
   end
 
   def finding_aid(document)
@@ -561,8 +535,8 @@ end
     "Conference Proceedings" => "group",
     "Video" => "video-camera",
     "Videos" => "video-camera",
-    "Map or Globe" => "globe",
-    "Maps and Globes" => "globe",
+    "Map" => "globe",
+    "Maps" => "globe",
     "Manuscript/Archive" => "archive",
     "Manuscripts / Archives" => "archive",
     "Newspaper" => "newspaper",
@@ -583,7 +557,8 @@ end
     "Library Websites" => "desktop",
     "Miscellaneous" => "ellipsis-h",
     "Object" => "trophy",
-    "Objects" => "trophy"
+    "Objects" => "trophy",
+    "Repositories" => "building"
   }
 
   def formats_icon_mapping(format)
@@ -595,6 +570,9 @@ end
     ic
   end
 
+  def hide_this_field field
+    return false
+  end
 
   def render_show_format_value field
     formats = []
@@ -721,7 +699,6 @@ end
       if @add_row_style == :text
         out << s[0]
       else
-
 
          Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
 
@@ -927,7 +904,7 @@ end
 
   # Overrides original method from blacklight_helper_behavior.rb
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
-    opts[:label] ||= blacklight_config.index.show_link.to_sym
+    opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
     label = _cornell_render_document_index_label doc, opts
     if params[:controller] == 'bookmarks'
       docID = doc.id
@@ -941,11 +918,40 @@ end
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
   def link_back_to_catalog(opts={:label=>nil})
+    pageNumber = 1
     query_params = session[:search] ? session[:search].dup : {}
+    if query_params[:per_page].nil?
+      query_params[:per_page] = "20"
+    end
+    test = (query_params[:counter].to_i % query_params[:per_page].to_i)
+      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0'
+         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i)
+      else
+         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) + 1
+      end
+
+      query_params[:page] = pageNumber.to_s
+
+
+    if !query_params[:q_row].nil?
+        if (!query_params[:q_row].nil? && query_params[:q_row].size == 2)
+            if query_params[:q_row][1] == ''
+              query_params[:q] = query_params[:q_row][0]
+              query_params.delete(:q_row)
+              query_params[:search_field] = query_params[:search_field_row][0]
+              query_params.delete(:search_field_row)
+              query_params.delete(:op_row)
+              query_params.delete(:boolean_row)
+              query_params.delete(:advanced_query)
+              #query_params.delete(:total)
+            end
+            session[:search] = query_params
+        end
+    end
     Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
     Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} query_params =  #{query_params.inspect}")
     query_params.delete :counter
-    query_params.delete :total
+   # query_params.delete(:total)
     if params[:controller] == 'search_history'
       link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
       #link_url = url_for(query_params)
@@ -1002,8 +1008,6 @@ end
 #    end
 #  end
 
-
-
   # Overrides original method from facets_helper_behavior.rb
   # Renders a count value for facet limits with comma delimeter
   # Removed override, blacklight 5 provides commas
@@ -1012,8 +1016,6 @@ end
    # content_tag("span", number_with_delimiter(t('blacklight.search.facets.count', :number => num)), :class => "count")
     #content_tag("span", format_num(t('blacklight.search.facets.count', :number => num)), :class => "count")
   #end
-
-
 
   # Overrides original method from blacklight_helper_behavior.rb
   # -- Updated to handle arrays (multiple fields specified in config)
@@ -1043,9 +1045,6 @@ end
     #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
     presenter(doc).label field, opts
   end
-
-
-
 
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
@@ -1081,8 +1080,12 @@ end
       label = title
     end
 
-    if vern.present?
+    if vern.present? && !title.nil?
       label = vern + ' / ' + label
+    else
+      if vern.present?
+        label = vern
+      end
     end
 
     label ||= doc['id']
@@ -1131,15 +1134,12 @@ end
     end
   end
 
-
-
   # To vernaculate or not...that is the question
+  # tlw72: modified this method for Blacklight 7. Now the values are passed in rather
+  # than the field names.
   def the_vernaculator(engl, vern)
-    #presenter = Blacklight::ShowPresenter.new(@document, self)
-    #display = render_document_show_field_value :document => @document, :field => engl
-    display = field_value engl
-    #vernacular = render_document_show_field_value :document => @document, :field => vern
-    vernacular = field_value vern
+    display = engl
+    vernacular = vern
     display = vernacular +  ' / ' + display unless vernacular.blank?
     return display
   end
@@ -1147,9 +1147,10 @@ end
   # Helper method to replace render_document_show_field_value with something that's
   # a little easier to call from a view. Requires a field name from the solr doc
   def field_value(field)
-    Blacklight::ShowPresenter.new(@document, self).field_value field
+    field_config = blacklight_config.show_fields[field]
+    Blacklight::ShowPresenter.new(@document, self).field_value field_config
   end
-##########
+
  def cornell_params_for_search(*args, &block)
       source_params, params_to_merge = case args.length
       when 0
@@ -1193,7 +1194,6 @@ end
       search_state.add_facet_params_and_redirect(field, item)
     end
 
-
 ##########
 
   # Display the Solr core for everything but production instance
@@ -1201,7 +1201,7 @@ end
     unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
-      start = core.rindex(/http:\/\//) + 7
+      start = core.rindex(/:\/\//) + 3
       display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
       display.html_safe
     end
@@ -1225,8 +1225,11 @@ end
 
   # Parse other_id_display field for OCLC numbers
   def bookcover_oclc(document)
+    #Rails.logger.info("CONGAME = #{document.inspect}")
+#    Rails.logger.info("CONGAME = #{document['oclc_id_display']}")
+#    oclc_id = document['oclc_id_display'][0]
     other_ids = document['other_id_display']
-    oclc_id = other_ids.find { |e| /^\(OCoLC\)/ =~ e } unless other_ids.blank?
+    oclc_id = document['oclc_id_display'][0] #other_ids.find { |e| /^\(OCoLC\)/ =~ e } unless other_ids.blank?
     unless oclc_id.blank?
       # Remove '(OCLC)' prefix
       # -- really need to ask Frances about making OCLC# its own field
@@ -1234,14 +1237,18 @@ end
     end
   end
 
+  def bookcover_oclc(document)
+    if document['oclc_id_display'].nil?
+      oclc_id = ''
+    else
+      oclc_id = document['oclc_id_display'][0]
+    end
+    return oclc_id
+  end
   # Overrides original method from facets_helper_behavior.rb
   # -- Replace icon-remove (glyphicon) with appropriate Font Awesome classes
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
-
-
-
-
 
   def render_facet_item(solr_field, item)
     if solr_field == 'format'
@@ -1267,11 +1274,8 @@ end
       else
         render_facet_value(solr_field, item)
       end
-
     end
-
   end
-
 
   def render_facet_value(facet_solr_field, item, options ={})
     path = search_action_path(cornell_add_facet_params_and_redirect(facet_solr_field, item))
@@ -1302,7 +1306,14 @@ end
     options = args.extract_options!
     document = args.shift || options[:document]
     field = args.shift || options[:field]
-    presenter(document).field_value field, options.except(:document, :field)
+    field_config = blacklight_config.index_fields[field]
+    # the field presenter is needed for oclc requests.
+    if presenter(document).nil?
+      fp = Blacklight::FieldPresenter.new(self, document, field_config, options.except(:document, :field))
+      fp.render
+    else
+      presenter(document).field_value field_config, options.except(:document, :field)
+    end
   end
 
   def simple_render_document_index_label(*args)
@@ -1336,7 +1347,6 @@ end
     params[:q] = showText
     ## Uses overridden render_search_to_s_q(params) function below originally from app/helper/blacklight/search_history_constraints_helper_behavior.rb
     showText = link_to_previous_search(params)
-
 
     return showText
   end
@@ -1379,7 +1389,6 @@ end
     return linkText
   end
 
-
   #switch to determine if a view is part of the main catalog and should get the header
   def part_of_catalog?
     if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
@@ -1396,7 +1405,9 @@ end
   end
 
   def render_extra_head_content
+    if !@extra_head_content.nil?
     @extra_head_content.join("\n").html_safe
+    end
   end
 
   def render_head_content
@@ -1428,8 +1439,6 @@ end
       url.starts_with?("/catalog/")
     end
   end
-
-
 
   def random_image
     require 'open-uri'
@@ -1491,7 +1500,6 @@ end
     result = result.to_sentence.html_safe
   end
 
-
 # Render the search query constraint
   def render_search_to_s_q(params)
     return "".html_safe if params['q'].blank?
@@ -1503,4 +1511,97 @@ end
     end
     render_search_to_s_element(label , render_filter_value(params['q']) )
   end
+
+  def access_url_is_list?(args)
+    args['url_access_json'].present? && args['url_access_json'].size != 1
+  end
+
+  def access_url_single(args)
+    if !args["url_access_json"].present? || access_url_is_list?(args)
+      nil
+    else
+      url_access = JSON.parse(args["url_access_json"][0])
+      if url_access['url'].present?
+        url_access['url']
+      else
+        nil
+      end
+    end
+  end
+
+  def access_z_note(args)
+    if args['url_access_json'].present? && !access_url_is_list?(args)
+      single = JSON.parse(args["url_access_json"][0])
+      if single.present? && single['description'].present?
+        excludes = [
+          'Connect to resource.',
+          'Connect to full text.',
+          'Connect to full text',
+          'Current issues',
+          'Connect to image database.',
+          'Connect to full text:',
+          'Connect to AGRICOLA.',
+          'Connect to AGU digital library - Books.'&&
+          'Connect to full-text',
+          'Connect to American Founding Era.',
+          'Connect to AnthroSource.',
+          'Connect to ATLA religion database.',
+          'Connect to site.',
+          'Black Literature Index Connect to full text.',
+          'Connect to CenStats.',
+          'Connect to Europa World Plus.',
+          'Connect to Gale Directory Library.',
+          'Connect to resource',
+          'Connect to collection.',
+          'Connect to LLMC Digital',
+          'For instructions on how to use Lynda.com',
+          'Connect to database.',
+          'Connect to SPIE Digital Library.',
+          'Connect to TRID.',
+          'Connect to World news connection.'
+          ]
+        if excludes.include? single['description']
+          nil
+        else
+          return single['description']
+        end
+      end
+    end
+    nil
+  end
+
+  def access_url_first(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['url'].present?
+        return url_access['url']
+      end
+    end
+    nil
+  end
+
+  def access_url_first_description(args)
+    if args['url_access_json'].present? && args["url_access_json"].first.present?
+      url_access = JSON.parse(args['url_access_json'].first)
+      if url_access['description'].present?
+        return url_access['description']
+      end
+    end
+    nil
+  end
+
+  def access_url_all(args)
+    if args['url_access_json'].present?
+      all = []
+      args['url_access_json'].each do |json|
+        url_access = JSON.parse(json)
+        if url_access['url'].present?
+          all << url_access['url']
+        end
+      end
+      return all.size > 0 ? all : nil
+    end
+    nil
+  end
+
 end

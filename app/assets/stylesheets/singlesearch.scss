@@ -1,6 +1,3 @@
-// div.single-search.container {
-//   padding:2em;
-// }
 input.search-query { width: 35%; }
 #field,
 #sort,
@@ -19,18 +16,7 @@ input.search-query { width: 35%; }
   .search-query {
     width: 100%;
   }
-  .btn-search {
-    margin-left: .5em;
-  }
 }
-
-// .single-search form {
-//   margin:0px;
-
-//   .btn {
-//     margin-left:.25em;
-//   }
-// }
 
 #top2 {
   .search-source {
@@ -59,9 +45,6 @@ div.view-all {
   .engine-title{
     text-transform: lowercase;
   }
-  .btn {
-    font-size: 12px;
-  }
   .all-link {
     margin-top: .5em;
   }
@@ -82,10 +65,13 @@ div.view-all {
 
 // Bento box
 // -----------------------------------------------//
+.search-pane {
+  margin-bottom: 2em;
+}
 .search-source {
   font-size: 24px;
   margin: 0 0 .25em 0;
-  i { color:$dark-tan}
+  i { color: $concrete}
   a {
     color: $dark-gray;
     border: none;
@@ -176,25 +162,6 @@ div.view-all {
   padding-right:2em;
 }
 
-.all-formats {
-  background: $light-tan;
-  @include border-top-radius($border-radius-large);
-  @include border-bottom-radius($border-radius-large);
-  h3 {
-    font-size: 1.2em;
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
-    padding-bottom: 0;
-  }
-  ul.icons-ul {
-    margin-left: 1.8em;
-    list-style: none;
-  }
-  .no-results a {
-    color: #aaa;
-  }
-}
-
 // Sidebar
 // -----------------------------------------------//
 // expand-search rules also apply to catalog
@@ -203,14 +170,15 @@ div.view-all {
   ul {
     margin-left: 0;
     list-style: none;
+    margin-bottom: 0;
   }
   li {
-    font-size: 12px;
     margin-bottom: 6px;
     line-height: 1.5em;
+    font-size: 14px;
   }
   i {
-    color: $dark-tan;
+    color: $concrete;
     margin-right: .25em;
   }
   p {
@@ -242,31 +210,42 @@ div.view-all {
   }
 }
 
-// Advanced link customized for single search
-// -----------------------------------------------//
-.search {
-  .advanced-search-link {
-    padding-left: 15px;
+// Repositories results page
+// -------------------------------- //
+
+.institutionalrepository-search {
+  .form-group {
+    .ir-search {
+      width: 100%;
+    }
+  }
+}
+.blacklight-institutional_repositories {
+  h2 {
     margin-top: 1em;
+    margin-bottom: 1em;
+    padding-bottom: .2em;
+    border-bottom: 5px solid $light-tan;
   }
 }
 
 // Search options - customized from the same markup as catalog home page
 // -----------------------------------------------------------------------//
-.search-index {
+.search-index,
+.blacklight-search-index {
   .other-resources {
     border-top: 1px solid $tan;
     padding-top: 1em;
     margin-top: 1.5em;
+    h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+    }
   }
 }
 
 .empty-single-search {
   margin-top: 2em;
-  .well {
-    font-size:1.2em;
-    padding: 19px 19px 0 19px;
-  }
   form {
     padding-bottom: 2.5em;
   }
@@ -292,26 +271,32 @@ div.view-all {
 }
 
 .results-collapse {
-  .well {
-    padding: 10px;
-    margin-top: 20px;
-    p {
-      padding: 0;
-      font-size: 1.1em;
+  .card-header {
+    h4 {
+      font-size: 1rem;
       margin-bottom: 0;
     }
   }
 }
 
-// Advanced link customized for single search
+.advanced-search-link {
+  font-size: 14px;
+}
+
+// Jump links
 // -----------------------------------------------//
+
+.top-results {
+  text-transform: uppercase;
+  font-weight: 700;
+  padding-top: .3rem;
+  padding-right: .75rem;
+}
 #jumpbar {
   padding-bottom: 1em;
+  padding-left: 0;
+  padding-right: 0;
   margin-bottom: 1em;
-  .top-results {
-    text-transform: uppercase;
-    font-weight: 700;
-  }
   li {
     font-size: 14px;
   }
@@ -349,14 +334,6 @@ div.view-all {
   .alert { margin-top: 1em; }
 }
 
-// no results
-.no-results {
-  font-size: 14px;
-}
-.no-margin {
-  margin-bottom: 0;
-}
-
 // Search info -- tooltip on home page -- lifted from CUL site
 .search-info {
   font-size: 13px;
@@ -373,15 +350,6 @@ div.view-all {
   text-align: left;
 }
 
-// Override the default collapsed state -- copied out of gem - navbar.scss.css - stick this in here so IE8 will display the All Results panel - https://issues.library.cornell.edu/browse/DISCOVERYACCESS-1202
-.results-collapse.collapse {
-  // display: none;
-}
-
-.chat {
-  margin: 0 0 1em;
-}
-
 // Availability
 // -----------------------
 
@@ -395,35 +363,20 @@ div.view-all {
   font-weight:500;
 }
 
+.all-results-header {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
-
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) {
-  .single-search {
-    .btn-search {
-      margin-left: 0;
-    }
-  }
-  .results-collapse,
-  .results-collapse.collapse {
-    display: block !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
+// Small devices (landscape phones, 576px and up)
+@include media-breakpoint-up(sm) {
   .bento_box {
     .top-panel-heading {
       margin-bottom: 0;
@@ -431,6 +384,9 @@ div.view-all {
     h4 {
       margin-top: 0;
     }
+  }
+  .search-pane {
+    margin-bottom: 1em;
   }
   // Grid
   .bento1 {
@@ -469,10 +425,24 @@ div.view-all {
     clear:right;
     margin-bottom:2em;
   }
+  .bento7 {
+    width:100%;
+    clear:both;
+    margin-bottom:2em;
+  }
+  .advanced-search-link {
+    text-align: right;
+  }
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md) {
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+  .results-collapse,
+  .results-collapse.collapse {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
   .single-search {
     .form-group {
       width: 60%;
@@ -482,10 +452,14 @@ div.view-all {
     text-align: right;
     margin-top: 20px;
   }
-  // Required to make the collapsing navbar work on regular desktops
-  // .results-collapse,
-  // .results-collapse.collapse {
-  //   height: auto !important;
-  //   overflow: visible !important;
-  // }
 }
+
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
+  .top-results {
+    float: left;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

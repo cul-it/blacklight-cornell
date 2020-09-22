@@ -19,12 +19,15 @@ module NavigationHelpers
     when /the home\s?page/
       root_path
 
-    
+
     when /the catalog page/
       search_catalog_path
 
     when /the folder page/
       folder_index_path
+
+    when /the detail page for id ([0-9]+)/
+      "catalog/" + $1
 
     when /the document page for id (.+)/
       facet_catalog_path($1)
@@ -32,8 +35,17 @@ module NavigationHelpers
     when /the facet page for "([^\"]*)"/
       facet_catalog_path($1)
 
+    when /BookBag/
+      '/book_bags/index'
+
     when /the search page/
       search_index_path
+
+    when /the search everything page/
+      'catalog?utf8=✓&controller=catalog&action=index&q=&search_field=all_fields'
+
+    when /the search history page/
+      'search_history'
 
     when /the single search results page/
       search_index_path

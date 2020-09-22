@@ -13,7 +13,6 @@ module Blacklight::Solr::Document::RIS
     document.will_export_as(:zotero, "application/x-research-info-systems")
   end
 
-
   def export_as_ris
     export_ris
   end
@@ -87,9 +86,9 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     end
 
     if !editors.empty?
-      editors.each { |e|     
+      editors.each { |e|
         output += "ED  - #{e}\n"
-      } 
+      }
     end
 
     # publication year
@@ -120,10 +119,8 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
       self["language_facet"].map{|la|  output += "LA  - #{la}\n" }
     end
 
-    if !self['url_access_display'].blank?
-      ul = self['url_access_display'].first.split('|').first
-      ul.sub!('http://proxy.library.cornell.edu/login?url=','')
-      ul.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+    ul = access_url_first_filtered(self)
+    if ul.present?
       output += "UR  - #{ul}\n"
     end
     output += "M2  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
@@ -132,7 +129,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     kw =   setup_kw_info(to_marc)
     kw.each do |k|
 
-      output +=  "KW  - #{k}" + "\n" unless k.empty? 
+      output +=  "KW  - #{k}" + "\n" unless k.empty?
     end
     nt =   setup_notes_info(to_marc)
     nt.each do |n|

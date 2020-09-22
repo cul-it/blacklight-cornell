@@ -1,32 +1,36 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
-
-gem 'rails', '4.2.7.1'
+ruby "2.5.5"
+#another try
+gem 'rails', '5.2.4.3'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
-
+gem "sprockets", '~> 3.7.2'
+gem "actionview", ">= 5.2.4.2"
 # added for rails 4.
 gem 'activerecord-session_store'
-gem 'protected_attributes'
+gem 'protected_attributes_continued'
+gem 'mini_racer', platforms: :ruby
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
+  gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
+  gem 'brakeman'
 end
 
 group :production,:staging do
-  gem 'mysql'
+  gem 'mysql2', '0.5.2'
 end
 
 gem 'savon', '~> 2.11.1'
 gem 'parslet'
 gem 'ultraviolet'
 gem 'yaml_db'
-gem 'blacklight', '6.7.2'
-gem 'blacklight_range_limit'
-gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL6'
-gem 'kaminari', '0.15.0'
+gem 'blacklight', '7.0.1'
+gem 'blacklight_range_limit', '~> 7.0'
+gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
+gem 'kaminari', '>= 0.15'
 
 gem 'blacklight-hierarchy'
 gem 'htmlentities'
@@ -43,6 +47,8 @@ gem 'rufus-scheduler'
 gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
+gem 'utf8-cleaner'
+#gem 'mini_racer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
@@ -67,7 +73,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara',"~> 2.1"
+  gem 'capybara','>= 2.3', '< 4'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false
@@ -78,17 +84,19 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
-  gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
+#  gem 'mini_racer', platforms: :ruby
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '5.0.5'
-gem 'rvm-capistrano'
-gem 'capistrano'
+gem 'rvm-capistrano', '1.5.6'
+gem 'capistrano', '2.15.9'
 gem 'capistrano-ext'
+gem 'net-ssh', '5.2.0'
+gem 'net-scp', '2.0.0'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
-gem 'devise', '~> 4.2'
+gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth'
@@ -98,11 +106,15 @@ gem 'omniauth-saml'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 4.0'
-
-gem 'bootstrap-sass'
+gem 'xmlrpc'
+gem 'bootstrap'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests',:git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+#gem 'blacklight_cornell_requests', :path => '/usr/local/src/bc-requests'
+#gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
+# gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'dev'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 
 gem 'bento_search'
@@ -115,3 +127,5 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
 gem 'unicode_utils'
+gem 'google-analytics-rails', '1.1.1'
+gem 'ebsco-eds'

@@ -6,7 +6,7 @@
     <% if availability["availAt"].present? %>
     <% availability["availAt"].each do |location,callnumber| %>
     <div class="status ">
-      <i class="fa fa-check" title="Available"></i>
+      <i class="fa fa-check" title="Available" aria-hidden="true"></i>
       <span class="location">
         <% unless location == "Library Technical Services Review Shelves" %>
         <%= "#{location}" %>
@@ -28,7 +28,7 @@
       <% availability["unavailAt"].each do |location,callnumber| %>
     <div class="status ">
 
-        <i class="fa fa-clock-o" title="Available by request"></i>
+        <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
     <span class="location">
       <% unless location == "Library Technical Services Review Shelves" %>
       <%= "#{location}" %>

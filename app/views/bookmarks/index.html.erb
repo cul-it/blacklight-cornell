@@ -3,7 +3,6 @@
         <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
         <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
         <%= render_extra_head_content %>
-        <meta name=bookstupid />
       <% end -%>
 
 <h2><%= t('blacklight.bookmarks.title') %></h2>
@@ -13,31 +12,26 @@
 <%- elsif @document_list.blank? -%>
 
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
+  <p><%= link_to bookmarks_book_bags_login_path do %>
+    <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
+    <% end %></p>
 
 <% else %>
   <div class="results-info">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-12 col-md-8">
         <span class="results-count">
           <%= render :partial => "paginate_compact", :object => @response %>
         </span>
 
-        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks' do %>
+        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
-        <% if current_or_guest_user.bookmarks.count > 0  %>
-          <%
-          bookmarks = current_or_guest_user.bookmarks
-          bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-          ids = bookmark_ids.join(".")
-          path = addbookmarks_index_path(@get)
-          %>
-          <%= form_tag( path, :method => "get") do %>
-            <button type="submit" class="btn btn-primary"> <%= t('blacklight.bookmarks.bag.action_title') %></button>
-          <% end %>
-        <% end %>
+        <span class="bookmarks-login"><%= link_to bookmarks_book_bags_login_path do %>
+          <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
+        <% end %></span>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-12 col-md-4">
         <%= render :partial => 'per_page_widget' %>
         <%= render :partial => 'sort_widget' %>
       </div>

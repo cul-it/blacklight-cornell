@@ -70,15 +70,20 @@ module CornellParamsHelper
      if query_string =~ /^\".*\"$/ or query_string.include?('"')
        params[:search_field] = params[:search_field] + '_quote'
        return query_string
-     else 
+     else
        unless query_string.nil?
          params[:q_row] = parse_stem(query_string)
        end
-       return query_string       
+       return query_string
      end
 #    end
   end
- 
+
+  def userQuery(query_string)
+   #update to reflect userGroup feedback 
+     return query_string
+  end
+  
   def parse_stem(query_string)
     string_chars = query_string.chars
     quoteFlag = 0
@@ -127,15 +132,15 @@ module CornellParamsHelper
         params[:search_field_row] << search_field + "_quote"
         wordArray = []
         quoteFlag = 0
-      else 
+      else
         if quoteFlag == 0
           params[:q_row] << wordArray.join.strip
            params[:op_row] << "AND"
-          params[:search_field_row] << search_field 
+          params[:search_field_row] << search_field
          wordArray = []
         end
       end
-    end 
+    end
     times = params[:q_row].count
     for j in 1..times -1
       x = j
@@ -230,7 +235,7 @@ end
                 testBRow << my_params[:boolean_row][i.to_s.to_sym]
                 end
             end
-            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?) 
+            if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?)
               if my_params[:boolean_row].nil?
                 my_params[:boolean_row] = {"1" => "AND"}
               else
@@ -248,102 +253,186 @@ end
        return my_params
      end
 
-
-
- def getTempLocations(doc)
+ def getHoldingsServiceTempLocations(doc)
    require 'json'
    require 'pp'
    @tempLocsNameArray = []
    temp_loc_Full = []
    temp_loc_text = []
-   temp_loc_Full = create_condensed_full(doc)
-   if !temp_loc_Full[0]["copies"][0]["temp_locations"].nil? and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
-     temp_loc_text = temp_loc_Full[0]["copies"][0]["temp_locations"]
-   end
-   temp_loc_text.each do |templocs|
-     templocs.gsub!(/$/, ' || ')
-   end
-   if temp_loc_text.blank?
-     @tempLocsNameArray << [" || "]
-   else
-     @tempLocsNameArray <<  temp_loc_text
+#   temp_loc_Full = create_condensed_full(doc)
+   temp_loc_Full = doc[:holdings_json]
+   doc['holdings_record_display'].each do |holding|
+      holding = JSON.parse(holding)
+
+      if !holding["locations"].nil? #and temp_loc_Full[0]["copies"][0]["temp_locations"].length > 0
+        temp_loc_text = holding["locations"][0]['name']
+      end
+      temp_loc_text.each do |templocs|
+        templocs.gsub!(/$/, ' || ')
+      end
+      if temp_loc_text.blank?
+        @tempLocsNameArray << [" || "]
+      else
+        @tempLocsNameArray <<  temp_loc_text
+      end
    end
    return @tempLocsNameArray
  end
 
- def getLocations(doc)
-   require 'json'
-   require 'pp'
-        @recordLocsNameArray = []
-        myhash = {}
-        breakerlength = doc[:holdings_record_display].length
-        i = 0
-        doc[:holdings_record_display].each do |hrd|
-         myhash = JSON.parse(hrd)
-         if i == breakerlength - 1
-           @recordLocsNameArray << myhash["locations"][0]["name"] + " || "
-         else
-           @recordLocsNameArray << myhash["locations"][0]["name"] + " | "
-         end
-         i = i + 1
-      end
-   return @recordLocsNameArray
- end
-
  def getCallNos(doc)
    require 'json'
-         @recordCallNumArray = []
-        myhash = {}
-        breakerlength = doc[:holdings_record_display].length
-        i = 0
-        doc[:holdings_record_display].each do |hrd|
-         myhash = JSON.parse(hrd)
-         if myhash["callnos"].nil?
-           testString = "No Call Number"
+   @recordCallNumArray = []
+   myhash = {}
+
+   if doc[:holdings_json].present?
+     thisHash = JSON.parse(doc[:holdings_json])
+     hash_size = thisHash.size
+     loop_count = 0
+     thisHash.each do |k, v|
+       loop_count += 1
+       if v.present?
+         newHash = {}
+         newHash = v
+         if newHash["online"].present? and newHash["online"] == true
+           tmpStr = "*Networked resource, No Call Number"
+           tmpStr += " || " if loop_count < hash_size
+           tmpStr += " | " if loop_count == hash_size
+           @recordCallNumArray << tmpStr
+         elsif newHash['call'].present?
+           tmpStr = newHash['call']
+           tmpStr += " || " if loop_count < hash_size
+           tmpStr += " | " if loop_count == hash_size
+           @recordCallNumArray << tmpStr
          else
-           testString = myhash["callnos"][0]
-           if testString == '' or testString.nil?
-             testString = "No Call Number, possibly still on order. Please contact the Circulation Desk at (607) 255-4245 or email okucirc@cornell.edu"
-           end
+           @recordCallNumArray << "No Call Number, possibly still on order. Please contact the Circulation Desk at (607) 255-4245 or email okucirc@cornell.edu"
          end
-         if i == breakerlength - 1
-           @recordCallNumArray << testString + " || "
-         else
-           @recordCallNumArray << testString + " | "
-         end
-         i = i + 1
-      end
+       end
+     end
+   end
    return @recordCallNumArray
  end
 
+# Similar to getItemStatus but without the available/unavailable. Is this really needed?
+def getLocations(doc)
+  require 'json'
+  require 'pp'
+  @recordLocsNameArray = []
+  myhash = {}
 
-
- def getItemStatus(doc)
-   require 'json'
-   require 'pp'
-        @itemStatusArray = []
-
-        @hideArray = []
-        @hideArray = create_condensed_full(doc)
-        @hideArray.each do |hidee|
-        myhash = {}
-          myhash = hidee
-          if myhash["copies"][0]["items"].size > 0 and myhash["copies"][0]["items"]["Available"].nil? and myhash["location_name"] != "*Networked Resource"
-            i = 0
-            myhash["copies"][0]["items"].each do |item|
-               @itemStatusArray << item[0] + " || "
-            end
-          else
-              if myhash["location_name"] == '*Networked Resource'
-                @link = doc[:url_access_display][0].split('|')
-                @itemStatusArray << @link[0] + " || "
-              else
-                @itemStatusArray << myhash["copies"][0]["items"]["Available"]["status"] + " || "
-              end
-          end
+  if doc[:holdings_json].present?
+    thisHash = JSON.parse(doc[:holdings_json])
+    hash_size = thisHash.size
+    loop_count = 0
+    thisHash.each do |k, v|
+      loop_count += 1
+      if v.present?
+        newHash = {}
+        newHash = v
+        if newHash["online"].present? and newHash["online"] == true
+          tmpStr = "*Networked resource"
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @recordLocsNameArray << tmpStr
+        elsif newHash['location']["name"].present?
+          tmpStr = newHash['location']["name"]
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @recordLocsNameArray << tmpStr
+        else
+          @recordLocsNameArray << ""
         end
-   return @itemStatusArray
- end
+      end
+    end
+  end
+  return @recordLocsNameArray
+end
+
+def getTempLocations(doc)
+  require 'json'
+  require 'pp'
+       @itemLocationArray = []
+       myhash = {}
+       if doc[:holdings_record_display].present?
+          breakerlength = doc[:holdings_record_display].length
+          i = 0
+          doc[:holdings_record_display].each do |hrd|
+           myhash = JSON.parse(hrd)
+            unless !myhash["locations"][0]["name"].nil?
+             if i == breakerlength - 1
+               @itemLocationArray << myhash["locations"][0]["name"] + " || "
+             else
+               @itemLocationArray << myhash["locations"][0]["name"] + " | "
+             end
+            end
+           i = i + 1
+          end
+       end
+  return @itemLocationArray
+end
+
+def getOldTempLocations(doc)
+  require 'json'
+  require 'pp'
+  @itemLocationArray = []
+  thisHash = doc[:holdings_json].present? ? JSON.parse(doc[:holdings_json]) : {}
+  hrdHash = JSON.parse(doc[:holdings_record_display][0])
+  if hrdHash["locations"][0]["name"] == "*Networked Resource"
+    @itemLocationArray << "*Networked Resource"
+  else
+    thisHash.each do |k, v|
+      newHash = {}
+      newHash = v
+      locationHash = {}
+      locationHash = v["location"]
+      if !locationHash['library'].nil?
+        @itemLocationArray << locationHash['name'].to_s + " || "
+      end
+    end
+  end
+  return @itemLocationArray
+end
+
+def getItemStatus(doc)
+  require 'json'
+  require 'pp'
+
+  @itemStatusArray = []
+  @hideArray = []
+  thisHash = {}
+  if doc[:holdings_json].present?
+    thisHash = JSON.parse(doc[:holdings_json])
+    hash_size = thisHash.size
+    loop_count = 0
+    thisHash.each do |k, v|
+      loop_count += 1
+      if v.present?
+        newHash = {}
+        newHash = v
+        if newHash["online"].present? and newHash["online"] == true
+          tmpStr = "*Networked resource"
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @itemStatusArray << tmpStr
+        elsif newHash['items'].present? and newHash['items']["avail"].present?
+          tmpStr = "Available"
+          tmpStr += " at " + newHash['location']["name"] if newHash['location'].present?
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @itemStatusArray << tmpStr
+        elsif newHash['items'].present? and newHash['items']["unavail"].present?
+          tmpStr = "Unavailable"
+          tmpStr += " at " + newHash['location']["name"] if newHash['location'].present?
+          tmpStr += " || " if loop_count < hash_size
+          tmpStr += " | " if loop_count == hash_size
+          @itemStatusArray << tmpStr
+        else
+          @itemStatusArray << ""
+        end
+      end
+    end
+  end
+  return @itemStatusArray
+end
 
   def render_constraints_xxcts(my_params = params)
     my_params[:q]  = my_params[:y]
@@ -364,7 +453,7 @@ end
     query = params[:y]
     content = ""
     content << render_constraint_element(label, query,
-          :remove => "?#{field}") 
+          :remove => "?#{field}")
     content.html_safe
   end
 
@@ -390,7 +479,7 @@ end
     end
     return content.html_safe
   end
- 
+
 end
 
 def deep_copy(o)
@@ -403,7 +492,7 @@ def render_advanced_constraints_query(my_params = params)
 
   if !my_params[:q_row].nil?
      my_params = removeBlanks(my_params)
-     
+
   end
   if my_params[:search_field] == 'advanced'
  #   my_params.delete(:q)
@@ -435,7 +524,7 @@ def render_advanced_constraints_query(my_params = params)
       my_params.delete(:sort)
       my_params.delete(:search_field)
  #     my_params.delete(:boolean_row)
-      
+
       my_params[:search_field] = hold_search_field_row
       content = ""
       content << render_constraints(my_params)
@@ -463,8 +552,11 @@ def render_advanced_constraints_query(my_params = params)
 #      if (@advanced_query.keyword_queries.count == 2)
     facetparams = ""
     if (my_params[:f].present?)
-      if(my_params[:f].count > 1)
-      end
+      # With Rails 5 my_params[:f].count throws an error because the paras are now an object.
+      # Commenting the block out since it doesn't  appear to do anything. If needed, the error
+      # can be fixed this way: my_params.to_h[:f].count > 1
+      # if(my_params[:f].count > 1)
+      # end
       start1 = "f["
       next1 = ""
       count = 0
@@ -499,8 +591,8 @@ def render_advanced_constraints_query(my_params = params)
         sfr = my_params[:search_field_row][i] #<< "=" << my_params[:q_row][i]
 #        if my_params[:search_field_row][i] == "begins_with"
 #          sfr = sfr << "_starts"
-#    
-        n = i - 1        
+#
+        n = i - 1
        # n = n.to_s
         if !my_params[:boolean_row].nil?
           if !my_params[:boolean_row][n].nil?
@@ -547,7 +639,7 @@ def render_advanced_constraints_query(my_params = params)
            if hold[1].include?('&')
              hold[1] = hold[1].gsub!('&','%26')
            end
-           
+
            if my_params[:op_row][andorcount] == "OR"
              lastq = qtoken(hold[1])
              if lastq.size > 1
@@ -575,7 +667,7 @@ def render_advanced_constraints_query(my_params = params)
          if !my_params[:q].nil? and !my_params[:q].blank? and !my_params[:search_field].nil?
           remove_string = my_params["q"]
           label = search_field_def_for_key(my_params[:search_field])[:label]
-            
+
           if(params[:f].nil?)
             removeString = "?"
           else
@@ -635,7 +727,7 @@ def render_advanced_constraints_query(my_params = params)
    #               end
    #             end
    #           end
-                
+
                if x >= 0 and x <= temp_boolean_rows.count
                    opval = temp_boolean_rows[x]
                    label << search_field_def_for_key(my_params[:search_field_row][x])[:label]
@@ -644,18 +736,18 @@ def render_advanced_constraints_query(my_params = params)
                end
 
                autoparam = ""
-               
-                   
+
+
                autoparam = ""
                for qp in 0..temp_q_row.length - 1
-                  
+
                   autoparam << "q_row[]=" << CGI.escape(temp_q_row[qp]) << "&op_row[]=" << temp_op_row[qp] << "&search_field_row[]=" << temp_search_field_row[qp]
                   if qp < temp_q_row.length - 1
                     autoparam << "&boolean_row[#{qp + 1}]=" << temp_boolean_rows[qp] << "&"
                   end
 
-                 
-                 
+
+
                end
                querybuttontext = my_params[:q_row][x] #parts[1]
                if querybuttontext.include?('%26')
@@ -673,7 +765,7 @@ def render_advanced_constraints_query(my_params = params)
                  )
 
        end
-       
+
        if !my_params[:q].nil?
          content << render_simple_constraints_filters(my_params)
        else
@@ -833,7 +925,7 @@ def makeRemoveString(my_params, facet_key)
       boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][0] + "&"
      end
    end
-    
+
   else
     boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
   end
@@ -943,7 +1035,7 @@ def makeEditRemoveString(my_params, facet_key)
 #      boolean_row_string << "boolean_row[1]=" + my_params["boolean_row"][] + "&"
      end
    end
-    
+
   else
     boolean_row_string = "boolean_row[1]=" #+ my_params["boolean_row"]
   end
@@ -1031,7 +1123,7 @@ def make_show_query(params)
 
 #  params[:show_query] = 'title = water AND subject = ice'
   for i in 0..params[:search_field_row].count - 1
-    showquery = params[:search_field_row][i] + " = " + params[:q_row][i] 
+    showquery = params[:search_field_row][i] + " = " + params[:q_row][i]
     if !params[:boolean_row].nil? and !params[:boolean_row][i+1].nil?
       showquery = showquery + " " + params[:boolean_row][i+1] + " "
     end
@@ -1057,7 +1149,7 @@ end
     end
       p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
     return p
-  
+
   end
 
 end

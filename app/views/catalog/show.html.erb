@@ -1,10 +1,11 @@
 <% if back_to_catalog_needed %>
   <% session[:search][:controller] == 'advanced_search' ? link_label = 'Back to results' : '' %>
   <% link_back = link_back_to_catalog({:label => link_label}) %>
-  <% if link_back %>
+<% if link_back and link_back.class.to_s != "ActiveSupport::SafeBuffer"%>
+<%# if link_back %>
     <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
-        <% opts = ENV['RAILS_ENV'] != 'test' ?  
-         {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  } 
+        <% opts = ENV['RAILS_ENV'] != 'test' ?
+         {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  }
          : {:class => 'return-link', :title => 'return to previous page'}  %>
       <%= link_to link_back[:url], opts do %>
         <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
@@ -13,14 +14,14 @@
   <% end %>
 <% end %>
 
-<%#= render :partial => 'search_form' %>
+<%= render :partial => 'microformat_default' %>
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
  <% content_for(:head) do -%>
         <%  render_link_rel_alternates          %>
         <%= render_opensearch_response_metadata %>
-        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
-        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
-        <%= render_extra_head_content %>
+        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss').permit), :title => t('blacklight.search.rss_feed') ) %>
+        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom').permit), :title => t('blacklight.search.atom_feed') ) %>
+        <%# render_extra_head_content %>
  <% end -%>
 
 <% sidebar_items << render_document_sidebar_partial %>
@@ -53,7 +54,7 @@
 
 <div class="col-sm-12">
   <div class="librarian-view">
-    <% if respond_to? :solr_document_path and @document.respond_to?(:to_marc) %>
+    <% if @document.to_marc.kind_of?(MARC::Record) %>
       <%= link_to t('blacklight.tools.librarian_view'), librarian_view_solr_document_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
     <%end%>
   </div>
@@ -66,4 +67,14 @@
        // This document_partial_name(@document) business is not quite right,
        // but has been there for a while.
       -->
+<% end %>
+
+<% if session[:send_email_on_catalog_item_load] == true %>
+<% session.delete(:send_email_on_catalog_item_load) %>
+<script>
+document.onload = function() {
+    console.log( "ready!" );
+    $("#email-link").click();
+};
+</script>
 <% end %>

@@ -6,6 +6,13 @@ footer {
 	a, a:hover {
 		color: $dark-gray;
 	}
+	a {
+		border-bottom: 1px dotted $medium-gray;
+	}
+	a:hover {
+		text-decoration: none;
+		border-bottom: 1px solid $medium-gray;
+	}
 	.footer-nav {
 		margin-top: .25em;
 		margin-bottom: 1.5em;
@@ -22,14 +29,9 @@ footer {
 	.footer-nav.nav > li > a {
 		padding: 0;
 	}
-	.btn-libraries {
-		background: $teal;
-		border-color: $teal;
-		margin-top: 15px;
-	}
-	.btn-libraries:hover {
-		background: $dark-teal;
-		border-color: $dark-teal;
+	.btn-cul {
+		margin: 1.5em 0;
+		font-family: $font-family-cul;
 	}
 	.nav-pills {
 		margin-top: .25em;
@@ -45,9 +47,10 @@ footer {
 			}
 		}
 		a:hover, a:active, a:focus {
-			background: $dark-teal;
+			background: $concrete;
 			color: white;
-			border-color: $dark-teal;
+			border-color: $concrete;
+			background: $concrete;
 			i {
 				color: white;
 			}
@@ -61,40 +64,6 @@ footer {
 	margin-top: em;
 }
 
-.libraries-list {
-	padding: 0 0 2em;
-	.row {
-		margin-left: 0;
-	}
-	.libraries-collapse.in {
-		padding: 2em;
-	}
-	.libraries-collapse {
-		background: #2d2d2d;
-		overflow: hidden;
-		ul {
-			list-style: none;
-			padding-left: 0;
-			margin-bottom: 0;
-			margin-left: 0;
-		}
-		li { 
-			line-height: 1.5em;
-			padding-bottom: .5em;
-			font-size: 12px;
-		}
-		a:hover { background: #2d2d2d; }
-	}
-	.btn-libraries {
-		margin-bottom: 0;
-	}
-	.btn-libraries:focus, .btn-libraries:active {
-		box-shadow: none;
-	}
-}
-.libraries-group {
-	margin-left: 0;
-}
 footer {
 	h3 {
 		text-transform: uppercase;
@@ -123,21 +92,15 @@ footer {
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
 
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
 	.feedback-link { 
 		text-align: right;
 	}
@@ -159,3 +122,9 @@ footer {
 		text-align: right;
 	}
 }
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

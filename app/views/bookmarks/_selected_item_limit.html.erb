@@ -1,0 +1,20 @@
+    <div data-ajax-modal="container">
+    <div id="ajax-modal">
+      <div class="modal-header clearfix">
+        <h1 class="modal-title"><%= t('blacklight.bookmarks.limit.title') %></h1>
+        <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+  
+      <div class="modal-body">
+        <h2><%= t('blacklight.bookmarks.limit.title') %></h2>
+        <%= t('blacklight.bookmarks.limit.warning', :max_count => BookBagsController::MAX_BOOKBAGS_COUNT) %>
+      </div>
+
+
+      <div class="modal-footer">
+        <%= link_to "Cancel", 'bookmarks', :class => "submit button dialog-close", :data => {:dismiss => "modal"} %>
+      </div>
+    </div>
+    </div>

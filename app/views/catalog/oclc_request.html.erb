@@ -5,13 +5,7 @@
     <%= render 'search_sidebar' %>
   </div>
 
-  <div class="col-sm-9 main-text" id="results">
-
-      <%# unless has_search_parameters? %>
-      <% unless true  %>
-        <%# if there are no input/search related params, display the "home" partial -%>
-        <%= render 'home' %>
-      <% else %>
+  <div class="col-sm-9" id="results">
 
         <h2 class="hidden top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
 
@@ -35,7 +29,7 @@
           <%if params[:q_row].nil?  && params[:click_to_search].nil? && params[:f].nil? %>
             <a href="<%= @expanded_results['worldcat'][:url] %>">
           <% else %>
-            <a href="http://cornell.worldcat.org">
+            <a href="<%= ENV['WORLDCAT_URL'] %>">
           <%end%>
           Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
         <%else%>
@@ -47,8 +41,6 @@
         <%= render 'results_pagination' %>
 
         <%end%>
-
-      <% end %>
 
   </div><!--/.main-content -->
 </div>

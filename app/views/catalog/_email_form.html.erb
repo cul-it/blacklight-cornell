@@ -1,8 +1,12 @@
 <%- unless flash[:success] %>
-<%= form_tag url_for(:controller => self.controller.class.to_s.underscore.to_s.sub!("_controller",''), :action => "email"), :id => 'email_form', :class => "ajax_form", :method => :post do %>
+<%= form_tag url_for(:controller => self.controller.class.to_s.underscore.to_s.sub!("_controller",''), :action => "email"), 
+						data: { blacklight_modal: 'trigger' },
+						:id => 'email_form', 
+						:class => "modal_form", 
+						:method => :post do %>
 
   <div class="modal-body">
-    <%= render :partial=>'/flash_msg' %>
+    <%= render :partial=>'/shared/flash_msg' %>
 
 
     <div class="form-group">
@@ -17,20 +21,26 @@
       </label>
       <%= text_area_tag :message, params[:message], :class => "form-control" %>
     </div>
+	<%# 
+		Commented out the temp locations. The method in cornell_params_helper was identical to
+		getLoctions (until the DISCOVERYACCESS-5573 update), and there isn't anything in the holdings
+		that identify temporary locations. Leaving the pieces here in case the requirements get defined.
+		tlw72
+	%>
     <% @callNosArray = [] %>
     <% @locationNameArray = [] %>
-    <% @tempLocationsArray = [] %>
+    <%# @tempLocationsArray = [] %>
     <% @statusArray = [] %>
     <% @documents.each do |doc| %>
       <% @locationNameArray.push(getLocations(doc)) %>
-      <% @tempLocationsArray.push(getTempLocations(doc))%>
+      <%# @tempLocationsArray.push(getTempLocations(doc))%>
       <% @callNosArray.push(getCallNos(doc))%>
       <% @statusArray.push(getItemStatus(doc))%>
       <%=hidden_field_tag "id[]", doc.id %>
       <%=hidden_field_tag "location", @locationNameArray %>
-      <%=hidden_field_tag "templocation", @tempLocationsArray %>
+      <%#hidden_field_tag "templocation", @tempLocationsArray %>
       <%=hidden_field_tag "callnumber", @callNosArray%>
-      <%=hidden_field_tag "itemStatus", @statusArray%>
+      <%=hidden_field_tag "itemStatus", @itemStatusArray%>
     <% end %>
     <%- if params[:sort] -%>
       <%= hidden_field_tag "sort", params[:sort] %>
@@ -45,7 +55,7 @@
 <% end %>
 <%- else %>
 <div class="modal-body">
-  <%= render :partial=>'/flash_msg' %>
+  <%= render :partial=>'/shared/flash_msg' %>
     <span class="ajax-close-modal"/>
     </div>
 <%- end %>

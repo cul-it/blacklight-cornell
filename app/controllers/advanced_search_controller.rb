@@ -6,9 +6,9 @@ class AdvancedSearchController < ApplicationController
 
   delegate :blacklight_config, to: :default_catalog_controller
 
-  before_filter :heading
+  before_action :heading
   if   ENV['SAML_IDP_TARGET_URL']
-    prepend_before_filter :set_return_path
+    prepend_before_action :set_return_path
   end
 
 
@@ -18,14 +18,14 @@ class AdvancedSearchController < ApplicationController
 
   def edit
     if !params[:q_row].nil?
-    for i in 0..params[:q_row].count - 1
-      if params[:q_row][i].include?('%26')
-        params[:q_row][i] = params[:q_row][i].gsub!('%26', '&')
+      for i in 0..params[:q_row].count - 1
+        if params[:q_row][i].include?('%26')
+          params[:q_row][i] = params[:q_row][i].gsub!('%26', '&')
+        end
+        i = i + 1
       end
-      i = i + 1
     end
-    end
-    return params
+    render 'advanced_search/index', :locals => {:params => params}
   end
 
   def index

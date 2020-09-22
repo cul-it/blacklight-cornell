@@ -1,27 +1,37 @@
 <div class="row">
-  <div class="search-tools col-sm-6 col-md-7">
+  <div class="search-tools col-12 col-lg-7">
   <% if params[:controller]=='browse' %>
     <%= render :partial => 'browse/headings_search_form' %>
   <% elsif params[:controller]=='advanced_search' %>
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
-      <%= render_hash_as_hidden_fields(cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8)).html_safe %>
+      <% hidden_params = cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
+      <% if hidden_params.empty? %>
+        <% session_params = session[:search] ? session[:search].dup : {} %>
+		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
+		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
+		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>  
+        <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
+      <% end %>
+      <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
-          <div class="form-group col-xs-6">
+          <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
-              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off", :autofocus => should_autofocus_on_search_box? %>
+              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
           </div>
 
-          <% unless search_fields.empty? %>
-            <div class="form-group col-xs-4 col-sm-4 col-md-5">
+          <% if search_fields.empty? or search_fields.nil? %>
+             <input type="hidden" name="search_field" value="all_fields"/>          
+          <% else %>
+            <div class="form-group col-4 col-lg-5 mb-0">
               <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
               <%= select_tag(:search_field, options_for_select(search_bar_select, selected:params[:search_field],disabled: ["separator_1","separator_2","separator_3","separator_4"]), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
               <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
             </div>
           <% end %>
 
-          <button id="search-btn" class="btn btn-search" type="submit">
+          <button id="search-btn" class="btn btn-search mb-0" type="submit">
             <i class="fa fa-search fa-inverse" aria-hidden="true"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
           </button>
           <!-- </span> -->
@@ -41,11 +51,11 @@
 
   </div>
 
-  <div class="search-nav col-sm-6 col-md-5">
-    <ul class="nav nav-pills" role="navigation" aria-label="secondary">
+  <div class="search-nav col-12 col-lg-5">
+    <ul class="nav nav-pills">
       <li><a href="/advanced"><i class="fa fa-search" aria-hidden="true"></i>Advanced Search</a></li>
       <li><a href="http://www.library.cornell.edu/ask" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Ask a Librarian']);"><i class="fa fa-question" aria-hidden="true"></i>Ask a Librarian</a></li>
-      <li><a href="http://www.library.cornell.edu/myacct" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'My Account']);"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
+      <li><a href="/myaccount/login" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'My Account Blacklight']);"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
     </ul>
   </div>
 

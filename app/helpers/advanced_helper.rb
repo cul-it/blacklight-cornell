@@ -90,12 +90,12 @@ module AdvancedHelper
       query = params[:q_row][0]
     end
 #    params[:q_row][0].gsub!('\\\"','')
-    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\"" 
+    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\"" 
     row1 << " value="  
     row1 << query #params[:q_row][0] 
     row1 << " /> "
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
-    row1 << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
+    row1 << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
       if key == params[:op_row][0]
         row1 << "<option value=\"" << key << "\" selected>" << value << "</option>"
@@ -105,7 +105,7 @@ module AdvancedHelper
     end
     row1 << "</select> in "
     row1 << "<label for=\"search_field_row\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>"
-    row1 << "<select class=\"advanced-search-field form-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
+    row1 << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
         row1 << "<option value=\"" << key << "\" selected>" << value << "</option>"
@@ -124,25 +124,29 @@ module AdvancedHelper
           params[:q_row][i] = params[:q_row][i]
         end
 
-         next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
+         next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
          boolean_row_values.each do |key, value|
            n = i - 1 #= i.to_s
            if key == params[:boolean_row][n]
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            else
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            end
          end
          next2rows << "</div>"
          next2rows << "<div class=\"form-group\">"
          next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"sr-only\">" << t('blacklight.search.form.q_row') << "</label>"
-         next2rows << "<input autocapitalize=\"off\" class=\"form-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value="  << params[:q_row][i] << " /> "
+         next2rows << "<input autocapitalize=\"off\" class=\"form-control adv-search-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value="  << params[:q_row][i] << " /> "
          next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
-         next2rows << "<select class=\"form-control\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
+         next2rows << "<select class=\"form-control adv-search-control\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
          boolean_values.each do |key, value|
             if key == params[:op_row][i]
              next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
@@ -152,7 +156,7 @@ module AdvancedHelper
          end
          next2rows << "</select> in "
          next2rows << "<label for=\"search_field_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>"
-         next2rows << "<select class=\"advanced-search-field form-control\" id=\"search_field_row" << "#{i}" << "\" name=\"search_field_row[]\">"
+         next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row" << "#{i}" << "\" name=\"search_field_row[]\">"
          subject_values.each do |key, value|
            if key == params[:search_field_row][i]
             next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
@@ -164,26 +168,30 @@ module AdvancedHelper
       end
     else
       next2rows = ""
-      next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio\">"
+      next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
       boolean_row_values.each do |key, value|
            if params[:boolean_row][1].blank?
              params[:boolean_row][1] = "AND"
            end
            n = 1.to_s
            if key == params[:boolean_row][1]
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            else
-             next2rows << "<label class=\"radio-inline\">"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" <<  value << " "
+             next2rows << "<div class=\"form-check form-check-inline\">"
+             next2rows << "<label>"
+             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" << " " << value << " "
              next2rows << "</label>"
+             next2rows << "</div>"
            end
       end
       next2rows << "</select></div></div>"
-      next2rows << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\" value=\""  <<  "\" /> "
+      next2rows << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\" value=\""  <<  "\" /> "
       next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
-      next2rows << "<select class=\"form-control\" id=\"op_row\" name=\"op_row[]\">"
+      next2rows << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
       boolean_values.each do |key, value|
          if key == params[:op_row][0]
            next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
@@ -193,7 +201,7 @@ module AdvancedHelper
       end
     next2rows << "</select> in "
     next2rows << "<label for=\"search_field_row\" class=\"sr-only\">" << t('blacklight.search.form.search_field_row') << "</label>"
-    next2rows << "<select class=\"advanced-search-field form-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
+    next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
         next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"

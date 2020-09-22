@@ -1,5 +1,10 @@
-<div class="cornell-identity" aria-label="Cornell" role="banner">
+<div class="announcement" aria-label="Announcement" role="complementary">
   <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
+  <div class="container">
+    <p class="text-center"><a href="https://library.cornell.edu/covid-19">Hybrid library for a hybrid semester: COVID-19 updates &raquo;</a></p>
+  </div>
+</div>
+<div class="cornell-identity" aria-label="Cornell" role="banner">
   <%# if search results, add a link to skip facets for screen readers %>
   <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
     <div id="skiptoresults"><a href="#results">skip to search results</a></div>
@@ -7,59 +12,63 @@
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
-        <div class="cornell-logo col-xs-9 col-sm-6">
-          <a href="http://www.cornell.edu">Cornell University</a>
+        <div class="cornell-logo col-12 col-sm-9">
+          <a href="http://library.cornell.edu">Cornell University Library</a>
         </div>
-        <div class="library-menu col-xs-3 col-sm-6 text-right">
-          <div class="dropdown">
-            <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library"  onclick="javascript:_paq.push(['trackEvent', 'navigation', 'Hamburger menu']);">
-              <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="library-menu" role="navigation">
-              <li><a href="http://www.library.cornell.edu/">Home</a></li>
-              <li><a href="http://www.library.cornell.edu/about">About Us</a></li>
-              <li><a href="http://www.library.cornell.edu/libraries">Libraries and Hours</a></li>
-              <li><a href="http://www.library.cornell.edu/courses">Courses</a></li>
-              <li><a href="http://www.library.cornell.edu/research">Research</a></li>
-              <li><a href="http://www.library.cornell.edu/services">Services</a></li>
-              <li><a href="http://www.library.cornell.edu/ask">Ask a Librarian</a></li>
-              <li><a href="http://www.library.cornell.edu/help">Help</a></li>
-              <li><a href="http://www.library.cornell.edu/myacct">My Account</a></li>
-            </ul>
+        <% if part_of_catalog? %>
+          <div class="library-menu col-sm-3 text-right d-none d-sm-block">
+            <div class="dropdown">
+              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
+                <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="library-menu">
+                <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
+                <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
+                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries and Hours</a>
+                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Reserves</a>
+                <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
+                <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
+                <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
+                <a href="http://www.library.cornell.edu/help" class="dropdown-item">Help</a>
+                <a href="/myaccount/login" class="dropdown-item">My Account</a>
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div> <!-- /container -->
 </div>
 
-<div class="ie9-only" role="complementary">
-  <div class="container">
-    <div class="alert alert-warning alert-dismissible fade in" role="alert" id="alert-ie" aria-atomic="true">
-      <button type="button" class="close" onclick='hideIE9Warning()' data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-      <strong>You are using an older version of Internet Explorer.</strong> For the best experience, we recommend that you upgrade IE, or use a different browser.
-    </div>
-  </div>
-</div>
-
-<header role="banner" aria-label="Library">
+<header aria-label="Library">
   <div class="container">
     <div class="row">
-      <div class="col-md-4 catalog-name">
-        <div class="library-link">
-          <a href="http://www.library.cornell.edu">Cornell University Library</a>
-        </div>
+      <div class="col-sm-9 col-lg-4 catalog-name">
         <% if !part_of_catalog? and params[:controller] != 'advanced_search'%>
-          <h1>
-          <!-- set the @heading in the controller for the specialized view -->
-          <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
-          </h1>
+          <% if params[:controller] == 'users/sessions'%>
+            <!-- users/sessions does not have an index action -->
+            <script type="text/javascript">
+              window.location.href="<%=root_path%>" // just go home
+            </script>
+            return
+          <% elsif params[:controller] == 'institutional_repositories'%>
+            <h1><a href="/search">Search</a></h1>
+          <% else %>
+            <h1>
+            <!-- set the @heading in the controller for the specialized view -->
+            <%= link_to(@heading, :controller => params[:controller], :action => "index") %>
+            </h1>
+          <% end %>
         <% else %>
           <h1><a href="<%=root_path%>">Library Catalog</a></h1>
         <%end%>
       </div>
       <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
-      <%= render :partial=>'/shared/user_util_links' %>
+        <%= render :partial=>'/shared/user_util_links' %>
+      <% else %>
+        <div class="col-sm-3 col-lg-8 d-none d-sm-block">
+          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog</a></p>
+        </div>
       <% end %>
     </div>
   </div>

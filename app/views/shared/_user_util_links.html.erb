@@ -1,5 +1,5 @@
-<div class="col-md-8">
-    <ul class="blacklight-nav" role="navigation" aria-label="primary">
+<div class="col-12 col-lg-8">
+    <ul class="blacklight-nav">
       <% if ENV['SAML_IDP_TARGET_URL'] %>
         <% if current_user %>
           <li>
@@ -10,54 +10,35 @@
           <% if !current_user %>
             <% @goo_sign_in_link = user_google_oauth2_omniauth_authorize_path%>
             <% @sign_in_link =
-              if request.env['PATH_INFO'] == "/bookmarks" 
-                '/book_bags/index'
-              else
-               ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
-              end
+              ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
             %>
             <li>
               <%= link_to 'Sign in', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
-            </li>
             </li>
           <% end %>
         <% end %>
       <% end %>
 
-      <% if current_user && Bookbag.enabled? %>
-        <li>
-            <%= link_to "/book_bags/index", id:'bookmarks_nav' do %>
-            <% @selectedcount = 
-              if user_session.nil? || user_session[:bookbag_count].nil?
-                0
-              else
+      <% if !current_user %>
+      <li>
+      <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+              <%= t('blacklight.header_links.bookmarks') %>
+              (<span data-role='bookmark-counter'><%= guest_user.bookmarks.count %></span>)
+              <% end %>
+      </li>
+      <% else %>
+      <li>
+      <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
+            <% @selectedcount =
+              if BookBag.enabled? && user_session.present? && user_session[:bookbag_count].present?
                 user_session[:bookbag_count]
+              else
+                '?'
               end
               %>
             <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
             <% end %>
-        </li>
-      <% end %>
-
-      <% if current_or_guest_user %>
-        <% @bookmarks = current_or_guest_user.bookmarks %>
-        <% if !Bookbag.enabled? || (Bookbag.enabled? && !current_user)  %>
-          <li>
-            <% if !current_user && Bookbag.enabled? %>
-              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
-              <%= t('blacklight.header_links.bookmarks') %>
-               (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
-              <% end %>
-
-            <% else %>
-              <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
-              <%= t('blacklight.header_links.bookmarks') %>
-              (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
-              <% end %>
-            <% end %>
-
-          </li>
-        <% end %>
+      </li>
       <% end %>
 
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>

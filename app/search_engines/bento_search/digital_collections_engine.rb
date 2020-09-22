@@ -19,8 +19,12 @@ class BentoSearch::DigitalCollectionsEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
-    q = args[:oq].gsub(" ","%20")
-    portal_response = JSON.load(open("https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"))
+    q = URI::encode(args[:oq].gsub(" ","+"))
+    uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"
+    url = Addressable::URI.parse(uri)
+    url.normalize
+
+    portal_response = JSON.load(open(url.to_s))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
     results = portal_response['response']['docs']
@@ -38,9 +42,8 @@ class BentoSearch::DigitalCollectionsEngine
       elsif i['description_tesim'].present?
         item.abstract = i['description_tesim'][0].to_s
       end
-      if i['content_metadata_image_iiif_info_ssm'].present?
-        item.format_str = i['content_metadata_image_iiif_info_ssm'][0].to_s
-        item.format_str = item.format_str.gsub('info.json','full/100,/0/native.jpg')
+      if i['media_URL_size_0_tesim'].present?
+        item.format_str = i['media_URL_size_0_tesim'][0].to_s
         end
       if i['date_tesim'].present?
         item.publication_date = i['date_tesim'][0].to_s

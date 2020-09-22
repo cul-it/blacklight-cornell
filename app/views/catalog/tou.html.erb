@@ -20,7 +20,7 @@
     <h2>
      <% if !@db.present? %>
           <table class="table table-bordered table-striped">
-            <caption>License terms and permissions for this resource</caption>
+            <caption class="sr-only">License terms and permissions for this resource</caption>
             <thead>
               <tr>
                 <th scope="col">
@@ -57,7 +57,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>          
+          </table>
      <% end %>
       Terms of use
     </h2>
@@ -84,16 +84,13 @@
               <%= data["summary_display"][0] %>
             <% end %>
           </p>
-          <p>
-            <%#= link_to data["url"][0].split('|')[1],data["url_access_display"][0].split('|')[0], :onclick => "javascript:_paq.push(['trackEvent', 'catalog', 'outlink_tou_url']);" %>
-          </p>
         </div>
         <% if @ermDBResult.present? %>
             <%#= @ermDBResult.inspect %>
           <% data = @ermDBResult[0] %>
             <% if data.present? %>
               <table class="table table-bordered table-striped">
-                <caption>License terms and permissions for this resource</caption>
+                <caption class="sr-only">License terms and permissions for this resource</caption>
                 <thead>
                   <tr>
                     <th scope="col">
@@ -282,11 +279,11 @@
                 </tbody>
               </table>
           <% end %>
-          
+
         <% end %>
         <% if @defaultRightsText.present? %>
           <table class="table table-bordered table-striped">
-            <caption>License terms and permissions for this resource</caption>
+            <caption class="sr-only">License terms and permissions for this resource</caption>
             <thead>
               <tr>
                 <th scope="col">
@@ -327,9 +324,9 @@
         <% end %>
       <% else %>
         Not an e-book or database record.  Check out why a link was created for this bibID.
-      <% end %>        
       <% end %>
-      <% else %> 
+      <% end %>
+      <% else %>
         Invalid record ID
       <% end %>
     </div>

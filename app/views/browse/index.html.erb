@@ -1,49 +1,58 @@
 <% if params[:authq].nil? %>
   <%= render :partial => 'headings_text' %>
 <% end %>
-<div class="col-sm-12">
-  <% if @headingsResponse.present? %>
-    <div class="database-subject">
-      <div class="page-title">
-        <div class="return-link">
-          <%= link_to "/" do %>
-            <i class="fa fa-arrow-circle-left"></i>
-            Start over
-          <% end %>
-        </div>
+<% if @headingsResponse.present? %>
+  <div class="database-subject">
+    <div class="page-title">
+      <div class="return-link">
+        <%= link_to "/" do %>
+          <i class="fa fa-arrow-circle-left"></i>
+          Start over
+        <% end %>
       </div>
     </div>
-  <% end %>
-  <% if @headingsResponse.present? %>
-    <h3>
-      <% if params[:browse_type] == "Author" %>
-        <%= 'Browse "' + params[:authq] + '" in author headings' %>
-      <% end %>
-      <% if params[:browse_type] == "Subject" %>
-        <%= 'Browse "' + params[:authq] + '" in subject headings' %>
-      <% end %>
-      <% if params[:browse_type] == "Author-Title" %>
-        <%= 'Browse "' + params[:authq] + '" in author-title headings' %>
-      <% end %>
-    </h3>
+  </div>
+<% end %>
+<% if @headingsResponse.present? %>
+  <h2>
+    <% if params[:browse_type] == "Author" %>
+      <%= 'Browse "' + params[:authq] + '" in author headings' %>
+    <% end %>
+    <% if params[:browse_type] == "Subject" %>
+      <%= 'Browse "' + params[:authq] + '" in subject headings' %>
+    <% end %>
+    <% if params[:browse_type] == "Author-Title" %>
+      <%= 'Browse "' + params[:authq] + '" in author-title headings' %>
+    <% end %>
+    <% if params[:browse_type] == "Call-Number" || params[:browse_type] == "virtual" %>
+      <%= 'Browse "' + params[:authq] + '" in call numbers' %>
+    <% end %>
+  </h2>
+  <% if params[:browse_type] != "virtual" %>
     <%= render 'pagination' %>
+  <% end %>
+  <% if params[:browse_type] == "virtual" %>
+    <%= render 'virtual_browse', :response => @headingsResponse%>
+  <% elsif params[:browse_type] == "Call-Number" %>
+    <%= render 'heading_callnumber', :response => @headingsResponse, :order => params[:order] %>
+  <% else %>
     <% if params[:order] == "reverse" %>
       <%= render 'heading', :response => @headingsResponse.reverse %>
     <% else %>
       <%= render 'heading', :response => @headingsResponse %>
     <% end %>
   <% end %>
-  <% if !params[:authq].blank? && @headingsResponse.blank? && params[:browse_type].present? %>
-    <h2>
-      No results
-    </h2>
-  <% end %>
-  <% if params[:browse_type].present? && @headingsResponse.blank? && params[:authq].blank? %>
-    <h2>
-      Please enter a query
-    </h2>
-  <% end %>
-  <% if @headingsResponse.present? %>
-    <%= render 'pagination' %>
-  <% end %>
-</div>
+<% end %>
+<% if !params[:authq].blank? && @headingsResponse.blank? && params[:browse_type].present? %>
+  <h2>
+    No results
+  </h2>
+<% end %>
+<% if params[:browse_type].present? && @headingsResponse.blank? && params[:authq].blank? %>
+  <h2>
+    Please enter a query
+  </h2>
+<% end %>
+<% if @headingsResponse.present? && params[:browse_type] != "virtual" %>
+  <%= render 'pagination' %>
+<% end %>

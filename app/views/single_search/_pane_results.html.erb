@@ -1,14 +1,11 @@
 <div class="<%= key %> bento_compartment" id="<%= key.tr(" ", "_") %>">
   <% if result %>
-    <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-    <% link_url = ss_uri_encode(link_url) %>
+    <% link_url = bento_all_results_link(key) %>
   <% end %>
   <h2 class="search-source">
-    <% unless key == "libuides" %>
     <%= link_to link_url, :title => "View all" do %>
       <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
       <%= BentoSearch.get_engine(key).configuration.title %>
-    <% end %>
     <% end %>
   </h2>
 </div>
@@ -16,18 +13,19 @@
   <% # our app chooses to use 'q' as the query param; the ajax loading controller %>
   <% # uses 'query'.This ordinarily is fine, but since we want this layout to work %>
   <% # for both, we have to look for both, oh well. %>
-  <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-  <% if key != 'summon_bento' && key != "digitalCollections" %>
-    <% link_url = request.protocol + request.host_with_port + '/' + link_url %>
-  <% end %>
-  <% if result %>
     <%= bento_search result  %>
-    <% link_url = ss_uri_encode(link_url) %>
     <div class="view-all">
       <% if key == "libguides" %>
-        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-default", :id => "link_top_libguides" %>
-        <% else %>
-      <%= link_to link_url, :class => "btn btn-default", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
+        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
+      <% elsif key == "ebsco_eds" %>
+        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
+          View
+          <%= number_with_delimiter(result.total_items) %>
+          <%= BentoSearch.get_engine(key).configuration.title %>
+          <i class="fa fa-angle-double-right"></i>
+        <% end %>
+      <% else %>
+      <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
         -->
@@ -56,6 +54,8 @@
             Research Guides
         <% elsif BentoSearch.get_engine(key).configuration.title == 'Digital Collections' %>
             Items
+        <% elsif BentoSearch.get_engine(key).configuration.title == 'Repositories' %>
+            Item<%= result.total_items > 1 ? 's' : '' %>
         <% else %>
           from Catalog
 
@@ -72,11 +72,4 @@
 
 
     </div>
-    <div class="top-link visible-xs">
-      <%= link_to '#top' do %>
-        <i class="fa fa-arrow-up"></i>
-        Top
-      <% end %>
-    </div>
-  <% end %>
 <% end %>

@@ -1,22 +1,22 @@
  <%# default partial to display solr document fields in catalog index view -%>
  <%# This file is needed to display icon images in results display -%>
-
-  <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
-
+      <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
   <div class="data-block">
-    <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
-    <% formats = simple_render_index_field_value document, :field => 'format' %>
-    <% formats.each do |format| %>
-    <%= format.html_safe %>
-    <% end %>
-    <span class="format"></span>
-    <span class="blacklight-pub_info_display"><%= simple_render_index_field_value document, :field => 'pub_info_display' %></span>
-    <span class="blacklight-language_display"><%= simple_render_index_field_value document, :field => 'language_display' %></span>
-    <span class="blacklight-edition_display"><%= simple_render_index_field_value document, :field => 'edition_display' %></span>
+      <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
+      <% formats = simple_render_index_field_value document, :field => 'format' %>
+      <% formats.each do |format| %>
+        <span class="format">
+          <%= format.html_safe %>
+        </span>
+      <% end %>
+      <span class="blacklight-pub_info_display"><%= simple_render_index_field_value :document => document, :field => 'pub_info_display' %></span>
+      <span class="blacklight-language_display"><%= simple_render_index_field_value :document => document, :field => 'language_display' %></span>
+      <span class="blacklight-edition_display"><%= simple_render_index_field_value :document => document, :field => 'edition_display' %></span>
 
   </div>
-  <% if online_url(document) %>
-    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online label label-online" href="<%= online_url(document) %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);">Online</a>
+  
+  <% if is_online? document  %>
+    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online badge badge-primary badge-online" href="<%= 'catalog/' + document.id %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);" aria-label="Record <%=document.id%>">Online</a>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" >

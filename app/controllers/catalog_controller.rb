@@ -3,13 +3,16 @@ class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
-  include Blacklight::SearchHelper
+#  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
+  include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
+  require 'net/http'
+  require 'uri'
 
   if   ENV['SAML_IDP_TARGET_URL']
-    before_filter :authenticate_user!, only: [  :email, :oclc_request ]
-    #prepend_before_filter :set_return_path
+    before_action :authenticate_user!, only: [  :email, :oclc_request ]
+    #prepend_before_action :set_return_path
   end
 
   # Ensure that the configuration file is present
@@ -43,8 +46,9 @@ class CatalogController < ApplicationController
         flash[:error] = "You must <a href='/backend/cuwebauth'>login with your Cornell NetID</a> to send email.".html_safe
       # This is a bit of an ugly hack to get us back to where we started after
       # the authentication
-    session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/afemail/#{params[:id]}"
-    render :partial => 'catalog/email_cuwebauth'
+      session[:send_email_on_catalog_item_load] = (params['id'].present? && params['id'].include?('|')) ? false : true
+      session[:cuwebauth_return_path] = (params['id'].present? && params['id'].include?('|')) ? '/bookmarks' : "/catalog/#{params[:id]}"
+      render :partial => 'catalog/email_cuwebauth'
     end
   end
 
@@ -81,13 +85,15 @@ end
     config.show.partials << 'microformat'
     # end of unapi config.
 
+    ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
+    config.raw_endpoint.enabled = true
+
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       :qt => 'search',
       :rows => 20,
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
-#      :fl => 'id title_display fulltitle_display fulltitle_vern_display title_uniform_display subtitle_display author_display language_display pub_date_display format url_access_display item_record_display holdings_record_display score',
       :defType => 'edismax',
       :"f.lc_callnum_facet.facet.limit" => "-1"
     }
@@ -149,7 +155,6 @@ end
     }
 
     config.display_link = {
-        'url_access_display' => { :label => 'Access content' },
         'url_other_display'  => { :label => 'Other online content' },
         'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
@@ -168,13 +173,15 @@ end
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
-    config.default_document_solr_params = {}
-    #  :qt => 'document',
+    config.default_document_solr_params = { #}
+      :qt => 'document',
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # :fl => '*',
     #  # :rows => 1
     #  # :q => '{!raw f=id v=$id}'
-    #}
+    }
+    config.document_solr_path = 'select'
+    config.document_unique_id_param = 'id'
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
@@ -290,15 +297,17 @@ end
     #config.add_index_field 'published_vern_display', :label => 'Published'
     config.add_index_field 'lc_callnum_display', :label => 'Call number'
     config.add_index_field 'pub_date', :label => 'Publication date'
+    config.add_index_field 'pub_date_display', :label => 'Publication date'
     config.add_index_field 'pub_info_display', :label => 'Publication'
     config.add_index_field 'edition_display', :label => 'Edition', :helper_method => :render_single_value
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    # These 3 title related fields called directly in _show_metadata partial
+    # These title related fields called directly in _show_metadata partial
     # -- title_display
+    # -- title_vern_display
     # -- subtitle_display
-    # -- title_responsibility_display
+    # -- subtitle_vern_display
     config.add_show_field 'title_uniform_display', :label => 'Uniform title'
     config.add_show_field 'author_json', :label => 'Author, etc.'
     config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
@@ -310,11 +319,12 @@ end
     config.add_show_field 'pub_manu_display', :label => 'Manufactured'
     config.add_show_field 'pub_copy_display', :label => 'Copyright date'
     config.add_show_field 'publisher_number_display', :label => 'Publisher number'
-    config.add_show_field 'other_identifier_display', :label => 'Other identifier'
+    config.add_show_field 'doi_display', :label => 'DOI'
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
     config.add_show_field 'subject_json', :label => 'Subject'
+    config.add_show_field 'keyword_display', :label => 'Keyword'
     config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
     config.add_show_field 'description_display', :label => 'Description', helper_method: :html_safe
     config.add_show_field 'issn_display', :label => 'ISSN'
@@ -355,12 +365,15 @@ end
     config.add_show_field 'other_form_display', :label => 'Other form'
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
+    config.add_show_field 'cast_display', :label => 'Cast'
     config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
+    config.add_show_field 'works_about_display', :label => 'Works about'
+    config.add_show_field 'awards_display', :label => 'Awards'
   #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
@@ -396,15 +409,15 @@ end
 
     config.add_search_field('title', :label => "Title") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
-      field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
       # :solr_local_parameters will be sent using Solr LocalParams
       # syntax, as eg {! qf=$title_qf }. This is neccesary to use
       # Solr parameter de-referencing like $title_qf.
       # See: http://wiki.apache.org/solr/LocalParams
       field.solr_local_parameters = {
-        :qf => '$title_qf',
-        :pf => '$title_pf'
+#        :qf => '$title_qf',
+#        :pf => '$title_pf'
       }
     end
 
@@ -434,23 +447,33 @@ end
     #)
     config.add_search_field('journal title', :label => "Journal Title") do |field|
       field.solr_local_parameters = {
-        :qf => '$title_qf',
-        :pf => '$title_pf',
+#        :qf => '$title_qf',
+#        :pf => '$title_pf',
         :search_field => "journal title"
       }
     end
+
+
+config.add_search_field('title_starts',:label => "Title Begins With", :include_in_advanced_search => false) do |field|
+  field.include_in_simple_select = true
+#  field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
+  field.solr_local_parameters = {
+   # :qf => '$title_starts_qf',
+   # :pf => '$title_starts_pf'
+  }
+end
 
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
     config.add_search_field('author/creator',:label => "Author") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
-        :qf => '$author_qf',
-        :pf => '$author_pf'
+#        :qf => '$author_qf',
+#        :pf => '$author_pf'
       }
     end
 
-    # add browse searches to simple search
+    # add browse searches to simple search trying to get merged
     config.add_search_field('author_browse') do |field|
       field.include_in_advanced_search = false
       field.label = 'Author Browse (A-Z) Sorted By Name'
@@ -466,11 +489,11 @@ end
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject', :label => "Subject") do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
+ #     field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = {
-        :qf => '$subject_qf',
-        :pf => '$subject_pf'
+#        :qf => '$subject_qf',
+#        :pf => '$subject_pf'
       }
     end
 
@@ -486,6 +509,9 @@ end
         :pf => '$lc_callnum_pf',
       }
     end
+
+    config.add_search_field('callnumber_browse', :label => 'Call Number Browse',:include_in_advanced_search => false, :placeholder_text => 'TP640')
+
     config.add_search_field('series') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
@@ -498,43 +524,44 @@ end
     config.add_search_field('publisher') do |field|
       # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
       field.solr_local_parameters = {
-        :qf => '$publisher_qf',
-        :pf => '$publisher_pf'
+#        :qf => '$publisher_qf',
+#        :pf => '$publisher_pf'
       }
     end
     config.add_search_field('place of publication') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$pubplace_qf',
-         :pf => '$pubplace_pf'
+#         :qf => '$pubplace_qf',
+#         :pf => '$pubplace_pf'
        }
     end
     config.add_search_field('publisher number/other identifier') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$number_qf',
-         :pf => '$number_pf'
+#         :qf => '$number_qf',
+#         :pf => '$number_pf'
        }
     end
     config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$isbnissn_qf',
-         :pf => '$isbnissn_pf'
+#         :qf => '$isbnissn_qf',
+#         :pf => '$isbnissn_pf'
        }
     end
     config.add_search_field('notes') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$notes_qf',
-         :pf => '$notes_pf'
+#         :qf => '$notes_qf',
+#         :pf => '$notes_pf'
        }
     end
+
     config.add_search_field('donor name') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$donor_qf',
-         :pf => '$donor_pf'
+#         :qf => '$donor_qf',
+#         :pf => '$donor_pf'
        }
     end
     #config.add_search_field('acquired_month') do |field|
@@ -557,28 +584,19 @@ end
 
     config.add_search_field('all_fields_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
       field.solr_local_parameters = {
-         :qf => '$all_fields_starts',
-         :pf => '$all_fields_starts'
+#         :qf => '$all_fields_starts',
+#         :pf => '$all_fields_starts'
       }
-    end
-
-     config.add_search_field('title_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
-       field.solr_local_parameters = {
-         :qf => '$title_starts_qf',
-         :pf => '$title_starts_pf'
-       }
     end
 
     config.add_search_field('journal title_starts',:include_in_advanced_search => false) do |field|
       field.solr_parameters = { :'format' => "Journal" }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
-        :qf => '$title_starts_qf',
-        :pf => '$title_starts_pf',
+#        :qf => '$title_starts_qf',
+#        :pf => '$title_starts_pf',
         :search_field => "journal title"
       }
     end
@@ -587,16 +605,16 @@ end
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
-        :qf => '$author_starts_qf',
-        :pf => '$author_starts_pf'
+#        :qf => '$author_starts_qf',
+#        :pf => '$author_starts_pf'
       }
     end
 
     config.add_search_field('subject_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$subject_starts_qf',
-         :pf => '$subject_starts_pf'
+#         :qf => '$subject_starts_qf',
+#         :pf => '$subject_starts_pf'
        }
     end
 
@@ -604,16 +622,16 @@ end
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
-        :qf => '$lc_callnum_starts_qf',
-        :pf => '$lc_callnum_starts_pf',
+#        :qf => '$lc_callnum_starts_qf',
+#        :pf => '$lc_callnum_starts_pf',
       }
     end
 
     config.add_search_field('series_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$series_starts_qf',
-         :pf => '$series_starts_pf'
+#         :qf => '$series_starts_qf',
+#         :pf => '$series_starts_pf'
        }
     end
 
@@ -621,46 +639,46 @@ end
       # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-        :qf => '$publisher_starts_qf',
-        :pf => '$publisher_starts_pf'
+#        :qf => '$publisher_starts_qf',
+#        :pf => '$publisher_starts_pf'
       }
     end
 
     config.add_search_field('place of publication_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$pubplace_starts_qf',
-         :pf => '$pubplace_starts_pf'
+#         :qf => '$pubplace_starts_qf',
+#         :pf => '$pubplace_starts_pf'
        }
     end
 
     config.add_search_field('publisher number/other identifier_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$number_starts_qf',
-         :pf => '$number_starts_pf'
+#         :qf => '$number_starts_qf',
+#         :pf => '$number_starts_pf'
        }
     end
 
     config.add_search_field('isbn/issn_starts', :label => 'ISBN/ISSN Starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$isbnissn_starts_qf',
-         :pf => '$isbnissn_starts_pf'
+#         :qf => '$isbnissn_starts_qf',
+#         :pf => '$isbnissn_starts_pf'
        }
     end
     config.add_search_field('notes_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$notes_starts_qf',
-         :pf => '$notes_starts_pf'
+#         :qf => '$notes_starts_qf',
+#         :pf => '$notes_starts_pf'
        }
     end
     config.add_search_field('donor name_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$donor_starts_qf',
-         :pf => '$donor_starts_pf'
+#         :qf => '$donor_starts_qf',
+#         :pf => '$donor_starts_pf'
        }
     end
 
@@ -669,24 +687,24 @@ end
     config.add_search_field('title_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$title_quot_qf',
-         :pf => '$title_quot_pf'
+#         :qf => '$title_quot_qf',
+#         :pf => '$title_quot_pf'
        }
     end
 
     config.add_search_field('publisher_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$publisher_quot_qf',
-         :pf => '$publisher_quot_pf'
+#         :qf => '$publisher_quot_qf',
+#         :pf => '$publisher_quot_pf'
        }
     end
     config.add_search_field('all_fields_quote',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
       field.solr_local_parameters = {
-         :qf => '$all_fields_quot',
-         :pf => '$all_fields_quot'
+#         :qf => '$all_fields_quot',
+#         :pf => '$all_fields_quot'
       }
     end
 
@@ -694,79 +712,79 @@ end
       field.solr_parameters = { :'format' => "Journal" }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
-        :qf => '$title_quot_qf',
-        :pf => '$title_quot_pf',
+#        :qf => '$title_quot_qf',
+#        :pf => '$title_quot_pf',
         :search_field => "journal title"
       }
     end
 
     config.add_search_field('author/creator_quote',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+#      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
-        :qf => '$author_quot_qf',
-        :pf => '$author_quot_pf'
+#        :qf => '$author_quot_qf',
+#        :pf => '$author_quot_pf'
       }
     end
 
     config.add_search_field('subject_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$subject_quot_qf',
-         :pf => '$subject_quot_pf'
+ #        :qf => '$subject_quot_qf',
+ #        :pf => '$subject_quot_pf'
        }
     end
     config.add_search_field('call number_quote', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_local_parameters = {
-        :qf => '$lc_callnum_quot_qf',
-        :pf => '$lc_callnum_quot_pf',
+#        :qf => '$lc_callnum_quot_qf',
+#        :pf => '$lc_callnum_quot_pf',
       }
     end
 
     config.add_search_field('series_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$series_quot_qf',
-         :pf => '$series_quot_pf'
+#         :qf => '$series_quot_qf',
+#         :pf => '$series_quot_pf'
        }
     end
 
     config.add_search_field('place of publication_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$pubplace_quot_qf',
-         :pf => '$pubplace_quot_pf'
+#         :qf => '$pubplace_quot_qf',
+#         :pf => '$pubplace_quot_pf'
        }
     end
 
     config.add_search_field('publisher number/other identifier_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$number_quot_qf',
-         :pf => '$number_quot_pf'
+#         :qf => '$number_quot_qf',
+#         :pf => '$number_quot_pf'
        }
     end
 
     config.add_search_field('isbn/issn_quote', :label => 'ISBN/ISSN Quoted',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$isbnissn_quot_qf',
-         :pf => '$isbnissn_quot_pf'
+#         :qf => '$isbnissn_quot_qf',
+#         :pf => '$isbnissn_quot_pf'
        }
     end
     config.add_search_field('notes_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$notes_quot_qf',
-         :pf => '$notes_quot_pf'
+#         :qf => '$notes_quot_qf',
+#         :pf => '$notes_quot_pf'
        }
     end
     config.add_search_field('donor name_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
-         :qf => '$donor_quot_qf',
-         :pf => '$donor_quot_pf'
+#         :qf => '$donor_quot_qf',
+#         :pf => '$donor_quot_pf'
        }
     end
 # end of quot declares
@@ -777,129 +795,129 @@ end
     config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => '$author_cts_qf',
-         :pf => '$author_cts_pf'
-       }
+#       field.solr_local_parameters = {
+#         :qf => '$author_cts_qf',
+#         :pf => '$author_cts_pf'
+#       }
     end
 
     #combined subject CTS field made from the multiple subject browse fields
     config.add_search_field('subject_cts',:label=>'Subject') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => '$subject_cts_qf',
-         :pf => '$subject_cts_pf'
-       }
+#       field.solr_local_parameters = {
+#         :qf => '$subject_cts_qf',
+#         :pf => '$subject_cts_pf'
+#       }
     end
 
     #browse CTS fields. they do not appear in simple or advanced drop downs.
     config.add_search_field('author_pers_browse',:label=>'Author: Personal Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'author_pers_browse',
-         :pf => 'author_pers_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'author_pers_browse',
+#         :pf => 'author_pers_browse'
+#       }
     end
 
     config.add_search_field('author_corp_browse', :label=>'Author: Corporate Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'author_corp_browse',
-         :pf => 'author_corp_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'author_corp_browse',
+#         :pf => 'author_corp_browse'
+#       }
     end
 
     config.add_search_field('author_event_browse', :label=>'Author: Event') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'author_event_browse',
-         :pf => 'author_event_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'author_event_browse',
+#         :pf => 'author_event_browse'
+#       }
     end
     config.add_search_field('subject_pers_browse', :label => 'Subject: Personal Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_pers_browse',
-         :pf => 'subject_pers_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_pers_browse',
+#         :pf => 'subject_pers_browse'
+#       }
     end
 
     config.add_search_field('subject_corp_browse', :label => 'Subject: Corporate Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_corp_browse',
-         :pf => 'subject_corp_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_corp_browse',
+#         :pf => 'subject_corp_browse'
+#       }
     end
 
     config.add_search_field('subject_event_browse', :label => 'Subject: Event') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_event_browse',
-         :pf => 'subject_event_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_event_browse',
+#         :pf => 'subject_event_browse'
+#       }
     end
 
     config.add_search_field('subject_topic_browse', :label => 'Subject: Topic Term') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_topic_browse',
-         :pf => 'subject_topic_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_topic_browse',
+#         :pf => 'subject_topic_browse'
+#       }
     end
 
     config.add_search_field('subject_era_browse', :label => 'Subject: Chronological Term') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_era_browse',
-         :pf => 'subject_era_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_era_browse',
+#         :pf => 'subject_era_browse'
+#       }
     end
 
     config.add_search_field('subject_genr_browse', :label => 'Subject: Genre/Form Term') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_genr_browse',
-         :pf => 'subject_genr_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_genr_browse',
+#         :pf => 'subject_genr_browse'
+#       }
     end
 
     config.add_search_field('subject_geo_browse', :label => 'Subject: Geographic Name') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_geo_browse',
-         :pf => 'subject_geo_browse'
-       }
+ #      field.solr_local_parameters = {
+ #        :qf => 'subject_geo_browse',
+ #        :pf => 'subject_geo_browse'
+ #      }
     end
 
     config.add_search_field('subject_work_browse', :label => 'Subject: Work') do |field|
        field.include_in_simple_select = false
        field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'subject_work_browse',
-         :pf => 'subject_work_browse'
-       }
+#       field.solr_local_parameters = {
+#         :qf => 'subject_work_browse',
+#         :pf => 'subject_work_browse'
+#       }
     end
 
-    config.add_search_field('authortitle_browse', :label => 'Author (sorted by title)') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-       field.solr_local_parameters = {
-         :qf => 'authortitle_browse',
-         :pf => 'authortitle_browse'
-       }
-    end
+#    config.add_search_field('authortitle_browse', :label => 'Author (sorted by title)') do |field|
+#       field.include_in_simple_select = false
+#       field.include_in_advanced_search = false
+#       field.solr_local_parameters = {
+#         :qf => 'authortitle_browse',
+#         :pf => 'authortitle_browse'
+#       }
+#    end
 
 #    config.add_search_field('donor name') do |field|
 #       field.include_in_simple_select = false
@@ -921,7 +939,7 @@ end
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
-    config.spell_check_max = 5
+    config.spell_check_max = false
   end
 
   # Probably there's a better way to do this, but for now we'll make the mollom instance
@@ -935,49 +953,49 @@ end
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
-  def logins 
+  def logins
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   # but now we removed mollom captcha.
-  def email
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
-    docs = params[:id].split '|'
-    @response, @documents = fetch docs
-    if request.post?
-      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-        email.deliver_now
-        flash[:success] = "Email sent"
-        redirect_to solr_document_path(params[:id]) unless request.xhr?
-      else
-          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-      end
-    end
-
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
-    if   ENV['SAML_IDP_TARGET_URL']
-      if request.xhr? && flash[:success]
-        if docs.size < 2
-          render :js => "window.location = '/catalog/#{params[:id]}'"
-        else
-          render :js => "window.location = '/bookmarks'"
-        end
-        return
-      end
-    end
-    unless !request.xhr? && flash[:success]
-      respond_to do |format|
-        format.js { render :layout => false }
-        format.html
-      end
-    end
-  end
+#  def email
+#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
+#    docs = params[:id].split '|'
+#    @response, @documents = search_service.fetch docs
+#    if request.post?
+#      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+#      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+#        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
+#        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
+#        email.deliver_now
+#        flash[:success] = "Email sent"
+#        redirect_to solr_document_path(params[:id]) unless request.xhr?
+#      else
+#          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+#      end
+#    end
+#
+#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
+#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
+#    if   ENV['SAML_IDP_TARGET_URL']
+#      if request.xhr? && flash[:success]
+#        if docs.size < 2
+#          render :js => "window.location = '/catalog/#{params[:id]}'"
+#        else
+#          render :js => "window.location = '/bookmarks'"
+#        end
+#        return
+#      end
+#    end
+#    unless !request.xhr? && flash[:success]
+#      respond_to do |format|
+#        format.js { render :layout => false }
+#        format.html
+#      end
+#    end
+#  end
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
@@ -1127,6 +1145,87 @@ def tou
     end
 
   end
+  
+  
+def new_tou
+
+  packageName = ""
+  title_id = params[:title_id]
+  id = params[:id]
+
+  @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
+  # if !ENV['OKAPI_URL'].nil?
+  #   Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
+  #  # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
+  # end
+  # if !ENV['TENANT_ID'].nil?
+  #   Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
+  #  # ENV['TENANT_ID'] = 'fs00001034'
+  # end
+  # if !ENV['X_OKAPI_TOKEN'].nil?
+  #   Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
+    # ENV['X_OKAPI_TOKEN'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWMyNDQiLCJ1c2VyX2lkIjoiYWVjMjBiMzctODRlMy00Nzk2LTkzMTQtOTdlMDdlMGE2NzI2IiwiaWF0IjoxNTk3MTU5MzcwLCJ0ZW5hbnQiOiJmczAwMDAxMDM0In0.p5tU1dNnkRYFMRcHleD5p112kUxoYYnyP2IeM0J25Q0'
+  # end
+  okapi_url = ENV['OKAPI_URL']
+  okapi_tenant = ENV['TENANT_ID']
+  okapi_token = ENV['X_OKAPI_TOKEN']
+  uri = URI(okapi_url + '/eholdings/titles/' + title_id + '?include=resources' )
+  req = Net::HTTP::Get.new(uri)
+  req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+  req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+  req['Accept'] = 'application/vnd.api+json'
+  
+  res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+  outtxt = res.body  
+#  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
+#  outtxt = `curl #{command}`
+  parsed = JSON.parse(outtxt)
+  recordTitle = parsed["data"]["attributes"]["name"]
+ 
+  parsley = parsed["included"].each do | parsley |
+    packageID = parsley["attributes"]["packageId"]
+    packageName = parsley["attributes"]["packageName"]
+    packageUrl = parsley["attributes"]["url"]
+    package_providerID = parsley["attributes"]["providerName"]
+    uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
+    req = Net::HTTP::Get.new(uri)
+    req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+    req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+    req['Accept'] = 'application/json'
+    
+    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+    outtxt2 = res.body  
+    
+ #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+ #   outtxt2 = `curl #{command2}`
+    if outtxt2 != '[]'
+      parsed2 = JSON.parse(outtxt2)
+      if !parsed2[0]["linkedLicenses"][0].nil?
+        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+        uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
+        req = Net::HTTP::Get.new(uri)
+        req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+        req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+        req['Accept'] = 'application/json'
+
+        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+        outtxt3 = res.body  
+        
+ #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
+ #       outtxt3 = `curl #{command3}`
+       
+        parsed3 = JSON.parse(outtxt3)
+        
+        parsed3['packageName'] = packageName
+        @newTouResult << parsed3      
+#        return params, @newTouResult 
+      end
+    end
+ end
+     return params, @newTouResult
+
+end 
+
   #def oclc_request
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
   #end
@@ -1139,9 +1238,21 @@ def tou
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
          elsif params[:search_field] == 'at_browse' && !params[:id]
            redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
+         elsif params[:search_field] == 'callnumber_browse' && !params[:id]
+           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
          end
        end
      end
 
+#  def range_limit
+#    redirect_to "/"
+#  end
+
+# https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
+def search_service_context
+  {
+    current_user: current_user
+  }
+end
 
 end

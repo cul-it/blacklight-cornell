@@ -10,46 +10,35 @@
 // Headings list view
 // ------------------------------------------
 
-body.blacklight-browse {
-	.headings-list {
-		margin: 20px 0;
+.headings-list {
+	.badge {
+		margin-left: .25rem;
 	}
-	.headings-header {
-		font-size: .75em;
-		text-transform: uppercase;
-		font-weight: 700;
-		border-bottom: 1px solid $light-tan;
-		margin-bottom: 10px;
-	}
-	.headings-body {
-		.document {
-			border-bottom: 1px solid $light-tan;
-			padding: .4em 0;
-		}
-		.label { margin-left: 5px; }
-	}
-	.results-count {
-		float: none;
-	}
-	// tweak pagination styles for bottom pagination links
-	.span12 {
-		.results-info:last-child {
-			border-bottom: 0;
-			border-top: solid 5px #edebe7;
-			padding-top: .2em;
-		}
-	}
-} 
+}
 .see-ref { 
 	margin: 5px 0 0 20px;
-	font-size: 12px;
-	color: $medium-gray;
+	font-size: 14px;
 	a {
 		font-style: normal;
 	}
 	i {
 		color: $light-gray;
 		font-size: 90%;
+	}
+}
+
+// Call Number Browse
+// ------------------------------------------
+.browse-callnumber {
+	// use monospace font for call number
+	td:first-child {
+		font-family: $font-family-call-number;
+	}
+	.online-label {
+		font-weight: 700;
+	}
+	i {
+		margin-right: .25em;
 	}
 }
 
@@ -86,37 +75,36 @@ body.blacklight-browse {
 	display: inline;
 	font-style: normal;
 }
-.heading-type {
-	font-size: 12px;
-	color: $medium-gray;
-}
 .headings-count {
 	width: 40px;
 }
 .see-also-author-title {
 	margin: .25em 0 .5em 0;
 }
-
+#cn-browse-class {
+	margin: 4px 0;
+}
 
 // Headings heading view
 // ------------------------------------------
 body.blacklight-browse-info,
-body.blacklight-browse-show_subject {
+body.blacklight-browse-show_subject,
+.browse-info,
+.browse-show_subject {
 	.main-content {
 		padding-bottom: .5em;
 	}
-	dl {
-		margin-bottom: 60px;
+	.dl-horizontal {
+		margin-bottom: 2rem;
+		dt {
+			font-weight: normal;
+			float: none;
+			text-align: left;
+		}
+		dd {
+			margin-left: 0;
+		}
 	}
-	dt {
-		color: $medium-gray;
-		font-weight: normal;
-	}
-	dd {
-		margin-bottom: .5em;
-		line-height: 1.5em;
-	}
-	.reference:first-child { margin-top: 0; }
 }
 .reference-note {
 	font-style: italic;
@@ -135,7 +123,6 @@ body.blacklight-browse-show_subject {
 }
 dl {
 	.author-works {
-		font-size: 12px;
 		margin-left: .6em;
 		display: inline-block;
 		margin-bottom: 0;
@@ -162,28 +149,47 @@ dl {
 // MEDIA QUERIES
 // -------------------------
 
-// Small devices (tablets, 768px and up)
-@media (min-width: $screen-sm) { 
-	// .see-ref {
-	// 	ul {
-	// 		width: 80%;
-	//   		overflow: hidden;
-	// 	}
-	// 	li {
-	//   		float: left;
-	//   		display: inline;
-	// 	}
-	// 	.multicol li { width: 50%;}
-	// }
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+@include media-breakpoint-up(sm) {
+	.headings-cn {
+		width: 30%;
+	}
+	body.blacklight-browse-info,
+	body.blacklight-browse-show_subject,
+	.browse-info,
+	.browse-show_subject {
+		.dl-horizontal {
+			dt {
+				float: left;
+			}
+			dd {
+				margin-left: 165px;
+			}
+		}
+	}
 }
 
-// Medium devices (desktops, 992px and up)
-@media (min-width: $screen-md) {
-	// .see-ref {
-	// 	ul {
-	// 		width: 60%;
-	// 	}
-	// }
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.headings-cn {
+		width: 25%;
+	}
+	.headings-cn-title {
+		width: 45%;
+	}
+	.headings-cn-format {
+		width: 10%;
+	}
+	.headings-cn-availability {
+		width: 20%;
+	}
 }
 
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
 
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

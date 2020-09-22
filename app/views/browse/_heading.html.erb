@@ -1,21 +1,20 @@
-<div class="headings-list">
-  <table class="table table-responsive table-striped">
+<div class="headings-list table-responsive">
+  <table class="table table-striped">
     <thead>
       <tr>
-        <th class="heading-count">
+        <th class="heading-count" scope="col">
           Titles
         </th>
-        <th class="heading-name">
+        <th class="heading-name" scope="col">
           Headings
         </th>
         <% unless params[:browse_type] == "Author-Title" %>
-          <th class="heading-type">
+          <th class="heading-type" scope="col">
             Type
           </th>
         <% end %>
       </tr>
     </thead>
-    <tbody></tbody>
     <% if response.present? %>
       <% response.each do |data| %>
         <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
@@ -32,15 +31,10 @@
                
                   <%= link_to '/?q="' + encoded_heading + '"&search_field=' + data["blacklightField"] do %>
                     <%= data["heading"] %><% end %>
-
-                
               <% end %>
               <% if params[:browse_type] == "Subject" && data["blacklightField"].present? %>
                 <%= link_to '/?q="' + encoded_heading + '"&search_field=' + data["blacklightField"] do %>
                     <%= data["heading"] %><% end %>
-
-
-
               <% end %>
               <% if params[:browse_type] == "Author-Title" %>
                 <%= link_to '/?q="' + encoded_heading + '"&search_field=' + data["blacklightField"] do %>
@@ -51,41 +45,61 @@
             <% end %>
             <% if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true %>
               <% unless params[:browse_type] == 'Author-Title' %>
-                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do %>
-                  <span class="label label-info">
-                    Info
-                  </span>
-                <% end %>
+				<% if %>
+                  <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do %>
+                    <span class="badge badge-primary">
+                      Info
+                    </span>
+                  <% end %>
+				<% end %>
               <% end %>
               <% if params[:browse_type] == 'Author-Title' %>
                 <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type] do %>
-                  <span class="label label-info">
+                  <span class="badge badge-primary">
                     Info
                   </span>
                 <% end %>
               <% end %>
             <% end %>
             <% if !data["seeAlso"].nil?  %>
+				
               <% sa=JSON.parse(data["seeAlso"]) %>
-              <% if sa.count == 1 %>
+              <% if sa.count > 0 %>
                 <% sa.each do |r,h| %>
                   <div class="see-ref">
                     <i class="fa fa-arrow-right"></i>
                     <% if r.blank? %>
-                      See Also:
+                      <% r = "See Also" %>
                     <% end %>
-                    <% if !r.blank? %>
+                    <%# if !r.blank? %>
                       <%= r + ':' %>
-                    <% end %>
+                    <%# end %>
                     <% unless params[:browse_type] == "Author-Title" %>
-                      <div class="columns">
-                        <ul>
+                      <div>
+                        <ul style="list-style-type:none">
+						  <% h = h.sort_by { |hsh| -hsh["count"] } %>
+						  <% h_count = h.count %>
+						  <% loop_count = 1 %>
                           <% h.each do |headingInfo| %>
-                            <li>
-                              <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
-                                <%= headingInfo["heading"] %><% end %>
-                              <%= "(" + headingInfo["count"].to_s + ")"	 %>
-                            </li>
+							<% if loop_count < 4 %>
+                            	<li style="display:inline;padding-left:6px">
+                            	  <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
+                            	    <%= headingInfo["heading"] %>
+								  <% end %>
+                            	  <span class="see-ref-count"><%= "(" + headingInfo["count"].to_s + ")"  %></span>
+								  <% if h_count >= 3 and loop_count < 3 %>, <% end %>
+								  <% if h_count == 2 and loop_count == 1 %>, <% end %>
+                            	</li>
+								<% if loop_count == 3 and h_count > 3 %>
+									<li style="display:inline;padding-left:6px">
+										<% al = r == "See Also" ? "More related terms" : "More " + r + "s"%>
+										<%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type] + "&headingtype=" + data["headingTypeDesc"], "aria-label" => al do %>
+											more »
+										<% end %>
+									</li>
+								<% end %>
+								<% loop_count += 1 %>
+							<% end %>
                           <% end %>
                         </ul>
                       </div>

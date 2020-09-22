@@ -12,29 +12,16 @@
 # 
 
 integration:
-  url: http://da-prod-solr7.library.cornell.edu/solr/b7
-  #url: http://da-dev-solr.library.cornell.edu/solr/test
-  #url: http://dasolr.library.cornell.edu/solr/blacklight2
-  #url: http://da-dev-solr.library.cornell.edu/solr/blacklight
-  #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  url: <%= ENV['SOLR_URL'] %>
 
 development:
-  url: http://da-prod-solr7.library.cornell.edu/solr/b7
-  #url: http://da-prod-solr10.library.cornell.edu:8983/solr/b6
-  #url: http://da-dev-solr.library.cornell.edu/solr/test
-  #url: http://dasolr.library.cornell.edu/solr/blacklight2
-  #url: http://da-prod-solr1.library.cornell.edu/solr/blacklight2
-  #url: http://dasolr.library.cornell.edu/solr/blacklight2
+  url: <%= ENV['SOLR_URL'] %>
 
 test: &test
-  url: http://da-prod-solr7.library.cornell.edu/solr/b7
-  #url: http://da-dev-solr.library.cornell.edu/solr/test
-  #url: http://dasolr.library.cornell.edu/solr/blacklight2
-  #url: http://da-dev-solr.library.cornell.edu/solr/test
+  url: <%= ENV['SOLR_URL'] %>
 
 production:
-  url: http://da-prod-solr.library.cornell.edu/solr/blacklight
-  #url: http://da-stg-ssolr.library.cornell.edu/solr/blacklight
+  url: <%= ENV['SOLR_PROD_SERVER'] %>
 
 cucumber:
   <<: *test

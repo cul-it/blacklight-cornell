@@ -38,14 +38,14 @@ end
 
 Then /^I should see each item format$/ do
   within('#documents') do
-  	page.should have_css('.blacklight-title_display')
-  	page.should have_css('.blacklight-author_display')
+    page.should have_css('.blacklight-title_display')
+    page.should have_css('.blacklight-author_display')
   end
 end
 
 Then /^results should have a select checkbox$/ do
   within('#documents') do
-  	page.should have_selector('.bookmark_add')
+    page.should have_selector('.bookmark-add')
   end
 end
 
@@ -71,4 +71,17 @@ Then (/^I select the sort option '(.*)'$/) do | option |
     find(:css, 'button.dropdown-toggle').click
     click_on(option)
   end
+end
+
+Then("I click on the first search result") do
+  patiently do
+    within (page.find('#documents')) do
+      first(:css, 'h2.blacklight-title_display a').click
+    end
+  end
+end
+
+Then (/^I visit Books page '(.*)' with '(.*)' per page$/) do |page, perpage|
+  href = "/?f[format][]=Book&page=#{page}&per_page=#{perpage}"
+  visit(href)
 end

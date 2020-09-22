@@ -15,8 +15,8 @@
 	}
 	.location-online {
 		color: white;
-		background: $teal;
-		border-color: $teal;
+		background: $green;
+		border-color: $green;
 	}
 	.url_findingaid_display {
 		display: block;
@@ -31,7 +31,7 @@
 	}
 	.call-number {
 		margin-bottom: .5em;
-		font-family: courier, monospace;
+		font-family: $font-family-call-number;
 		span {
 			font-family: $realBaseFontFamily;
 		}
@@ -39,21 +39,12 @@
 	.status {
 		margin: 0 0 .5em 0;
 	}
-}
-.availability.well {
-	padding: 0;
+	.card-block {
+		padding: .5em;
+	}
 }
 h3.rare {
 	margin-bottom: 0;
-}
-.label-available {
-	background: $teal;
-	margin-right: .5em;
-	font-size: 90%;
-	font-weight: normal;
-	i {
-		color: white;
-	}
 }
 .holding,
 .holdings-error {
@@ -62,17 +53,14 @@ h3.rare {
 	padding-top: .5em;
 }
 .online-label {
-	margin: 0 .5em .25em 0;
+	margin: 0 .5em .5em 0;
 }
 .holdings-online {
-	border-bottom: 2px solid $light-tan;
-	padding-bottom: .5em;
 	.online-label {
 		font-size: 16px;
 	}
 	.message {
-		font-size: 12px;
-		margin-top: .25em;
+		font-size: 14px;
 	}
 }
 .holding:first-child {
@@ -95,29 +83,29 @@ h3.rare {
 }
 .share-options { min-width: auto; }
 .message {
-	margin: 0 0 .5em 0;
-	line-height: 1.4em;
+	// margin: 0 0 .5em 0;
+	// line-height: 1.4em;
 	word-wrap: break-word;
 }
 .online-link {
-	margin-bottom: .4em;
+	margin-bottom: .75rem;
+	padding-bottom: .75rem;
 	line-height: 1.2em;
 	font-size: 16px;
-	a {
-		font-size: 90%;
-	}
+	border-bottom: 2px solid $light-tan;
 }
-.terms-of-use {
-	font-size: 85%;
-	margin-left: .5em;
+.online-access {
+	margin-bottom: .25em;
+	display: inline-block;
 }
 .access-restriction {
 	display: block;
 	line-height: 1.2em;
-	margin-top: 1em;
-	h5 { 
+	margin-top: .25em;
+	h4 { 
 		font-weight: 700;
 		margin-bottom: .5em;
+		font-size: 14px;
 	}
 }
 .item-requests {
@@ -128,35 +116,23 @@ h3.rare {
 	.btn {
 		margin-bottom: 5px;
 	}
-	.btn-default {
-		border-bottom-color: #ccc; 
+	.btn-outline-secondary {
+		border-bottom-color: #6c757d; 
 		border-bottom-style: solid;
 	}
 }
-
+.terms-of-use {
+	font-size: 13px;
+	.fa {
+		color: $tan;
+		font-size: 90%;
+	}
+}
 .google-books-link {
 	margin: 1.5em 0 0;
 	padding-top: 1em;
 	border-top: solid 2px #d8d2c9;
 }
-.holdings {
-	// th:first-child,
-	// th:nth-child(2),
-	// td:first-child,
-	// td:nth-child(2) {
-	// 	width: 30%;
-	// }
-	// padding: 0 1em;
-}
-// .holdings-online {
-// 	// th:first-child,
-// 	// th:nth-child(2) {
-// 	// 	width: 30%;
-// 	// }
-// 	// table {
-// 	// 	margin-bottom: 1em;
-// 	// }
-// }
 
 #request-loading-spinner {
 	position: relative;
@@ -166,16 +142,15 @@ h3.rare {
 	height: 2em;
 }
 
+#volume-selection {
+    width: 30%;
+}
 // Other forms
 // ----------------
 .other-forms {
 	h4 {
 		margin-bottom: 1em;
 		font-size: 20px;
-	}
-	.label-online {
-		color: white;
-		font-size: 12px;
 	}
 	p {
 		margin-top: 2em;
@@ -196,35 +171,15 @@ h3.rare {
 		}
 	}
 	.other-form-title {
-		font-size: 110%;
+		font-size: 101%;
 		color: $gray-dark;
 		display: block;
 		margin-bottom: .25em;
-	}
-	.label-online:hover {
-		background: $teal;
-		pointer: none;
 	}
 	.other-form-online {
 		span {
 			margin-right: 0;
 		}
 	}
-	// .online-label,
-	// .at-library-label {
-	// 	font-weight: 700;
-	// }
+
 }
-
-
-// MEDIA QUERIES
-// -------------------------
-
-// Small devices (tablets, 768px and up)
-// @media (min-width: $screen-sm) { 
-// }
-
-// Medium devices (desktops, 992px and up)
-// @media (min-width: $screen-md) {
-// }
-

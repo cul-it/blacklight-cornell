@@ -101,14 +101,35 @@ class SolrDocument
   end
 
   def setup_holdings_info(record)
-    holdings_arr = self["holdings_record_display"]
-    holdings = []
-    where_arr = holdings_arr.collect { | h |  JSON.parse(h).with_indifferent_access }
-    where = where_arr.collect { | h |  "#{h['locations'][0]['library']}  #{h['callnos'][0]}" unless h.blank? or h['locations'].blank? or     h['callnos'].blank?}
+    where = []
+    if (self["holdings_json"].present?)
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} self[h_j] = #{self['holdings_json'].inspect}"
+      holdings_json = JSON.parse(self["holdings_json"])
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
+      holdings_keys = holdings_json.keys
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
+      where = holdings_keys.collect do
+        | k |
+        l = holdings_json[k]
+        "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
+       end
+    end
+    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
     where
-  end 
+  end
 
-
- 
+  # code here accessible to endnote_xml.rb, endnote.rb, ris.rb, zotero.rb
+  def access_url_first_filtered(record)
+    if record['url_access_json'].present? && record["url_access_json"].first.present?
+      url_access = JSON.parse(record['url_access_json'].first)
+      if url_access['url'].present?
+        access_url = url_access['url']
+        access_url.sub!('http://proxy.library.cornell.edu/login?url=','')
+        access_url.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+        return access_url
+      end
+    end
+    nil
+  end
 
 end

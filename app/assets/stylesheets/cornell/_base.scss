@@ -1,66 +1,10 @@
 // Layout
 // ------------------------
 
-body {
-  	padding-top: 0;
-}
-
 .main-content {
 	padding: 0.5em 0 30px 0;
 	background: white;
 }
-
-.blacklight-catalog-show {
-	.main-content {
-		padding-bottom: .5em;
-	}
-}
-.main-text {
-	padding-top: .5em;
-}
-
-// Links
-// ------------------------
-
-a { 
-	color: $link-primary;
-}
-
-a:hover {
-	color: $link-primary-hover;
-	text-decoration: underline;
-}
-
-// Add underlines to links in main content area so that they are easier to see / accessibility
-.main-content,
-.blacklight-nav,
-footer {
-	a {
-		border-bottom: 1px dotted $light-gray;
-	}
-	a:hover,
-	a:active,
-	a:focus {
-		border-bottom: 1px solid $light-gray;
-		text-decoration: none;
-	}
-}
-// No underlines for some elements in the main content area
-.main-content {
-	.remove,
-	.remove:hover,
-	.label,
-	.label:hover,
-	.dropdown-menu a,
-	.dropdown-menu a:hover,
-	.rss-icon,
-	.rss-icon:hover,
-	.rss-icon:active,
-	.rss-icon:focus {
-		border-bottom: none;
-	}
-}
-
 
 // Typography
 // ------------------------
@@ -71,48 +15,14 @@ h2 {
 }
 h3 { font-size: 20px; line-height: 1.5em;}
 
-// Forms
-// ------------------------
-
-// This is needed as workaround for IE7-9 bug with font-famly on <select>
-// -- see cul-bootstrap-loader.css.scss and this issue for more details:
-// -- https://issues.library.cornell.edu/browse/DISCOVERYACCESS-622
-// input,
-// button,
-// textarea {
-//   font-family: $font-family-base;
-// }
-
 // Home page text
 // ------------------------
 
-.feedback {
-	h4 { margin-top: 40px; }
-  	p { font-size: 16px;}
-}
-.home-message {
-	margin-top: 30px;
-	p {
-		margin-bottom: 15px;
-		font-size: 16px;
-	}
-	li {
-		line-height: 1.5em;
-		font-size: 16px;
-	}
-	.lead {
-		font-size: 24px;
-	}
-	.well {
-		border: 1px solid #dedad3;
-		background: white;
-	}
-}
 .other-resources {
 	margin-top: 30px;
 	margin-bottom: 2em;
-	h2 {
-		font-size: 12px;
+	h3 {
+		font-size: 14px;
 		text-transform: uppercase;
 		margin: 0;
 		line-height: normal;
@@ -134,29 +44,23 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
-// CUL button - libraries
-// ------------------------
+// Override BS4 btn-secondary
+// ---------------------------
 
-.btn-libraries {
-	background: #16524d;
-	color: white;
-	border-color: #16524d;
-	text-shadow: none;
-	box-shadow: none;
-	margin-bottom: 1.5em;
-	font-family: $font-family-cul;
-	i {
-		color: $medium-teal;
-		margin-left: 3px;
-	}
-}
-.btn-libraries:hover,
-.btn-libraries:focus {
-	background: #16524d;
-	color: white;
-}
 .btn-secondary {
-	background: $dark-tan;
+	background: $concrete;
+}
+.btn-secondary:hover {
+	background: $concrete-hover;
+}
+.btn-outline-secondary {
+	border-color: $concrete;
+	color: $dark-gray;
+}
+.btn-outline-secondary:hover {
+	border-color: $concrete-hover;
+	color: white;
+	background: $concrete-hover;
 }
 
 // CUL button - generic teal
@@ -164,44 +68,31 @@ h3 { font-size: 20px; line-height: 1.5em;}
 
 .btn-cul {
 	color: white;
-	background-color: $teal;
-	border-color: $teal;
+	background-color: $cornell-primary;
+	border-color: $cornell-primary;
 	background-image: none;
 }
 .btn-cul:hover,
 .btn-cul:active,
 .btn-cul:focus {
-	background-color: $dark-teal;
+	background-color: $cornell-primary-hover;
 	color: white;
-	border-color: $dark-teal;
+	border-color: $cornell-primary-hover;
 }
 .main-content {
 	.btn-cul {
-		border-bottom: 1px solid $dark-teal;
+		border-bottom: 1px solid $dark-green;
 	}
 }
 
 
-// Well overrides
+// Card customization
 // ------------------------
-
-.well {
-	border-radius: 0;
-	box-shadow: none;
-}
-
-// Panel overrides
-// ------------------------
-.panel,
-.panel-group .panel {
-	border-radius: 0;
-	border: 0 0 1px 0;
-	box-shadow: none;
-}
-.panel-default > .panel-heading {
+// Add old well background color to some cards
+.card-well {
 	background: $light-tan;
-	border-radius: 0;
 }
+
 // Img overrides
 // ------------------------
 .img-thumbnail {
@@ -215,7 +106,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	opacity: 1;
 }
 .modal {
-	h3 {
+	h1 {
 		font-weight: 700;
 		margin: 0;
 	}
@@ -225,6 +116,16 @@ h3 { font-size: 20px; line-height: 1.5em;}
 }
 .modal-title {
 	font-size: 24px;
+	float: left;
+}
+.modal-body {
+	h2 {
+		font-size: 20px;
+		margin-top: 1rem;
+	}
+	h2:first-child {
+		margin-top: 0;
+	}
 }
 
 // Miscellaneous
@@ -234,8 +135,44 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	font-size: 12px !important;
 	text-align: right;
 }
-.ie9-only { 
-	display: none;
-	background: white;
-	padding-top: 1em;
+
+
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.home-message {
+		margin-top: 2.2rem;
+ 	}
+}
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }
+
+
+// BOOTSTRAP 4 TEMP FIXES
+// -----------------------
+div.select_all label {
+	margin-bottom: 0.15rem;
+}
+
+.submit-reset {
+	width: 100%;
+}
+
+.dl-horizontal dt {
+    float: left;
+    clear: left;
+    text-align: right;
 }

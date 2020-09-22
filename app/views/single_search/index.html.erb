@@ -1,13 +1,16 @@
 <% if @results %>
   <div class="row">
     <div class="col-sm-12">
-      <div class="well">
-        <div class="row">
-          <div class="col-sm-9">
-            <%= render 'single_search/search_form' %>
-          </div>
-          <div class="advanced-search-link col-sm-3 text-right">
-            <%= link_to 'Catalog Advanced Search', '/advanced' %>
+      <div class="card card-well">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <%= render 'single_search/search_form' %>
+            </div>
+            <div class="advanced-search-link col-md-4">
+              <%= link_to 'Catalog Advanced Search', '/advanced' %>
+                    <%#= params[:q].inspect %>
+            </div>
           </div>
         </div>
       </div>
@@ -15,19 +18,19 @@
   </div>
 <% else %>
   <div class="row">
-    <div class="col-sm-8 col-sm-offset-2 empty-single-search">
-      <div class="well">
-        <div class="search-info">
-          <a class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
-            <i class="fa fa-info-circle" aria-hidden="true"></i>
-            About this search
-          </a>
+    <div class="col-md-8 offset-md-2 empty-single-search">
+      <div class="card card-well">
+        <div class="card-body">
+          <div class="search-info">
+            <a href="#" class="hidden-phone pull-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+              About this search
+            </a>
+          </div>
+          <h2>Search</h2>
+          <%= render 'single_search/search_form' %>
+          <%= render 'single_search/search_options' %>
         </div>
-        <h2>
-          Search
-        </h2>
-        <%= render 'single_search/search_form' %>
-        <%= render 'single_search/search_options' %>
       </div>
     </div>
   </div>
@@ -37,9 +40,9 @@
     <% if !@query.nil? && @results.empty? && @websites.blank? && result.blank? %>
       <% query = params[:q] || params[:query] %>
       <% query = query.gsub('&', '%26') %>
-      <p class="no-results">
+      <p class="mt-4">
         Your search returned 0 results. Try searching
-        <%= link_to 'Libraries Worldwide', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
+        <%= link_to 'Libraries Worldwide', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
         or
         <%= link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend" %>
       </p>
@@ -48,66 +51,59 @@
     <% if !@results.blank? or !result.blank? or !@websites.blank? %>
       <div class="bento_box row">
         <% if @results %>
-          <div class="col-sm-3">
-            <div class="top-panel-heading panel-heading">
-              <button aria-controls="results-collapse" aria-expanded="false" class="facets-toggle collapsed" data-target=".results-collapse" data-toggle="collapse" type="button">
-                <span class="sr-only">Toggle facets</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+          <div class="col-md-3 ">
+            <div class="navbar sidenav facets-toggleable-sm">
+              <h2 class="all-results-header">All results</h2>
+              <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-toggle="collapse" data-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
+              <span class="sr-only">Toggle facets</span>
+                <span class="navbar-toggler-icon"></span>
               </button>
-              <h4>
-                All results
-              </h4>
             </div>
             <div class="results-collapse collapse">
               <div class="expand-search">
-                <% query = params[:q] || params[:query] %>
-                <% query = query.gsub('&', '%26') %>
-                <div class="panel-group">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h5 class="panel-title">
-                        Looking for more?
-                      </h5>
-                    </div>
-                    <div class="panel-body">
-                      <ul class="fa-ul">
-                        <li>
-                          <i class="fa fa-arrow-right"></i>
-                          <%= link_to 'View all Catalog results', "/?q=#{query}" %>
-                        </li>
-                        <li>
-                          <i class="fa fa-arrow-right"></i>
-                          <%= link_to "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
-                            Request from Libraries Worldwide
-                              <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
-                          <% end %>
-                        </li>
-                        <li>
-                          <i class="fa fa-arrow-right"></i>
-                          <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
-                        </li>
-                      </ul>
-                    </div>
+                <div class="card">
+                  <% query = params[:q] || params[:query] %>
+                  <% query = query.gsub('&', '%26') %>
+                  <div class="card-header">
+                    <h4 class="panel-title">
+                      Looking for more?
+                    </h4>
+                  </div>
+                  <div class="card-body">
+                    <ul class="fa-ul">
+                      <li>
+                        <i class="fa fa-arrow-right"></i>
+                        <%= link_to 'View all Catalog results', "/?q=#{query}" %>
+                      </li>
+                      <li>
+                        <i class="fa fa-arrow-right"></i>
+                        <%= link_to "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
+                          Request from Libraries Worldwide
+                            <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
+                        <% end %>
+                      </li>
+                      <li>
+                        <i class="fa fa-arrow-right"></i>
+                        <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
-              <div class="panel panel-default" id="formats">
+              <div class="card" id="formats">
                 <% unless @more_results.length < 3 %>
-                  <div class="panel-heading">
-                    <h5 class="panel-title">
+                  <div class="card-header">
+                    <h4>
                       Format
-                    </h5>
+                    </h4>
                   </div>
-                  <div class="panel-body">
+                  <div class="card-body">
                     <ul class="fa-ul" id="more-results">
                       <% @more_results.each do |key, result| %>
                         <% if !result.empty? and result.total_items > 0 %>
                           <li>
                             <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
-                            <% link_url = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format) %>
-                            <% link_url = ss_uri_encode(link_url) %>
+                            <% link_url = bento_all_results_link(key) %>
                             <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :class => "facet_link_" + downcast(key) do %>
                               <%= BentoSearch.get_engine(key).configuration.title %>
                               <!-- ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
@@ -124,26 +120,20 @@
             </div>
           </div>
         <% end %>
-        <div class="col-sm-9" id="top">
+        <div class="col-md-9" id="top">
+          <span class="top-results">Top Results</span>
           <div class="navbar" id="jumpbar">
-            <ul class="list-inline">
-              <li class="top-results">
-                Top Results
-              </li>
-              <li>
+            <ul class="nav">
+              <li class="nav-item">
                 <% @top_4_results.from(1).to(0).each do |key, result| %>
-                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-                  -->
                   <%= link_to '#'+key.tr(" ", "_") do %>
                     <i class="fa fa-arrow-down"></i>
                     <%= BentoSearch.get_engine(key).configuration.title %>
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% @top_4_results.from(0).to(0).each do |key, result| %>
-                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-                  -->
                   <% unless result.blank? %>
                     <%= link_to '#'+key do %>
                       <i class="fa fa-arrow-down"></i>
@@ -152,17 +142,15 @@
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% @top_4_results.from(2).to(1).each do |key, result| %>
-                  <!--=link_to BentoSearch.get_engine(key).configuration.title, '#'+key
-                  -->
                   <%= link_to '#'+key.tr(" ", "_") do %>
                     <i class="fa fa-arrow-down"></i>
                     <%= BentoSearch.get_engine(key).configuration.title %>
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% unless @digitalCollections.blank? %>
                   <%= link_to '#digcoll' do %>
                     <i class="fa fa-arrow-down"></i>
@@ -170,7 +158,7 @@
                   <% end %>
                 <% end %>
               </li>
-              <li>
+              <li class="nav-item">
                 <% unless @libguides.blank? %>
                   <%= link_to '#libguides' do %>
                     <i class="fa fa-arrow-down"></i>
@@ -242,12 +230,12 @@
                       </div>
                     <% end %>
                   <% else %>
-                    <div class="well">
-                      <p class="no-results no-margin">
+                    <div class="card card-body">
+                      <p>
                         No results from the
                         <%= link_to 'Catalog.', "https://newcatalog.library.cornell.edu" %>
                         Try searching
-                        <%= link_to 'Libraries Worldwide.', "http://cornell.worldcat.org/search?q=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
+                        <%= link_to 'Libraries Worldwide.', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
                       </p>
                     </div>
                   <% end %>
@@ -288,6 +276,15 @@
               </div>
             <% end %>
           </div>
+          <% if 'institutionalRepositories bento box output'.present? %>
+          <div class="bento7" id="instrepos">
+            <% if @institutionalRepositories.present? %>
+              <div class="web-pane">
+                <%= render 'single_search/pane_results', :key => 'institutionalRepositories', :result => @institutionalRepositories %>
+              </div>
+            <% end %>
+          </div>
+          <% end %>
         </div>
       </div>
     <% end %>

@@ -17,6 +17,8 @@ Feature: Search
     And the page title should be "Cornell University Library Catalog"
     And I should see a stylesheet
 
+  @all_search
+  @searchpage_types
   Scenario: Search Page search types
     When I am on the home page
     Then the 'search_field' drop-down should have an option for 'All Fields'
@@ -27,6 +29,7 @@ Feature: Search
     Then the 'search_field' drop-down should have an option for 'Author'
     Then the 'search_field' drop-down should have an option for 'Subject'
     Then the 'search_field' drop-down should have an option for 'Call Number'
+    Then the 'search_field' drop-down should have an option for 'Call Number Browse'
     Then the 'search_field' drop-down should have an option for 'Publisher'
 
  @all_search
@@ -37,6 +40,16 @@ Feature: Search
     And I press 'search'
     Then I should get results
     And I should see a facet called 'Call Number'
+
+ @all_search
+   @callnumber
+  Scenario: Perform a quoted call number search and see 1 result
+    Given I am on the home page
+    And I select 'Call Number' from the 'search_field' drop-down
+    And I fill in the search box with '"pl480"'
+    And I press 'search'
+    Then I should get results
+    And I should see the label '1 result'
 
 #Make sure constraint box appears
    @all_search
@@ -81,15 +94,15 @@ Feature: Search
     And it should contain filter "Title" with value "The complete works of Artemus Ward"
     And I should see the label 'The complete works of Artemus Ward'
 
-   @all_search
-   @title
-  Scenario: Perform a search by Title with a colon
-    Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with 'ethnoarchaeology:'
-    And I press 'search'
-    Then I should get results
-    And I should see the label 'of 4'
+  # @all_search
+  # @title
+  #Scenario: Perform a search by Title with a colon
+  #  Given I am on the home page
+  #  And I select 'Title' from the 'search_field' drop-down
+  #  And I fill in the search box with 'ethnoarchaeology:'
+  #  And I press 'search'
+  #  Then I should get results
+  #  And I should see the label '1 - 20'
 
    @all_search
    @peabody
@@ -193,3 +206,30 @@ Feature: Search
     And I sleep 8 seconds
     And I should see the "fa-clock-o" class
     And I should see the label 'Olin Library'
+
+  @all_search
+  @DISCOVERYACCESS-5984
+  Scenario: Perform a librarian_view on an item known to have MARC record problems
+    Given I request the item view for 7928197
+    Then I should not see the "librarianLink" element
+    And I literally go to /catalog/7928197/librarian_view
+    Then I should see the text 'No MARC data found.'
+
+  @all_search
+  @DISCOVERYACCESS-5826
+  Scenario Outline: The catalog should not return suppressed records
+    Given I am on the home page
+    And I select 'Title' from the 'search_field' drop-down
+    And I fill in the search box with '<title>'
+    And I press 'search'
+    And I sleep 8 seconds
+    Then the search results should not contain title "<title>"
+    And I request the item view for <bibid>
+    Then I should see "Sorry, you have requested a record that doesn't exist."
+
+  Examples:
+  | bibid | title |
+  | 2740306 | Manifest / James Ford Bell Library. Associates. |
+  | 3051761 | Asia gas report |
+  | 2940172 | Boletim de integração latino-americana |
+  | 3828983 | International Series in Heating, Ventilation and Refrigeration |

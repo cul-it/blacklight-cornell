@@ -1,13 +1,19 @@
 BlacklightCornell::Application.routes.draw do
+<<<<<<< HEAD
   get 'errors/not_found'
 
   get 'errors/internal_server_error'
 
   get 'errors/index'
+=======
+  get 'institutional_repositories/index'
+>>>>>>> dev
 
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
-  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+# as option causing invalid route name, already in use error
+#  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+  match 'catalog/unapi', :to => "catalog#unapi", :via => [:get]
 
   Blacklight::Marc.add_routes(self)
 
@@ -28,19 +34,27 @@ resources :solr_documents, except: [:index], path: '/catalog', controller: 'cata
       concerns :exportable
 end
 
+#get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
+get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
+get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
+get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
+get 'bookmarks/export' => 'bookmarks#export'
+get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
+
 resources :bookmarks do
   concerns :exportable
 
   collection do
     delete 'clear'
   end
+
 end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
 # devise_for :users
 
- devise_for :users, controllers: {
+devise_for :users, controllers: {
   omniauth_callbacks: 'users/omniauth_callbacks',
   sessions: 'users/sessions'
 }
@@ -59,7 +73,6 @@ end
   get 'backend/holdings_mail/:id' => 'backend#holdings_mail', :as => 'backend_holdings_mail'
 # commenting out until certain this is a dead-end route  get 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
   get 'backend/feedback_mail', :to => "backend#feedback_mail"
-  post 'backend/dismiss_ie9_warning', :to => 'backend#dismiss_ie9_warning'
 
 #ArgumentError: Invalid route name, already in use: 'catalog_email'
 #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here:
@@ -82,7 +95,7 @@ end
   get '/browse_authortitle' => 'browse#index_authortitle', :as => 'browse_index_authortitle'
 
 
-  match '/aeon/:bibid' => 'aeon#request_aeon', :as => 'request_aeon', :via => [:post, :put, :get]
+  match '/catalog/range_limit' => 'catalog', :via => [:get, :post, :put]
   get '/databases' => 'databases#index', :as => 'databases_index'
   get '/databases/title/:alpha' => 'databases#title', :as => 'databases_title'
   get '/databases/searchdb/' => 'databases#searchdb', :as => 'databases_searchdb'
@@ -92,6 +105,7 @@ end
 # # get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   get '/databases/tou/:id' => 'databases#tou', :as => 'databases_tou'
   get '/catalog/tou/:id/:providercode/:dbcode' => 'catalog#tou', :as => 'catalog_tou'
+  get '/catalog/new_tou/:title_id/:id' => 'catalog#new_tou', :as => 'catalog_new_tou'
 
   get '/databases/erm_update' => 'databases#erm_update', :as => 'erm_update'
   get '/search', :to => 'search#index', :as => 'search_index'
@@ -101,6 +115,12 @@ end
 
   get '/advanced', :to =>'advanced_search#index', :as => 'advanced_search_index'
   get '/edit', :to =>'advanced_search#edit', :as => 'advanced_search_edit'
+
+  # Virtual callnumber browse
+  # first three are for ajax calls from the item view page
+  get "/get_previous" => 'catalog#previous_callnumber', as: 'get_previous'
+  get "/get_next" => 'catalog#next_callnumber', as: 'get_next'
+  get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -158,24 +178,41 @@ end
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
- 
-  # Bookbag routes.
+
+  # BookBag routes.
+  # resources :book_bags, path: '/book_bags', controller: 'book_bags' do
+  #   concerns :exportable
+  # end
+  #   # concerns :exportable
+    # concerns :searchable
+
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
   get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
-  #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
+  # #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete 'book_bags/add/:id' => 'book_bags#delete', :as => 'delete_d_index', :constraints => { :id => /.+/}
   get 'book_bags/delete/:id' => 'book_bags#delete', :as => 'delete_index', :constraints => { :id => /.+/}
-  get 'book_bags/index(.:format)'
+  # get 'book_bags/index(.:format)' => 'book_bags#index'
+  get 'book_bags/index' => 'book_bags#index'
   get 'book_bags/citation'
   get 'book_bags/clear' => 'book_bags#clear'
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
+<<<<<<< HEAD
   
   # custom error pages
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
+=======
+  get 'book_bags/export' => 'book_bags#export'
+  match 'book_bags/track', via: [:get, :post]
+  get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
+  get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
+  get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
+  #  get 'book_bags' => 'book_bags#index'
+>>>>>>> dev
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
+  mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end

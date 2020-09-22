@@ -74,13 +74,33 @@ BentoSearch.register_engine('summon') do |conf|
   conf.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q='
 end
 
+# connection to EBSCO Host used by the bento/single search
+# require "#{Rails.root}/config/ebsco_dbs.rb"
+# BentoSearch.register_engine('ebscohost') do |conf|
+# 	conf.engine = 'BentoSearch::EbscoHostEngine'
+# 	conf.profile_id = ENV['EBSCO_USER'] + '.' + ENV['EBSCO_GROUP'] + '.' + ENV['EBSCO_PROFILE']
+# 	conf.profile_password = ENV['EBSCO_PASSWORD']
+# 	conf.databases = $ebsco_dbs
+# end
+
+# official supported eds search
+BentoSearch.register_engine('ebsco_eds') do |conf|
+	conf.engine = 'BentoSearch::EbscoEdsEngine'
+	conf.user_id = ENV['EDS_USER']
+	conf.password = ENV['EDS_PASS']
+	conf.profile = ENV['EDS_PROFILE']
+	conf.title = "Articles & Full Text"
+	conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
+	conf.highlighting = false
+end
+
 BentoSearch.register_engine('worldcat') do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
   conf.api_key = ENV['WORLDCAT_API_KEY']
   # assume all users are affiliates and have servicelevel=full access.
   conf.auth = true
-  # Link to Cornell WCL, ensure sort by "relevance only"
-  conf.link = 'http://cornell.worldcat.org/search?qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc&q='
+  # Link to Worldcat Discovery, ensure sort by "relevance only"
+  conf.link = "#{ENV['WORLDCAT_URL']}/search?qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc&queryString="
 end
 
 
@@ -89,7 +109,7 @@ BentoSearch.register_engine('summonArticles') do |conf|
   conf.title = 'Newspaper Articles'
 	conf.access_id =  ENV['SUMMON_ACCESS_ID']
 	conf.secret_key = ENV['SUMMON_SECRET_KEY']
-  conf.for_display = {:decorator => "ArticleDecorator"}
+  conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
   conf.highlighting = false
   # More details on Summon Search API commands here:
   # http://api.summon.serialssolutions.com/help/api/search/commands
@@ -114,6 +134,12 @@ BentoSearch.register_engine('digitalCollections') do |conf|
 	conf.engine = 'BentoSearch::DigitalCollectionsEngine'
 	conf.title = 'Digital Collections'
 	conf.for_display = {:decorator => "DigitalCollections"}
+end
+
+BentoSearch.register_engine('institutionalRepositories') do |conf|
+  conf.engine = 'BentoSearch::InstitutionalRepositoriesEngine'
+  conf.title = 'Repositories'
+  conf.for_display = {:decorator => "DigitalCollections"}
 end
 
 BentoSearch.register_engine('libguides') do |conf|
@@ -164,10 +190,10 @@ BentoSearch.register_engine('Musical Score') do |conf|
 	conf.blacklight_format = 'Musical Score'
 end
 
-BentoSearch.register_engine('Map or Globe') do |conf|
-	conf.engine = 'SolrEngine'
-	conf.title = 'Maps and Globes'
-	conf.blacklight_format = 'Map or Globe'
+BentoSearch.register_engine('Map') do |conf|
+  conf.engine = 'SolrEngine'
+  conf.title = 'Maps'
+  conf.blacklight_format = 'Map'
 end
 
 BentoSearch.register_engine('Video') do |conf|

@@ -25,12 +25,12 @@ Given /^I select ["'](.*?)["'] from the ["'](.*?)["'] drop\-down$/ do |option, m
   find('#' + menu).find(:option,"#{option}").select_option
 end
 
-# Then /^I should not see the "([^\"]*)" element$/ do |id|
-#   page.should_not have_selector("##{id}")
-# end
+Then /^I should not see the "([^\"]*)" element$/ do |id|
+   page.should_not have_selector("##{id}")
+end
 
 Then /^I should see the "([^\"]*)" element$/ do |id|
-   page.should have_selector("##{id}")
+  page.should have_selector("##{id}")
 end
 
 Then(/^I should see the "([^\"]*)" class$/) do |id|
@@ -81,13 +81,26 @@ end
 #   end
 # end
 
+@javascript
 Then /^I should get results$/ do
-  page.should have_selector(".document")
+  patiently do
+    page.find(:css, "#documents")
+  end
 end
 
 Then /^I should not get results$/ do
   page.should_not have_selector("div.document")
 end
+
+Then("the search results should not contain title {string}") do |string|
+  patiently do
+    docs = page.all(:css, "div.document-data h2.blacklight-title_display a")
+    docs.each do |doc|
+      expect(doc.text).not_to include(string)
+    end
+  end
+end
+
 
 # Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do |filter, text|
 #   page.should have_selector("div#facets div h3", :content => filter)
@@ -118,3 +131,18 @@ end
 #  end
 # end
 
+# this step requires .env to include DEBUG_USER and the development environment
+When("I sign in to BookBag") do
+  visit 'book_bags/index'
+  # 'Sign In' blacklight-nav link is not available on Jenkins since
+  # ENV['SAML_IDP_TARGET_URL’] is undefined there
+  click_link "Sign in to enable your Book Bag"
+end
+
+Given("we are in the development environment") do
+  expect(ENV['RAILS_ENV']).to eq('development')
+end
+
+Given("we are in any development or test environment") do
+  expect(ENV['RAILS_ENV']).not_to eq('production')
+end

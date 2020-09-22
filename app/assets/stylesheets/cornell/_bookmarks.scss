@@ -1,5 +1,7 @@
 .bookmarks-index,
-.book_bags-index {
+.book_bags-index,
+.blacklight-book_bags,
+.blacklight-bookmarks-index {
 	.item-tools {
 		margin-top: .5em;
 	}
@@ -37,32 +39,59 @@
   border-bottom: solid 5px $light-tan;
 }
 
+.bookmarks-login {
+	display: block;
+	margin-bottom: 1em;
+}
+
+// Bookbag tips
+.bookbag-tips {
+	margin-bottom: 1em;
+	border-bottom: 1px solid $light-tan;
+	h3 {
+		font-size: 14px;
+		font-weight: 700;
+		text-transform: uppercase;
+		margin-top: 0;
+		color: $medium-gray;
+		i {
+			margin-right: .25em;
+		}
+	}
+}
 
 // MEDIA QUERIES
 // -------------------------
 
-  // /* Extra small devices (phones, up to 480px) */
-  // /* No media query since this is the default in Bootstrap */
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
 
-  // /* Small devices (tablets, 768px and up) */
-  // @media (min-width: @screen-sm) { ... }
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
 
-  // /* Medium devices (desktops, 992px and up) */
-  // @media (min-width: @screen-md) { ... }
-
-  // /* Large devices (large desktops, 1200px and up) */
-  // @media (min-width: @screen-lg) { ... }
-
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: $screen-sm) { 
-  	.bookmarks-index,
-  	.book_bags-index {
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.bookmarks-index,
+  	.book_bags-index,
+  	.blacklight-bookmarks-index {
 		#sort-dropdown, #per_page-dropdown {
 			float: right;
 		}
 	}
-		#sort-dropdown {
-			margin-right: 5px;
-		}
+	#sort-dropdown, #per_page-dropdown {
+		margin-right: 5px;
+	}
 }
+
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
+	.bookmarks-login {
+		margin-left: 1em;
+		display: inline;
+		margin-bottom: 0;
+	}
+}
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

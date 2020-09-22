@@ -4,22 +4,23 @@
   		<div class="col-sm-8">
         <h3>Contact Us</h3>
         <ul class="nav nav-pills">
-    		  <li><a href="http://www.library.cornell.edu/ask" onclick="javascript:_paq.push(['Footer', 'footer_links', 'Ask a Librarian']);"><i class="fa fa-question" aria-hidden="true"></i>Ask a Librarian</a></li>
-          <li><a href="http://www.questionpoint.org/crs/servlet/org.oclc.admin.BuildForm?&page=frame&institution=10389&type=2&language=1" target="_blank"><i class="fa fa-comment-o" aria-hidden="true"  onclick="javascript:_paq.push(['Footer', 'footer_links', 'Chat']);"></i>Chat with a Librarian</a></li>
+    		  <li class="nav-item"><a href="http://www.library.cornell.edu/ask" onclick="javascript:_paq.push(['Footer', 'footer_links', 'Ask a Librarian']);" class="nav-link btn btn-default mr-1"><i class="fa fa-question" aria-hidden="true"></i>Ask a Librarian</a></li>
         </ul>
         <h3 id="library-resources">Resources</h3>
-        <ul class="nav footer-nav">
-          <li><a href="http://www.library.cornell.edu">Library Website</a></li>
-          <li><a href="/search">Search</a></li>
-          <li><a href="http://newcatalog.library.cornell.edu">Catalog</a></li>
-          <li><a href="http://cornell.summon.serialssolutions.com/">Articles &amp; Full-Text</a></li>
-          <li><a href="/databases">Databases</a></li>
-          <li><a href="http://erms.library.cornell.edu/">E-journal Titles</a></li>
-          <li><a href="http://www.library.cornell.edu/visual-resources" title="Image resources">Images</a></li>
-        </ul>
+        <nav aria-labelledby="library-resources">
+          <ul class="nav footer-nav">
+            <li><a href="http://www.library.cornell.edu">Library Website</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="http://newcatalog.library.cornell.edu">Catalog</a></li>
+            <li><%= render :partial => 'shared/link_articles_fulltext' %></li>
+            <li><a href="/databases">Databases</a></li>
+            <li><a href="http://erms.library.cornell.edu/">E-journal Titles</a></li>
+            <li><a href="http://www.library.cornell.edu/visual-resources" title="Image resources">Images</a></li>
+          </ul>
+        </nav>
     	</div>
     	<div class="col-sm-4 feedback-link">
-    		<a href="https://www.library.cornell.edu/feedback?catalogdestination=catalog<%= CGI.escape request.original_fullpath %>" class="btn btn-libraries">Feedback</a>
+    		<a href="https://www.library.cornell.edu/feedback?catalogdestination=catalog<%= CGI.escape request.original_fullpath %>" class="btn btn-cul">Feedback</a>
         <p><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release Notes</a></p>
     	</div>
     </div>
@@ -31,5 +32,7 @@
         <%= render_solr_core %>
       </div>
     </div>
+    <div id="libchat_93c39d16c29840b40a8efdeaef81707f"></div>
+    <script src="https://v2.libanswers.com/load_chat.php?hash=93c39d16c29840b40a8efdeaef81707f"></script>
   </div>
 </footer>

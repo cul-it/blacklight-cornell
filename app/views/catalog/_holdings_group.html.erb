@@ -17,11 +17,10 @@
 <% noncirc = true  %>
 <% end %>
 
-
+<%#= @document.inspect %>
 
 <% items.each do |i| %>
 <div class="holding">
-
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
   <% end %>
@@ -56,10 +55,14 @@
         <%= i["location"]["name"] %>
         <span class="map-it">
           <% if i['location']['hoursCode'].present? %>
-          <% unless i["location"]["hoursCode"] == "spif" %>
-          <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] %>
-          <% else %>
-            <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/", "aria-label" => i["location"]["name"] %>
+            <% if i["location"]["hoursCode"] == "spif" %>
+              <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/", "aria-label" => i["location"]["name"] %>
+            <% else %>
+              <% if i['location']['hoursCode'] == "ciser" %>
+                <%= link_to "Hours/Map", "http://ciser.cornell.edu/", "aria-label" => i["location"]["name"] %>
+              <% else %>
+                <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] %>
+              <% end %>
             <% end %>
           <% end %>
 
@@ -76,7 +79,7 @@
       <% if pda != 'yes' %>
         <%= i["call"] %>
         <span class="text-it">
-        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right'}, :title =>
+        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right', blacklight_modal: "trigger"}, :title =>
             'Text call number'} do %>
           <i class="fa fa-mobile" aria-hidden="true"></i>
             <%= t('blacklight.tools.sms') %>
@@ -86,7 +89,6 @@
   <% end %>
 
       <!-- holding description, notes, status -->
-
       <div class="group">
         <% if i["items"].present? %>
         <% if i['items']['tempLoc'].present? %>
@@ -120,28 +122,39 @@
         <% end %>
         </div>
 
-
+        <%#= i.inspect %>
         <div class="message">
           <% if i["holdings"].present? %>
-            Library has: <%= holdings_html_safe(i["holdings"]) %>
+            Library has: <% if i["holdings"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["holdings"]) %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["indexes"].present? %>
-            Indexes: <%= i["indexes"].join('<br />').html_safe %>
+             
+            Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["indexes"]) %> 
           <% end %>
         </div>
 
         <div class="message">
-          <% if i["supplements"].present? %>
-            Supplements: <%= i["supplements"].join('<br />').html_safe %>
+          <% if i["supplements"].present? %>             
+            Supplements: <% if i["supplements"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["supplements"]) %>
           <% end %>
         </div>
 
         <div class="message">
           <% if i["notes"].present? %>
-          Notes: <%= i["notes"].join('<br />').html_safe %>
+          Notes: <% if i["notes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["notes"]) %>
+          <% end %>
+        </div>
+       
+        <div class="message">
+          <% if !i["recents"].nil? and i["recents"].size == 1 %>
+             Current Issues: <%= i["recents"][0] %>
+          <% else %>
+             <% if !i["recents"].nil? and i["recents"].size > 1 %>
+               Current Issues:<br><%= i["recents"].join("<br>").html_safe %>
+             <% end %> 
           <% end %>
         </div>
 

@@ -4,7 +4,6 @@ require "date"
 # responsibility field_value 'title_responsibility_display'
 #   published -- description
 # call number - location
-# holdings_condensed = create_condensed_full(@document)
 # example:
 # Zombies
 # Zombies : an anthropological investigation of the living dead / Philippe Charlier ; translated by Richard J. Gray II.

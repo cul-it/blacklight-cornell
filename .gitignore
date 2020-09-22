@@ -18,6 +18,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+faraday.log
 
 # Ignore config files with sensitive data
 config/newrelic.yml
@@ -28,10 +29,11 @@ public/assets
 /.env
 # ignore coverage tests
 coverage
-features/cassettes/cucumber_tags/availability.yml
-features/cassettes/cucumber_tags/javascript.yml
-features/cassettes/cucumber_tags/search_availability_title_mission_etrangeres_missing.yml
 db/test.sqlite3-journal
+
+# ignore tests Jenkins blacklight-cornell-merge-pr deletes
+results/*
+features/cassettes/cucumber_tags/*
 
 
 # Elastic Beanstalk Files
@@ -41,3 +43,12 @@ db/test.sqlite3-journal
 
 # Ignore redis binary dump (dump.rdb) files
 *.rdb
+
+.DS_Store
+.idea/*
+
+#ignore dev tool
+config/initializers/renderer.rb
+
+# brakeman test results
+brakeman-output.*
