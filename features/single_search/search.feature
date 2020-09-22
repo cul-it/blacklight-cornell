@@ -41,10 +41,12 @@ Feature: Search
       | search | comment |
       | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
+      | Union Barley Coffee | |
+      | Lion's Coffee | |
       | HR system "strength" bowen ostroff | |
       | Superbugs versus Outsourced Cleaners | |
       | eye tracking | |
       | labor unrest | |
       | torts | |
       | barley | |
-
+ß
