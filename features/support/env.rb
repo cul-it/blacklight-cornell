@@ -187,9 +187,11 @@ end
 
 def finished_all_ajax_requests?
   begin
-    page.evaluate_script('(typeof jQuery !== "undefined") ? jQuery.active : 0').zero?
+    # disabled for aws test
+    # page.evaluate_script('(typeof jQuery !== "undefined") ? jQuery.active : 0').zero?
+    true
   rescue Exception => e
-    puts e
+    puts 'exception in finished_all_ajax_requests?' + e.to_s
   end
 end
 
