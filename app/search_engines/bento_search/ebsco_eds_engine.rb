@@ -21,40 +21,6 @@ class BentoSearch::EbscoEdsEngine
         client.connect_timeout = client.send_timeout = client.receive_timeout = HttpTimeout
     end
 
-    def url_exist?(url_string)
-        url = URI.parse(url_string)
-        req = Net::HTTP.start(url.host, url.port)
-        req.use_ssl = (url.scheme == 'https')
-        req.open_timeout = 3 # in seconds
-        req.read_timeout = 3 # in seconds
-        address = [url.path.presence || '/', url.query.presence].compact.join('?')
-        res = req.head(address)
-        if res.kind_of?(Net::HTTPRedirection)
-            puts 'redirection to ' + res['location']
-            url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
-            # true # dont follow redirects
-        else
-          ! %W(4 5).include?(res.code[0]) # Not from 4xx or 5xx families
-        end
-      rescue URI::Error => e
-        puts 'uri error'
-        puts e.message
-        false #false if badly formed url
-      rescue Errno::ENOENT => e
-        puts 'ENOENT error'
-        puts e.message
-        false #false if can't find the server
-      rescue Net::ReadTimeout => e
-        puts 'timeout error'
-        puts e.message
-        true # assume it was a slow good link
-      rescue => e
-        puts 'other exception'
-        puts "Exception Class: #{ e.class.name }"
-        puts "Exception Message: #{ e.message }"
-        false
-    end
-
     def add_limiters(session)
         # if true
         #     session.add_limiter('FT1', 'Y') # library collection
@@ -155,29 +121,11 @@ puts msg.to_yaml
                     end
 
                     links.each do | link |
-                        if url_exist?(link[:url])
-                            item.other_links << BentoSearch::Link.new(
-                                :url => link[:url],
-                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                                :label => link[:label]
-                                )
-                        else
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "title: " + item.title.inspect
-msg << "bad link: " + link.inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-                            item.other_links << BentoSearch::Link.new(
-                                :url => link[:url],
-                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                                :label => ['BAD LINK:', link[:label]].join(' ')
-                                )
-                        end
+                        item.other_links << BentoSearch::Link.new(
+                            :url => link[:url],
+                            :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                            :label => link[:label]
+                            )
                     end
 
                     rec.eds_isbns().each do | isbn |
