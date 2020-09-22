@@ -71,6 +71,8 @@ class BentoSearch::EbscoEdsEngine
     def search_implementation(args)
 
         session = EBSCO::EDS::Session.new({
+            :debug => true,
+            :log => 'eds-connection.log',
             :user => ENV['EDS_USER'],
             :pass => ENV['EDS_PASS'],
             :guest => true,
@@ -125,6 +127,9 @@ msg = ["****************** #{__method__}"]
 access_level = rec.eds_access_level()
 msg << "access_level: " + access_level.inspect
 msg << "rec isbns: " + rec.eds_isbns().inspect
+msg << "Search modes: " + session.info.available_search_modes().inspect
+# msg << "Limiters: " + session.info.default_limiter_ids().inspect
+msg << "Limiters: " + response.applied_limiters().inspect
 msg << '******************'
 puts msg.to_yaml
 # Rails.logger.level = save_level
