@@ -1,13 +1,10 @@
 BlacklightCornell::Application.routes.draw do
-<<<<<<< HEAD
   get 'errors/not_found'
 
   get 'errors/internal_server_error'
 
   get 'errors/index'
-=======
   get 'institutional_repositories/index'
->>>>>>> dev
 
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
@@ -199,19 +196,17 @@ devise_for :users, controllers: {
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
-<<<<<<< HEAD
-  
+
   # custom error pages
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
-=======
+
   get 'book_bags/export' => 'book_bags#export'
   match 'book_bags/track', via: [:get, :post]
   get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'
->>>>>>> dev
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
