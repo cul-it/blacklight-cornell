@@ -107,9 +107,10 @@ class BentoSearch::EbscoEdsEngine
             for page in 0..max_page
 
                 sq = {
-                    'q' => q,
-                    'start' => page,
-                    'per_page' => per_page
+                    query: q,
+                    page: page,
+                    results_per_page: per_page,
+                    limiters: ['FT:Y']
                 }
 
                 response = session.search(sq)
