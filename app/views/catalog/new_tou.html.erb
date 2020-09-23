@@ -61,9 +61,9 @@
                 </thead>
                 <tbody> 
 
-                  <%#= data['customProperties']['generalPermissions'].inspect %> 
-               
-                  <% if !data['customProperties']['authorizedUsers'].nil? and data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
+                  <%#= data['customProperties']['metadataUsage'].inspect %> 
+                  <%#= data['customProperties']['authorizedUsers2'][0]['value']['label'].inspect %> 
+                  <% if data['customProperties']['authorizedUsers2'].nil? and !data['customProperties']['authorizedUsers'].nil? and data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
                     <tr>
                       <td>
                         Authorized Users
@@ -73,28 +73,40 @@
                         
                       </td>
                       <td>
-                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
-                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
-                        <% else %>
-                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
-                        <% end %>
+                        <%# if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <%# else %>
+                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                        <%# end %>
                       </td>
                     </tr>
-                  <% else %>
-                    <% if !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
+                  <% end %>
+               
+                  <% if !data['customProperties']['authorizedUsers2'].nil? and data['customProperties']['authorizedUsers2'][0]['internal'] == false and data['customProperties']['authorizedUsers2'][0]['value']['label'].include?(';')  %>
+                    <tr>
+                      <td>
+                        Authorized Users
+                      </td>
+                      <td>
+                          <%= data['customProperties']['authorizedUsers2'][0]['value']['label'].gsub!(';',',') %>
+                        
+                      </td>
+                      <td>
+                        <%# if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <%# else %>
+                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                        <%# end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                    <% if data['customProperties']['generalPermissions2'].nil? and !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
                     <tr>
                       <td>
                         <%= data['customProperties']['generalPermissions'][0]['type']['label'] %>
                       </td>
                        <td>
                         <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                        <% if !data['customProperties']['generalPermissions'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['generalPermissions'][0]['publicNote'] %>
-                        <% else %>
-                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>
-                        <% end %> 
                       </td>
                        <td>
                         <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
@@ -105,7 +117,24 @@
                       </td>
                     </tr>
                    <% end %>                  
-                  <% end %>
+                    <% if !data["customProperties"]["generalPermissions2"].nil? and data["customProperties"]["generalPermissions2"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['generalPermissions2'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%#= data['customProperties']['generalPermissions2'][0]['value']['label'] %>
+                      </td>
+                       <td>
+                        <% if data['customProperties']['generalPermissions2'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['customProperties']['generalPermissions2'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% else %>
+                          <%= data['customProperties']['generalPermissions2'][0]['type']['description'] %>                        
+                        <% end %>
+                      </td>
+                    </tr>
+                   <% end %>                  
+                  <%# end %>
                   <% if !data["customProperties"]["generalRestrictions"].nil? and data["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
                     <tr>
                       <td>
@@ -120,6 +149,23 @@
                         <% else %>
                           <%= data['customProperties']['generalRestrictions'][0]['value'] %>
                         <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['otherRestrictions'].nil? and data['customProperties']['otherRestrictions'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['otherRestrictions'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['otherRestrictions'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['otherRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['otherRestrictions'][0]['publicNote'] %>
+                        <% else %>
+                          <%= data['customProperties']['otherRestrictions'][0]['type']['description'] %>
+                        <% end %>  
                       </td>
                     </tr>
                   <% end %>
@@ -209,6 +255,40 @@
                       </td>
                     </tr>
                   <% end %>
+                  <% if !data["customProperties"]["remoteAccess"].nil? and data["customProperties"]["remoteAccess"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['remoteAccess'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['remoteAccess'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                         <% if !data['customProperties']['remoteAccess'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['remoteAccess'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['remoteAccess'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data["customProperties"]["remoteAccessInfo"].nil? and data["customProperties"]["remoteAccessInfo"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['remoteAccessInfo'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['remoteAccessInfo'][0]['value'] %>
+                      </td>
+                      <td>
+                          <% if !data['customProperties']['remoteAccessInfo'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['remoteAccessInfo'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['remoteAccessInfo'][0]['type']['description'] %>
+                        <% end %> 
+                      </td> 
+                    </tr>
+                  <% end %>
                   <% if !data["customProperties"]["fairUseClause"].nil? and data["customProperties"]["fairUseClause"][0]["internal"] == false  %>
                     <tr>
                       <td>
@@ -260,6 +340,23 @@
                       </td>
                     </tr>
                   <% end %>
+                   <% if !data['customProperties']['illElectronic'].nil? and data['customProperties']['illElectronic'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['illElectronic'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illElectronic'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['illElectronic'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illElectronic'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['illElectronic'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
                    <% if !data['customProperties']['illSecureElectronic'].nil? and data['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
                     <tr>
                       <td>
@@ -273,6 +370,125 @@
                           <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
                         <% else %>
                           <%#= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% if !data["customProperties"]["illPrint"].nil? and data["customProperties"]["illPrint"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['illPrint'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['illPrint'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['illPrint'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['illPrint'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['illPrint'][0]['type']['description'] %>
+                        <% end %> 
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['electronicLink'].nil? and data['customProperties']['electronicLink'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['electronicLink'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['electronicLink'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['electronicLink'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['electronicLink'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['electronicLink'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['prePrintArchive'].nil? and data['customProperties']['prePrintArchive'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['prePrintArchive'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['prePrintArchive'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['prePrintArchive'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['prePrintArchive'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['prePrintArchive'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['postPrintArchive'].nil? and data['customProperties']['postPrintArchive'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['postPrintArchive'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['postPrintArchive'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['postPrintArchive'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['postPrintArchive'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['postPrintArchive'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['coursePackPrint'].nil? and data['customProperties']['coursePackPrint'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['coursePackPrint'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['coursePackPrint'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['coursePackPrint'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['coursePackPrint'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['coursePackPrint'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['textAndDataMining'].nil? and data['customProperties']['textAndDataMining'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['textAndDataMining'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['textAndDataMining'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['textAndDataMining'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['textAndDataMining'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['textAndDataMining'][0]['type']['description'] %>
+                        <% end %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                   <% if !data['customProperties']['metadataUsage'].nil? and data['customProperties']['metadataUsage'][0]['internal'] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['customProperties']['metadataUsage'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['customProperties']['metadataUsage'][0]['value'] %>
+                      </td>
+                      <td>
+                        <% if !data['customProperties']['metadataUsage'][0]['publicNote'].nil? %>
+                          <%= data['customProperties']['metadataUsage'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['customProperties']['metadataUsage'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
