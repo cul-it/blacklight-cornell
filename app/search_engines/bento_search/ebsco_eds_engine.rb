@@ -21,31 +21,6 @@ class BentoSearch::EbscoEdsEngine
         client.connect_timeout = client.send_timeout = client.receive_timeout = HttpTimeout
     end
 
-    def limiter_test(session)
-        q = "cancel culture"
-        start = 0
-        per_page = 3
-        sqs = [
-            {query: q, page: start, results_per_page: per_page},
-            {query: q, page: start, results_per_page: per_page, limiters: ['FT1:Y']},
-            {query: q, page: start, results_per_page: per_page, limiters: ['FT1:Y', 'FT:Y']},
-            {query: q, page: start, results_per_page: per_page, limiters: ['FT1:Y', 'FT:Y', 'RV:Y']}
-        ]
-         sqs.each do |sq|
-            msg = ['******************']
-            response = session.search(sq)
-            msg << 'sq: ' + sq.inspect
-            msg << 'total_hits: ' + response.stat_total_hits.to_s
-            applied_limiters = response.applied_limiters.map{|hash| hash['Id']}
-            msg << 'limiters: ' + response.applied_limiters.inspect
-            response.records.each do |rec|
-                msg << rec.eds_title().to_s
-            end
-            msg << '******************'
-            puts msg.to_yaml
-        end
-    end
-
     def search_implementation(args)
 
         session = EBSCO::EDS::Session.new({
@@ -60,9 +35,6 @@ class BentoSearch::EbscoEdsEngine
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        limiter_test(session)
-
-        # q = args[:query]
         q = args[:oq]
         Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
@@ -89,37 +61,14 @@ class BentoSearch::EbscoEdsEngine
                     query: q,
                     page: page,
                     results_per_page: per_page,
-                    limiters: ['FT:Y', 'RV:Y']
+                    limiters: ['FT1:Y'] # Available in Library Collection
                  }
-
-                session.add_limiter('FT', 'Y')
-                session.add_limiter('FT1', 'Y')
 
                 response = session.search(sq, add_actions: true )
 
                 response.records.each do |rec|
-                    # access_level = rec.eds_access_level()
-                    # puts "access_level: " + access_level.inspect
-                    # next if access_level.to_i < 2
 
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = ["****************** #{__method__}"]
-access_level = rec.eds_access_level()
-msg << "access_level: " + access_level.inspect
-msg << "rec isbns: " + rec.eds_isbns().inspect
-msg << "Search modes: " + session.info.available_search_modes().inspect
-msg << "Limiter Labels: " + session.info.available_limiter_labels().inspect
-applied_limiters = response.applied_limiters.map{|hash| hash['Id']}
-msg << 'applied: ' + applied_limiters.inspect
-msg << "Limiters: " + response.applied_limiters().inspect
-msg << "Search: " + @SearchCriteria.inspect
-msg << '******************'
-puts msg.to_yaml
-# Rails.logger.level = save_level
-#*******************
-                found += 1
+                    found += 1
                     throw :enough_hits if found > required_hit_count
 
                     item = BentoSearch::ResultItem.new
@@ -167,7 +116,6 @@ puts msg.to_yaml
                 end
             end
         end # enough hits already
-        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} results: " + results.inspect
         return results
     end
 
