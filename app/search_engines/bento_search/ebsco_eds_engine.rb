@@ -67,10 +67,14 @@ class BentoSearch::EbscoEdsEngine
 
                 response.records.each do |rec|
 
+                    links = rec.eds_fulltext_links()
+                    next unless links.present?
+
                     found += 1
                     throw :enough_hits if found > required_hit_count
 
                     item = BentoSearch::ResultItem.new
+                    item.link_is_fulltext = true
                     item.title = rec.eds_title().present? ? rec.eds_title() : I18n.translate("bento_search.eds.record_not_available")
                     item.abstract = rec.eds_abstract()
                     item.unique_id = rec.id
@@ -79,12 +83,6 @@ class BentoSearch::EbscoEdsEngine
                         item.authors << BentoSearch::Author.new(:display => author)
                     end
                     item.link = rec.eds_plink()
-                    links = rec.eds_fulltext_links()
-                    if links.present?
-                        item.link_is_fulltext = true
-                    else
-                        links = rec.eds_all_links()
-                    end
 
                     links.each do | link |
                         item.other_links << BentoSearch::Link.new(
