@@ -24,11 +24,9 @@ class BentoSearch::EbscoEdsEngine
     def search_implementation(args)
 
         session = EBSCO::EDS::Session.new({
-            :debug => true,
-            :log => 'eds-connection.log',
             :user => ENV['EDS_USER'],
             :pass => ENV['EDS_PASS'],
-            :guest => true,
+            :guest => false,
             :profile => ENV['EDS_PROFILE']
         })
 
