@@ -21,6 +21,31 @@ class BentoSearch::EbscoEdsEngine
         client.connect_timeout = client.send_timeout = client.receive_timeout = HttpTimeout
     end
 
+    def limiter_test(session)
+        q = "cancel culture"
+        start = 0
+        per_page = 3
+        sqs = [
+            {query: q, page: start, results_per_page: per_page},
+            {query: q, page: start, results_per_page: per_page, limiters: ['FT1:Y']},
+            {query: q, page: start, results_per_page: per_page, limiters: ['FT1:Y', 'FT:Y']},
+            {query: q, page: start, results_per_page: per_page, limiters: ['FT1:Y', 'FT:Y', 'RV:Y']}
+        ]
+         sqs.each do |sq|
+            msg = ['******************']
+            response = session.search(sq)
+            msg << 'sq: ' + sq.inspect
+            msg << 'total_hits: ' + response.stat_total_hits.to_s
+            applied_limiters = response.applied_limiters.map{|hash| hash['Id']}
+            msg << 'limiters: ' + response.applied_limiters.inspect
+            response.records.each do |rec|
+                msg << rec.eds_title().to_s
+            end
+            msg << '******************'
+            puts msg.to_yaml
+        end
+    end
+
     def search_implementation(args)
 
         session = EBSCO::EDS::Session.new({
@@ -34,6 +59,8 @@ class BentoSearch::EbscoEdsEngine
 
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
+
+        limiter_test(session)
 
         # q = args[:query]
         q = args[:oq]
