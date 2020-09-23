@@ -89,10 +89,13 @@ class BentoSearch::EbscoEdsEngine
                     query: q,
                     page: page,
                     results_per_page: per_page,
-                    limiters: ['FT1:Y', 'FT:Y'] # Cornell collection, full text
-                }
+                    limiters: ['FT:Y', 'RV:Y']
+                 }
 
-                response = session.search(sq)
+                session.add_limiter('FT', 'Y')
+                session.add_limiter('FT1', 'Y')
+
+                response = session.search(sq, add_actions: true )
 
                 response.records.each do |rec|
                     # access_level = rec.eds_access_level()
@@ -107,8 +110,11 @@ access_level = rec.eds_access_level()
 msg << "access_level: " + access_level.inspect
 msg << "rec isbns: " + rec.eds_isbns().inspect
 msg << "Search modes: " + session.info.available_search_modes().inspect
-# msg << "Limiters: " + session.info.default_limiter_ids().inspect
+msg << "Limiter Labels: " + session.info.available_limiter_labels().inspect
+applied_limiters = response.applied_limiters.map{|hash| hash['Id']}
+msg << 'applied: ' + applied_limiters.inspect
 msg << "Limiters: " + response.applied_limiters().inspect
+msg << "Search: " + @SearchCriteria.inspect
 msg << '******************'
 puts msg.to_yaml
 # Rails.logger.level = save_level
