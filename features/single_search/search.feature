@@ -30,23 +30,32 @@ Feature: Search
       | 6025 | building sustainable hybrid organizations: the case of commercial microfinance organizations | building sustainable hybrid organizations: the case of commercial microfinance organizations |
 
   @DISCOVERYACCESS-6359
-  Scenario Outline: When I search, the EDS results I see should be accessible
+  Scenario Outline: When I search, the EDS results I should not see
     When I go to the search page
     When I fill in "q" with '<search>'
     And I press 'Search'
     Then I should get bento results
-    And I should not see the text 'BAD LINK'
+    And Articles & Full Text should not list "<search>"
+
+  Examples:
+      | search | comment |
+      | Union Barley Coffee | not in the collection & not full text |
+      | Lion's Coffee | not in the collection & not full text |
+      | McLaughlin's Coffee | not in the collection & not full text |
+      | Coffee questionnaire | not in the collection & not full text |
+
+  @DISCOVERYACCESS-6359
+  Scenario Outline: When I search, the EDS results I should see
+    When I go to the search page
+    When I fill in "q" with '<search>'
+    And I press 'Search'
+    Then I should get bento results
+    And Articles & Full Text should list "<search>"
 
   Examples:
       | search | comment |
       | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
-      | Union Barley Coffee | |
-      | Lion's Coffee | |
-      | HR system "strength" bowen ostroff | |
-      | Superbugs versus Outsourced Cleaners | |
-      | eye tracking | |
-      | labor unrest | |
-      | torts | |
-      | barley | |
-ß
+      | Lions' Plate: TikTok's Whipped Coffee | |
+      | UTICA ZOO ANNOUNCES LIMITED EDITION 'LION'S ROAST' COFFEE, SUPPORTS AFRICAN LION CONSERVATION | |
+
