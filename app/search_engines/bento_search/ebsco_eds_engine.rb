@@ -39,9 +39,10 @@ class BentoSearch::EbscoEdsEngine
         per_page = 3;
 
         sq = {
-            'q' => q,
-            'start' => 0,
-            'per_page' => per_page
+            query: q,
+            page: 0,
+            results_per_page: per_page,
+            limiters: ['FT1:Y'] # Available in Library Collection
         }
 
         response = session.search(sq)
