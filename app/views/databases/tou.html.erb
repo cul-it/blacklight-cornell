@@ -57,7 +57,9 @@
               <p>
                 Subject(s):
                 <% data["sixfivethree"].each do |s| %>
-                  <%= link_to s,"/databases/subject/#{s}", :title => "Subject: #{s}" %><% unless data["sixfivethree"].last == s %>, <% end %>
+                   <% s1 = s %>
+                   <%# s1.gsub(' ','%20') %>
+                  <%= link_to s,"/databases/subject/#{s.gsub(' ','%20')}", :title => "Subject: #{s.gsub(' ','%20')}" %><% unless data["sixfivethree"].last == s %>, <% end %>
                 <% end %>
               </p>
             <% end %>
