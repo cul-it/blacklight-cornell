@@ -23,6 +23,22 @@ Then /^I should not get bento results$/ do
   end
 end
 
+Then("Articles & Full Text should list {string}") do |string|
+    within("div#ebsco_eds-Bento2") do
+      expect(page.first("h3.bento_item_title", :text => string))
+    end
+end
+
+Then("Articles & Full Text should not list {string}") do |string|
+  begin
+    within("div#ebsco_eds-Bento2") do
+      expect(page).not_to have_selector("h3.bento_item_title", :text => string)
+    end
+  rescue Capybara::ElementNotFound => e
+    expect(page).not_to have_selector("div#ebsco_eds-Bento2")
+  end
+end
+
 
 Then("I should get Institutional Repository results") do
   page.should have_selector("div#institutionalRepositories")

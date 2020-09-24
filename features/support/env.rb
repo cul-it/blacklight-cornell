@@ -187,8 +187,13 @@ end
 def finished_all_ajax_requests?
   begin
     page.evaluate_script('(typeof jQuery !== "undefined") ? jQuery.active : 0').zero?
+  rescue Capybara::NotSupportedByDriverError => e
+    true
   rescue Exception => e
-    puts e
+    puts 'Exception in finished_all_ajax_requests?'
+    puts "Exception Class: #{ e.class.name }"
+    puts "Exception Message: #{ e.message }"
+    true
   end
 end
 
