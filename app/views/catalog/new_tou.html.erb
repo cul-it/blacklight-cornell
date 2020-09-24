@@ -12,11 +12,11 @@
   <div class="page-title col-sm-12">
     <div class="return-link">
      <% if !@newTouResult.nil? %>
-     <%#= params.inspect %>
-      <%= link_to "/catalog/#{params["id"]}" do %>
-        <i class="fa fa-arrow-circle-left"></i>
-        Back to Item
-      <% end %>
+     	<%#= params.inspect %>
+      	<%= link_to "/catalog/#{params["id"]}" do %>
+        	<i class="fa fa-arrow-circle-left"></i>
+        	Back to Item
+     <% end %>
     </div>
     <h2>
   </div>
@@ -41,9 +41,14 @@
             <%#= @newTouResult.inspect %>
             <% @newTouResult.each do | data | %>
             <% if data.present?  %>
-       <h3 class="blacklight-title_display">
-                                       <%= data['packageName'] %>
-         </h3>
+             <% if data['error_message'].present? %>
+       		    <h3 class="blacklight-title_display">
+                  <%= data['error_message'] %>
+         	    </h3>
+             <% else %>
+       		    <h3 class="blacklight-title_display">
+                  <%= data['packageName'] %>
+         	    </h3>
                       <table class="table table-bordered table-striped">
                 <caption class="sr-only">License terms and permissions for this resource</caption>
                 <thead>
@@ -151,7 +156,7 @@
                         <% end %> 
                       </td>
                     </tr>
-                  <% end %>
+                  <% end %> 
                    <% if !data['customProperties']['otherRestrictions'].nil? and data['customProperties']['otherRestrictions'][0]['internal'] == false  %>
                     <tr>
                       <td>
@@ -164,7 +169,7 @@
                         <% if !data['customProperties']['otherRestrictions'][0]['publicNote'].nil? %>
                           <%= data['customProperties']['otherRestrictions'][0]['publicNote'] %>
                         <% else %>
-                          <%= data['customProperties']['otherRestrictions'][0]['type']['description'] %>
+                          <%#= data['customProperties']['otherRestrictions'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
@@ -496,6 +501,7 @@
                   <%#= data.inspect %>
                 </tbody>
               </table>
+         	 <% end %>
             <% end %>
            <% end %>
         <% else %>
