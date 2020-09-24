@@ -1394,7 +1394,7 @@ end
     if params[:controller] =='catalog' || params[:controller]=='bookmarks' ||
       request.original_url.include?("request") || params[:controller]=='search_history' ||
       params[:controller] == 'advanced_search' || params[:controller]=='aeon' || params[:controller]=='browse' ||
-      params[:controller] == 'book_bags' || params[:controller] == 'errors'
+      params[:controller] == 'book_bags'
       return true
     end
   end
