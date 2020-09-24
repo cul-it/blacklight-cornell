@@ -1180,6 +1180,12 @@ def new_tou
 #  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
 #  outtxt = `curl #{command}`
   parsed = JSON.parse(outtxt)
+  if parsed["data"].nil? #["data"]["attributes"]["name"].nil?
+    message = {}
+    message['error_message'] = "The Terms of Use for this item are temporarily unavailable"
+    #parsed_message = JSON.parse(message)
+    @newTouResult << message
+  else
   recordTitle = parsed["data"]["attributes"]["name"]
  
   parsley = parsed["included"].each do | parsley |
@@ -1222,6 +1228,7 @@ def new_tou
       end
     end
  end
+end
      return params, @newTouResult
 
 end 
