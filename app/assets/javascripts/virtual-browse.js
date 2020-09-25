@@ -7,7 +7,7 @@ var  carouselActions = {
   },
   
   bindEventListeners: function() {
-      
+      // variables used in the scrolling calculations
       var oc_width = $('#outer-container').width();
       var oc_lo = $('#outer-container').offset().left;
       var oc_ro = (oc_width + oc_lo);
