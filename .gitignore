@@ -19,6 +19,7 @@
 /log/*.log
 /tmp
 faraday.log
+eds-connection.log
 
 # Ignore config files with sensitive data
 config/newrelic.yml
