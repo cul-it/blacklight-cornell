@@ -1,4 +1,8 @@
 class ErrorsController < ApplicationController
+  def index
+    redirect_to root_path, notice: "No errors index page"
+  end
+
   def not_found
     render(:status => 404)
   end
@@ -10,10 +14,6 @@ class ErrorsController < ApplicationController
     @request = request.env["REQUEST_URI"].to_s
     @test = "text"
     render(:status => 500)
-  end
-
-  def index
-    render("Errors Index")
   end
 
 end
