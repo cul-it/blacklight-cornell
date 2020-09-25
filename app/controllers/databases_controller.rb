@@ -61,7 +61,7 @@ class DatabasesController < ApplicationController
    def searchdb
        Appsignal.increment_counter('db_search_db', 1)
       if params[:q].nil? or params[:q] == "" or params[:q] == "+" or params[:q] == "-"
-        flash.now[:error] = "Please enter a query."
+        flash.now[:error] = "Pleased enter a query."
         render "index"
       else
       if !params[:q].nil? and params[:q] != ""
@@ -69,7 +69,13 @@ class DatabasesController < ApplicationController
         dbclnt = HTTPClient.new
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config[:url].inspect}")
         solr = Blacklight.connection_config[:url]
-        p = {"q" =>params[:q] , "wt" => 'json',"indent"=>"true","defType" =>"dismax"}
+        if params[:q].include?('OR OR')
+          params[:q] = params[:q].gsub('OR OR', 'OR')
+        end
+        if params[:q].include?('AND AND')
+          params[:q] = params[:q].gsub('AND AND', 'AND')
+        end
+        p = {"q" =>params[:q] , "wt" => 'json',"indent"=>"true","defType" =>"edismax"}
         Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{solr}/databases?"+p.to_param)
         @dbResultString = dbclnt.get_content("#{solr}/databases?" + p.to_param)
         if !@dbResultString.nil?
