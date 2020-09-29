@@ -18,8 +18,12 @@
 	margin-right: 1em;
 }
 .cornell-logo {
-	img {
-		width: 300px;
+	a {
+		display: block;
+		width: 322px;
+		height: 37px;
+		text-indent: -9999em;
+		background: url("/img/cul-logo.svg") no-repeat;
 	}
 }
 
@@ -56,9 +60,4 @@
 
 // Small devices (landscape phones, 576px and up)
 @include media-breakpoint-up(sm) {
-  .cornell-logo {
-  	img {
-  		width: auto;
-  	}
-  }
 }

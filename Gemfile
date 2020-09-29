@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "2.5.5"
 #another try
-gem 'rails', '5.2.4.2'
+gem 'rails', '5.2.4.3'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -16,6 +16,7 @@ group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
+  gem 'brakeman'
 end
 
 group :production,:staging do

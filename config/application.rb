@@ -8,13 +8,13 @@ require 'dotenv'
 # Load defaults from config/*.env in config
 # Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)
 # error if .env does not exist.
-begin 
+begin
   Dotenv.load! *Dir.glob(".env", File::FNM_DOTMATCH)
-rescue 
+rescue
    puts <<-eos
    ******************************************************************************
    Your .env config file is missing.
-   See DOTENV.example for a blank file. 
+   See DOTENV.example for a blank file.
    ******************************************************************************
    eos
    exit(1)
@@ -78,31 +78,34 @@ module BlacklightCornell
     #config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
-    config.assets.enabled = true    
+    config.assets.enabled = true
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
 
     config.assets.precompile += ['cornell/print.css']
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+
+    # custom error pages
+    config.exceptions_app = self.routes
     config.action_controller.permit_all_parameters = true
 
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     # Search results limit, to prevent deep paging issues
     config.search_limit = 20000
   end
 end
-if true 
+if true
 # Monkey patch
 module Blacklight::SearchFields
   # Looks up a search field blacklight_config hash from search_field_list having
-  # a certain supplied :key. 
+  # a certain supplied :key.
   def search_field_def_for_key(key)
-    blacklight_config.search_fields[key] ? 
-      blacklight_config.search_fields[key] : 
+    blacklight_config.search_fields[key] ?
+      blacklight_config.search_fields[key] :
       blacklight_config.default_search_field
   end
 
@@ -115,14 +118,14 @@ module Blacklight::SearchFields
 
   # Shortcut for commonly needed operation, look up display
   # label for the key specified. Returns "Keyword" if a label
-  # can't be found. 
+  # can't be found.
   def label_for_search_field(key)
     field_def = search_field_def_for_key(key)
     if field_def && field_def.label
        field_def.label
     else
        I18n.t('blacklight.search.fields.default')
-    end            
+    end
   end
 
 end # if module SearchFields

@@ -26,22 +26,23 @@ class BentoSearch::EbscoEdsEngine
         session = EBSCO::EDS::Session.new({
             :user => ENV['EDS_USER'],
             :pass => ENV['EDS_PASS'],
+            :guest => false,
             :profile => ENV['EDS_PROFILE']
         })
 
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        # q = args[:query]
         q = args[:oq]
         Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
 
         sq = {
-            'q' => q,
-            'start' => 0,
-            'per_page' => per_page
+            query: q,
+            page: 0,
+            results_per_page: per_page,
+            limiters: ['FT1:Y'] # Available in Library Collection
         }
 
         response = session.search(sq)
@@ -56,21 +57,24 @@ class BentoSearch::EbscoEdsEngine
             for page in 0..max_page
 
                 sq = {
-                    'q' => q,
-                    'start' => page,
-                    'per_page' => per_page
-                }
+                    query: q,
+                    page: page,
+                    results_per_page: per_page,
+                    limiters: ['FT1:Y'] # Available in Library Collection
+                 }
 
-                response = session.search(sq)
+                response = session.search(sq, add_actions: true )
 
                 response.records.each do |rec|
-                    # access_level = rec.eds_access_level()
-                    # puts "access_level: " + access_level.inspect
-                    # next if access_level.to_i < 2
+
+                    links = rec.eds_fulltext_links()
+                    next unless links.present?
+
                     found += 1
                     throw :enough_hits if found > required_hit_count
 
                     item = BentoSearch::ResultItem.new
+                    item.link_is_fulltext = true
                     item.title = rec.eds_title().present? ? rec.eds_title() : I18n.translate("bento_search.eds.record_not_available")
                     item.abstract = rec.eds_abstract()
                     item.unique_id = rec.id
@@ -79,18 +83,20 @@ class BentoSearch::EbscoEdsEngine
                         item.authors << BentoSearch::Author.new(:display => author)
                     end
                     item.link = rec.eds_plink()
-                    links = rec.eds_fulltext_links()
-                    if links.present?
-                        item.link_is_fulltext = true
-                    else
-                        links = rec.eds_all_links()
-                    end
+
                     links.each do | link |
                         item.other_links << BentoSearch::Link.new(
                             :url => link[:url],
                             :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
                             :label => link[:label]
                             )
+                    end
+
+                    rec.eds_isbns().each do | isbn |
+                        item.other_links << BentoSearch::Link.new(
+                            :url => 'https://isbnsearch.org/isbn/' + isbn,
+                            :label => 'ISBN'
+                        )
                     end
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()
@@ -107,7 +113,6 @@ class BentoSearch::EbscoEdsEngine
                 end
             end
         end # enough hits already
-        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} results: " + results.inspect
         return results
     end
 

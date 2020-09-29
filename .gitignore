@@ -19,6 +19,7 @@
 /log/*.log
 /tmp
 faraday.log
+eds-connection.log
 
 # Ignore config files with sensitive data
 config/newrelic.yml
@@ -49,3 +50,6 @@ features/cassettes/cucumber_tags/*
 
 #ignore dev tool
 config/initializers/renderer.rb
+
+# brakeman test results
+brakeman-output.*
