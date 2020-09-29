@@ -72,6 +72,18 @@ class BentoSearch::EbscoEdsEngine
 
                     found += 1
                     throw :enough_hits if found > required_hit_count
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << "pub type: " + rec.eds_publication_type().inspect
+msg << "doc type: " + rec.eds_document_type().inspect
+msg << "descrtiptors: " + rec.eds_descriptors().inspect
+msg << "info: " + rec.eds_publication_info().inspect
+msg << 'Z' * 60
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
 
                     item = BentoSearch::ResultItem.new
                     item.link_is_fulltext = true
