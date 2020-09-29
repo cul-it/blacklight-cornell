@@ -21,7 +21,9 @@
               <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
           </div>
 
-          <% unless search_fields.empty? %>
+          <% if search_fields.empty? or search_fields.nil? %>
+             <input type="hidden" name="search_field" value="all_fields"/>          
+          <% else %>
             <div class="form-group col-4 col-lg-5 mb-0">
               <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
               <%= select_tag(:search_field, options_for_select(search_bar_select, selected:params[:search_field],disabled: ["separator_1","separator_2","separator_3","separator_4"]), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
