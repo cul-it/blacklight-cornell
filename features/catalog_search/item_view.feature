@@ -713,19 +713,19 @@ Feature: Item view
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
 
   # item view links to call number browse
-  @all_item_view
-  @item_view_call_number_browse_links
-  @DISCOVERYACCESS-4781
-  Scenario Outline: View an items holding, and get a link to Call Number Browse for each call number
-    Given I request the item view for <bibid>
-      And click on first link "<call_number>"
-      Then I should see the label 'Browse "<call_number>" in call numbers'
-      And I should see the text '<related_title>'
+#  @all_item_view
+#  @item_view_call_number_browse_links
+#  @DISCOVERYACCESS-4781
+#  Scenario Outline: View an items holding, and get a link to Call Number Browse for each call number
+#    Given I request the item view for <bibid>
+#      And click on first link "<call_number>"
+#      Then I should see the label 'Browse "<call_number>" in call numbers'
+#      And I should see the text '<related_title>'
 
-  Examples:
-  | bibid | call_number | related_title |
-  | 366639 | ++ U1 .A744 | Army and navy journal. |
-  | 366639 | Film N6390 | United States army and navy journal. |
-  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
-  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
-  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
+#  Examples:
+#  | bibid | call_number | related_title |
+#  | 366639 | ++ U1 .A744 | Army and navy journal. |
+#  | 366639 | Film N6390 | United States army and navy journal. |
+#  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
+#  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
+#  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
