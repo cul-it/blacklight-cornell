@@ -314,7 +314,7 @@ Feature: Search
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 9 of 9'
+    And I should see the label '1 - 7 of 7'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -379,7 +379,7 @@ Feature: Search
     And I select 'Place of Publication' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 9 of 9'
+    And I should see the label '1 - 8 of 8'
     And I should see the label 'Modify advanced'
 
  @begins_with
