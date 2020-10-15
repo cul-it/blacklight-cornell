@@ -228,7 +228,7 @@ Feature: Item view
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728
-    Then I should see the labels 'Lost--System Applied 10/07/13'
+    Then I should see the labels 'Lost--System Applied 10/06/20'
 
   # Availability for a Missing item Municipal innovations
   @all_item_view
@@ -592,12 +592,12 @@ Feature: Item view
   Then I should see the text 'Scholastici orthodoxi specimen'
 
 # Forró and redemptive regionalism from the Brazilian northeast
-@tou
-@all_item_view
-  Scenario: Show links to multiple terms of use on electronic books
-  Given I request the item view for 8445988
+#@tou
+#@all_item_view
+#  Scenario: Show links to multiple terms of use on electronic books
+#  Given I request the item view for 8445988
  # Then I should see the text 'Terms of use'
-  Then I should see the text '1 online resource'
+#  Then I should see the text '1 online resource'
 #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
 #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/ATCPS"
 #  And click on first link "Terms of use"

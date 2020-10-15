@@ -37,7 +37,7 @@
           <%# end %>
 
         <%#= params.inspect %> 
-        <% if @newTouResult[0]['records'].present? %>
+        <% if !@newTouResult[0].nil? and @newTouResult[0]['records'].present? %>
             <%#= @newTouResult.inspect %>
             <% @newTouResult[0]['records'].each do | data | %>
             <% if data.present?  %>
