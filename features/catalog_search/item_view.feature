@@ -663,7 +663,8 @@ Feature: Item view
   @DISCOVERYACCESS-2855
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9264410
-    Then I should see the label 'On-site use'
+    # Temporary change for covid-19: added 'not' to the following line.
+    Then I should not see the label 'On-site use'
     And I should not see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
@@ -678,7 +679,8 @@ Feature: Item view
   @DISCOVERYACCESS-3413
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9203210
-    Then I should see the label 'On-site use'
+    # Temporary change for covid-19: added 'not' to the following line.
+    Then I should not see the label 'On-site use'
     And I should see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
@@ -701,7 +703,8 @@ Feature: Item view
   @all_item_view
   Scenario: View an items holdings, and have pointer to RMC help page.
     Given I request the item view for 2083253
-    Then I should see the label 'On-site use'
+    # Temporary change for covid-19: added 'not' to the following line.
+    Then I should not see the label 'On-site use'
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
 
   @hours-page
