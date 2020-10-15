@@ -1,8 +1,9 @@
 <%# Temporary variable for Covid-19 special processing %>
 <% 
-  available_qualifier = ""
+  browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
+  is_etas = false
   if @document['etas_facet'].present?
-	available_qualifier = " online only"
+	is_etas = true
   end
 %>
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
@@ -17,12 +18,19 @@
 
 <% if i["items"].present? %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
-    <%# i["items"]["avail"].each do |item| %>
-
+      <%# commented out lines are temporary covid-19 changes %>
       <div class="status">
         <span class="online-label">
-          <i class="fa fa-check" aria-hidden="true"></i>
-          <%= I18n.t('blacklight.catalog.available') %> <%= available_qualifier %>
+	      <% if is_etas && i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
+            <i class="fa fa-check" aria-hidden="true"></i>
+             Available  On-site use
+	      <% elsif is_etas %>
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+             Unavailable at this time
+          <% else %>
+              <i class="fa fa-check" aria-hidden="true"></i>
+              <%= I18n.t('blacklight.catalog.available') %>
+          <% end %>
         </span>
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
@@ -31,15 +39,20 @@
           Returned <%= Time.at(i['items']['returned'][0]['status']['date']).strftime("%m/%d/%y") %>
         <% end %>
       </div>
-    <%# end %>
 
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
     <div class="status">
       <span class="online-label">
-        <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
-        <%= I18n.t('blacklight.catalog.available') %>
-      </span>
-      <%= I18n.t('blacklight.catalog.on_site') %>
+	    <% if is_etas && i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
+            <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
+            <%= I18n.t('blacklight.catalog.available') %>
+          </span>
+          <%= I18n.t('blacklight.catalog.on_site') %>
+        <% else %>
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+           Unavailable at this time
+          </span>
+        <% end %>
     </div>
 
 
@@ -50,10 +63,15 @@
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
      <% if !item["status"].nil? %>
-      <% if item["status"].to_s.include?("Withdrawn") && @document['etas_facet'].present?%>
+      <% if item["status"].to_s.include?("Withdrawn") && is_etas%>
          <div class="status <%=item["status"]%>">
-             <i class="fa fa-clock-o" aria-hidden="true"></i>
-             Unavailable for loan
+	      <% if i["location"]["name"].present? && browseable_libraries.include?(i["location"]["name"])%>
+            <i class="fa fa-check" aria-hidden="true"></i>
+             Available  On-site use
+          <% else %>
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            Unavailable at this time
+          <% end %>
          </div>
          <% break %>
       <% end %>
