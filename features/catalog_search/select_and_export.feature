@@ -140,16 +140,14 @@ Feature: Select and export items from the result set
     Examples:
 
 |BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 9496646 | ris | 'DO  - 10.1007/978-3-319-27177-4'  |'M2  - http://newcatalog.library.cornell.edu/catalog/9496646' |
-| 9496646 | endnote | '%R 10.1007/978-3-319-27177-4' | '%Z http://newcatalog.library.cornell.edu/catalog/9496646' |
-| 9496646 | endnote_xml | '<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>' | '<language>English</language>' |
-#| 9496646 | rdf_zotero | '<dc:description>DOI 10.1007/978-3-319-27177-4</dc:description>' | '<rdf:value>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27177-4</rdf:value>' |
+| 13095898 | ris | 'UR  - https://www.taylorfrancis.com/books/9781351251464'  |'M2  - http://newcatalog.library.cornell.edu/catalog/13095898' |
+| 13095898 | endnote | '%U https://www.taylorfrancis.com/books/9781351251464' | '%Z http://newcatalog.library.cornell.edu/catalog/13095898' |
+| 13095898 | endnote_xml | '<publisher>Routledge</publisher>' | '<language>English</language>' |
 
-#UR  - https://link.springer.com/openurl?genre=book&isbn=978-3-319-27175-0
-#M2  - http://newcatalog.library.cornell.edu/catalog/9496646
-#N1  - http://newcatalog.library.cornell.edu/catalog/9496646
-#DO  - 10.1007/978-3-319-27177-4
-#<url>https://link.springer.com/openurl?genre=book&amp;isbn=978-3-319-27175-0</url>
+#UR  - https://www.taylorfrancis.com/books/9781351251464
+#N1  - http://newcatalog.library.cornell.edu/catalog/13095898
+#AU  - Stark, Tony
+#M2  - http://newcatalog.library.cornell.edu/catalog/13095898
 
 
 #
@@ -201,10 +199,10 @@ Feature: Select and export items from the result set
 @all_select_and_export @DISCOVERYANDACCESS-3603 @DISCOVERYANDACCESS-3603_acquired_dt_returned
   Scenario: User needs to see the date acquired in a JSON feed
  # When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q=author%2Fcreator+%3D+Vervaeke&q_row[]=Zombies&q_row[]=Vervaeke&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
-  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Vervaeke&search_field=advanced&search_field_row[]=title&search_field_row[]=author%2Fcreator&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
-    Then I should see the text 'Zombies in Western culture'
+  When I literally go to /catalog.json?q_row[]=Sophisticated+giant&op_row[]=phrase&search_field_row[]=all_fields&boolean_row[1]=AND&q_row[]=&op_row[]=AND&search_field_row[]=all_fields&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&advanced_query=yes&commit=Search
+    Then I should see the text 'Sophisticated giant'
     And I should see the text 'acquired_dt'
-    And I should see the text '2019-01-17T00:00:00Z'
+    And I should see the text '2019-02-08T00:00:00Z'
     And I should get a response with content-type "application/json; charset=utf-8"
 
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_rss

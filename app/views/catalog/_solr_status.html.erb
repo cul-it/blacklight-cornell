@@ -43,14 +43,20 @@
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
     <div class="status">
       <span class="online-label">
+	    <%# covid/etas related changes %>
 	    <% if is_etas && i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
             <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
             <%= I18n.t('blacklight.catalog.available') %>
           </span>
           <%= I18n.t('blacklight.catalog.on_site') %>
+		<% elsif i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
+          <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
+          <%= I18n.t('blacklight.catalog.available') %>
+          </span>
+        <%= I18n.t('blacklight.catalog.on_site') %>
         <% else %>
           <i class="fa fa-clock-o" aria-hidden="true"></i>
-           Unavailable at this time
+           Unavailable at this time arf
           </span>
         <% end %>
     </div>
