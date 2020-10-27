@@ -135,7 +135,7 @@ Feature: Item view
   @saml_on
   Scenario: As a user I can request an item, when SAML involved.
     Given I request the item view for 30000
-    Then it should have link "Request" with value "/request/auth/30000"
+    Then it should have link "Request" with value "/request/auth/30000?scan=yes"
 
   # Availability simple, one location, and is available
   @availability
@@ -228,7 +228,7 @@ Feature: Item view
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728
-    Then I should see the labels 'Lost--System Applied 10/07/13'
+    Then I should see the labels 'Lost--System Applied 10/06/20'
 
   # Availability for a Missing item Municipal innovations
   @all_item_view
@@ -592,12 +592,12 @@ Feature: Item view
   Then I should see the text 'Scholastici orthodoxi specimen'
 
 # Forró and redemptive regionalism from the Brazilian northeast
-@tou
-@all_item_view
-  Scenario: Show links to multiple terms of use on electronic books
-  Given I request the item view for 8445988
+#@tou
+#@all_item_view
+#  Scenario: Show links to multiple terms of use on electronic books
+#  Given I request the item view for 8445988
  # Then I should see the text 'Terms of use'
-  Then I should see the text '1 online resource'
+#  Then I should see the text '1 online resource'
 #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
 #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/ATCPS"
 #  And click on first link "Terms of use"
@@ -663,7 +663,8 @@ Feature: Item view
   @DISCOVERYACCESS-2855
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9264410
-    Then I should see the label 'On-site use'
+    # Temporary change for Covid-19: added 'not' to the following line.
+    Then I should not see the label 'On-site use'
     And I should not see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
@@ -678,7 +679,8 @@ Feature: Item view
   @DISCOVERYACCESS-3413
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9203210
-    Then I should see the label 'On-site use'
+    # Temporary change for Covid-19: added 'not' to the following line.
+    Then I should not see the label 'On-site use'
     And I should see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
@@ -701,7 +703,8 @@ Feature: Item view
   @all_item_view
   Scenario: View an items holdings, and have pointer to RMC help page.
     Given I request the item view for 2083253
-    Then I should see the label 'On-site use'
+    # Temporary change for Covid-19: added 'not' to the following line.
+    Then I should not see the label 'On-site use'
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
 
   @hours-page
@@ -713,19 +716,19 @@ Feature: Item view
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
 
   # item view links to call number browse
-  @all_item_view
-  @item_view_call_number_browse_links
-  @DISCOVERYACCESS-4781
-  Scenario Outline: View an items holding, and get a link to Call Number Browse for each call number
-    Given I request the item view for <bibid>
-      And click on first link "<call_number>"
-      Then I should see the label 'Browse "<call_number>" in call numbers'
-      And I should see the text '<related_title>'
+#  @all_item_view
+#  @item_view_call_number_browse_links
+#  @DISCOVERYACCESS-4781
+#  Scenario Outline: View an items holding, and get a link to Call Number Browse for each call number
+#    Given I request the item view for <bibid>
+#      And click on first link "<call_number>"
+#      Then I should see the label 'Browse "<call_number>" in call numbers'
+#      And I should see the text '<related_title>'
 
-  Examples:
-  | bibid | call_number | related_title |
-  | 366639 | ++ U1 .A744 | Army and navy journal. |
-  | 366639 | Film N6390 | United States army and navy journal. |
-  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
-  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
-  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
+#  Examples:
+#  | bibid | call_number | related_title |
+#  | 366639 | ++ U1 .A744 | Army and navy journal. |
+#  | 366639 | Film N6390 | United States army and navy journal. |
+#  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
+#  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
+#  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
