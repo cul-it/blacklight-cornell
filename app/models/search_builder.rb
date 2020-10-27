@@ -42,6 +42,10 @@ class SearchBuilder < Blacklight::SearchBuilder
 #    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
 #    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
 #    blacklight_params[:q] = 'title_starts:"Mad bad and dangerous to know"'
+    Rails.logger.info("FAFT = #{blacklight_params}")
+    
+    blacklight_params[:boolean_row] = blacklight_params[:boolean_row].to_h if blacklight_params[:boolean_row].present? && blacklight_params[:boolean_row].is_a?(ActionController::Parameters)
+    Rails.logger.info("FAFT1 = #{blacklight_params}")
 
     query_string = ""
     qparam_display = ""
@@ -59,7 +63,15 @@ class SearchBuilder < Blacklight::SearchBuilder
     # secondary parsing of advanced search params.  Code will be moved to external functions for clarity
     # fix return to search links 
     if blacklight_params[:q_row].present? and blacklight_params[:q].present?
-      blacklight_params.delete('q')
+      blacklight_params.delete('q_row')
+      blacklight_params.delete('op_row')
+      blacklight_params.delete('search_field_row')
+      blacklight_params.delete('boolean_row')
+      blacklight_params.delete('advanced_query')
+      blacklight_params.delete('show_query')
+      blacklight_params.delete('range_start')
+      blacklight_params['y'] = blacklight_params['q']
+      Rails.logger.info("FAFT3 = #{blacklight_params}")
     end
 
     if blacklight_params[:q_row].present? and blacklight_params[:q].blank?

@@ -11,11 +11,19 @@
         <% session_params = session[:search] ? session[:search].dup : {} %>
 		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
 		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
-		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>  
+		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>
+		<% session_params[:boolean_row] = session_params[:boolean_row].to_h if session_params[:boolean_row].present? && session_params[:boolean_row].is_a?(ActionController::Parameters) %>  
         <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
       <% end %>
       <%= render_hash_as_hidden_fields(hidden_params) %>
-      <% if !params[:q_row].present? || params[:action] == 'edit' %>
+      <% if params[:q].present? && params[:q_row].present? %>
+        <%  params.delete('q_row') %>
+        <%  params.delete('search_field_row') %>
+        <%  params.delete('boolean_row') %>
+        <%  params.delete('op_row') %>       
+      <% end %>
+     
+      <% if  !params[:q_row].present? || params[:action] == 'edit'  %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
               <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
