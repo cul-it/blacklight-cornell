@@ -89,7 +89,7 @@
                               <% if label.include?("Temporary Access") %>
                                 <% label = "Information for users about temporary access." %>
                               <% end %>
-                              <% if @document['etas_facet'].present? && !label.include?("temporary access")%>
+                              <% if @document['etas_facet'].present? && !label.include?("temporary access") && !label.include?("multiple volumes")%>
                                 <% etas_text = "Full text available through the HathiTrust Emergency Temporary Access Service (ETAS)." %>
                                 <%= link_to(process_online_title(etas_text), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
                               <% else %>
