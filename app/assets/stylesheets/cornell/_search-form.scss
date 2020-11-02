@@ -49,6 +49,10 @@ input.search-query {
 #search_field {
   float: left;
   font-family: $font-family-base; // See cul-bootstrap-loader.css.scss for details
+  // DISCOVERYACCESS-6528 - color contrast fix for disabled select options (the separators)
+  option[disabled] {
+    color: #495057;
+  }
 }
 p.suggest {
   font-size:.8em;
