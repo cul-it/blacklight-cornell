@@ -1,4 +1,4 @@
-<%# Terms of Use page %>
+<%#  Terms of Use page %>
 
 <%#= render :partial => 'tou_search_form'  %>
 <%#= @newTouResult.inspect %>
@@ -37,9 +37,9 @@
           <%# end %>
 
         <%#= params.inspect %> 
-        <% if @newTouResult.present? %>
+        <% if !@newTouResult[0].nil? and @newTouResult[0]['records'].present? %>
             <%#= @newTouResult.inspect %>
-            <% @newTouResult.each do | data | %>
+            <% @newTouResult[0]['records'].each do | data | %>
             <% if data.present?  %>
              <% if data['error_message'].present? %>
        		    <h3 class="blacklight-title_display">
@@ -47,7 +47,7 @@
          	    </h3>
              <% else %>
        		    <h3 class="blacklight-title_display">
-                  <%= data['packageName'] %>
+                  <%= data['name'] %>
          	    </h3>
                       <table class="table table-bordered table-striped">
                 <caption class="sr-only">License terms and permissions for this resource</caption>
@@ -65,439 +65,442 @@
                   </tr>
                 </thead>
                 <tbody> 
-
-                  <%#= data['customProperties']['metadataUsage'].inspect %> 
-                  <%#= data['customProperties']['authorizedUsers2'][0]['value']['label'].inspect %> 
-                  <% if data['customProperties']['authorizedUsers2'].nil? and !data['customProperties']['authorizedUsers'].nil? and data['customProperties']['authorizedUsers'][0]['internal'] == false and data['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
+                  <%#= data.inspect %>
+                   <%#= data['linkedLicenses'].size.inspect %>
+                  <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'].inspect %> 
+                  <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers2'][0]['value']['label'].inspect %> 
+             <% if !data['linkedLicenses'].nil? %>    
+                  <% if data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers2'].nil? and !data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers'][0]['internal'] == false and data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers'][0]['value'].include?(';')  %>
                     <tr>
                       <td>
                         Authorized Users
                       </td>
                       <td>
-                          <%= data['customProperties']['authorizedUsers'][0]['value'].gsub!(';',',') %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers'][0]['value'].gsub!(';',',') %>
                         
                       </td>
                       <td>
-                        <%# if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
-                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <%# if data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
                         <%# else %>
-                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'] %>                        
                         <%# end %>
                       </td>
                     </tr>
                   <% end %>
                
-                  <% if !data['customProperties']['authorizedUsers2'].nil? and data['customProperties']['authorizedUsers2'][0]['internal'] == false and data['customProperties']['authorizedUsers2'][0]['value']['label'].include?(';')  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers2'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers2'][0]['internal'] == false and data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers2'][0]['value']['label'].include?(';')  %>
                     <tr>
                       <td>
                         Authorized Users
                       </td>
                       <td>
-                          <%= data['customProperties']['authorizedUsers2'][0]['value']['label'].gsub!(';',',') %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['authorizedUsers2'][0]['value']['label'].gsub!(';',',') %>
                         
                       </td>
                       <td>
-                        <%# if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
-                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <%# if data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
                         <%# else %>
-                          <%#= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'] %>                        
                         <%# end %>
                       </td>
                     </tr>
                   <% end %>
-                    <% if data['customProperties']['generalPermissions2'].nil? and !data["customProperties"]["generalPermissions"].nil? and data["customProperties"]["generalPermissions"][0]["internal"] == false  %>
+                    <% if data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions2'].nil? and !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["generalPermissions"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["generalPermissions"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['generalPermissions'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['generalPermissions'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['value']['label'] %>
                       </td>
                        <td>
-                        <% if data['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
-                          <%= data['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% if data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'].gsub('Default note: ','') %>
                         <% else %>
-                          <%= data['customProperties']['generalPermissions'][0]['type']['description'] %>                        
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions'][0]['type']['description'] %>                        
                         <% end %>
                       </td>
                     </tr>
                    <% end %>                  
-                    <% if !data["customProperties"]["generalPermissions2"].nil? and data["customProperties"]["generalPermissions2"][0]["internal"] == false  %>
+                    <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["generalPermissions2"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["generalPermissions2"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['generalPermissions2'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions2'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%#= data['customProperties']['generalPermissions2'][0]['value']['label'] %>
+                        <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions2'][0]['value']['label'] %>
                       </td>
                        <td>
-                        <% if data['customProperties']['generalPermissions2'][0]['type']['description'].start_with?('Default note:') %>
-                          <%= data['customProperties']['generalPermissions2'][0]['type']['description'].gsub('Default note: ','') %>
+                        <% if data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions2'][0]['type']['description'].start_with?('Default note:') %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions2'][0]['type']['description'].gsub('Default note: ','') %>
                         <% else %>
-                          <%= data['customProperties']['generalPermissions2'][0]['type']['description'] %>                        
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalPermissions2'][0]['type']['description'] %>                        
                         <% end %>
                       </td>
                     </tr>
                    <% end %>                  
                   <%# end %>
-                  <% if !data["customProperties"]["generalRestrictions"].nil? and data["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["generalRestrictions"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["generalRestrictions"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['generalRestrictions'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalRestrictions'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['generalRestrictions'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalRestrictions'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['generalRestrictions'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalRestrictions'][0]['publicNote'] %>
                         <% else %>
-                          <%= data['customProperties']['generalRestrictions'][0]['value'] %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['generalRestrictions'][0]['value'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %> 
-                   <% if !data['customProperties']['otherRestrictions'].nil? and data['customProperties']['otherRestrictions'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['otherRestrictions'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['otherRestrictions'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['otherRestrictions'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['otherRestrictions'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['otherRestrictions'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['otherRestrictions'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
                   
-                  <% if !data['customProperties']['walkInAccess'].nil? and data['customProperties']['walkInAccess'][0]['internal'] == false %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'][0]['internal'] == false %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['walkInAccess'][0]['type']['label'] %> 
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'][0]['type']['label'] %> 
                       </td>                    
                       <td>
-                        <%= data['customProperties']['walkInAccess'][0]['value']['label'] %> 
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'][0]['value']['label'] %> 
                       </td>
                       <td>
-                        <% if !data['customProperties']['walkInAccess'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['walkInAccess'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['walkInAccess'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['walkInAccess'][0]['type']['description'] %>
                         <% end %>
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data['customProperties']['scholarlySharing'].nil? and data['customProperties']['scholarlySharing'][0]['internal'] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['scholarlySharing'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['scholarlySharing'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['scholarlySharing'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['scholarlySharing'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['scholarlySharing'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['scholarlySharing'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                      </tr>
                   <% end %>
-                  <% if !data['customProperties']["curePeriodBreachUnit"].nil? and data['customProperties']["curePeriodBreachUnit"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']["curePeriodBreachUnit"].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']["curePeriodBreachUnit"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['curePeriodBreachUnit'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['curePeriodBreachUnit'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['curePeriodBreachUnit'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['curePeriodBreachUnit'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['curePeriodBreachUnit'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['curePeriodBreachUnit'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['curePeriodBreachUnit'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['curePeriodBreachUnit'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['curePeriodBreachUnit'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["governingLaw"].nil? and data["customProperties"]["governingLaw"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["governingLaw"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["governingLaw"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['governingLaw'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['governingLaw'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['governingLaw'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['governingLaw'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['governingLaw'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['governingLaw'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['governingLaw'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['governingLaw'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['governingLaw'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['governingLaw'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["courseReserve"].nil? and data["customProperties"]["courseReserve"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["courseReserve"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["courseReserve"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['courseReserve'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['courseReserve'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['courseReserve'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['courseReserve'][0]['value']['label'] %>
                       </td>
                       <td>
-                         <% if !data['customProperties']['courseReserve'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['courseReserve'][0]['publicNote'] %>
+                         <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['courseReserve'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['courseReserve'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['courseReserve'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['courseReserve'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["remoteAccess"].nil? and data["customProperties"]["remoteAccess"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["remoteAccess"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["remoteAccess"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['remoteAccess'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccess'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['remoteAccess'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccess'][0]['value']['label'] %>
                       </td>
                       <td>
-                         <% if !data['customProperties']['remoteAccess'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['remoteAccess'][0]['publicNote'] %>
+                         <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccess'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccess'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['remoteAccess'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccess'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["remoteAccessInfo"].nil? and data["customProperties"]["remoteAccessInfo"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["remoteAccessInfo"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["remoteAccessInfo"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['remoteAccessInfo'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccessInfo'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['remoteAccessInfo'][0]['value'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccessInfo'][0]['value'] %>
                       </td>
                       <td>
-                          <% if !data['customProperties']['remoteAccessInfo'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['remoteAccessInfo'][0]['publicNote'] %>
+                          <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccessInfo'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccessInfo'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['remoteAccessInfo'][0]['type']['description'] %>
-                        <% end %> 
-                      </td> 
-                    </tr>
-                  <% end %>
-                  <% if !data["customProperties"]["fairUseClause"].nil? and data["customProperties"]["fairUseClause"][0]["internal"] == false  %>
-                    <tr>
-                      <td>
-                        <%= data['customProperties']['fairUseClause'][0]['type']['label'] %>
-                      </td>
-                       <td>
-                        <%= data['customProperties']['fairUseClause'][0]['value']['label'] %>
-                      </td>
-                      <td>
-                          <% if !data['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['fairUseClause'][0]['publicNote'] %>
-                        <% else %>
-                          <%#= data['customProperties']['fairUseClause'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['remoteAccessInfo'][0]['type']['description'] %>
                         <% end %> 
                       </td> 
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["illGeneralSelect"].nil? and data["customProperties"]["illGeneralSelect"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["fairUseClause"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["fairUseClause"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['illGeneralSelect'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['fairUseClause'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['illGeneralSelect'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['fairUseClause'][0]['value']['label'] %>
                       </td>
                       <td>
-                          <% if !data['customProperties']['illGeneralSelect'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illGeneralSelect'][0]['publicNote'] %>
+                          <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['fairUseClause'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['fairUseClause'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['illGeneralSelect'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['fairUseClause'][0]['type']['description'] %>
+                        <% end %> 
+                      </td> 
+                    </tr>
+                  <% end %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["illGeneralSelect"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["illGeneralSelect"][0]["internal"] == false  %>
+                    <tr>
+                      <td>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illGeneralSelect'][0]['type']['label'] %>
+                      </td>
+                       <td>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illGeneralSelect'][0]['value']['label'] %>
+                      </td>
+                      <td>
+                          <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illGeneralSelect'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illGeneralSelect'][0]['publicNote'] %>
+                        <% else %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illGeneralSelect'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data['customProperties']["illRecordKeepingSelect"].nil? and data['customProperties']["illRecordKeepingSelect"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']["illRecordKeepingSelect"].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']["illRecordKeepingSelect"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['illRecordKeepingSelect'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illRecordKeepingSelect'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illRecordKeepingSelect'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illRecordKeepingSelect'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illRecordKeepingSelect'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illRecordKeepingSelect'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['illElectronic'].nil? and data['customProperties']['illElectronic'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['illElectronic'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['illElectronic'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['illElectronic'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illElectronic'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['illElectronic'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illElectronic'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['illSecureElectronic'].nil? and data['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['illSecureElectronic'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['illSecureElectronic'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illSecureElectronic'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['illSecureElectronic'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illSecureElectronic'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                  <% if !data["customProperties"]["illPrint"].nil? and data["customProperties"]["illPrint"][0]["internal"] == false  %>
+                  <% if !data['linkedLicenses'][0]['remoteId_object']["customProperties"]["illPrint"].nil? and data['linkedLicenses'][0]['remoteId_object']["customProperties"]["illPrint"][0]["internal"] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['illPrint'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illPrint'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['illPrint'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illPrint'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['illPrint'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['illPrint'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['illPrint'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illPrint'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['illPrint'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['illPrint'][0]['type']['description'] %>
                         <% end %> 
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['electronicLink'].nil? and data['customProperties']['electronicLink'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['electronicLink'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['electronicLink'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['electronicLink'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['electronicLink'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['electronicLink'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['electronicLink'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['prePrintArchive'].nil? and data['customProperties']['prePrintArchive'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['prePrintArchive'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['prePrintArchive'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['prePrintArchive'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['prePrintArchive'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['prePrintArchive'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['prePrintArchive'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['postPrintArchive'].nil? and data['customProperties']['postPrintArchive'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['postPrintArchive'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['postPrintArchive'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['postPrintArchive'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['postPrintArchive'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['postPrintArchive'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['postPrintArchive'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['coursePackPrint'].nil? and data['customProperties']['coursePackPrint'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['coursePackPrint'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['coursePackPrint'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['coursePackPrint'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['coursePackPrint'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['coursePackPrint'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['coursePackPrint'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['textAndDataMining'].nil? and data['customProperties']['textAndDataMining'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['textAndDataMining'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['textAndDataMining'][0]['value']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'][0]['value']['label'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['textAndDataMining'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['textAndDataMining'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['textAndDataMining'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['textAndDataMining'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
-                   <% if !data['customProperties']['metadataUsage'].nil? and data['customProperties']['metadataUsage'][0]['internal'] == false  %>
+                   <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'].nil? and data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'][0]['internal'] == false  %>
                     <tr>
                       <td>
-                        <%= data['customProperties']['metadataUsage'][0]['type']['label'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'][0]['type']['label'] %>
                       </td>
                        <td>
-                        <%= data['customProperties']['metadataUsage'][0]['value'] %>
+                        <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'][0]['value'] %>
                       </td>
                       <td>
-                        <% if !data['customProperties']['metadataUsage'][0]['publicNote'].nil? %>
-                          <%= data['customProperties']['metadataUsage'][0]['publicNote'] %>
+                        <% if !data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'][0]['publicNote'].nil? %>
+                          <%= data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'][0]['publicNote'] %>
                         <% else %>
-                          <%#= data['customProperties']['metadataUsage'][0]['type']['description'] %>
+                          <%#= data['linkedLicenses'][0]['remoteId_object']['customProperties']['metadataUsage'][0]['type']['description'] %>
                         <% end %>  
                       </td>
                     </tr>
                   <% end %>
+                <% end %>
                   <%#= data.inspect %>
                 </tbody>
               </table>

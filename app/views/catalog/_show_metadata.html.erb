@@ -86,10 +86,15 @@
 
 	                    <li>
 	                       <div class="online-link">
-                                    <% if label.include?("Temporary Access") %>
-                                     <% label = "Information for users about temporary access." %>
-                                    <% end %>
-	                          <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
+                              <% if label.include?("Temporary Access") %>
+                                <% label = "Information for users about temporary access." %>
+                              <% end %>
+                              <% if @document['etas_facet'].present? && !label.include?("temporary access")%>
+                                <% etas_text = "Full text available through the HathiTrust Emergency Temporary Access Service (ETAS)." %>
+                                <%= link_to(process_online_title(etas_text), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
+                              <% else %>
+	                            <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
+	                          <% end %>
 	                          <div class="message">
 	                             <%= summary_holdings.html_safe %>
 	                          </div>
@@ -118,7 +123,12 @@
 	                            <% if !value['notes'].nil? %>
 	                               <% sizer = value['notes'].size %>
 	                               <% if sizer != 0 %>
-	                                  <br>Notes: <%= value['notes'].join('<br>').html_safe %>
+	                                  <% if @document['etas_facet'].present? %>
+	                                    <br/>Notes: Access available only for active Cornell students, faculty, and permanent staff while regular library operations are disrupted due to Covid-19 outbreak.
+	                                    <br/>Simultaneous access is limited.  
+	                                  <% else %>
+	                                    <br>Notes: <%= value['notes'].join('<br>').html_safe %>
+	                                  <% end %>
 	                               <% else %>
 	                                  Notes: <%= value['notes'][0].html_safe %>
 	                               <% end %>
