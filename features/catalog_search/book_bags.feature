@@ -63,21 +63,22 @@ Feature: Book Bags for logged in users
         And I empty the BookBag
         Then the BookBag should be empty
         When I go to the home page
-        And I fill in the search box with 'rope work'
+        And I fill in the search box with 'rope work guide'
         And I press 'search'
+        And I sleep 2 seconds
         Then I should get results
-        And I should see 'Professional rope access : a guide to working safely at height'
+        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
         And I select the first 5 catalog results
         And I sleep 5 seconds
         When I go to BookBag
         Then there should be 5 items in the BookBag
-        And I should see 'Professional rope access : a guide to working safely at height'
+        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
         Then I sign out
         And I go to the home page
         And I sign in to BookBag
         When I go to BookBag
         Then there should be 5 items in the BookBag
-        And I should see 'Professional rope access : a guide to working safely at height'
+        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page
