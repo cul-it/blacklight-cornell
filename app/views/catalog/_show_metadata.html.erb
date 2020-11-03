@@ -89,7 +89,7 @@
                               <% if label.include?("Temporary Access") %>
                                 <% label = "Information for users about temporary access." %>
                               <% end %>
-                              <% if @document['etas_facet'].present? && !label.include?("temporary access")%>
+                              <% if @document['etas_facet'].present? && !label.include?("temporary access") && !label.include?("multiple volumes")%>
                                 <% etas_text = "Full text available through the HathiTrust Emergency Temporary Access Service (ETAS)." %>
                                 <%= link_to(process_online_title(etas_text), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
                               <% else %>
@@ -298,5 +298,8 @@
   </div>
   <%# doc_ %>
   <%# DISCOVERYACCESS-6275 %>
+  <div id="syndetics_unbound"></div>
+  <script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624"
+					type="text/javascript"></script>
 </div>
 <%# end #document %>
