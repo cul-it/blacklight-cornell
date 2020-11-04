@@ -235,7 +235,7 @@ Scenario Outline: Search with institutional repository results for each IR
 Examples:
   | query | repository |
   | eye tracking | eCommons |
-  | eye tracking | The Scholarly Commons |
+#  | eye tracking | The Scholarly Commons |
   | labor unrest | DigitalCommons@ILR |
   | torts | Scholarship@Cornell Law |
   | barley | Agricultural Experiment Station |
