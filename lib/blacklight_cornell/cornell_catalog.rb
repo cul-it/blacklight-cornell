@@ -21,7 +21,7 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
       op = session[:cuwebauth_return_path]
     end
-    # Can't let the ajax urls for the virtual browse become the return path. Keep the path that's in the session.
+    # Don't let the ajax urls for the virtual browse become the return path. Keep the path that's in the session.
     if (op.include?('get_next') || op.include?('get_previous')) && !session[:cuwebauth_return_path].blank?
       op = session[:cuwebauth_return_path]
     end
