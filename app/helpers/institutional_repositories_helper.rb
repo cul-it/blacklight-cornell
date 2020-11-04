@@ -108,7 +108,7 @@ module InstitutionalRepositoriesHelper
             end
             if s['agent_hash_tesim'].present?
                 agents = JSON.parse(s['agent_hash_tesim'].shift)
-                agents.each { |a| r.authors << BentoSearch::Author.new({:display => a['agent']}) }
+                agents.each { |a| r.authors << BentoSearch::Author.new({:display => a[0]["agent"]}) }
             end
 
             if s['description_tesim'].present?
