@@ -17,7 +17,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     provider = 'Facebook'
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
+      Rails.logger.info("************************************** CHECK THE SESSION RETURN PATH")
       if session[:cuwebauth_return_path].present?  
+        Rails.logger.info("************************************** HAVE THE SESSION RETURN PATH > " + session[:cuwebauth_return_path].inspect)
         path = session[:cuwebauth_return_path]
         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
