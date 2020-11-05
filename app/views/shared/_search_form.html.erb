@@ -1,7 +1,12 @@
 <div class="row">
   <div class="search-tools col-12 col-lg-7">
-  <% if params[:controller]=='browse' %>
-    <%= render :partial => 'browse/headings_search_form' %>
+ 
+  <% if params[:controller]=='browse' || params[:action] == 'show' %>
+     <% if params[:action] == 'show' %>
+         <%= render :partial => 'shared/items_search_form' %>
+     <% else %>
+         <%= render :partial => 'browse/headings_search_form' %>
+     <% end %>
   <% elsif params[:controller]=='advanced_search' %>
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
