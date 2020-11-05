@@ -1610,14 +1610,16 @@ end
 	holdArray = document['holdings_display'].to_a
 
 	col_loc = []
-	holdArray = holdArray[0].split('|')
-	holdArray.each do |holding|
-	  col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
-	  location = Hash(holdings_condensed[holding])
+	if holdArray.any?
+		holdArray = holdArray[0].split('|')
+		holdArray.each do |holding|
+			col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
+			location = Hash(holdings_condensed[holding])
 
-	  if location["location"].present? && location["location"]["name"].present?
-			col_loc << location["location"]["name"]
-	  end
+			if location["location"].present? && location["location"]["name"].present?
+					col_loc << location["location"]["name"]
+			end
+		end
 	end
 
 	description = []
