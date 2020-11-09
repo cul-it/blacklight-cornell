@@ -120,8 +120,10 @@ msg = [" #{__method__} ".center(60,'Z')]
                         end
                     end
                     date = rec.eds_publication_date
-                    ymd = date.split('-').map(&:to_i)
-                    item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    if date.present?
+                        ymd = date.split('-').map(&:to_i)
+                        item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    end
                     results << item
                 end
             end
