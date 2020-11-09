@@ -45,7 +45,20 @@ class BentoSearch::EbscoEdsEngine
             limiters: ['FT1:Y'] # Available in Library Collection
         }
 
-        response = session.search(sq)
+        begin
+            response = session.search(sq)
+        rescue => e
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+            msg << "An error of type #{e.class} happened, message is #{e.message}"
+            msg << 'Z' * 60
+            puts msg.to_yaml
+            Rails.logger.level = save_level
+        #*******************
+        end
+
         total_hits = response.stat_total_hits
 
         results.total_items = total_hits.to_i
