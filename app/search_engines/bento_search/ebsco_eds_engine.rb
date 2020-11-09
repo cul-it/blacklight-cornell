@@ -98,19 +98,16 @@ msg = [" #{__method__} ".center(60,'Z')]
                     item.link = rec.eds_plink()
 
                     links.each do | link |
-                        item.other_links << BentoSearch::Link.new(
-                            :url => link[:url],
-                            :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                            :label => link[:label]
-                            )
+
+                        if link[:label].include? "Get it! Cornell" # DISCOVERYACCESS-6637
+                            item.other_links << BentoSearch::Link.new(
+                                :url => link[:url],
+                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                                :label => link[:label]
+                                )
+                        end
                     end
 
-                    rec.eds_isbns().each do | isbn |
-                        item.other_links << BentoSearch::Link.new(
-                            :url => 'https://isbnsearch.org/isbn/' + isbn,
-                            :label => 'ISBN'
-                        )
-                    end
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()
                     if rec.eds_page_start().present?

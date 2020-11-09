@@ -31,15 +31,13 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 8702871
-    Given I request the item view for 8702871.endnote
+    Given I request the item view for 12350238
+    Given I request the item view for 12350238.endnote
     Then I should see the text '%0 Electronic Book'
-    Then I should see the text '%A Iglesias, José'
-    Then I should see the text '%C Dordrecht'
+    Then I should see the text '%E Iglesias, José'
     Then I should see the text '%D 2014'
-    Then I should see the text '%E Fuentes, Lidia'
-    Then I should see the text '%I Springer Netherlands'
-    Then I should see the text '%@ 9789401786478 (print)'
+    Then I should see the text '%A Fuentes, Lidia'
+    Then I should see the text '%@ 9789401786485 (online)'
     Then I should see the text '%T Cephalopod Culture'
 
 ###
