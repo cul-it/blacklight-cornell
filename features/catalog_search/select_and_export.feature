@@ -16,23 +16,23 @@ Feature: Select and export items from the result set
     Given I request the item view for 1001
     Given I request the item view for 1001.endnote
     Then I should see the text '%0 Book'
-    Then I should see the text '%C Washington, D.C.'
-    Then I should see the text '%D 1985'
-    Then I should see the text '%E Prattis, J. I'
-    Then I should see the text '%I American Anthropological Association'
-    Then I should see the text '%@ 091316710X'
+    Then I should see the text '%A Croft, Catherine'
+    Then I should see the text '%@ 1586854607'
+    Then I should see the text '%I Gibbs Smith'
+    Then I should see the text '%C Salt Lake City [Utah]'
+    Then I should see the text '%D 2004'
     Then I should see the text '%T Reflections'
-    Then I should see the text '%K Anthropology Poetry.'
-    Then I should see the text '%K American poetry 20th century.'
-    Then I should see the text '%K Anthropologists' writings, English.'
-    Then I should see the text '%K Anthropologists' writings, American.'
+    Then I should see the text '%K Architecture, Modern 20th century.'
+    Then I should see the text '%K Architecture, Modern 21st century.'
+    Then I should see the text '%K Construction en béton.'
+    Then I should see the text '%K Architecture 20e siècle.'
 
 
 @all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 8702871
-    Given I request the item view for 8702871.endnote
+    Given I request the item view for 6947667
+    Given I request the item view for 6947667.endnote
     Then I should see the text '%0 Electronic Book'
     Then I should see the text '%A Iglesias, José'
     Then I should see the text '%C Dordrecht'
