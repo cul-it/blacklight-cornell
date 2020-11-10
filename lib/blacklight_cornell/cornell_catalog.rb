@@ -246,14 +246,14 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   #  cleanup_params(params)
 
     @expanded_results = {}
-    ['worldcat', 'summon'].each do |key|
+    ['worldcat'].each do |key|
       @expanded_results [key] =  { :count => 0 , :url => '' }
     end
     # Expand search only under certain conditions
     tmp = BentoSearch::Results.new
     if !(params[:search_field] == 'call number')
     if expandable_search?
-      searcher = BentoSearch::ConcurrentSearcher.new(:summon, :worldcat)
+      searcher = BentoSearch::ConcurrentSearcher.new(:worldcat)
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
       query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
