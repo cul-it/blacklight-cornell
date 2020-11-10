@@ -35,19 +35,9 @@ class BentoSearch::EbscoEdsEngine
 
         q = args[:oq].present? ? args[:oq] : args[:query].present? ? args[:query] : nil
         if q.nil?
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "args: " + args.inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
             results.total_items = 0
             return results
         end
-        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
 
@@ -58,20 +48,7 @@ Rails.logger.level = save_level
             limiters: ['FT1:Y'] # Available in Library Collection
         }
 
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::DEBUG
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-        begin
-            response = session.search(sq)
-        rescue => e
-            msg << "An error of type #{e.class} happened, message is #{e.message}"
-        end
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-
+        response = session.search(sq)
         total_hits = response.stat_total_hits
 
         results.total_items = total_hits.to_i
