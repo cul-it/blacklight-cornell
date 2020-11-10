@@ -29,51 +29,6 @@ rescue Errno::ENOENT
 end
 
 
-# This connection to Summon is used by the bento/single search
-BentoSearch.register_engine('summon_bento') do |conf|
-	conf.engine = 'BentoSearch::SummonEngine'
-	conf.title = 'Articles & Full Text'
-	conf.access_id =  ENV['SUMMON_ACCESS_ID']
-	conf.secret_key = ENV['SUMMON_SECRET_KEY']
-	conf.for_display = {:decorator => "ArticleDecorator"}
-	conf.highlighting = false
-	# More details on Summon Search API commands here:
-	# http://api.summon.serialssolutions.com/help/api/search/commands
-	conf.fixed_params = {
-		's.cmd' => [
-			# Limit to Journal Articles
-			'setFacetValueFilters(ContentType,Newspaper Article)',
-			# Within Cornell's collection
-			'setHoldingsOnly(true)',
-      'negateFacetValueFilter(ContentType)'
-		]
-
-	}
-
-end
-
-# And this connection to Summon is used within the Blacklight catalog
-BentoSearch.register_engine('summon') do |conf|
-  conf.engine = 'BentoSearch::SummonEngine'
-  conf.access_id =  ENV['SUMMON_ACCESS_ID']
-  conf.secret_key = ENV['SUMMON_SECRET_KEY']
-
-  # More details on Summon Search API commands here:
-  # http://api.summon.serialssolutions.com/help/api/search/commands
-  conf.fixed_params = {
-    's.cmd' => [
-      # Limit to Journal Article, Book Chapter and Journal/eJournal
-      'setFacetValueFilters(ContentType,Newspaper Article)',
-      'negateFacetValueFilter(ContentType)',
-      # Within Cornell's collection
-      'setHoldingsOnly(true)'
-    ]
-  }
-
-  # Convert Summon Command used for API to query parameter for URL
-  conf.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q='
-end
-
 # connection to EBSCO Host used by the bento/single search
 # require "#{Rails.root}/config/ebsco_dbs.rb"
 # BentoSearch.register_engine('ebscohost') do |conf|
@@ -101,28 +56,6 @@ BentoSearch.register_engine('worldcat') do |conf|
   conf.auth = true
   # Link to Worldcat Discovery, ensure sort by "relevance only"
   conf.link = "#{ENV['WORLDCAT_URL']}/search?qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc&queryString="
-end
-
-
-BentoSearch.register_engine('summonArticles') do |conf|
-  conf.engine = 'BentoSearch::SummonEngine'
-  conf.title = 'Newspaper Articles'
-	conf.access_id =  ENV['SUMMON_ACCESS_ID']
-	conf.secret_key = ENV['SUMMON_SECRET_KEY']
-  conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
-  conf.highlighting = false
-  # More details on Summon Search API commands here:
-  # http://api.summon.serialssolutions.com/help/api/search/commands
-  conf.fixed_params = {
-    's.cmd' => [
-      # Limit to Journal Articles
-      'setFacetValueFilters(ContentType,Newspaper Article)',
-      # Within Cornell's collection
-      'setHoldingsOnly(true)'
-    ]
-
-  }
-
 end
 
 BentoSearch.register_engine('bestbet') do |conf|

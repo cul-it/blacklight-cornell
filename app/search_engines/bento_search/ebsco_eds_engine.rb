@@ -33,8 +33,11 @@ class BentoSearch::EbscoEdsEngine
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        q = args[:oq]
-        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
+        q = args[:oq].present? ? args[:oq] : args[:query].present? ? args[:query] : nil
+        if q.nil?
+            results.total_items = 0
+            return results
+        end
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
 
@@ -104,8 +107,10 @@ class BentoSearch::EbscoEdsEngine
                         end
                     end
                     date = rec.eds_publication_date
-                    ymd = date.split('-').map(&:to_i)
-                    item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    if date.present?
+                        ymd = date.split('-').map(&:to_i)
+                        item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    end
                     results << item
                 end
             end
