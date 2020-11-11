@@ -12,7 +12,7 @@
   <div class="page-title col-sm-12">
     <div class="return-link">
      <% if !@newTouResult.nil? %>
-     <%#= params.inspect %>
+     <%#= @newTouResult.inspect %>
       <%= link_to "/catalog/#{params["id"]}" do %>
         <i class="fa fa-arrow-circle-left"></i>
         Back to Item
