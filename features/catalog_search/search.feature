@@ -229,7 +229,6 @@ Feature: Search
 
   Examples:
   | bibid | title |
-  | 2740306 | Manifest / James Ford Bell Library. Associates. |
   | 3051761 | Asia gas report |
   | 2940172 | Boletim de integração latino-americana |
   | 3828983 | International Series in Heating, Ventilation and Refrigeration |
