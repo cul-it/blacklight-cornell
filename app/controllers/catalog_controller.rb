@@ -1216,10 +1216,12 @@ def new_tou
  #       outtxt3 = `curl #{command3}`
        
           parsed3 = JSON.parse(outtxt3)
-        
+          
           parsed3['packageName'] = packageName
-          @newTouResult << parsed3      
-#        return params, @newTouResult 
+          
+          unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
+            @newTouResult << parsed3
+          end
         end
       end
     end  

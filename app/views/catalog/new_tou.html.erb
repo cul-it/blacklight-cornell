@@ -42,7 +42,8 @@
             <% @newTouResult.each do | data | %>
             <% if data.present?  %>
        <h3 class="blacklight-title_display">
-                                       <%= data['packageName'] %>
+             <%#= data['id'].inspect %>
+             <%= data['name'] %>
          </h3>
                       <table class="table table-bordered table-striped">
                 <caption class="sr-only">License terms and permissions for this resource</caption>
