@@ -38,14 +38,14 @@
   <div></div>
   <div id="classification" class="row class-heading-full" data-anchor-label="<%= internal_class%>" data-keep-count="false" data-next-count="0" data-prev-count="0">
     <div class="vb-scroll-nav">
-	    <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left"> 
+	    <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_left']);"> 
 		    <i class="fa fa-chevron-left"></i> 
 		</a>
 		<span class="sr-only">Scroll left</span>
 	</div>
 	<div class="vb-current-class"><%= classification %></div>
 	<div class="vb-scroll-nav">
-		<a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right"> 
+		<a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_right']);"> 
 			<i class="fa fa-chevron-right"></i> 
 		</a>
 		<span class="sr-only">Scroll right</span>
@@ -77,7 +77,7 @@
 		</div>
 		  <div class="vb-title">
 		   <%= get_format_string(doc['format'].downcase)%>&nbsp;
-		   <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1">
+		   <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'carousel_title']);">
 		     <% if doc['title'].length <= 52 %>
 		     	<%= doc['title'] %>
 		     <% else %>
@@ -115,7 +115,7 @@
   <div class="preview-container-full">
     <div class="vb-pointer-full"></div>
     <div id="preview" class="vb-preview-full">
-      <h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0"></a></h5>
+      <h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'preview_title']);"></a></h5>
       <dl  class="row preview-dl">
       	<dt id="label-author" class="vb-dt">Author:</dt>
       	<dd id="prev-author" class="vb-dd"></dd>
