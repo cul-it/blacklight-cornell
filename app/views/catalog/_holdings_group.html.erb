@@ -1,9 +1,9 @@
 
 <% reading = '' %>
-<% bwith = '' %>
-<% if @document['bound_with_json'] %>
-  <% bwith = t('blacklight.catalog.bound_with') %>
-<% end %>
+<%# bwith = '' %>
+<%# if @document['abbound_with_json'] %>
+  <%# bwith = t('blacklight.catalog.bound_with') %>
+<%# end %>
 <% multi_vol = @document['multivol_b'] %>
 <% on_site_count = 0 %>
 <% reserve_item = false %>
@@ -159,7 +159,8 @@
         </div>
 
       </div>
-    <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
+    <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:on_site_count=>on_site_count %>
+    <%#= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
   </div>
 
   <% end %>
