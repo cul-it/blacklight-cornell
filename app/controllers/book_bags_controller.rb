@@ -129,7 +129,7 @@ class BookBagsController < CatalogController
     @bibid = params[:id]
     value = @bibid
     success = @bb.uncache(value)
-    user_session[:bookbag_count] = @bb.count
+    session[:bookbag_count] = @bb.count
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
     else
