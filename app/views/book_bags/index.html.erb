@@ -34,10 +34,10 @@
   <% end %>
   <div class="results-info">
     <% @selectedcount =
-      if user_session.nil? || user_session[:bookbag_count].nil?
+      if session[:bookbag_count].nil?
         0
       else
-        user_session[:bookbag_count]
+        session[:bookbag_count]
       end
     %>
     <%if @selectedcount < 1 %>
