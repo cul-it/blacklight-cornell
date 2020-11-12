@@ -45,8 +45,8 @@ module CornellHoldingsHelper
     output = ''
     reading = ''
     bwith = ''
-    if document['bound_with_json']
-      bwith = t('blacklight.catalog.bound_with')
+    if document['abbound_with_json']
+      bwith = t('blacklight.catalog.abbound_with')
     end
     multi_vol = document['multivol_b']
     on_site_count = 0

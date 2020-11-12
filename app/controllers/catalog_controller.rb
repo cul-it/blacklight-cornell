@@ -1183,45 +1183,49 @@ def new_tou
   recordTitle = parsed["data"]["attributes"]["name"]
  
   parsley = parsed["included"].each do | parsley |
-    packageID = parsley["attributes"]["packageId"]
-    packageName = parsley["attributes"]["packageName"]
-    packageUrl = parsley["attributes"]["url"]
-    package_providerID = parsley["attributes"]["providerName"]
-    uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
-    req = Net::HTTP::Get.new(uri)
-    req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-    req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-    req['Accept'] = 'application/json'
+    if parsley["attributes"]["isSelected"] == true
+      packageID = parsley["attributes"]["packageId"]
+      packageName = parsley["attributes"]["packageName"]
+      packageUrl = parsley["attributes"]["url"]
+      package_providerID = parsley["attributes"]["providerName"]
+      uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
+      req = Net::HTTP::Get.new(uri)
+      req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+      req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+      req['Accept'] = 'application/json'
     
-    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-    outtxt2 = res.body  
+      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+      outtxt2 = res.body  
     
  #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #   outtxt2 = `curl #{command2}`
-    if outtxt2 != '[]'
-      parsed2 = JSON.parse(outtxt2)
-      if !parsed2[0]["linkedLicenses"][0].nil?
-        remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-        uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
-        req = Net::HTTP::Get.new(uri)
-        req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-        req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-        req['Accept'] = 'application/json'
+      if outtxt2 != '[]'
+        parsed2 = JSON.parse(outtxt2)
+        if !parsed2[0]["linkedLicenses"][0].nil?
+          remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+          uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
+          req = Net::HTTP::Get.new(uri)
+          req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+          req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+          req['Accept'] = 'application/json'
 
-        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-        outtxt3 = res.body  
+          res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+          outtxt3 = res.body  
         
  #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #       outtxt3 = `curl #{command3}`
        
-        parsed3 = JSON.parse(outtxt3)
-        
-        parsed3['packageName'] = packageName
-        @newTouResult << parsed3      
-#        return params, @newTouResult 
+          parsed3 = JSON.parse(outtxt3)
+          
+          parsed3['packageName'] = packageName
+          
+          unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
+            @newTouResult << parsed3
+          end
+        end
       end
-    end
- end
+    end  
+  end
      return params, @newTouResult
 
 end 
