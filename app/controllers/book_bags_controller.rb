@@ -89,22 +89,24 @@ class BookBagsController < CatalogController
   end
 
   def add
-    @bibid = params[:id]
-    value = @bibid
-    if @bb.count < MAX_BOOKBAGS_COUNT
-      success = @bb.cache(value)
-    end
-    if request.xhr?
-      success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
-    else
-      respond_to do |format|
-        format.html { }
-        format.rss  { render :layout => false }
-        format.atom { render :layout => false }
-        format.json { render json:   { }      }
+    if current_user
+      @bibid = params[:id]
+      value = @bibid
+      if @bb.count < MAX_BOOKBAGS_COUNT
+        success = @bb.cache(value)
         session[:bookbag_count] = @bb.count
       end
-     end
+      if request.xhr?
+        success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+      else
+        respond_to do |format|
+          format.html { }
+          format.rss  { render :layout => false }
+          format.atom { render :layout => false }
+          format.json { render json:   { }      }
+        end
+      end
+    end
   end
 
   def addbookmarks
