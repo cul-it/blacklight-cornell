@@ -68,7 +68,7 @@ class BookBagsController < CatalogController
     if current_user
       @id = current_user.email
       @bb.set_bagname("#{@id}-bookbag-default")
-      user_session[:bookbag_count] = @bb.count
+      session[:bookbag_count] = @bb.count
     end
   end
 
@@ -93,7 +93,6 @@ class BookBagsController < CatalogController
     value = @bibid
     if @bb.count < MAX_BOOKBAGS_COUNT
       success = @bb.cache(value)
-      user_session[:bookbag_count] = @bb.count
     end
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
@@ -103,6 +102,7 @@ class BookBagsController < CatalogController
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
         format.json { render json:   { }      }
+        session[:bookbag_count] = @bb.count
       end
      end
   end
