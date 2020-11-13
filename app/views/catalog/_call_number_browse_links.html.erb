@@ -58,7 +58,7 @@
 		  <div id="outer-container" class="slides" tabindex="0">
 			<div class="inner-container" id="prev-reroute" style="display:none;">
 				<div class="vb-reroute">
-					<a href="/browse?authq=&browse_type=virtual">
+					<a href="/browse?authq=&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'viewmoreresults_left']);">
 						<div> <i class="fa fa-chevron-left"></i> </div>
 						<div> View more results</div>
 					</a>
@@ -79,7 +79,7 @@
 			</div>
 			  <div class="vb-title">
 			    <%= get_format_string(doc['format'].downcase)%>&nbsp;
-			    <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1">
+			    <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'carousel_title']);">
 			  	<% if doc['title'].length <= 52 %>
 			  		<%= doc['title'] %>
 			  	<% else %>
@@ -145,14 +145,14 @@
 		<% end %>
 		<div class="inner-container" id="next-reroute" style="display:none">
 			<div class="vb-reroute">
-				<a href="/browse?authq=&browse_type=virtual">
+				<a href="/browse?authq=&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'viewmoreresults_right']);">
 					<div>View more results </div>
 					<div> <i class="fa fa-chevron-right"></i></div>
 				</a>
 			</div>
 		</div>
 	  </div>
-	<div id="return-home" class="return-home"><a id="return-home-link" href="javascript:void(0);">Return to start</a></div>
+	<div id="return-home" class="return-home"><a id="return-home-link" href="javascript:void(0);" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'return_start']);">Return to start</a></div>
 	  <div class="preview-container">
 	  <div class="vb-pointer"></div>
 	  <div id="preview" class="vb-preview">
