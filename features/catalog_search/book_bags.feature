@@ -35,7 +35,7 @@ Feature: Book Bags for logged in users
         Then I should get results
         And I select the first <count> catalog results
         Then I clear the SQLite transactions
-        # And I sleep <sleep> seconds
+        And I sleep <sleep> seconds
         Then navigation should show Book Bag contains <count>
         When I go to BookBag
         Then there should be <count> items in the BookBag
@@ -44,8 +44,8 @@ Feature: Book Bags for logged in users
     | count | sleep |
     | 3 | 6 |
     | 4 | 6 |
-    | 5 | 6 |
-    | 10 | 6 |
+    | 5 | 8 |
+    | 10 | 8 |
     | 20 | 9 |
 
     @book_bags_bookmarks_redirect
