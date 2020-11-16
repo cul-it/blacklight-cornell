@@ -35,23 +35,25 @@ Feature: Book Bags for logged in users
         Then I should get results
         And I select the first <count> catalog results
         And I sleep <sleep> seconds
+        Then I clear the SQLite transactions
         Then navigation should show Book Bag contains <count>
         When I go to BookBag
         Then there should be <count> items in the BookBag
 
     Examples:
     | count | sleep |
-    | 3 | 5 |
+    | 3 | 6 |
     | 4 | 6 |
-    | 5 | 6 |
-    | 10 | 6 |
+    | 5 | 8 |
+    | 10 | 8 |
     | 20 | 9 |
 
     @book_bags_bookmarks_redirect
     Scenario: Bookmarks redirect logged in users to Book Bags
         Given we are in any development or test environment
         And I sign in to BookBag
-        Then navigation should show 'Book Bag'
+        Then I should see "You are logged in as Diligent Tester."
+        And navigation should show 'Book Bag'
         And I view my bookmarks
         Then I should see "Please use Book Bag while you are signed in."
         And navigation should show 'Book Bag'
