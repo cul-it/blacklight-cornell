@@ -124,9 +124,7 @@ Then /^there should be ([0-9]+) items selected$/ do |int|
 end
 
 Then("navigation should show Book Bag contains {int}") do |int|
-  patiently do
-    expect(page.find('a#book_bags_nav > span > span').text).to eq(int.to_s)
-  end
+  page.find('a#book_bags_nav > span > span', text: "#{int.to_s}")
 end
 
 Then /^navigation should( not)? show '([^']*)'$/ do |negation, string|
