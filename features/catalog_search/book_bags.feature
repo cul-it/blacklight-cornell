@@ -51,7 +51,8 @@ Feature: Book Bags for logged in users
     Scenario: Bookmarks redirect logged in users to Book Bags
         Given we are in any development or test environment
         And I sign in to BookBag
-        Then navigation should show 'Book Bag'
+        Then I should see "You are logged in as Diligent Tester."
+        And navigation should show 'Book Bag'
         And I view my bookmarks
         Then I should see "Please use Book Bag while you are signed in."
         And navigation should show 'Book Bag'
