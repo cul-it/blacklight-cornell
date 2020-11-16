@@ -145,7 +145,7 @@ Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
       elsif int == "1"
         expect(find('.page-entries > strong:nth-child(1)').text).to eq('1 result')
       else
-        expect(find('.page-entries > strong:nth-child(3)').text).to eq(int.to_s)
+        find('.page-entries > strong:nth-child(3)', text: "#{int.to_s}")
       end
     end
   end
