@@ -50,16 +50,4 @@ BlacklightCornell::Application.configure do
   # this allows WEBrick to handle pipe symbols in query parameters
 #URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 
-# Settings for the exception_notification gem
-#Rails.application.config.middleware.use ExceptionNotification::Rack,
-# :email => {
-#   :email_prefix => "[ERROR] ",
-#   :sender_address => %{"CUL New Catalog Notifier" <libgateway-l@list.cornell.edu>},
-#   :exception_recipients => %w{mjc12@cornell.edu}
-# }
-# :hipchat => {
-#   :api_token => ENV['HIPCHAT_API_TOKEN'],
-#   :api_version => 'v2',
-#   :room_name => 'Discovery and Access'
-# }
 end

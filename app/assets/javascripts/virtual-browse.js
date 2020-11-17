@@ -128,7 +128,7 @@ var  carouselActions = {
          $('#vb-view-type > i').removeClass("fa-th");
          $('#vb-view-type > i').addClass("fa-align-justify");
          authq = "authq=" + $('.inner-container-primary').data("callnumber").replace(/ /g,"+");
-         url = "browse?authq=&start=0&browse_type=Call-Number&order=reverse"
+         url = "browse?authq=&start=0&browse_type=Call-Number&order=forward"
          window.location = url.replace("authq=",authq);
       });
   },

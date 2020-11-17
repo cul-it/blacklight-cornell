@@ -57,5 +57,5 @@ Feature: Search
       | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
       | Lions' Plate: TikTok's Whipped Coffee | |
-      | UTICA ZOO ANNOUNCES LIMITED EDITION 'LION'S ROAST' COFFEE, SUPPORTS AFRICAN LION CONSERVATION | |
+      | Utica Zoo, Utica Coffee Roasting | |
 

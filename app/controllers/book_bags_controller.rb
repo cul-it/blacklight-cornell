@@ -68,7 +68,7 @@ class BookBagsController < CatalogController
     if current_user
       @id = current_user.email
       @bb.set_bagname("#{@id}-bookbag-default")
-      user_session[:bookbag_count] = @bb.count
+      session[:bookbag_count] = @bb.count
     end
   end
 
@@ -89,22 +89,24 @@ class BookBagsController < CatalogController
   end
 
   def add
-    @bibid = params[:id]
-    value = @bibid
-    if @bb.count < MAX_BOOKBAGS_COUNT
-      success = @bb.cache(value)
-      user_session[:bookbag_count] = @bb.count
-    end
-    if request.xhr?
-      success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
-    else
-      respond_to do |format|
-        format.html { }
-        format.rss  { render :layout => false }
-        format.atom { render :layout => false }
-        format.json { render json:   { }      }
+    if current_user
+      @bibid = params[:id]
+      value = @bibid
+      if @bb.count < MAX_BOOKBAGS_COUNT
+        success = @bb.cache(value)
+        session[:bookbag_count] = @bb.count
       end
-     end
+      if request.xhr?
+        success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+      else
+        respond_to do |format|
+          format.html { }
+          format.rss  { render :layout => false }
+          format.atom { render :layout => false }
+          format.json { render json:   { }      }
+        end
+      end
+    end
   end
 
   def addbookmarks
@@ -127,7 +129,7 @@ class BookBagsController < CatalogController
     @bibid = params[:id]
     value = @bibid
     success = @bb.uncache(value)
-    user_session[:bookbag_count] = @bb.count
+    session[:bookbag_count] = @bb.count
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
     else
@@ -213,7 +215,7 @@ class BookBagsController < CatalogController
 
   def export
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
     msg= "book_bags_controler.rb export"
     puts msg.to_yaml
     @bb.debug

@@ -33,8 +33,11 @@ class BentoSearch::EbscoEdsEngine
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        q = args[:oq]
-        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
+        q = args[:oq].present? ? args[:oq] : args[:query].present? ? args[:query] : nil
+        if q.nil?
+            results.total_items = 0
+            return results
+        end
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
 
@@ -85,19 +88,16 @@ class BentoSearch::EbscoEdsEngine
                     item.link = rec.eds_plink()
 
                     links.each do | link |
-                        item.other_links << BentoSearch::Link.new(
-                            :url => link[:url],
-                            :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                            :label => link[:label]
-                            )
+
+                        if link[:label].include? "Get it! Cornell" # DISCOVERYACCESS-6637
+                            item.other_links << BentoSearch::Link.new(
+                                :url => link[:url],
+                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                                :label => link[:label]
+                                )
+                        end
                     end
 
-                    rec.eds_isbns().each do | isbn |
-                        item.other_links << BentoSearch::Link.new(
-                            :url => 'https://isbnsearch.org/isbn/' + isbn,
-                            :label => 'ISBN'
-                        )
-                    end
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()
                     if rec.eds_page_start().present?
@@ -107,8 +107,10 @@ class BentoSearch::EbscoEdsEngine
                         end
                     end
                     date = rec.eds_publication_date
-                    ymd = date.split('-').map(&:to_i)
-                    item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    if date.present?
+                        ymd = date.split('-').map(&:to_i)
+                        item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    end
                     results << item
                 end
             end

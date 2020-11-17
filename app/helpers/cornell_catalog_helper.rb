@@ -119,15 +119,16 @@ module CornellCatalogHelper
     @request_ok = true
     #@request_ok = requestable?(bibid,response)
     ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  @request_ok = #{@request_ok.pretty_inspect}"
-    @bound_with = []
-    @bound_with_to_mbw =  {}
-    if bound_with?
-      if document['bound_with_json']
-        document['bound_with_json'].each do |j|
-           @bound_with <<  JSON.parse(j).with_indifferent_access
+    @abbound_with = []
+    @abbound_with_to_mbw =  {}
+    Rails.logger.info("HUH? = #{bound_with}")
+    if abbound_with?
+      if document['abbound_with_json']
+        document['abbound_with_json'].each do |j|
+           @abbound_with <<  JSON.parse(j).with_indifferent_access
         end
       end
-      if  !@bound_with.empty?
+      if  !@abbound_with.empty?
         items2 = handle_bound_with(response,bibid,items2)
       end
     end

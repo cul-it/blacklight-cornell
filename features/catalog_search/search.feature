@@ -207,13 +207,13 @@ Feature: Search
     And I should see the "fa-clock-o" class
     And I should see the label 'Olin Library'
 
-  @all_search
-  @DISCOVERYACCESS-5984
-  Scenario: Perform a librarian_view on an item known to have MARC record problems
-    Given I request the item view for 7928197
-    Then I should not see the "librarianLink" element
-    And I literally go to /catalog/7928197/librarian_view
-    Then I should see the text 'No MARC data found.'
+  # @all_search
+  # @DISCOVERYACCESS-5984
+  # Scenario: Perform a librarian_view on an item known to have MARC record problems
+  #  Given I request the item view for 7928197
+  #  Then I should not see the "librarianLink" element
+  #  And I literally go to /catalog/7928197/librarian_view
+  #  Then I should see the text 'No MARC data found.'
 
   @all_search
   @DISCOVERYACCESS-5826
@@ -229,7 +229,6 @@ Feature: Search
 
   Examples:
   | bibid | title |
-  | 2740306 | Manifest / James Ford Bell Library. Associates. |
   | 3051761 | Asia gas report |
   | 2940172 | Boletim de integração latino-americana |
   | 3828983 | International Series in Heating, Ventilation and Refrigeration |
