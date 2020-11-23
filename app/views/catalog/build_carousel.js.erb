@@ -51,13 +51,12 @@ count = 0
     end
 
     avail_str = ""
-    avail = JSON.parse(doc["availability"])
-    if avail["availAt"].present? 
-        avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>'
-    elsif avail["online"].present? 
+    if  doc["availability"].include?("Online")
         avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>'
-    elsif avail["unavailAt"].present?
-    	avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
+    elsif doc["availability"].include?("Not") 
+        #avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Available" alt="" aria-hidden="true"></i> ' + doc["availability"] + ' </div>'
+    else
+        #avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> ' + doc["availability"] + ' </div>'
     end
     
     if count == 0

@@ -232,8 +232,8 @@ var  carouselActions = {
       }
       if ( $(selected).data("locations").length > 0 ) {        
           $('#prev-available').html($(selected).data("locations"));
-          $('#prev-available').show();
-          $('#label-available').show();
+          $('#prev-available').hide(); // keep this hidden until covid changes are lifted
+          $('#label-available').hide(); // keep this hidden until covid changes are lifted
       }
       else {
           $('#label-available').hide();
