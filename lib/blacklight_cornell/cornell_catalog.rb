@@ -258,6 +258,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
       query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} query = #{query.inspect}"
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << "worldcat query: " + query.inspect
+msg << 'Z' * 60
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
       searcher.search(query, :per_page => 1)
 
       @expanded_results = {}
