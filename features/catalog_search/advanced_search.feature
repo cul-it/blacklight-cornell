@@ -577,23 +577,3 @@ Feature: Search
     Then click on first link "Book"
     Then click on first link "Modify advanced search"
     And I should see the label 'Add a row'
-
-  @missing_1_first_result_production
-  @adv_search
-  @javascript
-  Scenario Outline: Advanced search in production mode to check results range
-    Given I enable the "<envirnonment>" environment
-    When I literally go to advanced
-    And I fill in "q_row1" with 'quagmire'
-    And I press 'advanced_search'
-    Then I should get results
-    And I click on the first search result
-    Then show me the page
-    Then I should not see a link "« Previous"
-    And I should see 1 as the result number
-
-  Examples:
-      | envirnonment |
-      | development |
-      | integration |
-      | production |
