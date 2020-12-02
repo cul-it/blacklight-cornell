@@ -338,11 +338,11 @@ Feature: Results list
     And I select <count> items per page
     And I click on the first search result
     When I fill in the search box with 'crackers'
-    And I press 'search'   
+    And I press 'search'
 		And the 'per_page' select list should default to '<count> per page'
 
   Examples:
-    | count | 
+    | count |
     | 20 |
     | 50 |
     | 100 |
@@ -359,11 +359,11 @@ Feature: Results list
     And I select the sort option '<sort_by>'
     And I click on the first search result
     When I fill in the search box with 'crackers'
-    And I press 'search'   
+    And I press 'search'
 		And the 'sort' select list should default to 'Sort by <sort_by>'
 
   Examples:
-    | sort_by | 
+    | sort_by |
     | relevance |
     | year descending |
     | year ascending |
@@ -372,4 +372,4 @@ Feature: Results list
     | title A-Z |
     | title Z-A |
     | call number |
- 
+
