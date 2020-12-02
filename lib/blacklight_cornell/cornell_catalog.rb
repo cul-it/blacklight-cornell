@@ -253,32 +253,15 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     tmp = BentoSearch::Results.new
     if !(params[:search_field] == 'call number')
     if expandable_search?
-      searcher = BentoSearch::ConcurrentSearcher.new(:worldcat)
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
+      # DISCOVERYACCESS-6734 - skip entire worldcat search that was intended to provide a count for worldcat results
       query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} query = #{query.inspect}"
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "worldcat query: " + query.inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-      searcher.search(query, :per_page => 1)
-
+      key = :worldcat
+      source_results = {
+        :count => 1,
+        :url => BentoSearch.get_engine(key).configuration.link + query,
+      }
       @expanded_results = {}
-
-
-      searcher.results.each_pair do |key, result|
-        source_results = {
-          :count => number_with_delimiter(result.total_items),
-          :url => BentoSearch.get_engine(key).configuration.link + query,
-        }
-        @expanded_results[key] = source_results
-      end
+      @expanded_results[key.to_s] = source_results
     end
     end
     @controller = self
