@@ -250,7 +250,7 @@ Feature: Results list
    Given I am on the home page
    When I fill in the search box with 'United States Cavalry'
    And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide (2'
+   Then I should see the text 'Request from Libraries Worldwide'
 
 @all_results_list
 @next_facet
