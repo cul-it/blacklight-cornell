@@ -588,6 +588,7 @@ Feature: Search
     And I press 'advanced_search'
     Then I should get results
     And I click on the first search result
+    Then show me the page
     Then I should not see a link "« Previous"
     And I should see 1 as the result number
 
