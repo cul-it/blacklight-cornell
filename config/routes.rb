@@ -204,6 +204,7 @@ devise_for :users, controllers: {
   get 'book_bags/export' => 'book_bags#export'
   match 'book_bags/track', via: [:get, :post]
   get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
+  get 'book_bags/test' => 'book_bags#test'
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'

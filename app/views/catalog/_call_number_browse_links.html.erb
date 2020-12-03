@@ -91,13 +91,13 @@
 			    <% end %>
 			  </div>
 			<div class="vb-footer">
-			  <% avail = JSON.parse(doc["availability"]) %>
-			  <% if avail["availAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-			  <% elsif avail["online"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-			  <% elsif avail["unavailAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+			  <%# avail = JSON.parse(doc["availability"]) %>
+			  <% if doc["availability"].include?("Online")  %>
+			    <div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> <%= doc["availability"] %></div>
+			  <%# elsif doc["availability"].include?("Not") %>
+				<%# <div class="vb-availability"><i class="fa fa-clock-o" title="Online" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
+			  <%# else %>
+				<%# <div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
 			  <% end %>
 			</div>
 		  </div> 
@@ -131,14 +131,13 @@
 			   <% end %>
 			</div>
 			<div class="vb-footer">
-			  <% avail = JSON.parse(doc["availability"]) %>
-				<div class="vb-location"><%#doc['location']%></div>
-			  <% if avail["availAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-			  <% elsif avail["online"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-			  <% elsif avail["unavailAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+			  <%# avail = JSON.parse(doc["availability"]) %>
+			  <% if doc["availability"].include?("Online")  %>
+			    <div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> <%= doc["availability"] %></div>
+			  <%# elsif doc["availability"].include?("Not") %>
+				<%# <div class="vb-availability"><i class="fa fa-clock-o" title="Online" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
+			  <%# else %>
+				<%# <div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
 			  <% end %>
 			</div>
 		  </div> 
@@ -164,8 +163,8 @@
 			<dd id="prev-publisher" class="vb-dd"></dd>
 			<dt id="label-date" class="vb-dt">Date:</dt>
 			<dd id="prev-date" class="vb-dd"></dd>
-			<dt id="label-available" class="vb-dt">Available at:</dt>
-			<dd id="prev-available" class="vb-dd"></dd>
+			<dt id="label-available" class="vb-dt" style="display:none">Available at:</dt>
+			<dd id="prev-available" class="vb-dd" style="display:none"></dd>
 		</dl>
 	  </div>
 	  </div>

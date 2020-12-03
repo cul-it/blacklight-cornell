@@ -95,6 +95,10 @@ Then("I should see a link {string}") do |string|
   page.find("a", :text => "#{string}")
 end
 
+Then("I should not see a link {string}") do |string|
+  expect(page).not_to have_selector("a", :text => "#{string}")
+end
+
 Then("I should see the CUWebLogin page") do
   patiently do
     page.should have_content("CUWebLogin")

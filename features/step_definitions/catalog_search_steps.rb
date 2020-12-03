@@ -146,3 +146,16 @@ end
 Given("we are in any development or test environment") do
   expect(ENV['RAILS_ENV']).not_to eq('production')
 end
+
+Given("I enable the {string} environment") do |string|
+  if ['development', 'test', 'production'].include?(string)
+      ENV['RAILS_ENV']=string
+      ENV["COLLECTIONS"]=string
+  else
+      expect(false)
+  end
+end
+
+Then("I should see {int} as the result number") do |int|
+  expect(page.first('div.item-pagination > strong')).to have_content("#{int.to_s}")
+end
