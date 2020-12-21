@@ -236,6 +236,6 @@ Examples:
   | query | repository |
   | eye tracking | eCommons |
 #  | eye tracking | The Scholarly Commons |
-  | labor unrest | DigitalCommons@ILR |
+  | labor unrest | eCommons |
   | torts | Scholarship@Cornell Law |
   | barley | Agricultural Experiment Station |
