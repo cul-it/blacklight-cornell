@@ -1,4 +1,4 @@
-# new servers that reside in aws
+
 server 'newcatalog8.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
 server 'newcatalog9.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
 server 'newcatalog0.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
