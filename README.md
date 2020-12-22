@@ -2,5 +2,3 @@
 
 
 ==  Cornell University implementation of Blacklight
-
-### pointless addition
