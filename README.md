@@ -2,6 +2,3 @@
 
 
 ==  Cornell University implementation of Blacklight
-
-New GitHub feature:
-- Allow auto-merge in Settings
