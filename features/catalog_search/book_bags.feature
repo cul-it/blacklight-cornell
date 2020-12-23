@@ -42,10 +42,10 @@ Feature: Book Bags for logged in users
 
     Examples:
     | count | sleep |
-    | 3 | 6 |
-    | 4 | 6 |
-    | 5 | 8 |
-    | 10 | 8 |
+    | 3 | 8 |
+    | 4 | 8 |
+    | 5 | 9 |
+    | 10 | 9 |
     | 20 | 9 |
 
     @book_bags_bookmarks_redirect
