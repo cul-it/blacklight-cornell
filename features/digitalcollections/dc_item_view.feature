@@ -23,4 +23,10 @@ Feature: Digital Collection View
         And I press 'search'
   	Then I should see the label 'Conzo'
 
+  @failure
+  Scenario: I want to have at least one test that fails
+      Given I am on the home page
+      Then I should fail immediately
+
+
 
