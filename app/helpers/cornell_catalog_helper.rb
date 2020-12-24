@@ -1125,6 +1125,9 @@ end
 	  end
 
 	  def  cornell_item_page_entry_info
+	    if search_session['counter'].nil?
+	      search_session['counter'] = 1
+	    end
 	    t('blacklight.search.entry_pagination_info.other',
 	      :current => number_with_delimiter(search_session['counter']), :total => number_with_delimiter(search_session[:total]),
 	      :count => search_session[:total].to_i).html_safe
