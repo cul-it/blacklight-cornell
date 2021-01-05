@@ -1,7 +1,7 @@
 
-server 'newcatalog8.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
-server 'newcatalog9.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
-server 'newcatalog0.library.cornell.edu', :app, :web, :db, user: 'jenkins' 
+server 'newcatalog8.library.cornell.edu', :app, :web, :db, primary: true, user: 'jenkins' 
+server 'newcatalog9.library.cornell.edu', :app, :web, :db, primary: true, user: 'jenkins' 
+server 'newcatalog0.library.cornell.edu', :app, :web, :db, primary: true, user: 'jenkins' 
 
 set :deploy_to, "/cul/web/newcatalog-aws.library.cornell.edu/rails-app"
 #this avoids an error message from git, but i don't think it's really necessary.
