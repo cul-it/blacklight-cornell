@@ -1,5 +1,5 @@
 <?php
-# last build hung up remove a comment
+# test downstream build last build hung up remove a comment
 $filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
 $xml = simplexml_load_file($filename);
