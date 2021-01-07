@@ -9,19 +9,27 @@
           <% if access_url_is_list?(data) %>
             <% dbid = data["id"] %>
             <%= link_to "/catalog/#{dbid}" do %>
-              <% if data["fulltitle_vern_display"].present? %>
-                <%= data["fulltitle_vern_display"] %>
-              <% else %>
-                <%= data["fulltitle_display"] %>
-              <% end %>
+             <% if data["fulltitle_vern_display"].present? and data["fulltitle_display"].present? %>
+                  <%= data["fulltitle_vern_display"] + " / " +  data["fulltitle_display"] %>
+                <% else %>
+                  <% if data["fulltitle_vern_display"].present? %>
+                    <%= data["fulltitle_vern_display"] %>
+                  <% else %>
+                    <%= data["fulltitle_display"] %>
+                  <% end %>
+                <% end %>
             <% end %>
           <% else %>
             <% access_url = access_url_single(data) %>
               <%= link_to access_url, :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink']);" do %>
-                <% if data["fulltitle_vern_display"].present? %>
-                  <%= data["fulltitle_vern_display"] %>
+                <% if data["fulltitle_vern_display"].present? and data["fulltitle_display"].present? %>
+                  <%= data["fulltitle_vern_display"] + " / " +  data["fulltitle_display"] %>
                 <% else %>
-                  <%= data["fulltitle_display"] %>
+                  <% if data["fulltitle_vern_display"].present? %>
+                    <%= data["fulltitle_vern_display"] %>
+                  <% else %>
+                    <%= data["fulltitle_display"] %>
+                  <% end %>
                 <% end %>
             <% end %>
           <% end %>
