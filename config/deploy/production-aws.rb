@@ -16,6 +16,7 @@ server 'newcatalog0.library.cornell.edu', :app, :web, :db, primary: true, user: 
 # role :db, "newcatalog0.library.cornell.edu", :primary => true
 # this shouldn't break current prod because the default user is still rails, and when
 # we're ready to abandon on-prem the default can be changed.
+# forcing a deploy with this line
 
 set :deploy_to, "/cul/web/newcatalog-aws.library.cornell.edu/rails-app"
 set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
