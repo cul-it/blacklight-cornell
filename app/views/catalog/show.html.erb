@@ -1,3 +1,15 @@
+
+<%# 
+    If the item is a musical recording, we may have a Discogs ID to use to bring in more metadata. 
+    Do that via an ajax call. Using the javascript_include_tag and javascript_tag here means the 
+    ajax call happens more quickly. DISCOVERYACCESS-6543
+%>
+<% if @discogs_id.present? && !@discogs_id.empty? %>
+	<%= javascript_tag do %>
+	    var discogs_id = <%= @discogs_id %>;
+	<% end %>
+    <%= javascript_include_tag '/catalog/discogs.js' %>
+<% end %>
 <% if back_to_catalog_needed %>
   <% session[:search][:controller] == 'advanced_search' ? link_label = 'Back to results' : '' %>
   <% link_back = link_back_to_catalog({:label => link_label}) %>

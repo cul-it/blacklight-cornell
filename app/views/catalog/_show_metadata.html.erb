@@ -228,7 +228,7 @@
 	      <%# access restrictions %>
 	      <% if restrictions_display.present? %>
 	        <span class="access-restriction">
-	          <h4>Restrictions</h4>
+	          <h3>Restrictions</h3>
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('"', '') %>
 	        </span>
 	      <% end %>
@@ -285,11 +285,16 @@
 	  <%# end col-md-4 %>
 	  <div class="col-md-8 order-md-4">
 	    <div class="pull-right item-cover">
+		  <% if @document["format_main_facet"] == "Musical Recording" && @discogs_image_url.present?%>
+			<%= format_discogs_image(@discogs_image_url)%>
+		  <% end %>
 	      <div class="bookcover d-none d-sm-inline" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>"></div>
 	    </div>
 	    <%# item-cover %>
 	    <%= render_document_partial @document, :show %>
-
+        <% if @document["format_main_facet"] == "Musical Recording" %>
+		  <div id="discogs_disclaimer"></div>
+		<% end %>
 	    <%# DISCOVERYACCESS-6275 %>
 		<% if ENV['SYNDETICS_UNBOUND_ENABLED'].present? && ENV['SYNDETICS_UNBOUND_ENABLED'] == "1" %>
 		<div id="syndetics_unbound"></div>
