@@ -3,15 +3,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-#  include Blacklight::SolrHelper
+  #  include Blacklight::SolrHelper
   include CornellCatalogHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
   include Blacklight::TokenBasedUser
   include BlacklightCornell::VirtualBrowse
-#  include ActsAsTinyURL
-Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
+  include BlacklightCornell::Discogs
+  #  include ActsAsTinyURL
+  Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
 
   def set_return_path
@@ -297,6 +298,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     @documents = [ @document ]
     # set_bag_name
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+    
+    # If we have a musical recording, call the Discogs module.
+    if @document["format_main_facet"] == "Musical Recording"
+      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos") 
+    end
+    
     respond_to do |format|
       format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
