@@ -1,3 +1,4 @@
+// For musical recordings, used to bring in metadata from the Discogs site.
 var remote = true;
 getDiscogsDetails(discogs_id)
 function getDiscogsDetails(id) {
