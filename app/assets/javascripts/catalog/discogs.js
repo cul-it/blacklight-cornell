@@ -1,4 +1,3 @@
-console.log("discogs id = " + discogs_id);
 var remote = true;
 getDiscogsDetails(discogs_id)
 function getDiscogsDetails(id) {
@@ -7,7 +6,7 @@ function getDiscogsDetails(id) {
       type: 'GET',
       data: remote,
       complete: function(xhr, status) {
-          console.log("getDiscogsDetails complete");
+          // console.log("getDiscogsDetails complete");
       }
     }); 
 }

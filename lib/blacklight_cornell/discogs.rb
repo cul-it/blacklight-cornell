@@ -52,6 +52,12 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     @genres = process_discogs_genres(genres, styles) if !genres.empty? || !styles.empty?
   end
   
+  def get_discogs_image(id)
+    data = make_discogs_show_call(id)
+    image_url = data["images"].present? ? data["images"][0]["resource_url"] : ""
+    return image_url
+  end
+  
   def author_cleanup(author)
     if  author.length > 0 && (author[-1] == "-" || author[-6] == "-")
         x = author.rindex(',')
@@ -184,7 +190,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   end
 
   def make_discogs_show_call(id)
-    search_url = "https://api.discogs.com/releases/" + id
+    search_url = "https://api.discogs.com/releases/" + id + "?key=" + ENV['DISCOGS_KEY'] + "&secret=" + ENV['DISCOGS_SECRET']
     url = URI.parse(URI.escape(search_url))
     resp = Net::HTTP.get_response(url)
     data = resp.body

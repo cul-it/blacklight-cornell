@@ -300,8 +300,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     
     # If we have a musical recording, call the Discogs module.
-    if @document["format_main_facet"] == "Musical Recording"
-      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos") 
+    if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil?
+      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
+    elsif @document["discogs_display"].present?
+      @discogs_id = @document["discogs_display"][0]
+      @discogs_image_url = get_discogs_image(@document["discogs_display"][0])
     end
     
     respond_to do |format|

@@ -4,7 +4,7 @@
     Do that via an ajax call. Using the javascript_include_tag and javascript_tag here means the 
     ajax call happens more quickly. DISCOVERYACCESS-6543
 %>
-<% if @discogs_id.present? && !@discogs_id.empty? %>
+<% if @discogs_id.present? && !@discogs_id.empty?%>
 	<%= javascript_tag do %>
 	    var discogs_id = <%= @discogs_id %>;
 	<% end %>
