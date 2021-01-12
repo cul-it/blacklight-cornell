@@ -228,7 +228,7 @@
 	      <%# access restrictions %>
 	      <% if restrictions_display.present? %>
 	        <span class="access-restriction">
-	          <h4>Restrictions</h4>
+	          <h3>Restrictions</h3>
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('"', '') %>
 	        </span>
 	      <% end %>
