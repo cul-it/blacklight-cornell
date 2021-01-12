@@ -299,7 +299,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # set_bag_name
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     
-    # If we have a musical recording, call the Discogs module.
+    # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
+    # If it does have the id, save it globally and just get the image url.
     if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil?
       process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
     elsif @document["discogs_display"].present?
