@@ -3,15 +3,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-#  include Blacklight::SolrHelper
+  #  include Blacklight::SolrHelper
   include CornellCatalogHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
   include Blacklight::TokenBasedUser
   include BlacklightCornell::VirtualBrowse
-#  include ActsAsTinyURL
-Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
+  include BlacklightCornell::Discogs
+  #  include ActsAsTinyURL
+  Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
 
   def set_return_path
@@ -297,6 +298,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     @documents = [ @document ]
     # set_bag_name
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+    
+    # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
+    # If it does have the id, save it globally and just get the image url.
+    if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil?
+      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
+    elsif @document["discogs_display"].present?
+      @discogs_id = @document["discogs_display"][0]
+      @discogs_image_url = get_discogs_image(@document["discogs_display"][0])
+    end
+    
     respond_to do |format|
       format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244

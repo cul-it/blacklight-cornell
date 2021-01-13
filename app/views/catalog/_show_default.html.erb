@@ -1,5 +1,5 @@
 <%# default partial to display solr document fields in catalog show view -%>
-<dl class="row">
+<dl class="row" id="itemDetails">
   <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
 	    <dt class="blacklight-<%= solr_fname.parameterize %> col-sm-3"><%= render_document_show_field_label document, :field => solr_fname %></dt>
