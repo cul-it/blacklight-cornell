@@ -180,7 +180,9 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   end
   
   def make_discogs_search_call(query_string)
-    search_url = "https://api.discogs.com/database/search?q=" + query_string + "&type=release&key=" + ENV['DISCOGS_KEY'] + "&secret=" + ENV['DISCOGS_SECRET']
+    key = ENV['DISCOGS_KEY'].present? ? ENV['DISCOGS_KEY'] : ""
+    secret = ENV['DISCOGS_SECRET'].present? ? ENV['DISCOGS_SECRET'] : ""
+    search_url = "https://api.discogs.com/database/search?q=" + query_string + "&type=release&key=" + key + "&secret=" + secret
     url = URI.parse(URI.escape(search_url))
     resp = Net::HTTP.get_response(url)
     data = resp.body
@@ -190,7 +192,9 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   end
 
   def make_discogs_show_call(id)
-    search_url = "https://api.discogs.com/releases/" + id + "?key=" + ENV['DISCOGS_KEY'] + "&secret=" + ENV['DISCOGS_SECRET']
+    key = ENV['DISCOGS_KEY'].present? ? ENV['DISCOGS_KEY'] : ""
+    secret = ENV['DISCOGS_SECRET'].present? ? ENV['DISCOGS_SECRET'] : ""
+    search_url = "https://api.discogs.com/releases/" + id + "?key=" + key + "&secret=" + secret
     url = URI.parse(URI.escape(search_url))
     resp = Net::HTTP.get_response(url)
     data = resp.body
