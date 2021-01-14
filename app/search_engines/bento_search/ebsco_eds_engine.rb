@@ -78,8 +78,13 @@ class BentoSearch::EbscoEdsEngine
 
                     item = BentoSearch::ResultItem.new
                     item.link_is_fulltext = true
+
                     item.title = rec.eds_title().present? ? rec.eds_title() : I18n.translate("bento_search.eds.record_not_available")
+                    item.title = prepare_ebsco_eds_payload(item.title, true)
+
                     item.abstract = rec.eds_abstract()
+                    item.abstract = prepare_ebsco_eds_payload(item.abstract, true)
+
                     item.unique_id = rec.id
                     authors = rec.eds_authors()
                     authors.each do | author |
@@ -116,6 +121,29 @@ class BentoSearch::EbscoEdsEngine
             end
         end # enough hits already
         return results
+    end
+
+    # DISCOVERYACCESS-6854 - sometimes hilight text comes with
+    # unescaped characers even if configuration.highlighting == false
+    # If EDS has put highlighting tags
+    # in a field, we need to HTML escape the literal values,
+    # while still using the highlighting tokens to put
+    # HTML tags around highlighted terms.
+    #
+    # Second param, if to assume EDS literals are safe HTML, as they
+    # seem to be.
+    def prepare_ebsco_eds_payload(str, html_safe = false)
+
+        str = HTMLEntities.new.decode str
+
+        if str.present?
+            if configuration.highlighting
+                str.gsub!(/\<highlight\>/,"<b class='bento_search_highlight'>")
+                str.gsub!(/\<\/hilight\>/,"</b>")
+            else
+                str = str.html_safe if html_safe
+            end
+        end
     end
 
 end
