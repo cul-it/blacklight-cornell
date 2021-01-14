@@ -102,10 +102,11 @@ h3.rare {
 	display: block;
 	line-height: 1.2em;
 	margin-top: .25em;
-	h4 { 
+	// DISCOVERYACCESS-6779 - style header h3, keep h4 in case
+	h3, h4 { 
 		font-weight: 700;
 		margin-bottom: .5em;
-		font-size: 14px;
+		font-size: 16px;
 	}
 }
 .item-requests {
