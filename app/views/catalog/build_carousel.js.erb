@@ -45,9 +45,9 @@ count = 0
     img_string = ""
     if doc['img_url'].include?("cornell")
       the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]
-      img_string = image_tag(doc['img_url'], alt: the_type, style: "width:120px")
+      img_string = image_tag(doc['img_url'], alt: "Image not found", style: "width:120px")
     else
-      img_string = '<img width="120px" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
+      img_string = '<img width="120px" alt="" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
     end
 
     avail_str = ""
