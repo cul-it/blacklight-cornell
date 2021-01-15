@@ -42,7 +42,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       elsif (params['id'].present? && op.include?('email'))
         "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
-         refp
+        refp
+      elsif (op.include?('/range_limit'))
+        path = op.sub('/range_limit', '')
       else
         op
       end
