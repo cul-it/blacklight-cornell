@@ -73,7 +73,7 @@
   <li class="dropdown">
     <div class="btn-group">
       <a href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Export <b class="caret"></b></a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
+      <ul class="dropdown-menu" aria-labelledby="export-menu">
         <% if bookmarks_index  %>
           <li>
             <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote'), {:class => 'piwik_download dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
