@@ -47,20 +47,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         op
       end
 
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "where: cornell_catalog"
-msg << "request.referer: " + request.referer.inspect
-msg << "refp: " + refp.inspect
-msg << "op: " + op.inspect
-msg << "session[:cuwebauth_return_path]" + session[:cuwebauth_return_path].inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
   end
