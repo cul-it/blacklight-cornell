@@ -1,4 +1,4 @@
-// For musical recordings, used to bring in metadata from the Discogs site.
+// For musical recordings, this ajax call brings in metadata from the Discogs site.
 // The discogs_id variable is set in the show.html.erb template in a javascript_tag.
 if ( $('body').prop('className').indexOf("catalog-show") >= 0 ) {
     var remote = true;
