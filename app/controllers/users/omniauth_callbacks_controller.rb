@@ -74,16 +74,26 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def saml
-    auth = request.env["omniauth.auth"] 
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << "saml! "
+msg << 'Z' * 60
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+
+    auth = request.env["omniauth.auth"]
     semail = auth.info.email[0]
     u = User.where(email: semail).first
     if u
       @user = u
-    else 
-      @user = User.new(email: semail) 
+    else
+      @user = User.new(email: semail)
       @user.save!
     end
-    OneLogin::RubySaml::Attributes.single_value_compatibility = false 
+    OneLogin::RubySaml::Attributes.single_value_compatibility = false
     # I had some code that parsed the response -- but evidently this is not
     # necessary at all!
     #if OmniAuth.config.test_mode
@@ -107,7 +117,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in :user, @user 
     end
     session[:cu_authenticated_user] = auth.info.email[0]
-    if session[:cuwebauth_return_path].present?  
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << "path:  " + session[:cuwebauth_return_path].inspect
+msg << "root_path:  " + root_path.inspect
+msg << 'Z' * 60
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+    if session[:cuwebauth_return_path].present?
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
       session[:cuwebauth_return_path] = nil
