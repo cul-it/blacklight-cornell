@@ -25,7 +25,6 @@ class BookBagsController < CatalogController
   end
 
   def authenticate
-
     if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
       mock_auth
       :authenticate_user!
