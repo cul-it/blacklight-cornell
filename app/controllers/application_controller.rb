@@ -28,15 +28,6 @@ class ApplicationController < ActionController::Base
 
 protected
   def authenticate_user!
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "Rails.env.: " + Rails.env..inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user")
     if user_signed_in?
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user call super")
@@ -56,17 +47,6 @@ Rails.logger.level = save_level
 
   if false
   def set_return_path
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "where: application_controller"
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
-
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")

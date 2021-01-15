@@ -107,16 +107,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in :user, @user
     end
     session[:cu_authenticated_user] = auth.info.email[0]
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "path:  " + session[:cuwebauth_return_path].inspect
-msg << "root_path:  " + root_path.inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
     if session[:cuwebauth_return_path].present?
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
