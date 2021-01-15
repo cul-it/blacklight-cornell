@@ -58,7 +58,7 @@
 		  <div id="outer-container" class="slides" tabindex="0">
 			<div class="inner-container" id="prev-reroute" style="display:none;">
 				<div class="vb-reroute">
-					<a href="/browse?authq=&browse_type=virtual">
+					<a href="/browse?authq=&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'viewmoreresults_left']);">
 						<div> <i class="fa fa-chevron-left"></i> </div>
 						<div> View more results</div>
 					</a>
@@ -72,14 +72,14 @@
 		    <div id="<%= doc['id'] %>" class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-				  <%= image_tag(doc['img_url'], alt: the_type, style: "width:120px") %>
+				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
 				<% else %>
-	  			  <img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+	  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
 				<% end %>
 			</div>
 			  <div class="vb-title">
 			    <%= get_format_string(doc['format'].downcase)%>&nbsp;
-			    <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1">
+			    <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'carousel_title']);">
 			  	<% if doc['title'].length <= 52 %>
 			  		<%= doc['title'] %>
 			  	<% else %>
@@ -91,13 +91,13 @@
 			    <% end %>
 			  </div>
 			<div class="vb-footer">
-			  <% avail = JSON.parse(doc["availability"]) %>
-			  <% if avail["availAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-			  <% elsif avail["online"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-			  <% elsif avail["unavailAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+			  <%# avail = JSON.parse(doc["availability"]) %>
+			  <% if doc["availability"].include?("Online")  %>
+			    <div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> <%= doc["availability"] %></div>
+			  <%# elsif doc["availability"].include?("Not") %>
+				<%# <div class="vb-availability"><i class="fa fa-clock-o" title="Online" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
+			  <%# else %>
+				<%# <div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
 			  <% end %>
 			</div>
 		  </div> 
@@ -112,9 +112,9 @@
 		    <div id="<%= doc['id'] %>" class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-				  <%= image_tag(doc['img_url'], alt: the_type, style: "width:120px") %>
+				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
 				<% else %>
-	  			  <img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+	  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
 				<% end %>
 			</div>
 			  <div class="vb-title">
@@ -131,32 +131,31 @@
 			   <% end %>
 			</div>
 			<div class="vb-footer">
-			  <% avail = JSON.parse(doc["availability"]) %>
-				<div class="vb-location"><%#doc['location']%></div>
-			  <% if avail["availAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-			  <% elsif avail["online"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-			  <% elsif avail["unavailAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+			  <%# avail = JSON.parse(doc["availability"]) %>
+			  <% if doc["availability"].include?("Online")  %>
+			    <div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> <%= doc["availability"] %></div>
+			  <%# elsif doc["availability"].include?("Not") %>
+				<%# <div class="vb-availability"><i class="fa fa-clock-o" title="Online" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
+			  <%# else %>
+				<%# <div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
 			  <% end %>
 			</div>
 		  </div> 
 		<% end %>
 		<div class="inner-container" id="next-reroute" style="display:none">
 			<div class="vb-reroute">
-				<a href="/browse?authq=&browse_type=virtual">
+				<a href="/browse?authq=&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'viewmoreresults_right']);">
 					<div>View more results </div>
 					<div> <i class="fa fa-chevron-right"></i></div>
 				</a>
 			</div>
 		</div>
 	  </div>
-	<div id="return-home" class="return-home"><a id="return-home-link" href="javascript:void(0);">Return to start</a></div>
+	<div id="return-home" class="return-home"><a id="return-home-link" href="javascript:void(0);" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'return_start']);">Return to start</a></div>
 	  <div class="preview-container">
 	  <div class="vb-pointer"></div>
 	  <div id="preview" class="vb-preview">
-		<h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'preview_title']);"></a></h5>
+		<h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'preview_title']);"><%= @title%></a></h5>
 		<dl  class="row preview-dl">
 			<dt id="label-author" class="vb-dt">Author:</dt>
 			<dd id="prev-author" class="vb-dd"></dd>
@@ -164,8 +163,8 @@
 			<dd id="prev-publisher" class="vb-dd"></dd>
 			<dt id="label-date" class="vb-dt">Date:</dt>
 			<dd id="prev-date" class="vb-dd"></dd>
-			<dt id="label-available" class="vb-dt">Available at:</dt>
-			<dd id="prev-available" class="vb-dd"></dd>
+			<dt id="label-available" class="vb-dt" style="display:none">Available at:</dt>
+			<dd id="prev-available" class="vb-dd" style="display:none"></dd>
 		</dl>
 	  </div>
 	  </div>

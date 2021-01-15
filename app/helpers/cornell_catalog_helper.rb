@@ -1125,6 +1125,9 @@ end
 	  end
 
 	  def  cornell_item_page_entry_info
+	    if search_session['counter'].nil?
+	      search_session['counter'] = 1
+	    end
 	    t('blacklight.search.entry_pagination_info.other',
 	      :current => number_with_delimiter(search_session['counter']), :total => number_with_delimiter(search_session[:total]),
 	      :count => search_session[:total].to_i).html_safe
@@ -1641,7 +1644,12 @@ end
       false
     end
   end
-
+  
+  # For musical recordings, renders the image returned by Discogs when available.
+  def format_discogs_image url
+    image_html = "<div id='discogs-image'><img src='" + url + "' width='150px'/></div>"
+    return image_html.html_safe
+  end
 end
 
 # End of Module

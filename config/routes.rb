@@ -119,6 +119,9 @@ devise_for :users, controllers: {
   get "/get_next" => 'catalog#next_callnumber', as: 'get_next'
   get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel'
 
+  # discogs processing
+  get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -204,6 +207,7 @@ devise_for :users, controllers: {
   get 'book_bags/export' => 'book_bags#export'
   match 'book_bags/track', via: [:get, :post]
   get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
+  get 'book_bags/test' => 'book_bags#test'
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'

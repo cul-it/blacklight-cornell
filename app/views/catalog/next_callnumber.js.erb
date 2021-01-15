@@ -42,27 +42,26 @@ reroute = ""
     end 
 
     avail_str = ""
-    avail = JSON.parse(doc["availability"])
-    if avail["availAt"].present? 
-        avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>'
-    elsif avail["online"].present? 
+    if  doc["availability"].include?("Online")
         avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>'
-    elsif avail["unavailAt"].present?
-    	avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
+    elsif doc["availability"].include?("Not") 
+        #avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Available" alt="" aria-hidden="true"></i> ' + doc["availability"] + ' </div>'
+    else
+        #avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> ' + doc["availability"] + ' </div>'
     end
     
     img_string = ""
     if doc['img_url'].include?("cornell")
       the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]
-      img_string = image_tag(doc['img_url'], alt: the_type, style: "width:120px")
+      img_string = image_tag(doc['img_url'], alt: "Image not found", style: "width:120px")
     else
-      img_string = '<img width="120px" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
+      img_string = '<img width="120px" alt="" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
     end
     
     the_html += '<div class="inner-container" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc["internal_class_label"] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
     the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
     the_html += '<div class="vb-img-container" >' + img_string + '</div>' 
-    the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1">' + the_title + '</a></div>'
+    the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1" onclick="javascript:_paq.push([\'trackEvent\', \'virtualbrowse_carousel\', \'carousel_title\']);">' + the_title + '</a></div>'
     the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
     the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
 end
