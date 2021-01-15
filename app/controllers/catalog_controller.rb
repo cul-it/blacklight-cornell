@@ -54,6 +54,17 @@ class CatalogController < ApplicationController
 
 if false
   def set_return_path
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << "where: catalog_controller"
+msg << 'Z' * 60
+puts msg.to_yaml
+Rails.logger.level = save_level
+#*******************
+
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
@@ -1145,8 +1156,8 @@ def tou
     end
 
   end
-  
-  
+
+
 def new_tou
 
   packageName = ""
@@ -1176,12 +1187,12 @@ def new_tou
   req['Accept'] = 'application/vnd.api+json'
   begin
     res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-    outtxt = res.body  
+    outtxt = res.body
 #  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
 #  outtxt = `curl #{command}`
     parsed = JSON.parse(outtxt)
     recordTitle = parsed["data"]["attributes"]["name"]
- 
+
     parsley = parsed["included"].each do | parsley |
       if parsley["attributes"]["isSelected"] == true
         packageID = parsley["attributes"]["packageId"]
@@ -1195,8 +1206,8 @@ def new_tou
         req['Accept'] = 'application/json'
       begin
         res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-        outtxt2 = res.body  
-    
+        outtxt2 = res.body
+
  #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #   outtxt2 = `curl #{command2}`
         if outtxt2 != '[]'
@@ -1210,19 +1221,19 @@ def new_tou
             req['Accept'] = 'application/json'
           begin
             res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-            outtxt3 = res.body  
-        
+            outtxt3 = res.body
+
  #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #       outtxt3 = `curl #{command3}`
-       
+
             parsed3 = JSON.parse(outtxt3)
-          
+
             parsed3['packageName'] = packageName
-          
+
             unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
               @newTouResult << parsed3
             end
-          rescue 
+          rescue
             return params
           end
           end
@@ -1230,14 +1241,14 @@ def new_tou
     rescue
       return params
     end
-      end  
+      end
     end
   return params, @newTouResult
   rescue
       return params
   end
 
-end 
+end
 
   #def oclc_request
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
