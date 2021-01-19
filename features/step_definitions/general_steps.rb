@@ -122,3 +122,7 @@ end
 Then("I should see a {string} tag with url containing {string}") do |string, string2|
   expect(page).to have_xpath("//#{string}[contains(@src,'#{string2}')]")
 end
+
+Then("I should see a facets sidebar") do
+  expect(page).to have_selector('#sidebar > #facets')
+end

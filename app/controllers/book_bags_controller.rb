@@ -25,7 +25,6 @@ class BookBagsController < CatalogController
   end
 
   def authenticate
-
     if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
       mock_auth
       :authenticate_user!
@@ -224,15 +223,6 @@ class BookBagsController < CatalogController
   end
 
   def test
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "stack: " + 'stack'. inspect
-msg << 'Z' * 60
-puts msg.to_yaml
-Rails.logger.level = save_level
-#*******************
   end
 
   def track
