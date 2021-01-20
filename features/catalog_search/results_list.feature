@@ -373,3 +373,17 @@ Feature: Results list
     | title Z-A |
     | call number |
 
+@DISCOVERYACCESS-6660
+@javascript
+@omniauth_test
+  Scenario: After logging in on the results page I expect to see the same results
+    Given I am on the home page
+    When I fill in the search box with 'corn cob'
+    And I press 'search'
+    Then I should get results
+    And I should see the label 'A moralist with a corn cob'
+    Then I sign in
+    And I should see "You are logged in as Diligent Tester."
+    Then I should get results
+    And I should see the label 'A moralist with a corn cob'
+    And I should see a facets sidebar
