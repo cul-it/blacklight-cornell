@@ -72,7 +72,7 @@ end
 
 desc "Fix file permissions"
 task :fix_file_permissions, :roles => [ :app, :db, :web ] do
-	run "chmod -R g+rw #{deploy_to}"
+#	run "chmod -R g+rw #{deploy_to}"
 end
 
 # Capistrano should not be doing the following? database.yml is not managed w/puppet
