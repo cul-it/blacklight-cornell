@@ -82,6 +82,14 @@ h3.responsibility {
 			}
 		}
 	}
+	// DISCOVERYACCESS-6626 - fix alignment in safari
+	dl.row {
+		margin-left: 0;
+		margin-right: 0;
+		dt, dd {
+			padding-left: 0;
+		}
+	}
 }
 label.toggle_bookmark { 
 	min-width: 4em;
