@@ -722,7 +722,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     return generate_uri(uri)
   end
 
-
+  def credits
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
+  end
 
   private
 
