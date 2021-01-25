@@ -82,6 +82,7 @@ devise_for :users, controllers: {
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
   get 'logins' => 'catalog#logins', :as => 'catalog_logins'
+  get 'credits' => 'catalog#credits', :as => 'catalog_credits'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
@@ -119,6 +120,9 @@ devise_for :users, controllers: {
   get "/get_next" => 'catalog#next_callnumber', as: 'get_next'
   get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel'
 
+  # discogs processing
+  get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

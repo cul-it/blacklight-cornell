@@ -18,7 +18,7 @@
         <a id="vb-view-type" href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ccc;">
     	    <i class="fa fa-th" aria-hidden="true">&nbsp;&nbsp;</i>View type <b class="caret"></b>
         </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
+        <ul class="dropdown-menu" aria-labelledby="export-menu">
           <li>
             <a id="vb-view-list" class="piwik_download dropdown-item" href="javascript:void(0);">
     	        <i class="fa fa-align-justify" aria-hidden="true">&nbsp;&nbsp;</i>List
@@ -70,9 +70,9 @@
 	    <div id="<%= doc['id'] %>" class="vb-img-container">
 		    <% if doc['img_url'].include?("cornell") %>
 		      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-			  <%= image_tag(doc['img_url'], alt: the_type, style: "width:120px") %>
+			  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
 			<% else %>
-  			  <img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
 			<% end %>
 		</div>
 		  <div class="vb-title">

@@ -72,9 +72,9 @@
 		    <div id="<%= doc['id'] %>" class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-				  <%= image_tag(doc['img_url'], alt: the_type, style: "width:120px") %>
+				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
 				<% else %>
-	  			  <img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+	  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
 				<% end %>
 			</div>
 			  <div class="vb-title">
@@ -112,9 +112,9 @@
 		    <div id="<%= doc['id'] %>" class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-				  <%= image_tag(doc['img_url'], alt: the_type, style: "width:120px") %>
+				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
 				<% else %>
-	  			  <img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+	  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
 				<% end %>
 			</div>
 			  <div class="vb-title">
@@ -155,7 +155,7 @@
 	  <div class="preview-container">
 	  <div class="vb-pointer"></div>
 	  <div id="preview" class="vb-preview">
-		<h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'preview_title']);"></a></h5>
+		<h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'preview_title']);"><%= @title%></a></h5>
 		<dl  class="row preview-dl">
 			<dt id="label-author" class="vb-dt">Author:</dt>
 			<dd id="prev-author" class="vb-dd"></dd>

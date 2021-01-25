@@ -296,7 +296,6 @@ var  carouselActions = {
           type: 'GET',
           data: remote,
           complete: function(xhr, status) {
-              console.log("got next = " + callnumber);
               //carouselActions.setup_click_for_preview();
           }
         }); 

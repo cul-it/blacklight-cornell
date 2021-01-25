@@ -52,28 +52,6 @@ class CatalogController < ApplicationController
     end
   end
 
-if false
-  def set_return_path
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    op = request.original_fullpath
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    refp = request.referer
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
-    session[:cuwebauth_return_path] =
-      if (params['id'].present? && params['id'].include?('|'))
-        '/bookmarks'
-      elsif (params['id'].present? && op.include?('email'))
-        "/catalog/afemail/#{params[:id]}"
-      elsif (params['id'].present? && op.include?('unapi'))
-         refp
-      else
-        op
-      end
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
-    return true
-  end
-end
-
   before_action :redirect_browse
 
   configure_blacklight do |config|
@@ -1145,8 +1123,8 @@ def tou
     end
 
   end
-  
-  
+
+
 def new_tou
 
   packageName = ""
@@ -1174,61 +1152,70 @@ def new_tou
   req['X-Okapi_Tenant'] = ENV['TENANT_ID']
   req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
   req['Accept'] = 'application/vnd.api+json'
-  
-  res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-  outtxt = res.body  
+  begin
+    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+    outtxt = res.body
 #  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
 #  outtxt = `curl #{command}`
-  parsed = JSON.parse(outtxt)
-  recordTitle = parsed["data"]["attributes"]["name"]
- 
-  parsley = parsed["included"].each do | parsley |
-    if parsley["attributes"]["isSelected"] == true
-      packageID = parsley["attributes"]["packageId"]
-      packageName = parsley["attributes"]["packageName"]
-      packageUrl = parsley["attributes"]["url"]
-      package_providerID = parsley["attributes"]["providerName"]
-      uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
-      req = Net::HTTP::Get.new(uri)
-      req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-      req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-      req['Accept'] = 'application/json'
-    
-      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-      outtxt2 = res.body  
-    
+    parsed = JSON.parse(outtxt)
+    recordTitle = parsed["data"]["attributes"]["name"]
+
+    parsley = parsed["included"].each do | parsley |
+      if parsley["attributes"]["isSelected"] == true
+        packageID = parsley["attributes"]["packageId"]
+        packageName = parsley["attributes"]["packageName"]
+        packageUrl = parsley["attributes"]["url"]
+        package_providerID = parsley["attributes"]["providerName"]
+        uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
+        req = Net::HTTP::Get.new(uri)
+        req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+        req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+        req['Accept'] = 'application/json'
+      begin
+        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+        outtxt2 = res.body
+
  #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #   outtxt2 = `curl #{command2}`
-      if outtxt2 != '[]'
-        parsed2 = JSON.parse(outtxt2)
-        if !parsed2[0]["linkedLicenses"][0].nil?
-          remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-          uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
-          req = Net::HTTP::Get.new(uri)
-          req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-          req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-          req['Accept'] = 'application/json'
+        if outtxt2 != '[]'
+          parsed2 = JSON.parse(outtxt2)
+          if !parsed2[0]["linkedLicenses"][0].nil?
+            remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+            uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
+            req = Net::HTTP::Get.new(uri)
+            req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+            req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+            req['Accept'] = 'application/json'
+          begin
+            res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+            outtxt3 = res.body
 
-          res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-          outtxt3 = res.body  
-        
  #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #       outtxt3 = `curl #{command3}`
-       
-          parsed3 = JSON.parse(outtxt3)
-          
-          parsed3['packageName'] = packageName
-          
-          unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
-            @newTouResult << parsed3
+
+            parsed3 = JSON.parse(outtxt3)
+
+            parsed3['packageName'] = packageName
+
+            unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
+              @newTouResult << parsed3
+            end
+          rescue
+            return params
+          end
           end
         end
+    rescue
+      return params
+    end
       end
-    end  
+    end
+  return params, @newTouResult
+  rescue
+      return params
   end
-     return params, @newTouResult
 
-end 
+end
 
   #def oclc_request
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
