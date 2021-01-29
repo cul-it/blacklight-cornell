@@ -1,65 +1,66 @@
 <% if document['availability_json'].present? %>
-<% availability = JSON.parse(document['availability_json']) %>
-    <% onotes = availability["notes"] %>
-    <% browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || "" %>
-    <% 
-        is_etas = false
-        if document["url_access_json"].present? && document["url_access_json"].join.include?('ETAS')
-	      is_etas = true
-	    end
-    %>
+  <% availability = JSON.parse(document['availability_json']) %>
+  <% onotes = availability["notes"] %>
+  <% browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || "" %>
+  <% 
+    is_etas = false
+    if document["url_access_json"].present? && document["url_access_json"].join.include?('ETAS')
+	  is_etas = true
+	end
+  %>
 
-    <% if availability["availAt"].present? %>
+  <% if availability["availAt"].present? %>
     <% availability["availAt"].each do |location,callnumber| %>
-    <div class="status ">
-	  <%# covid change %>
-	  <% if is_etas && !browseable_libraries.include?(location) %>
-        <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
-      <% else %>
-        <i class="fa fa-check" title="Available" aria-hidden="true"></i>
-      <% end %>
-      <span class="location">
-        <% unless location == "Library Technical Services Review Shelves" %>
-        <%= "#{location}" %>
+      <div class="status ">
+        <%# covid change %>
+	    <% if location.include?("Adelson")%>
+	      <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
+	    <%# end %>
+        <% elsif is_etas && !browseable_libraries.include?(location) %>
+          <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
+        <% else %>
+          <i class="fa fa-check" title="Available" aria-hidden="true"></i>
         <% end %>
-      </span>
-      <span class="callnumber">
-        <%= callnumber %>
-      </span>
-      <% if availability['notes'].present?  %>
-        <span class="onotes">
-        Order Information:   <%=  onotes %>
+        <span class="location">
+          <% unless location == "Library Technical Services Review Shelves" %>
+            <%= "#{location}" %>
+          <% end %>
         </span>
-      <% end %>
-    </div>
-      <% end %>
+        <span class="callnumber">
+          <%= callnumber %>
+        </span>
+        <% if availability['notes'].present?  %>
+          <span class="onotes">
+            Order Information:   <%=  onotes %>
+          </span>
+        <% end %>
+      </div>
     <% end %>
-
-      <% if availability["unavailAt"].present? %>
-      <% availability["unavailAt"].each do |location,callnumber| %>
-    <div class="status ">
-
-	  <%# covid change %>
-	  <% if is_etas && browseable_libraries.include?(location) %>
-        <i class="fa fa-check" title="Available" aria-hidden="true"></i>
-      <% else %>
-        <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
-      <% end %>
-    <span class="location">
-      <% unless location == "Library Technical Services Review Shelves" %>
-      <%= "#{location}" %>
-      <% end %>
-    </span>
-    <span class="callnumber">
-      <%= callnumber %>
-    </span>
-    <% if availability['notes'].present?  %>
-      <span class="onotes">
-      Order Information:   <%=  onotes %>
-      </span>
-    <% end %>
-  </div>
   <% end %>
 
+  <% if availability["unavailAt"].present? %>
+    <% availability["unavailAt"].each do |location,callnumber| %>
+      <div class="status ">
+        <%# covid change %>
+        <% if is_etas && browseable_libraries.include?(location) %>
+          <i class="fa fa-check" title="Available" aria-hidden="true"></i>
+        <% else %>
+          <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
+        <% end %>
+        <span class="location">
+        <% unless location == "Library Technical Services Review Shelves" %>
+          <%= "#{location}" %>
+        <% end %>
+        </span>
+        <span class="callnumber">
+          <%= callnumber %>
+        </span>
+        <% if availability['notes'].present?  %>
+          <span class="onotes">
+            Order Information:   <%=  onotes %>
+          </span>
+        <% end %>
+      </div>
     <% end %>
-    <% end %>
+  <% end %>
+<% end %>
