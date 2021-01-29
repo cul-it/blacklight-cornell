@@ -3,6 +3,27 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # POST from SAML IdP won't include CSRF token
   skip_before_action :verify_authenticity_token
 
+  def current_user
+    #******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+    msg = [" #{__method__} ".center(60,'Z')]
+    if session[:cu_authenticated_user].present?
+      msg << "request.env[\"omniauth.auth\"]: " + request.env["omniauth.auth"].inspect
+    else
+      msg << " no request.env[\"omniauth.auth\"]"
+    end
+    msg << 'Z' * 60
+    puts msg.to_yaml
+    Rails.logger.level = save_level
+    #*******************
+    if session[:cu_authenticated_user].present?
+      # netid of logged in user
+      session[:cu_authenticated_user]
+    else
+      false
+    end
+  end
 
  def facebook
     auth = request.env["omniauth.auth"]
