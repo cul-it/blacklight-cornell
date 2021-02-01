@@ -14,7 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       msg << " no request.env[\"omniauth.auth\"]"
     end
     msg << 'Z' * 60
-    puts msg.to_yaml
+    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
     Rails.logger.level = save_level
     #*******************
     if session[:cu_authenticated_user].present?
