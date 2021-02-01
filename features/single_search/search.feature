@@ -33,6 +33,7 @@ Feature: Search
   Scenario Outline: When I search, the EDS results I should not see
     When I go to the search page
     When I fill in "q" with '<search>'
+    Then debug with pry
     And I press 'Search'
     Then I should get bento results
     And Articles & Full Text should not list "<search>"
