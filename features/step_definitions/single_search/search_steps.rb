@@ -9,18 +9,11 @@ Then /^I should see a bento "([^\"]*)" button$/ do |label|
 end
 
 Then /^I should get bento results$/ do
-  page.should  have_selector('.bento1')
-  bento1 = all('.bento1')[0].text
-  bento1.should match(/[a-zA-Z]+/)
+  page.should  have_selector('.bt-container')
 end
 
 Then /^I should not get bento results$/ do
-  if false
-    anytext= all('.bento1')[0].text
-    anytext.should_not match(/[a-zA-Z]+/)
-  else
-    page.should_not have_selector('.bento1')
-  end
+  page.should_not have_selector('.bt-container')
 end
 
 Then("Articles & Full Text should list {string}") do |string|
