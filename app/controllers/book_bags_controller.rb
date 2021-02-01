@@ -65,8 +65,9 @@ class BookBagsController < CatalogController
   end
 
   def set_book_bag_name
-    if current_user
-      @id = current_user.email
+    #binding.pry
+    if current_user && session[:cu_authenticated_email].present?
+      @id = session[:cu_authenticated_email]
       @bb.set_bagname("#{@id}-bookbag-default")
       session[:bookbag_count] = @bb.count
     end
