@@ -76,7 +76,6 @@ devise_for :users, controllers: {
   #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
   get 'oclc/:id' => 'catalog#oclc_request', :as => 'oclc_request'
-  get 'backend/cuwebauth' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
@@ -122,7 +121,7 @@ devise_for :users, controllers: {
 
   # discogs processing
   get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
-    
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

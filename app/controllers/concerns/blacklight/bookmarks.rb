@@ -12,8 +12,6 @@ module Blacklight::Bookmarks
 
     copy_blacklight_config_from(CatalogController)
 
-    before_action :verify_user
-
     blacklight_config.http_method = Blacklight::Engine.config.bookmarks_http_method
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
 
@@ -200,13 +198,6 @@ module Blacklight::Bookmarks
   end
 
   private
-
-  def verify_user
-    unless current_or_guest_user || (controller == "bookmarks" && action == "index" && token_or_current_or_guest_user)
-      flash[:notice] = I18n.t('blacklight.bookmarks.need_login')
-      raise Blacklight::Exceptions::AccessDenied
-    end
-  end
 
   def start_new_search_session?
     action_name == "index"

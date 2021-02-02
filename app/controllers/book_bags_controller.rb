@@ -25,6 +25,7 @@ class BookBagsController < CatalogController
   end
 
   def authenticate
+    #binding.pry
     if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
       mock_auth
       :authenticate_user!
@@ -64,8 +65,9 @@ class BookBagsController < CatalogController
   end
 
   def set_book_bag_name
-    if current_user
-      @id = current_user.email
+    #binding.pry
+    if current_user && session[:cu_authenticated_email].present?
+      @id = session[:cu_authenticated_email]
       @bb.set_bagname("#{@id}-bookbag-default")
       session[:bookbag_count] = @bb.count
     end
@@ -109,6 +111,7 @@ class BookBagsController < CatalogController
   end
 
   def addbookmarks
+    #binding.pry
     bookmarks = get_saved_bookmarks
     if bookmarks.present? && bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
@@ -229,6 +232,7 @@ class BookBagsController < CatalogController
   end
 
   def save_bookmarks_for_book_bags
+    #binding.pry
     if guest_user.bookmarks.present?
       bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
       session[:bookmarks_for_book_bags] = bookmarks unless bookmarks.count < 1

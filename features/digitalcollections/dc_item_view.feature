@@ -19,8 +19,8 @@ Feature: Digital Collection View
   @digitalcollections
   Scenario: Make sure list contains known collection
   	Given I literally go to digitalcollections
-        And I fill in the search box with 'hip hop'
-        And I press 'search'
-  	Then I should see the label 'Conzo'
+      And I fill in the search box with 'hip hop'
+      And I press 'search'
+      Then I should see the label 'Conzo'
 
 
