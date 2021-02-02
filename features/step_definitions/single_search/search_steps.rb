@@ -13,11 +13,13 @@ Then("the query {string} should show") do |string|
 end
 
 Then /^I should get bento results$/ do
-  page.should  have_selector('.bt-container')
+  within(page.find('#bt-container')) do
+    expect(page.first(".bento_item"))
+  end
 end
 
 Then /^I should not get bento results$/ do
-  page.should_not have_selector('.bt-container')
+  page.should_not have_selector('#bt-container')
 end
 
 Then("Articles & Full Text should list {string}") do |string|
