@@ -141,26 +141,4 @@ class BackendController < ApplicationController
 #    Blacklight.solr_config
 #  end
 
-  # The route /backend/cuwebauth should exist and be protected by CUWebAuth.
-  # This corresponding method simply sets a session variable with the netid
-  # and sends you back to wherever you came from.
-  def authenticate_cuwebauth
-    semail = request.env['REMOTE_USER']
-    u = User.where(email: semail).first
-    if u
-      @user = u
-    else
-      @user = User.new(email: semail)
-      @user.save!
-    end
-    sign_in :user, @user
-    session[:cu_authenticated_user] = semail
-    if session[:cu_authenticated_user].present?
-      rp = session[:cuwebauth_return_path] ? session[:cuwebauth_return_path] : root_path
-      redirect_to rp, :alert => "You are logged in as #{semail}"
-    else
-      redirect_to rp, :alert => "Authentication failed"
-    end
-  end
-
 end
