@@ -8,6 +8,10 @@ Then /^I should see a bento "([^\"]*)" button$/ do |label|
   page.should have_selector('input[value="Search"]')
 end
 
+Then("the query {string} should show") do |string|
+  expect(page.find("#q").value).to match(string)
+end
+
 Then /^I should get bento results$/ do
   page.should  have_selector('.bt-container')
 end
