@@ -5,8 +5,8 @@ require File.expand_path('../application', __FILE__)
 BlacklightCornell::Application.initialize!
 
 ActionMailer::Base.smtp_settings = {
-  :from => "culsearch@cornell.edu",
-  :address    => 'appsmtp.mail.cornell.edu',
+  :from => ENV["SMTP_FROM"],
+  :address    => ENV["SMTP_ADDRESS"],
 }
 MARC::XMLReader.nokogiri!
 BlacklightCornellRequests::VoyagerRequest.use_rest(true)
