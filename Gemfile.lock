@@ -41,10 +41,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: ff244644f66376ac1d9cd55e9b4b426dd1a80feb
+  revision: 3be8869f7e8d211714a851ae89fcd1510a7e6c73
   branch: dev
   specs:
-    my_account (1.1.8)
+    my_account (1.1.9)
       blacklight (>= 7.0)
       borrow_direct
       rails (~> 5.1)
@@ -673,7 +673,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xml-simple (1.1.5)
+    xml-simple (1.1.8)
     xmlrpc (0.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
