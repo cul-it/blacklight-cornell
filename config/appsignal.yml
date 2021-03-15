@@ -26,7 +26,15 @@ production-new:
   <<: *defaults
   active: true
 
+production-aws:
+  <<: *defaults
+  active: true
+
 integration:
+  <<: *defaults
+  active: true
+
+integration-aws:
   <<: *defaults
   active: true
 
