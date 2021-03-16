@@ -12,8 +12,17 @@
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
-        <div class="cornell-logo col-12 col-sm-9">
-          <a href="http://library.cornell.edu">Cornell University Library</a>
+        <div class="cornell-logo col-sm-9">
+          <div class="logo d-none d-sm-block">
+            <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
+            <div class="library-brand">
+              <a href="/">Library</a>
+            </div>
+          </div>
+          <div class="mobile-logo d-block d-sm-none">
+            <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
+            <a class="library-brand-mobile" href="/">Library</a>
+          </div>
         </div>
         <% if part_of_catalog? %>
           <div class="library-menu col-sm-3 text-right d-none d-sm-block">
@@ -67,7 +76,7 @@
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
         <div class="col-sm-3 col-lg-8 d-none d-sm-block">
-          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog</a></p>
+          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog &raquo;</a></p>
         </div>
       <% end %>
     </div>
