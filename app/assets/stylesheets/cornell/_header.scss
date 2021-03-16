@@ -1,13 +1,12 @@
 header {
   background: white;
   border-bottom: 1px solid $tan;
-  padding: 0 0 10px 0;
+  padding: 0 0 .25em 0;
  	h1 {
     margin: 0;
     display: inline-block;
     line-height: 1em;
-    font-size: 28px;
-    text-transform: uppercase;
+    font-size: 2.2rem;
   	a { 
       color: $dark-gray;}
     a:hover,
@@ -39,20 +38,6 @@ header {
     }
   }
 }
-.catalog-name {
-  font-family: $font-family-cul;
-  margin: 10px 0;
-}
-// .library-link {
-//   a {
-//     font-size: 18px;
-//     color: $dark-gray;
-//   }
-//   a:hover, a:active, a:focus {
-//     color: $dark-gray;
-//     text-decoration: none;
-//   }
-// }
 
 // Announcement banner
 // ---------------------//
@@ -65,6 +50,7 @@ header {
   }
   p {
     margin-bottom: 0;
+    font-size: .9rem;
   }
   a, a:hover {
     color: white;
@@ -75,7 +61,7 @@ header {
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
-  	margin: .6em 0 0 0;
+  	margin: 1.2em 0 0 0;
     padding: 0;
   	list-style: none;
   	li {
@@ -88,6 +74,9 @@ ul.blacklight-nav {
     li:first-child {
       padding-left: 0;
       border-left: none;
+    }
+    li:last-child {
+      padding-right: 0;
     }
     a.user-email,
     a.logout {
@@ -149,7 +138,8 @@ ul.blacklight-nav {
 
 // Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
 .secondary-catalog-link {
-  font-size: 14px;
+  font-size: 1.2rem;
+  margin-top: .75em;
 }
 
 // Chat widget - override header border rule
@@ -185,6 +175,9 @@ ul.blacklight-nav {
   .announcement {
     .container {
       border-radius: 0 0 8px 8px;
+    }
+    p {
+      font-size: 1rem;
     }
   }
   .catalog-name {
