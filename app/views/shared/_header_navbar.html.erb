@@ -27,18 +27,17 @@
         <% if part_of_catalog? %>
           <div class="library-menu col-sm-3 text-right d-none d-sm-block">
             <div class="dropdown">
-              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
+              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Menu button']);">
                 <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
               </button>
               <div class="dropdown-menu" aria-labelledby="library-menu">
                 <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
                 <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
-                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries and Hours</a>
-                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Reserves</a>
+                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries</a>
+                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Textbooks</a>
                 <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
                 <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
                 <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
-                <a href="http://www.library.cornell.edu/help" class="dropdown-item">Help</a>
                 <a href="/myaccount/login" class="dropdown-item">My Account</a>
               </div>
             </div>
