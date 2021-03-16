@@ -1,0 +1,5 @@
+<%= link_to(link.label, link.url,
+      :rel    => link.rel,
+      :class  => (link.style_classes + ["bento_search_link"]),
+      :target => local_assigns[:target] || link.target
+      ) %>

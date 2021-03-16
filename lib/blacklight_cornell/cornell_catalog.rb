@@ -3,22 +3,28 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-#  include Blacklight::SolrHelper
+  #  include Blacklight::SolrHelper
   include CornellCatalogHelper
   include ActionView::Helpers::NumberHelper
   include CornellParamsHelper
   include Blacklight::SearchContext
   include Blacklight::TokenBasedUser
   include BlacklightCornell::VirtualBrowse
-#  include ActsAsTinyURL
-Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
+  include BlacklightCornell::Discogs
+  #  include ActsAsTinyURL
+  Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
 
   def set_return_path
+
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
+      op = session[:cuwebauth_return_path]
+    end
+    # Don't let the ajax urls for the virtual browse become the return path. Keep the path that's in the session.
+    if (op.include?('get_next') || op.include?('get_previous')) && !session[:cuwebauth_return_path].blank?
       op = session[:cuwebauth_return_path]
     end
     op.dup.sub!('/range_limit','')
@@ -36,10 +42,13 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
       elsif (params['id'].present? && op.include?('email'))
         "/catalog/#{params[:id]}"
       elsif (params['id'].present? && op.include?('unapi'))
-         refp
+        refp
+      elsif (op.include?('/range_limit'))
+        path = op.sub('/range_limit', '')
       else
         op
       end
+
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
   end
@@ -242,30 +251,22 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
   #  cleanup_params(params)
 
     @expanded_results = {}
-    ['worldcat', 'summon'].each do |key|
+    ['worldcat'].each do |key|
       @expanded_results [key] =  { :count => 0 , :url => '' }
     end
     # Expand search only under certain conditions
     tmp = BentoSearch::Results.new
     if !(params[:search_field] == 'call number')
     if expandable_search?
-      searcher = BentoSearch::ConcurrentSearcher.new(:summon, :worldcat)
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params[:q] = #{params[:q].inspect}"
+      # DISCOVERYACCESS-6734 - skip entire worldcat search that was intended to provide a count for worldcat results
       query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} query = #{query.inspect}"
-      searcher.search(query, :per_page => 1)
-
+      key = :worldcat
+      source_results = {
+        :count => 1,
+        :url => BentoSearch.get_engine(key).configuration.link + query,
+      }
       @expanded_results = {}
-
-
-      searcher.results.each_pair do |key, result|
-        source_results = {
-          :count => number_with_delimiter(result.total_items),
-          :url => BentoSearch.get_engine(key).configuration.link + query,
-        }
-        @expanded_results[key] = source_results
-      end
+      @expanded_results[key.to_s] = source_results
     end
     end
     @controller = self
@@ -301,6 +302,16 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     @documents = [ @document ]
     # set_bag_name
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
+
+    # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
+    # If it does have the id, save it globally and just get the image url.
+    if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil?
+      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
+    elsif @document["discogs_display"].present?
+      @discogs_id = @document["discogs_display"][0]
+      @discogs_image_url = get_discogs_image(@document["discogs_display"][0])
+    end
+
     respond_to do |format|
       format.endnote_xml  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
@@ -711,7 +722,12 @@ Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in ses
     return generate_uri(uri)
   end
 
-
+  def credits
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
+  end
 
   private
 

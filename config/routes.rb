@@ -76,12 +76,12 @@ devise_for :users, controllers: {
   #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
   get 'catalog/check_captcha' => 'catalog#check_captcha', :as => 'check_captcha'
   get 'oclc/:id' => 'catalog#oclc_request', :as => 'oclc_request'
-  get 'backend/cuwebauth' => 'backend#authenticate_cuwebauth', :as => 'authenticate_cuwebauth'
 
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
   get 'logins' => 'catalog#logins', :as => 'catalog_logins'
+  get 'credits' => 'catalog#credits', :as => 'catalog_credits'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
@@ -118,6 +118,9 @@ devise_for :users, controllers: {
   get "/get_previous" => 'catalog#previous_callnumber', as: 'get_previous'
   get "/get_next" => 'catalog#next_callnumber', as: 'get_next'
   get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel'
+
+  # discogs processing
+  get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -204,6 +207,7 @@ devise_for :users, controllers: {
   get 'book_bags/export' => 'book_bags#export'
   match 'book_bags/track', via: [:get, :post]
   get 'book_bags/track' => 'book_bags#track', :as => 'track_book_bags'
+  get 'book_bags/test' => 'book_bags#test'
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'

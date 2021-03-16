@@ -44,3 +44,5 @@
 //= require zz_inview.js
 //= require tooltip.js
 
+//= require catalog/discogs.js
+

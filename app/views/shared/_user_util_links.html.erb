@@ -30,8 +30,8 @@
       <li>
       <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
             <% @selectedcount =
-              if BookBag.enabled? && user_session.present? && user_session[:bookbag_count].present?
-                user_session[:bookbag_count]
+              if BookBag.enabled? && session[:bookbag_count].present?
+                session[:bookbag_count]
               else
                 '?'
               end

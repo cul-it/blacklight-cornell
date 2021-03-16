@@ -18,7 +18,7 @@
         <a id="vb-view-type" href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ccc;">
     	    <i class="fa fa-th" aria-hidden="true">&nbsp;&nbsp;</i>View type <b class="caret"></b>
         </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="export-menu">
+        <ul class="dropdown-menu" aria-labelledby="export-menu">
           <li>
             <a id="vb-view-list" class="piwik_download dropdown-item" href="javascript:void(0);">
     	        <i class="fa fa-align-justify" aria-hidden="true">&nbsp;&nbsp;</i>List
@@ -38,14 +38,14 @@
   <div></div>
   <div id="classification" class="row class-heading-full" data-anchor-label="<%= internal_class%>" data-keep-count="false" data-next-count="0" data-prev-count="0">
     <div class="vb-scroll-nav">
-	    <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left"> 
+	    <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_left']);"> 
 		    <i class="fa fa-chevron-left"></i> 
 		</a>
 		<span class="sr-only">Scroll left</span>
 	</div>
 	<div class="vb-current-class"><%= classification %></div>
 	<div class="vb-scroll-nav">
-		<a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right"> 
+		<a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_right']);"> 
 			<i class="fa fa-chevron-right"></i> 
 		</a>
 		<span class="sr-only">Scroll right</span>
@@ -70,14 +70,14 @@
 	    <div id="<%= doc['id'] %>" class="vb-img-container">
 		    <% if doc['img_url'].include?("cornell") %>
 		      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-			  <%= image_tag(doc['img_url'], alt: the_type, style: "width:120px") %>
+			  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
 			<% else %>
-  			  <img width="120px" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
 			<% end %>
 		</div>
 		  <div class="vb-title">
 		   <%= get_format_string(doc['format'].downcase)%>&nbsp;
-		   <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1">
+		   <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'carousel_title']);">
 		     <% if doc['title'].length <= 52 %>
 		     	<%= doc['title'] %>
 		     <% else %>
@@ -89,14 +89,13 @@
 		   <% end %>
 		</div>
 		<div class="vb-footer">
-		  <% avail = JSON.parse(doc["availability"]) %>
-			<div class="vb-location"><%#doc['location']%></div>
-		  <% if avail["availAt"].present? %>
-			<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-		  <% elsif avail["online"].present? %>
-			<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-		  <% elsif avail["unavailAt"].present? %>
-			<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+		  <%# avail = JSON.parse(doc["availability"]) %>
+		  <% if doc["availability"].include?("Online")  %>
+		    <div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> <%= doc["availability"] %></div>
+		  <%# elsif doc["availability"].include?("Not") %>
+			<%# <div class="vb-availability"><i class="fa fa-clock-o" title="Online" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
+		  <%# else %>
+			<%# <div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
 		  <% end %>
 		</div>
 	  </div>
@@ -111,11 +110,11 @@
 		</div>
 	</div>
   </div>
-  <div id="return-home-full" class="return-home"><a id="return-home-link" href="javascript:void(0);">Return to start</a></div>
+  <div id="return-home-full" class="return-home"><a id="return-home-link" href="javascript:void(0);" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'return_start']);">Return to start</a></div>
   <div class="preview-container-full">
     <div class="vb-pointer-full"></div>
     <div id="preview" class="vb-preview-full">
-      <h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0"></a></h5>
+      <h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'preview_title']);"></a></h5>
       <dl  class="row preview-dl">
       	<dt id="label-author" class="vb-dt">Author:</dt>
       	<dd id="prev-author" class="vb-dd"></dd>

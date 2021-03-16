@@ -8,34 +8,37 @@ Then /^I should see a bento "([^\"]*)" button$/ do |label|
   page.should have_selector('input[value="Search"]')
 end
 
-Then /^I should get bento results$/ do
-  page.should  have_selector('.bento1')
-  bento1 = all('.bento1')[0].text
-  bento1.should match(/[a-zA-Z]+/)
+Then("the query {string} should show") do |string|
+  expect(page.find("#q").value).to match(string)
 end
 
-Then /^I should not get bento results$/ do
-  if false
-    anytext= all('.bento1')[0].text
-    anytext.should_not match(/[a-zA-Z]+/)
-  else
-    page.should_not have_selector('.bento1')
+Then /^I should get bento results$/ do
+  within(page.find('#bt-container')) do
+    expect(page.first(".bento_item"))
   end
 end
 
+Then /^I should not get bento results$/ do
+  page.should_not have_selector('#bt-container')
+end
+
 Then("Articles & Full Text should list {string}") do |string|
-    within("div#ebsco_eds-Bento2") do
-      expect(page.first("h3.bento_item_title", :text => string))
-    end
+  # don't require "Articles & Full Text" to be in second column
+  eds_bento = page.find("div#ebsco_eds").first(:xpath,".//..")
+  within(eds_bento) do
+    expect(page.first("h3.bento_item_title", :text => string))
+  end
 end
 
 Then("Articles & Full Text should not list {string}") do |string|
+  # don't require "Articles & Full Text" to be in second column
+  eds_bento = page.find("div#ebsco_eds").first(:xpath,".//..")
   begin
-    within("div#ebsco_eds-Bento2") do
+    within(eds_bento) do
       expect(page).not_to have_selector("h3.bento_item_title", :text => string)
     end
   rescue Capybara::ElementNotFound => e
-    expect(page).not_to have_selector("div#ebsco_eds-Bento2")
+    expect(page).not_to have_selector(eds_bento)
   end
 end
 

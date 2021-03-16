@@ -25,7 +25,7 @@ class BookBagsController < CatalogController
   end
 
   def authenticate
-
+    #binding.pry
     if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
       mock_auth
       :authenticate_user!
@@ -65,10 +65,11 @@ class BookBagsController < CatalogController
   end
 
   def set_book_bag_name
-    if current_user
-      @id = current_user.email
+    #binding.pry
+    if current_user && session[:cu_authenticated_email].present?
+      @id = session[:cu_authenticated_email]
       @bb.set_bagname("#{@id}-bookbag-default")
-      user_session[:bookbag_count] = @bb.count
+      session[:bookbag_count] = @bb.count
     end
   end
 
@@ -89,25 +90,28 @@ class BookBagsController < CatalogController
   end
 
   def add
-    @bibid = params[:id]
-    value = @bibid
-    if @bb.count < MAX_BOOKBAGS_COUNT
-      success = @bb.cache(value)
-      user_session[:bookbag_count] = @bb.count
-    end
-    if request.xhr?
-      success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
-    else
-      respond_to do |format|
-        format.html { }
-        format.rss  { render :layout => false }
-        format.atom { render :layout => false }
-        format.json { render json:   { }      }
+    if current_user
+      @bibid = params[:id]
+      value = @bibid
+      if @bb.count < MAX_BOOKBAGS_COUNT
+        success = @bb.cache(value)
+        session[:bookbag_count] = @bb.count
       end
-     end
+      if request.xhr?
+        success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+      else
+        respond_to do |format|
+          format.html { }
+          format.rss  { render :layout => false }
+          format.atom { render :layout => false }
+          format.json { render json:   { }      }
+        end
+      end
+    end
   end
 
   def addbookmarks
+    #binding.pry
     bookmarks = get_saved_bookmarks
     if bookmarks.present? && bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
@@ -127,7 +131,7 @@ class BookBagsController < CatalogController
     @bibid = params[:id]
     value = @bibid
     success = @bb.uncache(value)
-    user_session[:bookbag_count] = @bb.count
+    session[:bookbag_count] = @bb.count
     if request.xhr?
       success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
     else
@@ -213,7 +217,7 @@ class BookBagsController < CatalogController
 
   def export
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
     msg= "book_bags_controler.rb export"
     puts msg.to_yaml
     @bb.debug
@@ -221,10 +225,14 @@ class BookBagsController < CatalogController
     redirect_to :action => "index"
   end
 
+  def test
+  end
+
   def track
   end
 
   def save_bookmarks_for_book_bags
+    #binding.pry
     if guest_user.bookmarks.present?
       bookmarks = guest_user.bookmarks.collect { |b| b.document_id.to_s }
       session[:bookmarks_for_book_bags] = bookmarks unless bookmarks.count < 1

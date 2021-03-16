@@ -119,15 +119,16 @@ module CornellCatalogHelper
     @request_ok = true
     #@request_ok = requestable?(bibid,response)
     ##Rails.logger.debug "\nes287_debug file:#{__FILE__} line:#{__LINE__}  @request_ok = #{@request_ok.pretty_inspect}"
-    @bound_with = []
-    @bound_with_to_mbw =  {}
-    if bound_with?
-      if document['bound_with_json']
-        document['bound_with_json'].each do |j|
-           @bound_with <<  JSON.parse(j).with_indifferent_access
+    @abbound_with = []
+    @abbound_with_to_mbw =  {}
+    Rails.logger.info("HUH? = #{bound_with}")
+    if abbound_with?
+      if document['abbound_with_json']
+        document['abbound_with_json'].each do |j|
+           @abbound_with <<  JSON.parse(j).with_indifferent_access
         end
       end
-      if  !@bound_with.empty?
+      if  !@abbound_with.empty?
         items2 = handle_bound_with(response,bibid,items2)
       end
     end
@@ -1124,6 +1125,9 @@ end
 	  end
 
 	  def  cornell_item_page_entry_info
+	    if search_session['counter'].nil?
+	      search_session['counter'] = 1
+	    end
 	    t('blacklight.search.entry_pagination_info.other',
 	      :current => number_with_delimiter(search_session['counter']), :total => number_with_delimiter(search_session[:total]),
 	      :count => search_session[:total].to_i).html_safe
@@ -1610,14 +1614,16 @@ end
 	holdArray = document['holdings_display'].to_a
 
 	col_loc = []
-	holdArray = holdArray[0].split('|')
-	holdArray.each do |holding|
-	  col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
-	  location = Hash(holdings_condensed[holding])
+	if holdArray.any?
+		holdArray = holdArray[0].split('|')
+		holdArray.each do |holding|
+			col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
+			location = Hash(holdings_condensed[holding])
 
-	  if location["location"].present? && location["location"]["name"].present?
-			col_loc << location["location"]["name"]
-	  end
+			if location["location"].present? && location["location"]["name"].present?
+					col_loc << location["location"]["name"]
+			end
+		end
 	end
 
 	description = []
@@ -1638,7 +1644,12 @@ end
       false
     end
   end
-
+  
+  # For musical recordings, renders the image returned by Discogs when available.
+  def format_discogs_image url
+    image_html = "<div id='discogs-image'><img src='" + url + "' width='150px'/></div>"
+    return image_html.html_safe
+  end
 end
 
 # End of Module

@@ -3,31 +3,30 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # POST from SAML IdP won't include CSRF token
   skip_before_action :verify_authenticity_token
 
-
- def facebook
-    auth = request.env["omniauth.auth"] 
+  def facebook
+    auth = request.env["omniauth.auth"]
     semail = auth.info.email
     u = User.where(email: semail).first
     if u
       @user = u
-    else 
-      @user = User.new(email: semail) 
+    else
+      @user = User.new(email: semail)
       @user.save!
     end
     provider = 'Facebook'
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
-      if session[:cuwebauth_return_path].present?  
+      if session[:cuwebauth_return_path].present?
         path = session[:cuwebauth_return_path]
         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
-        sign_in :user, @user 
+        sign_in :user, @user
         redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
         return
-      else  
+      else
         redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
       end
-      sign_in :user, @user 
+      sign_in :user, @user
       #sign_in_and_redirect @user, event: :authentication
     else
       session["devise.facebook_data"] = oauth_response.except(:extra)
@@ -39,29 +38,29 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 #https://www.interexchange.org/articles/engineering/lets-devise-google-oauth-login/
  def google_oauth2
-    auth = request.env["omniauth.auth"] 
+    auth = request.env["omniauth.auth"]
     semail = auth.info.email
     u = User.where(email: semail).first
     if u
       @user = u
-    else 
-      @user = User.new(email: semail) 
+    else
+      @user = User.new(email: semail)
       @user.save!
     end
     provider = 'Google'
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
-      if session[:cuwebauth_return_path].present?  
+      if session[:cuwebauth_return_path].present?
         path = session[:cuwebauth_return_path]
         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
-        sign_in :user, @user 
+        sign_in :user, @user
         redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
         return
-      else  
+      else
         redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
       end
-      sign_in :user, @user 
+      sign_in :user, @user
       #sign_in_and_redirect @user, event: :authentication
     else
       session["devise.google_data"] = oauth_response.except(:extra)
@@ -72,16 +71,24 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def saml
-    auth = request.env["omniauth.auth"] 
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#*******************
+    auth = request.env["omniauth.auth"]
     semail = auth.info.email[0]
     u = User.where(email: semail).first
     if u
       @user = u
-    else 
-      @user = User.new(email: semail) 
+    else
+      @user = User.new(email: semail)
       @user.save!
     end
-    OneLogin::RubySaml::Attributes.single_value_compatibility = false 
+    OneLogin::RubySaml::Attributes.single_value_compatibility = false
     # I had some code that parsed the response -- but evidently this is not
     # necessary at all!
     #if OmniAuth.config.test_mode
@@ -99,19 +106,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:cu_authenticated_user] = auth.info.netid[0]
     session[:cu_authenticated_email] = auth.info.email[0]
     session[:cu_authenticated_groups] = auth.info.groups
-    session[:cu_authenticated_primary] = (auth.info.primary.nil? || auth.info.primary[0].nil?)   ? ''  : auth.info.primary[0]  
+    session[:cu_authenticated_primary] = (auth.info.primary.nil? || auth.info.primary[0].nil?)   ? ''  : auth.info.primary[0]
     # we might already be 'signed in' ?
-    if !user_signed_in? 
-      sign_in :user, @user 
+    if !user_signed_in?
+      sign_in :user, @user
     end
     session[:cu_authenticated_user] = auth.info.email[0]
-    if session[:cuwebauth_return_path].present?  
+    if session[:cuwebauth_return_path].present?
       path = session[:cuwebauth_return_path]
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
       session[:cuwebauth_return_path] = nil
       redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
       return
-    else  
+    else
       redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
     end
   end

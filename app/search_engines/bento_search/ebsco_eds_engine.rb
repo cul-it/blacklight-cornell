@@ -33,8 +33,11 @@ class BentoSearch::EbscoEdsEngine
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        q = args[:oq]
-        Rails.logger.debug "jgr25log: #{__FILE__} #{__LINE__} query out: #{q}"
+        q = args[:oq].present? ? args[:oq] : args[:query].present? ? args[:query] : nil
+        if q.nil?
+            results.total_items = 0
+            return results
+        end
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
         per_page = 3;
 
@@ -75,8 +78,13 @@ class BentoSearch::EbscoEdsEngine
 
                     item = BentoSearch::ResultItem.new
                     item.link_is_fulltext = true
+
                     item.title = rec.eds_title().present? ? rec.eds_title() : I18n.translate("bento_search.eds.record_not_available")
+                    item.title = prepare_ebsco_eds_payload(item.title, true)
+
                     item.abstract = rec.eds_abstract()
+                    item.abstract = prepare_ebsco_eds_payload(item.abstract, true)
+
                     item.unique_id = rec.id
                     authors = rec.eds_authors()
                     authors.each do | author |
@@ -85,19 +93,16 @@ class BentoSearch::EbscoEdsEngine
                     item.link = rec.eds_plink()
 
                     links.each do | link |
-                        item.other_links << BentoSearch::Link.new(
-                            :url => link[:url],
-                            :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                            :label => link[:label]
-                            )
+
+                        if link[:label].include? "Get it! Cornell" # DISCOVERYACCESS-6637
+                            item.other_links << BentoSearch::Link.new(
+                                :url => link[:url],
+                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                                :label => link[:label]
+                                )
+                        end
                     end
 
-                    rec.eds_isbns().each do | isbn |
-                        item.other_links << BentoSearch::Link.new(
-                            :url => 'https://isbnsearch.org/isbn/' + isbn,
-                            :label => 'ISBN'
-                        )
-                    end
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()
                     if rec.eds_page_start().present?
@@ -107,13 +112,38 @@ class BentoSearch::EbscoEdsEngine
                         end
                     end
                     date = rec.eds_publication_date
-                    ymd = date.split('-').map(&:to_i)
-                    item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    if date.present?
+                        ymd = date.split('-').map(&:to_i)
+                        item.publication_date = Date.new(ymd[0], ymd[1], ymd[2])
+                    end
                     results << item
                 end
             end
         end # enough hits already
         return results
+    end
+
+    # DISCOVERYACCESS-6854 - sometimes hilight text comes with
+    # unescaped characers even if configuration.highlighting == false
+    # If EDS has put highlighting tags
+    # in a field, we need to HTML escape the literal values,
+    # while still using the highlighting tokens to put
+    # HTML tags around highlighted terms.
+    #
+    # Second param, if to assume EDS literals are safe HTML, as they
+    # seem to be.
+    def prepare_ebsco_eds_payload(str, html_safe = false)
+
+        str = HTMLEntities.new.decode str
+
+        if str.present?
+            if configuration.highlighting
+                str.gsub!(/\<highlight\>/,"<b class='bento_search_highlight'>")
+                str.gsub!(/\<\/hilight\>/,"</b>")
+            else
+                str = str.html_safe if html_safe
+            end
+        end
     end
 
 end

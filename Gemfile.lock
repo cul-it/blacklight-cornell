@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 9a05d7a5865c547f4a5f72ba8f8f692c10255dcd
+  revision: 211cd0a76aad8c54e02f5a203b097a10842eecbc
   branch: master
   specs:
-    blacklight_cornell_requests (3.3.5)
+    blacklight_cornell_requests (3.4.2)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -41,10 +41,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 9750706047bad3d7a59e6de47d79e9e4a4b7fff3
+  revision: 3be8869f7e8d211714a851ae89fcd1510a7e6c73
   branch: dev
   specs:
-    my_account (1.1.6)
+    my_account (1.1.9)
       blacklight (>= 7.0)
       borrow_direct
       rails (~> 5.1)
@@ -568,7 +568,7 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    ruby-oci8 (2.2.8)
+    ruby-oci8 (2.2.9)
     ruby-plsql (0.7.1)
     ruby-saml (1.11.0)
       nokogiri (>= 1.5.10)
@@ -671,7 +671,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xml-simple (1.1.5)
+    xml-simple (1.1.8)
     xmlrpc (0.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -737,7 +737,7 @@ DEPENDENCIES
   net-ldap
   net-scp (= 2.0.0)
   net-ssh (= 5.2.0)
-  nokogiri
+  nokogiri (= 1.10.10)
   omniauth
   omniauth-facebook (~> 4.0)
   omniauth-google-oauth2 (~> 0.4.1)

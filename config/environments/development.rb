@@ -1,7 +1,7 @@
 BlacklightCornell::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
  config.eager_load = false
- #config.eager_load = true 
+ #config.eager_load = true
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -19,11 +19,13 @@ BlacklightCornell::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.smtp_settings = {
-    :address => 'localhost',
-    :domain => 'cornell.edu',
-    :user_name => 'culsearch@cornell.edu'
+    address: ENV["SMTP_ADDRESS"],
+    port: ENV["SMTP_PORT"],
+    user_name: ENV["SMTP_USERNAME"],
+    password: ENV["SMTP_PASSWORD"],
+    authentication: :login,
+    enable_starttls_auto: true
   }
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
   # See everything in the log (default is :info)
@@ -35,7 +37,7 @@ BlacklightCornell::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   #config.active_record.mass_assignment_sanitizer = :strict
-  #config.active_record.mass_assignment_sanitizer = false 
+  #config.active_record.mass_assignment_sanitizer = false
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
@@ -46,20 +48,8 @@ BlacklightCornell::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-  
+
   # this allows WEBrick to handle pipe symbols in query parameters
 #URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
 
-# Settings for the exception_notification gem
-#Rails.application.config.middleware.use ExceptionNotification::Rack,
-# :email => {
-#   :email_prefix => "[ERROR] ",
-#   :sender_address => %{"CUL New Catalog Notifier" <libgateway-l@list.cornell.edu>},
-#   :exception_recipients => %w{mjc12@cornell.edu}
-# }
-# :hipchat => {
-#   :api_token => ENV['HIPCHAT_API_TOKEN'],
-#   :api_version => 'v2',
-#   :room_name => 'Discovery and Access'
-# }
 end

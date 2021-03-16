@@ -23,35 +23,37 @@ Feature: Book Bags for logged in users
         And navigation should not show 'Selected Items'
         And navigation should show 'Book Bag'
 
-    @book_bags_select
-    Scenario Outline: Items I select can be added to my book bag
-        Given we are in any development or test environment
-        And I sign in to BookBag
-        And I empty the BookBag
-        Then the BookBag should be empty
-        When I go to the home page
-        And I fill in the search box with 'rope work'
-        And I press 'search'
-        Then I should get results
-        And I select the first <count> catalog results
-        And I sleep <sleep> seconds
-        Then navigation should show Book Bag contains <count>
-        When I go to BookBag
-        Then there should be <count> items in the BookBag
-
-    Examples:
-    | count | sleep |
-    | 3 | 5 |
-    | 4 | 6 |
-    | 5 | 6 |
-    | 10 | 6 |
-    | 20 | 9 |
+#    @book_bags_select
+#    Scenario Outline: Items I select can be added to my book bag
+#        Given we are in any development or test environment
+#        And I sign in to BookBag
+#        And I empty the BookBag
+#        Then the BookBag should be empty
+#        When I go to the home page
+#        And I fill in the search box with 'rope work'
+#        And I press 'search'
+#        Then I should get results
+#        And I select the first <count> catalog results
+#        And I sleep <sleep> seconds
+#        Then I clear the SQLite transactions
+#        Then navigation should show Book Bag contains <count>
+#        When I go to BookBag
+#        Then there should be <count> items in the BookBag
+#
+#    Examples:
+#    | count | sleep |
+#    | 3 | 8 |
+#    | 4 | 8 |
+#    | 5 | 9 |
+#    | 10 | 9 |
+#    | 20 | 9 |
 
     @book_bags_bookmarks_redirect
     Scenario: Bookmarks redirect logged in users to Book Bags
         Given we are in any development or test environment
         And I sign in to BookBag
-        Then navigation should show 'Book Bag'
+        Then I should see "You are logged in as Diligent Tester."
+        And navigation should show 'Book Bag'
         And I view my bookmarks
         Then I should see "Please use Book Bag while you are signed in."
         And navigation should show 'Book Bag'
@@ -63,21 +65,22 @@ Feature: Book Bags for logged in users
         And I empty the BookBag
         Then the BookBag should be empty
         When I go to the home page
-        And I fill in the search box with 'rope work'
+        And I fill in the search box with 'rope work guide'
         And I press 'search'
+        And I sleep 2 seconds
         Then I should get results
-        And I should see 'Professional rope access : a guide to working safely at height'
+        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
         And I select the first 5 catalog results
         And I sleep 5 seconds
         When I go to BookBag
         Then there should be 5 items in the BookBag
-        And I should see 'Professional rope access : a guide to working safely at height'
+        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
         Then I sign out
         And I go to the home page
         And I sign in to BookBag
         When I go to BookBag
         Then there should be 5 items in the BookBag
-        And I should see 'Professional rope access : a guide to working safely at height'
+        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page

@@ -21,7 +21,8 @@
     	</div>
     	<div class="col-sm-4 feedback-link">
     		<a href="https://www.library.cornell.edu/feedback?catalogdestination=catalog<%= CGI.escape request.original_fullpath %>" class="btn btn-cul">Feedback</a>
-        <p><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release Notes</a></p>
+            <p class="release_credits"><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release Notes</a></p>
+            <p class="release_credits"><%= link_to 'Credits', '/credits' %></p>
     	</div>
     </div>
     <div class="row footer-copyright">
