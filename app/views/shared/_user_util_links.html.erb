@@ -33,7 +33,7 @@
               if BookBag.enabled? && session[:bookbag_count].present?
                 session[:bookbag_count]
               else
-                '?'
+                get_book_bag_count
               end
               %>
             <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
