@@ -42,8 +42,8 @@ end
 
 Then /^it should have link ["'](.*?)["'] with value ["'](.*?)["']$/ do |txt, alink|
   #print page.html
-  expect(page).to have_link(txt, :href =>alink) 
-  #res.should == true 
+  expect(page).to have_link(txt, :href =>alink)
+  #res.should == true
 end
 
 Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
@@ -72,7 +72,7 @@ Then /^I (should|should not) see the label '(.*?)' And I should see the label '(
 end
 
 Then /^I (should|should not) see the labels '(.*?)'$/ do |yesno, llist|
-  labels = llist.split(',') 
+  labels = llist.split(',')
   if yesno == "should not"
         labels.each do |label|
 	  page.should_not have_content(label)
