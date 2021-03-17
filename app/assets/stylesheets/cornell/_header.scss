@@ -62,22 +62,6 @@ header {
 // --------------------------------------------------//
 ul.blacklight-nav {
   	margin: 1.2em 0 0 0;
-    padding: 0;
-  	list-style: none;
-  	li {
-      float: left;
-      margin-bottom: .5em;
-      padding: 0 8px;
-      font-size: 12px;
-      border-left: 1px solid #ccc;
-    }
-    li:first-child {
-      padding-left: 0;
-      border-left: none;
-    }
-    li:last-child {
-      padding-right: 0;
-    }
     a.user-email,
     a.logout {
       padding: 5px 0;
@@ -92,6 +76,10 @@ ul.blacklight-nav {
     a.user-email:hover,
     a.logout:hover {
       background: none;
+    }
+    li {
+      font-size: .9rem;
+      padding: .5rem 0;
     }
     .myaccount-link {
       a {
@@ -109,6 +97,21 @@ ul.blacklight-nav {
   margin-top: .5em;
   padding-top: .5em;
 }
+
+.util-links-toggle {
+  float: right;
+  margin-right: 2.5rem;
+}
+.catalog-name {
+  .navbar-toggler {
+    border-color: $navbar-light-toggler-border-color;
+    color: $navbar-light-active-color;
+  }
+  .navbar-toggler-icon {
+    background-image: $navbar-light-toggler-icon-bg;
+  }
+}
+
 // Library menu 
 //-----------------------------------------
 
@@ -183,19 +186,35 @@ ul.blacklight-nav {
   .catalog-name {
     margin: 5px 0;
   }
+  .util-links-toggle {
+    margin-right: -7rem;
+  }
 }
 
 // Medium devices (tablets, 768px and up)
-// @include media-breakpoint-up(md) {
-// }
+@include media-breakpoint-up(md) {
+  ul.blacklight-nav {
+    list-style: none;
+    li {
+      float: left;
+      margin-bottom: .5em;
+      padding: 0 8px;
+      border-left: 1px solid #ccc;
+    }
+    li:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+    li:last-child {
+      padding-right: 0;
+    }
+  }
+}
 
 // Large devices (desktops, 992px and up)
 @include media-breakpoint-up(lg) {
   ul.blacklight-nav {
     float: right;
-    li {
-      font-size: 14px;
-    }
   }
 }
 

@@ -52,6 +52,14 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-lg-4 catalog-name">
+        <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
+          <div class="facets-toggleable-sm">
+            <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-toggle="collapse" data-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
+              <span class="sr-only">Toggle links</span>
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+        <% end %>
         <% if !part_of_catalog? and params[:controller] != 'advanced_search'%>
           <% if params[:controller] == 'users/sessions'%>
             <!-- users/sessions does not have an index action -->
