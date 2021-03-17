@@ -18,6 +18,16 @@ end
 Then /^click on first link "(.*?)"$/ do |link|
   l = page.first('a', :text => link)
   l.click 
+Then("I click and confirm {string}") do |string|
+  accept_confirm do
+    page.find('a', :text => string).trigger('click')
+  end
+end
+
+Then("I click and cancel {string}") do |string|
+  dismiss_confirm do
+    page.find('a', :text => string).trigger('click')
+  end
 end
 
 Then /^results should contain "(.*?)" with value "(.*?)"$/ do |field, author|
