@@ -16,11 +16,14 @@ Feature: Select and export items from the result set
     Given I request the item view for 7981095
     And click on link "Selected Items"
     And I sleep 5 seconds
+    Then I should be on 'the bookmarks page'
     Then I should see the label 'You have no selected items'
     Given I request the item view for 7981095
     Then I should select checkbox "toggle-bookmark_7981095"
     And I sleep 5 seconds
     And click on link "Selected Items"
+    And I sleep 5 seconds
+    Then I should be on 'the bookmarks page'
     Then I should see the label 'Shelter medicine for veterinarians and staff'
 
 # there is a popup dialog, but poltergeist auto clicks okay,
@@ -31,10 +34,13 @@ Feature: Select and export items from the result set
     Given I request the item view for 7981095
     And click on link "Selected Items"
     And I sleep 5 seconds
+    Then I should be on 'the bookmarks page'
     Given I request the item view for 7981095
     Then I should select checkbox "toggle-bookmark_7981095"
     And I sleep 5 seconds
     And click on link "Selected Items"
+    And I sleep 5 seconds
+    Then I should be on 'the bookmarks page'
     Then I should see the label 'Shelter medicine for veterinarians and staff'
     And I confirm popup "Clear all items"
     Then I should see the label 'You have no selected items'
@@ -46,10 +52,13 @@ Feature: Select and export items from the result set
     Given I request the item view for 7981095
     And click on link "Selected Items"
     And I sleep 5 seconds
+    Then I should be on 'the bookmarks page'
     Given I request the item view for 7981095
     Then I should select checkbox "toggle-bookmark_7981095"
     And I sleep 5 seconds
     And click on link "Selected Items"
+    And I sleep 5 seconds
+    Then I should be on 'the bookmarks page'
     Then I should see the label 'Shelter medicine for veterinarians and staff'
     And I cancel popup "Clear all items"
     Then I should see the label '1 result'
