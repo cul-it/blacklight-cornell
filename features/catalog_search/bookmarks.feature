@@ -24,7 +24,7 @@ Feature: Bookmarks for anonymous users
             Then I should get results
         And there should be 0 items selected
         Then I select the first <count> catalog results
-        And I sleep 2 seconds
+        And I sleep 5 seconds
         Then there should be <count> items selected
         When I literally go to bookmarks
         Then there should be <count> items selected
