@@ -12,12 +12,12 @@ Given /^I request the item holdings view for (.*?)$/ do |bibid|
 end
 
 Then /^click on link "(.*?)"$/ do |link|
-  page.find('a', :text => link).trigger("click")
+  click_link link
 end
 
 Then /^click on first link "(.*?)"$/ do |link|
   l = page.first('a', :text => link)
-  l.trigger('click')
+  l.click
 end
 
 Then("I click and confirm {string}") do |string|
