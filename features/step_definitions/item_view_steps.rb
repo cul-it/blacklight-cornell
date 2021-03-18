@@ -12,12 +12,13 @@ Given /^I request the item holdings view for (.*?)$/ do |bibid|
 end
 
 Then /^click on link "(.*?)"$/ do |link|
+  # click <a> text that contains link
   click_link link
 end
 
 Then /^click on first link "(.*?)"$/ do |link|
-  l = page.first('a', :text => link)
-  l.click
+  # click first <a> text that contains link
+  page.first(:xpath, "//a[contains(.,'#{link}')]").click
 end
 
 Then("I click and confirm {string}") do |string|
