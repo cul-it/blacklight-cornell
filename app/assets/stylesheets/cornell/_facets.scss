@@ -6,7 +6,7 @@
 		list-style: none;
 	}
 	li {
-		font-size: 13px;
+		font-size: .9rem;
 		padding-right: 50px;
 	}
 	p {
@@ -129,6 +129,9 @@
 	.missing,
 	.range_limit {
 		i { font-size: 0.75em; }
+		.btn-secondary {
+			margin-left: .5rem;
+		}
 	}
 	.limit_content {
 		.count { font-size: 0.75em; }
@@ -245,7 +248,7 @@ form.range_limit {
 	.facet-values {
 		.facet-label {
 			display: table-cell;
-			padding-bottom: 8px;
+			padding-bottom: .25rem;
 		}
 		.facet-count {
 			display: table-cell;
