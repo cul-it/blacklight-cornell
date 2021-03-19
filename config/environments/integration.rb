@@ -53,8 +53,10 @@ BlacklightCornell::Application.configure do
   #config.assets.precompile += %w( search.js )
 
   # Disable delivery errors, bad email addresses will be ignored
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_caching = false
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false # Not raising errors as it causes jobs to fail AND repeat for notification errors
+  # config.action_mailer.delivery_method = :sendmail
   config.action_mailer.smtp_settings = {
     address: ENV["SMTP_ADDRESS"],
     port: ENV["SMTP_PORT"],
