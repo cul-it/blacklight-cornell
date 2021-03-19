@@ -1644,7 +1644,15 @@ end
       false
     end
   end
-  
+
+  def get_book_bag_count
+	if current_user
+    	session[:bookbag_count].present? ? session[:bookbag_count] : 0
+	else
+		'??'
+	end
+  end
+
   # For musical recordings, renders the image returned by Discogs when available.
   def format_discogs_image url
     image_html = "<div id='discogs-image'><img src='" + url + "' width='150px'/></div>"

@@ -60,6 +60,10 @@ Then /^show me the page source$/ do
   print page.source
 end
 
+Then /^debug with pry$/ do
+  binding.pry
+end
+
 Then /^I should not see an error$/ do
   (200 .. 399).should include(page.status_code)
 end
@@ -152,6 +156,14 @@ Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
         find('.page-entries > strong:nth-child(3)', text: "#{int.to_s}")
       end
     end
+  end
+end
+
+Then /^navigation should show ([0-9]+) items? in the BookBag$/ do |int|
+  patiently do
+    within page.find('#book_bags_nav') do
+      find('span > span', text: "#{int.to_s}")
+     end
   end
 end
 

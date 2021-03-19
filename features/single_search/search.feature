@@ -34,7 +34,8 @@ Feature: Search
     When I go to the search page
     When I fill in "q" with '<search>'
     And I press 'Search'
-    Then I should get bento results
+    Then the query "<search>" should show
+    And I should get bento results
     And Articles & Full Text should not list "<search>"
 
   Examples:

@@ -190,6 +190,25 @@ Feature: Book Bags for logged in users
         Then click on link "Add 3 Selected Items to your Book Bag"
         And there should be 3 items in the BookBag
 
+    @book_bags_initial_count
+    Scenario: The correct Book Bags count should display in navigation area before going to book bags
+        Given we are in any development or test environment
+        And the test user is available
+        And I sign in to BookBag
+        And I empty the BookBag
+        And I sign out
+        And I am on the home page
+        And I sign in
+        And navigation should show 0 items in the BookBag
+		When I fill in the search box with 'rope work'
+		And I press 'search'
+		Then I should get results
+        Then I select the first 3 catalog results
+        And I sleep 5 seconds
+        And I am on the home page
+        And navigation should show 3 items in the BookBag
+
+
     # @book_bags_clear_test
     # Scenario: I want to test
     #     Given I clear transactions

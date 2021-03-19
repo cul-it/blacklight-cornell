@@ -3,8 +3,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # POST from SAML IdP won't include CSRF token
   skip_before_action :verify_authenticity_token
 
-
- def facebook
+  def facebook
     auth = request.env["omniauth.auth"]
     semail = auth.info.email
     u = User.where(email: semail).first
@@ -17,9 +16,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     provider = 'Facebook'
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
-      Rails.logger.info("************************************** CHECK THE SESSION RETURN PATH")
       if session[:cuwebauth_return_path].present?
-        Rails.logger.info("************************************** HAVE THE SESSION RETURN PATH > " + session[:cuwebauth_return_path].inspect)
         path = session[:cuwebauth_return_path]
         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
@@ -74,6 +71,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def saml
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#*******************
     auth = request.env["omniauth.auth"]
     semail = auth.info.email[0]
     u = User.where(email: semail).first

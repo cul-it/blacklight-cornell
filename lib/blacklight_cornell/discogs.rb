@@ -34,7 +34,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     
     query_string = build_discogs_query_string(fields)
     search_result = make_discogs_search_call(query_string)
-    if !search_result.empty? && !search_result["results"].empty?
+    if !search_result.nil? && !search_result.empty? && !search_result["results"].empty?
       @discogs_image_url = search_result["results"][0]["cover_image"].present? ? search_result["results"][0]["cover_image"] : ""
       @discogs_id = search_result["results"][0]["id"].present? ? search_result["results"][0]["id"].to_s : ""
     end
@@ -42,7 +42,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   end
   
   def build_discogs_components
-    # ** for all these, we'll need to check present?
+    # check present? or empty? for these
     @author_addl = process_discogs_contributors(@discogs_data["extraartists"]) if @discogs_data["extraartists"].present? && @discogs_data["extraartists"].size > 0
     @notes = process_discogs_notes(@discogs_data["notes"]) if @discogs_data["notes"].present? && @discogs_data["notes"].length > 0
     @contents = process_discogs_contents(@discogs_data["tracklist"]) if @discogs_data["tracklist"].present? && @discogs_data["tracklist"].length > 0
