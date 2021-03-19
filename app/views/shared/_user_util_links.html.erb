@@ -31,15 +31,12 @@
       <% else %>
       <li>
       <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
-            <% @selectedcount =
-              if BookBag.enabled? && session[:bookbag_count].present?
-                session[:bookbag_count]
-              else
-                get_book_bag_count
-              end
-              %>
-            <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
-            <% end %>
+        <% if BookBag.enabled? && session[:bookbag_count].present? %>%
+            <span>Book Bag (<span data-role='bookmark-counter'><%= session[:bookbag_count].to_s %></span>)</span>
+        <% else %>
+            <span>Book Bag</span>
+        <% end %>
+        <% end %>
       </li>
       <% end %>
 
