@@ -37,7 +37,7 @@ Feature: Search
     Then the query "<search>" should show
     And I should get bento results
     And Articles & Full Text should not list "<search>"
-
+ 
   Examples:
       | search | comment |
       | Union Barley Coffee | not in the collection & not full text |
