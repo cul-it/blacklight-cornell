@@ -24,7 +24,7 @@ BlacklightCornell::Application.configure do
     port: ENV["SMTP_PORT"],
     user_name: ENV["SMTP_USERNAME"],
     password: ENV["SMTP_PASSWORD"],
-    authentication: :plain,
+    authentication: :login,
     enable_starttls_auto: true
   }
   # Print deprecation notices to the Rails logger
