@@ -928,6 +928,24 @@ end
 
   def afemail
     @id = params[:id]
+    docs = params[:id].split '|'
+    @response, @documents = search_service.fetch docs
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "id: " + @id.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+binding.pry
+#*******************
+    dox = {to: "jgr25@cornell.edu", message: "your stuff", callnumber:  @id}
+    email_action(dox)
+    # , to: "jgr25@cornell.edu", message: "your stuff", :callnumber => docs
+
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
