@@ -196,6 +196,11 @@ div.view-all {
     margin-bottom: 10px;
   }
 }
+#formats {
+  li {
+    font-size: .9rem;
+  }
+}
 #more-results {
   margin-left: 0;
 }
@@ -245,6 +250,10 @@ div.view-all {
     h2 {
       font-size: 14px;
       text-transform: uppercase;
+    }
+    .blacklight-nav {
+      float: none;
+      padding-left: 0;
     }
   }
 }
