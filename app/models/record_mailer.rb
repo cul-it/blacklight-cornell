@@ -54,8 +54,14 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 binding.pry
 #*******************
+    delivery_options = {
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      address: ENV["SMTP_ADDRESS"]
+    }
 
-    mail(:to => details[:to],  :subject => subject)
+    mail(:to => details[:to],  :subject => subject,
+      delivery_method_options: delivery_options)
   end
 
   def sms_record(documents, details, url_gen_params)
@@ -82,7 +88,16 @@ binding.pry
     @location       = details[:location]
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
-    mail(:to => to, :subject => "")
+    subject = ""
+    # @message        = details[:message]
+    delivery_options = {
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      address: ENV["SMTP_ADDRESS"]
+    }
+
+    mail(:to => to, :subject => subject,
+      delivery_method_options: delivery_options)
   end
 
   protected
