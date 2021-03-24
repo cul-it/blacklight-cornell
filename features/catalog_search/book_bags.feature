@@ -190,6 +190,7 @@ Feature: Book Bags for logged in users
         Then click on link "Add 3 Selected Items to your Book Bag"
         And there should be 3 items in the BookBag
 
+    @DISCOVERYACCESS-6653
     @book_bags_initial_count
     Scenario: The correct Book Bags count should display in navigation area before going to book bags
         Given we are in any development or test environment
@@ -199,7 +200,7 @@ Feature: Book Bags for logged in users
         And I sign out
         And I am on the home page
         And I sign in
-        And navigation should show 0 items in the BookBag
+        And navigation should show the BookBag with no item count
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
@@ -207,6 +208,31 @@ Feature: Book Bags for logged in users
         And I sleep 5 seconds
         And I am on the home page
         And navigation should show 3 items in the BookBag
+
+    @DISCOVERYACCESS-6653
+    @book_bags_initial_count_quality
+    Scenario: The correct Book Bags count should display after login from asset page
+        Given we are in any development or test environment
+        And the test user is available
+        And I sign in to BookBag
+        And I empty the BookBag
+        Then I go to the home page
+		When I fill in the search box with 'rope work'
+		And I press 'search'
+		Then I should get results
+        Then I select the first 3 catalog results
+        And I sleep 5 seconds
+        Then navigation should show 3 items in the BookBag
+        And I sleep 2 seconds
+        And I sign out
+        And I request the item view for 11803906
+        Then I should see the label 'Quality management & engineering'
+        And I sign in
+        And I sleep 2 seconds
+        Then navigation should show the BookBag with no item count
+
+
+
 
 
     # @book_bags_clear_test

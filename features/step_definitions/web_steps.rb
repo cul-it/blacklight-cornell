@@ -169,7 +169,6 @@ end
 
 Then("navigation should show the BookBag with no item count") do
   patiently do
-    expect(page.find('#book_bags_nav')).to have_content('Book Bag')
     within page.find('#book_bags_nav') do
       find('span', text: "Book Bag")
      end
