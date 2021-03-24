@@ -200,7 +200,7 @@ Feature: Book Bags for logged in users
         And I sign out
         And I am on the home page
         And I sign in
-        And navigation should show 0 items in the BookBag
+        And navigation should show the BookBag with no item count
 		When I fill in the search box with 'rope work'
 		And I press 'search'
 		Then I should get results
