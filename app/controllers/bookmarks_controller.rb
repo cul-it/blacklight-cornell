@@ -32,15 +32,6 @@ class BookmarksController < CatalogController
     #binding.pry
     # hack to return to book_bags page after login
     session[:cuwebauth_return_path] = book_bags_index_path
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-Rails.logger.warn "jgr25_log\n#{__method__} #{__LINE__} #{__FILE__}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << "user_saml_omniauth_authorize_path: " + user_saml_omniauth_authorize_path.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#*******************
     redirect_to user_saml_omniauth_authorize_path
   end
 
