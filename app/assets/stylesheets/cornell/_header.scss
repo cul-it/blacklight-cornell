@@ -3,7 +3,7 @@ header {
   border-bottom: 1px solid $tan;
   padding: 0 0 .25em 0;
  	h1 {
-    margin: 0;
+    margin: 0 0 .5rem 0;
     display: inline-block;
     line-height: 1em;
     font-family: $font-family-cul;
@@ -188,6 +188,11 @@ ul.blacklight-nav {
   }
   .util-links-toggle {
     margin-right: -7rem;
+  }
+  header {
+    h1 {
+      margin-bottom: 0;
+    }
   }
 }
 
