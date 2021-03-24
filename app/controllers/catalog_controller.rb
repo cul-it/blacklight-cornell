@@ -928,6 +928,12 @@ end
 
   def afemail
     @id = params[:id]
+    docs = params[:id].split '|'
+    @response, @documents = search_service.fetch docs
+    dox = {to: "jgr25@cornell.edu", message: "your stuff", callnumber:  @id}
+    email_action(dox)
+    # , to: "jgr25@cornell.edu", message: "your stuff", :callnumber => docs
+
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 

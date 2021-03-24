@@ -43,7 +43,14 @@ class RecordMailer < ActionMailer::Base
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
 
-    mail(:to => details[:to],  :subject => subject)
+    delivery_options = {
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      address: ENV["SMTP_ADDRESS"]
+    }
+
+    mail(:to => details[:to],  :subject => subject,
+      delivery_method_options: delivery_options)
   end
 
   def sms_record(documents, details, url_gen_params)
@@ -57,7 +64,16 @@ class RecordMailer < ActionMailer::Base
     @location       = details[:location]
     @tiny           = details[:tiny]
     @url_gen_params = url_gen_params
-    mail(:to => to, :subject => "")
+    subject = ""
+    # @message        = details[:message]
+    delivery_options = {
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      address: ENV["SMTP_ADDRESS"]
+    }
+
+    mail(:to => to, :subject => subject,
+      delivery_method_options: delivery_options)
   end
 
   protected
