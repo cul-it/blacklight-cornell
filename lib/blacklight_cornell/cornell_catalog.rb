@@ -496,19 +496,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def email_action documents
-
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-binding.pry
-#*******************
-
       mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus] }, url_options, params)
       if mail.respond_to? :deliver_now
         mail.deliver_now
