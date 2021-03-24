@@ -178,9 +178,9 @@ div.view-all {
     margin-bottom: 0;
   }
   li {
-    margin-bottom: 6px;
+    margin-bottom: .75rem;
     line-height: 1.5em;
-    font-size: 14px;
+    font-size: 1rem;
   }
   i {
     color: $concrete;
@@ -194,6 +194,11 @@ div.view-all {
   }
   .panel {
     margin-bottom: 10px;
+  }
+}
+#formats {
+  li {
+    font-size: .9rem;
   }
 }
 #more-results {
@@ -245,6 +250,10 @@ div.view-all {
     h2 {
       font-size: 14px;
       text-transform: uppercase;
+    }
+    .blacklight-nav {
+      float: none;
+      padding-left: 0;
     }
   }
 }
