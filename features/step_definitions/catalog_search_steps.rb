@@ -159,3 +159,7 @@ end
 Then("I should see {int} as the result number") do |int|
   expect(page.first('div.item-pagination > strong')).to have_content("#{int.to_s}")
 end
+
+Then("I remove facet constraint {string}") do |string|
+  page.find(".selected-facets .filter-value", text: string).click
+end
