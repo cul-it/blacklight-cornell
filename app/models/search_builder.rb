@@ -13,11 +13,8 @@ class SearchBuilder < Blacklight::SearchBuilder
   # The check for the q parameter ensures that searches, including empty searches, and
   # advanced searches are not affected.
   def homepage_default user_parameters
-    if user_parameters['q'].nil?
-      Rails.logger.info("************************ NO Q OR Q_ROW")
-      Rails.logger.info("************************ facet.field before = " + user_parameters.inspect)
+    if user_parameters['q'].nil? && user_parameters['fq'].size == 0
       user_parameters = streamline_query(user_parameters)
-      Rails.logger.info("************************ facet.field after = " + user_parameters.inspect)
     end
   end
 
