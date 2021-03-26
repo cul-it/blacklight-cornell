@@ -233,6 +233,22 @@ Feature: Book Bags for logged in users
         When I go to BookBag
         And there should be 3 items in the BookBag
 
+    @DISCOVERYACCESS-7028
+    Scenario: No stray percent sign in book bag count
+        Given we are in any development or test environment
+        And the test user is available
+        And I sign in to BookBag
+        And I empty the BookBag
+        Then I go to the home page
+		When I fill in the search box with 'quality'
+		And I press 'search'
+		Then I should get results
+        Then I select the first 3 catalog results
+        And I sleep 5 seconds
+        Then navigation should show 3 items in the BookBag
+        And navigation should not show '%'
+
+
     # @book_bags_clear_test
     # Scenario: I want to test
     #     Given I clear transactions
