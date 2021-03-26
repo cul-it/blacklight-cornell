@@ -230,10 +230,8 @@ Feature: Book Bags for logged in users
         And I sign in
         And I sleep 2 seconds
         Then navigation should show the BookBag with no item count
-
-
-
-
+        When I go to BookBag
+        And there should be 3 items in the BookBag
 
     # @book_bags_clear_test
     # Scenario: I want to test
