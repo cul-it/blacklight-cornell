@@ -170,8 +170,8 @@
 	          								<% if !holdings_json.nil? %>
 	            
 	            								<% holdings_json.each do |k,holding| %>
-	               									<% if !holdings_json[k]['links'].nil? %>
-	               
+	               									<% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
+	               <%= holdings_json[k]['links'][0]['users'].inspect %>
 	              											Limited to <%= holdings_json[k]['links'][0]['users'].inspect  %> simultaneous users
 	               									<% end %>
 	            								<% end %>
@@ -183,7 +183,7 @@
 	                            
                                 <% end %>
                               <% end %>
-<% if restrictions_display.present? %>	 
+	<% if !restrictions_display.present? %>	 
                       </div>
                       <% end %>                      
 	                    </li>
@@ -256,7 +256,7 @@
 	          <% if !@document['holdings_json'].nil? %>
 	            <% holdings = JSON.parse(@document['holdings_json']) %>
 	            <% holdings.each do |k,holding| %>
-	               <% if !holdings[k]['links'].nil? %>
+	               <% if !holdings[k]['links'].nil? and !holdings[k]['links'][0]['users'].nil? %>
 	              Limited to <%= holdings[k]['links'][0]['users'].inspect  %> simultaneous users
 	               <% end %>
 	            <% end %>
