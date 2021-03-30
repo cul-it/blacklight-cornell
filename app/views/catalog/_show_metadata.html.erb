@@ -145,6 +145,7 @@
 	                          </div>
 	                           <%#= @document['title_display'].inspect %>
                                <% parsed_json = JSON.parse(@document['url_access_json'][0]) %>
+                               
                                <%#= parsed_json['titleid'] %>
                                <%#= @document['id'] %>
                                <% if parsed_json['titleid'].present? %>
@@ -159,11 +160,32 @@
 	                               <span class="terms-of-use">
 	                             	  <span class="fa fa-chevron-right" aria-hiden="true"></span>
 		                         	  <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
-		                           </span>
+		                         	  <%#= holdings_json.inspect %>
+		                         	  </div>
+									<% if !restrictions_display.present? %>
+									
+										        <span class="access-restriction">
+										        
+	         									 <h3>Restrictions</h3>
+	          								<% if !holdings_json.nil? %>
+	            
+	            								<% holdings_json.each do |k,holding| %>
+	               									<% if !holdings_json[k]['links'].nil? %>
+	               
+	              											Limited to <%= holdings_json[k]['links'][0]['users'].inspect  %> simultaneous users
+	               									<% end %>
+	            								<% end %>
+	           								<% end %>
+	           						  </span>
+	           						  
+	           						<% end %>
 	                            <% else %>
+	                            
                                 <% end %>
                               <% end %>
-	                        </div>
+<% if restrictions_display.present? %>	 
+                      </div>
+                      <% end %>                      
 	                    </li>
 	              <%# end %>
 
@@ -208,7 +230,7 @@
 	             		<% elsif holding["online"].present? %>
 	                		<% online_items << holding %>
 	             		<% end %>
-                         <% end %>
+                  <% end %>
 	          <% end %>
 	          <% if !circulating_items.blank? %>
 	             <% items = circulating_items.sort_by { |e| e["location"]["name"]  } %>
@@ -227,9 +249,18 @@
 	      </div>
 	      <%# access restrictions %>
 	      <% if restrictions_display.present? %>
+	      
 	        <span class="access-restriction">
 	          <h3>Restrictions</h3>
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('"', '') %>
+	          <% if !@document['holdings_json'].nil? %>
+	            <% holdings = JSON.parse(@document['holdings_json']) %>
+	            <% holdings.each do |k,holding| %>
+	               <% if !holdings[k]['links'].nil? %>
+	              Limited to <%= holdings[k]['links'][0]['users'].inspect  %> simultaneous users
+	               <% end %>
+	            <% end %>
+	           <% end %>
 	        </span>
 	      <% end %>
 	      <%# end availability %>
