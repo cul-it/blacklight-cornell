@@ -1098,8 +1098,13 @@ class SearchBuilder < Blacklight::SearchBuilder
                           	end
                           end   
                         else
+                        	
                    	      if my_params[:op_row][row_number] == "phrase"
+                   	      	if sfr_name == "lc_callnum"
+                   	  	     q_rowArray << '' + 'quoted:"' + my_params[:q_row][row_number] + '"'
+                   	        else
                    	  	     q_rowArray << '' + sfr_name + '_quoted:"' + my_params[:q_row][row_number] + '"'
+                   	  	    end
                    	  	  else
                    	  	     q_rowArray << '' + sfr_name + ':"' + my_params[:q_row][row_number] + '"'
                    	  	  end                         
