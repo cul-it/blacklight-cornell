@@ -1,5 +1,7 @@
-<div class="col-12 col-lg-8">
-    <ul class="blacklight-nav">
+<div class="col-12 col-lg-8 facets-toggleable-sm">
+
+  <div id="links-panel-collapse" class="links-collapse facets-collapse collapse">
+    <ul class="blacklight-nav nav flex-column flex-md-row">
       <% if ENV['SAML_IDP_TARGET_URL'] %>
         <% if current_user %>
           <li>
@@ -29,15 +31,12 @@
       <% else %>
       <li>
       <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
-            <% @selectedcount =
-              if BookBag.enabled? && session[:bookbag_count].present?
-                session[:bookbag_count]
-              else
-                '?'
-              end
-              %>
-            <span>Book Bag (<span data-role='bookmark-counter'><%= @selectedcount %></span>)</span>
-            <% end %>
+        <% if BookBag.enabled? && session[:bookbag_count].present? %>
+            <span>Book Bag (<span data-role='bookmark-counter'><%= session[:bookbag_count].to_s %></span>)</span>
+        <% else %>
+            <span>Book Bag</span>
+        <% end %>
+        <% end %>
       </li>
       <% end %>
 
@@ -48,4 +47,5 @@
       <li><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Borrow Direct']);">Borrow Direct</a></li>
       <li><a href="https://cornell.hosts.atlas-sys.com/illiad/" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Interlibrary Loan']);">Interlibrary Loan</a></li>
     </ul>
+  </div>
 </div>

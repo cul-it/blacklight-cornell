@@ -473,7 +473,7 @@ Feature: Search
     Then it should have link "Title: beef" with value 'catalog?&q_row[]=100%25&boolean_row[1]=AND&op_row[]=AND&search_field_row[]=title&search_field=advanced&action=index&commit=Search'
     #Then it should have link "Title: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
     #Then it should have link "Title: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
-    Then click on first link "Title: beef"
+    Then I remove facet constraint "beef"
 
 
  @adv_search
@@ -499,15 +499,20 @@ Feature: Search
     And I should see the label 'A sea-fight'
     And I sleep 8 seconds
     Then click on first link "Previous"
+    And I sleep 8 seconds
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     And I should see the label 'Back to catalog results'
     Then click on first link "Back to catalog results"
+    And I sleep 8 seconds
     And I should see the label '1 - '
-    Then click on first link "Search History"
+    Then I go to the search history page
+    And I sleep 8 seconds
     And I should see the label 'Title: beef AND Title: 100%'
     Then click on first link "Title: beef AND Title: 100%"
+    And I sleep 8 seconds
     And I should see the label '1 - '
-    Then click on first link "Title: beef"
+    Then I remove facet constraint "beef"
+    And I sleep 8 seconds
     And I should see the label '1 - 20 of'
 
 

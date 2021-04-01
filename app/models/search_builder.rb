@@ -399,8 +399,13 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
     def parseAdvQuotedQuery(quotedQuery)
-      quotedQuery = quotedQuery.split(',')
-      quotedQuery[0].each do | qq |
+      quotedQueryArray = quotedQuery.split(',')
+      if quotedQuery.class == String
+      	str = quotedQuery
+      	quotedQueryArray = str.split(" ")
+      	Rails.logger.info("SQUEE5 = #{quotedQueryArray}")
+      end
+      quotedQueryArray.each do | qq |
         queryArray = []
         token_string = ''
         length_counter = 0
@@ -458,6 +463,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         queryArray = cleanArray
 
         length_counter = 0
+        Rails.logger.info("SQUEE6 = #{queryArray}")
         return queryArray
       end
     end
@@ -468,7 +474,13 @@ class SearchBuilder < Blacklight::SearchBuilder
         returnArray = []
         addFieldsArray = []
         termsArray = my_params[:q_row].split(',')
-        termsArray[0].each do | term |
+        if termsArray.size == 1
+        	termsArray = my_params[:q_row].split(" ")
+        end
+       Rails.logger.info("SQUEE9 = #{termsArray.size}")
+        termsArray.each do | term |
+                        Rails.logger.info("SQUEE8 = #{term}")
+	
           if (my_params[:op_row][0] == 'begins_with' and my_params[:search_field_row][0] == 'title') or my_params[:search_field_row][0] == 'call number'
             if my_params[:op_row][0] == 'begins_with'
                returnArray << 'title_starts:"' + my_params[:q_row][0].gsub!('"', '') + '"'
@@ -518,7 +530,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                 newArray << term
                 returnArray = parseAdvQuotedQuery(newArray)
                 returnArray.each do |token|
-
+                Rails.logger.info("SQUEE7 = #{token}")
                   if my_params[:search_field_row][0] == 'all_fields'
                     if token.first == '"'
                       clearArray << '+quoted:' + token
@@ -777,6 +789,7 @@ class SearchBuilder < Blacklight::SearchBuilder
          params.delete("advanced_query")
        end
     end
+   Rails.logger.info("SQUEE = #{query_string_two}")
    return query_string_two
   end
 
@@ -932,7 +945,7 @@ class SearchBuilder < Blacklight::SearchBuilder
        end
        
        #row_number = row_number + 1
-       if hold_row[row_number].include?('+') or hold_row.include?(':')
+       if !hold_row[row_number].nil? and (hold_row[row_number].include?('+') or hold_row.include?(':'))
        #  if my_params[:search_field_row][0] == 'all_fields'
 
       #    fixString = hold_row
@@ -1048,7 +1061,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                         q_rowArray << q_row_string
                    end
                  else
-                   
+                  Rails.logger.info("SQUEE") 
                    if my_params[:op_row][index] == 'begins_with'
                      q_row_string = my_params[:q_row][index]
                       if sfr_name == ""
@@ -1078,14 +1091,34 @@ class SearchBuilder < Blacklight::SearchBuilder
                           if my_params[:search_field_row][row_number] == 'journal title'
                             q_rowArray << '((+title:"' + my_params[:q_row][row_number] + '" OR title_phrase:"' + my_params[:q_row][row_number] + '") AND format:Journal/Periodical)'
                           else
-                           q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + ':"' + my_params[:q_row][row_number] + '")'
+                   	      	if my_params[:op_row][row_number] == "phrase"
+                   	  	     	q_rowArray << '' + sfr_name + '_quoted:"' + my_params[:q_row][row_number] + '"'
+                   	  	  	else
+                           		q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + ':"' + my_params[:q_row][row_number] + '")'
+                          	end
                           end   
                         else
-                           q_rowArray << '' + sfr_name + ':"' + my_params[:q_row][row_number] + '"'                         
+                        	
+                   	      if my_params[:op_row][row_number] == "phrase"
+                   	      	if sfr_name == "lc_callnum"
+                   	  	     q_rowArray << '' + 'quoted:"' + my_params[:q_row][row_number] + '"'
+                   	        else
+                   	  	     q_rowArray << '' + sfr_name + '_quoted:"' + my_params[:q_row][row_number] + '"'
+                   	  	    end
+                   	  	  else
+                   	  	     q_rowArray << '' + sfr_name + ':"' + my_params[:q_row][row_number] + '"'
+                   	  	  end                         
                         end
                       end
                    else
-                      q_rowArray << '((+"' + my_params[:q_row][row_number] + '") OR phrase:"' + my_params[:q_row][row_number] + '")'
+                   	  if my_params[:op_row][row_number] == "phrase"
+                      q_rowArray << ' quoted:"' + my_params[:q_row][row_number] + '"'
+                       
+                     else
+                      q_rowArray << '((+"' + my_params[:q_row][row_number] + '") OR phrase:"' + my_params[:q_row][row_number] + ')'
+                      
+                      Rails.logger.info("SQUEE1 = #{q_rowArray}")
+                      end
                    end
                   end
                  end
