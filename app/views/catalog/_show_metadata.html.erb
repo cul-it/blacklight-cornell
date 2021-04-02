@@ -154,39 +154,37 @@
 	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
                                     <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id']	%> ">Terms of use</a>
  		                           </span>
-
+  
                                <% else %>
 	                             <% if link["dbcode"].present? && link["providercode"].present? %>
-	                               <span class="terms-of-use">
+	                                  <span class="terms-of-use">
 	                             	  <span class="fa fa-chevron-right" aria-hiden="true"></span>
 		                         	  <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
-		                         	  <%#= holdings_json.inspect %>
+		                         	  <%#= holdings_json.inspect  %>
+		                         	  <% if restrictions_display.present? %>		                         	  
 		                         	  </div>
-									<% if !restrictions_display.present? %>
-									
-										        <span class="access-restriction">
-										        
-	         									 <h3>Restrictions</h3>
-	          								<% if !holdings_json.nil? %>
-	            
-	            								<% holdings_json.each do |k,holding| %>
-	               									<% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
-	               <%= holdings_json[k]['links'][0]['users'].inspect %>
-	              											Limited to <%= holdings_json[k]['links'][0]['users'].inspect  %> simultaneous users
-	               									<% end %>
-	            								<% end %>
-	           								<% end %>
+		                         	  <% end %>
+									  <% if !restrictions_display.present? %>
+									     <span class="access-restriction">
+										 <h3>Restrictions</h3>
+	          							 <% if !holdings_json.nil? %>
+	                                          <% holdings_json.each do |k,holding| %>
+	               							      <% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
+	                                                  <%#= holdings_json[k]['links'][0]['users'].inspect %>
+	              									  Limited to <%= holdings_json[k]['links'][0]['users'].inspect  %> simultaneous users
+	               							 	  <% end %>
+	            						      <% end %>
+	           						     <% end %>
 	           						  </span>
-	           						  
-	           						<% end %>
+	           						  <% end %>
 	                            <% else %>
-	                            
+	                              
                                 <% end %>
                               <% end %>
-	<% if !restrictions_display.present? %>	 
-                      </div>
-                      <% end %>                      
-	                    </li>
+	                          <% if !restrictions_display.present? %>	 
+                                 </div>
+                              <% end %>                      
+	                     </li>
 	              <%# end %>
 
 
