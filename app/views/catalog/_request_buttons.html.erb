@@ -21,7 +21,7 @@
     <% if group == 'Rare' && ENV['DISABLE_AEON'] == 'true' %>
       <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
     <% elsif counter.blank? %>
-      <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }  %>
+      <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }   Delete this?%>
       <% if !@document['etas_facet'].present? %>
           <% if !@document["location"].nil? %>
               <%= link_to "Request item#{reading}", request_context_path + "?scan=" + scan, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request', :scan => scan } unless (requestable_libraries && @document["location"]).empty? %>
