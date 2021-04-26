@@ -38,7 +38,6 @@
               <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' }  unless reading.empty? %>
 	          <% elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
 	             <%= link_to "Request item #{reading}", request_context_path + "?scan=" + scan, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request', :scan => scan }%>
-	          <% end %>
           <% end %>
        <% end %>
     <% end %>
