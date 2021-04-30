@@ -162,11 +162,11 @@
 		                         	  <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                         	  <%#= holdings_json.inspect  %>
 		                         	  <% if restrictions_display.present? %>		                         	  
+										 <h3>Restrictions</h3>
 		                         	  </div>
 		                         	  <% end %>
 									  <% if !restrictions_display.present? %>
 									     <span class="access-restriction">
-										 <h3>Restrictions</h3>
 	          							 <% if !holdings_json.nil? %>
 	                                          <% holdings_json.each do |k,holding| %>
 	               							      <% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
