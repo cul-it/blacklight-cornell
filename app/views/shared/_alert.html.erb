@@ -1,10 +1,11 @@
 <div class="service-alert" role="complementary" aria-label="service alert">
   <div class="container">
     <div class="alert alert-warning text-center">
-      <%= ENV['SERVICE_ALERT_MESSAGE'] %>
-      <% if ENV['SERVICE_ALERT_LINK_URL'] != '' %>
-        <a href=<%= ENV['SERVICE_ALERT_LINK_URL'] %>><%= ENV['SERVICE_ALERT_LINK_TEXT'] %></a>.
-      <% end %>
+    	<span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+      	<%= ENV['SERVICE_ALERT_MESSAGE'] %>
+      	<% if ENV['SERVICE_ALERT_LINK_URL'] != '' %>
+        	<a href=<%= ENV['SERVICE_ALERT_LINK_URL'] %>><%= ENV['SERVICE_ALERT_LINK_TEXT'] %></a>.
+      	<% end %>
     </div>
   </div>
 </div>
