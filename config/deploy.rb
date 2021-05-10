@@ -6,7 +6,7 @@ set :use_sudo, false
 set :scm, :git
 set :scm_verbose, true 
 # todo: set user to jenkins
-set :user, "rails"
+set :user, "jenkins"
 set :default_environment, {
   'PATH' => "/usr/local/rvm/gems/ruby-2.5.5/bin:/usr/local/rvm/gems/ruby-2.5.5@global/bin:/usr/local/rvm/rubies/ruby-2.5.5/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-2/root/usr/bin:$PATH",
   'RUBY_VERSION' => "ruby-2.5.5",
