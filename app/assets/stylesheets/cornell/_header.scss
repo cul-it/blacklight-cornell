@@ -161,6 +161,10 @@ ul.blacklight-nav {
   padding-top: .5rem;
   .alert {
     margin-bottom: 0;
+    a, a:hover, a:focus {
+      color: #66512c;
+      text-decoration: underline;
+    }
   }
   .fa {
     color: $cornell-primary;
@@ -195,6 +199,11 @@ ul.blacklight-nav {
   header {
     h1 {
       margin-bottom: 0;
+    }
+  }
+  .service-alert {
+    .alert {
+      text-align: center;
     }
   }
 }
