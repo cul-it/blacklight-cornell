@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "2.5.5"
 #another try
-gem 'rails', '5.2.4.3'
+gem 'rails', '5.2.5'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -110,7 +110,7 @@ gem 'xmlrpc'
 gem 'bootstrap'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
-# gem 'blacklight_cornell_requests', :path => '/Users/tlw72/dev/bc-requests'
+#gem 'blacklight_cornell_requests', :path => '/Users/tlw72/dev/bc-requests'
 #gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
