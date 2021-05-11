@@ -120,6 +120,15 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	text-align: right;
 }
 
+// Override alert-warning yellow
+// Accessibility checked
+// ------------------------------
+.alert-warning {
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	border-color: #faebcc;
+}
+
 
 // MEDIA QUERIES
 // -------------------------
