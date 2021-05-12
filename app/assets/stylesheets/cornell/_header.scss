@@ -1,12 +1,13 @@
 header {
   background: white;
-  border-bottom: 1px solid $tan;
-  padding: 0 0 .25em 0;
+  padding: .5em 0;
  	h1 {
-    margin: 0 0 .5rem 0;
+    margin: .25rem 0 .5rem 0;
     display: inline-block;
     line-height: 1em;
     font-family: $font-family-cul;
+    text-transform: uppercase;
+    font-size: 2rem;
   	a { 
       color: $dark-gray;}
     a:hover,
@@ -61,7 +62,7 @@ header {
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
 ul.blacklight-nav {
-  	margin: 1.2em 0 0 0;
+  	margin: .5rem 0 0 0;
     a.user-email,
     a.logout {
       padding: 5px 0;
@@ -78,7 +79,7 @@ ul.blacklight-nav {
       background: none;
     }
     li {
-      font-size: .9rem;
+      font-size: .85rem;
       padding: .5rem 0;
     }
     .myaccount-link {
@@ -141,8 +142,8 @@ ul.blacklight-nav {
 
 // Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
 .secondary-catalog-link {
-  font-size: 1.2rem;
-  margin-top: .75em;
+  font-size: 1.1rem;
+  margin-top: .25em;
 }
 
 // Chat widget - override header border rule
@@ -199,6 +200,7 @@ ul.blacklight-nav {
   header {
     h1 {
       margin-bottom: 0;
+      margin-top: 0;
     }
   }
   .service-alert {
