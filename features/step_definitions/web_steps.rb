@@ -167,6 +167,14 @@ Then /^navigation should show ([0-9]+) items? in the BookBag$/ do |int|
   end
 end
 
+Then("navigation should show the BookBag with no item count") do
+  patiently do
+    within page.find('#book_bags_nav') do
+      find('span', text: "Book Bag")
+     end
+  end
+end
+
 Given("I empty the BookBag") do
   visit 'book_bags/clear'
 end

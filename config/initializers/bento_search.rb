@@ -28,16 +28,6 @@ rescue Errno::ENOENT
   eos
 end
 
-
-# connection to EBSCO Host used by the bento/single search
-# require "#{Rails.root}/config/ebsco_dbs.rb"
-# BentoSearch.register_engine('ebscohost') do |conf|
-# 	conf.engine = 'BentoSearch::EbscoHostEngine'
-# 	conf.profile_id = ENV['EBSCO_USER'] + '.' + ENV['EBSCO_GROUP'] + '.' + ENV['EBSCO_PROFILE']
-# 	conf.profile_password = ENV['EBSCO_PASSWORD']
-# 	conf.databases = $ebsco_dbs
-# end
-
 # official supported eds search
 BentoSearch.register_engine('ebsco_eds') do |conf|
 	conf.engine = 'BentoSearch::EbscoEdsEngine'
