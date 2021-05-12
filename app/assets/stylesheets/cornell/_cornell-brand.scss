@@ -3,6 +3,7 @@
 }
 .cornell-identity {
 	background: white;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125)
 }
 .library-brand {
 	font-family: $font-family-cul;
@@ -42,8 +43,12 @@
 		margin-left: 150px;
 	}
 }
+.mobile-cornell-wrapper {
+	background: $cornell-primary;
+	padding: .25rem 0;
+}
 .mobile-cornell-logo {
-	background: url("/img/cornell-reduced-red.svg") no-repeat;
+	background: url("/img/cornell-reduced-white.svg") no-repeat;
 	width: 200px;
 	height: 45px;
 	display: block;

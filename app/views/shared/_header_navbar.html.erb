@@ -9,6 +9,11 @@
   <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
     <div id="skiptoresults"><a href="#results">skip to search results</a></div>
   <% end %>
+  <div class="mobile-cornell-wrapper d-block d-sm-none">
+    <div class="container">
+      <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
+    </div>
+  </div>
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
@@ -20,7 +25,6 @@
             </div>
           </div>
           <div class="mobile-logo d-block d-sm-none">
-            <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
             <a class="library-brand-mobile" href="http://www.library.cornell.edu">Library</a>
           </div>
         </div>
