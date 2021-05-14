@@ -1,10 +1,6 @@
 <%# Temporary variable for Covid-19 special processing %>
 <% 
   browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
-  is_etas = false
-  if @document['etas_facet'].present?
-	is_etas = true
-  end
 %>
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
   <div class="status">
@@ -14,19 +10,21 @@
     </span>
     <%= I18n.t('blacklight.catalog.on_site') %>
   </div>
-  <% end %>
+<% end %>
 
 <% if i["items"].present? %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
-      <%# commented out lines are temporary covid-19 changes %>
       <div class="status">
         <span class="online-label">
-	      <% if is_etas && i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
+	      <% if i["location"].present? && browseable_libraries.include?(i["location"]["library"])%>
             <i class="fa fa-check" aria-hidden="true"></i>
-             Available  On-site use
-	      <% elsif is_etas || (i["location"].present? && i["location"]["name"].include?("Adelson"))%>
+             <%= I18n.t('blacklight.catalog.available') %>
+          <% elsif i["location"].present? && i["location"]["name"].include?("Adelson")%>
             <i class="fa fa-clock-o" aria-hidden="true"></i>
              Unavailable at this time
+          <% elsif i["location"].present? && !browseable_libraries.include?(i["location"]["library"])%>
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+             Available by request
           <% else %>
               <i class="fa fa-check" aria-hidden="true"></i>
               <%= I18n.t('blacklight.catalog.available') %>
@@ -43,17 +41,12 @@
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
     <div class="status">
       <span class="online-label">
-	    <%# covid/etas related changes %>
-	    <% if is_etas && i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
-            <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
-            <%= I18n.t('blacklight.catalog.available') %>
-          </span>
-          <%= I18n.t('blacklight.catalog.on_site') %>
-		<% elsif i["location"].present? && browseable_libraries.include?(i["location"]["name"])%>
+	    <%# covid related changes %>
+	    <% if i["location"].present? && browseable_libraries.include?(i["location"]["library"])%>
           <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
           <%= I18n.t('blacklight.catalog.available') %>
           </span>
-        <%= I18n.t('blacklight.catalog.on_site') %>
+          <%= I18n.t('blacklight.catalog.on_site') %>
         <% else %>
           <i class="fa fa-clock-o" aria-hidden="true"></i>
            Unavailable at this time
@@ -69,18 +62,6 @@
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
      <% if !item["status"].nil? %>
-      <% if item["status"].to_s.include?("Withdrawn") && is_etas%>
-         <div class="status <%=item["status"]%>">
-	      <% if i["location"]["name"].present? && browseable_libraries.include?(i["location"]["name"])%>
-            <i class="fa fa-check" aria-hidden="true"></i>
-             Available  On-site use
-          <% else %>
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-            Unavailable at this time
-          <% end %>
-         </div>
-         <% break %>
-      <% end %>
       <div class="status <%=item["status"]%>">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         <% if item['enum'].present?  %>
