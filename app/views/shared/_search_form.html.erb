@@ -1,6 +1,7 @@
 <div class="row">
   <div class="search-tools col-12 col-lg-7">
   <%#= session[:search]["per_page"].inspect %> 
+  <%#= params.inspect %>
   <% if params[:controller]=='browse' || params[:action] == 'show' %>
      <% if params[:action] == 'show' %>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
@@ -10,7 +11,7 @@
 		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
 		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
 		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>  
-        <% hidden_params = session_params.except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
+        <%# hidden_params = session_params.except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
       <% end %>
       <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
@@ -54,7 +55,9 @@
 		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
 		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
 		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>  
-        <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
+        <% if params[:controller] != 'search_history' %>
+          <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
+        <% end %>
       <% end %>
       <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
