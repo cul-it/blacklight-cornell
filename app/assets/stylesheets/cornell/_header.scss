@@ -79,7 +79,7 @@ ul.blacklight-nav {
       background: none;
     }
     li {
-      font-size: .85rem;
+      font-size: .9rem;
       padding: .5rem 0;
     }
     .myaccount-link {
@@ -118,6 +118,10 @@ ul.blacklight-nav {
 }
 .dropdown-header {
   color: $cornell-primary;
+}
+
+.help-menu {
+  float: right;
 }
 
 // Library menu 
@@ -234,6 +238,12 @@ ul.blacklight-nav {
     }
     li:last-child {
       padding-right: 0;
+    }
+    a {
+      .fa {
+        color: $cornell-primary;
+        margin-right: .3rem;
+      }
     }
   }
 }
