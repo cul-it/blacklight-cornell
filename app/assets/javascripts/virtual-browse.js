@@ -268,6 +268,8 @@ var  carouselActions = {
           url : "/get_previous?callnum=" + callnumber + "&start=" + prevCount,
           type: 'GET',
           data: remote,
+          dataType: "jsonp",
+          jsonp: "json.wrf",
           complete: function(xhr, status) {
             if ( prevCount < 2 && keepCount == "true" ) {
               carouselActions.et_scroll_home();
@@ -295,6 +297,8 @@ var  carouselActions = {
           url : "/get_next?callnum=" + callnumber + "&start=" + nextCount,
           type: 'GET',
           data: remote,
+          dataType: "jsonp",
+          jsonp: "json.wrf",
           complete: function(xhr, status) {
               //carouselActions.setup_click_for_preview();
           }
