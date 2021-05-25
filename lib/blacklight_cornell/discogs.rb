@@ -2,7 +2,8 @@
 module BlacklightCornell::Discogs extend Blacklight::Catalog
 
   def get_discogs
-    @discogs_data = make_discogs_show_call(params[:id]) if params[:id].present?
+    id = params[:id] if params[:id].present?
+    @discogs_data = make_discogs_show_call(id) if id.present? && !id.empty?
     build_discogs_components
     respond_to do |format|
       format.js { render layout: false }
@@ -34,7 +35,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     
     query_string = build_discogs_query_string(fields)
     search_result = make_discogs_search_call(query_string)
-    if !search_result.empty? && !search_result["results"].empty?
+    if (!search_result.nil? && !search_result.empty?) && (!search_result["results"].nil? && !search_result["results"].empty?)
       @discogs_image_url = search_result["results"][0]["cover_image"].present? ? search_result["results"][0]["cover_image"] : ""
       @discogs_id = search_result["results"][0]["id"].present? ? search_result["results"][0]["id"].to_s : ""
     end

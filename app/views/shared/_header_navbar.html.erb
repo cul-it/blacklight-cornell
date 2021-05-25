@@ -9,27 +9,39 @@
   <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
     <div id="skiptoresults"><a href="#results">skip to search results</a></div>
   <% end %>
+  <div class="mobile-cornell-wrapper d-block d-sm-none">
+    <div class="container">
+      <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
+    </div>
+  </div>
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
-        <div class="cornell-logo col-12 col-sm-9">
-          <a href="http://library.cornell.edu">Cornell University Library</a>
+        <div class="cornell-logo col-sm-9">
+          <div class="logo d-none d-sm-block">
+            <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
+            <div class="library-brand">
+              <a href="http://www.library.cornell.edu">Library</a>
+            </div>
+          </div>
+          <div class="mobile-logo d-block d-sm-none">
+            <a class="library-brand-mobile" href="http://www.library.cornell.edu">Library</a>
+          </div>
         </div>
         <% if part_of_catalog? %>
           <div class="library-menu col-sm-3 text-right d-none d-sm-block">
             <div class="dropdown">
-              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library">
+              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Menu button']);">
                 <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
               </button>
               <div class="dropdown-menu" aria-labelledby="library-menu">
                 <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
                 <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
-                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries and Hours</a>
-                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Reserves</a>
+                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries</a>
+                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Textbooks</a>
                 <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
                 <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
                 <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
-                <a href="http://www.library.cornell.edu/help" class="dropdown-item">Help</a>
                 <a href="/myaccount/login" class="dropdown-item">My Account</a>
               </div>
             </div>
@@ -44,6 +56,14 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-lg-4 catalog-name">
+        <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
+          <div class="facets-toggleable-sm">
+            <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-toggle="collapse" data-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
+              <span class="sr-only">Toggle links</span>
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+        <% end %>
         <% if !part_of_catalog? and params[:controller] != 'advanced_search'%>
           <% if params[:controller] == 'users/sessions'%>
             <!-- users/sessions does not have an index action -->
@@ -67,7 +87,7 @@
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
         <div class="col-sm-3 col-lg-8 d-none d-sm-block">
-          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog</a></p>
+          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog &raquo;</a></p>
         </div>
       <% end %>
     </div>

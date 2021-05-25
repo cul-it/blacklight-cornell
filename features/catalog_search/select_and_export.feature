@@ -254,7 +254,7 @@ Feature: Select and export items from the result set
 @popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
     Given I request the item view for 7981095
-    And click on first link "Text"
+    And I text the first available item
     And I sleep 15 seconds
     And I fill in "to" with "6072213597"
     And I select 'Verizon' from the 'carrier' drop-down

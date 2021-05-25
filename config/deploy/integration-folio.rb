@@ -1,6 +1,6 @@
-server 'newcatalog7.library.cornell.edu', :app, :web, :db, primary: true, user: 'jenkins' 
+server 'newcatalog1.library.cornell.edu', :app, :web, :db, primary: true, user: 'jenkins' 
 
-set :deploy_to, "/cul/web/newcatalog-int-aws.library.cornell.edu/rails-app"
+set :deploy_to, "/cul/web/newcatalog-folio-int.library.cornell.edu/rails-app"
 #this avoids an error message from git, but i don't think it's really necessary.
 #as i don't think the message actually affects what gets installed.
 #set :branch, ENV['GIT_BRANCH'].gsub("origin/","")

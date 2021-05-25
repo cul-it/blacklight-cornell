@@ -12,12 +12,31 @@ Given /^I request the item holdings view for (.*?)$/ do |bibid|
 end
 
 Then /^click on link "(.*?)"$/ do |link|
+  # click <a> text that contains link
   click_link link
 end
 
 Then /^click on first link "(.*?)"$/ do |link|
-  l = page.first('a', :text => link)
-  l.click 
+  # click first <a> text that contains link
+  page.first(:xpath, "//a[contains(.,'#{link}')]").click
+end
+
+Given("I text the first available item") do
+  within(page.first(".holding")) do
+    page.find('#smsLink').trigger('click')
+  end
+end
+
+Then("I click and confirm {string}") do |string|
+  accept_confirm do
+    page.find('a', :text => string).trigger('click')
+  end
+end
+
+Then("I click and cancel {string}") do |string|
+  dismiss_confirm do
+    page.find('a', :text => string).trigger('click')
+  end
 end
 
 Then /^results should contain "(.*?)" with value "(.*?)"$/ do |field, author|
@@ -30,8 +49,8 @@ end
 
 Then /^it should have link ["'](.*?)["'] with value ["'](.*?)["']$/ do |txt, alink|
   #print page.html
-  expect(page).to have_link(txt, :href =>alink) 
-  #res.should == true 
+  expect(page).to have_link(txt, :href =>alink)
+  #res.should == true
 end
 
 Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
@@ -60,7 +79,7 @@ Then /^I (should|should not) see the label '(.*?)' And I should see the label '(
 end
 
 Then /^I (should|should not) see the labels '(.*?)'$/ do |yesno, llist|
-  labels = llist.split(',') 
+  labels = llist.split(',')
   if yesno == "should not"
         labels.each do |label|
 	  page.should_not have_content(label)

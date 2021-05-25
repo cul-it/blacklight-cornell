@@ -3,6 +3,7 @@
 }
 .cornell-identity {
 	background: white;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125)
 }
 .library-brand {
 	font-family: $font-family-cul;
@@ -18,13 +19,47 @@
 	margin-right: 1em;
 }
 .cornell-logo {
-	a {
-		display: block;
-		width: 322px;
-		height: 37px;
-		text-indent: -9999em;
-		background: url("/img/cul-logo.svg") no-repeat;
+	padding-bottom: .5em;
+}
+
+
+.logo {
+	padding-left: 0;
+	background: url("/img/CULibraryRed.svg") no-repeat;
+	.insignia {
+		float: left;
+		margin-right: .5em;
+		width: 100px;
+		height: 100px;
+		text-indent: -99999em;
 	}
+}
+.library-brand {
+	a {
+		text-indent: -99999em;
+		display: block;
+		width: 160px;
+		height: 100px;
+		margin-left: 150px;
+	}
+}
+.mobile-cornell-wrapper {
+	background: $cornell-primary;
+	padding: .25rem 0;
+}
+.mobile-cornell-logo {
+	background: url("/img/cornell-reduced-white.svg") no-repeat;
+	width: 200px;
+	height: 45px;
+	display: block;
+	text-indent: -99999em;
+}
+.library-brand-mobile {
+	display: block;
+	background: url("/img/CULWordmark.svg") no-repeat;
+	text-indent: -99999em;
+	width: 120px;
+	height: 45px;
 }
 
 // Skip to content link

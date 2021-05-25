@@ -24,23 +24,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	h3 {
 		font-size: 14px;
 		text-transform: uppercase;
-		margin: 0;
 		line-height: normal;
-	}
-	.blacklight-nav {
-		float: none;
-		li {
-			font-size: 16px;
-		}
-		li:first-child {
-			a {
-				padding-left: 0;
-			}
-		}
-		i {
-			color: $dark-tan; 
-			margin-right: .25em;
-		}
 	}
 }
 
@@ -134,6 +118,15 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	margin: 1em 0;
 	font-size: 12px !important;
 	text-align: right;
+}
+
+// Override alert-warning yellow
+// Accessibility checked
+// ------------------------------
+.alert-warning {
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	border-color: #faebcc;
 }
 
 
