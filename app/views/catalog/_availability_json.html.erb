@@ -9,8 +9,8 @@
         <%# covid change %>
 	    <% if location.include?("Adelson") %>
 	      <i class="fa fa-clock-o" title="Unavailable at this time" aria-hidden="true"></i>
-        <% elsif !browseable_libraries.include?(location) %>
-          <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
+        <%# elsif !browseable_libraries.include?(location) %>
+         <%#  <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i> %>
         <% else %>
           <i class="fa fa-check" title="Available" aria-hidden="true"></i>
         <% end %>
