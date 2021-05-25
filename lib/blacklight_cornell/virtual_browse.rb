@@ -56,8 +56,6 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     else
       the_format = ""
     end
-    is_etas = false
-    is_etas = true if doc["etas_facet"].present?
     # oclc_id and isbn are used to get the images from googlebooks
     oclc_id = doc["oclc_id_display"].present? ? doc["oclc_id_display"][0] : ""
     isbn = doc["isbn_display"].present? ? doc["isbn_display"][0].split(" ")[0] : ""
@@ -67,7 +65,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["author"] = doc["author_display"].present? ? doc["author_display"] : ""
     # temporary change for covid availability
     # tmp_hash["availability"] = doc["availability_json"].present? ? doc["availability_json"] : ""
-    tmp_hash["availability"] = process_availability(doc["availability_json"], is_etas)
+    tmp_hash["availability"] = process_availability(doc["availability_json"])
     tmp_hash["locations"] = process_locations(doc["availability_json"])
     tmp_hash["citation"] = doc["cite_preescaped_display"].present? ? doc["cite_preescaped_display"] : ""
     tmp_hash["callnumber"] = doc["callnum_display"].present? ? doc["callnum_display"] : ""
@@ -84,10 +82,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   end
 
   # Returns a string using the availability information
-  def process_availability(avail_json, is_etas)
+  def process_availability(avail_json)
     browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
     availability = JSON.parse(avail_json)
-    return "Available (see item)" if is_etas
     return "Online" if availability["online"].present? 
     #return "Available" if availability["availAt"].present?
     #return "Not Available" if availability["unavailAt"].present?
