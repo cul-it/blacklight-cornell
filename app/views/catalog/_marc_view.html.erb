@@ -87,14 +87,16 @@
 <% end %>
 
 <div class="subfields">
-<% items_json = JSON.parse(@document["items_json"]) %>
-<% count = 0 %>
-<% items_json.each do | key, value | %>
-<% if count == 0 %>
-<%= value[0] %>
-<% count = count + 1 %>
-<% end %>
-<% end %>
+<% if !@document["items_json"].nil? %>
+  <% items_json = JSON.parse(@document["items_json"]) %>
+  <% count = 0 %>
+  <% items_json.each do | key, value | %>
+    <% if count == 0 %>
+      <%= value[0] %>
+      <% count = count + 1 %>
+    <% end %>
+  <% end %>
+ <% end %>
 </div>
 <%# end %>
 </div>
