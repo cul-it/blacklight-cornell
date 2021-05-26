@@ -32,20 +32,27 @@
 </div>
 <% holding_id = "" %>
 <% items_json = {} %>
+<%#= @document["items_json"].inspect %>
 <div hidden id="integration">
 <div class="subfields">
+<title>
 <%= @document["fulltitle_display"] %>
+</title>
 </div>
 <div class="subfields">
+<author>
 <%= @document["author_display"] %>
+</author>
 </div>
 <div class="subfields">
 <% if !@document["edition_display"].nil? %>
 <% count = 0 %>
 
 <% @document["edition_display"].each do | edition| %>
-   <% if count == 0 %>
+   <% if count >= 0 %>
+      <edition>
       <%= edition %>
+      </edition>
       <% count = count + 1 %>
    <% end %>
 <% end %>
@@ -54,8 +61,10 @@
 <div class="subfields">
 <% count = 0 %>
 <% @document["publisher_display"].each do | publisher | %>
-   <% if count == 0 %>
-      <%= publisher %>
+   <% if count >= 0 %>
+      <publisher>      
+       <%= publisher %> 
+      </publisher>
       <% count = count + 1 %>
    <% end %>
  <% end %>
@@ -64,35 +73,24 @@
 <% count = 0 %>
 <% if !@document["pub_date_display"].nil? %>
 <% @document["pub_date_display"].each do | date | %>
+<pub_date>
 <%= date %>
+</pub_date>
 <% count = count + 1 %>
 <% end %>
 <% end %>
 </div>
 <div class="subfields">
-<%#= @document["holdings_json"] %>
-</div>
-<% if !@document["holdings_json"].nil? %>
-<div class="subfields">
-<% holdings_json = JSON.parse(@document["holdings_json"]) %>
-<% count = 0 %>
-<% holdings_json.each do | key, value | %>
-<%#= key %>
-<% if count == 0 %>
-<% holding_id = key %>
-<% end %>
-<% count = count +1 %>
-<% end %>
-</div>
-<% end %>
-
-<div class="subfields">
 <% if !@document["items_json"].nil? %>
   <% items_json = JSON.parse(@document["items_json"]) %>
   <% count = 0 %>
   <% items_json.each do | key, value | %>
-    <% if count == 0 %>
-      <%= value[0] %>
+    <% if count >= 0 %>
+       <% value.each do | item | %>
+     <item_json>
+          <%= item %>
+     </item_json>
+       <% end %>
       <% count = count + 1 %>
     <% end %>
   <% end %>
