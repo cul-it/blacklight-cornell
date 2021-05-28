@@ -2,22 +2,15 @@
   <% availability = JSON.parse(document['availability_json']) %>
   <% onotes = availability["notes"] %>
   <% browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || "" %>
-  <% 
-    is_etas = false
-    if document["url_access_json"].present? && document["url_access_json"].join.include?('ETAS')
-	  is_etas = true
-	end
-  %>
 
   <% if availability["availAt"].present? %>
     <% availability["availAt"].each do |location,callnumber| %>
       <div class="status ">
         <%# covid change %>
-	    <% if location.include?("Adelson")%>
-	      <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
-	    <%# end %>
-        <% elsif is_etas && !browseable_libraries.include?(location) %>
-          <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
+	    <% if location.include?("Adelson") %>
+	      <i class="fa fa-clock-o" title="Unavailable at this time" aria-hidden="true"></i>
+        <%# elsif !browseable_libraries.include?(location) %>
+         <%#  <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i> %>
         <% else %>
           <i class="fa fa-check" title="Available" aria-hidden="true"></i>
         <% end %>
@@ -41,12 +34,7 @@
   <% if availability["unavailAt"].present? %>
     <% availability["unavailAt"].each do |location,callnumber| %>
       <div class="status ">
-        <%# covid change %>
-        <% if is_etas && browseable_libraries.include?(location) %>
-          <i class="fa fa-check" title="Available" aria-hidden="true"></i>
-        <% else %>
-          <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
-        <% end %>
+        <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i>
         <span class="location">
         <% unless location == "Library Technical Services Review Shelves" %>
           <%= "#{location}" %>
