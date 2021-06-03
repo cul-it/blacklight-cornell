@@ -1,5 +1,5 @@
 <%# Temporary variable for Covid-19 special processing %>
-<% 
+<%
   browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
 %>
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
@@ -42,7 +42,7 @@
         <% end %>
       </div>
 
-  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>  
+  <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>
     <div class="status">
       <span class="online-label">
 	    <%# covid related changes %>
@@ -83,23 +83,23 @@
               <%= Time.at(item["status"]["due"]).strftime("%m/%d/%y") %>
             <% end %>
           <% elsif item["status"]["code"].keys[0] == "9" || item["status"]["code"].keys[0] == "10" %>
-            In transit 
+            In transit
             <% if !item["status"]["date"].nil? %>
               <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
             <% end %>
           <% elsif item["status"]["code"].keys[0] == "12" %>
-            Missing 
+            Missing
             <% if !item["status"]["date"].nil? %>
               <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
             <% end %>
           <% elsif item["status"]["code"].keys[0] == "23"|| item["status"]["code"].keys[0] == "25" %>
-            Requested 
+            Requested
             <% if !item["status"]["date"].nil? %>
               <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
             <% end %>
           <%# Status 18 = At Bindery %>
           <% elsif item["status"]["code"].keys[0] == "18" %>
-              <%= item["status"]["code"].values[0] %> 
+              <%= item["status"]["code"].values[0] %>
               <% if !item["status"]["date"].nil? %>
                 <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
               <% end %>
