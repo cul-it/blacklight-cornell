@@ -33,8 +33,12 @@
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
         <% end %>
-        <% if i['items']['returned'].present? %>
-          Returned <%= Time.at(i['items']['returned'][0]['status']['date']).strftime("%m/%d/%y") %>
+        <% if i['items']['returned'].present? &&
+          i['items']['returned'][0].present? &&
+          i['items']['returned'][0]['status'].present? &&
+          i['items']['returned'][0]['status']['returned'].present? %>
+          <% time_retured = i['items']['returned'][0]['status']['returned'] %>
+          Returned <%= Time.at(time_retured).strftime("%m/%d/%y") %>
         <% end %>
       </div>
 
