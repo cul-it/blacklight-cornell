@@ -66,8 +66,18 @@
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
      <% if !item["status"].nil? %>
-      <div class="status <%=item["status"]%>">
+      <% status = item["status"]["status"].present? ? item["status"]["status"] : '' %>
+      <% duedate = item["status"]["due"].present? ? Time.at(item["status"]["due"]).strftime("%m/%d/%y") : nil %>
+      <% duetime = item["status"]["due"].present? && item["status"]["shortLoan"].present? && item["status"]["shortLoan"] ? Time.at(item["status"]["due"]).strftime("%m/%d/%y %l:%M %P") : nil %>
+      <div class="status <%=status.downcase.gsub(' ', '-')%>">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <% if duetime.present? %>
+          <%= status %>, due <%= duetime %>
+        <% elsif duedate.present? %>
+          <%= status %>, due <%= duedate %>
+        <% else %>
+          <%= status %>
+        <% end %>
         <% if item['enum'].present?  %>
           <%= item['enum'] %>
         <% end %>
