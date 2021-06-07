@@ -12,9 +12,9 @@ Feature: Browse search
   @browse
   Scenario: Search for an author
     Given I literally go to browse
-        And I fill in the authorities search box with 'Dickens, Charles'
+        And I fill in the authorities search box with 'Heaney, Seamus'
         And I press 'search'
-    Then I should see the label 'Dickens, Charles, 1812-1870'
+    Then I should see the label 'Heaney, Seamus, 1939-2013'
 
   @browse
   Scenario: Search for a subject
@@ -128,18 +128,18 @@ Feature: Browse search
   @DISCOVERYACCESS-4659
   Scenario Outline: Search for call number LO in different locations
     Given I literally go to browse
-      And I fill in the authorities search box with 'LO'
+      And I fill in the authorities search box with 'AC'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'search'
 #      And I click a link with text 'Music Library' within 'location-filter-dropdown'
 #    Then I should see the label 'Going places'
-    Then I should see the label 'Julius Caesar'
+    Then I should see the label '100 poems'
       And I click '<go>' in the first page navigator
       And I click '<back>' in the first page navigator
-    Then I should see the label 'Julius Caesar'
+    Then I should see the label '100 poems'
       And I click '<go>' in the last page navigator
       And I click '<back>' in the last page navigator
-    Then I should see the label 'Julius Caesar'
+    Then I should see the label '100 poems'
 
 
   Examples:

@@ -31,15 +31,15 @@ Feature: Search
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
-    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I fill in "q_row1" with 'Encyclopedia of railroading'
     And I select 'Title' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'algorithmics'
+    And I fill in "q_row2" with 'National Text Book Company'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     And I sleep 4 seconds
     Then I should get results
     And I should see the label '1 result'
-    And I should see the label 'AND Publisher: algorithmics'
+    And I should see the label 'AND Publisher: National Text Book Company'
 
 # Combinatorial Algorithms, Algorithmic Press
   @adv_search
