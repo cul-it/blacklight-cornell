@@ -539,8 +539,6 @@ Feature: Search
     And I should see the label 'Modify advanced'
     And I should see the label '1 result'
 
-
-
  # DISCOVERYACCESS3298
  @adv_search
  @all_search
@@ -562,12 +560,12 @@ Feature: Search
  @allow_rescue
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with quoted 'varieties of capitalism'
+    And I fill in "q_row1" with quoted 'An historical and critical account'
     And I select 'begins' from the 'op_row' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
-    And I should see the label 'Varieties of capitalism and business history'
+    And I should see the label 'An historical and critical account of the life and writing of the ever-memorable Mr. John Hales ... being a specimen of an historical and critical English dictionary'
 
  @begins_with
  @adv_search
@@ -577,7 +575,7 @@ Feature: Search
  @allow_rescue
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with 'game design'
+    And I fill in "q_row1" with 'Struktura filosofskogo'
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced search'
