@@ -30,7 +30,7 @@ Feature: Book Bags for logged in users
 #        And I empty the BookBag
 #        Then the BookBag should be empty
 #        When I go to the home page
-#        And I fill in the search box with 'rope work'
+#        And I fill in the search box with 'the'
 #        And I press 'search'
 #        Then I should get results
 #        And I select the first <count> catalog results
@@ -65,22 +65,22 @@ Feature: Book Bags for logged in users
         And I empty the BookBag
         Then the BookBag should be empty
         When I go to the home page
-        And I fill in the search box with 'rope work guide'
+        And I fill in the search box with 'the'
         And I press 'search'
         And I sleep 2 seconds
         Then I should get results
-        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
+        And I should see 'A constitution for the socialist commonwealth of Great Britain'
         And I select the first 5 catalog results
         And I sleep 5 seconds
         When I go to BookBag
         Then there should be 5 items in the BookBag
-        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
+        And I should see 'A constitution for the socialist commonwealth of Great Britain'
         Then I sign out
         And I go to the home page
         And I sign in to BookBag
         When I go to BookBag
         Then there should be 5 items in the BookBag
-        And I should see 'Professional Rope Access: A Guide To Working Safely at Height'
+        And I should see 'A constitution for the socialist commonwealth of Great Britain'
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page
@@ -108,7 +108,7 @@ Feature: Book Bags for logged in users
         And I am on the home page
         And I sign in to BookBag
         And I empty the BookBag
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 2 catalog results
@@ -135,7 +135,7 @@ Feature: Book Bags for logged in users
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
@@ -155,7 +155,7 @@ Feature: Book Bags for logged in users
         And I am on the home page
         And I sign in to BookBag
         And I empty the BookBag
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
@@ -174,12 +174,13 @@ Feature: Book Bags for logged in users
         And I sign in to BookBag
         And I empty the BookBag
         And I sign out
+        And I clear the SQLite transactions
         And I am on the home page
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
-        And I sleep 4 seconds
+        And I sleep 2 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
@@ -201,7 +202,7 @@ Feature: Book Bags for logged in users
         And I am on the home page
         And I sign in
         And navigation should show the BookBag with no item count
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
@@ -217,7 +218,7 @@ Feature: Book Bags for logged in users
         And I sign in to BookBag
         And I empty the BookBag
         Then I go to the home page
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
@@ -225,8 +226,8 @@ Feature: Book Bags for logged in users
         Then navigation should show 3 items in the BookBag
         And I sleep 2 seconds
         And I sign out
-        And I request the item view for 11803906
-        Then I should see the label 'Quality management & engineering'
+        And I request the item view for 361984
+        Then I should see the label 'The annual of the British school at Athens'
         And I sign in
         And I sleep 2 seconds
         Then navigation should show the BookBag with no item count
@@ -240,7 +241,7 @@ Feature: Book Bags for logged in users
         And I sign in to BookBag
         And I empty the BookBag
         Then I go to the home page
-		When I fill in the search box with 'quality'
+		When I fill in the search box with 'of'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
