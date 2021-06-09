@@ -21,7 +21,7 @@ Feature: Facets
 		And I should not see a facet called 'Fiction/Non-Fiction'
 		And I should see a facet called 'Library Location'
 		And I should not see a facet called 'Call Number'
-		And I should see the label 'more'
+		And I should see only the first 10 Format facets
 
 		And the 'Access' facet should not be open
 		# DISCOVERYACCESS-? 'Format' facet should always be open
