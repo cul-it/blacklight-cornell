@@ -392,7 +392,7 @@ GEM
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.9.1)
+    loofah (2.10.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
@@ -726,6 +726,7 @@ DEPENDENCIES
   json
   kaminari (>= 0.15)
   libnotify
+  loofah (~> 2.0, >= 2.0.3)
   marc
   meta_request
   mini_racer
