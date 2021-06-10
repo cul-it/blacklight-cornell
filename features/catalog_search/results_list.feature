@@ -32,7 +32,7 @@ Feature: Results list
 	@next
 	Scenario: Search with results
 		Given I am on the home page
-		When I fill in the search box with 'biology'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
                 Then click on first link "Next »"
@@ -42,7 +42,7 @@ Feature: Results list
 	@next_facet
 	Scenario: Search with results
 		Given I am on the home page
-		When I fill in the search box with 'biology'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
                 Then click on first link "Next »"
@@ -51,21 +51,13 @@ Feature: Results list
 	@getresults
 	Scenario: Search with results
 		Given I am on the home page
-		When I fill in the search box with 'biology'
-		And I press 'search'
-		Then I should get results
-		#Then there should be at least 1 search result
-
-        @all_results_list
-	Scenario: Search with results
-		Given I am on the home page
-		When I fill in the search box with 'biology'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
 
 	Scenario: Search with results
 		Given I am on the home page
-		When I fill in the search box with 'biology /'
+		When I fill in the search box with 'the /'
 		And I press 'search'
 		Then I should get results
 
@@ -187,7 +179,7 @@ Feature: Results list
   @all_results_list
   Scenario: Online links in search results should go to item view when there is more than one online link
     Given I am on the home page
-    When I fill in the search box with 'financial times'
+    When I fill in the search box with 'Dokumente zur Deutschlandpolitik'
     And I select 'Journal Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
@@ -202,8 +194,6 @@ Feature: Results list
   @javascript
   Scenario: As a user, I can see order status for items on order, but not open orders .. continuing for serials
     Given I am on the home page
-    When I fill in the search box with 'the Economist newspaper'
-    And I press 'search'
     When I fill in the search box with 'the Economist newspaper'
     And I press 'search'
     Then I should get results
@@ -227,28 +217,28 @@ Feature: Results list
  @catalogresults
  Scenario: Search with results, an item view, make sure we do show link to catalog results
    Given I am on the home page
-   When I fill in the search box with 'Marvel Masterworks'
+   When I fill in the search box with 'human rights'
    And I press 'search'
    Then I should get results
-   Then click on link "Marvel masterworks presents the X-men"
+   Then click on link "Human rights quarterly"
    And I should see the text 'Back to catalog results'
 
  @all_results_list
  @DISCOVERYACCESS-1673
  Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
    Given I am on the home page
-   When I fill in the search box with 'Marvel Masterworks'
+   When I fill in the search box with 'human rights'
    And I press 'search'
    Then I should get results
    When I literally go to databases
-   Then I request the item view for 2083253
+   Then I request the item view for 10976407
    And I should not see the text 'catalog results'
 
  @DISCOVERYACCESS-2829
   @all_results_list
  Scenario: Search with results, make sure that there is a count associated with Libraries worldwide
    Given I am on the home page
-   When I fill in the search box with 'United States Cavalry'
+   When I fill in the search box with 'Birds'
    And I press 'search'
    Then I should see the text 'Request from Libraries Worldwide'
 
@@ -278,7 +268,7 @@ Feature: Results list
 @javascript
   Scenario: Perform an All field search with a call number
     Given I am on the home page
-    When I fill in the search box with 'QA76.6 .C85 1972'
+    When I fill in the search box with 'TL565 .N85 no.185'
     And I press 'search'
     Then I should get results
     And I should see the label '1 result'
@@ -288,19 +278,19 @@ Feature: Results list
 @javascript
   Scenario: Search with results,
     Given I am on the home page
-    When I fill in the search box with 'cigarette prices'
+    When I fill in the search box with 'ocean'
     And I select 'Title' from the 'search_field' drop-down
     And I press 'search'
     And I sleep 10 seconds
     Then I should get results
     And I sleep 4 seconds
-    Then I should see the text 'Lighting Up and'
-    Then click on first link "Lighting Up"
+    Then I should see the text 'Ocean thermal energy conversion'
+    Then click on first link "Ocean thermal energy conversion"
     And I sleep 4 seconds
     Then click on first link "Next »"
     And I sleep 4 seconds
     Then click on first link "Previous"
-    Then I should see the text 'Lighting Up and'
+    Then I should see the text 'Ocean thermal energy conversion'
 
 # Combinatorial Algorithms, Algorithmic Press
 # # the selected sort field is visible, the unselected is not visible,though present in the html.
@@ -308,7 +298,7 @@ Feature: Results list
 @javascript
   Scenario: Perform an call number search, and confirm that the search order has switched to 'sort by call number'
     Given I am on the home page
-    When I fill in the search box with 'QA76.6'
+    When I fill in the search box with 'UA830 .B61 1983'
     And I select 'Call Number' from the 'search_field' drop-down
     And I press 'search'
     And I sleep 4 seconds
@@ -321,7 +311,7 @@ Feature: Results list
 @all_results_list
   Scenario: Search with results,
     Given I am on the home page
-    When I fill in the search box with 'cigarette prices'
+    When I fill in the search box with 'ocean'
     And I select 'Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
@@ -332,12 +322,12 @@ Feature: Results list
 @sticky_per_page_preference
   Scenario Outline: Seach results display per page preference applies to new search
     Given I am on the home page
-    When I fill in the search box with 'cheese'
+    When I fill in the search box with 'the'
     And I press 'search'
     Then I should get results
     And I select <count> items per page
     And I click on the first search result
-    When I fill in the search box with 'crackers'
+    When I fill in the search box with 'ocean'
     And I press 'search'
 		And the 'per_page' select list should default to '<count> per page'
 
@@ -353,12 +343,12 @@ Feature: Results list
 @sticky_sort_preference
   Scenario Outline: Seach results display sort preference applies to new search
     Given I am on the home page
-    When I fill in the search box with 'cheese'
+    When I fill in the search box with 'the'
     And I press 'search'
     Then I should get results
     And I select the sort option '<sort_by>'
     And I click on the first search result
-    When I fill in the search box with 'crackers'
+    When I fill in the search box with 'ocean'
     And I press 'search'
 		And the 'sort' select list should default to 'Sort by <sort_by>'
 
@@ -378,12 +368,12 @@ Feature: Results list
 @omniauth_test
   Scenario: After logging in on the results page I expect to see the same results
     Given I am on the home page
-    When I fill in the search box with 'corn cob'
+    When I fill in the search box with 'birds'
     And I press 'search'
     Then I should get results
-    And I should see the label 'A moralist with a corn cob'
+    And I should see the label 'Birds I have kept in years gone by'
     Then I sign in
     And I should see "You are logged in as Diligent Tester."
     Then I should get results
-    And I should see the label 'A moralist with a corn cob'
+    And I should see the label 'Birds I have kept in years gone by'
     And I should see a facets sidebar
