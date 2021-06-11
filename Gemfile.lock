@@ -47,12 +47,13 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 096174283ae0524dd98ccaff0b5765abdd96832e
-  branch: dev
+  revision: 67d871042e26506166041082651ea2e22f3cef82
+  branch: folio
   specs:
-    my_account (1.2.3)
+    my_account (2.0)
       blacklight (>= 7.0)
       borrow_direct
+      cul-folio-edge
       rails (~> 5.1)
       rest-client
       xml-simple
