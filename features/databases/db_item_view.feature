@@ -39,8 +39,8 @@ Feature: Databases List
   @DISCOVERYACCESS-5764
   Scenario: Display the z-note information for databases
       Given I literally go to databases/title/b
-      Then I should see the label 'British national bibliography'
-      And I should see the label 'Catalogue has its own navigation buttons.'
+      Then the link 'Beautiful Birds' should go to '/catalog/5458505'
+      And the link 'Black Studies Center' should go to '/catalog/6946453'
 
   @databases
   @DISCOVERYACCESS-5764

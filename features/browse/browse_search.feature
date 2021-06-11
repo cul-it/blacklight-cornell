@@ -51,25 +51,13 @@ Feature: Browse search
   @browse
   Scenario: Search for author-title combination
     Given I literally go to browse
-        And I fill in the authorities search box with 'Hitchens, Bert'
+        And I fill in the authorities search box with 'Martin, Courtney E.'
         And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
-        Then I should see the label 'Hitchens, Bert'
-        Then click on first link "Hitchens, Bert"
-#    	Then I should see the label 'Hitchens, Bert. | End of the line'
-#    	Then click on link "Hitchens, Bert. | End of the line"
+        Then I should see the label 'Martin, Courtney E.'
+        Then click on first link "Martin, Courtney E."
         And I should get results
-        Then I should see the label '4 catalog results'
-
-  @browse
-  Scenario: Search for author-title combination
-    Given I literally go to browse
-        And I fill in the authorities search box with 'Hitchens, Bert'
-        And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
-        And I press 'search'
-    Then I should see the label 'Hitchens, Bert'
-    Then click on first link "Hitchens, Bert"
-    Then I should see the label '1 - 4 of 4'
+        Then I should see the label '3 catalog results'
 
   @browse
   @call-number-browse
@@ -94,33 +82,16 @@ Feature: Browse search
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'search'
     Then I should see the label 'Browse "LO" in call numbers'
-    #  And I click a link with text '<location>' within 'location-filter-dropdown'
-    Then I should see the label 'Title'
+    And call number '<callno>' should be available in '<location>'
 
   Examples:
-  | location | title |
-  | located in 2nd Floor Reading Room | Publish! : the how-to magazine of desktop publishing |
-#  | London 4349 | A midsummer night's dream |
-#  | Africana Library | The collected works of Scott Joplin |
-#  | Bailey Hortorium | L'architecture comparée dans l'Inde et l'Extrême-Orient, par Henri Marchal |
-#  | CISER Data Archive | Overall Real Property Tax Rates : Local Governments, 1981 |
-#  | Fine Arts Library | Sonic rebellion : music as resistance : Detroit 1967-2017 |
-#  | ILR Library | Mel Bay's immigrant songbook |
-#  | ILR Library Kheel Center | Labor's troubadour |
-#  | Kroch Library Asia | 往来物大系 / Ōraimono taikei |
-#  | Kroch Library Rare & Manuscripts | Joh. Amos Comenii Orbis sensualium picti pars prima -[secunda] ... Der sichtbaren Welt erster Theil -[anderer Theil] ... |
-#  | Law Library | Decisions of the Court of Appeals of Kentucky |
-#  | Library Annex | The hollow crown, the fall and foibles of the kings and queens of England |
-#  | Mann Library | Songs for the grange : set to music dedicated to the order of patrons of husbandry in the United States |
-#  | Mathematics Library | The acoustical foundations of music |
-#  | Music Library | Herb Alpert's Tijuana Brass. Vol. 2 |
-#  | Nestle Library | Real good grammar, too : a handbook for students and professionals |
-#  | Olin Library | Guardians of tradition, American schoolbooks of the nineteenth century |
-#  | Sage Hall Management Library | Recording industry in numbers |
-#  | Space Sciences Building | The book of the sky |
-#  | Uris Library | Bhangra dance hits |
-#  | Veterinary Library | Cornell '77 : the music, the myth, and the magnificence of the Grateful Dead's concert at Barton Hall |
-
+  | callno | location |
+  | PN45 .J41 1982 | Olin Library |
+  | PR6058.E2 A6 2018 | Olin Library |
+  | SF461 .G7 1885 | Networked Resource |
+  | TF7 .E56 | Library Annex |
+  | TF7 .E6 | Online |
+  | UA830 .B61 1983 | Library Annex |
 
   @browse
   @call-number-browse
