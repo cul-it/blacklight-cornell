@@ -16,7 +16,15 @@ Given /^I request the author title item view for (.*?)$/ do |at|
 end
 
 Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|
-  find(:xpath, "//*[@id='#{id}']//a[text()='#{text}']", visible:false).click
+  find(:xpath, "//div[@id='#{id}']//a[text()='#{text}']", visible:false).click
+end
+
+Then("call number {string} should be available in {string}") do |title, location|
+  # check that both are in the same table row
+  sleep 2
+  patiently do
+    expect(find(:xpath, "//tr", :text => title).first(:xpath, "//td" , :text => location)).to have_content(location)
+  end
 end
 
 Given /^I click '(.*?)' in the first page navigator$/ do |text|
