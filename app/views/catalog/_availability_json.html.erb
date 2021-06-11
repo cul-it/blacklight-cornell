@@ -6,7 +6,7 @@
   <% if availability["availAt"].present? %>
     <% availability["availAt"].each do |location,callnumber| %>
       <div class="status ">
-        <%# covid change %>
+        <%# covid change callnumber/pda change is temporary for folio migration%>
 	    <% if location.include?("Adelson") || callnumber == "Available for the Library to Purchase" %>
 	      <i class="fa fa-clock-o" title="Unavailable at this time" aria-hidden="true"></i>
         <%# elsif !browseable_libraries.include?(location) %>
