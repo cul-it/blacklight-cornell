@@ -19,15 +19,15 @@ Feature: Databases List
   @databases
   Scenario: Make sure list contains known collection
   	Given I literally go to databases
-        And I fill in the search box with 'MLA'
+        And I fill in the search box with 'KMODDL'
         And I press 'search'
-  	Then I should see the label 'MLA'
+  	Then the link "KMODDL" should go to "/catalog/5146902"
 
   @DISCOVERYACCESS-2325
   @databases
   Scenario: Make sure list contains known collection
   	Given I literally go to databases/subject/Images
-  	Then I should see the label 'ARTstor'
+  	Then the link 'ARTstor' should go to 'http://resolver.library.cornell.edu/misc/5346517'
 
 #  @DISCOVERYACCESS-2325
 #  @databases
