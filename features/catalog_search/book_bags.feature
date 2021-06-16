@@ -65,21 +65,21 @@ Feature: Book Bags for logged in users
         And I empty the BookBag
         Then the BookBag should be empty
         When I go to the home page
-        And I fill in the search box with 'the'
+        And I fill in the search box with 'Britain'
         And I press 'search'
         And I sleep 2 seconds
         Then I should get results
         And I should see 'A constitution for the socialist commonwealth of Great Britain'
-        And I select the first 5 catalog results
+        And I select the first 3 catalog results
         And I sleep 5 seconds
         When I go to BookBag
-        Then there should be 5 items in the BookBag
+        Then there should be 3 items in the BookBag
         And I should see 'A constitution for the socialist commonwealth of Great Britain'
         Then I sign out
         And I go to the home page
         And I sign in to BookBag
         When I go to BookBag
-        Then there should be 5 items in the BookBag
+        Then there should be 3 items in the BookBag
         And I should see 'A constitution for the socialist commonwealth of Great Britain'
 
     @book_bags_sign_in_anywhere
