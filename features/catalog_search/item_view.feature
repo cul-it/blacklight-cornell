@@ -3,14 +3,14 @@ Feature: Item view
   In order to get information about a specific item
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
-#  @all_item_view
-#  @allow-rescue
-#  @e404
-#  Scenario: goto an invalid page
+  #  @all_item_view
+  #  @allow-rescue
+  #  @e404
+  #  Scenario: goto an invalid page
 
-#    When I literally go to abcdefg
-#    Then I should see an error
-#    Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
+  #    When I literally go to abcdefg
+  #    Then I should see an error
+  #    Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
   Scenario: View an items holdings
@@ -48,7 +48,7 @@ Feature: Item view
     Given I request the item view for 6041
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII)"
     Then results should have a "author" that looks sort of like "Catholic Church. Pope (1939"
-    #Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+  #Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
   @all_item_view
@@ -108,7 +108,7 @@ Feature: Item view
     And click on link "Catholic Church. Pope (1939-1958 : Pius XII)"
     Then results should have a "author" that looks sort of like "Catholic Church"
 
-   # Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
+  # Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-138
   @all_item_view
@@ -388,48 +388,48 @@ Feature: Item view
     Given I request the item view for <bibid>
     Then I should see the text <value>
 
-  Examples:
-    | bibid  | link | filter | value |
-    # test continues_display
-#    | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention proceedings of the International Printing & Graphic Communications Union" |
-    | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention, Graphic Communications International Union" |
-    # test continues_in_part_display
-    | 115235 | "Journal of the Institute of Mathematics and its Applications" | "Title" | "Journal of the Institute of Mathematics and its Applications" |
-    # test supersedes_display
-    | 115115 | "Defectoscopy" | "Title" | "Defectoscopy" |
-    # test absorbed_display
-    | 115208 | "Student expenses at postsecondary institutions," | "Title" | "Student expenses at postsecondary institutions," |
-    # test absorbed_in_part_display
-    | 115113 | "Business conditions digest (DLC) 72621004 (OCoLC)2452279" | "Title" | "Business conditions digest" |
-    # test continued_by_display
-    | 115208 | "College costs and financial aid handbook" | "Title" | "College costs and financial aid handbook" |
-    # test continued_in_part_by_display
-    | 116073 | "Canadian wildlife (CaOONL)963900013 (OCoLC)34029039" | "Title" | "Canadian wildlife" |
-    # test superseded_by_display
-    | 115093 | "Nghiên cứu lịch sử." | "Title" | "Nghiên cứu lịch sử." |
-     # test absorbed_by_display
-    | 116073 | "National wildlife (DLC) 65066473 (OCoLC)1587904" | "Title" | "National wildlife" |
-    # test absorbed_in_part_by_display
-    | 118111 | "Alabama retail trade" | "Title" | "Alabama retail trade" |
-    # test translation_of_display
-    #| 115516 | "Kvantovai︠a︡ ėlectronika" | "Title" | "Kvantovai︠a︡ ėlectronika" |
-    # test has_translation_display
-    | 116482 | "Statistical yearbook of the Socialist Republic of Romania, 1966-" | "Title" | "Statistical yearbook of the Socialist Republic of Romania," |
-    # test has_translation_display
-    | 115317 | "Boletín de la Fundación Interamericana" | "Title" | "Boletín de la Fundación Interamericana" |
-    # test supplement_display
-    | 115621 | "Zeitschrift für Kunstgeschichte. Bibliographie des Jahres ... (DLC)sn 85004994 (OCoLC)7296517" | "Title" | "Zeitschrift für Kunstgeschichte. Bibliographie des Jahres ..." |
-    # test other_form_display
-    | 115113 | "United States. Bureau of Foreign and Domestic Commerce. Commerce reports July 1921-July 1925 (OCoLC)1533465" | "Title" | "Survey of current business (Online)" |
-    # test issued_with_display
-    | 115621 | "Online version: Zeitschrift für Kunstgeschichte (OCoLC)565894191" | "Title" | "Zeitschrift für Kunstgeschichte" |
-    #| 301950 | "Lincoln law review v. 14, no. 1 (1983)" | "Title" | "Lincoln law review" |
-    # test split_into_display
-    | 264095 | "Together" | "Title" | "Together" |
-    | 264095 | "New Christian advocate" | "Title" | "New Christian advocate" |
-    # test merger_display
-    | 115453 | "Chemical Society (Great Britain). Chemical Society reviews" | "Title" | "Chemical Society reviews" |
-    | 115453 | "Chemical Society (Great Britain). Quarterly reviews" | "Title" | "Quarterly reviews" |
+    Examples:
+      | bibid  | link                                                                                                                                                       | filter  | value                                                           |
+      # test continues_display
+      #    | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention proceedings of the International Printing & Graphic Communications Union" |
+      | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention, Graphic Communications International Union"        |
+      # test continues_in_part_display
+      | 115235 | "Journal of the Institute of Mathematics and its Applications"                                                                                             | "Title" | "Journal of the Institute of Mathematics and its Applications"  |
+      # test supersedes_display
+      | 115115 | "Defectoscopy"                                                                                                                                             | "Title" | "Defectoscopy"                                                  |
+      # test absorbed_display
+      | 115208 | "Student expenses at postsecondary institutions,"                                                                                                          | "Title" | "Student expenses at postsecondary institutions,"               |
+      # test absorbed_in_part_display
+      | 115113 | "Business conditions digest (DLC) 72621004 (OCoLC)2452279"                                                                                                 | "Title" | "Business conditions digest"                                    |
+      # test continued_by_display
+      | 115208 | "College costs and financial aid handbook"                                                                                                                 | "Title" | "College costs and financial aid handbook"                      |
+      # test continued_in_part_by_display
+      | 116073 | "Canadian wildlife (CaOONL)963900013 (OCoLC)34029039"                                                                                                      | "Title" | "Canadian wildlife"                                             |
+      # test superseded_by_display
+      | 115093 | "Nghiên cứu lịch sử."                                                                                                                                      | "Title" | "Nghiên cứu lịch sử."                                           |
+      # test absorbed_by_display
+      | 116073 | "National wildlife (DLC) 65066473 (OCoLC)1587904"                                                                                                          | "Title" | "National wildlife"                                             |
+      # test absorbed_in_part_by_display
+      | 118111 | "Alabama retail trade"                                                                                                                                     | "Title" | "Alabama retail trade"                                          |
+      # test translation_of_display
+      #| 115516 | "Kvantovai︠a︡ ėlectronika" | "Title" | "Kvantovai︠a︡ ėlectronika" |
+      # test has_translation_display
+      | 116482 | "Statistical yearbook of the Socialist Republic of Romania, 1966-"                                                                                         | "Title" | "Statistical yearbook of the Socialist Republic of Romania,"    |
+      # test has_translation_display
+      | 115317 | "Boletín de la Fundación Interamericana"                                                                                                                   | "Title" | "Boletín de la Fundación Interamericana"                        |
+      # test supplement_display
+      | 115621 | "Zeitschrift für Kunstgeschichte. Bibliographie des Jahres ... (DLC)sn 85004994 (OCoLC)7296517"                                                            | "Title" | "Zeitschrift für Kunstgeschichte. Bibliographie des Jahres ..." |
+      # test other_form_display
+      | 115113 | "United States. Bureau of Foreign and Domestic Commerce. Commerce reports July 1921-July 1925 (OCoLC)1533465"                                              | "Title" | "Survey of current business (Online)"                           |
+      # test issued_with_display
+      | 115621 | "Online version: Zeitschrift für Kunstgeschichte (OCoLC)565894191"                                                                                         | "Title" | "Zeitschrift für Kunstgeschichte"                               |
+      #| 301950 | "Lincoln law review v. 14, no. 1 (1983)" | "Title" | "Lincoln law review" |
+      # test split_into_display
+      | 264095 | "Together"                                                                                                                                                 | "Title" | "Together"                                                      |
+      | 264095 | "New Christian advocate"                                                                                                                                   | "Title" | "New Christian advocate"                                        |
+      # test merger_display
+      | 115453 | "Chemical Society (Great Britain). Chemical Society reviews"                                                                                               | "Title" | "Chemical Society reviews"                                      |
+      | 115453 | "Chemical Society (Great Britain). Quarterly reviews"                                                                                                      | "Title" | "Quarterly reviews"                                             |
 
 
   @all_item_view
@@ -437,22 +437,22 @@ Feature: Item view
     Given I request the item view for <bibid>
     Then I <yesno> see the label <label>
 
-  Examples:
-    | bibid | yesno      | label |
-    # Test for links to full content and TOC
-    #| 607   | should     | 'Available from the U.S. Government Printing Office. Adobe Acrobat Reader required' |
-    | 608   | should not | 'Access online' |
-    | 8212979 | should     | ' Table of contents' |
-    | 608   | should not | 'Access table of contents' |
-    # TODO: still need third case of content, as seen in 115628, but that record not available yet
-    # DISCOVERYACCESS-?: Link to table of contents (or partial)
-    | 4723  | should     | 'Table of contents' |
-    | 4767  | should     | 'Partial table of contents' |
-    | 4768  | should not | 'Table of Contents' |
-    | 4768  | should not | 'Partial Table of Contents' |
-    # DISCOVERYACCESS-?: Item description
-    | 4626  | should     | 'Description' |
-    | 5250067   | should not | 'Description' |
+    Examples:
+      | bibid   | yesno      | label                       |
+      # Test for links to full content and TOC
+      #| 607   | should     | 'Available from the U.S. Government Printing Office. Adobe Acrobat Reader required' |
+      | 608     | should not | 'Access online'             |
+      | 8212979 | should     | ' Table of contents'        |
+      | 608     | should not | 'Access table of contents'  |
+      # TODO: still need third case of content, as seen in 115628, but that record not available yet
+      # DISCOVERYACCESS-?: Link to table of contents (or partial)
+      | 4723    | should     | 'Table of contents'         |
+      | 4767    | should     | 'Partial table of contents' |
+      | 4768    | should not | 'Table of Contents'         |
+      | 4768    | should not | 'Partial Table of Contents' |
+      # DISCOVERYACCESS-?: Item description
+      | 4626    | should     | 'Description'               |
+      | 5250067 | should not | 'Description'               |
 
   @DISCOVERYACCESS-2968
   @all_item_view
@@ -465,63 +465,63 @@ Feature: Item view
     Given I request the item view for 4629
     Then I should not see the label 'Notes:'
 
- # not blow up when nothing returned by xisbn
- @DISCOVERYACCESS-1679
+  # not blow up when nothing returned by xisbn
+  @DISCOVERYACCESS-1679
   @all_item_view
   Scenario: Show the record properly when xisbn does not work
     Given I request the item view for 8881455
     Then I should see the label 'Language'
 
- # various boundwith cases
+  # various boundwith cases
   @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
+  @boundwith
+  @DISCOVERYACCESS-1903
+  @DISCOVERYACCESS-1328
   Scenario: Show the record properly an item is bound with another item, and there are several volumes in separate items in other volumes
     Given I request the item view for 28297
     Then I should see the label 'This item is bound with'
 
-#  @all_item_view
-# @boundwith
-# @DISCOVERYACCESS-1903
-# @DISCOVERYACCESS-1328
-#  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
-#    Given I request the item view for 118111
-#    Then I should see the label 'This item is bound with'
+  #  @all_item_view
+  # @boundwith
+  # @DISCOVERYACCESS-1903
+  # @DISCOVERYACCESS-1328
+  #  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
+  #    Given I request the item view for 118111
+  #    Then I should see the label 'This item is bound with'
 
-# I am not sure why I have to spell out the link completely here.
-    #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
-    #And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
+  # I am not sure why I have to spell out the link completely here.
+  #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
+  #And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
   @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
+  @boundwith
+  @DISCOVERYACCESS-1903
+  @DISCOVERYACCESS-1328
   Scenario: Show the record properly when part of the item is bound with one other bibid, and one with another bibid
     Given I request the item view for 168319
     Then I should see the label 'Bound with'
 
 
 
- @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
+  @all_item_view
+  @boundwith
+  @DISCOVERYACCESS-1903
+  @DISCOVERYACCESS-1328
   Scenario: Show the record properly when it is bound with another item, one item is bound with another, one is not
     Given I request the item view for 211313
     Then I should see the label 'Bound with'
 
   @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
+  @boundwith
+  @DISCOVERYACCESS-1903
+  @DISCOVERYACCESS-1328
   Scenario: Show the record properly when holding says bound with -- but it an electronic record.
     Given I request the item view for 6060112
     Then I should see the label 'Bound with'
 
   @all_item_view
- @boundwith
- @DISCOVERYACCESS-1903
- @DISCOVERYACCESS-1328
+  @boundwith
+  @DISCOVERYACCESS-1903
+  @DISCOVERYACCESS-1328
   Scenario: Show the record properly when holding has bound with multiple barcodes
     Given I request the item view for 3158956
     Then I should see the label 'Bound with'
@@ -529,35 +529,35 @@ Feature: Item view
     And it should have link "Memoirs of the New York Botanical Garden" with value "/catalog/297559"
 
   @all_item_view
- @boundwith
- @DISCOVERYACCESS-2295
+  @boundwith
+  @DISCOVERYACCESS-2295
   Scenario: Show the record properly when a holding has no items
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
 
   @popular
-#  @all_item_view
-#    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such.
-#    Given I request the item view for 293396
-#    Then I should see the label 'Popular Reading Area'
+  #  @all_item_view
+  #    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such.
+  #    Given I request the item view for 293396
+  #    Then I should see the label 'Popular Reading Area'
 
-# this item is an online item, and has holding notes.
+  # this item is an online item, and has holding notes.
   @DISCOVERYACCESS-3325
   @online_holding_notes
   @all_item_view
-    Scenario: Show the holding notes properly for online item.
+  Scenario: Show the holding notes properly for online item.
     Given I request the item view for 8797135
     Then I should see the label '17th and 18th century Burney Collection'
 
   # TODO: need bibids that match these cases
-# this item is an ordered item, received, and no item record.
-# (I don't really know what ought to be displayed.)
-#  @DISCOVERYACCESS-3243
-#  @all_item_view
-#    Scenario: Show the status properly for a received item, with no item record.
-#    Given I request the item view for 9763600
-#    Then I should see the label 'On-site use'
-#    Then I should not see the label 'On order'
+  # this item is an ordered item, received, and no item record.
+  # (I don't really know what ought to be displayed.)
+  #  @DISCOVERYACCESS-3243
+  #  @all_item_view
+  #    Scenario: Show the status properly for a received item, with no item record.
+  #    Given I request the item view for 9763600
+  #    Then I should see the label 'On-site use'
+  #    Then I should not see the label 'On order'
 
 
   # TODO: need bibids that match these cases
@@ -576,42 +576,42 @@ Feature: Item view
   #   Given I request the item view for 4759
   #   Then I should not see the label 'Series Title'
   #   And I should not see the label 'Uniform Title'
-@all_item_view
-@titlelinking
-@DISCOVERYACCESS-1023
+  @all_item_view
+  @titlelinking
+  @DISCOVERYACCESS-1023
   Scenario: Show links to other formats when they exist
-  Given I request the item view for 4163301
-  Then I should see the text 'Other forms of this work'
+    Given I request the item view for 4163301
+    Then I should see the text 'Other forms of this work'
 
-# for  Scholastici orthodoxi specimen   --- an EEBO
-@all_item_view
-@tou
+  # for  Scholastici orthodoxi specimen   --- an EEBO
+  @all_item_view
+  @tou
   Scenario: Show links to terms of use on electronic books
-  Given I request the item view for 11493262
-  #Then I should see the text 'Terms of use'
-  Then I should see the text 'Scholastici orthodoxi specimen'
+    Given I request the item view for 11493262
+    #Then I should see the text 'Terms of use'
+    Then I should see the text 'Scholastici orthodoxi specimen'
 
-# Forró and redemptive regionalism from the Brazilian northeast
-#@tou
-#@all_item_view
-#  Scenario: Show links to multiple terms of use on electronic books
-#  Given I request the item view for 8445988
- # Then I should see the text 'Terms of use'
-#  Then I should see the text '1 online resource'
-#  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
-#  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/ATCPS"
-#  And click on first link "Terms of use"
-#  Then I should see the text 'Course Reserves by link only'
+  # Forró and redemptive regionalism from the Brazilian northeast
+  #@tou
+  #@all_item_view
+  #  Scenario: Show links to multiple terms of use on electronic books
+  #  Given I request the item view for 8445988
+  # Then I should see the text 'Terms of use'
+  #  Then I should see the text '1 online resource'
+  #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
+  #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/ATCPS"
+  #  And click on first link "Terms of use"
+  #  Then I should see the text 'Course Reserves by link only'
 
 
-@insert_line_breaks
-@all_item_view
+  @insert_line_breaks
+  @all_item_view
   Scenario: Show table of contents with line breaks and not commas
-  Given I request the item view for 9493653
-  Then I should not see the text 'Volunteer's dilemma,'
+    Given I request the item view for 9493653
+    Then I should not see the text 'Volunteer's dilemma,'
 
-#Kramer family papers
-#1939-2009
+  #Kramer family papers
+  #1939-2009
   @all_item_view
   @finding_aid
   @DISCOVERYACCESS-2817
@@ -620,8 +620,8 @@ Feature: Item view
     Then I should see the label 'Finding aid'
     And it should have link "Finding aid" with value "http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM03970"
 
-#Attacking trigonometry problems
-#David S. Kahn. with bookplate In memory of Albert Leskowitz.
+  #Attacking trigonometry problems
+  #David S. Kahn. with bookplate In memory of Albert Leskowitz.
   @all_item_view
   @bookplates
   @DISCOVERYACCESS-2823
@@ -630,8 +630,8 @@ Feature: Item view
     Then I should see the label 'Bookplate'
     And it should have link "In memory of Albert Leskowitz." with value "http://plates.library.cornell.edu/donor/DNR00451"
 
-#Confessio fidei exhibita invictiss
-#The Eugene M. Kaufmann, Jr. Endowment Fund., The Arthur H. and Mary Marden Dean Book Fund.
+  #Confessio fidei exhibita invictiss
+  #The Eugene M. Kaufmann, Jr. Endowment Fund., The Arthur H. and Mary Marden Dean Book Fund.
   @all_item_view
   @bookplates
   @DISCOVERYACCESS-2823
@@ -647,10 +647,10 @@ Feature: Item view
   @DISCOVERYACCESS-2881
   Scenario: Show multiple links to other online content
     Given I request the item view for 8913436
-  #  Then I should see the label 'Online'
+    #  Then I should see the label 'Online'
     Then I should see the label 'American Hospital Association annual survey database'
- #   And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
- #   And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
+  #   And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
+  #   And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
 
   # availability -- Spacecraft Planetary Imaging Facilty
   # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
@@ -715,7 +715,7 @@ Feature: Item view
     Then I should see the label 'On-site use'
     And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
 
-  # item view links to call number browse
+# item view links to call number browse
 #  @all_item_view
 #  @item_view_call_number_browse_links
 #  @DISCOVERYACCESS-4781
