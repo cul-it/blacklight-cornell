@@ -71,3 +71,69 @@ Feature: Browse search
   | 6044052 | Perfect girls, starving daughters |
   | 1041597 | Sweet hands |
   | 996135 | Whipped cream & other delights |
+  | 106223 | Declaration of a heretic |
+  | 11493262 | Scholastici orthodoxi specimen |
+  | 115093 | Tập san nghiên cứu văn sử địa |
+  | 115113 | Survey of current business |
+  | 115115 | The Soviet journal of nondestructive testing |
+  | 115208 | The College cost book |
+  | 115235 | IMA journal of applied mathematics |
+  | 115317 | Journal of the Inter-American Foundation |
+  | 115453 | RIC reviews |
+  | 115621 | Zeitschrift für Kunstgeschichte |
+  | 116073 | International wildlife |
+  | 116482 | Anuarul statistic al Republicii Socialiste România |
+  | 118111 | Alabama business |
+  | 1208939 | Chi Pheo and other stories |
+  | 1535861 | The annotated Hobbit |
+  | 1545844 | The New York times |
+  | 1630516 | An Anthology of Chartist poetry |
+  | 168319 | Actes du consistoire de l'Église française de Threadneedle street, Londres ... |
+  | 2070362 | Kramer family papers |
+  | 2083253 | George Burr Upton papers |
+  | 211313 | Australien nach dem stande der geographischen kenntniss in 1871 |
+  | 2144728 | Polymer chemistry |
+  | 2229355 | Agricultural schedules of New York State by counties |
+  | 259600 | Diversification through acquisition |
+  | 264095 | Christian advocate |
+  | 2696727 | Race, ethnicity and multiculturalism |
+  | 2795276 | The Malott times |
+  | 298714 | The Academy of Management review |
+  | 30000 | Impact of budget proposals on income maintenance programs, trade and economic policy, state and local issues |
+  | 306998 | Municipal innovations |
+  | 307178 | Journal of equine veterinary science |
+  | 3158956 | Systematics of Erisma (Vochysiaceae) |
+  | 329763 | Nature |
+  | 330333 | Ithaca times |
+  | 3749 | Convexity and duality in optimization |
+  | 4163301 | Harry Potter og eldbikarinn |
+  | 44112 | This sex which is not one |
+  | 4442 | Lives of Alexander Wilson and Captain John Smith |
+  | 4473308 | Confessio fidei exhibita invictiss. imp. Carolo V. Caesari Aug. in comicijs Augustae. Anno MDXXX ; Addita est Apologia co[n]fessionis ; Psalm 119 ; Et loquebar de testimoniis tuis in conspectu Regum, & non consundebar |
+  | 45766 | Proceedings of the ... Convention, Graphic Communications International Union |
+  | 4626 | D.H. Lawrence |
+  | 4629 | Das Selbstbestimmungsrecht der Völker und die Sowjetunion |
+  | 4723 | Handbuch der Mineralogie |
+  | 4759 | Mangrāisāt chabap Chīangman, tonchabap Wat Chīangman, ʻAmphœ̄ Mư̄ang, Čhangwat Chīang Mai |
+  | 4767 | Introduction to the study of international law |
+  | 4768 | Xây dựng và nhân điển hình |
+  | 52325 | Bonsai |
+  | 5250067 | A correct statement of the grand cricket-match, played at Worksop, on Monday, Tuesday, and Wednesday, the 3d, 4th, and 5th of November 1800, by eleven members of the Nottingham Club, against twenty-two members of the Sheffield Club, for two hundred guineas |
+  | 5318858 | Sexual orientation and the law |
+  | 5380314 | The New York times |
+  | 5729532 | Mac OS X Tiger in a nutshell |
+  | 5972895 | Chính sách tôn giáo của Đảng |
+  | 6041 | Encyclical letter of Pope Pius XII, October 20, 1939 |
+  | 6060112 | Household discoveries |
+  | 608 | U.S. coal goes abroad |
+  | 7943432 | The basic practice of statistics |
+  | 8212979 | Ancient libraries |
+  | 8258651 | อนุสรณ์งานพระราชทานเพลิงศพ ศาสตราจารย์ (พิเศษ) ดร. กำธร สถิรกุล ป.ม., ท.ช / ʻAnusō̜n ngān phrarātchathān phlœ̄ng sop Sātsatrāčhān (Phisēt) Dō̜rō̜. Kamthō̜n Sathirakun Pō̜. Mō̜., Thō̜. Chō̜ |
+  | 8272732 | The goldfinch |
+  | 8688843 | Beyond inclusion |
+  | 8753977 | Kenneth A. R. Kennedy papers |
+  | 8797135 | Gale |
+  | 8913436 | AHA annual survey database |
+  | 8948570 | Attacking trigonometry problems |
+  | 9203210 | Born |
+  | 9264410 | Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions |
