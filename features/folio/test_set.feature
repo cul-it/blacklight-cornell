@@ -137,3 +137,7 @@ Feature: Browse search
   | 8948570 | Attacking trigonometry problems |
   | 9203210 | Born |
   | 9264410 | Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions |
+  | 28297 | ???
+  | 8036458 | ???
+  | 8881455 | ???
+  | 9493653 | ???
