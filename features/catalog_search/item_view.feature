@@ -325,7 +325,7 @@ Feature: Item view
   @holdings
   @pda
   Scenario: As a user I can see that an item is available for acquisition
-    Given I request the item view for 38036458
+    Given I request the item view for 8036458
     Then I should not see the label 'Library Technical Services Review Shelves'
 
   # DISCOVERYACCESS-1430 -- be more explicit in saying what is available.
