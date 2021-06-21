@@ -698,7 +698,8 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 1545844
     Then I should see the label 'On-site use'
-    Then I should see the label 'Request item'
+    # Commenting out for Folio migration
+    #Then I should see the label 'Request item'
 
   @hours-page
   @on-site-use
