@@ -88,6 +88,12 @@ Then /^I should get results$/ do
   end
 end
 
+Then("I should get {int} results") do |int|
+  patiently do
+    expect(page.find(:css, "span#total-search-results")).to have_content(int)
+  end
+end
+
 Then /^I should not get results$/ do
   page.should_not have_selector("div.document")
 end
