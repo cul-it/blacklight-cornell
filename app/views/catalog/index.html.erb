@@ -22,14 +22,14 @@
         <%= auto_discovery_link_tag(:atom, url_for(params.permit.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
         <%= render_extra_head_content %>
       <% end -%>
-        
+
         <%#= render :partial => 'search_form' %>
         <% unless ((request.referer).present? && (request.referer).include?("browse")) || params[:click_to_search]=='true' %>
         <%= render :partial => 'did_you_mean' %>
         <% end %>
 
         <%if @response.total_count < 1 && !@expanded_results.nil?%>
-        <p>Your search returned 0 results. Try searching 
+        <p>Your search returned <%= content_tag :span, '0', id: 'total-search-results' %> results. Try searching
           <%if params[:q_row].nil?  && params[:click_to_search].nil? && params[:f].nil? %>
             <a href="<%= @expanded_results['worldcat'][:url] %>">
           <% else %>
@@ -37,7 +37,8 @@
           <%end%>
           Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
         <%else%>
-          <% r = pluralize(@response.total_count,'catalog result') %>
+          <%= content_tag :span,  @response.total_count.to_s, id: 'total-search-results' %>
+          <% r = 'catalog result'.pluralize(@response.total_count) %>
           <%= "#{r}" %>
           <% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
           <%= link_to(url_for(params.merge(:format => 'rss')), :class => "rss-icon", :title => "RSS feed") do   %>
@@ -46,7 +47,7 @@
 
 
         <%= render 'sort_and_per_page' %>
-        
+
         <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
         <%= render_document_index %>
         <%= render 'results_pagination' %>
