@@ -1,15 +1,14 @@
-# encoding: UTF-8
+# encoding: utf-8
 @folio
 Feature: Browse search
   In order to test FOLIO with a subset of catalog records
-  As a developer
+  As a user
   I want to be sure each bibid in the subset is available
 
   @DISCOVERYACCESS-7123
   Scenario Outline: View an available bibid
     Given I request the item view for <bibid>
     Then I should see the "doc_<bibid>" element
-    And I should see the label '<title>'
 
   Examples:
   | bibid | title |
