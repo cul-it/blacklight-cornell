@@ -1,3 +1,4 @@
+# encoding: utf-8
 @all_search
 @adv_search
 @search
