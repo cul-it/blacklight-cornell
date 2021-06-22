@@ -35,7 +35,6 @@ Feature: Browse search
   | 6395180 | 100% beef |
   | 130786 | Manual of the trees of North America (exclusive of Mexico) |
   | 3709643 | Mawsūʻat al-ʻimārah wa-funūn al-Islāmīyah |
-  | 3749 | Convexity and duality in optimization |
   | 6701 | Birds of the Bahamas |
   | 301363 | Biology |
   | 115983 | The Economist |
