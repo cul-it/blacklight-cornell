@@ -1,3 +1,4 @@
+# encoding: utf-8
 Given /^I request the item view for (.*?)$/ do |bibid|
   visit "/catalog/#{bibid}"
 end
