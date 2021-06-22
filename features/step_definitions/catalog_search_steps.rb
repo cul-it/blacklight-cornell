@@ -177,3 +177,8 @@ Then("I should see only the first {int} Format facets") do |int|
     expect(page).to have_selector('div#facet-format ul.facet-values > li.more_facets')
   end
 end
+
+Given("I search for everything") do
+  fill_in('q', :with => '', fill_options: { clear: :backspace })
+  page.find(:css, 'button#search-btn').click
+end
