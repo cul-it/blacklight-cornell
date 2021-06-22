@@ -1,91 +1,91 @@
 # encoding: utf-8
 Feature: Results list
 
-	In order to find items that I search for
-	As a user
-	I want to view a list of search results with various options.
+  In order to find items that I search for
+  As a user
+  I want to view a list of search results with various options.
 
-	Background:
-        @all_results_list
-        @rss
-	Scenario: Empty search
-		Given I am on the home page
-		And I press 'search'
+  Background:
+  @all_results_list
+  @rss
+  Scenario: Empty search
+    Given I am on the home page
+    And I press 'search'
 
-		# Tests copied from Blacklight gem code
-		Then I should be on 'the catalog page'
-		And I should get results
-		And I should see an RSS discovery link
-		And I should see an Atom discovery link
-		And I should see OpenSearch response metadata tags
-		And I should see the text 'Search History'
+    # Tests copied from Blacklight gem code
+    Then I should be on 'the catalog page'
+    And I should get results
+    And I should see an RSS discovery link
+    And I should see an Atom discovery link
+    And I should see OpenSearch response metadata tags
+    And I should see the text 'Search History'
 
-		# DISCOVERYACCESS-? Select # of items per page
-		Then I should see the per_page select list
-		And the 'per_page' select list should default to '20 per page'
-		And the 'per_page' select list should have an option for '10 per page'
-		And the 'per_page' select list should have an option for '50 per page'
-		And the 'per_page' select list should have an option for '100 per page'
+    # DISCOVERYACCESS-? Select # of items per page
+    Then I should see the per_page select list
+    And the 'per_page' select list should default to '20 per page'
+    And the 'per_page' select list should have an option for '10 per page'
+    And the 'per_page' select list should have an option for '50 per page'
+    And the 'per_page' select list should have an option for '100 per page'
 
 
-        @all_results_list
-	@next
-	Scenario: Search with results
-		Given I am on the home page
-		When I fill in the search box with 'the'
-		And I press 'search'
-		Then I should get results
-                Then click on first link "Next »"
-		Then I should get results
+  @all_results_list
+  @next
+  Scenario: Search with results
+    Given I am on the home page
+    When I fill in the search box with 'the'
+    And I press 'search'
+    Then I should get results
+    Then click on first link "Next »"
+    Then I should get results
 
-        @all_results_list
-	@next_facet
-	Scenario: Search with results
-		Given I am on the home page
-		When I fill in the search box with 'the'
-		And I press 'search'
-		Then I should get results
-                Then click on first link "Next »"
+  @all_results_list
+  @next_facet
+  Scenario: Search with results
+    Given I am on the home page
+    When I fill in the search box with 'the'
+    And I press 'search'
+    Then I should get results
+    Then click on first link "Next »"
 
-        @all_results_list
-	@getresults
-	Scenario: Search with results
-		Given I am on the home page
-		When I fill in the search box with 'the'
-		And I press 'search'
-		Then I should get results
+  @all_results_list
+  @getresults
+  Scenario: Search with results
+    Given I am on the home page
+    When I fill in the search box with 'the'
+    And I press 'search'
+    Then I should get results
 
-	Scenario: Search with results
-		Given I am on the home page
-		When I fill in the search box with 'the /'
-		And I press 'search'
-		Then I should get results
+  Scenario: Search with results
+    Given I am on the home page
+    When I fill in the search box with 'the /'
+    And I press 'search'
+    Then I should get results
 
-		# DISCOVERYACCESS-7
-	# And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
+    # DISCOVERYACCESS-7
+    # And I should see 'Displaying all 6 items' or I should see 'Displaying items 1 - 6 of 6'
 
-		# DISCOVERYACCESS-13 (tests for text description of format but not icon)
-		And I should see each item format
+    # DISCOVERYACCESS-13 (tests for text description of format but not icon)
+    And I should see each item format
 
-		# DISCOVERYACCESS-8
-		# TODO: this should test behavior, not just presence of search options
-		And the 'sort' select list should have an option for 'relevance'
-		And the 'sort' select list should have an option for 'year ascending'
-		And the 'sort' select list should have an option for 'year descending'
-		And the 'sort' select list should have an option for 'title A-Z'
-		And the 'sort' select list should have an option for 'title Z-A'
-		And the 'sort' select list should have an option for 'author A-Z'
-		And the 'sort' select list should have an option for 'author Z-A'
+    # DISCOVERYACCESS-8
+    # TODO: this should test behavior, not just presence of search options
+    And the 'sort' select list should have an option for 'relevance'
+    And the 'sort' select list should have an option for 'year ascending'
+    And the 'sort' select list should have an option for 'year descending'
+    And the 'sort' select list should have an option for 'title A-Z'
+    And the 'sort' select list should have an option for 'title Z-A'
+    And the 'sort' select list should have an option for 'author A-Z'
+    And the 'sort' select list should have an option for 'author Z-A'
     And the 'sort' select list should have an option for 'call number'
 
-		# Users should be able to select items from the list. But see select_and_export.feature
-		# for more details.
-		And results should have a select checkbox
-		And results should have a title field
+    # Users should be able to select items from the list. But see select_and_export.feature
+    # for more details.
+    And results should have a select checkbox
+    And results should have a title field
   #/^it should have a "(.*?)" that looks sort of like "(.*?)"/
   # DISCOVERYACCESS-?
-        @all_results_list
- @pub_info
+  @all_results_list
+  @pub_info
   Scenario: As a user I can see the publication date, publisher and place of publication on one line in the item record view.
     Given I am on the home page
     And I fill in the search box with 'encyclopedia of islamic architecture'
@@ -95,9 +95,9 @@ Feature: Results list
 
 
 
-	# TODO: following are additional tests from the Blacklight gem code. Implement or delete!
+  # TODO: following are additional tests from the Blacklight gem code. Implement or delete!
 
-	 # Scenario: Submitting a Search with specific field selected
+  # Scenario: Submitting a Search with specific field selected
   #   When I am on the home page
   #   And I fill in "q" with "inmul"
   #   And I select "Title" from "search_field"
@@ -183,7 +183,7 @@ Feature: Results list
     And I select 'Journal Title' from the 'search_field' drop-down
     And I press 'search'
     Then I should get results
-    #And it should have link "Online" with value "/catalog/5374340"
+  #And it should have link "Online" with value "/catalog/5374340"
 
 
 
@@ -200,7 +200,7 @@ Feature: Results list
     And I should not see the text 'Order Information'
 
   # DISCOVERYACCESS-1407
-        @all_results_list
+  @all_results_list
   @DISCOVERYACCESS-1407
   @availability
   @javascript
@@ -212,39 +212,39 @@ Feature: Results list
     Then I should get results
     And I should see the text 'On Order'
 
- @all_results_list
- @DISCOVERYACCESS-1673
- @catalogresults
- Scenario: Search with results, an item view, make sure we do show link to catalog results
-   Given I am on the home page
-   When I fill in the search box with 'human rights'
-   And I press 'search'
-   Then I should get results
-   Then click on link "Human rights quarterly"
-   And I should see the text 'Back to catalog results'
-
- @all_results_list
- @DISCOVERYACCESS-1673
- Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
-   Given I am on the home page
-   When I fill in the search box with 'human rights'
-   And I press 'search'
-   Then I should get results
-   When I literally go to databases
-   Then I request the item view for 10976407
-   And I should not see the text 'catalog results'
-
- @DISCOVERYACCESS-2829
   @all_results_list
- Scenario: Search with results, make sure that there is a count associated with Libraries worldwide
-   Given I am on the home page
-   When I fill in the search box with 'Birds'
-   And I press 'search'
-   Then I should see the text 'Request from Libraries Worldwide'
+  @DISCOVERYACCESS-1673
+  @catalogresults
+  Scenario: Search with results, an item view, make sure we do show link to catalog results
+    Given I am on the home page
+    When I fill in the search box with 'human rights'
+    And I press 'search'
+    Then I should get results
+    Then click on link "Human rights quarterly"
+    And I should see the text 'Back to catalog results'
 
-@all_results_list
-@next_facet
-@javascript
+  @all_results_list
+  @DISCOVERYACCESS-1673
+  Scenario: Search with results, but then visit an alternate world, and an item view, make sure we do NOT show the alternate world
+    Given I am on the home page
+    When I fill in the search box with 'human rights'
+    And I press 'search'
+    Then I should get results
+    When I literally go to databases
+    Then I request the item view for 10976407
+    And I should not see the text 'catalog results'
+
+  @DISCOVERYACCESS-2829
+  @all_results_list
+  Scenario: Search with results, make sure that there is a count associated with Libraries worldwide
+    Given I am on the home page
+    When I fill in the search box with 'Birds'
+    And I press 'search'
+    Then I should see the text 'Request from Libraries Worldwide'
+
+  @all_results_list
+  @next_facet
+  @javascript
   Scenario: Search with results,
     Given I am on the home page
     When I fill in the search box with 'We were feminists'
@@ -263,9 +263,9 @@ Feature: Results list
     Then click on first link "Back to catalog results"
     Then I should get results
 
-# Combinatorial Algorithms, Algorithmic Press
-@all_results_list
-@javascript
+  # Combinatorial Algorithms, Algorithmic Press
+  @all_results_list
+  @javascript
   Scenario: Perform an All field search with a call number
     Given I am on the home page
     When I fill in the search box with 'TL565 .N85 no.185'
@@ -273,9 +273,9 @@ Feature: Results list
     Then I should get results
     And I should see the label '1 result'
 
-@all_results_list
-@next_facet
-@javascript
+  @all_results_list
+  @next_facet
+  @javascript
   Scenario: Search with results,
     Given I am on the home page
     When I fill in the search box with 'ocean'
@@ -292,10 +292,10 @@ Feature: Results list
     Then click on first link "Previous"
     Then I should see the text 'Ocean thermal energy conversion'
 
-# Combinatorial Algorithms, Algorithmic Press
-# # the selected sort field is visible, the unselected is not visible,though present in the html.
-@all_results_list
-@javascript
+  # Combinatorial Algorithms, Algorithmic Press
+  # # the selected sort field is visible, the unselected is not visible,though present in the html.
+  @all_results_list
+  @javascript
   Scenario: Perform an call number search, and confirm that the search order has switched to 'sort by call number'
     Given I am on the home page
     When I fill in the search box with 'UA830 .B61 1983'
@@ -308,7 +308,7 @@ Feature: Results list
     And I sleep 4 seconds
     Then I should see the text 'Sort by call number'
 
-@all_results_list
+  @all_results_list
   Scenario: Search with results,
     Given I am on the home page
     When I fill in the search box with 'ocean'
@@ -317,9 +317,9 @@ Feature: Results list
     Then I should get results
     And I should see the "fa-rss-square" class
 
-@all_results_list
-@DISCOVERYACCESS-4700
-@sticky_per_page_preference
+  @all_results_list
+  @DISCOVERYACCESS-4700
+  @sticky_per_page_preference
   Scenario Outline: Seach results display per page preference applies to new search
     Given I am on the home page
     When I fill in the search box with 'the'
@@ -329,18 +329,18 @@ Feature: Results list
     And I click on the first search result
     When I fill in the search box with 'ocean'
     And I press 'search'
-		And the 'per_page' select list should default to '<count> per page'
+    And the 'per_page' select list should default to '<count> per page'
 
-  Examples:
-    | count |
-    | 20 |
-    | 50 |
-    | 100 |
+    Examples:
+      | count |
+      | 20    |
+      | 50    |
+      | 100   |
 
 
-@all_results_list
-@DISCOVERYACCESS-4700
-@sticky_sort_preference
+  @all_results_list
+  @DISCOVERYACCESS-4700
+  @sticky_sort_preference
   Scenario Outline: Seach results display sort preference applies to new search
     Given I am on the home page
     When I fill in the search box with 'the'
@@ -350,22 +350,22 @@ Feature: Results list
     And I click on the first search result
     When I fill in the search box with 'ocean'
     And I press 'search'
-		And the 'sort' select list should default to 'Sort by <sort_by>'
+    And the 'sort' select list should default to 'Sort by <sort_by>'
 
-  Examples:
-    | sort_by |
-    | relevance |
-    | year descending |
-    | year ascending |
-    | author A-Z |
-    | author Z-A |
-    | title A-Z |
-    | title Z-A |
-    | call number |
+    Examples:
+      | sort_by         |
+      | relevance       |
+      | year descending |
+      | year ascending  |
+      | author A-Z      |
+      | author Z-A      |
+      | title A-Z       |
+      | title Z-A       |
+      | call number     |
 
-@DISCOVERYACCESS-6660
-@javascript
-@omniauth_test
+  @DISCOVERYACCESS-6660
+  @javascript
+  @omniauth_test
   Scenario: After logging in on the results page I expect to see the same results
     Given I am on the home page
     When I fill in the search box with 'birds'
