@@ -34,6 +34,7 @@ Feature: Browse search
   | 6395180 | 100% beef |
   | 130786 | Manual of the trees of North America (exclusive of Mexico) |
   | 3709643 | Mawsūʻat al-ʻimārah wa-funūn al-Islāmīyah |
+  | 3749 | Convexity and duality in optimization |
   | 6701 | Birds of the Bahamas |
   | 301363 | Biology |
   | 115983 | The Economist |
@@ -103,7 +104,6 @@ Feature: Browse search
   | 3158956 | Systematics of Erisma (Vochysiaceae) |
   | 329763 | Nature |
   | 330333 | Ithaca times |
-  | 3749 | Convexity and duality in optimization |
   | 4163301 | Harry Potter og eldbikarinn |
   | 44112 | This sex which is not one |
   | 4442 | Lives of Alexander Wilson and Captain John Smith |
@@ -135,7 +135,8 @@ Feature: Browse search
   | 8948570 | Attacking trigonometry problems |
   | 9203210 | Born |
   | 9264410 | Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions |
-  | 28297 | ??? |
+  | 28297 | The birds of the Belgian Congo |
   | 8036458 | Intervention strategies to follow informal reading inventory assessment |
-  | 8881455 | ??? |
-  | 9493653 | ??? |
+  | 8881455 | Solidarity Economy and Social Business |
+  | 1754680 | Institutional meat purchase specifications for fresh beef |
+  | 3662401 | A sea-fight |
