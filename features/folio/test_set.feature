@@ -2,7 +2,7 @@
 @folio
 Feature: Browse search
   In order to test FOLIO with a subset of catalog records
-  As a user
+  As a developer
   I want to be sure each bibid in the subset is available
 
   @DISCOVERYACCESS-7123
