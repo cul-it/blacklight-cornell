@@ -8,7 +8,7 @@ Feature: Browse search
   @DISCOVERYACCESS-7123
   Scenario Outline: View an available bibid
     Given I request the item view for <bibid>
-    Then I should see the "doc_<bibid>" element
+    Then I should see the label '<title>'
 
   Examples:
   | bibid | title |
