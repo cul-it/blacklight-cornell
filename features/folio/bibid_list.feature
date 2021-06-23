@@ -8,7 +8,7 @@ Feature: Browse search
   @DISCOVERYACCESS-7123
   Scenario Outline: View an available bibid
     Given I request the item view for <bibid>
-    Then I should see the "doc_<bibid>" element
+    Then I should see the label '<title>'
 
   Examples:
   | bibid | title |
@@ -105,6 +105,13 @@ Feature: Browse search
   | 329763 | Nature |
   | 330333 | Ithaca times |
   | 4163301 | Harry Potter og eldbikarinn |
+  | 8918300 | แฮรี่ พอตเตอร์กับถ้วยอัคนี / Hǣri Phō̜ttœ̄ kap thūai ʻakkhanī |
+  | 5727137 | Hārī Pūtir wa-kaʼs al-nār |
+  | 3856962 | Harry Potter and the goblet of fire |
+  | 3855887 | Harry Potter und der Feuerkelch |
+  | 7571753 | Hyāri Paṭāra ayāṇḍa dya gabaleṭa aba phāẏāra |
+  | 3849306 | Harry Potter and the goblet of fire |
+  | 9898648 | Harry Potter et la coupe de feu |
   | 44112 | This sex which is not one |
   | 4442 | Lives of Alexander Wilson and Captain John Smith |
   | 4473308 | Confessio fidei exhibita invictiss. imp. Carolo V. Caesari Aug. in comicijs Augustae. Anno MDXXX ; Addita est Apologia co[n]fessionis ; Psalm 119 ; Et loquebar de testimoniis tuis in conspectu Regum, & non consundebar |

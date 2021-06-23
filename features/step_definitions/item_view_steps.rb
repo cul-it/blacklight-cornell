@@ -1,6 +1,9 @@
 # encoding: utf-8
 Given /^I request the item view for (.*?)$/ do |bibid|
   visit "/catalog/#{bibid}"
+  patiently do
+    page.find("#doc_#{bibid}", visible: :all)
+  end
 end
 
 When /^(.*) within a cassette named "([^"]*)"$/ do |step, cassette_name|
