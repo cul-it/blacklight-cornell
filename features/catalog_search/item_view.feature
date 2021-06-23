@@ -274,14 +274,14 @@ Feature: Item view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 14)
     Given I request the item view for 5318858
-    Then I should see the label 'v.2 Lost--System Applied 08/26/14'
+    Then I should see the label 'Declared lost v.2'
 
   # Availability for a lost item status 13
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 13)
     Given I request the item view for 259600
-    Then I should see the label 'Lost--Library Applied 06/16/13'
+    Then I should see the label 'Declared lost'
 
   # Make sure subfield z is displayed.
   @all_item_view
