@@ -1,3 +1,4 @@
+# encoding: utf-8
 @all_search
 @adv_search
 @search
@@ -77,8 +78,7 @@ Feature: Search
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     And I sleep 4 seconds
-    Then I should get results
-    And I should see the label '1 result'
+    Then I should get 3 results
     And I should see the label 'NOT Publisher: springer'
 
 # Combinatorial Algorithms, Algorithmic Press
@@ -97,8 +97,7 @@ Feature: Search
     And I fill in "q_row2" with 'springer'
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 result'
+    Then I should get 3 results
 
  @adv_search
  @all_search
@@ -260,8 +259,8 @@ Feature: Search
     And I select 'all' from the 'op_row' drop-down
     And I select 'Donor Name' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 result'
+    Then I should get 2 results
+    #And I should see the label '1 result'
     #And I should not see the label 'Modify advanced'
 
 #

@@ -1,15 +1,14 @@
-# encoding: UTF-8
+# encoding: utf-8
 @folio
 Feature: Browse search
   In order to test FOLIO with a subset of catalog records
-  As a developer
+  As a user
   I want to be sure each bibid in the subset is available
 
   @DISCOVERYACCESS-7123
   Scenario Outline: View an available bibid
     Given I request the item view for <bibid>
     Then I should see the "doc_<bibid>" element
-    And I should see the label '<title>'
 
   Examples:
   | bibid | title |
@@ -35,6 +34,7 @@ Feature: Browse search
   | 6395180 | 100% beef |
   | 130786 | Manual of the trees of North America (exclusive of Mexico) |
   | 3709643 | Mawsūʻat al-ʻimārah wa-funūn al-Islāmīyah |
+  | 3749 | Convexity and duality in optimization |
   | 6701 | Birds of the Bahamas |
   | 301363 | Biology |
   | 115983 | The Economist |
@@ -104,7 +104,6 @@ Feature: Browse search
   | 3158956 | Systematics of Erisma (Vochysiaceae) |
   | 329763 | Nature |
   | 330333 | Ithaca times |
-  | 3749 | Convexity and duality in optimization |
   | 4163301 | Harry Potter og eldbikarinn |
   | 44112 | This sex which is not one |
   | 4442 | Lives of Alexander Wilson and Captain John Smith |
@@ -136,26 +135,8 @@ Feature: Browse search
   | 8948570 | Attacking trigonometry problems |
   | 9203210 | Born |
   | 9264410 | Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions |
-  | 28297 | ??? |
+  | 28297 | The birds of the Belgian Congo |
   | 8036458 | Intervention strategies to follow informal reading inventory assessment |
-  | 8881455 | ??? |
-  | 9493653 | ??? |
-
-  Scenario: Count total records available
-    Given I am on the home page
-    And I search for everything
-    Then I should get 27 results
-
-  @all_results_list
-  Scenario Outline: Counts for various search strings
-    Given I am on the home page
-    When I fill in the search box with '<query>'
-		And I press 'search'
-    Then I should get <count> results
-
-  Examples:
-      | query | count |
-      | the  | 23  |
-      | butter | 0 |
-      | bird | 2 |
-      | ocean | 2 |
+  | 8881455 | Solidarity Economy and Social Business |
+  | 1754680 | Institutional meat purchase specifications for fresh beef |
+  | 3662401 | A sea-fight |
