@@ -14,7 +14,7 @@ Feature: Select and export items from the result set
 @citations
   Scenario: User needs to send a book record to endnote format (might go to zotero)
     Given I request the item view for 1001
-    Given I request the item view for 1001.endnote
+    Given I request the export of item 1001 in 'endnote' format
     Then I should see the text '%0 Book'
     Then I should see the text '%C Washington, D.C.'
     Then I should see the text '%D 1985'
@@ -32,7 +32,7 @@ Feature: Select and export items from the result set
 @citations
   Scenario: User needs to send an ebook record to endnote format
     Given I request the item view for 12350238
-    Given I request the item view for 12350238.endnote
+    Given I request the export of item 12350238 in 'endnote' format
     Then I should see the text '%0 Electronic Book'
     Then I should see the text '%E José Iglesias'
     Then I should see the text '%D 2014'
@@ -98,7 +98,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
   Scenario: User needs to send a book record to ris format (might go to zotero)
     Given I request the item view for 1001
-    Given I request the item view for 1001.rdf_zotero
+    Given I request the export of item 1001 in 'rdf_zotero' format
     Then I should see the xml text '<z:itemType>book</z:itemType'
     Then I should see the xml text '<dc:title>Reflections: the anthropological muse</dc:title>'
     Then I should see the xml text '<dc:identifier>ISBN 091316710X'
@@ -109,7 +109,7 @@ Feature: Select and export items from the result set
 
   Scenario Outline: User needs to see various items in a citation format, check special, like thesis type, and ISBN.
     Given I request the item view for <BibId>
-    Given I request the item view for <BibId>.<Format>
+    Given I request the export of item <BibId> in '<Format>' format
     Then I should see the xml text <SpecialContent>
     Examples:
 
@@ -132,7 +132,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
   Scenario Outline: User needs to see various items in a citation format, check DOI, URL for ebook
     Given I request the item view for <BibId>
-    Given I request the item view for <BibId>.<Format>
+    Given I request the export of item <BibId> in '<Format>' format
     Then I should see the xml text <DoiXmlContent>
     Then I should see the xml text <UrlXmlContent>
     Examples:
@@ -159,7 +159,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
   Scenario: User needs to send a book record to rdf zotero format (might go to zotero)
     Given I request the item view for 3261564
-    Given I request the item view for 3261564.rdf_zotero
+    Given I request the export of item 3261564 in 'rdf_zotero' format
     Then I should see the xml text '<z:itemType>audioRecording</z:itemType>'
     Then I should see the xml text '<dc:title>Debabrata Biśvāsa</dc:title>'
     Then I should see the xml path 'z','//z:composers','http://www.zotero.org/namespaces/export#','Cakrabarttī'
@@ -172,7 +172,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
   Scenario: User needs to send a book record to rdf zotero format (might go to zotero)
     Given I request the item view for 10055679
-    Given I request the item view for 10055679.rdf_zotero
+    Given I request the export of item 10055679 in 'rdf_zotero' format
     Then I should see the xml path 'dcterms','//dcterms:LCC','http://purl.org/dc/terms/','Mann Library  SF98.A5 M35 2017'
 
 
