@@ -6,6 +6,10 @@ Given /^I request the item view for (.*?)$/ do |bibid|
   end
 end
 
+Given("I request the export of item {int} in {string} format") do |int, string|
+  visit "/catalog/#{int}.#{string}"
+end
+
 When /^(.*) within a cassette named "([^"]*)"$/ do |step, cassette_name|
   VCR.use_cassette(cassette_name) { When step }
 end
