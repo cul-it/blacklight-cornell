@@ -147,3 +147,13 @@ Feature: Browse search
   | 8881455 | Solidarity Economy and Social Business |
   | 1754680 | Institutional meat purchase specifications for fresh beef |
   | 3662401 | A sea-fight |
+  | 8400743 | 珍藏毛泽东 / Zhen cang Mao Zedong |
+  | 4870275 | Nature |
+  | 10713653 | The basketball game |
+  | 7405862 | CHEME 4620 |
+  | 1889884 | Chicken and egg |
+  | 3795347 | Beefsteak Raid |
+  | 3980062 | 100 Vietnamese painters & sculptors |
+  | 7690221 | International Criminal Court, Article 98 |
+  | 4721032 | The £ & the $ |
+  | 1807908 | Combinatorial algorithms |
