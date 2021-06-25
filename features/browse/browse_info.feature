@@ -16,5 +16,5 @@ Feature: Browse info
 
   @browse
   Scenario: View an author title authority record for a work
-    Given I request the author title item view for Rowling,%20J.%20K.%20%7C%20Harry%20Potter
+    Given I request the author title item view for Rowling,%20J.%20K.%20%7C%20Harry%20Potter%20and%20the%20goblet%20of%20fire
     Then I should see the text 'Works:'
