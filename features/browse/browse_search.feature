@@ -42,11 +42,11 @@ Feature: Browse search
         And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827 | Fidelio (1805)'
-    Then click on link "Beethoven, Ludwig van, 1770-1827"
+    Then click on first link "Beethoven, Ludwig van, 1770-1827"
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827'
     Then click on first link "Beethoven, Ludwig van, 1770-1827"
-    And I should get results
-    Then I should see the label '1 - 20 of'
+    And I should get 3 results
+    # Then I should see the label '1 - 20 of'
 
   @browse
   Scenario: Search for author-title combination
@@ -88,10 +88,10 @@ Feature: Browse search
   | callno | location |
   | PN45 .J41 1982 | Olin Library |
   | PR6058.E2 A6 2018 | Olin Library |
-  | SF461 .G7 1885 | Networked Resource |
-  | TF7 .E56 | Library Annex |
-  | TF7 .E6 | Online |
-  | UA830 .B61 1983 | Library Annex |
+  | N5300 .A783 | Networked Resource |
+  | Pamphlet J 1360 | Library Annex |
+  | ML419.G66 G67 2018 |  Music Library (Lincoln Hall)  |
+  | N3 .Z478 | Library Annex |
 
   @browse
   @call-number-browse
@@ -104,13 +104,13 @@ Feature: Browse search
       And I press 'search'
 #      And I click a link with text 'Music Library' within 'location-filter-dropdown'
 #    Then I should see the label 'Going places'
-    Then I should see the label '100 poems'
+    Then I should see the label 'The cheese and the worms'
       And I click '<go>' in the first page navigator
       And I click '<back>' in the first page navigator
-    Then I should see the label '100 poems'
+    Then I should see the label 'The cheese and the worms'
       And I click '<go>' in the last page navigator
       And I click '<back>' in the last page navigator
-    Then I should see the label '100 poems'
+    Then I should see the label 'The cheese and the worms'
 
 
   Examples:
