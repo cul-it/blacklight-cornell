@@ -6,15 +6,15 @@ Feature: Browse info
 
   @browse
   Scenario: View an author authority record for a personal name
-    Given I request the personal name author item view for Jauss,%20Hans%20Robert
+    Given I request the personal name author item view for Jauss, Hans Robert
     Then I should see the text 'Works by:'
 
   @browse
   Scenario: View a subject authority record for a geographic name
-    Given I request the geographic name subject item view for Indian%20Ocean
+    Given I request the geographic name subject item view for China%20%7C%20History
     Then I should see the text 'Works about:'
 
   @browse
   Scenario: View an author title authority record for a work
-    Given I request the author title item view for Dokumente%20zur%20Deutschlandpolitik
+    Given I request the author title item view for Rowling,%20J.%20K.%20%7C%20Harry%20Potter
     Then I should see the text 'Works:'
