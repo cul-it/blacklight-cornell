@@ -224,7 +224,7 @@ Feature: Search
     And I press 'search'
     And I sleep 8 seconds
     Then the search results should not contain title "<title>"
-    And I request the item view for <bibid>
+    And I attempt the item view for <bibid>
     Then I should see "Sorry, you have requested a record that doesn't exist."
 
   Examples:
