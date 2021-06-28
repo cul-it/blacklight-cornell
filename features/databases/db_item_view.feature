@@ -39,7 +39,7 @@ Feature: Databases List
   @DISCOVERYACCESS-5764
   Scenario: Display the z-note information for databases
       Given I literally go to databases/title/b
-      Then the link 'Beautiful Birds' should go to '/catalog/5458505'
+      Then the link 'Beautiful birds : masterpieces from the Hill Ornithology Collection, Cornell University Library' should go to '/catalog/5458505'
       And the link 'Black Studies Center' should go to '/catalog/6946453'
 
   @databases
