@@ -60,7 +60,6 @@ Feature: Browse search
   | 5346517 | ARTstor |
   | 8405575 | 转型、升级与创新 / Zhuan xing, sheng ji yu chuang xin |
   | 10297339 | China across the centuries |
-  | 13283183 | The Boxer War |
   | 10294079 | Werke für Militärmusik und Panharmonikon |
   | 8297109 | Kammermusik mit Blasinstrumenten |
   | 10648489 | The most relaxing Beethoven album in the world-- ever! |

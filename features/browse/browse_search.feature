@@ -19,10 +19,10 @@ Feature: Browse search
   @browse
   Scenario: Search for a subject
     Given I literally go to browse
-        And I fill in the authorities search box with 'China > History'
+        And I fill in the authorities search box with 'Wizards > Juvenile fiction'
         And I select 'Subject Browse (A-Z)' from the 'browse_type' drop-down
         And I press 'search'
-    Then I should see the label 'China > History'
+    Then I should see the label 'Wizards > Juvenile fiction'
 
   @browse
   @browse_search_switch
