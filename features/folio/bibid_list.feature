@@ -43,11 +43,9 @@ Feature: Browse search
   | 9668414 | Now that we're men |
   | 6829468 | 美国学者论美国中国学 / Meiguo xue zhe lun Meiguo Zhongguo xue |
   | 1001 | Reflections |
-  | 12350238 | Cephalopod Culture |
   | 1378974 | Educating for world consciousness in the sixth grade |
   | 1002 | The principles and practice of diplomacy |
   | 6112378 | The Kalabagh Dam |
-  | 13095898 | The insiders' guide to factual filmmaking |
   | 3261564 | Debabrata Biśvāsa |
   | 10055679 | Big chicken |
   | 10079768 | Zombies |

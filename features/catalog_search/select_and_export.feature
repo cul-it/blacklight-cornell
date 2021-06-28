@@ -31,14 +31,14 @@ Feature: Select and export items from the result set
 @all_select_and_export
 @citations
   Scenario: User needs to send an ebook record to endnote format
-    Given I request the item view for 12350238
-    Given I request the export of item 12350238 in 'endnote' format
+    Given I request the item view for 8881455
+    Given I request the export of item 8881455 in 'endnote' format
     Then I should see the text '%0 Electronic Book'
-    Then I should see the text '%E José Iglesias'
-    Then I should see the text '%D 2014'
-    Then I should see the text '%A Roger Villanueva'
-    Then I should see the text '%@ 9789401786485 (online)'
-    Then I should see the text '%T Cephalopod Culture'
+    Then I should see the text '%E Ikemoto, Yukio'
+    Then I should see the text '%D 2015'
+    Then I should see the text '%A Matsui, Noriatsu'
+    Then I should see the text '%@ 9784431554714'
+    Then I should see the text '%T Solidarity Economy and Social Business'
 
 ###
 ###
@@ -137,15 +137,10 @@ Feature: Select and export items from the result set
     Then I should see the xml text <UrlXmlContent>
     Examples:
 
-|BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 13095898 | ris | 'UR  - https://www.taylorfrancis.com/books/9781351251464'  |'M2  - http://newcatalog.library.cornell.edu/catalog/13095898' |
-| 13095898 | endnote | '%U https://www.taylorfrancis.com/books/9781351251464' | '%Z http://newcatalog.library.cornell.edu/catalog/13095898' |
-| 13095898 | endnote_xml | '<publisher>Routledge</publisher>' | '<language>English</language>' |
-
-#UR  - https://www.taylorfrancis.com/books/9781351251464
-#N1  - http://newcatalog.library.cornell.edu/catalog/13095898
-#AU  - Stark, Tony
-#M2  - http://newcatalog.library.cornell.edu/catalog/13095898
+| BibId | Format | DoiXmlContent |  UrlXmlContent |
+| 8881455 | ris | 'UR  - https://link.springer.com/openurl?genre=book&amp;isbn=978-4-431-55471-4'  |'M2  - http://newcatalog.library.cornell.edu/catalog/8881455' |
+| 8881455 | endnote | '%U https://link.springer.com/openurl?genre=book&amp;isbn=978-4-431-55471-4' | '%Z http://newcatalog.library.cornell.edu/catalog/8881455' |
+| 8881455 | endnote_xml | '<publisher>Springer Japan</publisher>' | '<language>English</language>' |
 
 
 #
