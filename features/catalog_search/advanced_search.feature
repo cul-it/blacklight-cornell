@@ -512,7 +512,7 @@ Feature: Search
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
     And I sleep 8 seconds
-    And I should see the label '1 - 20 of'
+    And I should see the label '1 - 5 of'
 
 
 
