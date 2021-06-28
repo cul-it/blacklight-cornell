@@ -137,15 +137,10 @@ Feature: Select and export items from the result set
     Then I should see the xml text <UrlXmlContent>
     Examples:
 
-|BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 13095898 | ris | 'UR  - https://www.taylorfrancis.com/books/9781351251464'  |'M2  - http://newcatalog.library.cornell.edu/catalog/13095898' |
-| 13095898 | endnote | '%U https://www.taylorfrancis.com/books/9781351251464' | '%Z http://newcatalog.library.cornell.edu/catalog/13095898' |
-| 13095898 | endnote_xml | '<publisher>Routledge</publisher>' | '<language>English</language>' |
-
-#UR  - https://www.taylorfrancis.com/books/9781351251464
-#N1  - http://newcatalog.library.cornell.edu/catalog/13095898
-#AU  - Stark, Tony
-#M2  - http://newcatalog.library.cornell.edu/catalog/13095898
+| BibId | Format | DoiXmlContent |  UrlXmlContent |
+| 8881455 | ris | 'UR  - https://link.springer.com/openurl?genre=book&amp;isbn=978-4-431-55471-4'  |'M2  - http://newcatalog.library.cornell.edu/catalog/8881455' |
+| 8881455 | endnote | '%U https://link.springer.com/openurl?genre=book&amp;isbn=978-4-431-55471-4' | '%Z http://newcatalog.library.cornell.edu/catalog/8881455' |
+| 8881455 | endnote_xml | '<publisher>Springer Japan</publisher>' | '<language>English</language>' |
 
 
 #

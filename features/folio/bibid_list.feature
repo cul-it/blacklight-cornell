@@ -47,7 +47,6 @@ Feature: Browse search
   | 1378974 | Educating for world consciousness in the sixth grade |
   | 1002 | The principles and practice of diplomacy |
   | 6112378 | The Kalabagh Dam |
-  | 13095898 | The insiders' guide to factual filmmaking |
   | 3261564 | Debabrata Biśvāsa |
   | 10055679 | Big chicken |
   | 10079768 | Zombies |
