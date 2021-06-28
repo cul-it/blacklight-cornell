@@ -47,8 +47,8 @@ Feature: Databases List
   Scenario: Databases with multple links should link to the item view
       Given I literally go to databases/title/a
       And click on link "Artefacts Canada. Humanities"
-      Then I should see the label 'Artefacts Canada (Humanities.)'
-      And I should see the label 'Canadian Heritage Information Network.'
+      Then the link 'Artefacts Canada (Humanities.)' should go to 'http://resolver.library.cornell.edu/misc/aqv1252'
+      And the link 'Canadian Heritage Information Network.' should go to 'https://www.canada.ca/en/heritage-information-network.html'
 
   @databases
   @DISCOVERYACCESS-5764
