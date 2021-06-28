@@ -607,8 +607,9 @@ Feature: Item view
   @insert_line_breaks
   @all_item_view
   Scenario: Show table of contents with line breaks and not commas
-    Given I request the item view for 9493653
-    Then I should not see the text 'Volunteer's dilemma,'
+    Given I request the item view for 10055679
+    Then I should see the text 'Part 1. How chicken became essential'
+    And I should not see the text 'Part 1. How chicken became essential,'
 
   #Kramer family papers
   #1939-2009
