@@ -6,6 +6,11 @@ Given /^I request the item view for (.*?)$/ do |bibid|
   end
 end
 
+Given /^I attempt the item view for (.*?)$/ do |bibid|
+  # this version does not check for bibid exists
+  visit "/catalog/#{bibid}"
+end
+
 Given("I request the export of item {int} in {string} format") do |int, string|
   visit "/catalog/#{int}.#{string}"
 end
