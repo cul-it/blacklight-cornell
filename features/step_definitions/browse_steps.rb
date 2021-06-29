@@ -23,7 +23,7 @@ Then("call number {string} should be available in {string}") do |title, location
   # check that both are in the same table row
   sleep 2
   patiently do
-    expect(find(:xpath, "//tr", :text => title).first(:xpath, "//td" , :text => location)).to have_content(location)
+    expect(find(:xpath, "//tr", :text => title, :visible => :all).first(:xpath, "//td" , :text => location, :visible => :all)).to have_content(location)
   end
 end
 
