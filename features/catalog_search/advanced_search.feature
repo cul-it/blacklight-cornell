@@ -536,7 +536,7 @@ Feature: Search
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
-    And I should see the label '1 result'
+    And I should see the label '3 catalog results'
 
  # DISCOVERYACCESS3298
  @adv_search
