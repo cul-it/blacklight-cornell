@@ -111,7 +111,7 @@
 	                          <% sizer = value['indexes'].size %>
 	                          <% if sizer != 0 %>
 	                            <br>Indexes: <%= value['indexes'].join('<br>').html_safe %>
-	                          <% else %>
+	                          <% elsif  value['indexes'][0].present? %>
 	                            Indexes: <%= value['indexes'][0].html_safe %>
 	                          <% end %>
 	                        <% end %>
