@@ -149,7 +149,7 @@
 	                            <span class="fa fa-chevron-right" aria-hiden="true"></span>
 		                        <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                        <%#= holdings_json.inspect  %>
-		                         <% if restrictions_display.present? %>		                         	  
+		                         <% if restrictions_display.present? %>
 						  	       <h3>Restrictions</h3>
 		                       	   </div>
 		                       	 <% end %>
@@ -168,9 +168,9 @@
 	                        <% else %>
                             <% end %>
                           <% end %>
-	                      <% if !restrictions_display.present? %>	 
+	                      <% if !restrictions_display.present? %>
                             </div>
-                          <% end %>                      
+                          <% end %>
 	                      </li>
 	              <%# end %>
 
@@ -241,7 +241,7 @@
 	      </div>
 	      <%# access restrictions %>
 	      <% if restrictions_display.present? %>
-	      
+
 	        <span class="access-restriction">
 	          <h3>Restrictions</h3>
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('\\"', '') %>
@@ -253,8 +253,8 @@
 	               <% end %>
 	            <% end %>
 	           <% end %>
-	        </span> 
-	      <% end %> 
+	        </span>
+	      <% end %>
 	      <%# end availability %>
 	    </div>
 	  </div>
