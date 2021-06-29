@@ -21,14 +21,9 @@ end
 
 Then("call number {string} should be available in {string}") do |title, location|
   # check that both are in the same table row
-  page.all("table.browse-callnumber > tbody > tr").each do |tr|
-    next unless tr.has_selector?('td', text: title)
-
-    what_is(tr)
-  end
   sleep 2
   patiently do
-    expect(find(:xpath, "//td", :text => title, :visible => :all).first(:xpath, "//td" , :text => location, :visible => :all)).to have_content(location)
+    expect(find(:xpath, "//tr", :text => title, :visible => :all).first(:xpath, "//td" , :text => location, :visible => :all)).to have_content(location)
   end
 end
 
