@@ -138,9 +138,9 @@ Feature: Select and export items from the result set
     Examples:
 
 | BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 8881455 | ris | 'UR  - https://link.springer.com/openurl?genre=book&amp;isbn=978-4-431-55471-4'  |'M2  - http://newcatalog.library.cornell.edu/catalog/8881455' |
-| 8881455 | endnote | '%U https://link.springer.com/openurl?genre=book&amp;isbn=978-4-431-55471-4' | '%Z http://newcatalog.library.cornell.edu/catalog/8881455' |
-| 8881455 | endnote_xml | '<publisher>Springer Japan</publisher>' | '<language>English</language>' |
+| 11493262 | ris | 'UR  - https://search.proquest.com/docview/2240872843'  |'M2  - http://newcatalog.library.cornell.edu/catalog/11493262' |
+| 11493262 | endnote | '%U https://search.proquest.com/docview/2240872843' | '%Z http://newcatalog.library.cornell.edu/catalog/11493262' |
+| 11493262 | endnote_xml | '<publisher>Apud Iohannem Lambertum.</publisher>' | '<language>Latin</language>' |
 
 
 #
