@@ -1,7 +1,7 @@
 # encoding: utf-8
 Given /^I request the item view for (.*?)$/ do |bibid|
-  visit "/catalog/#{bibid}"
   patiently do
+    visit "/catalog/#{bibid}"
     page.find("#doc_#{bibid}", visible: :all)
   end
 end
