@@ -8,7 +8,7 @@ Feature: Browse search
   Scenario: Count total records available
     Given I am on the home page
     And I search for everything
-    Then I should get 144 results
+    Then I should get 146 results
 
   @all_results_list
   Scenario Outline: Counts for various search strings
@@ -19,7 +19,7 @@ Feature: Browse search
 
   Examples:
       | query | count |
-      | the  | 128  |
+      | the  | 131  |
       | butter | 0 |
-      | bird | 4 |
+      | bird | 6 |
       | ocean | 2 |
