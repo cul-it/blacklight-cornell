@@ -57,6 +57,13 @@ Then("the first availability for {string} should show the due date and time") do
     end
 end
 
+Then("the first availability for {string} should show the date") do |string|
+    holding = find(:xpath, "//div[contains(@class, 'holding')]/div[contains(@class, 'location') and contains(text(),'#{string}')]/parent::*")
+    within(holding) do
+        expect(first('div.status').text).to match(/\d{2}\/\d{2}\/\d{2}/)
+    end
+end
+
 Then("the availibility for {string} should show a message {string}") do |string, string2|
     holding = find(:xpath, "//div[contains(@class, 'holding')]/div[contains(@class, 'location') and contains(text(),'#{string}')]/parent::*")
     within(holding) do

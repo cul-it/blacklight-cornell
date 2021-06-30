@@ -14,9 +14,9 @@ Feature: Browse search
   @DISCOVERYACCESS-7118
   Scenario: View a recently returned item
     Given I request the item view for 595322
-    Then the availability icon should show a checkmark
-    And availability should show status 'Available'
-    And availability should show the returned date
+    Then the first availability icon for "Olin Library" should show a checkmark
+    And the first availability for "Olin Library" should show status 'Available'
+    And the first availability for "Olin Library" should show the date
 
   @DISCOVERYACCESS-7118
   Scenario: View a basic checked out item
