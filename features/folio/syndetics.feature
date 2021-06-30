@@ -9,7 +9,8 @@ Feature: Language Support
 Scenario Outline: Show Syndetics table of contents when catalog TOC is missing
     # this is only expected to work on http://newcatalog-folio-int.library.cornell.edu/
     Given I request the item view for <bibid>
-    Then I should see the label '<chapter>'
+    Then I should see the Look Inside block
+    And I should see the chapter labeled '<chapter>'
 
 Examples:
     | bibid | chapter |

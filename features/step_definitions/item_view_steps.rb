@@ -110,3 +110,11 @@ Then(/^in modal ['"](.*?)['"] I should see label ['"](.*?)['"]$/) do |modal,labe
   end
 
 end
+
+Then("I should see the Look Inside block") do
+  expect(page.find('#syndetics_unbound')).to have_content('Look Inside')
+end
+
+Then("I should see the chapter labeled {string}") do |string|
+  expect(page.find('#syndetics_unbound')).to have_selector("span.unbound_lookinside_toc_title", text: string)
+end
