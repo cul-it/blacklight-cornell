@@ -218,17 +218,15 @@ Feature: Search
   @all_search
   @DISCOVERYACCESS-5826
   Scenario Outline: The catalog should not return suppressed records
-    Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with '<title>'
-    And I press 'search'
-    And I sleep 8 seconds
-    Then the search results should not contain title "<title>"
+    Given I enable the "production" environment
+    And I am on the home page
     And I attempt the item view for <bibid>
     Then I should see "Sorry, you have requested a record that doesn't exist."
+    And I should not see "<title>"
 
   Examples:
   | bibid | title |
   | 3051761 | Asia gas report |
   | 2940172 | Boletim de integração latino-americana |
   | 3828983 | International Series in Heating, Ventilation and Refrigeration |
+  | 7596729 | Birds I have kept in years gone by |
