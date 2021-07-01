@@ -1437,13 +1437,18 @@ end
     if ENV['SAML_IDP_TARGET_URL'].present?
     magic_path = blacklight_cornell_request.auth_magic_request_path("#{id}")
     end
-    if ENV['AEON_REQUEST'].blank?
+    if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
       aeon_req = '/aeon/~id~'
       aeon_req = aeon_req.sub!('~id~',id.to_s)
       aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
     else
-      aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-      aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+      if group == 'AEON_SCAN_REQUEST'
+        aeon_req = ENV['AEON_SCAN_REQUEST'].gsub('~id~', id.to_s)
+        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+      else
+        aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
+        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+      end
     end
     if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]

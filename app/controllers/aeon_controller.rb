@@ -1,11 +1,114 @@
 # -*- encoding : utf-8 -*-
 class AeonController < ApplicationController
-  
+  layout "aeon"
   include Blacklight::Catalog
+  
+  ic = 0
+  bcc = 0
+  bibid = ""
+  prelim = ""
+  body = ""
+  ho = ""
+  submit_button = ""
+  fo = ""
+  bibdata = {}
+  title = ""
+  author = ""
+  bib_format = ""
+  doctype = ""
+  aeon_type = ""
+  webreq = ""
+  boxtype = 'radio'
+  warning = ""
+  holdingsHash = {}
+  libid_ar = []
+  @@finding_aid = ""
+  sortable = []
+  datable = []
+  delivery_time = ""
+  review_text = "Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment."
+  schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
+  quest_text = "Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions."
+  
+  bibtext = ""
+  @warning = ""
+  @schedule_text = ""
+  @review_text = ""
+  def reading_room
+  	Rails.logger.info("WHEREAMI = #{params[:id]}")
+  	@url = 'www.google.com'
+  end
+ 
+ def reading_room_request  #rewrite of monograph.php from voy-api.library.cornell.edu
+ 	libid_ar = []
+ 	finding_aid = ""
+ 	holdingsHash = {}
+	Rails.logger.info('Entered reading_room_request')
+	Rails.logger.info("DOOFUS = #{params}")
+	url = 'http://www.google.com'
+	bibid = params[:id]
+	libid = params[:libid]
+	if !params[:libid].nil?
+		libid_ar = params[:libid].split('|')
+    end
+   Rails.logger.info("FINDING = #{params}")
+    if !params[:finding].nil?
+    	@@finding_aid = params[:finding]
+    end
+	resp, @document = search_service.fetch(params[:id])
+	bibdata = make_bibdata(@document)
+	Rails.logger.info("SCOOPYBUTTHOLE = #{@document}")
+	title = @document["fulltitle_display"]
+	author = @document["author_display"]
+	doctype = "Manuscript"
+	aeon_type = "GenericRequestManuscript"
+	webreq = "GenericRequestManuscript"
+	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
+	itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
+	@ho = holdings(holdingsJsonHash, itemsJsonHash )
+	boxtype = "checkbox"
+	#type = "PhotoduplicationRequest"
+	#doctype = "Photoduplication"
+	#webreq = "Copy"
+	submitter = ""
+	this_sub = submitter
+	selected = selecter
+	Rails.logger.info("SELECTED = #{selected}")
+	the_loginurl = loginurl
+	if @document["restrictions_display"].nil?
+		re506 = ""
+    else
+	    re506 = @document["restrictions_display"][0]
+	end
+	#@ho = "The printer & the pardoner :an unrecorded indulgence printed by William Caxton for the Hospital of St. Mary Rounceval, Charing Cross /Paul Needham.	Finding Aid" #@holdings
+    @schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
+    @review_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'	
+	@quest_text = 'Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions.'
+	@the_prelim = prelim(bibid, title, doctype, webreq, selected, the_loginurl, re506)
+	@warning = warning(title)
+    @body = aeon_body(title, author, aeon_type, bibdata, doctype, re506)
+#	the_sub = submitter
+	@clear = clearer
+	@form = former 
+	@fo = footer 
+#    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
+    @all = @the_prelim + @warning + @ho + @body + this_sub + @clear + @form + @fo
+    session[:current_user_id] = 1
+    File.write('/cul/web/dev-jac244.library.cornell.edu/htdocs/aeon/form2.html', @all)
+   # Rails.logger.info("Session = #{session.inspect}")
+   # redirect_to 'http://dev-jac244.library.cornell.edu/aeon/form2.html'
+    redirect_to 'http://dev-jac244.library.cornell.edu/aeon/form2.html'
+   #  render :partial => '/aeon/monograph'
+ end
+ 
+  def scan_aeon
+  	Rails.logger.info("HEREIAM")
+  end
   
   def request_aeon
     #resp, document = get_solr_response_for_doc_id(params[:bibid])
     # DISCOVERYACCESS-5324 update to use BL7 search service.
+    Rails.logger.info("AMIHERE")
     resp, document = search_service.fetch(@id) 
     aeon = Aeon.new
     request_options, target, @holdings = aeon.request_aeon document, params
@@ -57,5 +160,422 @@ class AeonController < ApplicationController
   def sort_request_options request_options
     return request_options.sort_by { |option| option[:estimate] }
   end
+ 
+  def prelim( bibid, title, doctype, webreq, cart, loginurl, re506)
+#  	global bibid;
+#	global boxtype;
+#	global finding_aid;
+#	global delivery_time;
+    #re506 = ""
+    #webreq = ""
+	fa = '';
+	if (!@@finding_aid.empty? and @@finding_aid != '?') 
+ 		fa = "
+        <a href='" + @@finding_aid + "' target='_blank'>  Finding Aid</a>
+        <br/>
+		"
+	else
+		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
+		      <br/>"
+    end
+	prelim = '
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	<title>Request for ' + title + '</title>
+	<script>var itemdata = {};</script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
+	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://dev-jac244.library.cornell.edu/aeon/css/bootstrap.min.css">
+	<script type="text/javascript" src="http://dev-jac244.library.cornell.edu/aeon/js/date.js"></script>
+	<script type="text/javascript" src="http://dev-jac244.library.cornell.edu/aeon/js/request.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://dev-jac244.library.cornell.edu/aeon/css/request.css" >
+	<script type="text/javascript" src="http://dev-jac244.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+	</head>
+	<body>
+	<script type="text/javascript">
+	<!--
+	showheader("find")
+	//-->
+	</script>
+
+
+	<div id="main-content">
+	<form id="EADRequest" name="EADRequest"
+	action="' + loginurl + '"
+              method="GET" class="form-horizontal">
+	<b>' + title + '</b>' + fa +
+	'<b> ' + re506 + '</b>' +
+	cart + '
+	<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="' + bibid + '"/>
+	<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+	<input type="hidden" id="DocumentType" name="DocumentType" value="' + doctype + '"/>
+	<input type="hidden" name="WebRequestForm" value="' + webreq + '"/> '
+	
+	return prelim
+  end
+ 
+  def selecter
+	sel = '
+	<div id="shoppingcart">
+	<span id="numitems" >&nbsp;Number of items selected:</span>
+	<span id="num-selections-wrapper">
+	<span id="num-selections">
+	</span>
+	</span>
+
+	<div id="selections-wrapper">
+	<ol><div id="selections"></div>
+	</ol>
+	</div>
+	</div>
+	'
+	return sel;
+  end
+ 
+  def loginurl
+ 	return "http://aws-108-184.internal.library.cornell.edu/aeon/aeon-login.php"  	
+#  	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php"
+  #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
+  end
+ 
+  def warning(title)
+  	w = ''
+  	if title.include?('[electronic resource]')
+  		w = "There is an electronic version of this resource -- do you really want to request this?"
+    end
+   return w
+  end
+ 
+  def aeon_body(title, author, type, bibdata, doctype, re506)
+
+  	body = '
+        <script> var bibdata = ' + bibdata.to_s  + '; </script>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="Restrictions" name="Restrictions" value="' + re506 + '"/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="ItemInfo3" name="ItemInfo3" value="' + re506 + '"/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="ItemInfo5" name="ItemInfo5" value=""/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><div id="Warningdis" name="Warningdis">' + @warning + '</div>
+        <div><input type="hidden" id="AeonForm" name="AeonForm" value="' + type + '"/></div>
+        <div class="row-fluid">
+<div id="noshow">
+        <div class="control-group">
+        <label class="control-label" for="ItemTitle" >Title</label>
+        <div class="controls"><textarea id="ItemTitle" name="ItemTitle">' + title + '</textarea>
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">CallNumber</label>
+        <div class="controls">
+        <input type="text" id="CallNumber" name="CallNumber" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Box or item number(s)</label>
+        <div class="controls">
+        <input type="text" id="ItemVolume" name="ItemVolume" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Author</label>
+        <div class="controls">
+        <input type="text" name="ItemAuthor" value="' + author + '">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Place of Publication</label>
+        <div class="controls">
+        <input type="text" id="ItemPlace" name="ItemPlace" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Publisher</label>
+        <div class="controls">
+        <input type="text" id="ItemPublisher" name="ItemPublisher" value=""/>
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Date</label>
+        <div class="controls">
+        <input type="text" id="ItemDate" name="ItemDate" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Edition</label>
+        <div class="controls">
+        <input type="text" id="ItemEdition" name="ItemEdition" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Location</label>
+        <div class="controls">
+        <input type="text" id="Location" name="Location" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Copy</label>
+        <div class="controls">
+        <input type="text" id="ItemIssue" name="ItemIssue" value="">
+        </div>
+        </div>
+</div> <!-- id=noshow -->
+        <div class="control-group">
+           <label class="control-label"><b>Schedule or Save</b></label>
+           <p>You may schedule a date to visit or save your request to review and schedule a visit later.</>
+        </div>
+        <div class="control-group">
+          <input id="UserReview" name="UserReview" type="radio" value="Yes">
+          <label class="control-label">Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.</label>
+          <br/>
+          <input id="UserDate" name="UserDate" type="radio" value="Yes">
+          <label class="control-label">' + @schedule_text + '</label>
+        </div>
+        <div class="control-group">
+        <input id="ScheduledDate" name="ScheduledDate" type="text" value="Select date">
+        <label class="control-label">
+        <span id="ScheduledText"></span></label>
+        <div class="controls">
+        </div>
+        </div>
+
+        <!-- <div class="control-group">
+        <label class="control-label">
+        <span id="ReviewText">' + @review_text + '</span></label>
+        </div> -->
+        </div>
+
+                        
+'
+   return body
+   end  
   
+   def clearer
+   	dub = '
+        <div class="control-group">
+        <label class="control-label">
+        <input type="submit" class="btn" id="SubmitButton" name="SubmitButton" value="Submit Request">
+        </label>
+        <input type="button" class="btn" id="clear"  name="clear" value="Clear Form">
+        <br/>' + @quest_text + '<br/>
+        </div>
+      '
+     return dub
+    end  
+   
+  def former
+  	dub = '
+  	  </form>
+  	 '
+  	return dub
+  end
+ 
+  def submitter
+  	return ""
+  end
+ 
+  def xsubmitter
+  	dub = '  
+        <div class="control-group">
+        <div class="controls">
+        <input type="submit" class="btn" id="SubmitButton" name="SubmitButton" value="Submit Request">
+        </div>
+        </div>
+'
+    return dub
+  end
+ 
+  def footer
+    foot = '
+        </div>
+        </form>
+        </body>
+        </html>
+     '
+    return foot
+  end
+ 
+  def login
+  	aeonParams = []
+  	aeonParams = cleanupAeonParamsX #(params)
+  	
+  	return "woops"
+  end
+ 
+  def cleanupAeonParamsX#(params)
+  	aeonParams = []
+  	#Rails.logger.info("JODIE = #{params}")
+  end
+ 
+  def redirect_shib
+  	redirect_to 'https://rmc-aeon.library.cornell.edu'
+  	Rails.logger.info("JODIE2 = Hello")
+  end
+
+  def make_bibdata(document)
+  	output = ""
+  	holdingID = ""
+  	pubplace = ""
+  	publisher = ""
+  	edition = ""
+  	bib_format = ""
+  	callNumber = ""
+  	barcode = ""
+  	permLocation = ""
+  	permLocationCode = ""
+  	status = ""
+  	item_id = ""
+  	if document["publisher_display"].nil?
+  		publisher = ""
+    else
+    	publisher = document["publisher_display"][0]
+    end
+    if document["pub_date_display"].nil?
+    	pubdate = ""
+    else
+    	pubdate = document["pub_date_display"][0]
+    end
+    if document["pubplace_display"].nil?
+    	pubplace = ""
+    else
+    	pubplace = document["pubplace_display"][0]
+    end
+     	holdings_json = Hash(JSON.parse(document['holdings_json']))
+  #	bibdata_hash = Hash(JSON.parse(document['holdings_json']))
+  	callnum = "" #holdings_json["call"]
+
+    firstkeyout = ""
+    	count = 0
+  	bibdata_output_hash = '{"items": [{"author":null,"title":null,"pub_place":null,"publisher":null,"publisher_date":null,"edition":null,"bib_format":null,"permlocation":null,"permlocationcode":null,"holdings":[]}]}'
+  	bibdata_hash = Hash(JSON.parse(document['items_json']))
+  	bibdata_hash.each do | firstKey, value |
+  		if count == 0 
+  			firstkeyout = firstKey
+  			count = count + 1
+  			valueHash = Hash(value[0])
+ # 	        bibdata_output_hash = bibdata_output_hash + firstkeyout + '":['  	    
+  	    end
+  	end
+  	callnum = holdings_json[firstkeyout]["call"]
+  
+  
+  	bibdata_hash.each do | key, value |
+  	#	if count == 0
+  		holdingID = key
+  		Rails.logger.info("BOOBALA = #{value}")
+  		valueArray = value.to_a
+  		valueArray.each do | key, hold |
+  		 valueHash = Hash(hold)
+  		 keyout = Hash[key]
+  	#	 status = keyout["status"]["code"]["1"]
+  	#	 bibdata_output_hash = bibdata_output_hash + '{"author":"' + document["author_display"] + '","title":"' + document["fulltitle_display"] + '","publisher":"' + publisher + '","publisher_date":"' + pubdate + '","pub_place":"' + pubplace + '","bib_format":"' + bib_format + '","holding_id":"' + holdingID + '","call_number":"' + callnum.inspect + '","barcode":"' + keyout['barcode'].inspect + '","PermLocation":"' + permLocation + '","PermLocationCode":"' + permLocationCode + '","status":"' + status + '","item_id":"' + keyout['id'].inspect + '"},'
+
+    	end
+  #	    count = count + 1
+  #	    if count > 1
+  #	    end	
+  	end   
+  #  bibdata_output_hash = bibdata_output_hash + '}} ]}'
+    
+    return bibdata_output_hash
+  end
+ 
+  def holdings(holdingsJsonHash, itemsJsonHash)
+  	 holdingsHash = holdingsJsonHash
+  	 itemsHash = itemsJsonHash
+ # 	 Rails.logger.info("REBAB = #{holdingsHash.inspect}")
+  	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
+  	 return return_ho
+  end
+ 
+  def xholdings(holdingsHash, itemsHash)
+  	holdHash = {}
+  	ret = ""
+  	holdingID = ""
+    
+  	Rails.logger.info("REBAB4 = #{holdingsHash}")
+  	Rails.logger.info("REBAB5 = #{itemsHash}")
+  	holdingsHash.each do |key, value|
+  	  holdingID = key
+  	  Rails.logger.info("REBAR3000 = #{holdingID}")
+  	  Rails.logger.info("REBAB12 = #{holdingsHash[holdingID]["call"]}")
+  	  thisItemArray = itemsHash[holdingID]
+#  	  thisItemHash = Hash(JSON.parse(thisItemArray[0]))
+       c = ""
+       b = ""
+       d = ""
+#       if holdingsHash[holdingID]["call"].include?('Archives')
+#       	  b = holdingsHash[holdingID]["call"].split(' ')[1]
+#       else
+#       	  b = holdingsHash[holdingID]["call"]
+#       end
+  	   Rails.logger.info("REBAB12 = #{thisItemArray}")
+  	   if !thisItemArray.nil?  
+  	   	 Rails.logger.info("REBAB13 = #{thisItemArray[0]["date"]}")
+  	     Rails.logger.info("REDAD1 = #{thisItemArray.size}")
+  	     thisItemArray.each do | itemHash |
+  	     	Rails.logger.info("REBAR1000 = #{itemHash['barcode']}")
+  	     	b = itemHash['call'].to_s
+  	     	if b.include?('Archives ')
+  	     		b = b.gsub('Archives ','')
+  	        end
+  	  	 	#stuffHash = Hash(JSON.parse(otherstuff))
+  	  	 	Rails.logger.info("POOPYBUTTHOLE = #{itemHash.inspect}")
+  	  	   	 if !itemHash["copy"].nil? and !itemHash['enum'].nil?
+  	  	   	  c =  " c. " + itemHash["copy"].to_s + " " + itemHash['enum']
+  	  	   	  if !itemHash["caption"].nil?
+  	  	   	  	c = c + " " + itemHash["caption"]
+  	  	   	  end
+  	  	   	 end
+  	  	   	 if !itemHash["caption"].nil?
+  	  	   	 	d = " " + itemHash["caption"]
+  	  	   	 else
+  	  	   	 	d = ""
+  	  	   	 end
+  	  	   	  if itemHash['enum'].nil?  
+  	  	   	  	itemHash['enum'] = ''
+    	   	  end
+  	       if holdingsHash[holdingID]["call"].nil?
+  	       	holdingsHash[holdingID]["call"] = ""
+  	       end
+  	  	   if !itemHash["barcode"].nil?
+  	  	   	  
+  	         if itemHash["location"]["name"].include?('Non-Circulating')
+  	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
+  	        	ret = ret + " (Available Immediately) " + b +  c + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '"};</script>'
+  	         else
+  	        	#ret = ret + itemHash["barcode"]
+  	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
+  	        	ret = ret + " (Request in Advance) " + b + c + " "  +  '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '"};</script>'
+  	         end
+  	       else
+  	       	 if itemHash["location"]["name"].include?('Non-Circulating')
+  	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
+  	        	ret = ret + " (Available Immediately) " + b + c + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '"};</script>'
+  	         else
+  	        	#ret = ret + itemHash["barcode"]
+  	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
+  	        	ret = ret + " (Requests in Advance) " + b + c + " " +  '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '"};</script>'
+  	         end
+             d = ""
+  	       end
+  	     end
+  	    end
+  	 #end
+  	end
+    ret = ret + "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
+    Rails.logger.info("REBAR6000 = #{ret}")
+   return ret 	
+  end
+
+  	                          
 end
