@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 795712ca6add5260502fa12ab04a45cadab0e01f
+  revision: 241e136db610f42a54e01e30d4733fd5c9ebb939
   branch: folio
   specs:
     blacklight_cornell_requests (4.0)
@@ -47,7 +47,7 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 67d871042e26506166041082651ea2e22f3cef82
+  revision: 24d89c7cd6032b7fb2d3365a857f00a745e2d3ec
   branch: folio
   specs:
     my_account (2.0)
