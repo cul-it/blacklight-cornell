@@ -24,6 +24,10 @@ Given /^I request the item holdings view for (.*?)$/ do |bibid|
   visit "/backend/holdings/#{bibid}"
 end
 
+Given("I request the item") do
+  page.find("#id_request").click
+end
+
 Then /^click on link "(.*?)"$/ do |link|
   # click <a> text that contains link
   click_link link
