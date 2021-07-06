@@ -7,8 +7,8 @@
 <%# Temporary variable for Covid-19 closures. We can probably change this to an exclusive list, rather than an inclusive one.%>
 <% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library", "Law Library", "Mathematics Library"] %>
 <% @group = group %>
-<% 
-  # Need a parameter to pass to requests that determines whether to add  
+<%
+  # Need a parameter to pass to requests that determines whether to add
   # text on the "Ask a librarian page" that the item can be scanned and
   # to return to the item view page for that.
   if (group == "Circulating" && !reserve_item) || !reading.empty?
