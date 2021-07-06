@@ -19,6 +19,26 @@
 %>
 <div class="item-requests">
   <% counter = params[:counter] || session[:search][:counter] %>
+<%
+#******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    jgr25_context = "#{__FILE__}:#{__LINE__}"
+    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+    msg = [" #{__method__} ".center(60,'Z')]
+    msg << jgr25_context
+    msg << "@document: " + @document["location"].inspect
+    msg << "counter: " + counter.inspect
+    msg << "requestable_libraries: " + requestable_libraries.inspect
+    msg << "scan: " + scan.inspect
+    msg << "request_context_path: " + request_context_path.inspect
+    msg << "group: " + group.inspect
+    msg << "request_scan_path: " + request_scan_path.inspect
+    msg << 'Z' * 60
+    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+    Rails.logger.level = save_level
+    #binding.pry
+#*******************
+%>
   <% if (not_spif > 0)    %>
     <% if group == 'Rare' && ENV['DISABLE_AEON'] == 'true' %>
       <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
