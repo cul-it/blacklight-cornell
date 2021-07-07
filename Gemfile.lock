@@ -47,10 +47,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 22600ef2306c127a2c3022930b7cfe48e88a8c41
+  revision: 3c072d65a73b446125b63875e52c687ee056a007
   branch: folio
   specs:
-    my_account (2.0.1)
+    my_account (2.0.2)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge
@@ -417,7 +417,7 @@ GEM
     method_source (0.9.2)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0225)
+    mime-types-data (3.2021.0704)
     mini_mime (1.1.0)
     mini_portile2 (2.4.0)
     mini_racer (0.2.8)
@@ -528,7 +528,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (13.0.3)
+    rake (13.0.4)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
