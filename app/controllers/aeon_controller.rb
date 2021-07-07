@@ -103,6 +103,66 @@ class AeonController < ApplicationController
  
   def scan_aeon
   	Rails.logger.info("HEREIAM")
+ 	libid_ar = []
+ 	finding_aid = ""
+ 	holdingsHash = {}
+	Rails.logger.info('Entered reading_room_request')
+	Rails.logger.info("DOOFUS = #{params}")
+	url = 'http://www.google.com'
+	bibid = params[:id]
+	libid = params[:libid]
+	if !params[:libid].nil?
+		libid_ar = params[:libid].split('|')
+    end
+   Rails.logger.info("FINDING = #{params}")
+    if !params[:finding].nil?
+    	@@finding_aid = params[:finding]
+    end
+	resp, @document = search_service.fetch(params[:id])
+	bibdata = make_bibdata(@document)
+	Rails.logger.info("SCOOPYBUTTHOLE = #{@document}")
+	title = @document["fulltitle_display"]
+	author = @document["author_display"]
+	doctype = "Photoduplication"
+	aeon_type = "PhotoduplicationRequest"
+	webreq = "Copy"
+	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
+	itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
+	@ho = holdings(holdingsJsonHash, itemsJsonHash )
+	boxtype = "checkbox"
+	#type = "PhotoduplicationRequest"
+	#doctype = "Photoduplication"
+	#webreq = "Copy"
+	submitter = ""
+	this_sub = submitter
+	selected = selecter
+	Rails.logger.info("SELECTED = #{selected}")
+	the_loginurl = loginurl
+	if @document["restrictions_display"].nil?
+		re506 = ""
+    else
+	    re506 = @document["restrictions_display"][0]
+	end
+	#@ho = "The printer & the pardoner :an unrecorded indulgence printed by William Caxton for the Hospital of St. Mary Rounceval, Charing Cross /Paul Needham.	Finding Aid" #@holdings
+    @schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
+    @review_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'	
+	@quest_text = 'Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions.'
+	@the_prelim = scan_prelim(bibid, title, doctype, webreq, selected, the_loginurl, re506)
+	@warning = warning(title)
+    @body = scan_body(title, author, aeon_type, bibdata, doctype, re506)
+#	the_sub = submitter
+	@clear = clearer
+	@form = former 
+	@fo = footer 
+#    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
+    @all = @the_prelim + @warning + @ho + @body + this_sub + @clear + @form + @fo
+    session[:current_user_id] = 1
+    File.write('/cul/web/dev-jac244.library.cornell.edu/htdocs/aeon/scan_form.html', @all)
+   # Rails.logger.info("Session = #{session.inspect}")
+   # redirect_to 'http://dev-jac244.library.cornell.edu/aeon/form2.html'
+    redirect_to 'http://dev-jac244.library.cornell.edu/aeon/scan_form.html'
+   #  render :partial => '/aeon/monograph'
+
   end
   
   def request_aeon
@@ -165,7 +225,8 @@ class AeonController < ApplicationController
 #  	global bibid;
 #	global boxtype;
 #	global finding_aid;
-#	global delivery_time;
+	delivery_time = ""
+	disclaimer = "Once your order is reviewed by our staff you will then be sent an invoice. Your invoice will include information on how to pay for your order. You must pre-pay, staff cannot fulfill your request until you pay the charges."
     #re506 = ""
     #webreq = ""
 	fa = '';
@@ -215,6 +276,70 @@ class AeonController < ApplicationController
 	
 	return prelim
   end
+
+  def scan_prelim( bibid, title, doctype, webreq, cart, loginurl, re506)
+#  	global bibid;
+#	global boxtype;
+#	global finding_aid;
+	delivery_time = ""
+	disclaimer = "Once your order is reviewed by our staff you will then be sent an invoice. Your invoice will include information on how to pay for your order. You must pre-pay, staff cannot fulfill your request until you pay the charges."
+    #re506 = ""
+    #webreq = ""
+	fa = '';
+	if (!@@finding_aid.empty? and @@finding_aid != '?') 
+ 		fa = "
+        <a href='" + @@finding_aid + "' target='_blank'>  Finding Aid</a>
+        <br/>
+		"
+	else
+		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
+		      <br/>"
+    end
+	prelim = '
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	<title>Scanning Request for ' + title + '</title>
+	<script>var itemdata = {};</script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
+	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://dev-jac244.library.cornell.edu/aeon/css/bootstrap.min.css">
+	<script type="text/javascript" src="http://dev-jac244.library.cornell.edu/aeon/js/date.js"></script>
+	<script type="text/javascript" src="http://dev-jac244.library.cornell.edu/aeon/js/repro_request.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://dev-jac244.library.cornell.edu/aeon/css/repro.css" >
+	<script type="text/javascript" src="http://dev-jac244.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+	</head>
+	<body>
+	<script type="text/javascript">
+	<!--
+	showheader("find")
+	//-->
+	</script>
+
+    <h1>RMC Scanning Request</h1>
+    
+    <div>' + disclaimer + '</div> 
+	<div id="main-content">
+	<form id="RequestForm" 
+	action="' + loginurl + '"
+              method="GET" class="form-horizontal">
+	<h2>' + title + '</h2>' + fa +
+	'<b> ' + re506 + '</b>' +
+	cart + '
+	<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
+	<input type="hidden" name="SkipOrderEstimate" value="Yes">
+	<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="' + bibid + '"/>
+	<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+	<input type="hidden" name="RequestType" value="Copy"/>
+	<input type="hidden" id="DocumentType" name="DocumentType" value="' + doctype + '"/>
+	<input type="hidden" name="FormValidationOverride" value="AllRequests">
+	<input type="hidden" name="SkipFieldLengthValidation" value="yes">'
+	
+	
+	return prelim
+  end
+
  
   def selecter
 	sel = '
@@ -358,6 +483,176 @@ class AeonController < ApplicationController
 '
    return body
    end  
+
+  def scan_body(title, author, type, bibdata, doctype, re506)
+
+  	body = '
+        <script> var bibdata = ' + bibdata.to_s  + '; </script>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="Restrictions" name="Restrictions" value="' + re506 + '"/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="ItemInfo3" name="ItemInfo3" value="' + re506 + '"/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="ItemInfo5" name="ItemInfo5" value=""/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><div id="Warningdis" name="Warningdis">' + @warning + '</div>
+        <div><input type="hidden" id="AeonForm" name="AeonForm" value="' + type + '"/></div>
+        <label for="Format">
+        <span class="field">
+        <span class="req">*</span>
+        <span class="valid">
+        <span class="bold">Format</span>
+        </span>
+        </span>
+        <select id="Format" name="Format" size="1" class="f-name" tabindex="0">
+        <option>a. PDF: $1</option>
+        <option>b. TIFF 600 dpi: $35</option>
+        <option>c. TIFF 600 dpi > 12x17: $45</option>
+        <option>d. MP3 of audio: $75</option>
+        <option>e. MP4 of video: $75</option>
+        <option>f. MP4 of film: $200</option>
+        <option>g. PDF of microfilm: $50</option>
+        <option>h. PDF of thesis: $50</option>
+        <option>i. Existing digital file: $10</option>
+        </select>
+        </label>
+        <label for="ServiceLevel">
+        <span class="field">
+        <span class="req">*</span>
+        <span class="valid">
+        <span class="bold">Service Level</span>
+        </span>
+        </span>
+        <select id="ServiceLevel" name="ServiceLevel" size="1" class="f-name" tabindex="0">
+        <option>"a. Normal: $15"</option>
+        <option>("b. Rush < 3 weeks: $40")</option>
+        </select>
+        </label>
+        <label for="ShippingOption">
+        <span class="field"> <span class="req">*</span>  
+        <span class="valid"><span class="bold">Delivery Method</span></span> </span>
+	    <select id="ShippingOption" name="ShippingOption" size="1" class="f-name" tabindex="0">
+		<option>a. Digital file download: $0"<option>
+		</select>
+		</label>
+		<br />
+		<label for="Special Request"> 
+  		  <span class="field"> 
+    		<span class="valid">
+      			<span class="bold">Date Needed/Special Requests/Questions?
+      			Please enter any deadlines, special requests or questions for library staff. 
+     			</span>
+  			</span>
+		<br/>
+  		<textarea area id="SpecialRequest"  rows="2" cols="40" class="f-name" tabindex="0"></textarea>
+		</label>        
+		<br />
+		<label for="Notes">
+  			<span class="field">
+    			<span class="valid"><span class="bold">Reference Notes</span></span><br />
+  				<span class="note">You can use this field to add any notes about this item or request that may be helpful for your own personal reference later.</span>
+  			</span>
+  		<br/>
+  		<textarea id="Notes" name="Notes" maxlength ="255" rows="2" cols="40" class="f-name" tabindex="0"></textarea><br />
+		</label>
+		<label for="ItemCitation">
+  			<span class="field">
+    			<span class="valid"><span class="bold">Online Image Citation</span>
+    		</span>
+    	<br /> 
+  		<span class="note">If you have seen the image you are requesting online, type the URL here. You may also enter an image ID # if known. </span>
+  		</span>
+  		<br/>
+  		<textarea id="ItemCitation" name="ItemCitation" maxlength ="255" rows="2" cols="40" class="f-name" tabindex="0"></textarea><br />
+		</label>
+		<label for="PageCount">
+  		<span class="field">
+    	<span class="valid"><span class="bold">Page Count, if Known</span></span><br />
+  		</span>
+  		<br/>
+  		<textarea id="PageCount" name="PageCount" maxlength ="255" rows="2" cols="40" class="f-name" tabindex="0"></textarea><br />
+		</label>    			
+    			    			       
+        <div class="row-fluid">
+<div id="noshow">
+        <div class="control-group">
+        <label class="control-label" for="ItemTitle" >Title</label>
+        <div class="controls"><textarea id="ItemTitle" name="ItemTitle">' + title + '</textarea>
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">CallNumber</label>
+        <div class="controls">
+        <input type="text" id="CallNumber" name="CallNumber" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Box or item number(s)</label>
+        <div class="controls">
+        <input type="text" id="ItemVolume" name="ItemVolume" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Author</label>
+        <div class="controls">
+        <input type="text" name="ItemAuthor" value="' + author + '">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Place of Publication</label>
+        <div class="controls">
+        <input type="text" id="ItemPlace" name="ItemPlace" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Publisher</label>
+        <div class="controls">
+        <input type="text" id="ItemPublisher" name="ItemPublisher" value=""/>
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Date</label>
+        <div class="controls">
+        <input type="text" id="ItemDate" name="ItemDate" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Edition</label>
+        <div class="controls">
+        <input type="text" id="ItemEdition" name="ItemEdition" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Location</label>
+        <div class="controls">
+        <input type="text" id="Location" name="Location" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Copy</label>
+        <div class="controls">
+        <input type="text" id="ItemIssue" name="ItemIssue" value="">
+        </div>
+        </div>
+</div> <!-- id=noshow -->
+
+        <!-- <div class="control-group">
+        <label class="control-label">
+        <span id="ReviewText">' + @review_text + '</span></label>
+        </div> -->
+        </div>
+
+                        
+'
+   return body
+   end  
+
   
    def clearer
    	dub = '
