@@ -236,8 +236,8 @@ class AeonController < ApplicationController
         <br/>
 		"
 	else
-		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
-		      <br/>"
+#		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
+		fa = "<br/>" 
     end
 	prelim = '
 	<!DOCTYPE html>
@@ -292,8 +292,8 @@ class AeonController < ApplicationController
         <br/>
 		"
 	else
-		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
-		      <br/>"
+#		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
+		fa = "<br/>"
     end
 	prelim = '
 	<!DOCTYPE html>
