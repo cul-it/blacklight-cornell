@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 795712ca6add5260502fa12ab04a45cadab0e01f
+  revision: 5c8da12bd63181f1a779b3b05719f3ba0b91a930
   branch: folio
   specs:
-    blacklight_cornell_requests (4.0)
+    blacklight_cornell_requests (4.0.2)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -47,10 +47,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 67d871042e26506166041082651ea2e22f3cef82
+  revision: 22600ef2306c127a2c3022930b7cfe48e88a8c41
   branch: folio
   specs:
-    my_account (2.0)
+    my_account (2.0.1)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge

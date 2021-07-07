@@ -157,12 +157,16 @@
 						  		   <span class="access-restriction">
 	          			  		   <% if !holdings_json.nil? %>
 	                                 <% holdings_json.each do |k,holding| %>
+
 	                                   <% if !holdings_json[k]['links'].nil? %>
+
 	               		  			   <% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
 	                                     <%#= holdings_json[k]['links'][0]['users'].inspect %>
 	              		  				 <%# Limiteds to <%= holdings_json[k]['links'][0]['users'].inspect '\%\>  simultaneous users %>
 	               		  			   <% end %>
+
 	               		  			  <% end %>
+
 	            		  			 <% end %>
 	           			  		   <% end %>
 	           			  		   </span>
