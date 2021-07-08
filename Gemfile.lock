@@ -47,10 +47,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 3c072d65a73b446125b63875e52c687ee056a007
+  revision: 43f87a427ac8303a73ff838c4e4d2cad93cac11c
   branch: folio
   specs:
-    my_account (2.0.2)
+    my_account (2.0.3)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge
@@ -528,7 +528,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (13.0.4)
+    rake (13.0.5)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
