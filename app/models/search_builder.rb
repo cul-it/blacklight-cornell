@@ -195,7 +195,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                if !blacklight_params[:q].include?('"')
                 # returned_query = simple_fix(returned_query)
                  if returned_query[0] != '+'
-                    blacklight_params[:q] = '(+"' + returned_query + '") OR phrase:"' + blacklight_params[:q] + '"'
+                    blacklight_params[:q] = '("' + returned_query + '") OR phrase:"' + blacklight_params[:q] + '"'
                  else
                     blacklight_params[:q] = '('  + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
                  end
@@ -203,7 +203,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                else
                  query_string = '('
                  return_query = checkMixedQuoted(blacklight_params)
-
                  return_query.each do |token|
                     query_string = query_string + token + ' '
                   end
@@ -213,6 +212,9 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
              end
            end
+               	                 Rails.logger.info("TEXASSUCKS = #{blacklight_params}")
+          
+  #        blacklight_params[:q] = "(\"lupin\" AND \"arsene\" ) OR phrase:\"lupin arsene\""
         else
 #           user_parameters[:q] = blacklight_params[:q]            
            #Not an all fields search test if query is quoted
@@ -243,6 +245,7 @@ class SearchBuilder < Blacklight::SearchBuilder
             end
 #          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
 #            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+
           else
             #check if this is a crazy multi quoted multi token search
             if blacklight_params[:q].include?('"') and blacklight_params[:search_field] != 'title_starts' and blacklight_params[:search_field] != 'series' and blacklight_params[:search_field] != 'lc_callnum' and blacklight_params[:search_field] != 'journal title' and !blacklight_params[:search_field].include?('_cts')
@@ -305,12 +308,13 @@ class SearchBuilder < Blacklight::SearchBuilder
                if blacklight_params[:q].first != '"+'
                  blacklight_params[:q] = '(+' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '") OR ' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
                else
-                 blacklight_params[:q] = "fart"
+                 blacklight_params[:q] = ""
                end
              end
            end
        end
        user_parameters[:q] = blacklight_params[:q]
+
        end
     # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
@@ -1534,16 +1538,27 @@ class SearchBuilder < Blacklight::SearchBuilder
   def parse_all_fields_query(query)
     return_query = ''
     tokenArray = []
+    count = 0
     if query.first == '"' and query.last == '"'
       query = query[1..-2]
     end
     if query.include?(' ')
       tokenArray = query.split(' ')
       tokenArray.each do |bits|
+      	
           if bits.include?(':')
              bits.gsub!(':','\\:')
           end
-          return_query << '+"' << bits << '" '
+          if count == 0
+          return_query << bits << '"'
+          else
+          	if count < (tokenArray.size - 1)
+               return_query << ' AND "' << bits << '" '
+            else 
+               return_query << ' AND "' << bits
+            end
+          end
+          count = count + 1
       end
     else
         return_query = query
