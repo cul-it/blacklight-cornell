@@ -1619,15 +1619,12 @@ end
 	holdArray = document['holdings_display'].to_a
 
 	col_loc = []
-	if holdArray.any?
-		holdArray = holdArray[0].split('|')
-		holdArray.each do |holding|
-			col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
-			location = Hash(holdings_condensed[holding])
-
-			if location["location"].present? && location["location"]["name"].present?
-					col_loc << location["location"]["name"]
-			end
+	holdings_condensed.each do |k,v|
+		if v["call"].present?
+			col_loc << v["call"]
+		end
+		if v["location"].present? && v["location"]["name"].present?
+			col_loc << v["location"]["name"]
 		end
 	end
 
