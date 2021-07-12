@@ -35,7 +35,7 @@ class AeonController < ApplicationController
   @schedule_text = ""
   @review_text = ""
   def reading_room
-  	Rails.logger.info("WHEREAMI = #{params[:id]}")
+ 
   	@url = 'www.google.com'
   end
  
@@ -44,27 +44,28 @@ class AeonController < ApplicationController
  	finding_aid = ""
  	holdingsHash = {}
 	Rails.logger.info('Entered reading_room_request')
-	Rails.logger.info("DOOFUS = #{params}")
 	url = 'http://www.google.com'
 	bibid = params[:id]
 	libid = params[:libid]
 	if !params[:libid].nil?
 		libid_ar = params[:libid].split('|')
     end
-   Rails.logger.info("FINDING = #{params}")
     if !params[:finding].nil?
     	@@finding_aid = params[:finding]
     end
 	resp, @document = search_service.fetch(params[:id])
 	bibdata = make_bibdata(@document)
-	Rails.logger.info("SCOOPYBUTTHOLE = #{@document}")
 	title = @document["fulltitle_display"]
 	author = @document["author_display"]
 	doctype = "Manuscript"
 	aeon_type = "GenericRequestManuscript"
 	webreq = "GenericRequestManuscript"
 	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
+	if !@document["items_json"].nil?
 	itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
+	 else
+    itemsJsonHash = {}
+     end
 	@ho = holdings(holdingsJsonHash, itemsJsonHash )
 	boxtype = "checkbox"
 	#type = "PhotoduplicationRequest"
@@ -73,13 +74,14 @@ class AeonController < ApplicationController
 	submitter = ""
 	this_sub = submitter
 	selected = selecter
-	Rails.logger.info("SELECTED = #{selected}")
+#	Rails.logger.info("SELECTED = #{selected}")
 	the_loginurl = loginurl
 	if @document["restrictions_display"].nil?
 		re506 = ""
     else
 	    re506 = @document["restrictions_display"][0]
 	end
+    
 	#@ho = "The printer & the pardoner :an unrecorded indulgence printed by William Caxton for the Hospital of St. Mary Rounceval, Charing Cross /Paul Needham.	Finding Aid" #@holdings
     @schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
     @review_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'	
@@ -106,8 +108,8 @@ class AeonController < ApplicationController
  	libid_ar = []
  	finding_aid = ""
  	holdingsHash = {}
-	Rails.logger.info('Entered reading_room_request')
-	Rails.logger.info("DOOFUS = #{params}")
+#	Rails.logger.info('Entered scan request')
+#	Rails.logger.info("DOOFUS = #{params}")
 	url = 'http://www.google.com'
 	bibid = params[:id]
 	libid = params[:libid]
@@ -120,14 +122,17 @@ class AeonController < ApplicationController
     end
 	resp, @document = search_service.fetch(params[:id])
 	bibdata = make_bibdata(@document)
-	Rails.logger.info("SCOOPYBUTTHOLE = #{@document}")
 	title = @document["fulltitle_display"]
 	author = @document["author_display"]
 	doctype = "Photoduplication"
 	aeon_type = "PhotoduplicationRequest"
 	webreq = "Copy"
 	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
-	itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
+	if !@document["items_json"].nil?
+	 itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
+	else
+     itemsJsonHash = {}
+    end
 	@ho = holdings(holdingsJsonHash, itemsJsonHash )
 	boxtype = "checkbox"
 	#type = "PhotoduplicationRequest"
@@ -136,7 +141,6 @@ class AeonController < ApplicationController
 	submitter = ""
 	this_sub = submitter
 	selected = selecter
-	Rails.logger.info("SELECTED = #{selected}")
 	the_loginurl = loginurl
 	if @document["restrictions_display"].nil?
 		re506 = ""
@@ -236,8 +240,8 @@ class AeonController < ApplicationController
         <br/>
 		"
 	else
-		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
-		      <br/>"
+#		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
+		fa = "<br/>" 
     end
 	prelim = '
 	<!DOCTYPE html>
@@ -292,8 +296,8 @@ class AeonController < ApplicationController
         <br/>
 		"
 	else
-		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
-		      <br/>"
+#		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
+		fa = "<br/>"
     end
 	prelim = '
 	<!DOCTYPE html>
@@ -374,6 +378,9 @@ class AeonController < ApplicationController
   end
  
   def aeon_body(title, author, type, bibdata, doctype, re506)
+  	if author.nil?
+  		author = ""
+    end
 
   	body = '
         <script> var bibdata = ' + bibdata.to_s  + '; </script>
@@ -485,6 +492,9 @@ class AeonController < ApplicationController
    end  
 
   def scan_body(title, author, type, bibdata, doctype, re506)
+  	 if author.nil?
+  	 	author = ""
+  	 end
 
   	body = '
         <script> var bibdata = ' + bibdata.to_s  + '; </script>
@@ -713,7 +723,6 @@ class AeonController < ApplicationController
  
   def redirect_shib
   	redirect_to 'https://rmc-aeon.library.cornell.edu'
-  	Rails.logger.info("JODIE2 = Hello")
   end
 
   def make_bibdata(document)
@@ -751,34 +760,40 @@ class AeonController < ApplicationController
     firstkeyout = ""
     	count = 0
   	bibdata_output_hash = '{"items": [{"author":null,"title":null,"pub_place":null,"publisher":null,"publisher_date":null,"edition":null,"bib_format":null,"permlocation":null,"permlocationcode":null,"holdings":[]}]}'
-  	bibdata_hash = Hash(JSON.parse(document['items_json']))
-  	bibdata_hash.each do | firstKey, value |
+    if !document['items_json'].nil?
+  	  bibdata_hash = Hash(JSON.parse(document['items_json']))
+  	  bibdata_hash.each do | firstKey, value |
   		if count == 0 
   			firstkeyout = firstKey
   			count = count + 1
   			valueHash = Hash(value[0])
  # 	        bibdata_output_hash = bibdata_output_hash + firstkeyout + '":['  	    
   	    end
+  	  end
+  	 end
+  	if firstkeyout != ""
+  	  callnum = holdings_json[firstkeyout]["call"]
+  	else
+  	  callnum = ""
   	end
-  	callnum = holdings_json[firstkeyout]["call"]
   
-  
-  	bibdata_hash.each do | key, value |
+    if !document['items_json'].nil?
+  	  bibdata_hash.each do | key, value |
   	#	if count == 0
-  		holdingID = key
-  		Rails.logger.info("BOOBALA = #{value}")
-  		valueArray = value.to_a
-  		valueArray.each do | key, hold |
-  		 valueHash = Hash(hold)
-  		 keyout = Hash[key]
+  		  holdingID = key
+  		  valueArray = value.to_a
+  		  valueArray.each do | key, hold |
+  		  valueHash = Hash(hold)
+  		  keyout = Hash[key]
   	#	 status = keyout["status"]["code"]["1"]
   	#	 bibdata_output_hash = bibdata_output_hash + '{"author":"' + document["author_display"] + '","title":"' + document["fulltitle_display"] + '","publisher":"' + publisher + '","publisher_date":"' + pubdate + '","pub_place":"' + pubplace + '","bib_format":"' + bib_format + '","holding_id":"' + holdingID + '","call_number":"' + callnum.inspect + '","barcode":"' + keyout['barcode'].inspect + '","PermLocation":"' + permLocation + '","PermLocationCode":"' + permLocationCode + '","status":"' + status + '","item_id":"' + keyout['id'].inspect + '"},'
 
-    	end
+    	  end
   #	    count = count + 1
   #	    if count > 1
   #	    end	
-  	end   
+  	  end
+  	 end   
   #  bibdata_output_hash = bibdata_output_hash + '}} ]}'
     
     return bibdata_output_hash
@@ -797,12 +812,8 @@ class AeonController < ApplicationController
   	ret = ""
   	holdingID = ""
     
-  	Rails.logger.info("REBAB4 = #{holdingsHash}")
-  	Rails.logger.info("REBAB5 = #{itemsHash}")
   	holdingsHash.each do |key, value|
   	  holdingID = key
-  	  Rails.logger.info("REBAR3000 = #{holdingID}")
-  	  Rails.logger.info("REBAB12 = #{holdingsHash[holdingID]["call"]}")
   	  thisItemArray = itemsHash[holdingID]
 #  	  thisItemHash = Hash(JSON.parse(thisItemArray[0]))
        c = ""
@@ -813,10 +824,7 @@ class AeonController < ApplicationController
 #       else
 #       	  b = holdingsHash[holdingID]["call"]
 #       end
-  	   Rails.logger.info("REBAB12 = #{thisItemArray}")
   	   if !thisItemArray.nil?  
-  	   	 Rails.logger.info("REBAB13 = #{thisItemArray[0]["date"]}")
-  	     Rails.logger.info("REDAD1 = #{thisItemArray.size}")
   	     thisItemArray.each do | itemHash |
   	     	Rails.logger.info("REBAR1000 = #{itemHash['barcode']}")
   	     	b = itemHash['call'].to_s
@@ -841,25 +849,37 @@ class AeonController < ApplicationController
     	   	  end
   	       if holdingsHash[holdingID]["call"].nil?
   	       	holdingsHash[holdingID]["call"] = ""
-  	       end
+  	       end 
   	  	   if !itemHash["barcode"].nil?
-  	  	   	  
+  	  	   	restrictions = ""
+  	  	      if !itemHash["rmc"].nil?
+  	  	      	if !itemHash["rmc"]["Restrictions"].nil?
+  	  	      	   restrictions = itemHash["rmc"]["Restrictions"]
+  	  	      	end
+  	  	      end  	  	   	
+  	  	   Rails.logger.info("MORTY = #{restrictions}")	  
   	         if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
-  	        	ret = ret + " (Available Immediately) " + b +  c + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '"};</script>'
+  	        	ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	         else
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
-  	        	ret = ret + " (Request in Advance) " + b + c + " "  +  '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '"};</script>'
+  	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions  +  '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	         end
   	       else
+  	       	  restrictions = ""
+  	  	      if !itemHash["rmc"].nil?
+  	  	      	if !itemHash["rmc"]["Restrictions"].nil?
+  	  	      	   restrictions = itemHash["rmc"]["Restrictions"]
+  	  	      	end
+  	  	      end  	  	  
   	       	 if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
-  	        	ret = ret + " (Available Immediately) " + b + c + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '"};</script>'
+  	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	         else
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
-  	        	ret = ret + " (Requests in Advance) " + b + c + " " +  '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '"};</script>'
+  	        	ret = ret + " (Requests in Advance) " + b + c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	         end
              d = ""
   	       end
@@ -868,7 +888,7 @@ class AeonController < ApplicationController
   	 #end
   	end
     ret = ret + "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
-    Rails.logger.info("REBAR6000 = #{ret}")
+  #  Rails.logger.info("REBAR6000 = #{ret}")
    return ret 	
   end
 
