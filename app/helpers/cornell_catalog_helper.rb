@@ -1432,10 +1432,11 @@ end
   end
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
-  def request_path(group,id,aeon_codes,document)
-    magic_path  = blacklight_cornell_request.magic_request_path("#{id}")
+  def request_path(group,id,aeon_codes,document,scan)
+	id_scan = scan == "yes" ? "#{id}.scan" : "#{id}"
+    magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
     if ENV['SAML_IDP_TARGET_URL'].present?
-    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id}")
+    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
     end
     if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
       aeon_req = '/aeon/~id~'
