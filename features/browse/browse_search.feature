@@ -86,10 +86,10 @@ Feature: Browse search
 
   Examples:
   | callno | location |
-  | PN45 .J41 1982 | Olin Library |
+  | P95 .P674 2012 | Olin Library |
   | N3 .Z478 |  Fine Arts Library (Rand Hall)  |
   | N5300 .A783 | Online |
-  | Pamphlet J 1360 | Library Annex |
+  | NC1766.J3 Y65 2006 |  Kroch Library Asia |
   | ML419.G66 G67 2018 |  Music Library (Lincoln Hall)  |
   | N3 .Z478 | Library Annex |
 
