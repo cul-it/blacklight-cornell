@@ -170,6 +170,8 @@ var  carouselActions = {
   },
   // scrolls the user to the starting point of the carousel
   et_scroll_home: function() {
+      console.log("ET is home");
+      console.log($('#classification').attr("data-prev-count"));
       visCount = 0
       $('#outer-container').children().each(function() {
            if ( carouselActions.isInViewport(this) ) {
@@ -269,9 +271,10 @@ var  carouselActions = {
           dataType: "jsonp",
           jsonp: "json.wrf",
           complete: function(xhr, status) {
-            if ( prevCount < 2 && keepCount == "true" ) {
-              carouselActions.et_scroll_home();
-            }
+            // commenting this out for now (7/14/21). may not need this if block
+            // if ( prevCount < 2 && keepCount == "true" ) {
+            //   carouselActions.et_scroll_home();
+            // }
             setTimeout(function(){ $('#vb-time-indicator').hide(); }, 3000);
             //carouselActions.setup_click_for_preview();
           }
