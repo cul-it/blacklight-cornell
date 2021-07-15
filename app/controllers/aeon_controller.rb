@@ -3,6 +3,10 @@ class AeonController < ApplicationController
   layout "aeon"
   include Blacklight::Catalog
   
+  require 'net/sftp'
+  require 'net/scp'
+  require 'net/ssh'
+ 
   ic = 0
   bcc = 0
   bibid = ""
@@ -43,7 +47,6 @@ class AeonController < ApplicationController
  	libid_ar = []
  	finding_aid = ""
  	holdingsHash = {}
-	Rails.logger.info('Entered reading_room_request')
 	url = 'http://www.google.com'
 	bibid = params[:id]
 	libid = params[:libid]
@@ -74,7 +77,6 @@ class AeonController < ApplicationController
 	submitter = ""
 	this_sub = submitter
 	selected = selecter
-#	Rails.logger.info("SELECTED = #{selected}")
 	the_loginurl = loginurl
 	if @document["restrictions_display"].nil?
 		re506 = ""
@@ -96,27 +98,30 @@ class AeonController < ApplicationController
 #    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
     @all = @the_prelim + @warning + @ho + @body + this_sub + @clear + @form + @fo
     session[:current_user_id] = 1
-    File.write('/cul/web/dev-jac244.library.cornell.edu/htdocs/aeon/form2.html', @all)
-   # Rails.logger.info("Session = #{session.inspect}")
-   # redirect_to 'http://dev-jac244.library.cornell.edu/aeon/form2.html'
-    redirect_to 'http://dev-jac244.library.cornell.edu/aeon/form2.html'
-   #  render :partial => '/aeon/monograph'
+     File.write("#{Rails.root}/tmp/form2.html", @all)
+     reading
  end
+  
+  def reading
+  	file = File.read("#{Rails.root}/tmp/form2.html")
+  	render :html => file.html_safe
+  end
+ 
+  def scanning
+  	file = File.read("#{Rails.root}/tmp/scan_form.html")
+  	render :html => file.html_safe
+  end
  
   def scan_aeon
-  	Rails.logger.info("HEREIAM")
- 	libid_ar = []
+  	libid_ar = []
  	finding_aid = ""
  	holdingsHash = {}
-#	Rails.logger.info('Entered scan request')
-#	Rails.logger.info("DOOFUS = #{params}")
 	url = 'http://www.google.com'
 	bibid = params[:id]
 	libid = params[:libid]
 	if !params[:libid].nil?
 		libid_ar = params[:libid].split('|')
     end
-   Rails.logger.info("FINDING = #{params}")
     if !params[:finding].nil?
     	@@finding_aid = params[:finding]
     end
@@ -161,18 +166,14 @@ class AeonController < ApplicationController
 #    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
     @all = @the_prelim + @warning + @ho + @body + this_sub + @clear + @form + @fo
     session[:current_user_id] = 1
-    File.write('/cul/web/dev-jac244.library.cornell.edu/htdocs/aeon/scan_form.html', @all)
-   # Rails.logger.info("Session = #{session.inspect}")
-   # redirect_to 'http://dev-jac244.library.cornell.edu/aeon/form2.html'
-    redirect_to 'http://dev-jac244.library.cornell.edu/aeon/scan_form.html'
-   #  render :partial => '/aeon/monograph'
+    File.write("#{Rails.root}/tmp/scan_form.html", @all)
+    scanning
 
   end
   
   def request_aeon
     #resp, document = get_solr_response_for_doc_id(params[:bibid])
     # DISCOVERYACCESS-5324 update to use BL7 search service.
-    Rails.logger.info("AMIHERE")
     resp, document = search_service.fetch(@id) 
     aeon = Aeon.new
     request_options, target, @holdings = aeon.request_aeon document, params
@@ -364,8 +365,8 @@ class AeonController < ApplicationController
   end
  
   def loginurl
- 	return "http://aws-108-184.internal.library.cornell.edu/aeon/aeon-login.php"  	
-#  	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php"
+# 	return "http://newcatalog-login.library.cornell.edu/aeon/aeon-login.php"  	
+   	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php"
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -718,7 +719,6 @@ class AeonController < ApplicationController
  
   def cleanupAeonParamsX#(params)
   	aeonParams = []
-  	#Rails.logger.info("JODIE = #{params}")
   end
  
   def redirect_shib
@@ -802,8 +802,7 @@ class AeonController < ApplicationController
   def holdings(holdingsJsonHash, itemsJsonHash)
   	 holdingsHash = holdingsJsonHash
   	 itemsHash = itemsJsonHash
- # 	 Rails.logger.info("REBAB = #{holdingsHash.inspect}")
-  	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
+   	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
   	 return return_ho
   end
  
@@ -826,13 +825,11 @@ class AeonController < ApplicationController
 #       end
   	   if !thisItemArray.nil?  
   	     thisItemArray.each do | itemHash |
-  	     	Rails.logger.info("REBAR1000 = #{itemHash['barcode']}")
   	     	b = itemHash['call'].to_s
   	     	if b.include?('Archives ')
   	     		b = b.gsub('Archives ','')
   	        end
   	  	 	#stuffHash = Hash(JSON.parse(otherstuff))
-  	  	 	Rails.logger.info("POOPYBUTTHOLE = #{itemHash.inspect}")
   	  	   	 if !itemHash["copy"].nil? and !itemHash['enum'].nil?
   	  	   	  c =  " c. " + itemHash["copy"].to_s + " " + itemHash['enum']
   	  	   	  if !itemHash["caption"].nil?
@@ -851,21 +848,20 @@ class AeonController < ApplicationController
   	       	holdingsHash[holdingID]["call"] = ""
   	       end 
   	  	   if !itemHash["barcode"].nil?
-  	  	   	restrictions = ""
+  	  	   	  restrictions = ""
   	  	      if !itemHash["rmc"].nil?
   	  	      	if !itemHash["rmc"]["Restrictions"].nil?
   	  	      	   restrictions = itemHash["rmc"]["Restrictions"]
   	  	      	end
   	  	      end  	  	   	
-  	  	   Rails.logger.info("MORTY = #{restrictions}")	  
-  	         if itemHash["location"]["name"].include?('Non-Circulating')
+  	          if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
   	        	ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	         else
+  	          else
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
   	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions  +  '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	         end
+  	          end
   	       else
   	       	  restrictions = ""
   	  	      if !itemHash["rmc"].nil?
@@ -873,14 +869,14 @@ class AeonController < ApplicationController
   	  	      	   restrictions = itemHash["rmc"]["Restrictions"]
   	  	      	end
   	  	      end  	  	  
-  	       	 if itemHash["location"]["name"].include?('Non-Circulating')
+  	       	  if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
   	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	         else
+  	          else
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
   	        	ret = ret + " (Requests in Advance) " + b + c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	         end
+  	          end
              d = ""
   	       end
   	     end
@@ -888,7 +884,6 @@ class AeonController < ApplicationController
   	 #end
   	end
     ret = ret + "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
-  #  Rails.logger.info("REBAR6000 = #{ret}")
    return ret 	
   end
 
