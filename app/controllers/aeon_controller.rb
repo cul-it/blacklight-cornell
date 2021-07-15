@@ -254,7 +254,7 @@ class AeonController < ApplicationController
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/date.js"></script>
+	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
 	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/request.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
 	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
@@ -299,7 +299,7 @@ class AeonController < ApplicationController
 	else
 #		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
 		fa = "<br/>"
-    end
+    end 
 	prelim = '
 	<!DOCTYPE html>
 	<html lang="en">
@@ -310,7 +310,7 @@ class AeonController < ApplicationController
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/date.js"></script>
+	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
 	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/repro_request.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/repro.css" >
 	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
