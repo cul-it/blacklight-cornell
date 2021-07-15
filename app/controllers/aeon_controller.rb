@@ -253,11 +253,11 @@ class AeonController < ApplicationController
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/request.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/request.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
 	</head>
 	<body>
 	<script type="text/javascript">
@@ -309,11 +309,11 @@ class AeonController < ApplicationController
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/repro_request.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/repro.css" >
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/repro_request.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/repro.css" >
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
 	</head>
 	<body>
 	<script type="text/javascript">
