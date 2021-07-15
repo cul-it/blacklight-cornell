@@ -9,7 +9,9 @@
 	        <% if callnumbers.size > 1 %>
 	          <select id="call-number-sel" class="form-control">
 		        <% callnumbers.each do |callnumber| %>
-		          <option value="<%= callnumber%>"><%= callnumber%></option>
+                  <% if !callnumber.empty? %>
+		            <option value="<%= callnumber%>"><%= callnumber%></option>
+                  <% end %>
 		        <% end %>
 		      </select>
 		    <% else %>
