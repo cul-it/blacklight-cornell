@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 795712ca6add5260502fa12ab04a45cadab0e01f
+  revision: 3247e4acf9a14a3a54ea837a2dc6b31cbd4f6c60
   branch: folio
   specs:
-    blacklight_cornell_requests (4.0)
+    blacklight_cornell_requests (4.0.3)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -47,10 +47,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 67d871042e26506166041082651ea2e22f3cef82
+  revision: d76a4e73d19dd99b8af9d665cb6b6e09ac3888b6
   branch: folio
   specs:
-    my_account (2.0)
+    my_account (2.0.4)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge
@@ -417,7 +417,7 @@ GEM
     method_source (0.9.2)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0225)
+    mime-types-data (3.2021.0704)
     mini_mime (1.1.0)
     mini_portile2 (2.4.0)
     mini_racer (0.2.8)
@@ -528,7 +528,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (13.0.3)
+    rake (13.0.5)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
