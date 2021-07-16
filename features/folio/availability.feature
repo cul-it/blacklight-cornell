@@ -20,17 +20,17 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View a basic checked out item
-    Given I request the item view for 10976407
+    Given I request the item view for 10055679
     Then the availability icon should show a clock
     And availability should show status 'Checked out'
     And availability should show the due date
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item checked out for a short loan
-    Given I request the item view for 285282
-    Then the first availability icon for 'Olin Library' should show a clock
-    And the first availability for 'Olin Library' should show status 'Checked out'
-    And the first availability for 'Olin Library' should show the due date and time
+    Given I request the item view for 10635622
+    Then the first availability icon for 'Music Library' should show a clock
+    And the first availability for 'Music Library' should show status 'Checked out'
+    And availability should show the due date
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is missing
