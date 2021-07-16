@@ -16,7 +16,7 @@ Feature: Browse search
     Given I request the item view for 595322
     Then the first availability icon for "Olin Library" should show a checkmark
     And the first availability for "Olin Library" should show status 'Available'
-    And the first availability for "Olin Library" should show the date
+    # no date available: And the first availability for "Olin Library" should show the date
 
   @DISCOVERYACCESS-7118
   Scenario: View a basic checked out item
