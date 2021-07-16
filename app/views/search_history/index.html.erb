@@ -10,6 +10,10 @@
     </p>
   <h3><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search-history">
+    <% Rails.logger.info("tlw72 ***************** @searches *******************") %>
+    <% Rails.logger.info("tlw72 *****************" + @searches.inspect) %>
+    <% Rails.logger.info("tlw72 ***************** session[:history] *******************") %>
+    <% Rails.logger.info("tlw72 *****************" + session[:history].inspect) %>
     <%- @searches.each_with_index do |search,index| -%>
     <!-- display searches unless they are advanced searches -->
       <%-unless !link_to_previous_search(search.query_params).include?("span") || search.query_params["advanced_query"] == "yes" %>
