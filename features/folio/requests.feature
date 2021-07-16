@@ -1,5 +1,6 @@
 # encoding: utf-8
 @folio
+@saml_off
 Feature: Language Support
   In order to test FOLIO with a subset of catalog records
   As a developer
