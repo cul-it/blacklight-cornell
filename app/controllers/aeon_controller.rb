@@ -270,7 +270,7 @@ class AeonController < ApplicationController
 	<div id="main-content">
 	<form id="EADRequest" name="EADRequest"
 	action="' + loginurl + '"
-              method="POST" class="form-horizontal">
+              method="GET" class="form-horizontal">
 	<b>' + title + '</b>' + fa +
 	'<b> ' + re506 + '</b>' +
 	cart + '
