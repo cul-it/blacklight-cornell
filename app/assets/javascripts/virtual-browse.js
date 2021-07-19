@@ -1,3 +1,4 @@
+var _paq = _paq || [];
 var current_previous = "current previous";
 var current_next = "current next";
 var  carouselActions = {
@@ -170,8 +171,6 @@ var  carouselActions = {
   },
   // scrolls the user to the starting point of the carousel
   et_scroll_home: function() {
-      console.log("ET is home");
-      console.log($('#classification').attr("data-prev-count"));
       visCount = 0
       $('#outer-container').children().each(function() {
            if ( carouselActions.isInViewport(this) ) {
