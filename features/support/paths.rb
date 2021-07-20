@@ -74,7 +74,7 @@ module NavigationHelpers
     when /^author_addl_display$/
       '.blacklight-author_addl_display'
     when /^author$/
-      '.blacklight-author_display'
+      '.blacklight-author_json'
     when /^edition$/
       '.blacklight-edition_display'
     when /^notes$/
