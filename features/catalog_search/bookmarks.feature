@@ -27,7 +27,8 @@ Feature: Bookmarks for anonymous users
         And I sleep 5 seconds
         Then there should be <count> items selected
         When I literally go to bookmarks
-        Then there should be <count> items selected
+        Then I should be on 'the bookmarks page'
+        And there should be <count> items selected
 
     Examples:
     | count |
