@@ -38,3 +38,9 @@ Given /^I click '(.*?)' in the last page navigator$/ do |text|
     click_link(text)
   end
 end
+
+Then("the first browse heading {string} should show {string} titles") do |string, string2|
+  within (".headings-list") do
+    expect(first(:xpath, "//tr", :text => string, :visible => :all).first(:xpath, "//td", :visible => :all)).to have_content(string2)
+  end
+end

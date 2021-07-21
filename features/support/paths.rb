@@ -50,6 +50,9 @@ module NavigationHelpers
     when /the single search results page/
       search_index_path
 
+    when /the browse page/
+      '/browse'
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
