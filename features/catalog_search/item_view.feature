@@ -45,9 +45,9 @@ Feature: Item view
   @all_item_view
   @DISCOVERYACCESS-136
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
-    Given I request the item view for 6041
-    And click on link "Catholic Church. Pope (1939-1958 : Pius XII)"
-    Then results should have a "author" that looks sort of like "Catholic Church. Pope (1939"
+    Given I request the item view for 11499748
+    And click on first link "Askew, Anne, 1521-1546."
+    Then results should have a "author" that looks sort of like "Askew, Anne"
   #Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
@@ -104,9 +104,9 @@ Feature: Item view
   @DISCOVERYACCESS-136
   @all_item_view
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
-    Given I request the item view for 6041
-    And click on link "Catholic Church. Pope (1939-1958 : Pius XII)"
-    Then results should have a "author" that looks sort of like "Catholic Church"
+    Given I request the item view for 11499748
+    And click on first link "Askew, Anne, 1521-1546."
+    Then results should have a "author" that looks sort of like "Askew, Anne"
 
   # Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
