@@ -217,6 +217,12 @@ When("I view my citations") do
   page.find(:xpath, '//a[@id="citationLink"]').click
 end
 
+Then("where am I") do
+  puts "\n********************* where am I V\n"
+  puts page.current_url.inspect
+  puts "\n********************* where am I ^\n"
+end
+
 def what_is(element)
   puts "\n********************* what is V\n"
   puts page.current_url.inspect

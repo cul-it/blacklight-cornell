@@ -228,7 +228,7 @@ Feature: Item view
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728
-  #  Then I should see the labels 'Lost--System Applied 10/07/13'
+    Then I should see the labels 'Declared lost'
 
   # Availability for a Missing item Municipal innovations
   @all_item_view
@@ -250,7 +250,7 @@ Feature: Item view
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 52325
+    Given I request the item view for 10976407
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item The goldfinch
