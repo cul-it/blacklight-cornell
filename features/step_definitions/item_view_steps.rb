@@ -76,7 +76,10 @@ Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, auth
 end
 
 Then /^results should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
-  page.should have_selector(field_result_to(field), :text => author,:exact =>false)
+  patiently do
+    expect(page.first(field_result_to(field))).to have_content(author)
+    # page.should have_selector(field_result_to(field), :text => author,:exact =>false)
+  end
 end
 
 Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|

@@ -70,3 +70,10 @@ Then("the availibility for {string} should show a message {string}") do |string,
         expect(find(:xpath, "//div[contains(@class, 'message') and contains(text(),'#{string2}')]")).to have_content(string2)
     end
 end
+
+Then("the availibility for {string} should show a status {string}") do |string, string2|
+    holding = find(:xpath, "//div[contains(@class, 'holding')]/div[contains(@class, 'location') and contains(text(),'#{string}')]/parent::*")
+    within(holding) do
+        expect('div.status').to have_content(string2)
+    end
+end

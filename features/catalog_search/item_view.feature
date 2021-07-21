@@ -45,9 +45,9 @@ Feature: Item view
   @all_item_view
   @DISCOVERYACCESS-136
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
-    Given I request the item view for 6041
-    And click on link "Catholic Church. Pope (1939-1958 : Pius XII)"
-    Then results should have a "author" that looks sort of like "Catholic Church. Pope (1939"
+    Given I request the item view for 11499748
+    And click on first link "Askew, Anne, 1521-1546."
+    Then results should have a "author" that looks sort of like "Askew, Anne"
   #Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
@@ -104,9 +104,9 @@ Feature: Item view
   @DISCOVERYACCESS-136
   @all_item_view
   Scenario: As a user, the author's name in an item record is clickable and produces a query resulting in a list of works by that author.
-    Given I request the item view for 6041
-    And click on link "Catholic Church. Pope (1939-1958 : Pius XII)"
-    Then results should have a "author" that looks sort of like "Catholic Church"
+    Given I request the item view for 11499748
+    And click on first link "Askew, Anne, 1521-1546."
+    Then results should have a "author" that looks sort of like "Askew, Anne"
 
   # Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
@@ -228,7 +228,7 @@ Feature: Item view
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
     Given I request the item view for 2144728
-  #  Then I should see the labels 'Lost--System Applied 10/07/13'
+    Then I should see the labels 'Declared lost'
 
   # Availability for a Missing item Municipal innovations
   @all_item_view
@@ -250,7 +250,7 @@ Feature: Item view
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 52325
+    Given I request the item view for 10976407
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item The goldfinch
