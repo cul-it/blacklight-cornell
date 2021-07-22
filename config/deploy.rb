@@ -17,7 +17,7 @@ set :default_environment, {
 }
 
 set :deploy_via, :copy
-set :bundle_flags #,    "--deployment "
+set :bundle_flags,    "--deployment "
 
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
