@@ -289,7 +289,11 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
-       unless ['title_starts','series','journal title','lc_callnum','author_pers_browse','subject_geo_browse','authortitle_browse','subject_corp_browse'].include?(blacklight_params[:search_field])
+      # exclude search_fields that match *_cts or *_browse
+      if !(/_cts$/.match(blacklight_params[:search_field]) ||
+        /_browse$/.match(blacklight_params[:search_field]) ||
+        ['title_starts','series','journal title','lc_callnum'].include?(blacklight_params[:search_field])
+      )
          query_array = blacklight_params[:q].split(' ')
          clean_array = []
          new_query = ''
