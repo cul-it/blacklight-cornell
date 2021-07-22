@@ -276,6 +276,19 @@ class SearchBuilder < Blacklight::SearchBuilder
          blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
        end
        #queries are not all fields nor quoted  go ahead
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "blacklight_params[:q]: " + blacklight_params[:q].inspect
+msg << "blacklight_params[:search_field]: " + blacklight_params[:search_field].inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
        unless ['title_starts','series','journal title','lc_callnum','author_pers_browse','subject_geo_browse','authortitle_browse','subject_corp_browse'].include?(blacklight_params[:search_field])
          query_array = blacklight_params[:q].split(' ')
          clean_array = []
