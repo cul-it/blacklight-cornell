@@ -34,3 +34,38 @@ Feature: Facets
 	Scenario: Viewing the home page
 		Given I am on the home page
 		And I should not see a facet called 'Call Number'
+
+	@DISCOVERYACCESS-7221
+	Scenario Outline: Facet counts in search for everything
+		Given I am on the home page
+		And I search for everything
+		Then the count for category '<category>' facet '<facet>' should be '<count>'
+		And I choose category '<category>' facet '<facet>'
+		Then I should get <count> results
+
+	Examples:
+		| category | facet | count |
+		| Access | At the Library  | 176  |
+		| Format | Book | 166 |
+		| Author, etc. | Rowling, J. K. | 8 |
+		| Language | English | 176 |
+		| Subject | Magic | 8 |
+		| Subject: Region | United States | 25 |
+		| Subject: Era | 1900 - 1999 | 5 |
+		| Genre | Periodicals | 25 |
+		| Fiction/Non-Fiction | Non-Fiction (books) | 128 |
+		| Date Acquired | Since last year | 7 |
+
+
+	@DISCOVERYACCESS-7221
+	Scenario Outline: Facet counts in search for everything special
+		Given I am on the home page
+		And I search for everything
+		And I choose category '<category>' link '<facet>'
+		Then I should get <count> results
+
+	Examples:
+		| category | facet | count |
+		| Publication Year | Unknown | 2 |
+		| Library Location | Adelson Library | 3 |
+		| Call Number | A - General | 7 |
