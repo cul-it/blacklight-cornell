@@ -7,7 +7,7 @@ Feature: Facets
 	Background:
 
 	@homepage
-        @javascript
+    @javascript
 	Scenario: Viewing the home page
 		Given I am on the home page
 		Then I should see a facet called 'Access'
@@ -30,7 +30,7 @@ Feature: Facets
 
 	@homepage
 	@nocallnumber
-        @javascript
+    @javascript
 	Scenario: Viewing the home page
 		Given I am on the home page
 		And I should not see a facet called 'Call Number'
