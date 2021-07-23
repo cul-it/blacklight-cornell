@@ -150,3 +150,4 @@ Feature: Browse search
       | search | browse | heading | count |
       | Rowling | Author (A-Z) Sorted By Name | Rowling, J. K. | 8 |
       | China | Subject Browse (A-Z) | China | 4 |
+      | Wizards > Juvenile fiction | Subject Browse (A-Z) | Wizards > Juvenile fiction | 7 |
