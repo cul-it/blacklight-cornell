@@ -130,7 +130,7 @@ module NavigationHelpers
     when /^language$/
        'blacklight-language_facet'
     when /^library location$/
-      'blacklight-location_facet'
+      'blacklight-location'
     when /^call number$/
        'blacklight-lc_callnum_facet'
     when /.*region$/
@@ -141,6 +141,10 @@ module NavigationHelpers
        'blacklight-location_facet'
     when /^publication year$/
        'blacklight-pub_date_facet'
+    when /^subject$/
+      'blacklight-fast_topic_facet'
+    when /^date acquired$/
+      'blacklight-acquired_dt_query'
     end
   end
 
