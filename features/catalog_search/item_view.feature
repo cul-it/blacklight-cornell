@@ -123,19 +123,20 @@ Feature: Item view
     Given I request the item view for 3749
     Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
-  @request_button
-  @all_item_view
-  @saml_off
-  Scenario: As a user I can request an item, when not SAML involved.
-    Given I request the item view for 30000
-    Then it should have link "Request item" with value "/request/30000"
-
-  @request_button
-  @all_item_view
-  @saml_on
-  Scenario: As a user I can request an item, when SAML involved.
-    Given I request the item view for 30000
-    Then it should have link "Request" with value "/request/auth/30000?scan=yes"
+  # Hiding request buttons for Folio migration so need to comment these two out.
+  # @request_button
+  # @all_item_view
+  # @saml_off
+  # Scenario: As a user I can request an item, when not SAML involved.
+  #   Given I request the item view for 30000
+  #   Then it should have link "Request item" with value "/request/30000"
+  # 
+  # @request_button
+  # @all_item_view
+  # @saml_on
+  # Scenario: As a user I can request an item, when SAML involved.
+  #   Given I request the item view for 30000
+  #   Then it should have link "Request" with value "/request/auth/30000?scan=yes"
 
   # Availability simple, one location, and is available
   @availability
@@ -681,7 +682,8 @@ Feature: Item view
     Given I request the item view for 9203210
     # Temporary change for Covid-19: added 'not' to the following line.
     Then I should not see the label 'On-site use'
-    And I should see the label 'Request item'
+    # Hiding request buttons for Folio migration so need to comment out this next line.
+    # And I should see the label 'Request item'
     And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
 
 
@@ -696,7 +698,8 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 1545844
     Then I should see the label 'On-site use'
-    Then I should see the label 'Request item'
+    # Commenting out for Folio migration
+    #Then I should see the label 'Request item'
 
   @hours-page
   @on-site-use
