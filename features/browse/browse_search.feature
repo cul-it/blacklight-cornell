@@ -86,10 +86,10 @@ Feature: Browse search
 
   Examples:
   | callno | location |
-  | PN45 .J41 1982 | Olin Library |
+  | P95 .P674 2012 | Olin Library |
   | N3 .Z478 |  Fine Arts Library (Rand Hall)  |
   | N5300 .A783 | Online |
-  | Pamphlet J 1360 | Library Annex |
+  | NC1766.J3 Y65 2006 |  Kroch Library Asia |
   | ML419.G66 G67 2018 |  Music Library (Lincoln Hall)  |
   | N3 .Z478 | Library Annex |
 
@@ -134,3 +134,20 @@ Feature: Browse search
 #    Then I should see the label 'Pins and needles : an oral history'
 #
 
+  @browse
+  @DISCOVERYACCESS-7221
+  Scenario Outline: Browse result counts should match catalog counts
+    Given I literally go to browse
+      And I fill in the authorities search box with '<search>'
+      And I select '<browse>' from the 'browse_type' drop-down
+      And I press 'search'
+      Then I should be on 'the browse page'
+      And the first browse heading '<heading>' should show '<count>' titles
+      And click on first link "<heading>"
+      Then I should get <count> results
+
+  Examples:
+      | search | browse | heading | count |
+      | Rowling | Author (A-Z) Sorted By Name | Rowling, J. K. | 8 |
+      | China | Subject Browse (A-Z) | China | 4 |
+      | Wizards > Juvenile fiction | Subject Browse (A-Z) | Wizards > Juvenile fiction | 7 |

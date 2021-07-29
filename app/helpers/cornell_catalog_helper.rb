@@ -1432,10 +1432,11 @@ end
   end
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
-  def request_path(group,id,aeon_codes,document)
-    magic_path  = blacklight_cornell_request.magic_request_path("#{id}")
+  def request_path(group,id,aeon_codes,document,scan)
+	id_scan = scan == "yes" ? "#{id}.scan" : "#{id}"
+    magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
     if ENV['SAML_IDP_TARGET_URL'].present?
-    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id}")
+    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
     end
     if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
       aeon_req = '/aeon/~id~'
@@ -1619,15 +1620,12 @@ end
 	holdArray = document['holdings_display'].to_a
 
 	col_loc = []
-	if holdArray.any?
-		holdArray = holdArray[0].split('|')
-		holdArray.each do |holding|
-			col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
-			location = Hash(holdings_condensed[holding])
-
-			if location["location"].present? && location["location"]["name"].present?
-					col_loc << location["location"]["name"]
-			end
+	holdings_condensed.each do |k,v|
+		if v["call"].present?
+			col_loc << v["call"]
+		end
+		if v["location"].present? && v["location"]["name"].present?
+			col_loc << v["location"]["name"]
 		end
 	end
 

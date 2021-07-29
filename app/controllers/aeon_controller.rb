@@ -253,11 +253,11 @@ class AeonController < ApplicationController
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/date.js"></script>
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/request.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/request.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
 	</head>
 	<body>
 	<script type="text/javascript">
@@ -299,7 +299,7 @@ class AeonController < ApplicationController
 	else
 #		fa = "<a href='?scan=" + params["scan"] + "' target='_blank'>Finding Aid<a/>
 		fa = "<br/>"
-    end
+    end 
 	prelim = '
 	<!DOCTYPE html>
 	<html lang="en">
@@ -309,11 +309,11 @@ class AeonController < ApplicationController
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/date.js"></script>
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/repro_request.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://newcatalog-login.library.cornell.edu/aeon/css/repro.css" >
-	<script type="text/javascript" src="http://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/repro_request.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/repro.css" >
+	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
 	</head>
 	<body>
 	<script type="text/javascript">
@@ -365,8 +365,8 @@ class AeonController < ApplicationController
   end
  
   def loginurl
-# 	return "http://newcatalog-login.library.cornell.edu/aeon/aeon-login.php"  	
-   	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php"
+ 	return "https://newcatalog-login.library.cornell.edu/aeon/aeon-login.php"  	
+#   	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php" 
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -848,6 +848,7 @@ class AeonController < ApplicationController
   	       	holdingsHash[holdingID]["call"] = ""
   	       end 
   	  	   if !itemHash["barcode"].nil?
+  	  	   	Rails.logger.info("SPARKY = #{itemHash}")
   	  	   	  restrictions = ""
   	  	      if !itemHash["rmc"].nil?
   	  	      	if !itemHash["rmc"]["Restrictions"].nil?
@@ -863,6 +864,7 @@ class AeonController < ApplicationController
   	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions  +  '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	          end
   	       else
+  	       	 Rails.logger.info("SPARKY1 = #{itemHash}")
   	       	  restrictions = ""
   	  	      if !itemHash["rmc"].nil?
   	  	      	if !itemHash["rmc"]["Restrictions"].nil?
@@ -871,11 +873,11 @@ class AeonController < ApplicationController
   	  	      end  	  	  
   	       	  if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
-  	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div></div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	          else
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
-  	        	ret = ret + " (Requests in Advance) " + b + c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	ret = ret + " (Requests in Advance) " + b + c + " " + restrictions + '</div></div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"rmc ",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	          end
              d = ""
   	       end

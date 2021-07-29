@@ -276,7 +276,11 @@ class SearchBuilder < Blacklight::SearchBuilder
          blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
        end
        #queries are not all fields nor quoted  go ahead
-       if blacklight_params[:search_field] != 'title_starts' and blacklight_params[:search_field] != 'series' and blacklight_params[:search_field] != 'journal title' and blacklight_params[:search_field] != 'lc_callnum' #query has not been created so go ahead
+      # exclude search_fields that match *_cts or *_browse
+      if !(/_cts$/.match(blacklight_params[:search_field]) ||
+        /_browse$/.match(blacklight_params[:search_field]) ||
+        ['title_starts','series','journal title','lc_callnum'].include?(blacklight_params[:search_field])
+      )
          query_array = blacklight_params[:q].split(' ')
          clean_array = []
          new_query = ''
