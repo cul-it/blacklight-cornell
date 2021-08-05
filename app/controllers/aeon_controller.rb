@@ -366,7 +366,7 @@ class AeonController < ApplicationController
  
   def loginurl
  	return "https://newcatalog-login.library.cornell.edu/aeon/aeon-login.php"  	
-#   	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php" 
+ #  	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php" 
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -802,6 +802,9 @@ class AeonController < ApplicationController
   def holdings(holdingsJsonHash, itemsJsonHash)
   	 holdingsHash = holdingsJsonHash
   	 itemsHash = itemsJsonHash
+  	 itemsHash.each do | key, value |
+  	 	value.sort_by! { |k| k["enum"]}
+  	 end
    	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
   	 return return_ho
   end
@@ -848,7 +851,6 @@ class AeonController < ApplicationController
   	       	holdingsHash[holdingID]["call"] = ""
   	       end 
   	  	   if !itemHash["barcode"].nil?
-  	  	   	Rails.logger.info("SPARKY = #{itemHash}")
   	  	   	  restrictions = ""
   	  	      if !itemHash["rmc"].nil?
   	  	      	if !itemHash["rmc"]["Restrictions"].nil?
@@ -867,7 +869,6 @@ class AeonController < ApplicationController
   	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions  +  '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	          end
   	       else
-  	       	 Rails.logger.info("SPARKY1 = #{itemHash}")
   	       	  restrictions = ""
   	  	      if !itemHash["rmc"].nil?
   	  	      	if !itemHash["rmc"]["Restrictions"].nil?
