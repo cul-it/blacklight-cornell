@@ -84,7 +84,6 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
-#  gem 'mini_racer', platforms: :ruby
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
 
