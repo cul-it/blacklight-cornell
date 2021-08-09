@@ -10,7 +10,7 @@ gem "actionview", ">= 5.2.4.2"
 # added for rails 4.
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
-gem 'mini_racer', platforms: :ruby
+#gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
@@ -48,7 +48,7 @@ gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
-#gem 'mini_racer', platforms: :ruby
+gem 'mini_racer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
@@ -112,7 +112,7 @@ gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'folio'
 #gem 'blacklight_cornell_requests', :path => '/Users/tlw72/dev/bc-requests'
 #gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
-#gem 'blacklight_cornell_requests', :path => '/Users/matt/code/d&a/blacklight-cornell-requests'
+#gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
 gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'folio'

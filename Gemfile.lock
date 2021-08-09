@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: a24c4bef0907807fed44091c755abc4776873010
+  revision: 27e3f2fb54f735eb466988e9fc3c0db21a539cd6
   branch: folio
   specs:
-    blacklight_cornell_requests (4.0.4)
+    blacklight_cornell_requests (4.0.5)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -341,7 +341,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     gyoku (1.3.1)
       builder (>= 2.1.2)
-    haml (5.2.1)
+    haml (5.2.2)
       temple (>= 0.8.0)
       tilt
     haml-rails (2.0.1)
@@ -395,7 +395,7 @@ GEM
     libnotify (0.9.4)
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
-    libv8 (7.3.492.27.1)
+    libv8-node (15.14.0.1)
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -420,8 +420,8 @@ GEM
     mime-types-data (3.2021.0704)
     mini_mime (1.1.0)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.8)
-      libv8 (>= 6.9.411)
+    mini_racer (0.4.0)
+      libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
     mollom (0.2.3)
     multi_json (1.14.1)
@@ -489,7 +489,7 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     popper_js (1.14.5)
-    protected_attributes_continued (1.8.1)
+    protected_attributes_continued (1.8.2)
       activemodel (>= 5.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -577,7 +577,7 @@ GEM
     ruby-plsql (0.7.1)
     ruby-saml (1.11.0)
       nokogiri (>= 1.5.10)
-    ruby_parser (3.16.0)
+    ruby_parser (3.17.0)
       sexp_processor (~> 4.15, >= 4.15.1)
     rufus-scheduler (3.6.0)
       fugit (~> 1.1, >= 1.1.6)
