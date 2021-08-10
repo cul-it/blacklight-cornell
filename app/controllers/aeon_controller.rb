@@ -802,8 +802,20 @@ class AeonController < ApplicationController
   def holdings(holdingsJsonHash, itemsJsonHash)
   	 holdingsHash = holdingsJsonHash
   	 itemsHash = itemsJsonHash
+  	 valholding = []
   	 itemsHash.each do | key, value |
-  	 	value.sort_by! { |k| k["enum"]}
+  	 	if !key.nil?
+  	 	#	if value["enum"].nil?
+  	    Rails.logger.info("PIGGY2 = #{key}")
+  	     value.each do |val|
+  	     	if !val["enum"].nil?
+  	           Rails.logger.info("VIGGY2val = #{val["active"]}")
+  	           valholding << val #"no date"
+  	        end
+  	    end
+  	    value = valholding
+  	 	value.sort_by! { |k| k["enum"]} 
+  	 	end
   	 end
    	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
   	 return return_ho
