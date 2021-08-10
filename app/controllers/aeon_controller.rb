@@ -806,15 +806,16 @@ class AeonController < ApplicationController
   	 itemsHash.each do | key, value |
   	 	if !key.nil?
   	 	#	if value["enum"].nil?
-  	    Rails.logger.info("PIGGY2 = #{key}")
+#  	    Rails.logger.info("PIGGY2 = #{key}")
   	     value.each do |val|
   	     	if !val["enum"].nil?
-  	           Rails.logger.info("VIGGY2val = #{val["active"]}")
+#  	           Rails.logger.info("VIGGY2val = #{val["enum"]}")
   	           valholding << val #"no date"
   	        end
   	    end
   	    value = valholding
   	 	value.sort_by! { |k| k["enum"]} 
+ 	 	itemsHash[key]= value  	 	
   	 	end
   	 end
    	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
