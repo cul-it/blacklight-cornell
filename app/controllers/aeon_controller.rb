@@ -862,7 +862,15 @@ class AeonController < ApplicationController
                       end  	  	   	
   	          if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
-  	        	ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"] + ' ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	if itemHash["rmc"].nil?
+  	        	  ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	            else
+  	              if itemHash["rmc"]["Vault location"].nil?
+  	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	  else
+  	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div></div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"] + ' ",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	  end  	            	
+  	            end 
   	          else
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
