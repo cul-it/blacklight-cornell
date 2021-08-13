@@ -906,8 +906,15 @@ class AeonController < ApplicationController
   	  	      	if !itemHash["rmc"]["Restrictions"].nil?
   	  	      	   restrictions = itemHash["rmc"]["Restrictions"]
   	  	      	end
-  	  	      end  	  	  
+  	  	      else
+  	  	      	restrictions = ""
+  	  	      end
+  	  	      if itemHash["rmc"].nil?
+  	  	      	itemHash["rmc"] = {}
+  	  	      	itemHash["rmc"]["Vault location"] = "not in record"
+  	  	      end	  	  
   	       	  if itemHash["location"]["name"].include?('Non-Circulating')
+  	  #     	  	ret = itemHash["rmc"]["Vault location"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
   	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div></div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	          else
