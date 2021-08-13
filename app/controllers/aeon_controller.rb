@@ -819,7 +819,7 @@ class AeonController < ApplicationController
   	 	value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } } #{ |k| k["enum"]} 
  	 	itemsHash[key]= value  	 	
   	 	end
-  	  Rails.logger.info("SWEEPEE = #{itemsHash[key][0].inspect}")
+  #	  Rails.logger.info("SWEEPEE = #{itemsHash[key][0].inspect}")
   	  count = count + 1
   	  end
   	 end
@@ -838,7 +838,7 @@ class AeonController < ApplicationController
      itemsHash.each do |key, value|
      if count < 1
   	  holdingID = key
-  	  Rails.logger.info("MONSTER = #{holdingID}")
+  #	  Rails.logger.info("MONSTER = #{holdingID}")
   	  thisItemArray = itemsHash[holdingID]
 #  	  thisItemHash = Hash(JSON.parse(thisItemArray[0]))
        c = ""
@@ -850,7 +850,7 @@ class AeonController < ApplicationController
 #       	  b = holdingsHash[holdingID]["call"]
 #       end
   	   if !thisItemArray.nil? and !thisItemArray.empty? 
-  	   	Rails.logger.info("SWEETPEE = #{thisItemArray.size}")
+  #	   	Rails.logger.info("SWEETPEE = #{thisItemArray.size}")
   	     thisItemArray.each do | itemHash |
   	     	b = itemHash['call'].to_s
   	     	if b.include?('Archives ')
@@ -946,7 +946,7 @@ class AeonController < ApplicationController
   	    				    	enum = val["enum"]
   	    				    end
   	    				    if val["location"]["name"].include?('Non-Circulating') #or val["location"]["name"].include?('Olin Library')
-  	        					ret = ret + val.inspect
+  	        			#		ret = ret + val.inspect
   	            				ret = ret + " <div> <div><input class='ItemNo'  id='" + val["barcode"] + "' name='" + val["barcode"] + "' type='checkbox' VALUE='" + val["barcode"] + "'>"
   	        					if val["rmc"].nil?
   	        	  					ret = ret + " (Available Immediately) " + val["call"] + " c " +  val["copy"].to_s + " " + restrictions + '</div></div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
@@ -980,14 +980,12 @@ class AeonController < ApplicationController
   	          				end
 			  	        end #barcode else
 
-  	    				#  	ret = ret + "poopy"
   	    				end
   	    			    count = count + 1
   	    		    end
   	    		end
   	    	end
   	    		
-  	   # 	ret = @document["items_json"].inspect
   	    end
   	 #end
   	    count = count + 1
@@ -1059,13 +1057,11 @@ class AeonController < ApplicationController
   	          				end
 			  	        end #barcode else
 
-  	    		#		  	ret = ret + "peepee"
   	    		#		end
   	    			    count = count + 1
   	    		    end
   	    		end
   	    	end   	
-    #	ret = ret + "peepee"
     end #end of if itemsHash.empty
     ret = ret + "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
    return ret 	
