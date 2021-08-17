@@ -805,8 +805,9 @@ class AeonController < ApplicationController
   	 itemsHash = itemsJsonHash
   	 valholding = []
   	 count = 0
+#  	 Rails.logger.info("POOFY = #{itemsJsonHash.count}")
   	 itemsHash.each do | key, value |
-  	  if count < 1
+  	  if count < itemsJsonHash.count
   	 	if !key.nil?
 #  	    Rails.logger.info("PIGGY2 = #{key}")
   	     value.each do |val|
