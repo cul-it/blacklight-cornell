@@ -6,7 +6,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 
 # again add a comment so we can do a trivial PR
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
-  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
+  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch, :homepage_default]
 #  self.default_processor_chain += [:advsearch]
 
   def sortby_title_when_browsing user_parameters
@@ -18,6 +18,15 @@ class SearchBuilder < Blacklight::SearchBuilder
     if user_parameters[:q].blank? and user_parameters[:sort].blank?
       browsing_sortby =  blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
   #    solr_parameters[:sort] = browsing_sortby.field
+    end
+  end
+
+  # Removes unnecessary elements from the solr query when the homepage is loaded.
+  # The check for the q parameter ensures that searches, including empty searches, and
+  # advanced searches are not affected.
+  def homepage_default user_parameters
+    if user_parameters['q'].nil? && user_parameters['fq'].size == 0
+      user_parameters = streamline_query(user_parameters)
     end
   end
 
@@ -1594,5 +1603,23 @@ class SearchBuilder < Blacklight::SearchBuilder
    return newHash
   end
 
+  def streamline_query(user_params)
+    homepage_facets = ["online", "format", "language_facet", "location", "hierarchy_facet"]
+    user_params['facet.field'] = homepage_facets
+    user_params['stats'] = false
+    user_params['stats.field'] = []
+    user_params['rows'] = 0
+    user_params.delete('sort')
+    user_params.delete('f.lc_callnum_facet.facet.limit')
+    user_params.delete('f.lc_callnum_facet.facet.sort')
+    user_params.delete('f.author_facet.facet.limit')
+    user_params.delete('f.fast_topic_facet.facet.limit')
+    user_params.delete('f.fast_geo_facet.facet.limit')
+    user_params.delete('f.fast_era_facet.facet.limit')
+    user_params.delete('f.fast_genre_facet.facet.limit')
+    user_params.delete('f.subject_content_facet.facet.limit')
+    user_params.delete('f.lc_alpha_facet.facet.limit')
+    return user_params
+  end
 end
 
