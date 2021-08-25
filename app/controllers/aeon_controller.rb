@@ -814,9 +814,9 @@ class AeonController < ApplicationController
   	          end
   	       end
   	       value = valholding
-               rescue
-  	 	  value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
                begin
+  	 	  value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
+               rescue
                   value.sorty_by! { |k| k["enum"]}
                end 
  	       itemsHash[key]= value  	 	
