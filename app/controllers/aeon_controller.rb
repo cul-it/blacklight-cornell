@@ -817,7 +817,7 @@ class AeonController < ApplicationController
                begin
   	 	  value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
                rescue
-                  value.sorty_by! { |k| k["enum"]}
+                  value.sort_by! { |k| k["enum"]}
                end 
  	       itemsHash[key]= value  	 	
   	     end
