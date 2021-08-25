@@ -805,24 +805,24 @@ class AeonController < ApplicationController
   	 itemsHash = itemsJsonHash
   	 valholding = []
   	 count = 0
-#  	 Rails.logger.info("POOFY = #{itemsJsonHash.count}")
   	 itemsHash.each do | key, value |
   	  if count < itemsJsonHash.count
-  	 	if !key.nil?
-#  	    Rails.logger.info("PIGGY2 = #{key}")
-  	     value.each do |val|
-  	     	if !val["enum"].nil?
-#  	           Rails.logger.info("VIGGY2val = #{val["enum"]}")
-  	           valholding << val #"no date"
-  	        end
-  	    end
-  	    value = valholding
-  	 	value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } } #{ |k| k["enum"]} 
- 	 	itemsHash[key]= value  	 	
-  	 	end
-  #	  Rails.logger.info("SWEEPEE = #{itemsHash[key][0].inspect}")
-  	  count = count + 1
-  	  end
+  	     if !key.nil?
+  	       value.each do |val|
+  	     	  if !val["enum"].nil?
+  	            valholding << val #"no date"
+  	          end
+  	       end
+  	       value = valholding
+               rescue
+  	 	  value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
+               begin
+                  value.sorty_by! { |k| k["enum"]}
+               end 
+ 	       itemsHash[key]= value  	 	
+  	     end
+  	     count = count + 1
+  	   end
   	 end
   	 
    	 return_ho = "<div id='holdings' class='scrollable'>" + xholdings(holdingsHash, itemsHash) + "</div>"
@@ -834,12 +834,10 @@ class AeonController < ApplicationController
   	ret = ""
   	holdingID = ""
     count = 0
- #   Rails.logger.info("BOOD = #{holdingsHash}")
     if !itemsHash.empty?
      itemsHash.each do |key, value|
      if count < 1
   	  holdingID = key
-  #	  Rails.logger.info("MONSTER = #{holdingID}")
   	  thisItemArray = itemsHash[holdingID]
 #  	  thisItemHash = Hash(JSON.parse(thisItemArray[0]))
        c = ""
@@ -851,7 +849,6 @@ class AeonController < ApplicationController
 #       	  b = holdingsHash[holdingID]["call"]
 #       end
   	   if !thisItemArray.nil? and !thisItemArray.empty? 
-  #	   	Rails.logger.info("SWEETPEE = #{thisItemArray.size}")
   	     thisItemArray.each do | itemHash |
   	     	b = itemHash['call'].to_s
   	     	if b.include?('Archives ')
