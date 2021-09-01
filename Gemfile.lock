@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 7a98b8c3b545a7ace48176c4c3a6a3e478a20b28
+  revision: 4d717a300014126651ce927e4af72a09c914d294
   branch: folio
   specs:
-    blacklight_cornell_requests (4.0.6)
+    blacklight_cornell_requests (4.0.7)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -41,16 +41,16 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-folio-edge
-  revision: 6255faa87382a95b7ec6680c6a167e4a1dfe1880
+  revision: 7dada16ff8e95284a0c83a9184bc3f8e9ae258af
   specs:
-    cul-folio-edge (1.1)
+    cul-folio-edge (1.2)
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: c60ef3ee0c71c7335f996e42393a0bd0fa7bc0e0
+  revision: fe9715170261f408ce64c538f4986fa87eeb95f2
   branch: folio
   specs:
-    my_account (2.0.5)
+    my_account (2.0.7)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge
@@ -520,7 +520,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.1)
+    rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
     railties (5.2.5)
       actionpack (= 5.2.5)
