@@ -55,7 +55,8 @@
 
 	        <%  summary_holdings = '' %>
 	        <div class="holdings-online">
-	        	<% if is_online? @document %>
+                <%# the extra etas_facet condition can be removed in the July '21 sprint %>
+	        	<% if is_online?(@document) && @document["etas_facet"].nil? %>
 	        		<div class="online-label">
 	            		<i class="fa fa-check" aria-hidden="true"></i>Online
 	        		</div>
@@ -71,120 +72,111 @@
                             <%#= holdings_json[getID]["links"][0]["description"].inspect %>
                             <%#= holdings.inspect %>
               <% holdings_json.each do |key, value|  %>
-         		 <% if holdings_json[key]["active"].nil? or holdings_json[key]["active"] == true %>
-              			<%#= value["online"].inspect %>
-              			<% if value["online"] == true and !value["links"].nil? %>
-               				<%#=  value.inspect %>
-               				<% value["links"].each do | link | %>
-                  			<%#=  link["url"].inspect %>
-                  			<%#= link["description"].inspect %>
-                  			<% if link["description"].present? %>
-                  		  		<% label = link["description"] %>
-                  			<% else %>
-                  		  		<% label = t('blacklight.url.message')  %>
-                  			<% end %>
+         		<% if holdings_json[key]["active"].nil? or holdings_json[key]["active"] == true && (key != "1" && key != "2")%>
+              	  <%#= value["online"].inspect %>
+              	  <% if value["online"] == true and !value["links"].nil? %>
+               	    <%#=  value.inspect %>
+               		<% value["links"].each do | link | %>
+                  	  <%#=  link["url"].inspect %>
+                  	  <%#= link["description"].inspect %>
+                  	  <% if link["description"].present? %>
+                  	    <% label = link["description"] %>
+                  	  <% else %>
+                  	    <% label = t('blacklight.url.message')  %>
+                  	  <% end %>
+	                  <li>
+	                    <div class="online-link">
+                        <% if label.include?("Temporary Access") %>
+                          <% label = "Information for users about temporary access." %>
+                        <% end %>
+	                    <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
+	                    <div class="message">
+	                      <%= summary_holdings.html_safe %>
+	                    </div>
+	                    <div class="message">
+	                      <%#= key.inspect %>
+	                      <% if key.present? %>
+	                        <%#= value.inspect %>
+	                        <% holdings = value %>
+	                        <% getID = key %>
+	                        <% if !value['holdings'].nil? %>
+	                          <% sizer = value['holdings'].size %>
+	                          <% if sizer != 1 %>
+	                            Library has:<br/> <%= value['holdings'].join('<br>').html_safe %>
+	                          <% else %>
+	                            Library has: <%= value['holdings'][0].html_safe %>
+	                          <% end %>
+	                        <% end %>
+	                        <% if !value['indexes'].nil? %>
+	                          <% sizer = value['indexes'].size %>
+	                          <% if sizer != 0 %>
+	                            <br>Indexes: <%= value['indexes'].join('<br>').html_safe %>
+	                          <% elsif value['indexes'][0].present? %>
+	                            Indexes: <%= value['indexes'][0].html_safe %>
+	                          <% end %>
+	                        <% end %>
+	                        <% if !value['notes'].nil? %>
+	                          <% sizer = value['notes'].size %>
+	                          <% if sizer != 0 %>
+	                            <br>Notes: <%= value['notes'].join('<br>').html_safe %>
+	                          <% elsif value['notes'][0].present? %>
+	                            Notes: <%= value['notes'][0].html_safe %>
+	                          <% end %>
+	                        <% end %>
+	                        <% if !value['supplements'].nil? %>
+	                          <% sizer = value['supplements'].size %>
+	                          <% if sizer != 0 %>
+	                            <br>Supplements: <%= value['supplements'].join('<br>').html_safe %>
+	                          <% elsif value['supplements'][0].present? %>
+	                            Supplements: <%= value['supplements'][0].html_safe %>
+	                          <% end %>
+	                        <% end %>
+	                      <% end %>
+                          </div>
+	                      <%#= @document['title_display'].inspect %>
+                          <% parsed_json = JSON.parse(@document['url_access_json'][0]) %>
+                          <%#= parsed_json['titleid'] %>
+                          <%#= @document['id'] %>
+                          <% if parsed_json['titleid'].present? %>
+ 	                        <span class="terms-of-use">
+ 	                        <%#= @document.inspect %>
+	                          <span class="fa fa-chevron-right" aria-hiden="true"></span>
+                              <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id']	%> ">Terms of use</a>
+ 		                    </span>
+                          <% else %>
+	                        <% if link["dbcode"].present? && link["providercode"].present? %>
+	                          <span class="terms-of-use">
+	                            <span class="fa fa-chevron-right" aria-hiden="true"></span>
+		                        <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
+		                        <%#= holdings_json.inspect  %>
+		                         <% if restrictions_display.present? %>
+		                       	   </div>
+		                       	 <% end %>
+						  		 <% if !restrictions_display.present? %>
+						  		   <span class="access-restriction">
+	          			  		   <% if !holdings_json.nil? %>
+	                                 <% holdings_json.each do |k,holding| %>
 
-	                    <li>
-	                       <div class="online-link">
-                              <% if label.include?("Temporary Access") %>
-                                <% label = "Information for users about temporary access." %>
-                              <% end %>
-                              <% if @document['etas_facet'].present? && !label.include?("temporary access") && !label.include?("multiple volumes")%>
-                                <% etas_text = "Full text available through the HathiTrust Emergency Temporary Access Service (ETAS)." %>
-                                <%= link_to(process_online_title(etas_text), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
-                              <% else %>
-	                            <%= link_to(process_online_title(label), link["url"].html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"}) %>
-	                          <% end %>
-	                          <div class="message">
-	                             <%= summary_holdings.html_safe %>
-	                          </div>
-	                          <div class="message">
-	                          <%#= key.inspect %>
-	                          <% if key.present? %>
-	                             <%#= value.inspect %>
-	                             <% holdings = value %>
-	                             <% getID = key %>
-	                             <% if !value['holdings'].nil? %>
-	                                  <% sizer = value['holdings'].size %>
-	                                  <% if sizer != 1 %>
-	                                       Library has:<br/> <%= value['holdings'].join('<br>').html_safe %>
-	                                  <% else %>
-	                                       Library has: <%= value['holdings'][0].html_safe %>
-	                                  <% end %>
-	                            <% end %>
-	                            <% if !value['indexes'].nil? %>
-	                               <% sizer = value['indexes'].size %>
-	                               <% if sizer != 0 %>
-	                                  <br>Indexes: <%= value['indexes'].join('<br>').html_safe %>
-	                               <% else %>
-	                                  Indexes: <%= value['indexes'][0].html_safe %>
-	                               <% end %>
-	                            <% end %>
-	                            <% if !value['notes'].nil? %>
-	                               <% sizer = value['notes'].size %>
-	                               <% if sizer != 0 %>
-	                                  <% if @document['etas_facet'].present? %>
-	                                    <br/>Notes: Access available only for active Cornell students, faculty, and permanent staff while regular library operations are disrupted due to Covid-19 outbreak.
-	                                    <br/>Simultaneous access is limited.  
-	                                  <% else %>
-	                                    <br>Notes: <%= value['notes'].join('<br>').html_safe %>
-	                                  <% end %>
-	                               <% else %>
-	                                  Notes: <%= value['notes'][0].html_safe %>
-	                               <% end %>
-	                            <% end %>
-	                            <% if !value['supplements'].nil? %>
-	                               <% sizer = value['supplements'].size %>
-	                               <% if sizer != 0 %>
-	                                  <br>Supplements: <%= value['supplements'].join('<br>').html_safe %>
-	                               <% else %>
-	                                  Supplements: <%= value['supplements'][0].html_safe %>
-	                               <% end %>
-	                            <% end %>
-	                          <% end %>
-	                          </div>
-	                           <%#= @document['title_display'].inspect %>
-                               <% parsed_json = JSON.parse(@document['url_access_json'][0]) %>
-                               
-                               <%#= parsed_json['titleid'] %>
-                               <%#= @document['id'] %>
-                               <% if parsed_json['titleid'].present? %>
- 	                              <span class="terms-of-use">
- 	                              <%#= @document.inspect %>
-	                             	<span class="fa fa-chevron-right" aria-hiden="true"></span>
-                                    <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id']	%> ">Terms of use</a>
- 		                           </span>
-  
-                               <% else %>
-	                             <% if link["dbcode"].present? && link["providercode"].present? %>
-	                                  <span class="terms-of-use">
-	                             	  <span class="fa fa-chevron-right" aria-hiden="true"></span>
-		                         	  <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
-		                         	  <%#= holdings_json.inspect  %>
-		                         	  <% if restrictions_display.present? %>		                         	  
-										 <h3>Restrictions</h3>
-		                         	  </div>
-		                         	  <% end %>
-									  <% if !restrictions_display.present? %>
-									     <span class="access-restriction">
-	          							 <% if !holdings_json.nil? %>
-	                                          <% holdings_json.each do |k,holding| %>
-	               							      <% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
-	                                                  <%#= holdings_json[k]['links'][0]['users'].inspect %>
-	              									 <%# Limiteds to <%= holdings_json[k]['links'][0]['users'].inspect '\%\>  simultaneous users %>
-	               							 	  <% end %>
-	            						      <% end %>
-	           						     <% end %>
-	           						  </span>
-	           						  <% end %>
-	                            <% else %>
-	                              
-                                <% end %>
-                              <% end %>
-	                          <% if !restrictions_display.present? %>	 
-                                 </div>
-                              <% end %>                      
-	                     </li>
+	                                   <% if !holdings_json[k]['links'].nil? %>
+
+	               		  			   <% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
+	                                     <%#= holdings_json[k]['links'][0]['users'].inspect %>
+	              		  				 <%# Limiteds to <%= holdings_json[k]['links'][0]['users'].inspect '\%\>  simultaneous users %>
+	               		  			   <% end %>
+
+	               		  			  <% end %>
+
+	            		  			 <% end %>
+	           			  		   <% end %>
+	           			  		   </span>
+	           			  		 <% end %>
+	                        <% else %>
+                            <% end %>
+                          <% end %>
+	                      <% if !restrictions_display.present? %>
+                            </div>
+                          <% end %>
+	                      </li>
 	              <%# end %>
 
 
@@ -254,7 +246,7 @@
 	      </div>
 	      <%# access restrictions %>
 	      <% if restrictions_display.present? %>
-	      
+
 	        <span class="access-restriction">
 	          <h3>Restrictions</h3>
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('\\"', '') %>
@@ -266,8 +258,8 @@
 	               <% end %>
 	            <% end %>
 	           <% end %>
-	        </span> 
-	      <% end %> 
+	        </span>
+	      <% end %>
 	      <%# end availability %>
 	    </div>
 	  </div>
@@ -334,11 +326,11 @@
 	    <%# DISCOVERYACCESS-6275 %>
 		<% if ENV['SYNDETICS_UNBOUND_ENABLED'].present? && ENV['SYNDETICS_UNBOUND_ENABLED'] == "1" %>
 		<div id="syndetics_unbound"></div>
-		<script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624"
-							type="text/javascript"></script>
+		<script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624&i_id=2636"
+						type="text/javascript"></script>
 		<% end %>
 
-	    
+
 	    <%= render :partial => 'catalog/call_number_browse_links' %>
 	    <%# browse-call-number %>
 		</div>

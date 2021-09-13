@@ -132,7 +132,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       logger.debug("******** #{__FILE__}:#{__LINE__}:#{__method__}: search limit exceeded.")
       session["search_limit_exceeded"] = true
     end
-
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
@@ -294,7 +293,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
-    if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil?
+    notes_check = @document["notes"].present? ? @document["notes"].join : ""
+    if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil? && !notes_check.include?("Cornell University") && !notes_check.include?("Ithaca")
       process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
     elsif @document["discogs_display"].present?
       @discogs_id = @document["discogs_display"][0]

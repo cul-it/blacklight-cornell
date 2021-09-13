@@ -19,15 +19,15 @@ Feature: Databases List
   @databases
   Scenario: Make sure list contains known collection
   	Given I literally go to databases
-        And I fill in the search box with 'MLA'
+        And I fill in the search box with 'KMODDL'
         And I press 'search'
-  	Then I should see the label 'MLA'
+  	Then the link "KMODDL" should go to "/catalog/5146902"
 
   @DISCOVERYACCESS-2325
   @databases
   Scenario: Make sure list contains known collection
   	Given I literally go to databases/subject/Images
-  	Then I should see the label 'ARTstor'
+  	Then the link 'ARTstor' should go to 'http://resolver.library.cornell.edu/misc/5346517'
 
 #  @DISCOVERYACCESS-2325
 #  @databases
@@ -39,16 +39,16 @@ Feature: Databases List
   @DISCOVERYACCESS-5764
   Scenario: Display the z-note information for databases
       Given I literally go to databases/title/b
-      Then I should see the label 'British national bibliography'
-      And I should see the label 'Catalogue has its own navigation buttons.'
+      Then the link 'Beautiful birds : masterpieces from the Hill Ornithology Collection, Cornell University Library' should go to '/catalog/5458505'
+      And the link 'Black Studies Center' should go to '/catalog/6946453'
 
   @databases
   @DISCOVERYACCESS-5764
   Scenario: Databases with multple links should link to the item view
       Given I literally go to databases/title/a
       And click on link "Artefacts Canada. Humanities"
-      Then I should see the label 'Artefacts Canada (Humanities.)'
-      And I should see the label 'Canadian Heritage Information Network.'
+      Then the link 'Artefacts Canada (Humanities.)' should go to 'http://resolver.library.cornell.edu/misc/aqv1252'
+      And the link 'Canadian Heritage Information Network.' should go to 'https://www.canada.ca/en/heritage-information-network.html'
 
   @databases
   @DISCOVERYACCESS-5764
