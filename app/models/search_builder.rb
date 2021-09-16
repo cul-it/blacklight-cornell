@@ -221,7 +221,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
              end
            end
-               	                 Rails.logger.info("TEXASSUCKS = #{blacklight_params}")
           
   #        blacklight_params[:q] = "(\"lupin\" AND \"arsene\" ) OR phrase:\"lupin arsene\""
         else
