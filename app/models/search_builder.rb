@@ -1188,7 +1188,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         #journal_title_flag = 1
       end
       if sfr == "notes"
-        sfr = "notes_qf"
+        sfr = "notes"
       end
       if sfr == "all_fields"
         sfr = ""
