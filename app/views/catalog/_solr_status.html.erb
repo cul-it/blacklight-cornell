@@ -11,7 +11,6 @@
     <%= I18n.t('blacklight.catalog.on_site') %>
   </div>
 <% end %>
-
 <% if i["items"].present? %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
       <div class="status">
@@ -33,13 +32,7 @@
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
         <% end %>
-        <% if i['items']['returned'].present? &&
-          i['items']['returned'][0].present? &&
-          i['items']['returned'][0]['status'].present? &&
-          i['items']['returned'][0]['status']['returned'].present? %>
-          <% time_retured = i['items']['returned'][0]['status']['returned'] %>
-          Returned <%= Time.at(time_retured).strftime("%m/%d/%y") %>
-        <% end %>
+        <%= build_returned_display(i) if i['items']['returned'].present? %>
       </div>
 
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>
@@ -56,6 +49,7 @@
            Unavailable at this time
           </span>
         <% end %>
+        <%= build_returned_display(i) if i['items']['returned'].present? %>
     </div>
 
 
@@ -65,11 +59,11 @@
          <% item["status"] = {} %>
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
-     <% if !item["status"].nil? %>
-      <% status = item["status"]["status"].present? ? item["status"]["status"] : '' %>
-      <% duedate = item["status"]["due"].present? ? Time.at(item["status"]["due"]).strftime("%m/%d/%y") : nil %>
-      <% duetime = item["status"]["due"].present? && item["status"]["shortLoan"].present? && item["status"]["shortLoan"] ? Time.at(item["status"]["due"]).strftime("%m/%d/%y %l:%M %P") : nil %>
-      <div class="status <%=status.downcase.gsub(' ', '-')%>">
+      <% if !item["status"].nil? %>
+        <% status = item["status"]["status"].present? ? item["status"]["status"] : '' %>
+        <% duedate = item["status"]["due"].present? ? Time.at(item["status"]["due"]).strftime("%m/%d/%y") : nil %>
+        <% duetime = item["status"]["due"].present? && item["status"]["shortLoan"].present? && item["status"]["shortLoan"] ? Time.at(item["status"]["due"]).strftime("%m/%d/%y %l:%M %P") : nil %>
+        <div class="status <%=status.downcase.gsub(' ', '-')%>">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         <% if duetime.present? %>
           <%= status %>, due <%= duetime %>
@@ -122,21 +116,21 @@
                 <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
               <% end %>
           <% end %>
-      <%end %>
-      <% if item["recalls"].present? || item["holds"].present? %>
-        <% item["recalls"] = 0 unless item["recalls"].present?  %>
-        <% item["holds"] = 0 unless item["holds"].present?  %>
-        (Requests: <%= item["holds"] + item["recalls"] %>)
+        <%end %>
+        <% if item["recalls"].present? || item["holds"].present? %>
+          <% item["recalls"] = 0 unless item["recalls"].present?  %>
+          <% item["holds"] = 0 unless item["holds"].present?  %>
+          (Requests: <%= item["holds"] + item["recalls"] %>)
+        <% end %>
+        </div>    
       <% end %>
-    </div>
-    <% end %>
   <%end %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>
     <% some_av = 'yes' %>
-  <% end %>
+    <%# end %>
 
-<% if some_av == 'yes'  %>
-  <div class="status">
+    <%# if some_av == 'yes'  %>
+    <div class="status">
       <span class="online-label">
         <i class="fa fa-check" aria-hidden="true"></i>
         <%= I18n.t('blacklight.catalog.available') %>
@@ -144,6 +138,7 @@
       All other volumes/copies
     </div>
   <% end %>
+  <%= build_returned_display(i) if i['items']['returned'].present? %>
 <% end %>
 <% end %>
 <% if i["order"].present?  %>
