@@ -100,7 +100,7 @@
     </div>
     <% if is_cataloged(item.link) %>
       <% if item.custom_data['url_online_access'].present? %>
-        <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online location badge badge-light badge-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>" aria-label="Record <%= item.unique_id %>">Online</a>
+        <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online location badge badge-primary badge-online" href="<%= bento_online_url(item.custom_data['url_online_access'], item.link) %>" aria-label="Record <%= item.unique_id %>">Online</a>
       <% end %>
       <% if item.custom_data['availability_json'].present? %>
       <% availability = JSON.parse(item.custom_data['availability_json']) %>
