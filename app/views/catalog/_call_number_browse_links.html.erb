@@ -71,7 +71,7 @@
 		    <div class="vb-callnum-hdr">
 		      <%= doc['callnumber'] %>
 			</div>
-		    <div id="<%= doc['id'] %>" class="vb-img-container">
+		    <div class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
 				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
@@ -111,7 +111,7 @@
 		    <div class="vb-callnum-hdr">
 		      <%= doc['callnumber'] %>
 			</div>
-		    <div id="<%= doc['id'] %>" class="vb-img-container">
+		    <div class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
 				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
