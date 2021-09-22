@@ -7,13 +7,14 @@
         <h3 class="mt-4">Browse related items by call number</h3>
           <div class="vb-select">
 	        <% if callnumbers.size > 1 %>
-	          <select id="call-number-sel" class="form-control">
-		        <% callnumbers.each do |callnumber| %>
-                  <% if !callnumber.empty? %>
-		            <option value="<%= callnumber%>"><%= callnumber%></option>
-                  <% end %>
-		        <% end %>
-		      </select>
+	        	<label for="call-number-sel" class="sr-only">Select call number</label>
+	          	<select id="call-number-sel" class="form-control">
+		        	<% callnumbers.each do |callnumber| %>
+	                  	<% if !callnumber.empty? %>
+			            	<option value="<%= callnumber%>"><%= callnumber%></option>
+	                  	<% end %>
+		        	<% end %>
+		      	</select>
 		    <% else %>
 		      <%= callnumbers[0]%>
 		    <% end %>
