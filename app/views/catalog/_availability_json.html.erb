@@ -1,30 +1,18 @@
 <% if document['availability_json'].present? %>
   <% availability = JSON.parse(document['availability_json']) %>
   <% onotes = availability["notes"] %>
-  <% browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || "" %>
 
   <% if availability["availAt"].present? %>
     <% availability["availAt"].each do |location,callnumber| %>
       <div class="status ">
-        <%# covid change callnumber/pda change is temporary for folio migration%>
-	    <% if location.include?("Adelson") || callnumber == "Available for the Library to Purchase" %>
-	      <i class="fa fa-clock-o" title="Unavailable at this time" aria-hidden="true"></i>
-        <%# elsif !browseable_libraries.include?(location) %>
-         <%#  <i class="fa fa-clock-o" title="Available by request" aria-hidden="true"></i> %>
-        <% else %>
-          <i class="fa fa-check" title="Available" aria-hidden="true"></i>
-        <% end %>
+	    <i class="fa fa-check" title="Available" aria-hidden="true"></i>
         <span class="location">
           <% unless location == "Library Technical Services Review Shelves" %>
             <%= "#{location}" %>
           <% end %>
         </span>
         <span class="callnumber">
-          <% if callnumber == "Available for the Library to Purchase"%>
-            Unavailable at this time.
-          <% else %>
-            <%= callnumber %>
-          <% end %>
+          <%= callnumber %>
         </span>
         <% if availability['notes'].present?  %>
           <span class="onotes">
