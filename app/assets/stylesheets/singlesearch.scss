@@ -253,7 +253,7 @@ div.view-all {
     }
     .blacklight-nav {
       float: none;
-      padding-left: 0;
+      padding-left: 1rem;
     }
   }
 }
@@ -466,6 +466,13 @@ div.view-all {
   .web-count {
     text-align: right;
     margin-top: 20px;
+  }
+  .search-index {
+    .other-resources {
+      .blacklight-nav {
+        padding-left: 0;
+      }
+    }
   }
 }
 
