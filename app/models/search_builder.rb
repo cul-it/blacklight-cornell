@@ -221,7 +221,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
              end
            end
-               	                 Rails.logger.info("TEXASSUCKS = #{blacklight_params}")
           
   #        blacklight_params[:q] = "(\"lupin\" AND \"arsene\" ) OR phrase:\"lupin arsene\""
         else
@@ -1189,7 +1188,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         #journal_title_flag = 1
       end
       if sfr == "notes"
-        sfr = "notes_qf"
+        sfr = "notes"
       end
       if sfr == "all_fields"
         sfr = ""

@@ -48,7 +48,7 @@
 <header aria-label="Library">
   <div class="container">
     <div class="row">
-      <div class="col-sm-9 col-lg-4 catalog-name">
+      <div class="col-sm-8 col-lg-4 catalog-name">
         <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
           <div class="facets-toggleable-sm">
             <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-toggle="collapse" data-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
@@ -79,7 +79,7 @@
       <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
-        <div class="col-sm-3 col-lg-8 d-none d-sm-block">
+        <div class="col-sm-4 col-lg-8 d-none d-sm-block">
           <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog &raquo;</a></p>
         </div>
       <% end %>
