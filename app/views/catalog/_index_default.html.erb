@@ -16,7 +16,7 @@
   </div>
   <%# the ETAS conditional can be removed during the July '21 sprint %>
   <% if is_online?(document) && !document["url_access_json"].to_s.include?("ETAS")  %>
-    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <a class="status-online badge badge-primary badge-online" href="<%= 'catalog/' + document.id %>" onclick="javascript:_paq.push(['trackEvent', 'catalog_results', 'outlink']);" aria-label="Record <%=document.id%>">Online</a>
+    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <span class="status-online badge badge-primary badge-online">Online</span>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" >
