@@ -734,6 +734,7 @@ DEPENDENCIES
   json
   kaminari (>= 0.15)
   libnotify
+  libv8
   loofah (~> 2.0, >= 2.0.3)
   marc
   meta_request

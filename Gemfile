@@ -11,7 +11,7 @@ gem "actionview", ">= 5.2.4.2"
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
-
+gem 'libv8'
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
