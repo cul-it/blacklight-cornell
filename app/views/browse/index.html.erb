@@ -36,6 +36,10 @@
         <%= render 'pagination' %>
         <%= render 'heading_callnumber', :response => @headingsResponse, :order => params[:order] %>
         <%= render 'pagination'%>
+      <% else %>
+         <h3>
+           No results
+         </h3>
       <% end %>
     <% else %>
       <%= render 'pagination' %>
@@ -48,7 +52,7 @@
     <% end %>
   <% end %>
 <% end %>
-<% if !params[:authq].blank? && (@headingsResponse.blank? || @headingsResponse["response"]["numFound"] == 0)  && params[:browse_type].present? %>
+<% if !params[:authq].blank? && @headingsResponse.blank? && params[:browse_type].present? %>
   <h2>
     No results
   </h2>
