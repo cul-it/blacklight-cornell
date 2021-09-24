@@ -1072,7 +1072,7 @@ class AeonController < ApplicationController
 			  	        end #barcode else
 
   	    		#		end
-  	    			    count = count + 1
+  	    			    count = count + 1 
   	    		    end
   	    		end
   	    	end   	
