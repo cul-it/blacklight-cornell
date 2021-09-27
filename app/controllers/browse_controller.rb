@@ -130,8 +130,8 @@ class BrowseController < ApplicationController
       params[:authq].gsub!('%20', ' ')
     end
     
-    @has_previous = check_previous
-    @has_next = check_next
+    @has_previous = check_for_previous if params["authq"].present?
+    @has_next = check_for_next if params["authq"].present?
     if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "virtual"
       previous_eight = get_surrounding_docs(params[:authq],"reverse",0,8)
       next_eight = get_surrounding_docs(params[:authq],"forward",0,9)
@@ -141,7 +141,7 @@ class BrowseController < ApplicationController
   end
 
   # checks to see if there are previous items to page to
-  def check_previous
+  def check_for_previous
     base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
     dbclnt = HTTPClient.new
     solrResponseFull = []
@@ -160,7 +160,7 @@ class BrowseController < ApplicationController
   end
 
   # checks to see if there are more ("next") items to page to
-  def check_next
+  def check_for_next
     base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
     dbclnt = HTTPClient.new
     solrResponseFull = []
