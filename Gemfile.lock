@@ -395,7 +395,7 @@ GEM
     libnotify (0.9.4)
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
-    libv8 (8.4.255.0)
+    libv8 (3.16.14.19)
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -420,8 +420,6 @@ GEM
     mime-types-data (3.2021.0901)
     mini_mime (1.1.1)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.8)
-      libv8 (>= 6.9.411)
     minitest (5.14.4)
     mollom (0.2.3)
     multi_json (1.14.1)
@@ -537,6 +535,7 @@ GEM
     redis-session-store (0.11.1)
       actionpack (>= 3)
       redis (>= 3, < 5)
+    ref (2.0.0)
     regexp_parser (1.6.0)
     require_all (2.0.0)
     responders (3.0.0)
@@ -633,6 +632,9 @@ GEM
     temple (0.8.2)
     textpow (1.4.0)
       plist (>= 3.0.1)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -737,7 +739,6 @@ DEPENDENCIES
   loofah (~> 2.0, >= 2.0.3)
   marc
   meta_request
-  mini_racer (= 0.2.8)
   mollom
   my_account!
   mysql2 (= 0.5.2)
@@ -771,6 +772,7 @@ DEPENDENCIES
   spreewald!
   sprockets (~> 3.7.2)
   sqlite3
+  therubyracer
   uglifier (>= 1.0.3)
   ultraviolet
   unicode
