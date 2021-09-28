@@ -11,7 +11,7 @@ gem "actionview", ">= 5.2.4.2"
 gem 'activerecord-session_store'
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
-
+gem 'libv8'
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3'
@@ -48,7 +48,9 @@ gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
+
 gem 'mini_racer', '0.4.0'# , platforms: :ruby
+
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
