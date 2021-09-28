@@ -938,7 +938,7 @@ class AeonController < ApplicationController
   	    			if count < 1
   	    				value.each do |val|
                                             if val["location"]["library"] == 'Library Annex'
-                   			       va["location"]["library"] = "ANNEX"
+                   			       val["location"]["library"] = "ANNEX"
                                             end
   	    				  if !val["barcode"].nil?
   	    				  	restrictions = ""
