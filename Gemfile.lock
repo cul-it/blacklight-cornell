@@ -395,7 +395,8 @@ GEM
     libnotify (0.9.4)
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
-    libv8 (8.4.255.0-x86_64-linux)
+    libv8-node (15.14.0.1)
+    libv8-node (15.14.0.1-x86_64-linux)
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -420,8 +421,8 @@ GEM
     mime-types-data (3.2021.0901)
     mini_mime (1.1.1)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.8)
-      libv8 (>= 6.9.411)
+    mini_racer (0.4.0)
+      libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
     mollom (0.2.3)
     multi_json (1.14.1)
@@ -738,7 +739,7 @@ DEPENDENCIES
   loofah (~> 2.0, >= 2.0.3)
   marc
   meta_request
-  mini_racer (= 0.2.8)
+  mini_racer (= 0.4.0)
   mollom
   my_account!
   mysql2 (= 0.5.2)
