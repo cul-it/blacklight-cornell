@@ -366,7 +366,7 @@ class AeonController < ApplicationController
  
   def loginurl
 	return "https://newcatalog-login.library.cornell.edu/aeon/aeon-login.php"  	
-  # 	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php" 
+#   	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php" 
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -882,8 +882,13 @@ class AeonController < ApplicationController
   	  	      	   restrictions = itemHash["rmc"]["Restrictions"]
   	  	      	end
   	  	      else
-                          itemHash["rmc"] = {}
-                          itemHash["rmc"]["Vault location"] = "Not in record"
+  	  	      	 if !itemHash["location"].nil?
+  	  	      	 	  itemHash["rmc"] = {}
+  	  	      	 	  itemHash["rmc"]["Vault location"] = itemHash["location"]["code"] + ' ' + itemHash["location"]["library"]
+                 else         
+                      itemHash["rmc"] = {}
+                      itemHash["rmc"]["Vault location"] = "Not in record"
+                 end
               end  	  	   	
   	          if itemHash["location"]["name"].include?('Non-Circulating')
   	            ret = ret + " <div> <div><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
