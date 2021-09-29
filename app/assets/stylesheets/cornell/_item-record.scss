@@ -255,11 +255,12 @@ padding-left: 6em;
 			cursor: pointer;
 		}
 	}
-	.info-button, .info-button:hover, .info-button:active, .info-button:focus {
-		border-bottom: 0;
-		// DISCOVERYACCESS-3983 - sometimes the info button breaks onto two lines in Firefox
-		display: inline-block;
-	}
+}
+// Styles apply to item view and browse pages for Author, Author-Title, Subject
+.info-button {
+	margin-left: .25rem;
+	padding: .1rem .4rem;
+	font-size: .8rem;
 }
 
 // Metadata

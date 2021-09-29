@@ -6,13 +6,6 @@ footer {
 	a, a:hover {
 		color: $dark-gray;
 	}
-	a {
-		border-bottom: 1px dotted $medium-gray;
-	}
-	a:hover {
-		text-decoration: none;
-		border-bottom: 1px solid $medium-gray;
-	}
 	.footer-nav {
 		margin-top: .25em;
 		margin-bottom: 1.5em;

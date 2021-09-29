@@ -80,9 +80,9 @@ body.book_bags-index #documents .document {
 // Availability status
 // ------------------------------------------
 
-.status-online {
-	font-size: 12px;
-}
+// .status-online {
+// 	font-size: 12px;
+// }
 
 .fa-check { color: $available; }
 .fa-clock-o { color: $unavailable; }
@@ -150,11 +150,11 @@ body.book_bags-index #documents .document {
 .select-item {
 	margin-top: 1em;
 }
-.badge-online {
-	background: $green;
-}
-.badge-primary.badge-online:hover {
-	background: $dark-green;
+.document-data {
+	.badge-online {
+		background: $green;
+		font-size: 75%;
+	}
 }
 
 // Search history

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "2.5.5"
 #another try
-gem 'rails', '5.2.5'
+gem 'rails', '5.2.6'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
@@ -48,7 +48,7 @@ gem 'addressable'
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
-gem 'mini_racer', '0.2.8', platforms: :ruby
+gem 'mini_racer', '0.4.0'#, platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
