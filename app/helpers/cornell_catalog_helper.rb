@@ -1673,6 +1673,7 @@ end
       first_time_through = true
       count = 0
       item["items"]["returned"].each do |r|
+        enum = r["enum"].present? ? r["enum"] : ""
         if item["items"]["returned"].size < 11
           if r["status"]["status"] == "Available"
             if Time.at(r["status"]["returned"]).strftime("%m/%d/%y") != current_r_date
@@ -1683,10 +1684,10 @@ end
               the_html += "<div style='padding-left:20px'>" + "Returned "
               the_html += Time.at(time_returned).strftime("%m/%d/%y") if short == false || item["items"]["returned"].size > 1
               the_html += Time.at(time_returned).strftime("%m/%d/%y %I:%M%P") if short == true && item["items"]["returned"].size == 1
-              the_html += ":<ul><li style='margin-left:-25px'>" + r["enum"] + "</li>"
+              the_html += ":<ul><li style='margin-left:-25px'>" + enum + "</li>"
               first_time_through = false
             else
-              the_html += "<li style='margin-left:-25px'>" + r["enum"] + "</li>"
+              the_html += "<li style='margin-left:-25px'>" + enum + "</li>"
             end
             the_html += "</ul></div>" if r.equal?(item["items"]["returned"].last)
           end
