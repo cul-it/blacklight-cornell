@@ -211,7 +211,13 @@ devise_for :users, controllers: {
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'
-
+  get 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_request', :constraints => { :id => /.+/}
+  put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
+  get 'aeon/login' => 'aeon#login', :as => 'login'
+  get 'aeon/redirect_shib' => 'aeon#redirect_shib', :as => 'redirect-shib'
+  get 'aeon/request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { :id => /.+/}
+  get 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { :id => /.+/}
+  put 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_paeon', :constraints => { :id => /.+/}
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end

@@ -1,9 +1,10 @@
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
+	<% Rails.logger.debug("mjc12test2: authgroups #{session[:cu_authenticated_groups] }") %>
   <%
     # With Blacklight 7, we can't access these using field_value. So get them all out of
     # the Solr doc right up front.
-    title_display = @document['title_display']
+    title_display = @document['title_display']#folio_title_link(@document['title_display'], @document['instance_id'])
     title_vern_display = @document['title_vern_display'] # 10751949
     subtitle_display = @document['subtitle_display']
     subtitle_vern_display = @document['subtitle_vern_display'] # 10615953
@@ -53,14 +54,12 @@
 	        <% end %>
 	      <% end %>
 
-	        <%  summary_holdings = '' %>
+	      <%  summary_holdings = '' %>
+	      <% if is_online?(@document) %>
 	        <div class="holdings-online">
-                <%# the extra etas_facet condition can be removed in the July '21 sprint %>
-	        	<% if is_online?(@document) && @document["etas_facet"].nil? %>
-	        		<div class="online-label">
-	            		<i class="fa fa-check" aria-hidden="true"></i>Online
-	        		</div>
-	        	<%end %>
+	        	<div class="online-label">
+	            <i class="fa fa-check" aria-hidden="true"></i>Online
+	        	</div>
 	        <ul class="list-unstyled">
 	         <% if @document["holdings_json"].present? %>
 	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
@@ -111,7 +110,7 @@
 	                          <% sizer = value['indexes'].size %>
 	                          <% if sizer != 0 %>
 	                            <br>Indexes: <%= value['indexes'].join('<br>').html_safe %>
-	                          <% else %>
+	                          <% elsif value['indexes'][0].present? %>
 	                            Indexes: <%= value['indexes'][0].html_safe %>
 	                          <% end %>
 	                        <% end %>
@@ -119,7 +118,7 @@
 	                          <% sizer = value['notes'].size %>
 	                          <% if sizer != 0 %>
 	                            <br>Notes: <%= value['notes'].join('<br>').html_safe %>
-	                          <% else %>
+	                          <% elsif value['notes'][0].present? %>
 	                            Notes: <%= value['notes'][0].html_safe %>
 	                          <% end %>
 	                        <% end %>
@@ -127,7 +126,7 @@
 	                          <% sizer = value['supplements'].size %>
 	                          <% if sizer != 0 %>
 	                            <br>Supplements: <%= value['supplements'].join('<br>').html_safe %>
-	                          <% else %>
+	                          <% elsif value['supplements'][0].present? %>
 	                            Supplements: <%= value['supplements'][0].html_safe %>
 	                          <% end %>
 	                        <% end %>
@@ -149,18 +148,23 @@
 	                            <span class="fa fa-chevron-right" aria-hiden="true"></span>
 		                        <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                        <%#= holdings_json.inspect  %>
-		                         <% if restrictions_display.present? %>		                         	  
-						  	       <h3>Restrictions</h3>
+		                         <% if restrictions_display.present? %>
 		                       	   </div>
 		                       	 <% end %>
 						  		 <% if !restrictions_display.present? %>
 						  		   <span class="access-restriction">
 	          			  		   <% if !holdings_json.nil? %>
 	                                 <% holdings_json.each do |k,holding| %>
+
+	                                   <% if !holdings_json[k]['links'].nil? %>
+
 	               		  			   <% if !holdings_json[k]['links'][0]['users'].nil?  and holdings_json[k]['links'][0]['users'] != 'nil'%>
 	                                     <%#= holdings_json[k]['links'][0]['users'].inspect %>
 	              		  				 <%# Limiteds to <%= holdings_json[k]['links'][0]['users'].inspect '\%\>  simultaneous users %>
 	               		  			   <% end %>
+
+	               		  			  <% end %>
+
 	            		  			 <% end %>
 	           			  		   <% end %>
 	           			  		   </span>
@@ -168,9 +172,9 @@
 	                        <% else %>
                             <% end %>
                           <% end %>
-	                      <% if !restrictions_display.present? %>	 
+	                      <% if !restrictions_display.present? %>
                             </div>
-                          <% end %>                      
+                          <% end %>
 	                      </li>
 	              <%# end %>
 
@@ -186,6 +190,7 @@
 	           <% end %>
 	          </ul>
 	        </div>
+	      <%end %>
             <%# online-holdings %>
 
 	      <%# end %>
@@ -241,7 +246,7 @@
 	      </div>
 	      <%# access restrictions %>
 	      <% if restrictions_display.present? %>
-	      
+
 	        <span class="access-restriction">
 	          <h3>Restrictions</h3>
 	          <%= restrictions_display.map(&:inspect).join('; ').gsub('\\"', '') %>
@@ -253,8 +258,8 @@
 	               <% end %>
 	            <% end %>
 	           <% end %>
-	        </span> 
-	      <% end %> 
+	        </span>
+	      <% end %>
 	      <%# end availability %>
 	    </div>
 	  </div>
@@ -270,7 +275,7 @@
 	            <% f = JSON.parse(form) %>
 	            <div class="other-form">
 	              <span class="other-form-title">
-	                <%= link_to f["title"], "/catalog/#{f["bibid"]}" %>
+	                <%= link_to f["title"], "/catalog/#{f["bibid"]}", { "aria-label": "Bib ID ##{f["bibid"]}" } %>
 	              </span>
 	              <% formats = f["format"].split(",") %>
 	                <% formats.each do |format| %>
@@ -307,7 +312,7 @@
 	  </div>
 	  <%# end col-md-4 %>
 	  <div class="col-md-8 order-md-4">
-	    <div class="pull-right item-cover">
+	    <div class="float-sm-right item-cover">
 		  <% if @document["format_main_facet"] == "Musical Recording" && @discogs_image_url.present?%>
 			<%= format_discogs_image(@discogs_image_url)%>
 		  <% end %>
@@ -321,11 +326,11 @@
 	    <%# DISCOVERYACCESS-6275 %>
 		<% if ENV['SYNDETICS_UNBOUND_ENABLED'].present? && ENV['SYNDETICS_UNBOUND_ENABLED'] == "1" %>
 		<div id="syndetics_unbound"></div>
-		<script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624"
-							type="text/javascript"></script>
+		<script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624&i_id=2636"
+						type="text/javascript"></script>
 		<% end %>
 
-	    
+
 	    <%= render :partial => 'catalog/call_number_browse_links' %>
 	    <%# browse-call-number %>
 		</div>

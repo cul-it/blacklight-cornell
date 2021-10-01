@@ -46,18 +46,14 @@
             <% if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true %>
               <% unless params[:browse_type] == 'Author-Title' %>
 				<% if %>
-                  <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"] do %>
-                    <span class="badge badge-primary">
-                      Info
-                    </span>
+                  <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"], { :class => "info-button btn btn-sm btn-outline-secondary"} do %>
+                      <%=params[:browse_type]%> info »
                   <% end %>
 				<% end %>
               <% end %>
               <% if params[:browse_type] == 'Author-Title' %>
-                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type] do %>
-                  <span class="badge badge-primary">
-                    Info
-                  </span>
+                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type], { :class => "info-button btn btn-sm btn-outline-secondary"} do %>
+                    <%=params[:browse_type]%> info »
                 <% end %>
               <% end %>
             <% end %>

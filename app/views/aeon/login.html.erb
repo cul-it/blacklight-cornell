@@ -1,0 +1,40 @@
+<% shib_handler = "http://aws-108-105.internal.library.cornell.edu:3000/aeon/redirect_shib" %>
+<% nonshib_handler = "http://voy-api.library.cornell.edu/aeon/redirect-nonshib.php" %>
+<html>
+<head>
+<title>RMC Registration and Request System</title>
+<link rel="stylesheet" type="text/css" href="https://rmc-aeon.library.cornell.edu/nonshib/css/main.css"
+media="screen" />
+<script type="text/javascript"
+src="https://rmc-aeon.library.cornell.edu/nonshib/js/rmc_scripts.js"></script>
+</head>
+<body onload="window.focus();">
+<script type="text/javascript">
+<!--
+showheader("find")
+//-->
+</script>
+
+        <div id="header" style="height: 10px;">
+                        <!-- <span id="site-name">Division of Rare and Manuscript
+Collections Registration and Request System</span> -->
+        </div>
+<div style="text-align: center;">
+
+<p style="font-size: 18px; font-weight: bold;">Division of Rare and
+Manuscript Collections Registration and Request System</p>
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="GET">
+      <input type="hidden" name="authenticated" value="true" />
+      <input type="hidden" name="target" value="<%= shib_handler %>" />
+      <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
+    </form>
+
+
+
+     <form  action="<%= nonshib_handler %>" method="GET" style="margin-top: 30px;">
+        <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
+    </form>
+
+
+</div>
+                        

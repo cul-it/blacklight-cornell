@@ -1,8 +1,4 @@
-<div class="announcement" aria-label="Announcement" role="complementary">
-  <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
-  <div class="container">
-    <p class="text-center"><a href="https://library.cornell.edu/covid-19">Hybrid library for a hybrid summer: COVID-19 updates &raquo;</a></p>
-  </div>
+<div id="skiptocontent" aria-label="Skip link" role="complementary"><a href="#maincontent">skip to main content</a></div>
 </div>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
   <%# if search results, add a link to skip facets for screen readers %>
@@ -55,7 +51,7 @@
 <header aria-label="Library">
   <div class="container">
     <div class="row">
-      <div class="col-sm-9 col-lg-4 catalog-name">
+      <div class="col-sm-8 col-lg-4 catalog-name">
         <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
           <div class="facets-toggleable-sm">
             <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-toggle="collapse" data-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
@@ -86,7 +82,7 @@
       <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
-        <div class="col-sm-3 col-lg-8 d-none d-sm-block">
+        <div class="col-sm-4 col-lg-8 d-none d-sm-block">
           <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog &raquo;</a></p>
         </div>
       <% end %>

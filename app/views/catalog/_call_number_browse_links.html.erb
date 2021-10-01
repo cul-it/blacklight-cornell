@@ -7,11 +7,14 @@
         <h3 class="mt-4">Browse related items by call number</h3>
           <div class="vb-select">
 	        <% if callnumbers.size > 1 %>
-	          <select id="call-number-sel" class="form-control">
-		        <% callnumbers.each do |callnumber| %>
-		          <option value="<%= callnumber%>"><%= callnumber%></option>
-		        <% end %>
-		      </select>
+	        	<label for="call-number-sel" class="sr-only">Select call number</label>
+	          	<select id="call-number-sel" class="form-control">
+		        	<% callnumbers.each do |callnumber| %>
+	                  	<% if !callnumber.empty? %>
+			            	<option value="<%= callnumber%>"><%= callnumber%></option>
+	                  	<% end %>
+		        	<% end %>
+		      	</select>
 		    <% else %>
 		      <%= callnumbers[0]%>
 		    <% end %>
@@ -42,16 +45,16 @@
         <div class="vb-browse-link"><a href="/browse?authq=<%=callnumbers[0]%>&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'expanded_view_link']);">Expanded view</a></div>
         <div class="vb-scroll-nav">
 	        <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'scroll_left']);"> 
-		        <i class="fa fa-chevron-left"></i> 
+		        <span class="fa fa-chevron-left" aria-hidden="true"></span>
+		        <span class="sr-only">Scroll left</span>
 		    </a>
-		    <span class="sr-only">Scroll left</span>
 		</div>
 		<div class="vb-current-class"><%= classification %></div>
 		<div class="vb-scroll-nav">
 			<a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'scroll_right']);"> 
-				<i class="fa fa-chevron-right"></i> 
+				<span class="fa fa-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Scroll right</span>
 			</a>
-			<span class="sr-only">Scroll right</span>
 		</div>
 	    <%= image_tag("cornell/virtual-browse/indicator1.gif", alt: "processing time indicator", id: "vb-time-indicator") %>
 	  </div>
@@ -69,7 +72,7 @@
 		    <div class="vb-callnum-hdr">
 		      <%= doc['callnumber'] %>
 			</div>
-		    <div id="<%= doc['id'] %>" class="vb-img-container">
+		    <div class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
 				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
@@ -109,7 +112,7 @@
 		    <div class="vb-callnum-hdr">
 		      <%= doc['callnumber'] %>
 			</div>
-		    <div id="<%= doc['id'] %>" class="vb-img-container">
+		    <div class="vb-img-container">
 			    <% if doc['img_url'].include?("cornell") %>
 			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
 				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
@@ -155,7 +158,7 @@
 	  <div class="preview-container">
 	  <div class="vb-pointer"></div>
 	  <div id="preview" class="vb-preview">
-		<h5 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'preview_title']);"><%= @title%></a></h5>
+		<h4 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'preview_title']);"><%= @title%></a></h4>
 		<dl  class="row preview-dl">
 			<dt id="label-author" class="vb-dt">Author:</dt>
 			<dd id="prev-author" class="vb-dd"></dd>

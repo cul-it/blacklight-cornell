@@ -36,7 +36,7 @@ Feature: Search
    @callnumber
   Scenario: Perform a search and see call number facet
     Given I am on the home page
-    And I fill in the search box with 'biology'
+    And I fill in the search box with 'ocean'
     And I press 'search'
     Then I should get results
     And I should see a facet called 'Call Number'
@@ -46,7 +46,7 @@ Feature: Search
   Scenario: Perform a quoted call number search and see 1 result
     Given I am on the home page
     And I select 'Call Number' from the 'search_field' drop-down
-    And I fill in the search box with '"pl480"'
+    And I fill in the search box with '"DD257.4 .A51"'
     And I press 'search'
     Then I should get results
     And I should see the label '1 result'
@@ -57,29 +57,29 @@ Feature: Search
   Scenario: Perform a search by Publisher
     Given I am on the home page
     And I select 'Publisher' from the 'search_field' drop-down
-    And I fill in the search box with 'Springer'
+    And I fill in the search box with 'Lexington Books'
     And I press 'search'
     Then I should get results
-    And it should contain filter "Publisher" with value "Springer"
-    And I should see the label 'Springer'
+    And it should contain filter "Publisher" with value "Lexington Books"
+    And I should see the label 'Lexington Books'
 
    @all_search
    @author
   Scenario: Perform a search by Author
     Given I am on the home page
     And I select 'Author' from the 'search_field' drop-down
-    And I fill in the search box with 'Sun Tzu'
+    And I fill in the search box with 'Desmaizeaux'
     And I press 'search'
     Then I should get results
-    And it should contain filter "Author" with value "Sun Tzu"
-    And I should see the label 'Sun Tzu'
+    And it should contain filter "Author" with value "Desmaizeaux"
+    And I should see the label 'Desmaizeaux'
 
   @all_search
   @author
  Scenario: Perform a search by Author Browse
    Given I am on the home page
    And I select 'Author Browse (A-Z) Sorted By Name' from the 'search_field' drop-down
-   And I fill in the search box with 'Dickens, Charles'
+   And I fill in the search box with 'Desmaizeaux'
    And I press 'search'
    Then I should see the label 'in author headings'
 
@@ -88,11 +88,11 @@ Feature: Search
   Scenario: Perform a search by Title
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with 'The complete works of Artemus Ward'
+    And I fill in the search box with '100 poems'
     And I press 'search'
     Then I should get results
-    And it should contain filter "Title" with value "The complete works of Artemus Ward"
-    And I should see the label 'The complete works of Artemus Ward'
+    And it should contain filter "Title" with value "100 poems"
+    And I should see the label '100 poems'
 
   # @all_search
   # @title
@@ -108,30 +108,30 @@ Feature: Search
    @peabody
   Scenario: Perform a search by author, as author see results
     Given I am on the home page
-    And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
+    And I fill in the search box with 'Heaney, Seamus, 1939-2013'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 1'
+    And I should see the label '1 result'
 
  @all_search
    @journaltitle
   Scenario: Perform a search by journaltitle
     Given I am on the home page
     And I select 'Journal Title' from the 'search_field' drop-down
-    And I fill in the search box with 'tetrahedron'
+    And I fill in the search box with 'Human rights quarterly'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of '
+    And I should see the label '1 result'
 
  @all_search
    @peabody
   Scenario: Perform a search by author, as author see results
     Given I am on the home page
     And I select 'Author' from the 'search_field' drop-down
-    And I fill in the search box with 'Peabody, William Bourn Oliver, 1799-1847'
+    And I fill in the search box with 'Heaney, Seamus, 1939-2013'
     And I press 'search'
     Then I should get results
-    And I should see the label 'of 1'
+    And I should see the label '1 result'
 
  @all_search
    @search_availability_annotated_hobbit
@@ -166,7 +166,7 @@ Feature: Search
   Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with '"The Professional Manager"'
+    And I fill in the search box with '"Human rights quarterly"'
     And I press 'search'
     Then I should get results
     And I sleep 15 seconds
@@ -196,16 +196,16 @@ Feature: Search
    @multiple
    @availability
    @javascript
-  Scenario: Perform a title search and see avail icon, avail at  multiple locations
+  Scenario: Perform a title search and see not avail icon, avail at  multiple locations
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with 'Tolkien, new critical perspectives'
+    And I fill in the search box with 'A constitution for the socialist commonwealth of Great Britain'
     And I press 'search'
     And I sleep 1 seconds
     Then I should get results
     And I sleep 8 seconds
     And I should see the "fa-clock-o" class
-    And I should see the label 'Olin Library'
+    And I should see the label 'Uris Library'
 
   # @all_search
   # @DISCOVERYACCESS-5984
@@ -218,17 +218,15 @@ Feature: Search
   @all_search
   @DISCOVERYACCESS-5826
   Scenario Outline: The catalog should not return suppressed records
-    Given I am on the home page
-    And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with '<title>'
-    And I press 'search'
-    And I sleep 8 seconds
-    Then the search results should not contain title "<title>"
-    And I request the item view for <bibid>
+    Given I enable the "production" environment
+    And I am on the home page
+    And I attempt the item view for <bibid>
     Then I should see "Sorry, you have requested a record that doesn't exist."
+    And I should not see "<title>"
 
   Examples:
   | bibid | title |
   | 3051761 | Asia gas report |
   | 2940172 | Boletim de integração latino-americana |
   | 3828983 | International Series in Heating, Ventilation and Refrigeration |
+  | 7588266 | Satan is real |

@@ -19,7 +19,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
         Given I am on the home page
-            When I fill in the search box with 'rope work'
+            When I fill in the search box with 'the'
             And I press 'search'
             Then I should get results
         And there should be 0 items selected
@@ -27,7 +27,8 @@ Feature: Bookmarks for anonymous users
         And I sleep 5 seconds
         Then there should be <count> items selected
         When I literally go to bookmarks
-        Then there should be <count> items selected
+        Then I should be on 'the bookmarks page'
+        And there should be <count> items selected
 
     Examples:
     | count |
@@ -40,7 +41,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_cite_selected
     Scenario: I should be able to view citations for selected items
         Given I am on the home page
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 2 catalog results
@@ -68,11 +69,11 @@ Feature: Bookmarks for anonymous users
     @bookmarks_export_selected
     Scenario: I should be able to export selected bookmarks
         Given I am on the home page
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
-        And I sleep 2 seconds
+        And I sleep 3 seconds
         When I view my selected items
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
@@ -88,7 +89,7 @@ Feature: Bookmarks for anonymous users
     @bookmarks_print_selected
     Scenario: I should be able to print selected items
         Given I am on the home page
-		When I fill in the search box with 'rope work'
+		When I fill in the search box with 'the'
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
