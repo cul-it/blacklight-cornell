@@ -66,6 +66,7 @@ class AeonController < ApplicationController
 	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
 	if !@document["items_json"].nil?
 	  itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
+	  Rails.logger.info("POOKY = #{itemsJsonHash}")
 	else
            itemsJsonHash = {}
         end
@@ -809,9 +810,12 @@ class AeonController < ApplicationController
   	  if count < itemsJsonHash.count
   	     if !key.nil?
   	       value.each do |val|
-  	     	  if !val["enum"].nil?
+  	     	   if !val["enum"].nil?
   	            valholding << val #"no date"
-  	          end
+  	           else
+  	              val["enum"] = ""
+  	              valholding << val
+  	           end
   	       end
   	       value = valholding
                begin
@@ -850,6 +854,7 @@ class AeonController < ApplicationController
 #       end
   	   if !thisItemArray.nil? and !thisItemArray.empty? 
   	     thisItemArray.each do | itemHash |
+  	       unless !itemHash["location"]["code"].include?('rmc')
   	     	b = itemHash['call'].to_s
   	     	if b.include?('Archives ')
   	     		b = b.gsub('Archives ','')
@@ -930,6 +935,7 @@ class AeonController < ApplicationController
   	          end
              d = ""
   	       end #barcode else
+  	      end
   	     end #do end
   	    else #nil end
   	    	itemsHash = {}
