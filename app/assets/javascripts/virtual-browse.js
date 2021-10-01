@@ -1,3 +1,4 @@
+var _paq = _paq || [];
 var current_previous = "current previous";
 var current_next = "current next";
 var  carouselActions = {
@@ -147,13 +148,11 @@ var  carouselActions = {
       var leftPos = $('#outer-container').scrollLeft();
       if ( $('.slides').length ) {
           if ( $(window).width() > 535 && $(object).position().left < 50 ) {
-              console.log("current click - " + $(object).attr("id"));
               $("#outer-container").animate({
                     scrollLeft: leftPos - 200
               }, 800);
           }
           else if ( $(window).width() > 535 && $(object).position().left > 300 ){
-              console.log("current click - " + $(object).attr("id"));
                $("#outer-container").animate({
                      scrollLeft: leftPos + 200
                }, 800);
@@ -165,9 +164,9 @@ var  carouselActions = {
           }
       }
       else if ( $('.slides-full').length ) {
-          console.log("window width - " + $(window).width());
-          console.log("scroll width - " + $('div#outer-container').width());
-          console.log("you clicked - " + $(object).position().left);
+          // console.log("window width - " + $(window).width());
+          // console.log("scroll width - " + $('div#outer-container').width());
+          // console.log("you clicked - " + $(object).position().left);
       } 
   },
   // scrolls the user to the starting point of the carousel
@@ -271,9 +270,11 @@ var  carouselActions = {
           dataType: "jsonp",
           jsonp: "json.wrf",
           complete: function(xhr, status) {
-            if ( prevCount < 2 && keepCount == "true" ) {
-              carouselActions.et_scroll_home();
-            }
+            // commenting this out for now (7/14/21). may not need this if block
+            // if ( prevCount < 2 && keepCount == "true" ) {
+            //   carouselActions.et_scroll_home();
+            // }
+            setTimeout(function(){ $('#vb-time-indicator').hide(); }, 3000);
             //carouselActions.setup_click_for_preview();
           }
         }); 
@@ -300,8 +301,10 @@ var  carouselActions = {
           dataType: "jsonp",
           jsonp: "json.wrf",
           complete: function(xhr, status) {
+              setTimeout(function(){ $('#vb-time-indicator').hide(); }, 3000);
               //carouselActions.setup_click_for_preview();
           }
+          
         }); 
      }
   },
@@ -314,6 +317,7 @@ var  carouselActions = {
         type: 'GET',
         data: remote,
         complete: function(xhr, status) {
+            setTimeout(function(){ $('#vb-time-indicator').hide(); }, 3000);
             carouselActions.et_scroll_home();
             $("#prev-reroute").hide();
             $("#next-reroute").hide();

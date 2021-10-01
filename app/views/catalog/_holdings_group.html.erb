@@ -48,8 +48,7 @@
 
     <% if pda == 'yes' %>
       <div class="location">
-        <%# temporarily commenting out the pda text for the folio migration%>
-        <%#= i["call"] %>Unavailable at this time.
+        <%= i["call"] %>
       </div>
     <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
       <div class="location">
@@ -57,12 +56,12 @@
         <span class="map-it">
           <% if i['location']['hoursCode'].present? %>
             <% if i["location"]["hoursCode"] == "spif" %>
-              <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/", "aria-label" => i["location"]["name"] %>
+              <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] +" Hours" %>
             <% else %>
               <% if i['location']['hoursCode'] == "ciser" %>
-                <%= link_to "Hours/Map", "http://ciser.cornell.edu/", "aria-label" => i["location"]["name"] %>
+                <%= link_to "Hours", "https://ciser.cornell.edu/", "aria-label" => i["location"]["name"] +" Hours" %>
               <% else %>
-                <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] %>
+                <%= link_to "Hours", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] +" Hours" %>
               <% end %>
             <% end %>
           <% end %>

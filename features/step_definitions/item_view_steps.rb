@@ -1,5 +1,18 @@
+# encoding: utf-8
 Given /^I request the item view for (.*?)$/ do |bibid|
+  patiently do
+    visit "/catalog/#{bibid}"
+    page.find("#doc_#{bibid}", visible: :all)
+  end
+end
+
+Given /^I attempt the item view for (.*?)$/ do |bibid|
+  # this version does not check for bibid exists
   visit "/catalog/#{bibid}"
+end
+
+Given("I request the export of item {int} in {string} format") do |int, string|
+  visit "/catalog/#{int}.#{string}"
 end
 
 When /^(.*) within a cassette named "([^"]*)"$/ do |step, cassette_name|
@@ -9,6 +22,10 @@ end
 
 Given /^I request the item holdings view for (.*?)$/ do |bibid|
   visit "/backend/holdings/#{bibid}"
+end
+
+Given("I request the item") do
+  page.find("#id_request").click
 end
 
 Then /^click on link "(.*?)"$/ do |link|
@@ -59,7 +76,10 @@ Then /^it should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, auth
 end
 
 Then /^results should have a "(.*?)" that looks sort of like "(.*?)"/ do |field, author|
-  page.should have_selector(field_result_to(field), :text => author,:exact =>false)
+  patiently do
+    expect(page.first(field_result_to(field))).to have_content(author)
+    # page.should have_selector(field_result_to(field), :text => author,:exact =>false)
+  end
 end
 
 Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|

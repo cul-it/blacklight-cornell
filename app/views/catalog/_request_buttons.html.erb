@@ -1,12 +1,6 @@
 <% if group == "Circulating"  || group == "Rare" %>
-<% # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}" %>
-<% request_context_path = request_path(group,params[:id],aeon_codes,@document) %>
-<% request_scan_path = sub_tilde_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document) %>
-<%# Temporary variable for Covid-19 closures. We can probably change this to an exclusive list, rather than an inclusive one.%>
-<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library", "Law Library", "Mathematics Library"] %>
-<% @group = group %>
-<% 
-  # Need a parameter to pass to requests that determines whether to add  
+<%
+  # Need a parameter to pass to requests that determines whether to add
   # text on the "Ask a librarian page" that the item can be scanned and
   # to return to the item view page for that.
   if (group == "Circulating" && !reserve_item) || !reading.empty?
@@ -15,6 +9,15 @@
 	scan = "no"
   end
 %>
+<% # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}" %>
+<% request_context_path = request_path(group,params[:id],aeon_codes,@document,scan) %>
+<% request_scan_path = request_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document,scan) %>
+<%#= params.inspect %>
+<%# request_scan_path = ENV['AEON_SCAN_REQUEST'] %>
+<%# Temporary variable for Covid-19 closures. We can probably change this to an exclusive list, rather than an inclusive one.%>
+<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library", "Law Library", "Mathematics Library"] %>
+<% @group = group %>
+
 <div class="item-requests">
   <% counter = params[:counter] || session[:search][:counter] %>
   <% if (not_spif > 0)    %>
@@ -22,22 +25,24 @@
       <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
     <% elsif counter.blank? %>
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }   Delete this? Or keep around for post-covid?%>
-      <% if !@document["location"].nil? %>
-        <%# temporarily commenting out request and scan buttons for the folio migration %>
-        <%# link_to "Request item#{reading}", request_context_path + "?scan=" + scan, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request', :scan => scan } unless (requestable_libraries && @document["location"]).empty? %>
-        <%# link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } unless reading.empty?   %>
-      <%# elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
-        <%#= link_to "Request item #{reading}", request_context_path + "?scan=" + scan, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request', :scan => scan }%>
+      <% if !@document['etas_facet'].present? %>
+          <% if !@document["location"].nil? %>
+              <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request'} unless (requestable_libraries && @document["location"]).empty? %>
+              <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } unless reading.empty?   %>
+          <% elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
+             <%= link_to "Request item #{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request'}%>
+          <% end %>
       <% end %>
     <% else %>
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } Delete this?%>
-      <% if !@document["location"].nil? %>
-        <%# temporarily commenting out request and buttons for the folio migration %>
-        <%# link_to "Request item#{reading}", request_context_path + "?scan=" + scan, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request', :scan => scan } unless (requestable_libraries && @document["location"]).empty? %>
-        <%# link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' }  unless reading.empty? %>
-	  <%# elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
-	    <%#= link_to "Request item #{reading}", request_context_path + "?scan=" + scan, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request', :scan => scan }%>
-      <% end %>
+       <% if !@document['etas_facet'].present? %>
+          <% if !@document["location"].nil? %>
+      	      <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request', :scan => scan } unless (requestable_libraries && @document["location"]).empty? %>
+              <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' }  unless reading.empty? %>
+	          <% elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
+	             <%= link_to "Request item #{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }%>
+          <% end %>
+       <% end %>
     <% end %>
   <% end %>
 
@@ -51,7 +56,9 @@
     <% end %>
     <% ill_link += "&rft.title=#{CGI.escape(ill_title)}" %>
     <% ill_link += "&rft.isbn=#{ill_isbn}" %>
-    <%= link_to 'Request scan of article/chapter', ill_link, { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
+    <% if !@document['etas_facet'].present? %>
+         <%= link_to 'Request scan of article/chapter', ill_link, { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
+    <% end %>
   <% end %>
 </div>
 <% end %>

@@ -31,6 +31,10 @@ module Blacklight
       builder = search_builder.with(user_params)
       builder.page = user_params[:page] if user_params[:page]
       builder.rows = (user_params[:per_page] || user_params[:rows]) if user_params[:per_page] || user_params[:rows]
+      # Some query that gets initiated outside of blacklight is generating "RSolr::Error::Http - 400 Bad Request"
+      # errors because of invalid sort parameters. The parameters include a + for spaces. The + normally gets
+      # removed when the query goes through blacklight. DISCOVERYACCESS-7217.
+      builder.blacklight_params[:sort] = user_params[:sort].gsub!("+"," ") || user_params[:sort] if user_params[:sort].present?
 
       builder = yield(builder) if block_given?
       response = repository.search(builder)

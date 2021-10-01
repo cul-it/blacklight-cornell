@@ -1432,18 +1432,24 @@ end
   end
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
-  def request_path(group,id,aeon_codes,document)
-    magic_path  = blacklight_cornell_request.magic_request_path("#{id}")
+  def request_path(group,id,aeon_codes,document,scan)
+	id_scan = scan == "yes" ? "#{id}.scan" : "#{id}"
+    magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
     if ENV['SAML_IDP_TARGET_URL'].present?
-    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id}")
+    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
     end
-    if ENV['AEON_REQUEST'].blank?
+    if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
       aeon_req = '/aeon/~id~'
       aeon_req = aeon_req.sub!('~id~',id.to_s)
       aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
     else
-      aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-      aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+      if group == 'AEON_SCAN_REQUEST'
+        aeon_req = ENV['AEON_SCAN_REQUEST'].gsub('~id~', id.to_s)
+        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+      else
+        aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
+        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+      end
     end
     if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]
@@ -1614,15 +1620,12 @@ end
 	holdArray = document['holdings_display'].to_a
 
 	col_loc = []
-	if holdArray.any?
-		holdArray = holdArray[0].split('|')
-		holdArray.each do |holding|
-			col_loc << holdings_condensed[holding]["call"] unless holdings_condensed[holding].nil?
-			location = Hash(holdings_condensed[holding])
-
-			if location["location"].present? && location["location"]["name"].present?
-					col_loc << location["location"]["name"]
-			end
+	holdings_condensed.each do |k,v|
+		if v["call"].present?
+			col_loc << v["call"]
+		end
+		if v["location"].present? && v["location"]["name"].present?
+			col_loc << v["location"]["name"]
 		end
 	end
 
@@ -1649,6 +1652,79 @@ end
   def format_discogs_image url
     image_html = "<div id='discogs-image'><img src='" + url + "' width='150px'/></div>"
     return image_html.html_safe
+  end
+  
+  def build_returned_display item
+    returned_size = item['items']['returned'].size
+    the_html = ""
+    if item['items']["count"] == 1
+      returned_time = item['items']['returned'][0]["status"]["returned"]
+      short = is_short_loan(item['items']['returned'][0])
+      if short
+        the_time = Time.at(returned_time).strftime("%m/%d/%y %I:%M%P")
+        the_html += "<span class='text-nowrap' style='padding-left:20px'>Returned " + the_time + "</span>"
+      else
+        the_time = Time.at(returned_time).strftime("%m/%d/%y")
+        the_html += "<span class='text-nowrap'>Returned " + the_time + "</span>"
+      end
+    else
+      item["items"]["returned"].sort_by! { |i| [i["status"]["returned"], i["status"]["enum"]] }
+      current_r_date = ""
+      first_time_through = true
+      count = 0
+      item["items"]["returned"].each do |r|
+        enum = r["enum"].present? ? r["enum"] : ""
+        if item["items"]["returned"].size < 11
+          if r["status"]["status"] == "Available"
+            if Time.at(r["status"]["returned"]).strftime("%m/%d/%y") != current_r_date
+              current_r_date = Time.at(r["status"]["returned"]).strftime("%m/%d/%y")
+              time_returned = r["status"]["returned"]
+              short = is_short_loan(r)
+              the_html += "</ul></div>" if !first_time_through
+              the_html += "<div style='padding-left:20px'>" + "Returned "
+              the_html += Time.at(time_returned).strftime("%m/%d/%y") if short == false || item["items"]["returned"].size > 1
+              the_html += Time.at(time_returned).strftime("%m/%d/%y %I:%M%P") if short == true && item["items"]["returned"].size == 1
+              the_html += ":<ul><li style='margin-left:-25px'>" + enum + "</li>"
+              first_time_through = false
+            else
+              the_html += "<li style='margin-left:-25px'>" + enum + "</li>"
+            end
+            the_html += "</ul></div>" if r.equal?(item["items"]["returned"].last)
+          end
+        else
+          if r["status"]["status"] == "Available"
+            if Time.at(r["status"]["returned"]).strftime("%m/%d/%y") != current_r_date
+              time_returned = r["status"]["returned"]
+              if !first_time_through
+                the_html += "<li style='margin-left:-6px'>"
+                the_html += count.to_s + " item returned on " if count == 1
+                the_html += count.to_s + " items returned on " if count.to_i > 1
+                the_html += current_r_date + "</li>"
+              else
+                the_html = "<ul>"
+              end
+              count = 1
+              current_r_date = Time.at(r["status"]["returned"]).strftime("%m/%d/%y")
+              first_time_through = false
+            else
+              count = count + 1
+            end
+          end
+          if r.equal?(item["items"]["returned"].last)
+            the_html += "<li style='margin-left:-6px'>"
+            the_html += count.to_s + " item returned on " if count == 1
+            the_html += count.to_s + " items returned on " if count.to_i > 1
+            the_html += current_r_date + "</li></ul>"
+          end
+        end
+      end
+    end
+    return the_html.html_safe
+  end
+  
+  def is_short_loan returned
+    return true if returned["status"]["shortLoan"].present? && returned["status"]["shortLoan"] == true
+    return false if !returned["status"]["shortLoan"].present? || returned["status"]["shortLoan"] == false
   end
 end
 

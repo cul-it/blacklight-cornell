@@ -13,14 +13,14 @@ Feature: Digital Collection View
   @digitalcollections
   Scenario: Make sure list contains known collection
   	Given I literally go to digitalcollections
-  	Then I should see the label 'Conzo'
+  	Then I should see the label 'KMODDL'
 
   @hiphop
   @digitalcollections
   Scenario: Make sure list contains known collection
   	Given I literally go to digitalcollections
-      And I fill in the search box with 'hip hop'
+      And I fill in the search box with 'theory of machines'
       And I press 'search'
-      Then I should see the label 'Conzo'
+      Then I should see the label 'KMODDL'
 
 

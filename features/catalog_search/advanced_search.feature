@@ -1,3 +1,4 @@
+# encoding: utf-8
 @all_search
 @adv_search
 @search
@@ -31,15 +32,15 @@ Feature: Search
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
-    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I fill in "q_row1" with 'Encyclopedia of railroading'
     And I select 'Title' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'algorithmics'
+    And I fill in "q_row2" with 'National Text Book Company'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     And I sleep 4 seconds
     Then I should get results
     And I should see the label '1 result'
-    And I should see the label 'AND Publisher: algorithmics'
+    And I should see the label 'AND Publisher: National Text Book Company'
 
 # Combinatorial Algorithms, Algorithmic Press
   @adv_search
@@ -51,15 +52,15 @@ Feature: Search
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
-    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I fill in "q_row1" with 'Ocean thermal energy conversion'
     And I select 'Title' from the 'search_field_advanced' drop-down
     Then I should select radio "OR"
-    And I fill in "q_row2" with 'algorithmics'
+    And I fill in "q_row2" with 'Lexington Books'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 20 of'
-    And I should see the label 'OR Publisher: algorithmics'
+    And I should see the label '1 - 2 of'
+    And I should see the label 'OR Publisher: Lexington Books'
 
 # Combinatorial Algorithms, Algorithmic Press
   @adv_search
@@ -70,15 +71,14 @@ Feature: Search
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
-    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I fill in "q_row1" with 'Encyclopedia'
     And I select 'Title' from the 'search_field_advanced' drop-down
     Then I should select radio "NOT"
     And I fill in "q_row2" with 'springer'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     And I sleep 4 seconds
-    Then I should get results
-    And I should see the label '1 - 20 of'
+    Then I should get 3 results
     And I should see the label 'NOT Publisher: springer'
 
 # Combinatorial Algorithms, Algorithmic Press
@@ -91,14 +91,13 @@ Feature: Search
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
-    And I fill in "q_row1" with 'combinatorial algorithms'
+    And I fill in "q_row1" with 'Encyclopedia'
     And I select 'Title' from the 'search_field_advanced' drop-down
     Then I should select radio "NOT"
     And I fill in "q_row2" with 'springer'
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 - 20 of'
+    Then I should get 3 results
 
  @adv_search
  @all_search
@@ -106,7 +105,7 @@ Feature: Search
   @javascript
   Scenario: Perform an advanced search and see call number facet
     When I literally go to advanced
-    And I fill in "q_row1" with 'biology'
+    And I fill in "q_row1" with 'Encyclopedia'
     And I press 'advanced_search'
     Then I should get results
     And I should see a facet called 'Call Number'
@@ -117,14 +116,14 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by Publisher
     When I literally go to advanced
-    And I fill in "q_row1" with 'biology'
+    And I fill in "q_row1" with 'Encyclopedia'
     And I select 'Title' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Springer'
+    And I fill in "q_row2" with 'National Text Book Company'
     And I select 'Publisher' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And it should contain filter "Publisher" with value "Springer"
-    And I should see the label 'Springer'
+    And it should contain filter "Publisher" with value "National Text Book Company"
+    And I should see the label 'National Text Book Company'
 
  @adv_search
  @all_search
@@ -132,11 +131,11 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by author, as author see results
     When I literally go to advanced
-    And I fill in "q_row1" with 'Peabody, William Bourn Oliver, 1799-1847'
+    And I fill in "q_row1" with 'Heaney, Seamus, 1939-2013'
     And I select 'Author' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label 'of 1'
+    And I should see the label '1 result'
 
  #
  #@javascript
@@ -155,7 +154,7 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by call number
     When I literally go to advanced
-    And I fill in "q_row1" with 'QA76.6 .C85 1972'
+    And I fill in "q_row1" with 'TL565 .N85 no.185'
     And I select 'phrase' from the 'op_row' drop-down
     And I select 'Call Number' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
@@ -169,7 +168,7 @@ Feature: Search
   Scenario: Perform an advanced search by journaltitle
     When I literally go to advanced
     And I select 'Journal Title' from the 'search_field_advanced' drop-down
-    And I fill in "q_row1" with 'journal of microbiology'
+    And I fill in "q_row1" with 'Dokumente zur Deutschlandpolitik'
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'of '
@@ -182,12 +181,12 @@ Feature: Search
   Scenario: Perform an advanced search by isbn
     When I literally go to advanced
     And I sleep 4 seconds
-    And I fill in "q_row1" with '9781400068128'
+    And I fill in "q_row1" with '9780571347155'
     And I select 'ISBN/ISSN' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
-    And I should see the label 'Frederick the Great'
+    And I should see the label '100 poems'
 
 #
  @adv_search
@@ -197,7 +196,7 @@ Feature: Search
   Scenario: Perform an advanced search by notes
     When I literally go to advanced
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'English, German, Italian, Latin, or Portugese'
+    And I fill in "q_row1" with 'Prepared under the sponsorship of the Propulsion and Energetics Panel.'
     And I select 'phrase' from the 'op_row' drop-down
     And I select 'Notes' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
@@ -240,10 +239,10 @@ Feature: Search
   Scenario: Perform an advanced search by notes
     When I literally go to advanced
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'English, German, Italian, Latin, or Portugese'
+    And I fill in "q_row1" with '"Prepared under the sponsorship of the Propulsion and Energetics Panel."'
     And I select 'all' from the 'op_row' drop-down
     And I select 'Notes' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Bibliotheca Instituti Historici'
+    And I fill in "q_row2" with 'North Atlantic Treaty Organization'
     And I select 'phrase' from the 'op_row2' drop-down
     And I press 'advanced_search'
     Then I should get results
@@ -256,12 +255,12 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by donor
     When I literally go to advanced
-    And I fill in "q_row1" with 'Jan Olsen'
+    And I fill in "q_row1" with 'Class of 1957'
     And I select 'all' from the 'op_row' drop-down
     And I select 'Donor Name' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 - 19 of 19'
+    Then I should get 2 results
+    #And I should see the label '1 result'
     #And I should not see the label 'Modify advanced'
 
 #
@@ -271,15 +270,15 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by donor
     When I literally go to advanced
-    And I fill in "q_row1" with 'Jan'
+    And I fill in "q_row1" with '1957'
     And I select 'all' from the 'op_row' drop-down
     And I select 'Donor Name' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Olsen'
+    And I fill in "q_row2" with 'Pumpelly'
     And I select 'all' from the 'op_row2' drop-down
     And I select 'Donor Name' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 19 of 19'
+    And I should see the label '1 result'
     And I should see the label 'Modify advanced'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
@@ -289,15 +288,15 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by subject
     When I literally go to advanced
-    And I fill in "q_row1" with 'Molecular Biology'
+    And I fill in "q_row1" with 'Hales, John'
     And I select 'all' from the 'op_row' drop-down
     And I select 'Subject' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Recombinant Dna'
+    And I fill in "q_row2" with 'Imprints'
     And I select 'all' from the 'op_row2' drop-down
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - '
+    And I should see the label '1 result'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -306,15 +305,15 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by subject
     When I literally go to advanced
-    And I fill in "q_row1" with 'Molecular Biology'
+    And I fill in "q_row1" with 'Ocean thermal power plants'
     And I select 'phrase' from the 'op_row' drop-down
     And I select 'Subject' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Recombinant Dna'
+    And I fill in "q_row2" with 'Maritime law'
     And I select 'phrase' from the 'op_row2' drop-down
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 4 of 4'
+    And I should see the label '1 result'
 
 # Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
@@ -323,21 +322,21 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by subject
     When I literally go to advanced
-    And I fill in "q_row1" with 'Molecular Biology'
+    And I fill in "q_row1" with 'Ocean thermal power plants'
     And I select 'phrase' from the 'op_row' drop-down
     And I select 'Subject' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Recombinant Dna'
+    And I fill in "q_row2" with 'Maritime law'
     And I select 'phrase' from the 'op_row2' drop-down
     And I select 'Subject' from the 'search_field_advanced2' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
-    And I fill in "q_row3" with 'yeast'
+    And I fill in "q_row3" with 'conversion'
     And I select 'phrase' from the 'op_row3' drop-down
     And I select 'Title' from the 'search_field_advanced3' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
-    And I should see the label 'Yeast molecular biology--recombinant DNA'
+    And I should see the label 'Ocean thermal energy conversion'
 
 #  fungi, recombinant dna, any publisher
  @adv_search
@@ -346,15 +345,15 @@ Feature: Search
  @javascript
   Scenario: Perform an advanced search by all fields, all fields, phrase, and publisher any
     When I literally go to advanced
-    And I fill in "q_row1" with 'fungi'
+    And I fill in "q_row1" with 'Ocean thermal power plants'
     And I select 'all' from the 'op_row' drop-down
     And I select 'All Fields' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Recombinant Dna'
+    And I fill in "q_row2" with 'Maritime law'
     And I select 'phrase' from the 'op_row2' drop-down
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
-    And I fill in "q_row3" with 'Food Products Press'
+    And I fill in "q_row3" with 'Lexington Books'
     And I select 'any' from the 'op_row3' drop-down
     And I select 'Publisher' from the 'search_field_advanced3' drop-down
     And I press 'advanced_search'
@@ -370,16 +369,16 @@ Feature: Search
   Scenario: Perform an advanced search by place of publication
     When I literally go to advanced
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'yeast'
+    And I fill in "q_row1" with 'Ocean'
     And I select 'all' from the 'op_row' drop-down
     And I select 'Subject' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'Amsterdam'
+    And I fill in "q_row2" with 'Lexington'
     And I select 'all' from the 'op_row2' drop-down
     And I sleep 4 seconds
     And I select 'Place of Publication' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
-    And I should see the label '1 - 8 of 8'
+    And I should see the label '1 result'
     And I should see the label 'Modify advanced'
 
  @begins_with
@@ -389,16 +388,16 @@ Feature: Search
  @javascript
   Scenario: Perform a 2 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with 'we were feminists'
+    And I fill in "q_row1" with 'Indian Ocean'
     And I select 'begins' from the 'op_row' drop-down
     And I select 'Title' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'we were feminists'
+    And I fill in "q_row2" with 'Indian Ocean'
     And I select 'begins' from the 'op_row2' drop-down
     And I select 'Title' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
-    And I should see the label 'We were Feminists Once'
+    And I should see the label 'Indian Ocean and regional security'
     And I should see the label '1 result'
 
 
@@ -410,13 +409,13 @@ Feature: Search
  @javascript
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with 'we were feminists'
+    And I fill in "q_row1" with 'Indian Ocean'
     And I select 'begins' from the 'op_row' drop-down
     And I select 'Title' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
-    And I should see the label 'We were Feminists'
+    And I should see the label 'Indian Ocean and regional security'
     And I should see the label '1 result'
 
 
@@ -513,7 +512,7 @@ Feature: Search
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
     And I sleep 8 seconds
-    And I should see the label '1 - 20 of'
+    And I should see the label '1 - 5 of'
 
 
 
@@ -523,21 +522,21 @@ Feature: Search
  @javascript
   Scenario: Perform a 3 row  advanced search with embedded quotes.
     When I literally go to advanced
-    And I fill in "q_row1" with 'Women female* gender feminis*'
+    And I fill in "q_row1" with 'Birds I have kept'
     And I select 'any' from the 'op_row' drop-down
     And I select 'All Fields' from the 'search_field_advanced' drop-down
-    And I fill in "q_row2" with 'madness “mentally ill” “mental illness” insanity'
+    And I fill in "q_row2" with 'years “gone by” “full directions” successfully'
     And I select 'any' from the 'op_row2' drop-down
+    And click on link "add-row"
+    And I sleep 4 seconds
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
-    And I fill in "q_row2" with 'literature cinema film television'
-    And I select 'any' from the 'op_row2' drop-down
-    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I fill in "q_row3" with 'Cage birds'
+    And I select 'any' from the 'op_row3' drop-down
+    And I select 'All Fields' from the 'search_field_advanced3' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
-    And I should see the label '1 - 20 of'
-
-
+    And I should see the label '3 catalog results'
 
  # DISCOVERYACCESS3298
  @adv_search
@@ -560,12 +559,12 @@ Feature: Search
  @allow_rescue
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with quoted 'varieties of capitalism'
+    And I fill in "q_row1" with quoted 'An historical and critical account'
     And I select 'begins' from the 'op_row' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
-    And I should see the label 'Varieties of capitalism and business history'
+    And I should see the label 'An historical and critical account of the life and writing of the ever-memorable Mr. John Hales ... being a specimen of an historical and critical English dictionary'
 
  @begins_with
  @adv_search
@@ -575,7 +574,7 @@ Feature: Search
  @allow_rescue
   Scenario: Perform a 1 row  advanced search by begins with Title
     When I literally go to advanced
-    And I fill in "q_row1" with 'game design'
+    And I fill in "q_row1" with 'Struktura filosofskogo'
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced search'

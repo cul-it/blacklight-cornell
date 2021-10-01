@@ -6,7 +6,7 @@ class SearchBuilder < Blacklight::SearchBuilder
 
 # again add a comment so we can do a trivial PR
   #self.solr_search_params_logic += [:sortby_title_when_browsing, :sortby_callnum]
-  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch]
+  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch, :homepage_default]
 #  self.default_processor_chain += [:advsearch]
 
   def sortby_title_when_browsing user_parameters
@@ -18,6 +18,15 @@ class SearchBuilder < Blacklight::SearchBuilder
     if user_parameters[:q].blank? and user_parameters[:sort].blank?
       browsing_sortby =  blacklight_config.sort_fields.values.select { |field| field.browse_default == true }.first
   #    solr_parameters[:sort] = browsing_sortby.field
+    end
+  end
+
+  # Removes unnecessary elements from the solr query when the homepage is loaded.
+  # The check for the q parameter ensures that searches, including empty searches, and
+  # advanced searches are not affected.
+  def homepage_default user_parameters
+    if user_parameters['q'].nil? && user_parameters['fq'].size == 0
+      user_parameters = streamline_query(user_parameters)
     end
   end
 
@@ -195,7 +204,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                if !blacklight_params[:q].include?('"')
                 # returned_query = simple_fix(returned_query)
                  if returned_query[0] != '+'
-                    blacklight_params[:q] = '(+"' + returned_query + '") OR phrase:"' + blacklight_params[:q] + '"'
+                    blacklight_params[:q] = '("' + returned_query + '") OR phrase:"' + blacklight_params[:q] + '"'
                  else
                     blacklight_params[:q] = '('  + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
                  end
@@ -203,7 +212,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                else
                  query_string = '('
                  return_query = checkMixedQuoted(blacklight_params)
-
                  return_query.each do |token|
                     query_string = query_string + token + ' '
                   end
@@ -213,6 +221,8 @@ class SearchBuilder < Blacklight::SearchBuilder
                end
              end
            end
+          
+  #        blacklight_params[:q] = "(\"lupin\" AND \"arsene\" ) OR phrase:\"lupin arsene\""
         else
 #           user_parameters[:q] = blacklight_params[:q]            
            #Not an all fields search test if query is quoted
@@ -243,6 +253,7 @@ class SearchBuilder < Blacklight::SearchBuilder
             end
 #          if blacklight_params[:search_field] == 'authortitle_browse' #= 'title_starts'
 #            blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
+
           else
             #check if this is a crazy multi quoted multi token search
             if blacklight_params[:q].include?('"') and blacklight_params[:search_field] != 'title_starts' and blacklight_params[:search_field] != 'series' and blacklight_params[:search_field] != 'lc_callnum' and blacklight_params[:search_field] != 'journal title' and !blacklight_params[:search_field].include?('_cts')
@@ -273,21 +284,31 @@ class SearchBuilder < Blacklight::SearchBuilder
          blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
        end
        #queries are not all fields nor quoted  go ahead
-       if !blacklight_params[:q].include?(':') and blacklight_params[:search_field] != 'title_starts' and blacklight_params[:search_field] != 'series' and blacklight_params[:search_field] != 'journal title' and blacklight_params[:search_field] != 'lc_callnum' #query has not been created so go ahead
+      # exclude search_fields that match *_cts or *_browse
+      if !(/_cts$/.match(blacklight_params[:search_field]) ||
+        /_browse$/.match(blacklight_params[:search_field]) ||
+        ['title_starts','series','journal title','lc_callnum'].include?(blacklight_params[:search_field])
+      )
          query_array = blacklight_params[:q].split(' ')
          clean_array = []
          new_query = ''
            query_string = ''
            if query_array.size > 1
              query_array.each do |token|
-                query_string = '+' + blacklight_params[:search_field] + ':"' + token + '"'
-                clean_array << query_string
+         #    	if token != ':'
+                 query_string = '+' + blacklight_params[:search_field] + ':"' + token + '"'
+                 clean_array << query_string
+          #      end
              end
              new_query = '('
              clean_array.each do |query|
                 new_query = new_query + query + ' '
              end
+            Rails.logger.info("BODO = #{new_query}")
              new_query = new_query.rstrip
+    #         if new_query.include?(':')
+    #         	new_query = new_query.gsub(':','')
+    #         end
              if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'number'
               new_query = new_query + ') OR ' + blacklight_params[:search_field] + '_phrase:"' + blacklight_params[:q] + '"'
              else
@@ -297,7 +318,8 @@ class SearchBuilder < Blacklight::SearchBuilder
                new_query = new_query + ') OR '  + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
               end
              end
-             blacklight_params[:q] = new_query             
+             blacklight_params[:q] = new_query     
+             Rails.logger.info("BODO2 = #{blacklight_params[:q]}")        
            else
              if blacklight_params[:search_field] == 'title'
                blacklight_params[:q] = '(+title:' + blacklight_params[:q] +  ') OR title_phrase:"' + blacklight_params[:q] + '"'
@@ -305,17 +327,24 @@ class SearchBuilder < Blacklight::SearchBuilder
                if blacklight_params[:q].first != '"+'
                  blacklight_params[:q] = '(+' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '") OR ' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
                else
-                 blacklight_params[:q] = "fart"
+                 blacklight_params[:q] = ""
                end
              end
            end
        end
-       user_parameters[:q] = blacklight_params[:q]
+ #      if blacklight_params[:q].include?(':')
+ #      	blacklight_params[:q].gsub(':','')
+ #      end
+ #      user_parameters[:q] = blacklight_params[:q]
+
        end
     # justa placeholder
     #    blacklight_params[:q] = blacklight_params[:search_field] + ":" + blacklight_params[:q]
        # blacklight_params[:search_field] = ''
      #   blacklight_params[:q] = "(+lc_callnum:\"PQ6657.U37 P63\") OR lc_callnum_phrase:\"PQ6657.U37 P63\""
+ #       if blacklight_params[:q].include?(':')
+ #       	blacklight_params[:q].gsub(':','')
+ #       end
         user_parameters[:q] = blacklight_params[:q]
         user_parameters[:f] = blacklight_params[:f]
         user_parameters[:sort] = blacklight_params[:sort]
@@ -1159,7 +1188,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         #journal_title_flag = 1
       end
       if sfr == "notes"
-        sfr = "notes_qf"
+        sfr = "notes"
       end
       if sfr == "all_fields"
         sfr = ""
@@ -1534,16 +1563,27 @@ class SearchBuilder < Blacklight::SearchBuilder
   def parse_all_fields_query(query)
     return_query = ''
     tokenArray = []
+    count = 0
     if query.first == '"' and query.last == '"'
       query = query[1..-2]
     end
     if query.include?(' ')
       tokenArray = query.split(' ')
       tokenArray.each do |bits|
+      	
           if bits.include?(':')
              bits.gsub!(':','\\:')
           end
-          return_query << '+"' << bits << '" '
+          if count == 0
+          return_query << bits << '"'
+          else
+          	if count < (tokenArray.size - 1)
+               return_query << ' AND "' << bits << '" '
+            else 
+               return_query << ' AND "' << bits
+            end
+          end
+          count = count + 1
       end
     else
         return_query = query
@@ -1562,5 +1602,23 @@ class SearchBuilder < Blacklight::SearchBuilder
    return newHash
   end
 
+  def streamline_query(user_params)
+    homepage_facets = ["online", "format", "language_facet", "location", "hierarchy_facet"]
+    user_params['facet.field'] = homepage_facets
+    user_params['stats'] = false
+    user_params['stats.field'] = []
+    user_params['rows'] = 0
+    user_params.delete('sort')
+    user_params.delete('f.lc_callnum_facet.facet.limit')
+    user_params.delete('f.lc_callnum_facet.facet.sort')
+    user_params.delete('f.author_facet.facet.limit')
+    user_params.delete('f.fast_topic_facet.facet.limit')
+    user_params.delete('f.fast_geo_facet.facet.limit')
+    user_params.delete('f.fast_era_facet.facet.limit')
+    user_params.delete('f.fast_genre_facet.facet.limit')
+    user_params.delete('f.subject_content_facet.facet.limit')
+    user_params.delete('f.lc_alpha_facet.facet.limit')
+    return user_params
+  end
 end
 
