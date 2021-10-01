@@ -123,7 +123,6 @@ Feature: Item view
     Given I request the item view for 3749
     Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
-<<<<<<< HEAD
   @request_button
   @all_item_view
   @saml_off
@@ -137,22 +136,6 @@ Feature: Item view
   Scenario: As a user I can request an item, when SAML involved.
     Given I request the item view for 30000
     Then it should have link "Request" with value "/request/auth/30000.scan"
-=======
-  # Hiding request buttons for Folio migration so need to comment these two out.
-  # @request_button
-  # @all_item_view
-  # @saml_off
-  # Scenario: As a user I can request an item, when not SAML involved.
-  #   Given I request the item view for 30000
-  #   Then it should have link "Request item" with value "/request/30000"
-  # 
-  # @request_button
-  # @all_item_view
-  # @saml_on
-  # Scenario: As a user I can request an item, when SAML involved.
-  #   Given I request the item view for 30000
-  #   Then it should have link "Request" with value "/request/auth/30000?scan=yes"
->>>>>>> origin
 
   # Availability simple, one location, and is available
   @availability
