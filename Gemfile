@@ -42,7 +42,7 @@ gem 'marc'
 gem 'blacklight-marc'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '1.11.4'
+gem 'nokogiri', '1.12.5'
 gem 'rufus-scheduler'
 gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
