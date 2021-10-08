@@ -854,7 +854,7 @@ class AeonController < ApplicationController
 #       end
   	   if !thisItemArray.nil? and !thisItemArray.empty? 
   	     thisItemArray.each do | itemHash |
-  	       unless (itemHash["location"]["code"].include?('olin') and !itemHash["location"]["code"].include?('rare'))
+  	       unless (!itemHash["location"]["code"].include?('rmc'))# and !itemHash["location"]["code"].include?('rare'))
   	     	b = itemHash['call'].to_s
   	     	if b.include?('Archives ')
   	     		b = b.gsub('Archives ','')
@@ -1095,7 +1095,7 @@ class AeonController < ApplicationController
   	    	end   	
     end #end of if itemsHash.empty
     ret = ret + "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
-  #  ret = @document["items_json"]
+#    ret = @document["items_json"]
    return ret 	
   end
 
