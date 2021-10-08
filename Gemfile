@@ -6,9 +6,9 @@ gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.4.2"
+gem "actionview", ">= 5.2.6"
 # added for rails 4.
-gem 'activerecord-session_store'
+gem 'activerecord-session_store', ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 
@@ -42,9 +42,9 @@ gem 'marc'
 gem 'blacklight-marc'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '1.10.10'
+gem 'nokogiri', '1.11.4'
 gem 'rufus-scheduler'
-gem 'addressable'
+gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
