@@ -37,7 +37,7 @@ Feature: Search
     Then the query "<search>" should show
     And I should get bento results
     And Articles & Full Text should not list "<search>"
- 
+
   Examples:
       | search | comment |
       | Union Barley Coffee | not in the collection & not full text |
@@ -55,7 +55,7 @@ Feature: Search
 
   Examples:
       | search | comment |
-      | Hunting, Gathering, and Stone Age Cooking | |
+      # PENDING | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
       | Lions' Plate: TikTok's Whipped Coffee | |
       | Utica Zoo, Utica Coffee Roasting | |
