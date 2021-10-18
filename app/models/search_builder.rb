@@ -954,9 +954,11 @@ class SearchBuilder < Blacklight::SearchBuilder
          
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
+         Rails.logger.info("Herve = #{my_params[:q_row]}")
          test_q_string2 = groupBools(my_params)
         my_params[:q] = test_q_string2
-     #   my_params[:q] = "(+Alhambra -California)"
+        Rails.logger.info("Herbivore = #{my_params[:q]}")
+   #     my_params[:q] = "(+title:Encyclopedia -+springer)"
       return my_params
      end
    end
@@ -1026,6 +1028,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                        else
                           q_row_string = '((' + q_row_string + ') OR (' + sfr_name + 'phrase:"' + my_params[:q_row][index] + '"))'
                        end
+                      q_row_string = "butter"
                      else
                        
                        if sfr_name != 'lc_callnum'
@@ -1035,6 +1038,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                         end
                      end
                      q_rowArray << q_row_string
+                     Rails.logger.info("Serve = #{q_rowArray.inspect}")
                    end
                    if my_params[:op_row][row_number] == "phrase"
                       split_q_string_Array.each do |add_sfr|
@@ -1118,7 +1122,8 @@ class SearchBuilder < Blacklight::SearchBuilder
                   else
                    if sfr_name != "" 
                       if sfr_name == 'title' or sfr_name == 'number'
-                          q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + '_phrase:"' + my_params[:q_row][row_number] + '")'
+                     #     q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + '_phrase:"' + my_params[:q_row][row_number] + '")'
+                          q_rowArray << '+' + sfr_name + ':"' + my_params[:q_row][row_number] + '")'
                       else
                         if sfr_name != 'lc_callnum'
                           if my_params[:search_field_row][row_number] == 'journal title'
@@ -1143,6 +1148,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                    	  	  end                         
                         end
                       end
+                     Rails.logger.info("Derve = #{q_rowArray.inspect}")
                    else
                    	  if my_params[:op_row][row_number] == "phrase"
                    	  	if my_params[:q_row][row_number].first == '"' and my_params[:q_row][row_number].last == '"'
