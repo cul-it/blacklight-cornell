@@ -246,6 +246,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                 blacklight_params[:q] = '(+' + blacklight_params[:search_field] + ':' + blacklight_params[:q] + ')'
               else
                 blacklight_params[:q] =  blacklight_params[:search_field] + '_quoted:' + blacklight_params[:q]
+     #           blacklight_params[:q] =   blacklight_params[:q]
               end 
             end
             if blacklight_params[:search_field] == 'title_starts'
@@ -304,22 +305,28 @@ class SearchBuilder < Blacklight::SearchBuilder
              clean_array.each do |query|
                 new_query = new_query + query + ' '
              end
-            Rails.logger.info("BODO = #{new_query}")
              new_query = new_query.rstrip
     #         if new_query.include?(':')
     #         	new_query = new_query.gsub(':','')
     #         end
              if blacklight_params[:search_field] == 'title' or blacklight_params[:search_field] == 'number'
-              new_query = new_query + ') OR ' + blacklight_params[:search_field] + '_phrase:"' + blacklight_params[:q] + '"'
+             	if !blacklight_params[:q].include?('title_quoted')  and !blacklight_params[:q].include?('subject_quoted')
+              		new_query = new_query + ') OR ' + blacklight_params[:search_field] + '_phrase:"' + blacklight_params[:q] + '"'
+                else
+                	new_query = blacklight_params[:q]
+                end
              else
               if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
                 new_query = new_query + ') OR ' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
-              else 
-               new_query = new_query + ') OR '  + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+              else
+              	if !blacklight_params[:q].include?('title_quoted') and !blacklight_params[:q].include?('subject_quoted')
+                  new_query = new_query + ') OR '  + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
+                else
+                  new_query = blacklight_params[:q]
+                end
               end
              end
              blacklight_params[:q] = new_query     
-             Rails.logger.info("BODO2 = #{blacklight_params[:q]}")        
            else
              if blacklight_params[:search_field] == 'title'
                blacklight_params[:q] = '(+title:' + blacklight_params[:q] +  ') OR title_phrase:"' + blacklight_params[:q] + '"'
