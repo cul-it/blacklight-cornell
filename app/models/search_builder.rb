@@ -9,7 +9,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch, :homepage_default]
 #  self.default_processor_chain += [:advsearch]
 
-  def sortby_title_when_browsing user_parameters
+  def sortby_title_when_browsing user_parameters 
 
    # Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
    # Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
@@ -954,11 +954,8 @@ class SearchBuilder < Blacklight::SearchBuilder
          
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
-         Rails.logger.info("Herve = #{my_params[:q_row]}")
          test_q_string2 = groupBools(my_params)
         my_params[:q] = test_q_string2
-        Rails.logger.info("Herbivore = #{my_params[:q]}")
-   #     my_params[:q] = "(+title:Encyclopedia -+springer)"
       return my_params
      end
    end
@@ -1028,7 +1025,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                        else
                           q_row_string = '((' + q_row_string + ') OR (' + sfr_name + 'phrase:"' + my_params[:q_row][index] + '"))'
                        end
-                      q_row_string = "butter"
                      else
                        
                        if sfr_name != 'lc_callnum'
@@ -1038,7 +1034,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                         end
                      end
                      q_rowArray << q_row_string
-                     Rails.logger.info("Serve = #{q_rowArray.inspect}")
                    end
                    if my_params[:op_row][row_number] == "phrase"
                       split_q_string_Array.each do |add_sfr|
@@ -1122,8 +1117,7 @@ class SearchBuilder < Blacklight::SearchBuilder
                   else
                    if sfr_name != "" 
                       if sfr_name == 'title' or sfr_name == 'number'
-                     #     q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + '_phrase:"' + my_params[:q_row][row_number] + '")'
-                          q_rowArray << '+' + sfr_name + ':"' + my_params[:q_row][row_number] + '")'
+                          q_rowArray << '((+' + sfr_name + ':"' + my_params[:q_row][row_number] + '") OR ' + sfr_name + '_phrase:"' + my_params[:q_row][row_number] + '")'
                       else
                         if sfr_name != 'lc_callnum'
                           if my_params[:search_field_row][row_number] == 'journal title'
@@ -1148,7 +1142,6 @@ class SearchBuilder < Blacklight::SearchBuilder
                    	  	  end                         
                         end
                       end
-                     Rails.logger.info("Derve = #{q_rowArray.inspect}")
                    else
                    	  if my_params[:op_row][row_number] == "phrase"
                    	  	if my_params[:q_row][row_number].first == '"' and my_params[:q_row][row_number].last == '"'
@@ -1525,7 +1518,7 @@ class SearchBuilder < Blacklight::SearchBuilder
         my_params[:mm] = 1
         blacklight_params = my_params
   #      my_params[:q] = '(madness OR quoted:"mentally ill" OR quoted:"mental illness" OR insanity )' # OR phrase:("madness "mentally ill" "mental illness" insanity")'
-  #      Rails.logger.info("FINISHER = #{my_params}")
+        #Rails.logger.info("FINISHER = #{my_params}")
     return my_params
 
   end
@@ -1559,18 +1552,10 @@ class SearchBuilder < Blacklight::SearchBuilder
          #newstring = my_params[:q_row][0]
          for a in 0..my_params[:q_row].size - 1 do
           if a == 0
-          	if my_params[:boolean_row][a] == "NOT"
-            	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + "-" + my_params[:q_row][a + 1] + ") "
-          	else	
-            	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
-            end
+            newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
           else
             if a < my_params[:q_row].size  and a > 1
-            	if my_params[:boolean_row][a - 1] == "NOT"
-                	newstring = '( ' + newstring + ' ' + '-' + my_params[:q_row][a] + ')'
-                else
-                	newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a - 1 ] + ' ' + my_params[:q_row][a] + ')'
-                end
+                newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a -1] + ' ' + my_params[:q_row][a] + ')'
                 a = a + 1
              #newstring = '(' + my_params[:q_row][index] + ' )' + bool + '( ' + my_params[:q_row][index + 1] + ')'
             end
