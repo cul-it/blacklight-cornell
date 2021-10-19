@@ -954,9 +954,7 @@ class SearchBuilder < Blacklight::SearchBuilder
          
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
-         Rails.logger.info("SEZWHO = #{my_params[:q_row]}")
          test_q_string2 = groupBools(my_params)
-         Rails.logger.info("SEZWHO = #{test_q_string2}")
          if test_q_string2.include?('-+')
          	test_q_string2.gsub!('-+','-')
          end
