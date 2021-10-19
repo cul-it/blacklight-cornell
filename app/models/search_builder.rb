@@ -9,7 +9,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch, :homepage_default]
 #  self.default_processor_chain += [:advsearch]
 
-  def sortby_title_when_browsing user_parameters
+  def sortby_title_when_browsing user_parameters 
 
    # Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} user_parameters = #{user_parameters.inspect}")
    # Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} #{__method__} blacklight_params = #{blacklight_params.inspect}")
@@ -955,6 +955,10 @@ class SearchBuilder < Blacklight::SearchBuilder
          my_params[:q_row] = q_rowArray
          my_params[:q_row] = parse_QandOp_row(my_params)
          test_q_string2 = groupBools(my_params)
+         if test_q_string2.include?('-+')
+         	test_q_string2.gsub!('-+','-')
+         end
+      #   test_q_string2 = '(((+title:"Encyclopedia") OR title_phrase:"Encyclopedia") -springer)'
         my_params[:q] = test_q_string2
       return my_params
      end
@@ -1552,10 +1556,18 @@ class SearchBuilder < Blacklight::SearchBuilder
          #newstring = my_params[:q_row][0]
          for a in 0..my_params[:q_row].size - 1 do
           if a == 0
-            newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
+                 if my_params[:boolean_row][a] == "NOT"
+                 	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + "-" + my_params[:q_row][a + 1] + ") "
+                 else
+                 	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
+                 end
           else
             if a < my_params[:q_row].size  and a > 1
-                newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a -1] + ' ' + my_params[:q_row][a] + ')'
+                 if my_params[:boolean_row][a - 1] == "NOT"
+                         newstring = '( ' + newstring + ' ' + '-' + my_params[:q_row][a] + ')'
+                 else
+                         newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a - 1 ] + ' ' + my_params[:q_row][a] + ')'
+                 end
                 a = a + 1
              #newstring = '(' + my_params[:q_row][index] + ' )' + bool + '( ' + my_params[:q_row][index + 1] + ')'
             end

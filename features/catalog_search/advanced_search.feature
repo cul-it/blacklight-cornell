@@ -97,7 +97,7 @@ Feature: Search
     And I fill in "q_row2" with 'springer'
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
-    Then I should get 3 results
+    Then I should get results
 
  @adv_search
  @all_search
