@@ -116,7 +116,7 @@ gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-
 gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
 gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'folio'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
-
+gem 'ruby-saml', '>= 1.12.1'
 gem 'bento_search'
 gem 'celluloid'  # Required for bento_search multisearcher
 gem 'mollom'
