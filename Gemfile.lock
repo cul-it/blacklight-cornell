@@ -47,10 +47,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 7ea097d9ac5f4c0cb2470d311e361ac78a1f8c1b
+  revision: 883f9f4b11084c35083530111e0a2e2f69cdd38f
   branch: folio
   specs:
-    my_account (2.0.8)
+    my_account (2.1.0)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge
@@ -420,6 +420,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0901)
     mini_mime (1.1.2)
+    mini_portile2 (2.6.1)
     mini_racer (0.4.0)
       libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
@@ -443,6 +444,9 @@ GEM
       net-ssh (>= 4.0.0)
     netrc (0.11.0)
     nio4r (2.5.8)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
+      racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     nokogumbo (2.0.2)
@@ -499,7 +503,7 @@ GEM
       pry (~> 0.10)
     public_suffix (4.0.6)
     raabro (1.1.6)
-    racc (1.5.2)
+    racc (1.6.0)
     rack (2.2.3)
     rack-contrib (2.1.0)
       rack (~> 2.0)
@@ -548,6 +552,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rexml (3.2.5)
     rsolr (2.2.1)
       builder (>= 2.1.2)
       faraday (>= 0.9.0)
@@ -655,7 +660,7 @@ GEM
       textpow (>= 1.3.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.7)
+    unf_ext (0.0.8)
     unicode (0.4.4.4)
     unicode_utils (1.4.0)
     utf8-cleaner (0.2.5)
@@ -677,7 +682,8 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xml-simple (1.1.8)
+    xml-simple (1.1.9)
+      rexml
     xmlrpc (0.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
