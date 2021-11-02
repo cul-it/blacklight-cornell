@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
 
+  # validation to prevent low level ActiveRecord::RecordNotUnique exception
+  # https://stackoverflow.com/questions/52279663/devise-create-error-message-for-duplicate-username
+  validates_uniqueness_of :email
+
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account.
