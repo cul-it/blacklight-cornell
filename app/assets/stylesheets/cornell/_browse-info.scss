@@ -1,0 +1,34 @@
+.influence, .citizenship, .education, .birthname {
+	display: none;
+}
+.agent-notes {
+    margin-left: -24px;
+}
+ul.nav-tabs li {
+	margin-bottom: -1px;
+}
+
+.influence-header {
+    background: #edebe7;
+    border-bottom:1px solid #dee2e6;
+}
+#info-details {
+  background: #edebe7;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+#ref-info-heading, #lcnaf-link {
+  padding: 10px 0 0 0;
+}
+#dbp-comment {
+  display: none;
+  margin-bottom: 16px;
+}
+.ld-acknowledge {
+    font-size: 14px;
+}
+#item-details > dt {
+    font-weight: normal !important;
+}
