@@ -17,7 +17,7 @@
           <% else search = heading['search1']  %>
           <% end %>
           <%# show heading popover for everything bigger than smartphone %>
-          <a href="#" role="button" tabindex="0" data-trigger="focus" data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button d-none d-sm-inline-block btn btn-sm btn-outline-secondary" aria-label="<%=  search %>">Author info »</a>
+          <a href="#" role="button" tabindex="0" data-trigger="focus" data-auth='<%=  search %>' data-poload='/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>' id="info" class="info-button d-none d-sm-inline-block btn btn-sm btn-outline-secondary" aria-label="<%=  search %>">Author info »</a>
 
           <%# link directly to heading on smartphone %>
           <a href="/browse/info?authq=<%=  search %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button d-inline-block d-sm-none btn btn-sm btn-outline-secondary" aria-label="<%=  search %>">Author info »</a>

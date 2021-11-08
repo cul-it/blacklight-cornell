@@ -34,4 +34,198 @@ def call_number_browse_link(call_number)
 	link_to(h(call_number), link_url)
 end
 
+def cleanup_bio_data(bd)
+  if bd.key?("Occupation")
+    bd.except!("Field")
+  end
+  return bd
+end
+
+def render_bio_data(bd)
+  html = ""
+  bd.each do |t,d|
+    unless t == "Gender"
+      html += "<dt>" + t + ":</dt><dd>"
+      if t == "Occupation"
+        d.each do |data|
+          if !data.equal?(d.last)
+            html += data.gsub(/s$/, '') + ", "
+          else
+            html += data.gsub(/s$/, '')
+          end
+        end
+      else
+        html += d if !d.kind_of?(Array)
+        html += d.join(", ") if d.kind_of?(Array)
+      end
+      html += "</dd>"
+    end
+  end
+  return html.html_safe
+end
+
+def render_reference_info(type,h_response,loc_localname)
+  alt_form_count = h_response[0]["alternateForm"].present? ? h_response[0]["alternateForm"].size : 0
+  html = ""
+  if h_response[0]["headingTypeDesc"].present? 
+    html += build_heading_type(h_response[0]["headingTypeDesc"]) 
+  end 
+  if alt_form_count > 0 
+    if type == "subject"
+      html += build_alt_forms_subjects(h_response[0]["alternateForm"])
+    else
+      html += build_alt_forms_authors(h_response[0]["alternateForm"])
+    end
+  end
+  if !loc_localname.blank?
+    html += build_lcsh_link(loc_localname.gsub('"',''))
+  end
+  return html.html_safe
+end
+
+def build_heading_type(heading_type)
+   html = '<dl class="dl-horizontal"><dt>Heading Type:</dt><dd>' + heading_type + '</dd></dt></dl>'
+   return html.html_safe
+ end
+
+ def build_lcnaf_link(localname)
+   html = '<div id="lcnaf-link" class="mt-2 mb-4"><span><a href="https://id.loc.gov/authorities/names/' + localname
+   html += '.html" target="_blank">Library of Congress Name Authority File (LCNAF) <i class="fa fa-external-link"></i></a></span></div>'
+   return html.html_safe
+ end
+
+ def build_lcsh_link(localname)
+   html = '<div id="lcnaf-link" class="mt-2 mb-4"><span><a href="https://id.loc.gov/authorities/subjects/' + localname
+   html += '.html" target="_blank">Library of Congress Subject Headings (LCSH) <i class="fa fa-external-link"></i></a></span></div>'
+   return html.html_safe
+ end
+
+ def build_alt_forms_authors(alt_forms)
+   alt_form_count = alt_forms.size
+   html = ""
+   if alt_form_count > 0 && alt_form_count < 8
+     html = '<dl class="dl-horizontal"><dt>Alternate Form(s):</dt>'
+     alt_forms.each do |af|
+       html += '<dd>' + af + '</dd>'
+  	 end
+     html += "</dl>"
+  elsif alt_form_count > 0 and alt_form_count >= 4
+    html += '<div>Alternate Forms: </div><div class="row" style="margin: 0;padding-top: 10px;">'
+    divisor = 2 if alt_form_count <= 8
+    divisor = 3 if alt_form_count > 8
+     html += '<div class="col-md-4">'
+     count = 0
+     split_at = alt_form_count / divisor
+     list = ""
+     alt_forms.each do |af|
+       if count <= split_at
+         list += "<p>" + af + "</p>"
+         count = count + 1
+       elsif
+         list += '</div> <!-- elsif div--><div class="col-md-4">'
+         count = 0
+         list += '<p>' + af + '</p>'
+         count = count + 1
+       end
+     end
+     html += list + "</div><!-- first closing div--></div><!-- second closing div-->"
+   end
+   return html.html_safe   
+ end
+
+ def build_alt_forms_subjects(alt_forms)
+   alt_form_count = alt_forms.size
+   html = ""
+   if alt_form_count > 0 && alt_form_count < 13
+     html = '<dl class="dl-horizontal"><dt>Alternate Form(s):</dt>'
+     alt_forms.each do |af|
+       html += '<dd>' + af + '</dd>'
+  	 end
+     html += "</dl>"
+   elsif alt_form_count > 0 and alt_form_count >= 13
+     html = '<div>Alternate Form(s)
+     : </div><div class="row" style="margin: 0;padding-top: 10px;"><div class="col-md-6">'
+     count = 0
+     alt_form_count = alt_form_count + 1 unless alt_form_count.even?
+     split_at = alt_form_count / 2
+     list = ""
+     alt_forms.each do |af|
+       if count <= split_at
+         list += "<p>" + af + "</p>"
+         count = count + 1
+       elsif
+         list += '</div> <!-- elsif div--><div class="col-md-6">'
+         count = 0
+         list += '<p>' + af + '</p>'
+         count = count + 1
+       end
+     end
+     html += list + "</div><!-- first closing div--></div><!-- second closing div-->"
+   end
+    return html.html_safe   
+ end
+
+def format_the_format(format, encoded_heading)
+    html = ""    
+    f = format.split(" (")[0]
+    case f
+    when "Books"
+      html = '<i class="fa fa-book"></i>'
+      html += '<a id="facet_link_book" href="/?f%5Bformat%5D%5B%5D=Book&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Journals/Periodicals"
+      html = '<i class="fa fa-book-open"></i>'
+      html += '<a id="facet_link_journal_periodical" href="href="/?f%5Bformat%5D%5B%5D=Journal/Periodical&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Digital Collections"
+      html = '<i class="fa fa-th-large"></i>'
+      html += '<a id="facet_link_digital_collections" href="href="https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Manuscripts/Archives"
+      html = '<i class="fa fa-archive"></i>'
+      html += '<a id="facet_link_manuscript_archive" href="/?f%5Bformat%5D%5B%5D=Manuscript/Archive&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Maps"
+      html = '<i class="fa fa-globe"></i>'
+      html += '<a id="facet_link_map" href="/?f%5Bformat%5D%5B%5D=Map&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Musical Scores"
+      html = '<i class="fa-musical-score"></i>'
+      html += '<a id="facet_link_musical_score" href="/?f%5Bformat%5D%5B%5D=Musical%20Score&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Non-musical Recordings"
+      html = '<i class="fa fa-headphones"></i>'
+      html += '<a id="facet_link_non_musical_recording" href="/?f%5Bformat%5D%5B%5D=Non-musical%20Recording&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Videos"
+      html = '<i class="fa fa-video-camera"></i>'
+      html += '<a id="facet_link_video" href="/?f%5Bformat%5D%5B%5D=Video&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Computer Files"
+      html = '<i class="fa fa-save"></i>'
+      html += '<a id="facet_link_computer_file" href="/?f%5Bformat%5D%5B%5D=Computer%20File&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Databases"
+      html = '<i class="fa fa-database"></i>'
+      html += '<a id="facet_link_database" href="/?f%5Bformat%5D%5B%5D=Database&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Musical Recordings"
+      html = '<i class="fa fa-music"></i>'
+      html += '<a id="facet_link_musical_recording" href="/?f%5Bformat%5D%5B%5D=Musical%20Recording&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Theses"
+      html = '<i class="fa fa-file-text-o"></i>'
+      html += '<a id="facet_link_thesis" href="/?f%5Bformat%5D%5B%5D=Thesis&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Microforms"
+      html = '<i class="fa fa-film"></i>'
+      html += '<a id="facet_link_microform" href="/?f%5Bformat%5D%5B%5D=Microform&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    when "Miscellaneous"
+      html = '<i class="fa fa-ellipsis-h"></i>'
+      html += '<a id="facet_link_miscellaneous" href="/?f%5Bformat%5D%5B%5D=Miscellaneous&amp;q='
+      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+    end
+    return html.html_safe
+  end
 end
