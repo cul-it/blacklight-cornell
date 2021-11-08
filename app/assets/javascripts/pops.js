@@ -183,8 +183,10 @@ class kPanel {
          	//Check if file type ends with jpg or gif or png
          	var description = wikidataParsedData["description"];
             $("#wikidataDescription").html(description);
-         	
          }
+
+         $('#time-indicator').hide();         
+         $('#popoverContent').removeClass("d-none");
 	 }
 	   
      // function to get localname from LOC URI
