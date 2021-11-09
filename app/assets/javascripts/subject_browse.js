@@ -188,7 +188,7 @@ var subjectDataBrowse = {
 	return ("exclusionPropertiesHash" in subjectDataBrowse && propertyName in subjectDataBrowse.exclusionPropertiesHash);
   },
   //relies on both presence of value and ability to display this data
-  displayProperty(propertyName, binding) {
+  displayProperty: function(propertyName, binding) {
 	if(subjectDataBrowse.isPropertyExcluded(propertyName)) {
 		return false;
 	}

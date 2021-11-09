@@ -203,7 +203,7 @@ var authorBrowse = {
 		return ("exclusionPropertiesHash" in authorBrowse && propertyName in authorBrowse.exclusionPropertiesHash);
 	},
 	//relies on both presence of value and ability to display this data
-	displayProperty(propertyName, binding) {
+	displayProperty: function(propertyName, binding) {
 		if(authorBrowse.isPropertyExcluded(propertyName)) {
 			return false;
 		}
