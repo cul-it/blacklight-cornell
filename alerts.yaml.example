@@ -8,3 +8,4 @@
   pages: ['MyAccount']
 - message: Message 2 text
   pages: ['Catalog', 'Requests']
+  
