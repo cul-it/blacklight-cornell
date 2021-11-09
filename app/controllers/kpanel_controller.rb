@@ -7,8 +7,8 @@ class KpanelController < ApplicationController
   #attr_accessible :authq, :start, :order, :browse_type
   @@browse_index_author = ENV['BROWSE_INDEX_AUTHOR'].nil? ? 'author' : ENV['BROWSE_INDEX_AUTHOR']
   @@browse_index_subject = ENV['BROWSE_INDEX_SUBJECT'].nil? ? 'subject' : ENV['BROWSE_INDEX_SUBJECT']
-  @@browse_author = ENV["PROD_AUTHOR"].nil? ? '' : ENV["PROD_AUTHOR"]
-  @@browse_subject = ENV["PROD_SUB"].nil? ? '' : ENV["PROD_SUB"]
+  @@browse_author = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr/') + @@browse_index_author
+  @@browse_subject = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr/') + @@browse_index_subject
 
   def heading
    @heading='Browse'
