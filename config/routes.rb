@@ -122,6 +122,12 @@ devise_for :users, controllers: {
   # discogs processing
   get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
 
+  # Knowledge panel/info box view
+  get 'panel'=> 'kpanel#panel'
+  get 'kpanel/index'
+  # Permissions for showing certain external info
+  get '/check_permissions' => 'handle_external_data#check_permissions', as: 'check_permissions'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
