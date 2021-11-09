@@ -1726,6 +1726,16 @@ end
     return true if returned["status"]["shortLoan"].present? && returned["status"]["shortLoan"] == true
     return false if !returned["status"]["shortLoan"].present? || returned["status"]["shortLoan"] == false
   end
+
+	# Can we show a FOLIO link? Only for valid instance_ids and logged-in users in the right groups
+	# N.B. This only checks to see if the user is a member of 'employee' and 'staff', which isn't really right.
+	# We should be limiting this to library staff only, but I'm not sure how to specify that in the groups.
+	def show_folio_link? instance_id
+		instance_id.present? &&
+		session[:cu_authenticated_groups].present? &&
+		session[:cu_authenticated_groups].include?('employee') #&&
+		#session[:cu_authenticated_groups].include?('staff')
+	end
 end
 
 # End of Module
